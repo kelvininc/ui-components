@@ -15,32 +15,60 @@ Stencil combines the best concepts of the most popular frontend frameworks into 
 Stencil components are just Web Components, so they work in any major framework or with no framework at all.
 
 ## Getting Started
+### Setup
 
-To start building a new web component using Stencil, clone this repo to a new directory:
+To start building a new web component using Stencil, start by cloning this repo:
 
 ```bash
-git clone https://github.com/ionic-team/stencil-component-starter.git my-component
-cd my-component
-git remote rm origin
+git clone https://github.com/kelvininc/peacock-ui.git
+cd peacock-ui
 ```
 
-and run:
+Install dependencies by running:
 
 ```bash
 npm install
-npm start
 ```
 
+To generate a new component, run:
+
+```bash
+npm run generate
+```
+
+### Development
+To start a stencil development server, run:
+
+```bash
+npm run start
+```
+
+To start a storybook development server, run:
+```bash
+npm run start:storybook
+```
+
+Or you can run them both simultaneously with:
+```bash
+npm run dev
+```
+
+### Production
 To build the component for production, run:
 
 ```bash
-npm run build
+npm run build # or build:watch to watch for changes
+```
+
+To build storybook for production, run:
+```bash
+npm run start:storybook
 ```
 
 To run the unit tests for the components, run:
 
 ```bash
-npm test
+npm test # or test:watch to watch for changes
 ```
 
 Need help? Check out our docs [here](https://stenciljs.com/docs/my-first-component).
