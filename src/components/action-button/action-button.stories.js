@@ -1,5 +1,3 @@
-import { action } from '@storybook/addon-actions';
-
 export default {
     text: 'Components/ActionButton',
     argTypes: {

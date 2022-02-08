@@ -12,7 +12,7 @@ export class ActionButton {
     @Prop({ reflect: true }) text: string;
     @Prop({ reflect: true }) icon: string;
     @Prop({ reflect: true }) enabled = true;
-    
+
     @Prop({ reflect: true }) buttonClass: string;
     @Prop({ reflect: true }) smallSize = false;
     @Prop({ reflect: true }) buttonId: string;
@@ -45,7 +45,6 @@ export class ActionButton {
     }
 
     render() {
-        console.log('rendered');
         return (
             <div class="action-btn-container">
                 <div
