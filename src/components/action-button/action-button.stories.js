@@ -9,11 +9,11 @@ export default {
 
 const Template = ({ text, type, enabled }) => {
     return `
-        <action-button
+        <kv-action-button
             type="${type}"
             text="${text}"
             enabled="${enabled}">
-        </action-button>
+        </kv-action-button>
     `;
 };
 
@@ -35,5 +35,12 @@ export const Tertiary = Template.bind();
 Tertiary.args = {
     text: 'Tertiary Button',
     type: 'tertiary-button',
+    enabled: true
+};
+
+export const Danger = Template.bind();
+Danger.args = {
+    text: 'Danger Button',
+    type: 'primary-danger-button',
     enabled: true
 };

@@ -7,7 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { PkActionButtonType } from "./components/action-button/action-button.types";
 export namespace Components {
-    interface ActionButton {
+    interface KvActionButton {
         "buttonClass": string;
         "buttonId": string;
         "enabled": boolean;
@@ -19,18 +19,18 @@ export namespace Components {
     }
 }
 declare global {
-    interface HTMLActionButtonElement extends Components.ActionButton, HTMLStencilElement {
+    interface HTMLKvActionButtonElement extends Components.KvActionButton, HTMLStencilElement {
     }
-    var HTMLActionButtonElement: {
-        prototype: HTMLActionButtonElement;
-        new (): HTMLActionButtonElement;
+    var HTMLKvActionButtonElement: {
+        prototype: HTMLKvActionButtonElement;
+        new (): HTMLKvActionButtonElement;
     };
     interface HTMLElementTagNameMap {
-        "action-button": HTMLActionButtonElement;
+        "kv-action-button": HTMLKvActionButtonElement;
     }
 }
 declare namespace LocalJSX {
-    interface ActionButton {
+    interface KvActionButton {
         "buttonClass"?: string;
         "buttonId"?: string;
         "enabled"?: boolean;
@@ -42,14 +42,14 @@ declare namespace LocalJSX {
         "type": PkActionButtonType;
     }
     interface IntrinsicElements {
-        "action-button": ActionButton;
+        "kv-action-button": KvActionButton;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "action-button": LocalJSX.ActionButton & JSXBase.HTMLAttributes<HTMLActionButtonElement>;
+            "kv-action-button": LocalJSX.KvActionButton & JSXBase.HTMLAttributes<HTMLKvActionButtonElement>;
         }
     }
 }

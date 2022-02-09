@@ -1,0 +1,11 @@
+{
+	"parserOptions": {
+		"project": "./tsconfig.json"
+	},
+	"extends": [
+		"plugin:@stencil/recommended"
+	],
+	"rules": {
+		"@stencil/required-prefix": ["error", ["kv-"]]
+	}
+}

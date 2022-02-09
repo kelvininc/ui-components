@@ -1,0 +1,27 @@
+@font-face {
+	font-family: 'Nonito';
+	src: url('NunitoSans-Regular.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Nonito';
+	src: url('NunitoSans-Bold.ttf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Nonito';
+	src: url('NunitoSans-Light.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Nonito';
+	src: url('NunitoSans-SemiBold.ttf') format('truetype');
+	font-weight: 600;
+	font-style: normal;
+}
