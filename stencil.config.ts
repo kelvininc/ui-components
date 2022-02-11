@@ -1,29 +1,28 @@
 import { Config } from '@stencil/core';
-import { less } from '@stencil/less';
+import { sass } from '@stencil/sass';
 
 export const config: Config = {
-  namespace: 'peacock-ui',
-  outputTargets: [
-    {
-      type: 'dist',
-      esmLoaderPath: '../loader',
-    },
-    {
-      type: 'dist-custom-elements',
-    },
-    {
-      type: 'docs-readme',
-    },
-    {
-      type: 'www',
-      serviceWorker: null, // disable service workers
-    },
-  ],
-  plugins: [
-    less({
-      injectGlobalPaths: [
-        'src/styles/theme-base.less'
-      ]
-    })
-  ]
+	namespace: 'peacock-ui',
+	outputTargets: [
+		{
+			type: 'dist',
+			esmLoaderPath: '../loader',
+			copy: [
+				{ src: 'fonts', warn: true }
+			]
+		},
+		{
+			type: 'dist-custom-elements',
+		},
+		{
+			type: 'docs-readme',
+		},
+		{
+			type: 'www',
+			serviceWorker: null, // disable service workers
+		},
+	],
+	plugins: [
+		sass()
+	]
 };

@@ -1,0 +1,150 @@
+@import '../../styles/globals';
+
+@mixin button-animation($primary-color, $gradient-color) {
+	background: linear-gradient(45deg, $gradient-color 50%, $primary-color 50%);
+	background-size: 300% 100%;
+	transition: background 0.3s ease-out;
+}
+
+:host {
+	.action-btn-container {
+		position: relative;
+		display: inline-flex;
+	}
+
+	.action-button {
+		display: inline-flex;
+		align-items: center;
+		user-select: none;
+		cursor: pointer;
+
+		&.full-width {
+			min-width: 100%;
+		}
+
+		&:focus {
+			outline: none;
+			border: 1px solid kv-color(kv-success);
+		}
+
+		.button-title {
+			@include kv-font-span-semibold();
+		}
+
+		&[aria-disabled] {
+			cursor: default;
+		}
+	}
+
+	.button-wrapper {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.primary-button,
+	.primary-danger-button,
+	.secondary-button,
+	.tertiary-button {
+		max-height: 36px;
+		min-width: 76px;
+		padding: $spacing-2x $spacing-4x;
+		border-radius: 2px;
+
+		&.icon-only {
+			padding: 0;
+		}
+
+		&.small {
+			max-height: 28px;
+			min-width: 28px;
+		}
+
+		.button-title {
+			@include kv-font-span-semibold();
+		}
+
+		&.small:not(.icon-only) {
+			padding: $spacing-3x;
+		}
+	}
+
+	.primary-button {
+		@include button-animation(kv-color(primary), kv-color(primary, dark));
+		border: 1px solid kv-color(primary);
+		background-color: kv-color(primary);
+		background-position: right bottom;
+
+		.button-title {
+			color: kv-color(primary, contrast);
+		}
+
+		&.hover {
+			@include button-animation(kv-color(primary), kv-color(primary, dark));
+		}
+
+		&[aria-disabled] {
+			background: kv-color(primary, light);
+			border-color: kv-color(primary, light);
+		}
+	}
+
+	.primary-danger-button {
+		@include button-animation(kv-color(error), kv-color(error, dark));
+		border: 1px solid kv-color(error);
+		background-color: kv-color(error);
+		background-position: right bottom;
+
+		.button-title {
+			color: kv-color(error, contrast);
+		}
+
+		&.hover {
+			@include button-animation(kv-color(error), kv-color(error, dark));
+		}
+
+		&[aria-disabled] {
+			background: kv-color(error, light);
+			border-color: kv-color(error, light);
+		}
+	}
+
+	.secondary-button {
+		@include button-animation($background-color, rgba($neutral-color-3-rgb, 50%));
+		border: 1px solid kv-color(primary);
+		background-color: $background-color;
+		background-position: right bottom;
+
+		.button-title {
+			color: kv-color(primary, base);
+		}
+
+		&.hover {
+			@include button-animation($background-color, rgba($neutral-color-3-rgb, 50%));
+		}
+
+		&[aria-disabled] {
+			opacity: 0.5;
+		}
+	}
+
+	.tertiary-button {
+		@include button-animation($background-color,rgba($neutral-color-3-rgb, 50%));
+		border: 1px solid $neutral-color-3;
+		background-color: $background-color;
+		background-position: right bottom;
+
+		.button-title {
+			color: $text-color;
+		}
+
+		&.hover {
+			@include button-animation($background-color,rgba($neutral-color-3-rgb, 50%));
+		}
+
+		&[aria-disabled] {
+			opacity: 0.5;
+		}
+	}
+}

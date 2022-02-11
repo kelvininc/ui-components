@@ -1,0 +1,109 @@
+:root {
+	
+	font-size: 20px;
+	/* Default Peacock Colors */
+	--kv-primary: #005cc7;
+	--kv-primary-rgb: 0, 92, 199;
+	--kv-primary-contrast: #fff;
+	--kv-primary-contrast-rgb: 255, 255, 255;
+	--kv-primary-dark: #0051af;
+	--kv-primary-light: #ccdef4;
+
+	--kv-secondary-1: #b40eaa;
+	--kv-secondary-1-rgb: 180, 14, 170;
+	--kv-secondary-1-contrast: #fff;
+	--kv-secondary-1-contrast-rgb: 255, 255, 255;
+	--kv-secondary-1-dark: #9e0c96;
+	--kv-secondary-1-light: #f0cfee;
+	
+	--kv-secondary-2: #040646;
+	--kv-secondary-2-rgb: 4, 6, 70;
+	--kv-secondary-2-contrast: #fff;
+	--kv-secondary-2-contrast-rgb: 255, 255, 255;
+	--kv-secondary-2-dark: #04053e;
+	--kv-secondary-2-light: #cdcdda;
+	
+	--kv-secondary-3: #36656d;
+	--kv-secondary-3-rgb: 54, 101, 109;
+	--kv-secondary-3-contrast: #fff;
+	--kv-secondary-3-contrast-rgb: 255, 255, 255;
+	--kv-secondary-3-dark: #305960;
+	--kv-secondary-3-light: #d7e0e2;
+	
+	--kv-secondary-4: #0d5cc7;
+	--kv-secondary-4-rgb: 13, 92, 199;
+	--kv-secondary-4-contrast: #fff;
+	--kv-secondary-4-contrast-rgb: 255, 255, 255;
+	--kv-secondary-4-dark: #0b51af;
+	--kv-secondary-4-light: #cfdef4;
+	
+	--kv-info: #276ef1;
+	--kv-info-rgb: 39, 110, 241;
+	--kv-info-contrast: #fff;
+	--kv-info-contrast-rgb: 255, 255, 255;
+	--kv-info-dark: #2261d4;
+	--kv-info-light: #d4e2fc;
+	
+	--kv-success: #05a357;
+	--kv-success-rgb: 5, 163, 87;
+	--kv-success-contrast: #fff;
+	--kv-success-contrast-rgb: 255, 255, 255;
+	--kv-success-dark: #048f4d;
+	--kv-success-light: #cdeddd;
+	
+	--kv-warning: #ffc043;
+	--kv-warning-rgb: 255, 192, 67;
+	--kv-warning-contrast: #fff;
+	--kv-warning-contrast-rgb: 255, 255, 255;
+	--kv-warning-dark: #e0a93b;
+	--kv-warning-light: #fff2d9;
+	
+	--kv-error: #e11900;
+	--kv-error-rgb: 225, 25, 0;
+	--kv-error-contrast: #000;
+	--kv-error-contrast-rgb: 0, 0, 0;
+	--kv-error-dark: #c61600;
+	--kv-error-light: #f9d1cc;
+	
+	/* Default Text and Background Colors */
+	--kv-text-color: #fff;
+	--kv-text-color-rgb: 255, 255, 255;
+	
+	--kv-background-color: #202020;
+	--kv-background-color-rgb: 32, 32, 32;
+
+	/* Default Neutral Colors */
+	/* Neutral Color are used to provide variations in text and background colors of elements. */
+	--kv-neutral-1: #2d2d2d;
+	--kv-neutral-1-rgb: 45, 45, 45;
+	--kv-neutral-2: #3a3a3a;
+	--kv-neutral-2-rgb: 58, 58, 58;
+	--kv-neutral-3: #424242;
+	--kv-neutral-3-rgb: 66, 66, 66;
+	--kv-neutral-4: #616161;
+	--kv-neutral-4-rgb: 97, 97, 97;
+	--kv-neutral-5: #afafaf;
+	--kv-neutral-5-rgb: 175, 175, 175;
+	--kv-neutral-6: #e0e0e0;
+	--kv-neutral-6-rgb: 224, 224, 224;
+
+	/* Spatial System*/
+	--kv-spacing: 0.25rem;
+	--kv-spacing-2x: 0.5rem;
+	--kv-spacing-3x: 0.75rem;
+	--kv-spacing-4x: 1rem;
+	--kv-spacing-5x: 1.25rem;
+	--kv-spacing-6x: 1.5rem;
+	--kv-spacing-7x: 1.75rem;
+	--kv-spacing-8x: 2rem;
+	--kv-spacing-9x: 2.25rem;
+	--kv-spacing-10x: 2.5rem;
+	--kv-spacing-12x: 3rem;
+	--kv-spacing-16x: 4rem;
+
+	--kv-primary-font: 'proxima-nova';
+}
+
+body {
+	background-color: var(--kv-background-color);
+}

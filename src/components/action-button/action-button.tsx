@@ -1,76 +1,75 @@
 import { Component, Event, EventEmitter, h, Prop, State } from '@stencil/core';
+import { isEmpty } from 'lodash-es';
 import { PkActionButtonType } from './action-button.types';
 
 @Component({
-    tag: 'action-button',
-    styleUrl: 'action-button.less',
-    shadow: true,
+	tag: 'kv-action-button',
+	styleUrl: 'action-button.scss',
+	shadow: true,
 })
 export class ActionButton {
-    @Prop({ reflect: true }) type!: PkActionButtonType;
+	@State() isButtonHovered = false;
 
-    @Prop({ reflect: true }) text: string;
-    @Prop({ reflect: true }) icon: string;
-    @Prop({ reflect: true }) enabled = true;
+	@Prop({ reflect: true }) type!: PkActionButtonType;
+	@Prop({ reflect: true }) text: string;
+	@Prop({ reflect: true }) icon: string;
+	@Prop({ reflect: true }) enabled = true;
+	@Prop({ reflect: true }) buttonClass: string;
+	@Prop({ reflect: true }) smallSize = false;
+	@Prop({ reflect: true }) buttonId: string;
+	@Prop({ reflect: true }) fixedWidth: number = null;
 
-    @Prop({ reflect: true }) buttonClass: string;
-    @Prop({ reflect: true }) smallSize = false;
-    @Prop({ reflect: true }) buttonId: string;
-    @Prop({ reflect: true }) fixedWidth: number = null;
+	@Event() buttonClick: EventEmitter<MouseEvent>;
 
-    @State() isButtonHovered = false;
+	private onActionButtonClick = (event: MouseEvent) => {
+		this.isButtonHovered = false;
 
-    @Event() buttonClick: EventEmitter<MouseEvent>;
+		if (!isEmpty(event)) {
+			event.preventDefault();
+		}
 
-    onActionButtonClick(event: MouseEvent) {
-        this.isButtonHovered = false;
+		if (this.enabled) {
+			this.buttonClick.emit(event);
+		}
+	}
 
-        if (event) {
-            event.preventDefault();
-        }
+	private onMouseEnter = () => {
+		if (this.enabled) {
+			this.isButtonHovered = true;
+		}
+	}
 
-        if (this.enabled) {
-            this.buttonClick.emit(event);
-        }
-    }
+	private onMouseLeave = () => {
+		this.isButtonHovered = false;
+	}
 
-    onMouseEnter() {
-        if (this.enabled) {
-            this.isButtonHovered = true;
-        }
-    }
-
-    onMouseLeave() {
-        this.isButtonHovered = false;
-    }
-
-    render() {
-        return (
-            <div class="action-btn-container">
-                <div
-                    id={this.buttonId}
-                    class={{
-                        'action-button': true,
-                        [`${this.buttonClass ?? ''}`]: true,
-                        [`${this.type}`]: true,
-                        'hover': this.isButtonHovered,
-                        'small': this.smallSize,
-                        'icon-only': !this.text,
-                    }}
-                    aria-disabled={!this.enabled || null}
-                    style={{ width: this.fixedWidth ? `${this.fixedWidth}px` : 'auto' }}
-                    onClick={(ev) => this.onActionButtonClick(ev)}
-                    onMouseEnter={() => this.onMouseEnter()}
-                    onMouseLeave={() => this.onMouseLeave()}>
-                    {this.text && (
-                        <div class="button-wrapper">
-                            <span class="button-title">
-                                {this.text}
-                            </span>
-                        </div>
-                    )}
-                </div>
-            </div>
-        );
-    }
+	render() {
+		return (
+			<div class="action-btn-container">
+				<div
+					id={this.buttonId}
+					class={{
+						'action-button': true,
+						[`${this.buttonClass ?? ''}`]: true,
+						[`${this.type}`]: true,
+						'hover': this.isButtonHovered,
+						'small': this.smallSize,
+						'icon-only': isEmpty(this.text),
+					}}
+					aria-disabled={!this.enabled || null}
+					style={{ width: this.fixedWidth > 0 ? `${this.fixedWidth}px` : 'auto' }}
+					onClick={this.onActionButtonClick}
+					onMouseEnter={this.onMouseEnter}
+					onMouseLeave={this.onMouseLeave}>
+					{this.text && (
+						<div class="button-wrapper">
+							<span class="button-title">
+								{this.text}
+							</span>
+						</div>
+					)}
+				</div>
+			</div>
+		);
+	}
 }
