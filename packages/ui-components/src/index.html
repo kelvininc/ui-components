@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html
+	dir="ltr"
+	lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+		<title>Kelvin Web Components</title>
+
+		<script
+			type="module"
+			src="/build/peacock-ui.esm.js"></script>
+		<script
+			nomodule
+			src="/build/peacock-ui.js"></script>
+		<style>
+			.list-components {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.list-components * {
+				margin-top: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="list-components">
+			<kv-action-button
+				type="primary-button"
+				text="Great Button">
+			</kv-action-button>
+		</div>
+	</body>
+</html>
