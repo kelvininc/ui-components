@@ -8,7 +8,7 @@
 		"build": "rm -rf dist-transpiled dist && npm run compile",
 		"clean": "rm -rf dist-transpiled dist node_modules storybook-static",
 		"compile": "npm run tsc && rollup -c",
-		"tsc": "tsc -p .",
+		"tsc": "tsc -p tsconfig.lib.json",
 		"tsc:watch": "tsc -w -p .",
 		"rollup": "rollup -c",
 		"rollup:watch": "rollup -w -c",
@@ -22,18 +22,16 @@
 		"dist/"
 	],
 	"devDependencies": {
-		"@babel/core": "^7.17.2",
+		"@babel/core": "7.17.2",
 		"@etchteam/storybook-addon-css-variables-theme": "1.1.1",
 		"@kelvininc/ui-components": "0.0.1",
 		"@rollup/plugin-node-resolve": "^13.1.3",
 		"@storybook/addon-actions": "^6.4.19",
 		"@storybook/addon-essentials": "^6.4.19",
 		"@storybook/addon-links": "^6.4.19",
-		"@storybook/builder-webpack5": "^6.4.19",
-		"@storybook/manager-webpack5": "^6.4.19",
 		"@storybook/react": "^6.4.19",
 		"@types/jest": "23.3.9",
-		"@types/node": "^15.12.2",
+		"@types/node": "^14.0.0",
 		"@types/react": "^17.0.34",
 		"@types/react-dom": "^17.0.11",
 		"babel-loader": "^8.2.3",
@@ -47,8 +45,8 @@
 		"rollup-plugin-peer-deps-external": "^2.2.4",
 		"rollup-plugin-postcss": "^4.0.2",
 		"sass": "^1.49.7",
-		"typescript": "^4.5.5",
-		"webpack": "5.68.0"
+		"storybook-addon-sass-postcss": "0.1.0",
+		"typescript": "^4.5.5"
 	},
 	"peerDependencies": {
 		"react": ">=^17.0.2",
