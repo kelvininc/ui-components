@@ -6,6 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { EActionButtonType } from "./components/action-button/action-button.types";
+import { ESwitchButtonState } from "./components/switch-button/switch-button.types";
 export namespace Components {
     interface KvActionButton {
         "buttonClass": string;
@@ -17,6 +18,20 @@ export namespace Components {
         "text": string;
         "type": EActionButtonType;
     }
+    interface KvSwitchButton {
+        /**
+          * (optional) If `true` the button is disabled
+         */
+        "disabled": boolean;
+        /**
+          * (optional) Button's label
+         */
+        "label": string;
+        /**
+          * (optional) If `ON` the button is ON
+         */
+        "state": ESwitchButtonState;
+    }
 }
 declare global {
     interface HTMLKvActionButtonElement extends Components.KvActionButton, HTMLStencilElement {
@@ -25,8 +40,15 @@ declare global {
         prototype: HTMLKvActionButtonElement;
         new (): HTMLKvActionButtonElement;
     };
+    interface HTMLKvSwitchButtonElement extends Components.KvSwitchButton, HTMLStencilElement {
+    }
+    var HTMLKvSwitchButtonElement: {
+        prototype: HTMLKvSwitchButtonElement;
+        new (): HTMLKvSwitchButtonElement;
+    };
     interface HTMLElementTagNameMap {
         "kv-action-button": HTMLKvActionButtonElement;
+        "kv-switch-button": HTMLKvSwitchButtonElement;
     }
 }
 declare namespace LocalJSX {
@@ -41,8 +63,27 @@ declare namespace LocalJSX {
         "text"?: string;
         "type": EActionButtonType;
     }
+    interface KvSwitchButton {
+        /**
+          * (optional) If `true` the button is disabled
+         */
+        "disabled"?: boolean;
+        /**
+          * (optional) Button's label
+         */
+        "label"?: string;
+        /**
+          * Emitted when switch's state changes
+         */
+        "onSwitchStateChange"?: (event: CustomEvent<ESwitchButtonState>) => void;
+        /**
+          * (optional) If `ON` the button is ON
+         */
+        "state"?: ESwitchButtonState;
+    }
     interface IntrinsicElements {
         "kv-action-button": KvActionButton;
+        "kv-switch-button": KvSwitchButton;
     }
 }
 export { LocalJSX as JSX };
@@ -50,6 +91,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "kv-action-button": LocalJSX.KvActionButton & JSXBase.HTMLAttributes<HTMLKvActionButtonElement>;
+            "kv-switch-button": LocalJSX.KvSwitchButton & JSXBase.HTMLAttributes<HTMLKvSwitchButtonElement>;
         }
     }
 }

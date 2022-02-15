@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { defineCustomElements } from '@kelvininc/ui-components/loader';
-import { KvActionButton } from './generated/component';
+import { KvActionButton, KvSwitchButton } from './generated/component';
 
 defineCustomElements(window);
 
 const COMPONENTS = [
 	KvActionButton,
+	KvSwitchButton,
 ];
 
 @NgModule({

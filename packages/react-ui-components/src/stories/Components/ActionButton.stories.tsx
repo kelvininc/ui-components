@@ -3,7 +3,7 @@ import React from 'react';
 import { EActionButtonType, KvActionButton } from '../../components';
 
 export default {
-	title: "Components/Buttons",
+	title: "Components/Buttons/Action",
 	component: KvActionButton
 } as ComponentMeta<typeof KvActionButton>;
 

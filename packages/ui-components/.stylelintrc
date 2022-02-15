@@ -3,8 +3,8 @@
 	"rules": {
 		"indentation": "tab",
 		"max-nesting-depth": [
-			2, 
-			{ 
+			3,
+			{
 				"ignore": ["pseudo-classes"]
 			}
 		],
