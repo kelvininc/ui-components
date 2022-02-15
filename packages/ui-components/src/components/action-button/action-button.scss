@@ -24,7 +24,7 @@
 
 		&:focus {
 			outline: none;
-			border: 1px solid kv-color(kv-success);
+			border: 1px solid kv-color(success);
 		}
 
 		.button-title {
@@ -111,9 +111,9 @@
 	}
 
 	.secondary-button {
-		@include button-animation($background-color, rgba($neutral-color-3-rgb, 50%));
+		@include button-animation(kv-color('background'), kv-color(neutral-3, base, 50%));
 		border: 1px solid kv-color(primary);
-		background-color: $background-color;
+		background-color: kv-color('background');
 		background-position: right bottom;
 
 		.button-title {
@@ -121,7 +121,7 @@
 		}
 
 		&.hover {
-			@include button-animation($background-color, rgba($neutral-color-3-rgb, 50%));
+			@include button-animation(kv-color('background'), kv-color(neutral-3, base, 50%));
 		}
 
 		&[aria-disabled] {
@@ -130,17 +130,17 @@
 	}
 
 	.tertiary-button {
-		@include button-animation($background-color,rgba($neutral-color-3-rgb, 50%));
-		border: 1px solid $neutral-color-3;
-		background-color: $background-color;
+		@include button-animation(kv-color('background'), kv-color(neutral-3, base, 50%));
+		border: 1px solid kv-color(neutral-3);
+		background-color: kv-color('background');
 		background-position: right bottom;
 
 		.button-title {
-			color: $text-color;
+			color: kv-color('text');
 		}
 
 		&.hover {
-			@include button-animation($background-color,rgba($neutral-color-3-rgb, 50%));
+			@include button-animation(kv-color('background'), kv-color(neutral-3, base, 50%));
 		}
 
 		&[aria-disabled] {

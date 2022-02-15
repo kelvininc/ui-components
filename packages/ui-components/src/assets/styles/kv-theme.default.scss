@@ -11,7 +11,6 @@
 // - contrast: Color that will provide readable text against the base color (CSS variable: --kv-[color name]-contrast)
 // - dark: 12% darker version of the base color (mix with black) (CSS variable: --kv-[color name]-dark)
 // - light: 80% lighter version of the base color (mix with white) (CSS variable: --kv-[color name]-light)
-
 $primary-color: #005cc7 !default;
 $secondary-1-color: #b40eaa !default;
 $secondary-2-color: #040646 !default;
@@ -21,6 +20,24 @@ $info-color: #276ef1 !default;
 $success-color: #05a357 !default;
 $warning-color: #ffc043 !default;
 $error-color: #e11900 !default;
+
+// Default Text and Background Colors
+// -------------------------------------------------------------------------------------------
+// Used to calculate the default neutral colors
+$background-color: #fff !default;
+$text-color: #202020 !default;
+
+// Default Neutral Colors
+// -------------------------------------------------------------------------------------------
+// Neutral Color are used to provide variations in text and background colors of elements.
+// Should be $background-color stepping towards $text-color.
+// `-rgb` prop is used to apply transparencies with RGBA
+$neutral-color-1: mix($text-color, $background-color, 6%);
+$neutral-color-2: mix($text-color, $background-color, 11.5%);
+$neutral-color-3: mix($text-color, $background-color, 15.1%);
+$neutral-color-4: mix($text-color, $background-color, 29%) !default;
+$neutral-color-5: mix($text-color, $background-color, 64%) !default;
+$neutral-color-6: mix($text-color, $background-color, 86%) !default;
 
 $colors: (
 	'primary': (
@@ -74,48 +91,29 @@ $colors: (
 		contrast: #fff, 
 		dark: get-color-dark($error-color), 
 		light: get-color-light($error-color)
+	),
+	'background': (
+		base: $background-color
+	),
+	'text': (
+		base: $text-color
+	),
+	'neutral-1': (
+		base: $neutral-color-1
+	),
+	'neutral-2': (
+		base: $neutral-color-2
+	),
+	'neutral-3': (
+		base: $neutral-color-3
+	),
+	'neutral-4': (
+		base: $neutral-color-4
+	),
+	'neutral-5': (
+		base: $neutral-color-5
+	),
+	'neutral-6': (
+		base: $neutral-color-6
 	)
 );
-
-// Default Text and Background Colors
-// -------------------------------------------------------------------------------------------
-// Used internally to calculate the default neutral colors
-
-$background-color-value: #fff !default;
-$text-color-value: #202020 !default;
-
-// Default Neutral Colors
-// -------------------------------------------------------------------------------------------
-// Neutral Color are used to provide variations in text and background colors of elements.
-// Should be $background-color stepping towards $text-color.
-// `-rgb` prop is used to apply transparencies with RGBA
-
-$background-color-rgb: var(--kv-background-color-rgb, color-to-rgb($background-color-value)) !default;
-$background-color: var(--kv-background-color, $background-color-value) !default;
-
-$neutral-color-1-value: mix($text-color-value, $background-color-value, 6%);
-$neutral-color-1-rgb: var(--kv-neutral-1-rgb, color-to-rgb($neutral-color-1-value)) !default;
-$neutral-color-1: var(--kv-neutral-1, $neutral-color-1-value) !default;
-
-$neutral-color-2-value: mix($text-color-value, $background-color-value, 11.5%);
-$neutral-color-2-rgb: var(--kv-neutral-2-rgb, color-to-rgb($neutral-color-2-value)) !default;
-$neutral-color-2: var(--kv-neutral-2, $neutral-color-2-value) !default;
-
-$neutral-color-3-value: mix($text-color-value, $background-color-value, 15.1%);
-$neutral-color-3-rgb: var(--kv-neutral-3-rgb, color-to-rgb($neutral-color-3-value)) !default;
-$neutral-color-3: var(--kv-neutral-3, $neutral-color-3-value) !default;
-
-$neutral-color-4-value: mix($text-color-value, $background-color-value, 29%) !default;
-$neutral-color-4-rgb: var(--kv-neutral-4-rgb, color-to-rgb($neutral-color-4-value)) !default;
-$neutral-color-4: var(--kv-neutral-4, $neutral-color-4-value) !default;
-
-$neutral-color-5-value: mix($text-color-value, $background-color-value, 64%) !default;
-$neutral-color-5-rgb: var(--kv-neutral-5-rgb, color-to-rgb($neutral-color-5-value)) !default;
-$neutral-color-5: var(--kv-neutral-5, $neutral-color-5-value) !default;
-
-$neutral-color-6-value: mix($text-color-value, $background-color-value, 86%) !default;
-$neutral-color-6-rgb: var(--kv-neutral-6-rgb, color-to-rgb($neutral-color-6-value)) !default;
-$neutral-color-6: var(--kv-neutral-6, $neutral-color-6-value) !default;
-
-$text-color-rgb: var(--kv-text-color-rgb, color-to-rgb($text-color-value)) !default;
-$text-color: var(--kv-text-color, $text-color-value) !default;

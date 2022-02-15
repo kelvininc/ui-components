@@ -1,9 +1,9 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
-import { EActionButtonType, KvActionButton } from '../components';
+import { EActionButtonType, KvActionButton } from '../../components';
 
 export default {
-	title: "Buttons",
+	title: "Components/Buttons",
 	component: KvActionButton
 } as ComponentMeta<typeof KvActionButton>;
 
