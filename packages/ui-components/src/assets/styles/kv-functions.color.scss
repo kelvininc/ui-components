@@ -7,7 +7,7 @@
 // kv-color(secondary, contrast) => var(--kv-secondary-contrast)
 // kv-color(primary, base, 0.5) => rgba(var(--kv-primary-rgb, 0, 92, 199), 0.5)
 // --------------------------------------------------------------------------------------------
-@function kv-color($name, $variation: base, $alpha: null, $rgb: null) {
+@function kv-color($name, $variation: base, $alpha: null, $rgb: false) {
 	$values: map-get($colors, $name);
 	@if ($values) {
 		$value: map-get($values, $variation);
