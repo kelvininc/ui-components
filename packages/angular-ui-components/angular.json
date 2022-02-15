@@ -1,0 +1,45 @@
+{
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"version": 1,
+	"newProjectRoot": "projects",
+	"projects": {
+		"@kelvininc/angular-ui-components": {
+			"projectType": "library",
+			"root": "",
+			"sourceRoot": "src",
+			"prefix": "",
+			"schematics": {
+				"@schematics/angular:component": {
+					"style": "scss"
+				}
+			},
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:ng-packagr",
+					"options": {
+						"tsConfig": "./tsconfig.json",
+						"project": "./ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "./tsconfig.lib.prod.json"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": [
+							"./tsconfig.json",
+							"./tsconfig.spec.json"
+						],
+						"exclude": [
+							"**/node_modules/**"
+						]
+					}
+				}
+			}
+		}
+	},
+	"defaultProject": "@kelvininc/angular-ui-components"
+}
