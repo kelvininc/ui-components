@@ -10,6 +10,9 @@
 // Global Color Functions
 @import './kv-functions.color';
 
+// Global Mixin Functions
+@import './kv-mixins';
+
 // Default General
 // --------------------------------------------------
 $primary-font: var(--kv-primary-font, 'proxima-nova', sans-serif, 'Arial');

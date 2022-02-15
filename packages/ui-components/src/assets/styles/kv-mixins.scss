@@ -1,0 +1,18 @@
+@mixin ghost-animation {
+	background: linear-gradient(90deg, kv-color('neutral-1') 0%, kv-color('neutral-2') 50%, kv-color('neutral-1') 100%);
+	background-size: 200%;
+	animation: ghostGradientAnimation 0.8s infinite ease-out;
+	transition: all 1s ease-in;
+	color: kv-color('neutral-3');
+	border-radius: 4px;
+}
+
+@keyframes ghostGradientAnimation {
+	0% {
+		background-position: -100% 0;
+	}
+
+	100% {
+		background-position: 100% 0;
+	}
+}
