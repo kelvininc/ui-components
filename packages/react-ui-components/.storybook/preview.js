@@ -17,5 +17,6 @@ export const parameters = {
 			"Default Theme": base,
 			"Custom Theme": custom
 		}
-	}
+	},
+	backgrounds: { disable: true }
 };

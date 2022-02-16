@@ -85,7 +85,7 @@ const neutralColors = {
 
 
 # Colors
-Color is a ** functional ** and ** emotional ** tool.Our color system communicates brand personality, sets a tone, attracts attention, and indicates importance.In other words, it allows the creation of a web interface more usable and helps us consistent experiences across products.  
+Color is a ** functional ** and ** emotional ** tool. Our color system communicates brand personality, sets a tone, attracts attention, and indicates importance. In other words, it allows the creation of a web interface more usable and helps us consistent experiences across products.  
 
 ## Main Colors
 
@@ -100,9 +100,8 @@ Every main color can have these * variations *
 <ColorPalette>
 	{
 		Object.keys(mainColors).map(colorKey => (
-			<div>
+			<div key={colorKey}>
 				<ColorItem
-					key={colorKey}
 					title={colorKey}
 					subtitle={`kv-color(\'${colorKey.toLowerCase()}\', *variation*)`}
 					colors={mainColors[colorKey]}
@@ -129,9 +128,8 @@ The *Neutral Colors* consisted colors that **inform, create visual balance and h
 <ColorPalette>
 	{
 		Object.keys(neutralColors).map(colorKey => (
-			<div>
+			<div key={colorKey}>
 				<ColorItem
-					key={colorKey}
 					title={colorKey}
 					subtitle={`kv-color(\'${colorKey.toLowerCase()}\')`}
 					colors={neutralColors[colorKey]}
