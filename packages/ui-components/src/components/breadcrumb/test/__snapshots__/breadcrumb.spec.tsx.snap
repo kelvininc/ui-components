@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KvBreadcrumb (unit tests) when the component renders should match the snapshot 1`] = `
+<kv-breadcrumb separator="/">
+  <mock:shadow-root>
+    <kv-breadcrumb-list separator="/">
+      <kv-breadcrumb-item href="https://kelvin.ai" label="Homepage" target="_blank"></kv-breadcrumb-item>
+      <kv-breadcrumb-item href="https://kelvin.ai/product/" label="Product" target="_blank"></kv-breadcrumb-item>
+      <kv-breadcrumb-item active="" href="https://kelvin.ai/product#form" label="Contact Form" target="_blank"></kv-breadcrumb-item>
+    </kv-breadcrumb-list>
+  </mock:shadow-root>
+</kv-breadcrumb>
+`;

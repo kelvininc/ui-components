@@ -37,7 +37,7 @@ export const config: Config = {
 			type: 'dist-custom-elements',
 		},
 		{
-			type: 'docs-readme',
+			type: 'docs-readme'
 		},
 		{
 			type: 'docs-json',
@@ -66,6 +66,7 @@ export const config: Config = {
 		coveragePathIgnorePatterns: [
 			"/node_modules/",
 			".types.tsx",
+			".mock.ts",
 			".config.tsx",
 		],
 		coverageReporters: ["html", "json"],

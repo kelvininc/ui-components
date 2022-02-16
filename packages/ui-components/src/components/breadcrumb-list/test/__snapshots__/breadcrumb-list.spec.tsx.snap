@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KvBreadcrumbItem (unit tests) when the component loads and doesnt have a separator should match the snapshot 1`] = `
+<kv-breadcrumb-list>
+  <mock:shadow-root>
+    <nav class="breadcrumb-container">
+      <slot></slot>
+    </nav>
+  </mock:shadow-root>
+</kv-breadcrumb-list>
+`;
+
+exports[`KvBreadcrumbItem (unit tests) when the component loads and has a separator should match the snapshot 1`] = `
+<kv-breadcrumb-list separator="/">
+  <mock:shadow-root>
+    <nav class="breadcrumb-container">
+      <slot></slot>
+    </nav>
+  </mock:shadow-root>
+</kv-breadcrumb-list>
+`;
