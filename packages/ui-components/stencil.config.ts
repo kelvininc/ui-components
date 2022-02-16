@@ -3,14 +3,14 @@ import { Config } from '@stencil/core';
 import { reactOutputTarget as react } from '@stencil/react-output-target';
 import { sass } from '@stencil/sass';
 
+// Configuration to generate properties with 2 way bind in angular
 const angularValueAccessorBindings: ValueAccessorConfig[] = [
-	// Configuration example to generate properties with 2 way bind in angular
-	// {
-	// 	elementSelectors: ['component-name'],
-	// 	event: 'eventNameOfChamge',
-	// 	targetAttr: 'propName',
-	// 	type: 'number/type'
-	// }
+	{
+		elementSelectors: ['kv-switch-button'],
+		event: 'switchStateChange',
+		targetAttr: 'state',
+		type: 'text'
+	}
 ];
 
 export const config: Config = {

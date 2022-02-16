@@ -34,3 +34,31 @@ export class KvActionButton {
     proxyOutputs(this, this.el, ['buttonClick']);
   }
 }
+
+import type { ESwitchButtonState as IKvSwitchButtonESwitchButtonState } from '@kelvininc/ui-components';
+export declare interface KvSwitchButton extends Components.KvSwitchButton {
+  /**
+   * Emitted when switch's state changes 
+   */
+  switchStateChange: EventEmitter<CustomEvent<IKvSwitchButtonESwitchButtonState>>;
+
+}
+
+@ProxyCmp({
+  defineCustomElementFn: undefined,
+  inputs: ['disabled', 'label', 'state']
+})
+@Component({
+  selector: 'kv-switch-button',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['disabled', 'label', 'state']
+})
+export class KvSwitchButton {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+    proxyOutputs(this, this.el, ['switchStateChange']);
+  }
+}
