@@ -13,6 +13,10 @@ module.exports = {
 		{
 			from: "../../ui-components/src/assets/fonts",
 			to: "/fonts"
+		},
+		{
+			from: "./images",
+			to: "/images"
 		}
 	]
 };
