@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
 	stories: [
 		"../src/**/*.stories.mdx",
@@ -20,5 +22,15 @@ module.exports = {
 			from: "./images",
 			to: "/images"
 		}
-	]
+	],
+	webpackFinal: async (config) => {
+		config.resolve.alias = {
+			...config.resolve?.alias,
+			"@ui-notes": path.resolve(
+				__dirname,
+				"../../ui-components/src/components"
+			)
+		};
+		return config;
+	}
 };

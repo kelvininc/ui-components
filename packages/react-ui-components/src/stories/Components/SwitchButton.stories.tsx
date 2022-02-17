@@ -15,7 +15,7 @@ export default {
 		}
 	},
 	parameters: {
-		notes: require('../../../../ui-components/src/components/switch-button/readme.md'),
+		notes: require('@ui-notes/switch-button/readme.md'),
 	}
 }
 

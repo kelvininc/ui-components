@@ -6,6 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { EActionButtonType } from "./components/action-button/action-button.types";
+import { EAnchorTarget } from "./utils/types/anchor";
 import { ESwitchButtonState } from "./components/switch-button/switch-button.types";
 export namespace Components {
     interface KvActionButton {
@@ -17,6 +18,24 @@ export namespace Components {
         "smallSize": boolean;
         "text": string;
         "type": EActionButtonType;
+    }
+    interface KvLink {
+        /**
+          * (optional) The link to open when clicking on the tag
+         */
+        "href"?: string;
+        /**
+          * (required) Main component label
+         */
+        "label": string;
+        /**
+          * (optional) Description for the label
+         */
+        "subtitle"?: string;
+        /**
+          * (optional) The link to open when clicking on the tag
+         */
+        "target"?: EAnchorTarget;
     }
     interface KvSwitchButton {
         /**
@@ -40,6 +59,12 @@ declare global {
         prototype: HTMLKvActionButtonElement;
         new (): HTMLKvActionButtonElement;
     };
+    interface HTMLKvLinkElement extends Components.KvLink, HTMLStencilElement {
+    }
+    var HTMLKvLinkElement: {
+        prototype: HTMLKvLinkElement;
+        new (): HTMLKvLinkElement;
+    };
     interface HTMLKvSwitchButtonElement extends Components.KvSwitchButton, HTMLStencilElement {
     }
     var HTMLKvSwitchButtonElement: {
@@ -48,6 +73,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "kv-action-button": HTMLKvActionButtonElement;
+        "kv-link": HTMLKvLinkElement;
         "kv-switch-button": HTMLKvSwitchButtonElement;
     }
 }
@@ -62,6 +88,28 @@ declare namespace LocalJSX {
         "smallSize"?: boolean;
         "text"?: string;
         "type": EActionButtonType;
+    }
+    interface KvLink {
+        /**
+          * (optional) The link to open when clicking on the tag
+         */
+        "href"?: string;
+        /**
+          * (required) Main component label
+         */
+        "label": string;
+        /**
+          * Emitted when clicking the label
+         */
+        "onLabelClick"?: (event: CustomEvent<MouseEvent>) => void;
+        /**
+          * (optional) Description for the label
+         */
+        "subtitle"?: string;
+        /**
+          * (optional) The link to open when clicking on the tag
+         */
+        "target"?: EAnchorTarget;
     }
     interface KvSwitchButton {
         /**
@@ -83,6 +131,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "kv-action-button": KvActionButton;
+        "kv-link": KvLink;
         "kv-switch-button": KvSwitchButton;
     }
 }
@@ -91,6 +140,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "kv-action-button": LocalJSX.KvActionButton & JSXBase.HTMLAttributes<HTMLKvActionButtonElement>;
+            "kv-link": LocalJSX.KvLink & JSXBase.HTMLAttributes<HTMLKvLinkElement>;
             "kv-switch-button": LocalJSX.KvSwitchButton & JSXBase.HTMLAttributes<HTMLKvSwitchButtonElement>;
         }
     }
