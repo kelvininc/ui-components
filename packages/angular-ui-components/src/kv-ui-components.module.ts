@@ -16,4 +16,4 @@ const COMPONENTS = [
 	imports: [CommonModule],
 	providers: []
 })
-export class ComponentLibraryModule { }
+export class KvUIComponentsModule { }

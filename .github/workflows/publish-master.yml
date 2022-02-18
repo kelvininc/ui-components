@@ -1,0 +1,94 @@
+name: publish-master
+on:
+    push:
+        branches:
+            - master
+
+permissions:
+    contents: write # for checkout and tag
+
+jobs:
+    publish:
+        name: Publish
+        runs-on: ubuntu-18.04
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+              with:
+                fetch-depth: "0"
+            - name: Setup Node ${{ matrix.node_version }}
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 14
+
+            - name: Git Identity
+              run: |
+                  git config --global user.name 'github-actions[bot]'
+                  git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+                  git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Authenticate with Registry
+              run: |
+                  echo "registry=http://registry.npmjs.org/" > .npmrc
+                  echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+                  npm whoami
+              env:
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Cache node_modules 📦
+              uses: actions/cache@v2
+              env:
+                  cache-name: cache-node-modules
+              with:
+                # npm cache files are stored in `~/.npm` on Linux/macOS
+                path: |
+                     ~/.npm\
+                     node_modules
+                     */*/node_modules
+                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                restore-keys: |
+                  ${{ runner.os }}-build-${{ env.cache-name }}-
+                  ${{ runner.os }}-build-
+                  ${{ runner.os }}-
+
+            - name: Install
+              run: npm install
+              env:
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Bootstrap
+              run: npm run bootstrap
+              env:
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Lint
+              run: npm run lint
+
+            - name: Test
+              run: npm run test
+
+            - name: Generate Versions
+              run: npx lerna version --yes --conventional-commits --no-changelog --no-git-tag-version --no-push
+              env:
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Build
+              run: npm run build:packages
+              env: 
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Publish to NPM JS
+              run: |
+                  git reset --hard
+                  npx lerna publish --no-verify-access --yes
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Publish Storybook to GitHub Pages
+              run: npm run storybook:deploy
+              env:
+                  GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}

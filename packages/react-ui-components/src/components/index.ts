@@ -1,2 +1,2 @@
-export { EActionButtonType, ESwitchButtonState } from '@kelvininc/ui-components';
+export * from '@kelvininc/ui-components';
 export * from './stencil-generated/index';

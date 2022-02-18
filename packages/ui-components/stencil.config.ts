@@ -40,6 +40,10 @@ export const config: Config = {
 			type: 'docs-readme',
 		},
 		{
+			type: 'docs-json',
+			file: 'docs/docs.json'
+		},
+		{
 			type: 'www',
 			serviceWorker: null, // disable service workers
 		}
@@ -48,6 +52,31 @@ export const config: Config = {
 	testing: {
 		moduleNameMapper: {
 			'^lodash-es$': 'lodash'
-		}
-	}
+		},
+		testRegex: "(\.(test|spec))\.(tsx?|jsx?)$",
+		collectCoverage: true,
+		moduleFileExtensions: [
+			"ts",
+			"tsx",
+			"js",
+			"json",
+			"jsx"
+		],
+		coverageDirectory: "unit-coverage",
+		coveragePathIgnorePatterns: [
+			"/node_modules/",
+			".types.tsx",
+			".config.tsx",
+		],
+		coverageReporters: ["html", "json"],
+		verbose: true
+		// coverageThreshold: {
+		// 	global: {
+		// 		branches: 60,
+		// 		functions: 65,
+		// 		lines: 70,
+		// 		statements: 70,
+		// 	},
+		// }
+	},
 };

@@ -28,7 +28,7 @@ export default {
 			targets: [
 				{
 					src: "../ui-components/src/assets",
-					dest: "dist"
+					dest: "./"
 				}
 			]
 		})

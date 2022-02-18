@@ -1,7 +1,29 @@
 {
 	"name": "@kelvininc/ui-components",
 	"version": "0.0.1",
-	"description": "Stencil Component Starter",
+	"description": "Kelvin UI Components",
+	"homepage": "https://docs.kelvininc.com",
+	"license": "SEE LICENSE IN LICENSE",
+	"keywords": [
+		"kelvin",
+		"kelvin ui components"
+	],
+	"author": {
+		"name": "Kevin Inc.",
+		"email": "support@kelvininc.com",
+		"url": "https://kelvininc.com"
+	},
+	"bugs": {
+		"email": "support@kelvininc.com",
+		"url": "https://support.kelvininc.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kelvininc/ui-components"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
 	"main": "dist/index.cjs.js",
 	"module": "dist/index.js",
 	"es2015": "dist/esm/index.mjs",
@@ -18,8 +40,8 @@
 		"build": "stencil build --docs",
 		"build:watch": "stencil build --watch",
 		"start": "stencil build --dev --watch --serve",
-		"clean": "rm -rf node_modules dist loader",
-		"test": "stencil test --spec --e2e",
+		"clean": "rm -rf node_modules dist loader unit-coverage www",
+		"test": "stencil test --spec --e2e --no-cache",
 		"test.watch": "stencil test --spec --e2e --watchAll",
 		"generate": "stencil generate",
 		"lint": "npm run lint:ts && npm run lint:sass",
@@ -37,6 +59,8 @@
 		"@stencil/sass": "^1.5.2",
 		"@types/jest": "^27.0.3",
 		"@types/lodash-es": "^4.17.5",
+		"@typescript-eslint/eslint-plugin": "<5.0.0",
+		"@typescript-eslint/parser": "<5.0.0",
 		"eslint": "^7.32.0",
 		"eslint-plugin-react": "^7.28.0",
 		"jest": "^27.4.5",
@@ -44,7 +68,7 @@
 		"lodash-es": "^4.17.21",
 		"puppeteer": "^10.0.0",
 		"stylelint": "^14.3.0",
-		"stylelint-config-sass-guidelines": "^9.0.1"
-	},
-	"license": "MIT"
+		"stylelint-config-sass-guidelines": "^9.0.1",
+		"typescript": "<=4.5.0"
+	}
 }

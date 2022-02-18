@@ -1,6 +1,4 @@
-# kv-switch-button
-
-
+# *<kv-switch-button>*
 
 <!-- Auto Generated Below -->
 
@@ -35,17 +33,17 @@ import { KvSwitchButton } from '@kelvininc/react-ui-components';
 export const SwitchButtonExample: React.FC = () => (
   <>
     {/*-- Default --*/}
-    <kv-switch-button></kv-switch-button>
+    <KvSwitchButton/>
 
     {/*-- Labeled --*/}
-	<kv-switch-button label="Switch"></kv-switch-button>
+	<KvSwitchButton label="Switch"/>
 
 	{/*-- Disabled --*/}
-	<kv-switch-button disabled></kv-switch-button>
+	<KvSwitchButton disabled/>
 
 	{/*-- ON/OFF --*/}
-	<kv-switch-button state="ON"></kv-switch-button>
-	<kv-switch-button state="OFF"></kv-switch-button>
+	<KvSwitchButton state="ON"/>
+	<KvSwitchButton state="OFF"/>
   </>
 );
 
