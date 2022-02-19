@@ -1,7 +1,7 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { ActionButton } from './action-button';
 
-describe('action-button', () => {
+xdescribe('action-button', () => {
 	it('renders', async () => {
 		const { root } = await newSpecPage({
 			components: [ActionButton],

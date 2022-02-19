@@ -1,6 +1,6 @@
 import { newE2EPage } from '@stencil/core/testing';
 
-describe('action-button', () => {
+xdescribe('action-button', () => {
 	it('renders', async () => {
 		const page = await newE2EPage();
 

@@ -45,4 +45,9 @@ export const config: Config = {
 		}
 	],
 	plugins: [sass()],
+	testing: {
+		moduleNameMapper: {
+			'^lodash-es$': 'lodash'
+		}
+	}
 };
