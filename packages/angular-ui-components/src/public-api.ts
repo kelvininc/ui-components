@@ -1,7 +1,7 @@
 /*
- * Public API Surface of component-library
+ * Public API Surface of kv-ui-components
  */
 
 export * from '@kelvininc/ui-components';
-export { ComponentLibraryModule } from './component-library.module';
+export { KvUIComponentsModule } from './kv-ui-components.module';
 export * from './generated/component';

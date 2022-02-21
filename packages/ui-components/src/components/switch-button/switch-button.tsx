@@ -20,10 +20,30 @@ import throttle from "lodash/throttle";
 export class KvSwitchButton {
 	/** (optional) Button's label */
 	@Prop() label: string = "";
+
+	/** Watch `label` property for changes and update `hasLabel` accordingly */
+	@Watch("label")
+	labelHandler(newValue?: string) {
+		this.hasLabel = newValue != null && newValue !== "";
+	}
+
 	/** (optional) If `true` the button is disabled */
 	@Prop({ reflect: true }) disabled: boolean = false;
+
+	/** Watch `disabled` property for changes and update `isDisabled` accordingly */
+	@Watch("disabled")
+	disabledHandler(newValue: boolean) {
+		this.isDisabled = newValue === true
+	}
+
 	/** (optional) If `ON` the button is ON */
 	@Prop({ reflect: true, mutable: true }) state: ESwitchButtonState = ESwitchButtonState.OFF;
+
+	/** Watch `state` property for changes and update `isOn` accordingly */
+	@Watch("state")
+	stateHandler(newValue: ESwitchButtonState) {
+		this.isOn = newValue === ESwitchButtonState.ON
+	}
 
 	/** Whether the label exist and it's not empty */
 	@State() hasLabel: boolean = this.label != null && this.label !== "";
@@ -31,22 +51,6 @@ export class KvSwitchButton {
 	@State() isOn: boolean = this.state === ESwitchButtonState.ON;
 	/** Whether the state is ON or `true` */
 	@State() isDisabled: boolean = this.disabled === true;
-
-	/** Watch `label` property for changes and update `hasLabel` accordingly */
-	@Watch("label")
-	labelHandler(newValue?: string) {
-		this.hasLabel = newValue != null && newValue !== "";
-	}
-	/** Watch `state` property for changes and update `isOn` accordingly */
-	@Watch("state")
-	stateHandler(newValue: ESwitchButtonState) {
-		this.isOn = newValue === ESwitchButtonState.ON
-	}
-	/** Watch `disabled` property for changes and update `isDisabled` accordingly */
-	@Watch("disabled")
-	disabledHandler(newValue: boolean) {
-		this.isDisabled = newValue === true
-	}
 
 	/** Emitted when switch's state changes */
 	@Event() switchStateChange: EventEmitter<ESwitchButtonState>;

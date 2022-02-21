@@ -1,4 +1,4 @@
-import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks';
+import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs';
 const mainColors = {
 	'primary': {
 		base: '#005cc7',
@@ -81,8 +81,16 @@ const neutralColors = {
 };
 
 
-< Meta title='Foundation/Colors' />
-
+<Meta
+	parameters={{
+		viewMode: 'docs',
+		options: { isToolshown: false },
+		cssVariables: {
+			theme: 'Default Theme'
+		}
+	}}
+	title='Foundation/Colors'
+/>
 
 # Colors
 Color is a ** functional ** and ** emotional ** tool. Our color system communicates brand personality, sets a tone, attracts attention, and indicates importance. In other words, it allows the creation of a web interface more usable and helps us consistent experiences across products.  

@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/addon-docs/blocks';
+import { Meta } from '@storybook/addon-docs';
 import './Typography.scss';
 const headings = [
 	'kv-font-h1-semibold',
@@ -32,7 +32,16 @@ const paragraphs = [
 	'kv-font-paragraph-light'
 ];
 
-< Meta title='Foundation/Typography'/>
+<Meta 
+	parameters={{
+		viewMode: 'docs',
+		options: { isToolshown: false },
+		cssVariables: {
+			theme: 'Default Theme'
+		}
+	}}
+	title='Foundation/Typography'
+/>
 
 # Typography
 

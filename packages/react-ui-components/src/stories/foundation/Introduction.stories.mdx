@@ -1,0 +1,166 @@
+import { Meta } from '@storybook/addon-docs';
+import pkg from '../../../package.json';
+import './Introduction.scss';
+
+<Meta
+	parameters={{
+		viewMode: 'docs',
+		options: { isToolshown: false },
+		cssVariables: {
+			theme: 'Default Theme'
+		}
+	}}
+	title='Foundation/Introduction'
+/>
+
+<div className="version"><span>V{pkg.version}</span></div>
+<div className="intro-header">
+	<div className="intro-logo">
+		<img
+			alt="Kelvin UI Components"
+			height="100"
+			src="images/Kelvin-Color.svg"
+		/>
+		<div className="label">
+			<span>UI Components</span>
+		</div>
+	</div>
+</div>
+<div className="references">
+	<a href="https://npm.im/@kelvininc/ui-components" target="_blank">
+		<img src="https://img.shields.io/npm/v/@kelvininc/ui-components.svg" />
+	</a>&nbsp;&nbsp;
+	<a href="https://npm.im/@kelvininc/ui-components" target="_blank">
+		<img src="https://badgen.net/npm/dw/@kelvininc/ui-components" />
+	</a>&nbsp;&nbsp;
+	<a href="https://github.com/kelvininc/ui-components" target="_blank">
+		<img alt="GitHub stars" src="https://img.shields.io/github/stars/kelvininc/ui-components?style=social" />
+	</a>
+</div>
+
+Kelvin UI Components provides a set of reusable, high quality framework-agnostic UI components, this means you can use them with the current most popular Front-End Development Frameworks like React, Angular or if you prefer, the components are also available as W3C compliant WebComponents.
+
+This is not just a library of UI components as it's also a style guide where you can see how the component looks and behaves by interacting with it.
+
+<br />
+
+# How to use  
+
+<br />
+
+## React
+
+<br />
+
+### Installation
+
+From the command prompt go to your app's root folder and execute:
+
+```
+npm install @kelvininc/react-ui-components --save
+```
+### Getting Started
+
+Include the fonts in `index.js` or `index.tsx`.
+
+```tsx
+import '@kelvininc/react-ui-components/assets/fonts/font-proxima-nova.css';
+```
+
+Now you are ready to use all available *Kelvin UI Components*. For example:
+
+```tsx
+import { EActionButtonType, KvActionButton } from '@kelvininc/react-ui-components';
+
+(...)
+
+<KvActionButton
+	type={EActionButtonType.PrimaryButton}
+	text="My Button"
+	smallSize="true"
+	fixedWidth={250}
+	onButtonClick={this.onButtonClick}>
+</KvActionButton>
+```
+
+Including the global style file you can access our foundation design system definitions like [colors](/story/foundation-colors--page), [spacings](?path=/docs/foundation-spatial-system--page) and [typography](/docs/foundation-typography--page)
+
+```css
+@import "@kelvininc/react-ui-components/assets/styles/globals.scss";
+```
+
+## Angular
+
+<br />
+
+### Installation
+
+From the command prompt go to your app's root folder and execute:
+
+```
+npm install @kelvininc/angular-ui-components --save
+```
+### Getting Started
+
+Include the fonts in `angular.json`.
+
+```json
+"styles": [
+	"node_modules/@kelvininc/angular-ui-components/assets/fonts/font-proxima-nova.css"
+]
+```
+
+Include the *```KvUIComponentsModule```* in `app.module.ts`.
+
+```ts
+import { KvUIComponentsModule } from '@kelvininc/angular-ui-components';
+...
+
+@NgModule({
+  ...
+  imports: [
+	...
+    KvUIComponentsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+Now you are ready to use all available *Kelvin UI Components*. For example:
+
+```html
+...
+	<kv-action-button
+		[type]="buttonType"
+		[text]="'My Button'"
+		[smallSize]="true"
+		fixedWidth="250"
+		(buttonClick)="onButtonClick($event)">
+	</kv-action-button>
+...
+```
+
+Including the global style file you can access our foundation design system definitions like [colors](/story/foundation-colors--page), [spacings](/docs/foundation-spatial-system--page) and [typography](/docs/foundation-typography--page)
+
+```css
+@import "@kelvininc/angular-ui-components/assets/styles/globals.scss";
+```
+
+# Themes
+
+Kelvin UI Components allows you to customize the theme by changing some CSS properties.
+
+***Example***: Setting the *Primary Color*
+
+```css
+:root {
+	--kv-primary: #005cc7;
+	--kv-primary-rgb: 0, 92, 199;
+	--kv-primary-contrast: #fff;
+	--kv-primary-contrast-rgb: 255, 255, 255;
+	--kv-primary-dark: #0051af;
+	--kv-primary-light: #ccdef4;
+}
+```

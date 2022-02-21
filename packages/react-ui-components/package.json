@@ -1,19 +1,42 @@
 {
 	"name": "@kelvininc/react-ui-components",
-	"sideEffects": false,
 	"version": "0.0.1",
-	"private": true,
-	"description": "React specific wrapper for component-library",
+	"description": "Kelvin UI Components for React applications",
+	"homepage": "https://docs.kelvininc.com",
+	"license": "SEE LICENSE IN LICENSE",
+	"keywords": [
+		"kelvin",
+		"kelvin ui components",
+		"kelvin react ui components"
+	],
+	"author": {
+		"name": "Kevin Inc.",
+		"email": "support@kelvininc.com",
+		"url": "https://kelvininc.com"
+	},
+	"bugs": {
+		"email": "support@kelvininc.com",
+		"url": "https://support.kelvininc.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kelvininc/ui-components"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"sideEffects": false,
 	"scripts": {
 		"build": "rm -rf dist-transpiled dist && npm run compile",
-		"clean": "rm -rf dist-transpiled dist node_modules storybook-static",
+		"clean": "rm -rf dist-transpiled dist assets node_modules storybook-static",
 		"compile": "npm run tsc && rollup -c",
 		"tsc": "tsc -p tsconfig.lib.json",
 		"tsc:watch": "tsc -w -p .",
 		"rollup": "rollup -c",
 		"rollup:watch": "rollup -w -c",
 		"storybook": "start-storybook -p 6006",
-		"build-storybook": "build-storybook"
+		"build-storybook": "build-storybook",
+		"deploy-storybook": "storybook-to-ghpages --ci"
 	},
 	"main": "dist/index.js",
 	"module": "dist/index.esm.js",
@@ -21,15 +44,20 @@
 	"files": [
 		"dist/"
 	],
+	"dependencies": {
+		"@kelvininc/ui-components": "0.0.1"
+	},
 	"devDependencies": {
 		"@babel/core": "7.17.2",
 		"@etchteam/storybook-addon-css-variables-theme": "1.1.1",
-		"@kelvininc/ui-components": "0.0.1",
+		"@pxtrn/storybook-addon-docs-stencil": "^6.4.1",
 		"@rollup/plugin-node-resolve": "^13.1.3",
 		"@storybook/addon-actions": "^6.4.19",
 		"@storybook/addon-essentials": "^6.4.19",
 		"@storybook/addon-links": "^6.4.19",
+		"@storybook/addon-notes": "^5.3.21",
 		"@storybook/react": "^6.4.19",
+		"@storybook/storybook-deployer": "^2.8.10",
 		"@types/jest": "23.3.9",
 		"@types/node": "^14.0.0",
 		"@types/react": "^17.0.34",

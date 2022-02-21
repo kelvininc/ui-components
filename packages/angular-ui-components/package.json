@@ -1,6 +1,27 @@
 {
 	"name": "@kelvininc/angular-ui-components",
 	"version": "0.0.1",
+	"description": "Kelvin UI Components for Angular applications",
+	"homepage": "https://docs.kelvininc.com",
+	"license": "SEE LICENSE IN LICENSE",
+	"keywords": [
+		"kelvin",
+		"kelvin ui components",
+		"kelvin angular ui components"
+	],
+	"author": {
+		"name": "Kevin Inc.",
+		"email": "support@kelvininc.com",
+		"url": "https://kelvininc.com"
+	},
+	"bugs": {
+		"email": "support@kelvininc.com",
+		"url": "https://support.kelvininc.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kelvininc/ui-components"
+	},
 	"scripts": {
 		"clean": "rm -rf node_modules dist",
 		"start": "ng serve",
@@ -49,6 +70,7 @@
 		"zone.js": "~0.11.3"
 	},
 	"publishConfig": {
-		"directory": "dist/angular-ui-components"
+		"directory": "dist/angular-ui-components",
+		"access": "public"
 	}
 }

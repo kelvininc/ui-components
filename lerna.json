@@ -4,10 +4,11 @@
 	],
 	"command": {
 		"version": {
-			"conventionalCommits": true,
-			"createRelease": "github",
-			"exact": true,
-			"message": "chore(release): publish %s [skip ci]"
+			"exact": true
+		},
+		"publish": {
+			"message": "chore(release): publish %s [skip ci]",
+			"conventionalCommits": true
 		}
 	},
 	"ignoreChanges": [

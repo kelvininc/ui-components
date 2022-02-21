@@ -1,23 +1,29 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { KvSwitchButton, ESwitchButtonState } from '../../components';
+import { ESwitchButtonState, KvSwitchButton } from '../../components';
+
+// Required to have the correct TagName in the code sample
+KvSwitchButton.displayName = 'KvSwitchButton';
 
 export default {
-	title: "Components/Buttons/Switch",
-	component: KvSwitchButton,
+	title: 'Components/Buttons/Switch',
+	component: 'kv-switch-button',
 	argTypes: {
 		state: {
-			control: { type: "select" },
+			control: { type: 'select' },
 			options: Object.values(ESwitchButtonState)
-		},
-  },
-} as ComponentMeta<typeof KvSwitchButton>
+		}
+	},
+	parameters: {
+		notes: require('../../../../ui-components/src/components/switch-button/readme.md'),
+	}
+}
 
 const SwitchButtonTemplate: ComponentStory<typeof KvSwitchButton> = (args) => <KvSwitchButton {...args} />;
 
 export const DefaultState = SwitchButtonTemplate.bind(this);
 DefaultState.args = {
-	label: "Switch",
+	label: 'Switch',
 	state: ESwitchButtonState.OFF,
 	disabled: false,
 };

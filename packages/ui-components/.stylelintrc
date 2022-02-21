@@ -12,6 +12,6 @@
 
 	},
 	"ignoreFiles": [
-		"src/fonts/*.scss"
+		"src/assets/fonts/*.scss"
 	]
 }
