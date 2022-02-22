@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { defineCustomElements } from '@kelvininc/ui-components/loader';
-import { KvActionButton, KvSwitchButton } from './stencil-generated/component';
+import { KvActionButton, KvSwitchButton, KvLink } from './stencil-generated/component';
 
 defineCustomElements(window);
 
