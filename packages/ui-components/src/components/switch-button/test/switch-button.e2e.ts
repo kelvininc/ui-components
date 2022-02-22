@@ -26,6 +26,8 @@ describe('Switch Button (end-to-end)', () => {
 
 				const buttonElement = await page.find('kv-switch-button >>> .switch-button');
 				await buttonElement.click()
+
+				await page.waitForTimeout(300)
 			})
 
 			it('should change `state` to `ON`', async () => {
@@ -65,8 +67,11 @@ describe('Switch Button (end-to-end)', () => {
 			beforeEach(async () => {
 				switchButtonElement = await page.find('kv-switch-button')
 				spyStateChangeEvent = await switchButtonElement.spyOnEvent('switchStateChange');
+
 				const buttonElement = await page.find('kv-switch-button >>> .switch-button');
 				await buttonElement.click()
+
+				await page.waitForTimeout(300)
 			})
 
 			it('should not change `state` to `ON`', async () => {
@@ -95,6 +100,8 @@ describe('Switch Button (end-to-end)', () => {
 
 				const buttonElement = await page.find('kv-switch-button >>> .switch-button');
 				await buttonElement.click()
+
+				await page.waitForTimeout(300)
 			})
 
 			it('should change `state` to `OFF`', async () => {

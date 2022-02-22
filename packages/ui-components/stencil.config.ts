@@ -53,7 +53,7 @@ export const config: Config = {
 		moduleNameMapper: {
 			'^lodash-es$': 'lodash'
 		},
-		testRegex: "(\.(test|spec))\.(tsx?|jsx?)$",
+		testRegex: "(\.(test|spec|e2e))\.(tsx?|jsx?)$",
 		collectCoverage: true,
 		moduleFileExtensions: [
 			"ts",
