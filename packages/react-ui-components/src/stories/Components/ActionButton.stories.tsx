@@ -15,7 +15,7 @@ export default {
 		}
 	},
 	parameters: {
-		notes: require('../../../../ui-components/src/components/action-button/readme.md')
+		notes: require('@ui-notes/action-button/readme.md')
 	}
 };
 

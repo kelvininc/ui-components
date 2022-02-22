@@ -35,6 +35,34 @@ export class KvActionButton {
   }
 }
 
+
+export declare interface KvLink extends Components.KvLink {
+  /**
+   * Emitted when clicking the label 
+   */
+  labelClick: EventEmitter<CustomEvent<MouseEvent>>;
+
+}
+
+@ProxyCmp({
+  defineCustomElementFn: undefined,
+  inputs: ['href', 'label', 'subtitle', 'target']
+})
+@Component({
+  selector: 'kv-link',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: ['href', 'label', 'subtitle', 'target']
+})
+export class KvLink {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+    proxyOutputs(this, this.el, ['labelClick']);
+  }
+}
+
 import type { ESwitchButtonState as IKvSwitchButtonESwitchButtonState } from '@kelvininc/ui-components';
 export declare interface KvSwitchButton extends Components.KvSwitchButton {
   /**
