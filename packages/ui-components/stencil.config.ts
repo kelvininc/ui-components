@@ -18,7 +18,7 @@ export const config: Config = {
 	outputTargets: [
 		angular({
 			componentCorePackage: '@kelvininc/ui-components',
-			directivesProxyFile: '../angular-ui-components/src/generated/component.ts',
+			directivesProxyFile: '../angular-ui-components/src/stencil-generated/component.ts',
 			valueAccessorConfigs: angularValueAccessorBindings
 		}),
 		react({
