@@ -16,6 +16,10 @@
 			nomodule
 			src="/build/peacock-ui.js"></script>
 		<style>
+			body {
+				box-sizing: border-box;
+			}
+
 			.list-components {
 				display: flex;
 				flex-direction: column;
@@ -32,6 +36,24 @@
 				type="primary-button"
 				text="Great Button">
 			</kv-action-button>
+			<kv-breadcrumb-list separator="/">
+				<kv-breadcrumb-item
+					label="Your label here"
+					link="Your link here"
+					target="_blank">
+				</kv-breadcrumb-item>
+				<kv-breadcrumb-item
+					label="Your label here"
+					link="Your link here"
+					target="_blank">
+				</kv-breadcrumb-item>
+				<kv-breadcrumb-item
+					label="Your label here"
+					link="Your link here"
+					target="_blank"
+					active>
+				</kv-breadcrumb-item>
+			</kv-breadcrumb-list>
 		</div>
 	</body>
 </html>

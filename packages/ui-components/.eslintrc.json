@@ -2,10 +2,12 @@
 	"parserOptions": {
 		"project": "./tsconfig.json"
 	},
+	"plugins": ["jest"],
 	"extends": [
 		"plugin:@stencil/recommended"
 	],
 	"rules": {
-		"@stencil/required-prefix": ["error", ["kv-"]]
+		"@stencil/required-prefix": ["error", ["kv-"]],
+		"jest/no-focused-tests": "error"
 	}
 }
