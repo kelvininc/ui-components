@@ -6,3 +6,6 @@ lerna-debug.log
 packages/**/dist
 .envrc
 tryouts/*
+
+# Produced build files
+**/stencil-generated
