@@ -4,4 +4,4 @@
 
 export * from '@kelvininc/ui-components';
 export { KvUIComponentsModule } from './kv-ui-components.module';
-export * from './generated/component';
+export * from './stencil-generated/component';

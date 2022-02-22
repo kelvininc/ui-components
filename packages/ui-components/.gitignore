@@ -27,3 +27,6 @@ UserInterfaceState.xcuserstate
 unit-coverage
 coverage
 docs
+
+# Produced build files
+components.d.ts
