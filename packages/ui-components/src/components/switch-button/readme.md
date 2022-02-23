@@ -87,7 +87,7 @@ export class SwichButtonExample {
 | Property   | Attribute  | Description                                 | Type                                              | Default                  |
 | ---------- | ---------- | ------------------------------------------- | ------------------------------------------------- | ------------------------ |
 | `disabled` | `disabled` | (optional) If `true` the button is disabled | `boolean`                                         | `false`                  |
-| `label`    | `label`    | (optional) Button's label                   | `string`                                          | `""`                     |
+| `label`    | `label`    | (optional) Button's label                   | `string`                                          | `''`                     |
 | `state`    | `state`    | (optional) If `ON` the button is ON         | `ESwitchButtonState.OFF \| ESwitchButtonState.ON` | `ESwitchButtonState.OFF` |
 
 
