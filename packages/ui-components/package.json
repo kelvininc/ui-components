@@ -1,6 +1,6 @@
 {
 	"name": "@kelvininc/ui-components",
-	"version": "0.4.0",
+	"version": "0.4.1",
 	"description": "Kelvin UI Components",
 	"homepage": "https://docs.kelvininc.com",
 	"license": "SEE LICENSE IN LICENSE",
@@ -16,10 +16,6 @@
 	"bugs": {
 		"email": "support@kelvininc.com",
 		"url": "https://support.kelvininc.com"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/kelvininc/ui-components"
 	},
 	"publishConfig": {
 		"access": "public"

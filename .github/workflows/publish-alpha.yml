@@ -33,17 +33,6 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Authenticate with Nexus Registry
-              run: |
-                  echo "registry=https://nexus.kelvininc.com/repository/npm-kelvin/" > .npmrc
-                  echo "email=$USER_EMAIL" > .npmrc
-                  echo "always-auth=true" > .npmrc
-                  echo "_auth=$USER_AUTH" > .npmrc
-                  npm whoami
-              env:
-                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
-                  USER_AUTH: ${{ secrets.NEXUS_AUTH }}
-
             - name: Cache node_modules 📦
               uses: actions/cache@v2
               env:
@@ -62,15 +51,9 @@ jobs:
 
             - name: Install
               run: npm install
-              env:
-                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
-                  USER_AUTH: ${{ secrets.NEXUS_AUTH }}
 
             - name: Bootstrap
               run: npm run bootstrap
-              env:
-                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
-                  USER_AUTH: ${{ secrets.NEXUS_AUTH }}
 
             - name: Lint
               run: npm run lint
@@ -80,21 +63,21 @@ jobs:
 
             - name: Generate Versions
               run: npx lerna version prerelease --yes --conventional-commits --no-changelog
-              env:
-                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
-                  USER_AUTH: ${{ secrets.NEXUS_AUTH }}
 
             - name: Build
               run: npm run build:packages
-              env: 
-                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
+
+            - name: Build npmrc file
+              run: |
+                  echo "registry=https://nexus.kelvininc.com/repository/npm-internal" > .npmrc
+                  echo "//nexus.kelvininc.com/:_auth=$USER_AUTH" | tee -a .npmrc
+              env:
                   USER_AUTH: ${{ secrets.NEXUS_AUTH }}
 
             - name: Publish to Nexus
               run: |
-                  npx lerna publish from-git --yes --canary --registry=https://nexus.kelvininc.com/repository/npm-internal/
+                  npx lerna publish --yes --canary
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
                   USER_AUTH: ${{ secrets.NEXUS_AUTH }}
