@@ -5,18 +5,18 @@ import { KvLoader } from '../../components';
 KvLoader.displayName = 'KvLoader';
 
 export default {
-	title: "Components/Loader",
+	title: 'Components/Loader',
 	component: 'kv-loader',
 	argTypes: {
-		isLoading: { type: "boolean" },
-		hasOverlay: { type: "boolean" }
+		isLoading: { type: 'boolean' },
+		hasOverlay: { type: 'boolean' }
 	},
 	parameters: {
 		notes: require('@ui-notes/loader/readme.md')
 	}
-}
+};
 
-const LoaderTemplate: ComponentStory<typeof KvLoader> = (args) => <KvLoader {...args} />;
+const LoaderTemplate: ComponentStory<typeof KvLoader> = args => <KvLoader {...args} />;
 
 export const IsLoading = LoaderTemplate.bind(this);
 IsLoading.args = {

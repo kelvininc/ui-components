@@ -6,7 +6,7 @@ describe('KvLink (end-to-end)', () => {
 	let subtitleEl: E2EElement;
 
 	describe('when rendering only with label', () => {
-		beforeEach(async() => {
+		beforeEach(async () => {
 			page = await newE2EPage();
 			await page.setContent(`<kv-link label='Hello'></kv-link>`);
 		});
@@ -19,7 +19,7 @@ describe('KvLink (end-to-end)', () => {
 		describe('and the user clicks the label', () => {
 			let spyClickEvt: EventSpy;
 			let hostEl: E2EElement;
-			
+
 			beforeEach(async () => {
 				hostEl = await page.find('kv-link');
 				labelEl = await page.find('kv-link >>> .label');
@@ -34,7 +34,7 @@ describe('KvLink (end-to-end)', () => {
 	});
 
 	describe('when rendering with label and subtitle', () => {
-		beforeEach(async() => {
+		beforeEach(async () => {
 			page = await newE2EPage();
 			await page.setContent(`<kv-link label='Hello' subtitle='World'></kv-link>`);
 			labelEl = await page.find('kv-link >>> .label');
@@ -46,9 +46,9 @@ describe('KvLink (end-to-end)', () => {
 			expect(subtitleEl.innerText).toEqual('World');
 		});
 	});
-	
+
 	describe('when rendering with label, subtitle and link', () => {
-		beforeEach(async() => {
+		beforeEach(async () => {
 			page = await newE2EPage();
 			await page.setContent(`<kv-link label='Hello' subtitle='World' href='https://kelvin.ai'></kv-link>`);
 			labelEl = await page.find('kv-link >>> .label');
@@ -62,6 +62,6 @@ describe('KvLink (end-to-end)', () => {
 
 		it('should set the correct href attribute', () => {
 			expect(labelEl.getAttribute('href')).toEqual('https://kelvin.ai');
-		})
+		});
 	});
 });

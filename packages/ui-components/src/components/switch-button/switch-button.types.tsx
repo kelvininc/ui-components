@@ -1,4 +1,4 @@
 export enum ESwitchButtonState {
-	ON = "on",
-	OFF = "off",
+	ON = 'on',
+	OFF = 'off'
 }

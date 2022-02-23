@@ -5,27 +5,26 @@ import { KvStateIndicator } from '../../components';
 KvStateIndicator.displayName = 'KvStateIndicator';
 
 export default {
-	title: "Components/StateIndicator",
+	title: 'Components/StateIndicator',
 	component: 'kv-state-indicator',
 	argTypes: {
-		color: { type: "color" },
-		text: { type: "text" }
+		color: { type: 'color' },
+		text: { type: 'text' }
 	},
 	parameters: {
 		notes: require('@ui-notes/state-indicator/readme.md')
 	}
-}
+};
 
-const StateIndicatorTemplate: ComponentStory<typeof KvStateIndicator> = (args) => <KvStateIndicator {...args} />;
+const StateIndicatorTemplate: ComponentStory<typeof KvStateIndicator> = args => <KvStateIndicator {...args} />;
 
 export const DefaultState = StateIndicatorTemplate.bind(this);
 DefaultState.args = {
-	text: "State Indicator"
+	text: 'State Indicator'
 };
-
 
 export const ColorState = StateIndicatorTemplate.bind(this);
 ColorState.args = {
-	color: "green",
-	text: "State Indicator"
+	color: 'green',
+	text: 'State Indicator'
 };

@@ -1,4 +1,4 @@
-import { Component, Prop, h, Host } from "@stencil/core";
+import { Component, Prop, h, Host } from '@stencil/core';
 
 @Component({
 	tag: 'kv-state-indicator',
@@ -6,20 +6,19 @@ import { Component, Prop, h, Host } from "@stencil/core";
 	shadow: true
 })
 export class KvStateIndicator {
-
 	/** (optional) State indicator color */
 	@Prop({ reflect: true }) color: string;
 	/** (optional) State indicator text */
 	@Prop({ reflect: true }) text: string;
 
-	render(){
+	render() {
 		return (
 			<Host>
 				<div class="state-indicator">
-					{ this.color && <div class="color" style={{background: this.color}}></div> }
+					{this.color && <div class="color" style={{ background: this.color }}></div>}
 					<div class="text">{this.text}</div>
 				</div>
 			</Host>
-		)
+		);
 	}
 }

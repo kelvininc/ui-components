@@ -10,7 +10,7 @@
 		"build:packages": "lerna run build --stream --scope '{@kelvininc/ui-components,@kelvininc/react-ui-components,@kelvininc/angular-ui-components}'",
 		"clean": "rm -f -r node_modules && npm cache verify",
 		"clean:all": "lerna run clean",
-		"lint": "lerna run --stream --scope @kelvininc/ui-components lint",
+		"lint": "lerna run lint --stream --scope '{@kelvininc/ui-components,@kelvininc/react-ui-components}'",
 		"test": "lerna run --stream --scope @kelvininc/ui-components test",
 		"storybook": "lerna run --scope @kelvininc/react-ui-components storybook",
 		"storybook:build": "lerna run --scope @kelvininc/react-ui-components build-storybook",

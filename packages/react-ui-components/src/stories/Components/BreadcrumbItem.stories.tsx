@@ -3,22 +3,22 @@ import React from 'react';
 import { EAnchorTarget, KvBreadcrumbItem } from '../../components';
 
 export default {
-	title: "Components/Breadcrumb Item",
+	title: 'Components/Breadcrumb Item',
 	component: 'kv-breadcrumb-item',
 	argTypes: {
 		target: {
-			control: { type: "inline-radio" },
+			control: { type: 'inline-radio' },
 			options: Object.values(EAnchorTarget)
 		}
 	},
 	parameters: {
 		notes: require('@ui-notes/breadcrumb-item/readme.md')
 	}
-}
+};
 
 KvBreadcrumbItem.displayName = 'KvBreadcrumbItem';
 
-const BreadcrumbItemTemplate: ComponentStory<typeof KvBreadcrumbItem> = (args) => <KvBreadcrumbItem {...args} />;
+const BreadcrumbItemTemplate: ComponentStory<typeof KvBreadcrumbItem> = args => <KvBreadcrumbItem {...args} />;
 
 export const Inactive = BreadcrumbItemTemplate.bind({});
 Inactive.args = {

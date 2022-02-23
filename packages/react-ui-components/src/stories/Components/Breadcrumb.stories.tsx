@@ -3,16 +3,16 @@ import React from 'react';
 import { EAnchorTarget, KvBreadcrumb } from '../../components';
 
 export default {
-	title: "Components/Breadcrumb",
+	title: 'Components/Breadcrumb',
 	component: 'kv-breadcrumb',
 	parameters: {
 		notes: require('@ui-notes/breadcrumb/readme.md')
 	}
-}
+};
 
 KvBreadcrumb.displayName = 'KvBreadcrumb';
 
-const BreadcrumbTemplate: ComponentStory<typeof KvBreadcrumb> = (args) => <KvBreadcrumb {...args} />;
+const BreadcrumbTemplate: ComponentStory<typeof KvBreadcrumb> = args => <KvBreadcrumb {...args} />;
 
 export const Primary = BreadcrumbTemplate.bind({});
 Primary.args = {

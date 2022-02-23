@@ -1,6 +1,6 @@
 import { newSpecPage, SpecPage } from '@stencil/core/testing';
 import { KvBreadcrumbList } from '../breadcrumb-list';
-import { h } from '@stencil/core'
+import { h } from '@stencil/core';
 
 describe('KvBreadcrumbItem (unit tests)', () => {
 	let page: SpecPage;
@@ -11,7 +11,7 @@ describe('KvBreadcrumbItem (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvBreadcrumbList],
-					html: "<kv-breadcrumb-list></kv-breadcrumb-list>",
+					html: '<kv-breadcrumb-list></kv-breadcrumb-list>'
 				});
 				component = page.rootInstance;
 			});
@@ -25,7 +25,7 @@ describe('KvBreadcrumbItem (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvBreadcrumbList],
-					html: "<kv-breadcrumb-list separator='/'></kv-breadcrumb-list>",
+					html: "<kv-breadcrumb-list separator='/'></kv-breadcrumb-list>"
 				});
 				component = page.rootInstance;
 			});
@@ -33,6 +33,6 @@ describe('KvBreadcrumbItem (unit tests)', () => {
 			it('should match the snapshot', () => {
 				expect(page.root).toMatchSnapshot();
 			});
-		})
+		});
 	});
 });

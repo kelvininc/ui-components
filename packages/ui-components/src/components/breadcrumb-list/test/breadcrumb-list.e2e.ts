@@ -43,8 +43,7 @@ describe('KvBreadcrumbList (end-to-end)', () => {
 						target='_blank'
 						active>
 					</kv-breadcrumb-item>
-				</kv-breadcrumb-list>`
-			);
+				</kv-breadcrumb-list>`);
 			listEl = await page.find('kv-breadcrumb-list');
 			childrenEl = await page.findAll('kv-breadcrumb-item');
 		});
