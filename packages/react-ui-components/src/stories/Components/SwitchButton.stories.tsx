@@ -15,15 +15,15 @@ export default {
 		}
 	},
 	parameters: {
-		notes: require('@ui-notes/switch-button/readme.md'),
+		notes: require('@ui-notes/switch-button/readme.md')
 	}
-}
+};
 
-const SwitchButtonTemplate: ComponentStory<typeof KvSwitchButton> = (args) => <KvSwitchButton {...args} />;
+const SwitchButtonTemplate: ComponentStory<typeof KvSwitchButton> = args => <KvSwitchButton {...args} />;
 
 export const DefaultState = SwitchButtonTemplate.bind(this);
 DefaultState.args = {
 	label: 'Switch',
 	state: ESwitchButtonState.OFF,
-	disabled: false,
+	disabled: false
 };

@@ -9,22 +9,22 @@ describe('Switch Button (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvStateIndicator],
-				html: `<kv-state-inidcator text="State Indicator"></kv-state-indicator>`,
+				html: `<kv-state-inidcator text="State Indicator"></kv-state-indicator>`
 			});
-		})
+		});
 
 		it('should match the snapshot', () => {
 			expect(page.root).toMatchSnapshot();
 		});
-	})
+	});
 
 	describe('when has a color', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvStateIndicator],
-				html: `<kv-state-inidcator text="State Indicator" color="green"></kv-state-indicator>`,
+				html: `<kv-state-inidcator text="State Indicator" color="green"></kv-state-indicator>`
 			});
-		})
+		});
 
 		it('should match the snapshot', () => {
 			expect(page.root).toMatchSnapshot();

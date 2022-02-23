@@ -19,7 +19,7 @@ export default {
 	}
 };
 
-const ButtonTemplate: ComponentStory<typeof KvActionButton> = (args) => <KvActionButton {...args} />;
+const ButtonTemplate: ComponentStory<typeof KvActionButton> = args => <KvActionButton {...args} />;
 
 export const Primary = ButtonTemplate.bind({});
 Primary.args = {

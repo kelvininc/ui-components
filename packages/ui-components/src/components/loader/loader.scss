@@ -28,7 +28,6 @@ $loader-spinner-color: var(--loader-spinner-color, kv-color('primary'));
 		border-right-color: $loader-spinner-color;
 		border-radius: 50%;
 		animation: loadrotate 1s infinite linear;
-		-webkit-animation: loadrotate 1s infinite linear;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -42,6 +41,5 @@ $loader-spinner-color: var(--loader-spinner-color, kv-color('primary'));
 	/* Use 0% instead for anticlockwise */
 	100% {
 		transform: rotate(360deg);
-		-webkit-transform: rotate(360deg);
 	}
 }

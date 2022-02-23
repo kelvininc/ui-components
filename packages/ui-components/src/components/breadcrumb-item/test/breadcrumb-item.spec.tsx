@@ -1,7 +1,7 @@
 import { newSpecPage, SpecPage } from '@stencil/core/testing';
 import { KvBreadcrumbItem } from '../breadcrumb-item';
 import { EAnchorTarget } from '../../../utils/types';
-import { h } from '@stencil/core'
+import { h } from '@stencil/core';
 
 describe('KvBreadcrumbItem (unit tests)', () => {
 	let page: SpecPage;
@@ -10,14 +10,7 @@ describe('KvBreadcrumbItem (unit tests)', () => {
 	beforeEach(async () => {
 		page = await newSpecPage({
 			components: [KvBreadcrumbItem],
-			template: () => (
-				<kv-breadcrumb-item
-					label='Awesome Label'
-					href='https://kelvin.ai'
-					target={EAnchorTarget.NewTab}
-					active>
-				</kv-breadcrumb-item>
-			),
+			template: () => <kv-breadcrumb-item label="Awesome Label" href="https://kelvin.ai" target={EAnchorTarget.NewTab} active></kv-breadcrumb-item>
 		});
 		component = page.rootInstance;
 	});

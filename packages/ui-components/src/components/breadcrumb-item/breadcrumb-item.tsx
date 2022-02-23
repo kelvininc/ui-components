@@ -6,7 +6,7 @@ import { IBreadcrumbItem } from './breadcrumb-item.types';
 @Component({
 	tag: 'kv-breadcrumb-item',
 	styleUrl: 'breadcrumb-item.scss',
-	shadow: true,
+	shadow: true
 })
 export class KvBreadcrumbItem implements IAnchor {
 	/** (required) The text to display on the breadcrumb */
@@ -35,23 +35,22 @@ export class KvBreadcrumbItem implements IAnchor {
 			target: this.target,
 			active: this.active
 		});
-	}
+	};
 
 	render() {
 		return (
 			<Host>
-				<li class={{
-					'breadcrumb-item': true,
-					'active': this.active
-				}}>
-					<a
-						href={this.href}
-						target={this.target}
-						onClick={this.clickThrottler}>
+				<li
+					class={{
+						'breadcrumb-item': true,
+						'active': this.active
+					}}
+				>
+					<a href={this.href} target={this.target} onClick={this.clickThrottler}>
 						{this.label}
 					</a>
 				</li>
-				{ this.separator && <span class="separator">{ this.separator }</span> }
+				{this.separator && <span class="separator">{this.separator}</span>}
 			</Host>
 		);
 	}

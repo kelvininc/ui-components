@@ -5,7 +5,7 @@ xdescribe('action-button', () => {
 	it('renders', async () => {
 		const { root } = await newSpecPage({
 			components: [ActionButton],
-			html: '<action-button></action-button>',
+			html: '<action-button></action-button>'
 		});
 		expect(root).toEqualHtml(`
       <action-button>
@@ -21,7 +21,7 @@ xdescribe('action-button', () => {
 	it('renders with values', async () => {
 		const { root } = await newSpecPage({
 			components: [ActionButton],
-			html: `<action-button first="Stencil" last="'Don't call me a framework' JS"></action-button>`,
+			html: `<action-button first="Stencil" last="'Don't call me a framework' JS"></action-button>`
 		});
 		expect(root).toEqualHtml(`
       <action-button first="Stencil" last="'Don't call me a framework' JS">

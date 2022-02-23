@@ -14,7 +14,7 @@ describe('KvBreadcrumb (unit tests)', () => {
 	beforeEach(async () => {
 		page = await newSpecPage({
 			components: [KvBreadcrumb],
-			template: () => <kv-breadcrumb items={breadCrumbMock}></kv-breadcrumb>,
+			template: () => <kv-breadcrumb items={breadCrumbMock}></kv-breadcrumb>
 		});
 		component = page.rootInstance;
 	});
@@ -42,6 +42,6 @@ describe('KvBreadcrumb (unit tests)', () => {
 					target: EAnchorTarget.NewTab
 				}
 			]);
-		})
+		});
 	});
 });

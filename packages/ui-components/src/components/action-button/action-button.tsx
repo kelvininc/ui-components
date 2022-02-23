@@ -5,7 +5,7 @@ import { EActionButtonType } from './action-button.types';
 @Component({
 	tag: 'kv-action-button',
 	styleUrl: 'action-button.scss',
-	shadow: true,
+	shadow: true
 })
 export class ActionButton {
 	@State() isButtonHovered = false;
@@ -31,17 +31,17 @@ export class ActionButton {
 		if (this.enabled) {
 			this.buttonClick.emit(event);
 		}
-	}
+	};
 
 	private onMouseEnter = () => {
 		if (this.enabled) {
 			this.isButtonHovered = true;
 		}
-	}
+	};
 
 	private onMouseLeave = () => {
 		this.isButtonHovered = false;
-	}
+	};
 
 	render() {
 		return (
@@ -54,18 +54,17 @@ export class ActionButton {
 						[`${this.type}`]: true,
 						'hover': this.isButtonHovered,
 						'small': this.smallSize,
-						'icon-only': isEmpty(this.text),
+						'icon-only': isEmpty(this.text)
 					}}
 					aria-disabled={!this.enabled || null}
 					style={{ width: this.fixedWidth > 0 ? `${this.fixedWidth}px` : 'auto' }}
 					onClick={this.onActionButtonClick}
 					onMouseEnter={this.onMouseEnter}
-					onMouseLeave={this.onMouseLeave}>
+					onMouseLeave={this.onMouseLeave}
+				>
 					{this.text && (
 						<div class="button-wrapper">
-							<span class="button-title">
-								{this.text}
-							</span>
+							<span class="button-title">{this.text}</span>
 						</div>
 					)}
 				</div>

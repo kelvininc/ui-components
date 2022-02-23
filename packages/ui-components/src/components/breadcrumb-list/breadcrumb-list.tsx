@@ -17,7 +17,7 @@ export class KvBreadcrumbList {
 	componentDidRender() {
 		this.breadcrumbItems = Array.from(this.el.querySelectorAll('kv-breadcrumb-item'));
 		this.breadcrumbItems.forEach((item, idx) => {
-			item.separator = (idx !== this.breadcrumbItems.length - 1) ? this.separator : undefined;
+			item.separator = idx !== this.breadcrumbItems.length - 1 ? this.separator : undefined;
 		});
 	}
 
