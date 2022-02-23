@@ -1,9 +1,8 @@
 {
 	"name": "@kelvininc/ui-components-repo",
-	"private": true,
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/kelvininc/ui-components"
+		"url": "git@github.com:kelvininc/ui-components.git"
 	},
 	"scripts": {
 		"bootstrap": "lerna bootstrap",
@@ -20,6 +19,9 @@
 		"@commitlint/config-conventional": "^16.0.0",
 		"cz-lerna-changelog": "^2.0.3",
 		"lerna": "^4.0.0"
+	},
+	"resolutions": {
+		"libnpmpublish": "4.0.2"
 	},
 	"config": {
 		"commitizen": {
