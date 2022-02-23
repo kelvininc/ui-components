@@ -1,0 +1,45 @@
+@import '../../assets/styles/globals';
+
+$loader-overlay-color: var(--loader-overlay-color, kv-color('neutral-4'));
+$loader-overlay-opacity: var(--loader-overlay-opacity, 0.4);
+$loader-background-color: var(--loader-background-color, kv-color('neutral-1'));
+$loader-spinner-color: var(--loader-spinner-color, kv-color('primary'));
+
+.loader-container {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 999;
+
+	.overlay {
+		width: 100%;
+		height: 100%;
+		opacity: $loader-overlay-opacity;
+		background-color: $loader-background-color;
+	}
+
+	.loader {
+		height: 0;
+		width: 0;
+		padding: 15px;
+		border: 6px solid $loader-background-color;
+		border-right-color: $loader-spinner-color;
+		border-radius: 50%;
+		animation: loadrotate 1s infinite linear;
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		margin: auto;
+	}
+}
+
+@keyframes loadrotate {
+	/* Use 0% instead for anticlockwise */
+	100% {
+		transform: rotate(360deg);
+	}
+}

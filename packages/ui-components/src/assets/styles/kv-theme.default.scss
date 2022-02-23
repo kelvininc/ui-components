@@ -1,0 +1,119 @@
+@import './kv-functions.color';
+
+//*****************************
+//*** PEACOCK COLOR PALETTE ***
+//*****************************
+
+// Default Peacock Colors
+// -------------------------------------------------------------------------------------------
+// Color map should provide
+// - base: main color to be used. (CSS variable: --kv-[color name], --kv-[color name]-rgb (used to calculate alpha derivation if necessary))
+// - contrast: Color that will provide readable text against the base color (CSS variable: --kv-[color name]-contrast)
+// - dark: 12% darker version of the base color (mix with black) (CSS variable: --kv-[color name]-dark)
+// - light: 80% lighter version of the base color (mix with white) (CSS variable: --kv-[color name]-light)
+$primary-color: #005cc7 !default;
+$secondary-1-color: #b40eaa !default;
+$secondary-2-color: #040646 !default;
+$secondary-3-color: #36656d !default;
+$secondary-4-color: linear-gradient(90deg, $secondary-1-color 0%, #0d5cc7 100%) !default;
+$info-color: #276ef1 !default;
+$success-color: #05a357 !default;
+$warning-color: #ffc043 !default;
+$error-color: #e11900 !default;
+
+// Default Text and Background Colors
+// -------------------------------------------------------------------------------------------
+// Used to calculate the default neutral colors
+$background-color: #fff !default;
+$text-color: #202020 !default;
+
+// Default Neutral Colors
+// -------------------------------------------------------------------------------------------
+// Neutral Color are used to provide variations in text and background colors of elements.
+// Should be $background-color stepping towards $text-color.
+// `-rgb` prop is used to apply transparencies with RGBA
+$neutral-color-1: mix($text-color, $background-color, 6%);
+$neutral-color-2: mix($text-color, $background-color, 11.5%);
+$neutral-color-3: mix($text-color, $background-color, 15.1%);
+$neutral-color-4: mix($text-color, $background-color, 29%) !default;
+$neutral-color-5: mix($text-color, $background-color, 64%) !default;
+$neutral-color-6: mix($text-color, $background-color, 86%) !default;
+
+$colors: (
+	'primary': (
+		base: $primary-color,
+		contrast: #fff,
+		dark: #103d73,
+		light: #f2f7fc
+	),
+	'secondary-1': (
+		base: $secondary-1-color, 
+		contrast: #fff, 
+		dark: get-color-dark($secondary-1-color), 
+		light: get-color-light($secondary-1-color)
+	),
+	'secondary-2': (
+		base: $secondary-2-color, 
+		contrast: #fff, 
+		dark: get-color-dark($secondary-2-color), 
+		light: get-color-light($secondary-2-color)
+	),
+	'secondary-3': (
+		base: $secondary-3-color, 
+		contrast: #fff, 
+		dark: get-color-dark($secondary-3-color), 
+		light: get-color-light($secondary-3-color)
+	),
+	'secondary-4': (
+		base: $secondary-4-color, 
+		contrast: #fff
+	),
+	'info': (
+		base: $info-color, 
+		contrast: #fff, 
+		dark: get-color-dark($info-color), 
+		light: get-color-light($info-color)
+	),
+	'success': (
+		base: $success-color, 
+		contrast: #fff, 
+		dark: get-color-dark($success-color), 
+		light: get-color-light($success-color)
+	),
+	'warning': (
+		base: $warning-color, 
+		contrast: #fff, 
+		dark: get-color-dark($warning-color), 
+		light: get-color-light($warning-color)
+	),
+	'error': (
+		base: $error-color, 
+		contrast: #fff, 
+		dark: get-color-dark($error-color), 
+		light: get-color-light($error-color)
+	),
+	'background': (
+		base: $background-color
+	),
+	'text': (
+		base: $text-color
+	),
+	'neutral-1': (
+		base: $neutral-color-1
+	),
+	'neutral-2': (
+		base: $neutral-color-2
+	),
+	'neutral-3': (
+		base: $neutral-color-3
+	),
+	'neutral-4': (
+		base: $neutral-color-4
+	),
+	'neutral-5': (
+		base: $neutral-color-5
+	),
+	'neutral-6': (
+		base: $neutral-color-6
+	)
+);

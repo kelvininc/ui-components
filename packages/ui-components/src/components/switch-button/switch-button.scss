@@ -1,0 +1,74 @@
+@import '../../assets/styles/globals';
+
+$btn-height: 28px;
+$btn-width: 56px;
+$btn-radius: 4px;
+$sqr-size: 20px;
+$sqr-radius: 2px;
+$icon-size: 16px;
+
+.switch-button-container {
+	display: inline-flex;
+	align-items: center;
+
+	user-select: none;
+}
+
+.label {
+	@include kv-font-label-small-uppercase-semibold;
+	flex-shrink: 0;
+	color: kv-color('neutral-4');
+	padding-right: $spacing-3x;
+}
+
+.switch-button {
+	box-sizing: border-box;
+
+	height: $btn-height;
+	width: $btn-width;
+
+	cursor: pointer;
+	border-radius: $btn-radius;
+	padding: $spacing;
+
+	background-color: kv-color('neutral-2');
+	transition: background-color 0.3s ease-out;
+
+	&--disabled {
+		cursor: default;
+		pointer-events: none;
+		opacity: 0.5;
+	}
+
+	&--on {
+		background-color: kv-color(success);
+
+		.check-square {
+			transform: translateX(28px);
+
+			.svg-icon {
+				fill: kv-color(success);
+			}
+		}
+	}
+}
+
+.check-square {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	width: $sqr-size;
+	height: $sqr-size;
+	transition: transform 0.3s ease-out;
+	border-radius: $sqr-radius;
+	background-color: kv-color(success, contrast);
+
+	font-size: 0;
+
+	.svg-icon {
+		fill: kv-color('neutral-2');
+		width: $icon-size;
+		height: $icon-size;
+	}
+}

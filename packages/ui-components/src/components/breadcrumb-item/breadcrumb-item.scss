@@ -1,0 +1,32 @@
+@import '../../assets/styles/globals';
+
+.breadcrumb-item {
+	@include kv-font-label-small-regular();
+	display: inline;
+	flex-shrink: 0;
+	cursor: pointer;
+	user-select: none;
+	color: kv-color('neutral-5');
+
+	a {
+		color: unset;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			color: kv-color('primary');
+		}
+	}
+
+	&.active {
+		@include kv-font-label-small-semibold();
+		pointer-events: none;
+	}
+}
+
+.separator {
+	@include kv-font-label-small-regular();
+	margin: 0 $spacing-2x;
+	user-select: none;
+	color: kv-color('neutral-5');
+}

@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Switch Button (unit tests) when has a color should match the snapshot 1`] = `
+<kv-state-inidcator
+  color="green"
+  text="State Indicator"
+/>
+`;
+
+exports[`Switch Button (unit tests) when uses default props should match the snapshot 1`] = `
+<kv-state-inidcator
+  text="State Indicator"
+/>
+`;

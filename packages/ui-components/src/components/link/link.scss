@@ -1,0 +1,25 @@
+@import '../../assets/styles/globals';
+
+:host {
+	.link-container {
+		display: flex;
+		flex-direction: column;
+
+		.label {
+			@include kv-font-h5-semibold();
+			text-decoration: none;
+			color: kv-color('text');
+			cursor: pointer;
+
+			&:hover {
+				color: kv-color('primary');
+				text-decoration: underline;
+			}
+		}
+
+		.subtitle {
+			@include kv-font-label-small-regular();
+			color: kv-color('text');
+		}
+	}
+}

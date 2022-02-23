@@ -1,0 +1,24 @@
+{
+	"packages": [
+		"packages/*"
+	],
+	"command": {
+		"version": {
+			"exact": true
+		},
+		"publish": {
+			"message": "chore(release): publish %s [skip ci]",
+			"conventionalCommits": true
+		}
+	},
+	"ignoreChanges": [
+		"**/__fixtures__/**",
+		"**/__tests__/**",
+		"**/*.md",
+		"**/package.json",
+		"**/package-lock.json",
+		"**/tsconfig.json",
+		"**/tslint.json"
+	],
+	"version": "0.4.0"
+}

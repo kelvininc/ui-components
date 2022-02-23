@@ -1,0 +1,76 @@
+/*
+ * The Typekit service used to deliver this font or fonts for use on websites
+ * is provided by Adobe and is subject to these Terms of Use
+ * http://www.adobe.com/products/eulas/tou_typekit. For font license
+ * information, see the list below.
+ *
+ * proxima-nova:
+ *   - http://typekit.com/eulas/00000000000000003b9b3068
+ *   - http://typekit.com/eulas/00000000000000003b9b3066
+ *   - http://typekit.com/eulas/00000000000000003b9b3062
+ *   - http://typekit.com/eulas/00000000000000003b9b3060
+ *   - http://typekit.com/eulas/00000000000000003b9b3064
+ *
+ * © 2009-2019 Adobe Systems Incorporated. All Rights Reserved.
+ */
+/*{'last_published':'2019-12-11 18:35:37 UTC'}*/
+@import url('https://p.typekit.net/p.css?s=1&k=cjx8mzr&ht=tk&f=139.173.175.5474.25136&a=31276436&app=typekit&e=css');
+
+/*** ProximaNova-Light ***/
+@font-face {
+	font-family: 'proxima-nova';
+	src: url('https://use.typekit.net/af/cebe0e/00000000000000003b9b3060/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3') format('woff2'),
+		url('https://use.typekit.net/af/cebe0e/00000000000000003b9b3060/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3') format('woff'),
+		url('https://use.typekit.net/af/cebe0e/00000000000000003b9b3060/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3') format('opentype');
+	font-style: normal;
+	font-stretch: normal;
+	font-weight: 300;
+}
+
+/*** ProximaNova-Regular ***/
+@font-face {
+	font-family: 'proxima-nova';
+	src: url('https://use.typekit.net/af/705e94/00000000000000003b9b3062/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3') format('woff2'),
+		url('https://use.typekit.net/af/705e94/00000000000000003b9b3062/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3') format('woff'),
+		url('https://use.typekit.net/af/705e94/00000000000000003b9b3062/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3') format('opentype');
+	font-style: normal;
+	font-stretch: normal;
+	font-weight: 400;
+}
+
+/*** ProximaNova-Medium ***/
+@font-face {
+	font-family: 'proxima-nova';
+	src: url('https://use.typekit.net/af/6e816b/00000000000000003b9b3064/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3') format('woff2'),
+		url('https://use.typekit.net/af/6e816b/00000000000000003b9b3064/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3') format('woff'),
+		url('https://use.typekit.net/af/6e816b/00000000000000003b9b3064/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3') format('opentype');
+	font-style: normal;
+	font-stretch: normal;
+	font-weight: 500;
+}
+
+/*** ProximaNova-Semibold ***/
+@font-face {
+	font-family: 'proxima-nova';
+	src: url('https://use.typekit.net/af/576d53/00000000000000003b9b3066/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n6&v=3') format('woff2'),
+		url('https://use.typekit.net/af/576d53/00000000000000003b9b3066/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n6&v=3') format('woff'),
+		url('https://use.typekit.net/af/576d53/00000000000000003b9b3066/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n6&v=3') format('opentype');
+	font-style: normal;
+	font-stretch: normal;
+	font-weight: 600;
+}
+
+/*** ProximaNova-Bold ***/
+@font-face {
+	font-family: 'proxima-nova';
+	src: url('https://use.typekit.net/af/949f99/00000000000000003b9b3068/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3') format('woff2'),
+		url('https://use.typekit.net/af/949f99/00000000000000003b9b3068/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3') format('woff'),
+		url('https://use.typekit.net/af/949f99/00000000000000003b9b3068/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3') format('opentype');
+	font-style: normal;
+	font-stretch: normal;
+	font-weight: 700;
+}
+
+.kv-proxima-nova {
+	font-family: 'proxima-nova', sans-serif;
+}

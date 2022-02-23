@@ -1,0 +1,100 @@
+name: publish-alpha
+on:
+    push:
+        branches:
+            - alpha
+            - beta
+
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+
+permissions:
+    contents: write # for checkout and tag
+
+jobs:
+    publish:
+        name: Pre-Release Publish
+        runs-on: ubuntu-18.04
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+              with:
+                fetch-depth: "0"
+            - name: Setup Node ${{ matrix.node_version }}
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 14
+
+            - name: Git Identity
+              run: |
+                  git config --global user.name 'github-actions[bot]'
+                  git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+                  git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Authenticate with Nexus Registry
+              run: |
+                  echo "registry=https://nexus.kelvininc.com/repository/npm-kelvin/" > .npmrc
+                  echo "email=$USER_EMAIL" > .npmrc
+                  echo "always-auth=true" > .npmrc
+                  echo "_auth=$USER_AUTH" > .npmrc
+                  npm whoami
+              env:
+                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
+                  USER_AUTH: ${{ secrets.NEXUS_AUTH }}
+
+            - name: Cache node_modules 📦
+              uses: actions/cache@v2
+              env:
+                  cache-name: cache-node-modules
+              with:
+                # npm cache files are stored in `~/.npm` on Linux/macOS
+                path: |
+                     ~/.npm\
+                     node_modules
+                     */*/node_modules
+                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                restore-keys: |
+                  ${{ runner.os }}-build-${{ env.cache-name }}-
+                  ${{ runner.os }}-build-
+                  ${{ runner.os }}-
+
+            - name: Install
+              run: npm install
+              env:
+                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
+                  USER_AUTH: ${{ secrets.NEXUS_AUTH }}
+
+            - name: Bootstrap
+              run: npm run bootstrap
+              env:
+                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
+                  USER_AUTH: ${{ secrets.NEXUS_AUTH }}
+
+            - name: Lint
+              run: npm run lint
+
+            - name: Test
+              run: npm run test
+
+            - name: Generate Versions
+              run: npx lerna version prerelease --yes --conventional-commits --no-changelog
+              env:
+                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
+                  USER_AUTH: ${{ secrets.NEXUS_AUTH }}
+
+            - name: Build
+              run: npm run build:packages
+              env: 
+                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
+                  USER_AUTH: ${{ secrets.NEXUS_AUTH }}
+
+            - name: Publish to Nexus
+              run: |
+                  npx lerna publish from-git --yes --canary --registry=https://nexus.kelvininc.com/repository/npm-internal/
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
+                  USER_AUTH: ${{ secrets.NEXUS_AUTH }}

@@ -1,0 +1,17 @@
+{
+	"extends": "stylelint-config-sass-guidelines",
+	"rules": {
+		"indentation": "tab",
+		"max-nesting-depth": [
+			3,
+			{
+				"ignore": ["pseudo-classes"]
+			}
+		],
+		"order/properties-alphabetical-order": null
+
+	},
+	"ignoreFiles": [
+		"src/assets/fonts/*.scss"
+	]
+}
