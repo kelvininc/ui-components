@@ -1,0 +1,32 @@
+@import '../../assets/styles/globals';
+
+.tag-letter-container {
+	height: 24px;
+	border: solid 1px kv-color('primary', 'base');
+	border-radius: 2px;
+	display: inline-flex;
+}
+
+.letter-avatar {
+	@include kv-font-h4-semibold();
+	height: 100%;
+	width: 24px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background-color: kv-color('primary', 'base');
+	color: kv-color('neutral-0');
+}
+
+.label {
+	@include kv-font-label-small-regular();
+	padding: 0 $spacing;
+	align-self: center;
+	color: kv-color('neutral-9');
+}
+
+.tag-letter-container {
+	background-color: kv-color('primary', 'contrast');
+	color: kv-color('text');
+}

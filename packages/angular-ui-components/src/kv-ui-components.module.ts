@@ -11,7 +11,8 @@ import {
 	KvLoader,
 	KvStateIndicator,
 	KvRadioButton,
-	KvSvgIcon
+	KvSvgIcon,
+	KvTagLetter
 } from './stencil-generated/component';
 
 defineCustomElements(window);
@@ -26,7 +27,8 @@ const COMPONENTS = [
 	KvLoader,
 	KvStateIndicator,
 	KvRadioButton,
-	KvSvgIcon
+	KvSvgIcon,
+	KvTagLetter
 ];
 
 @NgModule({
