@@ -35,8 +35,8 @@
 		"rollup": "rollup -c",
 		"rollup:watch": "rollup -w -c",
 		"lint": "npm run lint:ts",
-		"lint:ts": "eslint src/**/*{.ts,.tsx}",
-		"lint:ts:fix": "eslint --fix src/**/*{.ts,.tsx}",
+		"lint:ts": "eslint src --ext .ts,.tsx",
+		"lint:ts:fix": "eslint src --fix --ext .ts,.tsx",
 		"storybook": "start-storybook -p 6006",
 		"build-storybook": "build-storybook",
 		"deploy-storybook": "storybook-to-ghpages --ci"
