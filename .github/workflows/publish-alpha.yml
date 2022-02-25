@@ -33,17 +33,6 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Authenticate with Nexus Registry
-              run: |
-                  echo "registry=https://nexus.kelvininc.com/repository/npm-kelvin/" > .npmrc
-                  echo "email=$USER_EMAIL" > .npmrc
-                  echo "always-auth=true" > .npmrc
-                  echo "_auth=$USER_AUTH" > .npmrc
-                  npm whoami
-              env:
-                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
-                  USER_AUTH: ${{ secrets.NEXUS_AUTH }}
-
             - name: Cache node_modules 📦
               uses: actions/cache@v2
               env:
@@ -62,39 +51,47 @@ jobs:
 
             - name: Install
               run: npm install
+            
+            - name: Get Tag
+              run: echo "LAST_VERSION=$(git describe --tags `git rev-list --tags --max-count=1` | tr -d v)" >> $GITHUB_ENV
+
+            - name: Set Version
+              run: |
+                  sed -ie "s/\(\"version\": \"\).[^\"]*/\1$LAST_VERSION/" lerna.json
+                  git add lerna.json
+                  git commit -m 'chore(release): publish alpha version [skip ci]'
               env:
-                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
-                  USER_AUTH: ${{ secrets.NEXUS_AUTH }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Bootstrap
               run: npm run bootstrap
-              env:
-                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
-                  USER_AUTH: ${{ secrets.NEXUS_AUTH }}
-
-            - name: Lint
-              run: npm run lint
-
-            - name: Test
-              run: npm run test
 
             - name: Generate Versions
-              run: npx lerna version prerelease --yes --conventional-commits --no-changelog
+              run: |
+                  npx lerna version prerelease --yes --conventional-commits --conventional-prerelease --no-changelog --amend
+                  git push origin alpha --force
               env:
-                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
-                  USER_AUTH: ${{ secrets.NEXUS_AUTH }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Build
               run: npm run build:packages
-              env: 
-                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
+
+            - name: Setting NPM
+              run: |
+                  npm set registry=https://nexus.kelvininc.com/repository/npm-internal
+                  npm set "//nexus.kelvininc.com/:_auth=$USER_AUTH"
+              env:
                   USER_AUTH: ${{ secrets.NEXUS_AUTH }}
 
             - name: Publish to Nexus
               run: |
-                  npx lerna publish from-git --yes --canary --registry=https://nexus.kelvininc.com/repository/npm-internal/
+                  npx lerna publish from-git --yes --canary
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  USER_EMAIL: ${{ secrets.NEXUS_EMAIL }}
                   USER_AUTH: ${{ secrets.NEXUS_AUTH }}
+
+            - name: Push Tag
+              run: git push origin $(git describe --tags --abbrev=0)
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
