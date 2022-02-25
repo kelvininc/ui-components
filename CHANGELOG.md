@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.3](https://github.com/kelvininc/ui-components/compare/v0.5.2...v0.5.3) (2022-02-25)
+
+
+### Bug Fixes
+
+* include assets in react build ([64dad8a](https://github.com/kelvininc/ui-components/commit/64dad8a3bcda688ceb6c939c48769bc94ce3632b))
+
+
+
+
+
 ## [0.5.2](https://github.com/kelvininc/ui-components/compare/v0.5.1...v0.5.2) (2022-02-25)
 
 **Note:** Version bump only for package @kelvininc/ui-components-repo

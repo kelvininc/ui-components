@@ -1,6 +1,6 @@
 {
 	"name": "@kelvininc/react-ui-components",
-	"version": "0.5.2",
+	"version": "0.5.3",
 	"description": "Kelvin UI Components for React applications",
 	"homepage": "https://docs.kelvininc.com",
 	"license": "SEE LICENSE IN LICENSE",
@@ -49,7 +49,7 @@
 		"assets/"
 	],
 	"dependencies": {
-		"@kelvininc/ui-components": "0.5.2"
+		"@kelvininc/ui-components": "0.5.3"
 	},
 	"devDependencies": {
 		"@babel/core": "7.17.2",
