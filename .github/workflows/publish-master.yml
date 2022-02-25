@@ -17,6 +17,7 @@ jobs:
               with:
                 fetch-depth: "0"
                 token: ${{ secrets.RELEASE_TOKEN }}
+
             - name: Setup Node ${{ matrix.node_version }}
               uses: actions/setup-node@v2
               with:
