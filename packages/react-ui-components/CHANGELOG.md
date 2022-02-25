@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.2](https://github.com/kelvininc/ui-components/compare/v0.5.1...v0.5.2) (2022-02-25)
+
+**Note:** Version bump only for package @kelvininc/react-ui-components
+
+
+
+
+
 # 0.5.0 (2022-02-24)
 
 
