@@ -1,0 +1,65 @@
+@import '../../assets/styles/globals';
+
+.summary-card-container {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	width: 124px;
+	height: 110px;
+	padding: $spacing-4x $spacing-2x;
+	border: solid 1px kv-color('neutral-4');
+	border-radius: 4px;
+	word-break: break-word;
+	text-overflow: ellipsis;
+	overflow: hidden;
+
+	.label,
+	.subtitle,
+	.description {
+		user-select: none;
+		transition: all 0.5s ease-out;
+	}
+
+	.label {
+		@include kv-font-h5-semibold();
+		margin-bottom: $spacing;
+		color: kv-color('text');
+
+		&.number {
+			@include kv-font-h4-semibold();
+		}
+	}
+
+	.subtitle {
+		@include kv-font-span-regular();
+		color: kv-color('text');
+	}
+
+	.description {
+		@include kv-font-label-small-regular();
+		color: kv-color('text', 'step-3');
+	}
+
+	&.loading {
+		.label,
+		.subtitle,
+		.description {
+			height: 12px;
+		}
+
+		.label {
+			margin-top: 6px;
+			width: 36px;
+		}
+
+		.subtitle {
+			margin-top: 14px;
+			width: 60px;
+		}
+
+		.description {
+			margin-top: 3px;
+			width: 70px;
+		}
+	}
+}
