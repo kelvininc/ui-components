@@ -45,7 +45,8 @@
 	"module": "dist/index.esm.js",
 	"types": "dist/types/index.d.ts",
 	"files": [
-		"dist/"
+		"dist/",
+		"assets/"
 	],
 	"dependencies": {
 		"@kelvininc/ui-components": "0.4.0"
