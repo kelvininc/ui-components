@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/kelvininc/ui-components/compare/v0.5.0...v0.5.1) (2022-02-25)
+
+
+### Bug Fixes
+
+* add missing components to angular build ([73756f6](https://github.com/kelvininc/ui-components/commit/73756f6bfcca43064dabc0bd229ec00f81ca94de))
+
+
+
+
+
 # 0.5.0 (2022-02-24)
 
 
