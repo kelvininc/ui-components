@@ -12,7 +12,10 @@ import {
 	KvStateIndicator,
 	KvRadioButton,
 	KvSvgIcon,
-	KvTagLetter
+	KvTagLetter,
+	KvTabItem,
+	KvTabList,
+	KvTabNavigation
 } from './stencil-generated/component';
 
 defineCustomElements(window);

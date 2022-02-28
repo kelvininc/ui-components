@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tab Navigation (unit tests) when rendering with required props and notifications should match the snapshot 1`] = `
+<kv-tab-navigation>
+  <mock:shadow-root>
+    <kv-tab-list selectedtabkey="tab1" size="large">
+      <kv-tab-item hasnotification="" label="Tab 1" selected="" tabkey="tab1"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab2"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab3"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab4"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab5"></kv-tab-item>
+    </kv-tab-list>
+  </mock:shadow-root>
+</kv-tab-navigation>
+`;
+
+exports[`Tab Navigation (unit tests) when rendering with required props should match the snapshot 1`] = `
+<kv-tab-navigation>
+  <mock:shadow-root>
+    <kv-tab-list selectedtabkey="tab1" size="large">
+      <kv-tab-item label="Tab 1" selected="" tabkey="tab1"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab2"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab3"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab4"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab5"></kv-tab-item>
+    </kv-tab-list>
+  </mock:shadow-root>
+</kv-tab-navigation>
+`;

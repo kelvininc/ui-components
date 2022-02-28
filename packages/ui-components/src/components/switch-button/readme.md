@@ -84,12 +84,12 @@ export class SwichButtonExample {
 
 ## Properties
 
-| Property   | Attribute  | Description                                 | Type                                                 | Default                   |
-| ---------- | ---------- | ------------------------------------------- | ---------------------------------------------------- | ------------------------- |
-| `checked`  | `checked`  | (optional) If `true` the button is ON       | `boolean`                                            | `false`                   |
-| `disabled` | `disabled` | (optional) If `true` the button is disabled | `boolean`                                            | `false`                   |
-| `label`    | `label`    | (optional) Button's label                   | `string`                                             | `''`                      |
-| `size`     | `size`     | (optional) Button's size                    | `ESwitchButtonSize.Large \| ESwitchButtonSize.Small` | `ESwitchButtonSize.Large` |
+| Property   | Attribute  | Description                                 | Type                                           | Default                |
+| ---------- | ---------- | ------------------------------------------- | ---------------------------------------------- | ---------------------- |
+| `checked`  | `checked`  | (optional) If `true` the button is ON       | `boolean`                                      | `false`                |
+| `disabled` | `disabled` | (optional) If `true` the button is disabled | `boolean`                                      | `false`                |
+| `label`    | `label`    | (optional) Button's label                   | `string`                                       | `''`                   |
+| `size`     | `size`     | (optional) Button's size                    | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
 
 
 ## Events

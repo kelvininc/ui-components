@@ -1,4 +1,4 @@
-export enum ESwitchButtonSize {
+export enum EComponentSize {
 	Small = 'small',
 	Large = 'large'
 }

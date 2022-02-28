@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tab List (unit tests) when initialized with required props should match the snapshot 1`] = `
+<kv-tab-list selectedtabkey="dashboard">
+  <mock:shadow-root>
+    <slot></slot>
+    <div class="selected-tab-indicator" style="left: 0px; width: 0px;"></div>
+  </mock:shadow-root>
+  <kv-tab-item label="Dashboard" tab-key="dashboard">
+    <mock:shadow-root>
+      <div class="tab-item-container">
+        <div class="label">
+          Dashboard
+        </div>
+      </div>
+    </mock:shadow-root>
+  </kv-tab-item>
+</kv-tab-list>
+`;
