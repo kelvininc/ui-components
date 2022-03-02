@@ -34,6 +34,7 @@
 		"tsc:watch": "tsc -w -p .",
 		"rollup": "rollup -c",
 		"rollup:watch": "rollup -w -c",
+		"postinstall": "copy-files-from-to",
 		"lint": "npm run lint:ts",
 		"lint:ts": "eslint src --ext .ts,.tsx",
 		"lint:ts:fix": "eslint src --fix --ext .ts,.tsx",
@@ -68,6 +69,7 @@
 		"@typescript-eslint/parser": "^5.12.1",
 		"babel-loader": "^8.2.3",
 		"concurrently": "7.0.0",
+		"copy-files-from-to": "^3.2.2",
 		"eslint": "^8.9.0",
 		"eslint-config-prettier": "^8.4.0",
 		"eslint-plugin-prettier": "^4.0.0",
@@ -96,5 +98,21 @@
 			"node_modules",
 			"dist"
 		]
+	},
+	"copyFiles": [
+		{
+			"from": "assets/svg-symbols.svg",
+			"to": {
+				"default": {
+					"skip": true
+				},
+				"production": {
+					"dest": "../../../public/svg-symbols.svg"
+				}
+			}
+		}
+	],
+	"copyFilesSettings": {
+		"whenFileExists": "overwrite"
 	}
 }
