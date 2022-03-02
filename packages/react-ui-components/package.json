@@ -34,7 +34,7 @@
 		"tsc:watch": "tsc -w -p .",
 		"rollup": "rollup -c",
 		"rollup:watch": "rollup -w -c",
-		"postprepare": "node .scripts/copy-icons.js",
+		"postinstall": "node -e \"try{require('./.scripts/copy-icons.js')}catch(e){}\"",
 		"lint": "npm run lint:ts",
 		"lint:ts": "eslint src --ext .ts,.tsx",
 		"lint:ts:fix": "eslint src --fix --ext .ts,.tsx",
