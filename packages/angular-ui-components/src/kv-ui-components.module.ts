@@ -4,22 +4,23 @@ import { defineCustomElements } from '@kelvininc/ui-components/loader';
 import {
 	KvActionButton,
 	KvActionButtonIcon,
-	KvActionButtonText,
 	KvActionButtonSplit,
-	KvSwitchButton,
-	KvLink,
+	KvActionButtonText,
 	KvBreadcrumb,
 	KvBreadcrumbItem,
 	KvBreadcrumbList,
+	KvLink,
 	KvLoader,
-	KvStateIndicator,
 	KvRadioButton,
+	KvStateIndicator,
 	KvSvgIcon,
-	KvTagLetter,
+	KvSwitchButton,
 	KvTabItem,
 	KvTabList,
 	KvTabNavigation,
-	KvTextField
+	KvTagLetter,
+	KvTextField,
+	KvTooltip
 } from './stencil-generated/component';
 
 defineCustomElements(window);
@@ -42,7 +43,8 @@ const COMPONENTS = [
 	KvTabItem,
 	KvTabList,
 	KvTabNavigation,
-	KvTextField
+	KvTextField,
+	KvTooltip
 ];
 
 @NgModule({
@@ -51,4 +53,4 @@ const COMPONENTS = [
 	imports: [CommonModule],
 	providers: []
 })
-export class KvUIComponentsModule { }
+export class KvUIComponentsModule {}
