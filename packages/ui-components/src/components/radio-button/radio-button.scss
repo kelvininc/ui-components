@@ -1,0 +1,56 @@
+@import '../../assets/styles/globals';
+
+.radio-button-container {
+	height: 36px;
+	display: inline-flex;
+	align-items: center;
+	cursor: pointer;
+	user-select: none;
+
+	&.disabled {
+		pointer-events: none;
+		opacity: 0.5;
+
+		.circle {
+			border-color: kv-color('neutral-3');
+
+			.checked-icon {
+				background: kv-color('neutral-3');
+			}
+		}
+	}
+}
+
+.checked .circle {
+	border: 1px solid kv-color('primary');
+
+	.checked-icon {
+		height: 12px;
+		width: 12px;
+		border-radius: 50%;
+		background: kv-color('primary');
+		transition: all 0.2s ease-out;
+	}
+}
+
+.circle {
+	height: 16px;
+	width: 16px;
+	border-radius: 50%;
+	border: 1px solid kv-color('neutral-3');
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	.checked-icon {
+		height: 0;
+		width: 0;
+		transition: all 0.2s ease-out;
+	}
+}
+
+.label {
+	@include kv-font-span-regular();
+	color: kv-color('text');
+	margin-left: $spacing-2x;
+}

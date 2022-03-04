@@ -1,6 +1,5 @@
 import { newSpecPage, SpecPage } from '@stencil/core/testing';
 import { KvBreadcrumbList } from '../breadcrumb-list';
-import { h } from '@stencil/core';
 
 describe('KvBreadcrumbItem (unit tests)', () => {
 	let page: SpecPage;
