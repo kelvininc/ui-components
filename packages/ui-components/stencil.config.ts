@@ -24,22 +24,20 @@ export const config: Config = {
 		react({
 			componentCorePackage: '@kelvininc/ui-components',
 			proxiesFile: '../react-ui-components/src/components/stencil-generated/index.ts',
-			includeDefineCustomElements: true,
+			includeDefineCustomElements: true
 		}),
 		{
 			type: 'dist',
 			esmLoaderPath: '../loader',
-			copy: [
-				{ src: 'assets', dest: '../assets', warn: true }
-			]
+			copy: [{ src: 'assets', dest: '../assets', warn: true }]
 		},
 		{
-			type: 'dist-custom-elements',
+			type: 'dist-custom-elements'
 		},
 		{
 			type: 'docs-readme',
 			strict: true,
-			footer: '',
+			footer: ''
 		},
 		{
 			type: 'docs-json',
@@ -48,6 +46,7 @@ export const config: Config = {
 		{
 			type: 'www',
 			serviceWorker: null, // disable service workers
+			copy: [{ src: 'assets/svg-symbols.svg', dest: 'svg-symbols.svg' }]
 		}
 	],
 	plugins: [sass()],
@@ -55,23 +54,12 @@ export const config: Config = {
 		moduleNameMapper: {
 			'^lodash-es$': 'lodash'
 		},
-		testRegex: "(\.(test|spec|e2e))\.(tsx?|jsx?)$",
+		testRegex: '(.(test|spec|e2e)).(tsx?|jsx?)$',
 		collectCoverage: true,
-		moduleFileExtensions: [
-			"ts",
-			"tsx",
-			"js",
-			"json",
-			"jsx"
-		],
-		coverageDirectory: "unit-coverage",
-		coveragePathIgnorePatterns: [
-			"/node_modules/",
-			".types.tsx",
-			".mock.ts",
-			".config.tsx",
-		],
-		coverageReporters: ["html", "json"],
+		moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'jsx'],
+		coverageDirectory: 'unit-coverage',
+		coveragePathIgnorePatterns: ['/node_modules/', '.types.tsx', '.mock.ts', '.config.tsx'],
+		coverageReporters: ['html', 'json'],
 		verbose: true
 		// coverageThreshold: {
 		// 	global: {
@@ -81,5 +69,5 @@ export const config: Config = {
 		// 		statements: 70,
 		// 	},
 		// }
-	},
+	}
 };
