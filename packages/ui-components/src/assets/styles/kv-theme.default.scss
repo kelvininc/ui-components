@@ -22,22 +22,24 @@ $warning-color: #ffc043 !default;
 $error-color: #e11900 !default;
 
 // Default Text and Background Colors
-// -------------------------------------------------------------------------------------------
-// Used to calculate the default neutral colors
-$background-color: #fff !default;
-$text-color: #202020 !default;
+$background-color: #202020 !default;
+$text-color: #fff !default;
 
 // Default Neutral Colors
 // -------------------------------------------------------------------------------------------
-// Neutral Color are used to provide variations in text and background colors of elements.
-// Should be $background-color stepping towards $text-color.
+// Neutral Color are used to provide variations in white and black colors of elements.
+// Should be $neutral-color-0 stepping towards $neutral-color-9.
 // `-rgb` prop is used to apply transparencies with RGBA
-$neutral-color-1: mix($text-color, $background-color, 6%);
-$neutral-color-2: mix($text-color, $background-color, 11.5%);
-$neutral-color-3: mix($text-color, $background-color, 15.1%);
-$neutral-color-4: mix($text-color, $background-color, 29%) !default;
-$neutral-color-5: mix($text-color, $background-color, 64%) !default;
-$neutral-color-6: mix($text-color, $background-color, 86%) !default;
+$neutral-color-0: #fff;
+$neutral-color-1: #f2f2f6;
+$neutral-color-2: #e5e5e5;
+$neutral-color-3: #dddddd;
+$neutral-color-4: #bebebe;
+$neutral-color-5: #707070;
+$neutral-color-6: #3f3f3f;
+$neutral-color-7: #2a2a2a;
+$neutral-color-8: #202020;
+$neutral-color-9: #121212;
 
 $colors: (
 	'primary': (
@@ -98,6 +100,9 @@ $colors: (
 	'text': (
 		base: $text-color
 	),
+	'neutral-0': (
+		base: $neutral-color-0
+	),
 	'neutral-1': (
 		base: $neutral-color-1
 	),
@@ -115,5 +120,14 @@ $colors: (
 	),
 	'neutral-6': (
 		base: $neutral-color-6
+	),
+	'neutral-7': (
+		base: $neutral-color-7
+	),
+	'neutral-8': (
+		base: $neutral-color-8
+	),
+	'neutral-9': (
+		base: $neutral-color-9
 	)
 );

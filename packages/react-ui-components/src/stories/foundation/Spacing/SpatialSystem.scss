@@ -28,19 +28,19 @@
 		display: flex;
 		width: 150px;
 		height: 150px;
-		
+
 		align-items: center;
 		justify-content: center;
-	
-		
-		background: #f2f2f2;
+
+
+		background: #f2f2f6;
 		border-radius: 4px;
-	
+
 		.box {
 			background-color: kv-color('primary');
 		}
 	}
-	
+
 	.description {
 		display: flex;
 		justify-content: space-between;
