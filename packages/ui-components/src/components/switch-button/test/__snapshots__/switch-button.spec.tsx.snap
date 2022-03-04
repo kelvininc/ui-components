@@ -8,11 +8,9 @@ exports[`Switch Button (unit tests) when has a label should match the snapshot 1
         Switch
       </span>
       <div class="switch-button-content">
-        <div class="switch-button">
-          <div class="check-square">
-            <svg class="svg-icon" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
-            </svg>
+        <div class="switch-button switch-button--lg" part="button">
+          <div class="icon-square" part="icon-square">
+            <kv-svg-icon name="kv-done-all" part="icon-svg"></kv-svg-icon>
           </div>
         </div>
       </div>
@@ -26,11 +24,9 @@ exports[`Switch Button (unit tests) when is ON should match the snapshot 1`] = `
   <mock:shadow-root>
     <div class="switch-button-container">
       <div class="switch-button-content">
-        <div class="switch-button switch-button--on">
-          <div class="check-square">
-            <svg class="svg-icon" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
-            </svg>
+        <div class="switch-button switch-button--lg switch-button--on" part="button">
+          <div class="icon-square" part="icon-square">
+            <kv-svg-icon name="kv-done-all" part="icon-svg"></kv-svg-icon>
           </div>
         </div>
       </div>
@@ -44,11 +40,9 @@ exports[`Switch Button (unit tests) when is disabled should match the snapshot 1
   <mock:shadow-root>
     <div class="switch-button-container">
       <div class="switch-button-content">
-        <div class="switch-button switch-button--disabled">
-          <div class="check-square">
-            <svg class="svg-icon" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
-            </svg>
+        <div class="switch-button switch-button--disabled switch-button--lg" part="button">
+          <div class="icon-square" part="icon-square">
+            <kv-svg-icon name="kv-lock" part="icon-svg"></kv-svg-icon>
           </div>
         </div>
       </div>
@@ -62,11 +56,9 @@ exports[`Switch Button (unit tests) when uses default props should match the sna
   <mock:shadow-root>
     <div class="switch-button-container">
       <div class="switch-button-content">
-        <div class="switch-button">
-          <div class="check-square">
-            <svg class="svg-icon" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
-            </svg>
+        <div class="switch-button switch-button--lg" part="button">
+          <div class="icon-square" part="icon-square">
+            <kv-svg-icon name="kv-done-all" part="icon-svg"></kv-svg-icon>
           </div>
         </div>
       </div>

@@ -1,7 +1,12 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
-import { ESwitchButtonState } from './switch-button.types';
+import { ESwitchButtonSize, ESwitchButtonState } from './switch-button.types';
 import throttle from 'lodash/throttle';
 
+/**
+ * @part icon-svg - The switch icon.
+ * @part icon-square - The switch icon square container.
+ * @part button - The switch button.
+ */
 @Component({
 	tag: 'kv-switch-button',
 	styleUrl: 'switch-button.scss',
@@ -28,6 +33,8 @@ export class KvSwitchButton {
 
 	/** (optional) If `ON` the button is ON */
 	@Prop({ reflect: true, mutable: true }) state: ESwitchButtonState = ESwitchButtonState.OFF;
+	/** (optional) Button's size */
+	@Prop() size: ESwitchButtonSize = ESwitchButtonSize.Large;
 
 	/** Watch `state` property for changes and update `isOn` accordingly */
 	@Watch('state')
@@ -48,6 +55,10 @@ export class KvSwitchButton {
 	private onSwitchClick: () => void;
 
 	private onStateChange() {
+		if (this.isDisabled) {
+			return;
+		}
+
 		this.state = this.isOn ? ESwitchButtonState.OFF : ESwitchButtonState.ON;
 		this.switchStateChange.emit(this.state);
 	}
@@ -57,6 +68,8 @@ export class KvSwitchButton {
 	}
 
 	render() {
+		const iconName = this.isDisabled ? 'kv-lock' : 'kv-done-all';
+
 		return (
 			<Host>
 				<div class="switch-button-container">
@@ -66,12 +79,15 @@ export class KvSwitchButton {
 							class={{
 								'switch-button': true,
 								'switch-button--disabled': this.isDisabled,
-								'switch-button--on': this.isOn
+								'switch-button--on': this.isOn,
+								'switch-button--lg': this.size === ESwitchButtonSize.Large,
+								'switch-button--sm': this.size === ESwitchButtonSize.Small
 							}}
+							part="button"
 							onClick={this.onSwitchClick}
 						>
-							<div class="check-square">
-								<kv-svg-icon name="kv-done-all" customClass={'icon-16'} />
+							<div class="icon-square" part="icon-square">
+								<kv-svg-icon name={iconName} part="icon-svg" />
 							</div>
 						</div>
 					</div>
