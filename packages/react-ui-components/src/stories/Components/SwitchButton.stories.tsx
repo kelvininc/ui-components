@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { ESwitchButtonState, KvSwitchButton } from '../../components';
+import { ESwitchButtonState, ESwitchButtonSize, KvSwitchButton } from '../../components';
 
 // Required to have the correct TagName in the code sample
 KvSwitchButton.displayName = 'KvSwitchButton';
@@ -12,6 +12,10 @@ export default {
 		state: {
 			control: { type: 'select' },
 			options: Object.values(ESwitchButtonState)
+		},
+		size: {
+			control: { type: 'select' },
+			options: Object.values(ESwitchButtonSize)
 		}
 	},
 	parameters: {
@@ -25,5 +29,6 @@ export const DefaultState = SwitchButtonTemplate.bind(this);
 DefaultState.args = {
 	label: 'Switch',
 	state: ESwitchButtonState.OFF,
+	size: ESwitchButtonSize.Large,
 	disabled: false
 };
