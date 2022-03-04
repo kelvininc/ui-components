@@ -15,8 +15,8 @@ module.exports = {
 	],
 	staticDirs: [
 		{
-			from: "../../ui-components/src/assets/fonts",
-			to: "/fonts"
+			from: "../../ui-components/src/assets/",
+			to: "/"
 		},
 		{
 			from: "./images",

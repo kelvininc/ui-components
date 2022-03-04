@@ -73,4 +73,4 @@ export class StateIndicatorExample {
 
 ----------------------------------------------
 
-*Built with [StencilJS](https://stenciljs.com/)*
+

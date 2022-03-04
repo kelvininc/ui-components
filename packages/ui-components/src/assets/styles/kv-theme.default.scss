@@ -47,49 +47,49 @@ $colors: (
 		light: #f2f7fc
 	),
 	'secondary-1': (
-		base: $secondary-1-color, 
-		contrast: #fff, 
-		dark: get-color-dark($secondary-1-color), 
+		base: $secondary-1-color,
+		contrast: #fff,
+		dark: get-color-dark($secondary-1-color),
 		light: get-color-light($secondary-1-color)
 	),
 	'secondary-2': (
-		base: $secondary-2-color, 
-		contrast: #fff, 
-		dark: get-color-dark($secondary-2-color), 
+		base: $secondary-2-color,
+		contrast: #fff,
+		dark: get-color-dark($secondary-2-color),
 		light: get-color-light($secondary-2-color)
 	),
 	'secondary-3': (
-		base: $secondary-3-color, 
-		contrast: #fff, 
-		dark: get-color-dark($secondary-3-color), 
+		base: $secondary-3-color,
+		contrast: #fff,
+		dark: get-color-dark($secondary-3-color),
 		light: get-color-light($secondary-3-color)
 	),
 	'secondary-4': (
-		base: $secondary-4-color, 
+		base: $secondary-4-color,
 		contrast: #fff
 	),
 	'info': (
-		base: $info-color, 
-		contrast: #fff, 
-		dark: get-color-dark($info-color), 
+		base: $info-color,
+		contrast: #fff,
+		dark: get-color-dark($info-color),
 		light: get-color-light($info-color)
 	),
 	'success': (
-		base: $success-color, 
-		contrast: #fff, 
-		dark: get-color-dark($success-color), 
+		base: $success-color,
+		contrast: #fff,
+		dark: get-color-dark($success-color),
 		light: get-color-light($success-color)
 	),
 	'warning': (
-		base: $warning-color, 
-		contrast: #fff, 
-		dark: get-color-dark($warning-color), 
+		base: $warning-color,
+		contrast: #fff,
+		dark: get-color-dark($warning-color),
 		light: get-color-light($warning-color)
 	),
 	'error': (
-		base: $error-color, 
-		contrast: #fff, 
-		dark: get-color-dark($error-color), 
+		base: $error-color,
+		contrast: #fff,
+		dark: get-color-dark($error-color),
 		light: get-color-light($error-color)
 	),
 	'background': (

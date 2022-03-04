@@ -10,7 +10,8 @@ import {
 	KvBreadcrumbList,
 	KvLoader,
 	KvStateIndicator,
-	KvRadioButton
+	KvRadioButton,
+	KvSvgIcon
 } from './stencil-generated/component';
 
 defineCustomElements(window);
@@ -24,7 +25,8 @@ const COMPONENTS = [
 	KvBreadcrumbList,
 	KvLoader,
 	KvStateIndicator,
-	KvRadioButton
+	KvRadioButton,
+	KvSvgIcon
 ];
 
 @NgModule({

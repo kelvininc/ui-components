@@ -37,7 +37,9 @@ export const config: Config = {
 			type: 'dist-custom-elements',
 		},
 		{
-			type: 'docs-readme'
+			type: 'docs-readme',
+			strict: true,
+			footer: '',
 		},
 		{
 			type: 'docs-json',

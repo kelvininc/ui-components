@@ -41,13 +41,13 @@ $icon-size: 16px;
 	}
 
 	&--on {
-		background-color: kv-color(success);
+		background-color: kv-color('success');
 
 		.check-square {
 			transform: translateX(28px);
 
-			.svg-icon {
-				fill: kv-color(success);
+			kv-svg-icon::part(icon) {
+				fill: kv-color('success');
 			}
 		}
 	}
@@ -62,13 +62,11 @@ $icon-size: 16px;
 	height: $sqr-size;
 	transition: transform 0.3s ease-out;
 	border-radius: $sqr-radius;
-	background-color: kv-color(success, contrast);
+	background-color: kv-color('success', contrast);
 
 	font-size: 0;
 
-	.svg-icon {
-		fill: kv-color('neutral-2');
-		width: $icon-size;
-		height: $icon-size;
+	kv-svg-icon {
+		--icon-color: #{kv-color('neutral-2')};
 	}
 }
