@@ -1,0 +1,62 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+
+  pull_request:
+    branches:
+      - dev
+      - master
+
+jobs:
+  ci:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+        node: [14]
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@master
+
+      - name: Setup node env 🏗
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: ${{ matrix.node }}
+          check-latest: true
+
+      - name: Cache node_modules 📦
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: |
+            ~/.npm\
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install dependencies 👨🏻‍💻
+        run: npm install
+
+      - name: Lerna bootstrap 🐉
+        run: npm run bootstrap
+
+      - name: Run linter 👀
+        run: npm run lint
+
+      - name: Run tests 🧪
+        run: npm run test
+
+      - name: Run build:packages 🐉
+        run: npm run build:packages
