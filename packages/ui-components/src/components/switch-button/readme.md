@@ -98,6 +98,19 @@ export class SwichButtonExample {
 | `switchStateChange` | Emitted when switch's state changes | `CustomEvent<ESwitchButtonState.OFF \| ESwitchButtonState.ON>` |
 
 
+## Dependencies
+
+### Depends on
+
+- [kv-svg-icon](../svg-icon)
+
+### Graph
+```mermaid
+graph TD;
+  kv-switch-button --> kv-svg-icon
+  style kv-switch-button fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
-*Built with [StencilJS](https://stenciljs.com/)*
+

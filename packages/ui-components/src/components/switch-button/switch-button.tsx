@@ -1,5 +1,4 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
-
 import { ESwitchButtonState } from './switch-button.types';
 import throttle from 'lodash/throttle';
 
@@ -71,11 +70,8 @@ export class KvSwitchButton {
 							}}
 							onClick={this.onSwitchClick}
 						>
-							{/* TODO: Replace this when we add the icons } */}
 							<div class="check-square">
-								<svg class="svg-icon" height="16" width="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-									<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-								</svg>
+								<kv-svg-icon name="kv-done-all" customClass={'icon-16'} />
 							</div>
 						</div>
 					</div>

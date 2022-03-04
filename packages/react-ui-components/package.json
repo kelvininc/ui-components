@@ -34,6 +34,7 @@
 		"tsc:watch": "tsc -w -p .",
 		"rollup": "rollup -c",
 		"rollup:watch": "rollup -w -c",
+		"postinstall": "node -e \"try{require('./.scripts/copy-icons.js')}catch(e){}\"",
 		"lint": "npm run lint:ts",
 		"lint:ts": "eslint src --ext .ts,.tsx",
 		"lint:ts:fix": "eslint src --fix --ext .ts,.tsx",
@@ -46,10 +47,12 @@
 	"types": "dist/types/index.d.ts",
 	"files": [
 		"dist/",
-		"assets/"
+		"assets/",
+		".scripts/"
 	],
 	"dependencies": {
-		"@kelvininc/ui-components": "0.4.0"
+		"@kelvininc/ui-components": "0.4.0",
+		"fs-extra": "10.0.0"
 	},
 	"devDependencies": {
 		"@babel/core": "7.17.2",

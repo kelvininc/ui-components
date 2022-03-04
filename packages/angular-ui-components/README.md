@@ -13,6 +13,7 @@ From the command prompt go to your app's root folder and execute:
 ```
 npm install @kelvininc/angular-ui-components --save
 ```
+
 ## Getting Started
 
 Include the fonts in `angular.json`.
@@ -23,7 +24,19 @@ Include the fonts in `angular.json`.
 ]
 ```
 
-Include the *```KvUIComponentsModule```* in `app.module.ts`.
+Include the icons in `angular.json`.
+
+```json
+"assets": [
+	{
+		"glob": "svg-symbols.svg",
+		"input": "./node_modules/@kelvininc/angular-ui-components/assets",
+		"output": "."
+	}
+]
+```
+
+Include the _`KvUIComponentsModule`_ in `app.module.ts`.
 
 ```ts
 import { KvUIComponentsModule } from '@kelvininc/angular-ui-components';
@@ -41,17 +54,18 @@ import { KvUIComponentsModule } from '@kelvininc/angular-ui-components';
 export class AppModule { }
 ```
 
-Now you are ready to use all available *Kelvin UI Components*. For example:
+Now you are ready to use all available _Kelvin UI Components_. For example:
 
 ```html
 ...
-	<kv-action-button
-		[type]="buttonType"
-		[text]="'My Button'"
-		[smallSize]="true"
-		fixedWidth="250"
-		(buttonClick)="onButtonClick($event)">
-	</kv-action-button>
+<kv-action-button
+	[type]="buttonType"
+	[text]="'My Button'"
+	[smallSize]="true"
+	fixedWidth="250"
+	(buttonClick)="onButtonClick($event)"
+>
+</kv-action-button>
 ...
 ```
 
@@ -66,7 +80,7 @@ Including the global style file you can access our foundation design system defi
 Kelvin UI Components allows you to customize the theme by changing some CSS properties.
 <br />
 
-***Example***: Setting the *Primary Color*
+**_Example_**: Setting the _Primary Color_
 
 ```css
 :root {
