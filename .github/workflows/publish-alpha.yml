@@ -79,7 +79,7 @@ jobs:
                   git push origin alpha --force
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            
+
             - name: Generate Versions
               if: env.CURRENT_VERSION == env.LAST_VERSION
               run: |
