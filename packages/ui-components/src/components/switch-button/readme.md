@@ -86,17 +86,17 @@ export class SwichButtonExample {
 
 | Property   | Attribute  | Description                                 | Type                                                 | Default                   |
 | ---------- | ---------- | ------------------------------------------- | ---------------------------------------------------- | ------------------------- |
+| `checked`  | `checked`  | (optional) If `true` the button is ON       | `boolean`                                            | `false`                   |
 | `disabled` | `disabled` | (optional) If `true` the button is disabled | `boolean`                                            | `false`                   |
 | `label`    | `label`    | (optional) Button's label                   | `string`                                             | `''`                      |
 | `size`     | `size`     | (optional) Button's size                    | `ESwitchButtonSize.Large \| ESwitchButtonSize.Small` | `ESwitchButtonSize.Large` |
-| `state`    | `state`    | (optional) If `ON` the button is ON         | `ESwitchButtonState.OFF \| ESwitchButtonState.ON`    | `ESwitchButtonState.OFF`  |
 
 
 ## Events
 
-| Event               | Description                         | Type                                                           |
-| ------------------- | ----------------------------------- | -------------------------------------------------------------- |
-| `switchStateChange` | Emitted when switch's state changes | `CustomEvent<ESwitchButtonState.OFF \| ESwitchButtonState.ON>` |
+| Event          | Description                         | Type                   |
+| -------------- | ----------------------------------- | ---------------------- |
+| `switchChange` | Emitted when switch's state changes | `CustomEvent<boolean>` |
 
 
 ## Shadow Parts

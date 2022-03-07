@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
-import { ESwitchButtonSize, ESwitchButtonState } from './switch-button.types';
+import { ESwitchButtonSize } from './switch-button.types';
 import throttle from 'lodash/throttle';
 
 /**
@@ -24,43 +24,26 @@ export class KvSwitchButton {
 
 	/** (optional) If `true` the button is disabled */
 	@Prop({ reflect: true }) disabled: boolean = false;
-
-	/** Watch `disabled` property for changes and update `isDisabled` accordingly */
-	@Watch('disabled')
-	disabledHandler(newValue: boolean) {
-		this.isDisabled = newValue === true;
-	}
-
-	/** (optional) If `ON` the button is ON */
-	@Prop({ reflect: true, mutable: true }) state: ESwitchButtonState = ESwitchButtonState.OFF;
+	/** (optional) If `true` the button is ON */
+	@Prop({ reflect: true, mutable: true }) checked: boolean = false;
 	/** (optional) Button's size */
 	@Prop() size: ESwitchButtonSize = ESwitchButtonSize.Large;
 
-	/** Watch `state` property for changes and update `isOn` accordingly */
-	@Watch('state')
-	stateHandler(newValue: ESwitchButtonState) {
-		this.isOn = newValue === ESwitchButtonState.ON;
-	}
-
 	/** Whether the label exist and it's not empty */
 	@State() hasLabel: boolean = this.label != null && this.label !== '';
-	/** Whether the state is ON or `true` */
-	@State() isOn: boolean = this.state === ESwitchButtonState.ON;
-	/** Whether the state is ON or `true` */
-	@State() isDisabled: boolean = this.disabled === true;
 
 	/** Emitted when switch's state changes */
-	@Event() switchStateChange: EventEmitter<ESwitchButtonState>;
+	@Event() switchChange: EventEmitter<boolean>;
 
 	private onSwitchClick: () => void;
 
 	private onStateChange() {
-		if (this.isDisabled) {
+		if (this.disabled) {
 			return;
 		}
 
-		this.state = this.isOn ? ESwitchButtonState.OFF : ESwitchButtonState.ON;
-		this.switchStateChange.emit(this.state);
+		this.checked = !this.checked;
+		this.switchChange.emit(this.checked);
 	}
 
 	connectedCallback() {
@@ -68,7 +51,7 @@ export class KvSwitchButton {
 	}
 
 	render() {
-		const iconName = this.isDisabled ? 'kv-lock' : 'kv-done-all';
+		const iconName = this.disabled ? 'kv-lock' : 'kv-done-all';
 
 		return (
 			<Host>
@@ -78,10 +61,9 @@ export class KvSwitchButton {
 						<div
 							class={{
 								'switch-button': true,
-								'switch-button--disabled': this.isDisabled,
-								'switch-button--on': this.isOn,
-								'switch-button--lg': this.size === ESwitchButtonSize.Large,
-								'switch-button--sm': this.size === ESwitchButtonSize.Small
+								'switch-button--disabled': this.disabled,
+								'switch-button--on': this.checked,
+								[`switch-button--${this.size}`]: true
 							}}
 							part="button"
 							onClick={this.onSwitchClick}
