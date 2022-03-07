@@ -1,4 +1,4 @@
-# *<kv-svg-icon>*
+# _<kv-svg-icon>_
 
 ## Styling Svg Icon Element
 
@@ -6,17 +6,17 @@ The `kv-svg-icon` element consists only of an icon that is displayed on the view
 
 ```css
 kv-svg-icon {
-  /* Applies to the icon color */
-  --icon-color: #103d73;
+	/* Applies to the icon color */
+	--icon-color: #103d73;
 
-  /* Set a different icon height value */
-  --icon-heigh: 16px;
-  
-  /* Set a different icon width value */
-  --icon-heigh: 16px;
+	/* Set a different icon height value */
+	--icon-height: 16px;
 
-  /* Set a different icon rotation */
-  --icon-rotation: 90deg;
+	/* Set a different icon width value */
+	--icon-width: 16px;
+
+	/* Set a different icon rotation */
+	--icon-rotation: 90deg;
 }
 ```
 
@@ -25,22 +25,23 @@ Alternatively, depending on the [browser support](https://caniuse.com/#feat=mdn-
 ```css
 /* Set the width and height of icon to the full container */
 kv-svg-icon::part(icon) {
-  width: 100%;
-  height: 100%;
+	width: 100%;
+	height: 100%;
 }
 
 /* Set the icon color */
 kv-svg-icon::part(icon) {
-  fill: kv-color(success);
+	fill: kv-color(success);
 }
 ```
-Notice that by using `::part`, any CSS property on the element can be targeted.  
 
-Additionally, we already have some predefined classes that can be applied to scale and rotate the icon. 
+Notice that by using `::part`, any CSS property on the element can be targeted.
 
-**Sizes**: `icon-8`, `icon-12`, `icon-16`, `icon-20`, `icon-24`, `icon-40`, `icon-full-size` 
+Additionally, we already have some predefined classes that can be applied to scale and rotate the icon.
 
-**Rotations**:  `rotate-0`, `rotate-45`, `rotate-90`, `rotate-135`, `rotate-180`, `rotate-225`, `rotate-270`, `rotate-315`
+**Sizes**: `icon-8`, `icon-12`, `icon-16`, `icon-20`, `icon-24`, `icon-40`, `icon-full-size`
+
+**Rotations**: `rotate-0`, `rotate-45`, `rotate-90`, `rotate-135`, `rotate-180`, `rotate-225`, `rotate-270`, `rotate-315`
 
 <!-- Auto Generated Below -->
 
@@ -121,11 +122,17 @@ export const SvgIconExample: React.FC = () => (
 
 ### Used by
 
+ - [kv-action-button-icon](../action-button-icon)
+ - [kv-action-button-split](../action-button-split)
+ - [kv-action-button-text](../action-button-text)
  - [kv-switch-button](../switch-button)
 
 ### Graph
 ```mermaid
 graph TD;
+  kv-action-button-icon --> kv-svg-icon
+  kv-action-button-split --> kv-svg-icon
+  kv-action-button-text --> kv-svg-icon
   kv-switch-button --> kv-svg-icon
   style kv-svg-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```
