@@ -1,0 +1,51 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --button-split-height-normal: Split button height when size is normal.
+	 * @prop --button-split-height-small: Split button height when size is size.
+	 * @prop --button-split-padding-x-normal: Split button horizontal padding when size is normal.
+	 * @prop --button-split-padding-x-small: Split button horizontal padding when size is size.
+	 * @prop --button-split-icon-width: Split button icon width.
+	 * @prop --button-split-icon-height: Split button icon height.
+	 */
+
+	--button-split-height-normal: 36px;
+	--button-split-height-small: 28px;
+	--button-split-padding-x-normal: #{$spacing-2x};
+	--button-split-padding-x-small: #{$spacing};
+	--button-split-icon-width: 24px;
+	--button-split-icon-height: 24px;
+}
+
+.action-button-split {
+	display: flex;
+	align-items: center;
+}
+
+kv-action-button-text::part(button) {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border-right-width: 0.5px;
+}
+
+kv-action-button::part(button) {
+	--button-height-normal: var(--button-split-height-normal);
+	--button-height-small: var(--button-split-height-small);
+	--button-padding-x-normal: var(--button-split-padding-x-normal);
+	--button-padding-x-small: var(--button-split-padding-x-small);
+
+	display: flex;
+
+	margin-left: -1px;
+
+	border-left-width: 0.5px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+kv-svg-icon {
+	--icon-width: var(--button-split-icon-width);
+	--icon-height: var(--button-split-icon-width);
+	display: flex;
+}
