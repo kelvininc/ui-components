@@ -1,54 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Switch Button (unit tests) when has a label should match the snapshot 1`] = `
-<kv-switch-button label="Switch" state="off">
+<kv-switch-button label="Switch">
   <mock:shadow-root>
     <div class="switch-button-container">
       <span class="label">
         Switch
       </span>
       <div class="switch-button-content">
-        <div class="switch-button">
-          <div class="check-square">
-            <svg class="svg-icon" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
-  </mock:shadow-root>
-</kv-switch-button>
-`;
-
-exports[`Switch Button (unit tests) when is ON should match the snapshot 1`] = `
-<kv-switch-button state="on">
-  <mock:shadow-root>
-    <div class="switch-button-container">
-      <div class="switch-button-content">
-        <div class="switch-button switch-button--on">
-          <div class="check-square">
-            <svg class="svg-icon" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
-  </mock:shadow-root>
-</kv-switch-button>
-`;
-
-exports[`Switch Button (unit tests) when is disabled should match the snapshot 1`] = `
-<kv-switch-button disabled="" state="off">
-  <mock:shadow-root>
-    <div class="switch-button-container">
-      <div class="switch-button-content">
-        <div class="switch-button switch-button--disabled">
-          <div class="check-square">
-            <svg class="svg-icon" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
-            </svg>
+        <div class="switch-button switch-button--large" part="button">
+          <div class="icon-square" part="icon-square">
+            <kv-svg-icon name="kv-done-all" part="icon-svg"></kv-svg-icon>
           </div>
         </div>
       </div>
@@ -58,15 +20,13 @@ exports[`Switch Button (unit tests) when is disabled should match the snapshot 1
 `;
 
 exports[`Switch Button (unit tests) when uses default props should match the snapshot 1`] = `
-<kv-switch-button state="off">
+<kv-switch-button>
   <mock:shadow-root>
     <div class="switch-button-container">
       <div class="switch-button-content">
-        <div class="switch-button">
-          <div class="check-square">
-            <svg class="svg-icon" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
-            </svg>
+        <div class="switch-button switch-button--large" part="button">
+          <div class="icon-square" part="icon-square">
+            <kv-svg-icon name="kv-done-all" part="icon-svg"></kv-svg-icon>
           </div>
         </div>
       </div>

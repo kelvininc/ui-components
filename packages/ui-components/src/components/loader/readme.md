@@ -73,4 +73,4 @@ export class LoaderExample {
 
 ----------------------------------------------
 
-*Built with [StencilJS](https://stenciljs.com/)*
+

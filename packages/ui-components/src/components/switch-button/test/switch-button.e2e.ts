@@ -1,7 +1,5 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
 
-import { ESwitchButtonState } from '../switch-button.types';
-
 describe('Switch Button (end-to-end)', () => {
 	let page: E2EPage;
 
@@ -17,12 +15,12 @@ describe('Switch Button (end-to-end)', () => {
 		});
 
 		describe('and user clicks on the button', () => {
-			let spyStateChangeEvent: EventSpy;
+			let spyChangeEvent: EventSpy;
 			let switchButtonElement: E2EElement;
 
 			beforeEach(async () => {
 				switchButtonElement = await page.find('kv-switch-button');
-				spyStateChangeEvent = await switchButtonElement.spyOnEvent('switchStateChange');
+				spyChangeEvent = await switchButtonElement.spyOnEvent('switchChange');
 
 				const buttonElement = await page.find('kv-switch-button >>> .switch-button');
 				await buttonElement.click();
@@ -30,13 +28,12 @@ describe('Switch Button (end-to-end)', () => {
 				await page.waitForTimeout(300);
 			});
 
-			it('should change `state` to `ON`', async () => {
-				expect(switchButtonElement).toHaveAttribute('state');
-				expect(switchButtonElement).toEqualAttribute('state', ESwitchButtonState.ON);
+			it('should change `checked` to true', async () => {
+				expect(switchButtonElement).toHaveAttribute('checked');
 			});
 
-			it('should emit `true` state', () => {
-				expect(spyStateChangeEvent).toHaveReceivedEventDetail(ESwitchButtonState.ON);
+			it('should emit switchChange event with true', () => {
+				expect(spyChangeEvent).toHaveReceivedEventDetail(true);
 			});
 		});
 	});
@@ -61,12 +58,12 @@ describe('Switch Button (end-to-end)', () => {
 		});
 
 		describe('and user clicks on the button', () => {
-			let spyStateChangeEvent: EventSpy;
+			let spyChangeEvent: EventSpy;
 			let switchButtonElement: E2EElement;
 
 			beforeEach(async () => {
 				switchButtonElement = await page.find('kv-switch-button');
-				spyStateChangeEvent = await switchButtonElement.spyOnEvent('switchStateChange');
+				spyChangeEvent = await switchButtonElement.spyOnEvent('switchChange');
 
 				const buttonElement = await page.find('kv-switch-button >>> .switch-button');
 				await buttonElement.click();
@@ -74,12 +71,12 @@ describe('Switch Button (end-to-end)', () => {
 				await page.waitForTimeout(300);
 			});
 
-			it('should not change `state` to `ON`', async () => {
-				expect(switchButtonElement).toEqualAttribute('state', ESwitchButtonState.OFF);
+			it('should not change `checked` to true', async () => {
+				expect(switchButtonElement).not.toHaveAttribute('checked');
 			});
 
-			it('should not emit `true` state', () => {
-				expect(spyStateChangeEvent).not.toHaveReceivedEvent();
+			it('should not emit switchChange event', () => {
+				expect(spyChangeEvent).not.toHaveReceivedEvent();
 			});
 		});
 	});
@@ -87,16 +84,16 @@ describe('Switch Button (end-to-end)', () => {
 	describe('when is ON', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-switch-button state="on"></kv-switch-button>');
+			await page.setContent('<kv-switch-button checked></kv-switch-button>');
 		});
 
 		describe('and user clicks on the switch', () => {
-			let spyStateChangeEvent: EventSpy;
+			let spyChangeEvent: EventSpy;
 			let switchButtonElement: E2EElement;
 
 			beforeEach(async () => {
 				switchButtonElement = await page.find('kv-switch-button');
-				spyStateChangeEvent = await switchButtonElement.spyOnEvent('switchStateChange');
+				spyChangeEvent = await switchButtonElement.spyOnEvent('switchChange');
 
 				const buttonElement = await page.find('kv-switch-button >>> .switch-button');
 				await buttonElement.click();
@@ -104,13 +101,12 @@ describe('Switch Button (end-to-end)', () => {
 				await page.waitForTimeout(300);
 			});
 
-			it('should change `state` to `OFF`', async () => {
-				expect(switchButtonElement).toHaveAttribute('state');
-				expect(switchButtonElement).toEqualAttribute('state', ESwitchButtonState.OFF);
+			it('should change `checked` to false', async () => {
+				expect(switchButtonElement).not.toHaveAttribute('checked');
 			});
 
-			it('should emit `OFF` state', () => {
-				expect(spyStateChangeEvent).toHaveReceivedEventDetail(ESwitchButtonState.OFF);
+			it('should emit switchChange event with false', () => {
+				expect(spyChangeEvent).toHaveReceivedEventDetail(false);
 			});
 		});
 	});

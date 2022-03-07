@@ -1,11 +1,77 @@
 @import '../../assets/styles/globals';
 
-$btn-height: 28px;
-$btn-width: 56px;
-$btn-radius: 4px;
-$sqr-size: 20px;
-$sqr-radius: 2px;
-$icon-size: 16px;
+// map sizes
+$btn-heights: (
+	'small': 16px,
+	'large': 20px
+);
+$btn-widths: (
+	'small': 32px,
+	'large': 40px
+);
+$sqr-sizes: (
+	'small': 11px,
+	'large': 16px
+);
+$sqr-paddings-x: (
+	'small': 2.5px,
+	'large': 2px
+);
+$sqr-paddings-y: (
+	'small': 2.5px,
+	'large': 2px
+);
+$icon-sizes: (
+	'small': 8px,
+	'large': 12px
+);
+
+@function get-sqr-x-translation($button-width, $square-size, $square-padding-x) {
+	@return $button-width - $square-size - $square-padding-x * 2;
+}
+
+@mixin button-theme($size) {
+	$btn-height: map-get($btn-heights, $size);
+	$btn-width: map-get($btn-widths, $size);
+	$sqr-size: map-get($sqr-sizes, $size);
+	$sqr-padding-x: map-get($sqr-paddings-x, $size);
+	$sqr-padding-y: map-get($sqr-paddings-y, $size);
+	$sqr-size: map-get($sqr-sizes, $size);
+	$icon-size: map-get($icon-sizes, $size);
+
+	height: $btn-height;
+	width: $btn-width;
+	padding: $sqr-padding-y $sqr-padding-x;
+
+	.icon-square {
+		height: $sqr-size;
+		width: $sqr-size;
+
+		kv-svg-icon {
+			--icon-width: #{$icon-size};
+			--icon-height: unset;
+		}
+	}
+
+	&.switch-button--on .icon-square {
+		$translation-x: get-sqr-x-translation($btn-width, $sqr-size, $sqr-padding-x);
+		transform: translateX($translation-x);
+	}
+}
+
+:host {
+	/**
+	 * @prop --label-text-color: Label text color.
+	 * @prop --off-background-color: Button background color when's OFF.
+	 * @prop --on-background-color: Button background color when's ON.
+	 * @prop --sqr-background-color: Icon square container background color.
+	 */
+
+	--label-text-color: #{kv-color('neutral-4')};
+	--off-background-color: #{kv-color('neutral-5')};
+	--on-background-color: #{kv-color('primary')};
+	--sqr-background-color: #{kv-color('primary', 'contrast')};
+}
 
 .switch-button-container {
 	display: inline-flex;
@@ -17,58 +83,53 @@ $icon-size: 16px;
 .label {
 	@include kv-font-label-small-uppercase-semibold;
 	flex-shrink: 0;
-	color: kv-color('neutral-4');
+	color: var(--label-text-color);
 	padding-right: $spacing-3x;
 }
 
 .switch-button {
 	box-sizing: border-box;
 
-	height: $btn-height;
-	width: $btn-width;
-
 	cursor: pointer;
-	border-radius: $btn-radius;
-	padding: $spacing;
+	border-radius: 4px;
 
-	background-color: kv-color('neutral-2');
+	background-color: var(--off-background-color);
 	transition: background-color 0.3s ease-out;
 
 	&--disabled {
-		cursor: default;
-		pointer-events: none;
-		opacity: 0.5;
+		cursor: not-allowed;
+		user-select: none;
 	}
 
 	&--on {
-		background-color: kv-color(success);
+		background-color: var(--on-background-color);
 
-		.check-square {
-			transform: translateX(28px);
-
-			.svg-icon {
-				fill: kv-color(success);
-			}
+		.icon-square kv-svg-icon::part(icon) {
+			fill: var(--on-background-color);
 		}
+	}
+
+	&--large {
+		@include button-theme('large');
+	}
+
+	&--small {
+		@include button-theme('small');
 	}
 }
 
-.check-square {
+.icon-square {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 
-	width: $sqr-size;
-	height: $sqr-size;
 	transition: transform 0.3s ease-out;
-	border-radius: $sqr-radius;
-	background-color: kv-color(success, contrast);
+	border-radius: 2px;
+	background-color: var(--sqr-background-color);
 
 	font-size: 0;
 
-	.svg-icon {
-		fill: kv-color('neutral-2');
-		width: $icon-size;
-		height: $icon-size;
+	kv-svg-icon {
+		--icon-color: #{var(--off-background-color)};
 	}
 }

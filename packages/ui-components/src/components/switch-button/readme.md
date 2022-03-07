@@ -84,20 +84,53 @@ export class SwichButtonExample {
 
 ## Properties
 
-| Property   | Attribute  | Description                                 | Type                                              | Default                  |
-| ---------- | ---------- | ------------------------------------------- | ------------------------------------------------- | ------------------------ |
-| `disabled` | `disabled` | (optional) If `true` the button is disabled | `boolean`                                         | `false`                  |
-| `label`    | `label`    | (optional) Button's label                   | `string`                                          | `''`                     |
-| `state`    | `state`    | (optional) If `ON` the button is ON         | `ESwitchButtonState.OFF \| ESwitchButtonState.ON` | `ESwitchButtonState.OFF` |
+| Property   | Attribute  | Description                                 | Type                                                 | Default                   |
+| ---------- | ---------- | ------------------------------------------- | ---------------------------------------------------- | ------------------------- |
+| `checked`  | `checked`  | (optional) If `true` the button is ON       | `boolean`                                            | `false`                   |
+| `disabled` | `disabled` | (optional) If `true` the button is disabled | `boolean`                                            | `false`                   |
+| `label`    | `label`    | (optional) Button's label                   | `string`                                             | `''`                      |
+| `size`     | `size`     | (optional) Button's size                    | `ESwitchButtonSize.Large \| ESwitchButtonSize.Small` | `ESwitchButtonSize.Large` |
 
 
 ## Events
 
-| Event               | Description                         | Type                                                           |
-| ------------------- | ----------------------------------- | -------------------------------------------------------------- |
-| `switchStateChange` | Emitted when switch's state changes | `CustomEvent<ESwitchButtonState.OFF \| ESwitchButtonState.ON>` |
+| Event          | Description                         | Type                   |
+| -------------- | ----------------------------------- | ---------------------- |
+| `switchChange` | Emitted when switch's state changes | `CustomEvent<boolean>` |
 
+
+## Shadow Parts
+
+| Part            | Description                       |
+| --------------- | --------------------------------- |
+| `"button"`      | The switch button.                |
+| `"icon-square"` | The switch icon square container. |
+| `"icon-svg"`    | The switch icon.                  |
+
+
+## CSS Custom Properties
+
+| Name                     | Description                             |
+| ------------------------ | --------------------------------------- |
+| `--label-text-color`     | Label text color.                       |
+| `--off-background-color` | Button background color when's OFF.     |
+| `--on-background-color`  | Button background color when's ON.      |
+| `--sqr-background-color` | Icon square container background color. |
+
+
+## Dependencies
+
+### Depends on
+
+- [kv-svg-icon](../svg-icon)
+
+### Graph
+```mermaid
+graph TD;
+  kv-switch-button --> kv-svg-icon
+  style kv-switch-button fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 
-*Built with [StencilJS](https://stenciljs.com/)*
+

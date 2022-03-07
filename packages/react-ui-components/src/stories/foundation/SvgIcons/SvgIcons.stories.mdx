@@ -1,0 +1,60 @@
+import { Meta } from '@storybook/addon-docs';
+import style from './SvgIcons.scss';
+import { icons, illustrations, otherIcons} from './SvgIcons-list';
+
+<Meta
+	parameters={{
+		viewMode: 'docs',
+		options: { isToolshown: false }
+	}}
+	title="Foundation/Icons & Illustrations"
+/>
+
+# Spatial System
+
+All our icons and illustrations are build with [Scalable Vector Graphics (SVGs)](https://www.w3.org/TR/SVG/intro.html), crafted to a variety of devices, screen sizes, and display resolutions keeping quality scalability and responsiveness.
+
+## Icons pack
+
+<div class="svgs-container">
+	{icons.map(icn => (
+		<div key={icn} class="icon-wrapper">
+			<div class="box-wrapper">
+				<kv-svg-icon name={icn} custom-class="icon-24"></kv-svg-icon>
+			</div>
+			<div class="description">
+				<span class="code">{icn}</span>
+			</div>
+		</div>
+	))}
+</div>
+
+### Other Icons
+
+<div class="svgs-container">
+	{otherIcons.map(icn => (
+		<div key={icn} class="icon-wrapper">
+			<div class="box-wrapper">
+				<kv-svg-icon name={icn} custom-class="icon-24"></kv-svg-icon>
+			</div>
+			<div class="description">
+				<span class="code">{icn}</span>
+			</div>
+		</div>
+	))}
+</div>
+
+## Illustrations pack
+
+<div class="svgs-container">
+	{illustrations.map(icn => (
+		<div key={icn} class="ilus-wrapper">
+			<div class="box-wrapper">
+				<kv-svg-icon name={icn} custom-class="icon-full-size"></kv-svg-icon>
+			</div>
+			<div class="description">
+				<span class="code">{icn}</span>
+			</div>
+		</div>
+	))}
+</div>

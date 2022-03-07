@@ -1,8 +1,12 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
-
-import { ESwitchButtonState } from './switch-button.types';
+import { ESwitchButtonSize } from './switch-button.types';
 import throttle from 'lodash/throttle';
 
+/**
+ * @part icon-svg - The switch icon.
+ * @part icon-square - The switch icon square container.
+ * @part button - The switch button.
+ */
 @Component({
 	tag: 'kv-switch-button',
 	styleUrl: 'switch-button.scss',
@@ -20,37 +24,26 @@ export class KvSwitchButton {
 
 	/** (optional) If `true` the button is disabled */
 	@Prop({ reflect: true }) disabled: boolean = false;
-
-	/** Watch `disabled` property for changes and update `isDisabled` accordingly */
-	@Watch('disabled')
-	disabledHandler(newValue: boolean) {
-		this.isDisabled = newValue === true;
-	}
-
-	/** (optional) If `ON` the button is ON */
-	@Prop({ reflect: true, mutable: true }) state: ESwitchButtonState = ESwitchButtonState.OFF;
-
-	/** Watch `state` property for changes and update `isOn` accordingly */
-	@Watch('state')
-	stateHandler(newValue: ESwitchButtonState) {
-		this.isOn = newValue === ESwitchButtonState.ON;
-	}
+	/** (optional) If `true` the button is ON */
+	@Prop({ reflect: true, mutable: true }) checked: boolean = false;
+	/** (optional) Button's size */
+	@Prop() size: ESwitchButtonSize = ESwitchButtonSize.Large;
 
 	/** Whether the label exist and it's not empty */
 	@State() hasLabel: boolean = this.label != null && this.label !== '';
-	/** Whether the state is ON or `true` */
-	@State() isOn: boolean = this.state === ESwitchButtonState.ON;
-	/** Whether the state is ON or `true` */
-	@State() isDisabled: boolean = this.disabled === true;
 
 	/** Emitted when switch's state changes */
-	@Event() switchStateChange: EventEmitter<ESwitchButtonState>;
+	@Event() switchChange: EventEmitter<boolean>;
 
 	private onSwitchClick: () => void;
 
 	private onStateChange() {
-		this.state = this.isOn ? ESwitchButtonState.OFF : ESwitchButtonState.ON;
-		this.switchStateChange.emit(this.state);
+		if (this.disabled) {
+			return;
+		}
+
+		this.checked = !this.checked;
+		this.switchChange.emit(this.checked);
 	}
 
 	connectedCallback() {
@@ -58,6 +51,8 @@ export class KvSwitchButton {
 	}
 
 	render() {
+		const iconName = this.disabled ? 'kv-lock' : 'kv-done-all';
+
 		return (
 			<Host>
 				<div class="switch-button-container">
@@ -66,16 +61,15 @@ export class KvSwitchButton {
 						<div
 							class={{
 								'switch-button': true,
-								'switch-button--disabled': this.isDisabled,
-								'switch-button--on': this.isOn
+								'switch-button--disabled': this.disabled,
+								'switch-button--on': this.checked,
+								[`switch-button--${this.size}`]: true
 							}}
+							part="button"
 							onClick={this.onSwitchClick}
 						>
-							{/* TODO: Replace this when we add the icons } */}
-							<div class="check-square">
-								<svg class="svg-icon" height="16" width="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-									<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-								</svg>
+							<div class="icon-square" part="icon-square">
+								<kv-svg-icon name={iconName} part="icon-svg" />
 							</div>
 						</div>
 					</div>

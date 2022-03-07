@@ -90,4 +90,4 @@ export class SwichButtonExample {
 
 ----------------------------------------------
 
-*Built with [StencilJS](https://stenciljs.com/)*
+

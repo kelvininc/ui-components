@@ -1,0 +1,107 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --icon-color: Color of the icon
+	 * @prop --icon-height: Height of icon
+	 * @prop --icon-width: Width of icon
+	 * @prop --icon-rotation: Rotation of icon
+	 */
+	--icon-color: #{kv-color('text')};
+	--icon-height: 16px;
+	--icon-width: 16px;
+	--icon-rotation: 0deg;
+}
+
+.svg-icon {
+	/**
+	 * @prop --illustration-color: Base color used in the illustration
+	 * @prop --illustration-color-light-90: 90% lighter version of the illustration base color
+	 * @prop --illustration-color-light-80: 80% lighter version of the illustration base color
+	 * @prop --illustration-color-dark-55: 55% darker version of the illustration base color
+	 * @prop --illustration-color-dark-35: 35% darker version of the illustration base color
+	 * @prop --illustration-success-color: Success color used in the illustration
+	 */
+	--illustration-color: var(--kv-illustrations-color, #{$primary-color});
+	--illustration-color-light-90: var(--kv-illustrations-color-light-90, #{mix(#fff, $primary-color, 89.5%)});
+	--illustration-color-light-80: var(--kv-illustrations-color-light-80, #{mix(#fff, $primary-color, 78.5%)});
+	--illustration-color-dark-55: var(--kv-illustrations-color-dark-55, #{mix(#000, $primary-color, 54.5%)});
+	--illustration-color-dark-35: var(--kv-illustrations-color-dark-35, #{mix(#000, $primary-color, 36%)});
+	--illustration-success-color: var(--kv-illustrations-success-color, #{$success-color});
+
+	fill: var(--icon-color);
+	width: var(--icon-width);
+	height: var(--icon-height);
+	transform: rotate(var(--icon-rotation));
+
+	/* SIZES */
+	&.icon-8 {
+		width: 8px;
+		height: 8px;
+	}
+
+	&.icon-12 {
+		width: 12px;
+		height: 12px;
+	}
+
+	&.icon-16 {
+		width: 16px;
+		height: 16px;
+	}
+
+	&.icon-20 {
+		width: 20px;
+		height: 20px;
+	}
+
+	&.icon-24 {
+		width: 24px;
+		height: 24px;
+	}
+
+	&.icon-40 {
+		width: 40px;
+		height: 40px;
+	}
+
+	&.icon-full-size {
+		width: 100%;
+		height: 100%;
+	}
+
+
+	/* ROTATIONS */
+	&.rotate-0 {
+		transform: rotate(0deg);
+	}
+
+	&.rotate-45 {
+		transform: rotate(45deg);
+	}
+
+	&.rotate-90 {
+		transform: rotate(90deg);
+	}
+
+	&.rotate-135 {
+		transform: rotate(135deg);
+	}
+
+	&.rotate-180 {
+		transform: rotate(180deg);
+	}
+
+	&.rotate-225 {
+		transform: rotate(225deg);
+	}
+
+	&.rotate-270 {
+		transform: rotate(270deg);
+	}
+
+	&.rotate-315 {
+		transform: rotate(315deg);
+	}
+
+}

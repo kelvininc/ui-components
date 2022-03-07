@@ -1,4 +1,4 @@
-@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
+@import '../../../../assets/styles/globals.scss';
 
 :export{
 	spacing: $spacing;
@@ -28,19 +28,19 @@
 		display: flex;
 		width: 150px;
 		height: 150px;
-		
+
 		align-items: center;
 		justify-content: center;
-	
-		
-		background: #f2f2f2;
+
+
+		background: kv-color('neutral-7');
 		border-radius: 4px;
-	
+
 		.box {
 			background-color: kv-color('primary');
 		}
 	}
-	
+
 	.description {
 		display: flex;
 		justify-content: space-between;
