@@ -14,11 +14,11 @@ $sqr-sizes: (
 	'large': 16px
 );
 $sqr-paddings-x: (
-	'small': 2.3px,
+	'small': 2.5px,
 	'large': 2px
 );
 $sqr-paddings-y: (
-	'small': 2.7px,
+	'small': 2.5px,
 	'large': 2px
 );
 $icon-sizes: (
@@ -109,11 +109,11 @@ $icon-sizes: (
 		}
 	}
 
-	&--lg {
+	&--large {
 		@include button-theme('large');
 	}
 
-	&--sm {
+	&--small {
 		@include button-theme('small');
 	}
 }
@@ -130,6 +130,6 @@ $icon-sizes: (
 	font-size: 0;
 
 	kv-svg-icon {
-		--icon-color: var(--off-background-color);
+		--icon-color: #{var(--off-background-color)};
 	}
 }
