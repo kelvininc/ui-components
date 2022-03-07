@@ -6,6 +6,22 @@
 </script>
 
 <style>
+	::-webkit-scrollbar {
+		width: 7px;
+		height: 5px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		border-radius: 5px;
+		background-color: #707070;
+		border: 1px solid transparent;
+		background-clip: content-box;
+	}
+
+	::-webkit-scrollbar-corner {
+		background-color: transparent;
+	}
+
 	.sidebar-header div a:focus{
 		border: none
 	}
@@ -23,6 +39,14 @@
 		letter-spacing: normal;
 	} 
 
+	.addon-notes-container p code {
+		line-height: 1;
+		padding: 3px 5px !important;
+		border: 1px solid #444444 !important;
+		color: rgba(255,255,255,0.7) !important;
+		background-color: rgba(0,0,0,.1) !important;
+	}
+
 	.addon-notes-container table {
 		display: block;
 		overflow-x: auto;
@@ -31,6 +55,17 @@
 	.addon-notes-container table td code{
 		white-space: pre-wrap;
 		word-wrap: break-word;
+		padding: 3px 5px !important;
+		border: 1px solid #444444 !important;
+		color: rgba(255,255,255,0.7) !important;
+		background-color: rgba(0,0,0,.1) !important;
 	}
 
+	.addon-notes-container table tr {
+		background-color: transparent !important;
+	}
+
+	.addon-notes-container table tr:nth-of-type(2n) {
+		background-color: transparent !important;
+	}
 </style>

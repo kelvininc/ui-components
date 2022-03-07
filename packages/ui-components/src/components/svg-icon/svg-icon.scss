@@ -7,7 +7,7 @@
 	 * @prop --icon-width: Width of icon
 	 * @prop --icon-rotation: Rotation of icon
 	 */
-	--icon-color: kv-color('text');
+	--icon-color: #{kv-color('text')};
 	--icon-height: 16px;
 	--icon-width: 16px;
 	--icon-rotation: 0deg;

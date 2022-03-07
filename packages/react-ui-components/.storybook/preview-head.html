@@ -3,12 +3,75 @@
 <link rel="stylesheet" type="text/css" href="fonts/font-proxima-nova.css">
 <link rel="stylesheet/scss" type="text/css" href="fonts/font-incosolata.css">
 
-
 <!-- DEFAULT STYLE for all stories -->
 <style>
+	::-webkit-scrollbar {
+		width: 7px;
+		height: 5px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		border-radius: 5px;
+		background-color: #707070;
+		border: 1px solid transparent;
+		background-clip: content-box;
+	}
+
+	::-webkit-scrollbar-corner {
+		background-color: transparent;
+	}
+
 	body {
 		margin: 0;
 		box-sizing: border-box;
 		padding: 10px;
+		background-color: var(--kv-background);
+	}
+	
+	.light {
+		/* FONTS */
+		--kv-primary-font: 'proxima-nova';
+		--kv-console-font: 'Inconsolata';
+
+		/* Text and Background Colors */
+		--kv-text: #202020;
+		--kv-text-rgb: 32, 32, 32;
+		
+		--kv-background: #fff;
+		--kv-background-rgb: 255, 255, 255;
+
+		/* Neutral Color are used to provide variations in text and background colors of elements. */
+		/*--kv-neutral-0: #121212;
+		--kv-neutral-0-rgb: 18, 18, 18;
+		--kv-neutral-1: #202020;
+		--kv-neutral-1-rgb: 32, 32, 32;
+		--kv-neutral-1: #2a2a2a;
+		--kv-neutral-1-rgb: 42, 42, 42;
+		--kv-neutral-3: #3f3f3f;
+		--kv-neutral-3-rgb: 63, 63, 63;
+		--kv-neutral-4: #707070;
+		--kv-neutral-4-rgb: 112, 112, 112;
+		--kv-neutral-5: #bebebe;
+		--kv-neutral-5-rgb: 190, 190, 190;
+		--kv-neutral-6: #ddd;
+		--kv-neutral-6-rgb: 221, 221, 221;
+		--kv-neutral-7: #e5e5e5;
+		--kv-neutral-7-rgb: 229, 229, 229;
+		--kv-neutral-8: #f2f2f6;
+		--kv-neutral-8-rgb: 242, 242, 246;
+		--kv-neutral-9: #fff;
+		--kv-neutral-9-rgb: 255, 255, 255;
+		*/
+	}
+
+	.night {
+		--kv-primary-font: 'proxima-nova';
+
+		/* Default Text and Background Colors */
+		--kv-text: #fff;
+		--kv-text-rgb: 255, 255, 255;
+		
+		--kv-background: #202020;
+		--kv-background-rgb: 32, 32, 32;
 	}
 </style>
