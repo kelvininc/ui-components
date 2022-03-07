@@ -8,9 +8,9 @@ export default {
 	title: 'Components/TagLetter',
 	component: 'kv-tag-letter',
 	argTypes: {
-		color: { type: 'color' },
-		label: { type: 'text' },
-		tagLetter: { type: 'text' }
+		color: { control: { type: 'color' } },
+		label: { control: { type: 'text' } },
+		tagLetter: { control: { type: 'text' } }
 	},
 	parameters: {
 		notes: require('@ui-notes/tag-letter/readme.md')

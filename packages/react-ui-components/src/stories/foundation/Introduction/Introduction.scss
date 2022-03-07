@@ -1,4 +1,8 @@
-@import "../../../assets/styles/globals.scss";
+@import "../../../../assets/styles/globals.scss";
+
+.version {
+	color: kv-color('neutral-5');
+}
 
 .intro-header {
 	display: flex;
@@ -17,7 +21,7 @@
 			position: absolute;
 			bottom: 0;
 			right: 0;
-			color: grey;
+			color: kv-color('neutral-5');
 			@include kv-font-label-xsmall-light;
 			font-size: 1.5rem;
 		}

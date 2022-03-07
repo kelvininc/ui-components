@@ -8,6 +8,7 @@
 		.label {
 			@include kv-font-h5-semibold();
 			text-decoration: none;
+			user-select: none;
 			color: kv-color('text');
 			cursor: pointer;
 

@@ -1,5 +1,5 @@
 import { addons } from '@storybook/addons';
-import kelvinTheme from './KelvinTheme';
+import kelvinTheme from './themes/KelvinTheme';
 
 addons.setConfig({
   theme: kelvinTheme

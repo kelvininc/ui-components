@@ -8,7 +8,7 @@ module.exports = {
 	addons: [
 		"@storybook/addon-links",
 		"@storybook/addon-essentials",
-		"@etchteam/storybook-addon-css-variables-theme",
+		'storybook-addon-themes',
 		"storybook-addon-sass-postcss",
 		'@pxtrn/storybook-addon-docs-stencil',
 		'@storybook/addon-notes/register'

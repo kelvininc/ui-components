@@ -1,4 +1,4 @@
-@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
+@import '../../../../assets/styles/globals.scss';
 
 :export{
 	spacing: $spacing;
@@ -33,7 +33,7 @@
 		justify-content: center;
 
 
-		background: #f2f2f6;
+		background: kv-color('neutral-7');
 		border-radius: 4px;
 
 		.box {
