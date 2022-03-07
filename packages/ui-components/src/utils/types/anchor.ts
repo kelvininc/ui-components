@@ -6,8 +6,10 @@ export enum EAnchorTarget {
 }
 
 export interface IAnchor {
+	/** (optional) The anchor's link to open when clicking */
 	href?: string;
+	/** (optional) The anchor's target */
 	target?: EAnchorTarget;
-	rel?: string;
+	/** (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename */
 	download?: string;
 }

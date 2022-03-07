@@ -1,150 +1,432 @@
 @import '../../assets/styles/globals';
 
-@mixin button-animation($primary-color, $gradient-color) {
-	background: linear-gradient(45deg, $gradient-color 50%, $primary-color 50%);
-	background-size: 300% 100%;
-	transition: background 0.3s ease-out;
+$btn-text-colors: (
+	default: (
+		primary: kv-color('text'),
+		secondary: kv-color('text'),
+		tertiary: kv-color('text'),
+		danger: kv-color('text')
+	),
+	hover: (
+		primary: kv-color('text'),
+		secondary: kv-color('text'),
+		tertiary: kv-color('neutral-2'),
+		danger: kv-color('text')
+	),
+	focus: (
+		primary: kv-color('text'),
+		secondary: kv-color('text'),
+		tertiary: kv-color('text'),
+		danger: kv-color('text')
+	),
+	disabled: (
+		primary: kv-color('neutral-5'),
+		secondary: kv-color('neutral-5'),
+		tertiary: kv-color('neutral-5'),
+		danger: kv-color('text')
+	),
+	active: (
+		primary: kv-color('text'),
+		secondary: kv-color('text'),
+		tertiary: kv-color('text'),
+		danger: kv-color('text')
+	)
+);
+$btn-background-colors: (
+	default: (
+		primary: kv-color('primary'),
+		secondary: kv-color('neutral-6'),
+		tertiary: transparent,
+		danger: kv-color('error')
+	),
+	hover: (
+		primary: kv-color('primary', 'dark'),
+		secondary: kv-color('neutral-5'),
+		tertiary: transparent,
+		danger: kv-color('error', 'dark')
+	),
+	focus: (
+		primary: kv-color('primary'),
+		secondary: kv-color('neutral-6'),
+		tertiary: transparent,
+		danger: kv-color('error')
+	),
+	disabled: (
+		primary: kv-color('neutral-3'),
+		secondary: kv-color('neutral-3'),
+		tertiary: kv-color('neutral-0'),
+		danger: kv-color('error', 'light')
+	),
+	active: (
+		primary: kv-color('primary'),
+		secondary: kv-color('neutral-6'),
+		tertiary: transparent,
+		danger: kv-color('error')
+	)
+);
+$btn-border-colors: (
+	default: (
+		primary: null,
+		secondary: null,
+		tertiary: kv-color('neutral-0'),
+		danger: null
+	),
+	hover: (
+		primary: null,
+		secondary: null,
+		tertiary: kv-color('neutral-2'),
+		danger: null
+	),
+	focus: (
+		primary: kv-color('primary'),
+		secondary: kv-color('neutral-0'),
+		tertiary: null,
+		danger: null
+	),
+	disabled: (
+		primary: null,
+		secondary: null,
+		tertiary: kv-color('neutral-5'),
+		danger: null
+	),
+	active: (
+		primary: null,
+		secondary: null,
+		tertiary: kv-color('neutral-0'),
+		danger: null
+	)
+);
+$btn-heights: (
+	small: 28px,
+	large: 36px
+);
+
+$btn-paddings-x: (
+	small: $spacing-3x,
+	large: $spacing-4x
+);
+
+@function get-text-color($state, $type) {
+	$values: map-get($btn-text-colors, $state);
+	@if ($values) {
+		@return map-get($values, $type);
+	}
+
+	@return null;
+}
+@function get-background-color($state, $type) {
+	$values: map-get($btn-background-colors, $state);
+	@if ($values) {
+		@return map-get($values, $type);
+	}
+
+	@return null;
+}
+@function get-border-color($state, $type) {
+	$values: map-get($btn-border-colors, $state);
+	@if ($values) {
+		@return map-get($values, $type);
+	}
+
+	@return null;
+}
+@function get-height($size) {
+	@return map-get($btn-heights, $size);
+}
+@function get-horizontal-padding($size) {
+	@return map-get($btn-paddings-x, $size);
+}
+
+@mixin button-text-theme($type) {
+	$btn-default-text-color: var(--text-color-default-#{$type});
+	$btn-hover-text-color: var(--text-color-hover-#{$type});
+	$btn-focus-text-color: var(--text-color-focus-#{$type});
+	$btn-disabled-text-color: var(--text-color-disabled-#{$type});
+	$btn-active-text-color: var(--text-color-active-#{$type});
+
+	color: $btn-default-text-color;
+
+	::slotted(kv-svg-icon) {
+		--icon-color: #{$btn-default-text-color};
+	}
+
+	&:hover:not(.action-button--disabled) {
+		color: $btn-hover-text-color;
+
+		::slotted(kv-svg-icon) {
+			--icon-color: #{$btn-hover-text-color};
+		}
+	}
+
+	&:focus:not(.action-button--disabled) {
+		color: $btn-focus-text-color;
+
+		::slotted(kv-svg-icon) {
+			--icon-color: #{$btn-focus-text-color};
+		}
+	}
+
+	&.action-button--disabled {
+		color: $btn-disabled-text-color;
+
+		::slotted(kv-svg-icon) {
+			--icon-color: #{$btn-disabled-text-color};
+		}
+	}
+
+	&.action-button--active {
+		color: $btn-active-text-color;
+
+		::slotted(kv-svg-icon) {
+			--icon-color: #{$btn-active-text-color};
+		}
+	}
+}
+@mixin button-background-theme($type) {
+	$btn-default-background-color: var(--background-color-default-#{$type});
+	$btn-hover-background-color: var(--background-color-hover-#{$type});
+	$btn-focus-background-color: var(--background-color-focus-#{$type});
+	$btn-disabled-background-color: var(--background-color-disabled-#{$type});
+	$btn-active-background-color: var(--background-color-active-#{$type});
+
+	background: linear-gradient(45deg, $btn-hover-background-color 50%, $btn-default-background-color 50%);
+	background-size: 350% 100%;
+	background-position: right bottom;
+	transition: background-position 0.5s ease-out;
+
+	&:hover:not(.action-button--disabled) {
+		background-position: left top;
+	}
+
+	&:focus:not(.action-button--disabled) {
+		background: $btn-focus-background-color;
+	}
+
+	&.action-button--disabled {
+		background: $btn-disabled-background-color;
+	}
+
+	&.action-button--active {
+		background: $btn-active-background-color;
+	}
+}
+@mixin button-border-theme($type) {
+	$btn-default-border-color: var(--border-color-default-#{$type});
+	$btn-hover-border-color: var(--border-color-hover-#{$type});
+	$btn-focus-border-color: var(--border-color-focus-#{$type});
+	$btn-disabled-border-color: var(--border-color-disabled-#{$type});
+	$btn-active-border-color: var(--border-color-active-#{$type});
+
+	border: 1px solid $btn-default-border-color;
+
+	&:hover:not(.action-button--disabled) {
+		border: 1px solid $btn-hover-border-color;
+	}
+
+	&:focus:not(.action-button--disabled) {
+		&::before {
+			position: absolute;
+			content: '';
+			filter: blur(2px);
+			background: $btn-focus-border-color;
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	&.action-button--disabled {
+		border: 1px solid $btn-disabled-border-color;
+	}
+
+	&.action-button--active {
+		border: 1px solid $btn-active-border-color;
+	}
+}
+
+@mixin button-type-theme($type) {
+	@include button-text-theme($type);
+	@include button-background-theme($type);
+	@include button-border-theme($type);
+}
+@mixin button-size-theme($size) {
+	height: var(--button-height-#{$size});
+	padding: 0 var(--button-padding-x-#{$size});
 }
 
 :host {
-	.action-btn-container {
-		position: relative;
-		display: inline-flex;
+	/**
+	 * @prop --text-color-default-primary: Text color when state is default and theme is primary.
+	 * @prop --text-color-default-secondary: Text color when state is default and theme is secondary.
+	 * @prop --text-color-default-tertiary: Text color when state is default and theme is tertiary.
+	 * @prop --text-color-default-danger: Text color when state is default and theme is danger.
+	 * @prop --text-color-hover-primary: Text color when state is hover and theme is primary.
+	 * @prop --text-color-hover-secondary: Text color when state is hover and theme is secondary.
+	 * @prop --text-color-hover-tertiary: Text color when state is hover and theme is tertiary.
+	 * @prop --text-color-hover-danger: Text color when state is hover and theme is danger.
+	 * @prop --text-color-focus-primary: Text color when state is focus and theme is primary.
+	 * @prop --text-color-focus-secondary: Text color when state is focus and theme is secondary.
+	 * @prop --text-color-focus-tertiary: Text color when state is focus and theme is tertiary.
+	 * @prop --text-color-focus-danger: Text color when state is focus and theme is danger.
+	 * @prop --text-color-disabled-primary: Text color when state is disabled and theme is primary.
+	 * @prop --text-color-disabled-secondary: Text color when state is disabled and theme is secondary.
+	 * @prop --text-color-disabled-tertiary: Text color when state is disabled and theme is tertiary.
+	 * @prop --text-color-disabled-danger: Text color when state is disabled and theme is danger.
+	 * @prop --text-color-active-primary: Text color when state is active and theme is primary.
+	 * @prop --text-color-active-secondary: Text color when state is active and theme is secondary.
+	 * @prop --text-color-active-tertiary: Text color when state is active and theme is tertiary.
+	 * @prop --text-color-active-danger: Text color when state is active and theme is danger.
+	 * @prop --background-color-default-primary: Background color when state is default and theme is primary.
+	 * @prop --background-color-default-secondary: Background color when state is default and theme is secondary.
+	 * @prop --background-color-default-tertiary: Background color when state is default and theme is tertiary.
+	 * @prop --background-color-default-danger: Background color when state is default and theme is danger.
+	 * @prop --background-color-hover-primary: Background color when state is hover and theme is primary.
+	 * @prop --background-color-hover-secondary: Background color when state is hover and theme is secondary.
+	 * @prop --background-color-hover-tertiary: Background color when state is hover and theme is tertiary.
+	 * @prop --background-color-hover-danger: Background color when state is hover and theme is danger.
+	 * @prop --background-color-focus-primary: Background color when state is focus and theme is primary.
+	 * @prop --background-color-focus-secondary: Background color when state is focus and theme is secondary.
+	 * @prop --background-color-focus-tertiary: Background color when state is focus and theme is tertiary.
+	 * @prop --background-color-focus-danger: Background color when state is focus and theme is danger.
+	 * @prop --background-color-disabled-primary: Background color when state is disabled and theme is primary.
+	 * @prop --background-color-disabled-secondary: Background color when state is disabled and theme is secondary.
+	 * @prop --background-color-disabled-tertiary: Background color when state is disabled and theme is tertiary.
+	 * @prop --background-color-disabled-danger: Background color when state is disabled and theme is danger.
+	 * @prop --background-color-active-primary: Background color when state is active and theme is primary.
+	 * @prop --background-color-active-secondary: Background color when state is active and theme is secondary.
+	 * @prop --background-color-active-tertiary: Background color when state is active and theme is tertiary.
+	 * @prop --background-color-active-danger: Background color when state is active and theme is danger.
+	 * @prop --border-color-default-primary: Border color when state is default and theme is primary.
+	 * @prop --border-color-default-secondary: Border color when state is default and theme is secondary.
+	 * @prop --border-color-default-tertiary: Border color when state is default and theme is tertiary.
+	 * @prop --border-color-default-danger: Border color when state is default and theme is danger.
+	 * @prop --border-color-hover-primary: Border color when state is hover and theme is primary.
+	 * @prop --border-color-hover-secondary: Border color when state is hover and theme is secondary.
+	 * @prop --border-color-hover-tertiary: Border color when state is hover and theme is tertiary.
+	 * @prop --border-color-hover-danger: Border color when state is hover and theme is danger.
+	 * @prop --border-color-focus-primary: Border color when state is focus and theme is primary.
+	 * @prop --border-color-focus-secondary: Border color when state is focus and theme is secondary.
+	 * @prop --border-color-focus-tertiary: Border color when state is focus and theme is tertiary.
+	 * @prop --border-color-focus-danger: Border color when state is focus and theme is danger.
+	 * @prop --border-color-disabled-primary: Border color when state is disabled and theme is primary.
+	 * @prop --border-color-disabled-secondary: Border color when state is disabled and theme is secondary.
+	 * @prop --border-color-disabled-tertiary: Border color when state is disabled and theme is tertiary.
+	 * @prop --border-color-disabled-danger: Border color when state is disabled and theme is danger.
+	 * @prop --border-color-active-primary: Border color when state is active and theme is primary.
+	 * @prop --border-color-active-secondary: Border color when state is active and theme is secondary.
+	 * @prop --border-color-active-tertiary: Border color when state is active and theme is tertiary.
+	 * @prop --border-color-active-danger: Border color when state is active and theme is danger.
+	 * @prop --button-height-large: Button's height when size large.
+	 * @prop --button-height-small: Button's height when size small.
+	 * @prop --button-padding-x-large: Button's horizontal padding when size is large.
+	 * @prop --button-padding-x-small: Button's horizontal padding when size is small.
+	 */
+
+	// text colors
+	--text-color-default-primary: #{get-text-color('default', 'primary')};
+	--text-color-default-secondary: #{get-text-color('default', 'secondary')};
+	--text-color-default-tertiary: #{get-text-color('default', 'tertiary')};
+	--text-color-default-danger: #{get-text-color('default', 'danger')};
+	--text-color-hover-primary: #{get-text-color('hover', 'primary')};
+	--text-color-hover-secondary: #{get-text-color('hover', 'secondary')};
+	--text-color-hover-tertiary: #{get-text-color('hover', 'tertiary')};
+	--text-color-hover-danger: #{get-text-color('hover', 'danger')};
+	--text-color-focus-primary: #{get-text-color('focus', 'primary')};
+	--text-color-focus-secondary: #{get-text-color('focus', 'secondary')};
+	--text-color-focus-tertiary: #{get-text-color('focus', 'tertiary')};
+	--text-color-focus-danger: #{get-text-color('focus', 'danger')};
+	--text-color-disabled-primary: #{get-text-color('disabled', 'primary')};
+	--text-color-disabled-secondary: #{get-text-color('disabled', 'secondary')};
+	--text-color-disabled-tertiary: #{get-text-color('disabled', 'tertiary')};
+	--text-color-disabled-danger: #{get-text-color('disabled', 'danger')};
+	--text-color-active-primary: #{get-text-color('active', 'primary')};
+	--text-color-active-secondary: #{get-text-color('active', 'secondary')};
+	--text-color-active-tertiary: #{get-text-color('active', 'tertiary')};
+	--text-color-active-danger: #{get-text-color('active', 'danger')};
+
+	// background colors
+	--background-color-default-primary: #{get-background-color('default', 'primary')};
+	--background-color-default-secondary: #{get-background-color('default', 'secondary')};
+	--background-color-default-tertiary: #{get-background-color('default', 'tertiary')};
+	--background-color-default-danger: #{get-background-color('default', 'danger')};
+	--background-color-hover-primary: #{get-background-color('hover', 'primary')};
+	--background-color-hover-secondary: #{get-background-color('hover', 'secondary')};
+	--background-color-hover-tertiary: #{get-background-color('hover', 'tertiary')};
+	--background-color-hover-danger: #{get-background-color('hover', 'danger')};
+	--background-color-focus-primary: #{get-background-color('focus', 'primary')};
+	--background-color-focus-secondary: #{get-background-color('focus', 'secondary')};
+	--background-color-focus-tertiary: #{get-background-color('focus', 'tertiary')};
+	--background-color-focus-danger: #{get-background-color('focus', 'danger')};
+	--background-color-disabled-primary: #{get-background-color('disabled', 'primary')};
+	--background-color-disabled-secondary: #{get-background-color('disabled', 'secondary')};
+	--background-color-disabled-tertiary: #{get-background-color('disabled', 'tertiary')};
+	--background-color-disabled-danger: #{get-background-color('disabled', 'danger')};
+	--background-color-active-primary: #{get-background-color('active', 'primary')};
+	--background-color-active-secondary: #{get-background-color('active', 'secondary')};
+	--background-color-active-tertiary: #{get-background-color('active', 'tertiary')};
+	--background-color-active-danger: #{get-background-color('active', 'danger')};
+
+	// borders colors
+	--border-color-default-primary: #{get-border-color('default', 'primary')};
+	--border-color-default-secondary: #{get-border-color('default', 'secondary')};
+	--border-color-default-tertiary: #{get-border-color('default', 'tertiary')};
+	--border-color-default-danger: #{get-border-color('default', 'danger')};
+	--border-color-hover-primary: #{get-border-color('hover', 'primary')};
+	--border-color-hover-secondary: #{get-border-color('hover', 'secondary')};
+	--border-color-hover-tertiary: #{get-border-color('hover', 'tertiary')};
+	--border-color-hover-danger: #{get-border-color('hover', 'danger')};
+	--border-color-disabled-primary: #{get-border-color('disabled', 'primary')};
+	--border-color-disabled-secondary: #{get-border-color('disabled', 'secondary')};
+	--border-color-disabled-tertiary: #{get-border-color('disabled', 'tertiary')};
+	--border-color-disabled-danger: #{get-border-color('disabled', 'danger')};
+	--border-color-active-primary: #{get-border-color('active', 'primary')};
+	--border-color-active-secondary: #{get-border-color('active', 'secondary')};
+	--border-color-active-tertiary: #{get-border-color('active', 'tertiary')};
+	--border-color-active-danger: #{get-border-color('active', 'danger')};
+
+	--button-height-large: #{get-height('large')};
+	--button-height-small: #{get-height('small')};
+	--button-padding-x-large: #{get-horizontal-padding('large')};
+	--button-padding-x-small: #{get-horizontal-padding('small')};
+}
+
+.action-button {
+	text-decoration: none;
+
+	position: relative;
+	user-select: none;
+	cursor: pointer;
+
+	display: inline-flex;
+	align-items: center;
+
+	border-radius: 4px;
+
+	&--type-primary {
+		@include button-type-theme('primary');
 	}
 
-	.action-button {
-		display: inline-flex;
-		align-items: center;
+	&--type-secondary {
+		@include button-type-theme('secondary');
+	}
+
+	&--type-tertiary {
+		@include button-type-theme('tertiary');
+	}
+
+	&--type-danger {
+		@include button-type-theme('danger');
+	}
+
+	&--size-small {
+		@include button-size-theme('small');
+	}
+
+	&--size-large {
+		@include button-size-theme('large');
+	}
+
+	&--disabled {
+		cursor: not-allowed;
 		user-select: none;
-		cursor: pointer;
-
-		&.full-width {
-			min-width: 100%;
-		}
-
-		&:focus {
-			outline: none;
-			border: 1px solid kv-color(success);
-		}
-
-		.button-title {
-			@include kv-font-span-semibold();
-		}
-
-		&[aria-disabled] {
-			cursor: default;
-		}
-	}
-
-	.button-wrapper {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.primary-button,
-	.primary-danger-button,
-	.secondary-button,
-	.tertiary-button {
-		max-height: 36px;
-		min-width: 76px;
-		padding: $spacing-2x $spacing-4x;
-		border-radius: 2px;
-
-		&.icon-only {
-			padding: 0;
-		}
-
-		&.small {
-			max-height: 28px;
-			min-width: 28px;
-		}
-
-		.button-title {
-			@include kv-font-span-semibold();
-		}
-
-		&.small:not(.icon-only) {
-			padding: $spacing-3x;
-		}
-	}
-
-	.primary-button {
-		@include button-animation(kv-color(primary), kv-color(primary, dark));
-		border: 1px solid kv-color(primary);
-		background-color: kv-color(primary);
-		background-position: right bottom;
-
-		.button-title {
-			color: kv-color(primary, contrast);
-		}
-
-		&.hover {
-			@include button-animation(kv-color(primary), kv-color(primary, dark));
-		}
-
-		&[aria-disabled] {
-			background: kv-color(primary, light);
-			border-color: kv-color(primary, light);
-		}
-	}
-
-	.primary-danger-button {
-		@include button-animation(kv-color(error), kv-color(error, dark));
-		border: 1px solid kv-color(error);
-		background-color: kv-color(error);
-		background-position: right bottom;
-
-		.button-title {
-			color: kv-color(error, contrast);
-		}
-
-		&.hover {
-			@include button-animation(kv-color(error), kv-color(error, dark));
-		}
-
-		&[aria-disabled] {
-			background: kv-color(error, light);
-			border-color: kv-color(error, light);
-		}
-	}
-
-	.secondary-button {
-		@include button-animation(kv-color('background'), kv-color(neutral-3, base, 50%));
-		border: 1px solid kv-color(primary);
-		background-color: kv-color('background');
-		background-position: right bottom;
-
-		.button-title {
-			color: kv-color(primary, base);
-		}
-
-		&.hover {
-			@include button-animation(kv-color('background'), kv-color(neutral-3, base, 50%));
-		}
-
-		&[aria-disabled] {
-			opacity: 0.5;
-		}
-	}
-
-	.tertiary-button {
-		@include button-animation(kv-color('background'), kv-color(neutral-3, base, 50%));
-		border: 1px solid kv-color(neutral-3);
-		background-color: kv-color('background');
-		background-position: right bottom;
-
-		.button-title {
-			color: kv-color('text');
-		}
-
-		&.hover {
-			@include button-animation(kv-color('background'), kv-color(neutral-3, base, 50%));
-		}
-
-		&[aria-disabled] {
-			opacity: 0.5;
-		}
 	}
 }

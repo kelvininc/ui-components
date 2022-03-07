@@ -41,7 +41,7 @@ This is not just a library of UI components as it's also a style guide where you
 
 <br />
 
-# How to use  
+# How to use
 
 <br />
 
@@ -129,13 +129,13 @@ Now you are ready to use all available *Kelvin UI Components*. For example:
 
 ```html
 ...
-	<kv-action-button
-		[type]="buttonType"
-		[text]="'My Button'"
-		[smallSize]="true"
-		fixedWidth="250"
-		(buttonClick)="onButtonClick($event)">
-	</kv-action-button>
+	<kv-action-button-text
+		text="My Button"
+		icon="kv-add"
+		type="primary"
+		size="small"
+		(clickButton)="onClickButton($event)">
+	</kv-action-button-text>
 ...
 ```
 
