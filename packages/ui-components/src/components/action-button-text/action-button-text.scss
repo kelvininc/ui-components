@@ -1,0 +1,22 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --button-icon-width: Button's icon width.
+	 * @prop --button-icon-height: Button's icon height.
+	 */
+
+	--button-icon-width: 16px;
+	--button-icon-height: 16px;
+}
+
+kv-svg-icon {
+	--icon-width: var(--button-icon-width);
+	--icon-height: var(--button-icon-width);
+	display: flex;
+	margin-right: $spacing-2x;
+}
+
+.action-button-text {
+	@include kv-font-span-semibold;
+}

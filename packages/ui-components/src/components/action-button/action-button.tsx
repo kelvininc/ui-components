@@ -1,74 +1,57 @@
-import { Component, Event, EventEmitter, h, Prop, State } from '@stencil/core';
-import { isEmpty } from 'lodash-es';
+import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { EActionButtonType } from './action-button.types';
+import { EComponentSize } from '../../utils/types';
 
+/**
+ * @part button - The action button.
+ */
 @Component({
 	tag: 'kv-action-button',
 	styleUrl: 'action-button.scss',
 	shadow: true
 })
-export class ActionButton {
-	@State() isButtonHovered = false;
-
+export class KvActionButton {
+	/** (optional) Button's type */
 	@Prop({ reflect: true }) type!: EActionButtonType;
-	@Prop({ reflect: true }) text: string;
-	@Prop({ reflect: true }) icon: string;
-	@Prop({ reflect: true }) enabled = true;
-	@Prop({ reflect: true }) buttonClass: string;
-	@Prop({ reflect: true }) smallSize = false;
-	@Prop({ reflect: true }) buttonId: string;
-	@Prop({ reflect: true }) fixedWidth: number = null;
 
+	/** (optional) If `true` the button is disabled */
+	@Prop({ reflect: true }) disabled: boolean = false;
+
+	/** (optional) If `true` the button is active */
+	@Prop({ reflect: true }) active: boolean = false;
+
+	/** (optional) Button's size */
+	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
+
+	/** Emitted when action button is clicked */
 	@Event() buttonClick: EventEmitter<MouseEvent>;
 
-	private onActionButtonClick = (event: MouseEvent) => {
-		this.isButtonHovered = false;
-
-		if (!isEmpty(event)) {
-			event.preventDefault();
+	private onButtonClick = (event: MouseEvent) => {
+		if (this.disabled) {
+			return;
 		}
 
-		if (this.enabled) {
-			this.buttonClick.emit(event);
-		}
-	};
-
-	private onMouseEnter = () => {
-		if (this.enabled) {
-			this.isButtonHovered = true;
-		}
-	};
-
-	private onMouseLeave = () => {
-		this.isButtonHovered = false;
+		this.buttonClick.emit(event);
 	};
 
 	render() {
 		return (
-			<div class="action-btn-container">
+			<Host>
 				<div
-					id={this.buttonId}
 					class={{
 						'action-button': true,
-						[`${this.buttonClass ?? ''}`]: true,
-						[`${this.type}`]: true,
-						'hover': this.isButtonHovered,
-						'small': this.smallSize,
-						'icon-only': isEmpty(this.text)
+						'action-button--disabled': this.disabled,
+						'action-button--active': this.active,
+						[`action-button--type-${this.type}`]: true,
+						[`action-button--size-${this.size}`]: true
 					}}
-					aria-disabled={!this.enabled || null}
-					style={{ width: this.fixedWidth > 0 ? `${this.fixedWidth}px` : 'auto' }}
-					onClick={this.onActionButtonClick}
-					onMouseEnter={this.onMouseEnter}
-					onMouseLeave={this.onMouseLeave}
+					part="button"
+					aria-disabled={this.disabled}
+					onClick={this.onButtonClick}
 				>
-					{this.text && (
-						<div class="button-wrapper">
-							<span class="button-title">{this.text}</span>
-						</div>
-					)}
+					<slot />
 				</div>
-			</div>
+			</Host>
 		);
 	}
 }

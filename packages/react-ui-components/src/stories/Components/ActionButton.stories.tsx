@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { EActionButtonType, KvActionButton } from '../../components';
+import { EComponentSize, EActionButtonType, KvActionButton } from '../../components';
 
 // Required to have the correct TagName in the code sample
 KvActionButton.displayName = 'KvActionButton';
@@ -12,6 +12,10 @@ export default {
 		type: {
 			control: { type: 'select' },
 			options: Object.values(EActionButtonType)
+		},
+		size: {
+			control: { type: 'select' },
+			options: Object.values(EComponentSize)
 		}
 	},
 	parameters: {
@@ -19,32 +23,36 @@ export default {
 	}
 };
 
-const ButtonTemplate: ComponentStory<typeof KvActionButton> = args => <KvActionButton {...args} />;
+const ButtonTemplate: ComponentStory<typeof KvActionButton> = args => <KvActionButton {...args}>Action Button</KvActionButton>;
 
-export const Primary = ButtonTemplate.bind({});
-Primary.args = {
-	type: EActionButtonType.PrimaryButton,
-	text: 'Primary Button',
-	enabled: true
+export const PrimaryState = ButtonTemplate.bind({});
+PrimaryState.args = {
+	type: EActionButtonType.Primary,
+	size: EComponentSize.Large,
+	disabled: false,
+	active: false
 };
 
-export const Secondary = ButtonTemplate.bind({});
-Secondary.args = {
-	type: EActionButtonType.SecondaryButton,
-	text: 'Secondary Button',
-	enabled: true
+export const SecondaryState = ButtonTemplate.bind({});
+SecondaryState.args = {
+	type: EActionButtonType.Secondary,
+	size: EComponentSize.Large,
+	disabled: false,
+	active: false
 };
 
-export const Tertiary = ButtonTemplate.bind({});
-Tertiary.args = {
-	type: EActionButtonType.TertiaryButton,
-	text: 'Tertiary Button',
-	enabled: true
+export const TertiaryState = ButtonTemplate.bind({});
+TertiaryState.args = {
+	type: EActionButtonType.Tertiary,
+	size: EComponentSize.Large,
+	disabled: false,
+	active: false
 };
 
-export const Danger = ButtonTemplate.bind({});
-Danger.args = {
-	type: EActionButtonType.PrimaryDangerButton,
-	text: 'Danger Button',
-	enabled: true
+export const DangerState = ButtonTemplate.bind({});
+DangerState.args = {
+	type: EActionButtonType.Danger,
+	size: EComponentSize.Large,
+	disabled: false,
+	active: false
 };
