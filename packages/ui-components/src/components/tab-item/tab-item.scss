@@ -1,0 +1,62 @@
+@import '../../assets/styles/globals';
+
+$tab-dot-error-size: 6px;
+
+:host {
+	height: inherit;
+
+	.tab-item-container {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		margin: 0 $spacing-6x;
+		user-select: none;
+		white-space: nowrap;
+		cursor: pointer;
+
+		&.selected .label {
+			color: kv-color('text');
+		}
+
+		&.disabled {
+			cursor: not-allowed;
+			pointer-events: none;
+
+			.label {
+				color: kv-color('text', 'step-5');
+			}
+		}
+
+		.label {
+			@include kv-font-h4-semibold();
+			color: kv-color('text', 'step-4');
+		}
+
+		&.small {
+			margin: 0 $spacing-4x;
+
+			.label {
+				@include kv-font-label-small-semibold();
+			}
+		}
+
+		.notification-dot {
+			width: $tab-dot-error-size;
+			height: $tab-dot-error-size;
+			border-radius: 50%;
+			margin-left: $spacing-2x;
+			background-color: kv-color('error');
+			animation: circleGrow 0.25s;
+		}
+	}
+
+	@keyframes circleGrow {
+		from {
+			transform: scale(0);
+		}
+
+		to {
+			transform: scale(1);
+		}
+	}
+}

@@ -34,34 +34,35 @@
 		--kv-console-font: 'Inconsolata';
 
 		/* Text and Background Colors */
+		/* Steps move towards their contrasting color. */
+
+		--kv-text-step-0: #121212;
+		/* (base) */
 		--kv-text: #202020;
 		--kv-text-rgb: 32, 32, 32;
-		
+		/* (base) */
+		--kv-text-step-1: #2a2a2a;
+		--kv-text-step-2: #3f3f3f;
+		--kv-text-step-3: #707070;
+		--kv-text-step-4: #bebebe;
+		--kv-text-step-5: #ddd;
+		--kv-text-step-6: #e5e5e5;
+		--kv-text-step-7: #f2f2f6;
+		--kv-text-step-8: #fff;
+
+		--kv-background-step-0: #fff;
+		/* (base) */
 		--kv-background: #fff;
 		--kv-background-rgb: 255, 255, 255;
-
-		/* Neutral Color are used to provide variations in text and background colors of elements. */
-		/*--kv-neutral-0: #121212;
-		--kv-neutral-0-rgb: 18, 18, 18;
-		--kv-neutral-1: #202020;
-		--kv-neutral-1-rgb: 32, 32, 32;
-		--kv-neutral-1: #2a2a2a;
-		--kv-neutral-1-rgb: 42, 42, 42;
-		--kv-neutral-3: #3f3f3f;
-		--kv-neutral-3-rgb: 63, 63, 63;
-		--kv-neutral-4: #707070;
-		--kv-neutral-4-rgb: 112, 112, 112;
-		--kv-neutral-5: #bebebe;
-		--kv-neutral-5-rgb: 190, 190, 190;
-		--kv-neutral-6: #ddd;
-		--kv-neutral-6-rgb: 221, 221, 221;
-		--kv-neutral-7: #e5e5e5;
-		--kv-neutral-7-rgb: 229, 229, 229;
-		--kv-neutral-8: #f2f2f6;
-		--kv-neutral-8-rgb: 242, 242, 246;
-		--kv-neutral-9: #fff;
-		--kv-neutral-9-rgb: 255, 255, 255;
-		*/
+		/* (base) */
+		--kv-background-step-1: #fff;
+		--kv-background-step-2: #fff;
+		--kv-background-step-3: #fff;
+		--kv-background-step-4: #fff;
+		--kv-background-step-5: #fff;
+		--kv-background-step-6: #fff;
+		--kv-background-step-7: #fff;
+		--kv-background-step-8: #fff;
 	}
 
 	.night {
@@ -73,5 +74,9 @@
 		
 		--kv-background: #202020;
 		--kv-background-rgb: 32, 32, 32;
+	}
+
+	.docs-story {
+		background-color: var(--kv-background);
 	}
 </style>

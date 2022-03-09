@@ -1,7 +1,7 @@
 import { SpecPage } from '@stencil/core/internal';
 import { KvSwitchButton } from '../switch-button';
 import { newSpecPage } from '@stencil/core/testing';
-import { ESwitchButtonSize } from '../switch-button.types';
+import { EComponentSize } from '../../../utils/types';
 
 describe('Switch Button (unit tests)', () => {
 	let page: SpecPage;
@@ -29,7 +29,7 @@ describe('Switch Button (unit tests)', () => {
 		});
 
 		it('should initialize `size` with large', () => {
-			expect(component.size).toBe(ESwitchButtonSize.Large);
+			expect(component.size).toBe(EComponentSize.Large);
 		});
 
 		it('should initialize `label` with empty string', () => {

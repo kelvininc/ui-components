@@ -6,7 +6,7 @@
 	flex-shrink: 0;
 	cursor: pointer;
 	user-select: none;
-	color: kv-color('neutral-5');
+	color: kv-color('text', 'step-3');
 
 	a {
 		color: unset;
@@ -28,5 +28,5 @@
 	@include kv-font-label-small-regular();
 	margin: 0 $spacing-2x;
 	user-select: none;
-	color: kv-color('neutral-5');
+	color: kv-color('text', 'step-3');
 }

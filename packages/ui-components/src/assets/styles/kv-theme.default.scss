@@ -95,10 +95,30 @@ $colors: (
 		light: get-color-light($error-color)
 	),
 	'background': (
-		base: $background-color
+		/* Steps move towards their contrasting color. */
+		'step-0': $neutral-color-9,
+		base: $background-color,
+		'step-1': $neutral-color-7,
+		'step-2': $neutral-color-6,
+		'step-3': $neutral-color-5,
+		'step-4': $neutral-color-4,
+		'step-5': $neutral-color-3,
+		'step-6': $neutral-color-2,
+		'step-7': $neutral-color-1,
+		'step-8': $neutral-color-0
 	),
 	'text': (
-		base: $text-color
+		/* Steps move towards their contrasting color. */
+		'step-0': $neutral-color-0,
+		base: $text-color,
+		'step-1': $neutral-color-1,
+		'step-2': $neutral-color-2,
+		'step-3': $neutral-color-3,
+		'step-4': $neutral-color-4,
+		'step-5': $neutral-color-5,
+		'step-6': $neutral-color-6,
+		'step-7': $neutral-color-7,
+		'step-8': $neutral-color-8
 	),
 	'neutral-0': (
 		base: $neutral-color-0

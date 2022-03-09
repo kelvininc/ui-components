@@ -1,0 +1,27 @@
+@import '../../assets/styles/globals';
+
+$tab-height: 34px;
+
+:host {
+	/**
+	 * @prop --tab-list-bg-color: Background color of the list
+	 * @prop --tab-list-indicator-color: Tab indicator bar color
+	 *
+	*/
+	--tab-list-bg-color: 'transparent';
+	--tab-list-indicator-color: #{kv-color('primary')};
+
+	position: relative;
+	height: $tab-height;
+	overflow-x: auto;
+	display: flex;
+	background-color: var(--tab-list-bg-color);
+
+	.selected-tab-indicator {
+		height: 2px;
+		position: absolute;
+		bottom: 0;
+		transition: all 0.3s ease-out;
+		background: var(--tab-list-indicator-color);
+	}
+}

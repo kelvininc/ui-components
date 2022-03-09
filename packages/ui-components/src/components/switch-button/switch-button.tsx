@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
-import { ESwitchButtonSize } from './switch-button.types';
+import { EComponentSize } from '../../utils/types';
 import throttle from 'lodash/throttle';
 
 /**
@@ -27,7 +27,7 @@ export class KvSwitchButton {
 	/** (optional) If `true` the button is ON */
 	@Prop({ reflect: true, mutable: true }) checked: boolean = false;
 	/** (optional) Button's size */
-	@Prop() size: ESwitchButtonSize = ESwitchButtonSize.Large;
+	@Prop() size: EComponentSize = EComponentSize.Large;
 
 	/** Whether the label exist and it's not empty */
 	@State() hasLabel: boolean = this.label != null && this.label !== '';
