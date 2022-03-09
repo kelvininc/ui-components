@@ -70,6 +70,6 @@ jobs:
                   npm run bootstrap
                   npm run build:packages
                   npm run storybook:deploy -- -- -- --out='./gp/alpha' --dry-run
-                  npm run storybook:deploy -- -- -- --existing-output-dir='./gp'npm run storybook:deploy
+                  npm run storybook:deploy -- -- -- --existing-output-dir='./gp'
               env:
                   GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
