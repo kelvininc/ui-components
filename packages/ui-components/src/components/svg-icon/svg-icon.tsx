@@ -13,6 +13,9 @@ export class KvSvgIcon {
 	/** (required) Icon symbol name */
 	@Prop({ reflect: true }) name!: string;
 
+	/** (required) Url where assets are public served */
+	@Prop({ reflect: true }) assetsUrl: string = '/';
+
 	/**
 	 * (optional) Additional classes to apply for custom CSS. If multiple classes are
 	 * provided they should be separated by spaces.
@@ -34,7 +37,7 @@ export class KvSvgIcon {
 					}}
 					style={{ fill: this.customColor }}
 				>
-					<use href={`svg-symbols.svg#${this.name}`}></use>
+					<use href={`${this.assetsUrl}svg-symbols.svg#${this.name}`}></use>
 				</svg>
 			</Host>
 		);
