@@ -88,7 +88,7 @@ export const SvgIconExample: React.FC = () => (
 
 | Property            | Attribute      | Description                                                                                                                 | Type                 | Default     |
 | ------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------- | ----------- |
-| `assetsUrl`         | `assets-url`   | (required) Url where assets are public served                                                                               | `string`             | `'/'`       |
+| `assetsUrl`         | `assets-url`   | (required) Url where assets are public served                                                                               | `string`             | `''`        |
 | `customClass`       | `custom-class` | (optional) Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. | `string \| string[]` | `''`        |
 | `customColor`       | `custom-color` | (optional) Icon custom color                                                                                                | `string`             | `''`        |
 | `name` _(required)_ | `name`         | (required) Icon symbol name                                                                                                 | `string`             | `undefined` |

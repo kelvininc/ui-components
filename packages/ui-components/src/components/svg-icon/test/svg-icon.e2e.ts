@@ -18,7 +18,7 @@ describe('Svg Icon (end-to-end)', () => {
 		it('should render the <use> to symbol', async () => {
 			const useComponent = await page.find('kv-svg-icon >>> use');
 			expect(useComponent).toBeTruthy();
-			expect(useComponent.getAttribute('href').toLocaleLowerCase()).toBe('/svg-symbols.svg#kv-logo-kelvin');
+			expect(useComponent.getAttribute('href').toLocaleLowerCase()).toBe('svg-symbols.svg#kv-logo-kelvin');
 		});
 	});
 
