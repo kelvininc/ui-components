@@ -14,7 +14,7 @@ export class KvSvgIcon {
 	@Prop({ reflect: true }) name!: string;
 
 	/** (required) Url where assets are public served */
-	@Prop({ reflect: true }) assetsUrl: string = '/';
+	@Prop({ reflect: true }) assetsUrl: string = '';
 
 	/**
 	 * (optional) Additional classes to apply for custom CSS. If multiple classes are
