@@ -1,0 +1,48 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --button-icon-normal-width: Button's icon normal width.
+	 * @prop --button-icon-small-width: Button's icon small width.
+	 * @prop --button-icon-normal-height: Button's icon normal height.
+	 * @prop --button-icon-small-height: Button's icon small height.
+	 */
+
+	--button-icon-normal-width: 24px;
+	--button-icon-normal-height: 24px;
+	--button-icon-small-height: 20px;
+	--button-icon-small-width: 20px;
+}
+
+.action-button-icon--size-normal {
+	kv-action-button {
+		--button-padding-x-normal: 2px;
+	}
+
+	kv-svg-icon {
+		--icon-width: var(--button-icon-normal-width);
+		--icon-height: var(--button-icon-normal-height);
+	}
+}
+
+.action-button-icon--size-small {
+	kv-action-button {
+		--button-padding-x-small: 0;
+	}
+
+	kv-svg-icon {
+		--icon-width: var(--button-icon-small-width);
+		--icon-height: var(--button-icon-small-height);
+	}
+}
+
+kv-action-button {
+	--background-color-active-tertiary: #{kv-color('neutral-5')};
+	--border-color-active-tertiary: #{kv-color('neutral-4')};
+	--text-color-active-tertiary: #{kv-color('neutral-4')};
+}
+
+kv-svg-icon {
+	display: flex;
+	padding: $spacing;
+}
