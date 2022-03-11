@@ -6,7 +6,7 @@ import { KvTabItem, EComponentSize } from '../../components';
 KvTabItem.displayName = 'KvTabItem';
 
 export default {
-	title: 'Components/Tab Item',
+	title: 'Navigation/Tabs/Tab Item',
 	component: 'kv-tab-item',
 	argTypes: {
 		tabKey: {

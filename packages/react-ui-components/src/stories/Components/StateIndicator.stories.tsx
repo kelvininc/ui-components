@@ -5,7 +5,7 @@ import { KvStateIndicator } from '../../components';
 KvStateIndicator.displayName = 'KvStateIndicator';
 
 export default {
-	title: 'Components/StateIndicator',
+	title: 'Data Display/State Indicator',
 	component: 'kv-state-indicator',
 	argTypes: {
 		color: { type: 'color' },

@@ -27,7 +27,14 @@ export const parameters = {
 	backgrounds: { disable: true },
 	options: {
 		storySort: {
-			order: ['Foundation', ['Introduction', 'Colors', 'Spatial System', 'Typography'], 'Components']
+			order: [
+				'Foundation', ['Introduction', 'Colors', 'Spatial System', 'Typography'],
+				'Buttons',
+				'Data Display',
+				'Feedback',
+				'Media',
+				'Navigation'
+			]
 		},
 		isToolshown: true
 	},

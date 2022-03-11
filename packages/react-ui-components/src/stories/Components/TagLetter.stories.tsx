@@ -5,7 +5,7 @@ import { KvTagLetter } from '../../components';
 KvTagLetter.displayName = 'KvTagLetter';
 
 export default {
-	title: 'Components/TagLetter',
+	title: 'Data Display/Tag Letter',
 	component: 'kv-tag-letter',
 	argTypes: {
 		color: { control: { type: 'color' } },
