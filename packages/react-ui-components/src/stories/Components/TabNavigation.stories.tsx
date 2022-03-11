@@ -6,7 +6,7 @@ import { KvTabNavigation, EComponentSize } from '../../components';
 KvTabNavigation.displayName = 'KvTabNavigation';
 
 export default {
-	title: 'Components/Tab Navigation',
+	title: 'Navigation/Tabs/Tab Navigation',
 	component: 'kv-tab-navigation',
 	argTypes: {
 		selectedTabKey: {

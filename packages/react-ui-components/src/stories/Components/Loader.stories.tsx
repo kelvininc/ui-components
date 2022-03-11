@@ -5,7 +5,7 @@ import { KvLoader } from '../../components';
 KvLoader.displayName = 'KvLoader';
 
 export default {
-	title: 'Components/Loader',
+	title: 'Feedback/Loader',
 	component: 'kv-loader',
 	argTypes: {
 		isLoading: { type: 'boolean' },

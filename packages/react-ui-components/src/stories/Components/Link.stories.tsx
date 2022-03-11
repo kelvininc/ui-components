@@ -3,7 +3,7 @@ import React from 'react';
 import { EAnchorTarget, KvLink } from '../../components';
 
 export default {
-	title: 'Components/Link',
+	title: 'Navigation/Link',
 	component: 'kv-link',
 	parameters: {
 		notes: require('@ui-notes/link/readme.md')

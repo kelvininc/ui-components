@@ -6,7 +6,7 @@ import { EComponentSize, KvSwitchButton } from '../../components';
 KvSwitchButton.displayName = 'KvSwitchButton';
 
 export default {
-	title: 'Components/Buttons/Switch',
+	title: 'Buttons/Switch Button',
 	component: 'kv-switch-button',
 	argTypes: {
 		size: {
