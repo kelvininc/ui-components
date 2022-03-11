@@ -6,7 +6,7 @@ import { EComponentSize, EActionButtonType, KvActionButton } from '../../compone
 KvActionButton.displayName = 'KvActionButton';
 
 export default {
-	title: 'Buttons/Action Button',
+	title: 'Buttons/Action Buttons/Base',
 	component: 'kv-action-button',
 	argTypes: {
 		type: {

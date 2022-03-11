@@ -91,14 +91,14 @@ export const SwitchButtonExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                              | Description                                          |
-| --------------------------------- | ---------------------------------------------------- |
-| `--button-split-height-normal`    | Split button height when size is normal.             |
-| `--button-split-height-small`     | Split button height when size is size.               |
-| `--button-split-icon-height`      | Split button icon height.                            |
-| `--button-split-icon-width`       | Split button icon width.                             |
-| `--button-split-padding-x-normal` | Split button horizontal padding when size is normal. |
-| `--button-split-padding-x-small`  | Split button horizontal padding when size is size.   |
+| Name                             | Description                                         |
+| -------------------------------- | --------------------------------------------------- |
+| `--button-split-height-large`    | Split button height when size is large.             |
+| `--button-split-height-small`    | Split button height when size is size.              |
+| `--button-split-icon-height`     | Split button icon height.                           |
+| `--button-split-icon-width`      | Split button icon width.                            |
+| `--button-split-padding-x-large` | Split button horizontal padding when size is large. |
+| `--button-split-padding-x-small` | Split button horizontal padding when size is size.  |
 
 
 ## Dependencies

@@ -7,7 +7,7 @@ import { icons } from '../foundation/SvgIcons/SvgIcons-list';
 KvActionButtonSplit.displayName = 'KvActionButtonSplit';
 
 export default {
-	title: 'Components/Buttons/Split',
+	title: 'Buttons/Action Buttons/Split',
 	component: 'kv-action-button-split',
 	argTypes: {
 		type: {

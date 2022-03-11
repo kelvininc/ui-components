@@ -2,17 +2,17 @@
 
 :host {
 	/**
-	 * @prop --button-split-height-normal: Split button height when size is normal.
+	 * @prop --button-split-height-large: Split button height when size is large.
 	 * @prop --button-split-height-small: Split button height when size is size.
-	 * @prop --button-split-padding-x-normal: Split button horizontal padding when size is normal.
+	 * @prop --button-split-padding-x-large: Split button horizontal padding when size is large.
 	 * @prop --button-split-padding-x-small: Split button horizontal padding when size is size.
 	 * @prop --button-split-icon-width: Split button icon width.
 	 * @prop --button-split-icon-height: Split button icon height.
 	 */
 
-	--button-split-height-normal: 36px;
+	--button-split-height-large: 36px;
 	--button-split-height-small: 28px;
-	--button-split-padding-x-normal: #{$spacing-2x};
+	--button-split-padding-x-large: #{$spacing-2x};
 	--button-split-padding-x-small: #{$spacing};
 	--button-split-icon-width: 24px;
 	--button-split-icon-height: 24px;
@@ -30,9 +30,9 @@ kv-action-button-text::part(button) {
 }
 
 kv-action-button::part(button) {
-	--button-height-normal: var(--button-split-height-normal);
+	--button-height-large: var(--button-split-height-large);
 	--button-height-small: var(--button-split-height-small);
-	--button-padding-x-normal: var(--button-split-padding-x-normal);
+	--button-padding-x-large: var(--button-split-padding-x-large);
 	--button-padding-x-small: var(--button-split-padding-x-small);
 
 	display: flex;
