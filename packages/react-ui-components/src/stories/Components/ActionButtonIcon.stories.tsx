@@ -15,7 +15,7 @@ export default {
 			options: Object.values(EActionButtonType)
 		},
 		size: {
-			control: { type: 'select' },
+			control: { type: 'radio' },
 			options: Object.values(EComponentSize)
 		},
 		icon: {

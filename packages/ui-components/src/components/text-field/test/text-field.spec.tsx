@@ -2,7 +2,7 @@ import { SpecPage } from '@stencil/core/internal';
 import { KvTextField } from '../text-field';
 import { newSpecPage } from '@stencil/core/testing';
 
-describe('Switch Button (unit tests)', () => {
+describe('Text Field (unit tests)', () => {
 	let page: SpecPage;
 
 	describe('when uses default props', () => {

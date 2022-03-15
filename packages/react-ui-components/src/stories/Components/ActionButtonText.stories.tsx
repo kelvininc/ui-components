@@ -19,7 +19,7 @@ export default {
 			options: ['', ...icons]
 		},
 		size: {
-			control: { type: 'select' },
+			control: { type: 'radio' },
 			options: Object.values(EComponentSize)
 		}
 	},

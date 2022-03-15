@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
-import { EAnchorTarget, IAnchor } from '../../utils/types/anchor';
+import { EAnchorTarget, IAnchor } from '../../utils/types';
 
 @Component({
 	tag: 'kv-link',

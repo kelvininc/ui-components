@@ -1,42 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Switch Button (unit tests) when has a label should match the snapshot 1`] = `
-<kv-text-field label="Text Field">
+exports[`Text Field (unit tests) when has a label should match the snapshot 1`] = `
+<kv-text-field label="Text Field" state="none">
   <mock:shadow-root>
     <div class="text-field-container">
       <span class="label">
         Text Field
       </span>
-      <div class="input-container">
+      <div class="input-container input-container--size-large">
         <input>
       </div>
-      <div class="text-container"></div>
     </div>
   </mock:shadow-root>
 </kv-text-field>
 `;
 
-exports[`Switch Button (unit tests) when is disabled should match the snapshot 1`] = `
-<kv-text-field disabled="">
+exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] = `
+<kv-text-field disabled="" state="none">
   <mock:shadow-root>
     <div class="text-field-container">
-      <div class="input-container">
+      <div class="input-container input-container--size-large">
         <input disabled="">
       </div>
-      <div class="text-container"></div>
     </div>
   </mock:shadow-root>
 </kv-text-field>
 `;
 
-exports[`Switch Button (unit tests) when uses default props should match the snapshot 1`] = `
-<kv-text-field>
+exports[`Text Field (unit tests) when uses default props should match the snapshot 1`] = `
+<kv-text-field state="none">
   <mock:shadow-root>
     <div class="text-field-container">
-      <div class="input-container">
+      <div class="input-container input-container--size-large">
         <input>
       </div>
-      <div class="text-container"></div>
     </div>
   </mock:shadow-root>
 </kv-text-field>
