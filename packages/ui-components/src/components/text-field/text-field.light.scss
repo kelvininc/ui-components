@@ -1,0 +1,19 @@
+@import '../../assets/styles/globals';
+@import './text-field.base';
+
+:host {
+	--text-color-label: #{kv-color('neutral-5')};
+	--text-color-icon-disabled: #{kv-color('neutral-4')};
+	--text-color-input-default: #{kv-color('neutral-8')};
+	--text-color-input-focused: #{kv-color('primary')};
+
+	--border-color-default: #{kv-color('neutral-3')};
+	--border-color-focused: #{kv-color('primary')};
+
+	--background-color-default: #{kv-color('neutral-0')};
+	--background-color-disabled: #{kv-color('neutral-2')};
+}
+
+.input-container-loading {
+	@include ghost-animation('neutral-2');
+}

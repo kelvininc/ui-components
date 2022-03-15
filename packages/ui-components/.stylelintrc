@@ -8,8 +8,8 @@
 				"ignore": ["pseudo-classes"]
 			}
 		],
-		"order/properties-alphabetical-order": null
-
+		"order/properties-alphabetical-order": null,
+		"selector-no-qualifying-type": null
 	},
 	"ignoreFiles": [
 		"src/assets/fonts/*.scss"

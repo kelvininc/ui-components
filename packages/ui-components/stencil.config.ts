@@ -15,6 +15,7 @@ const angularValueAccessorBindings: ValueAccessorConfig[] = [
 
 export const config: Config = {
 	namespace: 'Peacock-UI',
+	globalScript: 'src/globals/globals.ts',
 	outputTargets: [
 		angular({
 			componentCorePackage: '@kelvininc/ui-components',

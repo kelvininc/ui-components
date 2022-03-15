@@ -3,3 +3,9 @@ export enum EInputFieldType {
 	Number = 'number',
 	Password = 'password'
 }
+
+export enum EValidationState {
+	None = 'none',
+	Valid = 'valid',
+	Invalid = 'invalid'
+}

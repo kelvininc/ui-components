@@ -1,5 +1,6 @@
 import { themes } from '@storybook/theming';
 import { defineCustomElements } from '@kelvininc/ui-components/loader';
+import { initialize, StyleMode } from '@kelvininc/ui-components';
 import { extractArgTypes, extractArgTypesFactory, extractComponentDescription, setStencilDocJson } from '@pxtrn/storybook-addon-docs-stencil';
 import docJson from '../../ui-components/docs/docs.json';
 
@@ -8,15 +9,25 @@ defineCustomElements();
 
 if (docJson) setStencilDocJson(docJson);
 
+initialize({styleMode: StyleMode.Night});
+
 export const parameters = {
 	viewMode: 'canvas',
 	actions: { argTypesRegex: '^on[A-Z].*' },
 	themes: {
 		default: 'Night Theme',
+		clearable: false,
 		list: [
-			{ name: 'Night Theme', class: 'night', color: '#202020' },
-			{ name: 'Light Theme', class: 'light', color: '#fff' }
-		]
+			{ name: 'Night Theme', class: StyleMode.Night, color: '#202020' },
+			{ name: 'Light Theme', class: StyleMode.Light, color: '#fff' }
+		],
+		onChange: (themeName) => {
+			const iframe = document.getElementById('storybook-preview-iframe');
+			const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+			const targetEl = iframeDocument.body;
+			targetEl.setAttribute('mode', themeName.class);
+			// TODO: Need force render after change theme
+		}
 	},
 	controls: {
 		matchers: {

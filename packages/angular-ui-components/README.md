@@ -77,10 +77,25 @@ Including the global style file you can access our foundation design system defi
 
 ## Themes
 
-Kelvin UI Components allows you to customize the theme by changing some CSS properties.
-<br />
+Kelvin UI Components have two predefined themes `StyleMode.Night` and `StyleMode.Light` (`StyleMode.Night` is applied by default) that can be applied on library startup. For that you need 
+pass the desired theme to the library configuration in your `app.component.ts`.
 
-**_Example_**: Setting the _Primary Color_
+```tsx
+import { initialize, StyleMode } from '@kelvininc/angular-ui-components';
+
+export class AppComponent {
+	
+	(...)
+
+	constructor() {
+		initialize({styleMode: StyleMode.Light});
+	}
+}
+```
+<br />
+In addition, you can customize the theme by changing some CSS properties.
+
+***Example***: Setting the *Primary Color*
 
 ```css
 :root {
