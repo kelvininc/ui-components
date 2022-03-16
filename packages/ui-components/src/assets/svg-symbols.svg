@@ -1043,6 +1043,30 @@
 		<path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z" />
 	</symbol>
 
+	<symbol id="kv-slim-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+		<path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z" />
+	</symbol>
+
+	<symbol id="kv-maps-editor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+		<path d="M13.669 9.273v1.818h-2.6V9.273H8.9V7.455h2.167V2H5v5.455h2.167v1.818H5v5.454h2.167v1.818H5V22h6.068v-5.455H8.901v-1.818h2.167V12.91h2.6v1.818h6.069V9.273z"/>
+	</symbol>
+
+	<symbol id="kv-notifications" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+		<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 16.5c-.83 0-1.5-.67-1.5-1.5h3c0 .83-.67 1.5-1.5 1.5zm5-2.5H7v-1l1-1v-2.61C8 9.27 9.03 7.47 11 7v-.5c0-.57.43-1 1-1 .57 0 1 .43 1 1V7c1.97.47 3 2.28 3 4.39V14l1 1v1z"/>
+	</symbol>
+
+	<symbol id="kv-trending-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+		<path d="m15.967 6.3 2.175 2.176-4.636 4.635-3.8-3.8-7.04 7.05 1.34 1.339 5.7-5.7 3.8 3.8 5.985-5.976L21.667 12V6.3z"/>
+	</symbol>
+
+	<symbol id="kv-trending-down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+		<path d="m15.967 17.4 2.175-2.175-4.636-4.636-3.8 3.8-7.04-7.05L4.007 6l5.7 5.7 3.8-3.8 5.985 5.976 2.176-2.176v5.7z"/>
+	</symbol>
+
+	<symbol id="kv-assistant" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+		<path d="M18.222 3H5.778C4.8 3 4 3.814 4 4.81v12.666c0 .995.8 1.81 1.778 1.81h3.555L12 22l2.667-2.714h3.555c.978 0 1.778-.815 1.778-1.81V4.81C20 3.814 19.2 3 18.222 3zm-4.655 9.567L12 16l-1.567-3.433L7 11l3.433-1.567L12 6l1.567 3.433L17 11l-3.433 1.567z"/>
+	</symbol>
+
 	<!--  PEACOCK - ILLUSTRATIONS  -->
 
 	<symbol id="kv-es-table-search"
