@@ -126,6 +126,7 @@ export const SvgIconExample: React.FC = () => (
  - [kv-action-button-split](../action-button-split)
  - [kv-action-button-text](../action-button-text)
  - [kv-switch-button](../switch-button)
+ - [kv-text-field](../text-field)
 
 ### Graph
 ```mermaid
@@ -134,6 +135,7 @@ graph TD;
   kv-action-button-split --> kv-svg-icon
   kv-action-button-text --> kv-svg-icon
   kv-switch-button --> kv-svg-icon
+  kv-text-field --> kv-svg-icon
   style kv-svg-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

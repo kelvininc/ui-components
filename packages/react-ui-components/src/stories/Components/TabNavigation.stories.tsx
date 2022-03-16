@@ -13,7 +13,7 @@ export default {
 			control: 'text'
 		},
 		size: {
-			control: 'select',
+			control: 'radio',
 			options: Object.values(EComponentSize)
 		}
 	},

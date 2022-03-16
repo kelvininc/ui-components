@@ -7,7 +7,7 @@ import { icons } from '../foundation/SvgIcons/SvgIcons-list';
 KvActionButtonText.displayName = 'KvActionButtonText';
 
 export default {
-	title: 'Buttons/Action Buttons/Text',
+	title: 'Buttons/Text',
 	component: 'kv-action-button-text',
 	argTypes: {
 		type: {
@@ -19,7 +19,7 @@ export default {
 			options: ['', ...icons]
 		},
 		size: {
-			control: { type: 'select' },
+			control: { type: 'radio' },
 			options: Object.values(EComponentSize)
 		}
 	},

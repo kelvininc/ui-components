@@ -7,7 +7,7 @@ import { icons } from '../foundation/SvgIcons/SvgIcons-list';
 KvActionButtonSplit.displayName = 'KvActionButtonSplit';
 
 export default {
-	title: 'Buttons/Action Buttons/Split',
+	title: 'Buttons/Split',
 	component: 'kv-action-button-split',
 	argTypes: {
 		type: {
@@ -23,7 +23,7 @@ export default {
 			options: ['', ...icons]
 		},
 		size: {
-			control: { type: 'select' },
+			control: { type: 'radio' },
 			options: Object.values(EComponentSize)
 		}
 	},

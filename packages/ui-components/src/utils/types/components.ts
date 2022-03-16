@@ -13,3 +13,12 @@ export interface IAnchor {
 	/** (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename */
 	download?: string;
 }
+
+export interface CssClassMap {
+	[className: string]: boolean;
+}
+
+export enum EComponentSize {
+	Small = 'small',
+	Large = 'large'
+}
