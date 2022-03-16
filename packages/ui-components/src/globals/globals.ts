@@ -1,11 +1,13 @@
 import { setMode } from '@stencil/core';
 import { get } from 'lodash-es';
 import { StyleMode, UIComponentsConfig } from '../types';
+import { DEFAULT_CONFIG } from './config';
 
 export const initialize = (userConfig: UIComponentsConfig = {}) => {
 	const defaultStyleMode = get(userConfig, 'styleMode', StyleMode.Night);
 
-	const doc = window.document;
+	const { document: doc, window: win } = window;
+
 	doc.body.setAttribute('mode', defaultStyleMode);
 
 	const isKvElement = (elm: any) => elm.tagName && elm.tagName.startsWith('KV-');
@@ -25,6 +27,18 @@ export const initialize = (userConfig: UIComponentsConfig = {}) => {
 		}
 		return defaultStyleMode;
 	});
+
+	if (typeof win === 'undefined') {
+		return;
+	}
+
+	const instance = (win.KvUiComponents = win.KvUiComponents ?? {});
+	const actualConfig = (instance.config = instance.config ?? {});
+	win.KvUiComponents.config = {
+		...DEFAULT_CONFIG,
+		...actualConfig,
+		...userConfig
+	};
 };
 
 export default initialize;

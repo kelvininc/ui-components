@@ -9,7 +9,7 @@ defineCustomElements();
 
 if (docJson) setStencilDocJson(docJson);
 
-initialize({styleMode: StyleMode.Night});
+initialize({ styleMode: StyleMode.Night, baseAssetsUrl: '' });
 
 export const parameters = {
 	viewMode: 'canvas',
@@ -21,7 +21,7 @@ export const parameters = {
 			{ name: 'Night Theme', class: StyleMode.Night, color: '#202020' },
 			{ name: 'Light Theme', class: StyleMode.Light, color: '#fff' }
 		],
-		onChange: (themeName) => {
+		onChange: themeName => {
 			const iframe = document.getElementById('storybook-preview-iframe');
 			const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 			const targetEl = iframeDocument.body;
@@ -38,15 +38,7 @@ export const parameters = {
 	backgrounds: { disable: true },
 	options: {
 		storySort: {
-			order: [
-				'Foundation', ['Introduction', 'Colors', 'Spatial System', 'Typography'],
-				'Buttons',
-				'Data Display',
-				'Inputs',
-				'Feedback',
-				'Media',
-				'Navigation'
-			]
+			order: ['Foundation', ['Introduction', 'Colors', 'Spatial System', 'Typography'], 'Buttons', 'Data Display', 'Inputs', 'Feedback', 'Media', 'Navigation']
 		},
 		isToolshown: true
 	},
