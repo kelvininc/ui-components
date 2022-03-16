@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { defineCustomElements } from '@kelvininc/ui-components/loader';
 import {
 	KvActionButton,
+	KvActionButtonIcon,
+	KvActionButtonText,
+	KvActionButtonSplit,
 	KvSwitchButton,
 	KvLink,
 	KvBreadcrumb,
@@ -22,6 +25,9 @@ defineCustomElements(window);
 
 const COMPONENTS = [
 	KvActionButton,
+	KvActionButtonIcon,
+	KvActionButtonText,
+	KvActionButtonSplit,
 	KvSwitchButton,
 	KvLink,
 	KvBreadcrumb,
@@ -31,7 +37,10 @@ const COMPONENTS = [
 	KvStateIndicator,
 	KvRadioButton,
 	KvSvgIcon,
-	KvTagLetter
+	KvTagLetter,
+	KvTabItem,
+	KvTabList,
+	KvTabNavigation
 ];
 
 @NgModule({
