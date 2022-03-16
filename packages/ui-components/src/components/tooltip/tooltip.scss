@@ -1,0 +1,23 @@
+@import '../../assets/styles/globals';
+
+.tooltip-content {
+	width: fit-content;
+	height: fit-content;
+}
+
+.tooltip-container {
+	@include kv-font-span-semibold();
+	height: fit-content;
+	width: fit-content;
+	max-width: 240px;
+	word-wrap: break-word;
+	color: kv-color('neutral-0');
+	background-color: kv-color('neutral-6');
+	box-shadow: 0 8px 16px -4px kv-color('neutral-6', 'base', 0.25), 0 0 1px 0 kv-color('neutral-3', 'base', 0.31);
+	pointer-events: none;
+	user-select: none;
+	border-radius: 2px;
+	padding: $spacing $spacing-2x;
+	position: absolute;
+	display: none;
+}

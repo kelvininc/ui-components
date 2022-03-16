@@ -51,6 +51,9 @@
 		"lint:sass:fix": "stylelint '**/*.scss' --fix",
 		"validate": "npm run lint && npm run test && npm run build"
 	},
+	"dependencies": {
+		"@floating-ui/dom": "^0.4.0"
+	},
 	"devDependencies": {
 		"@stencil/angular-output-target": "^0.4.0",
 		"@stencil/core": "^2.13.0",
