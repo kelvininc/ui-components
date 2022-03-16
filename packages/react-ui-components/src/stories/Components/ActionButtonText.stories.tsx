@@ -7,7 +7,7 @@ import { icons } from '../foundation/SvgIcons/SvgIcons-list';
 KvActionButtonText.displayName = 'KvActionButtonText';
 
 export default {
-	title: 'Buttons/Action Buttons/Text',
+	title: 'Buttons/Text',
 	component: 'kv-action-button-text',
 	argTypes: {
 		type: {

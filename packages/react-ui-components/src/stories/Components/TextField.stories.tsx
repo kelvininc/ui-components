@@ -5,7 +5,7 @@ import { EComponentSize, EInputFieldType, EValidationState, KvTextField } from '
 KvTextField.displayName = 'KvTextField';
 
 export default {
-	title: 'Components/Text Fields',
+	title: 'Inputs/Text Field',
 	component: 'kv-text-field',
 	argTypes: {
 		disabled: { control: { type: 'boolean' } },

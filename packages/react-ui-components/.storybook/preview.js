@@ -42,6 +42,7 @@ export const parameters = {
 				'Foundation', ['Introduction', 'Colors', 'Spatial System', 'Typography'],
 				'Buttons',
 				'Data Display',
+				'Inputs',
 				'Feedback',
 				'Media',
 				'Navigation'

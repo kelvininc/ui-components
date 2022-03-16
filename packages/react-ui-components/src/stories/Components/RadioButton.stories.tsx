@@ -3,7 +3,7 @@ import React from 'react';
 import { KvRadioButton } from '../../components';
 
 export default {
-	title: 'Buttons/Radio Button',
+	title: 'Inputs/Radio Button',
 	component: 'kv-radio-button',
 	parameters: {
 		notes: require('@ui-notes/radio-button/readme.md')

@@ -21,6 +21,7 @@ $console-font: var(--kv-console-font, 'Inconsolata', 'mono');
 body {
 	color: kv-color('text');
 	background-color: kv-color('background');
+	font-family: $primary-font;
 
 	&[mode='light'] {
 		/* Text and Background Colors */
