@@ -79,6 +79,10 @@
 		.help-text {
 			color: var(--text-color-help-text-error);
 		}
+
+		kv-svg-icon {
+			--icon-color: var(--text-color-help-text-error);
+		}
 	}
 }
 
