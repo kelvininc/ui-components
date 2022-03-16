@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { throttle } from 'lodash-es';
-import { EAnchorTarget, IAnchor } from '../../utils/types/anchor';
+import { EAnchorTarget, IAnchor } from '../../utils/types';
 import { IBreadcrumbItem } from './breadcrumb-item.types';
 
 @Component({

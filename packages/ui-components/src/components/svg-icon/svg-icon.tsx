@@ -1,5 +1,6 @@
 import { Component, Prop, Host, h } from '@stencil/core';
 import { getClassMap } from '../../utils/css-class.helper';
+import { getConfig } from '../utils';
 
 /**
  * @part icon - The icon container.
@@ -23,6 +24,8 @@ export class KvSvgIcon {
 	@Prop({ reflect: true }) customColor: string = '';
 
 	render() {
+		const { baseAssetsUrl } = getConfig();
+
 		return (
 			<Host>
 				<svg
@@ -34,7 +37,7 @@ export class KvSvgIcon {
 					}}
 					style={{ fill: this.customColor }}
 				>
-					<use href={`svg-symbols.svg#${this.name}`}></use>
+					<use href={`${baseAssetsUrl}svg-symbols.svg#${this.name}`}></use>
 				</svg>
 			</Host>
 		);

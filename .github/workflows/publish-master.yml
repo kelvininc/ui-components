@@ -9,7 +9,7 @@ permissions:
 
 jobs:
     publish:
-        name: Publish
+        name: Publish Master
         runs-on: ubuntu-18.04
         steps:
             - name: Checkout
@@ -90,7 +90,13 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-            - name: Publish Storybook to GitHub Pages
-              run: npm run storybook:deploy
+            - name: Publish Alpha & Master Storybook to GitHub Pages
+              run: |
+                  npm run storybook:deploy -- -- -- --out='./gp' --dry-run  
+                  git switch -f dev
+                  npm run bootstrap
+                  npm run build:packages
+                  npm run storybook:deploy -- -- -- --out='./gp/alpha' --dry-run
+                  npm run storybook:deploy -- -- -- --existing-output-dir='./gp'
               env:
                   GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}

@@ -1,2 +1,2 @@
-export * from './anchor';
-export * from './css-class';
+export * from './components';
+export * from './lib-config';

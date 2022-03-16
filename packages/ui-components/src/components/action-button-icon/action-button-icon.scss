@@ -1,0 +1,48 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --button-icon-large-width: Button's icon large width.
+	 * @prop --button-icon-small-width: Button's icon small width.
+	 * @prop --button-icon-large-height: Button's icon large height.
+	 * @prop --button-icon-small-height: Button's icon small height.
+	 */
+
+	--button-icon-large-width: 24px;
+	--button-icon-large-height: 24px;
+	--button-icon-small-height: 20px;
+	--button-icon-small-width: 20px;
+}
+
+.action-button-icon--size-large {
+	kv-action-button {
+		--button-padding-x-large: 2px;
+	}
+
+	kv-svg-icon {
+		--icon-width: var(--button-icon-large-width);
+		--icon-height: var(--button-icon-large-height);
+	}
+}
+
+.action-button-icon--size-small {
+	kv-action-button {
+		--button-padding-x-small: 0;
+	}
+
+	kv-svg-icon {
+		--icon-width: var(--button-icon-small-width);
+		--icon-height: var(--button-icon-small-height);
+	}
+}
+
+kv-action-button {
+	--background-color-active-tertiary: #{kv-color('neutral-5')};
+	--border-color-active-tertiary: #{kv-color('neutral-4')};
+	--text-color-active-tertiary: #{kv-color('neutral-4')};
+}
+
+kv-svg-icon {
+	display: flex;
+	padding: $spacing;
+}

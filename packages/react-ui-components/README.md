@@ -13,6 +13,7 @@ From the command prompt go to your app's root folder and execute:
 ```
 npm install @kelvininc/react-ui-components --save
 ```
+
 ## Getting Started
 
 Include the fonts in `index.js` or `index.tsx`.
@@ -40,13 +41,25 @@ import { EActionButtonType, KvActionButton } from '@kelvininc/react-ui-component
 Including the global style file you can access our foundation design system definitions like [colors](https://kelvininc.github.io/ui-components/?path=/story/foundation-colors--page), [spacings](https://kelvininc.github.io/ui-components/?path=/docs/foundation-spatial-system--page) and [typography](https://kelvininc.github.io/ui-components/?path=/docs/foundation-typography--page)
 
 ```css
-@import "@kelvininc/react-ui-components/assets/styles/globals.scss";
+@import '@kelvininc/react-ui-components/assets/styles/globals.scss';
 ```
 
 ## Themes
 
-Kelvin UI Components allows you to customize the theme by changing some CSS properties.
+Kelvin UI Components have two predefined themes `StyleMode.Night` and `StyleMode.Light` (`StyleMode.Night` is applied by default) that can be applied on library startup. For that you need
+pass the desired theme to the library configuration in your `index.js` or `index.tsx`.
+
+```tsx
+import { initialize, StyleMode } from '@kelvininc/react-ui-components';
+
+(...)
+
+initialize({styleMode: StyleMode.Light});
+
+```
+
 <br />
+In addition, you can customize the theme by changing some CSS properties.
 
 ***Example***: Setting the *Primary Color*
 
@@ -59,6 +72,19 @@ Kelvin UI Components allows you to customize the theme by changing some CSS prop
 	--kv-primary-dark: #0051af;
 	--kv-primary-light: #ccdef4;
 }
+```
+
+## Relative paths
+
+By default the `KvSvgIcon` component will expect the `svg-symbols.svg` file to be served at the server root. This could not be your use-case if you're application is being served on a relative path, e.g, `https://dashboard.com/clients/home`. In this case you will need to tell the library the base path to your assets url, which you can achieve by doing the following in your `index.js` or `index.tsx`.
+
+```tsx
+import { initialize, StyleMode } from '@kelvininc/react-ui-components';
+
+(...)
+
+initialize({ baseAssetsUrl: '/clients/' });
+
 ```
 
 For more information, visit our [Storybook](https://kelvininc.github.io/ui-components/).

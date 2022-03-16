@@ -3,7 +3,7 @@ import React from 'react';
 import { EAnchorTarget, KvBreadcrumb } from '../../components';
 
 export default {
-	title: 'Components/Breadcrumb',
+	title: 'Navigation/Breadcrumbs/Breadcrumb',
 	component: 'kv-breadcrumb',
 	parameters: {
 		notes: require('@ui-notes/breadcrumb/readme.md')

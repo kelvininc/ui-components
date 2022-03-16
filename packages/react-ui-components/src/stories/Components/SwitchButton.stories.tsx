@@ -1,17 +1,17 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { ESwitchButtonSize, KvSwitchButton } from '../../components';
+import { EComponentSize, KvSwitchButton } from '../../components';
 
 // Required to have the correct TagName in the code sample
 KvSwitchButton.displayName = 'KvSwitchButton';
 
 export default {
-	title: 'Components/Buttons/Switch',
+	title: 'Inputs/Switch Button',
 	component: 'kv-switch-button',
 	argTypes: {
 		size: {
-			control: { type: 'select' },
-			options: Object.values(ESwitchButtonSize)
+			control: { type: 'radio' },
+			options: Object.values(EComponentSize)
 		}
 	},
 	parameters: {
@@ -26,5 +26,5 @@ DefaultState.args = {
 	label: 'Switch',
 	checked: false,
 	disabled: false,
-	size: ESwitchButtonSize.Large
+	size: EComponentSize.Large
 };

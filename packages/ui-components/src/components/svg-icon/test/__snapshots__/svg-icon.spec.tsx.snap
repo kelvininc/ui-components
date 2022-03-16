@@ -4,7 +4,7 @@ exports[`Svg Icon (unit tests) when has custom classes should match the snapshot
 <kv-svg-icon custom-class="icon-full-size rotate-90" custom-color="" name="kv-logo-kelvin">
   <mock:shadow-root>
     <svg class="icon-full-size rotate-90 svg-icon" part="icon" xmlns="http://www.w3.org/2000/svg">
-      <use href="svg-symbols.svg#kv-logo-kelvin"></use>
+      <use href="/svg-symbols.svg#kv-logo-kelvin"></use>
     </svg>
   </mock:shadow-root>
 </kv-svg-icon>
@@ -14,7 +14,7 @@ exports[`Svg Icon (unit tests) when has custom color should match the snapshot 1
 <kv-svg-icon custom-class="" custom-color="#05a357" name="kv-logo-kelvin">
   <mock:shadow-root>
     <svg class="svg-icon" part="icon" xmlns="http://www.w3.org/2000/svg" style="fill: #05a357;">
-      <use href="svg-symbols.svg#kv-logo-kelvin"></use>
+      <use href="/svg-symbols.svg#kv-logo-kelvin"></use>
     </svg>
   </mock:shadow-root>
 </kv-svg-icon>
@@ -24,7 +24,7 @@ exports[`Svg Icon (unit tests) when uses default props should match the snapshot
 <kv-svg-icon custom-class="" custom-color="" name="kv-logo-kelvin">
   <mock:shadow-root>
     <svg class="svg-icon" part="icon" xmlns="http://www.w3.org/2000/svg">
-      <use href="svg-symbols.svg#kv-logo-kelvin"></use>
+      <use href="/svg-symbols.svg#kv-logo-kelvin"></use>
     </svg>
   </mock:shadow-root>
 </kv-svg-icon>

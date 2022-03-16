@@ -1,0 +1,180 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --input-height-large: Text Field's large height.
+	 * @prop --input-height-small: Text Field's small height.
+
+	 * @prop --text-color-label: Label Text color.
+	 * @prop --text-color-icon-default: Icon color when state is default.
+	 * @prop --text-color-icon-disabled: Icon color when state is disabled.
+	 * @prop --text-color-input-default: Input Text color when state is default.
+	 * @prop --text-color-input-disabled: Input Text color when state is disabled.
+	 * @prop --text-color-input-focused: Input Text color when state is focused.
+	 * @prop --text-color-help-text-default: Help Text color when state is default.
+	 * @prop --text-color-help-text-error: Help Text color when state is invalid.
+
+	 * @prop --border-color-default: Border color when state is default.
+	 * @prop --border-color-focused: Border color when state is focused.
+	 * @prop --border-color-error: Border color when state is invalid.
+
+	 * @prop --background-color-default: Background color when state is default.
+	 * @prop --background-color-disabled: Background color when state is disabled.
+	 */
+
+	--input-height-large: 38px;
+	--input-height-small: 28px;
+
+	--text-color-icon-default: #{kv-color('neutral-4')};
+	--text-color-input-disabled: #{kv-color('neutral-5')};
+	--text-color-help-text-default: #{kv-color('neutral-5')};
+	--text-color-help-text-error: #{kv-color('error')};
+
+	--border-color-error: #{kv-color('error')};
+}
+
+.label,
+.required {
+	@include kv-font-label-small-uppercase-semibold;
+}
+
+.label {
+	color: var(--text-color-label);
+	margin-left: $spacing;
+}
+
+.required {
+	color: kv-color('error');
+	margin-left: $spacing;
+}
+
+.flex-align-center {
+	display: flex;
+	align-content: center;
+}
+
+.help-text-container {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	overflow: hidden;
+	margin: $spacing 0 0 $spacing-2x;
+
+	.help-text {
+		@include kv-font-label-small-regular;
+
+		margin-right: $spacing;
+		color: var(--text-color-help-text-default);
+	}
+
+	kv-svg-icon {
+		--icon-color: var(--text-color-help-text-default);
+
+		display: flex;
+		align-items: center;
+		margin-right: $spacing-2x;
+	}
+
+	&.invalid {
+		.help-text {
+			color: var(--text-color-help-text-error);
+		}
+
+		kv-svg-icon {
+			--icon-color: var(--text-color-help-text-error);
+		}
+	}
+}
+
+input {
+	@include kv-font-span-regular;
+
+	width: 100%;
+	height: 100%;
+	padding-left: $spacing-2x;
+	padding-right: $spacing-2x;
+	padding-top: 0;
+	padding-bottom: 0;
+	outline: 0;
+	box-sizing: border-box;
+	border-radius: 4px;
+	border: solid 1px var(--border-color-default);
+	color: var(--text-color-input-default);
+	background-color: var(--background-color-default);
+
+	&.has-icon {
+		padding-left: $spacing-9x;
+	}
+
+	&.invalid {
+		border-color: var(--border-color-error);
+	}
+
+	&:disabled {
+		background-color: var(--background-color-disabled);
+		color: var(--text-color-input-disabled);
+
+		&::placeholder {
+			color: var(--text-color-input-disabled);
+		}
+	}
+
+	&::placeholder {
+		color: var(--text-color-label);
+	}
+
+	&:focus {
+		color: var(--text-color-input-focused);
+
+		&:not(.invalid) {
+			border-color: var(--border-color-focused);
+		}
+	}
+}
+
+.input-container {
+	position: relative;
+	margin-top: $spacing;
+
+	&--size-large {
+		height: var(--input-height-large);
+	}
+
+	&--size-small {
+		height: var(--input-height-small);
+	}
+
+	kv-svg-icon {
+		--icon-width: 20px;
+		--icon-height: 20px;
+		--icon-color: var(--text-color-icon-default);
+
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: flex;
+		align-items: center;
+		height: 100%;
+		user-select: none;
+		padding-left: $spacing-3x;
+
+		&.invalid {
+			--icon-color: var(--border-color-error);
+		}
+
+		&.disabled {
+			--icon-color: var(--text-color-icon-disabled);
+		}
+
+		&.focus {
+			--icon-color: var(--text-color-input-focused);
+		}
+	}
+}
+
+.input-container-loading {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	margin-top: $spacing;
+}

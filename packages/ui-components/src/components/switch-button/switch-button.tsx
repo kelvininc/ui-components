@@ -1,6 +1,7 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
-import { ESwitchButtonSize } from './switch-button.types';
+import { EComponentSize } from '../../utils/types';
 import throttle from 'lodash/throttle';
+import { isEmpty } from 'lodash-es';
 
 /**
  * @part icon-svg - The switch icon.
@@ -19,7 +20,7 @@ export class KvSwitchButton {
 	/** Watch `label` property for changes and update `hasLabel` accordingly */
 	@Watch('label')
 	labelHandler(newValue?: string) {
-		this.hasLabel = newValue != null && newValue !== '';
+		this.hasLabel = !isEmpty(newValue);
 	}
 
 	/** (optional) If `true` the button is disabled */
@@ -27,10 +28,10 @@ export class KvSwitchButton {
 	/** (optional) If `true` the button is ON */
 	@Prop({ reflect: true, mutable: true }) checked: boolean = false;
 	/** (optional) Button's size */
-	@Prop() size: ESwitchButtonSize = ESwitchButtonSize.Large;
+	@Prop() size: EComponentSize = EComponentSize.Large;
 
 	/** Whether the label exist and it's not empty */
-	@State() hasLabel: boolean = this.label != null && this.label !== '';
+	@State() hasLabel: boolean = !isEmpty(this.label);
 
 	/** Emitted when switch's state changes */
 	@Event() switchChange: EventEmitter<boolean>;

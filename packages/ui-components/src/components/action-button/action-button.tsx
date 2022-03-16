@@ -1,74 +1,73 @@
-import { Component, Event, EventEmitter, h, Prop, State } from '@stencil/core';
-import { isEmpty } from 'lodash-es';
-import { EActionButtonType } from './action-button.types';
+import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
+import { EActionButtonType, IButton, IButtonEvents } from './action-button.types';
+import { EAnchorTarget, EComponentSize, IAnchor } from '../../utils/types';
 
+/**
+ * @part button - The action button.
+ */
 @Component({
 	tag: 'kv-action-button',
 	styleUrl: 'action-button.scss',
 	shadow: true
 })
-export class ActionButton {
-	@State() isButtonHovered = false;
-
+export class KvActionButton implements IButton, IButtonEvents, IAnchor {
+	/** @inheritdoc */
 	@Prop({ reflect: true }) type!: EActionButtonType;
-	@Prop({ reflect: true }) text: string;
-	@Prop({ reflect: true }) icon: string;
-	@Prop({ reflect: true }) enabled = true;
-	@Prop({ reflect: true }) buttonClass: string;
-	@Prop({ reflect: true }) smallSize = false;
-	@Prop({ reflect: true }) buttonId: string;
-	@Prop({ reflect: true }) fixedWidth: number = null;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) active: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) href?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) target?: EAnchorTarget;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) download?: string;
 
-	@Event() buttonClick: EventEmitter<MouseEvent>;
+	/** @inheritdoc */
+	@Event() clickButton: EventEmitter<MouseEvent>;
+	/** @inheritdoc */
+	@Event() focusButton: EventEmitter<FocusEvent>;
+	/** @inheritdoc */
+	@Event() blurButton: EventEmitter<FocusEvent>;
 
-	private onActionButtonClick = (event: MouseEvent) => {
-		this.isButtonHovered = false;
-
-		if (!isEmpty(event)) {
-			event.preventDefault();
+	private onClickButton = (event: MouseEvent) => {
+		if (this.disabled) {
+			return;
 		}
 
-		if (this.enabled) {
-			this.buttonClick.emit(event);
-		}
+		this.clickButton.emit(event);
 	};
-
-	private onMouseEnter = () => {
-		if (this.enabled) {
-			this.isButtonHovered = true;
-		}
+	private onFocusButton = (event: FocusEvent) => {
+		this.focusButton.emit(event);
 	};
-
-	private onMouseLeave = () => {
-		this.isButtonHovered = false;
+	private onBlurButton = (event: FocusEvent) => {
+		this.blurButton.emit(event);
 	};
 
 	render() {
 		return (
-			<div class="action-btn-container">
-				<div
-					id={this.buttonId}
+			<Host aria-disabled={this.disabled} onClick={this.onClickButton}>
+				<a
 					class={{
 						'action-button': true,
-						[`${this.buttonClass ?? ''}`]: true,
-						[`${this.type}`]: true,
-						'hover': this.isButtonHovered,
-						'small': this.smallSize,
-						'icon-only': isEmpty(this.text)
+						'action-button--disabled': this.disabled,
+						'action-button--active': this.active,
+						[`action-button--type-${this.type}`]: true,
+						[`action-button--size-${this.size}`]: true
 					}}
-					aria-disabled={!this.enabled || null}
-					style={{ width: this.fixedWidth > 0 ? `${this.fixedWidth}px` : 'auto' }}
-					onClick={this.onActionButtonClick}
-					onMouseEnter={this.onMouseEnter}
-					onMouseLeave={this.onMouseLeave}
+					part="button"
+					download={this.download}
+					href={this.href}
+					target={this.target}
+					onFocus={this.onFocusButton}
+					onBlur={this.onBlurButton}
 				>
-					{this.text && (
-						<div class="button-wrapper">
-							<span class="button-title">{this.text}</span>
-						</div>
-					)}
-				</div>
-			</div>
+					<slot />
+				</a>
+			</Host>
 		);
 	}
 }

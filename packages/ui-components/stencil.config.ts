@@ -15,6 +15,7 @@ const angularValueAccessorBindings: ValueAccessorConfig[] = [
 
 export const config: Config = {
 	namespace: 'Peacock-UI',
+	globalScript: 'src/globals/globals.ts',
 	outputTargets: [
 		angular({
 			componentCorePackage: '@kelvininc/ui-components',
@@ -56,7 +57,7 @@ export const config: Config = {
 		},
 		testRegex: '(.(test|spec|e2e)).(tsx?|jsx?)$',
 		collectCoverage: true,
-		moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'jsx'],
+		moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'jsx', 'd.ts'],
 		coverageDirectory: 'unit-coverage',
 		coveragePathIgnorePatterns: ['/node_modules/', '.types.tsx', '.mock.ts', '.config.tsx'],
 		coverageReporters: ['html', 'json'],

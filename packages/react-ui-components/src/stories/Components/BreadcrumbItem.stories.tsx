@@ -3,7 +3,7 @@ import React from 'react';
 import { EAnchorTarget, KvBreadcrumbItem } from '../../components';
 
 export default {
-	title: 'Components/Breadcrumb Item',
+	title: 'Navigation/Breadcrumbs/Breadcrumb Item',
 	component: 'kv-breadcrumb-item',
 	argTypes: {
 		target: {

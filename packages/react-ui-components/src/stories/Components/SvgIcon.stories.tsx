@@ -3,7 +3,7 @@ import React from 'react';
 import { KvSvgIcon } from '../../components';
 import { icons, illustrations } from '../foundation/SvgIcons/SvgIcons-list';
 export default {
-	title: 'Components/Svg Icon',
+	title: 'Media/SVG Icon',
 	component: 'kv-svg-icon',
 	argTypes: {
 		name: {
