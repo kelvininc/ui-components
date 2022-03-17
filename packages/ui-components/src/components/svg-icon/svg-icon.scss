@@ -14,21 +14,6 @@
 }
 
 .svg-icon {
-	/**
-	 * @prop --illustration-color: Base color used in the illustration
-	 * @prop --illustration-color-light-90: 90% lighter version of the illustration base color
-	 * @prop --illustration-color-light-80: 80% lighter version of the illustration base color
-	 * @prop --illustration-color-dark-55: 55% darker version of the illustration base color
-	 * @prop --illustration-color-dark-35: 35% darker version of the illustration base color
-	 * @prop --illustration-success-color: Success color used in the illustration
-	 */
-	--illustration-color: var(--kv-illustrations-color, #{$primary-color});
-	--illustration-color-light-90: var(--kv-illustrations-color-light-90, #{mix(#fff, $primary-color, 89.5%)});
-	--illustration-color-light-80: var(--kv-illustrations-color-light-80, #{mix(#fff, $primary-color, 78.5%)});
-	--illustration-color-dark-55: var(--kv-illustrations-color-dark-55, #{mix(#000, $primary-color, 54.5%)});
-	--illustration-color-dark-35: var(--kv-illustrations-color-dark-35, #{mix(#000, $primary-color, 36%)});
-	--illustration-success-color: var(--kv-illustrations-success-color, #{$success-color});
-
 	fill: var(--icon-color);
 	width: var(--icon-width);
 	height: var(--icon-height);
@@ -70,7 +55,6 @@
 		height: 100%;
 	}
 
-
 	/* ROTATIONS */
 	&.rotate-0 {
 		transform: rotate(0deg);
@@ -103,5 +87,4 @@
 	&.rotate-315 {
 		transform: rotate(315deg);
 	}
-
 }

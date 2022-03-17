@@ -103,18 +103,12 @@ export const SvgIconExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                            | Description                                        |
-| ------------------------------- | -------------------------------------------------- |
-| `--icon-color`                  | Color of the icon                                  |
-| `--icon-height`                 | Height of icon                                     |
-| `--icon-rotation`               | Rotation of icon                                   |
-| `--icon-width`                  | Width of icon                                      |
-| `--illustration-color`          | Base color used in the illustration                |
-| `--illustration-color-dark-35`  | 35% darker version of the illustration base color  |
-| `--illustration-color-dark-55`  | 55% darker version of the illustration base color  |
-| `--illustration-color-light-80` | 80% lighter version of the illustration base color |
-| `--illustration-color-light-90` | 90% lighter version of the illustration base color |
-| `--illustration-success-color`  | Success color used in the illustration             |
+| Name              | Description       |
+| ----------------- | ----------------- |
+| `--icon-color`    | Color of the icon |
+| `--icon-height`   | Height of icon    |
+| `--icon-rotation` | Rotation of icon  |
+| `--icon-width`    | Width of icon     |
 
 
 ## Dependencies
