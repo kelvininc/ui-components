@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KvSummaryCard (unit tests) when initialized with description should match the snapshot 1`] = `
+<kv-summary-card>
+  <mock:shadow-root>
+    <div class="summary-card-container">
+      <div class="label">
+        - -
+      </div>
+      <div class="subtitle"></div>
+      <div class="description">
+        Gas Flow
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-summary-card>
+`;
+
+exports[`KvSummaryCard (unit tests) when initialized with label should match the snapshot 1`] = `
+<kv-summary-card>
+  <mock:shadow-root>
+    <div class="summary-card-container">
+      <div class="label">
+        Kelvin
+      </div>
+      <div class="subtitle"></div>
+      <div class="description"></div>
+    </div>
+  </mock:shadow-root>
+</kv-summary-card>
+`;
+
+exports[`KvSummaryCard (unit tests) when initialized with loading flag should match the snapshot 1`] = `
+<kv-summary-card>
+  <mock:shadow-root>
+    <div class="loading summary-card-container">
+      <div class="label"></div>
+      <div class="subtitle"></div>
+      <div class="description"></div>
+    </div>
+  </mock:shadow-root>
+</kv-summary-card>
+`;
+
+exports[`KvSummaryCard (unit tests) when initialized with required props should match the snapshot 1`] = `
+<kv-summary-card>
+  <mock:shadow-root>
+    <div class="summary-card-container">
+      <div class="label">
+        - -
+      </div>
+      <div class="subtitle"></div>
+      <div class="description"></div>
+    </div>
+  </mock:shadow-root>
+</kv-summary-card>
+`;
+
+exports[`KvSummaryCard (unit tests) when initialized with subtitle should match the snapshot 1`] = `
+<kv-summary-card>
+  <mock:shadow-root>
+    <div class="summary-card-container">
+      <div class="label">
+        - -
+      </div>
+      <div class="subtitle">
+        MCF/ Day
+      </div>
+      <div class="description"></div>
+    </div>
+  </mock:shadow-root>
+</kv-summary-card>
+`;
