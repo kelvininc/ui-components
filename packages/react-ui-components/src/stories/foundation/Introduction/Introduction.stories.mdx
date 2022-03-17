@@ -145,9 +145,20 @@ Including the global style file you can access our foundation design system defi
 @import "@kelvininc/angular-ui-components/assets/styles/globals.scss";
 ```
 
-# Themes
+## Themes
 
-Kelvin UI Components allows you to customize the theme by changing some CSS properties.
+Kelvin UI Components have two predefined themes `StyleMode.Night` and `StyleMode.Light` (`StyleMode.Night` is applied by default) that can be applied on library startup. For that you need pass the desired theme to the library configuration in your `index.js` (*React*) or `app.component.ts`(*Angular*).
+
+```tsx
+import { initialize, StyleMode } from '@kelvininc/[react|angular]-ui-components';
+
+(...)
+
+initialize({styleMode: StyleMode.Light});
+
+```
+<br />
+In addition, you can customize the theme by changing some CSS properties.
 
 ***Example***: Setting the *Primary Color*
 
@@ -160,4 +171,17 @@ Kelvin UI Components allows you to customize the theme by changing some CSS prop
 	--kv-primary-dark: #0051af;
 	--kv-primary-light: #ccdef4;
 }
+```
+
+## Relative paths
+
+By default the `KvSvgIcon` component will expect the `svg-symbols.svg` file to be served at the server root. This could not be your use-case if you're application is being served on a relative path, e.g, `https://dashboard.com/clients/home`. In this case you will need to tell the library the base path to your assets url, which you can achieve by doing the following in your `index.js` (*React*) or `app.component.ts` (*Angular*).
+
+```tsx
+import { initialize, StyleMode } from '@kelvininc/[react|angular]-ui-components';
+
+(...)
+
+initialize({ baseAssetsUrl: '/clients/' });
+
 ```

@@ -36,7 +36,7 @@ export class KvTextField {
 	/** (optional) Text field help text */
 	@Prop({ reflect: true }) helpText: string | string[] = [];
 	/** Internal help texts state */
-	@State() _helpTexts: string[] = this.buildHelpTextMessages(this.helpText);
+	@State() _helpTexts: string[];
 	/** Watch the `helpText` property and update internal state accordingly */
 	@Watch('helpText')
 	helpTextChangeHandler(newValue: string | string[]) {
@@ -51,6 +51,12 @@ export class KvTextField {
 	@Watch('value')
 	valueChangeHandler(newValue: string) {
 		this._value = newValue;
+	}
+
+	componentWillLoad() {
+		// Init the states because Watches run only on component updates
+		this._value = this.value;
+		this._helpTexts = this.buildHelpTextMessages(this.helpText);
 	}
 
 	/** Text field focus state */

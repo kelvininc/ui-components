@@ -166,7 +166,7 @@ input {
 			--icon-color: var(--text-color-icon-disabled);
 		}
 
-		&.focus {
+		&.focus:not(.invalid) {
 			--icon-color: var(--text-color-input-focused);
 		}
 	}
