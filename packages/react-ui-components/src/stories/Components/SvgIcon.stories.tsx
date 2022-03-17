@@ -1,14 +1,14 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
 import { KvSvgIcon } from '../../components';
-import { icons, illustrations } from '../foundation/SvgIcons/SvgIcons-list';
+import { icons } from '../foundation/SvgIcons/SvgIcons-list';
 export default {
 	title: 'Media/SVG Icon',
 	component: 'kv-svg-icon',
 	argTypes: {
 		name: {
 			control: { type: 'select' },
-			options: [...icons, ...illustrations]
+			options: [...icons]
 		},
 		customClass: {
 			control: { type: 'text' }

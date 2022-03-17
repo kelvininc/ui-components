@@ -1,6 +1,7 @@
 import { Meta } from '@storybook/addon-docs';
 import style from './SvgIcons.scss';
-import { icons, illustrations, otherIcons} from './SvgIcons-list';
+import { icons, illustrations, otherIcons } from './SvgIcons-list';
+import { EIllustrationName } from '../../../components';
 
 <Meta
 	parameters={{
@@ -32,13 +33,13 @@ All our icons and illustrations are build with [Scalable Vector Graphics (SVGs)]
 ### Other Icons
 
 <div class="svgs-container">
-	{otherIcons.map(icn => (
-		<div key={icn} class="icon-wrapper">
+	{otherIcons.map(icon => (
+		<div key={icon} class="icon-wrapper">
 			<div class="box-wrapper">
-				<kv-svg-icon name={icn} custom-class="icon-24"></kv-svg-icon>
+				<kv-svg-icon name={icon} custom-class="icon-24"></kv-svg-icon>
 			</div>
 			<div class="description">
-				<span class="code">{icn}</span>
+				<span class="code">{icon}</span>
 			</div>
 		</div>
 	))}
@@ -47,13 +48,13 @@ All our icons and illustrations are build with [Scalable Vector Graphics (SVGs)]
 ## Illustrations pack
 
 <div class="svgs-container">
-	{illustrations.map(icn => (
-		<div key={icn} class="ilus-wrapper">
+	{Object.values(EIllustrationName).map(illustration => (
+		<div key={illustration} class="ilus-wrapper">
 			<div class="box-wrapper">
-				<kv-svg-icon name={icn} custom-class="icon-full-size"></kv-svg-icon>
+				<kv-illustration name={illustration} custom-class="illustration-full-size"></kv-illustration>
 			</div>
 			<div class="description">
-				<span class="code">{icn}</span>
+				<span class="code">{illustration}</span>
 			</div>
 		</div>
 	))}
