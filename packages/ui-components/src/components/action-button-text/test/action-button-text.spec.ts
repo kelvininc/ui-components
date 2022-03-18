@@ -24,8 +24,8 @@ describe('Action Button Text (unit tests)', () => {
 			expect(component.disabled).toBe(false);
 		});
 
-		it('should initialize `icon` with empty string', () => {
-			expect(component.icon).toBe('');
+		it('should initialize `icon` with undefined', () => {
+			expect(component.icon).toBeUndefined();
 			expect(component.hasIcon).toBe(false);
 		});
 

@@ -2,6 +2,7 @@ import { Component, Event, EventEmitter, h, Host, Prop, State, Watch } from '@st
 import { isEmpty } from 'lodash-es';
 import { EActionButtonType, IButton } from '../action-button/action-button.types';
 import { EComponentSize, IAnchor, EAnchorTarget } from '../../utils/types';
+import { EIconName, EOtherIconName } from '../icon/icon.types';
 
 @Component({
 	tag: 'kv-action-button-split',
@@ -10,11 +11,11 @@ import { EComponentSize, IAnchor, EAnchorTarget } from '../../utils/types';
 })
 export class KvActionButtonSplit implements IButton, IAnchor {
 	/** (required) Right button icon symbol name */
-	@Prop({ reflect: true }) splitIcon!: string;
+	@Prop({ reflect: true }) splitIcon!: EIconName | EOtherIconName;
 	/** (required) (required) Button's text */
 	@Prop({ reflect: true }) text!: string;
 	/** (optional) Button's left icon symbol name */
-	@Prop({ reflect: true }) icon: string = '';
+	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) type!: EActionButtonType;
 	/** @inheritdoc */
@@ -111,7 +112,7 @@ export class KvActionButtonSplit implements IButton, IAnchor {
 						onBlurButton={this.onBlurRightButton}
 						exportparts="button"
 					>
-						<kv-svg-icon name={this.splitIcon} exportparts="icon" />
+						<kv-icon name={this.splitIcon} exportparts="icon" />
 					</kv-action-button>
 				</div>
 			</Host>

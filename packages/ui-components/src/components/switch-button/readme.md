@@ -122,12 +122,12 @@ export class SwichButtonExample {
 
 ### Depends on
 
-- [kv-svg-icon](../svg-icon)
+- [kv-icon](../icon)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-switch-button --> kv-svg-icon
+  kv-switch-button --> kv-icon
   style kv-switch-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

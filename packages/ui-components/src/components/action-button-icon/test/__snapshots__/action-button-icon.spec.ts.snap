@@ -5,7 +5,7 @@ exports[`Action Button Icon (unit tests) when uses default props should match th
   <mock:shadow-root>
     <div class="action-button-icon action-button-icon--size-small">
       <kv-action-button exportparts="button" size="small" type="primary">
-        <kv-svg-icon exportparts="icon" name="kv-add"></kv-svg-icon>
+        <kv-icon exportparts="icon" name="kv-add"></kv-icon>
       </kv-action-button>
     </div>
   </mock:shadow-root>
