@@ -54,6 +54,7 @@ export const Disabled = TextFieldTemplate.bind({});
 Disabled.args = {
 	...Default.args,
 	label: 'Disabled Text Field',
+	value: 'text value',
 	disabled: true,
 	state: EValidationState.None,
 	size: EComponentSize.Large,
