@@ -1,18 +1,19 @@
 import { Component, Prop, Host, h } from '@stencil/core';
 import { getClassMap } from '../../utils/css-class.helper';
 import { getConfig } from '../utils';
+import { EIconName, EOtherIconName } from './icon.types';
 
 /**
  * @part icon - The icon container.
  */
 @Component({
-	tag: 'kv-svg-icon',
-	styleUrl: 'svg-icon.scss',
+	tag: 'kv-icon',
+	styleUrl: 'icon.scss',
 	shadow: true
 })
-export class KvSvgIcon {
+export class KvIcon {
 	/** (required) Icon symbol name */
-	@Prop({ reflect: true }) name!: string;
+	@Prop({ reflect: true }) name!: EIconName | EOtherIconName;
 
 	/**
 	 * (optional) Additional classes to apply for custom CSS. If multiple classes are
@@ -33,7 +34,7 @@ export class KvSvgIcon {
 					xmlns="http://www.w3.org/2000/svg"
 					class={{
 						...getClassMap(this.customClass),
-						'svg-icon': true
+						icon: true
 					}}
 					style={{ fill: this.customColor }}
 				>

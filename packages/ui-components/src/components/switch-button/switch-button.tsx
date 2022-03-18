@@ -2,6 +2,7 @@ import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@st
 import { EComponentSize } from '../../utils/types';
 import throttle from 'lodash/throttle';
 import { isEmpty } from 'lodash-es';
+import { EIconName } from '../icon/icon.types';
 
 /**
  * @part icon-svg - The switch icon.
@@ -52,7 +53,7 @@ export class KvSwitchButton {
 	}
 
 	render() {
-		const iconName = this.disabled ? 'kv-lock' : 'kv-done-all';
+		const iconName = this.disabled ? EIconName.Lock : EIconName.DoneAll;
 
 		return (
 			<Host>
@@ -70,7 +71,7 @@ export class KvSwitchButton {
 							onClick={this.onSwitchClick}
 						>
 							<div class="icon-square" part="icon-square">
-								<kv-svg-icon name={iconName} part="icon-svg" />
+								<kv-icon name={iconName} part="icon-svg" />
 							</div>
 						</div>
 					</div>

@@ -1,16 +1,16 @@
 import { SpecPage } from '@stencil/core/internal';
 import { newSpecPage } from '@stencil/core/testing';
-import { KvSvgIcon } from '../svg-icon';
+import { KvIcon } from '../icon';
 
-describe('Svg Icon (unit tests)', () => {
+describe('Icon (unit tests)', () => {
 	let page: SpecPage;
-	let component: KvSvgIcon;
+	let component: KvIcon;
 
 	describe('when uses default props', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvSvgIcon],
-				html: `<kv-svg-icon name="kv-logo-kelvin"></kv-svg-icon>`
+				components: [KvIcon],
+				html: `<kv-icon name="kv-logo-kelvin"></kv-icon>`
 			});
 			component = page.rootInstance;
 		});
@@ -23,8 +23,8 @@ describe('Svg Icon (unit tests)', () => {
 	describe('when has custom classes', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvSvgIcon],
-				html: `<kv-svg-icon name="kv-logo-kelvin" custom-class="icon-full-size rotate-90"></kv-svg-icon>`
+				components: [KvIcon],
+				html: `<kv-icon name="kv-logo-kelvin" custom-class="icon-full-size rotate-90"></kv-icon>`
 			});
 			component = page.rootInstance;
 		});
@@ -37,8 +37,8 @@ describe('Svg Icon (unit tests)', () => {
 	describe('when has custom color', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvSvgIcon],
-				html: `<kv-svg-icon name="kv-logo-kelvin" custom-color="#05a357"></kv-svg-icon>`
+				components: [KvIcon],
+				html: `<kv-icon name="kv-logo-kelvin" custom-color="#05a357"></kv-icon>`
 			});
 			component = page.rootInstance;
 		});

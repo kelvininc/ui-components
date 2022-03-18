@@ -79,7 +79,7 @@ export class TextFieldExample {
 | ------------------- | ------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------- | ----------------------- |
 | `disabled`          | `disabled`    | (optional) Text field disabled                                     | `boolean`                                                                     | `false`                 |
 | `helpText`          | `help-text`   | (optional) Text field help text                                    | `string \| string[]`                                                          | `[]`                    |
-| `icon`              | `icon`        | (optional) Text field's icon symbol name                           | `string`                                                                      | `undefined`             |
+| `icon`              | `icon`        | (optional) Text field's icon symbol name                           | `EIconName \| EOtherIconName`                                                 | `undefined`             |
 | `inputName`         | `input-name`  | (optional) Text field input name                                   | `string`                                                                      | `undefined`             |
 | `label`             | `label`       | (optional) Text field label                                        | `string`                                                                      | `undefined`             |
 | `loading`           | `loading`     | (optional) Text field loading state                                | `boolean`                                                                     | `false`                 |
@@ -129,12 +129,12 @@ export class TextFieldExample {
 
 ### Depends on
 
-- [kv-svg-icon](../svg-icon)
+- [kv-icon](../icon)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-text-field --> kv-svg-icon
+  kv-text-field --> kv-icon
   kv-search --> kv-text-field
   style kv-text-field fill:#f9f,stroke:#333,stroke-width:4px
 ```

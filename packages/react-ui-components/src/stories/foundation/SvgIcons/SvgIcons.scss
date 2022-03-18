@@ -19,12 +19,12 @@
 		justify-content: center;
 		background: kv-color('neutral-7');
 		border-radius: 4px;
-	
-		kv-svg-icon::part(icon) {
+
+		kv-icon::part(icon) {
 			fill: kv-color('primary');
 		}
 	}
-	
+
 	.description {
 		display: flex;
 		justify-content: space-between;
@@ -52,7 +52,7 @@
 		border-radius: 4px;
 		padding: $spacing-2x;
 	}
-	
+
 	.description {
 		display: flex;
 		width: 100%;
