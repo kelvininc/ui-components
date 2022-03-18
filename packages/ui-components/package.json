@@ -52,7 +52,8 @@
 		"validate": "npm run lint && npm run test && npm run build"
 	},
 	"dependencies": {
-		"@floating-ui/dom": "^0.4.0"
+		"@floating-ui/dom": "^0.4.0",
+		"css-element-queries": "^1.2.3"
 	},
 	"devDependencies": {
 		"@stencil/angular-output-target": "^0.4.0",
