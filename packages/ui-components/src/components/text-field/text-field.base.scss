@@ -69,7 +69,7 @@
 		color: var(--text-color-help-text-default);
 	}
 
-	kv-svg-icon {
+	kv-icon {
 		--icon-color: var(--text-color-help-text-default);
 
 		display: flex;
@@ -82,7 +82,7 @@
 			color: var(--text-color-help-text-error);
 		}
 
-		kv-svg-icon {
+		kv-icon {
 			--icon-color: var(--text-color-help-text-error);
 		}
 	}
@@ -153,7 +153,7 @@ input {
 		height: var(--input-height-small);
 	}
 
-	kv-svg-icon {
+	kv-icon {
 		--icon-width: 20px;
 		--icon-height: 20px;
 		--icon-color: var(--text-color-icon-default);
@@ -187,8 +187,8 @@ input {
 		height: 100%;
 		width: var(--right-slot-width);
 		overflow: hidden;
-		
-		::slotted(kv-svg-icon) {
+
+		::slotted(kv-icon) {
 			--icon-width: 16px;
 			--icon-height: 16px;
 			--icon-color: var(--text-color-icon-default);
@@ -202,7 +202,7 @@ input {
 		}
 
 		&.focus {
-			::slotted(kv-svg-icon) {
+			::slotted(kv-icon) {
 				--icon-color: var(--text-color-input-focused);
 			}
 		}

@@ -42,7 +42,7 @@ describe('Search (end-to-end)', () => {
 				const searchComponent = await page.find('kv-search');
 				spyResetEvent = await searchComponent.spyOnEvent('clickResetButton');
 
-				const resetIcon = await page.find('kv-search >>> kv-svg-icon');
+				const resetIcon = await page.find('kv-search >>> kv-icon');
 				await resetIcon.click();
 			});
 
@@ -60,7 +60,7 @@ describe('Search (end-to-end)', () => {
 
 		describe('when tries to press button', () => {
 			beforeEach(async () => {
-				const resetIcon = await page.find('kv-search >>> kv-svg-icon');
+				const resetIcon = await page.find('kv-search >>> kv-icon');
 
 				it('should not find button', () => {
 					expect(resetIcon).toBeNull();
@@ -77,7 +77,7 @@ describe('Search (end-to-end)', () => {
 
 		describe('when tries to press button', () => {
 			beforeEach(async () => {
-				const resetIcon = await page.find('kv-search >>> kv-svg-icon');
+				const resetIcon = await page.find('kv-search >>> kv-icon');
 
 				it('should not find button', () => {
 					expect(resetIcon).toBeNull();

@@ -11,19 +11,19 @@
 
 ```html
 <!-- Primary -->
-<kv-action-button-text text="Primary Button" icon="kv-add" [type]="EActionButtonType.Primary"></kv-action-button-text>
+<kv-action-button-text text="Primary Button" [icon]="EIconName.Add" [type]="EActionButtonType.Primary"></kv-action-button-text>
 
 <!-- Secondary -->
-<kv-action-button-text text="Secondary Button" icon="kv-add" [type]="EActionButtonType.Secondary"></kv-action-button-text>
+<kv-action-button-text text="Secondary Button" [icon]="EIconName.Add" [type]="EActionButtonType.Secondary"></kv-action-button-text>
 
 <!-- Tertiary -->
-<kv-action-button-text text="Tertiary Button" icon="kv-add" [type]="EActionButtonType.Tertiary"></kv-action-button-text>
+<kv-action-button-text text="Tertiary Button" [icon]="EIconName.Add" [type]="EActionButtonType.Tertiary"></kv-action-button-text>
 
 <!-- Disabled -->
-<kv-action-button-text text="Disabled Button" icon="kv-add" [type]="EActionButtonType.Primary" disabled></kv-action-button-text>
+<kv-action-button-text text="Disabled Button" [icon]="EIconName.Add" [type]="EActionButtonType.Primary" disabled></kv-action-button-text>
 
 <!-- Anchor -->
-<kv-action-button-text text="Link Button" icon="kv-add" [type]="EActionButtonType.Primary" href="/link-to-url" target="_blank"></kv-action-button-text>
+<kv-action-button-text text="Link Button" [icon]="EIconName.Add" [type]="EActionButtonType.Primary" href="/link-to-url" target="_blank"></kv-action-button-text>
 ```
 
 
@@ -32,24 +32,24 @@
 ```tsx
 import React from 'react';
 
-import { KvActionButtonText } from '@kelvininc/react-ui-components';
+import { KvActionButtonText, EActionButtonType, EIconName } from '@kelvininc/react-ui-components';
 
 export const SwitchButtonExample: React.FC = () => (
 	<>
 		{/*-- Primary --*/}
-		<KvActionButtonText text="Primary Button" icon="kv-add" type={EActionButtonType.Primary}></KvActionButtonText>
+		<KvActionButtonText text="Primary Button" icon={EIconName.Add} type={EActionButtonType.Primary}></KvActionButtonText>
 
 		{/*--Secondary --*/}
-		<KvActionButtonText text="Secondary Button" icon="kv-add" type={EActionButtonType.Secondary}></KvActionButtonText>
+		<KvActionButtonText text="Secondary Button" icon={EIconName.Add} type={EActionButtonType.Secondary}></KvActionButtonText>
 
 		{/*-- Tertiary --*/}
-		<KvActionButtonText text="Tertiary Button" icon="kv-add" type={EActionButtonType.Tertiary}></KvActionButtonText>
+		<KvActionButtonText text="Tertiary Button" icon={EIconName.Add} type={EActionButtonType.Tertiary}></KvActionButtonText>
 
 		{/*-- Disabled --*/}
-		<KvActionButtonText disabled text="Disabled Button" icon="kv-add" type={EActionButtonType.Primary}></KvActionButtonText>
+		<KvActionButtonText disabled text="Disabled Button" icon={EIconName.Add} type={EActionButtonType.Primary}></KvActionButtonText>
 
 		{/*-- Anchor --*/}
-		<KvActionButton href="/link-to-url" target="_blank" type={EActionButtonType.Primary} text="Anchor Button" icon="kv-add"></KvActionButton>
+		<KvActionButton href="/link-to-url" target="_blank" type={EActionButtonType.Primary} text="Anchor Button" icon={EIconName.Add}></KvActionButton>
 	</>
 );
 ```
@@ -64,7 +64,7 @@ export const SwitchButtonExample: React.FC = () => (
 | `disabled`          | `disabled` | (optional) If `true` the button is disabled                                                                     | `boolean`                                                                                                            | `false`                |
 | `download`          | `download` | (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename | `string`                                                                                                             | `undefined`            |
 | `href`              | `href`     | (optional) The anchor's link to open when clicking                                                              | `string`                                                                                                             | `undefined`            |
-| `icon`              | `icon`     | (optional) Button's left icon symbol name                                                                       | `string`                                                                                                             | `''`                   |
+| `icon`              | `icon`     | (optional) Button's left icon symbol name                                                                       | `EIconName \| EOtherIconName`                                                                                        | `undefined`            |
 | `size`              | `size`     | (optional) Button's size                                                                                        | `EComponentSize.Large \| EComponentSize.Small`                                                                       | `EComponentSize.Large` |
 | `target`            | `target`   | (optional) The anchor's target                                                                                  | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top`                  | `undefined`            |
 | `text` _(required)_ | `text`     | (required) (required) Button's text                                                                             | `string`                                                                                                             | `undefined`            |
@@ -104,13 +104,13 @@ export const SwitchButtonExample: React.FC = () => (
 ### Depends on
 
 - [kv-action-button](../action-button)
-- [kv-svg-icon](../svg-icon)
+- [kv-icon](../icon)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-action-button-text --> kv-action-button
-  kv-action-button-text --> kv-svg-icon
+  kv-action-button-text --> kv-icon
   kv-action-button-split --> kv-action-button-text
   style kv-action-button-text fill:#f9f,stroke:#333,stroke-width:4px
 ```

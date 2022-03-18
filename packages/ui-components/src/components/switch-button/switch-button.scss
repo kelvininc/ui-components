@@ -47,7 +47,7 @@ $icon-sizes: (
 		height: $sqr-size;
 		width: $sqr-size;
 
-		kv-svg-icon {
+		kv-icon {
 			--icon-width: #{$icon-size};
 			--icon-height: unset;
 		}
@@ -104,7 +104,7 @@ $icon-sizes: (
 	&--on {
 		background-color: var(--on-background-color);
 
-		.icon-square kv-svg-icon::part(icon) {
+		.icon-square kv-icon::part(icon) {
 			fill: var(--on-background-color);
 		}
 	}
@@ -129,7 +129,7 @@ $icon-sizes: (
 
 	font-size: 0;
 
-	kv-svg-icon {
+	kv-icon {
 		--icon-color: #{var(--off-background-color)};
 	}
 }

@@ -1,6 +1,7 @@
 import { Component, h, Event, EventEmitter, Prop, Host, State, Watch } from '@stencil/core';
 import { isEmpty } from 'lodash-es';
 import { EComponentSize } from '../../types';
+import { EIconName } from '../icon/icon.types';
 import { EInputFieldType, ITextFieldEvents } from '../text-field/text-field.types';
 import { ISearchEvents } from './search.types';
 
@@ -32,8 +33,8 @@ export class KvSearch implements ISearchEvents, ITextFieldEvents {
 	}
 
 	/** Icons */
-	private searchIcon = 'kv-search';
-	private resetIcon = 'kv-close';
+	private searchIcon = EIconName.Search;
+	private resetIcon = EIconName.Close;
 
 	private onTextChange = (event: CustomEvent<string>) => {
 		this._value = event.detail;
@@ -45,7 +46,6 @@ export class KvSearch implements ISearchEvents, ITextFieldEvents {
 		this.clickResetButton.emit(event);
 	};
 
-	/** TODO: <kv-svg-icon> tag will change to <kv-icon> in the future */
 	render() {
 		const shouldShowResetIcon = !isEmpty(this._value) && !this.disabled;
 		return (
@@ -59,7 +59,7 @@ export class KvSearch implements ISearchEvents, ITextFieldEvents {
 					icon={this.searchIcon}
 					onTextChange={this.onTextChange}
 				>
-					{shouldShowResetIcon && <kv-svg-icon slot="right-slot" name={this.resetIcon} onClick={this.onResetClick} />}
+					{shouldShowResetIcon && <kv-icon slot="right-slot" name={this.resetIcon} onClick={this.onResetClick} />}
 				</kv-text-field>
 			</Host>
 		);
