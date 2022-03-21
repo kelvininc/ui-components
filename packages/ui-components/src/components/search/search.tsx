@@ -5,11 +5,11 @@ import { EInputFieldType } from '../text-field/text-field.types';
 
 @Component({
 	tag: 'kv-search',
-	shadow: true,
+	shadow: true
 })
 export class KvSearch {
 	/** (optional) Search place holder */
-	@Prop({ reflect: true }) placeholder: string = "Search";
+	@Prop({ reflect: true }) placeholder: string = 'Search';
 	/** (optional) Sets this tab item to a different styling configuration */
 	@Prop() size?: EComponentSize = EComponentSize.Large;
 	/** (optional) Search disabled */
@@ -22,28 +22,26 @@ export class KvSearch {
 	@Event() textFieldBlur: EventEmitter<string>;
 
 	/** Icons */
-	searchIcon = 'kv-search';
-	resetIcon = 'kv-close';
+	private searchIcon = 'kv-search';
+	private resetIcon = 'kv-close';
 
 	private onTextChange = event => {
 		const text = event.detail;
 		this.value = text;
 		this.textChange.emit(text);
-	}
+	};
 
 	private onResetClick = () => {
 		this.value = '';
 		this.textChange.emit('');
-	}
+	};
 
 	private onBlurHandler = event => {
 		this.value = event.target.value;
 		this.textFieldBlur.emit(this.value);
 	};
 
-	/** TODO: <kv-svg-icon> tag will change to <kv-icon> in the future. 
-	 * Please update Search component after that.
-	 */
+	/** TODO: <kv-svg-icon> tag will change to <kv-icon> in the future */
 	render() {
 		return (
 			<Host>
@@ -58,12 +56,7 @@ export class KvSearch {
 					onTextChange={this.onTextChange}
 					onTextFieldBlur={this.onBlurHandler}
 				>
-					{!isEmpty(this.value) &&
-						<kv-svg-icon
-							name={this.resetIcon}
-							onClick={this.onResetClick}
-						/>
-					}
+					{!isEmpty(this.value) && <kv-svg-icon name={this.resetIcon} onClick={this.onResetClick} />}
 				</kv-text-field>
 			</Host>
 		);

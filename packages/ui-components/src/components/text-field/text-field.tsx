@@ -59,7 +59,7 @@ export class KvTextField {
 		this._value = this.value;
 		this._helpTexts = this.buildHelpTextMessages(this.helpText);
 	}
- 
+
 	/** Text field focus state */
 	@State() focused = false;
 
@@ -128,7 +128,7 @@ export class KvTextField {
 										}}
 									/>
 								)}
-								<slot/>
+								<slot />
 							</Fragment>
 						)}
 						{this.loading && <div class="input-container-loading"></div>}

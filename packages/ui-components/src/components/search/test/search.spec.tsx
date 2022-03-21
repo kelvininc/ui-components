@@ -5,7 +5,7 @@ describe('search', () => {
 	it('renders', async () => {
 		const page = await newSpecPage({
 			components: [KvSearch],
-			html: `<kv-search></kv-search>`,
+			html: `<kv-search></kv-search>`
 		});
 		expect(page.root).toEqualHtml(`
 			<kv-search>
