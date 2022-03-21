@@ -6,3 +6,4 @@ export * from './components/tab-navigation/tab-navigation.types';
 export * from './components/text-field/text-field.types';
 export * from './components/tooltip/tooltip.types';
 export * from './components/summary-card/summary-card.types';
+export * from './components/search/search.types';
