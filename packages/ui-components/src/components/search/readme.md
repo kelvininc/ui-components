@@ -50,7 +50,7 @@ export const SearchExample: React.FC = () => (
 | Property      | Attribute     | Description                                                        | Type                                           | Default                |
 | ------------- | ------------- | ------------------------------------------------------------------ | ---------------------------------------------- | ---------------------- |
 | `disabled`    | `disabled`    | (optional) Search disabled                                         | `boolean`                                      | `false`                |
-| `placeholder` | `placeholder` | (optional) Search place holder                                     | `string`                                       | `"Search"`             |
+| `placeholder` | `placeholder` | (optional) Search place holder                                     | `string`                                       | `'Search'`             |
 | `size`        | `size`        | (optional) Sets this tab item to a different styling configuration | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
 | `value`       | `value`       | Search value                                                       | `string`                                       | `undefined`            |
 
