@@ -32,7 +32,8 @@ export class KvTextField {
 	@Prop({ reflect: true }) loading = false;
 	/** (optional) Text field state */
 	@Prop({ reflect: true }) state: EValidationState = EValidationState.None;
-
+	/** (optional) Text field has a slot */
+	@Prop({ reflect: true }) slotted = false;
 	/** (optional) Text field help text */
 	@Prop({ reflect: true }) helpText: string | string[] = [];
 	/** Internal help texts state */
@@ -112,7 +113,8 @@ export class KvTextField {
 									onFocus={this.onFocusHandler}
 									class={{
 										'invalid': this.state === EValidationState.Invalid,
-										'has-icon': !isEmpty(this.icon)
+										'has-icon': !isEmpty(this.icon),
+										'slotted': this.slotted
 									}}
 								/>
 								{this.icon && (
@@ -126,6 +128,7 @@ export class KvTextField {
 										}}
 									/>
 								)}
+								<slot />
 							</Fragment>
 						)}
 						{this.loading && <div class="input-container-loading"></div>}

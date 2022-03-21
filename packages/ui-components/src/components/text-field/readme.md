@@ -86,6 +86,7 @@ export class TextFieldExample {
 | `placeholder`       | `placeholder` | (optional) Text field place holder                                 | `string`                                                                      | `undefined`             |
 | `required`          | `required`    | (optional) Text field required                                     | `boolean`                                                                     | `false`                 |
 | `size`              | `size`        | (optional) Sets this tab item to a different styling configuration | `EComponentSize.Large \| EComponentSize.Small`                                | `EComponentSize.Large`  |
+| `slotted`           | `slotted`     | (optional) Text field has a slot                                   | `boolean`                                                                     | `false`                 |
 | `state`             | `state`       | (optional) Text field state                                        | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid` | `EValidationState.None` |
 | `type` _(required)_ | `type`        | (optional) Text field type                                         | `EInputFieldType.Number \| EInputFieldType.Password \| EInputFieldType.Text`  | `undefined`             |
 | `value`             | `value`       | Text field value                                                   | `string`                                                                      | `undefined`             |
@@ -122,6 +123,10 @@ export class TextFieldExample {
 
 ## Dependencies
 
+### Used by
+
+ - [kv-search](../search)
+
 ### Depends on
 
 - [kv-svg-icon](../svg-icon)
@@ -130,6 +135,7 @@ export class TextFieldExample {
 ```mermaid
 graph TD;
   kv-text-field --> kv-svg-icon
+  kv-search --> kv-text-field
   style kv-text-field fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

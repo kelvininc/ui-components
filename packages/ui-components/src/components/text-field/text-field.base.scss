@@ -110,6 +110,10 @@ input {
 		border-color: var(--border-color-error);
 	}
 
+	&.slotted {
+		padding-right: $spacing-9x;
+	}
+
 	&:disabled {
 		background-color: var(--background-color-disabled);
 		color: var(--text-color-input-disabled);
@@ -168,6 +172,24 @@ input {
 
 		&.focus:not(.invalid) {
 			--icon-color: var(--text-color-input-focused);
+		}
+	}
+
+	*::slotted(*) {
+		--icon-width: 20px;
+		--icon-height: 20px;
+		--icon-color: var(--text-color-icon-default);
+	
+		position: absolute;
+		top: 0;
+		right: 0;
+		display: flex;
+		align-items: center;
+		height: 100%;
+		padding-right: $spacing-3x;
+
+		&:focus {
+			color: var(--text-color-input-focused);
 		}
 	}
 }

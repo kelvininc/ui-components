@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search (unit tests) when is disabled should match the snapshot 1`] = `
+<kv-search disabled="" placeholder="Search">
+  <mock:shadow-root>
+    <kv-text-field disabled="" icon="kv-search" placeholder="Search" size="large" slotted="" type="text"></kv-text-field>
+  </mock:shadow-root>
+</kv-search>
+`;
+
+exports[`Search (unit tests) when uses default props should match the snapshot 1`] = `
+<kv-search placeholder="Search">
+  <mock:shadow-root>
+    <kv-text-field icon="kv-search" placeholder="Search" size="large" slotted="" type="text"></kv-text-field>
+  </mock:shadow-root>
+</kv-search>
+`;
