@@ -32,7 +32,7 @@ export class KvSearch {
 	}
 
 	private onResetClick = () => {
-		this.value='';
+		this.value = '';
 		this.textChange.emit('');
 	}
 
@@ -43,24 +43,24 @@ export class KvSearch {
 
 	/** TODO: <kv-svg-icon> tag will change to <kv-icon> in the future. 
 	 * Please update Search component after that.
-	 */ 
+	 */
 	render() {
 		return (
 			<Host>
-				<kv-text-field 					
+				<kv-text-field
+					type={EInputFieldType.Text}
 					placeholder={this.placeholder}
 					size={this.size}
-					type={EInputFieldType.Text}
-					value = {this.value}
+					value={this.value}
 					disabled={this.disabled}
 					icon={this.searchIcon}
+					slotted={true}
 					onTextChange={this.onTextChange}
 					onTextFieldBlur={this.onBlurHandler}
-					slotted={true}
 				>
 					{!isEmpty(this.value) &&
-						<kv-svg-icon 
-							name={this.resetIcon} 
+						<kv-svg-icon
+							name={this.resetIcon}
 							onClick={this.onResetClick}
 						/>
 					}
