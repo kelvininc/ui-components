@@ -23,7 +23,9 @@ export const initialize = (userConfig: UIComponentsConfig = {}) => {
 					console.warn(`Invalid kv-component mode: ${elmMode}, expected: ${Object.values(StyleMode).join(',')}`);
 				}
 			}
-			elm = elm.parentElement;
+			// TODO: check with more time why cant obtain the parentElement
+			// elm = elm.parentElement;
+			elm = doc.body;
 		}
 		return defaultStyleMode;
 	});

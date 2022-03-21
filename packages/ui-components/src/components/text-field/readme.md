@@ -110,6 +110,7 @@ export class TextFieldExample {
 | `--border-color-focused`         | Border color when state is focused.      |
 | `--input-height-large`           | Text Field's large height.               |
 | `--input-height-small`           | Text Field's small height.               |
+| `--right-slot-width`             | right slot width.                        |
 | `--text-color-help-text-default` | Help Text color when state is default.   |
 | `--text-color-help-text-error`   | Help Text color when state is invalid.   |
 | `--text-color-icon-default`      | Icon color when state is default.        |
@@ -122,6 +123,10 @@ export class TextFieldExample {
 
 ## Dependencies
 
+### Used by
+
+ - [kv-search](../search)
+
 ### Depends on
 
 - [kv-svg-icon](../svg-icon)
@@ -130,6 +135,7 @@ export class TextFieldExample {
 ```mermaid
 graph TD;
   kv-text-field --> kv-svg-icon
+  kv-search --> kv-text-field
   style kv-text-field fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

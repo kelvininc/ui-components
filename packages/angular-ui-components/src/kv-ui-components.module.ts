@@ -14,6 +14,7 @@ import {
 	KvLoader,
 	KvRadioButton,
 	KvStateIndicator,
+	KvSearch,
 	KvSvgIcon,
 	KvSwitchButton,
 	KvTabItem,
@@ -48,7 +49,8 @@ const COMPONENTS = [
 	KvTabNavigation,
 	KvTextField,
 	KvTooltip,
-	KvSummaryCard
+	KvSummaryCard,
+	KvSearch
 ];
 
 @NgModule({
