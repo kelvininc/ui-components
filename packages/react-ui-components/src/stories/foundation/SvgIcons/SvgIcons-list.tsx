@@ -193,29 +193,3 @@ export const otherIcons = [
 	'icon-timeline-range-right',
 	'icon-timeline-range-left'
 ];
-export const illustrations = [
-	'kv-es-asset-placeholder',
-	'kv-es-checkbox',
-	'kv-es-component-placeholder',
-	'kv-es-error-404',
-	'kv-es-error-503',
-	'kv-es-lock',
-	'kv-es-metadata',
-	'kv-es-part-placeholder',
-	'kv-es-section-cell',
-	'kv-es-section-somethingwentwrong',
-	'kv-es-section-thresholds',
-	'kv-es-sensor-placeholder',
-	'kv-es-slowy',
-	'kv-es-somethingwentwrong',
-	'kv-es-table-build',
-	'kv-es-table-empty',
-	'kv-es-table-search',
-	'kv-feedback-form',
-	'kv-party-dance',
-	// -----------------------------------------
-	// --- PEACOCK - NEW THEME ILLUSTRATIONS ---
-	// -----------------------------------------
-	'kv-table-build', // TODO: Missing the gradients
-	'kv-box-build' // TODO: Missing the gradients
-];
