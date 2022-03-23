@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Toaster (unit tests) when uses default props and error type should match the snapshot 1`] = `
+<kv-toaster header="Main Message" type="error">
+  <mock:shadow-root>
+    <div class="animate-fade-in toaster-container">
+      <div class="toaster-icon toaster-icon--error">
+        <kv-icon name="kv-error"></kv-icon>
+      </div>
+      <div class="message-content">
+        <span class="main-message">
+          Main Message
+        </span>
+      </div>
+      <div class="toaster-close-icon">
+        <kv-icon name="kv-close"></kv-icon>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-toaster>
+`;
