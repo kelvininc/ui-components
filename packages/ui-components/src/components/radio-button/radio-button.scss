@@ -1,0 +1,40 @@
+@import '../../assets/styles/globals';
+
+:host {
+	--button-height: 36px;
+}
+
+.radio-button {
+	@include kv-font-span-regular();
+
+	text-decoration: none;
+
+	position: relative;
+	user-select: none;
+	cursor: pointer;
+
+	display: inline-flex;
+	align-items: center;
+
+	border-radius: 4px;
+
+	color: kv-color('text');
+
+	background: linear-gradient(45deg, kv-color('neutral-6') 50%, kv-color('neutral-6') 50%);
+	background-size: 350% 100%;
+	background-position: right bottom;
+	transition: background-position 0.5s ease-out;
+
+	border: 1px solid kv-color('neutral-6');
+
+	height: var(--button-height);
+	padding: 0 $spacing-3x;
+
+	&.checked {
+		border: 1px solid kv-color('neutral-0');
+	}
+
+	&.disabled {
+		color: kv-color('neutral-4');
+	}
+}
