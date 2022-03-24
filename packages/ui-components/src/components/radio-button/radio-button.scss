@@ -1,0 +1,68 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --button-height: Radio button component's height.
+	 * @prop --text-color-default: Radio button component's text color default.
+	 * @prop --text-color-active: Radio button component's text color active.
+	 * @prop --text-color-disabled: Radio button component's text color disabled.
+	 * @prop --background-color-default: Radio button component's background color default.
+	 * @prop --background-color-active: Radio button component's background color active.
+	 * @prop --background-color-disabled: Radio button component's background color disabled.
+	 * @prop --border-color-default: Radio button component's border color default.
+	 * @prop --border-color-active: Radio button component's border color active.
+	 * @prop --border-color-disabled: Radio button component's border color disabled.
+	 */
+
+	--button-height: 36px;
+	--text-color-default: #{kv-color('neutral-2')};
+	--text-color-active: #{kv-color('neutral-2')};
+	--text-color-disabled: #{kv-color('neutral-4')};
+	--background-color-default: #{linear-gradient(45deg, kv-color('neutral-6') 50%, kv-color('neutral-6') 50%)};
+	--background-color-active: #{linear-gradient(45deg, kv-color('neutral-6') 50%, kv-color('neutral-6') 50%)};
+	--background-color-disabled: #{linear-gradient(45deg, kv-color('neutral-6') 50%, kv-color('neutral-6') 50%)};
+	--border-color-default: #{kv-color('neutral-6')};
+	--border-color-active: #{kv-color('neutral-0')};
+	--border-color-disabled: #{kv-color('neutral-6')};
+}
+
+.radio-button {
+	@include kv-font-label-small-regular();
+
+	text-decoration: none;
+
+	position: relative;
+	user-select: none;
+	cursor: pointer;
+
+	display: inline-flex;
+	align-items: center;
+
+	border-radius: 2px;
+
+	color: var(--text-color-default);
+
+	background: var(--background-color-default);
+	background-size: 350% 100%;
+	background-position: right bottom;
+	transition: background-position 0.5s ease-out;
+
+	border: 1px solid var(--border-color-default);
+
+	height: var(--button-height);
+	padding: 0 $spacing-3x;
+
+	&.checked {
+		text-shadow: 0 0 0.65px var(--text-color-active), 0 0 0.65px var(--text-color-active);
+		border: 1px solid var(--border-color-active);
+		color: var(--text-color-active);
+		background: var(--background-color-active);
+	}
+
+	&.disabled {
+		color: var(--text-color-disabled);
+		cursor: not-allowed;
+		background: var(--background-color-disabled);
+		border: 1px solid var(--border-color-disabled);
+	}
+}
