@@ -13,3 +13,4 @@ export * from './components/toaster/toaster.types';
 export * from './components/dropdown-list-item/dropdown-list-item.types';
 export * from './components/single-select-dropdown/single-select-dropdown.types';
 export * from './components/multi-select-dropdown/multi-select-dropdown.types';
+export * from './components/radio-button/radio-button.types';
