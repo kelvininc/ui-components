@@ -1,15 +1,15 @@
 import { newSpecPage, SpecPage } from '@stencil/core/testing';
-import { KvRadioButton } from '../radio-button';
+import { KvRadio } from '../radio';
 
 describe('Radio Button (unit tests)', () => {
 	let page: SpecPage;
-	let component: KvRadioButton;
+	let component: KvRadio;
 
 	describe('when the component loads with default props', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvRadioButton],
-				html: '<kv-radio-button></kv-radio-button>'
+				components: [KvRadio],
+				html: '<kv-radio></kv-radio>'
 			});
 			component = page.rootInstance;
 		});
@@ -34,8 +34,8 @@ describe('Radio Button (unit tests)', () => {
 	describe('when the component loads with a label', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvRadioButton],
-				html: '<kv-radio-button label="Accepted"></kv-radio-button>'
+				components: [KvRadio],
+				html: '<kv-radio label="Accepted"></kv-radio>'
 			});
 			component = page.rootInstance;
 		});
@@ -52,8 +52,8 @@ describe('Radio Button (unit tests)', () => {
 	describe('when the component loads with disabled prop', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvRadioButton],
-				html: '<kv-radio-button disabled></kv-radio-button>'
+				components: [KvRadio],
+				html: '<kv-radio disabled></kv-radio>'
 			});
 			component = page.rootInstance;
 		});
@@ -70,8 +70,8 @@ describe('Radio Button (unit tests)', () => {
 	describe('when the component loads with checked prop', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvRadioButton],
-				html: '<kv-radio-button checked></kv-radio-button>'
+				components: [KvRadio],
+				html: '<kv-radio checked></kv-radio>'
 			});
 			component = page.rootInstance;
 		});

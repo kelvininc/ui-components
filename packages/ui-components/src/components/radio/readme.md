@@ -1,4 +1,4 @@
-# *<kv-radio-button>*
+# *<kv-radio>*
 
 
 
@@ -11,16 +11,16 @@
 
 ```html
 <!-- Default -->
-<kv-radio-button></kv-radio-button>
+<kv-radio></kv-radio>
 
 <!-- Labeled -->
-<kv-radio-button label="Switch"></kv-radio-button>
+<kv-radio label="Switch"></kv-radio>
 
 <!-- Disabled -->
-<kv-radio-button disabled></kv-radio-button>
+<kv-radio disabled></kv-radio>
 
 <!-- Checked -->
-<kv-radio-button checked></kv-radio-button>
+<kv-radio checked></kv-radio>
 ```
 
 
@@ -29,21 +29,21 @@
 ```tsx
 import React from 'react';
 
-import { KvRadioButton } from '@kelvininc/react-ui-components';
+import { KvRadio } from '@kelvininc/react-ui-components';
 
-export const RadioButtonExample: React.FC = () => (
+export const RadioExample: React.FC = () => (
 	<>
 		{/*-- Default --*/}
-		<KvRadioButton />
+		<KvRadio />
 
 		{/*-- Labeled --*/}
-		<KvRadioButton label="Switch" />
+		<KvRadio label="Switch" />
 
 		{/*-- Disabled --*/}
-		<KvRadioButton disabled />
+		<KvRadio disabled />
 
 		{/*-- Checked --*/}
-		<KvRadioButton checked />
+		<KvRadio checked />
 	</>
 );
 ```
