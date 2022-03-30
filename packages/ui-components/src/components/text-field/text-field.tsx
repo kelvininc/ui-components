@@ -88,11 +88,18 @@ export class KvTextField {
 	}
 
 	render() {
+		const hasLabel = !isEmpty(this.label);
+		const shouldShowLabel = this.required || hasLabel;
+
 		return (
 			<Host>
 				<div class="text-field-container">
-					{this.required && <span class="required">*</span>}
-					{this.label && <span class="label">{this.label}</span>}
+					{shouldShowLabel && (
+						<div class="label-container">
+							{this.required && <span class="required">*</span>}
+							{this.label && <span class="label">{this.label}</span>}
+						</div>
+					)}
 					<div
 						class={{
 							'input-container': true,

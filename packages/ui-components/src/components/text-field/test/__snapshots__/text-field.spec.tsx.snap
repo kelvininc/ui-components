@@ -4,9 +4,11 @@ exports[`Text Field (unit tests) when has a label should match the snapshot 1`] 
 <kv-text-field label="Text Field" state="none">
   <mock:shadow-root>
     <div class="text-field-container">
-      <span class="label">
-        Text Field
-      </span>
+      <div class="label-container">
+        <span class="label">
+          Text Field
+        </span>
+      </div>
       <div class="input-container input-container--size-large">
         <input>
       </div>
