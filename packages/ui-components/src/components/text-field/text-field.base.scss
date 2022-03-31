@@ -20,6 +20,7 @@
 
 	 * @prop --background-color-default: Background color when state is default.
 	 * @prop --background-color-disabled: Background color when state is disabled.
+	 * @prop --right-slot-width: right slot width.
 	 */
 
 	--input-height-large: 38px;
@@ -31,6 +32,7 @@
 	--text-color-help-text-error: #{kv-color('error')};
 
 	--border-color-error: #{kv-color('error')};
+	--right-slot-width: 36px;
 }
 
 .label,
@@ -110,6 +112,10 @@ input {
 		border-color: var(--border-color-error);
 	}
 
+	&.slotted {
+		padding-right: var(--right-slot-width);
+	}
+
 	&:disabled {
 		background-color: var(--background-color-disabled);
 		color: var(--text-color-input-disabled);
@@ -171,6 +177,34 @@ input {
 
 		&.focus:not(.invalid) {
 			--icon-color: var(--text-color-input-focused);
+		}
+	}
+
+	.right-slot-container {
+		position: absolute;
+		top: 0;
+		right: 0;
+		height: 100%;
+		width: var(--right-slot-width);
+		overflow: hidden;
+		
+		::slotted(kv-svg-icon) {
+			--icon-width: 16px;
+			--icon-height: 16px;
+			--icon-color: var(--text-color-icon-default);
+
+			width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			cursor: pointer;
+		}
+
+		&.focus {
+			::slotted(kv-svg-icon) {
+				--icon-color: var(--text-color-input-focused);
+			}
 		}
 	}
 }
