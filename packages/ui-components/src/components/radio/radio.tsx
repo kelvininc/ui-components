@@ -2,11 +2,11 @@ import { Component, Host, h, Prop, EventEmitter, Event, State, Watch } from '@st
 import { throttle } from 'lodash-es';
 
 @Component({
-	tag: 'kv-radio-button',
-	styleUrl: 'radio-button.scss',
+	tag: 'kv-radio',
+	styleUrl: 'radio.scss',
 	shadow: true
 })
-export class KvRadioButton {
+export class KvRadio {
 	/** (optional) Sets the button as checked when initializing */
 	@Prop({ reflect: true }) checked?: boolean = false;
 
@@ -51,7 +51,7 @@ export class KvRadioButton {
 			<Host>
 				<div
 					class={{
-						'radio-button-container': true,
+						'radio-container': true,
 						'checked': this.isChecked,
 						'disabled': this.isDisabled
 					}}
