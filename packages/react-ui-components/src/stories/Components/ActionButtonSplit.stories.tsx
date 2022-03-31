@@ -1,7 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { EActionButtonType, EComponentSize, KvActionButtonSplit } from '../../components';
-import { icons } from '../foundation/SvgIcons/SvgIcons-list';
+import { EIconName, EOtherIconName, EActionButtonType, EComponentSize, KvActionButtonSplit } from '../../components';
 
 // Required to have the correct TagName in the code sample
 KvActionButtonSplit.displayName = 'KvActionButtonSplit';
@@ -16,11 +15,11 @@ export default {
 		},
 		splitIcon: {
 			control: { type: 'select' },
-			options: icons
+			options: [...Object.values(EIconName), ...Object.values(EOtherIconName)]
 		},
 		icon: {
 			control: { type: 'select' },
-			options: ['', ...icons]
+			options: ['', ...Object.values(EIconName), ...Object.values(EOtherIconName)]
 		},
 		size: {
 			control: { type: 'radio' },
@@ -38,9 +37,9 @@ export const PrimaryState = ActionButtonSplitTemplate.bind({});
 PrimaryState.args = {
 	type: EActionButtonType.Primary,
 	text: 'Primary Button',
-	splitIcon: 'kv-arrow-drop-down',
+	splitIcon: EIconName.ArrowDropDown,
 	size: EComponentSize.Large,
-	icon: 'kv-add',
+	icon: EIconName.Add,
 	disabled: false
 };
 
@@ -48,9 +47,9 @@ export const SecondaryState = ActionButtonSplitTemplate.bind({});
 SecondaryState.args = {
 	type: EActionButtonType.Secondary,
 	text: 'Secondary Button',
-	splitIcon: 'kv-arrow-drop-down',
+	splitIcon: EIconName.ArrowDropDown,
 	size: EComponentSize.Large,
-	icon: 'kv-add',
+	icon: EIconName.Add,
 	disabled: false
 };
 
@@ -58,9 +57,9 @@ export const TertiaryState = ActionButtonSplitTemplate.bind({});
 TertiaryState.args = {
 	type: EActionButtonType.Tertiary,
 	text: 'Tertiary Button',
-	splitIcon: 'kv-arrow-drop-down',
+	splitIcon: EIconName.ArrowDropDown,
 	size: EComponentSize.Large,
-	icon: 'kv-add',
+	icon: EIconName.Add,
 	disabled: false
 };
 
@@ -68,8 +67,8 @@ export const DangerState = ActionButtonSplitTemplate.bind({});
 DangerState.args = {
 	type: EActionButtonType.Danger,
 	text: 'Danger Button',
-	splitIcon: 'kv-arrow-drop-down',
+	splitIcon: EIconName.ArrowDropDown,
 	size: EComponentSize.Large,
-	icon: 'kv-add',
+	icon: EIconName.Add,
 	disabled: false
 };

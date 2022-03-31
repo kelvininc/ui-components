@@ -1,7 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { EActionButtonType, KvActionButtonIcon, EComponentSize } from '../../components';
-import { icons } from '../foundation/SvgIcons/SvgIcons-list';
+import { EIconName, EOtherIconName, EActionButtonType, KvActionButtonIcon, EComponentSize } from '../../components';
 
 // Required to have the correct TagName in the code sample
 KvActionButtonIcon.displayName = 'KvActionButtonIcon';
@@ -20,7 +19,7 @@ export default {
 		},
 		icon: {
 			control: { type: 'select' },
-			options: icons
+			options: [...Object.values(EIconName), ...Object.values(EOtherIconName)]
 		}
 	},
 	parameters: {
@@ -32,7 +31,7 @@ const ActionButtonIconTemplate: ComponentStory<typeof KvActionButtonIcon> = args
 
 export const PrimaryState = ActionButtonIconTemplate.bind({});
 PrimaryState.args = {
-	icon: 'kv-add',
+	icon: EIconName.Add,
 	type: EActionButtonType.Primary,
 	size: EComponentSize.Small,
 	disabled: false,
@@ -41,7 +40,7 @@ PrimaryState.args = {
 
 export const SecondaryState = ActionButtonIconTemplate.bind({});
 SecondaryState.args = {
-	icon: 'kv-add',
+	icon: EIconName.Add,
 	type: EActionButtonType.Secondary,
 	size: EComponentSize.Small,
 	disabled: false,
@@ -50,7 +49,7 @@ SecondaryState.args = {
 
 export const TertiaryState = ActionButtonIconTemplate.bind({});
 TertiaryState.args = {
-	icon: 'kv-add',
+	icon: EIconName.Add,
 	type: EActionButtonType.Tertiary,
 	size: EComponentSize.Small,
 	disabled: false,
@@ -59,7 +58,7 @@ TertiaryState.args = {
 
 export const DangerState = ActionButtonIconTemplate.bind({});
 DangerState.args = {
-	icon: 'kv-add',
+	icon: EIconName.Add,
 	type: EActionButtonType.Danger,
 	size: EComponentSize.Small,
 	disabled: false,
