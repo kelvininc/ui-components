@@ -1,14 +1,14 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { KvIcon } from '../../components';
-import { icons } from '../foundation/SvgIcons/SvgIcons-list';
+import { EIconName, EOtherIconName, KvIcon } from '../../components';
+
 export default {
 	title: 'Media/Icon',
 	component: 'kv-icon',
 	argTypes: {
 		name: {
 			control: { type: 'select' },
-			options: [...icons]
+			options: [...Object.values(EIconName), ...Object.values(EOtherIconName)]
 		},
 		customClass: {
 			control: { type: 'text' }
@@ -28,17 +28,17 @@ const KvIconTemplate: ComponentStory<typeof KvIcon> = args => <KvIcon {...args} 
 
 export const IconOnly = KvIconTemplate.bind(this);
 IconOnly.args = {
-	name: 'kv-logo-kelvin'
+	name: EIconName.LogoKelvin
 };
 
 export const CustomClass = KvIconTemplate.bind(this);
 CustomClass.args = {
-	name: 'kv-logo-kelvin',
+	name: EIconName.LogoKelvin,
 	customClass: 'icon-full-size rotate-90'
 };
 
 export const CustomColor = KvIconTemplate.bind(this);
 CustomColor.args = {
-	name: 'kv-logo-kelvin',
+	name: EIconName.LogoKelvin,
 	customColor: '#05a357'
 };

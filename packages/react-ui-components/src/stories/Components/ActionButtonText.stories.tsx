@@ -1,7 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { EActionButtonType, EComponentSize, KvActionButtonText } from '../../components';
-import { icons } from '../foundation/SvgIcons/SvgIcons-list';
+import { EIconName, EOtherIconName, EActionButtonType, EComponentSize, KvActionButtonText } from '../../components';
 
 // Required to have the correct TagName in the code sample
 KvActionButtonText.displayName = 'KvActionButtonText';
@@ -16,7 +15,7 @@ export default {
 		},
 		icon: {
 			control: { type: 'select' },
-			options: ['', ...icons]
+			options: ['', ...Object.values(EIconName), ...Object.values(EOtherIconName)]
 		},
 		size: {
 			control: { type: 'radio' },
@@ -35,7 +34,7 @@ PrimaryState.args = {
 	type: EActionButtonType.Primary,
 	text: 'Primary Button',
 	size: EComponentSize.Large,
-	icon: 'kv-add',
+	icon: EIconName.Add,
 	disabled: false
 };
 
@@ -44,7 +43,7 @@ SecondaryState.args = {
 	type: EActionButtonType.Secondary,
 	text: 'Secondary Button',
 	size: EComponentSize.Large,
-	icon: 'kv-add',
+	icon: EIconName.Add,
 	disabled: false
 };
 
@@ -53,7 +52,7 @@ TertiaryState.args = {
 	type: EActionButtonType.Tertiary,
 	text: 'Tertiary Button',
 	size: EComponentSize.Large,
-	icon: 'kv-add',
+	icon: EIconName.Add,
 	disabled: false
 };
 
@@ -62,6 +61,6 @@ DangerState.args = {
 	type: EActionButtonType.Danger,
 	text: 'Danger Button',
 	size: EComponentSize.Large,
-	icon: 'kv-add',
+	icon: EIconName.Add,
 	disabled: false
 };
