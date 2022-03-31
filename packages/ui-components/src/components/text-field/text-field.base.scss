@@ -132,9 +132,12 @@ input {
 	}
 }
 
+.label-container {
+	margin-bottom: $spacing;
+}
+
 .input-container {
 	position: relative;
-	margin-top: $spacing;
 
 	&--size-large {
 		height: var(--input-height-large);
