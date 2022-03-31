@@ -1,11 +1,11 @@
-# _<kv-svg-icon>_
+# _<kv-icon>_
 
 ## Styling Svg Icon Element
 
-The `kv-svg-icon` element consists only of an icon that is displayed on the view. To customize this, style using a combination of CSS and any of the [CSS custom properties](#css-custom-properties):
+The `kv-icon` element consists only of an icon that is displayed on the view. To customize this, style using a combination of CSS and any of the [CSS custom properties](#css-custom-properties):
 
 ```css
-kv-svg-icon {
+kv-icon {
 	/* Applies to the icon color */
 	--icon-color: #103d73;
 
@@ -24,13 +24,13 @@ Alternatively, depending on the [browser support](https://caniuse.com/#feat=mdn-
 
 ```css
 /* Set the width and height of icon to the full container */
-kv-svg-icon::part(icon) {
+kv-icon::part(icon) {
 	width: 100%;
 	height: 100%;
 }
 
 /* Set the icon color */
-kv-svg-icon::part(icon) {
+kv-icon::part(icon) {
 	fill: kv-color(success);
 }
 ```
@@ -52,13 +52,13 @@ Additionally, we already have some predefined classes that can be applied to sca
 
 ```html
 <!-- Default -->
-<kv-svg-icon name="kv-logo-kelvin"></kv-svg-icon>
+<kv-icon name="kv-logo-kelvin"></kv-icon>
 
 <!-- Custom CSS -->
-<kv-svg-icon name="kv-logo-kelvin" customClass="icon-24 rotate-90"><kv-svg-icon>
+<kv-icon name="kv-logo-kelvin" customClass="icon-24 rotate-90"><kv-icon>
 
 <!-- Custom Color -->
-<kv-svg-icon name="kv-logo-kelvin" customColor="#103d73"><kv-svg-icon>
+<kv-icon name="kv-logo-kelvin" customColor="#103d73"><kv-icon>
 ```
 
 
@@ -67,18 +67,18 @@ Additionally, we already have some predefined classes that can be applied to sca
 ```tsx
 import React from 'react';
 
-import { KvSvgIcon } from '@kelvininc/react-ui-components';
+import { KvIcon } from '@kelvininc/react-ui-components';
 
 export const SvgIconExample: React.FC = () => (
 	<>
 		{/*-- Default --*/}
-		<KvSvgIcon name="kv-logo-kelvin" />
+		<KvIcon name="kv-logo-kelvin" />
 
 		{/*-- Custom CSS --*/}
-		<KvSvgIcon name="kv-logo-kelvin" customClass="icon-24 rotate-90" />
+		<KvIcon name="kv-logo-kelvin" customClass="icon-24 rotate-90" />
 
 		{/*-- Custom Color --*/}
-		<KvSvgIcon name="kv-logo-kelvin" customColor="#103d73" />
+		<KvIcon name="kv-logo-kelvin" customColor="#103d73" />
 	</>
 );
 ```
@@ -87,11 +87,11 @@ export const SvgIconExample: React.FC = () => (
 
 ## Properties
 
-| Property            | Attribute      | Description                                                                                                                 | Type                 | Default     |
-| ------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------- | ----------- |
-| `customClass`       | `custom-class` | (optional) Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. | `string \| string[]` | `''`        |
-| `customColor`       | `custom-color` | (optional) Icon custom color                                                                                                | `string`             | `''`        |
-| `name` _(required)_ | `name`         | (required) Icon symbol name                                                                                                 | `string`             | `undefined` |
+| Property            | Attribute      | Description                                                                                                                 | Type                          | Default     |
+| ------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------------------------- | ----------- |
+| `customClass`       | `custom-class` | (optional) Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. | `string \| string[]`          | `''`        |
+| `customColor`       | `custom-color` | (optional) Icon custom color                                                                                                | `string`                      | `''`        |
+| `name` _(required)_ | `name`         | (required) Icon symbol name                                                                                                 | `EIconName \| EOtherIconName` | `undefined` |
 
 
 ## Shadow Parts
@@ -125,13 +125,13 @@ export const SvgIconExample: React.FC = () => (
 ### Graph
 ```mermaid
 graph TD;
-  kv-action-button-icon --> kv-svg-icon
-  kv-action-button-split --> kv-svg-icon
-  kv-action-button-text --> kv-svg-icon
-  kv-search --> kv-svg-icon
-  kv-switch-button --> kv-svg-icon
-  kv-text-field --> kv-svg-icon
-  style kv-svg-icon fill:#f9f,stroke:#333,stroke-width:4px
+  kv-action-button-icon --> kv-icon
+  kv-action-button-split --> kv-icon
+  kv-action-button-text --> kv-icon
+  kv-search --> kv-icon
+  kv-switch-button --> kv-icon
+  kv-text-field --> kv-icon
+  style kv-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

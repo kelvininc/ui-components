@@ -1,6 +1,7 @@
 import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { EActionButtonType, IButton, IButtonEvents } from '../action-button/action-button.types';
 import { EAnchorTarget, EComponentSize, IAnchor } from '../../utils/types';
+import { EIconName, EOtherIconName } from '../icon/icon.types';
 
 @Component({
 	tag: 'kv-action-button-icon',
@@ -9,7 +10,7 @@ import { EAnchorTarget, EComponentSize, IAnchor } from '../../utils/types';
 })
 export class KvActionButtonIcon implements IButton, IButtonEvents, IAnchor {
 	/** (required) Button's icon symbol name */
-	@Prop({ reflect: true }) icon!: string;
+	@Prop({ reflect: true }) icon!: EIconName | EOtherIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) type!: EActionButtonType;
 	/** @inheritdoc */
@@ -51,7 +52,7 @@ export class KvActionButtonIcon implements IButton, IButtonEvents, IAnchor {
 						target={this.target}
 						exportparts="button"
 					>
-						<kv-svg-icon name={this.icon} exportparts="icon" />
+						<kv-icon name={this.icon} exportparts="icon" />
 					</kv-action-button>
 				</div>
 			</Host>

@@ -1,24 +1,24 @@
 ```tsx
 import React from 'react';
 
-import { KvActionButtonText } from '@kelvininc/react-ui-components';
+import { KvActionButtonText, EActionButtonType, EIconName } from '@kelvininc/react-ui-components';
 
 export const SwitchButtonExample: React.FC = () => (
 	<>
 		{/*-- Primary --*/}
-		<KvActionButtonText text="Primary Button" icon="kv-add" type={EActionButtonType.Primary}></KvActionButtonText>
+		<KvActionButtonText text="Primary Button" icon={EIconName.Add} type={EActionButtonType.Primary}></KvActionButtonText>
 
 		{/*--Secondary --*/}
-		<KvActionButtonText text="Secondary Button" icon="kv-add" type={EActionButtonType.Secondary}></KvActionButtonText>
+		<KvActionButtonText text="Secondary Button" icon={EIconName.Add} type={EActionButtonType.Secondary}></KvActionButtonText>
 
 		{/*-- Tertiary --*/}
-		<KvActionButtonText text="Tertiary Button" icon="kv-add" type={EActionButtonType.Tertiary}></KvActionButtonText>
+		<KvActionButtonText text="Tertiary Button" icon={EIconName.Add} type={EActionButtonType.Tertiary}></KvActionButtonText>
 
 		{/*-- Disabled --*/}
-		<KvActionButtonText disabled text="Disabled Button" icon="kv-add" type={EActionButtonType.Primary}></KvActionButtonText>
+		<KvActionButtonText disabled text="Disabled Button" icon={EIconName.Add} type={EActionButtonType.Primary}></KvActionButtonText>
 
 		{/*-- Anchor --*/}
-		<KvActionButton href="/link-to-url" target="_blank" type={EActionButtonType.Primary} text="Anchor Button" icon="kv-add"></KvActionButton>
+		<KvActionButton href="/link-to-url" target="_blank" type={EActionButtonType.Primary} text="Anchor Button" icon={EIconName.Add}></KvActionButton>
 	</>
 );
 ```

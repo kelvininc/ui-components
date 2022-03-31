@@ -2,6 +2,7 @@ import { Component, Element, Event, EventEmitter, Fragment, h, Host, Prop, State
 import { isEmpty } from 'lodash-es';
 import { EComponentSize } from '../../utils/types';
 import { EInputFieldType, EValidationState, ITextFieldEvents } from './text-field.types';
+import { EIconName, EOtherIconName } from '../icon/icon.types';
 
 @Component({
 	tag: 'kv-text-field',
@@ -18,7 +19,7 @@ export class KvTextField implements ITextFieldEvents {
 	/** (optional) Text field label */
 	@Prop({ reflect: true }) label: string;
 	/** (optional) Text field's icon symbol name */
-	@Prop({ reflect: true }) icon: string;
+	@Prop({ reflect: true }) icon: EIconName | EOtherIconName;
 	/** (optional) Text field input name */
 	@Prop({ reflect: true }) inputName: string;
 	/** (optional) Text field place holder */
@@ -128,7 +129,7 @@ export class KvTextField implements ITextFieldEvents {
 									}}
 								/>
 								{this.icon && (
-									<kv-svg-icon
+									<kv-icon
 										name={this.icon}
 										exportparts="icon"
 										class={{
@@ -147,7 +148,7 @@ export class KvTextField implements ITextFieldEvents {
 					</div>
 					{!isEmpty(this._helpTexts) && (
 						<div class={{ 'help-text-container': true, 'invalid': this.state === EValidationState.Invalid }}>
-							{this.state === EValidationState.Invalid && <kv-svg-icon name="kv-error" customClass="icon-16"></kv-svg-icon>}
+							{this.state === EValidationState.Invalid && <kv-icon name={EIconName.Error} customClass="icon-16"></kv-icon>}
 							{this._helpTexts.map(msg => (
 								<span class="help-text">{msg}</span>
 							))}

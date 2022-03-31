@@ -20,7 +20,7 @@ exports[`Search (unit tests) when value is changed should match the snapshot 1`]
 <kv-search placeholder="Search" value="Teste">
   <mock:shadow-root>
     <kv-text-field icon="kv-search" placeholder="Search" size="large" type="text" value="Teste">
-      <kv-svg-icon name="kv-close" slot="right-slot"></kv-svg-icon>
+      <kv-icon name="kv-close" slot="right-slot"></kv-icon>
     </kv-text-field>
   </mock:shadow-root>
 </kv-search>

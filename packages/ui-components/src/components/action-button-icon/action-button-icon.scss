@@ -19,7 +19,7 @@
 		--button-padding-x-large: 2px;
 	}
 
-	kv-svg-icon {
+	kv-icon {
 		--icon-width: var(--button-icon-large-width);
 		--icon-height: var(--button-icon-large-height);
 	}
@@ -30,7 +30,7 @@
 		--button-padding-x-small: 0;
 	}
 
-	kv-svg-icon {
+	kv-icon {
 		--icon-width: var(--button-icon-small-width);
 		--icon-height: var(--button-icon-small-height);
 	}
@@ -42,7 +42,7 @@ kv-action-button {
 	--text-color-active-tertiary: #{kv-color('neutral-4')};
 }
 
-kv-svg-icon {
+kv-icon {
 	display: flex;
 	padding: $spacing;
 }

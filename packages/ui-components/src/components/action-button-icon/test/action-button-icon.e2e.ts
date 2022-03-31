@@ -10,7 +10,7 @@ describe('Action Button Icon (end-to-end)', () => {
 		});
 
 		it('should render icon', async () => {
-			const iconElement = await page.find('kv-action-button-icon >>> kv-svg-icon');
+			const iconElement = await page.find('kv-action-button-icon >>> kv-icon');
 			expect(iconElement).toBeTruthy();
 			expect(iconElement.getAttribute('name')).toEqual('kv-add');
 		});

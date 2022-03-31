@@ -69,14 +69,14 @@ export const SearchExample: React.FC = () => (
 ### Depends on
 
 - [kv-text-field](../text-field)
-- [kv-svg-icon](../svg-icon)
+- [kv-icon](../icon)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-search --> kv-text-field
-  kv-search --> kv-svg-icon
-  kv-text-field --> kv-svg-icon
+  kv-search --> kv-icon
+  kv-text-field --> kv-icon
   style kv-search fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
