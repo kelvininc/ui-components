@@ -1,0 +1,72 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --modal-height: Modal height.
+	 * @prop --modal-width: Modal width.
+	 */
+
+	--modal-height: 600px;
+	--modal-width: 800px;
+
+	display: inline-block;
+
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 2;
+}
+
+.modal-container {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	background-color: kv-color('neutral-6');
+	border-radius: 10px;
+	width: var(--modal-width);
+	height: var(--modal-height);
+}
+
+.center {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.top-bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 $spacing-3x;
+	height: 60px;
+
+	.title {
+		@include kv-font-label-small-uppercase-bold();
+	}
+
+	.actions {
+		display: inline-flex;
+		align-items: center;
+
+		.close {
+			cursor: pointer;
+			width: 28px;
+			height: 28px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			margin-left: $spacing-2x;
+		}
+	}
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	padding: $spacing-2x;
+}

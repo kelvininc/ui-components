@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal (unit tests) when the component loads with default props should match the snapshot 1`] = `
+<kv-modal modal-title="Modal Test">
+  <mock:shadow-root>
+    <div class="modal-container">
+      <div class="top-bar">
+        <div class="title">
+          Modal Test
+        </div>
+        <div class="actions">
+          <ng-content select="[more-top-actions]"></ng-content>
+          <div class="close">
+            <kv-icon customclass="pk-grey3 icon-20" name="kv-close"></kv-icon>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <slot></slot>
+      </div>
+    </div>
+  </mock:shadow-root>
+  <div classname="header">
+    This is a modal header
+  </div>
+  <div classname="body">
+    This is a modal body
+  </div>
+  <div classname="footer">
+    This is a modal footer
+  </div>
+</kv-modal>
+`;
