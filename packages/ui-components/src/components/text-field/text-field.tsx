@@ -34,8 +34,12 @@ export class KvTextField implements ITextFieldEvents {
 	@Prop({ reflect: true }) loading = false;
 	/** (optional) Text field state */
 	@Prop({ reflect: true }) state: EValidationState = EValidationState.None;
+	/** (optional) Text field is editable */
+	@Prop({ reflect: true }) uneditable = false;
 	/** (optional) Text field help text */
 	@Prop({ reflect: true }) helpText: string | string[] = [];
+	/** (optional) Text field focus state */
+	@Prop({ reflect: true }) forcedFocus: boolean = false;
 	/** Internal help texts state */
 	@State() _helpTexts: string[];
 	/** Watch the `helpText` property and update internal state accordingly */
@@ -54,10 +58,20 @@ export class KvTextField implements ITextFieldEvents {
 		this._value = newValue;
 	}
 
+	@Watch('forcedFocus')
+	forcedFocusChangeHandler(newValue: boolean) {
+		this.focused = newValue;
+
+		if (!this.focused) {
+			this.el.blur();
+		}
+	}
+
 	componentWillLoad() {
 		// Init the states because Watches run only on component updates
 		this._value = this.value;
 		this._helpTexts = this.buildHelpTextMessages(this.helpText);
+		this.focused = this.forcedFocus;
 	}
 
 	/** Text field focus state */
@@ -74,6 +88,9 @@ export class KvTextField implements ITextFieldEvents {
 	};
 
 	private onBlurHandler = event => {
+		if (this.forcedFocus) {
+			return;
+		}
 		this._value = event.target.value;
 		this.textFieldBlur.emit(this._value);
 		this.focused = false;
@@ -125,8 +142,10 @@ export class KvTextField implements ITextFieldEvents {
 									class={{
 										'invalid': this.state === EValidationState.Invalid,
 										'has-icon': !isEmpty(this.icon),
-										'slotted': this.hasRightSlot
+										'slotted': this.hasRightSlot,
+										'forced-focus': this.focused
 									}}
+									readonly={this.uneditable}
 								/>
 								{this.icon && (
 									<kv-icon
