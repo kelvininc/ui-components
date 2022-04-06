@@ -1,0 +1,13 @@
+@import '../../assets/styles/globals';
+
+:host {
+	.no-data {
+		pointer-events: none;
+	}
+
+	kv-dropdown {
+		&[disabled] {
+			pointer-events: none;
+		}
+	}
+}
