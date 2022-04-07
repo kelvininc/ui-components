@@ -16,7 +16,7 @@ export enum EIllustrationName {
 	EsSlowy = 'kv-es-slowy',
 	EsSomethingWentWrong = 'kv-es-somethingwentwrong',
 	EsTableBuild = 'kv-es-table-build',
-	EsTablEmpty = 'kv-es-table-empty',
+	EsTableEmpty = 'kv-es-table-empty',
 	EsTableSearch = 'kv-es-table-search',
 	// -----------------------------------------
 	// --- PEACOCK - NEW THEME ILLUSTRATIONS ---
