@@ -54,7 +54,7 @@ $btn-background-colors: (
 	disabled: (
 		primary: kv-color('neutral-3'),
 		secondary: kv-color('neutral-3'),
-		tertiary: kv-color('neutral-0'),
+		tertiary: transparent,
 		danger: kv-color('error', 'light')
 	),
 	active: (
