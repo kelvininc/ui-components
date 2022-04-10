@@ -5,7 +5,7 @@
 }
 
 .radio-button {
-	@include kv-font-span-regular();
+	@include kv-font-label-small-semibold;
 
 	text-decoration: none;
 
