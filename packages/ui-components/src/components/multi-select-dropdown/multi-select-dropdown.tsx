@@ -99,6 +99,11 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		this.calculateLabelValue();
 	}
 
+	@Watch('selectedOptions')
+	optionsSelectedChangeHandler() {
+		this.calculateLabelValue();
+	}
+
 	render() {
 		return (
 			<Host>
