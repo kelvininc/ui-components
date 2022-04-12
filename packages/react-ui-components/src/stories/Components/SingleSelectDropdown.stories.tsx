@@ -85,6 +85,6 @@ Default.args = {
 	},
 	selectedOption: 'option2',
 	label: 'Options',
-	placeholder: 'optione',
+	placeholder: 'Select an option',
 	icon: EIconName.Layer
 };

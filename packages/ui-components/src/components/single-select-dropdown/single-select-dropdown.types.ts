@@ -27,7 +27,7 @@ export interface ISingleSelectDropdown {
 	/** (optional) The text to display on the dropdown label */
 	label?: string;
 	/** (optional) The text to display on the dropdown  */
-	value?: string;
+	displayValue?: string;
 	/** (required) The error state for the dropdown */
 	errorState?: EValidationState;
 	/** (optional) The text to display as help text  */

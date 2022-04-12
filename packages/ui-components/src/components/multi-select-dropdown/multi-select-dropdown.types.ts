@@ -25,13 +25,13 @@ export interface IMultiSelectDropdown {
 	/** (optional) If `true` dropdown items can be cleared */
 	selectionClearable?: boolean;
 	/** (optional) The clear search action text */
-	clearSearchLabel?: string;
+	clearSelectionLabel?: string;
 	/** (optional) If `true` dropdown requires a value to be selected */
 	required?: boolean;
 	/** (optional) The text to display on the dropdown label */
 	label?: string;
 	/** (optional) The text to display on the dropdown  */
-	value?: string;
+	displayValue?: string;
 	/** (required) The error state for the dropdown */
 	errorState?: EValidationState;
 	/** (optional) The text to display as help text  */
@@ -43,12 +43,14 @@ export interface IMultiSelectDropdown {
 	/** (optional) The object with the dropdown options */
 	options?: IMultiSelectDropdownOptions;
 	/** (optional) The array of selected options */
-	selectedOptions?: string[];
+	selectedOptions?: string[] | number[];
 }
 
 export interface IMultiSelectDropdownEvents {
 	/** Emitted when the selected options change */
-	optionsSelected: EventEmitter<string[]>;
+	optionsSelected: EventEmitter<string[] | number[]>;
 	/** Emitted when the search term changes */
 	searchChange: EventEmitter<string>;
+	/** Emitted when the selection is cleared */
+	selectionCleared: EventEmitter<void>;
 }

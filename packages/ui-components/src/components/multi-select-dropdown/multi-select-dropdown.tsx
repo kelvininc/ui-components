@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, Event, EventEmitter, Watch, State } from '@stencil/core';
 import { isEmpty, isNil } from 'lodash-es';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
@@ -30,7 +30,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) value?: string;
+	@Prop({ reflect: true }) displayValue?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) errorState?: EValidationState;
 	/** @inheritdoc */
@@ -48,6 +48,10 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Event() optionsSelected: EventEmitter<string[]>;
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
+	/** @inheritdoc */
+	@Event() selectionCleared: EventEmitter<void>;
+
+	@State() _selectionDisplayValue: string;
 
 	private selectOption = (event: CustomEvent<string>) => {
 		const option = event.detail;
@@ -65,19 +69,23 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 
 	private calculateLabelValue() {
 		if (isEmpty(this.options)) {
-			this.value = undefined;
+			this._selectionDisplayValue = undefined;
 			return;
 		}
 
-		this.value = this.selectedOptions.reduce((acc, option, currentIndex) => {
-			if (isNil(this.options[option])) {
-				if (currentIndex === this.selectedOptions.length - 1) {
-					acc = acc.slice(0, acc.length - 2);
+		if (this.displayValue?.length > 0) {
+			this._selectionDisplayValue = this.displayValue;
+		} else {
+			this._selectionDisplayValue = this.selectedOptions.reduce((acc, option, currentIndex) => {
+				if (isNil(this.options[option])) {
+					if (currentIndex === this.selectedOptions.length - 1) {
+						acc = acc.slice(0, acc.length - 2);
+					}
+					return acc;
 				}
-				return acc;
-			}
-			return `${acc + this.options[option].label + (currentIndex !== this.selectedOptions.length - 1 ? ', ' : '')}`;
-		}, '');
+				return `${acc + this.options[option].label + (currentIndex !== this.selectedOptions.length - 1 ? ', ' : '')}`;
+			}, '');
+		}
 	}
 
 	private openStateChangeHandler = (event: CustomEvent<boolean>) => {
@@ -90,6 +98,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 
 	private onClearSelection = () => {
 		this.selectedOptions = [];
+		this.selectionCleared.emit();
 		this.calculateLabelValue();
 	};
 
@@ -102,13 +111,23 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		this.calculateLabelValue();
 	}
 
+	@Watch('selectedOptions')
+	selectedOptionsChangeHandler() {
+		this.calculateLabelValue();
+	}
+
+	@Watch('displayValue')
+	valueChangeHandler() {
+		this.calculateLabelValue();
+	}
+
 	render() {
 		return (
 			<Host>
 				<kv-dropdown
 					isOpen={this.isOpen}
 					label={this.label}
-					value={this.value}
+					value={this._selectionDisplayValue}
 					loading={this.loading}
 					icon={this.icon}
 					disabled={this.disabled}
