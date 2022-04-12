@@ -67,6 +67,9 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	};
 
 	componentWillLoad() {
+		this._selectedOption = this.selectedOption;
+		this._selectedOptionLabel = this.displayValue;
+
 		if (this.selectedOption?.length > 0 && !isEmpty(this.options)) {
 			this.calculateLabelValue();
 		}
@@ -92,7 +95,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		if (this.displayValue?.length > 0) {
 			this._selectedOptionLabel = this.displayValue;
 		} else {
-			this._selectedOptionLabel = this.options[this._selectedOption].label;
+			this._selectedOptionLabel = this.options[this._selectedOption]?.label;
 		}
 	}
 
