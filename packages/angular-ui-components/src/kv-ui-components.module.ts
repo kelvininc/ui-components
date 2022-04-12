@@ -22,6 +22,7 @@ import {
 	KvTabNavigation,
 	KvTagLetter,
 	KvTextField,
+	KvToaster,
 	KvTooltip,
 	KvSummaryCard
 } from './stencil-generated/component';
@@ -50,7 +51,8 @@ const COMPONENTS = [
 	KvTextField,
 	KvTooltip,
 	KvSummaryCard,
-	KvSearch
+	KvSearch,
+	KvToaster
 ];
 
 @NgModule({
