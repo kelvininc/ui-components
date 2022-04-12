@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
+/** @inheritdoc */ import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { EOtherIconName } from '../icon/icon.types';
 import { IDropdownListItem, IDropdownListItemEvents } from './dropdown-list-item.types';
 
@@ -8,16 +8,16 @@ import { IDropdownListItem, IDropdownListItemEvents } from './dropdown-list-item
 	shadow: true
 })
 export class KvDropdownListItem implements IDropdownListItem, IDropdownListItemEvents {
-	/** (required) The text to display on the item */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) label!: string;
-	/** (required) The item value */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) value!: string;
-	/** (optional) If `true` the item is selected */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) selected?: boolean = false;
-	/** (optional)  If `true` the item is togglable */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) togglable?: boolean = false;
 
-	/** Emitted when the user clicks on the item */
+	/** @inheritdoc */
 	@Event() itemSelected: EventEmitter<string>;
 
 	private onItemClick = () => {

@@ -1,4 +1,4 @@
-# *<kv-breadcrumb-list>*
+# *<kv-multi-select-dropdown>*
 
 
 
@@ -10,20 +10,15 @@
 ### Angular
 
 ```html
-<kv-breadcrumb-list separator='/'>
-	<kv-breadcrumb-item
-		label="First item"
-		link="Your link here"
-		[target]="EBreadcrumbItemTarget.NewTab">
-	</kv-breadcrumb-item>
-	...
-	<kv-breadcrumb-item
-		label="Last item"
-		link="Your link here"
-		[target]="EBreadcrumbItemTarget.NewTab"
-		active>
-	</kv-breadcrumb-item>
-</kv-breadcrumb-list>
+<kv-multi-select-dropdown
+	placeholder="Select an option"
+	label="Options"
+	[icon]="EIconName.Layer"
+	[options]="options"
+	[selectedOptions]="selectedOptions"
+	searchable=true
+	selectionClearable=true>
+</kv-multi-select-dropdown>
 ```
 
 
@@ -51,18 +46,19 @@
 
 ```tsx
 import React from 'react';
-import { KvBreadcrumbList } from '@kelvininc/react-ui-components';
+import { KvMultiSelectDropdown } from '@kelvininc/react-ui-components';
 
-export const KvBreadcrumbListExample: React.FC = () => (
+export const KvMultiSelectDropdownExample: React.FC = (props) => (
   <>
-    <KvBreadcrumbList separator='/'>
-		<KvBreadcrumbItem
-			label="Your label here"
-			link="Your link here"
-			target={EBreadcrumbItemTarget.NewTab}
-			active>
-		</KvBreadcrumbItem>
-	</KvBreadcrumbList>
+    <KvMultiSelectDropdown 
+		placeholder="Select an option"
+		label="Options"
+		icon={EIconName.Layer}
+		options={props.options}
+		selectedOptions={props.selectedOptions}
+		searchable
+		selectionClearable>
+	</KvMultiSelectDropdown>
   </>
 );
 ```
@@ -106,7 +102,9 @@ export class SwichButtonExample {
 
 | Property               | Attribute                 | Description                                                   | Type                                                                          | Default                                   |
 | ---------------------- | ------------------------- | ------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------- |
+| `clearSelectionLabel`  | `clear-selection-label`   | (optional) The clear search action text                       | `string`                                                                      | `undefined`                               |
 | `disabled`             | `disabled`                | (optional) If `true` the dropdown is disabled                 | `boolean`                                                                     | `undefined`                               |
+| `displayValue`         | `display-value`           | (optional) The text to display on the dropdown                | `string`                                                                      | `undefined`                               |
 | `errorState`           | `error-state`             | (required) The error state for the dropdown                   | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid` | `undefined`                               |
 | `helpText`             | `help-text`               | (optional) The text to display as help text                   | `string`                                                                      | `undefined`                               |
 | `icon`                 | `icon`                    | (optional) The icon to display on the dropdown                | `EIconName \| EOtherIconName`                                                 | `undefined`                               |
@@ -120,15 +118,15 @@ export class SwichButtonExample {
 | `searchable`           | `searchable`              | (optional) If `true` the dropdown is searchable               | `boolean`                                                                     | `undefined`                               |
 | `selectedOptions`      | --                        | (optional) The array of selected options                      | `string[]`                                                                    | `[]`                                      |
 | `selectionClearable`   | `selection-clearable`     | (optional) If `true` dropdown items can be cleared            | `boolean`                                                                     | `undefined`                               |
-| `value`                | `value`                   | (optional) The text to display on the dropdown                | `string`                                                                      | `undefined`                               |
 
 
 ## Events
 
-| Event             | Description                              | Type                    |
-| ----------------- | ---------------------------------------- | ----------------------- |
-| `optionsSelected` | Emitted when the selected options change | `CustomEvent<string[]>` |
-| `searchChange`    | Emitted when the search term changes     | `CustomEvent<string>`   |
+| Event              | Description                              | Type                    |
+| ------------------ | ---------------------------------------- | ----------------------- |
+| `optionsSelected`  | Emitted when the selected options change | `CustomEvent<string[]>` |
+| `searchChange`     | Emitted when the search term changes     | `CustomEvent<string>`   |
+| `selectionCleared` | Emitted when the selection is cleared    | `CustomEvent<void>`     |
 
 
 ## Dependencies

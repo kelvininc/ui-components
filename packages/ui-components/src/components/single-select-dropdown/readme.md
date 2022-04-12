@@ -10,20 +10,13 @@
 ### Angular
 
 ```html
-<kv-breadcrumb-list separator='/'>
-	<kv-breadcrumb-item
-		label="First item"
-		link="Your link here"
-		[target]="EBreadcrumbItemTarget.NewTab">
-	</kv-breadcrumb-item>
-	...
-	<kv-breadcrumb-item
-		label="Last item"
-		link="Your link here"
-		[target]="EBreadcrumbItemTarget.NewTab"
-		active>
-	</kv-breadcrumb-item>
-</kv-breadcrumb-list>
+<kv-single-select-dropdown
+	placeholder="Select an option"
+	label="Options"
+	[icon]="EIconName.Layer"
+	[options]="options"
+	[selectedOption]="selectedOption">
+</kv-single-select-dropdown>
 ```
 
 
@@ -51,18 +44,17 @@
 
 ```tsx
 import React from 'react';
-import { KvBreadcrumbList } from '@kelvininc/react-ui-components';
+import { KvSingleSelectDropdown } from '@kelvininc/react-ui-components';
 
-export const KvBreadcrumbListExample: React.FC = () => (
+export const KvSingleSelectDropdownExample: React.FC = (props) => (
   <>
-    <KvBreadcrumbList separator='/'>
-		<KvBreadcrumbItem
-			label="Your label here"
-			link="Your link here"
-			target={EBreadcrumbItemTarget.NewTab}
-			active>
-		</KvBreadcrumbItem>
-	</KvBreadcrumbList>
+    <KvSingleSelectDropdown 
+		placeholder="Select an option"
+		label="Options"
+		icon={EIconName.Layer}
+		options={props.options}
+		selectedOption={props.selectedOption}>
+	</KvSingleSelectDropdown>
   </>
 );
 ```
@@ -107,6 +99,7 @@ export class SwichButtonExample {
 | Property               | Attribute                 | Description                                                   | Type                                                                          | Default                                    |
 | ---------------------- | ------------------------- | ------------------------------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------ |
 | `disabled`             | `disabled`                | (optional) If `true` the dropdown is disabled                 | `boolean`                                                                     | `false`                                    |
+| `displayValue`         | `display-value`           | (optional) The text to display on the dropdown                | `string`                                                                      | `undefined`                                |
 | `errorState`           | `error-state`             | (required) The error state for the dropdown                   | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid` | `EValidationState.None`                    |
 | `helpText`             | `help-text`               | (optional) The text to display as help text                   | `string`                                                                      | `undefined`                                |
 | `icon`                 | `icon`                    | (optional) The icon to display on the dropdown                | `EIconName \| EOtherIconName`                                                 | `undefined`                                |
@@ -119,7 +112,6 @@ export class SwichButtonExample {
 | `required`             | `required`                | (optional) If `true` dropdown requires a value to be selected | `boolean`                                                                     | `false`                                    |
 | `searchable`           | `searchable`              | (optional) If `true` the dropdown is searchable               | `boolean`                                                                     | `false`                                    |
 | `selectedOption`       | `selected-option`         | (optional) The value of the selected option                   | `string`                                                                      | `undefined`                                |
-| `value`                | `value`                   | (optional) The text to display on the dropdown                | `string`                                                                      | `undefined`                                |
 
 
 ## Events

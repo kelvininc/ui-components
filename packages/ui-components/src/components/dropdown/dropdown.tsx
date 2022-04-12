@@ -2,36 +2,37 @@ import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
 import { ClickOutside } from 'stencil-click-outside';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EInputFieldType, EValidationState } from '../text-field/text-field.types';
-import { DROPDOWN_DEFAULT_PLACEHOLDER } from './dropdown.types';
+import { DROPDOWN_DEFAULT_PLACEHOLDER } from './dropdown.config';
+import { IDropdown, IDropdownEvents } from './dropdown.types';
 
 @Component({
 	tag: 'kv-dropdown',
 	styleUrl: 'dropdown.scss',
 	shadow: true
 })
-export class KvDropdown {
-	/** (optional) The text to display as the dropdown placeholder */
+export class KvDropdown implements IDropdown, IDropdownEvents {
+	/** @inheritdoc */
 	@Prop({ reflect: true }) placeholder: string = DROPDOWN_DEFAULT_PLACEHOLDER;
-	/** (optional) If `true` the list is opened */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) isOpen?: boolean = false;
-	/** (optional) If `true` the dropdown is loading */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) loading?: boolean = false;
-	/** (optional) The text to display on the dropdown label */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
-	/** (optional) The text to display on the dropdown  */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) value?: string;
-	/** (optional) The icon to display on the dropdown */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
-	/** (required) The error state for the dropdown */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) errorState?: EValidationState = EValidationState.None;
-	/** (optional) The text to display as help text  */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) helpText?: string;
-	/** (optional) If `true` the dropdown is disabled */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean;
-	/** (optional) If `true` the dropdown requires a value to be selected */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) required?: boolean;
 
-	/** Emitted when the dropdown opens state changes */
+	/** @inheritdoc */
 	@Event() openStateChange: EventEmitter<boolean>;
 
 	// eslint-disable-next-line @stencil/own-props-must-be-private

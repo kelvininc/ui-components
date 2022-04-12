@@ -1,8 +1,9 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, Event, EventEmitter, Watch, State } from '@stencil/core';
 import { isEmpty, isNil } from 'lodash-es';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
-import { IMultiSelectDropdown, IMultiSelectDropdownEvents, IMultiSelectDropdownOption, MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.types';
+import { IMultiSelectDropdown, IMultiSelectDropdownEvents, IMultiSelectDropdownOption } from './multi-select-dropdown.types';
+import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
 
 @Component({
 	tag: 'kv-multi-select-dropdown',
@@ -10,41 +11,47 @@ import { IMultiSelectDropdown, IMultiSelectDropdownEvents, IMultiSelectDropdownO
 	shadow: true
 })
 export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelectDropdownEvents {
-	/** (required) The text to display as the dropdown placeholder */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) placeholder?: string;
-	/** (optional) If `true` the dropdown is opened */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) isOpen?: boolean;
-	/** (optional) If `true` the dropdown is loading */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) loading?: boolean = false;
-	/** (optional) The icon to display on the dropdown */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
-	/** (optional) If `true` the dropdown is searchable */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) searchable?: boolean;
-	/** (optional) If `true` dropdown items can be cleared */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) selectionClearable?: boolean;
-	/** (optional) If `true` dropdown requires a value to be selected */
+	/** @inheritdoc */
+	@Prop({ reflect: true }) clearSelectionLabel?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) required?: boolean;
-	/** (optional) The text to display on the dropdown label */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
-	/** (optional) The text to display on the dropdown  */
-	@Prop({ reflect: true }) value?: string;
-	/** (required) The error state for the dropdown */
+	/** @inheritdoc */
+	@Prop({ reflect: true }) displayValue?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) errorState?: EValidationState;
-	/** (optional) The text to display as help text  */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) helpText?: string;
-	/** (optional) If `true` the dropdown is disabled */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean;
-	/** (required) The text to display when there are no options */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) noDataAvailableLabel?: string = MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE;
-	/** (optional) The object with the dropdown options */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) options?: { [key: string]: IMultiSelectDropdownOption };
-	/** (optional) The array of selected options */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedOptions?: string[] = [];
 
-	/** Emitted when the selected options change */
+	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<string[]>;
-	/** Emitted when the search term changes */
+	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
+	/** @inheritdoc */
+	@Event() selectionCleared: EventEmitter<void>;
+
+	@State() _selectionDisplayValue: string;
 
 	private selectOption = (event: CustomEvent<string>) => {
 		const option = event.detail;
@@ -62,19 +69,23 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 
 	private calculateLabelValue() {
 		if (isEmpty(this.options)) {
-			this.value = undefined;
+			this._selectionDisplayValue = undefined;
 			return;
 		}
 
-		this.value = this.selectedOptions.reduce((acc, option, currentIndex) => {
-			if (isNil(this.options[option])) {
-				if (currentIndex === this.selectedOptions.length - 1) {
-					acc = acc.slice(0, acc.length - 2);
+		if (this.displayValue?.length > 0) {
+			this._selectionDisplayValue = this.displayValue;
+		} else {
+			this._selectionDisplayValue = this.selectedOptions.reduce((acc, option, currentIndex) => {
+				if (isNil(this.options[option])) {
+					if (currentIndex === this.selectedOptions.length - 1) {
+						acc = acc.slice(0, acc.length - 2);
+					}
+					return acc;
 				}
-				return acc;
-			}
-			return `${acc + this.options[option].label + (currentIndex !== this.selectedOptions.length - 1 ? ', ' : '')}`;
-		}, '');
+				return `${acc + this.options[option].label + (currentIndex !== this.selectedOptions.length - 1 ? ', ' : '')}`;
+			}, '');
+		}
 	}
 
 	private openStateChangeHandler = (event: CustomEvent<boolean>) => {
@@ -87,6 +98,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 
 	private onClearSelection = () => {
 		this.selectedOptions = [];
+		this.selectionCleared.emit();
 		this.calculateLabelValue();
 	};
 
@@ -100,7 +112,12 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	}
 
 	@Watch('selectedOptions')
-	optionsSelectedChangeHandler() {
+	selectedOptionsChangeHandler() {
+		this.calculateLabelValue();
+	}
+
+	@Watch('displayValue')
+	valueChangeHandler() {
 		this.calculateLabelValue();
 	}
 
@@ -110,7 +127,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 				<kv-dropdown
 					isOpen={this.isOpen}
 					label={this.label}
-					value={this.value}
+					value={this._selectionDisplayValue}
 					loading={this.loading}
 					icon={this.icon}
 					disabled={this.disabled}
@@ -124,6 +141,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 						searchable={!isEmpty(this.options) && this.searchable}
 						selectionClearable={!isEmpty(this.options) && this.selectionClearable}
 						selectionClearEnabled={this.selectedOptions.length > 0}
+						clearSelectionLabel={this.clearSelectionLabel}
 						onClearSelection={this.onClearSelection}
 						onSearchChange={this.onSearchChange}
 					>

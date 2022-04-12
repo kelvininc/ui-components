@@ -1,23 +1,27 @@
 import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
+import { DROPDOWN_LIST_CLEAR_SELECTION_LABEL } from './dropdown-list.config';
+import { IDropdownList, IDropdownListEvents } from './dropdown-list.types';
 
 @Component({
 	tag: 'kv-dropdown-list',
 	styleUrl: 'dropdown-list.scss',
 	shadow: true
 })
-export class KvDropdownList {
-	/** (optional) If `true` the list has a search text field */
+export class KvDropdownList implements IDropdownList, IDropdownListEvents {
+	/** @inheritdoc */
 	@Prop({ reflect: true }) searchable?: boolean = false;
-	/** (optional) If `true` the list has an action to unselect all items */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) selectionClearable?: boolean = false;
-	/** (optional) The list search text field placeholder */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) searchPlaceholder?: string;
-	/** (optional) If `true` the list can be cleared */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) selectionClearEnabled?: boolean;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) clearSelectionLabel?: string = DROPDOWN_LIST_CLEAR_SELECTION_LABEL;
 
-	/** Emitted when the user interacts with the search text field */
+	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
-	/** Emitted when the user clears the selected items */
+	/** @inheritdoc */
 	@Event() clearSelection: EventEmitter<void>;
 
 	private onSearchChange = (event: CustomEvent<string>) => {
@@ -43,7 +47,7 @@ export class KvDropdownList {
 									}}
 									onClick={this.onClearSelection}
 								>
-									Clear selected items
+									{this.clearSelectionLabel}
 								</div>
 							)}
 						</div>

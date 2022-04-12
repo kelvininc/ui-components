@@ -9,6 +9,11 @@ import {
 	KvBreadcrumb,
 	KvBreadcrumbItem,
 	KvBreadcrumbList,
+	KvDropdownListItem,
+	KvDropdownList,
+	KvDropdown,
+	KvSingleSelectDropdown,
+	KvMultiSelectDropdown,
 	KvIllustration,
 	KvLink,
 	KvLoader,
@@ -53,6 +58,11 @@ const COMPONENTS = [
 	KvTooltip,
 	KvSummaryCard,
 	KvSearch,
+	KvDropdownListItem,
+	KvDropdownList,
+	KvDropdown,
+	KvSingleSelectDropdown,
+	KvMultiSelectDropdown,
 	KvRadioButton,
 	KvRadioButtonGroup
 ];
