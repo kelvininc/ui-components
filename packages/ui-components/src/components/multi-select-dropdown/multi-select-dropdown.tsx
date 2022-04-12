@@ -103,6 +103,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	};
 
 	componentWillLoad() {
+		this._selectionDisplayValue = this.displayValue;
+
 		this.calculateLabelValue();
 	}
 

@@ -67,6 +67,9 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	};
 
 	componentWillLoad() {
+		this._selectedOption = this.selectedOption;
+		this._selectedOptionLabel = this.displayValue;
+
 		if (this.selectedOption?.length > 0 && !isEmpty(this.options)) {
 			this.calculateLabelValue();
 		}
