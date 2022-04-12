@@ -9,6 +9,7 @@ describe('KvBreadcrumbItem (end-to-end)', () => {
 
 	describe('when the component renders', () => {
 		let dropdownListItemEl: E2EElement;
+		let itemEl: E2EElement;
 		let labelEl: E2EElement;
 		let clickEventSpy: EventSpy;
 
@@ -20,6 +21,7 @@ describe('KvBreadcrumbItem (end-to-end)', () => {
 					value='option1'>
 				</kv-dropdown-list-item>`);
 			dropdownListItemEl = await page.find('kv-dropdown-list-item');
+			itemEl = await page.find('kv-dropdown-list-item >>> .dropdown-list-item');
 			labelEl = await page.find('kv-dropdown-list-item >>> .item-label');
 		});
 
@@ -38,7 +40,7 @@ describe('KvBreadcrumbItem (end-to-end)', () => {
 			});
 
 			it('should set the .selected class', () => {
-				expect(dropdownListItemEl).toHaveClass('selected');
+				expect(itemEl).toHaveClass('selected');
 			});
 		});
 	});

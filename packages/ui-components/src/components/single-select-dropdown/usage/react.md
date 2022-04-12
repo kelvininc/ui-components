@@ -1,17 +1,16 @@
 ```tsx
 import React from 'react';
-import { KvBreadcrumbList } from '@kelvininc/react-ui-components';
+import { KvSingleSelectDropdown } from '@kelvininc/react-ui-components';
 
-export const KvBreadcrumbListExample: React.FC = () => (
+export const KvSingleSelectDropdownExample: React.FC = (props) => (
   <>
-    <KvBreadcrumbList separator='/'>
-		<KvBreadcrumbItem
-			label="Your label here"
-			link="Your link here"
-			target={EBreadcrumbItemTarget.NewTab}
-			active>
-		</KvBreadcrumbItem>
-	</KvBreadcrumbList>
+    <KvSingleSelectDropdown 
+		placeholder="Select an option"
+		label="Options"
+		icon={EIconName.Layer}
+		options={props.options}
+		selectedOption={props.selectedOption}>
+	</KvSingleSelectDropdown>
   </>
 );
 ```

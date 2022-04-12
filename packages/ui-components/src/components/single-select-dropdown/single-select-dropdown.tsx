@@ -1,8 +1,8 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, Event, EventEmitter, Watch, State } from '@stencil/core';
 import { isEmpty, isNil } from 'lodash-es';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
-import { ISingleSelectDropdownOption, ISingleSelectDropdown, ISingleSelectDropdownOptions, ISingleSelectDropdownEvents } from './single-select-dropdown.types';
+import { ISingleSelectDropdown, ISingleSelectDropdownOptions, ISingleSelectDropdownEvents } from './single-select-dropdown.types';
 import { SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './single-select-dropdown.config';
 
 @Component({
@@ -26,7 +26,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) value?: string;
+	@Prop({ reflect: true }) displayValue?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) errorState?: EValidationState = EValidationState.None;
 	/** @inheritdoc */
@@ -45,11 +45,15 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
 
+	@State() _selectedOption: string;
+	@State() _selectedOptionLabel: string;
+
 	private selectOption = (event: CustomEvent<string>) => {
 		const selectedOption = event.detail;
 		const option = this.options[selectedOption];
 
-		this.value = option.label;
+		this._selectedOption = option.value;
+		this._selectedOptionLabel = option.label;
 		this.optionSelected.emit(option.value);
 		this.isOpen = false;
 	};
@@ -63,18 +67,31 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	};
 
 	componentWillLoad() {
-		if (isNil(this.value) && this.selectedOption?.length > 0 && !isEmpty(this.options)) {
-			this.value = this.options[this.selectedOption].label;
+		if (this.selectedOption?.length > 0 && !isEmpty(this.options)) {
+			this.calculateLabelValue();
 		}
 	}
 
 	@Watch('options')
-	optionsChangeHandler(newValue: { [key: string]: ISingleSelectDropdownOption }) {
-		if (!isNil(this.selectedOption) && !isNil(newValue[this.selectedOption])) {
-			this.value = newValue[this.selectedOption].label;
+	optionsChangeHandler() {
+		this.calculateLabelValue();
+	}
+
+	@Watch('selectedOption')
+	selectedOptionChangeHandler() {
+		this.calculateLabelValue();
+	}
+
+	private calculateLabelValue() {
+		if (isEmpty(this.options) || isNil(this.selectedOption)) {
+			this._selectedOptionLabel = undefined;
+			return;
+		}
+
+		if (this.displayValue?.length > 0) {
+			this._selectedOptionLabel = this.displayValue;
 		} else {
-			this.value = undefined;
-			this.selectedOption = undefined;
+			this._selectedOptionLabel = this.options[this._selectedOption].label;
 		}
 	}
 
@@ -84,7 +101,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 				<kv-dropdown
 					isOpen={this.isOpen}
 					label={this.label}
-					value={this.value}
+					value={this._selectedOptionLabel}
 					loading={this.loading}
 					icon={this.icon}
 					disabled={this.disabled}
@@ -97,7 +114,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 					<kv-dropdown-list searchable={this.searchable} onSearchChange={this.onSearchChange}>
 						{isEmpty(this.options) && <kv-dropdown-list-item class="no-data" label={this.noDataAvailableLabel} value={null} />}
 						{Object.values(this.options).map(option => (
-							<kv-dropdown-list-item label={option.label} value={option.value} selected={option.value === this.selectedOption} onItemSelected={this.selectOption} />
+							<kv-dropdown-list-item label={option.label} value={option.value} selected={option.value === this._selectedOption} onItemSelected={this.selectOption} />
 						))}
 					</kv-dropdown-list>
 				</kv-dropdown>

@@ -9,6 +9,11 @@ import {
 	KvBreadcrumb,
 	KvBreadcrumbItem,
 	KvBreadcrumbList,
+	KvDropdownListItem,
+	KvDropdownList,
+	KvDropdown,
+	KvSingleSelectDropdown,
+	KvMultiSelectDropdown,
 	KvIllustration,
 	KvLink,
 	KvLoader,
@@ -52,7 +57,12 @@ const COMPONENTS = [
 	KvTooltip,
 	KvSummaryCard,
 	KvSearch,
-	KvToaster
+	KvToaster,
+	KvDropdownListItem,
+	KvDropdownList,
+	KvDropdown,
+	KvSingleSelectDropdown,
+	KvMultiSelectDropdown
 ];
 
 @NgModule({
