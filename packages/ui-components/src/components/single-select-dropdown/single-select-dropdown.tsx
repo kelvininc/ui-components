@@ -78,12 +78,13 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	}
 
 	@Watch('selectedOption')
-	selectedOptionChangeHandler() {
+	selectedOptionChangeHandler(newValue?: string) {
+		this._selectedOption = newValue;
 		this.calculateLabelValue();
 	}
 
 	private calculateLabelValue() {
-		if (isEmpty(this.options) || isNil(this.selectedOption)) {
+		if (isEmpty(this.options) || isNil(this._selectedOption)) {
 			this._selectedOptionLabel = undefined;
 			return;
 		}
