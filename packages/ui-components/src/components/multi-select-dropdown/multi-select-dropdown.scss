@@ -1,0 +1,22 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --dropdown-max-height: Dropdown list maximum height.
+	 */
+	--dropdown-max-height: auto;
+ 
+	.no-data {
+		pointer-events: none;
+	}
+	
+	kv-dropdown {
+		&[disabled] {
+			pointer-events: none;
+		}
+	}
+
+	kv-dropdown-list {
+		--dropdown-list-max-height: var(--dropdown-max-height);
+	}
+}

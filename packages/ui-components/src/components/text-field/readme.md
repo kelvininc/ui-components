@@ -94,6 +94,7 @@ export class TextFieldExample {
 | `step`        | `step`        | (optional) Text field interval between legal numbers               | `number`                                                                                                                          | `undefined`             |
 | `type`        | `type`        | (optional) Text field type                                         | `EInputFieldType.DateTime \| EInputFieldType.Number \| EInputFieldType.Password \| EInputFieldType.Radio \| EInputFieldType.Text` | `EInputFieldType.Text`  |
 | `value`       | `value`       | (optional) Text field value                                        | `string`                                                                                                                          | `undefined`             |
+| `forcedFocus`       | `forced-focus` | (optional) Text field focus state                                  | `boolean`                                                                     | `false`                 |
 
 
 ## Events
@@ -130,6 +131,7 @@ export class TextFieldExample {
 
 ### Used by
 
+ - [kv-dropdown](../dropdown)
  - [kv-search](../search)
 
 ### Depends on
@@ -140,6 +142,7 @@ export class TextFieldExample {
 ```mermaid
 graph TD;
   kv-text-field --> kv-icon
+  kv-dropdown --> kv-text-field
   kv-search --> kv-text-field
   style kv-text-field fill:#f9f,stroke:#333,stroke-width:4px
 ```
