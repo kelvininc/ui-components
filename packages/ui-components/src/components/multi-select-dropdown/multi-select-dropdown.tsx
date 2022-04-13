@@ -68,11 +68,6 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	};
 
 	private calculateLabelValue() {
-		if (isEmpty(this.options)) {
-			this._selectionDisplayValue = undefined;
-			return;
-		}
-
 		if (this.displayValue?.length > 0) {
 			this._selectionDisplayValue = this.displayValue;
 		} else {
@@ -83,7 +78,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 					}
 					return acc;
 				}
-				return `${acc + this.options[option].label + (currentIndex !== this.selectedOptions.length - 1 ? ', ' : '')}`;
+				return `${acc + this.options[option]?.label + (currentIndex !== this.selectedOptions.length - 1 ? ', ' : '')}`;
 			}, '');
 		}
 	}
@@ -103,6 +98,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	};
 
 	componentWillLoad() {
+		this._selectionDisplayValue = this.displayValue;
+
 		this.calculateLabelValue();
 	}
 

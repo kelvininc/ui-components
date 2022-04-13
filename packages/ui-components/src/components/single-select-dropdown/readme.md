@@ -69,6 +69,13 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | `searchChange`   | Emitted when the search term changes    | `CustomEvent<string>` |
 
 
+## CSS Custom Properties
+
+| Name                    | Description                   |
+| ----------------------- | ----------------------------- |
+| `--dropdown-max-height` | Dropdown list maximum height. |
+
+
 ## Dependencies
 
 ### Depends on

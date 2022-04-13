@@ -1,5 +1,4 @@
-import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
-import { ClickOutside } from 'stencil-click-outside';
+import { Component, Host, h, Prop, Event, EventEmitter, Listen, Element } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EInputFieldType, EValidationState } from '../text-field/text-field.types';
 import { DROPDOWN_DEFAULT_PLACEHOLDER } from './dropdown.config';
@@ -35,14 +34,17 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	/** @inheritdoc */
 	@Event() openStateChange: EventEmitter<boolean>;
 
-	// eslint-disable-next-line @stencil/own-props-must-be-private
-	@ClickOutside({
-		exclude: 'kv-single-select-dropdown, kv-multi-select-dropdown'
-	})
-	onClickOutside = () => {
+	@Element() el: HTMLKvDropdownElement;
+
+	@Listen('click', { target: 'window' })
+	checkForClickOutside(ev: { path: HTMLElement[] }) {
+		if (ev.path.some(element => element === this.el)) {
+			return;
+		}
+
 		this.isOpen = false;
 		this.openStateChange.emit(this.isOpen);
-	};
+	}
 
 	private onToggleOpenState = () => {
 		this.isOpen = !this.isOpen;
