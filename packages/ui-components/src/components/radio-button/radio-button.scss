@@ -16,11 +16,11 @@
 
 	--button-height: 36px;
 	--text-color-default: #{kv-color('neutral-2')};
-	--text-color-active: #{kv-color('neutral-2')};
+	--text-color-active: #{kv-color('neutral-0')};
 	--text-color-disabled: #{kv-color('neutral-4')};
-	--background-color-default: #{linear-gradient(45deg, kv-color('neutral-6') 50%, kv-color('neutral-6') 50%)};
-	--background-color-active: #{linear-gradient(45deg, kv-color('neutral-6') 50%, kv-color('neutral-6') 50%)};
-	--background-color-disabled: #{linear-gradient(45deg, kv-color('neutral-6') 50%, kv-color('neutral-6') 50%)};
+	--background-color-default: #{kv-color('neutral-6')};
+	--background-color-active: #{kv-color('neutral-6')};
+	--background-color-disabled: #{kv-color('neutral-6')};
 	--border-color-default: #{kv-color('neutral-6')};
 	--border-color-active: #{kv-color('neutral-0')};
 	--border-color-disabled: #{kv-color('neutral-6')};
@@ -40,29 +40,26 @@
 
 	border-radius: 2px;
 
-	color: var(--text-color-default);
-
-	background: var(--background-color-default);
-	background-size: 350% 100%;
-	background-position: right bottom;
-	transition: background-position 0.5s ease-out;
-
 	border: 1px solid var(--border-color-default);
+	color: var(--text-color-default);
+	background: var(--background-color-default);
 
 	height: var(--button-height);
 	padding: 0 $spacing-3x;
 
 	&.checked {
-		text-shadow: 0 0 0.65px var(--text-color-active), 0 0 0.65px var(--text-color-active);
-		border: 1px solid var(--border-color-active);
+		text-shadow: 0 0 0.35px var(--text-color-active), 0 0 0.35px var(--text-color-active);
+
+		border-color: var(--border-color-active);
 		color: var(--text-color-active);
 		background: var(--background-color-active);
 	}
 
 	&.disabled {
+		border-color: var(--border-color-disabled);
 		color: var(--text-color-disabled);
-		cursor: not-allowed;
 		background: var(--background-color-disabled);
-		border: 1px solid var(--border-color-disabled);
+
+		cursor: not-allowed;
 	}
 }
