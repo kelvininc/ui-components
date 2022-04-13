@@ -1,9 +1,6 @@
-# *<kv-text-field>*
-
-
+# _<kv-text-field>_
 
 <!-- Auto Generated Below -->
-
 
 ## Usage
 
@@ -19,7 +16,6 @@
 <!-- Disabled -->
 <kv-text-field disabled></kv-text-field>
 ```
-
 
 ### React
 
@@ -40,9 +36,7 @@ export const TextFieldExample: React.FC = () => (
 		<KvTextField disabled />
 	</>
 );
-
 ```
-
 
 ### Stencil
 
@@ -71,26 +65,25 @@ export class TextFieldExample {
 
 ```
 
-
-
 ## Properties
 
-| Property            | Attribute     | Description                                                        | Type                                                                                                     | Default                 |
-| ------------------- | ------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- | ----------------------- |
-| `disabled`          | `disabled`    | (optional) Text field disabled                                     | `boolean`                                                                                                | `false`                 |
-| `helpText`          | `help-text`   | (optional) Text field help text                                    | `string \| string[]`                                                                                     | `[]`                    |
-| `icon`              | `icon`        | (optional) Text field's icon symbol name                           | `EIconName \| EOtherIconName`                                                                            | `undefined`             |
-| `inputName`         | `input-name`  | (optional) Text field input name                                   | `string`                                                                                                 | `undefined`             |
-| `label`             | `label`       | (optional) Text field label                                        | `string`                                                                                                 | `undefined`             |
-| `loading`           | `loading`     | (optional) Text field loading state                                | `boolean`                                                                                                | `false`                 |
-| `max`               | `max`         | (optional) Text field max characters                               | `number`                                                                                                 | `undefined`             |
-| `placeholder`       | `placeholder` | (optional) Text field place holder                                 | `string`                                                                                                 | `undefined`             |
-| `required`          | `required`    | (optional) Text field required                                     | `boolean`                                                                                                | `false`                 |
-| `size`              | `size`        | (optional) Sets this tab item to a different styling configuration | `EComponentSize.Large \| EComponentSize.Small`                                                           | `EComponentSize.Large`  |
-| `state`             | `state`       | (optional) Text field state                                        | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid`                            | `EValidationState.None` |
-| `type` _(required)_ | `type`        | (optional) Text field type                                         | `EInputFieldType.DateTime \| EInputFieldType.Number \| EInputFieldType.Password \| EInputFieldType.Text` | `undefined`             |
-| `value`             | `value`       | Text field value                                                   | `string`                                                                                                 | `undefined`             |
-
+| Property            | Attribute      | Description                                                        | Type                                                                          | Default                 |
+| ------------------- | -------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------- | ----------------------- |
+| `disabled`          | `disabled`     | (optional) Text field disabled                                     | `boolean`                                                                     | `false`                 |
+| `forcedFocus`       | `forced-focus` | (optional) Text field focus state                                  | `boolean`                                                                     | `false`                 |
+| `helpText`          | `help-text`    | (optional) Text field help text                                    | `string \| string[]`                                                          | `[]`                    |
+| `icon`              | `icon`         | (optional) Text field's icon symbol name                           | `EIconName \| EOtherIconName`                                                 | `undefined`             |
+| `inputName`         | `input-name`   | (optional) Text field input name                                   | `string`                                                                      | `undefined`             |
+| `label`             | `label`        | (optional) Text field label                                        | `string`                                                                      | `undefined`             |
+| `loading`           | `loading`      | (optional) Text field loading state                                | `boolean`                                                                     | `false`                 |
+| `max`               | `max`          | (optional) Text field max characters                               | `number`                                                                      | `undefined`             |
+| `placeholder`       | `placeholder`  | (optional) Text field place holder                                 | `string`                                                                      | `undefined`             |
+| `required`          | `required`     | (optional) Text field required                                     | `boolean`                                                                     | `false`                 |
+| `size`              | `size`         | (optional) Sets this tab item to a different styling configuration | `EComponentSize.Large \| EComponentSize.Small`                                | `EComponentSize.Large`  |
+| `state`             | `state`        | (optional) Text field state                                        | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid` | `EValidationState.None` |
+| `type` _(required)_ | `type`         | (optional) Text field type                                         | `EInputFieldType.Number \| EInputFieldType.Password \| EInputFieldType.Text`  | `undefined`             |
+| `uneditable`        | `uneditable`   | (optional) Text field is editable                                  | `boolean`                                                                     | `false`                 |
+| `value`             | `value`        | Text field value                                                   | `string`                                                                      | `undefined`             |
 
 ## Events
 
@@ -98,7 +91,6 @@ export class TextFieldExample {
 | --------------- | --------------------------------------- | --------------------- |
 | `textChange`    | Emitted when text field's value changes | `CustomEvent<string>` |
 | `textFieldBlur` | Emitted when text field lost focus      | `CustomEvent<string>` |
-
 
 ## CSS Custom Properties
 
@@ -121,25 +113,25 @@ export class TextFieldExample {
 | `--text-color-input-focused`     | Input Text color when state is focused.  |
 | `--text-color-label`             | Label Text color.                        |
 
-
 ## Dependencies
 
 ### Used by
 
- - [kv-search](../search)
+-   [kv-dropdown](../dropdown)
+-   [kv-search](../search)
 
 ### Depends on
 
-- [kv-icon](../icon)
+-   [kv-icon](../icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   kv-text-field --> kv-icon
+  kv-dropdown --> kv-text-field
   kv-search --> kv-text-field
   style kv-text-field fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
-
-
+---
