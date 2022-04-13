@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KvDropdownListItem (unit tests) when the component loads should match the snapshot 1`] = `
+<kv-dropdown-list-item label="Option 1" value="option1">
+  <mock:shadow-root>
+    <div class="dropdown-list-item">
+      <div class="item-label">
+        Option 1
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-dropdown-list-item>
+`;
