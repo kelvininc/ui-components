@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Radio Button (unit tests) when the component loads with checked prop should match the snapshot 1`] = `
+<kv-radio-button checked="" label="Option 1">
+  <mock:shadow-root>
+    <a class="checked radio-button">
+      Option 1
+    </a>
+  </mock:shadow-root>
+</kv-radio-button>
+`;
+
+exports[`Radio Button (unit tests) when the component loads with default props should match the snapshot 1`] = `
+<kv-radio-button label="Option 1">
+  <mock:shadow-root>
+    <a class="radio-button">
+      Option 1
+    </a>
+  </mock:shadow-root>
+</kv-radio-button>
+`;
+
+exports[`Radio Button (unit tests) when the component loads with disabled prop should match the snapshot 1`] = `
+<kv-radio-button disabled="" label="Option 1">
+  <mock:shadow-root>
+    <a class="disabled radio-button">
+      Option 1
+    </a>
+  </mock:shadow-root>
+</kv-radio-button>
+`;
