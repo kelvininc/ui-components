@@ -135,7 +135,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 					onOpenStateChange={this.openStateChangeHandler}
 				>
 					<kv-dropdown-list
-						searchable={!isEmpty(this.options) && this.searchable}
+						searchable={this.searchable}
 						selectionClearable={!isEmpty(this.options) && this.selectionClearable}
 						selectionClearEnabled={this.selectedOptions.length > 0}
 						clearSelectionLabel={this.clearSelectionLabel}
