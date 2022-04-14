@@ -21,7 +21,6 @@ export class KvDropdownListItem implements IDropdownListItem, IDropdownListItemE
 	@Event() itemSelected: EventEmitter<string>;
 
 	private onItemClick = () => {
-		this.selected = !this.selected;
 		this.itemSelected.emit(this.value);
 	};
 

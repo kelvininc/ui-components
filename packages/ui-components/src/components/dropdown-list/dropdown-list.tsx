@@ -11,6 +11,8 @@ export class KvDropdownList implements IDropdownList, IDropdownListEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchable?: boolean = false;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) searchValue?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) selectionClearable?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchPlaceholder?: string;
@@ -38,7 +40,7 @@ export class KvDropdownList implements IDropdownList, IDropdownListEvents {
 				<div class="dropdown-list-container">
 					{(this.searchable || this.selectionClearable) && (
 						<div class="dropdown-list-header-container">
-							{this.searchable && <kv-search placeholder={this.searchPlaceholder} onTextChange={this.onSearchChange} />}
+							{this.searchable && <kv-search value={this.searchValue} placeholder={this.searchPlaceholder} onTextChange={this.onSearchChange} />}
 							{this.selectionClearable && (
 								<div
 									class={{

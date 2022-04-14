@@ -47,6 +47,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 	@State() _selectedOption: string;
 	@State() _selectedOptionLabel: string;
+	@State() _searchValue: string;
 
 	private selectOption = (event: CustomEvent<string>) => {
 		const selectedOption = event.detail;
@@ -56,14 +57,22 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this._selectedOptionLabel = option.label;
 		this.optionSelected.emit(option.value);
 		this.isOpen = false;
+		this._searchValue = '';
+		this.searchChange.emit('');
 	};
 
 	private onSearchChange = (event: CustomEvent<string>) => {
+		this._searchValue = event.detail;
 		this.searchChange.emit(event.detail);
 	};
 
 	private openStateChangeHandler = (event: CustomEvent<boolean>) => {
 		this.isOpen = event.detail;
+
+		if (!this.isOpen) {
+			this._searchValue = '';
+			this.searchChange.emit('');
+		}
 	};
 
 	componentWillLoad() {
@@ -83,6 +92,12 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Watch('selectedOption')
 	selectedOptionChangeHandler(newValue?: string) {
 		this._selectedOption = newValue;
+		this.calculateLabelValue();
+	}
+
+	@Watch('displayValue')
+	displayValueChangeHandler(newValue?: string) {
+		this._selectedOptionLabel = newValue;
 		this.calculateLabelValue();
 	}
 
@@ -115,7 +130,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 					helpText={this.helpText}
 					onOpenStateChange={this.openStateChangeHandler}
 				>
-					<kv-dropdown-list searchable={this.searchable} onSearchChange={this.onSearchChange}>
+					<kv-dropdown-list searchValue={this._searchValue} searchable={this.searchable} onSearchChange={this.onSearchChange}>
 						{isEmpty(this.options) && <kv-dropdown-list-item class="no-data" label={this.noDataAvailableLabel} value={null} />}
 						{Object.values(this.options).map(option => (
 							<kv-dropdown-list-item label={option.label} value={option.value} selected={option.value === this._selectedOption} onItemSelected={this.selectOption} />

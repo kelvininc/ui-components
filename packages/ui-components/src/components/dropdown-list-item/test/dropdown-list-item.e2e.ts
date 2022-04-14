@@ -1,6 +1,6 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
 
-describe('KvBreadcrumbItem (end-to-end)', () => {
+describe('Dropdown List Item (end-to-end)', () => {
 	let page: E2EPage;
 
 	afterAll(async () => {
@@ -18,7 +18,8 @@ describe('KvBreadcrumbItem (end-to-end)', () => {
 			await page.setContent(`
 				<kv-dropdown-list-item
 					label='Option 1'
-					value='option1'>
+					value='option1'
+					selected=true>
 				</kv-dropdown-list-item>`);
 			dropdownListItemEl = await page.find('kv-dropdown-list-item');
 			itemEl = await page.find('kv-dropdown-list-item >>> .dropdown-list-item');
@@ -38,8 +39,10 @@ describe('KvBreadcrumbItem (end-to-end)', () => {
 			it('should emit an event with the clicked item', () => {
 				expect(clickEventSpy).toHaveReceivedEventDetail('option1');
 			});
+		});
 
-			it('should set the .selected class', () => {
+		describe('and the item is selected', () => {
+			it('should have the .selected class', () => {
 				expect(itemEl).toHaveClass('selected');
 			});
 		});
