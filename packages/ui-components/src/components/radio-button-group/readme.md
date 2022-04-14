@@ -7,16 +7,17 @@
 
 ## Properties
 
-| Property  | Attribute | Description                      | Type                               | Default |
-| --------- | --------- | -------------------------------- | ---------------------------------- | ------- |
-| `buttons` | --        | (required) List of radio buttons | `{ [key: string]: IRadioButton; }` | `{}`    |
+| Property          | Attribute | Description                      | Type             | Default |
+| ----------------- | --------- | -------------------------------- | ---------------- | ------- |
+| `buttons`         | --        | (optional) List of radio buttons | `IRadioButton[]` | `[]`    |
+| `selectedButtons` | --        |                                  | `string[]`       | `[]`    |
 
 
 ## Events
 
-| Event               | Description                                                           | Type                  |
-| ------------------- | --------------------------------------------------------------------- | --------------------- |
-| `radioButtonChange` | When the radio button selection changes, emit the requested tab's key | `CustomEvent<string>` |
+| Event           | Description                                                           | Type                  |
+| --------------- | --------------------------------------------------------------------- | --------------------- |
+| `checkedChange` | When the radio button selection changes, emit the requested tab's key | `CustomEvent<string>` |
 
 
 ## Dependencies
