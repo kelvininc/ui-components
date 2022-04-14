@@ -88,6 +88,7 @@ export class KvDropdownListExample {
 | ----------------------- | ------------------------- | ----------------------------------------------------------------- | --------- | ------------------------------------- |
 | `clearSelectionLabel`   | `clear-selection-label`   | (optional) The clear search action text                           | `string`  | `DROPDOWN_LIST_CLEAR_SELECTION_LABEL` |
 | `searchPlaceholder`     | `search-placeholder`      | (optional) The list search text field placeholder                 | `string`  | `undefined`                           |
+| `searchValue`           | `search-value`            | (optional) The search value on the list                           | `string`  | `undefined`                           |
 | `searchable`            | `searchable`              | (optional) If `true` the list has a search text field             | `boolean` | `false`                               |
 | `selectionClearEnabled` | `selection-clear-enabled` | (optional) If `true` the list can be cleared                      | `boolean` | `undefined`                           |
 | `selectionClearable`    | `selection-clearable`     | (optional) If `true` the list has an action to unselect all items | `boolean` | `false`                               |
