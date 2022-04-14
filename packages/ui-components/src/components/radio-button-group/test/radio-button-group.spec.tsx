@@ -1,16 +1,16 @@
 import { newSpecPage, SpecPage } from '@stencil/core/testing';
 import { cloneDeep } from 'lodash-es';
 import { KvRadioButtonGroup } from '../radio-button-group';
-import { RADIO_BUTTON_ITENS } from './radio-button-group.mock';
+import { RADIO_BUTTON_ITEMS } from './radio-button-group.mock';
 import { h } from '@stencil/core';
 
 describe('Radio Button Group (unit tests)', () => {
 	let page: SpecPage;
 	let component: KvRadioButtonGroup;
 
-	const radioButtonsMock = cloneDeep(RADIO_BUTTON_ITENS);
+	const radioButtonsMock = cloneDeep(RADIO_BUTTON_ITEMS);
 
-	describe('when rendering with required props', () => {
+	describe('when rendering with default props', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvRadioButtonGroup],
@@ -26,22 +26,22 @@ describe('Radio Button Group (unit tests)', () => {
 		it('should set the correct component tabs', () => {
 			expect(component.buttons).toEqual([
 				{
-					label: 'Option 1',
-					id: 'opt1'
+					value: 'opt1',
+					label: 'Option 1'
 				},
 				{
-					label: 'Option 2',
-					id: 'opt2'
+					value: 'opt2',
+					label: 'Option 2'
 				},
 				{
+					value: 'opt3',
 					label: 'Option 3',
-					id: 'opt3',
 					disabled: true
 				},
 				{
+					value: 'opt4',
 					label: 'Option 4',
-					id: 'opt4',
-					active: true
+					checked: true
 				}
 			]);
 		});

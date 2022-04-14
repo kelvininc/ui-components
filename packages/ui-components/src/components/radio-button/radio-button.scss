@@ -47,7 +47,7 @@
 	height: var(--button-height);
 	padding: 0 $spacing-3x;
 
-	&.checked {
+	&--checked {
 		text-shadow: 0 0 0.35px var(--text-color-active), 0 0 0.35px var(--text-color-active);
 
 		border-color: var(--border-color-active);
@@ -55,7 +55,7 @@
 		background: var(--background-color-active);
 	}
 
-	&.disabled {
+	&--disabled {
 		border-color: var(--border-color-disabled);
 		color: var(--text-color-disabled);
 		background: var(--background-color-disabled);
