@@ -90,6 +90,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 
 		if (!this.isOpen) {
 			this._searchValue = '';
+			this.searchChange.emit('');
 		}
 	};
 
