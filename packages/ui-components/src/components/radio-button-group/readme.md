@@ -1,22 +1,22 @@
-# *<kv-radio-button-group>*
-
-
+# _<kv-radio-button-group>_
 
 <!-- Auto Generated Below -->
 
 
 ## Properties
 
-| Property  | Attribute | Description                      | Type                               | Default |
-| --------- | --------- | -------------------------------- | ---------------------------------- | ------- |
-| `buttons` | --        | (required) List of radio buttons | `{ [key: string]: IRadioButton; }` | `{}`    |
+| Property          | Attribute  | Description                              | Type             | Default |
+| ----------------- | ---------- | ---------------------------------------- | ---------------- | ------- |
+| `buttons`         | --         | (optional) List of radio buttons         | `IRadioButton[]` | `[]`    |
+| `disabled`        | `disabled` | (optional) Disables all buttons          | `boolean`        | `false` |
+| `selectedButtons` | --         | (optional) The array of selected options | `string[]`       | `[]`    |
 
 
 ## Events
 
-| Event               | Description                                                           | Type                  |
-| ------------------- | --------------------------------------------------------------------- | --------------------- |
-| `radioButtonChange` | When the radio button selection changes, emit the requested tab's key | `CustomEvent<string>` |
+| Event           | Description                                                           | Type                  |
+| --------------- | --------------------------------------------------------------------- | --------------------- |
+| `checkedChange` | When the radio button selection changes, emit the requested tab's key | `CustomEvent<string>` |
 
 
 ## Dependencies
