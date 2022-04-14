@@ -57,10 +57,11 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this._selectedOptionLabel = option.label;
 		this.optionSelected.emit(option.value);
 		this.isOpen = false;
-		this._searchValue = undefined;
+		this._searchValue = '';
 	};
 
 	private onSearchChange = (event: CustomEvent<string>) => {
+		this._searchValue = event.detail;
 		this.searchChange.emit(event.detail);
 	};
 
@@ -68,7 +69,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this.isOpen = event.detail;
 
 		if (!this.isOpen) {
-			this._searchValue = undefined;
+			this._searchValue = '';
 		}
 	};
 

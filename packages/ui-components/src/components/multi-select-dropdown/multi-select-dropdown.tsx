@@ -66,6 +66,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		this.calculateLabelValue();
 
 		this.optionsSelected.emit(this.selectedOptions);
+		this._searchValue = '';
 	};
 
 	private calculateLabelValue() {
@@ -93,6 +94,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	};
 
 	private onSearchChange = (event: CustomEvent<string>) => {
+		this._searchValue = event.detail;
 		this.searchChange.emit(event.detail);
 	};
 
