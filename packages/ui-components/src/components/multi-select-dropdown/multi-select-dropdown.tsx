@@ -52,6 +52,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Event() selectionCleared: EventEmitter<void>;
 
 	@State() _selectionDisplayValue: string;
+	@State() _searchValue: string;
 
 	private selectOption = (event: CustomEvent<string>) => {
 		const option = event.detail;
@@ -65,6 +66,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		this.calculateLabelValue();
 
 		this.optionsSelected.emit(this.selectedOptions);
+		this._searchValue = '';
 	};
 
 	private calculateLabelValue() {
@@ -85,9 +87,14 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 
 	private openStateChangeHandler = (event: CustomEvent<boolean>) => {
 		this.isOpen = event.detail;
+
+		if (!this.isOpen) {
+			this._searchValue = '';
+		}
 	};
 
 	private onSearchChange = (event: CustomEvent<string>) => {
+		this._searchValue = event.detail;
 		this.searchChange.emit(event.detail);
 	};
 
@@ -136,6 +143,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 				>
 					<kv-dropdown-list
 						searchable={this.searchable}
+						searchValue={this._searchValue}
 						selectionClearable={!isEmpty(this.options) && this.selectionClearable}
 						selectionClearEnabled={this.selectedOptions.length > 0}
 						clearSelectionLabel={this.clearSelectionLabel}
