@@ -38,10 +38,6 @@ describe('KvBreadcrumbItem (end-to-end)', () => {
 			it('should emit an event with the clicked item', () => {
 				expect(clickEventSpy).toHaveReceivedEventDetail('option1');
 			});
-
-			it('should set the .selected class', () => {
-				expect(itemEl).toHaveClass('selected');
-			});
 		});
 	});
 });
