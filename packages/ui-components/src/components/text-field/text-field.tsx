@@ -24,6 +24,8 @@ export class KvTextField implements ITextFieldEvents {
 	@Prop({ reflect: true }) inputName: string;
 	/** (optional) Text field place holder */
 	@Prop({ reflect: true }) placeholder: string;
+	/** (optional) Text field max characters */
+	@Prop({ reflect: true }) max: number;
 	/** (optional) Sets this tab item to a different styling configuration */
 	@Prop() size?: EComponentSize = EComponentSize.Large;
 	/** (optional) Text field disabled */
@@ -119,6 +121,7 @@ export class KvTextField implements ITextFieldEvents {
 									placeholder={this.placeholder}
 									disabled={this.disabled}
 									value={this._value}
+									maxlength={this.max}
 									onInput={this.onInputHandler}
 									onBlur={this.onBlurHandler}
 									onFocus={this.onFocusHandler}

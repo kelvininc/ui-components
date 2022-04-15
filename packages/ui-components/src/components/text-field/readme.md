@@ -83,6 +83,7 @@ export class TextFieldExample {
 | `inputName`         | `input-name`  | (optional) Text field input name                                   | `string`                                                                      | `undefined`             |
 | `label`             | `label`       | (optional) Text field label                                        | `string`                                                                      | `undefined`             |
 | `loading`           | `loading`     | (optional) Text field loading state                                | `boolean`                                                                     | `false`                 |
+| `max`               | `max`         | (optional) Text field max characters                               | `number`                                                                      | `undefined`             |
 | `placeholder`       | `placeholder` | (optional) Text field place holder                                 | `string`                                                                      | `undefined`             |
 | `required`          | `required`    | (optional) Text field required                                     | `boolean`                                                                     | `false`                 |
 | `size`              | `size`        | (optional) Sets this tab item to a different styling configuration | `EComponentSize.Large \| EComponentSize.Small`                                | `EComponentSize.Large`  |
