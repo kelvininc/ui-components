@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { EComponentSize, EInputFieldType, EValidationState, KvTextField } from '../../components';
+import { EComponentSize, EIconName, EInputFieldType, EValidationState, KvTextField } from '../../components';
 
 KvTextField.displayName = 'KvTextField';
 
@@ -23,7 +23,9 @@ export default {
 		type: {
 			control: 'select',
 			options: Object.values(EInputFieldType)
-		}
+		},
+		textChange: { action: 'text changed...' },
+		textFieldBlur: { action: 'text field on blur' }
 	},
 	parameters: {
 		notes: require('@ui-notes/text-field/readme.md')
@@ -47,13 +49,14 @@ Default.args = {
 export const DefaultIcon = TextFieldTemplate.bind({});
 DefaultIcon.args = {
 	...Default.args,
-	icon: 'kv-layer'
+	icon: EIconName.Layer
 };
 
 export const Disabled = TextFieldTemplate.bind({});
 Disabled.args = {
 	...Default.args,
 	label: 'Disabled Text Field',
+	value: 'text value',
 	disabled: true,
 	state: EValidationState.None,
 	size: EComponentSize.Large,
@@ -68,6 +71,14 @@ Required.args = {
 	state: EValidationState.None,
 	size: EComponentSize.Large,
 	type: EInputFieldType.Text
+};
+
+export const MaxLength = TextFieldTemplate.bind({});
+MaxLength.args = {
+	...Default.args,
+	label: 'Required Text Field',
+	required: true,
+	max: 10
 };
 
 export const Loading = TextFieldTemplate.bind({});
@@ -98,7 +109,7 @@ Invalid.args = {
 	state: EValidationState.Invalid,
 	size: EComponentSize.Large,
 	type: EInputFieldType.Text,
-	icon: 'kv-layer'
+	icon: EIconName.Layer
 };
 
 export const Slim = TextFieldTemplate.bind({});
@@ -117,5 +128,5 @@ SlimIcon.args = {
 	size: EComponentSize.Small,
 	state: EValidationState.None,
 	type: EInputFieldType.Text,
-	icon: 'kv-layer'
+	icon: EIconName.Layer
 };

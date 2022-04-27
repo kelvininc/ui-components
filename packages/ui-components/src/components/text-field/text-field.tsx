@@ -1,7 +1,8 @@
-import { Component, Event, EventEmitter, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
 import { isEmpty } from 'lodash-es';
 import { EComponentSize } from '../../utils/types';
-import { EInputFieldType, EValidationState } from './text-field.types';
+import { EInputFieldType, EValidationState, ITextFieldEvents } from './text-field.types';
+import { EIconName, EOtherIconName } from '../icon/icon.types';
 
 @Component({
 	tag: 'kv-text-field',
@@ -11,17 +12,20 @@ import { EInputFieldType, EValidationState } from './text-field.types';
 	},
 	shadow: true
 })
-export class KvTextField {
+export class KvTextField implements ITextFieldEvents {
+	@Element() el!: HTMLKvTextFieldElement;
 	/** (optional) Text field type */
 	@Prop({ reflect: true }) type!: EInputFieldType;
 	/** (optional) Text field label */
 	@Prop({ reflect: true }) label: string;
 	/** (optional) Text field's icon symbol name */
-	@Prop({ reflect: true }) icon: string;
+	@Prop({ reflect: true }) icon: EIconName | EOtherIconName;
 	/** (optional) Text field input name */
 	@Prop({ reflect: true }) inputName: string;
 	/** (optional) Text field place holder */
 	@Prop({ reflect: true }) placeholder: string;
+	/** (optional) Text field max characters */
+	@Prop({ reflect: true }) max: number;
 	/** (optional) Sets this tab item to a different styling configuration */
 	@Prop() size?: EComponentSize = EComponentSize.Large;
 	/** (optional) Text field disabled */
@@ -32,11 +36,10 @@ export class KvTextField {
 	@Prop({ reflect: true }) loading = false;
 	/** (optional) Text field state */
 	@Prop({ reflect: true }) state: EValidationState = EValidationState.None;
-
 	/** (optional) Text field help text */
 	@Prop({ reflect: true }) helpText: string | string[] = [];
 	/** Internal help texts state */
-	@State() _helpTexts: string[] = this.buildHelpTextMessages(this.helpText);
+	@State() _helpTexts: string[];
 	/** Watch the `helpText` property and update internal state accordingly */
 	@Watch('helpText')
 	helpTextChangeHandler(newValue: string | string[]) {
@@ -53,12 +56,18 @@ export class KvTextField {
 		this._value = newValue;
 	}
 
+	componentWillLoad() {
+		// Init the states because Watches run only on component updates
+		this._value = this.value;
+		this._helpTexts = this.buildHelpTextMessages(this.helpText);
+	}
+
 	/** Text field focus state */
 	@State() focused = false;
 
-	/** Emitted when text field's value changes */
+	/** @inheritdoc */
 	@Event() textChange: EventEmitter<string>;
-	/** Emitted when text field lost focus */
+	/** @inheritdoc */
 	@Event() textFieldBlur: EventEmitter<string>;
 
 	private onInputHandler = event => {
@@ -81,12 +90,23 @@ export class KvTextField {
 		return Array.isArray(value) ? value : [value];
 	}
 
+	private get hasRightSlot() {
+		return !!this.el.querySelector('[slot="right-slot"]');
+	}
+
 	render() {
+		const hasLabel = !isEmpty(this.label);
+		const shouldShowLabel = this.required || hasLabel;
+
 		return (
 			<Host>
 				<div class="text-field-container">
-					{this.required && <span class="required">*</span>}
-					{this.label && <span class="label">{this.label}</span>}
+					{shouldShowLabel && (
+						<div class="label-container">
+							{this.required && <span class="required">*</span>}
+							{this.label && <span class="label">{this.label}</span>}
+						</div>
+					)}
 					<div
 						class={{
 							'input-container': true,
@@ -101,16 +121,18 @@ export class KvTextField {
 									placeholder={this.placeholder}
 									disabled={this.disabled}
 									value={this._value}
+									maxlength={this.max}
 									onInput={this.onInputHandler}
 									onBlur={this.onBlurHandler}
 									onFocus={this.onFocusHandler}
 									class={{
 										'invalid': this.state === EValidationState.Invalid,
-										'has-icon': !isEmpty(this.icon)
+										'has-icon': !isEmpty(this.icon),
+										'slotted': this.hasRightSlot
 									}}
 								/>
 								{this.icon && (
-									<kv-svg-icon
+									<kv-icon
 										name={this.icon}
 										exportparts="icon"
 										class={{
@@ -120,13 +142,16 @@ export class KvTextField {
 										}}
 									/>
 								)}
+								<div class={{ 'right-slot-container': true, 'focus': this.focused }}>
+									<slot name="right-slot"></slot>
+								</div>
 							</Fragment>
 						)}
 						{this.loading && <div class="input-container-loading"></div>}
 					</div>
 					{!isEmpty(this._helpTexts) && (
 						<div class={{ 'help-text-container': true, 'invalid': this.state === EValidationState.Invalid }}>
-							{this.state === EValidationState.Invalid && <kv-svg-icon name="kv-error" customClass="icon-16"></kv-svg-icon>}
+							{this.state === EValidationState.Invalid && <kv-icon name={EIconName.Error} customClass="icon-16"></kv-icon>}
 							{this._helpTexts.map(msg => (
 								<span class="help-text">{msg}</span>
 							))}

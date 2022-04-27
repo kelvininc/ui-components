@@ -6,67 +6,80 @@ describe('Radio Button (end-to-end)', () => {
 	describe('when rendering with default props', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-radio-button></kv-radio-button>');
+			await page.setContent('<kv-radio-button label="Option 1"></kv-radio-button>');
 		});
 
-		it('should not render a label', async () => {
-			const labelEl = await page.find('kv-radio-button >>> .label');
-			expect(labelEl).toBeFalsy();
+		it('should render a label', async () => {
+			const labelComponent = await page.find('kv-radio-button >>> .radio-button');
+			expect(labelComponent).toBeTruthy();
+			expect(labelComponent.innerText).toBe('Option 1');
 		});
 
 		describe('and user clicks on the button', () => {
 			let spyCheckedChangeEvent: EventSpy;
-			let radioButtonElement: E2EElement;
+			let radioElement: E2EElement;
 
 			beforeEach(async () => {
-				radioButtonElement = await page.find('kv-radio-button');
-				spyCheckedChangeEvent = await radioButtonElement.spyOnEvent('checkedChange');
+				radioElement = await page.find('kv-radio-button');
+				spyCheckedChangeEvent = await radioElement.spyOnEvent('checkedChange');
 
-				const radioBtn = await page.find('kv-radio-button >>> .radio-button-container');
+				const radioBtn = await page.find('kv-radio-button >>> .radio-button');
 				await radioBtn.click();
 				await page.waitForTimeout(300);
 			});
 
-			it('should emit state change with value `true`', () => {
-				expect(spyCheckedChangeEvent).toHaveReceivedEventDetail(true);
+			it('should emit state change with value `Option 1`', () => {
+				expect(spyCheckedChangeEvent).toHaveReceivedEventDetail('Option 1');
 			});
-		});
-	});
-
-	describe('when rendering with a label', () => {
-		beforeEach(async () => {
-			page = await newE2EPage();
-			await page.setContent('<kv-radio-button label="Accepted"></kv-radio-button>');
-		});
-
-		it('should render label', async () => {
-			const labelComponent = await page.find('kv-radio-button >>> .label');
-			expect(labelComponent).toBeTruthy();
-			expect(labelComponent.innerText).toBe('Accepted');
 		});
 	});
 
 	describe('when rendering with disabled prop', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-radio-button disabled></kv-radio-button>');
+			await page.setContent('<kv-radio-button label="Option 1" disabled></kv-radio-button>');
 		});
 
 		describe('and user clicks on the button', () => {
 			let spyCheckedChangeEvent: EventSpy;
-			let radioButtonElement: E2EElement;
+			let radioElement: E2EElement;
 
 			beforeEach(async () => {
-				radioButtonElement = await page.find('kv-radio-button');
-				spyCheckedChangeEvent = await radioButtonElement.spyOnEvent('checkedChange');
+				radioElement = await page.find('kv-radio-button');
+				spyCheckedChangeEvent = await radioElement.spyOnEvent('checkedChange');
 
-				const radioBtn = await page.find('kv-radio-button >>> .radio-button-container');
-				await radioBtn.click();
+				const radio = await page.find('kv-radio-button >>> .radio-button');
+				await radio.click();
 				await page.waitForTimeout(300);
 			});
 
-			it('should not emit `true` state', () => {
+			it('should not emit event', () => {
 				expect(spyCheckedChangeEvent).not.toHaveReceivedEvent();
+			});
+		});
+	});
+
+	describe('when rendering with value prop', () => {
+		beforeEach(async () => {
+			page = await newE2EPage();
+			await page.setContent('<kv-radio-button label="Option 1" value="opt1"></kv-radio-button>');
+		});
+
+		describe('and user clicks on the button', () => {
+			let spyCheckedChangeEvent: EventSpy;
+			let radioElement: E2EElement;
+
+			beforeEach(async () => {
+				radioElement = await page.find('kv-radio-button');
+				spyCheckedChangeEvent = await radioElement.spyOnEvent('checkedChange');
+
+				const radio = await page.find('kv-radio-button >>> .radio-button');
+				await radio.click();
+				await page.waitForTimeout(300);
+			});
+
+			it('should emit state change with value `opt1`', () => {
+				expect(spyCheckedChangeEvent).toHaveReceivedEventDetail('opt1');
 			});
 		});
 	});

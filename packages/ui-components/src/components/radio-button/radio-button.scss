@@ -1,56 +1,65 @@
 @import '../../assets/styles/globals';
 
-.radio-button-container {
-	height: 36px;
-	display: inline-flex;
-	align-items: center;
-	cursor: pointer;
+:host {
+	/**
+	 * @prop --button-height: Radio button component's height.
+	 * @prop --text-color-default: Radio button component's text color default.
+	 * @prop --text-color-active: Radio button component's text color active.
+	 * @prop --text-color-disabled: Radio button component's text color disabled.
+	 * @prop --background-color-default: Radio button component's background color default.
+	 * @prop --background-color-active: Radio button component's background color active.
+	 * @prop --background-color-disabled: Radio button component's background color disabled.
+	 * @prop --border-color-default: Radio button component's border color default.
+	 * @prop --border-color-active: Radio button component's border color active.
+	 * @prop --border-color-disabled: Radio button component's border color disabled.
+	 */
+
+	--button-height: 36px;
+	--text-color-default: #{kv-color('neutral-2')};
+	--text-color-active: #{kv-color('neutral-0')};
+	--text-color-disabled: #{kv-color('neutral-4')};
+	--background-color-default: #{kv-color('neutral-6')};
+	--background-color-active: #{kv-color('neutral-6')};
+	--background-color-disabled: #{kv-color('neutral-6')};
+	--border-color-default: #{kv-color('neutral-6')};
+	--border-color-active: #{kv-color('neutral-0')};
+	--border-color-disabled: #{kv-color('neutral-6')};
+}
+
+.radio-button {
+	@include kv-font-label-small-regular();
+
+	text-decoration: none;
+
+	position: relative;
 	user-select: none;
+	cursor: pointer;
 
-	&.disabled {
-		pointer-events: none;
-		opacity: 0.5;
-
-		.circle {
-			border-color: kv-color('neutral-3');
-
-			.checked-icon {
-				background: kv-color('neutral-3');
-			}
-		}
-	}
-}
-
-.checked .circle {
-	border: 1px solid kv-color('primary');
-
-	.checked-icon {
-		height: 12px;
-		width: 12px;
-		border-radius: 50%;
-		background: kv-color('primary');
-		transition: all 0.2s ease-out;
-	}
-}
-
-.circle {
-	height: 16px;
-	width: 16px;
-	border-radius: 50%;
-	border: 1px solid kv-color('neutral-3');
 	display: inline-flex;
 	align-items: center;
-	justify-content: center;
 
-	.checked-icon {
-		height: 0;
-		width: 0;
-		transition: all 0.2s ease-out;
+	border-radius: 2px;
+
+	border: 1px solid var(--border-color-default);
+	color: var(--text-color-default);
+	background: var(--background-color-default);
+
+	height: var(--button-height);
+	padding: 0 $spacing-3x;
+
+	&--checked {
+		text-shadow: 0 0 0.35px var(--text-color-active), 0 0 0.35px var(--text-color-active);
+
+		border-color: var(--border-color-active);
+		color: var(--text-color-active);
+		background: var(--background-color-active);
 	}
-}
 
-.label {
-	@include kv-font-span-regular();
-	color: kv-color('text');
-	margin-left: $spacing-2x;
+	&--disabled {
+		border-color: var(--border-color-disabled);
+		color: var(--text-color-disabled);
+		background: var(--background-color-disabled);
+
+		cursor: not-allowed;
+	}
 }

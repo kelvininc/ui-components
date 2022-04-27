@@ -109,6 +109,16 @@
 	line-height: 1.125rem;
 	letter-spacing: normal;
 }
+@mixin kv-font-label-small-uppercase-regular() {
+	font-family: $primary-font;
+	font-size: 0.75rem;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.125rem;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+}
 @mixin kv-font-label-small-uppercase-semibold() {
 	font-family: $primary-font;
 	font-size: 0.75rem;

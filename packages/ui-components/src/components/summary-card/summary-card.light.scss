@@ -1,0 +1,10 @@
+@import '../../assets/styles/globals';
+@import './summary-card.base';
+
+.loading {
+	.label,
+	.subtitle,
+	.description {
+		@include ghost-animation('neutral-2');
+	}
+}

@@ -4,11 +4,16 @@ exports[`Text Field (unit tests) when has a label should match the snapshot 1`] 
 <kv-text-field label="Text Field" state="none">
   <mock:shadow-root>
     <div class="text-field-container">
-      <span class="label">
-        Text Field
-      </span>
+      <div class="label-container">
+        <span class="label">
+          Text Field
+        </span>
+      </div>
       <div class="input-container input-container--size-large">
         <input>
+        <div class="right-slot-container">
+          <slot name="right-slot"></slot>
+        </div>
       </div>
     </div>
   </mock:shadow-root>
@@ -21,6 +26,9 @@ exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] 
     <div class="text-field-container">
       <div class="input-container input-container--size-large">
         <input disabled="">
+        <div class="right-slot-container">
+          <slot name="right-slot"></slot>
+        </div>
       </div>
     </div>
   </mock:shadow-root>
@@ -33,6 +41,9 @@ exports[`Text Field (unit tests) when uses default props should match the snapsh
     <div class="text-field-container">
       <div class="input-container input-container--size-large">
         <input>
+        <div class="right-slot-container">
+          <slot name="right-slot"></slot>
+        </div>
       </div>
     </div>
   </mock:shadow-root>

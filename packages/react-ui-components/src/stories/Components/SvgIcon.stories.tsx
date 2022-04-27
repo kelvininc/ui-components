@@ -1,14 +1,14 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { KvSvgIcon } from '../../components';
-import { icons, illustrations } from '../foundation/SvgIcons/SvgIcons-list';
+import { EIconName, EOtherIconName, KvIcon } from '../../components';
+
 export default {
-	title: 'Media/SVG Icon',
-	component: 'kv-svg-icon',
+	title: 'Media/Icon',
+	component: 'kv-icon',
 	argTypes: {
 		name: {
 			control: { type: 'select' },
-			options: [...icons, ...illustrations]
+			options: [...Object.values(EIconName), ...Object.values(EOtherIconName)]
 		},
 		customClass: {
 			control: { type: 'text' }
@@ -18,27 +18,27 @@ export default {
 		}
 	},
 	parameters: {
-		notes: require('@ui-notes/svg-icon/readme.md')
+		notes: require('@ui-notes/icon/readme.md')
 	}
 };
 
-KvSvgIcon.displayName = 'KvSvgIcon';
+KvIcon.displayName = 'KvIcon';
 
-const KvSvgIconTemplate: ComponentStory<typeof KvSvgIcon> = args => <KvSvgIcon {...args} />;
+const KvIconTemplate: ComponentStory<typeof KvIcon> = args => <KvIcon {...args} />;
 
-export const IconOnly = KvSvgIconTemplate.bind(this);
+export const IconOnly = KvIconTemplate.bind(this);
 IconOnly.args = {
-	name: 'kv-logo-kelvin'
+	name: EIconName.LogoKelvin
 };
 
-export const CustomClass = KvSvgIconTemplate.bind(this);
+export const CustomClass = KvIconTemplate.bind(this);
 CustomClass.args = {
-	name: 'kv-logo-kelvin',
+	name: EIconName.LogoKelvin,
 	customClass: 'icon-full-size rotate-90'
 };
 
-export const CustomColor = KvSvgIconTemplate.bind(this);
+export const CustomColor = KvIconTemplate.bind(this);
 CustomColor.args = {
-	name: 'kv-logo-kelvin',
+	name: EIconName.LogoKelvin,
 	customColor: '#05a357'
 };

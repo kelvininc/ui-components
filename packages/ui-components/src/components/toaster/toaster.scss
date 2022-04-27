@@ -1,0 +1,202 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --toaster-large-height: Toaster with two messages.
+	 * @prop --toaster-small-height: Toaster with one message.
+
+	 * @prop --toaster-width: Toaster width.
+	 * @prop --background-color-default: Toaster background color.
+	 * @prop --kv-color-neutral-2: Main message color.
+	 * @prop --kv-color-neutral-4: Secondary message color.
+	 * @prop --kv-color-neutral-6: Toaster border color.
+
+	 * @prop --info-icon-color: Info color.
+	 * @prop --warning-icon-color: Warning color.
+	 * @prop --error-icon-color: Error color.
+	 * @prop --success-icon-color: Success color.
+
+	 * @prop --reset-button-focused: Close button focused.
+	 * @prop --toaster-icons-height: toaster icons height
+	 * @prop --toaster-icons-width: toaster icons width
+	 */
+
+	--toaster-large-height: 74px;
+	--toaster-small-height: 58px;
+
+	--toaster-width: 624px;
+	--background-color-default: #{kv-color('neutral-6')};
+	--kv-color-neutral-2: #{kv-color('neutral-2')};
+	--kv-color-neutral-4: #{kv-color('neutral-4')};
+	--kv-color-neutral-6: #{kv-color('neutral-6')};
+
+	--info-icon-color: #{kv-color('info')};
+	--warning-icon-color: #{kv-color('warning')};
+	--error-icon-color: #{kv-color('error')};
+	--success-icon-color: #{kv-color('success')};
+
+	--close-button-focused: #{kv-color('neutral-2')};
+
+	--toaster-icons-width: 24px;
+	--toaster-icons-height: 24px; 
+}
+
+kv-icon {
+	--icon-width: var(--toaster-icons-width);
+	--icon-height: var(--toaster-icons-height);
+	margin: 9px $spacing-4x 5px 0;
+	object-fit: contain;
+}
+
+.toaster-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	width: var(--toaster-width);
+	height: var(--toaster-small-height);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	z-index: 1000;
+	padding: $spacing-5x $spacing-4x $spacing-5x $spacing-6x;
+	border-radius: 2px;
+	border: solid 1px var(--kv-color-neutral-6);
+	background-color: var(--background-color-default);
+	box-sizing: border-box;
+	overflow: hidden;
+
+	&.animate-fade-in {
+		animation-duration: 0.5s;
+		animation-name: animate-fade-in-small;
+		animation-delay: 0.5s;
+		animation-fill-mode: backwards;
+	}
+
+	&.animate-fade-out {
+		animation-duration: 0.5s;
+		animation-name: animate-fade-out-small;
+		animation-delay: 0.5s;
+		animation-fill-mode: forwards;
+	}
+
+	&.toaster-container--large {
+		height: var(--toaster-large-height);
+
+		&.animate-fade-in {
+			animation-name: animate-fade-in-large;
+		}
+
+		&.animate-fade-out {
+			animation-name: animate-fade-out-large;
+		}
+	}
+
+	.toaster-icon {
+		display: flex;
+		align-items: center;
+
+		&.toaster-icon--info {
+			kv-icon {
+				--icon-color: var(--info-icon-color);
+			}
+		}
+
+		&.toaster-icon--warning {
+			kv-icon {
+				--icon-color: var(--warning-icon-color);
+			}
+		}
+
+		&.toaster-icon--error {
+			kv-icon {
+				--icon-color: var(--error-icon-color);
+			}
+		}
+
+		&.toaster-icon--success {
+			kv-icon {
+				--icon-color: var(--success-icon-color);
+			}
+		}
+	}
+
+	.message-content {
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+		
+		.main-message {
+			@include kv-font-span-semibold;
+			color: var(--kv-color-neutral-2);
+		}
+
+		.secondary-message {
+			@include kv-font-span-regular;
+			margin-top: $spacing;
+			color: var(--kv-color-neutral-4);
+		}
+	}
+
+	.toaster-close-icon {
+		display: flex;
+		align-items: center;
+		
+		kv-icon {
+			margin: $spacing-2x 0 $spacing $spacing-4x;
+			
+			&:hover {
+				--icon-color: var(--close-button-focused);
+			}
+		}
+	}
+}
+
+@keyframes animate-fade-in-large {
+	from {
+		opacity: 0;
+		margin-top: calc(-1*var(--toaster-large-height));
+	}
+
+	to {
+		opacity: 1;
+		margin-top: 0;
+	}
+}
+
+@keyframes animate-fade-out-large {
+	from {
+		opacity: 1;
+		margin-top: 0;
+	}
+
+	to {
+		opacity: 0;
+		margin-top: calc(-1*var(--toaster-large-height));
+	}
+}
+
+@keyframes animate-fade-in-small {
+	from {
+		opacity: 0;
+		margin-top: calc(-1*var(--toaster-small-height));
+	}
+
+	to {
+		opacity: 1;
+		margin-top: 0;
+	}
+}
+
+@keyframes animate-fade-out-small {
+	from {
+		opacity: 1;
+		margin-top: 0;
+	}
+
+	to {
+		opacity: 0;
+		margin-top: calc(-1*var(--toaster-small-height));
+	}
+}

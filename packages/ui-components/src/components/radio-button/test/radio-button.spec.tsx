@@ -9,43 +9,13 @@ describe('Radio Button (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvRadioButton],
-				html: '<kv-radio-button></kv-radio-button>'
+				html: '<kv-radio-button label="Option 1"></kv-radio-button>'
 			});
 			component = page.rootInstance;
 		});
 
 		it('should match the snapshot', () => {
 			expect(page.root).toMatchSnapshot();
-		});
-
-		it('should initialize `isChecked` with value false', () => {
-			expect(component.isChecked).toBeFalsy();
-		});
-
-		it('should initialize `isDisabled` with value false', () => {
-			expect(component.isDisabled).toBeFalsy();
-		});
-
-		it('should initialize `label` with empty string', () => {
-			expect(component.label).toBeFalsy();
-		});
-	});
-
-	describe('when the component loads with a label', () => {
-		beforeEach(async () => {
-			page = await newSpecPage({
-				components: [KvRadioButton],
-				html: '<kv-radio-button label="Accepted"></kv-radio-button>'
-			});
-			component = page.rootInstance;
-		});
-
-		it('should match the snapshot', () => {
-			expect(page.root).toMatchSnapshot();
-		});
-
-		it('should initialize `label` with empty string', () => {
-			expect(component.label).toEqual('Accepted');
 		});
 	});
 
@@ -53,17 +23,13 @@ describe('Radio Button (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvRadioButton],
-				html: '<kv-radio-button disabled></kv-radio-button>'
+				html: '<kv-radio-button label="Option 1" disabled></kv-radio-button>'
 			});
 			component = page.rootInstance;
 		});
 
 		it('should match the snapshot', () => {
 			expect(page.root).toMatchSnapshot();
-		});
-
-		it('should initialize `isDisabled` with value true', () => {
-			expect(component.isDisabled).toBeTruthy();
 		});
 	});
 
@@ -71,7 +37,7 @@ describe('Radio Button (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvRadioButton],
-				html: '<kv-radio-button checked></kv-radio-button>'
+				html: '<kv-radio-button label="Option 1" checked></kv-radio-button>'
 			});
 			component = page.rootInstance;
 		});
@@ -79,9 +45,19 @@ describe('Radio Button (unit tests)', () => {
 		it('should match the snapshot', () => {
 			expect(page.root).toMatchSnapshot();
 		});
+	});
 
-		it('should initialize `isChecked` with value true', () => {
-			expect(component.isChecked).toBeTruthy();
+	describe('when the component loads with value prop', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvRadioButton],
+				html: '<kv-radio-button label="Option 1" value="opt1"></kv-radio-button>'
+			});
+			component = page.rootInstance;
+		});
+
+		it('should match the snapshot', () => {
+			expect(page.root).toMatchSnapshot();
 		});
 	});
 });

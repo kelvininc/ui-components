@@ -6,16 +6,13 @@ import { KvRadioButton } from '@kelvininc/react-ui-components';
 export const RadioButtonExample: React.FC = () => (
 	<>
 		{/*-- Default --*/}
-		<KvRadioButton />
-
-		{/*-- Labeled --*/}
-		<KvRadioButton label="Switch" />
+		<KvRadioButton label="Option 1" value="option-1" />
 
 		{/*-- Disabled --*/}
-		<KvRadioButton disabled />
+		<KvRadioButton label="Option 1" value="option-1" disabled />
 
 		{/*-- Checked --*/}
-		<KvRadioButton checked />
+		<KvRadioButton label="Option 1" value="option-1" checked />
 	</>
 );
 ```

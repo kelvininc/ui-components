@@ -54,7 +54,7 @@ $btn-background-colors: (
 	disabled: (
 		primary: kv-color('neutral-3'),
 		secondary: kv-color('neutral-3'),
-		tertiary: kv-color('neutral-0'),
+		tertiary: transparent,
 		danger: kv-color('error', 'light')
 	),
 	active: (
@@ -146,14 +146,14 @@ $btn-paddings-x: (
 
 	color: $btn-default-text-color;
 
-	::slotted(kv-svg-icon) {
+	::slotted(kv-icon) {
 		--icon-color: #{$btn-default-text-color};
 	}
 
 	&:hover:not(.action-button--disabled) {
 		color: $btn-hover-text-color;
 
-		::slotted(kv-svg-icon) {
+		::slotted(kv-icon) {
 			--icon-color: #{$btn-hover-text-color};
 		}
 	}
@@ -161,7 +161,7 @@ $btn-paddings-x: (
 	&:focus:not(.action-button--disabled) {
 		color: $btn-focus-text-color;
 
-		::slotted(kv-svg-icon) {
+		::slotted(kv-icon) {
 			--icon-color: #{$btn-focus-text-color};
 		}
 	}
@@ -169,7 +169,7 @@ $btn-paddings-x: (
 	&.action-button--disabled {
 		color: $btn-disabled-text-color;
 
-		::slotted(kv-svg-icon) {
+		::slotted(kv-icon) {
 			--icon-color: #{$btn-disabled-text-color};
 		}
 	}
@@ -177,7 +177,7 @@ $btn-paddings-x: (
 	&.action-button--active {
 		color: $btn-active-text-color;
 
-		::slotted(kv-svg-icon) {
+		::slotted(kv-icon) {
 			--icon-color: #{$btn-active-text-color};
 		}
 	}

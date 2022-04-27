@@ -10,7 +10,7 @@ exports[`Switch Button (unit tests) when has a label should match the snapshot 1
       <div class="switch-button-content">
         <div class="switch-button switch-button--large" part="button">
           <div class="icon-square" part="icon-square">
-            <kv-svg-icon name="kv-done-all" part="icon-svg"></kv-svg-icon>
+            <kv-icon name="kv-done-all" part="icon-svg"></kv-icon>
           </div>
         </div>
       </div>
@@ -26,7 +26,7 @@ exports[`Switch Button (unit tests) when uses default props should match the sna
       <div class="switch-button-content">
         <div class="switch-button switch-button--large" part="button">
           <div class="icon-square" part="icon-square">
-            <kv-svg-icon name="kv-done-all" part="icon-svg"></kv-svg-icon>
+            <kv-icon name="kv-done-all" part="icon-svg"></kv-icon>
           </div>
         </div>
       </div>

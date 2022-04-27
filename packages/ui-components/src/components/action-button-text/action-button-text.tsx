@@ -2,6 +2,7 @@ import { Component, Event, EventEmitter, h, Host, Prop, State, Watch } from '@st
 import { isEmpty } from 'lodash-es';
 import { EActionButtonType, IButton, IButtonEvents } from '../action-button/action-button.types';
 import { EAnchorTarget, EComponentSize, IAnchor } from '../../utils/types';
+import { EIconName, EOtherIconName } from '../icon/icon.types';
 
 /**
  * @part button-text - The text button.
@@ -15,7 +16,7 @@ export class KvActionButtonText implements IButton, IButtonEvents, IAnchor {
 	/** (required) (required) Button's text */
 	@Prop({ reflect: true }) text!: string;
 	/** (optional) Button's left icon symbol name */
-	@Prop({ reflect: true }) icon: string = '';
+	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) type!: EActionButtonType;
 	/** @inheritdoc */
@@ -51,7 +52,7 @@ export class KvActionButtonText implements IButton, IButtonEvents, IAnchor {
 		return (
 			<Host>
 				<kv-action-button type={this.type} disabled={this.disabled} size={this.size} download={this.download} href={this.href} target={this.target} exportparts="button">
-					{this.hasIcon && <kv-svg-icon name={this.icon} exportparts="icon" />}
+					{this.hasIcon && <kv-icon name={this.icon} exportparts="icon" />}
 					<span class="action-button-text" part="button-text">
 						{this.text}
 					</span>

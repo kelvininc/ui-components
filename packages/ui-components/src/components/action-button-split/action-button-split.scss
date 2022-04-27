@@ -44,7 +44,7 @@ kv-action-button::part(button) {
 	border-bottom-left-radius: 0;
 }
 
-kv-svg-icon {
+kv-icon {
 	--icon-width: var(--button-split-icon-width);
 	--icon-height: var(--button-split-icon-width);
 	display: flex;

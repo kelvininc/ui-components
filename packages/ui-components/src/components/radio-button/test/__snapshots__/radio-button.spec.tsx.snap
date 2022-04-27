@@ -1,52 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Radio Button (unit tests) when the component loads with a label should match the snapshot 1`] = `
-<kv-radio-button label="Accepted">
-  <mock:shadow-root>
-    <div class="radio-button-container">
-      <div class="circle">
-        <div class="checked-icon"></div>
-      </div>
-      <span class="label">
-        Accepted
-      </span>
-    </div>
-  </mock:shadow-root>
-</kv-radio-button>
-`;
-
 exports[`Radio Button (unit tests) when the component loads with checked prop should match the snapshot 1`] = `
-<kv-radio-button checked="" label="">
+<kv-radio-button checked="" label="Option 1" value="Option 1">
   <mock:shadow-root>
-    <div class="checked radio-button-container">
-      <div class="circle">
-        <div class="checked-icon"></div>
-      </div>
-    </div>
+    <a class="radio-button radio-button--checked" part="radio-button">
+      Option 1
+    </a>
   </mock:shadow-root>
 </kv-radio-button>
 `;
 
 exports[`Radio Button (unit tests) when the component loads with default props should match the snapshot 1`] = `
-<kv-radio-button label="">
+<kv-radio-button label="Option 1" value="Option 1">
   <mock:shadow-root>
-    <div class="radio-button-container">
-      <div class="circle">
-        <div class="checked-icon"></div>
-      </div>
-    </div>
+    <a class="radio-button" part="radio-button">
+      Option 1
+    </a>
   </mock:shadow-root>
 </kv-radio-button>
 `;
 
 exports[`Radio Button (unit tests) when the component loads with disabled prop should match the snapshot 1`] = `
-<kv-radio-button disabled="" label="">
+<kv-radio-button disabled="" label="Option 1" value="Option 1">
   <mock:shadow-root>
-    <div class="disabled radio-button-container">
-      <div class="circle">
-        <div class="checked-icon"></div>
-      </div>
-    </div>
+    <a class="radio-button radio-button--disabled" part="radio-button">
+      Option 1
+    </a>
+  </mock:shadow-root>
+</kv-radio-button>
+`;
+
+exports[`Radio Button (unit tests) when the component loads with value prop should match the snapshot 1`] = `
+<kv-radio-button label="Option 1" value="opt1">
+  <mock:shadow-root>
+    <a class="radio-button" part="radio-button">
+      Option 1
+    </a>
   </mock:shadow-root>
 </kv-radio-button>
 `;

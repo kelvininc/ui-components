@@ -64,6 +64,19 @@ export const TagLetterExample: React.FC = () => (
 | `text` _(required)_ | `text`     | (required) Text of tooltip                                                              | `string`                                                                                                                                                                                                                                                                                                                             | `undefined` |
 
 
+## Dependencies
+
+### Used by
+
+ - [kv-info-label](../info-label)
+
+### Graph
+```mermaid
+graph TD;
+  kv-info-label --> kv-tooltip
+  style kv-tooltip fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 
