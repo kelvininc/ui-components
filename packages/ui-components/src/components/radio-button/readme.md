@@ -1,6 +1,4 @@
-# *<kv-radio-button>*
-
-
+# _<kv-radio-button>_
 
 <!-- Auto Generated Below -->
 
@@ -11,13 +9,13 @@
 
 ```html
 <!-- Default -->
-<kv-radio-button label="Option 1"></kv-radio-button>
+<kv-radio-button label="Option 1" value="option-1"></kv-radio-button>
 
 <!-- Disabled -->
-<kv-radio-button label="Option 1" disabled></kv-radio-button>
+<kv-radio-button label="Option 1" value="option-1" disabled></kv-radio-button>
 
 <!-- Checked -->
-<kv-radio-button label="Option 1" checked></kv-radio-button>
+<kv-radio-button label="Option 1" value="option-1" checked></kv-radio-button>
 ```
 
 
@@ -31,13 +29,13 @@ import { KvRadioButton } from '@kelvininc/react-ui-components';
 export const RadioButtonExample: React.FC = () => (
 	<>
 		{/*-- Default --*/}
-		<KvRadioButton label="Option 1" />
+		<KvRadioButton label="Option 1" value="option-1" />
 
 		{/*-- Disabled --*/}
-		<KvRadioButton label="Option 1" disabled />
+		<KvRadioButton label="Option 1" value="option-1" disabled />
 
 		{/*-- Checked --*/}
-		<KvRadioButton label="Option 1" checked />
+		<KvRadioButton label="Option 1" value="option-1" checked />
 	</>
 );
 ```
@@ -46,18 +44,26 @@ export const RadioButtonExample: React.FC = () => (
 
 ## Properties
 
-| Property             | Attribute  | Description                                                                  | Type      | Default     |
-| -------------------- | ---------- | ---------------------------------------------------------------------------- | --------- | ----------- |
-| `checked`            | `checked`  | (optional) Sets the button as checked when initializing                      | `boolean` | `false`     |
-| `disabled`           | `disabled` | (optional) Sets this button styling to be disabled and disables click events | `boolean` | `false`     |
-| `label` _(required)_ | `label`    | (required) Adds a label aside the button                                     | `string`  | `undefined` |
+| Property             | Attribute  | Description                                                                   | Type      | Default      |
+| -------------------- | ---------- | ----------------------------------------------------------------------------- | --------- | ------------ |
+| `checked`            | `checked`  | (optional) Sets the button as checked                                         | `boolean` | `false`      |
+| `disabled`           | `disabled` | (optional) Sets the button's styling to be disabled and disables click events | `boolean` | `false`      |
+| `label` _(required)_ | `label`    | (required) Adds a label aside the button                                      | `string`  | `undefined`  |
+| `value`              | `value`    | (optional) The value to be emitted upon click events                          | `string`  | `this.label` |
 
 
 ## Events
 
-| Event           | Description                                     | Type                  |
-| --------------- | ----------------------------------------------- | --------------------- |
-| `checkedChange` | Emits when there's a change in state internally | `CustomEvent<string>` |
+| Event           | Description                    | Type                  |
+| --------------- | ------------------------------ | --------------------- |
+| `checkedChange` | Emits when a button is clicked | `CustomEvent<string>` |
+
+
+## Shadow Parts
+
+| Part             | Description       |
+| ---------------- | ----------------- |
+| `"radio-button"` | The radio action. |
 
 
 ## CSS Custom Properties

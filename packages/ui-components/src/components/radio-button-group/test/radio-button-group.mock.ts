@@ -1,20 +1,22 @@
-export const RADIO_BUTTON_ITENS = [
+import { IRadioButton } from '../../radio-button/radio-button.types';
+
+export const RADIO_BUTTON_ITEMS: IRadioButton[] = [
 	{
-		label: 'Option 1',
-		id: 'opt1'
+		value: 'opt1',
+		label: 'Option 1'
 	},
 	{
-		label: 'Option 2',
-		id: 'opt2'
+		value: 'opt2',
+		label: 'Option 2'
 	},
 	{
+		value: 'opt3',
 		label: 'Option 3',
-		id: 'opt3',
 		disabled: true
 	},
 	{
+		value: 'opt4',
 		label: 'Option 4',
-		id: 'opt4',
-		active: true
+		checked: true
 	}
 ];

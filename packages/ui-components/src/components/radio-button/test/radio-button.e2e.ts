@@ -28,8 +28,8 @@ describe('Radio Button (end-to-end)', () => {
 				await page.waitForTimeout(300);
 			});
 
-			it('should emit state change with value `true`', () => {
-				expect(spyCheckedChangeEvent).toHaveReceivedEvent();
+			it('should emit state change with value `Option 1`', () => {
+				expect(spyCheckedChangeEvent).toHaveReceivedEventDetail('Option 1');
 			});
 		});
 	});
@@ -53,8 +53,33 @@ describe('Radio Button (end-to-end)', () => {
 				await page.waitForTimeout(300);
 			});
 
-			it('should not emit `true` state', () => {
+			it('should not emit event', () => {
 				expect(spyCheckedChangeEvent).not.toHaveReceivedEvent();
+			});
+		});
+	});
+
+	describe('when rendering with value prop', () => {
+		beforeEach(async () => {
+			page = await newE2EPage();
+			await page.setContent('<kv-radio-button label="Option 1" value="opt1"></kv-radio-button>');
+		});
+
+		describe('and user clicks on the button', () => {
+			let spyCheckedChangeEvent: EventSpy;
+			let radioElement: E2EElement;
+
+			beforeEach(async () => {
+				radioElement = await page.find('kv-radio-button');
+				spyCheckedChangeEvent = await radioElement.spyOnEvent('checkedChange');
+
+				const radio = await page.find('kv-radio-button >>> .radio-button');
+				await radio.click();
+				await page.waitForTimeout(300);
+			});
+
+			it('should emit state change with value `opt1`', () => {
+				expect(spyCheckedChangeEvent).toHaveReceivedEventDetail('opt1');
 			});
 		});
 	});
