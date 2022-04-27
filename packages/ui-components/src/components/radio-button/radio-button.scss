@@ -2,6 +2,7 @@
 
 :host {
 	/**
+	 * @prop --button-width: Radio button component's width.
 	 * @prop --button-height: Radio button component's height.
 	 * @prop --text-color-default: Radio button component's text color default.
 	 * @prop --text-color-active: Radio button component's text color active.
@@ -14,6 +15,7 @@
 	 * @prop --border-color-disabled: Radio button component's border color disabled.
 	 */
 
+	--button-width: initial;
 	--button-height: 36px;
 	--text-color-default: #{kv-color('neutral-2')};
 	--text-color-active: #{kv-color('neutral-0')};
@@ -27,13 +29,14 @@
 }
 
 .radio-button {
-	@include kv-font-label-small-regular();
+	@include kv-font-label-small-regular;
 
 	text-decoration: none;
 
 	position: relative;
 	user-select: none;
 	cursor: pointer;
+	box-sizing: border-box;
 
 	display: inline-flex;
 	align-items: center;
@@ -45,10 +48,11 @@
 	background: var(--background-color-default);
 
 	height: var(--button-height);
+	width: var(--button-width);
 	padding: 0 $spacing-3x;
 
 	&--checked {
-		text-shadow: 0 0 0.35px var(--text-color-active), 0 0 0.35px var(--text-color-active);
+		@include kv-font-label-small-semibold;
 
 		border-color: var(--border-color-active);
 		color: var(--text-color-active);

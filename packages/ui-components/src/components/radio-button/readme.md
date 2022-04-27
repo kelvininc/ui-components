@@ -77,6 +77,7 @@ export const RadioButtonExample: React.FC = () => (
 | `--border-color-default`      | Radio button component's border color default.      |
 | `--border-color-disabled`     | Radio button component's border color disabled.     |
 | `--button-height`             | Radio button component's height.                    |
+| `--button-width`              | Radio button component's width.                     |
 | `--text-color-active`         | Radio button component's text color active.         |
 | `--text-color-default`        | Radio button component's text color default.        |
 | `--text-color-disabled`       | Radio button component's text color disabled.       |
