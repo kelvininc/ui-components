@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/kelvininc/ui-components/compare/v0.7.0...v0.8.0) (2022-04-27)
+
+
+### Bug Fixes
+
+* **storybook:** apply changes from [#64](https://github.com/kelvininc/ui-components/issues/64) ([e2c551c](https://github.com/kelvininc/ui-components/commit/e2c551c0a2ce379a945354d7284ea18b954482b0))
+* **text-field:** fix icon color when input is invalid ([deee7dc](https://github.com/kelvininc/ui-components/commit/deee7dc4b2085f5a50e12fd8f55d3f164e785798))
+
+
+### Features
+
+* **illustration:** add component ([9224eca](https://github.com/kelvininc/ui-components/commit/9224eca42eb7a485e8bd6063711d537ad7e89698))
+* **kv-info-label:** add component kv-info-label ([2a56422](https://github.com/kelvininc/ui-components/commit/2a56422af944743b838cc46b0a51852e4b2e413c))
+* **kv-radio-button-group:** rename compoment kv-radio-button to kv-radio and create new components kv-radio-button and kv-radio-button-group ([9b7357d](https://github.com/kelvininc/ui-components/commit/9b7357de8102937d67b0e92dd71ce8af1f1edf97))
+* **radio-buttons:** add manual state control ([885612d](https://github.com/kelvininc/ui-components/commit/885612dcf36ffb9aeec754f0d5bbef8b6745e7cc))
+* Search component ([2912db0](https://github.com/kelvininc/ui-components/commit/2912db0459dfa2e5f3eaf1fbec160969742ed0e9))
+* **summary-card:** add summary card component ([348670c](https://github.com/kelvininc/ui-components/commit/348670caaf50e588418991f441d506eb5c6d5723))
+* **text-field:** add prop to set the max length ([9726ca8](https://github.com/kelvininc/ui-components/commit/9726ca80684ed3e10d49a27998c1af71590384b7))
+* toaster component ([2311b62](https://github.com/kelvininc/ui-components/commit/2311b629f6ee8aaed31312808389d4b8d0bb0e12))
+
+
+
+
+
 # [0.7.0](https://github.com/kelvininc/ui-components/compare/v0.6.0...v0.7.0) (2022-03-16)
 
 
