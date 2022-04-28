@@ -35,6 +35,7 @@ export enum EIconName {
 	Clear = 'kv-clear',
 	Close = 'kv-close',
 	Cloud = 'kv-cloud',
+	Chat = 'kv-chat',
 	Code = 'kv-code',
 	Collapse = 'kv-collapse',
 	Copy = 'kv-copy',
