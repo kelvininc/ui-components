@@ -75,21 +75,6 @@ export class TextFieldExample {
 
 ## Properties
 
-| Property            | Attribute     | Description                                                        | Type                                                                          | Default                 |
-| ------------------- | ------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------- | ----------------------- |
-| `disabled`          | `disabled`    | (optional) Text field disabled                                     | `boolean`                                                                     | `false`                 |
-| `helpText`          | `help-text`   | (optional) Text field help text                                    | `string \| string[]`                                                          | `[]`                    |
-| `icon`              | `icon`        | (optional) Text field's icon symbol name                           | `EIconName \| EOtherIconName`                                                 | `undefined`             |
-| `inputName`         | `input-name`  | (optional) Text field input name                                   | `string`                                                                      | `undefined`             |
-| `label`             | `label`       | (optional) Text field label                                        | `string`                                                                      | `undefined`             |
-| `loading`           | `loading`     | (optional) Text field loading state                                | `boolean`                                                                     | `false`                 |
-| `max`               | `max`         | (optional) Text field max characters                               | `number`                                                                      | `undefined`             |
-| `placeholder`       | `placeholder` | (optional) Text field place holder                                 | `string`                                                                      | `undefined`             |
-| `required`          | `required`    | (optional) Text field required                                     | `boolean`                                                                     | `false`                 |
-| `size`              | `size`        | (optional) Sets this tab item to a different styling configuration | `EComponentSize.Large \| EComponentSize.Small`                                | `EComponentSize.Large`  |
-| `state`             | `state`       | (optional) Text field state                                        | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid` | `EValidationState.None` |
-| `type` _(required)_ | `type`        | (optional) Text field type                                         | `EInputFieldType.Number \| EInputFieldType.Password \| EInputFieldType.Text`  | `undefined`             |
-| `value`             | `value`       | Text field value                                                   | `string`                                                                      | `undefined`             |
 | Property            | Attribute      | Description                                                        | Type                                                                          | Default                 |
 | ------------------- | -------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------- | ----------------------- |
 | `disabled`          | `disabled`     | (optional) Text field disabled                                     | `boolean`                                                                     | `false`                 |
@@ -99,6 +84,7 @@ export class TextFieldExample {
 | `inputName`         | `input-name`   | (optional) Text field input name                                   | `string`                                                                      | `undefined`             |
 | `label`             | `label`        | (optional) Text field label                                        | `string`                                                                      | `undefined`             |
 | `loading`           | `loading`      | (optional) Text field loading state                                | `boolean`                                                                     | `false`                 |
+| `max`               | `max`          | (optional) Text field max characters                               | `number`                                                                      | `undefined`             |
 | `placeholder`       | `placeholder`  | (optional) Text field place holder                                 | `string`                                                                      | `undefined`             |
 | `required`          | `required`     | (optional) Text field required                                     | `boolean`                                                                     | `false`                 |
 | `size`              | `size`         | (optional) Sets this tab item to a different styling configuration | `EComponentSize.Large \| EComponentSize.Small`                                | `EComponentSize.Large`  |
@@ -159,3 +145,5 @@ graph TD;
 ```
 
 ----------------------------------------------
+
+
