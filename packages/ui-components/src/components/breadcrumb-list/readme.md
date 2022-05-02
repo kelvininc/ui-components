@@ -10,37 +10,17 @@
 ### Angular
 
 ```html
-<kv-breadcrumb-list separator='/'>
+<kv-breadcrumb-list>
 	<kv-breadcrumb-item
 		label="First item"
-		link="Your link here"
+		href="https://your-link.here"
 		[target]="EBreadcrumbItemTarget.NewTab">
 	</kv-breadcrumb-item>
 	...
 	<kv-breadcrumb-item
 		label="Last item"
-		link="Your link here"
+		href="https://your-link.here"
 		[target]="EBreadcrumbItemTarget.NewTab"
-		active>
-	</kv-breadcrumb-item>
-</kv-breadcrumb-list>
-```
-
-
-### Javascript
-
-```html
-<kv-breadcrumb-list separator='/'>
-	<kv-breadcrumb-item
-		label="First item"
-		link="Your link here"
-		target="_blank">
-	</kv-breadcrumb-item>
-	...
-	<kv-breadcrumb-item
-		label="Last item"
-		link="Your link here"
-		target="_blank"
 		active>
 	</kv-breadcrumb-item>
 </kv-breadcrumb-list>
@@ -55,10 +35,10 @@ import { KvBreadcrumbList } from '@kelvininc/react-ui-components';
 
 export const KvBreadcrumbListExample: React.FC = () => (
   <>
-    <KvBreadcrumbList separator='/'>
+    <KvBreadcrumbList>
 		<KvBreadcrumbItem
 			label="Your label here"
-			link="Your link here"
+			href="https://your-link.here"
 			target={EBreadcrumbItemTarget.NewTab}
 			active>
 		</KvBreadcrumbItem>
@@ -68,45 +48,27 @@ export const KvBreadcrumbListExample: React.FC = () => (
 ```
 
 
-### Stencil
 
-```tsx
-import { Component, h } from '@stencil/core';
-@Component({
-  tag: 'kv-link-example',
-  styleUrl: 'kv-link-example.css',
-  shadow: true,
-})
-export class SwichButtonExample {
-  render() {
-    return (
-		<kv-breadcrumb-list separator='/'>
-			<kv-breadcrumb-item
-				label="First item"
-				link="Your link here"
-				target={EBreadcrumbItemTarget.NewTab}
-				active>
-			</kv-breadcrumb-item>
-			...
-			<kv-breadcrumb-item
-				label="Last item"
-				link="Your link here"
-				target={EBreadcrumbItemTarget.NewTab}
-				active>
-			</kv-breadcrumb-item>
-		</kv-breadcrumb-list>
-	)
-  }
-}
-```
+## Events
+
+| Event                 | Description                                    | Type                           |
+| --------------------- | ---------------------------------------------- | ------------------------------ |
+| `breadcrumbItemClick` | Emitted when the user clicks on the breadcrumb | `CustomEvent<IBreadcrumbItem>` |
 
 
+## Shadow Parts
 
-## Properties
+| Part                | Description                  |
+| ------------------- | ---------------------------- |
+| `"breadcrumb-list"` | The breadcrumb list element. |
 
-| Property    | Attribute   | Description                                              | Type     | Default |
-| ----------- | ----------- | -------------------------------------------------------- | -------- | ------- |
-| `separator` | `separator` | (optional) The separator to use between breadcrumb items | `string` | `'/'`   |
+
+## CSS Custom Properties
+
+| Name                             | Description                     |
+| -------------------------------- | ------------------------------- |
+| `--breadcrumb-seperator-color`   | Breadcrumb's seperator color.   |
+| `--breadcrumb-seperator-content` | Breadcrumb's seperator content. |
 
 
 ## Dependencies
