@@ -19,19 +19,5 @@ describe('KvBreadcrumbItem (unit tests)', () => {
 				expect(page.root).toMatchSnapshot();
 			});
 		});
-
-		describe('and has a separator', () => {
-			beforeEach(async () => {
-				page = await newSpecPage({
-					components: [KvBreadcrumbList],
-					html: "<kv-breadcrumb-list separator='/'></kv-breadcrumb-list>"
-				});
-				component = page.rootInstance;
-			});
-
-			it('should match the snapshot', () => {
-				expect(page.root).toMatchSnapshot();
-			});
-		});
 	});
 });

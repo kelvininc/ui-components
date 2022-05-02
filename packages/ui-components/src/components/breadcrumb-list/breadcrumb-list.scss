@@ -1,5 +1,29 @@
+@import '../../assets/styles/globals';
+
 :host {
-	height: 16px;
+	/**
+	 * @prop --breadcrumb-seperator-color: Breadcrumb's seperator color.
+	 * @prop --breadcrumb-seperator-content: Breadcrumb's seperator content.
+	 */
+
+	--breadcrumb-separator-color: #{kv-color('neutral-4')};
+	--breadcrumb-separator-content: '/';
+}
+
+.breadcrumb-list {
 	display: flex;
 	align-items: center;
+
+	::slotted(kv-breadcrumb-item:not(:last-child)) {
+		display: flex;
+		align-items: center;
+
+		&::after {
+			@include kv-font-span-regular();
+			display: inline-block;
+			content: var(--breadcrumb-separator-content);
+			margin: 0 $spacing-2x;
+			color: var(--breadcrumb-separator-color);
+		}
+	}
 }

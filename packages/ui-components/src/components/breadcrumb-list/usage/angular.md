@@ -1,14 +1,14 @@
 ```html
-<kv-breadcrumb-list separator='/'>
+<kv-breadcrumb-list>
 	<kv-breadcrumb-item
 		label="First item"
-		link="Your link here"
+		href="https://your-link.here"
 		[target]="EBreadcrumbItemTarget.NewTab">
 	</kv-breadcrumb-item>
 	...
 	<kv-breadcrumb-item
 		label="Last item"
-		link="Your link here"
+		href="https://your-link.here"
 		[target]="EBreadcrumbItemTarget.NewTab"
 		active>
 	</kv-breadcrumb-item>

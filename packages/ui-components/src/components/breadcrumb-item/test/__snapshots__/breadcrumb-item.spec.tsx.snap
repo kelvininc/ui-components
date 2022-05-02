@@ -3,11 +3,11 @@
 exports[`KvBreadcrumbItem (unit tests) when the component loads should match the snapshot 1`] = `
 <kv-breadcrumb-item active="" href="https://kelvin.ai" label="Awesome Label" target="_blank">
   <mock:shadow-root>
-    <li class="active breadcrumb-item">
-      <a href="https://kelvin.ai" target="_blank">
+    <div class="breadcrumb-item breadcrumb-item--active">
+      <a href="https://kelvin.ai" part="anchor" target="_blank">
         Awesome Label
       </a>
-    </li>
+    </div>
   </mock:shadow-root>
 </kv-breadcrumb-item>
 `;

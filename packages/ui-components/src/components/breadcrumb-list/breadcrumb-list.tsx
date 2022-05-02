@@ -1,32 +1,24 @@
-import { Component, Host, h, Prop, Element } from '@stencil/core';
+import { Component, Event, EventEmitter, h, Host } from '@stencil/core';
+import { IBreadcrumbItem, IBreadcrumbItemEvents } from '../breadcrumb-item/breadcrumb-item.types';
 
+/**
+ * @part breadcrumb-list - The breadcrumb list element.
+ */
 @Component({
 	tag: 'kv-breadcrumb-list',
 	styleUrl: 'breadcrumb-list.scss',
 	shadow: true
 })
-export class KvBreadcrumbList {
-	/** (optional) The separator to use between breadcrumb items */
-	@Prop() separator?: string = '/';
-
-	/** The Host's element reference */
-	@Element() el: HTMLKvBreadcrumbListElement;
-
-	private breadcrumbItems: HTMLKvBreadcrumbItemElement[];
-
-	componentDidRender() {
-		this.breadcrumbItems = Array.from(this.el.querySelectorAll('kv-breadcrumb-item'));
-		this.breadcrumbItems.forEach((item, idx) => {
-			item.separator = idx !== this.breadcrumbItems.length - 1 ? this.separator : undefined;
-		});
-	}
+export class KvBreadcrumbList implements IBreadcrumbItemEvents {
+	/** @inheritdoc */
+	@Event() breadcrumbItemClick: EventEmitter<IBreadcrumbItem>;
 
 	render() {
 		return (
 			<Host>
-				<nav class="breadcrumb-container">
+				<div class="breadcrumb-list" part="breadcrumb-list">
 					<slot></slot>
-				</nav>
+				</div>
 			</Host>
 		);
 	}

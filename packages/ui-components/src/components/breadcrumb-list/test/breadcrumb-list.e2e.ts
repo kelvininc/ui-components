@@ -29,17 +29,17 @@ describe('KvBreadcrumbList (end-to-end)', () => {
 				<kv-breadcrumb-list>
 					<kv-breadcrumb-item
 						label='Awesome Label 1'
-						link='https://kelvin.ai'
+						href='https://kelvin.ai'
 						target='_blank'>
 					</kv-breadcrumb-item>
 					<kv-breadcrumb-item
 						label='Awesome Label 2'
-						link='https://kelvin.ai'
+						href='https://kelvin.ai'
 						target='_blank'>
 					</kv-breadcrumb-item>
 					<kv-breadcrumb-item
 						label='Awesome Label 3'
-						link='https://kelvin.ai'
+						href='https://kelvin.ai'
 						target='_blank'
 						active>
 					</kv-breadcrumb-item>
