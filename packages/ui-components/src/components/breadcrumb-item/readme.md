@@ -45,6 +45,7 @@ export const KvBreadcrumbItemExample: React.FC = () => (
 | Property             | Attribute  | Description                                                                                                     | Type                                                                                                | Default     |
 | -------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------- |
 | `active`             | `active`   | (optional) Sets this breadcrumb styling to be the active one (usually the last one)                             | `boolean`                                                                                           | `undefined` |
+| `disabled`           | `disabled` | (optional) Disabled this breadcrumb touch events (usually the last one)                                         | `boolean`                                                                                           | `undefined` |
 | `download`           | `download` | (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename | `string`                                                                                            | `undefined` |
 | `href`               | `href`     | (optional) The anchor's link to open when clicking                                                              | `string`                                                                                            | `undefined` |
 | `label` _(required)_ | `label`    | (required) The text to display on the breadcrumb                                                                | `string`                                                                                            | `undefined` |
@@ -67,11 +68,12 @@ export const KvBreadcrumbItemExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                              | Description                      |
-| --------------------------------- | -------------------------------- |
-| `--breadcrumb-item-active-color`  | Breadcrumb's item active color.  |
-| `--breadcrumb-item-default-color` | Breadcrumb's item default color. |
-| `--breadcrumb-item-hover-color`   | Breadcrumb's item hover color.   |
+| Name                               | Description                       |
+| ---------------------------------- | --------------------------------- |
+| `--breadcrumb-item-active-color`   | Breadcrumb's item active color.   |
+| `--breadcrumb-item-default-color`  | Breadcrumb's item default color.  |
+| `--breadcrumb-item-disabled-color` | Breadcrumb's item disabled color. |
+| `--breadcrumb-item-hover-color`    | Breadcrumb's item hover color.    |
 
 
 ## Dependencies

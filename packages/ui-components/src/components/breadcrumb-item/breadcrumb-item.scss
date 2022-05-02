@@ -3,11 +3,13 @@
 :host {
 	/**
 	 * @prop --breadcrumb-item-default-color: Breadcrumb's item default color.
+	 * @prop --breadcrumb-item-disabled-color: Breadcrumb's item disabled color.
 	 * @prop --breadcrumb-item-hover-color: Breadcrumb's item hover color.
 	 * @prop --breadcrumb-item-active-color: Breadcrumb's item active color.
 	 */
 
 	--breadcrumb-item-default-color: #{kv-color('neutral-4')};
+	--breadcrumb-item-disabled-color: #{kv-color('neutral-4')};
 	--breadcrumb-item-hover-color: #{kv-color('neutral-3')};
 	--breadcrumb-item-active-color: #{kv-color('neutral-2')};
 }
@@ -31,8 +33,17 @@
 
 	&--active {
 		@include kv-font-span-semibold();
-		pointer-events: none;
 
 		color: var(--breadcrumb-item-active-color);
+	}
+
+	&--disabled {
+		color: var(--breadcrumb-item-disabled-color);
+	}
+
+
+	&--disabled,
+	&--active {
+		pointer-events: none;
 	}
 }

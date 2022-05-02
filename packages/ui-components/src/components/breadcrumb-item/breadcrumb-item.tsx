@@ -22,6 +22,8 @@ export class KvBreadcrumbItem implements IBreadcrumbItem, IBreadcrumbItemEvents 
 	@Prop({ reflect: true }) label!: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) active?: boolean;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled?: boolean;
 
 	/** @inheritdoc */
 	@Event() breadcrumbItemClick: EventEmitter<IBreadcrumbItem>;
@@ -46,7 +48,8 @@ export class KvBreadcrumbItem implements IBreadcrumbItem, IBreadcrumbItemEvents 
 				<div
 					class={{
 						'breadcrumb-item': true,
-						'breadcrumb-item--active': this.active
+						'breadcrumb-item--active': this.active,
+						'breadcrumb-item--disabled': this.disabled
 					}}
 				>
 					<a href={this.href} target={this.target} onClick={this.clickThrottler} part="anchor">
