@@ -107,30 +107,42 @@ export class KvBreadcrumbExample {
 
 ## Properties
 
-| Property    | Attribute   | Description                                          | Type                | Default |
-| ----------- | ----------- | ---------------------------------------------------- | ------------------- | ------- |
-| `items`     | --          | (required) List of breadcrumbs                       | `IBreadcrumbItem[]` | `[]`    |
-| `separator` | `separator` | (required) Separator to use between breadcrumb items | `string`            | `'/'`   |
+| Property | Attribute | Description                    | Type                | Default |
+| -------- | --------- | ------------------------------ | ------------------- | ------- |
+| `items`  | --        | (required) List of breadcrumbs | `IBreadcrumbItem[]` | `[]`    |
 
 
 ## Events
 
-| Event       | Description                                                 | Type                           |
-| ----------- | ----------------------------------------------------------- | ------------------------------ |
-| `itemClick` | Emitted when the user clicks on one of the breadcrumb items | `CustomEvent<IBreadcrumbItem>` |
+| Event                 | Description                                    | Type                           |
+| --------------------- | ---------------------------------------------- | ------------------------------ |
+| `breadcrumbItemClick` | Emitted when the user clicks on the breadcrumb | `CustomEvent<IBreadcrumbItem>` |
+
+
+## Shadow Parts
+
+| Part           | Description                     |
+| -------------- | ------------------------------- |
+| `"breadcrumb"` | The breadcrumb wrapper element. |
+
+
+## CSS Custom Properties
+
+| Name                             | Description                     |
+| -------------------------------- | ------------------------------- |
+| `--breadcrumb-seperator-color`   | Breadcrumb's seperator color.   |
+| `--breadcrumb-seperator-content` | Breadcrumb's seperator content. |
 
 
 ## Dependencies
 
 ### Depends on
 
-- [kv-breadcrumb-list](../breadcrumb-list)
 - [kv-breadcrumb-item](../breadcrumb-item)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-breadcrumb --> kv-breadcrumb-list
   kv-breadcrumb --> kv-breadcrumb-item
   style kv-breadcrumb fill:#f9f,stroke:#333,stroke-width:4px
 ```

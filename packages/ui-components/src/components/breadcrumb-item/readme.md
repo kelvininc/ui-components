@@ -83,13 +83,13 @@ export class KvBreadcrumbItemExample {
 
 ## Properties
 
-| Property             | Attribute   | Description                                                                         | Type                                                                                                | Default     |
-| -------------------- | ----------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------- |
-| `active`             | `active`    | (optional) Sets this breadcrumb styling to be the active one (usually the last one) | `boolean`                                                                                           | `undefined` |
-| `href`               | `href`      | (optional) The breadcrumb's link                                                    | `string`                                                                                            | `undefined` |
-| `label` _(required)_ | `label`     | (required) The text to display on the breadcrumb                                    | `string`                                                                                            | `undefined` |
-| `separator`          | `separator` | (optional) The separator to use                                                     | `string`                                                                                            | `undefined` |
-| `target`             | `target`    | (optional) The target of the link (only used if href is provided)                   | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top` | `undefined` |
+| Property             | Attribute  | Description                                                                                                     | Type                                                                                                | Default     |
+| -------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------- |
+| `active`             | `active`   | (optional) Sets this breadcrumb styling to be the active one (usually the last one)                             | `boolean`                                                                                           | `undefined` |
+| `download`           | `download` | (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename | `string`                                                                                            | `undefined` |
+| `href`               | `href`     | (optional) The anchor's link to open when clicking                                                              | `string`                                                                                            | `undefined` |
+| `label` _(required)_ | `label`    | (required) The text to display on the breadcrumb                                                                | `string`                                                                                            | `undefined` |
+| `target`             | `target`   | (optional) The anchor's target                                                                                  | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top` | `undefined` |
 
 
 ## Events
@@ -97,6 +97,22 @@ export class KvBreadcrumbItemExample {
 | Event                 | Description                                    | Type                           |
 | --------------------- | ---------------------------------------------- | ------------------------------ |
 | `breadcrumbItemClick` | Emitted when the user clicks on the breadcrumb | `CustomEvent<IBreadcrumbItem>` |
+
+
+## Shadow Parts
+
+| Part       | Description         |
+| ---------- | ------------------- |
+| `"anchor"` | The anchor element. |
+
+
+## CSS Custom Properties
+
+| Name                              | Description                      |
+| --------------------------------- | -------------------------------- |
+| `--breadcrumb-item-active-color`  | Breadcrumb's item active color.  |
+| `--breadcrumb-item-default-color` | Breadcrumb's item default color. |
+| `--breadcrumb-item-hover-color`   | Breadcrumb's item hover color.   |
 
 
 ## Dependencies

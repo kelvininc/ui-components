@@ -1,0 +1,24 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --breadcrumb-seperator-color: Breadcrumb's seperator color.
+	 * @prop --breadcrumb-seperator-content: Breadcrumb's seperator content.
+	 */
+
+	--breadcrumb-separator-color: #{kv-color('neutral-4')};
+	--breadcrumb-separator-content: '/';
+}
+
+.breadcrumb {
+	display: flex;
+	align-items: center;
+
+	kv-breadcrumb-item:not(:last-child)::part(anchor)::after {
+		@include kv-font-span-regular();
+		display: inline-block;
+		content: var(--breadcrumb-separator-content);
+		margin: 0 $spacing-2x;
+		color: var(--breadcrumb-separator-color);
+	}
+}

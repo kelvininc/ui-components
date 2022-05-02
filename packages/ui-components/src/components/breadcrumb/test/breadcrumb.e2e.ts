@@ -1,9 +1,8 @@
 import { E2EElement, E2EPage, newE2EPage } from '@stencil/core/testing';
 
-describe('KvBreadcrumbList (end-to-end)', () => {
+describe('KvBreadcrumb (end-to-end)', () => {
 	let page: E2EPage;
-	let listEl: E2EElement;
-	let childrenEl: E2EElement[];
+	let breadcrumbItems: E2EElement[];
 
 	afterAll(async () => {
 		await page.close();
@@ -12,13 +11,12 @@ describe('KvBreadcrumbList (end-to-end)', () => {
 	describe('when the component has no children', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent(`<kv-breadcrumb-list></kv-breadcrumb-list>`);
-			listEl = await page.find('kv-breadcrumb-list');
-			childrenEl = await page.findAll('kv-breadcrumb-item');
+			await page.setContent(`<kv-breadcrumb></kv-breadcrumb>`);
+			breadcrumbItems = await page.findAll('kv-breadcrumb-item');
 		});
 
 		it('should render the component with no children', () => {
-			expect(childrenEl.length).toBe(0);
+			expect(breadcrumbItems.length).toBe(0);
 		});
 	});
 
@@ -44,12 +42,11 @@ describe('KvBreadcrumbList (end-to-end)', () => {
 						active>
 					</kv-breadcrumb-item>
 				</kv-breadcrumb-list>`);
-			listEl = await page.find('kv-breadcrumb-list');
-			childrenEl = await page.findAll('kv-breadcrumb-item');
+			breadcrumbItems = await page.findAll('kv-breadcrumb-item');
 		});
 
 		it('should render component and children', async () => {
-			expect(childrenEl.length).toBe(3);
+			expect(breadcrumbItems.length).toBe(3);
 		});
 	});
 });
