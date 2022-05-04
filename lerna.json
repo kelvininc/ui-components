@@ -20,5 +20,5 @@
 		"**/tsconfig.json",
 		"**/tslint.json"
 	],
-	"version": "0.5.3"
+	"version": "0.8.1-alpha.3"
 }
