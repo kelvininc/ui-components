@@ -1,26 +1,29 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { throttle } from 'lodash-es';
-import { EAnchorTarget, IAnchor } from '../../utils/types';
-import { IBreadcrumbItem } from './breadcrumb-item.types';
+import { EAnchorTarget } from '../../utils/types';
+import { IBreadcrumbItem, IBreadcrumbItemEvents } from './breadcrumb-item.types';
 
+/**
+ * @part anchor - The anchor element.
+ */
 @Component({
 	tag: 'kv-breadcrumb-item',
 	styleUrl: 'breadcrumb-item.scss',
 	shadow: true
 })
-export class KvBreadcrumbItem implements IAnchor {
-	/** (required) The text to display on the breadcrumb */
-	@Prop({ reflect: true }) label!: string;
-	/** (optional) The breadcrumb's link */
+export class KvBreadcrumbItem implements IBreadcrumbItem, IBreadcrumbItemEvents {
+	/** @inheritdoc */
 	@Prop({ reflect: true }) href?: string;
-	/** (optional) The target of the link (only used if href is provided) */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) target?: EAnchorTarget;
-	/** (optional) Sets this breadcrumb styling to be the active one (usually the last one) */
+	/** @inheritdoc */
+	@Prop({ reflect: true }) download?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) label!: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) active?: boolean;
-	/** (optional) The separator to use */
-	@Prop() separator?: string;
 
-	/** Emitted when the user clicks on the breadcrumb */
+	/** @inheritdoc */
 	@Event() breadcrumbItemClick: EventEmitter<IBreadcrumbItem>;
 
 	connectedCallback() {
@@ -40,17 +43,16 @@ export class KvBreadcrumbItem implements IAnchor {
 	render() {
 		return (
 			<Host>
-				<li
+				<div
 					class={{
 						'breadcrumb-item': true,
-						'active': this.active
+						'breadcrumb-item--active': this.active
 					}}
 				>
-					<a href={this.href} target={this.target} onClick={this.clickThrottler}>
+					<a href={this.href} target={this.target} onClick={this.clickThrottler} part="anchor">
 						{this.label}
 					</a>
-				</li>
-				{this.separator && <span class="separator">{this.separator}</span>}
+				</div>
 			</Host>
 		);
 	}

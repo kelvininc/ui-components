@@ -14,13 +14,10 @@ KvBreadcrumbList.displayName = 'KvBreadcrumbList';
 
 const BreadcrumbListTemplate: ComponentStory<typeof KvBreadcrumbList> = args => (
 	<KvBreadcrumbList {...args}>
-		<KvBreadcrumbItem label="First label here" href="Your link here" target={EAnchorTarget.NewTab}></KvBreadcrumbItem>
-		<KvBreadcrumbItem label="Second label here" href="Your link here" target={EAnchorTarget.NewTab}></KvBreadcrumbItem>
-		<KvBreadcrumbItem label="Last label here" href="Your link here" target={EAnchorTarget.NewTab} active></KvBreadcrumbItem>
+		<KvBreadcrumbItem label="First label here" href="https://your-link.here" target={EAnchorTarget.NewTab}></KvBreadcrumbItem>
+		<KvBreadcrumbItem label="Second label here" href="https://your-link.here" target={EAnchorTarget.NewTab}></KvBreadcrumbItem>
+		<KvBreadcrumbItem label="Last label here" href="https://your-link.here" target={EAnchorTarget.NewTab} active></KvBreadcrumbItem>
 	</KvBreadcrumbList>
 );
 
 export const Default = BreadcrumbListTemplate.bind({});
-Default.args = {
-	separator: '/'
-};

@@ -4,10 +4,10 @@ import { KvBreadcrumbList } from '@kelvininc/react-ui-components';
 
 export const KvBreadcrumbListExample: React.FC = () => (
   <>
-    <KvBreadcrumbList separator='/'>
+    <KvBreadcrumbList>
 		<KvBreadcrumbItem
 			label="Your label here"
-			link="Your link here"
+			href="https://your-link.here"
 			target={EBreadcrumbItemTarget.NewTab}
 			active>
 		</KvBreadcrumbItem>

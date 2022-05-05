@@ -1,12 +1,23 @@
 @import '../../assets/styles/globals';
 
+:host {
+	/**
+	 * @prop --breadcrumb-item-default-color: Breadcrumb's item default color.
+	 * @prop --breadcrumb-item-hover-color: Breadcrumb's item hover color.
+	 * @prop --breadcrumb-item-active-color: Breadcrumb's item active color.
+	 */
+
+	--breadcrumb-item-default-color: #{kv-color('neutral-4')};
+	--breadcrumb-item-hover-color: #{kv-color('neutral-3')};
+	--breadcrumb-item-active-color: #{kv-color('neutral-2')};
+}
+
 .breadcrumb-item {
-	@include kv-font-label-small-regular();
-	display: inline;
-	flex-shrink: 0;
+	@include kv-font-span-regular();
 	cursor: pointer;
 	user-select: none;
-	color: kv-color('text', 'step-3');
+
+	color: var(--breadcrumb-item-default-color);
 
 	a {
 		color: unset;
@@ -14,19 +25,14 @@
 
 		&:hover {
 			text-decoration: underline;
-			color: kv-color('primary');
+			color: var(--breadcrumb-item-hover-color);
 		}
 	}
 
-	&.active {
-		@include kv-font-label-small-semibold();
+	&--active {
+		@include kv-font-span-semibold();
 		pointer-events: none;
-	}
-}
 
-.separator {
-	@include kv-font-label-small-regular();
-	margin: 0 $spacing-2x;
-	user-select: none;
-	color: kv-color('text', 'step-3');
+		color: var(--breadcrumb-item-active-color);
+	}
 }
