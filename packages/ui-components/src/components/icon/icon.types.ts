@@ -98,6 +98,7 @@ export enum EIconName {
 	Refresh = 'kv-refresh',
 	ResetZoom = 'kv-reset-zoom',
 	Restart = 'kv-restart',
+	Rotate = 'kv-rotate',
 	Save = 'kv-save',
 	Search = 'kv-search',
 	Share = 'kv-share',
@@ -118,12 +119,13 @@ export enum EIconName {
 	TrendingUp = 'kv-trending-up',
 	Two = 'kv-two',
 	Type = 'kv-type',
-	UndoZoom = 'kv-undo-zoom',
 	UnfoldMore = 'kv-unfold-more',
 	Upgrade = 'kv-upgrade',
 	Upload = 'kv-upload',
 	Uptime = 'kv-uptime',
-	Warning = 'kv-warning'
+	Warning = 'kv-warning',
+	ZoomIn = 'kv-zoom-in',
+	ZoomOut = 'kv-zoom-out'
 }
 
 export enum EOtherIconName {
