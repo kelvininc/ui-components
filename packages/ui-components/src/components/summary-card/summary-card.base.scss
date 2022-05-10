@@ -1,6 +1,7 @@
 @import '../../assets/styles/globals';
 
 .summary-card-container {
+	@include ellipsis();
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
@@ -9,9 +10,6 @@
 	padding: $spacing-4x $spacing-2x;
 	border: solid 1px kv-color('neutral-4');
 	border-radius: 4px;
-	word-break: break-word;
-	text-overflow: ellipsis;
-	overflow: hidden;
 
 	.label,
 	.subtitle,

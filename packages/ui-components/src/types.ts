@@ -12,3 +12,4 @@ export * from './components/search/search.types';
 export * from './components/toaster/toaster.types';
 export * from './components/radio-button/radio-button.types';
 export * from './components/radio-button-group/radio-button-group.types';
+export * from './components/tree-item/tree-item.types';
