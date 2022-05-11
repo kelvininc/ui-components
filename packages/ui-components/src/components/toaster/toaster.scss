@@ -70,14 +70,12 @@ kv-icon {
 	&.animate-fade-in {
 		animation-duration: 0.5s;
 		animation-name: animate-fade-in-small;
-		animation-delay: 0.5s;
 		animation-fill-mode: backwards;
 	}
 
 	&.animate-fade-out {
 		animation-duration: 0.5s;
 		animation-name: animate-fade-out-small;
-		animation-delay: 0.5s;
 		animation-fill-mode: forwards;
 	}
 
@@ -159,7 +157,7 @@ kv-icon {
 @keyframes animate-fade-in-large {
 	from {
 		opacity: 0;
-		margin-top: calc(-1*var(--toaster-large-height));
+		margin-top: calc(-1 * var(--toaster-large-height));
 	}
 
 	to {
@@ -176,14 +174,14 @@ kv-icon {
 
 	to {
 		opacity: 0;
-		margin-top: calc(-1*var(--toaster-large-height));
+		margin-top: calc(-1 * var(--toaster-large-height));
 	}
 }
 
 @keyframes animate-fade-in-small {
 	from {
 		opacity: 0;
-		margin-top: calc(-1*var(--toaster-small-height));
+		margin-top: calc(-1 * var(--toaster-small-height));
 	}
 
 	to {
@@ -200,6 +198,6 @@ kv-icon {
 
 	to {
 		opacity: 0;
-		margin-top: calc(-1*var(--toaster-small-height));
+		margin-top: calc(-1 * var(--toaster-small-height));
 	}
 }

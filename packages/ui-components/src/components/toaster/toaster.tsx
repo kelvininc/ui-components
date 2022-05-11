@@ -1,7 +1,7 @@
 import { Watch, Component, Event, Host, h, Prop, EventEmitter, State } from '@stencil/core';
 import { isEmpty } from 'lodash-es';
 import { EToasterType, EToasterIconTypeClass, IToaster, IToasterEvents, CLOSE_ICON } from './toaster.types';
-import { TYPE_ICONS } from './toaster.config';
+import { TOASTER_ANIMATION_DURATION, TYPE_ICONS } from './toaster.config';
 
 @Component({
 	tag: 'kv-toaster',
@@ -18,9 +18,15 @@ export class KvToaster implements IToaster, IToasterEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) ttl?: number;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) closable: boolean = true;
+	/** @inheritdoc */
 	@Event() clickCloseButton: EventEmitter<MouseEvent>;
 	/** @inheritdoc */
 	@Event() ttlExpired: EventEmitter<CloseEvent>;
+	/** @inheritdoc */
+	@Event() afterOpen: EventEmitter<void>;
+	/** @inheritdoc */
+	@Event() afterClose: EventEmitter<void>;
 	/** State to store the timeout id */
 	@State() timeoutID: number;
 	/** Fade in animation state */
@@ -28,42 +34,58 @@ export class KvToaster implements IToaster, IToasterEvents {
 	/** Fade out animation state */
 	@State() fadeOutActive: boolean = false;
 	/** Icon of the toaster */
-	@State() iconType: EToasterIconTypeClass;
+	@State() iconType: EToasterIconTypeClass = TYPE_ICONS[this.type];
 	/** Case the type changes, the toaster updates the icon displayed */
 	@Watch('type')
 	updateIconType(value: string) {
 		this.iconType = TYPE_ICONS[value];
 	}
 
-	private onCloseClick = event => {
-		if (this.ttl > 0) {
-			window.clearTimeout(this.timeoutID);
-		}
+	private clearTTL = () => {
+		window.clearTimeout(this.timeoutID);
+	};
 
+	private emitAfterClose = () => {
+		this.fadeInActive = false;
+		this.fadeOutActive = true;
+
+		window.setTimeout(this.afterClose.emit.bind(this), TOASTER_ANIMATION_DURATION);
+	};
+
+	private emitAfterOpen = () => {
+		this.fadeOutActive = false;
+		this.fadeInActive = true;
+
+		window.setTimeout(this.afterOpen.emit.bind(this), TOASTER_ANIMATION_DURATION);
+	};
+
+	private createTTL = () => {
+		if (this.ttl > 0) {
+			this.timeoutID = window.setTimeout(() => {
+				this.ttlExpired.emit();
+
+				this.closeToaster();
+			}, this.ttl);
+		}
+	};
+
+	private closeToaster = () => {
+		this.clearTTL();
+		this.emitAfterClose();
+	};
+
+	private onCloseClick = (event: MouseEvent) => {
 		this.closeToaster();
 		this.clickCloseButton.emit(event);
 	};
 
-	private closeToaster = () => {
-		this.fadeInActive = false;
-		this.fadeOutActive = true;
-		if (this.ttl > 0) {
-			window.clearTimeout(this.timeoutID);
-			this.ttlExpired.emit();
-		}
-	};
-
 	componentWillLoad() {
-		this.iconType = TYPE_ICONS[this.type];
-		this.fadeOutActive = false;
-		this.fadeInActive = true;
-		if (this.ttl > 0) {
-			this.timeoutID = window.setTimeout(this.closeToaster, this.ttl);
-		}
+		this.createTTL();
+		this.emitAfterOpen();
 	}
 
 	disconnectedCallback() {
-		this.closeToaster();
+		this.clearTTL();
 	}
 
 	render() {
@@ -89,9 +111,11 @@ export class KvToaster implements IToaster, IToasterEvents {
 						<span class="main-message">{this.header}</span>
 						{!isEmpty(this.description) && <span class="secondary-message">{this.description}</span>}
 					</div>
-					<div class="toaster-close-icon">
-						<kv-icon name={CLOSE_ICON.icon} onClick={this.onCloseClick}></kv-icon>
-					</div>
+					{this.closable && (
+						<div class="toaster-close-icon">
+							<kv-icon name={CLOSE_ICON.icon} onClick={this.onCloseClick}></kv-icon>
+						</div>
+					)}
 				</div>
 			</Host>
 		);
