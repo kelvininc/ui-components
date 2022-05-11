@@ -32,4 +32,8 @@ export interface IToasterEvents {
 	clickCloseButton: EventEmitter<MouseEvent>;
 	/** Emitted when ttl is defined and expires */
 	ttlExpired: EventEmitter<CloseEvent>;
+	/** Emiited after the toaster has opened */
+	afterOpen: EventEmitter<void>;
+	/** Emiited after the toaster has closed */
+	afterClose: EventEmitter<void>;
 }
