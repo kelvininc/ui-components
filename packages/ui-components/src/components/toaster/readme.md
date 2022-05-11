@@ -64,6 +64,8 @@ export const ToasterExample: React.FC = () => (
 
 | Event              | Description                             | Type                      |
 | ------------------ | --------------------------------------- | ------------------------- |
+| `afterClose`       | Emiited after the toaster has closed    | `CustomEvent<void>`       |
+| `afterOpen`        | Emiited after the toaster has opened    | `CustomEvent<void>`       |
 | `clickCloseButton` | Emitted when close button is clicked    | `CustomEvent<MouseEvent>` |
 | `ttlExpired`       | Emitted when ttl is defined and expires | `CustomEvent<CloseEvent>` |
 
