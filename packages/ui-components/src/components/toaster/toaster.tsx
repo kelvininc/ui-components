@@ -18,9 +18,15 @@ export class KvToaster implements IToaster, IToasterEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) ttl?: number;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) closable: boolean = true;
+	/** @inheritdoc */
 	@Event() clickCloseButton: EventEmitter<MouseEvent>;
 	/** @inheritdoc */
 	@Event() ttlExpired: EventEmitter<CloseEvent>;
+	/** @inheritdoc */
+	@Event() afterOpen: EventEmitter<void>;
+	/** @inheritdoc */
+	@Event() afterClose: EventEmitter<void>;
 	/** State to store the timeout id */
 	@State() timeoutID: number;
 	/** Fade in animation state */
@@ -35,12 +41,11 @@ export class KvToaster implements IToaster, IToasterEvents {
 		this.iconType = TYPE_ICONS[value];
 	}
 
-	private onCloseClick = event => {
+	private onCloseClick = (event: MouseEvent) => {
 		if (this.ttl > 0) {
 			window.clearTimeout(this.timeoutID);
 		}
 
-		this.closeToaster();
 		this.clickCloseButton.emit(event);
 	};
 
@@ -51,6 +56,8 @@ export class KvToaster implements IToaster, IToasterEvents {
 			window.clearTimeout(this.timeoutID);
 			this.ttlExpired.emit();
 		}
+
+		window.setTimeout(this.afterClose.emit.bind(this), 500);
 	};
 
 	componentWillLoad() {
@@ -60,6 +67,8 @@ export class KvToaster implements IToaster, IToasterEvents {
 		if (this.ttl > 0) {
 			this.timeoutID = window.setTimeout(this.closeToaster, this.ttl);
 		}
+
+		window.setTimeout(this.afterOpen.emit.bind(this), 500);
 	}
 
 	disconnectedCallback() {
@@ -89,9 +98,11 @@ export class KvToaster implements IToaster, IToasterEvents {
 						<span class="main-message">{this.header}</span>
 						{!isEmpty(this.description) && <span class="secondary-message">{this.description}</span>}
 					</div>
-					<div class="toaster-close-icon">
-						<kv-icon name={CLOSE_ICON.icon} onClick={this.onCloseClick}></kv-icon>
-					</div>
+					{this.closable && (
+						<div class="toaster-close-icon">
+							<kv-icon name={CLOSE_ICON.icon} onClick={this.onCloseClick}></kv-icon>
+						</div>
+					)}
 				</div>
 			</Host>
 		);

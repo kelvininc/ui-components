@@ -25,6 +25,8 @@ export interface IToaster {
 	type: EToasterType;
 	/** (optional) Time to live of the toaster */
 	ttl?: number;
+	/** (optional) If true the toaster has a close button */
+	closable?: boolean;
 }
 
 export interface IToasterEvents {
@@ -32,4 +34,8 @@ export interface IToasterEvents {
 	clickCloseButton: EventEmitter<MouseEvent>;
 	/** Emitted when ttl is defined and expires */
 	ttlExpired: EventEmitter<CloseEvent>;
+	/** Emiited after the toaster has opened */
+	afterOpen: EventEmitter<void>;
+	/** Emiited after the toaster has closed */
+	afterClose: EventEmitter<void>;
 }

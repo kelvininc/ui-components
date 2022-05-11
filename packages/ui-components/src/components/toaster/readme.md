@@ -52,18 +52,21 @@ export const ToasterExample: React.FC = () => (
 
 ## Properties
 
-| Property              | Attribute     | Description                             | Type                                                                                      | Default     |
-| --------------------- | ------------- | --------------------------------------- | ----------------------------------------------------------------------------------------- | ----------- |
-| `description`         | `description` | (optional) Secondary message to display | `string`                                                                                  | `undefined` |
-| `header` _(required)_ | `header`      | (required) Main message to display      | `string`                                                                                  | `undefined` |
-| `ttl`                 | `ttl`         | (optional) Time to live of the toaster  | `number`                                                                                  | `undefined` |
-| `type` _(required)_   | `type`        | (required) Type of toaster              | `EToasterType.Error \| EToasterType.Info \| EToasterType.Success \| EToasterType.Warning` | `undefined` |
+| Property              | Attribute     | Description                                       | Type                                                                                      | Default     |
+| --------------------- | ------------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------- |
+| `closable`            | `closable`    | (optional) If true the toaster has a close button | `boolean`                                                                                 | `true`      |
+| `description`         | `description` | (optional) Secondary message to display           | `string`                                                                                  | `undefined` |
+| `header` _(required)_ | `header`      | (required) Main message to display                | `string`                                                                                  | `undefined` |
+| `ttl`                 | `ttl`         | (optional) Time to live of the toaster            | `number`                                                                                  | `undefined` |
+| `type` _(required)_   | `type`        | (required) Type of toaster                        | `EToasterType.Error \| EToasterType.Info \| EToasterType.Success \| EToasterType.Warning` | `undefined` |
 
 
 ## Events
 
 | Event              | Description                             | Type                      |
 | ------------------ | --------------------------------------- | ------------------------- |
+| `afterClose`       | Emiited after the toaster has closed    | `CustomEvent<void>`       |
+| `afterOpen`        | Emiited after the toaster has opened    | `CustomEvent<void>`       |
 | `clickCloseButton` | Emitted when close button is clicked    | `CustomEvent<MouseEvent>` |
 | `ttlExpired`       | Emitted when ttl is defined and expires | `CustomEvent<CloseEvent>` |
 
