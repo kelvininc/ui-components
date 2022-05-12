@@ -1,0 +1,28 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --node-width: Tree Node height.
+	 * @prop --node-height: Tree Node height.
+	 * @prop --node-gap: Gap between child nodes in px.
+	 * @prop --children-offset: Offset of the child nodes in px.
+	 *
+	*/
+	--tree-node-width: 300px;
+	--tree-node-height: 40px;
+	--tree-node-gap: #{$spacing-2x};
+	--tree-children-offset: #{$spacing-3x};
+
+	kv-tree-item {
+		--node-width: var(--tree-node-width);
+		--node-height: var(--tree-node-height);
+		--node-gap: var(--tree-node-gap);
+		--children-offset: var(--tree-children-offset);
+	}
+
+	> kv-tree-item:not(:first-child)::before {
+		content: '';
+		display: block;
+		height: var(--tree-node-gap);
+	}
+}

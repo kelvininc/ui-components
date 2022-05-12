@@ -153,6 +153,10 @@ export const TreeItemExample: React.FC = () => (
 
 ## Dependencies
 
+### Used by
+
+ - [kv-tree](../tree)
+
 ### Depends on
 
 - [kv-icon](../icon)
@@ -161,6 +165,7 @@ export const TreeItemExample: React.FC = () => (
 ```mermaid
 graph TD;
   kv-tree-item --> kv-icon
+  kv-tree --> kv-tree-item
   style kv-tree-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

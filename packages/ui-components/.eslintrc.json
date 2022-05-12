@@ -4,15 +4,17 @@
 	},
 	"env": { "jest": true },
 	"plugins": ["jest", "prettier"],
-	"extends": [
-		"plugin:@stencil/recommended",
-		"plugin:jest/recommended",
-		"prettier"
-	],
+	"extends": ["plugin:@stencil/recommended", "plugin:jest/recommended", "prettier"],
 	"rules": {
 		"@stencil/required-prefix": ["error", ["kv-"]],
 		"jest/no-focused-tests": "error",
 		"jest/no-test-prefixes": "off",
-		"prettier/prettier":  "error"
+		"prettier/prettier": "error",
+		"react/jsx-no-bind": [
+			"warn",
+			{
+				"allowArrowFunctions": true
+			}
+		]
 	}
 }

@@ -7,7 +7,7 @@ import { KvTreeItem, ETreeItemStates } from '../../components';
 KvTreeItem.displayName = 'KvTreeItem';
 
 export default {
-	title: 'Navigation/Tree/Tree Item',
+	title: 'Data Display/Tree/Tree Item',
 	component: 'kv-tree-item',
 	argTypes: {
 		icon: {
