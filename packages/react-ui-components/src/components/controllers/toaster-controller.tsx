@@ -1,7 +1,7 @@
 import { IToaster } from '@kelvininc/ui-components';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { KvToaster } from '..';
+import { KvToaster } from '../stencil-generated';
 import { IToasterState } from './toaster-controller.types';
 
 const toasterRoot = document.getElementById('toaster-root');
