@@ -3,7 +3,8 @@ import { EventEmitter } from '@stencil/core';
 export enum EInputFieldType {
 	Text = 'text',
 	Number = 'number',
-	Password = 'password'
+	Password = 'password',
+	DateTime = 'datetime-local'
 }
 
 export enum EValidationState {
