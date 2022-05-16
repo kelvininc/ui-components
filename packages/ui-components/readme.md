@@ -27,7 +27,7 @@ npm run build
 To run the tests for the components, run:
 
 ```bash
-npm test # or test.watch to watch for changes
+npm test # or test:watch to watch for changes
 ```
 ## Contributing
 

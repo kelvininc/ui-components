@@ -1,0 +1,301 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --node-width: Tree Node height.
+	 * @prop --node-height: Tree Node height.
+	 * @prop --node-gap: Gap between child nodes in px.
+	 * @prop --children-offset: Offset of the child nodes in px.
+
+	 * @prop --connector-lines-color: Line color of children's connectors.
+
+	 * @prop --background-color-default: Background color when state is default.
+	 * @prop --background-color-focused: Background color when state is focused.
+	 * @prop --background-color-disabled: Background color when state is disabled.
+	 * @prop --background-color-highlighted: Background color when state is highlighted.
+
+	 * @prop --border-color-default: Border color when state is default.
+	 * @prop --border-color-disabled: Border color when state is disabled.
+	 * @prop --border-color-selected: Border color when state is selected.
+	 * @prop --border-color-highlighted: Border color when state is highlighted.
+
+	 * @prop --icon-color-default: Node icon color when node state is default.
+	 * @prop --icon-color-disabled: Node icon color when node state is disabled.
+	 * @prop --icon-color-selected: Node icon color when node state is selected.
+	 * @prop --icon-color-no-filled: Node icon color when node state is no-filled.
+
+	 * @prop --title-color-default: Node title color when node state is default.
+	 * @prop --title-color-disabled: Node title color when node state is disabled.
+	 * @prop --title-color-selected: Node title color when node state is selected.
+	 * @prop --title-color-no-filled: Node title color when node state is not filled.
+
+	 * @prop --sub-title-color-default: Node sub-title color when node state is default.
+	 * @prop --sub-title-color-disabled: Node sub-title color when node state is disabled.
+	 * @prop --sub-title-color-no-filled: Node sub-title color when node state is not filled.
+	 */
+
+	--node-width: 300px;
+	--node-height: 40px;
+	--node-gap: #{$spacing-2x};
+	--children-offset: #{$spacing-3x};
+
+	// Private usage
+	/* stylelint-disable-next-line length-zero-no-unit */
+	--private-left-shift: 0px;
+	--private-node-gap: 0;
+	--private-vertical-line-height: 0;
+
+	.node-container {
+		position: relative;
+
+		// Vertical Lines
+		&::after {
+			content: '';
+			position: absolute;
+			border-left: 1px dashed var(--connector-lines-color);
+			height: calc(var(--private-vertical-line-height) + var(--private-node-gap));
+			width: 0;
+			top: calc(-1 * var(--private-node-gap));
+		}
+	}
+
+	.children {
+		margin-left: calc($spacing-5x + var(--private-left-shift));
+
+		::slotted(kv-tree-item) {
+			--private-left-shift: #{var(--children-offset)};
+			--private-node-gap: #{var(--node-gap)};
+			--private-vertical-line-height: 100%;
+		}
+
+		::slotted(kv-tree-item:last-child) {
+			--private-vertical-line-height: calc(var(--node-height) / 2 +4px);
+		}
+	}
+
+	.node-loading {
+		display: flex;
+		width: 100%;
+		height: 100%;
+	}
+
+	.node-wrapper {
+		position: relative;
+		display: flex;
+		width: var(--node-width);
+		height: var(--node-height);
+		margin: var(--private-node-gap) 0 0 var(--private-left-shift);
+		align-items: center;
+		box-sizing: border-box;
+		padding: $spacing-2x 0;
+		background-color: var(--background-color-default);
+		border: 1px solid var(--border-color-default);
+		border-radius: 2px;
+
+		// Horizontal Lines
+		&::before {
+			content: '';
+			position: absolute;
+			left: calc(-1 * var(--private-left-shift));
+			width: calc(var(--private-left-shift) - 2px);
+			border-top: 1px dashed var(--connector-lines-color);
+		}
+
+		&:hover,
+		&.selected:hover,
+		&.highlighted:hover {
+			background-color: var(--background-color-focused);
+		}
+
+		&.disabled {
+			background-color: var(--background-color-disabled);
+			border-color: var(--border-color-disabled);
+		}
+
+		&.selected {
+			background-color: var(--background-color-focused);
+			border-color: var(--border-color-selected);
+
+			/* stylelint-disable-next-line selector-max-compound-selectors*/
+			.expander-arrow kv-icon {
+				--icon-color: var(--icon-color-selected);
+			}
+		}
+
+		&.highlighted {
+			background-color: var(--background-color-highlighted);
+			border-color: var(--border-color-highlighted);
+		}
+
+		&.loading {
+			padding: 0;
+			background-color: unset;
+			border: unset;
+		}
+	}
+
+	.expander-arrow {
+		cursor: pointer;
+		padding-left: $spacing-2x;
+
+		kv-icon {
+			--icon-color: var(--icon-color-default);
+			display: flex;
+			align-items: center;
+		}
+	}
+
+	.node-content-wrapper {
+		flex: 1;
+		min-width: 0;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		padding: 0 $spacing-2x;
+		border-radius: 0;
+		cursor: pointer;
+
+		.node-icon {
+			position: relative;
+			width: 24px;
+			height: 24px;
+		}
+
+		.main-icon {
+			--icon-color: var(--icon-color-default);
+
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.state-icon {
+			--icon-color: #{kv-color('neutral-1')};
+			position: absolute;
+			right: 0;
+			bottom: -5px;
+
+			&.info {
+				--icon-color: #{kv-color('info')};
+			}
+
+			&.warning {
+				--icon-color: #{kv-color('warning')};
+			}
+
+			&.success {
+				--icon-color: #{kv-color('success')};
+			}
+
+			&.error {
+				--icon-color: #{kv-color('error')};
+			}
+		}
+
+		.labels {
+			@include kv-font-label-small-regular();
+			flex: 1;
+			min-width: 0;
+			margin-left: $spacing-2x;
+			display: inline-flex;
+			flex-direction: column;
+			color: var(--title-color-default);
+		}
+
+		.title {
+			@include ellipsis();
+		}
+
+		.sub-title {
+			@include kv-font-label-xsmall-uppercase-regular();
+			@include ellipsis();
+			color: var(--sub-title-color-default);
+		}
+
+		&.no-filled {
+			.main-icon {
+				--icon-color: var(--icon-color-no-filled);
+			}
+
+			.state-icon {
+				opacity: 0.5;
+			}
+
+			.title {
+				color: var(--title-color-no-filled);
+			}
+
+			.sub-title {
+				color: var(--sub-title-color-no-filled);
+			}
+		}
+
+		&.disabled {
+			cursor: not-allowed;
+
+			.main-icon {
+				--icon-color: var(--icon-color-disabled);
+			}
+
+			.state-icon {
+				opacity: 0.5;
+			}
+
+			.title {
+				color: var(--title-color-disabled);
+			}
+
+			.sub-title {
+				color: var(--sub-title-color-disabled);
+			}
+
+			.alarm-bubble {
+				opacity: 0.5;
+			}
+		}
+
+		&.selected {
+			.main-icon {
+				--icon-color: var(--icon-color-selected);
+			}
+
+			.title {
+				@include kv-font-label-small-semibold();
+				color: var(--title-color-selected);
+			}
+		}
+	}
+
+	.alarm-bubble {
+		width: 16px;
+		height: 16px;
+		background-color: kv-color('neutral-5');
+		border-radius: 50%;
+		text-align: center;
+		line-height: 15px;
+
+		span {
+			@include kv-font-label-xsmall-uppercase-regular();
+			vertical-align: middle;
+			color: kv-color('neutral-0');
+
+			font-size: 8px;
+		}
+
+		&.info {
+			background-color: kv-color('info');
+		}
+
+		&.warning {
+			background-color: kv-color('warning');
+		}
+
+		&.success {
+			background-color: kv-color('success');
+		}
+
+		&.error {
+			background-color: kv-color('error');
+		}
+	}
+}

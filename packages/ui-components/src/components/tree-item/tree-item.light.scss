@@ -1,0 +1,34 @@
+@import '../../assets/styles/globals';
+@import './tree-item.base';
+
+:host {
+	--connector-lines-color: #{kv-color('primary')};
+
+	--background-color-default: #{kv-color('neutral-0')};
+	--background-color-focused: #{kv-color('primary', 'base', 0.1)};
+	--background-color-disabled: #{kv-color('neutral-1')};
+	--background-color-highlighted: #{kv-color('primary', 'base', 0.1)};
+
+	--border-color-default: #{kv-color('neutral-3')};
+	--border-color-disabled: #{kv-color('neutral-3')};
+	--border-color-selected: #{kv-color('neutral-3')};
+	--border-color-highlighted: #{kv-color('neutral-3')};
+
+	--icon-color-default: #{kv-color('neutral-3')};
+	--icon-color-disabled: #{kv-color('neutral-3')};
+	--icon-color-selected: #{kv-color('primary')};
+	--icon-color-no-filled: #{kv-color('neutral-3')};
+
+	--title-color-default: #{kv-color('neutral-9')};
+	--title-color-disabled: #{kv-color('neutral-5')};
+	--title-color-selected: #{kv-color('neutral-9')};
+	--title-color-no-filled: #{kv-color('neutral-5')};
+
+	--sub-title-color-default: #{kv-color('neutral-5')};
+	--sub-title-color-disabled: #{kv-color('neutral-5')};
+	--sub-title-color-no-filled: #{kv-color('neutral-5')};
+}
+
+.node-loading {
+	@include ghost-animation('neutral-2');
+}
