@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tree (unit tests) when rendering with required props should match the snapshot 1`] = `
+<kv-tree>
+  <mock:shadow-root>
+    <kv-tree-item icon="kv-asset-a" label="Node 1" slot="child-slot">
+      <kv-tree-item icon="kv-asset-c" label="Node 1.2 (Disabled)" slot="child-slot"></kv-tree-item>
+      <kv-tree-item icon="kv-asset-p" label="Node 1.3" slot="child-slot"></kv-tree-item>
+      <kv-tree-item icon="kv-asset-p" label="Node 1.4 (Highlighted)" slot="child-slot"></kv-tree-item>
+      <kv-tree-item icon="kv-asset-c" label="Node 1.5" slot="child-slot">
+        <kv-tree-item icon="kv-asset-s" label="Node 1.5.1" slot="child-slot"></kv-tree-item>
+        <kv-tree-item icon="kv-asset-s" label="Node 1.5.2" slot="child-slot"></kv-tree-item>
+      </kv-tree-item>
+    </kv-tree-item>
+    <kv-tree-item counter="32" counterstate="error" icon="kv-asset-s-status" iconstate="error" label="Node 2" slot="child-slot"></kv-tree-item>
+    <kv-tree-item label="Node 3" slot="child-slot"></kv-tree-item>
+  </mock:shadow-root>
+</kv-tree>
+`;

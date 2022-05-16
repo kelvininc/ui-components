@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, Fragment, h, Host, Listen, Prop } from '@stencil/core';
-import { throttle, isNumber } from 'lodash-es';
+import { throttle, isNumber, isEmpty } from 'lodash-es';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { STATE_ICONS } from './tree-item.config';
 import { ETreeItemState } from './tree-item.types';
@@ -71,7 +71,7 @@ export class KvTreeItem {
 	private itemClickThrottler: (e: MouseEvent) => void;
 
 	private get hasChildrenSlot() {
-		return !!this.el.querySelector('[slot="child-slot"]');
+		return !isEmpty(this.el.querySelector('[slot="child-slot"]'));
 	}
 
 	get requiresToggleButton() {
@@ -109,7 +109,7 @@ export class KvTreeItem {
 										'node-content-wrapper': true,
 										'disabled': this.disabled,
 										'selected': this.selected,
-										'no-filled': !this.label && !!this.placeholder
+										'no-filled': isEmpty(this.label) && !isEmpty(this.placeholder)
 									}}
 									onClick={!this.disabled && this.itemClickThrottler}
 								>

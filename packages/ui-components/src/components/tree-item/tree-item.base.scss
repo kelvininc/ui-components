@@ -47,7 +47,7 @@
 
 	.node-container {
 		position: relative;
-
+		user-select: none;
 		// Vertical Lines
 		&::after {
 			content: '';
@@ -107,9 +107,9 @@
 			background-color: var(--background-color-focused);
 		}
 
-		&.disabled {
-			background-color: var(--background-color-disabled);
-			border-color: var(--border-color-disabled);
+		&.highlighted {
+			background-color: var(--background-color-highlighted);
+			border-color: var(--border-color-highlighted);
 		}
 
 		&.selected {
@@ -122,9 +122,9 @@
 			}
 		}
 
-		&.highlighted {
-			background-color: var(--background-color-highlighted);
-			border-color: var(--border-color-highlighted);
+		&.disabled {
+			background-color: var(--background-color-disabled);
+			border-color: var(--border-color-disabled);
 		}
 
 		&.loading {
@@ -230,6 +230,17 @@
 			}
 		}
 
+		&.selected {
+			.main-icon {
+				--icon-color: var(--icon-color-selected);
+			}
+
+			.title {
+				@include kv-font-label-small-semibold();
+				color: var(--title-color-selected);
+			}
+		}
+
 		&.disabled {
 			cursor: not-allowed;
 
@@ -251,17 +262,6 @@
 
 			.alarm-bubble {
 				opacity: 0.5;
-			}
-		}
-
-		&.selected {
-			.main-icon {
-				--icon-color: var(--icon-color-selected);
-			}
-
-			.title {
-				@include kv-font-label-small-semibold();
-				color: var(--title-color-selected);
 			}
 		}
 	}
