@@ -1,8 +1,8 @@
-import { Component, Element, Event, EventEmitter, Fragment, h, Host, Listen, Prop } from '@stencil/core';
-import { throttle, isNumber, isEmpty } from 'lodash-es';
+import { Component, Element, Event, EventEmitter, Fragment, h, Host, Listen, Prop, State } from '@stencil/core';
+import { throttle, isNumber, isEmpty, debounce } from 'lodash-es';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { STATE_ICONS } from './tree-item.config';
-import { ETreeItemState } from './tree-item.types';
+import { EDropType, ETreeItemState } from './tree-item.types';
 
 /**
  * @slot child-slot - Content is placed in the child subgroup and can be expanded and collapsed.
@@ -47,6 +47,12 @@ export class KvTreeItem {
 	/** (optional) Defines whether the tree node is loading. */
 	@Prop({ reflect: true }) loading? = false;
 
+	/** Specify if dragging the tree item is allowed. This could be a boolean */
+	@Prop() allowDrag? = false;
+
+	/** Emitted when another item drag over*/
+	@Event() dragOverItem: EventEmitter<DragEvent>;
+
 	/** Emitted when the expand toggle is clicked */
 	@Event() toggleExpand: EventEmitter<MouseEvent>;
 	/** Emitted when the tree item is clicked */
@@ -61,6 +67,12 @@ export class KvTreeItem {
 	/** Don't propagate the children toggle event */
 	@Listen('toggleExpand')
 	toggleExpandHandler(event: MouseEvent) {
+		event.stopPropagation();
+	}
+
+	/** Don't propagate the children dragOverItem event */
+	@Listen('dragOverItem')
+	dragOverItemHandler(event: MouseEvent) {
 		event.stopPropagation();
 	}
 
@@ -83,17 +95,132 @@ export class KvTreeItem {
 		this.itemClickThrottler = throttle((event: MouseEvent) => this.itemClick.emit(event), 300);
 	}
 
+	/** Internal on drag state */
+	@State() onDrag = false;
+
+	/** Internal on drag state */
+	@State() onDropType: EDropType = EDropType.None;
+
+	private onDragOver = (event: DragEvent) => {
+		if (this.onDrag) {
+			return;
+		}
+		event.preventDefault();
+
+		// TODO: Need to debounce and discard if is the same position
+
+		const nodeContainerElem = this.el.shadowRoot.getElementById('content');
+		const containerHeightPart = nodeContainerElem.clientHeight / 3;
+		const dragPos = this.calcDargPos(event, nodeContainerElem);
+
+		if (dragPos.y <= containerHeightPart) {
+			// Drop up
+			this.onDropType = EDropType.Up;
+		} else if (dragPos.y <= containerHeightPart * 2) {
+			// Drop inside
+			this.onDropType = EDropType.Inside;
+		} else if (dragPos.y <= containerHeightPart * 3) {
+			if (this.hasChildrenSlot && this.expanded) {
+				// Drop inside
+				this.onDropType = EDropType.Inside;
+			} else {
+				// Drop down
+				this.onDropType = EDropType.Down;
+			}
+		}
+	};
+
+	calcDargPos(e, obj) {
+		var m_posx = 0,
+			m_posy = 0,
+			e_posx = 0,
+			e_posy = 0;
+		//get mouse position on document crossbrowser
+		if (!e) {
+			e = window.event;
+		}
+		if (e.pageX || e.pageY) {
+			m_posx = e.pageX;
+			m_posy = e.pageY;
+		} else if (e.clientX || e.clientY) {
+			m_posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+			m_posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+		}
+		//get parent element position in document
+		if (obj.offsetParent) {
+			do {
+				e_posx += obj.offsetLeft;
+				e_posy += obj.offsetTop;
+			} while ((obj = obj.offsetParent));
+		}
+		// mouse position minus elm position is mouseposition relative to element:
+		return {
+			x: m_posx - e_posx,
+			y: m_posy - e_posy
+		};
+	}
+
+	private onDragEnter = (event: DragEvent, type: EDropType) => {
+		event.preventDefault();
+		if (!this.onDrag) {
+			console.log('onDragEnter', this.label, event);
+			this.onDropType = type;
+		}
+	};
+
+	private onDragLeave = debounce((event: DragEvent) => {
+		event.preventDefault();
+		if (!this.onDrag) {
+			console.log('onDragLeave', this.label, event);
+			this.onDropType = EDropType.None;
+		}
+	}, 10);
+
+	private dragStart = event => {
+		console.log('dragStart');
+		event.stopPropagation();
+		this.onDrag = true;
+	};
+
+	private dragEnd = event => {
+		console.log('dragEnd');
+		event.stopPropagation();
+		this.onDrag = false;
+	};
+
+	private onDrop(event: DragEvent) {
+		event.preventDefault();
+		console.log('onDrop', this.onDropType);
+		this.onDropType = EDropType.None;
+	}
+
 	render() {
 		return (
 			<Host>
-				<div class="node-container">
+				<div draggable={this.allowDrag} onDragStart={this.dragStart} onDragEnd={this.dragEnd} class="node-container">
+					{this.onDropType === EDropType.Up && (
+						<div
+							class="drag-slot"
+							onDrop={event => this.onDrop(event)}
+							onDragOver={event => event.preventDefault()}
+							onDragLeave={event => this.onDragLeave(event)}
+							onDragEnter={event => this.onDragEnter(event, EDropType.Up)}
+						></div>
+					)}
 					<div
+						id="content"
+						onDragLeave={event => this.onDragLeave(event)}
+						onDragEnter={event => this.onDragEnter(event, EDropType.Inside)}
+						onDragOver={event => this.onDragOver(event)}
+						onDrop={event => this.onDrop(event)}
 						class={{
 							'node-wrapper': true,
 							'disabled': this.disabled,
 							'selected': this.selected,
 							'highlighted': this.highlighted,
-							'loading': this.loading
+							'loading': this.loading,
+							'no-node-gap': this.onDropType === EDropType.Up,
+							'drag-over': this.onDropType === EDropType.Inside
 						}}
 					>
 						{!this.loading && (
@@ -141,7 +268,22 @@ export class KvTreeItem {
 						)}
 						{this.loading && <div class="node-loading"></div>}
 					</div>
-					<div class="children" style={{ display: this.expanded ? 'block' : 'none' }}>
+					{this.onDropType === EDropType.Down && (
+						<div
+							class="drag-slot"
+							onDrop={event => this.onDrop(event)}
+							onDragOver={event => event.preventDefault()}
+							onDragLeave={event => this.onDragLeave(event)}
+							onDragEnter={event => this.onDragEnter(event, EDropType.Down)}
+						></div>
+					)}
+					<div
+						class={{
+							'children': true,
+							'on-drag': this.onDrag
+						}}
+						style={{ display: this.expanded ? 'block' : 'none' }}
+					>
 						<slot name="child-slot"></slot>
 					</div>
 				</div>

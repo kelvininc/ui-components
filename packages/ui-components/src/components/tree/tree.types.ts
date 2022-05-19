@@ -13,3 +13,11 @@ export interface ITreeNodeItem {
 	lazyLoadChildren?: boolean;
 	children?: ITreeNodeItem[];
 }
+
+export interface IAllowDragFn {
+	(node: ITreeNodeItem): boolean;
+}
+
+export interface IAllowDropFn {
+	(element: any, to: { parent: ITreeNodeItem; index: number }, $event?: any): boolean;
+}

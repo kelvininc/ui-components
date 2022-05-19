@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Fragment } from '@stencil/core';
 import { get } from 'lodash-es';
-import { ITreeNodeItem } from './tree.types';
+import { IAllowDragFn, IAllowDropFn, ITreeNodeItem } from './tree.types';
 
 @Component({
 	tag: 'kv-tree',
@@ -26,6 +26,19 @@ export class KvTree {
 	/** (optional) Dictionary that defines whether the tree node is loading. */
 	@Prop({ reflect: true }) loadingNodes?: { [key: string]: boolean };
 
+	/** Specify if dragging tree nodes is allowed. This could be a boolean, or a function that receives a TreeNode and returns a boolean */
+	@Prop() allowDrag?: boolean | IAllowDragFn;
+
+	/** Specify whether dropping inside the tree is allowed. Optional types:
+	 *  - boolean
+	 *  - (element:any, to:{parent:TreeNode, index:number}):boolean
+		  A function that receives the dragged element, and the drop location (parent node and index inside the parent),
+		  and returns true or false.
+
+	 * **Default Value: true**
+	*/
+	@Prop() allowDrop?: boolean | IAllowDropFn;
+
 	/** Emitted when the node expand toggle is clicked */
 	@Event() nodeToggleExpand: EventEmitter<ITreeNodeItem>;
 	/** Emitted when the tree node item is clicked */
@@ -35,11 +48,23 @@ export class KvTree {
 
 	private onToggleExpand = (item: ITreeNodeItem) => this.nodeToggleExpand.emit(item);
 
-	private drawNodes(nodes: ITreeNodeItem[]) {
+	private onDragOver = (parent: ITreeNodeItem, index: number) => {
+		console.log('TREE onDragOver:', parent, index);
+	};
+
+	private _allowDrag = (item: ITreeNodeItem) => {
+		if (typeof this.allowDrag === 'boolean') {
+			return this.allowDrag;
+		} else {
+			return this.allowDrag(item);
+		}
+	};
+
+	private drawNodes(nodes: ITreeNodeItem[], parent: ITreeNodeItem = null) {
 		return (
 			<Fragment>
 				{nodes.map(
-					item =>
+					(item, index) =>
 						!get(this.hiddenNodes, [item.id], false) && (
 							<kv-tree-item
 								slot="child-slot"
@@ -56,10 +81,12 @@ export class KvTree {
 								disabled={get(this.disabledNodes, [item.id], false)}
 								highlighted={get(this.highlightedNodes, [item.id], false)}
 								loading={this.loading || get(this.loadingNodes, [item.id], false)}
+								allowDrag={this._allowDrag(item)}
 								onItemClick={_ => this.onItemClick(item)}
 								onToggleExpand={_ => this.onToggleExpand(item)}
+								onDragOverItem={_ => this.onDragOver(parent, index)}
 							>
-								{item.children?.length > 0 && this.drawNodes(item.children)}
+								{item.children?.length > 0 && this.drawNodes(item.children, item)}
 							</kv-tree-item>
 						)
 				)}

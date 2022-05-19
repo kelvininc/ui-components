@@ -45,6 +45,12 @@
 	--private-node-gap: 0;
 	--private-vertical-line-height: 0;
 
+	.drag-slot {
+		width: 100%;
+		height: 20px;
+		background-color: lightcoral;
+	}
+
 	.node-container {
 		position: relative;
 		user-select: none;
@@ -71,6 +77,10 @@
 		::slotted(kv-tree-item:last-child) {
 			--private-vertical-line-height: calc(var(--node-height) / 2 +4px);
 		}
+
+		&.on-drag {
+			pointer-events: none;
+		}
 	}
 
 	.node-loading {
@@ -91,6 +101,10 @@
 		background-color: var(--background-color-default);
 		border: 1px solid var(--border-color-default);
 		border-radius: 2px;
+
+		&.no-node-gap {
+			margin-top: 0;
+		}
 
 		// Horizontal Lines
 		&::before {
@@ -132,6 +146,10 @@
 			background-color: unset;
 			border: unset;
 		}
+
+		&.drag-over {
+			border: 1px solid kv-color('success', 'base');
+		}
 	}
 
 	.expander-arrow {
@@ -159,6 +177,7 @@
 			position: relative;
 			width: 24px;
 			height: 24px;
+			pointer-events: none;
 		}
 
 		.main-icon {
@@ -200,6 +219,7 @@
 			display: inline-flex;
 			flex-direction: column;
 			color: var(--title-color-default);
+			pointer-events: none;
 		}
 
 		.title {
@@ -264,6 +284,10 @@
 				opacity: 0.5;
 			}
 		}
+	}
+
+	.right-indicators {
+		pointer-events: none;
 	}
 
 	.alarm-bubble {

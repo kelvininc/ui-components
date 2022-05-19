@@ -29,7 +29,16 @@ const TreeTemplate: ComponentStory<typeof KvTree> = args => {
 		});
 	};
 
-	return <KvTree selectedNode={selectedNode} expandedNodes={expandedNodes} onNodeClick={handleItemClick} onNodeToggleExpand={handleToggleExpand} {...args} />;
+	return (
+		<KvTree
+			allowDrag={(item: ITreeNodeItem) => item.id !== '2'}
+			selectedNode={selectedNode}
+			expandedNodes={expandedNodes}
+			onNodeClick={handleItemClick}
+			onNodeToggleExpand={handleToggleExpand}
+			{...args}
+		/>
+	);
 };
 
 const nodes: ITreeNodeItem[] = [
@@ -83,6 +92,123 @@ const nodes: ITreeNodeItem[] = [
 	{
 		id: '3',
 		label: 'Node 3'
+	},
+	{
+		id: '3',
+		label: 'Node 1',
+		icon: EIconName.AssetA,
+		children: [
+			{
+				id: '1.2',
+				label: 'Node 1.2 (Disabled)',
+				icon: EIconName.AssetC
+			},
+			{
+				id: '1.3',
+				label: 'Node 1.3',
+				icon: EIconName.AssetP
+			},
+			{
+				id: '1.4',
+				label: 'Node 1.4 (Highlighted)',
+				icon: EIconName.AssetP
+			},
+			{
+				id: '1.5',
+				label: 'Node 1.5',
+				icon: EIconName.AssetC,
+				children: [
+					{
+						id: '1.5.1',
+						label: 'Node 1.5.1',
+						icon: EIconName.AssetS
+					},
+					{
+						id: '1.5.2',
+						label: 'Node 1.5.2',
+						icon: EIconName.AssetS
+					}
+				]
+			}
+		]
+	},
+	{
+		id: '3',
+		label: 'Node 1',
+		icon: EIconName.AssetA,
+		children: [
+			{
+				id: '1.2',
+				label: 'Node 1.2 (Disabled)',
+				icon: EIconName.AssetC
+			},
+			{
+				id: '1.3',
+				label: 'Node 1.3',
+				icon: EIconName.AssetP
+			},
+			{
+				id: '1.4',
+				label: 'Node 1.4 (Highlighted)',
+				icon: EIconName.AssetP
+			},
+			{
+				id: '1.5',
+				label: 'Node 1.5',
+				icon: EIconName.AssetC,
+				children: [
+					{
+						id: '1.5.1',
+						label: 'Node 1.5.1',
+						icon: EIconName.AssetS
+					},
+					{
+						id: '1.5.2',
+						label: 'Node 1.5.2',
+						icon: EIconName.AssetS
+					}
+				]
+			}
+		]
+	},
+	{
+		id: '3',
+		label: 'Node 1',
+		icon: EIconName.AssetA,
+		children: [
+			{
+				id: '1.2',
+				label: 'Node 1.2 (Disabled)',
+				icon: EIconName.AssetC
+			},
+			{
+				id: '1.3',
+				label: 'Node 1.3',
+				icon: EIconName.AssetP
+			},
+			{
+				id: '1.4',
+				label: 'Node 1.4 (Highlighted)',
+				icon: EIconName.AssetP
+			},
+			{
+				id: '1.5',
+				label: 'Node 1.5',
+				icon: EIconName.AssetC,
+				children: [
+					{
+						id: '1.5.1',
+						label: 'Node 1.5.1',
+						icon: EIconName.AssetS
+					},
+					{
+						id: '1.5.2',
+						label: 'Node 1.5.2',
+						icon: EIconName.AssetS
+					}
+				]
+			}
+		]
 	}
 ];
 
