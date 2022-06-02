@@ -93,6 +93,7 @@ export const TreeItemExample: React.FC = () => (
 | ----------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----------- |
 | `additionalLabel` | `additional-label` | (optional) Defines the sub-title of the tree item, displayed under the title.                                                                                                                                                                                                                                                                                                                                                                                                         | `string`                                                                                                                 | `undefined` |
 | `allowDrag`       | `allow-drag`       | Specify if dragging the tree item is allowed. This could be a boolean                                                                                                                                                                                                                                                                                                                                                                                                                 | `boolean`                                                                                                                | `false`     |
+| `allowDrop`       | `allow-drop`       | Specify if drop the tree item is allowed. This could be a boolean                                                                                                                                                                                                                                                                                                                                                                                                                     | `boolean`                                                                                                                | `false`     |
 | `counter`         | `counter`          | (optional) Defines the counter info of the tree item. If set, an badge will be displayed in the end of tree item.                                                                                                                                                                                                                                                                                                                                                                     | `number`                                                                                                                 | `undefined` |
 | `counterState`    | `counter-state`    | (optional) Defines the state of the counter.                                                                                                                                                                                                                                                                                                                                                                                                                                          | `ETreeItemState.Error \| ETreeItemState.Info \| ETreeItemState.None \| ETreeItemState.Success \| ETreeItemState.Warning` | `undefined` |
 | `disabled`        | `disabled`         | (optional) Defines whether the tree node is disabled.                                                                                                                                                                                                                                                                                                                                                                                                                                 | `boolean`                                                                                                                | `false`     |
@@ -109,11 +110,13 @@ export const TreeItemExample: React.FC = () => (
 
 ## Events
 
-| Event          | Description                               | Type                      |
-| -------------- | ----------------------------------------- | ------------------------- |
-| `dragOverItem` | Emitted when another item drag over       | `CustomEvent<DragEvent>`  |
-| `itemClick`    | Emitted when the tree item is clicked     | `CustomEvent<MouseEvent>` |
-| `toggleExpand` | Emitted when the expand toggle is clicked | `CustomEvent<MouseEvent>` |
+| Event           | Description                               | Type                                                                                |
+| --------------- | ----------------------------------------- | ----------------------------------------------------------------------------------- |
+| `dragEndItem`   | Emitted when the tree item drag end       | `CustomEvent<MouseEvent>`                                                           |
+| `dragOverItem`  | Emitted when drag over the tree item      | `CustomEvent<EDropType.Down \| EDropType.Inside \| EDropType.None \| EDropType.Up>` |
+| `dragStartItem` | Emitted when the tree item drag start     | `CustomEvent<MouseEvent>`                                                           |
+| `itemClick`     | Emitted when the tree item is clicked     | `CustomEvent<MouseEvent>`                                                           |
+| `toggleExpand`  | Emitted when the expand toggle is clicked | `CustomEvent<MouseEvent>`                                                           |
 
 
 ## Slots
@@ -121,36 +124,6 @@ export const TreeItemExample: React.FC = () => (
 | Slot           | Description                                                                |
 | -------------- | -------------------------------------------------------------------------- |
 | `"child-slot"` | Content is placed in the child subgroup and can be expanded and collapsed. |
-
-
-## CSS Custom Properties
-
-| Name                             | Description                                         |
-| -------------------------------- | --------------------------------------------------- |
-| `--background-color-default`     | Background color when state is default.             |
-| `--background-color-disabled`    | Background color when state is disabled.            |
-| `--background-color-focused`     | Background color when state is focused.             |
-| `--background-color-highlighted` | Background color when state is highlighted.         |
-| `--border-color-default`         | Border color when state is default.                 |
-| `--border-color-disabled`        | Border color when state is disabled.                |
-| `--border-color-highlighted`     | Border color when state is highlighted.             |
-| `--border-color-selected`        | Border color when state is selected.                |
-| `--children-offset`              | Offset of the child nodes in px.                    |
-| `--connector-lines-color`        | Line color of children's connectors.                |
-| `--icon-color-default`           | Node icon color when node state is default.         |
-| `--icon-color-disabled`          | Node icon color when node state is disabled.        |
-| `--icon-color-no-filled`         | Node icon color when node state is no-filled.       |
-| `--icon-color-selected`          | Node icon color when node state is selected.        |
-| `--node-gap`                     | Gap between child nodes in px.                      |
-| `--node-height`                  | Tree Node height.                                   |
-| `--node-width`                   | Tree Node height.                                   |
-| `--sub-title-color-default`      | Node sub-title color when node state is default.    |
-| `--sub-title-color-disabled`     | Node sub-title color when node state is disabled.   |
-| `--sub-title-color-no-filled`    | Node sub-title color when node state is not filled. |
-| `--title-color-default`          | Node title color when node state is default.        |
-| `--title-color-disabled`         | Node title color when node state is disabled.       |
-| `--title-color-no-filled`        | Node title color when node state is not filled.     |
-| `--title-color-selected`         | Node title color when node state is selected.       |
 
 
 ## Dependencies

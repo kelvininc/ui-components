@@ -2,6 +2,7 @@ import { Component, Element, Event, EventEmitter, Fragment, h, Host, Listen, Pro
 import { throttle, isNumber, isEmpty, debounce } from 'lodash-es';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { STATE_ICONS } from './tree-item.config';
+import { calcDargPos } from './tree-item.helper';
 import { EDropType, ETreeItemState } from './tree-item.types';
 
 /**
@@ -50,13 +51,20 @@ export class KvTreeItem {
 	/** Specify if dragging the tree item is allowed. This could be a boolean */
 	@Prop() allowDrag? = false;
 
-	/** Emitted when another item drag over*/
-	@Event() dragOverItem: EventEmitter<DragEvent>;
+	/** Specify if drop the tree item is allowed. This could be a boolean */
+	@Prop() allowDrop? = false;
 
 	/** Emitted when the expand toggle is clicked */
 	@Event() toggleExpand: EventEmitter<MouseEvent>;
 	/** Emitted when the tree item is clicked */
 	@Event() itemClick: EventEmitter<MouseEvent>;
+	/** Emitted when drag over the tree item */
+	@Event() dragOverItem: EventEmitter<EDropType>;
+
+	/** Emitted when the tree item drag start */
+	@Event() dragStartItem: EventEmitter<MouseEvent>;
+	/** Emitted when the tree item drag end */
+	@Event() dragEndItem: EventEmitter<MouseEvent>;
 
 	/** Don't propagate the children click event */
 	@Listen('itemClick')
@@ -101,182 +109,164 @@ export class KvTreeItem {
 	/** Internal on drag state */
 	@State() onDropType: EDropType = EDropType.None;
 
+	@State() lastOverY: number;
+
 	private onDragOver = (event: DragEvent) => {
 		if (this.onDrag) {
 			return;
 		}
-		event.preventDefault();
 
-		// TODO: Need to debounce and discard if is the same position
+		if (this.allowDrop) {
+			event.preventDefault();
+		}
 
+		// Ignore if the Y position not change
+		if (this.lastOverY === event.pageY) {
+			return;
+		}
+		this.lastOverY = event.pageY;
+
+		console.log('TREE ITEM ALLOW DROP:', this.label, this.allowDrop);
+		console.log('### TREE ITEM onDragOver:', event);
 		const nodeContainerElem = this.el.shadowRoot.getElementById('content');
 		const containerHeightPart = nodeContainerElem.clientHeight / 3;
-		const dragPos = this.calcDargPos(event, nodeContainerElem);
+		const dragPos = calcDargPos(event, nodeContainerElem);
 
 		if (dragPos.y <= containerHeightPart) {
 			// Drop up
-			this.onDropType = EDropType.Up;
+			this.setDropType(EDropType.Up);
 		} else if (dragPos.y <= containerHeightPart * 2) {
 			// Drop inside
-			this.onDropType = EDropType.Inside;
+			this.setDropType(EDropType.Inside);
 		} else if (dragPos.y <= containerHeightPart * 3) {
 			if (this.hasChildrenSlot && this.expanded) {
 				// Drop inside
-				this.onDropType = EDropType.Inside;
+				this.setDropType(EDropType.Inside);
 			} else {
 				// Drop down
-				this.onDropType = EDropType.Down;
+				this.setDropType(EDropType.Down);
 			}
 		}
 	};
 
-	calcDargPos(e, obj) {
-		var m_posx = 0,
-			m_posy = 0,
-			e_posx = 0,
-			e_posy = 0;
-		//get mouse position on document crossbrowser
-		if (!e) {
-			e = window.event;
-		}
-		if (e.pageX || e.pageY) {
-			m_posx = e.pageX;
-			m_posy = e.pageY;
-		} else if (e.clientX || e.clientY) {
-			m_posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-			m_posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-		}
-		//get parent element position in document
-		if (obj.offsetParent) {
-			do {
-				e_posx += obj.offsetLeft;
-				e_posy += obj.offsetTop;
-			} while ((obj = obj.offsetParent));
-		}
-		// mouse position minus elm position is mouseposition relative to element:
-		return {
-			x: m_posx - e_posx,
-			y: m_posy - e_posy
-		};
-	}
+	// to have a better behavior
+	private setDropType = debounce((type: EDropType) => {
+		this.onDropType = type;
+		this.dragOverItem.emit(type);
+	}, 50);
 
-	private onDragEnter = (event: DragEvent, type: EDropType) => {
-		event.preventDefault();
-		if (!this.onDrag) {
-			console.log('onDragEnter', this.label, event);
-			this.onDropType = type;
-		}
-	};
-
-	private onDragLeave = debounce((event: DragEvent) => {
+	private onDragLeave = (event: DragEvent) => {
 		event.preventDefault();
 		if (!this.onDrag) {
 			console.log('onDragLeave', this.label, event);
-			this.onDropType = EDropType.None;
+			this.setDropType(EDropType.None);
 		}
-	}, 10);
+	};
 
 	private dragStart = event => {
-		console.log('dragStart');
 		event.stopPropagation();
 		this.onDrag = true;
+		this.dragStartItem.emit(event);
 	};
 
 	private dragEnd = event => {
-		console.log('dragEnd');
 		event.stopPropagation();
 		this.onDrag = false;
+		this.dragEndItem.emit(event);
 	};
 
 	private onDrop(event: DragEvent) {
+		if (!this.allowDrop) {
+			return;
+		}
 		event.preventDefault();
 		console.log('onDrop', this.onDropType);
-		this.onDropType = EDropType.None;
+		this.setDropType(EDropType.None);
 	}
 
 	render() {
 		return (
 			<Host>
 				<div draggable={this.allowDrag} onDragStart={this.dragStart} onDragEnd={this.dragEnd} class="node-container">
+					<div id="content" onDragOver={event => this.onDragOver(event)} onDragLeave={event => this.onDragLeave(event)} onDrop={event => this.onDrop(event)}>
 					{this.onDropType === EDropType.Up && (
+							<div class={{ 'drag-slot': true, 'allowed': this.allowDrop }}>
+								<div class="badge">
+									<kv-icon name={this.allowDrop ? EIconName.Add : EIconName.Close}></kv-icon>
+								</div>
+								<div class="line"></div>
+							</div>
+						)}
 						<div
-							class="drag-slot"
-							onDrop={event => this.onDrop(event)}
-							onDragOver={event => event.preventDefault()}
-							onDragLeave={event => this.onDragLeave(event)}
-							onDragEnter={event => this.onDragEnter(event, EDropType.Up)}
-						></div>
-					)}
-					<div
-						id="content"
-						onDragLeave={event => this.onDragLeave(event)}
-						onDragEnter={event => this.onDragEnter(event, EDropType.Inside)}
-						onDragOver={event => this.onDragOver(event)}
-						onDrop={event => this.onDrop(event)}
-						class={{
-							'node-wrapper': true,
-							'disabled': this.disabled,
-							'selected': this.selected,
-							'highlighted': this.highlighted,
-							'loading': this.loading,
-							'no-node-gap': this.onDropType === EDropType.Up,
-							'drag-over': this.onDropType === EDropType.Inside
-						}}
-					>
-						{!this.loading && (
-							<Fragment>
-								{this.requiresToggleButton && (
-									<div class="expander-arrow" onClick={this.toggleClickThrottler}>
-										<kv-icon name={this.expanded ? EIconName.ArrowDropDown : EIconName.ArrowRight} customClass="pk-grey3 icon-24" />
-									</div>
-								)}
-
-								<div
-									class={{
-										'node-content-wrapper': true,
-										'disabled': this.disabled,
-										'selected': this.selected,
-										'no-filled': isEmpty(this.label) && !isEmpty(this.placeholder)
-									}}
-									onClick={!this.disabled && this.itemClickThrottler}
-								>
-									{this.icon && (
-										<div class="node-icon">
-											<kv-icon name={this.icon} customClass="icon-24" class="main-icon"></kv-icon>
-											{this.iconState && (
-												<kv-icon name={STATE_ICONS[this.iconState]} customClass="icon-12" class={{ 'state-icon': true, [this.iconState]: true }}></kv-icon>
-											)}
+							class={{
+								'node-wrapper': true,
+								'disabled': this.disabled,
+								'selected': this.selected,
+								'highlighted': this.highlighted,
+								'loading': this.loading,
+								'no-node-gap': this.onDropType === EDropType.Up,
+								'drag-over--allowed': this.onDropType === EDropType.Inside && this.allowDrop,
+								'drag-over--not-allowed': this.onDropType === EDropType.Inside && !this.allowDrop
+							}}
+						>
+							{!this.loading && (
+								<Fragment>
+									{this.requiresToggleButton && (
+										<div class="expander-arrow" onClick={this.toggleClickThrottler}>
+											<kv-icon name={this.expanded ? EIconName.ArrowDropDown : EIconName.ArrowRight} customClass="pk-grey3 icon-24" />
 										</div>
 									)}
 
-									{(this.label || this.placeholder) && (
-										<div class="labels">
-											<div class="title">{this.label || this.placeholder}</div>
-											{this.additionalLabel && <div class="sub-title">{this.additionalLabel}</div>}
-										</div>
-									)}
-
-									<div class="right-indicators">
-										{isNumber(this.counter) && this.counter >= 0 && (
-											<div class={{ 'alarm-bubble': true, [this.counterState]: true }}>
-												<span>{this.counter > 100 ? '+99' : this.counter}</span>
+									<div
+										class={{
+											'node-content-wrapper': true,
+											'disabled': this.disabled,
+											'selected': this.selected,
+											'no-filled': isEmpty(this.label) && !isEmpty(this.placeholder)
+										}}
+										onClick={!this.disabled && this.itemClickThrottler}
+									>
+										{this.icon && (
+											<div class="node-icon">
+												<kv-icon name={this.icon} customClass="icon-24" class="main-icon"></kv-icon>
+												{this.iconState && (
+													<kv-icon
+														name={STATE_ICONS[this.iconState]}
+														customClass="icon-12"
+														class={{ 'state-icon': true, [this.iconState]: true }}
+													></kv-icon>
+												)}
 											</div>
 										)}
+
+										{(this.label || this.placeholder) && (
+											<div class="labels">
+												<div class="title">{this.label || this.placeholder}</div>
+												{this.additionalLabel && <div class="sub-title">{this.additionalLabel}</div>}
+											</div>
+										)}
+
+										<div class="right-indicators">
+											{isNumber(this.counter) && this.counter >= 0 && (
+												<div class={{ 'alarm-bubble': true, [this.counterState]: true }}>
+													<span>{this.counter > 100 ? '+99' : this.counter}</span>
+												</div>
+											)}
+										</div>
 									</div>
+								</Fragment>
+							)}
+							{this.loading && <div class="node-loading"></div>}
+						</div>
+						{this.onDropType === EDropType.Down && (
+							<div class={{ 'drag-slot': true, 'allowed': this.allowDrop }}>
+								<div class="badge">
+									<kv-icon name={this.allowDrop ? EIconName.Add : EIconName.Close}></kv-icon>
 								</div>
-							</Fragment>
+								<div class="line"></div>
+							</div>
 						)}
-						{this.loading && <div class="node-loading"></div>}
 					</div>
-					{this.onDropType === EDropType.Down && (
-						<div
-							class="drag-slot"
-							onDrop={event => this.onDrop(event)}
-							onDragOver={event => event.preventDefault()}
-							onDragLeave={event => this.onDragLeave(event)}
-							onDragEnter={event => this.onDragEnter(event, EDropType.Down)}
-						></div>
-					)}
 					<div
 						class={{
 							'children': true,

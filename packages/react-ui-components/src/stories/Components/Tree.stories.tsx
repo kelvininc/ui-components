@@ -22,6 +22,12 @@ const TreeTemplate: ComponentStory<typeof KvTree> = args => {
 		setNode(event.detail.id);
 	};
 
+	const allowDrop = (element: any, to: { parent: ITreeNodeItem; index: number }, $event?: any) => {
+		console.log('handleAllowDrop element:', element);
+		console.log('\t parent:', to.parent, to.index);
+		return to.parent ? false : true;
+	};
+
 	const handleToggleExpand = (event: CustomEvent<ITreeNodeItem>) => {
 		setExpandedNodes({
 			...expandedNodes,
@@ -36,6 +42,7 @@ const TreeTemplate: ComponentStory<typeof KvTree> = args => {
 			expandedNodes={expandedNodes}
 			onNodeClick={handleItemClick}
 			onNodeToggleExpand={handleToggleExpand}
+			allowDrop={allowDrop}
 			{...args}
 		/>
 	);
@@ -94,38 +101,38 @@ const nodes: ITreeNodeItem[] = [
 		label: 'Node 3'
 	},
 	{
-		id: '3',
-		label: 'Node 1',
+		id: '4',
+		label: 'Node 4',
 		icon: EIconName.AssetA,
 		children: [
 			{
-				id: '1.2',
-				label: 'Node 1.2 (Disabled)',
+				id: '4.2',
+				label: 'Node 4.2 (Disabled)',
 				icon: EIconName.AssetC
 			},
 			{
-				id: '1.3',
-				label: 'Node 1.3',
+				id: '4.3',
+				label: 'Node 4.3',
 				icon: EIconName.AssetP
 			},
 			{
-				id: '1.4',
-				label: 'Node 1.4 (Highlighted)',
+				id: '4.4',
+				label: 'Node 4.4 (Highlighted)',
 				icon: EIconName.AssetP
 			},
 			{
-				id: '1.5',
-				label: 'Node 1.5',
+				id: '4.5',
+				label: 'Node 4.5',
 				icon: EIconName.AssetC,
 				children: [
 					{
-						id: '1.5.1',
-						label: 'Node 1.5.1',
+						id: '4.5.1',
+						label: 'Node 4.5.1',
 						icon: EIconName.AssetS
 					},
 					{
-						id: '1.5.2',
-						label: 'Node 1.5.2',
+						id: '4.5.2',
+						label: 'Node 4.5.2',
 						icon: EIconName.AssetS
 					}
 				]
@@ -133,38 +140,38 @@ const nodes: ITreeNodeItem[] = [
 		]
 	},
 	{
-		id: '3',
-		label: 'Node 1',
+		id: '5',
+		label: 'Node 5',
 		icon: EIconName.AssetA,
 		children: [
 			{
-				id: '1.2',
-				label: 'Node 1.2 (Disabled)',
+				id: '5.2',
+				label: 'Node 5.2 (Disabled)',
 				icon: EIconName.AssetC
 			},
 			{
-				id: '1.3',
-				label: 'Node 1.3',
+				id: '5.3',
+				label: 'Node 5.3',
 				icon: EIconName.AssetP
 			},
 			{
-				id: '1.4',
-				label: 'Node 1.4 (Highlighted)',
+				id: '5.4',
+				label: 'Node 5.4 (Highlighted)',
 				icon: EIconName.AssetP
 			},
 			{
-				id: '1.5',
-				label: 'Node 1.5',
+				id: '5.5',
+				label: 'Node 5.5',
 				icon: EIconName.AssetC,
 				children: [
 					{
-						id: '1.5.1',
-						label: 'Node 1.5.1',
+						id: '5.5.1',
+						label: 'Node 5.5.1',
 						icon: EIconName.AssetS
 					},
 					{
-						id: '1.5.2',
-						label: 'Node 1.5.2',
+						id: '5.5.2',
+						label: 'Node 5.5.2',
 						icon: EIconName.AssetS
 					}
 				]
@@ -172,38 +179,38 @@ const nodes: ITreeNodeItem[] = [
 		]
 	},
 	{
-		id: '3',
-		label: 'Node 1',
+		id: '6',
+		label: 'Node 6',
 		icon: EIconName.AssetA,
 		children: [
 			{
-				id: '1.2',
-				label: 'Node 1.2 (Disabled)',
+				id: '6.2',
+				label: 'Node 6.2 (Disabled)',
 				icon: EIconName.AssetC
 			},
 			{
-				id: '1.3',
-				label: 'Node 1.3',
+				id: '6.3',
+				label: 'Node 6.3',
 				icon: EIconName.AssetP
 			},
 			{
-				id: '1.4',
-				label: 'Node 1.4 (Highlighted)',
+				id: '6.4',
+				label: 'Node 6.4 (Highlighted)',
 				icon: EIconName.AssetP
 			},
 			{
-				id: '1.5',
-				label: 'Node 1.5',
+				id: '6.5',
+				label: 'Node 6.5',
 				icon: EIconName.AssetC,
 				children: [
 					{
-						id: '1.5.1',
-						label: 'Node 1.5.1',
+						id: '6.5.1',
+						label: 'Node 6.5.1',
 						icon: EIconName.AssetS
 					},
 					{
-						id: '1.5.2',
-						label: 'Node 1.5.2',
+						id: '6.5.2',
+						label: 'Node 6.5.2',
 						icon: EIconName.AssetS
 					}
 				]

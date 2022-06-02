@@ -1,5 +1,6 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Fragment } from '@stencil/core';
+import { Component, Host, h, Prop, Event, EventEmitter, Fragment, State } from '@stencil/core';
 import { get } from 'lodash-es';
+import { EDropType } from '../tree-item/tree-item.types';
 import { IAllowDragFn, IAllowDropFn, ITreeNodeItem } from './tree.types';
 
 @Component({
@@ -44,12 +45,51 @@ export class KvTree {
 	/** Emitted when the tree node item is clicked */
 	@Event() nodeClick: EventEmitter<ITreeNodeItem>;
 
+	/** Internal drag tree item state */
+	@State() nodeOnDrag: ITreeNodeItem;
+
+	/** Internal allow drop tree item state */
+	@State() allowDropDic: {[key:string]: boolean} = {};
+
+	private onDragNodeStart = (item: ITreeNodeItem) => {
+		this.nodeOnDrag = item;
+		this.allowDropDic = {};
+	};
+	private onDragNodeEnd = () => (this.nodeOnDrag = null);
+
 	private onItemClick = (item: ITreeNodeItem) => this.nodeClick.emit(item);
 
 	private onToggleExpand = (item: ITreeNodeItem) => this.nodeToggleExpand.emit(item);
 
-	private onDragOver = (parent: ITreeNodeItem, index: number) => {
-		console.log('TREE onDragOver:', parent, index);
+	private onDragOver = (type: CustomEvent<EDropType>, source: ITreeNodeItem, target: ITreeNodeItem, parent: ITreeNodeItem, index: number) => {
+		// console.log('TREE onDragOver type:', type.detail);
+		// console.log('\t source:', source);
+		// console.log('\t target:', target);
+		// console.log('\t parent:', parent, index);
+		if (typeof this.allowDrop === 'boolean') {
+			return this.allowDrop;
+		} else {
+			let toData;
+			if (type.detail === EDropType.None) {
+				return;
+			} else if (type.detail === EDropType.Inside) {
+				toData = {
+					parent: target,
+					index: 0
+				};
+			} else {
+				toData = {
+					parent,
+					index: type.detail === EDropType.Up ? index - 1 : index + 1
+				};
+			}
+
+			this.allowDropDic={
+				...this.allowDropDic,
+				[target.id]: this.allowDrop(source, toData)
+			};
+			console.log('allowDropDic', this.allowDropDic);
+		}
 	};
 
 	private _allowDrag = (item: ITreeNodeItem) => {
@@ -82,9 +122,12 @@ export class KvTree {
 								highlighted={get(this.highlightedNodes, [item.id], false)}
 								loading={this.loading || get(this.loadingNodes, [item.id], false)}
 								allowDrag={this._allowDrag(item)}
+								allowDrop={get(this.allowDropDic,[item.id], false)}
 								onItemClick={_ => this.onItemClick(item)}
 								onToggleExpand={_ => this.onToggleExpand(item)}
-								onDragOverItem={_ => this.onDragOver(parent, index)}
+								onDragOverItem={type => this.onDragOver(type, this.nodeOnDrag, item, parent, index)}
+								onDragStartItem={_ => this.onDragNodeStart(item)}
+								onDragEndItem={_ => this.onDragNodeEnd()}
 							>
 								{item.children?.length > 0 && this.drawNodes(item.children, item)}
 							</kv-tree-item>

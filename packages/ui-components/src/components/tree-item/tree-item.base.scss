@@ -47,8 +47,42 @@
 
 	.drag-slot {
 		width: 100%;
-		height: 20px;
-		background-color: lightcoral;
+		height: $spacing-5x;
+		display: flex;
+		align-items: center;
+		margin: $spacing-3x 0;
+		margin-left: calc(-1 * var(--private-left-shift) + 2px);
+
+		.badge {
+			width: $spacing-5x;
+			height: $spacing-5x;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: kv-color('error');
+			z-index: 2;
+
+			kv-icon {
+				display: flex;
+			}
+		}
+
+		.line {
+			width: 100%;
+			margin-left: $spacing;
+			border-top: 2px solid kv-color('error');
+		}
+
+		&.allowed {
+			.badge {
+				background-color: kv-color('success');
+			}
+
+			.line {
+				border-color: kv-color('success');
+			}
+		}
 	}
 
 	.node-container {
@@ -148,20 +182,28 @@
 		}
 
 		&.drag-over {
-			border: 1px solid kv-color('success', 'base');
+			&--allowed {
+				border: 1px solid kv-color('success', 'base');
+			}
+
+			&--not-allowed {
+				border: 1px solid kv-color('error', 'base');
+			}
+		}
+
+		.expander-arrow {
+			cursor: pointer;
+			padding-left: $spacing-2x;
+
+			kv-icon {
+				--icon-color: var(--icon-color-default);
+				display: flex;
+				align-items: center;
+			}
 		}
 	}
 
-	.expander-arrow {
-		cursor: pointer;
-		padding-left: $spacing-2x;
 
-		kv-icon {
-			--icon-color: var(--icon-color-default);
-			display: flex;
-			align-items: center;
-		}
-	}
 
 	.node-content-wrapper {
 		flex: 1;
@@ -219,7 +261,7 @@
 			display: inline-flex;
 			flex-direction: column;
 			color: var(--title-color-default);
-			pointer-events: none;
+			// pointer-events: none;
 		}
 
 		.title {
@@ -287,7 +329,7 @@
 	}
 
 	.right-indicators {
-		pointer-events: none;
+		// pointer-events: none;
 	}
 
 	.alarm-bubble {
