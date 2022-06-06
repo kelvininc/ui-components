@@ -1,7 +1,7 @@
 import { Watch, Component, Event, Host, h, Prop, EventEmitter, State } from '@stencil/core';
 import { isEmpty } from 'lodash-es';
 import { EToasterType, EToasterIconTypeClass, IToaster, IToasterEvents, CLOSE_ICON } from './toaster.types';
-import { TYPE_ICONS } from './toaster.config';
+import { TOASTER_ANIMATION_DURATION, TYPE_ICONS } from './toaster.config';
 
 @Component({
 	tag: 'kv-toaster',
@@ -34,45 +34,58 @@ export class KvToaster implements IToaster, IToasterEvents {
 	/** Fade out animation state */
 	@State() fadeOutActive: boolean = false;
 	/** Icon of the toaster */
-	@State() iconType: EToasterIconTypeClass;
+	@State() iconType: EToasterIconTypeClass = TYPE_ICONS[this.type];
 	/** Case the type changes, the toaster updates the icon displayed */
 	@Watch('type')
 	updateIconType(value: string) {
 		this.iconType = TYPE_ICONS[value];
 	}
 
-	private onCloseClick = (event: MouseEvent) => {
-		if (this.ttl > 0) {
-			window.clearTimeout(this.timeoutID);
-		}
+	private clearTTL = () => {
+		window.clearTimeout(this.timeoutID);
+	};
 
-		this.clickCloseButton.emit(event);
+	private emitAfterClose = () => {
+		this.fadeInActive = false;
+		this.fadeOutActive = true;
+
+		window.setTimeout(this.afterClose.emit.bind(this), TOASTER_ANIMATION_DURATION);
+	};
+
+	private emitAfterOpen = () => {
+		this.fadeOutActive = false;
+		this.fadeInActive = true;
+
+		window.setTimeout(this.afterOpen.emit.bind(this), TOASTER_ANIMATION_DURATION);
+	};
+
+	private createTTL = () => {
+		if (this.ttl > 0) {
+			this.timeoutID = window.setTimeout(() => {
+				this.ttlExpired.emit();
+
+				this.closeToaster();
+			}, this.ttl);
+		}
 	};
 
 	private closeToaster = () => {
-		this.fadeInActive = false;
-		this.fadeOutActive = true;
-		if (this.ttl > 0) {
-			window.clearTimeout(this.timeoutID);
-			this.ttlExpired.emit();
-		}
+		this.clearTTL();
+		this.emitAfterClose();
+	};
 
-		window.setTimeout(this.afterClose.emit.bind(this), 500);
+	private onCloseClick = (event: MouseEvent) => {
+		this.closeToaster();
+		this.clickCloseButton.emit(event);
 	};
 
 	componentWillLoad() {
-		this.iconType = TYPE_ICONS[this.type];
-		this.fadeOutActive = false;
-		this.fadeInActive = true;
-		if (this.ttl > 0) {
-			this.timeoutID = window.setTimeout(this.closeToaster, this.ttl);
-		}
-
-		window.setTimeout(this.afterOpen.emit.bind(this), 500);
+		this.createTTL();
+		this.emitAfterOpen();
 	}
 
 	disconnectedCallback() {
-		this.closeToaster();
+		this.clearTTL();
 	}
 
 	render() {

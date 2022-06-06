@@ -70,14 +70,12 @@ kv-icon {
 	&.animate-fade-in {
 		animation-duration: 0.5s;
 		animation-name: animate-fade-in-small;
-		animation-delay: 0.5s;
 		animation-fill-mode: backwards;
 	}
 
 	&.animate-fade-out {
 		animation-duration: 0.5s;
 		animation-name: animate-fade-out-small;
-		animation-delay: 0.5s;
 		animation-fill-mode: forwards;
 	}
 
