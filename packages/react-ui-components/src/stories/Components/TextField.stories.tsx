@@ -73,12 +73,32 @@ Required.args = {
 	type: EInputFieldType.Text
 };
 
-export const MaxLength = TextFieldTemplate.bind({});
-MaxLength.args = {
+export const MaxMinLength = TextFieldTemplate.bind({});
+MaxMinLength.args = {
 	...Default.args,
 	label: 'Required Text Field',
 	required: true,
+	minLength: 5,
+	maxLength: 10
+};
+
+export const MaxMinValue = TextFieldTemplate.bind({});
+MaxMinLength.args = {
+	...Default.args,
+	type: EInputFieldType.Number,
+	label: 'Required Text Field',
+	required: true,
+	min: 5,
 	max: 10
+};
+
+export const Step = TextFieldTemplate.bind({});
+MaxMinLength.args = {
+	...Default.args,
+	type: EInputFieldType.Number,
+	label: 'Required Text Field',
+	required: true,
+	step: 0.1
 };
 
 export const Loading = TextFieldTemplate.bind({});

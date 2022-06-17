@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
 import { isEmpty } from 'lodash-es';
 import { EComponentSize } from '../../utils/types';
-import { EInputFieldType, EValidationState, ITextFieldEvents } from './text-field.types';
+import { EInputFieldType, EValidationState, ITextFieldEvents, ITextField } from './text-field.types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 
 @Component({
@@ -12,33 +12,41 @@ import { EIconName, EOtherIconName } from '../icon/icon.types';
 	},
 	shadow: true
 })
-export class KvTextField implements ITextFieldEvents {
+export class KvTextField implements ITextField, ITextFieldEvents {
 	@Element() el!: HTMLKvTextFieldElement;
-	/** (optional) Text field type */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) type!: EInputFieldType;
-	/** (optional) Text field label */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) label: string;
-	/** (optional) Text field's icon symbol name */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) icon: EIconName | EOtherIconName;
-	/** (optional) Text field input name */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) inputName: string;
-	/** (optional) Text field place holder */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) placeholder: string;
-	/** (optional) Text field max characters */
+	/** @inheritdoc */
+	@Prop({ reflect: true }) maxLength: number;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) minLength: number;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) max: number;
-	/** (optional) Sets this tab item to a different styling configuration */
+	/** @inheritdoc */
+	@Prop({ reflect: true }) min: number;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) step: number;
+	/** @inheritdoc */
 	@Prop() size?: EComponentSize = EComponentSize.Large;
-	/** (optional) Text field disabled */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled = false;
-	/** (optional) Text field required */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) required = false;
-	/** (optional) Text field loading state */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) loading = false;
-	/** (optional) Text field state */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) state: EValidationState = EValidationState.None;
 	/** (optional) Text field is editable */
 	@Prop({ reflect: true }) uneditable = false;
-	/** (optional) Text field help text */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) helpText: string | string[] = [];
 	/** (optional) Text field focus state */
 	@Prop({ reflect: true }) forcedFocus: boolean = false;
@@ -50,7 +58,7 @@ export class KvTextField implements ITextFieldEvents {
 		this._helpTexts = this.buildHelpTextMessages(newValue);
 	}
 
-	/** Text field value */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) value: string;
 	/** Text field value state */
 	@State() _value: string;
@@ -84,16 +92,17 @@ export class KvTextField implements ITextFieldEvents {
 	/** @inheritdoc */
 	@Event() textFieldBlur: EventEmitter<string>;
 
-	private onInputHandler = event => {
-		this._value = event.target.value;
+	private onInputHandler = (event: InputEvent) => {
+		this._value = (event.target as HTMLInputElement).value;
 		this.textChange.emit(this._value);
 	};
 
-	private onBlurHandler = event => {
+	private onBlurHandler = (event: FocusEvent) => {
 		if (this.forcedFocus) {
 			return;
 		}
-		this._value = event.target.value;
+
+		this._value = (event.target as HTMLInputElement).value;
 		this.textFieldBlur.emit(this._value);
 		this.focused = false;
 	};
@@ -138,7 +147,11 @@ export class KvTextField implements ITextFieldEvents {
 									placeholder={this.placeholder}
 									disabled={this.disabled}
 									value={this._value}
-									maxlength={this.max}
+									max={this.max}
+									min={this.min}
+									maxlength={this.maxLength}
+									minlength={this.minLength}
+									step={this.step}
 									onInput={this.onInputHandler}
 									onBlur={this.onBlurHandler}
 									onFocus={this.onFocusHandler}
