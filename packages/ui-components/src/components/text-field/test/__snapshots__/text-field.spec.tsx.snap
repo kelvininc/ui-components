@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Text Field (unit tests) when has a label should match the snapshot 1`] = `
-<kv-text-field label="Text Field" state="none">
+<kv-text-field label="Text Field" state="none" type="text">
   <mock:shadow-root>
     <div class="text-field-container">
       <div class="label-container">
@@ -10,7 +10,7 @@ exports[`Text Field (unit tests) when has a label should match the snapshot 1`] 
         </span>
       </div>
       <div class="input-container input-container--size-large">
-        <input>
+        <input type="text">
         <div class="right-slot-container">
           <slot name="right-slot"></slot>
         </div>
@@ -21,11 +21,11 @@ exports[`Text Field (unit tests) when has a label should match the snapshot 1`] 
 `;
 
 exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] = `
-<kv-text-field disabled="" state="none">
+<kv-text-field disabled="" state="none" type="text">
   <mock:shadow-root>
     <div class="text-field-container">
       <div class="input-container input-container--size-large">
-        <input disabled="">
+        <input disabled="" type="text">
         <div class="right-slot-container">
           <slot name="right-slot"></slot>
         </div>
@@ -36,11 +36,11 @@ exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] 
 `;
 
 exports[`Text Field (unit tests) when uses default props should match the snapshot 1`] = `
-<kv-text-field state="none">
+<kv-text-field state="none" type="text">
   <mock:shadow-root>
     <div class="text-field-container">
       <div class="input-container input-container--size-large">
-        <input>
+        <input type="text">
         <div class="right-slot-container">
           <slot name="right-slot"></slot>
         </div>
