@@ -24,8 +24,16 @@ export class KvTextField implements ITextFieldEvents {
 	@Prop({ reflect: true }) inputName: string;
 	/** (optional) Text field place holder */
 	@Prop({ reflect: true }) placeholder: string;
-	/** (optional) Text field max characters */
+	/** (optional) Text field maximum number of characters required */
+	@Prop({ reflect: true }) maxLength: number;
+	/** (optional) Text field minimum number of characters required */
+	@Prop({ reflect: true }) minLength: number;
+	/** (optional) Text field maximum value */
 	@Prop({ reflect: true }) max: number;
+	/** (optional) Text field minimum value */
+	@Prop({ reflect: true }) min: number;
+	/** (optional) Text field interval between legal numbers */
+	@Prop({ reflect: true }) step: number;
 	/** (optional) Sets this tab item to a different styling configuration */
 	@Prop() size?: EComponentSize = EComponentSize.Large;
 	/** (optional) Text field disabled */
@@ -84,16 +92,17 @@ export class KvTextField implements ITextFieldEvents {
 	/** @inheritdoc */
 	@Event() textFieldBlur: EventEmitter<string>;
 
-	private onInputHandler = event => {
-		this._value = event.target.value;
+	private onInputHandler = (event: InputEvent) => {
+		this._value = (event.target as HTMLInputElement).value;
 		this.textChange.emit(this._value);
 	};
 
-	private onBlurHandler = event => {
+	private onBlurHandler = (event: FocusEvent) => {
 		if (this.forcedFocus) {
 			return;
 		}
-		this._value = event.target.value;
+
+		this._value = (event.target as HTMLInputElement).value;
 		this.textFieldBlur.emit(this._value);
 		this.focused = false;
 	};
@@ -138,7 +147,11 @@ export class KvTextField implements ITextFieldEvents {
 									placeholder={this.placeholder}
 									disabled={this.disabled}
 									value={this._value}
-									maxlength={this.max}
+									max={this.max}
+									min={this.min}
+									maxlength={this.maxLength}
+									minlength={this.minLength}
+									step={this.step}
 									onInput={this.onInputHandler}
 									onBlur={this.onBlurHandler}
 									onFocus={this.onFocusHandler}
