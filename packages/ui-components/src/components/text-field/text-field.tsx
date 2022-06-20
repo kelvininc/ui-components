@@ -13,6 +13,8 @@ import { EIconName, EOtherIconName } from '../icon/icon.types';
 	shadow: true
 })
 export class KvTextField implements ITextField, ITextFieldEvents {
+	private nativeInput?: HTMLInputElement;
+
 	@Element() el!: HTMLKvTextFieldElement;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) type: EInputFieldType = EInputFieldType.Text;
@@ -46,7 +48,31 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	@Prop({ reflect: true }) state: EValidationState = EValidationState.None;
 	/** (optional) Text field is editable */
 	@Prop({ reflect: true }) uneditable = false;
-	/** (optional) Text field help text */
+	/** @inheritdoc */
+	@Prop({ reflect: true, mutable: true }) value?: string | number | null = '';
+	/** Watch `value` property for changes and update native input element accordingly */
+	@Watch('value')
+	valueChangeHandler(newValue: string | number | null) {
+		this.value = newValue;
+
+		const nativeInput = this.nativeInput;
+		const value = this.getValue();
+
+		if (nativeInput && nativeInput.value !== value) {
+			/**
+			 * Assigning the native input's value on attribute
+			 * value change, allows `textChange` implementations
+			 * to override the control's value.
+			 *
+			 * Used for patterns such as input trimming (removing whitespace),
+			 * or input masking.
+			 */
+			nativeInput.value = value;
+		}
+		this.textChange.emit(this.getValue());
+	}
+
+	/** @inheritdoc */
 	@Prop({ reflect: true }) helpText: string | string[] = [];
 	/** (optional) Text field focus state */
 	@Prop({ reflect: true }) forcedFocus: boolean = false;
@@ -56,16 +82,6 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	@Watch('helpText')
 	helpTextChangeHandler(newValue: string | string[]) {
 		this._helpTexts = this.buildHelpTextMessages(newValue);
-	}
-
-	/** @inheritdoc */
-	@Prop({ reflect: true }) value?: string;
-	/** Text field value state */
-	@State() _value: string;
-	/** Watch `value` property for changes and update `_value` accordingly */
-	@Watch('value')
-	valueChangeHandler(newValue: string) {
-		this._value = newValue;
 	}
 
 	@Watch('forcedFocus')
@@ -79,7 +95,6 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 
 	componentWillLoad() {
 		// Init the states because Watches run only on component updates
-		this._value = this.value;
 		this._helpTexts = this.buildHelpTextMessages(this.helpText);
 		this.focused = this.forcedFocus;
 	}
@@ -90,20 +105,24 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Event() textChange: EventEmitter<string>;
 	/** @inheritdoc */
+	@Event() textInput: EventEmitter<string>;
+	/** @inheritdoc */
 	@Event() textFieldBlur: EventEmitter<string>;
 
-	private onInputHandler = (event: InputEvent) => {
-		this._value = (event.target as HTMLInputElement).value;
-		this.textChange.emit(this._value);
+	private onInputHandler = ({ target }: InputEvent) => {
+		const input = target as HTMLInputElement | null;
+		if (input) {
+			this.value = input.value || '';
+		}
+		this.textInput.emit(this.getValue());
 	};
 
-	private onBlurHandler = (event: FocusEvent) => {
+	private onBlurHandler = ({ target }: FocusEvent) => {
 		if (this.forcedFocus) {
 			return;
 		}
-		this._value = (event.target as HTMLInputElement).value;
 
-		this.textFieldBlur.emit(this._value);
+		this.textFieldBlur.emit((target as HTMLInputElement).value);
 		this.focused = false;
 	};
 
@@ -120,7 +139,12 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		return !!this.el.querySelector('[slot="right-slot"]');
 	}
 
+	private getValue(): string {
+		return typeof this.value === 'number' ? this.value.toString() : (this.value || '').toString();
+	}
+
 	render() {
+		const value = this.getValue();
 		const hasLabel = !isEmpty(this.label);
 		const shouldShowLabel = this.required || hasLabel;
 
@@ -142,16 +166,17 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 						{!this.loading && (
 							<Fragment>
 								<input
+									ref={input => (this.nativeInput = input)}
 									type={this.type}
 									name={this.inputName}
 									placeholder={this.placeholder}
 									disabled={this.disabled}
 									max={this.max}
 									min={this.min}
-									maxlength={this.maxLength}
-									minlength={this.minLength}
+									maxLength={this.maxLength}
+									minLength={this.minLength}
 									step={this.step}
-									value={this._value}
+									value={value}
 									onInput={this.onInputHandler}
 									onBlur={this.onBlurHandler}
 									onFocus={this.onFocusHandler}
