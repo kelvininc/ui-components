@@ -1,6 +1,4 @@
-# *<kv-text-field>*
-
-
+# _<kv-text-field>_
 
 <!-- Auto Generated Below -->
 
@@ -95,7 +93,7 @@ export class TextFieldExample {
 | `step`        | `step`         | (optional) Text field interval between legal numbers               | `number`                                                                                                                          | `undefined`             |
 | `type`        | `type`         | (optional) Text field type                                         | `EInputFieldType.DateTime \| EInputFieldType.Number \| EInputFieldType.Password \| EInputFieldType.Radio \| EInputFieldType.Text` | `EInputFieldType.Text`  |
 | `uneditable`  | `uneditable`   | (optional) Text field is editable                                  | `boolean`                                                                                                                         | `false`                 |
-| `value`       | `value`        | (optional) Text field value                                        | `string`                                                                                                                          | `undefined`             |
+| `value`       | `value`        | (optional) Text field value                                        | `number \| string`                                                                                                                | `''`                    |
 
 
 ## Events
@@ -104,6 +102,7 @@ export class TextFieldExample {
 | --------------- | --------------------------------------- | --------------------- |
 | `textChange`    | Emitted when text field's value changes | `CustomEvent<string>` |
 | `textFieldBlur` | Emitted when text field lost focus      | `CustomEvent<string>` |
+| `textInput`     | Emitted when a keyboard input occurred  | `CustomEvent<string>` |
 
 
 ## CSS Custom Properties

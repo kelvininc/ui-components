@@ -62,6 +62,7 @@ export const SearchExample: React.FC = () => (
 | `clickResetButton` | Emitted when the reset buccon is clicked | `CustomEvent<MouseEvent>` |
 | `textChange`       | Emitted when text field's value changes  | `CustomEvent<string>`     |
 | `textFieldBlur`    | Emitted when text field lost focus       | `CustomEvent<string>`     |
+| `textInput`        | Emitted when a keyboard input occurred   | `CustomEvent<string>`     |
 
 
 ## Dependencies
