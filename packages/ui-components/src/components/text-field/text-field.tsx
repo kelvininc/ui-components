@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
 import { isEmpty } from 'lodash-es';
 import { EComponentSize } from '../../utils/types';
-import { EInputFieldType, EValidationState, ITextFieldEvents } from './text-field.types';
+import { EInputFieldType, EValidationState, ITextFieldEvents, ITextField } from './text-field.types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 
 @Component({
@@ -12,31 +12,39 @@ import { EIconName, EOtherIconName } from '../icon/icon.types';
 	},
 	shadow: true
 })
-export class KvTextField implements ITextFieldEvents {
+export class KvTextField implements ITextField, ITextFieldEvents {
 	@Element() el!: HTMLKvTextFieldElement;
-	/** (optional) Text field type */
-	@Prop({ reflect: true }) type!: EInputFieldType;
-	/** (optional) Text field label */
-	@Prop({ reflect: true }) label: string;
-	/** (optional) Text field's icon symbol name */
-	@Prop({ reflect: true }) icon: EIconName | EOtherIconName;
-	/** (optional) Text field input name */
-	@Prop({ reflect: true }) inputName: string;
-	/** (optional) Text field place holder */
-	@Prop({ reflect: true }) placeholder: string;
-	/** (optional) Text field max characters */
-	@Prop({ reflect: true }) max: number;
-	/** (optional) Sets this tab item to a different styling configuration */
-	@Prop() size?: EComponentSize = EComponentSize.Large;
-	/** (optional) Text field disabled */
-	@Prop({ reflect: true }) disabled = false;
-	/** (optional) Text field required */
-	@Prop({ reflect: true }) required = false;
-	/** (optional) Text field loading state */
-	@Prop({ reflect: true }) loading = false;
-	/** (optional) Text field state */
+	/** @inheritdoc */
+	@Prop({ reflect: true }) type: EInputFieldType = EInputFieldType.Text;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) label?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) inputName?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) placeholder?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) maxLength?: number;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) minLength?: number;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) max?: number;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) min?: number;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) step?: number;
+	/** @inheritdoc */
+	@Prop() size: EComponentSize = EComponentSize.Large;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) required: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) loading: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) state: EValidationState = EValidationState.None;
-	/** (optional) Text field help text */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) helpText: string | string[] = [];
 	/** Internal help texts state */
 	@State() _helpTexts: string[];
@@ -46,8 +54,8 @@ export class KvTextField implements ITextFieldEvents {
 		this._helpTexts = this.buildHelpTextMessages(newValue);
 	}
 
-	/** Text field value */
-	@Prop({ reflect: true }) value: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) value?: string;
 	/** Text field value state */
 	@State() _value: string;
 	/** Watch `value` property for changes and update `_value` accordingly */
@@ -70,13 +78,13 @@ export class KvTextField implements ITextFieldEvents {
 	/** @inheritdoc */
 	@Event() textFieldBlur: EventEmitter<string>;
 
-	private onInputHandler = event => {
-		this._value = event.target.value;
+	private onInputHandler = (event: InputEvent) => {
+		this._value = (event.target as HTMLInputElement).value;
 		this.textChange.emit(this._value);
 	};
 
-	private onBlurHandler = event => {
-		this._value = event.target.value;
+	private onBlurHandler = (event: FocusEvent) => {
+		this._value = (event.target as HTMLInputElement).value;
 		this.textFieldBlur.emit(this._value);
 		this.focused = false;
 	};
@@ -120,8 +128,12 @@ export class KvTextField implements ITextFieldEvents {
 									name={this.inputName}
 									placeholder={this.placeholder}
 									disabled={this.disabled}
+									max={this.max}
+									min={this.min}
+									maxlength={this.maxLength}
+									minlength={this.minLength}
+									step={this.step}
 									value={this._value}
-									maxlength={this.max}
 									onInput={this.onInputHandler}
 									onBlur={this.onBlurHandler}
 									onFocus={this.onFocusHandler}
