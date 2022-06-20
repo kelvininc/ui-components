@@ -47,25 +47,19 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** (optional) Text field is editable */
 	@Prop({ reflect: true }) uneditable = false;
 	/** (optional) Text field help text */
+	/** @inheritdoc */
+	@Prop({ reflect: true }) value?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) helpText: string | string[] = [];
 	/** (optional) Text field focus state */
 	@Prop({ reflect: true }) forcedFocus: boolean = false;
+
 	/** Internal help texts state */
 	@State() _helpTexts: string[];
 	/** Watch the `helpText` property and update internal state accordingly */
 	@Watch('helpText')
 	helpTextChangeHandler(newValue: string | string[]) {
 		this._helpTexts = this.buildHelpTextMessages(newValue);
-	}
-
-	/** @inheritdoc */
-	@Prop({ reflect: true }) value?: string;
-	/** Text field value state */
-	@State() _value: string;
-	/** Watch `value` property for changes and update `_value` accordingly */
-	@Watch('value')
-	valueChangeHandler(newValue: string) {
-		this._value = newValue;
 	}
 
 	@Watch('forcedFocus')
@@ -79,7 +73,6 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 
 	componentWillLoad() {
 		// Init the states because Watches run only on component updates
-		this._value = this.value;
 		this._helpTexts = this.buildHelpTextMessages(this.helpText);
 		this.focused = this.forcedFocus;
 	}
@@ -92,18 +85,16 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Event() textFieldBlur: EventEmitter<string>;
 
-	private onInputHandler = (event: InputEvent) => {
-		this._value = (event.target as HTMLInputElement).value;
-		this.textChange.emit(this._value);
+	private onInputHandler = ({ target }: InputEvent) => {
+		this.textChange.emit((target as HTMLInputElement).value);
 	};
 
-	private onBlurHandler = (event: FocusEvent) => {
+	private onBlurHandler = ({ target }: FocusEvent) => {
 		if (this.forcedFocus) {
 			return;
 		}
-		this._value = (event.target as HTMLInputElement).value;
 
-		this.textFieldBlur.emit(this._value);
+		this.textFieldBlur.emit((target as HTMLInputElement).value);
 		this.focused = false;
 	};
 
@@ -151,7 +142,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 									maxlength={this.maxLength}
 									minlength={this.minLength}
 									step={this.step}
-									value={this._value}
+									value={this.value}
 									onInput={this.onInputHandler}
 									onBlur={this.onBlurHandler}
 									onFocus={this.onFocusHandler}
