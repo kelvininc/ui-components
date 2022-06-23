@@ -38,6 +38,7 @@ export class KvSearch implements ISearchEvents, ITextFieldEvents {
 
 	private onTextChange = (event: CustomEvent<string>) => {
 		this._value = event.detail;
+		this.textChange.emit(this.value);
 	};
 
 	private onResetClick = (event: MouseEvent) => {

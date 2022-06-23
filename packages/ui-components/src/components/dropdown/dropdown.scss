@@ -1,0 +1,15 @@
+@import '../../assets/styles/globals';
+
+:host {
+	.dropdown-container {
+		position: relative;
+		user-select: none;
+	}
+	
+	.dropdown-list {
+		position: absolute;
+		margin-top: $spacing-2x;
+		min-width: 100%;
+		z-index: 2;
+	}
+}
