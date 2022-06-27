@@ -6,7 +6,7 @@ import { EIconName, KvSingleSelectDropdown } from '../../components';
 KvSingleSelectDropdown.displayName = 'KvSingleSelectDropdown';
 
 export default {
-	title: 'Dropdown/Single Select Dropdown',
+	title: 'Inputs/Dropdown/Single Select Dropdown',
 	component: 'kv-single-select-dropdown',
 	argTypes: {
 		isOpen: {
@@ -41,7 +41,7 @@ export default {
 		}
 	},
 	parameters: {
-		notes: require('@ui-notes/multi-select-dropdown/readme.md')
+		notes: require('@ui-notes/single-select-dropdown/readme.md')
 	}
 };
 
