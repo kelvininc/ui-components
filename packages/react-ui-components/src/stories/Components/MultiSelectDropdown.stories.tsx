@@ -6,7 +6,7 @@ import { EIconName, KvMultiSelectDropdown } from '../../components';
 KvMultiSelectDropdown.displayName = 'KvMultiSelectDropdown';
 
 export default {
-	title: 'Dropdown/Multi Select Dropdown',
+	title: 'Inputs/Dropdown/Multi Select Dropdown',
 	component: 'kv-multi-select-dropdown',
 	argTypes: {
 		isOpen: {
@@ -44,7 +44,7 @@ export default {
 		}
 	},
 	parameters: {
-		notes: require('@ui-notes/single-select-dropdown/readme.md')
+		notes: require('@ui-notes/multi-select-dropdown/readme.md')
 	}
 };
 
