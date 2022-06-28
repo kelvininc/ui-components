@@ -9,6 +9,11 @@ import {
 	KvBreadcrumb,
 	KvBreadcrumbItem,
 	KvBreadcrumbList,
+	KvDropdownListItem,
+	KvDropdownList,
+	KvDropdown,
+	KvSingleSelectDropdown,
+	KvMultiSelectDropdown,
 	KvIllustration,
 	KvLink,
 	KvLoader,
@@ -27,7 +32,9 @@ import {
 	KvSummaryCard,
 	KvRadioButton,
 	KvRadioButtonGroup,
-	KvInfoLabel
+	KvInfoLabel,
+	KvTreeItem,
+	KvTree
 } from './stencil-generated/component';
 
 defineCustomElements(window);
@@ -55,10 +62,17 @@ const COMPONENTS = [
 	KvTooltip,
 	KvSummaryCard,
 	KvSearch,
+	KvDropdownListItem,
+	KvDropdownList,
+	KvDropdown,
+	KvSingleSelectDropdown,
+	KvMultiSelectDropdown,
 	KvToaster,
 	KvRadioButton,
 	KvRadioButtonGroup,
-	KvInfoLabel
+	KvInfoLabel,
+	KvTreeItem,
+	KvTree
 ];
 
 @NgModule({

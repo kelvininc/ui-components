@@ -1,47 +1,6 @@
-# _<kv-icon>_
+# kv-icon
 
-## Styling Svg Icon Element
 
-The `kv-icon` element consists only of an icon that is displayed on the view. To customize this, style using a combination of CSS and any of the [CSS custom properties](#css-custom-properties):
-
-```css
-kv-icon {
-	/* Applies to the icon color */
-	--icon-color: #103d73;
-
-	/* Set a different icon height value */
-	--icon-height: 16px;
-
-	/* Set a different icon width value */
-	--icon-width: 16px;
-
-	/* Set a different icon rotation */
-	--icon-rotation: 90deg;
-}
-```
-
-Alternatively, depending on the [browser support](https://caniuse.com/#feat=mdn-css_selectors_part) needed, CSS shadow parts can be used to style the select:
-
-```css
-/* Set the width and height of icon to the full container */
-kv-icon::part(icon) {
-	width: 100%;
-	height: 100%;
-}
-
-/* Set the icon color */
-kv-icon::part(icon) {
-	fill: kv-color(success);
-}
-```
-
-Notice that by using `::part`, any CSS property on the element can be targeted.
-
-Additionally, we already have some predefined classes that can be applied to scale and rotate the icon.
-
-**Sizes**: `icon-8`, `icon-12`, `icon-16`, `icon-20`, `icon-24`, `icon-40`, `icon-full-size`
-
-**Rotations**: `rotate-0`, `rotate-45`, `rotate-90`, `rotate-135`, `rotate-180`, `rotate-225`, `rotate-270`, `rotate-315`
 
 <!-- Auto Generated Below -->
 
@@ -118,11 +77,14 @@ export const SvgIconExample: React.FC = () => (
  - [kv-action-button-icon](../action-button-icon)
  - [kv-action-button-split](../action-button-split)
  - [kv-action-button-text](../action-button-text)
+ - [kv-dropdown](../dropdown)
+ - [kv-dropdown-list-item](../dropdown-list-item)
  - [kv-info-label](../info-label)
  - [kv-search](../search)
  - [kv-switch-button](../switch-button)
  - [kv-text-field](../text-field)
  - [kv-toaster](../toaster)
+ - [kv-tree-item](../tree-item)
 
 ### Graph
 ```mermaid
@@ -130,11 +92,14 @@ graph TD;
   kv-action-button-icon --> kv-icon
   kv-action-button-split --> kv-icon
   kv-action-button-text --> kv-icon
+  kv-dropdown --> kv-icon
+  kv-dropdown-list-item --> kv-icon
   kv-info-label --> kv-icon
   kv-search --> kv-icon
   kv-switch-button --> kv-icon
   kv-text-field --> kv-icon
   kv-toaster --> kv-icon
+  kv-tree-item --> kv-icon
   style kv-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

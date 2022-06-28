@@ -62,9 +62,14 @@ export const SearchExample: React.FC = () => (
 | `clickResetButton` | Emitted when the reset buccon is clicked | `CustomEvent<MouseEvent>` |
 | `textChange`       | Emitted when text field's value changes  | `CustomEvent<string>`     |
 | `textFieldBlur`    | Emitted when text field lost focus       | `CustomEvent<string>`     |
+| `textInput`        | Emitted when a keyboard input occurred   | `CustomEvent<string>`     |
 
 
 ## Dependencies
+
+### Used by
+
+ - [kv-dropdown-list](../dropdown-list)
 
 ### Depends on
 
@@ -77,6 +82,7 @@ graph TD;
   kv-search --> kv-text-field
   kv-search --> kv-icon
   kv-text-field --> kv-icon
+  kv-dropdown-list --> kv-search
   style kv-search fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

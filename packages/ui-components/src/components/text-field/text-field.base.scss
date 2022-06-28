@@ -129,12 +129,17 @@ input {
 		color: var(--text-color-label);
 	}
 
-	&:focus {
+	&:focus,
+	&.forced-focus {
 		color: var(--text-color-input-focused);
 
 		&:not(.invalid) {
 			border-color: var(--border-color-focused);
 		}
+	}
+
+	&:read-only {
+		cursor: pointer;
 	}
 }
 

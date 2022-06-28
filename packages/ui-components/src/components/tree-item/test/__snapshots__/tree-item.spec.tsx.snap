@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tree Item (unit tests) when initialized with counter attribute should match the snapshot 1`] = `
+<kv-tree-item counter="32" label="Node Title">
+  <mock:shadow-root>
+    <div class="node-container">
+      <div class="node-wrapper">
+        <div class="node-content-wrapper">
+          <div class="labels">
+            <div class="title">
+              Node Title
+            </div>
+          </div>
+          <div class="right-indicators">
+            <div class="alarm-bubble undefined">
+              <span>
+                32
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="children" style="display: none;">
+        <slot name="child-slot"></slot>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-tree-item>
+`;
+
+exports[`Tree Item (unit tests) when initialized with disabled attribute should match the snapshot 1`] = `
+<kv-tree-item disabled="" label="Node Title">
+  <mock:shadow-root>
+    <div class="node-container">
+      <div class="disabled node-wrapper">
+        <div class="disabled node-content-wrapper">
+          <div class="labels">
+            <div class="title">
+              Node Title
+            </div>
+          </div>
+          <div class="right-indicators"></div>
+        </div>
+      </div>
+      <div class="children" style="display: none;">
+        <slot name="child-slot"></slot>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-tree-item>
+`;
+
+exports[`Tree Item (unit tests) when initialized with required props should match the snapshot 1`] = `
+<kv-tree-item label="Node Title">
+  <mock:shadow-root>
+    <div class="node-container">
+      <div class="node-wrapper">
+        <div class="node-content-wrapper">
+          <div class="labels">
+            <div class="title">
+              Node Title
+            </div>
+          </div>
+          <div class="right-indicators"></div>
+        </div>
+      </div>
+      <div class="children" style="display: none;">
+        <slot name="child-slot"></slot>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-tree-item>
+`;
+
+exports[`Tree Item (unit tests) when initialized with selected attribute should match the snapshot 1`] = `
+<kv-tree-item label="Node Title" selected="">
+  <mock:shadow-root>
+    <div class="node-container">
+      <div class="node-wrapper selected">
+        <div class="node-content-wrapper selected">
+          <div class="labels">
+            <div class="title">
+              Node Title
+            </div>
+          </div>
+          <div class="right-indicators"></div>
+        </div>
+      </div>
+      <div class="children" style="display: none;">
+        <slot name="child-slot"></slot>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-tree-item>
+`;

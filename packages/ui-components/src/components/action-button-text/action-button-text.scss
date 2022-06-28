@@ -18,5 +18,7 @@ kv-icon {
 }
 
 .action-button-text {
+
 	@include kv-font-span-semibold;
+	white-space: nowrap;
 }

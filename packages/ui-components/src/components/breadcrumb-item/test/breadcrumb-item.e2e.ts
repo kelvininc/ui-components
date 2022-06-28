@@ -8,10 +8,9 @@ describe('KvBreadcrumbItem (end-to-end)', () => {
 		await page.close();
 	});
 
-	describe('when the component renders', () => {
-		let breadcrumbItemEl: E2EElement;
-		let listItemEl: E2EElement;
-		let labelEl: E2EElement;
+	describe('when renders with default props', () => {
+		let itemElement: E2EElement;
+		let labelElement: E2EElement;
 		let clickEventSpy: EventSpy;
 
 		beforeEach(async () => {
@@ -22,27 +21,26 @@ describe('KvBreadcrumbItem (end-to-end)', () => {
 					href='https://kelvin.ai'
 					target='_blank'>
 				</kv-breadcrumb-item>`);
-			breadcrumbItemEl = await page.find('kv-breadcrumb-item');
-			listItemEl = await page.find('kv-breadcrumb-item >>> li');
-			labelEl = await page.find('kv-breadcrumb-item >>> a');
+			itemElement = await page.find('kv-breadcrumb-item');
+			labelElement = await page.find('kv-breadcrumb-item >>> a');
 		});
 
 		it('should render label', () => {
-			expect(labelEl.innerText).toContain('Awesome Label');
+			expect(labelElement.innerText).toContain('Awesome Label');
 		});
 
 		it('should set the href attribute', () => {
-			expect(labelEl.getAttribute('href')).toEqual('https://kelvin.ai');
+			expect(labelElement.getAttribute('href')).toEqual('https://kelvin.ai');
 		});
 
 		it('should set the target attribute', () => {
-			expect(labelEl.getAttribute('target')).toEqual(EAnchorTarget.NewTab);
+			expect(labelElement.getAttribute('target')).toEqual(EAnchorTarget.NewTab);
 		});
 
 		describe('and the user clicks on the item', () => {
 			beforeEach(async () => {
-				clickEventSpy = await breadcrumbItemEl.spyOnEvent('breadcrumbItemClick');
-				await labelEl.click();
+				clickEventSpy = await itemElement.spyOnEvent('breadcrumbItemClick');
+				await labelElement.click();
 			});
 
 			it('should emit an event with the clicked item', () => {

@@ -42,7 +42,7 @@
 		"start": "stencil build --dev --watch --serve",
 		"clean": "rm -rf node_modules dist loader unit-coverage www docs",
 		"test": "stencil test --spec --e2e --no-cache",
-		"test.watch": "stencil test --spec --e2e --watchAll",
+		"test:watch": "stencil test --spec --e2e --watchAll",
 		"generate": "stencil generate",
 		"lint": "npm run lint:ts && npm run lint:sass",
 		"lint:ts": "eslint src --ext .ts,.tsx",

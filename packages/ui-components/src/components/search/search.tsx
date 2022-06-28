@@ -2,7 +2,7 @@ import { Component, h, Event, EventEmitter, Prop, Host, State, Watch } from '@st
 import { isEmpty } from 'lodash-es';
 import { EComponentSize } from '../../types';
 import { EIconName } from '../icon/icon.types';
-import { EInputFieldType, ITextFieldEvents } from '../text-field/text-field.types';
+import { ITextFieldEvents } from '../text-field/text-field.types';
 import { ISearchEvents } from './search.types';
 
 @Component({
@@ -21,6 +21,8 @@ export class KvSearch implements ISearchEvents, ITextFieldEvents {
 	/** @inheritdoc */
 	@Event() textChange: EventEmitter<string>;
 	/** @inheritdoc */
+	@Event() textInput: EventEmitter<string>;
+	/** @inheritdoc */
 	@Event() textFieldBlur: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event() clickResetButton: EventEmitter<MouseEvent>;
@@ -38,6 +40,7 @@ export class KvSearch implements ISearchEvents, ITextFieldEvents {
 
 	private onTextChange = (event: CustomEvent<string>) => {
 		this._value = event.detail;
+		this.textChange.emit(this.value);
 	};
 
 	private onResetClick = (event: MouseEvent) => {
@@ -50,15 +53,7 @@ export class KvSearch implements ISearchEvents, ITextFieldEvents {
 		const shouldShowResetIcon = !isEmpty(this._value) && !this.disabled;
 		return (
 			<Host>
-				<kv-text-field
-					type={EInputFieldType.Text}
-					placeholder={this.placeholder}
-					size={this.size}
-					value={this._value}
-					disabled={this.disabled}
-					icon={this.searchIcon}
-					onTextChange={this.onTextChange}
-				>
+				<kv-text-field placeholder={this.placeholder} size={this.size} value={this._value} disabled={this.disabled} icon={this.searchIcon} onTextChange={this.onTextChange}>
 					{shouldShowResetIcon && <kv-icon slot="right-slot" name={this.resetIcon} onClick={this.onResetClick} />}
 				</kv-text-field>
 			</Host>

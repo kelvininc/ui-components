@@ -42,8 +42,7 @@ Default.args = {
 	loading: false,
 	placeholder: 'text here',
 	state: EValidationState.None,
-	size: EComponentSize.Large,
-	type: EInputFieldType.Text
+	size: EComponentSize.Large
 };
 
 export const DefaultIcon = TextFieldTemplate.bind({});
@@ -59,8 +58,7 @@ Disabled.args = {
 	value: 'text value',
 	disabled: true,
 	state: EValidationState.None,
-	size: EComponentSize.Large,
-	type: EInputFieldType.Text
+	size: EComponentSize.Large
 };
 
 export const Required = TextFieldTemplate.bind({});
@@ -69,16 +67,35 @@ Required.args = {
 	label: 'Required Text Field',
 	required: true,
 	state: EValidationState.None,
-	size: EComponentSize.Large,
-	type: EInputFieldType.Text
+	size: EComponentSize.Large
 };
 
-export const MaxLength = TextFieldTemplate.bind({});
-MaxLength.args = {
+export const MaxMinLength = TextFieldTemplate.bind({});
+MaxMinLength.args = {
 	...Default.args,
 	label: 'Required Text Field',
 	required: true,
+	minLength: 5,
+	maxLength: 10
+};
+
+export const MaxMinValue = TextFieldTemplate.bind({});
+MaxMinLength.args = {
+	...Default.args,
+	type: EInputFieldType.Number,
+	label: 'Required Text Field',
+	required: true,
+	min: 5,
 	max: 10
+};
+
+export const Step = TextFieldTemplate.bind({});
+MaxMinLength.args = {
+	...Default.args,
+	type: EInputFieldType.Number,
+	label: 'Required Text Field',
+	required: true,
+	step: 0.1
 };
 
 export const Loading = TextFieldTemplate.bind({});
@@ -87,8 +104,7 @@ Loading.args = {
 	label: 'Loading Text Field',
 	loading: true,
 	state: EValidationState.None,
-	size: EComponentSize.Large,
-	type: EInputFieldType.Text
+	size: EComponentSize.Large
 };
 
 export const HelpText = TextFieldTemplate.bind({});
@@ -97,8 +113,7 @@ HelpText.args = {
 	label: 'Help Text Field',
 	helpText: 'Help text',
 	state: EValidationState.None,
-	size: EComponentSize.Large,
-	type: EInputFieldType.Text
+	size: EComponentSize.Large
 };
 
 export const Invalid = TextFieldTemplate.bind({});
@@ -108,7 +123,6 @@ Invalid.args = {
 	helpText: ['First help or instruction text goes here.', 'Second help or instruction text goes here.'],
 	state: EValidationState.Invalid,
 	size: EComponentSize.Large,
-	type: EInputFieldType.Text,
 	icon: EIconName.Layer
 };
 
@@ -117,8 +131,7 @@ Slim.args = {
 	...Default.args,
 	label: 'Slim Text Field',
 	size: EComponentSize.Small,
-	state: EValidationState.None,
-	type: EInputFieldType.Text
+	state: EValidationState.None
 };
 
 export const SlimIcon = TextFieldTemplate.bind({});
@@ -127,6 +140,5 @@ SlimIcon.args = {
 	label: 'Slim Text Field',
 	size: EComponentSize.Small,
 	state: EValidationState.None,
-	type: EInputFieldType.Text,
 	icon: EIconName.Layer
 };
