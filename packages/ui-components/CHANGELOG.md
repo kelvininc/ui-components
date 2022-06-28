@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/kelvininc/ui-components/compare/v0.8.0...v0.9.0) (2022-06-28)
+
+
+### Bug Fixes
+
+* **action-button:** white space wrap ([6dcebef](https://github.com/kelvininc/ui-components/commit/6dcebef2fff76e92665fbd390ec65c1ac48e17f1))
+* **breadcrumb:** change breadcrumb style ([522d208](https://github.com/kelvininc/ui-components/commit/522d2081dbe8b2d1c5cbbda14b1430d2da3e70a0))
+* **dropdown:** add proper documentation links and titles ([b6f5d1e](https://github.com/kelvininc/ui-components/commit/b6f5d1ef1bfecaa8901235241ed7f1d2738c4844))
+* export toaster controller correctly and add datetime input type ([4f58e9a](https://github.com/kelvininc/ui-components/commit/4f58e9a4191a7609cfe410cc5d9dc69a6bff251c))
+* **radio-button:** remove blurred effect ([15ed0bf](https://github.com/kelvininc/ui-components/commit/15ed0bf1d1a1851f82962a04c37ad8f69d45578a))
+
+
+* feat(text-field)!: add min, max and step attributes ([507fd78](https://github.com/kelvininc/ui-components/commit/507fd78488ff211af29e7e7a9fc692c1f6da088c))
+
+
+### Features
+
+* **dropdown:** add single and multi select dropdown ([#73](https://github.com/kelvininc/ui-components/issues/73)) ([27ad7dd](https://github.com/kelvininc/ui-components/commit/27ad7dd9439bd2871d9356b011832f0be006a266))
+* **icons:** adds  icons ([9d016f6](https://github.com/kelvininc/ui-components/commit/9d016f68a696980c43f0358843f97fb7be817f20))
+* **icons:** adds entity tree icons ([4718154](https://github.com/kelvininc/ui-components/commit/471815427593c1813e4b74ab66c8e91d02758a32))
+* **svg-icon:** add chat icon ([e072154](https://github.com/kelvininc/ui-components/commit/e0721544b96b85ad912959f8b67773f8087ed86e))
+* **text-field:** add input masking ([24a9407](https://github.com/kelvininc/ui-components/commit/24a94073bef9451bd33ac089f9fe9f05262ff05b))
+* **toaster:** add `afterOpen` and `afterClose` callbacks ([b0eac6f](https://github.com/kelvininc/ui-components/commit/b0eac6f217505cd6bb7ea88cc0b904fe95f795ab))
+* **tree-item:** add tree item component ([ea9bec9](https://github.com/kelvininc/ui-components/commit/ea9bec9cf7b771d53f805ddf16e6c0d72dfe2194))
+* **tree:** add tree component ([88bf9f9](https://github.com/kelvininc/ui-components/commit/88bf9f9baba364ee370f8a78960b0ebec7088b1d))
+
+
+### BREAKING CHANGES
+
+* property for defining the maximum number of characters is now named `maxLength` instead of the previous `max` which now refers to the input maximum value
+
+
+
+
+
 # [0.8.0](https://github.com/kelvininc/ui-components/compare/v0.7.0...v0.8.0) (2022-04-27)
 
 

@@ -1,6 +1,6 @@
 {
 	"name": "@kelvininc/react-ui-components",
-	"version": "0.8.0",
+	"version": "0.9.0",
 	"description": "Kelvin UI Components for React applications",
 	"homepage": "https://docs.kelvininc.com",
 	"license": "SEE LICENSE IN LICENSE",
@@ -51,7 +51,7 @@
 		".scripts/"
 	],
 	"dependencies": {
-		"@kelvininc/ui-components": "0.8.0",
+		"@kelvininc/ui-components": "0.9.0",
 		"fs-extra": "10.0.0"
 	},
 	"devDependencies": {
