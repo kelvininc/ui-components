@@ -41,11 +41,11 @@ export interface ITextField {
 	/** (optional) Text field minimum number of characters required */
 	minLength?: number;
 	/** (optional) Text field maximum value */
-	max?: number | string;
+	max?: string | number;
 	/** (optional) Text field minimum value */
-	min?: number | string;
+	min?: string | number;
 	/** (optional) Text field interval between legal numbers */
-	step?: number | string;
+	step?: string | number;
 	/** (optional) Sets this tab item to a different styling configuration */
 	size: EComponentSize;
 	/** (optional) Text field disabled */
