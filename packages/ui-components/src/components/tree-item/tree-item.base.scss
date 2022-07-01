@@ -122,6 +122,7 @@
 			}
 		}
 
+		&.disabled:hover,
 		&.disabled {
 			background-color: var(--background-color-disabled);
 			border-color: var(--border-color-disabled);
