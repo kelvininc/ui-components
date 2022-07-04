@@ -11,9 +11,6 @@ exports[`Text Field (unit tests) when has a label should match the snapshot 1`] 
       </div>
       <div class="input-container input-container--size-large">
         <input type="text" value="">
-        <div class="right-slot-container">
-          <slot name="right-slot"></slot>
-        </div>
       </div>
     </div>
   </mock:shadow-root>
@@ -26,9 +23,6 @@ exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] 
     <div class="text-field-container">
       <div class="input-container input-container--size-large">
         <input disabled="" type="text" value="">
-        <div class="right-slot-container">
-          <slot name="right-slot"></slot>
-        </div>
       </div>
     </div>
   </mock:shadow-root>
@@ -41,9 +35,6 @@ exports[`Text Field (unit tests) when uses default props should match the snapsh
     <div class="text-field-container">
       <div class="input-container input-container--size-large">
         <input type="text" value="">
-        <div class="right-slot-container">
-          <slot name="right-slot"></slot>
-        </div>
       </div>
     </div>
   </mock:shadow-root>

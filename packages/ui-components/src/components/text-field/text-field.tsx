@@ -31,9 +31,9 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minLength?: number;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) max?: number;
+	@Prop({ reflect: true }) max?: string | number;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) min?: number;
+	@Prop({ reflect: true }) min?: string | number;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) step?: number;
 	/** @inheritdoc */
@@ -199,9 +199,11 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										}}
 									/>
 								)}
-								<div class={{ 'right-slot-container': true, 'focus': this.focused }}>
-									<slot name="right-slot"></slot>
-								</div>
+								{this.hasRightSlot && (
+									<div class={{ 'right-slot-container': true, 'focus': this.focused }}>
+										<slot name="right-slot"></slot>
+									</div>
+								)}
 							</Fragment>
 						)}
 						{this.loading && <div class="input-container-loading"></div>}
