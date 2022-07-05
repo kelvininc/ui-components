@@ -53,7 +53,8 @@
 	},
 	"dependencies": {
 		"@floating-ui/dom": "^0.4.0",
-		"css-element-queries": "^1.2.3"
+		"css-element-queries": "^1.2.3",
+		"inputmask": "^5.0.8-beta.17"
 	},
 	"devDependencies": {
 		"@stencil/angular-output-target": "^0.4.0",
@@ -61,6 +62,7 @@
 		"@stencil/eslint-plugin": "^0.4.0",
 		"@stencil/react-output-target": "^0.3.1",
 		"@stencil/sass": "^1.5.2",
+		"@types/inputmask": "^5.0.3",
 		"@types/jest": "^27.0.3",
 		"@types/lodash-es": "^4.17.5",
 		"@typescript-eslint/eslint-plugin": "<5.0.0",

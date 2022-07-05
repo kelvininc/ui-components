@@ -1,8 +1,10 @@
 import { Component, Element, Event, EventEmitter, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
 import { isEmpty } from 'lodash-es';
+import Inputmask from 'inputmask';
 import { EComponentSize } from '../../utils/types';
 import { EInputFieldType, EValidationState, ITextFieldEvents, ITextField } from './text-field.types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { NUMERIC_TEXT_INPUT_MASK_CONFIG } from './text-field.config';
 
 @Component({
 	tag: 'kv-text-field',
@@ -99,6 +101,16 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		this.focused = this.forcedFocus;
 	}
 
+	componentDidLoad() {
+		if (this.type === EInputFieldType.Number) {
+			return Inputmask({
+				...NUMERIC_TEXT_INPUT_MASK_CONFIG,
+				min: this.min,
+				max: this.max
+			}).mask(this.nativeInput);
+		}
+	}
+
 	/** Text field focus state */
 	@State() focused = false;
 
@@ -143,8 +155,13 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		return typeof this.value === 'number' ? this.value.toString() : (this.value || '').toString();
 	}
 
+	private getType(): string {
+		return this.type === EInputFieldType.Number ? EInputFieldType.Text : this.type;
+	}
+
 	render() {
 		const value = this.getValue();
+		const type = this.getType();
 		const hasLabel = !isEmpty(this.label);
 		const shouldShowLabel = this.required || hasLabel;
 
@@ -167,7 +184,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 							<Fragment>
 								<input
 									ref={input => (this.nativeInput = input)}
-									type={this.type}
+									type={type}
 									name={this.inputName}
 									placeholder={this.placeholder}
 									disabled={this.disabled}
