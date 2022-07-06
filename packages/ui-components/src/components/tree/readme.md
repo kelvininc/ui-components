@@ -123,6 +123,13 @@ export const TreeExample: React.FC = () => (
 | `nodeToggleExpand` | Emitted when the node expand toggle is clicked | `CustomEvent<ITreeNodeItem>` |
 
 
+## Shadow Parts
+
+| Part          | Description              |
+| ------------- | ------------------------ |
+| `"tree-item"` | The tree item container. |
+
+
 ## CSS Custom Properties
 
 | Name                | Description                      |
