@@ -61,8 +61,8 @@ export class KvTree {
 								loading={this.loading || get(this.loadingNodes, [item.id], false)}
 								onItemClick={_ => this.onItemClick(item)}
 								onToggleExpand={_ => this.onToggleExpand(item)}
-								part='tree-item'
-								exportparts='icon'
+								part="tree-item"
+								exportparts="icon"
 							>
 								{item.children?.length > 0 && this.drawNodes(item.children)}
 							</kv-tree-item>
