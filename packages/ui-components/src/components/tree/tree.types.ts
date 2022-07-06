@@ -11,5 +11,6 @@ export interface ITreeNodeItem {
 	counter?: number; // Need to validate if it should be here because can change constantly
 	counterState?: ETreeItemState; // Need to validate if it should be here because can change constantly
 	lazyLoadChildren?: boolean;
+	metadata?: any;
 	children?: ITreeNodeItem[];
 }
