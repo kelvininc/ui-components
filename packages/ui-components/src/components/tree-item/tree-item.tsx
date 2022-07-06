@@ -117,12 +117,7 @@ export class KvTreeItem {
 										<div class="node-icon">
 											<kv-icon name={this.icon} customClass="icon-24" class="main-icon" exportparts="icon"></kv-icon>
 											{this.iconState && (
-												<kv-icon
-													name={STATE_ICONS[this.iconState]}
-													customClass="icon-12"
-													class={{ 'state-icon': true, [this.iconState]: true }}
-													exportparts="icon"
-												/>
+												<kv-icon name={STATE_ICONS[this.iconState]} customClass="icon-12" class={{ 'state-icon': true, [this.iconState]: true }} />
 											)}
 										</div>
 									)}
