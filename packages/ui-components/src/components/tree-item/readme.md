@@ -126,6 +126,36 @@ export const TreeItemExample: React.FC = () => (
 | `"child-slot"` | Content is placed in the child subgroup and can be expanded and collapsed. |
 
 
+## CSS Custom Properties
+
+| Name                             | Description                                         |
+| -------------------------------- | --------------------------------------------------- |
+| `--background-color-default`     | Background color when state is default.             |
+| `--background-color-disabled`    | Background color when state is disabled.            |
+| `--background-color-focused`     | Background color when state is focused.             |
+| `--background-color-highlighted` | Background color when state is highlighted.         |
+| `--border-color-default`         | Border color when state is default.                 |
+| `--border-color-disabled`        | Border color when state is disabled.                |
+| `--border-color-highlighted`     | Border color when state is highlighted.             |
+| `--border-color-selected`        | Border color when state is selected.                |
+| `--children-offset`              | Offset of the child nodes in px.                    |
+| `--connector-lines-color`        | Line color of children's connectors.                |
+| `--icon-color-default`           | Node icon color when node state is default.         |
+| `--icon-color-disabled`          | Node icon color when node state is disabled.        |
+| `--icon-color-no-filled`         | Node icon color when node state is no-filled.       |
+| `--icon-color-selected`          | Node icon color when node state is selected.        |
+| `--node-gap`                     | Gap between child nodes in px.                      |
+| `--node-height`                  | Tree Node height.                                   |
+| `--node-width`                   | Tree Node height.                                   |
+| `--sub-title-color-default`      | Node sub-title color when node state is default.    |
+| `--sub-title-color-disabled`     | Node sub-title color when node state is disabled.   |
+| `--sub-title-color-no-filled`    | Node sub-title color when node state is not filled. |
+| `--title-color-default`          | Node title color when node state is default.        |
+| `--title-color-disabled`         | Node title color when node state is disabled.       |
+| `--title-color-no-filled`        | Node title color when node state is not filled.     |
+| `--title-color-selected`         | Node title color when node state is selected.       |
+
+
 ## Dependencies
 
 ### Used by

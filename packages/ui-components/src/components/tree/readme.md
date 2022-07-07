@@ -125,6 +125,16 @@ export const TreeExample: React.FC = () => (
 | `nodeToggleExpand` | Emitted when the node expand toggle is clicked | `CustomEvent<ITreeNodeItem>` |
 
 
+## CSS Custom Properties
+
+| Name                | Description                      |
+| ------------------- | -------------------------------- |
+| `--children-offset` | Offset of the child nodes in px. |
+| `--node-gap`        | Gap between child nodes in px.   |
+| `--node-height`     | Tree Node height.                |
+| `--node-width`      | Tree Node height.                |
+
+
 ## Dependencies
 
 ### Depends on

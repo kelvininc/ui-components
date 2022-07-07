@@ -20,9 +20,9 @@
 		--children-offset: var(--tree-children-offset);
 	}
 
-	> kv-tree-item:not(:first-child)::before {
-		content: '';
-		display: block;
-		height: var(--tree-node-gap);
-	}
+	// > kv-tree-item:not(:first-child)::before {
+	// 	content: '';
+	// 	display: block;
+	// 	height: var(--tree-node-gap);
+	// }
 }

@@ -22,6 +22,9 @@ export const calcDargPos = (e, obj) => {
 			e_posy += obj.offsetTop;
 		} while ((obj = obj.offsetParent));
 	}
+	console.log('calcDargPos');
+	console.log('\t mouse pos:', m_posy);
+	console.log('\t element pos:', e_posy);
 	// mouse position minus elm position is mouseposition relative to element:
 	return {
 		x: m_posx - e_posx,

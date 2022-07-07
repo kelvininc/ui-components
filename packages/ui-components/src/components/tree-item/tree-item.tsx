@@ -132,13 +132,15 @@ export class KvTreeItem {
 		const containerHeightPart = nodeContainerElem.clientHeight / 3;
 		const dragPos = calcDargPos(event, nodeContainerElem);
 
-		if (dragPos.y <= containerHeightPart) {
+		const m_posY = dragPos.y;
+
+		if (m_posY <= containerHeightPart) {
 			// Drop up
 			this.setDropType(EDropType.Up);
-		} else if (dragPos.y <= containerHeightPart * 2) {
+		} else if (m_posY <= containerHeightPart * 2) {
 			// Drop inside
 			this.setDropType(EDropType.Inside);
-		} else if (dragPos.y <= containerHeightPart * 3) {
+		} else if (m_posY <= containerHeightPart * 3) {
 			if (this.hasChildrenSlot && this.expanded) {
 				// Drop inside
 				this.setDropType(EDropType.Inside);
@@ -189,7 +191,7 @@ export class KvTreeItem {
 			<Host>
 				<div draggable={this.allowDrag} onDragStart={this.dragStart} onDragEnd={this.dragEnd} class="node-container">
 					<div id="content" onDragOver={event => this.onDragOver(event)} onDragLeave={event => this.onDragLeave(event)} onDrop={event => this.onDrop(event)}>
-					{this.onDropType === EDropType.Up && (
+						{this.onDropType === EDropType.Up && (
 							<div class={{ 'drag-slot': true, 'allowed': this.allowDrop }}>
 								<div class="badge">
 									<kv-icon name={this.allowDrop ? EIconName.Add : EIconName.Close}></kv-icon>
@@ -213,7 +215,7 @@ export class KvTreeItem {
 								<Fragment>
 									{this.requiresToggleButton && (
 										<div class="expander-arrow" onClick={this.toggleClickThrottler}>
-											<kv-icon name={this.expanded ? EIconName.ArrowDropDown : EIconName.ArrowRight} customClass="pk-grey3 icon-24" />
+											<kv-icon name={this.expanded ? EIconName.ArrowDropDown : EIconName.ArrowRight} />
 										</div>
 									)}
 

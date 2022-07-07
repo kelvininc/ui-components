@@ -196,6 +196,8 @@
 			padding-left: $spacing-2x;
 
 			kv-icon {
+				--icon-width: 24px;
+				--icon-height: 24px;
 				--icon-color: var(--icon-color-default);
 				display: flex;
 				align-items: center;
