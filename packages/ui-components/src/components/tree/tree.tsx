@@ -33,6 +33,10 @@ export class KvTree {
 	@Event() nodeToggleExpand: EventEmitter<ITreeNodeItem>;
 	/** Emitted when the tree node item is clicked */
 	@Event() nodeClick: EventEmitter<ITreeNodeItem>;
+	/** Emitted when the expand toggle is clicked */
+	@Event() toggleExpand: EventEmitter<MouseEvent>;
+	/** Emitted when the tree item is clicked */
+	@Event() itemClick: EventEmitter<MouseEvent>;
 
 	private onItemClick = (item: ITreeNodeItem) => this.nodeClick.emit(item);
 
