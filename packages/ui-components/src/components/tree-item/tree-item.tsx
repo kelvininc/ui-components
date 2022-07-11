@@ -62,12 +62,14 @@ export class KvTreeItem implements IAnchor {
 	/** Don't propagate the children click event */
 	@Listen('itemClick')
 	itemClickHandler(event: MouseEvent) {
+		event.preventDefault();
 		event.stopPropagation();
 	}
 
 	/** Don't propagate the children toggle event */
 	@Listen('toggleExpand')
 	toggleExpandHandler(event: MouseEvent) {
+		event.preventDefault();
 		event.stopPropagation();
 	}
 
