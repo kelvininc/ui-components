@@ -54,6 +54,9 @@ export class KvTree {
 								counter={item.counter}
 								counterState={item.counterState}
 								hasChildren={item.lazyLoadChildren}
+								href={item.href}
+								target={item.target}
+								download={item.download}
 								selected={this.selectedNode === item.id}
 								expanded={get(this.expandedNodes, [item.id], false)}
 								disabled={get(this.disabledNodes, [item.id], false)}

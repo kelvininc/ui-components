@@ -3,6 +3,7 @@ import { throttle, isNumber, isEmpty } from 'lodash-es';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { STATE_ICONS } from './tree-item.config';
 import { ETreeItemState } from './tree-item.types';
+import { EAnchorTarget, IAnchor } from '../../utils/types';
 
 /**
  * @slot child-slot - Content is placed in the child subgroup and can be expanded and collapsed.
@@ -15,7 +16,7 @@ import { ETreeItemState } from './tree-item.types';
 	},
 	shadow: true
 })
-export class KvTreeItem {
+export class KvTreeItem implements IAnchor {
 	/** (optional) Defines the title of the tree item.*/
 	@Prop({ reflect: true }) label?: string;
 	/** (optional) Defines the sub-title of the tree item, displayed under the title.*/
@@ -46,6 +47,12 @@ export class KvTreeItem {
 	@Prop({ reflect: true }) highlighted? = false;
 	/** (optional) Defines whether the tree node is loading. */
 	@Prop({ reflect: true }) loading? = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) href?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) target?: EAnchorTarget;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) download?: string;
 
 	/** Emitted when the expand toggle is clicked */
 	@Event() toggleExpand: EventEmitter<MouseEvent>;
@@ -104,13 +111,16 @@ export class KvTreeItem {
 									</div>
 								)}
 
-								<div
+								<a
 									class={{
 										'node-content-wrapper': true,
 										'disabled': this.disabled,
 										'selected': this.selected,
 										'no-filled': isEmpty(this.label) && !isEmpty(this.placeholder)
 									}}
+									download={this.download}
+									href={this.href}
+									target={this.target}
 									onClick={!this.disabled && this.itemClickThrottler}
 								>
 									{this.icon && (
@@ -136,7 +146,7 @@ export class KvTreeItem {
 											</div>
 										)}
 									</div>
-								</div>
+								</a>
 							</Fragment>
 						)}
 						{this.loading && <div class="node-loading"></div>}
