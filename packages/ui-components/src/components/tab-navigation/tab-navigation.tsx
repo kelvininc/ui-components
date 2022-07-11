@@ -37,8 +37,8 @@ export class KvTabNavigation {
 	render() {
 		return (
 			<Host>
-				<kv-tab-list selectedTabKey={this.selectedTabKey} size={this.size}>
-					{this._tabs.map(item => (
+				<kv-tab-list tabs={this.tabs} selectedTabKey={this.selectedTabKey} size={this.size}>
+					{this.tabs.map(item => (
 						<kv-tab-item
 							tabKey={item.tabKey}
 							label={item.label}
