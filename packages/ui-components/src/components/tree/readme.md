@@ -119,8 +119,10 @@ export const TreeExample: React.FC = () => (
 
 | Event              | Description                                    | Type                         |
 | ------------------ | ---------------------------------------------- | ---------------------------- |
+| `itemClick`        | Emitted when the tree item is clicked          | `CustomEvent<MouseEvent>`    |
 | `nodeClick`        | Emitted when the tree node item is clicked     | `CustomEvent<ITreeNodeItem>` |
 | `nodeToggleExpand` | Emitted when the node expand toggle is clicked | `CustomEvent<ITreeNodeItem>` |
+| `toggleExpand`     | Emitted when the expand toggle is clicked      | `CustomEvent<MouseEvent>`    |
 
 
 ## Shadow Parts
