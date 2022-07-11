@@ -8,7 +8,7 @@ import { ITabNavigationItem, ITabsNotificationDict } from './tab-navigation.type
 })
 export class KvTabNavigation {
 	/** (required) The tab items to render in this component */
-	@Prop() tabs!: ITabNavigationItem[];
+	@Prop({reflect: true}) tabs!: ITabNavigationItem[];
 	/** (required) The currently selected tab key */
 	@Prop() selectedTabKey!: number | string;
 	/** (optional) To add a notification dot and its respective color to a specific tab */
@@ -25,6 +25,7 @@ export class KvTabNavigation {
 	@Watch('tabs')
 	tabsChangeHandler(newTabs: ITabNavigationItem[]) {
 		this._tabs = newTabs;
+		this.tabChange.emit(this.selectedTabKey.toString());
 	}
 
 	/** Listen to custom DOM event of tab selection */
