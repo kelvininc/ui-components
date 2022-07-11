@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Listen, Event, EventEmitter } from '@stencil/core';
+import { Component, Host, h, Prop, Listen, Event, EventEmitter, State, Watch } from '@stencil/core';
 import { EComponentSize } from '../../utils/types';
 import { ITabNavigationItem, ITabsNotificationDict } from './tab-navigation.types';
 
@@ -19,6 +19,14 @@ export class KvTabNavigation {
 	/** When the tab selection changes, emit the requested tab's key */
 	@Event() tabChange: EventEmitter<string>;
 
+	@State() _tabs: ITabNavigationItem[];
+
+	/** Watch changes on tabs to check if a new tab is added or removed */
+	@Watch('tabs')
+	tabsChangeHandler(newTabs: ITabNavigationItem[]) {
+		this._tabs = newTabs;
+	}
+
 	/** Listen to custom DOM event of tab selection */
 	@Listen('tabSelected')
 	tabSelectionHandler(event: CustomEvent<string>) {
@@ -29,7 +37,7 @@ export class KvTabNavigation {
 		return (
 			<Host>
 				<kv-tab-list selectedTabKey={this.selectedTabKey} size={this.size}>
-					{this.tabs.map(item => (
+					{this._tabs.map(item => (
 						<kv-tab-item
 							tabKey={item.tabKey}
 							label={item.label}
