@@ -1,6 +1,7 @@
 import { Component, Host, h, State, Prop, Element, Watch } from '@stencil/core';
 import { gte, isEmpty } from 'lodash-es';
 import { EComponentSize } from '../../utils/types';
+import { ITabNavigationItem } from '../tab-navigation/tab-navigation.types';
 
 @Component({
 	tag: 'kv-tab-list',
@@ -8,21 +9,27 @@ import { EComponentSize } from '../../utils/types';
 	shadow: true
 })
 export class KvTabList {
+	/** (required) The tab items to render in this component to force re-renders when the tabs change*/
+	@Prop() tabs!: ITabNavigationItem[];
 	/** (required) The currently selected tab's key (unique identifier) */
 	@Prop() selectedTabKey!: number | string;
 	/** (optional) Sets the items on this tab list to use a different styling configuration */
 	@Prop() size?: EComponentSize = EComponentSize.Large;
-
 	/** Watch for changes on  */
 	@Watch('size')
 	sizeChangeHandler() {
 		this.changeTabsSize();
 		this.calculateSelectionAnimationProperties();
 	}
-
 	/** Watch for tab selection change and react accordingly by updating the internal states */
 	@Watch('selectedTabKey')
 	tabSelectionChangeHandler() {
+		this.calculateSelectionAnimationProperties();
+	}
+	/** Watch for tab selection change and react accordingly by updating the internal states */
+	@Watch('tabs')
+	tabsUpdateChangeHandler() {
+		this.tabItems = Array.from(this.el.querySelectorAll('kv-tab-item'));
 		this.calculateSelectionAnimationProperties();
 	}
 
