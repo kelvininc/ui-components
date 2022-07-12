@@ -41,11 +41,10 @@ export const TabListExample: React.FC = () => (
 
 ## Properties
 
-| Property                      | Attribute          | Description                                                                                   | Type                                           | Default                |
-| ----------------------------- | ------------------ | --------------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
-| `selectedTabKey` _(required)_ | `selected-tab-key` | (required) The currently selected tab's key (unique identifier)                               | `number \| string`                             | `undefined`            |
-| `size`                        | `size`             | (optional) Sets the items on this tab list to use a different styling configuration           | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
-| `tabs` _(required)_           | --                 | (required) The tab items to render in this component to force re-renders when the tabs change | `ITabNavigationItem[]`                         | `undefined`            |
+| Property         | Attribute          | Description                                                                         | Type                                           | Default                |
+| ---------------- | ------------------ | ----------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
+| `selectedTabKey` | `selected-tab-key` | (optional) The currently selected tab's key (unique identifier)                     | `number \| string`                             | `undefined`            |
+| `size`           | `size`             | (optional) Sets the items on this tab list to use a different styling configuration | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
 
 
 ## CSS Custom Properties
