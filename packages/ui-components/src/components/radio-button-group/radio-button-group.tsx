@@ -25,6 +25,10 @@ export class KvRadioButtonGroup implements IRadioButtonGroup, IRadioButtonGroupE
 						exportparts="radio-button"
 						value={button.value}
 						label={button.label}
+						download={button.download}
+						href={button.href}
+						target={button.target}
+						preventDefault={button.preventDefault}
 						disabled={this.disabled || button.disabled}
 						checked={this.selectedButtons[button.value ?? button.label] === true}
 					></kv-radio-button>

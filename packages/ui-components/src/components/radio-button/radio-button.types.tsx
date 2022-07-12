@@ -9,6 +9,8 @@ export interface IRadioButton {
 	disabled?: boolean;
 	/** (optional) Sets the button as checked */
 	checked?: boolean;
+	/** (optional) Defines if the item click event should prevent default behaviour. */
+	preventDefault?: boolean;
 }
 
 export interface IRadioButtonEvents {
