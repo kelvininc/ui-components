@@ -12,7 +12,6 @@ if (docJson) setStencilDocJson(docJson);
 initialize({ styleMode: StyleMode.Night, baseAssetsUrl: '' });
 
 export const parameters = {
-	viewMode: 'canvas',
 	actions: { argTypesRegex: '^on[A-Z].*' },
 	themes: {
 		default: 'Night Theme',
