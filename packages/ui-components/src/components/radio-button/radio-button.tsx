@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { throttle } from 'lodash-es';
+import { IAnchor, EAnchorTarget } from '../../types';
 import { IRadioButton, IRadioButtonEvents } from './radio-button.types';
 
 /**
@@ -10,7 +11,7 @@ import { IRadioButton, IRadioButtonEvents } from './radio-button.types';
 	styleUrl: 'radio-button.scss',
 	shadow: true
 })
-export class KvRadioButton implements IRadioButton, IRadioButtonEvents {
+export class KvRadioButton implements IRadioButton, IRadioButtonEvents, IAnchor {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label!: string;
 	/** @inheritdoc */
@@ -19,11 +20,19 @@ export class KvRadioButton implements IRadioButton, IRadioButtonEvents {
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) checked?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) href?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) target?: EAnchorTarget;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) download?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) preventDefault? = false;
 
 	/** @inheritdoc */
 	@Event() checkedChange: EventEmitter<string>;
 
-	private clickThrottler: () => void;
+	private clickThrottler: (e: MouseEvent) => void;
 	private onCheck = () => {
 		if (!this.disabled) {
 			this.checkedChange.emit(this.value);
@@ -31,7 +40,13 @@ export class KvRadioButton implements IRadioButton, IRadioButtonEvents {
 	};
 
 	connectedCallback() {
-		this.clickThrottler = throttle(() => this.onCheck(), 300);
+		this.clickThrottler = throttle((event: MouseEvent) => {
+			if (this.preventDefault) {
+				event.preventDefault();
+			}
+
+			this.onCheck();
+		}, 300);
 	}
 
 	render() {
@@ -45,6 +60,9 @@ export class KvRadioButton implements IRadioButton, IRadioButtonEvents {
 					}}
 					part="radio-button"
 					onClick={this.clickThrottler}
+					download={this.download}
+					href={this.href}
+					target={this.target}
 				>
 					{this.label}
 				</a>
