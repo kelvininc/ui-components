@@ -9,8 +9,8 @@ import { ITabNavigationItem, ITabsNotificationDict } from './tab-navigation.type
 export class KvTabNavigation {
 	/** (required) The tab items to render in this component */
 	@Prop({ reflect: true }) tabs!: ITabNavigationItem[];
-	/** (required) The currently selected tab key */
-	@Prop() selectedTabKey!: number | string;
+	/** (optional) The currently selected tab key */
+	@Prop() selectedTabKey?: number | string;
 	/** (optional) To add a notification dot and its respective color to a specific tab */
 	@Prop() notifications?: ITabsNotificationDict = {};
 	/** (optional) Sets the items on this tab nav to use small styling configuration */
@@ -28,7 +28,7 @@ export class KvTabNavigation {
 	render() {
 		return (
 			<Host>
-				<kv-tab-list tabs={this.tabs} selectedTabKey={this.selectedTabKey} size={this.size}>
+				<kv-tab-list selectedTabKey={this.selectedTabKey} size={this.size}>
 					{this.tabs.map(item => (
 						<kv-tab-item
 							tabKey={item.tabKey}

@@ -1,7 +1,6 @@
 import { Component, Host, h, State, Prop, Element, Watch } from '@stencil/core';
 import { gte, isEmpty } from 'lodash-es';
 import { EComponentSize } from '../../utils/types';
-import { ITabNavigationItem } from '../tab-navigation/tab-navigation.types';
 
 @Component({
 	tag: 'kv-tab-list',
@@ -9,10 +8,8 @@ import { ITabNavigationItem } from '../tab-navigation/tab-navigation.types';
 	shadow: true
 })
 export class KvTabList {
-	/** (required) The tab items to render in this component to force re-renders when the tabs change*/
-	@Prop() tabs!: ITabNavigationItem[];
-	/** (required) The currently selected tab's key (unique identifier) */
-	@Prop() selectedTabKey!: number | string;
+	/** (optional) The currently selected tab's key (unique identifier) */
+	@Prop() selectedTabKey?: number | string;
 	/** (optional) Sets the items on this tab list to use a different styling configuration */
 	@Prop() size?: EComponentSize = EComponentSize.Large;
 	/** Watch for changes on  */
@@ -24,12 +21,6 @@ export class KvTabList {
 	/** Watch for tab selection change and react accordingly by updating the internal states */
 	@Watch('selectedTabKey')
 	tabSelectionChangeHandler() {
-		this.calculateSelectionAnimationProperties();
-	}
-	/** Watch for tab selection change and react accordingly by updating the internal states */
-	@Watch('tabs')
-	tabsUpdateChangeHandler() {
-		this.tabItems = Array.from(this.el.querySelectorAll('kv-tab-item'));
 		this.calculateSelectionAnimationProperties();
 	}
 
@@ -45,9 +36,7 @@ export class KvTabList {
 	private tabItems: HTMLKvTabItemElement[];
 
 	componentDidRender() {
-		this.tabItems = Array.from(this.el.querySelectorAll('kv-tab-item'));
-		this.changeTabsSize();
-		this.calculateSelectionAnimationProperties();
+		this.handleSlotChange();
 	}
 
 	private changeTabsSize() {
@@ -57,13 +46,19 @@ export class KvTabList {
 	private calculateSelectionAnimationProperties() {
 		const tabIndex = this.tabItems?.findIndex(tab => tab.tabKey === this.selectedTabKey);
 
-		if (gte(tabIndex, 0) && !isEmpty(this.tabItems)) {
+		if (gte(tabIndex, 0) && !isEmpty(this.tabItems) && !isEmpty(this.selectedTabKey)) {
 			const selectedTabEl = this.tabItems.find((_tabRef, index) => tabIndex === index);
 			const labelEl: HTMLElement = selectedTabEl.shadowRoot.querySelector('.label');
 			this.selectedTabIndicatorOffset = labelEl.offsetLeft;
 			this.selectedTabIndicatorWidth = labelEl.clientWidth / 2;
 		}
 	}
+
+	private handleSlotChange = () => {
+		this.tabItems = Array.from(this.el.querySelectorAll('kv-tab-item'));
+		this.changeTabsSize();
+		this.calculateSelectionAnimationProperties();
+	};
 
 	render() {
 		const tabIndicatorStyle = {
@@ -73,7 +68,7 @@ export class KvTabList {
 
 		return (
 			<Host>
-				<slot></slot>
+				<slot onSlotchange={this.handleSlotChange}></slot>
 				<div class="selected-tab-indicator" style={tabIndicatorStyle}></div>
 			</Host>
 		);
