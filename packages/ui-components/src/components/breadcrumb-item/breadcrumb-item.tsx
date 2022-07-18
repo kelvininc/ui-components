@@ -50,7 +50,7 @@ export class KvBreadcrumbItem implements IBreadcrumbItem, IBreadcrumbItemEvents 
 					}}
 				>
 					<a href={this.href} target={this.target} onClick={this.clickThrottler} part="anchor">
-						{this.label}
+						<slot>{this.label}</slot>
 					</a>
 				</div>
 			</Host>
