@@ -20,6 +20,7 @@ describe('KvBreadcrumbItem (end-to-end)', () => {
 					label='Awesome Label'
 					href='https://kelvin.ai'
 					target='_blank'>
+					Awesome Label
 				</kv-breadcrumb-item>`);
 			itemElement = await page.find('kv-breadcrumb-item');
 			labelElement = await page.find('kv-breadcrumb-item >>> a');
