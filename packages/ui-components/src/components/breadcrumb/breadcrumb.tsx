@@ -16,8 +16,10 @@ export class KvBreadcrumb implements IBreadcrumbItemEvents {
 		return (
 			<Host>
 				<kv-breadcrumb-list>
-					{this.items.map(({ active, ...otherProps }, index, array) => (
-						<kv-breadcrumb-item active={active ?? index === array.length - 1} exportparts="anchor" {...otherProps}></kv-breadcrumb-item>
+					{this.items.map(({ active, customLabel, ...otherProps }, index, array) => (
+						<kv-breadcrumb-item active={active ?? index === array.length - 1} exportparts="anchor" {...otherProps}>
+							{customLabel}
+						</kv-breadcrumb-item>
 					))}
 				</kv-breadcrumb-list>
 			</Host>
