@@ -66,16 +66,16 @@ $btn-background-colors: (
 );
 $btn-border-colors: (
 	default: (
-		primary: null,
-		secondary: null,
+		primary: kv-color('primary'),
+		secondary: kv-color('neutral-6'),
 		tertiary: kv-color('neutral-0'),
-		danger: null
+		danger: kv-color('error')
 	),
 	hover: (
-		primary: null,
-		secondary: null,
+		primary: kv-color('primary', 'dark'),
+		secondary: kv-color('neutral-5'),
 		tertiary: kv-color('neutral-2'),
-		danger: null
+		danger: kv-color('error', 'dark')
 	),
 	focus: (
 		primary: kv-color('primary'),
@@ -191,8 +191,13 @@ $btn-paddings-x: (
 
 	background: linear-gradient(45deg, $btn-hover-background-color 50%, $btn-default-background-color 50%);
 	background-size: 350% 100%;
+	background-color: $btn-default-background-color;
 	background-position: right bottom;
-	transition: background-position 0.5s ease-out;
+	transition: background-position 0.5s ease-out,
+		border-top-color 0.5s ease-out,
+		border-right-color 0.5s ease-out,
+		border-bottom-color 0.25s ease-in-out,
+		border-left-color 0.25s ease-in-out;
 
 	&:hover:not(.action-button--disabled) {
 		background-position: left top;
@@ -220,7 +225,10 @@ $btn-paddings-x: (
 	border: 1px solid $btn-default-border-color;
 
 	&:hover:not(.action-button--disabled) {
-		border: 1px solid $btn-hover-border-color;
+		border-top-color: $btn-hover-border-color;
+		border-right-color: $btn-hover-border-color;
+		border-bottom-color: $btn-hover-border-color;
+		border-left-color: $btn-hover-border-color;
 	}
 
 	&:focus:not(.action-button--disabled) {
