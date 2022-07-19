@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { throttle } from 'lodash-es';
+import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { IAnchor, EAnchorTarget } from '../../types';
 import { IRadioButton, IRadioButtonEvents } from './radio-button.types';
 
@@ -40,13 +41,15 @@ export class KvRadioButton implements IRadioButton, IRadioButtonEvents, IAnchor 
 	};
 
 	connectedCallback() {
-		this.clickThrottler = throttle((event: MouseEvent) => {
-			if (this.preventDefault) {
-				event.preventDefault();
-			}
+		this.clickThrottler = throttle(() => this.onCheck(), DEFAULT_THROTTLE_WAIT);
+	}
 
-			this.onCheck();
-		}, 300);
+	onClick(event: MouseEvent) {
+		if (this.preventDefault) {
+			event.preventDefault();
+		}
+
+		this.clickThrottler(event);
 	}
 
 	render() {
@@ -59,7 +62,7 @@ export class KvRadioButton implements IRadioButton, IRadioButtonEvents, IAnchor 
 						'radio-button--disabled': this.disabled
 					}}
 					part="radio-button"
-					onClick={this.clickThrottler}
+					onClick={this.onClick.bind(this)}
 					download={this.download}
 					href={this.href}
 					target={this.target}

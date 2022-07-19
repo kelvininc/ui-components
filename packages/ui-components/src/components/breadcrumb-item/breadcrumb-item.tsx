@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { throttle } from 'lodash-es';
+import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { EAnchorTarget } from '../../utils/types';
 import { IBreadcrumbItem, IBreadcrumbItemEvents } from './breadcrumb-item.types';
 
@@ -27,7 +28,7 @@ export class KvBreadcrumbItem implements IBreadcrumbItem, IBreadcrumbItemEvents 
 	@Event() breadcrumbItemClick: EventEmitter<IBreadcrumbItem>;
 
 	connectedCallback() {
-		this.clickThrottler = throttle(() => this.onItemClick(), 300);
+		this.clickThrottler = throttle(() => this.onItemClick(), DEFAULT_THROTTLE_WAIT);
 	}
 
 	private clickThrottler: () => void;

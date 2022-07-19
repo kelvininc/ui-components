@@ -76,4 +76,31 @@ describe('Tree Item (unit tests)', () => {
 			expect(component.counter).toEqual(32);
 		});
 	});
+
+	describe('when initialized with preventDefault prop', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvTreeItem],
+				html: '<kv-tree-item label="Node Title" prevent-default="true"></kv-tree-item>'
+			});
+			component = page.rootInstance;
+		});
+
+		it('should match the snapshot', () => {
+			expect(page.root).toMatchSnapshot();
+		});
+
+		describe('and onItemClick is called', () => {
+			let onClickSpyEvent: MouseEvent;
+
+			beforeEach(() => {
+				onClickSpyEvent = new MouseEvent('click');
+				component.onItemClick(onClickSpyEvent);
+			});
+
+			it('should prevent event', () => {
+				expect(onClickSpyEvent.defaultPrevented).toBeTruthy();
+			});
+		});
+	});
 });
