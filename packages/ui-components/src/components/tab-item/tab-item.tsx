@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { throttle } from 'lodash-es';
+import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { EComponentSize } from '../../utils/types';
 
 @Component({
@@ -28,7 +29,7 @@ export class KvTabItem {
 	private tabClickThrottler: () => void;
 
 	connectedCallback() {
-		this.tabClickThrottler = throttle(() => this.tabClick(), 300);
+		this.tabClickThrottler = throttle(() => this.tabClick(), DEFAULT_THROTTLE_WAIT);
 	}
 
 	private tabClick = () => {
