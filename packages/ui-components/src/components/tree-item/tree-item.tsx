@@ -4,6 +4,7 @@ import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { STATE_ICONS } from './tree-item.config';
 import { ETreeItemState } from './tree-item.types';
 import { EAnchorTarget, IAnchor } from '../../utils/types';
+import { DEFAULT_THROTTLE_WAIT } from '../../config';
 
 /**
  * @slot child-slot - Content is placed in the child subgroup and can be expanded and collapsed.
@@ -88,14 +89,16 @@ export class KvTreeItem implements IAnchor {
 	}
 
 	connectedCallback() {
-		this.toggleClickThrottler = throttle((event: MouseEvent) => this.toggleExpand.emit(event), 300);
-		this.itemClickThrottler = throttle((event: MouseEvent) => {
-			if (this.preventDefault) {
-				event.preventDefault();
-			}
+		this.toggleClickThrottler = throttle((event: MouseEvent) => this.toggleExpand.emit(event), DEFAULT_THROTTLE_WAIT);
+		this.itemClickThrottler = throttle((event: MouseEvent) => this.itemClick.emit(event), DEFAULT_THROTTLE_WAIT);
+	}
 
-			this.itemClick.emit(event);
-		}, 300);
+	onItemClick(event: MouseEvent) {
+		if (this.preventDefault) {
+			event.preventDefault();
+		}
+
+		this.itemClickThrottler(event);
 	}
 
 	render() {
@@ -129,7 +132,7 @@ export class KvTreeItem implements IAnchor {
 									download={this.download}
 									href={this.href}
 									target={this.target}
-									onClick={!this.disabled && this.itemClickThrottler}
+									onClick={!this.disabled && this.onItemClick.bind(this)}
 								>
 									{this.icon && (
 										<div class="node-icon">
