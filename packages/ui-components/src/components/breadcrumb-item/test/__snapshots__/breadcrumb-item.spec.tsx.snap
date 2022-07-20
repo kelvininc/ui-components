@@ -5,7 +5,9 @@ exports[`KvBreadcrumbItem (unit tests) when the component loads should match the
   <mock:shadow-root>
     <div class="breadcrumb-item breadcrumb-item--active">
       <a href="https://kelvin.ai" part="anchor" target="_blank">
-        Awesome Label
+        <slot>
+          Awesome Label
+        </slot>
       </a>
     </div>
   </mock:shadow-root>
