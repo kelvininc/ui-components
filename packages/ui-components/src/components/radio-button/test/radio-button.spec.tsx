@@ -60,4 +60,31 @@ describe('Radio Button (unit tests)', () => {
 			expect(page.root).toMatchSnapshot();
 		});
 	});
+
+	describe('when the component loads with preventDefault prop', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvRadioButton],
+				html: '<kv-radio-button label="Option 1" prevent-default="true"></kv-radio-button>'
+			});
+			component = page.rootInstance;
+		});
+
+		it('should match the snapshot', () => {
+			expect(page.root).toMatchSnapshot();
+		});
+
+		describe('and onClick is called', () => {
+			let onClickSpyEvent: MouseEvent;
+
+			beforeEach(() => {
+				onClickSpyEvent = new MouseEvent('click');
+				component.onClick(onClickSpyEvent);
+			});
+
+			it('should prevent event', () => {
+				expect(onClickSpyEvent.defaultPrevented).toBeTruthy();
+			});
+		});
+	});
 });

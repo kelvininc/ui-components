@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, EventEmitter, Event, State, Watch } from '@stencil/core';
 import { throttle } from 'lodash-es';
+import { DEFAULT_THROTTLE_WAIT } from '../../config';
 
 @Component({
 	tag: 'kv-radio',
@@ -43,7 +44,7 @@ export class KvRadio {
 	};
 
 	connectedCallback() {
-		this.clickThrottler = throttle(() => this.onCheck(), 300);
+		this.clickThrottler = throttle(() => this.onCheck(), DEFAULT_THROTTLE_WAIT);
 	}
 
 	render() {

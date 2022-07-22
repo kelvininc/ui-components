@@ -3,6 +3,7 @@ import { EComponentSize } from '../../utils/types';
 import throttle from 'lodash/throttle';
 import { isEmpty } from 'lodash-es';
 import { EIconName } from '../icon/icon.types';
+import { DEFAULT_THROTTLE_WAIT } from '../../config';
 
 /**
  * @part icon-svg - The switch icon.
@@ -49,7 +50,7 @@ export class KvSwitchButton {
 	}
 
 	connectedCallback() {
-		this.onSwitchClick = throttle(() => this.onStateChange(), 300);
+		this.onSwitchClick = throttle(() => this.onStateChange(), DEFAULT_THROTTLE_WAIT);
 	}
 
 	render() {
