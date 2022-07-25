@@ -17,10 +17,8 @@ export enum EValidationState {
 }
 
 export interface ITextFieldEvents {
-	/** Emitted when text field's value changes */
-	textChange: EventEmitter<string>;
 	/** Emitted when a keyboard input occurred */
-	textInput: EventEmitter<string>;
+	textChange: EventEmitter<string>;
 	/** Emitted when text field lost focus */
 	textFieldBlur: EventEmitter<string>;
 }

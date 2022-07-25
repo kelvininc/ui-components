@@ -21,8 +21,6 @@ export class KvSearch implements ISearchEvents, ITextFieldEvents {
 	/** @inheritdoc */
 	@Event() textChange: EventEmitter<string>;
 	/** @inheritdoc */
-	@Event() textInput: EventEmitter<string>;
-	/** @inheritdoc */
 	@Event() textFieldBlur: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event() clickResetButton: EventEmitter<MouseEvent>;
