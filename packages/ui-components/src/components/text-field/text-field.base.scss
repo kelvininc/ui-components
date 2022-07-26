@@ -35,57 +35,18 @@
 	--right-slot-width: 36px;
 }
 
-.label,
-.required {
-	@include kv-font-label-small-uppercase-semibold;
+kv-form-label {
+	--label-color: var(--text-color-label);
 }
 
-.label {
-	color: var(--text-color-label);
-	margin-left: $spacing;
-}
-
-.required {
-	color: kv-color('error');
-	margin-left: $spacing;
+kv-form-help-text {
+	--help-text-default-color: var(--text-color-help-text-default);
+	--help-text-error-color: var(--text-color-help-text-error);
 }
 
 .flex-align-center {
 	display: flex;
 	align-content: center;
-}
-
-.help-text-container {
-	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
-	overflow: hidden;
-	margin: $spacing 0 0 $spacing-2x;
-
-	.help-text {
-		@include kv-font-label-small-regular;
-
-		margin-right: $spacing;
-		color: var(--text-color-help-text-default);
-	}
-
-	kv-icon {
-		--icon-color: var(--text-color-help-text-default);
-
-		display: flex;
-		align-items: center;
-		margin-right: $spacing-2x;
-	}
-
-	&.invalid {
-		.help-text {
-			color: var(--text-color-help-text-error);
-		}
-
-		kv-icon {
-			--icon-color: var(--text-color-help-text-error);
-		}
-	}
 }
 
 input {
@@ -141,10 +102,6 @@ input {
 	&:read-only {
 		cursor: pointer;
 	}
-}
-
-.label-container {
-	margin-bottom: $spacing;
 }
 
 .input-container {

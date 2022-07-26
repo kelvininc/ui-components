@@ -32,6 +32,8 @@ export interface ITextField {
 	icon?: EIconName | EOtherIconName;
 	/** (optional) Text field input name */
 	inputName?: string;
+	/** (optional) Text field example values */
+	examples?: string[];
 	/** (optional) Text field place holder */
 	placeholder?: string;
 	/** (optional) Text field maximum number of characters required */

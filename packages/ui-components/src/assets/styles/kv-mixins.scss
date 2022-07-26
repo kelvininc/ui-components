@@ -1,4 +1,14 @@
 @mixin ghost-animation($baseColor) {
+	@keyframes ghostGradientAnimation {
+		0% {
+			background-position: -100% 0;
+		}
+
+		100% {
+			background-position: 100% 0;
+		}
+	}
+
 	@if (kv-color($baseColor, 'base')) {
 		$color1: kv-color($baseColor, 'base', 0.3);
 		$color2: kv-color($baseColor, 'base');
@@ -8,16 +18,6 @@
 		animation: ghostGradientAnimation 0.8s infinite ease-out;
 		transition: all 1s ease-in;
 		border-radius: 4px;
-	}
-}
-
-@keyframes ghostGradientAnimation {
-	0% {
-		background-position: -100% 0;
-	}
-
-	100% {
-		background-position: 100% 0;
 	}
 }
 
