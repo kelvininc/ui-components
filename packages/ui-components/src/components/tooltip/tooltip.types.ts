@@ -1,4 +1,4 @@
-export enum TooltipPosition {
+export enum ETooltipPosition {
 	Top = 'top',
 	TopEnd = 'top-end',
 	TopStart = 'top-start',
