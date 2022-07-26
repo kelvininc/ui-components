@@ -76,6 +76,7 @@ export class TextFieldExample {
 | Property      | Attribute      | Description                                                        | Type                                                                                                                              | Default                 |
 | ------------- | -------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
 | `disabled`    | `disabled`     | (optional) Text field disabled                                     | `boolean`                                                                                                                         | `false`                 |
+| `examples`    | --             | (optional) Text field example values                               | `string[]`                                                                                                                        | `undefined`             |
 | `forcedFocus` | `forced-focus` | (optional) Text field focus state                                  | `boolean`                                                                                                                         | `false`                 |
 | `helpText`    | `help-text`    | (optional) Text field help text                                    | `string \| string[]`                                                                                                              | `[]`                    |
 | `icon`        | `icon`         | (optional) Text field's icon symbol name                           | `EIconName \| EOtherIconName`                                                                                                     | `undefined`             |
@@ -135,12 +136,17 @@ export class TextFieldExample {
 
 ### Depends on
 
+- [kv-form-label](../form-label)
 - [kv-icon](../icon)
+- [kv-form-help-text](../form-help-text)
 
 ### Graph
 ```mermaid
 graph TD;
+  kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
+  kv-text-field --> kv-form-help-text
+  kv-form-help-text --> kv-icon
   kv-dropdown --> kv-text-field
   kv-search --> kv-text-field
   style kv-text-field fill:#f9f,stroke:#333,stroke-width:4px

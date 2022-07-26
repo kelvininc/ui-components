@@ -31,7 +31,7 @@ export interface ISingleSelectDropdown {
 	/** (required) The error state for the dropdown */
 	errorState?: EValidationState;
 	/** (optional) The text to display as help text  */
-	helpText?: string;
+	helpText?: string | string[];
 	/** (optional) If `true` the dropdown is disabled */
 	disabled?: boolean;
 	/** (required) The text to display when there are no options */

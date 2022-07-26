@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"strict": true,
-		"allowUnreachableCode": false,
+		"allowUnreachableCode": true,
 		"allowSyntheticDefaultImports": true,
 		"declaration": true,
 		"emitDecoratorMetadata": true,
