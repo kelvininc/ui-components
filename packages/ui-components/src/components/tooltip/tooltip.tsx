@@ -1,8 +1,14 @@
-import { autoPlacement, computePosition, offset, shift } from '@floating-ui/dom';
+import { autoPlacement, computePosition, ComputePositionConfig, offset, shift } from '@floating-ui/dom';
 import { Host, h, Component, Prop, Element } from '@stencil/core';
 import { isEmpty } from 'lodash-es';
-import { TooltipPosition } from './tooltip.types';
 
+import { DEFAULT_AUTOPLACEMENT_CONFIG, DEFAULT_OFFSET, DEFAULT_SHIFT_CONFIG, DEFAULT_TOOLTIP_CONFIG } from './tooltip.config';
+import { ETooltipPosition } from './tooltip.types';
+
+/**
+ * @part container - The tooltip container.
+ * @part content - The tooltip content.
+ */
 @Component({
 	tag: 'kv-tooltip',
 	styleUrl: 'tooltip.scss',
@@ -12,9 +18,11 @@ export class KvTooltip {
 	/** (required) Text of tooltip */
 	@Prop({ reflect: true }) text!: string;
 	/** (optional) Position of tooltip */
-	@Prop({ reflect: true }) position: TooltipPosition;
+	@Prop({ reflect: true }) position?: ETooltipPosition;
 	/** (optional) Array of allowed positions of tooltip (if defined the 'position' is ignored) */
-	@Prop({ reflect: true }) allowedPositions: TooltipPosition[];
+	@Prop({ reflect: true }) allowedPositions?: ETooltipPosition[];
+	/** (optional) Object with tooltip options */
+	@Prop({ reflect: true }) options?: Partial<ComputePositionConfig>;
 
 	/** The Host's element reference */
 	@Element() el: HTMLKvTooltipElement;
@@ -22,10 +30,10 @@ export class KvTooltip {
 	render() {
 		return (
 			<Host>
-				<div id="content" class="tooltip-content" aria-describedby="tooltip">
+				<div id="content" class="tooltip-content" aria-describedby="tooltip" part="content">
 					<slot></slot>
 				</div>
-				<div id="tooltip" class="tooltip-container" role="tooltip">
+				<div id="tooltip" class="tooltip-container" role="tooltip" part="container">
 					{this.text}
 				</div>
 			</Host>
@@ -37,14 +45,15 @@ export class KvTooltip {
 		const tooltip = this.el.shadowRoot.querySelector('#tooltip') as HTMLElement;
 
 		const position = isEmpty(this.allowedPositions) ? this.position : undefined;
-		const middleware = [offset(5), shift({ padding: 5 })];
+		const middleware = [offset(DEFAULT_OFFSET), shift(DEFAULT_SHIFT_CONFIG)];
 
 		if (isEmpty(position)) {
-			middleware.push(autoPlacement({ padding: 5, allowedPlacements: this.allowedPositions }));
+			middleware.push(autoPlacement({ ...DEFAULT_AUTOPLACEMENT_CONFIG, allowedPlacements: this.allowedPositions }));
 		}
 
 		function update() {
 			computePosition(child, tooltip, {
+				...DEFAULT_TOOLTIP_CONFIG,
 				placement: position,
 				middleware
 			}).then(({ x, y }) => {
@@ -56,7 +65,7 @@ export class KvTooltip {
 		}
 
 		const showTooltip = () => {
-			tooltip.style.display = 'block';
+			tooltip.style.display = 'inline-block';
 			update();
 		};
 
