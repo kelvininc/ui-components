@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
 
-import { KvTooltip, KvActionButton, TooltipPosition, EActionButtonType } from '@kelvininc/react-ui-components';
+import { KvTooltip, KvActionButton, ETooltipPosition, EActionButtonType } from '@kelvininc/react-ui-components';
 
 export const TagLetterExample: React.FC = () => (
   <>
@@ -9,14 +9,14 @@ export const TagLetterExample: React.FC = () => (
 	<KvTooltip text="Tooltip">
 		<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
 	</KvTooltip>
-	
+
 	{/*-- With Fixed Position --*/}
-	<KvTooltip text="Tooltip" position={TooltipPosition.Left}>
+	<KvTooltip text="Tooltip" position={ETooltipPosition.Left}>
 		<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
 	</KvTooltip>
 
 	{/*-- With Allowed Positions --*/}
-	<KvTooltip text="Tooltip" allowedPositions={[TooltipPosition.Top, TooltipPosition.Bottom]}>
+	<KvTooltip text="Tooltip" allowedPositions={[ETooltipPosition.Top, ETooltipPosition.Bottom]}>
 		<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
 	</KvTooltip>
   </>
