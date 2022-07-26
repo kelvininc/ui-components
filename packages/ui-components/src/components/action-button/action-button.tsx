@@ -58,6 +58,7 @@ export class KvActionButton implements IButton, IButtonEvents, IAnchor {
 						[`action-button--type-${this.type}`]: true,
 						[`action-button--size-${this.size}`]: true
 					}}
+					tabIndex={this.disabled ? -1 : 0}
 					part="button"
 					download={this.download}
 					href={this.href}
