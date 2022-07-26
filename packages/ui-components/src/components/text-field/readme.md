@@ -98,11 +98,10 @@ export class TextFieldExample {
 
 ## Events
 
-| Event           | Description                             | Type                  |
-| --------------- | --------------------------------------- | --------------------- |
-| `textChange`    | Emitted when text field's value changes | `CustomEvent<string>` |
-| `textFieldBlur` | Emitted when text field lost focus      | `CustomEvent<string>` |
-| `textInput`     | Emitted when a keyboard input occurred  | `CustomEvent<string>` |
+| Event           | Description                            | Type                  |
+| --------------- | -------------------------------------- | --------------------- |
+| `textChange`    | Emitted when a keyboard input occurred | `CustomEvent<string>` |
+| `textFieldBlur` | Emitted when text field lost focus     | `CustomEvent<string>` |
 
 
 ## CSS Custom Properties

@@ -75,7 +75,6 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 			 */
 			nativeInput.value = value;
 		}
-		this.textChange.emit(this.getValue());
 	}
 
 	/** Internal help texts state */
@@ -117,8 +116,6 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Event() textChange: EventEmitter<string>;
 	/** @inheritdoc */
-	@Event() textInput: EventEmitter<string>;
-	/** @inheritdoc */
 	@Event() textFieldBlur: EventEmitter<string>;
 
 	private onInputHandler = ({ target }: InputEvent) => {
@@ -126,7 +123,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		if (input) {
 			this.value = input.value || '';
 		}
-		this.textInput.emit(this.getValue());
+		this.textChange.emit(this.getValue());
 	};
 
 	private onBlurHandler = ({ target }: FocusEvent) => {
