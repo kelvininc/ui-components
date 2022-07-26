@@ -1,0 +1,6 @@
+@import '../../assets/styles/globals';
+@import './form-label.base';
+
+:host {
+	--label-color: #{kv-color('neutral-5')};
+}
