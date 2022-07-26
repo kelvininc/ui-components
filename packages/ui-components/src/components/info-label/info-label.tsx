@@ -1,5 +1,6 @@
 import { Component, Prop, h, Host, Element, State } from '@stencil/core';
 import { ResizeSensor } from 'css-element-queries';
+import { isEmpty } from 'lodash-es';
 import clipboardHelper from '../../utils/clipboard.helper';
 import { EIconName } from '../icon/icon.types';
 import { DEFAULT_DESCRIPTION_COLLAPSED_TEXT, DEFAULT_DESCRIPTION_OPENED_TEXT } from './info-label.config';
@@ -98,18 +99,20 @@ export class KvInfoLabel {
 		return (
 			<Host>
 				<div class="info-label">
-					{this.labelTitle && <div class="title">{this.labelTitle}</div>}
-					<div style={{ height: `${this.currentDescriptionHeight}px` }} class="description-wrapper">
-						<div class="description">
-							{this.description && <div class="text">{this.description}</div>}
-							{this.copyValue && (
-								<kv-tooltip text={this.tooltipConfig.copyTooltipLabel} position={this.tooltipConfig.tooltipPosition}>
-									<kv-icon class="copy-icon" name={EIconName.Copy} onClick={this.onClickCopyAction} />
-								</kv-tooltip>
-							)}
-							<slot></slot>
+					{this.labelTitle && <div class={{ 'title': true, 'no-description': isEmpty(this.description) }}>{this.labelTitle}</div>}
+					{this.description && (
+						<div style={{ height: `${this.currentDescriptionHeight}px` }} class="description-wrapper">
+							<div class="description">
+								{this.description && <div class="text">{this.description}</div>}
+								{this.copyValue && (
+									<kv-tooltip text={this.tooltipConfig.copyTooltipLabel} position={this.tooltipConfig.tooltipPosition}>
+										<kv-icon class="copy-icon" name={EIconName.Copy} onClick={this.onClickCopyAction} />
+									</kv-tooltip>
+								)}
+								<slot></slot>
+							</div>
 						</div>
-					</div>
+					)}
 					{this.enableShowMoreButton && (
 						<div class={{ 'expand-description-button': true, 'expanded': this.showMore }} onClick={this.onShowMoreToggle}>
 							{this.showMoreButtonLabel}

@@ -1,0 +1,72 @@
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+
+$footer-height: 38px;
+
+.form-container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+
+	form {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	form > div[class^="FieldTemplate"] {
+		height: calc(100% - ($footer-height + (2 * $spacing-4x)));
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding: 0 $spacing-4x;
+		box-sizing: border-box;
+	}
+
+	.form-footer {
+		height: $footer-height;
+		display: flex;
+		justify-content: end;
+		align-items: center;
+		padding: $spacing-4x;
+
+		&.scrolling {
+			border-top: 1px solid kv-color('neutral-6');
+		}
+
+		kv-action-button-text + button > kv-action-button-text {
+			padding-left: $spacing-3x;
+		}
+	}
+}
+
+.reset-button-style {
+	border: none;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	overflow: visible;
+
+	background: transparent;
+
+	/* inherit font & color from ancestor */
+	color: inherit;
+	font: inherit;
+
+	/* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+	line-height: normal;
+
+	/* Corrects font smoothing for webkit */
+	-webkit-font-smoothing: inherit;
+	-moz-osx-font-smoothing: inherit;
+
+	/* Corrects inability to style clickable `input` types in iOS */
+	-webkit-appearance: none;
+
+	&::-moz-focus-inner {
+		border: 0;
+		padding: 0;
+	}
+	outline: none;
+}

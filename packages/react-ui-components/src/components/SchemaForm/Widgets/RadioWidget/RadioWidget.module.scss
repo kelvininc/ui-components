@@ -1,0 +1,12 @@
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+
+.radio-list-container {
+	display: grid;
+	grid-column-gap: $spacing-5x;
+	grid-template-columns: 1fr;
+	margin-left: $spacing;
+
+	&.inline {
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	}
+}

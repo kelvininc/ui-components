@@ -96,7 +96,7 @@ export class KvDropdownExample {
 | ------------- | ------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------ |
 | `disabled`    | `disabled`    | (optional) If `true` the dropdown is disabled                     | `boolean`                                                                     | `undefined`                    |
 | `errorState`  | `error-state` | (required) The error state for the dropdown                       | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid` | `EValidationState.None`        |
-| `helpText`    | `help-text`   | (optional) The text to display as help text                       | `string`                                                                      | `undefined`                    |
+| `helpText`    | `help-text`   | (optional) The text to display as help text                       | `string \| string[]`                                                          | `[]`                           |
 | `icon`        | `icon`        | (optional) The icon to display on the dropdown                    | `EIconName \| EOtherIconName`                                                 | `undefined`                    |
 | `isOpen`      | `is-open`     | (optional) If `true` the list is opened                           | `boolean`                                                                     | `false`                        |
 | `label`       | `label`       | (optional) The text to display on the dropdown label              | `string`                                                                      | `undefined`                    |
@@ -130,7 +130,10 @@ export class KvDropdownExample {
 graph TD;
   kv-dropdown --> kv-text-field
   kv-dropdown --> kv-icon
+  kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
+  kv-text-field --> kv-form-help-text
+  kv-form-help-text --> kv-icon
   kv-multi-select-dropdown --> kv-dropdown
   kv-single-select-dropdown --> kv-dropdown
   style kv-dropdown fill:#f9f,stroke:#333,stroke-width:4px

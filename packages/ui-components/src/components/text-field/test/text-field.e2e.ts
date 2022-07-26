@@ -9,11 +9,6 @@ describe('Text Field (end-to-end)', () => {
 			await page.setContent('<kv-text-field></kv-text-field>');
 		});
 
-		it('should not render a label', async () => {
-			const labelComponent = await page.find('kv-text-field >>> .label');
-			expect(labelComponent).toBeFalsy();
-		});
-
 		describe('when user changes text', () => {
 			let spyChangeEvent: EventSpy;
 			let textFieldComponent: E2EElement;
@@ -28,7 +23,7 @@ describe('Text Field (end-to-end)', () => {
 				await page.waitForTimeout(300);
 			});
 
-			it('should emit chage event', () => {
+			it('should emit change event', () => {
 				expect(spyChangeEvent).toHaveReceivedEvent();
 			});
 		});
@@ -59,9 +54,8 @@ describe('Text Field (end-to-end)', () => {
 		});
 
 		it('should render label', async () => {
-			const labelComponent = await page.find('kv-text-field >>> .label');
+			const labelComponent = await page.find('kv-text-field >>> kv-form-label');
 			expect(labelComponent).toBeTruthy();
-			expect(labelComponent.innerText.toLocaleLowerCase()).toBe('text field');
 		});
 	});
 
@@ -72,9 +66,8 @@ describe('Text Field (end-to-end)', () => {
 		});
 
 		it('should render label and loading component', async () => {
-			const labelComponent = await page.find('kv-text-field >>> .label');
+			const labelComponent = await page.find('kv-text-field >>> kv-form-label');
 			expect(labelComponent).toBeTruthy();
-			expect(labelComponent.innerText.toLocaleLowerCase()).toBe('text field');
 			const loadingComponent = await page.find('kv-text-field >>> .input-container-loading');
 			expect(loadingComponent).toBeTruthy();
 		});
@@ -87,12 +80,10 @@ describe('Text Field (end-to-end)', () => {
 		});
 
 		it('should render label and component with help text', async () => {
-			const labelComponent = await page.find('kv-text-field >>> .label');
+			const labelComponent = await page.find('kv-text-field >>> kv-form-label');
 			expect(labelComponent).toBeTruthy();
-			expect(labelComponent.innerText.toLocaleLowerCase()).toBe('text field');
-			const helpTextComponent = await page.find('kv-text-field >>> .help-text');
+			const helpTextComponent = await page.find('kv-text-field >>> kv-form-help-text');
 			expect(helpTextComponent).toBeTruthy();
-			expect(helpTextComponent.innerText.toLocaleLowerCase()).toBe('help text');
 		});
 	});
 
@@ -103,10 +94,9 @@ describe('Text Field (end-to-end)', () => {
 		});
 
 		it('should render label and component with required indication', async () => {
-			const labelComponent = await page.find('kv-text-field >>> .label');
+			const labelComponent = await page.find('kv-text-field >>> kv-form-label');
 			expect(labelComponent).toBeTruthy();
-			expect(labelComponent.innerText.toLocaleLowerCase()).toBe('text field');
-			const errorComponent = await page.find('kv-text-field >>> .required');
+			const errorComponent = await page.find('kv-text-field >>> kv-form-help-text');
 			expect(errorComponent).toBeTruthy();
 		});
 	});
