@@ -23,6 +23,8 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) examples?: string[];
+	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) inputName?: string;
@@ -157,20 +159,14 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	}
 
 	render() {
+		const id = this.el.getAttribute('id');
 		const value = this.getValue();
 		const type = this.getType();
-		const hasLabel = !isEmpty(this.label);
-		const shouldShowLabel = this.required || hasLabel;
 
 		return (
 			<Host>
 				<div class="text-field-container">
-					{shouldShowLabel && (
-						<div class="label-container">
-							{this.required && <span class="required">*</span>}
-							{this.label && <span class="label">{this.label}</span>}
-						</div>
-					)}
+					<kv-form-label label={this.label} required={this.required}></kv-form-label>
 					<div
 						class={{
 							'input-container': true,
@@ -180,8 +176,10 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 						{!this.loading && (
 							<Fragment>
 								<input
+									id={id}
 									ref={input => (this.nativeInput = input)}
 									type={type}
+									list={this.examples ? `examples_${id}` : undefined}
 									name={this.inputName}
 									placeholder={this.placeholder}
 									disabled={this.disabled}
@@ -222,15 +220,15 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 						)}
 						{this.loading && <div class="input-container-loading"></div>}
 					</div>
-					{!isEmpty(this._helpTexts) && (
-						<div class={{ 'help-text-container': true, 'invalid': this.state === EValidationState.Invalid }}>
-							{this.state === EValidationState.Invalid && <kv-icon name={EIconName.Error} customClass="icon-16"></kv-icon>}
-							{this._helpTexts.map(msg => (
-								<span class="help-text">{msg}</span>
-							))}
-						</div>
-					)}
+					<kv-form-help-text helpText={this._helpTexts} state={this.state}></kv-form-help-text>
 				</div>
+				{!isEmpty(this.examples) ? (
+					<datalist id={`examples_${id}`}>
+						{this.examples.map(example => (
+							<option key={example} value={example}></option>
+						))}
+					</datalist>
+				) : null}
 			</Host>
 		);
 	}

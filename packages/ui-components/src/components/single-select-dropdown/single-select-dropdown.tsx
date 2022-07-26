@@ -30,7 +30,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) errorState?: EValidationState = EValidationState.None;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) helpText?: string;
+	@Prop({ reflect: true }) helpText?: string | string[] = [];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
@@ -133,7 +133,13 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 					<kv-dropdown-list searchValue={this._searchValue} searchable={this.searchable} onSearchChange={this.onSearchChange}>
 						{isEmpty(this.options) && <kv-dropdown-list-item class="no-data" label={this.noDataAvailableLabel} value={null} />}
 						{Object.values(this.options).map(option => (
-							<kv-dropdown-list-item label={option.label} value={option.value} selected={option.value === this._selectedOption} onItemSelected={this.selectOption} />
+							<kv-dropdown-list-item
+								label={option.label}
+								value={option.value}
+								disabled={option.disabled}
+								selected={option.value === this._selectedOption}
+								onItemSelected={this.selectOption}
+							/>
 						))}
 					</kv-dropdown-list>
 				</kv-dropdown>

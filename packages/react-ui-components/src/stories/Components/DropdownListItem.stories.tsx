@@ -18,6 +18,9 @@ export default {
 		selected: {
 			control: { type: 'boolean' }
 		},
+		disabled: {
+			control: { type: 'boolean' }
+		},
 		togglable: {
 			control: { type: 'boolean' }
 		}
@@ -34,5 +37,6 @@ Default.args = {
 	label: 'Label 1',
 	value: 'label-1',
 	selected: true,
-	togglable: true
+	togglable: true,
+	disabled: false
 };

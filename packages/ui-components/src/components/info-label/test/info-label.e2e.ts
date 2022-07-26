@@ -54,7 +54,7 @@ describe('Info Label (end-to-end)', () => {
 			const textExpandButtonComponent = await page.find('kv-info-label >>> .expand-description-button >>> span');
 			expect(textExpandButtonComponent).toBeTruthy();
 			expect(textExpandButtonComponent.innerText.toLocaleLowerCase()).toBe('read more');
-			expandButtonComponent.click();
+			await expandButtonComponent.click();
 			await page.waitForChanges();
 			expect(textExpandButtonComponent.innerText.toLocaleLowerCase()).toBe('read less');
 		});

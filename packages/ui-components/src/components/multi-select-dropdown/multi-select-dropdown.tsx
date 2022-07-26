@@ -34,7 +34,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: true }) errorState?: EValidationState;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) helpText?: string;
+	@Prop({ reflect: true }) helpText?: string | string[] = [];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean;
 	/** @inheritdoc */
@@ -156,6 +156,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 								<kv-dropdown-list-item
 									label={option.label}
 									value={option.value}
+									disabled={option.disabled}
 									selected={this.selectedOptions.includes(option.value)}
 									togglable={true}
 									onItemSelected={this.selectOption}

@@ -30,32 +30,37 @@
 		cursor: pointer;
 		background-color: var(--dropdown-item-background-color);
 		transition: background-color var(--dropdown-item-transition-duration) linear;
-	
+
 		.item-label {
 			@include kv-font-span-regular;
 			transition: font-weight var(--dropdown-item-transition-duration) linear;
 			margin-left: $spacing-2x;
 			color: var(--dropdown-item-label-color);
-	
+
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
 		}
-	
+
 		&.selected {
 			@include kv-font-span-semibold;
 			color: var(--dropdown-item-label-color-selected);
 			background-color: var(--dropdown-item-background-color-selected);
-	
+
 			.item-label {
 				@include kv-font-span-semibold;
 			}
 		}
-	
+
 		&:hover {
 			background-color: var(--dropdown-item-background-color-hover);
 		}
-	
+
+		&.disabled {
+			opacity: 0.5;
+			pointer-events: none;
+		}
+
 		kv-icon {
 			display: inline-flex;
 		}

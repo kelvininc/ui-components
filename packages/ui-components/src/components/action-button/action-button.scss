@@ -84,10 +84,10 @@ $btn-border-colors: (
 		danger: transparent
 	),
 	disabled: (
-		primary: transparent,
-		secondary: transparent,
+		primary: kv-color('neutral-3'),
+		secondary: kv-color('neutral-3'),
 		tertiary: kv-color('neutral-5'),
-		danger: transparent
+		danger:  kv-color('error', 'light')
 	),
 	active: (
 		primary: kv-color('primary', 'dark'),
@@ -230,7 +230,6 @@ $btn-paddings-x: (
 
 	&:focus:not(.action-button--disabled) {
 		&::before {
-			position: absolute;
 			content: '';
 			filter: blur(2px);
 			background: $btn-focus-border-color;

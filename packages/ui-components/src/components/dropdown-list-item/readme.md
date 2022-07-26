@@ -70,6 +70,7 @@ export class KvDropdownListItemExample {
 
 | Property             | Attribute   | Description                                 | Type      | Default     |
 | -------------------- | ----------- | ------------------------------------------- | --------- | ----------- |
+| `disabled`           | `disabled`  | (optional) If `true` the item is disabled   | `boolean` | `false`     |
 | `label` _(required)_ | `label`     | (required) The text to display on the item  | `string`  | `undefined` |
 | `selected`           | `selected`  | (optional) If `true` the item is selected   | `boolean` | `false`     |
 | `togglable`          | `togglable` | (optional)  If `true` the item is togglable | `boolean` | `false`     |

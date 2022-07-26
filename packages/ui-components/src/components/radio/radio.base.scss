@@ -1,0 +1,86 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --input-height-large: Text Field's large height.
+	 * @prop --input-height-small: Text Field's small height.
+
+	 * @prop --radio-label-text-color: Radio label color.
+	 * @prop --radio-input-default-color: Radio input color when state is not checked.
+	 * @prop --radio-input-checked-color: Radio input color when state is checked.
+	 */
+
+	--input-height-large: 38px;
+	--input-height-small: 28px;
+}
+
+.radio-container {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	user-select: none;
+
+	&--size-large {
+		height: var(--input-height-large);
+	}
+
+	&--size-small {
+		height: var(--input-height-small);
+	}
+
+	&.disabled {
+		pointer-events: none;
+		opacity: 0.5;
+
+		.circle {
+			border-color: var(--radio-input-default-color);
+
+			.checked-icon {
+				background: var(--radio-input-default-color);
+			}
+		}
+	}
+}
+
+.circle {
+	height: 14px;
+	width: 14px;
+	border-radius: 50%;
+	border: 1px solid var(--radio-input-default-color);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	&:focus {
+		outline: none;
+		border-color: var(--radio-input-focused-color);
+	}
+
+	.checked-icon {
+		height: 0;
+		width: 0;
+		transition: all 0.2s ease-out;
+	}
+}
+
+.checked .circle {
+	border: 1px solid var(--radio-input-checked-color);
+
+	.checked-icon {
+		height: 8px;
+		width: 8px;
+		border-radius: 50%;
+		background: var(--radio-input-checked-color);
+		transition: all 0.2s ease-out;
+	}
+}
+
+.label {
+	@include kv-font-span-regular();
+	@include ellipsis();
+
+	width: calc(100% - 24px);
+	color: var(--radio-label-text-color);
+	margin-left: $spacing-2x;
+}

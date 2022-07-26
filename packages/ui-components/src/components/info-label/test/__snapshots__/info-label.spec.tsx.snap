@@ -1,16 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Info Label (unit tests) when renders with a component should match the snapshot 1`] = `
-<kv-info-label description-collapsed-text="Read less" description-opened-text="Read more" label-title="DESCRIPTION">
+<kv-info-label description-collapsed-text="Read more" description-opened-text="Read less" label-title="DESCRIPTION">
   <mock:shadow-root>
     <div class="info-label">
-      <div class="title">
+      <div class="no-description title">
         DESCRIPTION
-      </div>
-      <div class="description-wrapper" style="height: nullpx;">
-        <div class="description">
-          <slot></slot>
-        </div>
       </div>
     </div>
   </mock:shadow-root>
@@ -32,7 +27,7 @@ exports[`Info Label (unit tests) when renders with a component should match the 
 `;
 
 exports[`Info Label (unit tests) when renders with copy values props should match the snapshot 1`] = `
-<kv-info-label copy-value="data-model" description="data-model" description-collapsed-text="Read less" description-opened-text="Read more" label-title="TYPE">
+<kv-info-label copy-value="data-model" description="data-model" description-collapsed-text="Read more" description-opened-text="Read less" label-title="TYPE">
   <mock:shadow-root>
     <div class="info-label">
       <div class="title">
@@ -75,15 +70,9 @@ exports[`Info Label (unit tests) when renders with description and read more stu
 `;
 
 exports[`Info Label (unit tests) when uses default props should match the snapshot 1`] = `
-<kv-info-label description-collapsed-text="Read less" description-opened-text="Read more" label-text="Default">
+<kv-info-label description-collapsed-text="Read more" description-opened-text="Read less" label-text="Default">
   <mock:shadow-root>
-    <div class="info-label">
-      <div class="description-wrapper" style="height: nullpx;">
-        <div class="description">
-          <slot></slot>
-        </div>
-      </div>
-    </div>
+    <div class="info-label"></div>
   </mock:shadow-root>
 </kv-info-label>
 `;

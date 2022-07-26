@@ -51,7 +51,7 @@ const DropdownTemplate: ComponentStory<typeof KvDropdown> = args => (
 		<KvDropdownList searchable={true}>
 			<KvDropdownListItem label="First label here" value="value-01" togglable={true}></KvDropdownListItem>
 			<KvDropdownListItem label="Second label here" value="value-02" togglable={true}></KvDropdownListItem>
-			<KvDropdownListItem label="Third label here" value="value-03" togglable={true}></KvDropdownListItem>
+			<KvDropdownListItem label="Third label here" value="value-03" disabled togglable={true}></KvDropdownListItem>
 			<KvDropdownListItem label="Fourth label here" value="value-04" togglable={true}></KvDropdownListItem>
 			<KvDropdownListItem label="Fifth label here" value="value-05" togglable={true}></KvDropdownListItem>
 			<KvDropdownListItem label="Sixth label here" value="value-06" togglable={true}></KvDropdownListItem>

@@ -1,0 +1,56 @@
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+
+.form-container {
+	--schema-form-x-padding: 0;
+	--schema-form-y-padding: 0;
+	$footer-height: calc(38px + ($spacing-4x) + var(--schema-form-y-padding));
+
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	padding-top: var(--schema-form-y-padding);
+	box-sizing: border-box;
+
+	form {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	form > div[class^="FieldTemplate"] {
+		height: calc(100% - $footer-height);
+		overflow-y: auto;
+		overflow-x: hidden;
+		box-sizing: border-box;
+		padding: 0 var(--schema-form-x-padding);
+	}
+
+	&.no-footer {
+		form > div[class^="FieldTemplate"] {
+			height: 100%;
+		}
+	}
+
+	.form-footer {
+		display: flex;
+		justify-content: end;
+		align-items: center;
+		padding: $spacing-4x var(--schema-form-x-padding) var(--schema-form-y-padding) var(--schema-form-x-padding);
+
+		&.scrolling {
+			border-top: 1px solid kv-color('neutral-6');
+		}
+
+		kv-action-button-text + button > kv-action-button-text {
+			padding-left: $spacing-3x;
+		}
+	}
+}
+
+.reset-button-style {
+	@include reset-button-style;
+}
