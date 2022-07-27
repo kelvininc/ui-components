@@ -36,6 +36,7 @@ import {
 	KvInfoLabel,
 	KvTreeItem,
 	KvTree,
+	KvModal,
 	KvFormHelpText,
 	KvFormLabel
 } from './stencil-generated/component';
@@ -77,6 +78,7 @@ const COMPONENTS = [
 	KvInfoLabel,
 	KvTreeItem,
 	KvTree,
+	KvModal,
 	KvFormHelpText,
 	KvFormLabel
 ];
