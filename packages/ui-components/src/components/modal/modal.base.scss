@@ -1,0 +1,93 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --modal-height: The modal's height in px.
+	 * @prop --modal-width: The modal's width in px.
+	 * @prop --modal-header-height: The modal's header height in px.
+	 * @prop --modal-footer-height: The modal's footer height in px.
+	 */
+	--modal-height: fit-content;
+	--modal-width: fit-content;
+	--modal-header-height: 60px;
+	--modal-footer-height: unset;
+
+	/**
+	* @prop --modal-backdrop-color: The modal's backdrop/overlay color.
+	* @prop --modal-background-color: The modal's background color.
+	* @prop --modal-title-text-color: The modal's text header color.
+	*/
+	--modal-backdrop-color: #{kv-color('background', 'step-1')};
+	--modal-background-color: #{kv-color('background')};
+	--modal-title-text-color: #{kv-color('kv-text')};
+}
+
+.modal-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	background: var(--modal-backdrop-color);
+}
+
+.modal-container {
+	position: absolute;
+	overflow: auto;
+	outline: none;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	width: var(--modal-width);
+	height: var(--modal-height);
+	min-width: 400px;
+	min-height: 235px;
+	border-radius: 10px;
+	background-color: var(--modal-background-color);
+	display: flex;
+	flex-direction: column;
+	z-index: 1001;
+
+	.top-bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 $spacing-4x;
+		height: var(--modal-header-height);
+
+		.title {
+			@include kv-font-label-small-uppercase-bold;
+			color: var(--modal-title-text-color);
+		}
+
+		.actions {
+			display: inline-flex;
+			align-items: center;
+		}
+	}
+
+	.content {
+		display: flex;
+		flex-direction: column;
+
+		.footer {
+			flex-shrink: 0;
+		}
+	}
+
+	.close {
+		cursor: pointer;
+		width: 28px;
+		height: 28px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		user-select: none;
+		pointer-events: all;
+		margin-left: $spacing-3x;
+
+		kv-icon {
+			--icon-color: #{kv-color('neutral-4')};
+		}
+	}
+}
