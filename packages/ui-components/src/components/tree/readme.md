@@ -151,6 +151,7 @@ export const TreeExample: React.FC = () => (
 graph TD;
   kv-tree --> kv-tree-item
   kv-tree-item --> kv-icon
+  kv-tree-item --> kv-badge
   style kv-tree fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

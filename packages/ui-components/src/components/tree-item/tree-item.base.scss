@@ -275,29 +275,5 @@
 		border-radius: 50%;
 		text-align: center;
 		line-height: 15px;
-
-		span {
-			@include kv-font-label-xsmall-uppercase-regular();
-			vertical-align: middle;
-			color: kv-color('neutral-0');
-
-			font-size: 8px;
-		}
-
-		&.info {
-			background-color: kv-color('info');
-		}
-
-		&.warning {
-			background-color: kv-color('warning');
-		}
-
-		&.success {
-			background-color: kv-color('success');
-		}
-
-		&.error {
-			background-color: kv-color('error');
-		}
 	}
 }

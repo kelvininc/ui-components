@@ -1,6 +1,6 @@
 ```tsx
 import React from 'react';
-import { KvTreeItem } from '@kelvininc/react-ui-components';
+import { KvTreeItem, EIconName, EBadgeState } from '@kelvininc/react-ui-components';
 
 export const TreeItemExample: React.FC = () => (
 	<>
@@ -23,7 +23,7 @@ export const TreeItemExample: React.FC = () => (
 		<KvTreeItem label="Node name" icon={EIconName.AssetA}></KvTreeItem>
 
 		{/*-- With Counter State --*/}
-		<KvTreeItem label="Node name" counter="32" counterState={ETreeItemState.Success}></KvTreeItem>
+		<KvTreeItem label="Node name" counter="32" counterState={EBadgeState.Success}></KvTreeItem>
 
 		{/*-- With Children --*/}
 		<KvTreeItem label="Parent Node">

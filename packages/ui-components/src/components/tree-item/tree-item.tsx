@@ -5,6 +5,7 @@ import { STATE_ICONS } from './tree-item.config';
 import { ETreeItemState } from './tree-item.types';
 import { EAnchorTarget, IAnchor } from '../../utils/types';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
+import { EBadgeState } from '../badge/badge.types';
 
 /**
  * @slot child-slot - Content is placed in the child subgroup and can be expanded and collapsed.
@@ -31,7 +32,7 @@ export class KvTreeItem implements IAnchor {
 	/** (optional) Defines the counter info of the tree item. If set, an badge will be displayed in the end of tree item.*/
 	@Prop({ reflect: true }) counter?: number;
 	/** (optional) Defines the state of the counter.*/
-	@Prop({ reflect: true }) counterState?: ETreeItemState;
+	@Prop({ reflect: true }) counterState?: EBadgeState;
 	/** (optional) Defines whether the tree node has children, even if currently no other tree nodes are slotted inside.
 	 * This property is useful for showing big tree structures where not all nodes are initially loaded due to performance reasons.
 	 * Set this to <code>true</code> for nodes you intend to load lazily, when the user clicks the expand button.
@@ -152,8 +153,8 @@ export class KvTreeItem implements IAnchor {
 
 									<div class="right-indicators">
 										{isNumber(this.counter) && this.counter >= 0 && (
-											<div class={{ 'alarm-bubble': true, [this.counterState]: true }}>
-												<span>{this.counter > 100 ? '+99' : this.counter}</span>
+											<div class="alarm-bubble">
+												<kv-badge state={this.counterState}>{this.counter > 100 ? '+99' : this.counter}</kv-badge>
 											</div>
 										)}
 									</div>

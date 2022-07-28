@@ -17,3 +17,4 @@ export * from './components/radio-button/radio-button.types';
 export * from './components/radio-button-group/radio-button-group.types';
 export * from './components/tree-item/tree-item.types';
 export * from './components/tree/tree.types';
+export * from './components/badge/badge.types';

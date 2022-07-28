@@ -2,13 +2,16 @@ import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { EActionButtonType, IButton, IButtonEvents } from '../action-button/action-button.types';
 import { EAnchorTarget, EComponentSize, IAnchor } from '../../utils/types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { IButtonIcon } from './action-button.types';
+import { EBadgeState } from '../badge/badge.types';
+import { isEmpty } from 'lodash-es';
 
 @Component({
 	tag: 'kv-action-button-icon',
 	styleUrl: 'action-button-icon.scss',
 	shadow: true
 })
-export class KvActionButtonIcon implements IButton, IButtonEvents, IAnchor {
+export class KvActionButtonIcon implements IButton, IButtonIcon, IButtonEvents, IAnchor {
 	/** (required) Button's icon symbol name */
 	@Prop({ reflect: true }) icon!: EIconName | EOtherIconName;
 	/** @inheritdoc */
@@ -25,6 +28,10 @@ export class KvActionButtonIcon implements IButton, IButtonEvents, IAnchor {
 	@Prop({ reflect: true }) target?: EAnchorTarget;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) download?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) badgeLabel?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) badgeState?: EBadgeState;
 
 	/** @inheritdoc */
 	@Event() clickButton: EventEmitter<MouseEvent>;
@@ -53,6 +60,11 @@ export class KvActionButtonIcon implements IButton, IButtonEvents, IAnchor {
 						exportparts="button"
 					>
 						<kv-icon name={this.icon} exportparts="icon" />
+						{!isEmpty(this.badgeLabel) && (
+							<div class="button-badge" exportparts="badge">
+								<kv-badge state={this.badgeState}>{this.badgeLabel}</kv-badge>
+							</div>
+						)}
 					</kv-action-button>
 				</div>
 			</Host>
