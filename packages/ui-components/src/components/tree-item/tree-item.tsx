@@ -153,7 +153,7 @@ export class KvTreeItem implements IAnchor {
 									<div class="right-indicators">
 										{isNumber(this.counter) && this.counter >= 0 && (
 											<div class={{ 'alarm-bubble': true, [this.counterState]: true }}>
-												<span>{this.counter > 100 ? '+99' : this.counter}</span>
+												<kv-badge>{this.counter > 100 ? '+99' : this.counter}</kv-badge>
 											</div>
 										)}
 									</div>
