@@ -276,28 +276,28 @@
 		text-align: center;
 		line-height: 15px;
 
-		span {
-			@include kv-font-label-xsmall-uppercase-regular();
-			vertical-align: middle;
-			color: kv-color('neutral-0');
-
-			font-size: 8px;
+		kv-badge {
+			--badge-text-color: #{kv-color('neutral-0')};
 		}
 
-		&.info {
-			background-color: kv-color('info');
+		&.none kv-badge {
+			--badge-background-color: transparent;
 		}
 
-		&.warning {
-			background-color: kv-color('warning');
+		&.info kv-badge {
+			--badge-background-color: #{kv-color('info')};
 		}
 
-		&.success {
-			background-color: kv-color('success');
+		&.warning kv-badge {
+			--badge-background-color: #{kv-color('warning')};
 		}
 
-		&.error {
-			background-color: kv-color('error');
+		&.success kv-badge {
+			--badge-background-color: #{kv-color('success')};
+		}
+
+		&.error kv-badge {
+			--badge-background-color: #{kv-color('error')};
 		}
 	}
 }

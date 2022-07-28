@@ -13,9 +13,9 @@ exports[`Tree Item (unit tests) when initialized with counter attribute should m
           </div>
           <div class="right-indicators">
             <div class="alarm-bubble undefined">
-              <span>
+              <kv-badge>
                 32
-              </span>
+              </kv-badge>
             </div>
           </div>
         </a>
