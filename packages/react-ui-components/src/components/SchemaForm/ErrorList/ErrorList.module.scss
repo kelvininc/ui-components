@@ -1,4 +1,5 @@
-@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/kv-theme.default.scss";
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/kv-spacing.scss";
 
 .error-list-container {
 	border-bottom: 1px solid kv-color('neutral-6');

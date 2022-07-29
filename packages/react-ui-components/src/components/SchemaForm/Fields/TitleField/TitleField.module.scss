@@ -1,5 +1,8 @@
-@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/kv-theme.default.scss";
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/kv-spacing.scss";
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/kv-typography.scss";
 
+$primary-font: var(--kv-primary-font, 'proxima-nova', sans-serif, 'Arial');
 .title-container {
 	margin-bottom: $spacing-2x;
 	display: flex;

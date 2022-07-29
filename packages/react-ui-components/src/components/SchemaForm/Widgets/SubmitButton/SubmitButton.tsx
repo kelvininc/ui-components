@@ -13,7 +13,7 @@ const SubmitButton: React.FC<WidgetProps> = props => {
 
 	return (
 		<button tabIndex={-1} className={styles['reset-button-style']} type="submit">
-			<KvActionButtonText text={submitText} size={EComponentSize.Large} type={EActionButtonType.Primary} {...submitButtonProps}></KvActionButtonText>
+			<KvActionButtonText text={submitText ? submitText : ''} size={EComponentSize.Large} type={EActionButtonType.Primary} {...submitButtonProps}></KvActionButtonText>
 		</button>
 	);
 };
