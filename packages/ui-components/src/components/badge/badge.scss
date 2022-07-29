@@ -1,0 +1,40 @@
+@import '../../assets/styles/globals';
+
+@mixin badge-type-theme($type) {
+	$badge-text-color: var(--badge-text-color-#{$type});
+	$badge-background-color: var(--badge-background-color-#{$type});
+
+	color: $badge-text-color;
+	background-color: $badge-background-color;
+}
+
+:host {
+	/**
+	 * @prop --badge-width: Badge's width.
+	 * @prop --badge-height: Badge's height.
+	 * @prop --badge-background-color: Badge's background color.
+	 * @prop --badge-text-color: Badge's text color.
+	 */
+
+	--badge-width: 16px;
+	--badge-height: 16px;
+
+	--badge-background-color: #{kv-color('neutral-5')};
+	--badge-text-color: #{kv-color('neutral-2')};
+}
+
+.badge {
+
+	@include kv-font-label-xsmall-regular;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	width: var(--badge-width);
+	height: var(--badge-height);
+
+	border-radius: 100%;
+
+	background-color: var(--badge-background-color);
+	color: var(--badge-text-color);
+}
