@@ -50,6 +50,8 @@
 	],
 	"dependencies": {
 		"@kelvininc/ui-components": "0.5.3",
+		"@rjsf/core": "^4.2.0",
+		"classnames": "^2.3.1",
 		"fs-extra": "10.0.0"
 	},
 	"devDependencies": {
@@ -70,6 +72,8 @@
 		"@types/react": "^17.0.34",
 		"@types/react-dom": "^17.0.11",
 		"@typescript-eslint/parser": "^5.12.1",
+		"@types/lodash-es": "^4.17.5",
+		"lodash-es": "^4.17.21",
 		"eslint": "^8.9.0",
 		"eslint-config-prettier": "^8.4.0",
 		"eslint-plugin-prettier": "^4.0.0",

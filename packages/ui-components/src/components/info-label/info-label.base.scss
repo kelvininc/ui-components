@@ -20,10 +20,14 @@
 		@include kv-font-label-small-uppercase-regular();
 		color: var(--text-color-title);
 		white-space: nowrap;
+		margin-bottom: $spacing-2x;
+
+		&.no-description {
+			margin-bottom: 0;
+		}
 	}
 
 	.description-wrapper {
-		margin-top: $spacing-2x;
 		overflow-y: hidden;
 		transition: height 0.3s ease-in-out;
 		height: auto;

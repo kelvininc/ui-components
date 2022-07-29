@@ -100,6 +100,7 @@ jobs:
 
             - name: Publish to Nexus
               run: |
+                  git reset --hard
                   npx lerna publish from-git --yes --canary --force-publish=*
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
