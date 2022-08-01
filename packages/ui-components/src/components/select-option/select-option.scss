@@ -37,7 +37,8 @@
 	.text-container {
 		display: flex;
 		flex-direction: column;
-
+		min-width: 0;
+		
 		.item-label {
 			@include kv-font-span-regular;
 			transition: font-weight var(--select-item-transition-duration) linear;

@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Toggle Tip (unit tests) when has a position should match the snapshot 1`] = `
+<kv-toggle-tip position="left" text="Toggle tip">
+  <mock:shadow-root>
+    <div class="toggle-tip-open-element-wrapper" id="toggle-tip-open-element-wrapper">
+      <slot name="open-element-slot"></slot>
+    </div>
+    <div class="toggle-tip-container" id="toggle-tip-container" part="toggle-tip-container" style="left: -5px; top: NaNpx;">
+      <div class="toggle-tip-text">
+        Toggle tip
+      </div>
+      <div class="toggle-tip-slot" part="toggle-tip-slot-content">
+        <slot name="content-slot"></slot>
+      </div>
+    </div>
+  </mock:shadow-root>
+  <kv-icon name="kv-logo-kelvin" slot="open-element-slot"></kv-icon>
+</kv-toggle-tip>
+`;
+
+exports[`Toggle Tip (unit tests) when uses default props should match the snapshot 1`] = `
+<kv-toggle-tip text="Toggle tip">
+  <mock:shadow-root>
+    <div class="toggle-tip-open-element-wrapper" id="toggle-tip-open-element-wrapper">
+      <slot name="open-element-slot"></slot>
+    </div>
+    <div class="toggle-tip-container" id="toggle-tip-container" part="toggle-tip-container" style="left: NaNpx; top: -5px;">
+      <div class="toggle-tip-text">
+        Toggle tip
+      </div>
+      <div class="toggle-tip-slot" part="toggle-tip-slot-content">
+        <slot name="content-slot"></slot>
+      </div>
+    </div>
+  </mock:shadow-root>
+  <kv-icon name="kv-logo-kelvin" slot="open-element-slot"></kv-icon>
+</kv-toggle-tip>
+`;
