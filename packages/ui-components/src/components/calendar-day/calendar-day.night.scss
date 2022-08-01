@@ -1,0 +1,16 @@
+@import './calendar-day.base';
+
+:host {
+	--calendar-day-text-color-default: #{kv-color('neutral-4')};
+	--calendar-day-text-color-hover: #{kv-color('neutral-0')};
+	--calendar-day-text-color-active: #{kv-color('neutral-0')};
+	--calendar-day-text-color-in-range: #{kv-color('neutral-4')};
+	--calendar-day-text-color-active-hover: #{kv-color('neutral-0')};
+	--calendar-day-text-color-disabled: #{kv-color('neutral-5')};
+	--calendar-day-background-color-default: #{kv-color('neutral-7')};
+	--calendar-day-background-color-hover: #{kv-color('neutral-6')};
+	--calendar-day-background-color-active: #{kv-color('primary')};
+	--calendar-day-background-color-in-range: #{kv-color('neutral-7')};
+	--calendar-day-background-color-active-hover: #{kv-color('primary', 'dark')};
+	--calendar-day-background-color-disabled: #{kv-color('neutral-3')};
+}

@@ -1,0 +1,13 @@
+@import '../../assets/styles/globals';
+
+:host {
+	.single-date-select-dropdown {
+		position: relative;
+		user-select: none;
+	}
+
+	.calendar-container {
+		position: absolute;
+		z-index: 2;
+	}
+}

@@ -1,0 +1,18 @@
+@import '../../assets/styles/globals';
+
+:host {
+	.range-dates-select-dropdown {
+		position: relative;
+		user-select: none;
+	}
+
+	.start-single-date-select-dropdown {
+		margin-bottom: $spacing-5x;
+	}
+
+	.calendar-container {
+		position: absolute;
+		padding-top: $spacing-6x;
+		z-index: 2;
+	}
+}

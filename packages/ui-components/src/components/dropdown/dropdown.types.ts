@@ -1,12 +1,10 @@
-import { EventEmitter } from '@stencil/core';
+import { IDropdownBase, IDropdownBaseEvents } from '../dropdown-base/dropdown-base.types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
 
-export interface IDropdown {
+export interface IDropdown extends IDropdownBase {
 	/** (optional) The text to display as the dropdown placeholder */
 	placeholder: string;
-	/** (optional) If `true` the list is opened */
-	isOpen?: boolean;
 	/** (optional) If `true` the dropdown is loading */
 	loading?: boolean;
 	/** (optional) The text to display on the dropdown label */
@@ -25,7 +23,4 @@ export interface IDropdown {
 	required?: boolean;
 }
 
-export interface IDropdownEvents {
-	/** Emitted when the dropdown opens state changes */
-	openStateChange: EventEmitter<boolean>;
-}
+export interface IDropdownEvents extends IDropdownBaseEvents {}

@@ -1,6 +1,4 @@
-# *<kv-action-button-icon>*
-
-
+# _<kv-action-button-icon>_
 
 <!-- Auto Generated Below -->
 
@@ -105,6 +103,10 @@ export const SwitchButtonExample: React.FC = () => (
 
 ## Dependencies
 
+### Used by
+
+ - [kv-calendar](../calendar)
+
 ### Depends on
 
 - [kv-action-button](../action-button)
@@ -117,6 +119,7 @@ graph TD;
   kv-action-button-icon --> kv-action-button
   kv-action-button-icon --> kv-icon
   kv-action-button-icon --> kv-badge
+  kv-calendar --> kv-action-button-icon
   style kv-action-button-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

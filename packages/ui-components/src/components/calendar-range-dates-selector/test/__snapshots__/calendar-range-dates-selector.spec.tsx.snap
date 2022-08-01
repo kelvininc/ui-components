@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Calendar Range Dates Selector (unit tests) when selected dates is passed and start and end dates are valid should match the snapshot 1`] = `
+<kv-calendar-range-dates-selector>
+  <mock:shadow-root>
+    <kv-calendar exportparts="calendar-container,month-container,day-container" initialdate="2020-04-02"></kv-calendar>
+  </mock:shadow-root>
+</kv-calendar-range-dates-selector>
+`;

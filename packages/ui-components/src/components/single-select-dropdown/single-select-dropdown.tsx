@@ -15,7 +15,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) placeholder: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) isOpen?: boolean = false;
+	@Prop({ reflect: true, mutable: true }) isOpen?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) loading?: boolean = false;
 	/** @inheritdoc */

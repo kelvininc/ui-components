@@ -6,7 +6,7 @@ import { EIconName, KvSingleSelectDropdown } from '../../components';
 KvSingleSelectDropdown.displayName = 'KvSingleSelectDropdown';
 
 export default {
-	title: 'Inputs/Dropdown/Single Select Dropdown',
+	title: 'Inputs/Dropdown/Select/Single Select Dropdown',
 	component: 'kv-single-select-dropdown',
 	argTypes: {
 		isOpen: {
