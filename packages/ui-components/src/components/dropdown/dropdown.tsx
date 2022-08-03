@@ -1,3 +1,4 @@
+import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom';
 import { Component, Host, h, Prop, Event, EventEmitter, Listen, Element } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EInputFieldType, EValidationState } from '../text-field/text-field.types';
@@ -51,11 +52,42 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 		this.openStateChange.emit(this.isOpen);
 	};
 
+	private closePositionAutoUpdate;
+
+	componentDidRender() {
+		const inputContainer = this.el.shadowRoot.querySelector('#dropdown-input');
+		const input = inputContainer.shadowRoot.querySelector('input');
+		const dropdownList = this.el.shadowRoot.querySelector('#dropdown-list') as HTMLElement;
+
+		if (this.isOpen) {
+			this.closePositionAutoUpdate = autoUpdate(input, dropdownList, () => {
+				computePosition(input, dropdownList, {
+					placement: 'bottom',
+					middleware: [
+						offset(8),
+						flip({
+							padding: 15,
+							fallbackPlacements: ['top']
+						})
+					]
+				}).then(({ x, y }) => {
+					dropdownList.style.left = `${x}px`;
+					dropdownList.style.top = `${y}px`;
+				});
+			});
+		} else {
+			if (this.closePositionAutoUpdate) {
+				this.closePositionAutoUpdate();
+			}
+		}
+	}
+
 	render() {
 		return (
 			<Host>
 				<div class="dropdown-container">
 					<kv-text-field
+						id="dropdown-input"
 						label={this.label}
 						value={this.value}
 						loading={this.loading}
@@ -74,7 +106,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 					</kv-text-field>
 
 					{this.isOpen && (
-						<div class="dropdown-list">
+						<div id="dropdown-list" class="dropdown-list">
 							<slot></slot>
 						</div>
 					)}
