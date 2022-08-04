@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { EIconName, EOtherIconName, EActionButtonType, KvActionButtonIcon, EComponentSize } from '../../components';
+import { EIconName, EOtherIconName, EActionButtonType, KvActionButtonIcon, EComponentSize, EAnchorTarget, EBadgeState } from '../../components';
 
 // Required to have the correct TagName in the code sample
 KvActionButtonIcon.displayName = 'KvActionButtonIcon';
@@ -20,6 +20,10 @@ export default {
 		icon: {
 			control: { type: 'select' },
 			options: [...Object.values(EIconName), ...Object.values(EOtherIconName)]
+		},
+		badgeState: {
+			control: { type: 'select' },
+			options: Object.values(EBadgeState)
 		}
 	},
 	parameters: {
@@ -63,4 +67,35 @@ DangerState.args = {
 	size: EComponentSize.Small,
 	disabled: false,
 	active: false
+};
+
+export const DisabledState = ActionButtonIconTemplate.bind({});
+DisabledState.args = {
+	icon: EIconName.Add,
+	type: EActionButtonType.Primary,
+	size: EComponentSize.Small,
+	disabled: true,
+	active: false
+};
+
+export const AnchorState = ActionButtonIconTemplate.bind({});
+AnchorState.args = {
+	icon: EIconName.Add,
+	type: EActionButtonType.Primary,
+	size: EComponentSize.Small,
+	disabled: false,
+	active: false,
+	href: 'https://kelvin.ai/',
+	target: EAnchorTarget.NewTab
+};
+
+export const BadgeState = ActionButtonIconTemplate.bind({});
+BadgeState.args = {
+	icon: EIconName.Dashboard,
+	type: EActionButtonType.Secondary,
+	size: EComponentSize.Small,
+	disabled: false,
+	active: false,
+	badgeLabel: '12',
+	badgeState: EBadgeState.None
 };

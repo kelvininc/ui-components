@@ -12,6 +12,8 @@
 	--button-icon-large-height: 24px;
 	--button-icon-small-height: 20px;
 	--button-icon-small-width: 20px;
+
+	position: relative;
 }
 
 .action-button-icon--size-large {
@@ -45,4 +47,11 @@ kv-action-button {
 kv-icon {
 	display: flex;
 	padding: $spacing;
+}
+
+.button-badge {
+	position: absolute;
+	z-index: 1;
+	top: -5px;
+	right: -5px;
 }

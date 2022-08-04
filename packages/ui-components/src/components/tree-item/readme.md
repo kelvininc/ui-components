@@ -1,7 +1,5 @@
 # *<kv-tree-item>*
 
-
-
 <!-- Auto Generated Below -->
 
 
@@ -47,7 +45,7 @@
 
 ```tsx
 import React from 'react';
-import { KvTreeItem } from '@kelvininc/react-ui-components';
+import { KvTreeItem, EIconName, EBadgeState } from '@kelvininc/react-ui-components';
 
 export const TreeItemExample: React.FC = () => (
 	<>
@@ -70,7 +68,7 @@ export const TreeItemExample: React.FC = () => (
 		<KvTreeItem label="Node name" icon={EIconName.AssetA}></KvTreeItem>
 
 		{/*-- With Counter State --*/}
-		<KvTreeItem label="Node name" counter="32" counterState={ETreeItemState.Success}></KvTreeItem>
+		<KvTreeItem label="Node name" counter="32" counterState={EBadgeState.Success}></KvTreeItem>
 
 		{/*-- With Children --*/}
 		<KvTreeItem label="Parent Node">
@@ -93,7 +91,7 @@ export const TreeItemExample: React.FC = () => (
 | ----------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----------- |
 | `additionalLabel` | `additional-label` | (optional) Defines the sub-title of the tree item, displayed under the title.                                                                                                                                                                                                                                                                                                                                                                                                         | `string`                                                                                                                 | `undefined` |
 | `counter`         | `counter`          | (optional) Defines the counter info of the tree item. If set, an badge will be displayed in the end of tree item.                                                                                                                                                                                                                                                                                                                                                                     | `number`                                                                                                                 | `undefined` |
-| `counterState`    | `counter-state`    | (optional) Defines the state of the counter.                                                                                                                                                                                                                                                                                                                                                                                                                                          | `ETreeItemState.Error \| ETreeItemState.Info \| ETreeItemState.None \| ETreeItemState.Success \| ETreeItemState.Warning` | `undefined` |
+| `counterState`    | `counter-state`    | (optional) Defines the state of the counter.                                                                                                                                                                                                                                                                                                                                                                                                                                          | `EBadgeState.Error \| EBadgeState.Info \| EBadgeState.None \| EBadgeState.Success \| EBadgeState.Warning`                | `undefined` |
 | `disabled`        | `disabled`         | (optional) Defines whether the tree node is disabled.                                                                                                                                                                                                                                                                                                                                                                                                                                 | `boolean`                                                                                                                | `false`     |
 | `download`        | `download`         | (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename                                                                                                                                                                                                                                                                                                                                                                       | `string`                                                                                                                 | `undefined` |
 | `expanded`        | `expanded`         | (optional) Defines whether the tree node is expanded or collapsed. Only has visual effect for tree nodes with children.                                                                                                                                                                                                                                                                                                                                                               | `boolean`                                                                                                                | `false`     |
@@ -164,15 +162,15 @@ export const TreeItemExample: React.FC = () => (
 ### Depends on
 
 - [kv-icon](../icon)
+- [kv-badge](../badge)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-tree-item --> kv-icon
+  kv-tree-item --> kv-badge
   kv-tree --> kv-tree-item
   style kv-tree-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------
-
-

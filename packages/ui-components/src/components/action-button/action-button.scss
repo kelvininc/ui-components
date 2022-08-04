@@ -28,7 +28,7 @@ $btn-text-colors: (
 	active: (
 		primary: kv-color('text'),
 		secondary: kv-color('text'),
-		tertiary: kv-color('text'),
+		tertiary: kv-color('neutral-2'),
 		danger: kv-color('text')
 	)
 );
@@ -58,10 +58,10 @@ $btn-background-colors: (
 		danger: kv-color('error', 'light')
 	),
 	active: (
-		primary: kv-color('primary'),
-		secondary: kv-color('neutral-6'),
+		primary: kv-color('primary', 'dark'),
+		secondary: kv-color('neutral-5'),
 		tertiary: transparent,
-		danger: kv-color('error')
+		danger: kv-color('error', 'dark')
 	)
 );
 $btn-border-colors: (
@@ -80,20 +80,20 @@ $btn-border-colors: (
 	focus: (
 		primary: kv-color('primary'),
 		secondary: kv-color('neutral-0'),
-		tertiary: null,
-		danger: null
+		tertiary: transparent,
+		danger: transparent
 	),
 	disabled: (
-		primary: null,
-		secondary: null,
+		primary: transparent,
+		secondary: transparent,
 		tertiary: kv-color('neutral-5'),
-		danger: null
+		danger: transparent
 	),
 	active: (
-		primary: null,
-		secondary: null,
-		tertiary: kv-color('neutral-0'),
-		danger: null
+		primary: kv-color('primary', 'dark'),
+		secondary: kv-color('neutral-5'),
+		tertiary: kv-color('neutral-2'),
+		danger: kv-color('error', 'dark')
 	)
 );
 $btn-heights: (
@@ -193,10 +193,7 @@ $btn-paddings-x: (
 	background-size: 350% 100%;
 	background-color: $btn-default-background-color;
 	background-position: right bottom;
-	transition: background-position 0.5s ease-out,
-		border-top-color 0.5s ease-out,
-		border-right-color 0.5s ease-out,
-		border-bottom-color 0.25s ease-in-out,
+	transition: background-position 0.5s ease-out, border-top-color 0.5s ease-out, border-right-color 0.5s ease-out, border-bottom-color 0.25s ease-in-out,
 		border-left-color 0.25s ease-in-out;
 
 	&:hover:not(.action-button--disabled) {

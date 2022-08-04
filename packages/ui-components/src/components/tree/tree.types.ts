@@ -1,6 +1,7 @@
 import { IAnchor } from '../../types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { ETreeItemState } from '../tree-item/tree-item.types';
+import { EBadgeState } from '../badge/badge.types';
 
 export interface ITreeNodeItem extends IAnchor {
 	id: string; // Should be unique
@@ -10,7 +11,7 @@ export interface ITreeNodeItem extends IAnchor {
 	icon?: EIconName | EOtherIconName;
 	iconState?: ETreeItemState; // Need to validate if it should be here because can change constantly
 	counter?: number; // Need to validate if it should be here because can change constantly
-	counterState?: ETreeItemState; // Need to validate if it should be here because can change constantly
+	counterState?: EBadgeState; // Need to validate if it should be here because can change constantly
 	lazyLoadChildren?: boolean;
 	metadata?: any;
 	children?: ITreeNodeItem[];
