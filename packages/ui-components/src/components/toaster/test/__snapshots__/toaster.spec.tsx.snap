@@ -12,6 +12,7 @@ exports[`Toaster (unit tests) when uses default props and error type should matc
           Main Message
         </span>
       </div>
+      <slot></slot>
       <div class="toaster-close-icon">
         <kv-icon name="kv-close"></kv-icon>
       </div>

@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { KvToaster } from '../../components';
+import { EActionButtonType, KvActionButton, KvToaster } from '../../components';
 
 KvToaster.displayName = 'KvToaster';
 
@@ -32,6 +32,11 @@ export default {
 };
 
 const ToasterTemplate: ComponentStory<typeof KvToaster> = args => <KvToaster {...args} />;
+const ToasterWithSlotTemplate: ComponentStory<typeof KvToaster> = args => (
+	<KvToaster {...args}>
+		<KvActionButton type={EActionButtonType.Tertiary}>Clean Simulation</KvActionButton>
+	</KvToaster>
+);
 
 export const ErrorIcon = ToasterTemplate.bind({});
 ErrorIcon.args = {
@@ -71,4 +76,11 @@ NoTTL.args = {
 	description: 'Secondary Message',
 	ttl: 0,
 	type: EToasterType.Info
+};
+
+export const WithSlot = ToasterWithSlotTemplate.bind({});
+WithSlot.args = {
+	header: 'Displaying results of simulation',
+	description: 'Click to end simulation',
+	type: EToasterType.Warning
 };
