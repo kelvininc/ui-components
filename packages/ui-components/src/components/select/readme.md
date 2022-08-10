@@ -72,6 +72,15 @@ export const KvSelectExample: React.FC = () => (
 | `searchChange`   | Emitted when the user interacts with the search text field | `CustomEvent<string>` |
 
 
+## CSS Custom Properties
+
+| Name                        | Description              |
+| --------------------------- | ------------------------ |
+| `--select-background-color` | Select background color. |
+| `--select-border-color`     | Select border color.     |
+| `--select-max-height`       | Select maximum height.   |
+
+
 ## Dependencies
 
 ### Used by

@@ -6,6 +6,7 @@ export interface ISingleSelectDropdownOption {
 	label: string;
 	value: string;
 	disabled?: boolean;
+	group?: string;
 }
 
 export interface ISingleSelectDropdownOptions {

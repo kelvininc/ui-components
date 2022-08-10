@@ -14,6 +14,10 @@
 		&[disabled] {
 			pointer-events: none;
 		}
+
+		kv-dropdown-group:not(:last-child)::part(group-container) {
+			margin-bottom: $spacing-2x;
+		}
 	}
 
 	kv-select {
