@@ -52,6 +52,7 @@ export const TabListExample: React.FC = () => (
 | Name                         | Description                  |
 | ---------------------------- | ---------------------------- |
 | `--tab-list-bg-color`        | Background color of the list |
+| `--tab-list-divider-color`   | Tab divider bar color        |
 | `--tab-list-indicator-color` | Tab indicator bar color      |
 
 

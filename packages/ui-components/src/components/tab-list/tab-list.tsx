@@ -48,9 +48,9 @@ export class KvTabList {
 
 		if (gte(tabIndex, 0) && !isEmpty(this.tabItems) && !isEmpty(this.selectedTabKey)) {
 			const selectedTabEl = this.tabItems.find((_tabRef, index) => tabIndex === index);
-			const labelEl: HTMLElement = selectedTabEl.shadowRoot.querySelector('.label');
-			this.selectedTabIndicatorOffset = labelEl.offsetLeft;
-			this.selectedTabIndicatorWidth = labelEl.clientWidth / 2;
+			const itemTabContainerEl: HTMLElement = selectedTabEl.shadowRoot.querySelector('.tab-item-container');
+			this.selectedTabIndicatorOffset = itemTabContainerEl.offsetLeft;
+			this.selectedTabIndicatorWidth = itemTabContainerEl.clientWidth;
 		}
 	}
 
