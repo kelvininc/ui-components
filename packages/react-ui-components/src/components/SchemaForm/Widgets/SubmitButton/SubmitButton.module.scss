@@ -1,0 +1,5 @@
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+
+.reset-button-style {
+	@include reset-button-style;
+}

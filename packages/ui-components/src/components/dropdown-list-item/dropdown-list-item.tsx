@@ -13,6 +13,8 @@ export class KvDropdownListItem implements IDropdownListItem, IDropdownListItemE
 	/** @inheritdoc */
 	@Prop({ reflect: true }) value!: string;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled?: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) selected?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) togglable?: boolean = false;
@@ -30,7 +32,8 @@ export class KvDropdownListItem implements IDropdownListItem, IDropdownListItemE
 				<div
 					class={{
 						'dropdown-list-item': true,
-						'selected': this.selected
+						'selected': this.selected,
+						'disabled': this.disabled
 					}}
 					onClick={this.onItemClick}
 				>

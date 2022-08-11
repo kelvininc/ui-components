@@ -1,12 +1,18 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { KvRadio } from '../../components';
+import { EComponentSize, KvRadio } from '../../components';
 
 export default {
 	title: 'Inputs/Radio',
 	component: 'kv-radio',
 	parameters: {
 		notes: require('@ui-notes/radio/readme.md')
+	},
+	argTypes: {
+		size: {
+			control: 'radio',
+			options: Object.values(EComponentSize)
+		}
 	}
 };
 

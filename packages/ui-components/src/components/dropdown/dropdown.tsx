@@ -26,7 +26,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) errorState?: EValidationState = EValidationState.None;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) helpText?: string;
+	@Prop({ reflect: true }) helpText?: string | string[] = [];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean;
 	/** @inheritdoc */

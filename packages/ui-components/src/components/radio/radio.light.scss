@@ -1,0 +1,9 @@
+@import '../../assets/styles/globals';
+@import './radio.base';
+
+:host {
+	--radio-label-text-color: #{kv-color('text')};
+	--radio-input-checked-color: #{kv-color('primary')};
+	--radio-input-focused-color: #{kv-color('primary')};
+	--radio-input-default-color: #{kv-color('neutral-3')};
+}

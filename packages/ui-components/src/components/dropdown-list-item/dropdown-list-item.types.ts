@@ -5,6 +5,8 @@ export interface IDropdownListItem {
 	label: string;
 	/** (required) The item value */
 	value: string;
+	/** (optional) If `true` the item is disabled */
+	disabled?: boolean;
 	/** (optional) If `true` the item is selected */
 	selected?: boolean;
 	/** (optional)  If `true` the item is togglable */

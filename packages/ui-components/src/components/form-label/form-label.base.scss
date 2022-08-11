@@ -1,0 +1,26 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --label-color: Label Text color.
+	 */
+}
+
+.label,
+.required {
+	@include kv-font-label-small-uppercase-semibold;
+}
+
+.label {
+	color: var(--label-color);
+	margin-left: $spacing;
+}
+
+.required {
+	color: kv-color('error');
+	margin-left: $spacing;
+}
+
+.label-container {
+	margin-bottom: $spacing;
+}

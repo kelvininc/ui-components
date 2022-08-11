@@ -1,0 +1,41 @@
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+
+.array-item-list {
+	display: flex;
+}
+
+.array-item-container .array-field-template {
+	border: 1px solid kv-color('neutral-6');
+	border-width: 0 1px;
+	padding: 0 $spacing-5x;
+	margin-left: $spacing-2x;
+}
+
+.array-item-container {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	padding-bottom: $spacing-5x;
+
+	.toolbar-container {
+		display: flex;
+		padding-left: $spacing-5x;
+		gap: $spacing;
+	}
+}
+
+.array-field-template {
+	display: flex;
+
+	.array-field-container {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+
+		.array-field-add-button-container {
+			display: flex;
+			justify-content: end;
+
+		}
+	}
+}

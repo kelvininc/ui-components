@@ -1,4 +1,14 @@
 @mixin ghost-animation($baseColor) {
+	@keyframes ghostGradientAnimation {
+		0% {
+			background-position: -100% 0;
+		}
+
+		100% {
+			background-position: 100% 0;
+		}
+	}
+
 	@if (kv-color($baseColor, 'base')) {
 		$color1: kv-color($baseColor, 'base', 0.3);
 		$color2: kv-color($baseColor, 'base');
@@ -11,18 +21,38 @@
 	}
 }
 
-@keyframes ghostGradientAnimation {
-	0% {
-		background-position: -100% 0;
-	}
-
-	100% {
-		background-position: 100% 0;
-	}
-}
-
 @mixin ellipsis {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+@mixin reset-button-style {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	overflow: visible;
+
+	background: transparent;
+
+	/* inherit font & color from ancestor */
+	color: inherit;
+	font: inherit;
+
+	/* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+	line-height: normal;
+
+	/* Corrects font smoothing for webkit */
+	-webkit-font-smoothing: inherit;
+	-moz-osx-font-smoothing: inherit;
+
+	/* Corrects inability to style clickable `input` types in iOS */
+	appearance: none;
+	outline: none;
+
+	&::-moz-focus-inner {
+		border: 0;
+		padding: 0;
+	}
 }

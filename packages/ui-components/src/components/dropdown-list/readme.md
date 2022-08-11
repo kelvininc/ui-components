@@ -128,7 +128,10 @@ graph TD;
   kv-dropdown-list --> kv-search
   kv-search --> kv-text-field
   kv-search --> kv-icon
+  kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
+  kv-text-field --> kv-form-help-text
+  kv-form-help-text --> kv-icon
   kv-multi-select-dropdown --> kv-dropdown-list
   kv-single-select-dropdown --> kv-dropdown-list
   style kv-dropdown-list fill:#f9f,stroke:#333,stroke-width:4px

@@ -1,0 +1,26 @@
+// Globals
+@import './globals';
+
+body {
+	color: kv-color('text');
+	background-color: kv-color('background');
+	font-family: $primary-font;
+
+	&[mode='light'] {
+		/* Text and Background Colors */
+		--kv-text: #202020;
+		--kv-text-rgb: 32, 32, 32;
+
+		--kv-background: #fff;
+		--kv-background-rgb: 255, 255, 255;
+	}
+
+	&[mode='night'] {
+		/* Text and Background Colors */
+		--kv-text: #fff;
+		--kv-text-rgb: 255, 255, 255;
+
+		--kv-background: #202020;
+		--kv-background-rgb: 32, 32, 32;
+	}
+}

@@ -94,7 +94,7 @@ export class KvTreeItem implements IAnchor {
 		this.itemClickThrottler = throttle((event: MouseEvent) => this.itemClick.emit(event), DEFAULT_THROTTLE_WAIT);
 	}
 
-	onItemClick(event: MouseEvent) {
+	private onItemClick(event: MouseEvent) {
 		if (this.preventDefault) {
 			event.preventDefault();
 		}

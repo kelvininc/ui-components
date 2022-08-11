@@ -53,7 +53,7 @@ export const KvMultiSelectDropdownExample: React.FC = (props) => (
 | `disabled`             | `disabled`                | (optional) If `true` the dropdown is disabled                 | `boolean`                                                                     | `undefined`                               |
 | `displayValue`         | `display-value`           | (optional) The text to display on the dropdown                | `string`                                                                      | `undefined`                               |
 | `errorState`           | `error-state`             | (required) The error state for the dropdown                   | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid` | `undefined`                               |
-| `helpText`             | `help-text`               | (optional) The text to display as help text                   | `string`                                                                      | `undefined`                               |
+| `helpText`             | `help-text`               | (optional) The text to display as help text                   | `string \| string[]`                                                          | `[]`                                      |
 | `icon`                 | `icon`                    | (optional) The icon to display on the dropdown                | `EIconName \| EOtherIconName`                                                 | `undefined`                               |
 | `isOpen`               | `is-open`                 | (optional) If `true` the dropdown is opened                   | `boolean`                                                                     | `undefined`                               |
 | `label`                | `label`                   | (optional) The text to display on the dropdown label          | `string`                                                                      | `undefined`                               |
@@ -99,7 +99,10 @@ graph TD;
   kv-multi-select-dropdown --> kv-dropdown-list-item
   kv-dropdown --> kv-text-field
   kv-dropdown --> kv-icon
+  kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
+  kv-text-field --> kv-form-help-text
+  kv-form-help-text --> kv-icon
   kv-dropdown-list --> kv-search
   kv-search --> kv-text-field
   kv-search --> kv-icon
