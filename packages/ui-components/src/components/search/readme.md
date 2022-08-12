@@ -68,7 +68,7 @@ export const SearchExample: React.FC = () => (
 
 ### Used by
 
- - [kv-dropdown-list](../dropdown-list)
+ - [kv-select](../select)
 
 ### Depends on
 
@@ -84,7 +84,7 @@ graph TD;
   kv-text-field --> kv-icon
   kv-text-field --> kv-form-help-text
   kv-form-help-text --> kv-icon
-  kv-dropdown-list --> kv-search
+  kv-select --> kv-search
   style kv-search fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

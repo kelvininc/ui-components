@@ -21,7 +21,7 @@
 	--dropdown-item-label-color: #{kv-color('neutral-4')};
 	--dropdown-item-label-color-selected: #{kv-color('neutral-2')};
 
-	.dropdown-list-item {
+	.select-option {
 		height: var(--dropdown-item-height);
 		padding: 0 $spacing-4x;
 		display: flex;
@@ -66,5 +66,3 @@
 		}
 	}
 }
-
-

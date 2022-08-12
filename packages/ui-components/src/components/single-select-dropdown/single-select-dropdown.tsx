@@ -130,10 +130,10 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 					helpText={this.helpText}
 					onOpenStateChange={this.openStateChangeHandler}
 				>
-					<kv-dropdown-list searchValue={this._searchValue} searchable={this.searchable} onSearchChange={this.onSearchChange}>
-						{isEmpty(this.options) && <kv-dropdown-list-item class="no-data" label={this.noDataAvailableLabel} value={null} />}
+					<kv-select searchValue={this._searchValue} searchable={this.searchable} onSearchChange={this.onSearchChange}>
+						{isEmpty(this.options) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
 						{Object.values(this.options).map(option => (
-							<kv-dropdown-list-item
+							<kv-select-option
 								label={option.label}
 								value={option.value}
 								disabled={option.disabled}
@@ -141,7 +141,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 								onItemSelected={this.selectOption}
 							/>
 						))}
-					</kv-dropdown-list>
+					</kv-select>
 				</kv-dropdown>
 			</Host>
 		);

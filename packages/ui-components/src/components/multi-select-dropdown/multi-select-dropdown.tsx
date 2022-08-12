@@ -141,7 +141,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 					helpText={this.helpText}
 					onOpenStateChange={this.openStateChangeHandler}
 				>
-					<kv-dropdown-list
+					<kv-select
 						searchable={this.searchable}
 						searchValue={this._searchValue}
 						selectionClearable={!isEmpty(this.options) && this.selectionClearable}
@@ -150,10 +150,10 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 						onClearSelection={this.onClearSelection}
 						onSearchChange={this.onSearchChange}
 					>
-						{isEmpty(this.options) && <kv-dropdown-list-item class="no-data" label={this.noDataAvailableLabel} value={null} />}
+						{isEmpty(this.options) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
 						{this.options &&
 							Object.values(this.options).map(option => (
-								<kv-dropdown-list-item
+								<kv-select-option
 									label={option.label}
 									value={option.value}
 									disabled={option.disabled}
@@ -162,7 +162,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 									onItemSelected={this.selectOption}
 								/>
 							))}
-					</kv-dropdown-list>
+					</kv-select>
 				</kv-dropdown>
 			</Host>
 		);

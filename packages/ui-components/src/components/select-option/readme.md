@@ -1,4 +1,4 @@
-# *<kv-dropdown-list-item>*
+# *<kv-select-option>*
 
 
 
@@ -7,16 +7,16 @@
 
 ## Usage
 
-### Angular / javascript
+### Angular
 
 ```html
 <!-- With all properties (only label and value are mandatory) -->
-<kv-dropdown-list-item
+<kv-select-option
 	label="Option 1"
 	value="option1"
 	selected=true
 	togglable=false>
-</kv-dropdown-list-item>
+</kv-select-option>
 ```
 
 
@@ -24,44 +24,19 @@
 
 ```tsx
 import React from 'react';
-import { KvDropdownListItem } from '@kelvininc/react-ui-components';
-export const KvDropdownListItemExample: React.FC = () => (
+import { KvSelectOption } from '@kelvininc/react-ui-components';
+export const KvSelectOptionExample: React.FC = () => (
   <>
 	{/*-- With all properties (only label and value are mandatory) --*/}
-	<KvDropdownListItem
+	<KvSelectOption
 		label="Option 1"
 		link="option1"
 		selected={false}
 		togglable={true}
 		>
-	</KvDropdownListItem>
+	</KvSelectOption>
   </>
 );
-```
-
-
-### Stencil
-
-```tsx
-import { Component, h } from '@stencil/core';
-@Component({
-  tag: 'kv-dropdown-list-item-example',
-  styleUrl: 'kv-dropdown-list-item-example.css',
-  shadow: true,
-})
-export class KvDropdownListItemExample {
-  render() {
-    return (
-		<KvDropdownListItem
-			label="Option 1"
-			link="option1"
-			selected={false}
-			togglable={true}
-		>
-	</KvDropdownListItem>
-	);
-  }
-}
 ```
 
 
@@ -111,10 +86,10 @@ export class KvDropdownListItemExample {
 ### Graph
 ```mermaid
 graph TD;
-  kv-dropdown-list-item --> kv-icon
-  kv-multi-select-dropdown --> kv-dropdown-list-item
-  kv-single-select-dropdown --> kv-dropdown-list-item
-  style kv-dropdown-list-item fill:#f9f,stroke:#333,stroke-width:4px
+  kv-select-option --> kv-icon
+  kv-multi-select-dropdown --> kv-select-option
+  kv-single-select-dropdown --> kv-select-option
+  style kv-select-option fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

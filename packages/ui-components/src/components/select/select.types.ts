@@ -1,6 +1,6 @@
 import { EventEmitter } from '@stencil/core';
 
-export interface IDropdownList {
+export interface ISelect {
 	/** (optional) If `true` the list has a search text field */
 	searchable?: boolean;
 	/** (optional) The search value on the list */
@@ -15,7 +15,7 @@ export interface IDropdownList {
 	clearSelectionLabel?: string;
 }
 
-export interface IDropdownListEvents {
+export interface ISelectEvents {
 	/** Emitted when the user interacts with the search text field */
 	searchChange: EventEmitter<string>;
 	/** Emitted when the user clears the selected items */
