@@ -80,7 +80,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 
 ### Depends on
 
-- [kv-dropdown-group](../dropdown-group)
+- [kv-select-group](../select-group)
 - [kv-select-option](../select-option)
 - [kv-dropdown](../dropdown)
 - [kv-select](../select)
@@ -88,7 +88,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 ### Graph
 ```mermaid
 graph TD;
-  kv-single-select-dropdown --> kv-dropdown-group
+  kv-single-select-dropdown --> kv-select-group
   kv-single-select-dropdown --> kv-select-option
   kv-single-select-dropdown --> kv-dropdown
   kv-single-select-dropdown --> kv-select

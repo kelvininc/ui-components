@@ -1,4 +1,4 @@
-# *<kv-dropdown-group>*
+# *<kv-select-group>*
 
 <!-- Auto Generated Below -->
 
@@ -8,7 +8,7 @@
 ### Angular
 
 ```html
-<kv-dropdown-group label="Default Timezone"> </kv-dropdown-group>
+<kv-select-group label="Default Timezone"> </kv-select-group>
 ```
 
 
@@ -16,11 +16,11 @@
 
 ```tsx
 import React from 'react';
-import { KvDropdownGroup } from '@kelvininc/react-ui-components';
+import { KvSelectGroup } from '@kelvininc/react-ui-components';
 
-export const KvDropdownGroupExample: React.FC = props => (
+export const KvSelectGroupExample: React.FC = props => (
 	<>
-		<KvDropdownGroup label="Default Timezone"></KvDropdownGroup>
+		<KvSelectGroup label="Default Timezone"></KvSelectGroup>
 	</>
 );
 ```
@@ -43,11 +43,11 @@ export const KvDropdownGroupExample: React.FC = props => (
 
 ## CSS Custom Properties
 
-| Name                                     | Description                           |
-| ---------------------------------------- | ------------------------------------- |
-| `--dropdown-group-item-background-color` | Dropdown group item background color. |
-| `--dropdown-group-item-height`           | Dropdown group item height.           |
-| `--dropdown-group-item-label-color`      | Dropdown group item label color.      |
+| Name                                   | Description                           |
+| -------------------------------------- | ------------------------------------- |
+| `--select-group-item-background-color` | Dropdown group item background color. |
+| `--select-group-item-height`           | Dropdown group item height.           |
+| `--select-group-item-label-color`      | Dropdown group item label color.      |
 
 
 ## Dependencies
@@ -60,9 +60,9 @@ export const KvDropdownGroupExample: React.FC = props => (
 ### Graph
 ```mermaid
 graph TD;
-  kv-multi-select-dropdown --> kv-dropdown-group
-  kv-single-select-dropdown --> kv-dropdown-group
-  style kv-dropdown-group fill:#f9f,stroke:#333,stroke-width:4px
+  kv-multi-select-dropdown --> kv-select-group
+  kv-single-select-dropdown --> kv-select-group
+  style kv-select-group fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

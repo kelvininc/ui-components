@@ -1,16 +1,16 @@
 import { Component, Host, h, Prop } from '@stencil/core';
-import { buildDropdownGroupLabel } from './dropdown-group.helper';
-import { IDropdownGroup } from './dropdown-group.types';
+import { buildSelectGroupLabel } from './select-group.helper';
+import { ISelectGroup } from './select-group.types';
 
 /**
  * @part group-container - The group element container.
  */
 @Component({
-	tag: 'kv-dropdown-group',
-	styleUrl: 'dropdown-group.scss',
+	tag: 'kv-select-group',
+	styleUrl: 'select-group.scss',
 	shadow: true
 })
-export class KvDropdownGroup implements IDropdownGroup {
+export class KvSelectGroup implements ISelectGroup {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
 
@@ -18,7 +18,7 @@ export class KvDropdownGroup implements IDropdownGroup {
 		return (
 			<Host>
 				<div class="group" part="group-container">
-					<div class="label">{buildDropdownGroupLabel(this.label)}</div>
+					<div class="label">{buildSelectGroupLabel(this.label)}</div>
 					<div class="items">
 						<slot></slot>
 					</div>

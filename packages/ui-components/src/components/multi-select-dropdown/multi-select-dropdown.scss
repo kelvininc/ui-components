@@ -15,7 +15,7 @@
 			pointer-events: none;
 		}
 
-		kv-dropdown-group:not(:last-child)::part(group-container) {
+		kv-select-group:not(:last-child)::part(group-container) {
 			margin-bottom: $spacing-2x;
 		}
 	}
