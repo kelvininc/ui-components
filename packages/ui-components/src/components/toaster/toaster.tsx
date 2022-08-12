@@ -111,6 +111,7 @@ export class KvToaster implements IToaster, IToasterEvents {
 						<span class="main-message">{this.header}</span>
 						{!isEmpty(this.description) && <span class="secondary-message">{this.description}</span>}
 					</div>
+					<slot></slot>
 					{this.closable && (
 						<div class="toaster-close-icon">
 							<kv-icon name={CLOSE_ICON.icon} onClick={this.onCloseClick}></kv-icon>
