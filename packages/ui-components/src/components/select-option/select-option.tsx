@@ -18,6 +18,8 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	@Prop({ reflect: true }) selected?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) togglable?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) hasBottomSlot?: boolean = false;
 
 	/** @inheritdoc */
 	@Event() itemSelected: EventEmitter<string>;
@@ -33,12 +35,16 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 					class={{
 						'select-option': true,
 						'selected': this.selected,
-						'disabled': this.disabled
+						'disabled': this.disabled,
+						'has-bottom-slot': this.hasBottomSlot
 					}}
 					onClick={this.onItemClick}
 				>
 					{this.togglable && <kv-icon name={this.selected ? EOtherIconName.IconCheckState : EOtherIconName.IconUncheckState} custom-class="icon-16"></kv-icon>}
-					<div class="item-label">{this.label}</div>
+					<div class="text-container">
+						<div class="item-label">{this.label}</div>
+						<slot></slot>
+					</div>
 				</div>
 			</Host>
 		);

@@ -2,66 +2,77 @@
 
 :host {
 	/**
-	 * @prop --dropdown-item-height: Select option height.
-	 * @prop --dropdown-item-transition-duration: Select option transition time.
-	 * @prop --dropdown-item-background-color: Select option background color.
-	 * @prop --dropdown-item-background-color-selected: Select option background color when selected.
-	 * @prop --dropdown-item-background-color-hover: Select option background color when hovered.
-	 * @prop --dropdown-item-label-color: Select option label color.
-	 * @prop --dropdown-item-label-color-selected: Select option label color when selected.
+	 * @prop --select-item-height: Select option height.
+	 * @prop --select-item-transition-duration: Select option transition time.
+	 * @prop --select-item-flex-alignment: The alignment of items within the component's container.
+	 * @prop --select-item-background-color: Select option background color.
+	 * @prop --select-item-background-color-selected: Select option background color when selected.
+	 * @prop --select-item-background-color-hover: Select option background color when hovered.
+	 * @prop --select-item-label-color: Select option label color.
+	 * @prop --select-item-label-color-selected: Select option label color when selected.
 	 */
 
-	--dropdown-item-height: 32px;
-	--dropdown-item-transition-duration: 100ms;
+	--select-item-height: 32px;
+	--select-item-transition-duration: 100ms;
+	--select-item-flex-alignment: center;
 
-	--dropdown-item-background-color: #{kv-color('neutral-7')};
-	--dropdown-item-background-color-selected: #{kv-color('neutral-6')};
-	--dropdown-item-background-color-hover: #{kv-color('neutral-6')};
+	--select-item-background-color: #{kv-color('neutral-7')};
+	--select-item-background-color-selected: #{kv-color('neutral-6')};
+	--select-item-background-color-hover: #{kv-color('neutral-6')};
 
-	--dropdown-item-label-color: #{kv-color('neutral-4')};
-	--dropdown-item-label-color-selected: #{kv-color('neutral-2')};
+	--select-item-label-color: #{kv-color('neutral-4')};
+	--select-item-label-color-selected: #{kv-color('neutral-2')};
+}
 
-	.select-option {
-		height: var(--dropdown-item-height);
-		padding: 0 $spacing-4x;
+.select-option {
+	height: var(--select-item-height);
+	padding: 0 $spacing-4x;
+	display: flex;
+	align-items: var(--select-item-flex-alignment);
+	user-select: none;
+	cursor: pointer;
+	background-color: var(--select-item-background-color);
+	transition: background-color var(--select-item-transition-duration) linear;
+
+	.text-container {
 		display: flex;
-		align-items: center;
-		user-select: none;
-		cursor: pointer;
-		background-color: var(--dropdown-item-background-color);
-		transition: background-color var(--dropdown-item-transition-duration) linear;
+		flex-direction: column;
 
 		.item-label {
 			@include kv-font-span-regular;
-			transition: font-weight var(--dropdown-item-transition-duration) linear;
-			color: var(--dropdown-item-label-color);
+			transition: font-weight var(--select-item-transition-duration) linear;
+			color: var(--select-item-label-color);
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
 		}
+	}
 
-		&.selected {
+	&.selected {
+		background-color: var(--select-item-background-color-selected);
+
+		.item-label {
 			@include kv-font-span-semibold;
-			color: var(--dropdown-item-label-color-selected);
-			background-color: var(--dropdown-item-background-color-selected);
-
-			.item-label {
-				@include kv-font-span-semibold;
-			}
+			color: var(--select-item-label-color-selected);
 		}
+	}
 
-		&:hover {
-			background-color: var(--dropdown-item-background-color-hover);
-		}
+	&:hover {
+		background-color: var(--select-item-background-color-hover);
+	}
 
-		&.disabled {
-			opacity: 0.5;
-			pointer-events: none;
-		}
+	&.disabled {
+		opacity: 0.5;
+		pointer-events: none;
+	}
 
-		kv-icon {
-			display: inline-flex;
-			margin-right: $spacing-2x;
-		}
+	&.has-bottom-slot {
+		padding: $spacing-2x $spacing-3x;
+		align-items: var(--select-item-flex-alignment);
+	}
+
+	kv-icon {
+		display: inline-flex;
+		margin-right: $spacing-2x;
 	}
 }

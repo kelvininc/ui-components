@@ -4,40 +4,41 @@
 	/**
 	 * @prop --select-max-height: Select maximum height.
 	 * @prop --select-background-color: Select background color.
-	 * @prop --select-border-color: Select border color.
+	 * @prop --select-border: Select border style.
+	 * @prop --select-border-radius: Select border radius.
 	 */
-
 	--select-max-height: auto;
 	--select-background-color: #{kv-color('neutral-7')};
-	--select-border-color: #{kv-color('neutral-6')};
+	--select-border: 1px solid #{kv-color('neutral-6')};
+	--select-border-radius: #{$spacing};
+}
 
-	.select-container {
-		border-radius: $spacing;
-		border: 1px solid var(--select-border-color);
-		overflow: hidden;
-		background-color: var(--select-background-color);
-	}
+.select-container {
+	border: var(--select-border);
+	border-radius: var(--select-border-radius);
+	overflow: hidden;
+	background-color: var(--select-background-color);
+}
 
-	.select-options-container {
-		max-height: var(--select-max-height);
-		overflow-y: auto;
-	}
+.select-options-container {
+	max-height: var(--select-max-height);
+	overflow-y: auto;
+}
 
-	.select-header-container {
-		padding: $spacing-3x $spacing-4x;
-		border-bottom: 1px solid var(--select-border-color);
-	}
+.select-header-container {
+	padding: $spacing-3x $spacing-4x;
+	border-bottom: var(--select-border);
+}
 
-	.selection-clear {
-		@include kv-font-span-regular;
-		user-select: none;
-		margin-top: $spacing-3x;
-		color: kv-color('neutral-2');
-		cursor: pointer;
+.selection-clear {
+	@include kv-font-span-regular;
+	user-select: none;
+	margin-top: $spacing-3x;
+	color: kv-color('neutral-2');
+	cursor: pointer;
 
-		&.disabled {
-			color: kv-color('neutral-5');
-			cursor: auto;
-		}
+	&.disabled {
+		color: kv-color('neutral-5');
+		cursor: auto;
 	}
 }

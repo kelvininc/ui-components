@@ -77,7 +77,8 @@ export const KvSelectExample: React.FC = () => (
 | Name                        | Description              |
 | --------------------------- | ------------------------ |
 | `--select-background-color` | Select background color. |
-| `--select-border-color`     | Select border color.     |
+| `--select-border`           | Select border style.     |
+| `--select-border-radius`    | Select border radius.    |
 | `--select-max-height`       | Select maximum height.   |
 
 

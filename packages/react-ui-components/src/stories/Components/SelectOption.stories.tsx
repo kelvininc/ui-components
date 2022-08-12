@@ -1,5 +1,5 @@
 import { ComponentStory } from '@storybook/react';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { KvSelectOption } from '../../components';
 
 // Required to have the correct TagName in the code sample
@@ -31,6 +31,18 @@ export default {
 };
 
 const SelectOptionTemplate: ComponentStory<typeof KvSelectOption> = args => <KvSelectOption {...args}></KvSelectOption>;
+const BottomSlotSelectOptionTemplate: ComponentStory<typeof KvSelectOption> = args => {
+	const cssProps = {
+		'--select-item-height': 'unset',
+		'--select-item-flex-alignment': 'flex-start'
+	} as CSSProperties;
+
+	return (
+		<KvSelectOption {...args} style={cssProps}>
+			{args.children}
+		</KvSelectOption>
+	);
+};
 
 export const Default = SelectOptionTemplate.bind({});
 Default.args = {
@@ -39,4 +51,11 @@ Default.args = {
 	selected: true,
 	togglable: true,
 	disabled: false
+};
+
+export const BottomSlot = BottomSlotSelectOptionTemplate.bind({});
+BottomSlot.args = {
+	...Default.args,
+	hasBottomSlot: true,
+	children: <div>Hello</div>
 };
