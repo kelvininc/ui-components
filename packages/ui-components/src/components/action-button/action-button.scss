@@ -405,6 +405,8 @@ $btn-paddings-x: (
 
 	border-radius: 4px;
 
+	box-sizing: border-box;
+
 	&--type-primary {
 		@include button-type-theme('primary');
 	}
