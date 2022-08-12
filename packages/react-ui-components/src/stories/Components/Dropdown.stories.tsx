@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { KvDropdown, KvDropdownList, KvDropdownListItem, EIconName, EOtherIconName, EValidationState } from '../../components';
+import { KvDropdown, KvSelect, KvSelectOption, EIconName, EOtherIconName, EValidationState } from '../../components';
 
 export default {
 	title: 'Dropdown/Dropdown',
@@ -48,16 +48,16 @@ KvDropdown.displayName = 'KvDropdown';
 
 const DropdownTemplate: ComponentStory<typeof KvDropdown> = args => (
 	<KvDropdown {...args}>
-		<KvDropdownList searchable={true}>
-			<KvDropdownListItem label="First label here" value="value-01" togglable={true}></KvDropdownListItem>
-			<KvDropdownListItem label="Second label here" value="value-02" togglable={true}></KvDropdownListItem>
-			<KvDropdownListItem label="Third label here" value="value-03" disabled togglable={true}></KvDropdownListItem>
-			<KvDropdownListItem label="Fourth label here" value="value-04" togglable={true}></KvDropdownListItem>
-			<KvDropdownListItem label="Fifth label here" value="value-05" togglable={true}></KvDropdownListItem>
-			<KvDropdownListItem label="Sixth label here" value="value-06" togglable={true}></KvDropdownListItem>
-			<KvDropdownListItem label="Seventh label here" value="value-07" togglable={true}></KvDropdownListItem>
-			<KvDropdownListItem label="Eigth label here" value="value-08" togglable={true}></KvDropdownListItem>
-		</KvDropdownList>
+		<KvSelect searchable={true}>
+			<KvSelectOption label="First label here" value="value-01" togglable={true}></KvSelectOption>
+			<KvSelectOption label="Second label here" value="value-02" togglable={true}></KvSelectOption>
+			<KvSelectOption label="Third label here" value="value-03" disabled togglable={true}></KvSelectOption>
+			<KvSelectOption label="Fourth label here" value="value-04" togglable={true}></KvSelectOption>
+			<KvSelectOption label="Fifth label here" value="value-05" togglable={true}></KvSelectOption>
+			<KvSelectOption label="Sixth label here" value="value-06" togglable={true}></KvSelectOption>
+			<KvSelectOption label="Seventh label here" value="value-07" togglable={true}></KvSelectOption>
+			<KvSelectOption label="Eigth label here" value="value-08" togglable={true}></KvSelectOption>
+		</KvSelect>
 	</KvDropdown>
 );
 

@@ -11,19 +11,19 @@
 
 ```html
 <kv-dropdown label="Options" icon="kv-layer" required=true>
-	<kv-dropdown-list searchable=true selectionClearable=true>
-		<kv-dropdown-list-item
+	<kv-select searchable=true selectionClearable=true>
+		<kv-select-option
 			label="Option 1"
 			value="option1"
 			togglable=true>
-		</kv-dropdown-list-item>
+		</kv-select-option>
 		...
-		<kv-dropdown-list-item
+		<kv-select-option
 			label="Option 3"
 			value="option3"
 			togglable=true>
-		</kv-dropdown-list-item>
-	</kv-dropdown-list>
+		</kv-select-option>
+	</kv-select>
 </kv-dropdown>
 ```
 
@@ -37,19 +37,19 @@ import { KvDropdown } from '@kelvininc/react-ui-components';
 export const KvDropdownExample: React.FC = () => (
   <>
 	<KvDropdown label="Options" icon="kv-layer" required={true}>
-		<KvDropdownList searchable={true} selectionClearable={true}>
-			<KvDropdownListItem
+		<KvSelect searchable={true} selectionClearable={true}>
+			<KvSelectOption
 				label="Option 1"
 				value="option1"
 				togglable={true}>
-			</KvDropdownListItem>
+			</KvSelectOption>
 			...
-			<KvDropdownListItem
+			<KvSelectOption
 				label="Option 3"
 				value="option3"
 				togglable={true}>
-			</KvDropdownListItem>
-		</KvDropdownList>
+			</KvSelectOption>
+		</KvSelect>
 	</KvDropdown>
   </>
 );
@@ -69,19 +69,19 @@ export class KvDropdownExample {
   render() {
     return (
 		<KvDropdown label="Options" icon="kv-layer" required={true}>
-			<KvDropdownList searchable={true} selectionClearable={true}>
-				<KvDropdownListItem
+			<KvSelect searchable={true} selectionClearable={true}>
+				<KvSelectOption
 					label="Option 1"
 					value="option1"
 					togglable={true}>
-				</KvDropdownListItem>
+				</KvSelectOption>
 				...
-				<KvDropdownListItem
+				<KvSelectOption
 					label="Option 3"
 					value="option3"
 					togglable={true}>
-				</KvDropdownListItem>
-			</KvDropdownList>
+				</KvSelectOption>
+			</KvSelect>
 		</KvDropdown>
 	)
   }

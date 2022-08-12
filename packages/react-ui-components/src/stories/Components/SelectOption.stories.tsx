@@ -1,13 +1,13 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { KvDropdownListItem } from '../../components';
+import { KvSelectOption } from '../../components';
 
 // Required to have the correct TagName in the code sample
-KvDropdownListItem.displayName = 'KvDropdownListItem';
+KvSelectOption.displayName = 'KvSelectOption';
 
 export default {
-	title: 'Dropdown/Dropdown List Item',
-	component: 'kv-dropdown-list-item',
+	title: 'Select/Select Item',
+	component: 'kv-select-option',
 	argTypes: {
 		label: {
 			control: { type: 'text' }
@@ -26,13 +26,13 @@ export default {
 		}
 	},
 	parameters: {
-		notes: require('@ui-notes/dropdown-list-item/readme.md')
+		notes: require('@ui-notes/select-option/readme.md')
 	}
 };
 
-const DropdownListItemTemplate: ComponentStory<typeof KvDropdownListItem> = args => <KvDropdownListItem {...args}></KvDropdownListItem>;
+const SelectOptionTemplate: ComponentStory<typeof KvSelectOption> = args => <KvSelectOption {...args}></KvSelectOption>;
 
-export const Default = DropdownListItemTemplate.bind({});
+export const Default = SelectOptionTemplate.bind({});
 Default.args = {
 	label: 'Label 1',
 	value: 'label-1',

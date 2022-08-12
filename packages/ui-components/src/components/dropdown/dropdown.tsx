@@ -57,11 +57,11 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	componentDidRender() {
 		const inputContainer = this.el.shadowRoot.querySelector('#dropdown-input');
 		const input = inputContainer.shadowRoot.querySelector('input');
-		const dropdownList = this.el.shadowRoot.querySelector('#dropdown-list') as HTMLElement;
+		const select = this.el.shadowRoot.querySelector('#select') as HTMLElement;
 
 		if (this.isOpen) {
-			this.closePositionAutoUpdate = autoUpdate(input, dropdownList, () => {
-				computePosition(input, dropdownList, {
+			this.closePositionAutoUpdate = autoUpdate(input, select, () => {
+				computePosition(input, select, {
 					placement: 'bottom',
 					middleware: [
 						offset(8),
@@ -71,8 +71,8 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 						})
 					]
 				}).then(({ x, y }) => {
-					dropdownList.style.left = `${x}px`;
-					dropdownList.style.top = `${y}px`;
+					select.style.left = `${x}px`;
+					select.style.top = `${y}px`;
 				});
 			});
 		} else {
@@ -106,7 +106,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 					</kv-text-field>
 
 					{this.isOpen && (
-						<div id="dropdown-list" class="dropdown-list">
+						<div id="select" class="select">
 							<slot></slot>
 						</div>
 					)}

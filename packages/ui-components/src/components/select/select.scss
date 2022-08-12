@@ -1,0 +1,43 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --select-max-height: Dropdown list maximum height.
+	 * @prop --select-background-color: Dropdown list background color.
+	 * @prop --select-border-color: Dropdown list border color.
+	 */
+
+	--select-max-height: auto;
+	--select-background-color: #{kv-color('neutral-7')};
+	--select-border-color: #{kv-color('neutral-6')};
+
+	.select-container {
+		border-radius: $spacing;
+		border: 1px solid var(--select-border-color);
+		overflow: hidden;
+		background-color: var(--select-background-color);
+	}
+
+	.select-options-container {
+		max-height: var(--select-max-height);
+		overflow-y: auto;
+	}
+
+	.select-header-container {
+		padding: $spacing-3x $spacing-4x;
+		border-bottom: 1px solid var(--select-border-color);
+	}
+
+	.selection-clear {
+		@include kv-font-span-regular;
+		user-select: none;
+		margin-top: $spacing-3x;
+		color: kv-color('neutral-2');
+		cursor: pointer;
+
+		&.disabled {
+			color: kv-color('neutral-5');
+			cursor: auto;
+		}
+	}
+}

@@ -1,16 +1,16 @@
 ```tsx
 import React from 'react';
-import { KvDropdownListItem } from '@kelvininc/react-ui-components';
-export const KvDropdownListItemExample: React.FC = () => (
+import { KvSelectOption } from '@kelvininc/react-ui-components';
+export const KvSelectOptionExample: React.FC = () => (
   <>
 	{/*-- With all properties (only label and value are mandatory) --*/}
-	<KvDropdownListItem
+	<KvSelectOption
 		label="Option 1"
 		link="option1"
 		selected={false}
 		togglable={true}
 		>
-	</KvDropdownListItem>
+	</KvSelectOption>
   </>
 );
 ```

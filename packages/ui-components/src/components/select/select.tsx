@@ -1,13 +1,13 @@
 import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
-import { DROPDOWN_LIST_CLEAR_SELECTION_LABEL } from './dropdown-list.config';
-import { IDropdownList, IDropdownListEvents } from './dropdown-list.types';
+import { SELECT_CLEAR_SELECTION_LABEL } from './select.config';
+import { ISelect, ISelectEvents } from './select.types';
 
 @Component({
-	tag: 'kv-dropdown-list',
-	styleUrl: 'dropdown-list.scss',
+	tag: 'kv-select',
+	styleUrl: 'select.scss',
 	shadow: true
 })
-export class KvDropdownList implements IDropdownList, IDropdownListEvents {
+export class KvSelect implements ISelect, ISelectEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchable?: boolean = false;
 	/** @inheritdoc */
@@ -19,7 +19,7 @@ export class KvDropdownList implements IDropdownList, IDropdownListEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectionClearEnabled?: boolean;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) clearSelectionLabel?: string = DROPDOWN_LIST_CLEAR_SELECTION_LABEL;
+	@Prop({ reflect: true }) clearSelectionLabel?: string = SELECT_CLEAR_SELECTION_LABEL;
 
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
@@ -37,9 +37,9 @@ export class KvDropdownList implements IDropdownList, IDropdownListEvents {
 	render() {
 		return (
 			<Host>
-				<div class="dropdown-list-container">
+				<div class="select-container">
 					{(this.searchable || this.selectionClearable) && (
-						<div class="dropdown-list-header-container">
+						<div class="select-header-container">
 							{this.searchable && <kv-search value={this.searchValue} placeholder={this.searchPlaceholder} onTextChange={this.onSearchChange} />}
 							{this.selectionClearable && (
 								<div
@@ -54,7 +54,7 @@ export class KvDropdownList implements IDropdownList, IDropdownListEvents {
 							)}
 						</div>
 					)}
-					<div class="dropdown-list-items-container">
+					<div class="select-options-container">
 						<slot></slot>
 					</div>
 				</div>

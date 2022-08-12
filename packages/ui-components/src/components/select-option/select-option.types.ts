@@ -1,6 +1,6 @@
 import { EventEmitter } from '@stencil/core';
 
-export interface IDropdownListItem {
+export interface ISelectOption {
 	/** (required) The text to display on the item */
 	label: string;
 	/** (required) The item value */
@@ -13,7 +13,7 @@ export interface IDropdownListItem {
 	togglable?: boolean;
 }
 
-export interface IDropdownListItemEvents {
+export interface ISelectOptionEvents {
 	/** Emitted when the user clicks on the item */
 	itemSelected: EventEmitter<string>;
 }

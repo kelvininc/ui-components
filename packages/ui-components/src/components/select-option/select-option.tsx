@@ -1,13 +1,13 @@
 /** @inheritdoc */ import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { EOtherIconName } from '../icon/icon.types';
-import { IDropdownListItem, IDropdownListItemEvents } from './dropdown-list-item.types';
+import { ISelectOption, ISelectOptionEvents } from './select-option.types';
 
 @Component({
-	tag: 'kv-dropdown-list-item',
-	styleUrl: 'dropdown-list-item.scss',
+	tag: 'kv-select-option',
+	styleUrl: 'select-option.scss',
 	shadow: true
 })
-export class KvDropdownListItem implements IDropdownListItem, IDropdownListItemEvents {
+export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label!: string;
 	/** @inheritdoc */
@@ -31,7 +31,7 @@ export class KvDropdownListItem implements IDropdownListItem, IDropdownListItemE
 			<Host>
 				<div
 					class={{
-						'dropdown-list-item': true,
+						'select-option': true,
 						'selected': this.selected,
 						'disabled': this.disabled
 					}}

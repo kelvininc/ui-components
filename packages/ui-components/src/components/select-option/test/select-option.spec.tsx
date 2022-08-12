@@ -1,15 +1,15 @@
 import { newSpecPage, SpecPage } from '@stencil/core/testing';
-import { KvDropdownListItem } from '../dropdown-list-item';
+import { KvSelectOption } from '../select-option';
 import { h } from '@stencil/core';
 
-describe('KvDropdownListItem (unit tests)', () => {
+describe('KvSelectOption (unit tests)', () => {
 	let page: SpecPage;
-	let component: KvDropdownListItem;
+	let component: KvSelectOption;
 
 	beforeEach(async () => {
 		page = await newSpecPage({
-			components: [KvDropdownListItem],
-			template: () => <kv-dropdown-list-item label="Option 1" value="option1"></kv-dropdown-list-item>
+			components: [KvSelectOption],
+			template: () => <kv-select-option label="Option 1" value="option1"></kv-select-option>
 		});
 		component = page.rootInstance;
 	});
