@@ -38,11 +38,10 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	@Element() el: HTMLKvDropdownElement;
 
 	@Listen('click', { target: 'window' })
-	checkForClickOutside(ev: { path: HTMLElement[] }) {
-		if (ev.path.some(element => element === this.el)) {
+	checkForClickOutside(ev: { target: Node }) {
+		if (this.el.contains(ev.target)) {
 			return;
 		}
-
 		this.isOpen = false;
 		this.openStateChange.emit(this.isOpen);
 	}
