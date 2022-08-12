@@ -4,7 +4,7 @@ import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
 import { ISingleSelectDropdown, ISingleSelectDropdownOption, ISingleSelectDropdownOptions, ISingleSelectDropdownEvents } from './single-select-dropdown.types';
 import { SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './single-select-dropdown.config';
-import { buildDropdownGroups } from '../dropdown-group/dropdown-group.helper';
+import { buildSelectGroups } from '../select-group/select-group.helper';
 
 @Component({
 	tag: 'kv-single-select-dropdown',
@@ -117,9 +117,9 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 	private renderGroups = (groupNames: string[], groups: Record<string, ISingleSelectDropdownOption[]>) => {
 		return groupNames.map(groupName => (
-			<kv-dropdown-group key={groupName} label={groupName}>
+			<kv-select-group key={groupName} label={groupName}>
 				{this.renderOptions(groups[groupName])}
-			</kv-dropdown-group>
+			</kv-select-group>
 		));
 	};
 
@@ -137,7 +137,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	};
 
 	render() {
-		const groups = buildDropdownGroups(this.options);
+		const groups = buildSelectGroups(this.options);
 		const groupNames = Object.keys(groups);
 		const hasGroups = groupNames.length > 1;
 

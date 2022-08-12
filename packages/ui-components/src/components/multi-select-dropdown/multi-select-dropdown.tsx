@@ -4,7 +4,7 @@ import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
 import { IMultiSelectDropdown, IMultiSelectDropdownEvents, IMultiSelectDropdownOption } from './multi-select-dropdown.types';
 import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
-import { buildDropdownGroups } from '../dropdown-group/dropdown-group.helper';
+import { buildSelectGroups } from '../select-group/select-group.helper';
 import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
 
 @Component({
@@ -95,9 +95,9 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 
 	private renderGroups = (groupNames: string[], groups: Record<string, IMultiSelectDropdownOption[]>) => {
 		return groupNames.map(groupName => (
-			<kv-dropdown-group key={groupName} label={groupName}>
+			<kv-select-group key={groupName} label={groupName}>
 				{this.renderOptions(groups[groupName])}
-			</kv-dropdown-group>
+			</kv-select-group>
 		));
 	};
 
@@ -136,7 +136,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	}
 
 	render() {
-		const groups = buildDropdownGroups(this.options);
+		const groups = buildSelectGroups(this.options);
 		const groupNames = Object.keys(groups);
 		const isSelectionClearable = !isEmpty(this.options) && this.selectionClearable;
 		const isSelectionClearEnabled = Object.keys(this.selectedOptions).length > 0;
