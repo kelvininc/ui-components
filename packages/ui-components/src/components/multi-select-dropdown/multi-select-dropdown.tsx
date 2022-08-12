@@ -1,9 +1,11 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Watch, State } from '@stencil/core';
-import { isEmpty, isNil } from 'lodash-es';
+import { isEmpty } from 'lodash-es';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
 import { IMultiSelectDropdown, IMultiSelectDropdownEvents, IMultiSelectDropdownOption } from './multi-select-dropdown.types';
 import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
+import { buildDropdownGroups } from '../dropdown-group/dropdown-group.helper';
+import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
 
 @Component({
 	tag: 'kv-multi-select-dropdown',
@@ -42,10 +44,10 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: true }) options?: { [key: string]: IMultiSelectDropdownOption };
 	/** @inheritdoc */
-	@Prop({ reflect: true }) selectedOptions?: string[] = [];
+	@Prop({ reflect: true }) selectedOptions?: { [key: string]: boolean } = {};
 
 	/** @inheritdoc */
-	@Event() optionsSelected: EventEmitter<string[]>;
+	@Event() optionsSelected: EventEmitter<{ [key: string]: boolean }>;
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
 	/** @inheritdoc */
@@ -56,13 +58,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 
 	private selectOption = (event: CustomEvent<string>) => {
 		const option = event.detail;
-		const currentOptionIndex = this.selectedOptions.findIndex(selectedOption => selectedOption === option);
-
-		if (currentOptionIndex === -1) {
-			this.selectedOptions.push(option);
-		} else {
-			this.selectedOptions.splice(currentOptionIndex, 1);
-		}
+		// triple bang for handling false, true and undefined
+		this.selectedOptions[option] = !!!this.selectedOptions[option];
 		this.calculateLabelValue();
 
 		this.optionsSelected.emit(this.selectedOptions);
@@ -72,15 +69,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		if (this.displayValue?.length > 0) {
 			this._selectionDisplayValue = this.displayValue;
 		} else {
-			this._selectionDisplayValue = this.selectedOptions.reduce((acc, option, currentIndex) => {
-				if (isNil(this.options[option])) {
-					if (currentIndex === this.selectedOptions.length - 1) {
-						acc = acc.slice(0, acc.length - 2);
-					}
-					return acc;
-				}
-				return `${acc + this.options[option]?.label + (currentIndex !== this.selectedOptions.length - 1 ? ', ' : '')}`;
-			}, '');
+			this._selectionDisplayValue = getDropdownDisplayValue(this.options, this.selectedOptions);
 		}
 	}
 
@@ -99,9 +88,30 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	};
 
 	private onClearSelection = () => {
-		this.selectedOptions = [];
+		this.selectedOptions = {};
 		this.selectionCleared.emit();
 		this.calculateLabelValue();
+	};
+
+	private renderGroups = (groupNames: string[], groups: Record<string, IMultiSelectDropdownOption[]>) => {
+		return groupNames.map(groupName => (
+			<kv-dropdown-group key={groupName} label={groupName}>
+				{this.renderOptions(groups[groupName])}
+			</kv-dropdown-group>
+		));
+	};
+
+	private renderOptions = (options: IMultiSelectDropdownOption[]) => {
+		return options.map(option => (
+			<kv-select-option
+				label={option.label}
+				value={option.value}
+				disabled={option.disabled}
+				selected={this.selectedOptions[option.value]}
+				togglable={true}
+				onItemSelected={this.selectOption}
+			/>
+		));
 	};
 
 	componentWillLoad() {
@@ -126,6 +136,12 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	}
 
 	render() {
+		const groups = buildDropdownGroups(this.options);
+		const groupNames = Object.keys(groups);
+		const isSelectionClearable = !isEmpty(this.options) && this.selectionClearable;
+		const isSelectionClearEnabled = Object.keys(this.selectedOptions).length > 0;
+		const hasGroups = groupNames.length > 1;
+
 		return (
 			<Host>
 				<kv-dropdown
@@ -144,24 +160,14 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 					<kv-select
 						searchable={this.searchable}
 						searchValue={this._searchValue}
-						selectionClearable={!isEmpty(this.options) && this.selectionClearable}
-						selectionClearEnabled={this.selectedOptions.length > 0}
+						selectionClearable={isSelectionClearable}
+						selectionClearEnabled={isSelectionClearEnabled}
 						clearSelectionLabel={this.clearSelectionLabel}
 						onClearSelection={this.onClearSelection}
 						onSearchChange={this.onSearchChange}
 					>
 						{isEmpty(this.options) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
-						{this.options &&
-							Object.values(this.options).map(option => (
-								<kv-select-option
-									label={option.label}
-									value={option.value}
-									disabled={option.disabled}
-									selected={this.selectedOptions.includes(option.value)}
-									togglable={true}
-									onItemSelected={this.selectOption}
-								/>
-							))}
+						{hasGroups ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.options))}
 					</kv-select>
 				</kv-dropdown>
 			</Host>

@@ -2,13 +2,13 @@
 
 :host {
 	/**
-	 * @prop --dropdown-item-height: Dropdown list item height.
-	 * @prop --dropdown-item-transition-duration: Dropdown list item transition time.
-	 * @prop --dropdown-item-background-color: Dropdown list item background color.
-	 * @prop --dropdown-item-background-color-selected: Dropdown list item background color when selected.
-	 * @prop --dropdown-item-background-color-hover: Dropdown list item background color when hovered.
-	 * @prop --dropdown-item-label-color: Dropdown list item label color.
-	 * @prop --dropdown-item-label-color-selected: Dropdown list item label color when selected.
+	 * @prop --dropdown-item-height: Select option height.
+	 * @prop --dropdown-item-transition-duration: Select option transition time.
+	 * @prop --dropdown-item-background-color: Select option background color.
+	 * @prop --dropdown-item-background-color-selected: Select option background color when selected.
+	 * @prop --dropdown-item-background-color-hover: Select option background color when hovered.
+	 * @prop --dropdown-item-label-color: Select option label color.
+	 * @prop --dropdown-item-label-color-selected: Select option label color when selected.
 	 */
 
 	--dropdown-item-height: 32px;
@@ -34,9 +34,7 @@
 		.item-label {
 			@include kv-font-span-regular;
 			transition: font-weight var(--dropdown-item-transition-duration) linear;
-			margin-left: $spacing-2x;
 			color: var(--dropdown-item-label-color);
-
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
@@ -63,6 +61,7 @@
 
 		kv-icon {
 			display: inline-flex;
+			margin-right: $spacing-2x;
 		}
 	}
 }

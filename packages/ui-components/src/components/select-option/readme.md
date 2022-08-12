@@ -61,15 +61,15 @@ export const KvSelectOptionExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                                        | Description                                        |
-| ------------------------------------------- | -------------------------------------------------- |
-| `--dropdown-item-background-color`          | Dropdown list item background color.               |
-| `--dropdown-item-background-color-hover`    | Dropdown list item background color when hovered.  |
-| `--dropdown-item-background-color-selected` | Dropdown list item background color when selected. |
-| `--dropdown-item-height`                    | Dropdown list item height.                         |
-| `--dropdown-item-label-color`               | Dropdown list item label color.                    |
-| `--dropdown-item-label-color-selected`      | Dropdown list item label color when selected.      |
-| `--dropdown-item-transition-duration`       | Dropdown list item transition time.                |
+| Name                                        | Description                                   |
+| ------------------------------------------- | --------------------------------------------- |
+| `--dropdown-item-background-color`          | Select option background color.               |
+| `--dropdown-item-background-color-hover`    | Select option background color when hovered.  |
+| `--dropdown-item-background-color-selected` | Select option background color when selected. |
+| `--dropdown-item-height`                    | Select option height.                         |
+| `--dropdown-item-label-color`               | Select option label color.                    |
+| `--dropdown-item-label-color-selected`      | Select option label color when selected.      |
+| `--dropdown-item-transition-duration`       | Select option transition time.                |
 
 
 ## Dependencies

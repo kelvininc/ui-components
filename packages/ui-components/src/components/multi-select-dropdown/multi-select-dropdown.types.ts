@@ -6,6 +6,7 @@ export interface IMultiSelectDropdownOption {
 	label: string;
 	value: string;
 	disabled?: boolean;
+	group?: string;
 }
 
 export interface IMultiSelectDropdownOptions {
@@ -43,13 +44,13 @@ export interface IMultiSelectDropdown {
 	noDataAvailableLabel?: string;
 	/** (optional) The object with the dropdown options */
 	options?: IMultiSelectDropdownOptions;
-	/** (optional) The array of selected options */
-	selectedOptions?: string[] | number[];
+	/** (optional) The object with indexed by the dropdown labels and its selected value */
+	selectedOptions?: { [key: string]: boolean };
 }
 
 export interface IMultiSelectDropdownEvents {
 	/** Emitted when the selected options change */
-	optionsSelected: EventEmitter<string[] | number[]>;
+	optionsSelected: EventEmitter<{ [key: string]: boolean }>;
 	/** Emitted when the search term changes */
 	searchChange: EventEmitter<string>;
 	/** Emitted when the selection is cleared */

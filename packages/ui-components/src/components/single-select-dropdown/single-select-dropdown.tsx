@@ -2,8 +2,9 @@ import { Component, Host, h, Prop, Event, EventEmitter, Watch, State } from '@st
 import { isEmpty, isNil } from 'lodash-es';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
-import { ISingleSelectDropdown, ISingleSelectDropdownOptions, ISingleSelectDropdownEvents } from './single-select-dropdown.types';
+import { ISingleSelectDropdown, ISingleSelectDropdownOption, ISingleSelectDropdownOptions, ISingleSelectDropdownEvents } from './single-select-dropdown.types';
 import { SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './single-select-dropdown.config';
+import { buildDropdownGroups } from '../dropdown-group/dropdown-group.helper';
 
 @Component({
 	tag: 'kv-single-select-dropdown',
@@ -114,7 +115,32 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		}
 	}
 
+	private renderGroups = (groupNames: string[], groups: Record<string, ISingleSelectDropdownOption[]>) => {
+		return groupNames.map(groupName => (
+			<kv-dropdown-group key={groupName} label={groupName}>
+				{this.renderOptions(groups[groupName])}
+			</kv-dropdown-group>
+		));
+	};
+
+	private renderOptions = (options: ISingleSelectDropdownOption[]) => {
+		return options.map(option => (
+			<kv-select-option
+				key={option.label}
+				label={option.label}
+				value={option.value}
+				disabled={option.disabled}
+				selected={option.value === this._selectedOption}
+				onItemSelected={this.selectOption}
+			/>
+		));
+	};
+
 	render() {
+		const groups = buildDropdownGroups(this.options);
+		const groupNames = Object.keys(groups);
+		const hasGroups = groupNames.length > 1;
+
 		return (
 			<Host>
 				<kv-dropdown
@@ -132,15 +158,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 				>
 					<kv-select searchValue={this._searchValue} searchable={this.searchable} onSearchChange={this.onSearchChange}>
 						{isEmpty(this.options) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
-						{Object.values(this.options).map(option => (
-							<kv-select-option
-								label={option.label}
-								value={option.value}
-								disabled={option.disabled}
-								selected={option.value === this._selectedOption}
-								onItemSelected={this.selectOption}
-							/>
-						))}
+						{hasGroups ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.options))}
 					</kv-select>
 				</kv-dropdown>
 			</Host>

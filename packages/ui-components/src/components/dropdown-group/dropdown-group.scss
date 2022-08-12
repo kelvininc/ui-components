@@ -1,0 +1,27 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --dropdown-group-item-height: Dropdown group item height.
+	 * @prop --dropdown-group-item-background-color: Dropdown group item background color.
+	 * @prop --dropdown-group-item-label-color: Dropdown group item label color.
+	 */
+
+	--dropdown-group-item-height: 32px;
+	--dropdown-group-item-background-color: kv-color('neutral-7');
+	--dropdown-group-item-label-color: kv-color('neutral-2');
+}
+
+.group {
+	.label {
+		@include kv-font-label-small-uppercase-regular;
+		height: var(--dropdown-group-item-height);
+		padding: 0 $spacing-4x;
+		display: flex;
+		align-items: center;
+		user-select: none;
+		cursor: default;
+		background-color: var(--dropdown-group-item-background-color);
+		color: var(--dropdown-group-item-label-color);
+	}
+}
