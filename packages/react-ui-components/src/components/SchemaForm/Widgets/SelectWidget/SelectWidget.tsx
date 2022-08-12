@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { WidgetProps } from '@rjsf/core';
 import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../stencil-generated';
 import { EValidationState } from '@kelvininc/ui-components';
-import { getSelectedOptions, processValue } from './utils';
+import { buildSelectedOptions, getSelectedOptions, processValue } from './utils';
 
 const SelectWidget = ({ schema, id, options, label, required, disabled, readonly, value, multiple, onChange, placeholder, rawErrors = [] }: WidgetProps) => {
 	const { enumOptions, enumDisabled } = options;
@@ -41,7 +41,7 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 	return (
 		<>
 			{!multiple && <KvSingleSelectDropdown {...args} selectedOption={stateValue} onOptionSelected={onChangeOptionSelected} />}
-			{multiple && <KvMultiSelectDropdown {...args} selectedOptions={stateValue} onOptionsSelected={onChangeOptionsSelected} />}
+			{multiple && <KvMultiSelectDropdown {...args} selectedOptions={buildSelectedOptions(stateValue)} onOptionsSelected={onChangeOptionsSelected} />}
 		</>
 	);
 };
