@@ -1,0 +1,6 @@
+@import './modal.base';
+
+:host {
+	--modal-backdrop-color: #{kv-color('neutral-9', 'base', 0.8)};
+	--modal-background-color: #{kv-color('neutral-8')};
+}
