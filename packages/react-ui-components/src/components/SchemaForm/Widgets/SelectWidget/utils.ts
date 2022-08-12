@@ -1,5 +1,6 @@
 import { utils } from '@rjsf/core';
 import { JSONSchema7 } from 'json-schema';
+import { get } from 'lodash-es';
 
 const { asNumber, guessType } = utils;
 const numericTypes = ['number', 'integer'];
@@ -42,3 +43,10 @@ export const getSelectedOptions = (selectedOptionsMap: { [key: string]: boolean 
 
 		return accumulator;
 	}, []);
+
+export const buildSelectedOptions = (selectedOptions: string[]): { [key: string]: boolean } =>
+	selectedOptions.reduce<{ [key: string]: boolean }>((accumulator, selectOptionKey) => {
+		accumulator[selectOptionKey] = true;
+
+		return accumulator;
+	}, {});
