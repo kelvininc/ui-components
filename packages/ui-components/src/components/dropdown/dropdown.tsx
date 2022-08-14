@@ -66,7 +66,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 						offset(8),
 						flip({
 							padding: 15,
-							fallbackPlacements: ['top']
+							fallbackPlacements: ['top-end', 'bottom-end', 'top-start', 'bottom-start']
 						})
 					]
 				}).then(({ x, y }) => {
