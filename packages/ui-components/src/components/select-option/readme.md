@@ -43,13 +43,14 @@ export const KvSelectOptionExample: React.FC = () => (
 
 ## Properties
 
-| Property             | Attribute   | Description                                 | Type      | Default     |
-| -------------------- | ----------- | ------------------------------------------- | --------- | ----------- |
-| `disabled`           | `disabled`  | (optional) If `true` the item is disabled   | `boolean` | `false`     |
-| `label` _(required)_ | `label`     | (required) The text to display on the item  | `string`  | `undefined` |
-| `selected`           | `selected`  | (optional) If `true` the item is selected   | `boolean` | `false`     |
-| `togglable`          | `togglable` | (optional)  If `true` the item is togglable | `boolean` | `false`     |
-| `value` _(required)_ | `value`     | (required) The item value                   | `string`  | `undefined` |
+| Property             | Attribute         | Description                                                     | Type      | Default     |
+| -------------------- | ----------------- | --------------------------------------------------------------- | --------- | ----------- |
+| `disabled`           | `disabled`        | (optional) If `true` the item is disabled                       | `boolean` | `false`     |
+| `hasBottomSlot`      | `has-bottom-slot` | (optional) If `true` styles the item to fit content below label | `boolean` | `false`     |
+| `label` _(required)_ | `label`           | (required) The text to display on the item                      | `string`  | `undefined` |
+| `selected`           | `selected`        | (optional) If `true` the item is selected                       | `boolean` | `false`     |
+| `togglable`          | `togglable`       | (optional)  If `true` the item is togglable                     | `boolean` | `false`     |
+| `value` _(required)_ | `value`           | (required) The item value                                       | `string`  | `undefined` |
 
 
 ## Events
@@ -61,15 +62,16 @@ export const KvSelectOptionExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                                        | Description                                   |
-| ------------------------------------------- | --------------------------------------------- |
-| `--dropdown-item-background-color`          | Select option background color.               |
-| `--dropdown-item-background-color-hover`    | Select option background color when hovered.  |
-| `--dropdown-item-background-color-selected` | Select option background color when selected. |
-| `--dropdown-item-height`                    | Select option height.                         |
-| `--dropdown-item-label-color`               | Select option label color.                    |
-| `--dropdown-item-label-color-selected`      | Select option label color when selected.      |
-| `--dropdown-item-transition-duration`       | Select option transition time.                |
+| Name                                      | Description                                              |
+| ----------------------------------------- | -------------------------------------------------------- |
+| `--select-item-background-color`          | Select option background color.                          |
+| `--select-item-background-color-hover`    | Select option background color when hovered.             |
+| `--select-item-background-color-selected` | Select option background color when selected.            |
+| `--select-item-flex-alignment`            | The alignment of items within the component's container. |
+| `--select-item-height`                    | Select option height.                                    |
+| `--select-item-label-color`               | Select option label color.                               |
+| `--select-item-label-color-selected`      | Select option label color when selected.                 |
+| `--select-item-transition-duration`       | Select option transition time.                           |
 
 
 ## Dependencies
