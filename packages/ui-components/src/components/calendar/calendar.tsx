@@ -20,7 +20,7 @@ import {
 import { EActionButtonType } from '../action-button/action-button.types';
 import { EIconName } from '../icon/icon.types';
 import { getMonthTitle } from './calendar.helper';
-import { ICalendar, ICalendarEvents, IChangeYearEvent, IChangeMonthEvent, IClickDateEvent } from './calendar.types';
+import { ICalendar, ICalendarEvents, IChangeYearEvent, IChangeMonthEvent, IClickDateEvent, SelectedRange } from './calendar.types';
 
 /**
  * @part month-container - The month container.
@@ -163,7 +163,7 @@ export class KvCalendar implements ICalendar, ICalendarEvents {
 		this.hoveredDay = undefined;
 	};
 
-	public getSelectedRange = (): [] | [string] | [string, string] => {
+	public getSelectedRange = (): SelectedRange => {
 		if (this.selectedDates && this.selectedDates.length > 0) {
 			const startDate = this.selectedDates[0];
 

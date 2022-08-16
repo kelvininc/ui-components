@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Angular
@@ -23,6 +24,7 @@
 <kv-calendar-single-date-selector minDate="2021-12-04" maxDate="2023-02-12"></kv-calendar-single-date-selector>
 ```
 
+
 ### React
 
 ```tsx
@@ -30,7 +32,7 @@ import React from 'react';
 
 import { KvCalendarSingleDateSelector } from '@kelvininc/react-ui-components';
 
-export const TextFieldExample: React.FC = () => (
+export const KvCalendarSingleDateSelectorExample: React.FC = () => (
 	<>
 		{/*-- Default --*/}
 		<KvCalendarSingleDateSelector />
@@ -50,6 +52,8 @@ export const TextFieldExample: React.FC = () => (
 );
 ```
 
+
+
 ## Properties
 
 | Property        | Attribute       | Description                        | Type       | Default     |
@@ -60,24 +64,25 @@ export const TextFieldExample: React.FC = () => (
 | `minDate`       | `min-date`      | (optional) Minimum accepted date   | `string`   | `undefined` |
 | `selectedDate`  | `selected-date` | (optional) Currently selected date | `string`   | `undefined` |
 
+
 ## Events
 
 | Event        | Description                  | Type                       |
 | ------------ | ---------------------------- | -------------------------- |
 | `selectDate` | Emitted when day is selected | `CustomEvent<ISelectDate>` |
 
+
 ## Dependencies
 
 ### Used by
 
--   [kv-single-date-select-dropdown](../single-date-select-dropdown)
+ - [kv-single-date-select-dropdown](../single-date-select-dropdown)
 
 ### Depends on
 
--   [kv-calendar](../calendar)
+- [kv-calendar](../calendar)
 
 ### Graph
-
 ```mermaid
 graph TD;
   kv-calendar-single-date-selector --> kv-calendar
@@ -90,4 +95,6 @@ graph TD;
   style kv-calendar-single-date-selector fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
+
+

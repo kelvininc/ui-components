@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
-import { ISelectRangeDates, KvRangeDatesSelectDropdown } from '../../components';
+import { ISelectRangeDates, KvRangeDatesSelectDropdown, SelectedRange } from '../../components';
 
 // Required to have the correct TagName in the code sample
 KvRangeDatesSelectDropdown.displayName = 'KvRangeDatesSelectDropdown';
@@ -40,7 +40,7 @@ export default {
 };
 
 const RangeDatesSelectDropdownTemplate: ComponentStory<typeof KvRangeDatesSelectDropdown> = args => {
-	const [selectedRangeDates, setSelectedRangeDates] = useState<[string, string]>([]);
+	const [selectedRangeDates, setSelectedRangeDates] = useState<SelectedRange>([]);
 
 	const onSelectRangeDates = ({ detail: { payload: newSelectedRangeDates } }: CustomEvent<ISelectRangeDates>) => {
 		setSelectedRangeDates(newSelectedRangeDates);

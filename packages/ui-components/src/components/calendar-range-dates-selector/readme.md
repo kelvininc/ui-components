@@ -32,7 +32,7 @@ import React from 'react';
 
 import { KvCalendarRangeDatesSelector } from '@kelvininc/react-ui-components';
 
-export const TextFieldExample: React.FC = () => (
+export const KvCalendarRangeDatesExample: React.FC = () => (
 	<>
 		{/*-- Default --*/}
 		<KvCalendarRangeDatesSelector />

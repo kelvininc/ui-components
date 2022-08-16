@@ -1,9 +1,9 @@
 import { EventEmitter } from '@stencil/core';
-import { ICalendar } from '../calendar/calendar.types';
+import { ICalendar, SelectedRange } from '../calendar/calendar.types';
 
 export interface ICalendarRangeDatesSelector extends Omit<ICalendar, 'selectedDates'> {
 	/** (optional) Currently selected range dates */
-	selectedRangeDates?: [] | [string] | [string, string];
+	selectedRangeDates?: SelectedRange;
 }
 
 export interface ICalendarRangeDatesSelectorEvents {
@@ -13,5 +13,5 @@ export interface ICalendarRangeDatesSelectorEvents {
 
 export interface ISelectRangeDates {
 	event: MouseEvent;
-	payload: [] | [string] | [string, string];
+	payload: SelectedRange;
 }

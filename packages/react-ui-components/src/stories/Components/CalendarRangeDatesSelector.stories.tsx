@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
-import { ISelectRangeDates, KvCalendarRangeDatesSelector } from '../../components';
+import { ISelectRangeDates, KvCalendarRangeDatesSelector, SelectedRange } from '../../components';
 
 // Required to have the correct TagName in the code sample
 KvCalendarRangeDatesSelector.displayName = 'KvCalendarRangeDatesSelector';
@@ -31,7 +31,7 @@ export default {
 };
 
 const CalendarRangeDatesSelectorTemplate: ComponentStory<typeof KvCalendarRangeDatesSelector> = args => {
-	const [selectedRangeDates, setSelectedRangeDates] = useState<[] | [string] | [string, string]>([]);
+	const [selectedRangeDates, setSelectedRangeDates] = useState<SelectedRange>([]);
 
 	const onSelectRangeDates = ({ detail: { payload: dates } }: CustomEvent<ISelectRangeDates>) => {
 		setSelectedRangeDates(dates);

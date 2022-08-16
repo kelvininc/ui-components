@@ -1,6 +1,6 @@
 import { Component, Event, EventEmitter, h, Host, Prop, Watch } from '@stencil/core';
 import { formatDate, fromISOToMoment, getDatesBetweenRange, isDateBefore, isDateSame, isDateValid } from '../../utils/date.helper';
-import { IClickDateEvent } from '../calendar/calendar.types';
+import { IClickDateEvent, SelectedRange } from '../calendar/calendar.types';
 import { ICalendarRangeDatesSelector, ICalendarRangeDatesSelectorEvents, ISelectRangeDates } from './calendar-range-dates-selector.types';
 
 @Component({
@@ -13,7 +13,7 @@ import { ICalendarRangeDatesSelector, ICalendarRangeDatesSelectorEvents, ISelect
 })
 export class KvCalendarRangeDatesSelector implements ICalendarRangeDatesSelector, ICalendarRangeDatesSelectorEvents {
 	/** @inheritdoc */
-	@Prop({ reflect: false }) selectedRangeDates?: [] | [string] | [string, string] = [];
+	@Prop({ reflect: false }) selectedRangeDates?: SelectedRange = [];
 	/** @inheritdoc */
 	@Prop({ reflect: false }) initialDate?: string;
 	/** @inheritdoc */
@@ -27,7 +27,7 @@ export class KvCalendarRangeDatesSelector implements ICalendarRangeDatesSelector
 	@Event() selectRangeDates: EventEmitter<ISelectRangeDates>;
 
 	@Watch('selectedRangeDates')
-	validateRangeDates(newRangeDates: [] | [string] | [string, string] | undefined) {
+	validateRangeDates(newRangeDates: SelectedRange | undefined) {
 		if (newRangeDates !== undefined && newRangeDates.length > 0) {
 			const [selectedStartDate, selectedEndDate] = newRangeDates;
 
