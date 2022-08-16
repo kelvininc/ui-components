@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Calendar Day (unit tests) when is "in range" should match the snapshot 1`] = `
+<kv-calendar-day day="12" in-range="">
+  <mock:shadow-root>
+    <div class="calendar-day calendar-day--in-range" part="day-container">
+      12
+    </div>
+  </mock:shadow-root>
+</kv-calendar-day>
+`;
+
+exports[`Calendar Day (unit tests) when is "left rounded" should match the snapshot 1`] = `
+<kv-calendar-day day="12" left-rounded="">
+  <mock:shadow-root>
+    <div class="calendar-day calendar-day--left-rounded" part="day-container">
+      12
+    </div>
+  </mock:shadow-root>
+</kv-calendar-day>
+`;
+
+exports[`Calendar Day (unit tests) when is "right rounded" should match the snapshot 1`] = `
+<kv-calendar-day day="12" right-rounded="">
+  <mock:shadow-root>
+    <div class="calendar-day calendar-day--right-rounded" part="day-container">
+      12
+    </div>
+  </mock:shadow-root>
+</kv-calendar-day>
+`;
+
+exports[`Calendar Day (unit tests) when is active should match the snapshot 1`] = `
+<kv-calendar-day active="" day="12">
+  <mock:shadow-root>
+    <div class="calendar-day calendar-day--active" part="day-container">
+      12
+    </div>
+  </mock:shadow-root>
+</kv-calendar-day>
+`;
+
+exports[`Calendar Day (unit tests) when is disabled should match the snapshot 1`] = `
+<kv-calendar-day day="12" disabled="">
+  <mock:shadow-root>
+    <div class="calendar-day calendar-day--disabled" part="day-container">
+      12
+    </div>
+  </mock:shadow-root>
+</kv-calendar-day>
+`;
+
+exports[`Calendar Day (unit tests) when uses default props should match the snapshot 1`] = `
+<kv-calendar-day day="12">
+  <mock:shadow-root>
+    <div class="calendar-day" part="day-container">
+      12
+    </div>
+  </mock:shadow-root>
+</kv-calendar-day>
+`;

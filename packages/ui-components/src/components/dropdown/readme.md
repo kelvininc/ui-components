@@ -92,18 +92,19 @@ export class KvDropdownExample {
 
 ## Properties
 
-| Property      | Attribute     | Description                                                       | Type                                                                          | Default                        |
-| ------------- | ------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------ |
-| `disabled`    | `disabled`    | (optional) If `true` the dropdown is disabled                     | `boolean`                                                                     | `undefined`                    |
-| `errorState`  | `error-state` | (required) The error state for the dropdown                       | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid` | `EValidationState.None`        |
-| `helpText`    | `help-text`   | (optional) The text to display as help text                       | `string \| string[]`                                                          | `[]`                           |
-| `icon`        | `icon`        | (optional) The icon to display on the dropdown                    | `EIconName \| EOtherIconName`                                                 | `undefined`                    |
-| `isOpen`      | `is-open`     | (optional) If `true` the list is opened                           | `boolean`                                                                     | `false`                        |
-| `label`       | `label`       | (optional) The text to display on the dropdown label              | `string`                                                                      | `undefined`                    |
-| `loading`     | `loading`     | (optional) If `true` the dropdown is loading                      | `boolean`                                                                     | `false`                        |
-| `placeholder` | `placeholder` | (optional) The text to display as the dropdown placeholder        | `string`                                                                      | `DROPDOWN_DEFAULT_PLACEHOLDER` |
-| `required`    | `required`    | (optional) If `true` the dropdown requires a value to be selected | `boolean`                                                                     | `undefined`                    |
-| `value`       | `value`       | (optional) The text to display on the dropdown                    | `string`                                                                      | `undefined`                    |
+| Property      | Attribute     | Description                                                       | Type                                                                                                                                                                 | Default                        |
+| ------------- | ------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+| `disabled`    | `disabled`    | (optional) If `true` the dropdown is disabled                     | `boolean`                                                                                                                                                            | `undefined`                    |
+| `errorState`  | `error-state` | (required) The error state for the dropdown                       | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid`                                                                                        | `EValidationState.None`        |
+| `helpText`    | `help-text`   | (optional) The text to display as help text                       | `string \| string[]`                                                                                                                                                 | `[]`                           |
+| `icon`        | `icon`        | (optional) The icon to display on the dropdown                    | `EIconName \| EOtherIconName`                                                                                                                                        | `undefined`                    |
+| `isOpen`      | `is-open`     | (optional) If `true` the list is opened                           | `boolean`                                                                                                                                                            | `false`                        |
+| `label`       | `label`       | (optional) The text to display on the dropdown label              | `string`                                                                                                                                                             | `undefined`                    |
+| `loading`     | `loading`     | (optional) If `true` the dropdown is loading                      | `boolean`                                                                                                                                                            | `false`                        |
+| `placeholder` | `placeholder` | (optional) The text to display as the dropdown placeholder        | `string`                                                                                                                                                             | `DROPDOWN_DEFAULT_PLACEHOLDER` |
+| `placement`   | `placement`   | (optional) The dropdown placement relative to the container       | `"bottom" \| "bottom-end" \| "bottom-start" \| "left" \| "left-end" \| "left-start" \| "right" \| "right-end" \| "right-start" \| "top" \| "top-end" \| "top-start"` | `'bottom'`                     |
+| `required`    | `required`    | (optional) If `true` the dropdown requires a value to be selected | `boolean`                                                                                                                                                            | `undefined`                    |
+| `value`       | `value`       | (optional) The text to display on the dropdown                    | `string`                                                                                                                                                             | `undefined`                    |
 
 
 ## Events
@@ -118,16 +119,19 @@ export class KvDropdownExample {
 ### Used by
 
  - [kv-multi-select-dropdown](../multi-select-dropdown)
+ - [kv-single-date-select-dropdown](../single-date-select-dropdown)
  - [kv-single-select-dropdown](../single-select-dropdown)
 
 ### Depends on
 
+- [kv-dropdown-base](../dropdown-base)
 - [kv-text-field](../text-field)
 - [kv-icon](../icon)
 
 ### Graph
 ```mermaid
 graph TD;
+  kv-dropdown --> kv-dropdown-base
   kv-dropdown --> kv-text-field
   kv-dropdown --> kv-icon
   kv-text-field --> kv-form-label
@@ -135,6 +139,7 @@ graph TD;
   kv-text-field --> kv-form-help-text
   kv-form-help-text --> kv-icon
   kv-multi-select-dropdown --> kv-dropdown
+  kv-single-date-select-dropdown --> kv-dropdown
   kv-single-select-dropdown --> kv-dropdown
   style kv-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```

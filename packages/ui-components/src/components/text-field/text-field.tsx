@@ -39,7 +39,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) min?: string | number;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) step?: number;
+	@Prop({ reflect: true }) step?: string | number;
 	/** @inheritdoc */
 	@Prop() size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */

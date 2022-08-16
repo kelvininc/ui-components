@@ -6,7 +6,7 @@ import { EIconName, KvMultiSelectDropdown } from '../../components';
 KvMultiSelectDropdown.displayName = 'KvMultiSelectDropdown';
 
 export default {
-	title: 'Inputs/Dropdown/Multi Select Dropdown',
+	title: 'Inputs/Dropdown/Select/Multi Select Dropdown',
 	component: 'kv-multi-select-dropdown',
 	argTypes: {
 		isOpen: {

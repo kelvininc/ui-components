@@ -1,0 +1,4 @@
+kv-calendar::part(day-container) {
+	--calendar-day-text-color-in-range: #{kv-color('neutral-0')};
+	--calendar-day-background-color-in-range: #{kv-color('neutral-6')};
+}

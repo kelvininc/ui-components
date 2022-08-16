@@ -91,7 +91,7 @@ export class TextFieldExample {
 | `required`    | `required`     | (optional) Text field required                                     | `boolean`                                                                                                                         | `false`                 |
 | `size`        | `size`         | (optional) Sets this tab item to a different styling configuration | `EComponentSize.Large \| EComponentSize.Small`                                                                                    | `EComponentSize.Large`  |
 | `state`       | `state`        | (optional) Text field state                                        | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid`                                                     | `EValidationState.None` |
-| `step`        | `step`         | (optional) Text field interval between legal numbers               | `number`                                                                                                                          | `undefined`             |
+| `step`        | `step`         | (optional) Text field interval between legal numbers               | `number \| string`                                                                                                                | `undefined`             |
 | `type`        | `type`         | (optional) Text field type                                         | `EInputFieldType.DateTime \| EInputFieldType.Number \| EInputFieldType.Password \| EInputFieldType.Radio \| EInputFieldType.Text` | `EInputFieldType.Text`  |
 | `uneditable`  | `uneditable`   | (optional) Text field is editable                                  | `boolean`                                                                                                                         | `false`                 |
 | `value`       | `value`        | (optional) Text field value                                        | `number \| string`                                                                                                                | `''`                    |
@@ -132,6 +132,7 @@ export class TextFieldExample {
 ### Used by
 
  - [kv-dropdown](../dropdown)
+ - [kv-range-dates-select-dropdown](../range-dates-select-dropdown)
  - [kv-search](../search)
 
 ### Depends on
@@ -148,6 +149,7 @@ graph TD;
   kv-text-field --> kv-form-help-text
   kv-form-help-text --> kv-icon
   kv-dropdown --> kv-text-field
+  kv-range-dates-select-dropdown --> kv-text-field
   kv-search --> kv-text-field
   style kv-text-field fill:#f9f,stroke:#333,stroke-width:4px
 ```

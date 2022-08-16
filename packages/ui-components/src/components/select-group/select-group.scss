@@ -8,8 +8,8 @@
 	 */
 
 	--select-group-item-height: 32px;
-	--select-group-item-background-color: kv-color('neutral-7');
-	--select-group-item-label-color: kv-color('neutral-2');
+	--select-group-item-background-color: #{kv-color('neutral-7')};
+	--select-group-item-label-color: #{kv-color('neutral-2')};
 }
 
 .group {
