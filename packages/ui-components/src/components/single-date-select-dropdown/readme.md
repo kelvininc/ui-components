@@ -23,7 +23,7 @@ import React from 'react';
 
 import { KvSingleDateSelectDropdown } from '@kelvininc/react-ui-components';
 
-export const TextFieldExample: React.FC = () => (
+export const KvSingleDateSelectDropdownExample: React.FC = () => (
 	<>
 		{/*-- Default --*/}
 		<KvSingleDateSelectDropdown />
@@ -40,6 +40,7 @@ export const TextFieldExample: React.FC = () => (
 
 | Property         | Attribute       | Description                                              | Type                                                                                                                                                                                                                                                              | Default     |
 | ---------------- | --------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `dateMask`       | `date-mask`     | (optional) The text field date format mask               | `string`                                                                                                                                                                                                                                                          | `undefined` |
 | `disabledDates`  | --              | (options) The disabled dates array                       | `string[]`                                                                                                                                                                                                                                                        | `[]`        |
 | `dropdownConfig` | --              | (optional) The text field dropdown custom configurations | `{ placeholder?: string; loading?: boolean; label?: string; value?: string; icon?: EIconName \| EOtherIconName; errorState?: EValidationState; helpText?: string \| string[]; disabled?: boolean; required?: boolean; isOpen?: boolean; placement?: Placement; }` | `{}`        |
 | `initialDate`    | `initial-date`  | (optional) Initial date                                  | `string`                                                                                                                                                                                                                                                          | `undefined` |

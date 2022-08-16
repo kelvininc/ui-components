@@ -7,6 +7,7 @@ import { EIconName } from '../icon/icon.types';
 import { DEFAULT_END_DATE_INPUT_CONFIG, DEFAULT_START_DATE_INPUT_CONFIG } from './range-dates-select-dropdown.config';
 import { IRangeDatesSelectDropdown, IRangeDatesSelectDropdownEvents } from './range-dates-select-dropdown.types';
 import { ISelectRangeDates } from '../calendar-range-dates-selector/calendar-range-dates-selector.types';
+import { SelectedRange } from '../../types';
 
 @Component({
 	tag: 'kv-range-dates-select-dropdown',
@@ -21,7 +22,7 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 	/** @inheritdoc */
 	@Prop({ reflect: true, mutable: true }) isOpen?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) selectedRangeDates?: [] | [string] | [string, string] = [];
+	@Prop({ reflect: true }) selectedRangeDates?: SelectedRange = [];
 	/** @inheritdoc */
 	@Prop({ reflect: false }) initialDate?: string;
 	/** @inheritdoc */

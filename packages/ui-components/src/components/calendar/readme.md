@@ -23,7 +23,7 @@ import React from 'react';
 
 import { KvCalendar } from '@kelvininc/react-ui-components';
 
-export const TextFieldExample: React.FC = () => (
+export const KvCalendarExample: React.FC = () => (
 	<>
 		{/*-- Default --*/}
 		<KvCalendar />

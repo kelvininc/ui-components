@@ -36,3 +36,5 @@ export interface IChangeYearEvent {
 	event: MouseEvent;
 	payload: number;
 }
+
+export type SelectedRange = [] | [string] | [string, string];

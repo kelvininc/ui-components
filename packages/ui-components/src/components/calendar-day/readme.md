@@ -29,7 +29,7 @@ import React from 'react';
 
 import { KvCalendarDay } from '@kelvininc/react-ui-components';
 
-export const TextFieldExample: React.FC = () => (
+export const KvCalendarDayExample: React.FC = () => (
 	<>
 		{/*-- Default --*/}
 		<KvCalendarDay day={12} />
