@@ -7,10 +7,12 @@
 
 ## Properties
 
-| Property    | Attribute   | Description                                                 | Type                                                                                                                                                                 | Default    |
-| ----------- | ----------- | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| `isOpen`    | `is-open`   | (optional) If `true` the list is opened                     | `boolean`                                                                                                                                                            | `false`    |
-| `placement` | `placement` | (optional) The dropdown placement relative to the container | `"bottom" \| "bottom-end" \| "bottom-start" \| "left" \| "left-end" \| "left-start" \| "right" \| "right-end" \| "right-start" \| "top" \| "top-end" \| "top-start"` | `'bottom'` |
+| Property        | Attribute | Description                                           | Type                                                                                              | Default                   |
+| --------------- | --------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------- |
+| `actionElement` | --        | (optional) A reference to the dropdown action element | `HTMLElement`                                                                                     | `null`                    |
+| `isOpen`        | `is-open` | (optional) If `true` the list is opened               | `boolean`                                                                                         | `false`                   |
+| `listElement`   | --        | (optional) A reference to the dropdown list element   | `HTMLElement`                                                                                     | `null`                    |
+| `options`       | --        | (optional) The dropdown position config options       | `{ platform?: Platform; placement?: Placement; strategy?: Strategy; middleware?: Middleware[]; }` | `DEFAULT_POSITION_CONFIG` |
 
 
 ## Events

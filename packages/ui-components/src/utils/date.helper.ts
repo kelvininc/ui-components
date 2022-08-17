@@ -1,5 +1,6 @@
-import moment, { Moment } from 'moment';
-import { MomentInput } from 'moment';
+import moment, { Moment, MomentInput, unitOfTime } from 'moment';
+import momentTimezone from 'moment-timezone';
+import { SelectedRange } from '../types';
 
 /**
  * Helper methods for date type display, parse, calculate and manipulation.
@@ -60,6 +61,11 @@ export const getDatesBetweenRange = (dateRangeStart: MomentInput, dateRangeEnd: 
 	return dates;
 };
 
+// Timezones
+export const getTimezonesNames = () => momentTimezone.tz.names();
+export const getDefaultTimezone = () => momentTimezone.tz.guess();
+export const formatTimezoneName = (timezone: string): string => `(${momentTimezone.tz(timezone).format('Z')}) ${timezone}`;
+
 // General
 export const fromDateToMoment = (day: number, month: number, year: number): Moment => moment({ day, month: month - 1, year });
 export const fromISOToMoment = (date: string): Moment => moment(date);
@@ -76,3 +82,12 @@ export const isDateValid = (date: MomentInput): boolean => {
 };
 export const formatDatetime = (date: MomentInput, mask: string = 'YYYY-MM-DD HH:mm:ss'): string => moment(date).format(mask);
 export const formatDate = (date: MomentInput, mask: string = 'YYYY-MM-DD'): string => moment(date).format(mask);
+
+// Utils
+export const calculateDate = (date: MomentInput, amount: number = 0, unit: unitOfTime.DurationConstructor = 'days'): Moment => moment(date).add(amount, unit);
+export const getDatesRangeKey = (startDate: string = 'start-date', endDate: string = 'end-date'): string => `${startDate}#${endDate}`;
+export const fromDatesRangeKey = (datesKey: string): SelectedRange => {
+	const [startDate, endDate] = datesKey.split('#');
+
+	return [startDate, endDate].filter(isDateValid) as SelectedRange;
+};

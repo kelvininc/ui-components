@@ -6,12 +6,16 @@
 	 */
 }
 
-.label,
 .required {
 	@include kv-font-label-small-uppercase-semibold;
+
+	+ label {
+		@include kv-font-label-small-uppercase-semibold;
+	}
 }
 
 .label {
+	@include kv-font-label-small-uppercase-regular;
 	color: var(--label-color);
 	margin-left: $spacing;
 }

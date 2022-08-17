@@ -72,6 +72,13 @@ export const KvSelectExample: React.FC = () => (
 | `searchChange`   | Emitted when the user interacts with the search text field | `CustomEvent<string>` |
 
 
+## Shadow Parts
+
+| Part       | Description           |
+| ---------- | --------------------- |
+| `"select"` | The select container. |
+
+
 ## CSS Custom Properties
 
 | Name                        | Description              |
@@ -86,6 +93,7 @@ export const KvSelectExample: React.FC = () => (
 
 ### Used by
 
+ - [kv-calendar-advance-date-selector](../calendar-advance-date-selector)
  - [kv-multi-select-dropdown](../multi-select-dropdown)
  - [kv-single-select-dropdown](../single-select-dropdown)
 
@@ -99,10 +107,12 @@ graph TD;
   kv-select --> kv-search
   kv-search --> kv-text-field
   kv-search --> kv-icon
+  kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
   kv-text-field --> kv-form-help-text
   kv-form-help-text --> kv-icon
+  kv-calendar-advance-date-selector --> kv-select
   kv-multi-select-dropdown --> kv-select
   kv-single-select-dropdown --> kv-select
   style kv-select fill:#f9f,stroke:#333,stroke-width:4px

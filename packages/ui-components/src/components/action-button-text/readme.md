@@ -100,6 +100,7 @@ export const SwitchButtonExample: React.FC = () => (
 ### Used by
 
  - [kv-action-button-split](../action-button-split)
+ - [kv-advance-date-select-dropdown](../advance-date-select-dropdown)
 
 ### Depends on
 
@@ -112,6 +113,7 @@ graph TD;
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon
   kv-action-button-split --> kv-action-button-text
+  kv-advance-date-select-dropdown --> kv-action-button-text
   style kv-action-button-text fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

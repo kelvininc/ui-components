@@ -2,37 +2,37 @@
 
 :host {
 	/**
-	 * @prop --select-item-height: Select option height.
-	 * @prop --select-item-transition-duration: Select option transition time.
-	 * @prop --select-item-flex-alignment: The alignment of items within the component's container.
-	 * @prop --select-item-background-color: Select option background color.
-	 * @prop --select-item-background-color-selected: Select option background color when selected.
-	 * @prop --select-item-background-color-hover: Select option background color when hovered.
-	 * @prop --select-item-label-color: Select option label color.
-	 * @prop --select-item-label-color-selected: Select option label color when selected.
+	 * @prop --select-option-height: Select option height.
+	 * @prop --select-option-transition-duration: Select option transition time.
+	 * @prop --select-option-flex-alignment: The alignment of items within the component's container.
+	 * @prop --select-option-background-color: Select option background color.
+	 * @prop --select-option-background-color-selected: Select option background color when selected.
+	 * @prop --select-option-background-color-hover: Select option background color when hovered.
+	 * @prop --select-option-label-color: Select option label color.
+	 * @prop --select-option-label-color-selected: Select option label color when selected.
 	 */
 
-	--select-item-height: 32px;
-	--select-item-transition-duration: 100ms;
-	--select-item-flex-alignment: center;
+	--select-option-height: 32px;
+	--select-option-transition-duration: 100ms;
+	--select-option-flex-alignment: center;
 
-	--select-item-background-color: #{kv-color('neutral-7')};
-	--select-item-background-color-selected: #{kv-color('neutral-6')};
-	--select-item-background-color-hover: #{kv-color('neutral-6')};
+	--select-option-background-color: #{kv-color('neutral-7')};
+	--select-option-background-color-selected: #{kv-color('neutral-6')};
+	--select-option-background-color-hover: #{kv-color('neutral-6')};
 
-	--select-item-label-color: #{kv-color('neutral-4')};
-	--select-item-label-color-selected: #{kv-color('neutral-2')};
+	--select-option-label-color: #{kv-color('neutral-4')};
+	--select-option-label-color-selected: #{kv-color('neutral-2')};
 }
 
 .select-option {
-	height: var(--select-item-height);
+	height: var(--select-option-height);
 	padding: 0 $spacing-4x;
 	display: flex;
-	align-items: var(--select-item-flex-alignment);
+	align-items: var(--select-option-flex-alignment);
 	user-select: none;
 	cursor: pointer;
-	background-color: var(--select-item-background-color);
-	transition: background-color var(--select-item-transition-duration) linear;
+	background-color: var(--select-option-background-color);
+	transition: background-color var(--select-option-transition-duration) linear;
 
 	.text-container {
 		display: flex;
@@ -40,8 +40,8 @@
 
 		.item-label {
 			@include kv-font-span-regular;
-			transition: font-weight var(--select-item-transition-duration) linear;
-			color: var(--select-item-label-color);
+			transition: font-weight var(--select-option-transition-duration) linear;
+			color: var(--select-option-label-color);
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
@@ -49,16 +49,16 @@
 	}
 
 	&.selected {
-		background-color: var(--select-item-background-color-selected);
+		background-color: var(--select-option-background-color-selected);
 
 		.item-label {
 			@include kv-font-span-semibold;
-			color: var(--select-item-label-color-selected);
+			color: var(--select-option-label-color-selected);
 		}
 	}
 
 	&:hover {
-		background-color: var(--select-item-background-color-hover);
+		background-color: var(--select-option-background-color-hover);
 	}
 
 	&.disabled {
@@ -68,7 +68,7 @@
 
 	&.has-bottom-slot {
 		padding: $spacing-2x $spacing-3x;
-		align-items: var(--select-item-flex-alignment);
+		align-items: var(--select-option-flex-alignment);
 	}
 
 	kv-icon {

@@ -1,10 +1,14 @@
-import { Placement } from '@floating-ui/dom';
-import { Component, Host, h, Prop, Event, EventEmitter, Element } from '@stencil/core';
-import { EIconName, EOtherIconName } from '../icon/icon.types';
-import { EInputFieldType, EValidationState } from '../text-field/text-field.types';
-import { DROPDOWN_DEFAULT_PLACEHOLDER } from './dropdown.config';
+import { ComputePositionConfig } from '@floating-ui/dom';
+import { Component, Host, h, Prop, Event, EventEmitter, Element, Method } from '@stencil/core';
+import { merge } from 'lodash-es';
+import { EIconName } from '../icon/icon.types';
+import { ITextField } from '../text-field/text-field.types';
+import { DEFAULT_INPUT_CONFIG } from './dropdown.config';
 import { IDropdown, IDropdownEvents } from './dropdown.types';
 
+/**
+ * @part input - The input container.
+ */
 @Component({
 	tag: 'kv-dropdown',
 	styleUrl: 'dropdown.scss',
@@ -12,63 +16,55 @@ import { IDropdown, IDropdownEvents } from './dropdown.types';
 })
 export class KvDropdown implements IDropdown, IDropdownEvents {
 	/** @inheritdoc */
-	@Prop({ reflect: true }) placeholder: string = DROPDOWN_DEFAULT_PLACEHOLDER;
+	@Prop({ reflect: false }) inputConfig?: Partial<ITextField> = {};
 	/** @inheritdoc */
 	@Prop({ reflect: true, mutable: true }) isOpen?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) loading?: boolean = false;
+	@Prop({ reflect: false }) options?: Partial<ComputePositionConfig>;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) label?: string;
+	@Prop({ reflect: false }) actionElement?: HTMLElement = null;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) value?: string;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) errorState?: EValidationState = EValidationState.None;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) helpText?: string | string[] = [];
-	/** @inheritdoc */
-	@Prop({ reflect: true }) disabled?: boolean;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) required?: boolean;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) placement?: Placement = 'bottom';
+	@Prop({ reflect: false }) listElement?: HTMLElement = null;
 
 	/** @inheritdoc */
-	@Event() openStateChange: EventEmitter<boolean>;
+	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 
 	@Element() el: HTMLKvDropdownElement;
 
-	private onToggleOpenState = () => {
+	/** Toogles the dropdown open state */
+	@Method()
+	async onToggleOpenState() {
 		this.isOpen = !this.isOpen;
 		this.openStateChange.emit(this.isOpen);
-	};
+	}
 
 	private onOpenStateChange = ({ detail: openState }: CustomEvent<boolean>) => {
 		this.isOpen = openState;
+	};
+
+	private getInputConfig = () => {
+		return merge({}, DEFAULT_INPUT_CONFIG, this.inputConfig);
 	};
 
 	render() {
 		return (
 			<Host>
 				<div class="dropdown-container">
-					<kv-dropdown-base isOpen={this.isOpen} placement={this.placement} onOpenStateChange={this.onOpenStateChange}>
+					<kv-dropdown-base
+						isOpen={this.isOpen}
+						options={this.options}
+						onOpenStateChange={this.onOpenStateChange}
+						actionElement={this.actionElement}
+						listElement={this.listElement}
+					>
 						<div slot="action">
 							<kv-text-field
+								{...this.getInputConfig()}
 								id="dropdown-input"
-								label={this.label}
-								value={this.value}
-								loading={this.loading}
-								type={EInputFieldType.Text}
-								placeholder={this.placeholder}
-								icon={this.icon}
-								onClick={this.onToggleOpenState}
-								uneditable={true}
 								forcedFocus={this.isOpen}
-								state={this.errorState}
-								disabled={this.disabled}
-								required={this.required}
-								helpText={this.helpText}
+								onClick={this.onToggleOpenState.bind(this)}
+								uneditable
+								part="input"
 							>
 								<kv-icon slot="right-slot" name={this.isOpen ? EIconName.ArrowDropUp : EIconName.ArrowDropDown} customClass="icon-24" />
 							</kv-text-field>

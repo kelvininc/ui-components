@@ -1,6 +1,7 @@
-import { autoUpdate, computePosition, flip, offset, Placement } from '@floating-ui/dom';
+import { autoUpdate, computePosition, ComputePositionConfig } from '@floating-ui/dom';
 import { Component, Host, h, Prop, Event, EventEmitter, Listen, Element } from '@stencil/core';
-import { isTargetOnElement, getSlotElement } from './dropdown-base.helper';
+import { DEFAULT_POSITION_CONFIG } from './dropdown-base.config';
+import { didClickOnElement } from './dropdown-base.helper';
 import { IDropdownBase, IDropdownBaseEvents } from './dropdown-base.types';
 
 @Component({
@@ -12,10 +13,14 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) isOpen?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) placement?: Placement = 'bottom';
+	@Prop({ reflect: false }) options?: Partial<ComputePositionConfig> = DEFAULT_POSITION_CONFIG;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) actionElement?: HTMLElement = null;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) listElement?: HTMLElement = null;
 
 	/** @inheritdoc */
-	@Event() openStateChange: EventEmitter<boolean>;
+	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 
 	@Element() element: HTMLKvDropdownBaseElement;
 
@@ -31,60 +36,35 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 		}
 	}
 
+	private getActionElement = (): HTMLElement | null => {
+		return this.actionElement ?? (this.element.shadowRoot.querySelector('#dropdown-action') as HTMLElement | null);
+	};
+
+	private getListElement = (): HTMLElement | null => {
+		return this.listElement ?? (this.element.shadowRoot.querySelector('#dropdown-list') as HTMLElement | null);
+	};
+
 	private didClickOnDropdownAction = (event: MouseEvent): boolean => {
-		const dropdownActionElement = this.element.shadowRoot.querySelector('#dropdown-action') as HTMLElement | undefined;
+		const dropdownActionElement = this.getActionElement();
 
-		if (dropdownActionElement) {
-			const slotElement = getSlotElement(dropdownActionElement);
-
-			if (slotElement) {
-				return isTargetOnElement(event, slotElement);
-			}
-		}
-
-		return false;
+		return didClickOnElement(dropdownActionElement, event);
 	};
 
 	private didClickOnDropdownList = (event: MouseEvent): boolean => {
-		const dropdownListElement = this.element.shadowRoot.querySelector('#dropdown-list') as HTMLElement | undefined;
+		const dropdownListElement = this.getListElement();
 
-		if (dropdownListElement) {
-			const hostElement = getSlotElement(dropdownListElement);
-
-			if (hostElement) {
-				if (isTargetOnElement(event, hostElement)) {
-					return true;
-				}
-
-				const selectElement = getSlotElement(hostElement);
-
-				if (selectElement) {
-					return isTargetOnElement(event, selectElement);
-				}
-			}
-		}
-
-		return false;
+		return didClickOnElement(dropdownListElement, event);
 	};
 
 	private closePositionAutoUpdate: () => void;
 
 	componentDidRender() {
-		const dropdownAction = this.element.shadowRoot.querySelector('#dropdown-action') as HTMLElement;
-		const dropdownList = this.element.shadowRoot.querySelector('#dropdown-list') as HTMLElement;
+		const dropdownAction = this.getActionElement();
+		const dropdownList = this.getListElement();
 
 		if (this.isOpen) {
 			this.closePositionAutoUpdate = autoUpdate(dropdownAction, dropdownList, () => {
-				computePosition(dropdownAction, dropdownList, {
-					placement: this.placement,
-					middleware: [
-						offset(8),
-						flip({
-							padding: 16,
-							fallbackPlacements: ['top-end', 'bottom-end', 'top-start', 'bottom-start']
-						})
-					]
-				}).then(({ x, y }) => {
+				computePosition(dropdownAction, dropdownList, this.options).then(({ x, y }) => {
 					dropdownList.style.left = `${x}px`;
 					dropdownList.style.top = `${y}px`;
 				});

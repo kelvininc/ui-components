@@ -4,13 +4,17 @@
 	/**
 	 * @prop --input-height-large: Text Field's large height.
 	 * @prop --input-height-small: Text Field's small height.
+	 * @prop --input-width: Text Field's width.
 
 	 * @prop --text-color-label: Label Text color.
 	 * @prop --text-color-icon-default: Icon color when state is default.
 	 * @prop --text-color-icon-disabled: Icon color when state is disabled.
-	 * @prop --text-color-input-default: Input Text color when state is default.
-	 * @prop --text-color-input-disabled: Input Text color when state is disabled.
+	 * @prop --text-color-input-default: Input text color when state is default.
+	 * @prop --text-color-placeholder-default: Placeholder text color when state is default.
+	 * @prop --text-color-input-disabled: Input text color when state is disabled.
+	 * @prop --text-color-placeholder-disabled: Placeholder text color when state is disabled.
 	 * @prop --text-color-input-focused: Input Text color when state is focused.
+	 * @prop --text-color-placeholder-focused: Placeholder text color when state is focused.
 	 * @prop --text-color-help-text-default: Help Text color when state is default.
 	 * @prop --text-color-help-text-error: Help Text color when state is invalid.
 
@@ -23,8 +27,9 @@
 	 * @prop --right-slot-width: right slot width.
 	 */
 
-	--input-height-large: 38px;
+	--input-height-large: 36px;
 	--input-height-small: 28px;
+	--input-width: auto;
 
 	--text-color-icon-default: #{kv-color('neutral-4')};
 	--text-color-input-disabled: #{kv-color('neutral-5')};
@@ -44,9 +49,18 @@ kv-form-help-text {
 	--help-text-error-color: var(--text-color-help-text-error);
 }
 
+kv-tooltip::part(container) {
+	@include kv-font-span-regular();
+	color: kv-color('neutral-2');
+}
+
 .flex-align-center {
 	display: flex;
 	align-content: center;
+}
+
+kv-tooltip::part(content) {
+	width: 100%;
 }
 
 input {
@@ -77,22 +91,26 @@ input {
 		padding-right: var(--right-slot-width);
 	}
 
+	&::placeholder {
+		color: var(--text-color-placeholder-default);
+	}
+
 	&:disabled {
 		background-color: var(--background-color-disabled);
 		color: var(--text-color-input-disabled);
 
 		&::placeholder {
-			color: var(--text-color-input-disabled);
+			color: var(--text-color-placeholder-disabled);
 		}
-	}
-
-	&::placeholder {
-		color: var(--text-color-label);
 	}
 
 	&:focus,
 	&.forced-focus {
 		color: var(--text-color-input-focused);
+
+		&::placeholder {
+			color: var(--text-color-placeholder-focused);
+		}
 
 		&:not(.invalid) {
 			border-color: var(--border-color-focused);
@@ -106,6 +124,7 @@ input {
 
 .input-container {
 	position: relative;
+	width: var(--input-width);
 
 	&--size-large {
 		height: var(--input-height-large);

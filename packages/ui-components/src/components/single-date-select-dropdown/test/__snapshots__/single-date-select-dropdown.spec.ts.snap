@@ -4,7 +4,7 @@ exports[`Single Date Input (unit tests) when uses default props should match the
 <kv-single-date-select-dropdown>
   <mock:shadow-root>
     <div class="single-date-select-dropdown">
-      <kv-dropdown icon="kv-calendar" placeholder="Select a date" state="none" type="text">
+      <kv-dropdown>
         <div class="calendar-container">
           <kv-calendar-single-date-selector></kv-calendar-single-date-selector>
         </div>

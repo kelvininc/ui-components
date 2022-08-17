@@ -4,8 +4,8 @@ import { ICalendarSingleDateSelector, ICalendarSingleDateSelectorEvents } from '
 
 export interface ISingleDateSelectDropdown extends ICalendarSingleDateSelector {
 	/** (optional) The text field dropdown custom configurations */
-	dropdownConfig?: Partial<ITextField>;
-	/** (optional) The text field date format mask */
+	inputConfig?: Partial<ITextField>;
+	/** (optional) The text field date format mask in ISO 8601 format */
 	dateMask?: string;
 }
 

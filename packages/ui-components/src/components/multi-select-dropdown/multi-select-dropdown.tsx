@@ -1,10 +1,10 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Watch, State } from '@stencil/core';
 import { isEmpty } from 'lodash-es';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
-import { EValidationState } from '../text-field/text-field.types';
+import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { IMultiSelectDropdown, IMultiSelectDropdownEvents, IMultiSelectDropdownOption } from './multi-select-dropdown.types';
 import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
-import { buildSelectGroups } from '../select-group/select-group.helper';
+import { buildSelectGroups, hasGroups } from '../select-group/select-group.helper';
 import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
 
 @Component({
@@ -134,28 +134,27 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		this.calculateLabelValue();
 	}
 
+	private getInputConfig = (): Partial<ITextField> => ({
+		label: this.label,
+		value: this._selectionDisplayValue,
+		loading: this.loading,
+		icon: this.icon,
+		disabled: this.disabled,
+		required: this.required,
+		placeholder: this.placeholder,
+		state: this.errorState,
+		helpText: this.helpText
+	});
+
 	render() {
 		const groups = buildSelectGroups(this.options);
 		const groupNames = Object.keys(groups);
 		const isSelectionClearable = !isEmpty(this.options) && this.selectionClearable;
 		const isSelectionClearEnabled = Object.keys(this.selectedOptions).length > 0;
-		const hasGroups = groupNames.length > 1;
 
 		return (
 			<Host>
-				<kv-dropdown
-					isOpen={this.isOpen}
-					label={this.label}
-					value={this._selectionDisplayValue}
-					loading={this.loading}
-					icon={this.icon}
-					disabled={this.disabled}
-					required={this.required}
-					placeholder={this.placeholder}
-					errorState={this.errorState}
-					helpText={this.helpText}
-					onOpenStateChange={this.openStateChangeHandler}
-				>
+				<kv-dropdown inputConfig={this.getInputConfig()} isOpen={this.isOpen} onOpenStateChange={this.openStateChangeHandler} exportparts="input">
 					<kv-select
 						searchable={this.searchable}
 						searchValue={this._searchValue}
@@ -166,7 +165,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 						onSearchChange={this.onSearchChange}
 					>
 						{isEmpty(this.options) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
-						{hasGroups ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.options))}
+						{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.options))}
 					</kv-select>
 				</kv-dropdown>
 			</Host>

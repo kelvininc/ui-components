@@ -62,22 +62,23 @@ export const KvSelectOptionExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                                      | Description                                              |
-| ----------------------------------------- | -------------------------------------------------------- |
-| `--select-item-background-color`          | Select option background color.                          |
-| `--select-item-background-color-hover`    | Select option background color when hovered.             |
-| `--select-item-background-color-selected` | Select option background color when selected.            |
-| `--select-item-flex-alignment`            | The alignment of items within the component's container. |
-| `--select-item-height`                    | Select option height.                                    |
-| `--select-item-label-color`               | Select option label color.                               |
-| `--select-item-label-color-selected`      | Select option label color when selected.                 |
-| `--select-item-transition-duration`       | Select option transition time.                           |
+| Name                                        | Description                                              |
+| ------------------------------------------- | -------------------------------------------------------- |
+| `--select-option-background-color`          | Select option background color.                          |
+| `--select-option-background-color-hover`    | Select option background color when hovered.             |
+| `--select-option-background-color-selected` | Select option background color when selected.            |
+| `--select-option-flex-alignment`            | The alignment of items within the component's container. |
+| `--select-option-height`                    | Select option height.                                    |
+| `--select-option-label-color`               | Select option label color.                               |
+| `--select-option-label-color-selected`      | Select option label color when selected.                 |
+| `--select-option-transition-duration`       | Select option transition time.                           |
 
 
 ## Dependencies
 
 ### Used by
 
+ - [kv-calendar-advance-date-selector](../calendar-advance-date-selector)
  - [kv-multi-select-dropdown](../multi-select-dropdown)
  - [kv-single-select-dropdown](../single-select-dropdown)
 
@@ -89,6 +90,7 @@ export const KvSelectOptionExample: React.FC = () => (
 ```mermaid
 graph TD;
   kv-select-option --> kv-icon
+  kv-calendar-advance-date-selector --> kv-select-option
   kv-multi-select-dropdown --> kv-select-option
   kv-single-select-dropdown --> kv-select-option
   style kv-select-option fill:#f9f,stroke:#333,stroke-width:4px
