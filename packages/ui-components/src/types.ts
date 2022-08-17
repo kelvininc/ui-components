@@ -29,3 +29,4 @@ export * from './components/calendar-single-date-selector/calendar-single-date-s
 export * from './components/calendar-day/calendar-day.types';
 export * from './components/single-date-select-dropdown/single-date-select-dropdown.types';
 export * from './components/range-dates-select-dropdown/range-dates-select-dropdown.types';
+export * from './components/range/range.types';
