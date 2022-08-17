@@ -59,10 +59,9 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	private selectOption = (event: CustomEvent<string>) => {
 		const option = event.detail;
 		// triple bang for handling false, true and undefined
-		this.selectedOptions[option] = !!!this.selectedOptions[option];
-		this.calculateLabelValue();
+		const newOptions = { ...this.selectedOptions, [option]: !!!this.selectedOptions[option] };
 
-		this.optionsSelected.emit(this.selectedOptions);
+		this.optionsSelected.emit(newOptions);
 	};
 
 	private calculateLabelValue() {
