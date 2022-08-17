@@ -7,6 +7,10 @@
 	--text-color-input-default: #{kv-color('neutral-8')};
 	--text-color-input-focused: #{kv-color('primary')};
 
+	--text-color-placeholder-default: #{kv-color('neutral-5')};
+	--text-color-placeholder-disabled: #{kv-color('neutral-5')};
+	--text-color-placeholder-focused: #{kv-color('neutral-5')};
+
 	--border-color-default: #{kv-color('neutral-3')};
 	--border-color-focused: #{kv-color('primary')};
 

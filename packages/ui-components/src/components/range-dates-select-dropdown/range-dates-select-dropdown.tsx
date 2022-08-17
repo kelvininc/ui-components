@@ -1,14 +1,18 @@
-import { Placement } from '@floating-ui/dom';
+import { ComputePositionConfig } from '@floating-ui/dom';
 import { Component, Element, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { isEmpty, merge } from 'lodash-es';
 import { ITextField } from '../../types';
 import { formatDatetime } from '../../utils/date.helper';
 import { EIconName } from '../icon/icon.types';
-import { DEFAULT_END_DATE_INPUT_CONFIG, DEFAULT_START_DATE_INPUT_CONFIG } from './range-dates-select-dropdown.config';
+import { DEFAULT_DROPDOWN_POSITION_OPTIONS, DEFAULT_END_DATE_INPUT_CONFIG, DEFAULT_START_DATE_INPUT_CONFIG } from './range-dates-select-dropdown.config';
 import { IRangeDatesSelectDropdown, IRangeDatesSelectDropdownEvents } from './range-dates-select-dropdown.types';
 import { ISelectRangeDates } from '../calendar-range-dates-selector/calendar-range-dates-selector.types';
 import { SelectedRange } from '../../types';
 
+/**
+ * @part start-input - The range start input container.
+ * @part end-input - The range end input container.
+ */
 @Component({
 	tag: 'kv-range-dates-select-dropdown',
 	styleUrl: 'range-dates-select-dropdown.scss',
@@ -16,13 +20,13 @@ import { SelectedRange } from '../../types';
 })
 export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IRangeDatesSelectDropdownEvents {
 	/** @inheritdoc */
-	@Prop({ reflect: true }) startInputConfig?: Partial<ITextField> = {};
+	@Prop({ reflect: false }) startInputConfig?: Partial<ITextField> = {};
 	/** @inheritdoc */
-	@Prop({ reflect: true }) endInputConfig?: Partial<ITextField> = {};
+	@Prop({ reflect: false }) endInputConfig?: Partial<ITextField> = {};
 	/** @inheritdoc */
 	@Prop({ reflect: true, mutable: true }) isOpen?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) selectedRangeDates?: SelectedRange = [];
+	@Prop({ reflect: true }) selectedRangeDates?: SelectedRange;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) initialDate?: string;
 	/** @inheritdoc */
@@ -32,14 +36,16 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 	/** @inheritdoc */
 	@Prop({ reflect: false }) maxDate?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) placement?: Placement = 'bottom';
+	@Prop({ reflect: false }) dropdownPositionOptions?: Partial<ComputePositionConfig> = DEFAULT_DROPDOWN_POSITION_OPTIONS;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) startDateMask?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) endDateMask?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) autoClose?: boolean = true;
 
 	/** @inheritdoc */
-	@Event() openStateChange: EventEmitter<boolean>;
+	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 	/** @inheritdoc */
 	@Event() selectRangeDates: EventEmitter<ISelectRangeDates>;
 
@@ -50,16 +56,20 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 		this.openStateChange.emit(this.isOpen);
 	};
 
+	private getSelectedRangeRanges = (): SelectedRange => {
+		return this.selectedRangeDates ?? [];
+	};
+
 	private getStartInputConfig = (): Partial<ITextField> => {
-		return merge(DEFAULT_START_DATE_INPUT_CONFIG, this.startInputConfig);
+		return merge({}, DEFAULT_START_DATE_INPUT_CONFIG, this.startInputConfig);
 	};
 
 	private getEndInputConfig = (): Partial<ITextField> => {
-		return merge(DEFAULT_END_DATE_INPUT_CONFIG, this.endInputConfig);
+		return merge({}, DEFAULT_END_DATE_INPUT_CONFIG, this.endInputConfig);
 	};
 
 	public getFormattedSelectedStartDate = (): string | undefined => {
-		const [startDate] = this.selectedRangeDates;
+		const [startDate] = this.getSelectedRangeRanges();
 
 		if (!isEmpty(startDate)) {
 			return formatDatetime(startDate, this.startDateMask);
@@ -67,7 +77,7 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 	};
 
 	public getFormattedSelectedEndDate = (): string | undefined => {
-		const [, endDate] = this.selectedRangeDates;
+		const [, endDate] = this.getSelectedRangeRanges();
 
 		if (!isEmpty(endDate)) {
 			return formatDatetime(endDate, this.endDateMask);
@@ -75,13 +85,13 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 	};
 
 	public isStartSingleDateSelectDropdownFocus = (): boolean => {
-		const [startDate] = this.selectedRangeDates;
+		const [startDate] = this.getSelectedRangeRanges();
 
 		return this.isOpen && isEmpty(startDate);
 	};
 
 	public isEndSingleDateSelectDropdownFocus = (): boolean => {
-		const [startDate, endDate] = this.selectedRangeDates;
+		const [startDate, endDate] = this.getSelectedRangeRanges();
 
 		return this.isOpen && !isEmpty(startDate) && isEmpty(endDate);
 	};
@@ -90,11 +100,23 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 		this.isOpen = openState;
 	};
 
+	private onSelectRangeDates = ({ detail: { payload: newSelectRangeDates } }: CustomEvent<ISelectRangeDates>) => {
+		const [startDate, endDate] = newSelectRangeDates;
+
+		if (!this.autoClose) {
+			return;
+		}
+
+		if (this.isOpen && !isEmpty(startDate) && !isEmpty(endDate)) {
+			this.onToggleOpenState();
+		}
+	};
+
 	render() {
 		return (
 			<Host>
 				<div class="range-dates-select-dropdown">
-					<kv-dropdown-base isOpen={this.isOpen} placement={this.placement} onOpenStateChange={this.onOpenStateChange}>
+					<kv-dropdown-base isOpen={this.isOpen} options={this.dropdownPositionOptions} onOpenStateChange={this.onOpenStateChange}>
 						<div slot="action" class="inputs-container">
 							<div class="start-single-date-select-dropdown">
 								<kv-text-field
@@ -103,6 +125,7 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 									onClick={this.onToggleOpenState}
 									uneditable
 									forcedFocus={this.isStartSingleDateSelectDropdownFocus()}
+									part="start-input"
 								>
 									<kv-icon
 										slot="right-slot"
@@ -118,6 +141,7 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 									onClick={this.onToggleOpenState}
 									uneditable
 									forcedFocus={this.isEndSingleDateSelectDropdownFocus()}
+									part="end-input"
 								>
 									<kv-icon
 										slot="right-slot"
@@ -129,11 +153,12 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 						</div>
 						<div slot="list" class="calendar-container">
 							<kv-calendar-range-dates-selector
-								selectedRangeDates={this.selectedRangeDates}
+								selectedRangeDates={this.getSelectedRangeRanges()}
 								initialDate={this.initialDate}
 								disabledDates={this.disabledDates}
 								minDate={this.minDate}
 								maxDate={this.maxDate}
+								onSelectRangeDates={this.onSelectRangeDates}
 							/>
 						</div>
 					</kv-dropdown-base>

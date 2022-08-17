@@ -24,6 +24,8 @@ export interface ISingleSelectDropdown {
 	icon?: EIconName | EOtherIconName;
 	/** (optional) If `true` the dropdown is searchable */
 	searchable?: boolean;
+	/** (optional) The list search text field placeholder */
+	searchPlaceholder?: string;
 	/** (optional) If `true` dropdown requires a value to be selected */
 	required?: boolean;
 	/** (optional) The text to display on the dropdown label */

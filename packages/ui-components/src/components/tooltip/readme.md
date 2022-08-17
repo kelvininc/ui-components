@@ -57,12 +57,11 @@ export const TagLetterExample: React.FC = () => (
 
 ## Properties
 
-| Property            | Attribute  | Description                                                                             | Type                                                                                                                                                                                                                                                                                                                                             | Default     |
-| ------------------- | ---------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| `allowedPositions`  | --         | (optional) Array of allowed positions of tooltip (if defined the 'position' is ignored) | `ETooltipPosition[]`                                                                                                                                                                                                                                                                                                                             | `undefined` |
-| `options`           | --         | (optional) Object with tooltip options                                                  | `{ platform?: Platform; placement?: Placement; strategy?: Strategy; middleware?: Middleware[]; }`                                                                                                                                                                                                                                                | `undefined` |
-| `position`          | `position` | (optional) Position of tooltip                                                          | `ETooltipPosition.Bottom \| ETooltipPosition.BottomEnd \| ETooltipPosition.BottomStart \| ETooltipPosition.Left \| ETooltipPosition.LeftEnd \| ETooltipPosition.LeftStart \| ETooltipPosition.Right \| ETooltipPosition.RightEnd \| ETooltipPosition.RightStart \| ETooltipPosition.Top \| ETooltipPosition.TopEnd \| ETooltipPosition.TopStart` | `undefined` |
-| `text` _(required)_ | `text`     | (required) Text of tooltip                                                              | `string`                                                                                                                                                                                                                                                                                                                                         | `undefined` |
+| Property            | Attribute  | Description                                     | Type                                                                                                                                                                                                                                                                                                                                             | Default                   |
+| ------------------- | ---------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------- |
+| `options`           | --         | (optional) Object with tooltip position options | `{ platform?: Platform; placement?: Placement; strategy?: Strategy; middleware?: Middleware[]; }`                                                                                                                                                                                                                                                | `DEFAULT_POSITION_CONFIG` |
+| `position`          | `position` | (optional) Position of tooltip                  | `ETooltipPosition.Bottom \| ETooltipPosition.BottomEnd \| ETooltipPosition.BottomStart \| ETooltipPosition.Left \| ETooltipPosition.LeftEnd \| ETooltipPosition.LeftStart \| ETooltipPosition.Right \| ETooltipPosition.RightEnd \| ETooltipPosition.RightStart \| ETooltipPosition.Top \| ETooltipPosition.TopEnd \| ETooltipPosition.TopStart` | `undefined`               |
+| `text` _(required)_ | `text`     | (required) Text of tooltip                      | `string`                                                                                                                                                                                                                                                                                                                                         | `undefined`               |
 
 
 ## Shadow Parts
@@ -73,16 +72,25 @@ export const TagLetterExample: React.FC = () => (
 | `"content"`   | The tooltip content.   |
 
 
+## CSS Custom Properties
+
+| Name                  | Description                                  |
+| --------------------- | -------------------------------------------- |
+| `--container-z-index` | The z-index value for the tooltip container. |
+
+
 ## Dependencies
 
 ### Used by
 
  - [kv-info-label](../info-label)
+ - [kv-text-field](../text-field)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-info-label --> kv-tooltip
+  kv-text-field --> kv-tooltip
   style kv-tooltip fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

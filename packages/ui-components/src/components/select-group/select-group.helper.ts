@@ -15,3 +15,15 @@ export const buildSelectGroupLabel = (groupName: string): string => {
 
 	return groupName;
 };
+
+export const hasGroups = (groupsNames: string[]): boolean => {
+	if (groupsNames.length === 0) {
+		return false;
+	}
+
+	if (groupsNames.length === 1) {
+		return groupsNames[0] !== EMPTY_GROUP_NAME;
+	}
+
+	return true;
+};

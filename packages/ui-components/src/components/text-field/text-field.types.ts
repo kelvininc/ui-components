@@ -64,4 +64,6 @@ export interface ITextField {
 	uneditable?: boolean;
 	/** (optional) Text field focus state */
 	forcedFocus?: boolean;
+	/** (optional) Text field tooltip */
+	tooltip?: string;
 }

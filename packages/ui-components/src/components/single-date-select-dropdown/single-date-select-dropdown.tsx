@@ -1,11 +1,9 @@
-import { Component, Element, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
+import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { isEmpty, merge } from 'lodash-es';
-import { ITextField } from '../../types';
+import { ITextField, ISelectDate } from '../../types';
 import { formatDatetime } from '../../utils/date.helper';
-import { DEFAULT_DATE_DROPDOWN_CONFIG } from './single-date-select-dropdown.config';
+import { DEFAULT_DATE_INPUT_CONFIG } from './single-date-select-dropdown.config';
 import { ISingleDateSelectDropdown, ISingleDateSelectDropdownEvents } from './single-date-select-dropdown.types';
-import { ISelectDate } from '../calendar-single-date-selector/calendar-single-date-selector.types';
-import { IDropdown } from '../dropdown/dropdown.types';
 
 @Component({
 	tag: 'kv-single-date-select-dropdown',
@@ -14,7 +12,7 @@ import { IDropdown } from '../dropdown/dropdown.types';
 })
 export class KvSingleDateSelectDropdown implements ISingleDateSelectDropdown, ISingleDateSelectDropdownEvents {
 	/** @inheritdoc */
-	@Prop({ reflect: false }) dropdownConfig?: Partial<IDropdown> = {};
+	@Prop({ reflect: false }) inputConfig?: Partial<ITextField> = {};
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedDate?: string;
 	/** @inheritdoc */
@@ -29,14 +27,12 @@ export class KvSingleDateSelectDropdown implements ISingleDateSelectDropdown, IS
 	@Prop({ reflect: false }) dateMask?: string;
 
 	/** @inheritdoc */
-	@Event() openStateChange: EventEmitter<boolean>;
+	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 	/** @inheritdoc */
 	@Event() selectDate: EventEmitter<ISelectDate>;
 
-	@Element() el: HTMLKvSingleDateSelectDropdownElement;
-
-	private getDropdownConfig = (): Partial<ITextField> => {
-		return merge(DEFAULT_DATE_DROPDOWN_CONFIG, this.dropdownConfig);
+	private getInputConfig = (): Partial<ITextField> => {
+		return merge({}, DEFAULT_DATE_INPUT_CONFIG, this.inputConfig, { value: this.getFormattedSelectedDate() });
 	};
 
 	public getFormattedSelectedDate = (): string | undefined => {
@@ -49,7 +45,7 @@ export class KvSingleDateSelectDropdown implements ISingleDateSelectDropdown, IS
 		return (
 			<Host>
 				<div class="single-date-select-dropdown">
-					<kv-dropdown {...this.getDropdownConfig()} value={this.getFormattedSelectedDate()}>
+					<kv-dropdown inputConfig={this.getInputConfig()}>
 						<div class="calendar-container">
 							<kv-calendar-single-date-selector
 								selectedDate={this.selectedDate}

@@ -2,6 +2,9 @@ import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
 import { SELECT_CLEAR_SELECTION_LABEL } from './select.config';
 import { ISelect, ISelectEvents } from './select.types';
 
+/**
+ * @part select - The select container.
+ */
 @Component({
 	tag: 'kv-select',
 	styleUrl: 'select.scss',
@@ -37,7 +40,7 @@ export class KvSelect implements ISelect, ISelectEvents {
 	render() {
 		return (
 			<Host>
-				<div class="select-container">
+				<div class="select-container" part="select">
 					{(this.searchable || this.selectionClearable) && (
 						<div class="select-header-container">
 							{this.searchable && <kv-search value={this.searchValue} placeholder={this.searchPlaceholder} onTextChange={this.onSearchChange} />}
