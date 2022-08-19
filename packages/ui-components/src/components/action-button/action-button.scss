@@ -232,9 +232,10 @@ $btn-paddings-x: (
 		&::before {
 			content: '';
 			filter: blur(2px);
-			background: $btn-focus-border-color;
-			width: 100%;
-			height: 100%;
+			position: absolute;
+			z-index: -1;
+			inset: 0;
+			border: 1px solid $btn-focus-border-color;
 		}
 	}
 
@@ -378,6 +379,10 @@ $btn-paddings-x: (
 	--border-color-hover-secondary: #{get-border-color('hover', 'secondary')};
 	--border-color-hover-tertiary: #{get-border-color('hover', 'tertiary')};
 	--border-color-hover-danger: #{get-border-color('hover', 'danger')};
+	--border-color-focus-primary: #{get-border-color('focus', 'primary')};
+	--border-color-focus-secondary: #{get-border-color('focus', 'secondary')};
+	--border-color-focus-tertiary: #{get-border-color('focus', 'tertiary')};
+	--border-color-focus-danger: #{get-border-color('focus', 'danger')};
 	--border-color-disabled-primary: #{get-border-color('disabled', 'primary')};
 	--border-color-disabled-secondary: #{get-border-color('disabled', 'secondary')};
 	--border-color-disabled-tertiary: #{get-border-color('disabled', 'tertiary')};
