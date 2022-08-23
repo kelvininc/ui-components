@@ -3,6 +3,8 @@ export const getInputPercentageFromValue = (inputValue: string, min: number, max
 };
 
 export const getOffset = (percentage: number) => {
-	const invertPercentage = 1 - percentage / 100;
-	return invertPercentage * 10 - 4;
+	const offSet = -0.25;
+	const halfDistance = percentage - 50;
+
+	return halfDistance * offSet;
 };

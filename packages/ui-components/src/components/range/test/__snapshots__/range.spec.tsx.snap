@@ -5,12 +5,9 @@ exports[`Range (unit tests) when uses default props should match the snapshot 1`
   <mock:shadow-root>
     <div class="range-container">
       <input class="slider" id="slider" step="1" type="range" value="0" style="background: linear-gradient(90deg, var(--slider-background-filled) NaN%, var(--slider-background-empty) NaN%);">
-      <div class="selector" id="selector" style="left: NaN%; margin-left: NaNpx;">
-        <div class="select-btn"></div>
-        <span class="select-value">
-          0
-        </span>
-      </div>
+      <span class="select-value" id="select-value" style="left: NaN%; margin-left: NaNpx;">
+        0
+      </span>
       <div class="range-min-max">
         <span></span>
         <span></span>
