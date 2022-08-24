@@ -1,6 +1,6 @@
 import { EventEmitter } from '@stencil/core';
-import { MomentInput, unitOfTime } from 'moment';
-import { ITextField, SelectedRange } from '../../types';
+import dayjs from 'dayjs';
+import { ITextField, SelectedRange, DateInput } from '../../types';
 
 export interface ICalendarAdvanceDateSelector {
 	/** (optional) The selected time range */
@@ -46,12 +46,12 @@ export interface ICalendarAdvanceRelativeTimeConfig {
 export type TimeCalculation = {
 	// time which the calculation should be relative to.
 	// if undefined, now will be used
-	relativeDate?: MomentInput;
+	relativeDate?: DateInput;
 	// the amount of units to add to the relative time
 	// if this number is negative, the amount will be subtracted
 	amount: number;
 	// the unit type to add/subtract to the relative time
-	unit: unitOfTime.DurationConstructor;
+	unit: dayjs.ManipulateType;
 };
 
 export type RelativeTimeOption = {

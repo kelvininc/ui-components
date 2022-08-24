@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { h, SpecPage } from '@stencil/core/internal';
 import { newSpecPage } from '@stencil/core/testing';
 import { KvCalendar } from '../calendar';
@@ -9,7 +8,7 @@ describe('Calendar (unit tests)', () => {
 	let component: KvCalendar;
 
 	describe('when uses default props', () => {
-		const now = moment().clone();
+		const now = new Date();
 
 		beforeEach(async () => {
 			page = await newSpecPage({

@@ -1,10 +1,9 @@
 import { Component, Event, EventEmitter, h, Host, Prop, State, Watch } from '@stencil/core';
-import moment from 'moment';
 import { getArrayOfIndexes } from '../../utils/arrays.helper';
 import {
 	areDatesValid,
 	formatDate,
-	fromDateToMoment,
+	fromDateFields,
 	getDateMonth,
 	getDateYear,
 	getFirstWeekdayIndexOfMonth,
@@ -53,8 +52,8 @@ export class KvCalendar implements ICalendar, ICalendarEvents {
 	/** @inheritdoc */
 	@Event() clickDate: EventEmitter<IClickDateEvent>;
 
-	@State() month: number = getDateMonth(this.initialDate ?? moment());
-	@State() year: number = getDateYear(this.initialDate ?? moment());
+	@State() month: number = getDateMonth(this.initialDate ?? new Date());
+	@State() year: number = getDateYear(this.initialDate ?? new Date());
 	@State() hoveredDay: number;
 
 	@Watch('selectedDates')
@@ -127,7 +126,7 @@ export class KvCalendar implements ICalendar, ICalendarEvents {
 	};
 
 	public isDayDisabled = (day: number): boolean => {
-		const dayMoment = fromDateToMoment(day, this.month, this.year);
+		const dayMoment = fromDateFields(day, this.month, this.year);
 
 		if (isDateInArray(dayMoment, this.disabledDates)) {
 			return true;
@@ -145,14 +144,14 @@ export class KvCalendar implements ICalendar, ICalendarEvents {
 	};
 
 	public onClickDay = (day: number, event: MouseEvent): void => {
-		const clickedDateMoment = fromDateToMoment(day, this.month, this.year);
+		const clickedDateMoment = fromDateFields(day, this.month, this.year);
 		this.clickDate.emit({ event, payload: formatDate(clickedDateMoment) });
 	};
 
 	public isDayActive = (day: number): boolean => {
-		const dayMoment = fromDateToMoment(day, this.month, this.year);
+		const date = fromDateFields(day, this.month, this.year);
 
-		return isDateInArray(dayMoment, this.selectedDates);
+		return isDateInArray(date, this.selectedDates);
 	};
 
 	public onMouseEnter = (day: number): void => {
@@ -191,10 +190,10 @@ export class KvCalendar implements ICalendar, ICalendarEvents {
 			return false;
 		}
 
-		const dayMoment = fromDateToMoment(day, this.month, this.year);
-		const hoveredDayMoment = fromDateToMoment(this.hoveredDay, this.month, this.year);
+		const date = fromDateFields(day, this.month, this.year);
+		const hoveredDate = fromDateFields(this.hoveredDay, this.month, this.year);
 
-		return isDateInRange(dayMoment, selectedStartDate, hoveredDayMoment, false);
+		return isDateInRange(date, selectedStartDate, hoveredDate, false);
 	};
 
 	public isSelectedStartDay = (day: number): boolean => {
@@ -204,13 +203,13 @@ export class KvCalendar implements ICalendar, ICalendarEvents {
 			return false;
 		}
 
-		const dateMoment = fromDateToMoment(day, this.month, this.year);
+		const dateMoment = fromDateFields(day, this.month, this.year);
 
 		return isDateSame(dateMoment, selectedStartDate);
 	};
 
 	public isSelectedEndDay = (day: number): boolean => {
-		const dateMoment = fromDateToMoment(day, this.month, this.year);
+		const date = fromDateFields(day, this.month, this.year);
 
 		const [selectedStartDate, selectedEndDate] = this.getSelectedRange();
 
@@ -219,10 +218,10 @@ export class KvCalendar implements ICalendar, ICalendarEvents {
 		}
 
 		if (selectedEndDate === undefined) {
-			return isDateSame(dateMoment, selectedStartDate);
+			return isDateSame(date, selectedStartDate);
 		}
 
-		return isDateSame(dateMoment, selectedEndDate);
+		return isDateSame(date, selectedEndDate);
 	};
 
 	render() {

@@ -2,7 +2,7 @@ import { ComputePositionConfig } from '@floating-ui/dom';
 import { Component, Element, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { isEmpty, merge } from 'lodash-es';
 import { ITextField } from '../../types';
-import { formatDatetime } from '../../utils/date.helper';
+import { formatDateTime } from '../../utils/date.helper';
 import { EIconName } from '../icon/icon.types';
 import { DEFAULT_DROPDOWN_POSITION_OPTIONS, DEFAULT_END_DATE_INPUT_CONFIG, DEFAULT_START_DATE_INPUT_CONFIG } from './range-dates-select-dropdown.config';
 import { IRangeDatesSelectDropdown, IRangeDatesSelectDropdownEvents } from './range-dates-select-dropdown.types';
@@ -72,7 +72,7 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 		const [startDate] = this.getSelectedRangeRanges();
 
 		if (!isEmpty(startDate)) {
-			return formatDatetime(startDate, this.startDateMask);
+			return formatDateTime(startDate, this.startDateMask);
 		}
 	};
 
@@ -80,7 +80,7 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 		const [, endDate] = this.getSelectedRangeRanges();
 
 		if (!isEmpty(endDate)) {
-			return formatDatetime(endDate, this.endDateMask);
+			return formatDateTime(endDate, this.endDateMask);
 		}
 	};
 

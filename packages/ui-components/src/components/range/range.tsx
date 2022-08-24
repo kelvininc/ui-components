@@ -48,7 +48,7 @@ export class KvRange implements IRange, IRangeEvents {
 		return (
 			<Host>
 				<div class="range-container">
-					<input id="slider" class="slider" type="range" min={this.min} max={this.max} value={this.value} step={this.step} onInput={this.applyCssStyles} />
+					<input id="slider" class="slider" type="range" min={this.min} max={this.max} step={this.step} value={this.value} onInput={this.applyCssStyles} />
 					<div id="selector" class="selector">
 						<div class="select-btn"></div>
 						<span class="select-value">{this.value}</span>

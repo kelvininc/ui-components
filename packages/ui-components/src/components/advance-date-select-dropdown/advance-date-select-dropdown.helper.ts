@@ -1,12 +1,12 @@
 import { isEmpty } from 'lodash-es';
 import { RelativeTimeOption, SelectedRange } from '../../types';
-import { formatDatetime, fromDatesRangeKey } from '../../utils/date.helper';
+import { formatDateTime, fromDatesRangeKey } from '../../utils/date.helper';
 import { DEFAULT_RELATIVE_TIME_OPTIONS } from '../calendar-advance-date-selector/calendar-advance-date-selector.config';
 import { getDatesRangeFromRelativeOption } from '../calendar-advance-date-selector/calendar-advance-date-selector.helper';
 import { ICalendarAdvanceSelectedTime, ECalendarAdvanceTimeType } from '../calendar-advance-date-selector/calendar-advance-date-selector.types';
 
 export const formatAbsoluteSelectedTime = (startDate: string, endDate: string, mask?: string): string => {
-	return `${formatDatetime(startDate, mask)} to ${formatDatetime(endDate, mask)}`;
+	return `${formatDateTime(startDate, mask)} to ${formatDateTime(endDate, mask)}`;
 };
 
 export const getRelativeTimeLabel = (relativeTimeValue: string | undefined, relativeTimeOptions: RelativeTimeOption[] = DEFAULT_RELATIVE_TIME_OPTIONS): string | undefined =>

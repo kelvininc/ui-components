@@ -1,6 +1,6 @@
 import { E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
 
-describe('Calendar Single Date Selector (end-to-end)', () => {
+describe('Calendar Advance Date Selector (end-to-end)', () => {
 	let page: E2EPage;
 
 	describe('when user clicks on the an relative date option', () => {
@@ -8,7 +8,7 @@ describe('Calendar Single Date Selector (end-to-end)', () => {
 
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-calendar-advance-date-selector></kv-calendar-single-date-selector>');
+			await page.setContent('<kv-calendar-advance-date-selector></kv-calendar-advance-date-selector>');
 
 			const calendarAdvanceDateSelectorElement = await page.find('kv-calendar-advance-date-selector');
 			spyChangeEvent = await calendarAdvanceDateSelectorElement.spyOnEvent('relativeTimeChange');
@@ -34,7 +34,7 @@ describe('Calendar Single Date Selector (end-to-end)', () => {
 
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-calendar-advance-date-selector></kv-calendar-single-date-selector>');
+			await page.setContent('<kv-calendar-advance-date-selector></kv-calendar-advance-date-selector>');
 
 			const calendarAdvanceDateSelectorElement = await page.find('kv-calendar-advance-date-selector');
 			spyChangeEvent = await calendarAdvanceDateSelectorElement.spyOnEvent('absoluteTimeChange');
@@ -65,7 +65,7 @@ describe('Calendar Single Date Selector (end-to-end)', () => {
 
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-calendar-advance-date-selector></kv-calendar-single-date-selector>');
+			await page.setContent('<kv-calendar-advance-date-selector></kv-calendar-advance-date-selector>');
 
 			const calendarAdvanceDateSelectorElement = await page.find('kv-calendar-advance-date-selector');
 			spyChangeEvent = await calendarAdvanceDateSelectorElement.spyOnEvent('timezoneChange');
