@@ -44,13 +44,13 @@ export class KvRadioButton implements IRadioButton, IRadioButtonEvents, IAnchor 
 		this.clickThrottler = throttle(() => this.onCheck(), DEFAULT_THROTTLE_WAIT);
 	}
 
-	onClick(event: MouseEvent) {
+	onClick = (event: MouseEvent) => {
 		if (this.preventDefault) {
 			event.preventDefault();
 		}
 
 		this.clickThrottler(event);
-	}
+	};
 
 	render() {
 		return (
@@ -62,7 +62,7 @@ export class KvRadioButton implements IRadioButton, IRadioButtonEvents, IAnchor 
 						'radio-button--disabled': this.disabled
 					}}
 					part="radio-button"
-					onClick={this.onClick.bind(this)}
+					onClick={this.onClick}
 					download={this.download}
 					href={this.href}
 					target={this.target}

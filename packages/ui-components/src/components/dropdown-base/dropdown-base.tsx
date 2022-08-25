@@ -1,5 +1,6 @@
 import { autoUpdate, computePosition, flip, offset, Placement } from '@floating-ui/dom';
 import { Component, Host, h, Prop, Event, EventEmitter, Listen, Element } from '@stencil/core';
+import { isNil } from 'lodash-es';
 import { isTargetOnElement, getSlotElement } from './dropdown-base.helper';
 import { IDropdownBase, IDropdownBaseEvents } from './dropdown-base.types';
 
@@ -34,10 +35,10 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 	private didClickOnDropdownAction = (event: MouseEvent): boolean => {
 		const dropdownActionElement = this.element.shadowRoot.querySelector('#dropdown-action') as HTMLElement | undefined;
 
-		if (dropdownActionElement) {
+		if (!isNil(dropdownActionElement)) {
 			const slotElement = getSlotElement(dropdownActionElement);
 
-			if (slotElement) {
+			if (!isNil(slotElement)) {
 				return isTargetOnElement(event, slotElement);
 			}
 		}
@@ -48,17 +49,17 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 	private didClickOnDropdownList = (event: MouseEvent): boolean => {
 		const dropdownListElement = this.element.shadowRoot.querySelector('#dropdown-list') as HTMLElement | undefined;
 
-		if (dropdownListElement) {
+		if (!isNil(dropdownListElement)) {
 			const hostElement = getSlotElement(dropdownListElement);
 
-			if (hostElement) {
+			if (!isNil(hostElement)) {
 				if (isTargetOnElement(event, hostElement)) {
 					return true;
 				}
 
 				const selectElement = getSlotElement(hostElement);
 
-				if (selectElement) {
+				if (!isNil(selectElement)) {
 					return isTargetOnElement(event, selectElement);
 				}
 			}
@@ -90,7 +91,7 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 				});
 			});
 		} else {
-			if (this.closePositionAutoUpdate) {
+			if (!isNil(this.closePositionAutoUpdate)) {
 				this.closePositionAutoUpdate();
 			}
 		}
