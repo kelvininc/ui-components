@@ -1,6 +1,7 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
 import { KvRange } from '../../components';
+import { useArgs } from '@storybook/client-api';
 
 KvRange.displayName = 'KvRange';
 
@@ -22,7 +23,12 @@ export default {
 	}
 };
 
-const RangeTemplate: ComponentStory<typeof KvRange> = args => <KvRange {...args}></KvRange>;
+const RangeTemplate: ComponentStory<typeof KvRange> = args => {
+	const [_, updateArgs] = useArgs();
+	const onValueChange = (event: CustomEvent<number>) => updateArgs({ value: event.detail });
+
+	return <KvRange {...args} onValueChange={onValueChange} />;
+};
 
 export const DefaultState = RangeTemplate.bind(this);
 DefaultState.args = {

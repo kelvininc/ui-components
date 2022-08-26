@@ -63,7 +63,6 @@
 
 .select-value {
 	@include kv-font-h1-semibold;
-	width: 48px;
 	height: 48px;
 	top: -68px;
 	transform: translateX(-50%);
@@ -76,3 +75,4 @@
 input {
 	appearance: none;
 }
+
