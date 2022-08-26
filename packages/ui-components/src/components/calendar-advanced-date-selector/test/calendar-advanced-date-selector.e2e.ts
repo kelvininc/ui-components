@@ -1,6 +1,6 @@
 import { E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
 
-describe('Calendar Single Date Selector (end-to-end)', () => {
+describe('Calendar Advance Date Selector (end-to-end)', () => {
 	let page: E2EPage;
 
 	describe('when user clicks on the an relative date option', () => {
@@ -8,12 +8,12 @@ describe('Calendar Single Date Selector (end-to-end)', () => {
 
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-calendar-advance-date-selector></kv-calendar-single-date-selector>');
+			await page.setContent('<kv-calendar-advanced-date-selector></kv-calendar-advanced-date-selector>');
 
-			const calendarAdvanceDateSelectorElement = await page.find('kv-calendar-advance-date-selector');
-			spyChangeEvent = await calendarAdvanceDateSelectorElement.spyOnEvent('relativeTimeChange');
+			const calendarAdvancedDateSelectorElement = await page.find('kv-calendar-advanced-date-selector');
+			spyChangeEvent = await calendarAdvancedDateSelectorElement.spyOnEvent('relativeTimeChange');
 
-			const dropdownElement = await page.find('kv-calendar-advance-date-selector >>> kv-select-option');
+			const dropdownElement = await page.find('kv-calendar-advanced-date-selector >>> kv-select-option');
 			dropdownElement.triggerEvent('itemSelected', {
 				detail: 'last-24-h'
 			});
@@ -34,12 +34,12 @@ describe('Calendar Single Date Selector (end-to-end)', () => {
 
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-calendar-advance-date-selector></kv-calendar-single-date-selector>');
+			await page.setContent('<kv-calendar-advanced-date-selector></kv-calendar-advanced-date-selector>');
 
-			const calendarAdvanceDateSelectorElement = await page.find('kv-calendar-advance-date-selector');
-			spyChangeEvent = await calendarAdvanceDateSelectorElement.spyOnEvent('absoluteTimeChange');
+			const calendarAdvancedDateSelectorElement = await page.find('kv-calendar-advanced-date-selector');
+			spyChangeEvent = await calendarAdvancedDateSelectorElement.spyOnEvent('absoluteTimeChange');
 
-			const calendarElement = await page.find('kv-calendar-advance-date-selector >>> kv-range-dates-select-dropdown');
+			const calendarElement = await page.find('kv-calendar-advanced-date-selector >>> kv-range-dates-select-dropdown');
 			calendarElement.triggerEvent('selectRangeDates', {
 				detail: {
 					event: mouseEvent,
@@ -65,12 +65,12 @@ describe('Calendar Single Date Selector (end-to-end)', () => {
 
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-calendar-advance-date-selector></kv-calendar-single-date-selector>');
+			await page.setContent('<kv-calendar-advanced-date-selector></kv-calendar-advanced-date-selector>');
 
-			const calendarAdvanceDateSelectorElement = await page.find('kv-calendar-advance-date-selector');
-			spyChangeEvent = await calendarAdvanceDateSelectorElement.spyOnEvent('timezoneChange');
+			const calendarAdvancedDateSelectorElement = await page.find('kv-calendar-advanced-date-selector');
+			spyChangeEvent = await calendarAdvancedDateSelectorElement.spyOnEvent('timezoneChange');
 
-			const dropdownElement = await page.find('kv-calendar-advance-date-selector >>> kv-single-select-dropdown');
+			const dropdownElement = await page.find('kv-calendar-advanced-date-selector >>> kv-single-select-dropdown');
 			dropdownElement.triggerEvent('optionSelected', {
 				detail: 'last-24-h'
 			});

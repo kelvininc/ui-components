@@ -1,9 +1,9 @@
 ```html
 <!-- Default -->
-<kv-calendar-advance-date-selector></kv-calendar-advance-date-selector>
+<kv-advanced-date-select-dropdown></kv-advanced-date-select-dropdown>
 
 <!-- With selected absolute time -->
-<kv-calendar-advance-date-selector
+<kv-advanced-date-select-dropdown
 	[selectedTime]="{
 		type: ECalendarAdvanceTimeType.Relative,
 		payload: {
@@ -11,10 +11,10 @@
 			range: ['2021-12-01T00:00:00', '2021-12-05T23:59:59Z']
 		}
 	}"
-></kv-calendar-advance-date-selector>
+></kv-advanced-date-select-dropdown>
 
 <!-- With selected relative time -->
-<kv-calendar-advance-date-selector
+<kv-advanced-date-select-dropdown
 	[selectedTime]="{
 		type: ECalendarAdvanceTimeType.Absolute,
 		payload: {
@@ -22,8 +22,8 @@
 			range: ['2021-12-01T00:00:00', '2021-12-05T23:59:59Z']
 		}
 	}"
-></kv-calendar-advance-date-selector>
+></kv-advanced-date-select-dropdown>
 
 <!-- With selected timezone time -->
-<kv-calendar-advance-date-selector selectedTimezone="Europe/Lisbon"></kv-calendar-advance-date-selector>
+<kv-advanced-date-select-dropdown selectedTimezone="Europe/Lisbon"></kv-advanced-date-select-dropdown>
 ```

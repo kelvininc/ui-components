@@ -1,6 +1,5 @@
 import { SpecPage } from '@stencil/core/internal';
 import { newSpecPage } from '@stencil/core/testing';
-import { formatDatetime } from '../../../utils/date.helper';
 import { KvTextField } from '../../text-field/text-field';
 import { KvSingleDateSelectDropdown } from '../single-date-select-dropdown';
 

@@ -10,8 +10,8 @@ import {
 	ECalendarAdvanceTimeType,
 	SelectedRange
 } from '../../types';
-import { DEFAULT_DATE_INPUT_CONFIG, DEFAULT_DROPDOWN_POSITION_OPTIONS } from './advance-date-select-dropdown.config';
-import { IAdvanceDateSelectDropdown, IAdvanceDateSelectDropdownEvents, ITimeChange } from './advance-date-select-dropdown.types';
+import { DEFAULT_DATE_INPUT_CONFIG, DEFAULT_DROPDOWN_POSITION_OPTIONS } from './advanced-date-select-dropdown.config';
+import { IAdvancedDateSelectDropdown, IAdvancedDateSelectDropdownEvents, ITimeChange } from './advanced-date-select-dropdown.types';
 import {
 	formatAbsoluteSelectedTime,
 	getRelativeTimeLabel,
@@ -19,16 +19,16 @@ import {
 	isAbsoluteTimeSelected,
 	isRelativeTimeSelected,
 	isTimeSelected
-} from './advance-date-select-dropdown.helper';
+} from './advanced-date-select-dropdown.helper';
 import { formatTimezoneName, fromDatesRangeKey, getDefaultTimezone, getTimezonesNames } from '../../utils/date.helper';
 import { ComputePositionConfig } from '@floating-ui/dom';
 
 @Component({
-	tag: 'kv-advance-date-select-dropdown',
-	styleUrl: 'advance-date-select-dropdown.scss',
+	tag: 'kv-advanced-date-select-dropdown',
+	styleUrl: 'advanced-date-select-dropdown.scss',
 	shadow: true
 })
-export class KvAdvanceDateSelectDropdown implements IAdvanceDateSelectDropdown, IAdvanceDateSelectDropdownEvents {
+export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown, IAdvancedDateSelectDropdownEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: false }) inputConfig?: Partial<ITextField> = {};
 	/** @inheritdoc */
@@ -61,7 +61,7 @@ export class KvAdvanceDateSelectDropdown implements IAdvanceDateSelectDropdown, 
 	@State() internalSelectedTimezone: string;
 	@State() calendarElement: HTMLDivElement = null;
 
-	@Element() element: HTMLKvAdvanceDateSelectDropdownElement;
+	@Element() element: HTMLKvAdvancedDateSelectDropdownElement;
 
 	@Watch('selectedTime')
 	handleSelectedTimeChange(newSelectedTime: ICalendarAdvanceSelectedTime | undefined) {
@@ -171,7 +171,7 @@ export class KvAdvanceDateSelectDropdown implements IAdvanceDateSelectDropdown, 
 	};
 
 	public getInputConfig = (): Partial<ITextField> => {
-		return merge({}, DEFAULT_DATE_INPUT_CONFIG, this.inputConfig, { value: this.getFormattedSelectedTime(), tooltip: this.getTextFieldTooltip() });
+		return merge({}, DEFAULT_DATE_INPUT_CONFIG, this.inputConfig, { value: this.getFormattedSelectedTime(), tooltipConfig: { text: this.getTextFieldTooltip() } });
 	};
 
 	render() {
@@ -179,14 +179,14 @@ export class KvAdvanceDateSelectDropdown implements IAdvanceDateSelectDropdown, 
 			<Host>
 				<div
 					class={{
-						'advance-date-select-dropdown': true,
-						'advance-date-select-dropdown--selected-relative': isRelativeTimeSelected(this.selectedTime),
-						'advance-date-select-dropdown--selected-absolute': isAbsoluteTimeSelected(this.selectedTime)
+						'advanced-date-select-dropdown': true,
+						'advanced-date-select-dropdown--selected-relative': isRelativeTimeSelected(this.selectedTime),
+						'advanced-date-select-dropdown--selected-absolute': isAbsoluteTimeSelected(this.selectedTime)
 					}}
 				>
 					<kv-dropdown inputConfig={this.getInputConfig()} options={this.dropdownPositionOptions} listElement={this.calendarElement} id="dropdown">
 						<div id="calendar" class="calendar-container">
-							<kv-calendar-advance-date-selector
+							<kv-calendar-advanced-date-selector
 								selectedTime={this.internalSelectedTime}
 								absoluteTimeConfig={this.absoluteTimeConfig}
 								relativeTimeConfig={this.relativeTimeConfig}

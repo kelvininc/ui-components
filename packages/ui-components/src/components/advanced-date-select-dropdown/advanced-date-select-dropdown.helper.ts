@@ -1,12 +1,12 @@
 import { isEmpty } from 'lodash-es';
 import { RelativeTimeOption, SelectedRange } from '../../types';
-import { formatDatetime, fromDatesRangeKey } from '../../utils/date.helper';
-import { DEFAULT_RELATIVE_TIME_OPTIONS } from '../calendar-advance-date-selector/calendar-advance-date-selector.config';
-import { getDatesRangeFromRelativeOption } from '../calendar-advance-date-selector/calendar-advance-date-selector.helper';
-import { ICalendarAdvanceSelectedTime, ECalendarAdvanceTimeType } from '../calendar-advance-date-selector/calendar-advance-date-selector.types';
+import { formatDateTime, fromDatesRangeKey } from '../../utils/date.helper';
+import { DEFAULT_RELATIVE_TIME_OPTIONS } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.config';
+import { getDatesRangeFromRelativeOption } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.helper';
+import { ICalendarAdvanceSelectedTime, ECalendarAdvanceTimeType } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.types';
 
 export const formatAbsoluteSelectedTime = (startDate: string, endDate: string, mask?: string): string => {
-	return `${formatDatetime(startDate, mask)} to ${formatDatetime(endDate, mask)}`;
+	return `${formatDateTime(startDate, mask)} to ${formatDateTime(endDate, mask)}`;
 };
 
 export const getRelativeTimeLabel = (relativeTimeValue: string | undefined, relativeTimeOptions: RelativeTimeOption[] = DEFAULT_RELATIVE_TIME_OPTIONS): string | undefined =>
@@ -17,11 +17,7 @@ export const isTimeSelected = (time: ICalendarAdvanceSelectedTime | undefined): 
 };
 
 export const isAbsoluteTimeSelected = (time: ICalendarAdvanceSelectedTime | undefined): boolean => {
-	if (time === undefined) {
-		return false;
-	}
-
-	if (time.type === ECalendarAdvanceTimeType.Absolute) {
+	if (time && time.type === ECalendarAdvanceTimeType.Absolute) {
 		const [startDate, endDate] = fromDatesRangeKey(time.key) as SelectedRange;
 
 		return !isEmpty(startDate) && !isEmpty(endDate);
@@ -46,14 +42,4 @@ export const getTimeRange = (time: ICalendarAdvanceSelectedTime | undefined, rel
 	}
 };
 
-export const isRelativeTimeSelected = (time: ICalendarAdvanceSelectedTime | undefined): boolean => {
-	if (time === undefined) {
-		return false;
-	}
-
-	if (time.type === ECalendarAdvanceTimeType.Relative) {
-		return time.key !== undefined;
-	}
-
-	return false;
-};
+export const isRelativeTimeSelected = (time: ICalendarAdvanceSelectedTime | undefined): boolean => time && time.key && time.type === ECalendarAdvanceTimeType.Relative;

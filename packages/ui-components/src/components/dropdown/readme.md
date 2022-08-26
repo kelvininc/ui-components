@@ -1,6 +1,4 @@
-# *<kv-dropdown>*
-
-
+# _<kv-dropdown>_
 
 <!-- Auto Generated Below -->
 
@@ -92,13 +90,13 @@ export class KvDropdownExample {
 
 ## Properties
 
-| Property        | Attribute | Description                                           | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Default     |
-| --------------- | --------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| `actionElement` | --        | (optional) A reference to the dropdown action element | `HTMLElement`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | `null`      |
-| `inputConfig`   | --        | (optional) The text field options                     | `{ type?: EInputFieldType; label?: string; icon?: EIconName \| EOtherIconName; inputName?: string; examples?: string[]; placeholder?: string; maxLength?: number; minLength?: number; max?: string \| number; min?: string \| number; step?: string \| number; size?: EComponentSize; disabled?: boolean; required?: boolean; loading?: boolean; state?: EValidationState; helpText?: string \| string[]; value?: string \| number; uneditable?: boolean; forcedFocus?: boolean; tooltip?: string; }` | `{}`        |
-| `isOpen`        | `is-open` | (optional) If `true` the list is opened               | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | `false`     |
-| `listElement`   | --        | (optional) A reference to the dropdown list element   | `HTMLElement`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | `null`      |
-| `options`       | --        | (optional) The dropdown position config options       | `{ platform?: Platform; placement?: Placement; strategy?: Strategy; middleware?: Middleware[]; }`                                                                                                                                                                                                                                                                                                                                                                                                     | `undefined` |
+| Property        | Attribute | Description                                           | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Default     |
+| --------------- | --------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `actionElement` | --        | (optional) A reference to the dropdown action element | `HTMLElement`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | `null`      |
+| `inputConfig`   | --        | (optional) The text field options                     | `{ type?: EInputFieldType; label?: string; icon?: EIconName \| EOtherIconName; inputName?: string; examples?: string[]; placeholder?: string; maxLength?: number; minLength?: number; max?: string \| number; min?: string \| number; step?: string \| number; size?: EComponentSize; disabled?: boolean; required?: boolean; loading?: boolean; state?: EValidationState; helpText?: string \| string[]; value?: string \| number; readonly?: boolean; forcedFocus?: boolean; tooltipConfig?: Partial<ITooltip>; }` | `{}`        |
+| `isOpen`        | `is-open` | (optional) If `true` the list is opened               | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | `false`     |
+| `listElement`   | --        | (optional) A reference to the dropdown list element   | `HTMLElement`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | `null`      |
+| `options`       | --        | (optional) The dropdown position config options       | `{ platform?: Platform; placement?: Placement; strategy?: Strategy; middleware?: Middleware[]; }`                                                                                                                                                                                                                                                                                                                                                                                                                    | `undefined` |
 
 
 ## Events
@@ -132,7 +130,7 @@ Type: `Promise<void>`
 
 ### Used by
 
- - [kv-advance-date-select-dropdown](../advance-date-select-dropdown)
+ - [kv-advanced-date-select-dropdown](../advanced-date-select-dropdown)
  - [kv-multi-select-dropdown](../multi-select-dropdown)
  - [kv-single-date-select-dropdown](../single-date-select-dropdown)
  - [kv-single-select-dropdown](../single-select-dropdown)
@@ -154,7 +152,7 @@ graph TD;
   kv-text-field --> kv-icon
   kv-text-field --> kv-form-help-text
   kv-form-help-text --> kv-icon
-  kv-advance-date-select-dropdown --> kv-dropdown
+  kv-advanced-date-select-dropdown --> kv-dropdown
   kv-multi-select-dropdown --> kv-dropdown
   kv-single-date-select-dropdown --> kv-dropdown
   kv-single-select-dropdown --> kv-dropdown

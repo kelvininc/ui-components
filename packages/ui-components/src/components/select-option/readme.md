@@ -1,6 +1,4 @@
-# *<kv-select-option>*
-
-
+# _<kv-select-option>_
 
 <!-- Auto Generated Below -->
 
@@ -78,7 +76,7 @@ export const KvSelectOptionExample: React.FC = () => (
 
 ### Used by
 
- - [kv-calendar-advance-date-selector](../calendar-advance-date-selector)
+ - [kv-calendar-advanced-date-selector](../calendar-advanced-date-selector)
  - [kv-multi-select-dropdown](../multi-select-dropdown)
  - [kv-single-select-dropdown](../single-select-dropdown)
 
@@ -90,7 +88,7 @@ export const KvSelectOptionExample: React.FC = () => (
 ```mermaid
 graph TD;
   kv-select-option --> kv-icon
-  kv-calendar-advance-date-selector --> kv-select-option
+  kv-calendar-advanced-date-selector --> kv-select-option
   kv-multi-select-dropdown --> kv-select-option
   kv-single-select-dropdown --> kv-select-option
   style kv-select-option fill:#f9f,stroke:#333,stroke-width:4px

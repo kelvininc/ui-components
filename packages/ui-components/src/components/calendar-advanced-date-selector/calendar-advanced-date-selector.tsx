@@ -19,19 +19,19 @@ import {
 	TIMEZONES_PLACEHOLDER,
 	TIMEZONES_SEARCH_LABEL,
 	TIMEZONES_SEARCH_PLACEHOLDER
-} from './calendar-advance-date-selector.config';
-import { buildAbsoluteTimeStartPlaceholderWhenRelativeSelected, buildTimezonesDropdownOptions, getDatesRangeFromRelativeOption } from './calendar-advance-date-selector.helper';
-import { ICalendarAdvanceDateSelector, ICalendarAdvanceDateSelectorEvents, ICalendarAdvanceSelectedTime, ICalendarAdvanceTime } from './calendar-advance-date-selector.types';
+} from './calendar-advanced-date-selector.config';
+import { buildAbsoluteTimeStartPlaceholderWhenRelativeSelected, buildTimezonesDropdownOptions, getDatesRangeFromRelativeOption } from './calendar-advanced-date-selector.helper';
+import { ICalendarAdvancedDateSelector, ICalendarAdvancedDateSelectorEvents, ICalendarAdvanceSelectedTime, ICalendarAdvanceTime } from './calendar-advanced-date-selector.types';
 
 /**
  * @part calendar - The calendar container.
  */
 @Component({
-	tag: 'kv-calendar-advance-date-selector',
-	styleUrl: 'calendar-advance-date-selector.scss',
+	tag: 'kv-calendar-advanced-date-selector',
+	styleUrl: 'calendar-advanced-date-selector.scss',
 	shadow: true
 })
-export class KvCalendarAdvanceDateSelector implements ICalendarAdvanceDateSelector, ICalendarAdvanceDateSelectorEvents {
+export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSelector, ICalendarAdvancedDateSelectorEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: false }) selectedTime?: ICalendarAdvanceSelectedTime;
 	/** @inheritdoc */
@@ -79,21 +79,13 @@ export class KvCalendarAdvanceDateSelector implements ICalendarAdvanceDateSelect
 	};
 
 	private getRelativeTimeKey = (): string | undefined => {
-		if (this.selectedTime === undefined) {
-			return;
-		}
-
-		if (this.selectedTime.type === ECalendarAdvanceTimeType.Relative) {
+		if (this.selectedTime && this.selectedTime.type === ECalendarAdvanceTimeType.Relative) {
 			return this.selectedTime.key;
 		}
 	};
 
 	private getAbsoluteTimeRange = (): SelectedRange | undefined => {
-		if (this.selectedTime === undefined) {
-			return;
-		}
-
-		if (this.selectedTime.type === ECalendarAdvanceTimeType.Absolute) {
+		if (this.selectedTime && this.selectedTime.type === ECalendarAdvanceTimeType.Absolute) {
 			return fromDatesRangeKey(this.selectedTime.key) as SelectedRange;
 		}
 	};
@@ -152,7 +144,7 @@ export class KvCalendarAdvanceDateSelector implements ICalendarAdvanceDateSelect
 
 		return (
 			<Host>
-				<div class="advance-date-selector" part="calendar">
+				<div class="advanced-date-selector" part="calendar">
 					<div class="date-selector">
 						<div class="selector absolute-date-selector">
 							<div class="date-selector-label">Absolute time range</div>

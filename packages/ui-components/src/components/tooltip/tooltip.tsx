@@ -2,8 +2,9 @@ import { computePosition, ComputePositionConfig } from '@floating-ui/dom';
 import { Host, h, Component, Prop, Element } from '@stencil/core';
 import { isEmpty, merge } from 'lodash-es';
 
+import { ETooltipPosition } from '../../types';
 import { DEFAULT_POSITION_CONFIG } from './tooltip.config';
-import { ETooltipPosition } from './tooltip.types';
+import { ITooltip } from './tooltip.types';
 
 /**
  * @part container - The tooltip container.
@@ -14,12 +15,12 @@ import { ETooltipPosition } from './tooltip.types';
 	styleUrl: 'tooltip.scss',
 	shadow: true
 })
-export class KvTooltip {
-	/** (required) Text of tooltip */
-	@Prop({ reflect: true }) text!: string;
-	/** (optional) Position of tooltip */
+export class KvTooltip implements ITooltip {
+	/** @inheritdoc */
+	@Prop({ reflect: true }) text: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) position?: ETooltipPosition;
-	/** (optional) Object with tooltip position options */
+	/** @inheritdoc */
 	@Prop({ reflect: false }) options?: Partial<ComputePositionConfig> = DEFAULT_POSITION_CONFIG;
 
 	/** The Host's element reference */

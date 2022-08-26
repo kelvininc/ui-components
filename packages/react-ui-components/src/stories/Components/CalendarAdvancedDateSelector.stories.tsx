@@ -1,14 +1,14 @@
 import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
-import { KvCalendarAdvanceDateSelector, ICalendarAdvanceSelectedTime, ECalendarAdvanceTimeType, ICalendarAdvanceTime } from '../../components';
+import { KvCalendarAdvancedDateSelector, ICalendarAdvanceSelectedTime, ECalendarAdvanceTimeType, ICalendarAdvanceTime } from '../../components';
 import { TIMEZONES } from './configs/date.config';
 
 // Required to have the correct TagName in the code sample
-KvCalendarAdvanceDateSelector.displayName = 'KvCalendarAdvanceDateSelector';
+KvCalendarAdvancedDateSelector.displayName = 'KvCalendarAdvancedDateSelector';
 
 export default {
 	title: 'Calendar/AdvanceSelector',
-	component: 'kv-advance-date-selector',
+	component: 'kv-advanced-date-selector',
 	argTypes: {
 		timezone: {
 			type: 'select',
@@ -23,11 +23,11 @@ export default {
 		}
 	},
 	parameters: {
-		notes: require('@ui-notes/calendar-advance-date-selector/readme.md')
+		notes: require('@ui-notes/calendar-advanced-date-selector/readme.md')
 	}
 };
 
-const CalendarAdvanceDateSelectorTemplate: ComponentStory<typeof KvCalendarAdvanceDateSelector> = args => {
+const CalendarAdvancedDateSelectorTemplate: ComponentStory<typeof KvCalendarAdvancedDateSelector> = args => {
 	const [selectedTime, setSelectedTime] = useState<ICalendarAdvanceSelectedTime>();
 	const [selectedTimezone, setSelectedTimezone] = useState<string>();
 
@@ -50,7 +50,7 @@ const CalendarAdvanceDateSelectorTemplate: ComponentStory<typeof KvCalendarAdvan
 	};
 
 	return (
-		<KvCalendarAdvanceDateSelector
+		<KvCalendarAdvancedDateSelector
 			{...args}
 			selectedTime={selectedTime}
 			selectedTimezone={selectedTimezone}
@@ -61,12 +61,12 @@ const CalendarAdvanceDateSelectorTemplate: ComponentStory<typeof KvCalendarAdvan
 	);
 };
 
-export const DefaultState = CalendarAdvanceDateSelectorTemplate.bind({});
+export const DefaultState = CalendarAdvancedDateSelectorTemplate.bind({});
 DefaultState.args = {
 	timezones: TIMEZONES
 };
 
-export const NoTimezone = CalendarAdvanceDateSelectorTemplate.bind({});
+export const NoTimezone = CalendarAdvancedDateSelectorTemplate.bind({});
 NoTimezone.args = {
 	timezones: []
 };

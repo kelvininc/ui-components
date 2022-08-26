@@ -1,10 +1,11 @@
 import { Component, Element, Event, EventEmitter, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
-import { isEmpty, isNil } from 'lodash-es';
+import { isEmpty, isNil, merge } from 'lodash-es';
 import Inputmask from 'inputmask';
-import { EComponentSize, ETooltipPosition } from '../../utils/types';
+import { EComponentSize } from '../../utils/types';
 import { EInputFieldType, EValidationState, ITextFieldEvents, ITextField } from './text-field.types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
-import { NUMERIC_TEXT_INPUT_MASK_CONFIG } from './text-field.config';
+import { DEFAULT_TEXT_TOOLTIP_CONFIG, NUMERIC_TEXT_INPUT_MASK_CONFIG } from './text-field.config';
+import { ITooltip } from '../tooltip/tooltip.types';
 
 @Component({
 	tag: 'kv-text-field',
@@ -51,13 +52,13 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) state: EValidationState = EValidationState.None;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) uneditable: boolean = false;
+	@Prop({ reflect: true }) readonly: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) helpText: string | string[] = [];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) forcedFocus: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) tooltip?: string;
+	@Prop({ reflect: true }) tooltipConfig?: Partial<ITooltip>;
 	/** @inheritdoc */
 	@Prop({ reflect: true, mutable: true }) value?: string | number | null = '';
 	/** Watch `value` property for changes and update native input element accordingly */
@@ -160,6 +161,10 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		return this.type === EInputFieldType.Number ? EInputFieldType.Text : this.type;
 	}
 
+	private getTooltipConfig = (): Partial<ITooltip> => {
+		return merge({}, DEFAULT_TEXT_TOOLTIP_CONFIG, this.tooltipConfig ?? {});
+	};
+
 	render() {
 		const id = this.el.getAttribute('id');
 		const value = this.getValue();
@@ -167,7 +172,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 
 		return (
 			<Host>
-				<kv-tooltip text={this.tooltip} position={ETooltipPosition.TopStart}>
+				<kv-tooltip {...this.getTooltipConfig()}>
 					<div class="text-field-container">
 						<kv-form-label label={this.label} required={this.required}></kv-form-label>
 						<div
@@ -201,7 +206,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 											'slotted': this.hasRightSlot,
 											'forced-focus': this.focused
 										}}
-										readonly={this.uneditable}
+										readonly={this.readonly}
 									/>
 									{this.icon && (
 										<kv-icon

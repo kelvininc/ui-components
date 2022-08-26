@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
-import { formatDate, fromISOToMoment, isDateSame } from '../../utils/date.helper';
+import { formatDate, fromISO, isDateSame } from '../../utils/date.helper';
 import { IClickDateEvent } from '../calendar/calendar.types';
 import { ICalendarSingleDateSelector, ICalendarSingleDateSelectorEvents, ISelectDate } from './calendar-single-date-selector.types';
 
@@ -23,7 +23,7 @@ export class KvCalendarSingleDateSelector implements ICalendarSingleDateSelector
 	@Event() selectDate: EventEmitter<ISelectDate>;
 
 	private onClickDate = ({ detail: { event, payload: date } }: CustomEvent<IClickDateEvent>): void => {
-		const clickedDateMoment = fromISOToMoment(date);
+		const clickedDateMoment = fromISO(date);
 
 		// check if clicked date is the same as the selected date
 		if (this.selectedDate !== undefined && isDateSame(clickedDateMoment, this.selectedDate)) {

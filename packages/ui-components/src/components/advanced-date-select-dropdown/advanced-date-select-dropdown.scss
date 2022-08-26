@@ -1,6 +1,6 @@
 @import '../../assets/styles/globals';
 
-.advance-date-select-dropdown {
+.advanced-date-select-dropdown {
 	position: relative;
 	user-select: none;
 
@@ -15,7 +15,7 @@
 	position: absolute;
 	z-index: 2;
 
-	kv-calendar-advance-date-selector::part(calendar) {
+	kv-calendar-advanced-date-selector::part(calendar) {
 		border-bottom-left-radius: 0;
 		border-bottom-right-radius: 0;
 	}

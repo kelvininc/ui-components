@@ -4,22 +4,22 @@ jest.mock('../../../utils/date.helper', () => ({
 }));
 
 import { h, SpecPage } from '@stencil/core/internal';
-import { KvCalendarAdvanceDateSelector } from '../calendar-advance-date-selector';
+import { KvCalendarAdvancedDateSelector } from '../calendar-advanced-date-selector';
 import { newSpecPage } from '@stencil/core/testing';
-import { ECalendarAdvanceTimeType } from '../calendar-advance-date-selector.types';
+import { ECalendarAdvanceTimeType } from '../calendar-advanced-date-selector.types';
 import { ITextField } from '../../text-field/text-field.types';
 
 describe('Calendar Advance Date Selector (unit tests)', () => {
 	let page: SpecPage;
-	let component: KvCalendarAdvanceDateSelector;
+	let component: KvCalendarAdvancedDateSelector;
 
 	describe('when selected time is passed', () => {
 		describe('and is an relative time', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvCalendarAdvanceDateSelector],
+					components: [KvCalendarAdvancedDateSelector],
 					template: () => (
-						<kv-calendar-advance-date-selector
+						<kv-calendar-advanced-date-selector
 							selectedTime={{
 								type: ECalendarAdvanceTimeType.Relative,
 								key: 'last-24-h'
@@ -38,9 +38,9 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 		describe('and is an absolute time', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvCalendarAdvanceDateSelector],
+					components: [KvCalendarAdvancedDateSelector],
 					template: () => (
-						<kv-calendar-advance-date-selector
+						<kv-calendar-advanced-date-selector
 							selectedTime={{
 								type: ECalendarAdvanceTimeType.Absolute,
 								key: '2020-04-02#2020-04-05'
@@ -60,8 +60,8 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 	describe('when selected timezone is passed', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvCalendarAdvanceDateSelector],
-				template: () => <kv-calendar-advance-date-selector selectedTimezone="Europe/Lisbon" />
+				components: [KvCalendarAdvancedDateSelector],
+				template: () => <kv-calendar-advanced-date-selector selectedTimezone="Europe/Lisbon" />
 			});
 			component = page.rootInstance;
 		});
@@ -77,8 +77,8 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvCalendarAdvanceDateSelector],
-					template: () => <kv-calendar-advance-date-selector selectedTimezone="Europe/Lisbon" />
+					components: [KvCalendarAdvancedDateSelector],
+					template: () => <kv-calendar-advanced-date-selector selectedTimezone="Europe/Lisbon" />
 				});
 				component = page.rootInstance;
 
@@ -97,8 +97,8 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 
 				beforeEach(async () => {
 					page = await newSpecPage({
-						components: [KvCalendarAdvanceDateSelector],
-						template: () => <kv-calendar-advance-date-selector />
+						components: [KvCalendarAdvancedDateSelector],
+						template: () => <kv-calendar-advanced-date-selector />
 					});
 					component = page.rootInstance;
 
@@ -116,8 +116,8 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 
 				beforeEach(async () => {
 					page = await newSpecPage({
-						components: [KvCalendarAdvanceDateSelector],
-						template: () => <kv-calendar-advance-date-selector timezones={['Africa/Abidjan']} />
+						components: [KvCalendarAdvancedDateSelector],
+						template: () => <kv-calendar-advanced-date-selector timezones={['Africa/Abidjan']} />
 					});
 					component = page.rootInstance;
 
@@ -138,9 +138,9 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 
 				beforeEach(async () => {
 					page = await newSpecPage({
-						components: [KvCalendarAdvanceDateSelector],
+						components: [KvCalendarAdvancedDateSelector],
 						template: () => (
-							<kv-calendar-advance-date-selector
+							<kv-calendar-advanced-date-selector
 								absoluteTimeConfig={{ startInputConfig: { placeholder: 'Click here to select a start date' } }}
 								selectedTime={{
 									type: ECalendarAdvanceTimeType.Relative,
@@ -165,8 +165,8 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 
 				beforeEach(async () => {
 					page = await newSpecPage({
-						components: [KvCalendarAdvanceDateSelector],
-						template: () => <kv-calendar-advance-date-selector absoluteTimeConfig={{ startInputConfig: { placeholder: 'Click here to select a start date' } }} />
+						components: [KvCalendarAdvancedDateSelector],
+						template: () => <kv-calendar-advanced-date-selector absoluteTimeConfig={{ startInputConfig: { placeholder: 'Click here to select a start date' } }} />
 					});
 					component = page.rootInstance;
 
@@ -186,9 +186,9 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 
 				beforeEach(async () => {
 					page = await newSpecPage({
-						components: [KvCalendarAdvanceDateSelector],
+						components: [KvCalendarAdvancedDateSelector],
 						template: () => (
-							<kv-calendar-advance-date-selector
+							<kv-calendar-advanced-date-selector
 								selectedTime={{
 									type: ECalendarAdvanceTimeType.Relative,
 									key: 'last-24-h'
@@ -212,8 +212,8 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 
 				beforeEach(async () => {
 					page = await newSpecPage({
-						components: [KvCalendarAdvanceDateSelector],
-						template: () => <kv-calendar-advance-date-selector />
+						components: [KvCalendarAdvancedDateSelector],
+						template: () => <kv-calendar-advanced-date-selector />
 					});
 					component = page.rootInstance;
 
@@ -235,9 +235,9 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 
 				beforeEach(async () => {
 					page = await newSpecPage({
-						components: [KvCalendarAdvanceDateSelector],
+						components: [KvCalendarAdvancedDateSelector],
 						template: () => (
-							<kv-calendar-advance-date-selector
+							<kv-calendar-advanced-date-selector
 								absoluteTimeConfig={{ endInputConfig: { placeholder: 'Click here to select a start date' } }}
 								selectedTime={{
 									type: ECalendarAdvanceTimeType.Relative,
@@ -262,8 +262,8 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 
 				beforeEach(async () => {
 					page = await newSpecPage({
-						components: [KvCalendarAdvanceDateSelector],
-						template: () => <kv-calendar-advance-date-selector absoluteTimeConfig={{ endInputConfig: { placeholder: 'Click here to select a start date' } }} />
+						components: [KvCalendarAdvancedDateSelector],
+						template: () => <kv-calendar-advanced-date-selector absoluteTimeConfig={{ endInputConfig: { placeholder: 'Click here to select a start date' } }} />
 					});
 					component = page.rootInstance;
 
@@ -283,9 +283,9 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 
 				beforeEach(async () => {
 					page = await newSpecPage({
-						components: [KvCalendarAdvanceDateSelector],
+						components: [KvCalendarAdvancedDateSelector],
 						template: () => (
-							<kv-calendar-advance-date-selector
+							<kv-calendar-advanced-date-selector
 								selectedTime={{
 									type: ECalendarAdvanceTimeType.Relative,
 									key: 'last-24-h'
@@ -309,8 +309,8 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 
 				beforeEach(async () => {
 					page = await newSpecPage({
-						components: [KvCalendarAdvanceDateSelector],
-						template: () => <kv-calendar-advance-date-selector />
+						components: [KvCalendarAdvancedDateSelector],
+						template: () => <kv-calendar-advanced-date-selector />
 					});
 					component = page.rootInstance;
 

@@ -5,19 +5,19 @@ jest.mock('../../../utils/date.helper', () => ({
 
 import { h, SpecPage } from '@stencil/core/internal';
 import { newSpecPage } from '@stencil/core/testing';
-import { ECalendarAdvanceTimeType } from '../../calendar-advance-date-selector/calendar-advance-date-selector.types';
+import { ECalendarAdvanceTimeType } from '../../calendar-advanced-date-selector/calendar-advanced-date-selector.types';
 import { ITextField } from '../../text-field/text-field.types';
-import { KvAdvanceDateSelectDropdown } from '../advance-date-select-dropdown';
+import { KvAdvancedDateSelectDropdown } from '../advanced-date-select-dropdown';
 
 describe('Advance Date Select Dropdown (unit tests)', () => {
 	let page: SpecPage;
-	let component: KvAdvanceDateSelectDropdown;
+	let component: KvAdvancedDateSelectDropdown;
 
 	describe('when uses default props', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvAdvanceDateSelectDropdown],
-				html: '<kv-advance-date-select-dropdown></kv-advance-date-select-dropdown>'
+				components: [KvAdvancedDateSelectDropdown],
+				html: '<kv-advanced-date-select-dropdown></kv-advanced-date-select-dropdown>'
 			});
 			component = page.rootInstance;
 		});
@@ -33,8 +33,8 @@ describe('Advance Date Select Dropdown (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvAdvanceDateSelectDropdown],
-					html: '<kv-advance-date-select-dropdown></kv-advance-date-select-dropdown>'
+					components: [KvAdvancedDateSelectDropdown],
+					html: '<kv-advanced-date-select-dropdown></kv-advanced-date-select-dropdown>'
 				});
 				component = page.rootInstance;
 
@@ -51,9 +51,9 @@ describe('Advance Date Select Dropdown (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvAdvanceDateSelectDropdown],
+					components: [KvAdvancedDateSelectDropdown],
 					template: () => (
-						<kv-advance-date-select-dropdown
+						<kv-advanced-date-select-dropdown
 							selectedTime={{
 								type: ECalendarAdvanceTimeType.Relative,
 								key: 'last-24-h'
@@ -80,9 +80,9 @@ describe('Advance Date Select Dropdown (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvAdvanceDateSelectDropdown],
+					components: [KvAdvancedDateSelectDropdown],
 					template: () => (
-						<kv-advance-date-select-dropdown
+						<kv-advanced-date-select-dropdown
 							selectedTime={{
 								type: ECalendarAdvanceTimeType.Relative,
 								key: 'last-24-h'
@@ -107,9 +107,9 @@ describe('Advance Date Select Dropdown (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvAdvanceDateSelectDropdown],
+					components: [KvAdvancedDateSelectDropdown],
 					template: () => (
-						<kv-advance-date-select-dropdown
+						<kv-advanced-date-select-dropdown
 							selectedTimezone="Europe/Lisbon"
 							selectedTime={{
 								type: ECalendarAdvanceTimeType.Relative,
@@ -140,8 +140,8 @@ describe('Advance Date Select Dropdown (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvAdvanceDateSelectDropdown],
-					template: () => <kv-advance-date-select-dropdown />
+					components: [KvAdvancedDateSelectDropdown],
+					template: () => <kv-advanced-date-select-dropdown />
 				});
 				component = page.rootInstance;
 
@@ -153,7 +153,7 @@ describe('Advance Date Select Dropdown (unit tests)', () => {
 			});
 
 			it('should return a config with undefined as the tooltip', () => {
-				expect(actualResult.tooltip).toBeUndefined();
+				expect(actualResult.tooltipConfig.text).toBeUndefined();
 			});
 		});
 
@@ -162,9 +162,9 @@ describe('Advance Date Select Dropdown (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvAdvanceDateSelectDropdown],
+					components: [KvAdvancedDateSelectDropdown],
 					template: () => (
-						<kv-advance-date-select-dropdown
+						<kv-advanced-date-select-dropdown
 							selectedTime={{
 								type: ECalendarAdvanceTimeType.Relative,
 								key: 'last-24-h'
@@ -187,9 +187,9 @@ describe('Advance Date Select Dropdown (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvAdvanceDateSelectDropdown],
+					components: [KvAdvancedDateSelectDropdown],
 					template: () => (
-						<kv-advance-date-select-dropdown
+						<kv-advanced-date-select-dropdown
 							selectedTime={{
 								type: ECalendarAdvanceTimeType.Absolute,
 								key: '2020-04-01T00:00:00Z#2020-04-05T23:59:59Z'
@@ -212,9 +212,9 @@ describe('Advance Date Select Dropdown (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvAdvanceDateSelectDropdown],
+					components: [KvAdvancedDateSelectDropdown],
 					template: () => (
-						<kv-advance-date-select-dropdown
+						<kv-advanced-date-select-dropdown
 							selectedTime={{
 								type: ECalendarAdvanceTimeType.Absolute,
 								key: '2020-04-01T00:00:00Z#2020-04-05T23:59:59Z'
@@ -228,7 +228,7 @@ describe('Advance Date Select Dropdown (unit tests)', () => {
 			});
 
 			it('should return a config with default timezone as the tooltip', () => {
-				expect(actualResult.tooltip).toBe('(+01:00) Europe/Lisbon');
+				expect(actualResult.tooltipConfig.text).toBe('(+01:00) Europe/Lisbon');
 			});
 		});
 
@@ -237,9 +237,9 @@ describe('Advance Date Select Dropdown (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvAdvanceDateSelectDropdown],
+					components: [KvAdvancedDateSelectDropdown],
 					template: () => (
-						<kv-advance-date-select-dropdown
+						<kv-advanced-date-select-dropdown
 							selectedTime={{
 								type: ECalendarAdvanceTimeType.Absolute,
 								key: '2020-04-01T00:00:00Z#2020-04-05T23:59:59Z'
@@ -254,7 +254,7 @@ describe('Advance Date Select Dropdown (unit tests)', () => {
 			});
 
 			it('should return a config with selected timezone as the tooltip', () => {
-				expect(actualResult.tooltip).toBe('(+00:00) Africa/Abidjan');
+				expect(actualResult.tooltipConfig.text).toBe('(+00:00) Africa/Abidjan');
 			});
 		});
 	});

@@ -2,8 +2,8 @@ import { capitalize } from 'lodash-es';
 import { calculateDate, formatTimezoneName, getDefaultTimezone } from '../../utils/date.helper';
 import { SelectedRange } from '../calendar/calendar.types';
 import { ISingleSelectDropdownOption, ISingleSelectDropdownOptions } from '../single-select-dropdown/single-select-dropdown.types';
-import { DEFAULT_TIMEZONE_GROUP_NAME, OTHER_TIMEZONES_GROUP_NAME } from './calendar-advance-date-selector.config';
-import { RelativeTimeOption } from './calendar-advance-date-selector.types';
+import { DEFAULT_TIMEZONE_GROUP_NAME, OTHER_TIMEZONES_GROUP_NAME } from './calendar-advanced-date-selector.config';
+import { RelativeTimeOption } from './calendar-advanced-date-selector.types';
 
 const buildDropdownOption = (timezone: string, group: string = OTHER_TIMEZONES_GROUP_NAME): ISingleSelectDropdownOption => ({
 	label: formatTimezoneName(timezone),

@@ -1,6 +1,4 @@
-# *<kv-single-select-dropdown>*
-
-
+# _<kv-single-select-dropdown>_
 
 <!-- Auto Generated Below -->
 
@@ -88,7 +86,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 
 ### Used by
 
- - [kv-calendar-advance-date-selector](../calendar-advance-date-selector)
+ - [kv-calendar-advanced-date-selector](../calendar-advanced-date-selector)
 
 ### Depends on
 
@@ -116,7 +114,7 @@ graph TD;
   kv-select --> kv-search
   kv-search --> kv-text-field
   kv-search --> kv-icon
-  kv-calendar-advance-date-selector --> kv-single-select-dropdown
+  kv-calendar-advanced-date-selector --> kv-single-select-dropdown
   style kv-single-select-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -1,7 +1,7 @@
 import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { isEmpty, merge } from 'lodash-es';
 import { ITextField, ISelectDate } from '../../types';
-import { formatDatetime } from '../../utils/date.helper';
+import { formatDateTime } from '../../utils/date.helper';
 import { DEFAULT_DATE_INPUT_CONFIG } from './single-date-select-dropdown.config';
 import { ISingleDateSelectDropdown, ISingleDateSelectDropdownEvents } from './single-date-select-dropdown.types';
 
@@ -37,7 +37,7 @@ export class KvSingleDateSelectDropdown implements ISingleDateSelectDropdown, IS
 
 	public getFormattedSelectedDate = (): string | undefined => {
 		if (!isEmpty(this.selectedDate)) {
-			return formatDatetime(this.selectedDate, this.dateMask);
+			return formatDateTime(this.selectedDate, this.dateMask);
 		}
 	};
 

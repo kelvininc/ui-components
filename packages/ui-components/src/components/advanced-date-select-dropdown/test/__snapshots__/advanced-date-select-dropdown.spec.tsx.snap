@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Advance Date Select Dropdown (unit tests) when uses default props should match the snapshot 1`] = `
-<kv-advance-date-select-dropdown>
+<kv-advanced-date-select-dropdown>
   <mock:shadow-root>
-    <div class="advance-date-select-dropdown">
+    <div class="advanced-date-select-dropdown">
       <kv-dropdown id="dropdown">
         <div class="calendar-container" id="calendar">
-          <kv-calendar-advance-date-selector></kv-calendar-advance-date-selector>
+          <kv-calendar-advanced-date-selector></kv-calendar-advanced-date-selector>
           <div class="footer">
             <div class="selected-time"></div>
             <div class="actions">
@@ -18,5 +18,5 @@ exports[`Advance Date Select Dropdown (unit tests) when uses default props shoul
       </kv-dropdown>
     </div>
   </mock:shadow-root>
-</kv-advance-date-select-dropdown>
+</kv-advanced-date-select-dropdown>
 `;

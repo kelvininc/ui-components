@@ -1,8 +1,8 @@
 import { ComputePositionConfig } from '@floating-ui/dom';
 import { EventEmitter } from '@stencil/core';
-import { ITextField, ICalendarAdvanceTimeChange, ICalendarAdvanceDateSelector, ICalendarAdvanceDateSelectorEvents } from '../../types';
+import { ITextField, ICalendarAdvanceTimeChange, ICalendarAdvancedDateSelector, ICalendarAdvancedDateSelectorEvents } from '../../types';
 
-export interface IAdvanceDateSelectDropdown extends ICalendarAdvanceDateSelector {
+export interface IAdvancedDateSelectDropdown extends ICalendarAdvancedDateSelector {
 	/** (optional) The text field dropdown custom configurations */
 	inputConfig?: Partial<ITextField>;
 	/** (optional) The text field date format mask in ISO 8601 format */
@@ -11,7 +11,7 @@ export interface IAdvanceDateSelectDropdown extends ICalendarAdvanceDateSelector
 	dropdownPositionOptions?: Partial<ComputePositionConfig>;
 }
 
-export interface IAdvanceDateSelectDropdownEvents extends ICalendarAdvanceDateSelectorEvents {
+export interface IAdvancedDateSelectDropdownEvents extends ICalendarAdvancedDateSelectorEvents {
 	/** Emitted when the calendar selector opens state changes */
 	openStateChange: EventEmitter<boolean>;
 	/** Emitted when a time selector is applied */

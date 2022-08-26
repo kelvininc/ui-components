@@ -1,7 +1,7 @@
 import { autoUpdate, computePosition, ComputePositionConfig } from '@floating-ui/dom';
 import { Component, Host, h, Prop, Event, EventEmitter, Listen, Element } from '@stencil/core';
 import { isNil } from 'lodash-es';
-import { isTargetOnElement, getSlotElement } from './dropdown-base.helper';
+
 import { DEFAULT_POSITION_CONFIG } from './dropdown-base.config';
 import { didClickOnElement } from './dropdown-base.helper';
 import { IDropdownBase, IDropdownBaseEvents } from './dropdown-base.types';

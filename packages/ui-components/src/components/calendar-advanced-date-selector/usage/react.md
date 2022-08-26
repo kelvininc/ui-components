@@ -1,15 +1,15 @@
 ```tsx
 import React from 'react';
 
-import { KvCalendarAvanceDateSelector, ECalendarAdvanceTimeType } from '@kelvininc/react-ui-components';
+import { KvCalendarAdvancedDateSelector, ECalendarAdvanceTimeType } from '@kelvininc/react-ui-components';
 
-export const KvCalendarAvanceDateExample: React.FC = () => (
+export const KvCalendarAdvancedDateExample: React.FC = () => (
 	<>
 		{/*-- Default --*/}
-		<KvCalendarAvanceDateSelector />
+		<KvCalendarAdvancedDateSelector />
 
 		{/*-- With selected relative time --*/}
-		<KvCalendarAvanceDateSelector
+		<KvCalendarAdvancedDateSelector
 			selectedTime={{
 				type: ECalendarAdvanceTimeType.Relative,
 				payload: {
@@ -20,7 +20,7 @@ export const KvCalendarAvanceDateExample: React.FC = () => (
 		/>
 
 		{/*-- With selected absolute time --*/}
-		<KvCalendarAvanceDateSelector
+		<KvCalendarAdvancedDateSelector
 			selectedTime={{
 				type: ECalendarAdvanceTimeType.Absolute,
 				payload: {
@@ -31,7 +31,7 @@ export const KvCalendarAvanceDateExample: React.FC = () => (
 		/>
 
 		{/*-- With selected timezone --*/}
-		<KvCalendarAvanceDateSelector selectedTimezone="Europe/Lisbon" />
+		<KvCalendarAdvancedDateSelector selectedTimezone="Europe/Lisbon" />
 	</>
 );
 ```

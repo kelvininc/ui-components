@@ -1,14 +1,14 @@
 import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
-import { KvAdvanceDateSelectDropdown, ICalendarAdvanceSelectedTime, ITimeChange } from '../../components';
+import { KvAdvancedDateSelectDropdown, ICalendarAdvanceSelectedTime, ITimeChange } from '../../components';
 import { TIMEZONES } from './configs/date.config';
 
 // Required to have the correct TagName in the code sample
-KvAdvanceDateSelectDropdown.displayName = 'KvAdvanceDateSelectDropdown';
+KvAdvancedDateSelectDropdown.displayName = 'KvAdvancedDateSelectDropdown';
 
 export default {
 	title: 'Inputs/Dropdown/Date/Advance Date Select Dropdown',
-	component: 'kv-advance-date-select-dropdown',
+	component: 'kv-advanced-date-select-dropdown',
 	argTypes: {
 		timezone: {
 			control: { type: 'select' },
@@ -20,12 +20,12 @@ export default {
 		}
 	},
 	parameters: {
-		notes: require('@ui-notes/advance-date-select-dropdown/readme.md'),
+		notes: require('@ui-notes/advanced-date-select-dropdown/readme.md'),
 		layout: 'centered'
 	}
 };
 
-const AdvanceDateSelectorDropdownTemplate: ComponentStory<typeof KvAdvanceDateSelectDropdown> = args => {
+const AdvancedDateSelectorDropdownTemplate: ComponentStory<typeof KvAdvancedDateSelectDropdown> = args => {
 	const [selectedTime, setSelectedTime] = useState<ICalendarAdvanceSelectedTime>();
 	const [selectedTimezone, setSelectedTimezone] = useState<string>();
 
@@ -37,15 +37,15 @@ const AdvanceDateSelectorDropdownTemplate: ComponentStory<typeof KvAdvanceDateSe
 		setSelectedTimezone(newTimeState.timezone);
 	};
 
-	return <KvAdvanceDateSelectDropdown {...args} selectedTime={selectedTime} selectedTimezone={selectedTimezone} onTimeApplied={onTimeApplied} />;
+	return <KvAdvancedDateSelectDropdown {...args} selectedTime={selectedTime} selectedTimezone={selectedTimezone} onTimeApplied={onTimeApplied} />;
 };
 
-export const DefaultState = AdvanceDateSelectorDropdownTemplate.bind({});
+export const DefaultState = AdvancedDateSelectorDropdownTemplate.bind({});
 DefaultState.args = {
 	timezones: TIMEZONES
 };
 
-export const NoTimezones = AdvanceDateSelectorDropdownTemplate.bind({});
+export const NoTimezones = AdvancedDateSelectorDropdownTemplate.bind({});
 NoTimezones.args = {
 	timezones: []
 };

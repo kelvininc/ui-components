@@ -1,4 +1,4 @@
-# _calendar-advance-date-selector_
+# _calendar-advanced-date-selector_
 
 <!-- Auto Generated Below -->
 
@@ -9,10 +9,10 @@
 
 ```html
 <!-- Default -->
-<kv-calendar-advance-date-selector></kv-calendar-advance-date-selector>
+<kv-calendar-advanced-date-selector></kv-calendar-advanced-date-selector>
 
 <!-- With selected absolute time -->
-<kv-calendar-advance-date-selector
+<kv-calendar-advanced-date-selector
 	[selectedTime]="{
 		type: ECalendarAdvanceTimeType.Relative,
 		payload: {
@@ -20,10 +20,10 @@
 			range: ['2021-12-01T00:00:00', '2021-12-05T23:59:59Z']
 		}
 	}"
-></kv-calendar-advance-date-selector>
+></kv-calendar-advanced-date-selector>
 
 <!-- With selected relative time -->
-<kv-calendar-advance-date-selector
+<kv-calendar-advanced-date-selector
 	[selectedTime]="{
 		type: ECalendarAdvanceTimeType.Absolute,
 		payload: {
@@ -31,10 +31,10 @@
 			range: ['2021-12-01T00:00:00', '2021-12-05T23:59:59Z']
 		}
 	}"
-></kv-calendar-advance-date-selector>
+></kv-calendar-advanced-date-selector>
 
 <!-- With selected timezone time -->
-<kv-calendar-advance-date-selector selectedTimezone="Europe/Lisbon"></kv-calendar-advance-date-selector>
+<kv-calendar-advanced-date-selector selectedTimezone="Europe/Lisbon"></kv-calendar-advanced-date-selector>
 ```
 
 
@@ -43,15 +43,15 @@
 ```tsx
 import React from 'react';
 
-import { KvCalendarAvanceDateSelector, ECalendarAdvanceTimeType } from '@kelvininc/react-ui-components';
+import { KvCalendarAdvancedDateSelector, ECalendarAdvanceTimeType } from '@kelvininc/react-ui-components';
 
-export const KvCalendarAvanceDateExample: React.FC = () => (
+export const KvCalendarAdvancedDateExample: React.FC = () => (
 	<>
 		{/*-- Default --*/}
-		<KvCalendarAvanceDateSelector />
+		<KvCalendarAdvancedDateSelector />
 
 		{/*-- With selected relative time --*/}
-		<KvCalendarAvanceDateSelector
+		<KvCalendarAdvancedDateSelector
 			selectedTime={{
 				type: ECalendarAdvanceTimeType.Relative,
 				payload: {
@@ -62,7 +62,7 @@ export const KvCalendarAvanceDateExample: React.FC = () => (
 		/>
 
 		{/*-- With selected absolute time --*/}
-		<KvCalendarAvanceDateSelector
+		<KvCalendarAdvancedDateSelector
 			selectedTime={{
 				type: ECalendarAdvanceTimeType.Absolute,
 				payload: {
@@ -73,7 +73,7 @@ export const KvCalendarAvanceDateExample: React.FC = () => (
 		/>
 
 		{/*-- With selected timezone --*/}
-		<KvCalendarAvanceDateSelector selectedTimezone="Europe/Lisbon" />
+		<KvCalendarAdvancedDateSelector selectedTimezone="Europe/Lisbon" />
 	</>
 );
 ```
@@ -111,7 +111,7 @@ export const KvCalendarAvanceDateExample: React.FC = () => (
 
 ### Used by
 
- - [kv-advance-date-select-dropdown](../advance-date-select-dropdown)
+ - [kv-advanced-date-select-dropdown](../advanced-date-select-dropdown)
 
 ### Depends on
 
@@ -123,10 +123,10 @@ export const KvCalendarAvanceDateExample: React.FC = () => (
 ### Graph
 ```mermaid
 graph TD;
-  kv-calendar-advance-date-selector --> kv-range-dates-select-dropdown
-  kv-calendar-advance-date-selector --> kv-select
-  kv-calendar-advance-date-selector --> kv-select-option
-  kv-calendar-advance-date-selector --> kv-single-select-dropdown
+  kv-calendar-advanced-date-selector --> kv-range-dates-select-dropdown
+  kv-calendar-advanced-date-selector --> kv-select
+  kv-calendar-advanced-date-selector --> kv-select-option
+  kv-calendar-advanced-date-selector --> kv-single-select-dropdown
   kv-range-dates-select-dropdown --> kv-dropdown-base
   kv-range-dates-select-dropdown --> kv-text-field
   kv-range-dates-select-dropdown --> kv-icon
@@ -153,8 +153,8 @@ graph TD;
   kv-dropdown --> kv-dropdown-base
   kv-dropdown --> kv-text-field
   kv-dropdown --> kv-icon
-  kv-advance-date-select-dropdown --> kv-calendar-advance-date-selector
-  style kv-calendar-advance-date-selector fill:#f9f,stroke:#333,stroke-width:4px
+  kv-advanced-date-select-dropdown --> kv-calendar-advanced-date-selector
+  style kv-calendar-advanced-date-selector fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

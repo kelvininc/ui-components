@@ -1,15 +1,15 @@
 ```tsx
 import React from 'react';
 
-import { KvAvanceDateSelectDropdown, ECalendarAdvanceTimeType } from '@kelvininc/react-ui-components';
+import { KvAdvancedDateSelectDropdown, ECalendarAdvanceTimeType } from '@kelvininc/react-ui-components';
 
-export const KvAvanceDateExample: React.FC = () => (
+export const KvAdvancedDateExample: React.FC = () => (
 	<>
 		{/*-- Default --*/}
-		<KvAvanceDateSelectDropdown />
+		<KvAdvancedDateSelectDropdown />
 
 		{/*-- With selected relative time --*/}
-		<KvAvanceDateSelectDropdown
+		<KvAdvancedDateSelectDropdown
 			selectedTime={{
 				type: ECalendarAdvanceTimeType.Relative,
 				payload: {
@@ -20,7 +20,7 @@ export const KvAvanceDateExample: React.FC = () => (
 		/>
 
 		{/*-- With selected absolute time --*/}
-		<KvAvanceDateSelectDropdown
+		<KvAdvancedDateSelectDropdown
 			selectedTime={{
 				type: ECalendarAdvanceTimeType.Absolute,
 				payload: {
@@ -31,7 +31,7 @@ export const KvAvanceDateExample: React.FC = () => (
 		/>
 
 		{/*-- With selected timezone --*/}
-		<KvAvanceDateSelectDropdown selectedTimezone="Europe/Lisbon" />
+		<KvAdvancedDateSelectDropdown selectedTimezone="Europe/Lisbon" />
 	</>
 );
 ```
