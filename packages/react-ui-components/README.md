@@ -74,12 +74,26 @@ In addition, you can customize the theme by changing some CSS properties.
 }
 ```
 
+## Caching
+
+By default, the `KvIcon` and `KvIllustration` components require an SVG file with all the `kv-icons` available. The default file is `svg-symbols.svg` which is provided after installing this dependency. For caching purposes, it is also provided a `symbols.${timestamp}.${checksum}.svg` file after installation. If you are caching those SVGs in your project you should use the latter.
+
+```tsx
+
+import { initialize } from '@kelvininc/react-ui-components';
+
+(...)
+
+initialize({ symbolsFileName: 'symbols.2022-08-29T16:00:49.6e51ea0e37926eff2f3ef11e64be70fa.svg' });
+
+```
+
 ## Relative paths
 
 By default the `KvIcon` and `KvIllustration` components will expect the `svg-symbols.svg` file to be served at the server root. This could not be your use-case if you're application is being served on a relative path, e.g, `https://dashboard.com/clients/home`. In this case you will need to tell the library the base path to your assets url, which you can achieve by doing the following in your `index.js` or `index.tsx`.
 
 ```tsx
-import { initialize, StyleMode } from '@kelvininc/react-ui-components';
+import { initialize } from '@kelvininc/react-ui-components';
 
 (...)
 

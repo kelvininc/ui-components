@@ -22,7 +22,7 @@ export class KvIllustration {
 	@Prop({ reflect: true }) customClass: string | string[] = '';
 
 	render() {
-		const { baseAssetsUrl, styleMode } = getConfig();
+		const { baseAssetsUrl, symbolsFileName, styleMode } = getConfig();
 
 		return (
 			<Host>
@@ -34,7 +34,7 @@ export class KvIllustration {
 						illustration: true
 					}}
 				>
-					<use href={`${baseAssetsUrl}svg-symbols.svg#${this.name}-${styleMode}`}></use>
+					<use href={`${baseAssetsUrl}${symbolsFileName}#${this.name}-${styleMode}`}></use>
 				</svg>
 			</Host>
 		);
