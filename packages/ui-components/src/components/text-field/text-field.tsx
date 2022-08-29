@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
-import { isEmpty } from 'lodash-es';
+import { isEmpty, isNil } from 'lodash-es';
 import Inputmask from 'inputmask';
 import { EComponentSize } from '../../utils/types';
 import { EInputFieldType, EValidationState, ITextFieldEvents, ITextField } from './text-field.types';
@@ -122,7 +122,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 
 	private onInputHandler = ({ target }: InputEvent) => {
 		const input = target as HTMLInputElement | null;
-		if (input) {
+		if (!isNil(input)) {
 			this.value = input.value || '';
 		}
 		this.textChange.emit(this.getValue());
@@ -147,7 +147,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	}
 
 	private get hasRightSlot() {
-		return !!this.el.querySelector('[slot="right-slot"]');
+		return !isNil(this.el.querySelector('[slot="right-slot"]'));
 	}
 
 	private getValue(): string {
@@ -179,7 +179,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 									id={id}
 									ref={input => (this.nativeInput = input)}
 									type={type}
-									list={this.examples ? `examples_${id}` : undefined}
+									list={!isNil(this.examples) ? `examples_${id}` : undefined}
 									name={this.inputName}
 									placeholder={this.placeholder}
 									disabled={this.disabled}
