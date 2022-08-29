@@ -1,0 +1,47 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --toggletip-z-index: toggle tip z-index.
+	 * @prop --toggle-tip-container-width: toggle tip width.
+	 * @prop --toggle-tip-container-max-width: toggle tip max width.
+	 */
+
+	--toggletip-z-index: 1000;
+	--toggle-tip-container-width: fit-content;
+	--toggle-tip-container-max-width: 292px;
+}
+
+.toggle-tip-open-element-wrapper {
+	width: fit-content;
+	height: fit-content;
+}
+
+.toggle-tip-container {
+	height: fit-content;
+	width: var(--toggle-tip-container-width);
+	max-width: var(--toggle-tip-container-max-width);
+	word-wrap: break-word;
+	color: kv-color('neutral-0');
+	background-color: kv-color('neutral-6');
+	box-shadow: 0 8px 16px -4px kv-color('neutral-6', 'base', 0.25), 0 0 1px 0 kv-color('neutral-3', 'base', 0.31);
+	user-select: none;
+	border-radius: 2px;
+	padding: $spacing-3x;
+	position: fixed;
+	display: none;
+	z-index: var(--toggletip-z-index);
+}
+
+.toggle-tip-text {
+	@include kv-font-span-semibold();
+	color: kv-color('neutral-2');
+}
+
+.toggle-tip-arrow {
+	position: absolute;
+	background: kv-color('neutral-6');
+	width: 10px;
+	height: 10px;
+	transform: rotate(45deg);
+}

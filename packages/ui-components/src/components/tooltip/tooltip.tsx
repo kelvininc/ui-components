@@ -1,9 +1,9 @@
 import { autoPlacement, computePosition, ComputePositionConfig, offset, shift } from '@floating-ui/dom';
 import { Host, h, Component, Prop, Element } from '@stencil/core';
 import { isEmpty } from 'lodash-es';
+import { ETooltipPosition } from '../../utils/types/components';
 
 import { DEFAULT_AUTOPLACEMENT_CONFIG, DEFAULT_OFFSET, DEFAULT_SHIFT_CONFIG, DEFAULT_TOOLTIP_CONFIG } from './tooltip.config';
-import { ETooltipPosition } from './tooltip.types';
 
 /**
  * @part container - The tooltip container.
