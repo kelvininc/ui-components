@@ -28,6 +28,5 @@
 				}
 			}
 		}
-	},
-	"defaultProject": "@kelvininc/angular-ui-components"
+	}
 }
