@@ -4,7 +4,7 @@ import { takeUntil, tap } from 'rxjs/operators';
 import { ToasterService } from './toaster-controller.service';
 import { IToaster, EToasterType } from '@kelvininc/ui-components';
 
-@Component({ 
+@Component({
 	selector: 'kv-toaster-controller',
 	template: `
 		<div *ngIf="this.header && this.type">
@@ -19,7 +19,7 @@ import { IToaster, EToasterType } from '@kelvininc/ui-components';
 		</div>
 	`
 })
-export class ToasterController implements OnInit, OnDestroy {
+export class ToasterControllerComponent implements OnInit, OnDestroy {
 	header!: string | null;
 	description?: string = '';
 	type!: EToasterType | null;
