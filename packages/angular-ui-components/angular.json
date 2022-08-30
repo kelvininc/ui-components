@@ -25,18 +25,6 @@
 							"tsConfig": "./tsconfig.lib.prod.json"
 						}
 					}
-				},
-				"lint": {
-					"builder": "@angular-devkit/build-angular:tslint",
-					"options": {
-						"tsConfig": [
-							"./tsconfig.json",
-							"./tsconfig.spec.json"
-						],
-						"exclude": [
-							"**/node_modules/**"
-						]
-					}
 				}
 			}
 		}

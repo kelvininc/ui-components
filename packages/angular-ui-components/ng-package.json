@@ -2,11 +2,7 @@
 	"$schema": "./node_modules/ng-packagr/ng-package.schema.json",
 	"dest": "./dist/angular-ui-components",
 	"lib": {
-		"entryFile": "./src/public-api.ts",
-		"umdModuleIds": {
-			"@kelvininc/ui-components": "@kelvininc/ui-components",
-			"@kelvininc/ui-components/loader": "@kelvininc/ui-components/loader"
-		}
+    "entryFile": "./src/public-api.ts"
 	},
 	"allowedNonPeerDependencies": [
 		"@angular",
