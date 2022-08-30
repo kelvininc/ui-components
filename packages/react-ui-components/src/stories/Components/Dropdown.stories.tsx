@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { KvDropdown, KvSelect, KvSelectOption, EIconName, EOtherIconName, EValidationState } from '../../components';
+import { KvDropdown, KvSelect, KvSelectOption, EIconName } from '../../components';
 
 export default {
 	title: 'Dropdown/Dropdown',
@@ -12,31 +12,8 @@ export default {
 		isOpen: {
 			control: { type: 'boolean' }
 		},
-		loading: {
-			control: { type: 'boolean' }
-		},
-		disabled: {
-			control: { type: 'boolean' }
-		},
-		required: {
-			control: { type: 'boolean' }
-		},
-		label: {
-			control: { type: 'text' }
-		},
-		value: {
-			control: { type: 'text' }
-		},
-		helpText: {
-			control: { type: 'text' }
-		},
-		icon: {
-			control: { type: 'select' },
-			options: ['', ...Object.values(EIconName), ...Object.values(EOtherIconName)]
-		},
-		errorState: {
-			control: { type: 'select' },
-			options: ['', ...Object.values(EValidationState)]
+		inputConfig: {
+			control: { type: 'object' }
 		}
 	},
 	parameters: {
@@ -63,9 +40,11 @@ const DropdownTemplate: ComponentStory<typeof KvDropdown> = args => (
 
 export const Default = DropdownTemplate.bind({});
 Default.args = {
-	placeholder: 'Select an option',
-	label: 'Options',
-	icon: EIconName.Layer,
-	required: true,
-	helpText: 'You can select several options'
+	inputConfig: {
+		label: 'Options',
+		icon: EIconName.Layer,
+		required: true,
+		placeholder: 'Select an option',
+		helpText: 'You can select several options'
+	}
 };

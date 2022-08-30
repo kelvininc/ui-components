@@ -73,6 +73,7 @@
 		"@types/react-dom": "^17.0.11",
 		"@typescript-eslint/parser": "^5.12.1",
 		"@types/lodash-es": "^4.17.5",
+		"dayjs": "^1.11.5",
 		"lodash-es": "^4.17.21",
 		"eslint": "^8.9.0",
 		"eslint-config-prettier": "^8.4.0",
@@ -96,7 +97,8 @@
 	},
 	"peerDependencies": {
 		"react": ">=17.0.2",
-		"react-dom": ">=17.0.2"
+		"react-dom": ">=17.0.2",
+		"dayjs": "^1.11.5"
 	},
 	"jest": {
 		"preset": "ts-jest",

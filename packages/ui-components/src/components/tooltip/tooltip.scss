@@ -1,5 +1,13 @@
 @import '../../assets/styles/globals';
 
+:host {
+	/**
+	  * @prop --container-z-index: The z-index value for the tooltip container.
+	 */
+
+	--container-z-index: 10;
+}
+
 .tooltip-content {
 	width: fit-content;
 	height: fit-content;
@@ -19,5 +27,6 @@
 	border-radius: 2px;
 	padding: $spacing $spacing-2x;
 	position: fixed;
+	z-index: var(--container-z-index);
 	display: none;
 }

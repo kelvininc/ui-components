@@ -29,7 +29,7 @@ describe('Calendar Range Dates Selector (end-to-end)', () => {
 			it('should emit `SelectRangeDates` event with the clicked date as the range start date', () => {
 				const expectedEventDetail = {
 					event: mouseEvent,
-					payload: ['2020-04-01']
+					payload: ['2020-04-01 00:00:00']
 				};
 
 				expect(spyChangeEvent).toHaveReceivedEventDetail(expectedEventDetail);
@@ -65,7 +65,7 @@ describe('Calendar Range Dates Selector (end-to-end)', () => {
 				it('should emit `SelectRangeDates` event with the clicked date as the range start and end dates', () => {
 					const expectedEventDetail = {
 						event: mouseEvent,
-						payload: ['2020-04-01', '2020-04-01']
+						payload: ['2020-04-01 00:00:00', '2020-04-01 23:59:59']
 					};
 
 					expect(spyChangeEvent).toHaveReceivedEventDetail(expectedEventDetail);
@@ -136,7 +136,7 @@ describe('Calendar Range Dates Selector (end-to-end)', () => {
 			it('should emit `SelectRangeDates` event with the clicked date as the range start date', () => {
 				const expectedEventDetail = {
 					event: mouseEvent,
-					payload: ['2020-04-02']
+					payload: ['2020-04-02 00:00:00']
 				};
 
 				expect(spyChangeEvent).toHaveReceivedEventDetail(expectedEventDetail);
@@ -171,7 +171,7 @@ describe('Calendar Range Dates Selector (end-to-end)', () => {
 			it('should emit `SelectRangeDates` event with the clicked date as the range start date', () => {
 				const expectedEventDetail = {
 					event: mouseEvent,
-					payload: ['2020-03-31']
+					payload: ['2020-03-31 00:00:00']
 				};
 
 				expect(spyChangeEvent).toHaveReceivedEventDetail(expectedEventDetail);
@@ -206,7 +206,7 @@ describe('Calendar Range Dates Selector (end-to-end)', () => {
 			it('should emit `SelectRangeDates` event with the current selected range start date and the clicked date as the range end date', () => {
 				const expectedEventDetail = {
 					event: mouseEvent,
-					payload: ['2020-04-01', '2020-04-02']
+					payload: ['2020-04-01 00:00:00', '2020-04-02 23:59:59']
 				};
 
 				expect(spyChangeEvent).toHaveReceivedEventDetail(expectedEventDetail);

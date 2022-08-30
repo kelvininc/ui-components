@@ -103,6 +103,7 @@ graph TD;
   kv-dropdown --> kv-dropdown-base
   kv-dropdown --> kv-text-field
   kv-dropdown --> kv-icon
+  kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
   kv-text-field --> kv-form-help-text

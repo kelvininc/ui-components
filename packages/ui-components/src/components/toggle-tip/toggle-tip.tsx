@@ -2,8 +2,7 @@ import { autoPlacement, computePosition, offset, shift, arrow } from '@floating-
 import { Component, Host, h, Prop, Element, Listen, Event, EventEmitter } from '@stencil/core';
 import { isEmpty } from 'lodash-es';
 import { ETooltipPosition } from '../../utils/types/components';
-import { DEFAULT_AUTOPLACEMENT_CONFIG, DEFAULT_OFFSET, DEFAULT_SHIFT_CONFIG, DEFAULT_TOOLTIP_CONFIG } from '../tooltip/tooltip.config';
-import { getArrowElementPositionConfig, OFFSET_WITH_ARROW } from './toggle-tip.config';
+import { DEFAULT_AUTOPLACEMENT_CONFIG, DEFAULT_OFFSET, DEFAULT_SHIFT_CONFIG, DEFAULT_TOOLTIP_CONFIG, getArrowElementPositionConfig, OFFSET_WITH_ARROW } from './toggle-tip.config';
 import { IToggleTip, IToggleTipEvents } from './toggle-tip.types';
 
 /**

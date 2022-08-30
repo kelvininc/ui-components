@@ -1,6 +1,6 @@
 import { h, SpecPage } from '@stencil/core/internal';
 import { newSpecPage } from '@stencil/core/testing';
-import { formatDatetime } from '../../../utils/date.helper';
+import { formatDateTime } from '../../../utils/date.helper';
 import { KvCalendarRangeDatesSelector } from '../../calendar-range-dates-selector/calendar-range-dates-selector';
 import { KvTextField } from '../../text-field/text-field';
 import { KvRangeDatesSelectDropdown } from '../range-dates-select-dropdown';

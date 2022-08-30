@@ -25,7 +25,9 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	@Event() itemSelected: EventEmitter<string>;
 
 	private onItemClick = () => {
-		this.itemSelected.emit(this.value);
+		if (!this.disabled) {
+			this.itemSelected.emit(this.value);
+		}
 	};
 
 	render() {

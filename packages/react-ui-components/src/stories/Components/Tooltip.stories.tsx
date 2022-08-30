@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { EActionButtonType, KvActionButton, KvTooltip, ETooltipPosition } from '../../components';
+import { EActionButtonType, ETooltipPosition, KvActionButton, KvTooltip } from '../../components';
 
 KvTooltip.displayName = 'KvTooltip';
 
@@ -12,8 +12,7 @@ export default {
 		position: {
 			control: { type: 'select' },
 			options: Object.values(ETooltipPosition)
-		},
-		allowedPositions: { control: { type: 'multi-select' }, options: Object.values(ETooltipPosition) }
+		}
 	},
 	parameters: {
 		notes: require('@ui-notes/tooltip/readme.md'),
@@ -36,10 +35,4 @@ export const FixedPositionState = TooltipTemplate.bind(this);
 FixedPositionState.args = {
 	text: 'Tooltip text',
 	position: ETooltipPosition.Left
-};
-
-export const AllowedPositionsState = TooltipTemplate.bind(this);
-AllowedPositionsState.args = {
-	text: 'Tooltip text',
-	allowedPositions: [ETooltipPosition.Top, ETooltipPosition.Bottom]
 };
