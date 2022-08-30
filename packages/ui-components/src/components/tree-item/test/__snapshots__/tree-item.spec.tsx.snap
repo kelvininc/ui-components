@@ -5,20 +5,20 @@ exports[`Tree Item (unit tests) when initialized with counter attribute should m
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper">
-        <div class="node-content-wrapper">
+        <a class="node-content-wrapper">
           <div class="labels">
             <div class="title">
               Node Title
             </div>
           </div>
           <div class="right-indicators">
-            <div class="alarm-bubble undefined">
-              <span>
+            <div class="alarm-bubble">
+              <kv-badge>
                 32
-              </span>
+              </kv-badge>
             </div>
           </div>
-        </div>
+        </a>
       </div>
       <div class="children" style="display: none;">
         <slot name="child-slot"></slot>
@@ -33,14 +33,36 @@ exports[`Tree Item (unit tests) when initialized with disabled attribute should 
   <mock:shadow-root>
     <div class="node-container">
       <div class="disabled node-wrapper">
-        <div class="disabled node-content-wrapper">
+        <a class="disabled node-content-wrapper">
           <div class="labels">
             <div class="title">
               Node Title
             </div>
           </div>
           <div class="right-indicators"></div>
-        </div>
+        </a>
+      </div>
+      <div class="children" style="display: none;">
+        <slot name="child-slot"></slot>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-tree-item>
+`;
+
+exports[`Tree Item (unit tests) when initialized with preventDefault prop should match the snapshot 1`] = `
+<kv-tree-item label="Node Title" prevent-default="">
+  <mock:shadow-root>
+    <div class="node-container">
+      <div class="node-wrapper">
+        <a class="node-content-wrapper">
+          <div class="labels">
+            <div class="title">
+              Node Title
+            </div>
+          </div>
+          <div class="right-indicators"></div>
+        </a>
       </div>
       <div class="children" style="display: none;">
         <slot name="child-slot"></slot>
@@ -55,14 +77,14 @@ exports[`Tree Item (unit tests) when initialized with required props should matc
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper">
-        <div class="node-content-wrapper">
+        <a class="node-content-wrapper">
           <div class="labels">
             <div class="title">
               Node Title
             </div>
           </div>
           <div class="right-indicators"></div>
-        </div>
+        </a>
       </div>
       <div class="children" style="display: none;">
         <slot name="child-slot"></slot>
@@ -77,14 +99,14 @@ exports[`Tree Item (unit tests) when initialized with selected attribute should 
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper selected">
-        <div class="node-content-wrapper selected">
+        <a class="node-content-wrapper selected">
           <div class="labels">
             <div class="title">
               Node Title
             </div>
           </div>
           <div class="right-indicators"></div>
-        </div>
+        </a>
       </div>
       <div class="children" style="display: none;">
         <slot name="child-slot"></slot>

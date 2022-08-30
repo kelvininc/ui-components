@@ -44,12 +44,16 @@ export const RadioButtonExample: React.FC = () => (
 
 ## Properties
 
-| Property             | Attribute  | Description                                                                   | Type      | Default      |
-| -------------------- | ---------- | ----------------------------------------------------------------------------- | --------- | ------------ |
-| `checked`            | `checked`  | (optional) Sets the button as checked                                         | `boolean` | `false`      |
-| `disabled`           | `disabled` | (optional) Sets the button's styling to be disabled and disables click events | `boolean` | `false`      |
-| `label` _(required)_ | `label`    | (required) Adds a label aside the button                                      | `string`  | `undefined`  |
-| `value`              | `value`    | (optional) The value to be emitted upon click events                          | `string`  | `this.label` |
+| Property             | Attribute         | Description                                                                                                     | Type                                                                                                | Default      |
+| -------------------- | ----------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------ |
+| `checked`            | `checked`         | (optional) Sets the button as checked                                                                           | `boolean`                                                                                           | `false`      |
+| `disabled`           | `disabled`        | (optional) Sets the button's styling to be disabled and disables click events                                   | `boolean`                                                                                           | `false`      |
+| `download`           | `download`        | (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename | `string`                                                                                            | `undefined`  |
+| `href`               | `href`            | (optional) The anchor's link to open when clicking                                                              | `string`                                                                                            | `undefined`  |
+| `label` _(required)_ | `label`           | (required) Adds a label aside the button                                                                        | `string`                                                                                            | `undefined`  |
+| `preventDefault`     | `prevent-default` | (optional) Defines if the item click event should prevent default behaviour.                                    | `boolean`                                                                                           | `false`      |
+| `target`             | `target`          | (optional) The anchor's target                                                                                  | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top` | `undefined`  |
+| `value`              | `value`           | (optional) The value to be emitted upon click events                                                            | `string`                                                                                            | `this.label` |
 
 
 ## Events

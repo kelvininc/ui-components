@@ -7,11 +7,19 @@
 	--text-color-input-default: #{kv-color('neutral-2')};
 	--text-color-input-focused: #{kv-color('neutral-2')};
 
+	--text-color-placeholder-default: #{kv-color('neutral-4')};
+	--text-color-placeholder-disabled: #{kv-color('neutral-5')};
+	--text-color-placeholder-focused: #{kv-color('neutral-4')};
+
 	--border-color-default: #{kv-color('neutral-6')};
 	--border-color-focused: #{kv-color('neutral-0')};
 
 	--background-color-default: #{kv-color('neutral-6')};
 	--background-color-disabled: #{kv-color('neutral-7')};
+}
+
+input {
+	color-scheme: dark;
 }
 
 .input-container-loading {

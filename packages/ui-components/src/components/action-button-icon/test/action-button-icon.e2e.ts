@@ -54,4 +54,17 @@ describe('Action Button Icon (end-to-end)', () => {
 			});
 		});
 	});
+
+	describe('when has a badge', () => {
+		beforeEach(async () => {
+			page = await newE2EPage();
+			await page.setContent('<kv-action-button-icon type="primary" icon="kv-add" badge-label="12"></kv-action-button>');
+		});
+
+		it('should render badge', async () => {
+			const badgeElement = await page.find('kv-action-button-icon >>> kv-badge');
+			expect(badgeElement).toBeTruthy();
+			expect(badgeElement.innerText).toEqual('12');
+		});
+	});
 });

@@ -9,19 +9,19 @@ export class KvDropdownExample {
   render() {
     return (
 		<KvDropdown label="Options" icon="kv-layer" required={true}>
-			<KvDropdownList searchable={true} selectionClearable={true}>
-				<KvDropdownListItem
+			<KvSelect searchable={true} selectionClearable={true}>
+				<KvSelectOption
 					label="Option 1"
 					value="option1"
 					togglable={true}>
-				</KvDropdownListItem>
+				</KvSelectOption>
 				...
-				<KvDropdownListItem
+				<KvSelectOption
 					label="Option 3"
 					value="option3"
 					togglable={true}>
-				</KvDropdownListItem>
-			</KvDropdownList>
+				</KvSelectOption>
+			</KvSelect>
 		</KvDropdown>
 	)
   }

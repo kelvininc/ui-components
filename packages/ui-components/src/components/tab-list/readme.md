@@ -41,10 +41,10 @@ export const TabListExample: React.FC = () => (
 
 ## Properties
 
-| Property                      | Attribute          | Description                                                                         | Type                                           | Default                |
-| ----------------------------- | ------------------ | ----------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
-| `selectedTabKey` _(required)_ | `selected-tab-key` | (required) The currently selected tab's key (unique identifier)                     | `number \| string`                             | `undefined`            |
-| `size`                        | `size`             | (optional) Sets the items on this tab list to use a different styling configuration | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
+| Property         | Attribute          | Description                                                                         | Type                                           | Default                |
+| ---------------- | ------------------ | ----------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
+| `selectedTabKey` | `selected-tab-key` | (optional) The currently selected tab's key (unique identifier)                     | `number \| string`                             | `undefined`            |
+| `size`           | `size`             | (optional) Sets the items on this tab list to use a different styling configuration | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
 
 
 ## CSS Custom Properties
@@ -52,6 +52,7 @@ export const TabListExample: React.FC = () => (
 | Name                         | Description                  |
 | ---------------------------- | ---------------------------- |
 | `--tab-list-bg-color`        | Background color of the list |
+| `--tab-list-divider-color`   | Tab divider bar color        |
 | `--tab-list-indicator-color` | Tab indicator bar color      |
 
 

@@ -1,9 +1,13 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Watch, State } from '@stencil/core';
 import { isEmpty, isNil } from 'lodash-es';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
-import { EValidationState } from '../text-field/text-field.types';
-import { ISingleSelectDropdown, ISingleSelectDropdownOptions, ISingleSelectDropdownEvents } from './single-select-dropdown.types';
+import { EValidationState, ITextField } from '../text-field/text-field.types';
+import { ISingleSelectDropdown, ISingleSelectDropdownOption, ISingleSelectDropdownOptions, ISingleSelectDropdownEvents } from './single-select-dropdown.types';
 import { SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './single-select-dropdown.config';
+import { buildSelectGroups, hasGroups } from '../select-group/select-group.helper';
+/**
+ * @part option - The select option container.
+ */
 
 @Component({
 	tag: 'kv-single-select-dropdown',
@@ -14,13 +18,15 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) placeholder: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) isOpen?: boolean = false;
+	@Prop({ reflect: true, mutable: true }) isOpen?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) loading?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchable?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) searchPlaceholder?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) required?: boolean = false;
 	/** @inheritdoc */
@@ -30,7 +36,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) errorState?: EValidationState = EValidationState.None;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) helpText?: string;
+	@Prop({ reflect: true }) helpText?: string | string[] = [];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
@@ -114,28 +120,51 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		}
 	}
 
+	private renderGroups = (groupNames: string[], groups: Record<string, ISingleSelectDropdownOption[]>) => {
+		return groupNames.map(groupName => (
+			<kv-select-group key={groupName} label={groupName}>
+				{this.renderOptions(groups[groupName])}
+			</kv-select-group>
+		));
+	};
+
+	private renderOptions = (options: ISingleSelectDropdownOption[]) => {
+		return options.map(option => (
+			<kv-select-option
+				key={option.label}
+				label={option.label}
+				value={option.value}
+				disabled={option.disabled}
+				selected={option.value === this._selectedOption}
+				onItemSelected={this.selectOption}
+				part="option"
+			/>
+		));
+	};
+
+	private getInputConfig = (): Partial<ITextField> => ({
+		label: this.label,
+		value: this._selectedOptionLabel,
+		loading: this.loading,
+		icon: this.icon,
+		disabled: this.disabled,
+		required: this.required,
+		placeholder: this.placeholder,
+		state: this.errorState,
+		helpText: this.helpText
+	});
+
 	render() {
+		const groups = buildSelectGroups(this.options);
+		const groupNames = Object.keys(groups);
+
 		return (
 			<Host>
-				<kv-dropdown
-					isOpen={this.isOpen}
-					label={this.label}
-					value={this._selectedOptionLabel}
-					loading={this.loading}
-					icon={this.icon}
-					disabled={this.disabled}
-					required={this.required}
-					placeholder={this.placeholder}
-					errorState={this.errorState}
-					helpText={this.helpText}
-					onOpenStateChange={this.openStateChangeHandler}
-				>
-					<kv-dropdown-list searchValue={this._searchValue} searchable={this.searchable} onSearchChange={this.onSearchChange}>
-						{isEmpty(this.options) && <kv-dropdown-list-item class="no-data" label={this.noDataAvailableLabel} value={null} />}
-						{Object.values(this.options).map(option => (
-							<kv-dropdown-list-item label={option.label} value={option.value} selected={option.value === this._selectedOption} onItemSelected={this.selectOption} />
-						))}
-					</kv-dropdown-list>
+				<kv-dropdown inputConfig={this.getInputConfig()} isOpen={this.isOpen} onOpenStateChange={this.openStateChangeHandler} exportparts="input">
+					<kv-select searchValue={this._searchValue} searchable={this.searchable} onSearchChange={this.onSearchChange} searchPlaceholder={this.searchPlaceholder}>
+						{isEmpty(this.options) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
+						{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.options))}
+					</kv-select>
 				</kv-dropdown>
 			</Host>
 		);

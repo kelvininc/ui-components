@@ -1,4 +1,4 @@
-import { EIconName, EOtherIconName } from '@kelvininc/ui-components';
+import { EBadgeState, EIconName, EOtherIconName } from '@kelvininc/ui-components';
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
 import { KvTreeItem, ETreeItemState } from '../../components';
@@ -88,7 +88,7 @@ WithCounterState.args = {
 	label: 'Node title',
 	additionalLabel: 'default state node',
 	counter: 32,
-	counterState: ETreeItemState.Success
+	counterState: EBadgeState.Success
 };
 
 const ChildrenTreeTemplate: ComponentStory<typeof KvTreeItem> = args => {

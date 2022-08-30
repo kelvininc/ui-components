@@ -1,33 +1,46 @@
-import { autoPlacement, computePosition, offset, shift } from '@floating-ui/dom';
+import { computePosition, ComputePositionConfig } from '@floating-ui/dom';
 import { Host, h, Component, Prop, Element } from '@stencil/core';
-import { isEmpty } from 'lodash-es';
-import { TooltipPosition } from './tooltip.types';
+import { isEmpty, merge } from 'lodash-es';
 
+import { ETooltipPosition } from '../../types';
+import { DEFAULT_POSITION_CONFIG } from './tooltip.config';
+import { ITooltip } from './tooltip.types';
+
+/**
+ * @part container - The tooltip container.
+ * @part content - The tooltip content.
+ */
 @Component({
 	tag: 'kv-tooltip',
 	styleUrl: 'tooltip.scss',
 	shadow: true
 })
-export class KvTooltip {
-	/** (required) Text of tooltip */
-	@Prop({ reflect: true }) text!: string;
-	/** (optional) Position of tooltip */
-	@Prop({ reflect: true }) position: TooltipPosition;
-	/** (optional) Array of allowed positions of tooltip (if defined the 'position' is ignored) */
-	@Prop({ reflect: true }) allowedPositions: TooltipPosition[];
+export class KvTooltip implements ITooltip {
+	/** @inheritdoc */
+	@Prop({ reflect: true }) text: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) position?: ETooltipPosition;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) options?: Partial<ComputePositionConfig> = DEFAULT_POSITION_CONFIG;
 
 	/** The Host's element reference */
 	@Element() el: HTMLKvTooltipElement;
 
+	private getOptions = (): Partial<ComputePositionConfig> => {
+		return merge({}, { placement: this.position }, this.options);
+	};
+
 	render() {
 		return (
 			<Host>
-				<div id="content" class="tooltip-content" aria-describedby="tooltip">
+				<div id="content" class="tooltip-content" aria-describedby="tooltip" part="content">
 					<slot></slot>
 				</div>
-				<div id="tooltip" class="tooltip-container" role="tooltip">
-					{this.text}
-				</div>
+				{!isEmpty(this.text) && (
+					<div id="tooltip" class="tooltip-container" role="tooltip" part="container">
+						{this.text}
+					</div>
+				)}
 			</Host>
 		);
 	}
@@ -36,27 +49,19 @@ export class KvTooltip {
 		const child = this.el.shadowRoot.querySelector('#content');
 		const tooltip = this.el.shadowRoot.querySelector('#tooltip') as HTMLElement;
 
-		const position = isEmpty(this.allowedPositions) ? this.position : undefined;
-		const middleware = [offset(5), shift({ padding: 5 })];
-
-		if (isEmpty(position)) {
-			middleware.push(autoPlacement({ padding: 5, allowedPlacements: this.allowedPositions }));
+		if (tooltip === null) {
+			return;
 		}
 
-		function update() {
-			computePosition(child, tooltip, {
-				placement: position,
-				middleware
-			}).then(({ x, y }) => {
-				Object.assign(tooltip.style, {
-					left: `${x}px`,
-					top: `${y}px`
-				});
+		const update = () => {
+			computePosition(child, tooltip, this.getOptions()).then(({ x, y }) => {
+				tooltip.style.left = `${x}px`;
+				tooltip.style.top = `${y}px`;
 			});
-		}
+		};
 
 		const showTooltip = () => {
-			tooltip.style.display = 'block';
+			tooltip.style.display = 'inline-block';
 			update();
 		};
 

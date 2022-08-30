@@ -5,6 +5,8 @@ import { EValidationState } from '../text-field/text-field.types';
 export interface IMultiSelectDropdownOption {
 	label: string;
 	value: string;
+	disabled?: boolean;
+	group?: string;
 }
 
 export interface IMultiSelectDropdownOptions {
@@ -35,20 +37,20 @@ export interface IMultiSelectDropdown {
 	/** (required) The error state for the dropdown */
 	errorState?: EValidationState;
 	/** (optional) The text to display as help text  */
-	helpText?: string;
+	helpText?: string | string[];
 	/** (optional) If `true` the dropdown is disabled */
 	disabled?: boolean;
 	/** (required) The text to display when there are no options */
 	noDataAvailableLabel?: string;
 	/** (optional) The object with the dropdown options */
 	options?: IMultiSelectDropdownOptions;
-	/** (optional) The array of selected options */
-	selectedOptions?: string[] | number[];
+	/** (optional) The object with indexed by the dropdown labels and its selected value */
+	selectedOptions?: { [key: string]: boolean };
 }
 
 export interface IMultiSelectDropdownEvents {
 	/** Emitted when the selected options change */
-	optionsSelected: EventEmitter<string[] | number[]>;
+	optionsSelected: EventEmitter<{ [key: string]: boolean }>;
 	/** Emitted when the search term changes */
 	searchChange: EventEmitter<string>;
 	/** Emitted when the selection is cleared */

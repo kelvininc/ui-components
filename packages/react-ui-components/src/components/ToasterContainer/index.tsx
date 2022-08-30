@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { PropsWithChildren, useCallback, useState } from 'react';
 import ReactDOM from 'react-dom';
 import type { IToaster, JSX } from '@kelvininc/ui-components';
 
@@ -38,10 +38,15 @@ export function useToaster(initialConfig: IToaster, initialState = false): IToas
 	};
 }
 
-export function ToasterContainer({ rootId = DEFAULT_ROOT_ID, isOpen, ...otherProps }: ToasterContainerProps) {
+export function ToasterContainer({ rootId = DEFAULT_ROOT_ID, isOpen, children, ...otherProps }: PropsWithChildren<ToasterContainerProps>) {
 	if (!isOpen) {
 		return null;
 	}
 
-	return ReactDOM.createPortal(<KvToaster ttl={DEFAULT_TOASTER_TTL} {...otherProps} />, document.getElementById(rootId) as Element);
+	return ReactDOM.createPortal(
+		<KvToaster ttl={DEFAULT_TOASTER_TTL} {...otherProps}>
+			{children}
+		</KvToaster>,
+		document.getElementById(rootId) as Element
+	);
 }

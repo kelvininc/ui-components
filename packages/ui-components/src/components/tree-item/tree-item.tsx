@@ -3,6 +3,9 @@ import { throttle, isNumber, isEmpty } from 'lodash-es';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { STATE_ICONS } from './tree-item.config';
 import { ETreeItemState } from './tree-item.types';
+import { EAnchorTarget, IAnchor } from '../../utils/types';
+import { DEFAULT_THROTTLE_WAIT } from '../../config';
+import { EBadgeState } from '../badge/badge.types';
 
 /**
  * @slot child-slot - Content is placed in the child subgroup and can be expanded and collapsed.
@@ -15,7 +18,7 @@ import { ETreeItemState } from './tree-item.types';
 	},
 	shadow: true
 })
-export class KvTreeItem {
+export class KvTreeItem implements IAnchor {
 	/** (optional) Defines the title of the tree item.*/
 	@Prop({ reflect: true }) label?: string;
 	/** (optional) Defines the sub-title of the tree item, displayed under the title.*/
@@ -29,7 +32,7 @@ export class KvTreeItem {
 	/** (optional) Defines the counter info of the tree item. If set, an badge will be displayed in the end of tree item.*/
 	@Prop({ reflect: true }) counter?: number;
 	/** (optional) Defines the state of the counter.*/
-	@Prop({ reflect: true }) counterState?: ETreeItemState;
+	@Prop({ reflect: true }) counterState?: EBadgeState;
 	/** (optional) Defines whether the tree node has children, even if currently no other tree nodes are slotted inside.
 	 * This property is useful for showing big tree structures where not all nodes are initially loaded due to performance reasons.
 	 * Set this to <code>true</code> for nodes you intend to load lazily, when the user clicks the expand button.
@@ -46,6 +49,14 @@ export class KvTreeItem {
 	@Prop({ reflect: true }) highlighted? = false;
 	/** (optional) Defines whether the tree node is loading. */
 	@Prop({ reflect: true }) loading? = false;
+	/** (optional) Defines if the item click event should prevent default behaviour. */
+	@Prop({ reflect: true }) preventDefault? = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) href?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) target?: EAnchorTarget;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) download?: string;
 
 	/** Emitted when the expand toggle is clicked */
 	@Event() toggleExpand: EventEmitter<MouseEvent>;
@@ -79,8 +90,16 @@ export class KvTreeItem {
 	}
 
 	connectedCallback() {
-		this.toggleClickThrottler = throttle((event: MouseEvent) => this.toggleExpand.emit(event), 300);
-		this.itemClickThrottler = throttle((event: MouseEvent) => this.itemClick.emit(event), 300);
+		this.toggleClickThrottler = throttle((event: MouseEvent) => this.toggleExpand.emit(event), DEFAULT_THROTTLE_WAIT);
+		this.itemClickThrottler = throttle((event: MouseEvent) => this.itemClick.emit(event), DEFAULT_THROTTLE_WAIT);
+	}
+
+	private onItemClick(event: MouseEvent) {
+		if (this.preventDefault) {
+			event.preventDefault();
+		}
+
+		this.itemClickThrottler(event);
 	}
 
 	render() {
@@ -104,20 +123,23 @@ export class KvTreeItem {
 									</div>
 								)}
 
-								<div
+								<a
 									class={{
 										'node-content-wrapper': true,
 										'disabled': this.disabled,
 										'selected': this.selected,
 										'no-filled': isEmpty(this.label) && !isEmpty(this.placeholder)
 									}}
-									onClick={!this.disabled && this.itemClickThrottler}
+									download={this.download}
+									href={this.href}
+									target={this.target}
+									onClick={!this.disabled && this.onItemClick.bind(this)}
 								>
 									{this.icon && (
 										<div class="node-icon">
-											<kv-icon name={this.icon} customClass="icon-24" class="main-icon"></kv-icon>
+											<kv-icon name={this.icon} customClass="icon-24" class="main-icon" exportparts="icon"></kv-icon>
 											{this.iconState && (
-												<kv-icon name={STATE_ICONS[this.iconState]} customClass="icon-12" class={{ 'state-icon': true, [this.iconState]: true }}></kv-icon>
+												<kv-icon name={STATE_ICONS[this.iconState]} customClass="icon-12" class={{ 'state-icon': true, [this.iconState]: true }} />
 											)}
 										</div>
 									)}
@@ -131,12 +153,12 @@ export class KvTreeItem {
 
 									<div class="right-indicators">
 										{isNumber(this.counter) && this.counter >= 0 && (
-											<div class={{ 'alarm-bubble': true, [this.counterState]: true }}>
-												<span>{this.counter > 100 ? '+99' : this.counter}</span>
+											<div class="alarm-bubble">
+												<kv-badge state={this.counterState}>{this.counter > 100 ? '+99' : this.counter}</kv-badge>
 											</div>
 										)}
 									</div>
-								</div>
+								</a>
 							</Fragment>
 						)}
 						{this.loading && <div class="node-loading"></div>}

@@ -1,5 +1,5 @@
 import { EventEmitter } from '@stencil/core';
-import { EComponentSize } from '../../types';
+import { EComponentSize, ITooltip } from '../../types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 
 export enum EInputFieldType {
@@ -17,10 +17,8 @@ export enum EValidationState {
 }
 
 export interface ITextFieldEvents {
-	/** Emitted when text field's value changes */
-	textChange: EventEmitter<string>;
 	/** Emitted when a keyboard input occurred */
-	textInput: EventEmitter<string>;
+	textChange: EventEmitter<string>;
 	/** Emitted when text field lost focus */
 	textFieldBlur: EventEmitter<string>;
 }
@@ -34,6 +32,8 @@ export interface ITextField {
 	icon?: EIconName | EOtherIconName;
 	/** (optional) Text field input name */
 	inputName?: string;
+	/** (optional) Text field example values */
+	examples?: string[];
 	/** (optional) Text field place holder */
 	placeholder?: string;
 	/** (optional) Text field maximum number of characters required */
@@ -41,11 +41,11 @@ export interface ITextField {
 	/** (optional) Text field minimum number of characters required */
 	minLength?: number;
 	/** (optional) Text field maximum value */
-	max?: number | string;
+	max?: string | number;
 	/** (optional) Text field minimum value */
-	min?: number | string;
+	min?: string | number;
 	/** (optional) Text field interval between legal numbers */
-	step?: number | string;
+	step?: string | number;
 	/** (optional) Sets this tab item to a different styling configuration */
 	size: EComponentSize;
 	/** (optional) Text field disabled */
@@ -60,8 +60,10 @@ export interface ITextField {
 	helpText?: string | string[];
 	/** (optional) Text field value */
 	value?: string | number | null;
-	/** (optional) Text field is editable */
-	uneditable?: boolean;
+	/** (optional) Text field is readonly */
+	readonly?: boolean;
 	/** (optional) Text field focus state */
 	forcedFocus?: boolean;
+	/** (optional) Text field tooltip configuration */
+	tooltipConfig?: Partial<ITooltip>;
 }

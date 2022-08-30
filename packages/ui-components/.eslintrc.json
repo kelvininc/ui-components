@@ -16,5 +16,6 @@
 				"allowArrowFunctions": true
 			}
 		]
-	}
+	},
+	"ignorePatterns": ["**/__mocks__"]
 }

@@ -1,0 +1,7 @@
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+
+.error-list-container {
+	border-bottom: 1px solid kv-color('neutral-6');
+	padding: 0 $spacing-3x $spacing-3x $spacing-2x;
+	margin-bottom: $spacing-3x;
+}

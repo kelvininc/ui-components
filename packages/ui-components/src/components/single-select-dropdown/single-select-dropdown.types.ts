@@ -5,6 +5,8 @@ import { EValidationState } from '../text-field/text-field.types';
 export interface ISingleSelectDropdownOption {
 	label: string;
 	value: string;
+	disabled?: boolean;
+	group?: string;
 }
 
 export interface ISingleSelectDropdownOptions {
@@ -22,6 +24,8 @@ export interface ISingleSelectDropdown {
 	icon?: EIconName | EOtherIconName;
 	/** (optional) If `true` the dropdown is searchable */
 	searchable?: boolean;
+	/** (optional) The list search text field placeholder */
+	searchPlaceholder?: string;
 	/** (optional) If `true` dropdown requires a value to be selected */
 	required?: boolean;
 	/** (optional) The text to display on the dropdown label */
@@ -31,7 +35,7 @@ export interface ISingleSelectDropdown {
 	/** (required) The error state for the dropdown */
 	errorState?: EValidationState;
 	/** (optional) The text to display as help text  */
-	helpText?: string;
+	helpText?: string | string[];
 	/** (optional) If `true` the dropdown is disabled */
 	disabled?: boolean;
 	/** (required) The text to display when there are no options */

@@ -6,7 +6,7 @@ import { EIconName, KvSingleSelectDropdown } from '../../components';
 KvSingleSelectDropdown.displayName = 'KvSingleSelectDropdown';
 
 export default {
-	title: 'Inputs/Dropdown/Single Select Dropdown',
+	title: 'Inputs/Dropdown/Select/Single Select Dropdown',
 	component: 'kv-single-select-dropdown',
 	argTypes: {
 		isOpen: {
@@ -87,4 +87,45 @@ Default.args = {
 	label: 'Options',
 	placeholder: 'Select an option',
 	icon: EIconName.Layer
+};
+
+export const Groups = SingleSelectDropdownTemplate.bind({});
+Groups.args = {
+	options: {
+		'UTC-12': {
+			value: 'UTC-12',
+			label: '(UTC-12) Anywhere on Earth',
+			group: 'System Timezone - Default'
+		},
+		'UTC-01': {
+			value: 'UTC-01',
+			label: '(UTC-01) Azores Time',
+			group: 'Other timezones'
+		},
+		'UTC-05': {
+			value: 'UTC-05',
+			label: '(UTC-05) Ecuador Time',
+			group: 'Other timezones'
+		},
+		'UTC-11': {
+			value: 'UTC-11',
+			label: '(UTC-11) Samoa Standard Time',
+			group: 'Other timezones'
+		},
+		'eUTC-10': {
+			value: 'UTC-10',
+			label: '(UTC-10) Cook Islands Standard Time',
+			group: 'Other timezones'
+		},
+		'UTC-09': {
+			value: 'UTC-09',
+			label: '(UTC-09) Hawaii-Aleutian Standarc Time',
+			group: 'Other timezones'
+		}
+	},
+	selectedOption: 'UTC-12',
+	label: 'Timezone',
+	placeholder: 'Select a timezone',
+	icon: EIconName.Time,
+	searchable: true
 };

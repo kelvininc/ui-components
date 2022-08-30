@@ -1,7 +1,7 @@
-import { TooltipPosition } from '../tooltip/tooltip.types';
+import { ETooltipPosition } from '../../utils/types/components';
 
 export const COPY_TOOLTIP = {
-	copyTooltipLabel: 'Copy',
-	copyTooltipResultLabel: 'Copied!',
-	tooltipPosition: TooltipPosition.Top
+	label: 'Copy',
+	resultLabel: 'Copied!',
+	position: ETooltipPosition.Top
 };

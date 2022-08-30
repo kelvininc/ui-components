@@ -73,58 +73,63 @@ export class TextFieldExample {
 
 ## Properties
 
-| Property      | Attribute      | Description                                                        | Type                                                                                                                              | Default                 |
-| ------------- | -------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| `disabled`    | `disabled`     | (optional) Text field disabled                                     | `boolean`                                                                                                                         | `false`                 |
-| `forcedFocus` | `forced-focus` | (optional) Text field focus state                                  | `boolean`                                                                                                                         | `false`                 |
-| `helpText`    | `help-text`    | (optional) Text field help text                                    | `string \| string[]`                                                                                                              | `[]`                    |
-| `icon`        | `icon`         | (optional) Text field's icon symbol name                           | `EIconName \| EOtherIconName`                                                                                                     | `undefined`             |
-| `inputName`   | `input-name`   | (optional) Text field input name                                   | `string`                                                                                                                          | `undefined`             |
-| `label`       | `label`        | (optional) Text field label                                        | `string`                                                                                                                          | `undefined`             |
-| `loading`     | `loading`      | (optional) Text field loading state                                | `boolean`                                                                                                                         | `false`                 |
-| `max`         | `max`          | (optional) Text field maximum value                                | `number`                                                                                                                          | `undefined`             |
-| `maxLength`   | `max-length`   | (optional) Text field maximum number of characters required        | `number`                                                                                                                          | `undefined`             |
-| `min`         | `min`          | (optional) Text field minimum value                                | `number`                                                                                                                          | `undefined`             |
-| `minLength`   | `min-length`   | (optional) Text field minimum number of characters required        | `number`                                                                                                                          | `undefined`             |
-| `placeholder` | `placeholder`  | (optional) Text field place holder                                 | `string`                                                                                                                          | `undefined`             |
-| `required`    | `required`     | (optional) Text field required                                     | `boolean`                                                                                                                         | `false`                 |
-| `size`        | `size`         | (optional) Sets this tab item to a different styling configuration | `EComponentSize.Large \| EComponentSize.Small`                                                                                    | `EComponentSize.Large`  |
-| `state`       | `state`        | (optional) Text field state                                        | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid`                                                     | `EValidationState.None` |
-| `step`        | `step`         | (optional) Text field interval between legal numbers               | `number`                                                                                                                          | `undefined`             |
-| `type`        | `type`         | (optional) Text field type                                         | `EInputFieldType.DateTime \| EInputFieldType.Number \| EInputFieldType.Password \| EInputFieldType.Radio \| EInputFieldType.Text` | `EInputFieldType.Text`  |
-| `uneditable`  | `uneditable`   | (optional) Text field is editable                                  | `boolean`                                                                                                                         | `false`                 |
-| `value`       | `value`        | (optional) Text field value                                        | `number \| string`                                                                                                                | `''`                    |
+| Property        | Attribute      | Description                                                        | Type                                                                                                                              | Default                 |
+| --------------- | -------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| `disabled`      | `disabled`     | (optional) Text field disabled                                     | `boolean`                                                                                                                         | `false`                 |
+| `examples`      | --             | (optional) Text field example values                               | `string[]`                                                                                                                        | `undefined`             |
+| `forcedFocus`   | `forced-focus` | (optional) Text field focus state                                  | `boolean`                                                                                                                         | `false`                 |
+| `helpText`      | `help-text`    | (optional) Text field help text                                    | `string \| string[]`                                                                                                              | `[]`                    |
+| `icon`          | `icon`         | (optional) Text field's icon symbol name                           | `EIconName \| EOtherIconName`                                                                                                     | `undefined`             |
+| `inputName`     | `input-name`   | (optional) Text field input name                                   | `string`                                                                                                                          | `undefined`             |
+| `label`         | `label`        | (optional) Text field label                                        | `string`                                                                                                                          | `undefined`             |
+| `loading`       | `loading`      | (optional) Text field loading state                                | `boolean`                                                                                                                         | `false`                 |
+| `max`           | `max`          | (optional) Text field maximum value                                | `number \| string`                                                                                                                | `undefined`             |
+| `maxLength`     | `max-length`   | (optional) Text field maximum number of characters required        | `number`                                                                                                                          | `undefined`             |
+| `min`           | `min`          | (optional) Text field minimum value                                | `number \| string`                                                                                                                | `undefined`             |
+| `minLength`     | `min-length`   | (optional) Text field minimum number of characters required        | `number`                                                                                                                          | `undefined`             |
+| `placeholder`   | `placeholder`  | (optional) Text field place holder                                 | `string`                                                                                                                          | `undefined`             |
+| `readonly`      | `readonly`     | (optional) Text field is readonly                                  | `boolean`                                                                                                                         | `false`                 |
+| `required`      | `required`     | (optional) Text field required                                     | `boolean`                                                                                                                         | `false`                 |
+| `size`          | `size`         | (optional) Sets this tab item to a different styling configuration | `EComponentSize.Large \| EComponentSize.Small`                                                                                    | `EComponentSize.Large`  |
+| `state`         | `state`        | (optional) Text field state                                        | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid`                                                     | `EValidationState.None` |
+| `step`          | `step`         | (optional) Text field interval between legal numbers               | `number \| string`                                                                                                                | `undefined`             |
+| `tooltipConfig` | --             | (optional) Text field tooltip configuration                        | `{ text?: string; position?: ETooltipPosition; options?: Partial<ComputePositionConfig>; }`                                       | `undefined`             |
+| `type`          | `type`         | (optional) Text field type                                         | `EInputFieldType.DateTime \| EInputFieldType.Number \| EInputFieldType.Password \| EInputFieldType.Radio \| EInputFieldType.Text` | `EInputFieldType.Text`  |
+| `value`         | `value`        | (optional) Text field value                                        | `number \| string`                                                                                                                | `''`                    |
 
 
 ## Events
 
-| Event           | Description                             | Type                  |
-| --------------- | --------------------------------------- | --------------------- |
-| `textChange`    | Emitted when text field's value changes | `CustomEvent<string>` |
-| `textFieldBlur` | Emitted when text field lost focus      | `CustomEvent<string>` |
-| `textInput`     | Emitted when a keyboard input occurred  | `CustomEvent<string>` |
+| Event           | Description                            | Type                  |
+| --------------- | -------------------------------------- | --------------------- |
+| `textChange`    | Emitted when a keyboard input occurred | `CustomEvent<string>` |
+| `textFieldBlur` | Emitted when text field lost focus     | `CustomEvent<string>` |
 
 
 ## CSS Custom Properties
 
-| Name                             | Description                              |
-| -------------------------------- | ---------------------------------------- |
-| `--background-color-default`     | Background color when state is default.  |
-| `--background-color-disabled`    | Background color when state is disabled. |
-| `--border-color-default`         | Border color when state is default.      |
-| `--border-color-error`           | Border color when state is invalid.      |
-| `--border-color-focused`         | Border color when state is focused.      |
-| `--input-height-large`           | Text Field's large height.               |
-| `--input-height-small`           | Text Field's small height.               |
-| `--right-slot-width`             | right slot width.                        |
-| `--text-color-help-text-default` | Help Text color when state is default.   |
-| `--text-color-help-text-error`   | Help Text color when state is invalid.   |
-| `--text-color-icon-default`      | Icon color when state is default.        |
-| `--text-color-icon-disabled`     | Icon color when state is disabled.       |
-| `--text-color-input-default`     | Input Text color when state is default.  |
-| `--text-color-input-disabled`    | Input Text color when state is disabled. |
-| `--text-color-input-focused`     | Input Text color when state is focused.  |
-| `--text-color-label`             | Label Text color.                        |
+| Name                                | Description                                    |
+| ----------------------------------- | ---------------------------------------------- |
+| `--background-color-default`        | Background color when state is default.        |
+| `--background-color-disabled`       | Background color when state is disabled.       |
+| `--border-color-default`            | Border color when state is default.            |
+| `--border-color-error`              | Border color when state is invalid.            |
+| `--border-color-focused`            | Border color when state is focused.            |
+| `--input-height-large`              | Text Field's large height.                     |
+| `--input-height-small`              | Text Field's small height.                     |
+| `--input-width`                     | Text Field's width.                            |
+| `--right-slot-width`                | right slot width.                              |
+| `--text-color-help-text-default`    | Help Text color when state is default.         |
+| `--text-color-help-text-error`      | Help Text color when state is invalid.         |
+| `--text-color-icon-default`         | Icon color when state is default.              |
+| `--text-color-icon-disabled`        | Icon color when state is disabled.             |
+| `--text-color-input-default`        | Input text color when state is default.        |
+| `--text-color-input-disabled`       | Input text color when state is disabled.       |
+| `--text-color-input-focused`        | Input Text color when state is focused.        |
+| `--text-color-label`                | Label Text color.                              |
+| `--text-color-placeholder-default`  | Placeholder text color when state is default.  |
+| `--text-color-placeholder-disabled` | Placeholder text color when state is disabled. |
+| `--text-color-placeholder-focused`  | Placeholder text color when state is focused.  |
 
 
 ## Dependencies
@@ -132,17 +137,26 @@ export class TextFieldExample {
 ### Used by
 
  - [kv-dropdown](../dropdown)
+ - [kv-range-dates-select-dropdown](../range-dates-select-dropdown)
  - [kv-search](../search)
 
 ### Depends on
 
+- [kv-tooltip](../tooltip)
+- [kv-form-label](../form-label)
 - [kv-icon](../icon)
+- [kv-form-help-text](../form-help-text)
 
 ### Graph
 ```mermaid
 graph TD;
+  kv-text-field --> kv-tooltip
+  kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
+  kv-text-field --> kv-form-help-text
+  kv-form-help-text --> kv-icon
   kv-dropdown --> kv-text-field
+  kv-range-dates-select-dropdown --> kv-text-field
   kv-search --> kv-text-field
   style kv-text-field fill:#f9f,stroke:#333,stroke-width:4px
 ```

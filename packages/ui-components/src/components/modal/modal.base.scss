@@ -1,0 +1,98 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	* @prop --modal-height: The modal's height in px.
+	* @prop --modal-width: The modal's width in px.
+	* @prop --modal-header-height: The modal's header height in px.
+	* @prop --modal-footer-height: The modal's footer height in px.
+	* @prop --modal-overlay-z-index: The modal's overlay z-index css property value.
+	* @prop --modal-body-z-index: The modal's body z-index css property value.
+	* @prop --modal-backdrop-color: The modal's backdrop/overlay color.
+	* @prop --modal-background-color: The modal's background color.
+	* @prop --modal-title-text-color: The modal's text header color.
+	* @prop --modal-close-button-width: The modal's close button width
+	* @prop --modal-close-button-height: The modal's close button height
+	*/
+	--modal-height: fit-content;
+	--modal-width: fit-content;
+	--modal-header-height: 60px;
+	--modal-footer-height: unset;
+	--modal-overlay-z-index: 0;
+	--modal-body-z-index: 1;
+	--modal-backdrop-color: #{kv-color('background', 'step-1')};
+	--modal-background-color: #{kv-color('background')};
+	--modal-title-text-color: #{kv-color('kv-text')};
+	--modal-close-button-width: 20px;
+	--modal-close-button-height: 20px;
+}
+
+.modal-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: var(--modal-overlay-z-index);
+	background: var(--modal-backdrop-color);
+}
+
+.modal-container {
+	position: absolute;
+	overflow: auto;
+	outline: none;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	width: var(--modal-width);
+	height: var(--modal-height);
+	min-width: 400px;
+	min-height: 235px;
+	border-radius: 10px;
+	background-color: var(--modal-background-color);
+	display: flex;
+	flex-direction: column;
+	z-index: var(--modal-body-z-index);
+
+	.top-bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 $spacing-4x;
+		height: var(--modal-header-height);
+
+		.title {
+			@include kv-font-label-small-uppercase-bold;
+			color: var(--modal-title-text-color);
+		}
+
+		.actions {
+			display: inline-flex;
+			align-items: center;
+		}
+	}
+
+	.content {
+		display: flex;
+		flex-direction: column;
+
+		.footer {
+			flex-shrink: 0;
+		}
+	}
+
+	.close {
+		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		user-select: none;
+		pointer-events: all;
+		margin-left: $spacing-3x;
+
+		kv-icon {
+			--icon-width: var(--modal-close-button-width);
+			--icon-height: var(--modal-close-button-height);
+			--icon-color: #{kv-color('neutral-4')};
+		}
+	}
+}

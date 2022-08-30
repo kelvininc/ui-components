@@ -6,16 +6,26 @@ $tab-height: 34px;
 	/**
 	 * @prop --tab-list-bg-color: Background color of the list
 	 * @prop --tab-list-indicator-color: Tab indicator bar color
+	 * @prop --tab-list-divider-color: Tab divider bar color
 	 *
 	*/
 	--tab-list-bg-color: 'transparent';
 	--tab-list-indicator-color: #{kv-color('primary')};
+	--tab-list-divider-color: #{kv-color('neutral-5')};
 
 	position: relative;
 	height: $tab-height;
-	overflow-x: auto;
+	width: 100%;
 	display: flex;
 	background-color: var(--tab-list-bg-color);
+
+	&::before {
+		content: '';
+		width: 100%;
+		position: absolute;
+		bottom: 0;
+		border-bottom: 1px solid var(--tab-list-divider-color);
+	}
 
 	.selected-tab-indicator {
 		height: 2px;

@@ -1,8 +1,11 @@
 import { Component, Element, Event, EventEmitter, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
-import { isEmpty } from 'lodash-es';
+import { isEmpty, isNil, merge } from 'lodash-es';
+import Inputmask from 'inputmask';
 import { EComponentSize } from '../../utils/types';
 import { EInputFieldType, EValidationState, ITextFieldEvents, ITextField } from './text-field.types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { DEFAULT_TEXT_TOOLTIP_CONFIG, NUMERIC_TEXT_INPUT_MASK_CONFIG } from './text-field.config';
+import { ITooltip } from '../tooltip/tooltip.types';
 
 @Component({
 	tag: 'kv-text-field',
@@ -21,6 +24,8 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) examples?: string[];
+	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) inputName?: string;
@@ -31,11 +36,11 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minLength?: number;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) max?: number;
+	@Prop({ reflect: true }) max?: string | number;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) min?: number;
+	@Prop({ reflect: true }) min?: string | number;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) step?: number;
+	@Prop({ reflect: true }) step?: string | number;
 	/** @inheritdoc */
 	@Prop() size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
@@ -47,11 +52,13 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) state: EValidationState = EValidationState.None;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) uneditable: boolean = false;
+	@Prop({ reflect: true }) readonly: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) helpText: string | string[] = [];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) forcedFocus: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) tooltipConfig?: Partial<ITooltip>;
 	/** @inheritdoc */
 	@Prop({ reflect: true, mutable: true }) value?: string | number | null = '';
 	/** Watch `value` property for changes and update native input element accordingly */
@@ -73,7 +80,6 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 			 */
 			nativeInput.value = value;
 		}
-		this.textChange.emit(this.getValue());
 	}
 
 	/** Internal help texts state */
@@ -99,22 +105,30 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		this.focused = this.forcedFocus;
 	}
 
+	componentDidLoad() {
+		if (this.type === EInputFieldType.Number) {
+			return Inputmask({
+				...NUMERIC_TEXT_INPUT_MASK_CONFIG,
+				min: this.min,
+				max: this.max
+			}).mask(this.nativeInput);
+		}
+	}
+
 	/** Text field focus state */
 	@State() focused = false;
 
 	/** @inheritdoc */
 	@Event() textChange: EventEmitter<string>;
 	/** @inheritdoc */
-	@Event() textInput: EventEmitter<string>;
-	/** @inheritdoc */
 	@Event() textFieldBlur: EventEmitter<string>;
 
 	private onInputHandler = ({ target }: InputEvent) => {
 		const input = target as HTMLInputElement | null;
-		if (input) {
+		if (!isNil(input)) {
 			this.value = input.value || '';
 		}
-		this.textInput.emit(this.getValue());
+		this.textChange.emit(this.getValue());
 	};
 
 	private onBlurHandler = ({ target }: FocusEvent) => {
@@ -136,85 +150,94 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	}
 
 	private get hasRightSlot() {
-		return !!this.el.querySelector('[slot="right-slot"]');
+		return !isNil(this.el.querySelector('[slot="right-slot"]'));
 	}
 
 	private getValue(): string {
 		return typeof this.value === 'number' ? this.value.toString() : (this.value || '').toString();
 	}
 
+	private getType(): string {
+		return this.type === EInputFieldType.Number ? EInputFieldType.Text : this.type;
+	}
+
+	private getTooltipConfig = (): Partial<ITooltip> => {
+		return merge({}, DEFAULT_TEXT_TOOLTIP_CONFIG, this.tooltipConfig ?? {});
+	};
+
 	render() {
+		const id = this.el.getAttribute('id');
 		const value = this.getValue();
-		const hasLabel = !isEmpty(this.label);
-		const shouldShowLabel = this.required || hasLabel;
+		const type = this.getType();
 
 		return (
 			<Host>
-				<div class="text-field-container">
-					{shouldShowLabel && (
-						<div class="label-container">
-							{this.required && <span class="required">*</span>}
-							{this.label && <span class="label">{this.label}</span>}
-						</div>
-					)}
-					<div
-						class={{
-							'input-container': true,
-							[`input-container--size-${this.size}`]: true
-						}}
-					>
-						{!this.loading && (
-							<Fragment>
-								<input
-									ref={input => (this.nativeInput = input)}
-									type={this.type}
-									name={this.inputName}
-									placeholder={this.placeholder}
-									disabled={this.disabled}
-									max={this.max}
-									min={this.min}
-									maxLength={this.maxLength}
-									minLength={this.minLength}
-									step={this.step}
-									value={value}
-									onInput={this.onInputHandler}
-									onBlur={this.onBlurHandler}
-									onFocus={this.onFocusHandler}
-									class={{
-										'invalid': this.state === EValidationState.Invalid,
-										'has-icon': !isEmpty(this.icon),
-										'slotted': this.hasRightSlot,
-										'forced-focus': this.focused
-									}}
-									readonly={this.uneditable}
-								/>
-								{this.icon && (
-									<kv-icon
-										name={this.icon}
-										exportparts="icon"
+				<kv-tooltip {...this.getTooltipConfig()}>
+					<div class="text-field-container">
+						<kv-form-label label={this.label} required={this.required}></kv-form-label>
+						<div
+							class={{
+								'input-container': true,
+								[`input-container--size-${this.size}`]: true
+							}}
+						>
+							{!this.loading && (
+								<Fragment>
+									<input
+										id={id}
+										ref={input => (this.nativeInput = input)}
+										type={type}
+										list={!isNil(this.examples) ? `examples_${id}` : undefined}
+										name={this.inputName}
+										placeholder={this.placeholder}
+										disabled={this.disabled}
+										max={this.max}
+										min={this.min}
+										maxLength={this.maxLength}
+										minLength={this.minLength}
+										step={this.step}
+										value={value}
+										onInput={this.onInputHandler}
+										onBlur={this.onBlurHandler}
+										onFocus={this.onFocusHandler}
 										class={{
-											invalid: this.state === EValidationState.Invalid,
-											disabled: this.disabled,
-											focus: this.focused
+											'invalid': this.state === EValidationState.Invalid,
+											'has-icon': !isEmpty(this.icon),
+											'slotted': this.hasRightSlot,
+											'forced-focus': this.focused
 										}}
+										readonly={this.readonly}
 									/>
-								)}
-								<div class={{ 'right-slot-container': true, 'focus': this.focused }}>
-									<slot name="right-slot"></slot>
-								</div>
-							</Fragment>
-						)}
-						{this.loading && <div class="input-container-loading"></div>}
-					</div>
-					{!isEmpty(this._helpTexts) && (
-						<div class={{ 'help-text-container': true, 'invalid': this.state === EValidationState.Invalid }}>
-							{this.state === EValidationState.Invalid && <kv-icon name={EIconName.Error} customClass="icon-16"></kv-icon>}
-							{this._helpTexts.map(msg => (
-								<span class="help-text">{msg}</span>
-							))}
+									{this.icon && (
+										<kv-icon
+											name={this.icon}
+											exportparts="icon"
+											class={{
+												invalid: this.state === EValidationState.Invalid,
+												disabled: this.disabled,
+												focus: this.focused
+											}}
+										/>
+									)}
+									{this.hasRightSlot && (
+										<div class={{ 'right-slot-container': true, 'focus': this.focused }}>
+											<slot name="right-slot"></slot>
+										</div>
+									)}
+								</Fragment>
+							)}
+							{this.loading && <div class="input-container-loading"></div>}
 						</div>
-					)}
-				</div>
+						<kv-form-help-text helpText={this._helpTexts} state={this.state}></kv-form-help-text>
+					</div>
+					{!isEmpty(this.examples) ? (
+						<datalist id={`examples_${id}`}>
+							{this.examples.map(example => (
+								<option key={example} value={example}></option>
+							))}
+						</datalist>
+					) : null}
+				</kv-tooltip>
 			</Host>
 		);
 	}

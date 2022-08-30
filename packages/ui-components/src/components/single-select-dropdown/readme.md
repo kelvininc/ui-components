@@ -1,6 +1,4 @@
-# *<kv-single-select-dropdown>*
-
-
+# _<kv-single-select-dropdown>_
 
 <!-- Auto Generated Below -->
 
@@ -48,7 +46,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | `disabled`             | `disabled`                | (optional) If `true` the dropdown is disabled                 | `boolean`                                                                     | `false`                                    |
 | `displayValue`         | `display-value`           | (optional) The text to display on the dropdown                | `string`                                                                      | `undefined`                                |
 | `errorState`           | `error-state`             | (required) The error state for the dropdown                   | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid` | `EValidationState.None`                    |
-| `helpText`             | `help-text`               | (optional) The text to display as help text                   | `string`                                                                      | `undefined`                                |
+| `helpText`             | `help-text`               | (optional) The text to display as help text                   | `string \| string[]`                                                          | `[]`                                       |
 | `icon`                 | `icon`                    | (optional) The icon to display on the dropdown                | `EIconName \| EOtherIconName`                                                 | `undefined`                                |
 | `isOpen`               | `is-open`                 | (optional) If `true` the list is opened                       | `boolean`                                                                     | `false`                                    |
 | `label`                | `label`                   | (optional) The text to display on the dropdown label          | `string`                                                                      | `undefined`                                |
@@ -57,6 +55,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | `options`              | --                        | (optional) The object with the dropdown options               | `ISingleSelectDropdownOptions`                                                | `{}`                                       |
 | `placeholder`          | `placeholder`             | (optional) The text to display as the dropdown placeholder    | `string`                                                                      | `undefined`                                |
 | `required`             | `required`                | (optional) If `true` dropdown requires a value to be selected | `boolean`                                                                     | `false`                                    |
+| `searchPlaceholder`    | `search-placeholder`      | (optional) The list search text field placeholder             | `string`                                                                      | `undefined`                                |
 | `searchable`           | `searchable`              | (optional) If `true` the dropdown is searchable               | `boolean`                                                                     | `false`                                    |
 | `selectedOption`       | `selected-option`         | (optional) The value of the selected option                   | `string`                                                                      | `undefined`                                |
 
@@ -69,6 +68,13 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | `searchChange`   | Emitted when the search term changes    | `CustomEvent<string>` |
 
 
+## Shadow Parts
+
+| Part       | Description                  |
+| ---------- | ---------------------------- |
+| `"option"` | The select option container. |
+
+
 ## CSS Custom Properties
 
 | Name                    | Description                   |
@@ -78,25 +84,37 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 
 ## Dependencies
 
+### Used by
+
+ - [kv-calendar-advanced-date-selector](../calendar-advanced-date-selector)
+
 ### Depends on
 
+- [kv-select-group](../select-group)
+- [kv-select-option](../select-option)
 - [kv-dropdown](../dropdown)
-- [kv-dropdown-list](../dropdown-list)
-- [kv-dropdown-list-item](../dropdown-list-item)
+- [kv-select](../select)
 
 ### Graph
 ```mermaid
 graph TD;
+  kv-single-select-dropdown --> kv-select-group
+  kv-single-select-dropdown --> kv-select-option
   kv-single-select-dropdown --> kv-dropdown
-  kv-single-select-dropdown --> kv-dropdown-list
-  kv-single-select-dropdown --> kv-dropdown-list-item
+  kv-single-select-dropdown --> kv-select
+  kv-select-option --> kv-icon
+  kv-dropdown --> kv-dropdown-base
   kv-dropdown --> kv-text-field
   kv-dropdown --> kv-icon
+  kv-text-field --> kv-tooltip
+  kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
-  kv-dropdown-list --> kv-search
+  kv-text-field --> kv-form-help-text
+  kv-form-help-text --> kv-icon
+  kv-select --> kv-search
   kv-search --> kv-text-field
   kv-search --> kv-icon
-  kv-dropdown-list-item --> kv-icon
+  kv-calendar-advanced-date-selector --> kv-single-select-dropdown
   style kv-single-select-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

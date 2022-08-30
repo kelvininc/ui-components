@@ -1,0 +1,62 @@
+@import '../../assets/styles/globals';
+
+@mixin badge-state-theme($state) {
+	$badge-text-color: var(--badge-text-color-#{$state});
+	$badge-background-color: var(--badge-background-color-#{$state});
+
+	color: $badge-text-color;
+	background-color: $badge-background-color;
+}
+
+:host {
+	/**
+	 * @prop --badge-width: Badge's width.
+	 * @prop --badge-height: Badge's height.
+	 * @prop --badge-background-color-none: Badge's background color when state is none.
+	 * @prop --badge-background-color-info: Badge's background color when state is info.
+	 * @prop --badge-background-color-warning: Badge's background color when state is warning.
+	 * @prop --badge-background-color-error: Badge's background color when state is error.
+	 * @prop --badge-background-color-success: Badge's background color when state is success.
+	 * @prop --badge-warning-text-color: Badge's text color when state is warning.
+	 * @prop --badge-text-color-none: Badge's text color when state is none.
+	 * @prop --badge-text-color-info: Badge's text color when state is info.
+	 * @prop --badge-text-color-warning: Badge's text color when state is warning.
+	 * @prop --badge-text-color-error: Badge's text color when state is error.
+	 * @prop --badge-text-color-success: Badge's text color when state is success.
+	 */
+
+	--badge-width: 16px;
+	--badge-height: 16px;
+}
+
+.badge {
+	@include kv-font-label-xsmall-regular;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	width: var(--badge-width);
+	height: var(--badge-height);
+
+	border-radius: 100%;
+
+	&--state-none {
+		@include badge-state-theme(none);
+	}
+
+	&--state-info {
+		@include badge-state-theme(info);
+	}
+
+	&--state-warning {
+		@include badge-state-theme(warning);
+	}
+
+	&--state-error {
+		@include badge-state-theme(error);
+	}
+
+	&--state-success {
+		@include badge-state-theme(success);
+	}
+}

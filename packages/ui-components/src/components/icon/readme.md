@@ -1,7 +1,5 @@
 # kv-icon
 
-
-
 <!-- Auto Generated Below -->
 
 
@@ -78,9 +76,12 @@ export const SvgIconExample: React.FC = () => (
  - [kv-action-button-split](../action-button-split)
  - [kv-action-button-text](../action-button-text)
  - [kv-dropdown](../dropdown)
- - [kv-dropdown-list-item](../dropdown-list-item)
+ - [kv-form-help-text](../form-help-text)
  - [kv-info-label](../info-label)
+ - [kv-modal](../modal)
+ - [kv-range-dates-select-dropdown](../range-dates-select-dropdown)
  - [kv-search](../search)
+ - [kv-select-option](../select-option)
  - [kv-switch-button](../switch-button)
  - [kv-text-field](../text-field)
  - [kv-toaster](../toaster)
@@ -93,9 +94,12 @@ graph TD;
   kv-action-button-split --> kv-icon
   kv-action-button-text --> kv-icon
   kv-dropdown --> kv-icon
-  kv-dropdown-list-item --> kv-icon
+  kv-form-help-text --> kv-icon
   kv-info-label --> kv-icon
+  kv-modal --> kv-icon
+  kv-range-dates-select-dropdown --> kv-icon
   kv-search --> kv-icon
+  kv-select-option --> kv-icon
   kv-switch-button --> kv-icon
   kv-text-field --> kv-icon
   kv-toaster --> kv-icon

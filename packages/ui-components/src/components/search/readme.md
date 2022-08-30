@@ -60,16 +60,15 @@ export const SearchExample: React.FC = () => (
 | Event              | Description                              | Type                      |
 | ------------------ | ---------------------------------------- | ------------------------- |
 | `clickResetButton` | Emitted when the reset buccon is clicked | `CustomEvent<MouseEvent>` |
-| `textChange`       | Emitted when text field's value changes  | `CustomEvent<string>`     |
+| `textChange`       | Emitted when a keyboard input occurred   | `CustomEvent<string>`     |
 | `textFieldBlur`    | Emitted when text field lost focus       | `CustomEvent<string>`     |
-| `textInput`        | Emitted when a keyboard input occurred   | `CustomEvent<string>`     |
 
 
 ## Dependencies
 
 ### Used by
 
- - [kv-dropdown-list](../dropdown-list)
+ - [kv-select](../select)
 
 ### Depends on
 
@@ -81,8 +80,12 @@ export const SearchExample: React.FC = () => (
 graph TD;
   kv-search --> kv-text-field
   kv-search --> kv-icon
+  kv-text-field --> kv-tooltip
+  kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
-  kv-dropdown-list --> kv-search
+  kv-text-field --> kv-form-help-text
+  kv-form-help-text --> kv-icon
+  kv-select --> kv-search
   style kv-search fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

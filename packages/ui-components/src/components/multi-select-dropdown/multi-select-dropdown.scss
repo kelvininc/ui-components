@@ -5,18 +5,22 @@
 	 * @prop --dropdown-max-height: Dropdown list maximum height.
 	 */
 	--dropdown-max-height: auto;
- 
+
 	.no-data {
 		pointer-events: none;
 	}
-	
+
 	kv-dropdown {
 		&[disabled] {
 			pointer-events: none;
 		}
+
+		kv-select-group:not(:last-child)::part(group-container) {
+			margin-bottom: $spacing-2x;
+		}
 	}
 
-	kv-dropdown-list {
-		--dropdown-list-max-height: var(--dropdown-max-height);
+	kv-select {
+		--select-max-height: var(--dropdown-max-height);
 	}
 }

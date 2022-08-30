@@ -8,18 +8,16 @@ import { EComponentSize } from '../../utils/types';
 	shadow: true
 })
 export class KvTabList {
-	/** (required) The currently selected tab's key (unique identifier) */
-	@Prop() selectedTabKey!: number | string;
+	/** (optional) The currently selected tab's key (unique identifier) */
+	@Prop() selectedTabKey?: number | string;
 	/** (optional) Sets the items on this tab list to use a different styling configuration */
 	@Prop() size?: EComponentSize = EComponentSize.Large;
-
 	/** Watch for changes on  */
 	@Watch('size')
 	sizeChangeHandler() {
 		this.changeTabsSize();
 		this.calculateSelectionAnimationProperties();
 	}
-
 	/** Watch for tab selection change and react accordingly by updating the internal states */
 	@Watch('selectedTabKey')
 	tabSelectionChangeHandler() {
@@ -38,9 +36,7 @@ export class KvTabList {
 	private tabItems: HTMLKvTabItemElement[];
 
 	componentDidRender() {
-		this.tabItems = Array.from(this.el.querySelectorAll('kv-tab-item'));
-		this.changeTabsSize();
-		this.calculateSelectionAnimationProperties();
+		this.handleSlotChange();
 	}
 
 	private changeTabsSize() {
@@ -50,13 +46,19 @@ export class KvTabList {
 	private calculateSelectionAnimationProperties() {
 		const tabIndex = this.tabItems?.findIndex(tab => tab.tabKey === this.selectedTabKey);
 
-		if (gte(tabIndex, 0) && !isEmpty(this.tabItems)) {
+		if (gte(tabIndex, 0) && !isEmpty(this.tabItems) && !isEmpty(this.selectedTabKey)) {
 			const selectedTabEl = this.tabItems.find((_tabRef, index) => tabIndex === index);
-			const labelEl: HTMLElement = selectedTabEl.shadowRoot.querySelector('.label');
-			this.selectedTabIndicatorOffset = labelEl.offsetLeft;
-			this.selectedTabIndicatorWidth = labelEl.clientWidth / 2;
+			const itemTabContainerEl: HTMLElement = selectedTabEl.shadowRoot.querySelector('.tab-item-container');
+			this.selectedTabIndicatorOffset = itemTabContainerEl.offsetLeft;
+			this.selectedTabIndicatorWidth = itemTabContainerEl.clientWidth;
 		}
 	}
+
+	private handleSlotChange = () => {
+		this.tabItems = Array.from(this.el.querySelectorAll('kv-tab-item'));
+		this.changeTabsSize();
+		this.calculateSelectionAnimationProperties();
+	};
 
 	render() {
 		const tabIndicatorStyle = {
@@ -66,7 +68,7 @@ export class KvTabList {
 
 		return (
 			<Host>
-				<slot></slot>
+				<slot onSlotchange={this.handleSlotChange}></slot>
 				<div class="selected-tab-indicator" style={tabIndicatorStyle}></div>
 			</Host>
 		);

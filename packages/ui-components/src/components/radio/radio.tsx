@@ -1,9 +1,14 @@
-import { Component, Host, h, Prop, EventEmitter, Event, State, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, EventEmitter, Event, State, Watch, Listen } from '@stencil/core';
 import { throttle } from 'lodash-es';
+import { DEFAULT_THROTTLE_WAIT } from '../../config';
+import { EComponentSize } from '../../types';
 
 @Component({
 	tag: 'kv-radio',
-	styleUrl: 'radio.scss',
+	styleUrls: {
+		night: 'radio.night.scss',
+		light: 'radio.light.scss'
+	},
 	shadow: true
 })
 export class KvRadio {
@@ -28,6 +33,9 @@ export class KvRadio {
 	/** (optional) Adds a label aside the button */
 	@Prop({ reflect: true }) label?: string = '';
 
+	/** (optional) Sets this tab item to a different styling configuration */
+	@Prop() size: EComponentSize = EComponentSize.Large;
+
 	/** Internal checked / unchecked state */
 	@State() isChecked: boolean = this.checked;
 	/** Internal enabled / disabled state */
@@ -36,6 +44,15 @@ export class KvRadio {
 	/** Emits when there's a change in state internally */
 	@Event() checkedChange: EventEmitter<boolean>;
 
+	@Listen('keydown', {
+		passive: true
+	})
+	handleKeyDown(ev: KeyboardEvent) {
+		if (ev.code === 'Space') {
+			this.onCheck();
+		}
+	}
+
 	private clickThrottler: () => void;
 	private onCheck = () => {
 		this.isChecked = true;
@@ -43,7 +60,7 @@ export class KvRadio {
 	};
 
 	connectedCallback() {
-		this.clickThrottler = throttle(() => this.onCheck(), 300);
+		this.clickThrottler = throttle(() => this.onCheck(), DEFAULT_THROTTLE_WAIT);
 	}
 
 	render() {
@@ -52,12 +69,13 @@ export class KvRadio {
 				<div
 					class={{
 						'radio-container': true,
+						[`radio-container--size-${this.size}`]: true,
 						'checked': this.isChecked,
 						'disabled': this.isDisabled
 					}}
 					onClick={this.clickThrottler}
 				>
-					<div class="circle">
+					<div tabIndex={this.isChecked || this.isDisabled ? -1 : 0} class="circle">
 						<div class="checked-icon"></div>
 					</div>
 					{this.label && <span class="label">{this.label}</span>}

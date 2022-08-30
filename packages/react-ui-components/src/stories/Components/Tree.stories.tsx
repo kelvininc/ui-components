@@ -1,4 +1,4 @@
-import { EIconName, ETreeItemState, ITreeNodeItem } from '@kelvininc/ui-components';
+import { EIconName, ETreeItemState, ITreeNodeItem, EBadgeState } from '@kelvininc/ui-components';
 import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
 import { KvTree } from '../../components';
@@ -78,7 +78,7 @@ const nodes: ITreeNodeItem[] = [
 		icon: EIconName.AssetSStatus,
 		iconState: ETreeItemState.Error,
 		counter: 32,
-		counterState: ETreeItemState.Error
+		counterState: EBadgeState.Error
 	},
 	{
 		id: '3',

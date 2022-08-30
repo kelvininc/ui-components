@@ -28,7 +28,7 @@ $btn-text-colors: (
 	active: (
 		primary: kv-color('text'),
 		secondary: kv-color('text'),
-		tertiary: kv-color('text'),
+		tertiary: kv-color('neutral-2'),
 		danger: kv-color('text')
 	)
 );
@@ -58,42 +58,42 @@ $btn-background-colors: (
 		danger: kv-color('error', 'light')
 	),
 	active: (
-		primary: kv-color('primary'),
-		secondary: kv-color('neutral-6'),
+		primary: kv-color('primary', 'dark'),
+		secondary: kv-color('neutral-5'),
 		tertiary: transparent,
-		danger: kv-color('error')
+		danger: kv-color('error', 'dark')
 	)
 );
 $btn-border-colors: (
 	default: (
-		primary: null,
-		secondary: null,
+		primary: kv-color('primary'),
+		secondary: kv-color('neutral-6'),
 		tertiary: kv-color('neutral-0'),
-		danger: null
+		danger: kv-color('error')
 	),
 	hover: (
-		primary: null,
-		secondary: null,
+		primary: kv-color('primary', 'dark'),
+		secondary: kv-color('neutral-5'),
 		tertiary: kv-color('neutral-2'),
-		danger: null
+		danger: kv-color('error', 'dark')
 	),
 	focus: (
 		primary: kv-color('primary'),
 		secondary: kv-color('neutral-0'),
-		tertiary: null,
-		danger: null
+		tertiary: transparent,
+		danger: transparent
 	),
 	disabled: (
-		primary: null,
-		secondary: null,
+		primary: kv-color('neutral-3'),
+		secondary: kv-color('neutral-3'),
 		tertiary: kv-color('neutral-5'),
-		danger: null
+		danger:  kv-color('error', 'light')
 	),
 	active: (
-		primary: null,
-		secondary: null,
-		tertiary: kv-color('neutral-0'),
-		danger: null
+		primary: kv-color('primary', 'dark'),
+		secondary: kv-color('neutral-5'),
+		tertiary: kv-color('neutral-2'),
+		danger: kv-color('error', 'dark')
 	)
 );
 $btn-heights: (
@@ -191,8 +191,10 @@ $btn-paddings-x: (
 
 	background: linear-gradient(45deg, $btn-hover-background-color 50%, $btn-default-background-color 50%);
 	background-size: 350% 100%;
+	background-color: $btn-default-background-color;
 	background-position: right bottom;
-	transition: background-position 0.5s ease-out;
+	transition: background-position 0.5s ease-out, border-top-color 0.5s ease-out, border-right-color 0.5s ease-out, border-bottom-color 0.25s ease-in-out,
+		border-left-color 0.25s ease-in-out;
 
 	&:hover:not(.action-button--disabled) {
 		background-position: left top;
@@ -220,17 +222,20 @@ $btn-paddings-x: (
 	border: 1px solid $btn-default-border-color;
 
 	&:hover:not(.action-button--disabled) {
-		border: 1px solid $btn-hover-border-color;
+		border-top-color: $btn-hover-border-color;
+		border-right-color: $btn-hover-border-color;
+		border-bottom-color: $btn-hover-border-color;
+		border-left-color: $btn-hover-border-color;
 	}
 
 	&:focus:not(.action-button--disabled) {
 		&::before {
-			position: absolute;
 			content: '';
 			filter: blur(2px);
-			background: $btn-focus-border-color;
-			width: 100%;
-			height: 100%;
+			position: absolute;
+			z-index: -1;
+			inset: 0;
+			border: 1px solid $btn-focus-border-color;
 		}
 	}
 
@@ -374,6 +379,10 @@ $btn-paddings-x: (
 	--border-color-hover-secondary: #{get-border-color('hover', 'secondary')};
 	--border-color-hover-tertiary: #{get-border-color('hover', 'tertiary')};
 	--border-color-hover-danger: #{get-border-color('hover', 'danger')};
+	--border-color-focus-primary: #{get-border-color('focus', 'primary')};
+	--border-color-focus-secondary: #{get-border-color('focus', 'secondary')};
+	--border-color-focus-tertiary: #{get-border-color('focus', 'tertiary')};
+	--border-color-focus-danger: #{get-border-color('focus', 'danger')};
 	--border-color-disabled-primary: #{get-border-color('disabled', 'primary')};
 	--border-color-disabled-secondary: #{get-border-color('disabled', 'secondary')};
 	--border-color-disabled-tertiary: #{get-border-color('disabled', 'tertiary')};
@@ -400,6 +409,8 @@ $btn-paddings-x: (
 	align-items: center;
 
 	border-radius: 4px;
+
+	box-sizing: border-box;
 
 	&--type-primary {
 		@include button-type-theme('primary');

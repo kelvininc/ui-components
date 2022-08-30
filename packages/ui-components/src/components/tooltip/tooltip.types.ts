@@ -1,14 +1,11 @@
-export enum TooltipPosition {
-	Top = 'top',
-	TopEnd = 'top-end',
-	TopStart = 'top-start',
-	Right = 'right',
-	RightEnd = 'right-end',
-	RightStart = 'right-start',
-	Bottom = 'bottom',
-	BottomEnd = 'bottom-end',
-	BottomStart = 'bottom-start',
-	Left = 'left',
-	LeftEnd = 'left-end',
-	LeftStart = 'left-start'
+import { ComputePositionConfig } from '@floating-ui/dom';
+import { ETooltipPosition } from '../../types';
+
+export interface ITooltip {
+	/** (optional) Text of tooltip */
+	text: string;
+	/** (optional) Position of tooltip */
+	position?: ETooltipPosition;
+	/** (optional) Object with tooltip position options */
+	options?: Partial<ComputePositionConfig>;
 }

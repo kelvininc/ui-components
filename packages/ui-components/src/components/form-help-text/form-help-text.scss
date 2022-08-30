@@ -1,0 +1,52 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --help-text-default-color: Help Text color when state is default.
+	 * @prop --help-text-error-color: Help Text color when state is invalid.
+	 */
+
+	--help-text-default-color: #{kv-color('neutral-5')};
+	--help-text-error-color: #{kv-color('error')};
+}
+
+.help-text-container {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	overflow: hidden;
+	margin: $spacing 0 0 $spacing-2x;
+	color: var(--help-text-default-color);
+
+	.help-text {
+		@include kv-font-label-small-regular;
+
+		margin-right: $spacing;
+		color: var(--help-text-default-color);
+	}
+
+	span + span::before {
+		content: '•';
+		padding-right: $spacing;
+	}
+
+	kv-icon {
+		--icon-color: var(--help-text-default-color);
+
+		display: flex;
+		align-items: center;
+		margin-right: $spacing-2x;
+	}
+
+	&.invalid {
+		color: var(--help-text-error-color);
+
+		.help-text {
+			color: var(--help-text-error-color);
+		}
+
+		kv-icon {
+			--icon-color: var(--help-text-error-color);
+		}
+	}
+}

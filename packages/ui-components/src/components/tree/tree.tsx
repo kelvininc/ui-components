@@ -2,6 +2,9 @@ import { Component, Host, h, Prop, Event, EventEmitter, Fragment } from '@stenci
 import { get } from 'lodash-es';
 import { ITreeNodeItem } from './tree.types';
 
+/**
+ * @part tree-item - The tree item container.
+ */
 @Component({
 	tag: 'kv-tree',
 	styleUrl: 'tree.scss',
@@ -51,13 +54,19 @@ export class KvTree {
 								counter={item.counter}
 								counterState={item.counterState}
 								hasChildren={item.lazyLoadChildren}
+								href={item.href}
+								target={item.target}
+								download={item.download}
 								selected={this.selectedNode === item.id}
 								expanded={get(this.expandedNodes, [item.id], false)}
 								disabled={get(this.disabledNodes, [item.id], false)}
+								preventDefault={item.preventDefault}
 								highlighted={get(this.highlightedNodes, [item.id], false)}
 								loading={this.loading || get(this.loadingNodes, [item.id], false)}
 								onItemClick={_ => this.onItemClick(item)}
 								onToggleExpand={_ => this.onToggleExpand(item)}
+								part="tree-item"
+								exportparts="icon"
 							>
 								{item.children?.length > 0 && this.drawNodes(item.children)}
 							</kv-tree-item>
