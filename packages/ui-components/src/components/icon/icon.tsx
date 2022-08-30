@@ -25,7 +25,7 @@ export class KvIcon {
 	@Prop({ reflect: true }) customColor: string = '';
 
 	render() {
-		const { baseAssetsUrl } = getConfig();
+		const { baseAssetsUrl, symbolsFileName } = getConfig();
 
 		return (
 			<Host>
@@ -38,7 +38,7 @@ export class KvIcon {
 					}}
 					style={{ fill: this.customColor }}
 				>
-					<use href={`${baseAssetsUrl}svg-symbols.svg#${this.name}`}></use>
+					<use href={`${baseAssetsUrl}${symbolsFileName}#${this.name}`}></use>
 				</svg>
 			</Host>
 		);
