@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/kelvininc/ui-components/compare/v0.9.0...v0.10.0) (2022-08-30)
+
+
+* refactor(dropdown)!: rename `dropdown-list` to `select` ([42dd45b](https://github.com/kelvininc/ui-components/commit/42dd45b88b183550a39dd46f3c894a65acbc5297))
+
+
+### Features
+
+* add file checksum to file name for caching purposes [KMAPS-385] ([393a5d6](https://github.com/kelvininc/ui-components/commit/393a5d6ac839fd526728237a31a08fe5405511d4))
+* **advanced-date-input:** add advanced date input components ([2396f20](https://github.com/kelvininc/ui-components/commit/2396f200e10f080dbc91aa95e593682d5222aff1))
+* **badge:** add `kv-badge` component ([994b077](https://github.com/kelvininc/ui-components/commit/994b07719b51cf65885644ff1dc621808fe83605))
+* **calendar:** add calendar base, selector and dropdown components ([29b4428](https://github.com/kelvininc/ui-components/commit/29b4428ba715988422f906f5a75529aef7c30c7e))
+* **kv-schema-form:** add and integrate the react-jsonschema-form lib ([51e6044](https://github.com/kelvininc/ui-components/commit/51e60440f6b5cb95662ea8772203fdbd5e51aee1))
+* **modal:** add modal component ([c0cabe9](https://github.com/kelvininc/ui-components/commit/c0cabe9eb48296606fad5353b1590cefaf3f9ddb))
+* **range:** add new range component ([95de2a7](https://github.com/kelvininc/ui-components/commit/95de2a7d064b696272241f61d113f82464588f15))
+* **toggle-tip:** toggle tip component ([52a7a23](https://github.com/kelvininc/ui-components/commit/52a7a23960c527a76bef34636a08b144cf70f24d))
+
+
+### BREAKING CHANGES
+
+* **advanced-date-input:** - `kv-dropdown`: all `kv-text-field` related props are now passed though a `inputConfig` prop.
+- `kv-single-select-dropdown`: all `kv-text-field` related props are now passed though a `inputConfig` prop.
+- `kv-multi-select-dropdown`: all `kv-text-field` related props are now passed though a `inputConfig` prop.
+- `kv-tooltip`: the `allowed-positions` prop was removed and all position config are now passed though a `options` prop.
+* `dropdown-list` was renamed to `select` and `dropdown-list-item` was renamed to `select-option`
+
+
+
+
+
 # [0.9.0](https://github.com/kelvininc/ui-components/compare/v0.8.0...v0.9.0) (2022-06-28)
 
 

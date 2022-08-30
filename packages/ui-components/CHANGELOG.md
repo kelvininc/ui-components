@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/kelvininc/ui-components/compare/v0.9.0...v0.10.0) (2022-08-30)
+
+
+### Bug Fixes
+
+* **action button:** remove focus height & width 100% ([a483aa8](https://github.com/kelvininc/ui-components/commit/a483aa8864f8d8f4746cd84995851be213a89be8))
+* **action-button:** change box-sizing to border-box to include the border size in the defined height ([4c1a4b1](https://github.com/kelvininc/ui-components/commit/4c1a4b1ef3bdd4de5aa546733f2765dd506a14fe))
+* calculate tab selection animation ([f3b4824](https://github.com/kelvininc/ui-components/commit/f3b4824061995797d25ffeebaf7df8e16fc553fa))
+* **dropdown:** Add fallbackPlacements ([0f145c5](https://github.com/kelvininc/ui-components/commit/0f145c5b5cec6253ba8b227e940d6a74eac6e3ab))
+* **dropdown:** fix check for click outside fuction ([0b37eb1](https://github.com/kelvininc/ui-components/commit/0b37eb1e817087ad6131a1d7f5bd48a8c9195491))
+* **kv-dropdown:** allows to open dropdown list at the top if  there is no space available at the bottom ([a3f1386](https://github.com/kelvininc/ui-components/commit/a3f13863d788cacdd8b9c0d601512b624947ea93))
+* **kv-tab-list:** add bottom divider ([0e0b62e](https://github.com/kelvininc/ui-components/commit/0e0b62e325755145c64b6b904a0662fe92225b91))
+* move prevent defaults to outside throttler ([9629325](https://github.com/kelvininc/ui-components/commit/9629325506bb9a01167ea4fa079e2a2b2fe074c1))
+* **multi-select-dropdown:** emit new object with new selected options ([3a1613a](https://github.com/kelvininc/ui-components/commit/3a1613a053aa0f1f5a0b50847a0537c15dcf38bc))
+* **radio-button:** remove pointer-events when disabled ([f878d05](https://github.com/kelvininc/ui-components/commit/f878d055a01fc550c7e2b78b2aa9758e78420664))
+* **range-date-select-dropdown:** change `selectedRangeDates` state type ([f7a1fae](https://github.com/kelvininc/ui-components/commit/f7a1faec542f431855808ed154c6c102866462bb))
+* remove lint warnings ([#137](https://github.com/kelvininc/ui-components/issues/137)) ([a469238](https://github.com/kelvininc/ui-components/commit/a46923805222b8e565fd8761b443ef8291fc4890))
+* remove overflow from tab navigation ([39806f4](https://github.com/kelvininc/ui-components/commit/39806f411693747c2cacfd58ff04e66b57daf409))
+* **text-field:** add numeric input mask ([f8cde22](https://github.com/kelvininc/ui-components/commit/f8cde2282f266eae2d28d043bf7ebb972cfb3f3d))
+* **text-field:** add string type to min and max attributes ([00ce264](https://github.com/kelvininc/ui-components/commit/00ce2646117b4a9abbf9ed0b7709d883606b06dc))
+* **text-field:** change  event to be emitted only on keyboard input ([1170e22](https://github.com/kelvininc/ui-components/commit/1170e229f4eca5d26b3b8736c3f826f4c37b0656))
+* **tree-item:** export parts to enable icon css customization ([139318f](https://github.com/kelvininc/ui-components/commit/139318f94b3f2e19097ab225586eb6ade0f88017))
+* **ui-components:** fix action button border ([fd5c42d](https://github.com/kelvininc/ui-components/commit/fd5c42d31b584ae90068b7ab27b3174aa3604700))
+
+
+* feat(dropdown-group)!: add options groups to dropdown single and multi select ([f6d1bae](https://github.com/kelvininc/ui-components/commit/f6d1bae8931a5d74424156791c20542361bede8b))
+* refactor(dropdown)!: rename `dropdown-list` to `select` ([42dd45b](https://github.com/kelvininc/ui-components/commit/42dd45b88b183550a39dd46f3c894a65acbc5297))
+* feat(tooltip)!: add tooltip configs and change strategy to `fixed` ([8d03e3e](https://github.com/kelvininc/ui-components/commit/8d03e3e8571eb6e6e398d6202e976cbf77fa96d4))
+
+
+### Features
+
+* add file checksum to file name for caching purposes [KMAPS-385] ([393a5d6](https://github.com/kelvininc/ui-components/commit/393a5d6ac839fd526728237a31a08fe5405511d4))
+* add slots to toaster component ([1ed0529](https://github.com/kelvininc/ui-components/commit/1ed0529e3904238fd469ef1ae60c887748ab905b))
+* **advanced-date-input:** add advanced date input components ([2396f20](https://github.com/kelvininc/ui-components/commit/2396f200e10f080dbc91aa95e593682d5222aff1))
+* **badge:** add `kv-badge` component ([994b077](https://github.com/kelvininc/ui-components/commit/994b07719b51cf65885644ff1dc621808fe83605))
+* **breadcrumb-item:** enable breadcrumb label customization ([a52834e](https://github.com/kelvininc/ui-components/commit/a52834e665498a3044be32ca9b14d4139fe5f06c))
+* **calendar:** add calendar base, selector and dropdown components ([29b4428](https://github.com/kelvininc/ui-components/commit/29b4428ba715988422f906f5a75529aef7c30c7e))
+* **kv-schema-form:** add and integrate the react-jsonschema-form lib ([51e6044](https://github.com/kelvininc/ui-components/commit/51e60440f6b5cb95662ea8772203fdbd5e51aee1))
+* **modal:** add modal component ([c0cabe9](https://github.com/kelvininc/ui-components/commit/c0cabe9eb48296606fad5353b1590cefaf3f9ddb))
+* **radio-button:** add anchor attributes to radio button ([48ff38e](https://github.com/kelvininc/ui-components/commit/48ff38ef2c3e545d3ad112ec13bcdd03ce378e1b))
+* **range:** add new range component ([95de2a7](https://github.com/kelvininc/ui-components/commit/95de2a7d064b696272241f61d113f82464588f15))
+* **select-option:** add bottom slot for content ([3b83b1e](https://github.com/kelvininc/ui-components/commit/3b83b1e912f631655ef59ce62e230ea77a821ba7))
+* **toggle-tip:** toggle tip component ([52a7a23](https://github.com/kelvininc/ui-components/commit/52a7a23960c527a76bef34636a08b144cf70f24d))
+* **tree-item:** change tree-item to be an anchor element ([986b473](https://github.com/kelvininc/ui-components/commit/986b47318927307c7351b2d068a075ab67eb8401))
+* **tree:** add metadata property to type ITreeNodeItem and fixed hover styles ([7d73367](https://github.com/kelvininc/ui-components/commit/7d733675639c575646acf4042b92a6053d99270b))
+
+
+### BREAKING CHANGES
+
+* **advanced-date-input:** - `kv-dropdown`: all `kv-text-field` related props are now passed though a `inputConfig` prop.
+- `kv-single-select-dropdown`: all `kv-text-field` related props are now passed though a `inputConfig` prop.
+- `kv-multi-select-dropdown`: all `kv-text-field` related props are now passed though a `inputConfig` prop.
+- `kv-tooltip`: the `allowed-positions` prop was removed and all position config are now passed though a `options` prop.
+* In `kv-multi-select-dropdown` the `selectedOptions` props is now an object indexed by the option label.
+* `dropdown-list` was renamed to `select` and `dropdown-list-item` was renamed to `select-option`
+* `TooltipPosition` enum was renamed to `ETooltipPosition` for consistency reasons.
+
+
+
+
+
 # [0.9.0](https://github.com/kelvininc/ui-components/compare/v0.8.0...v0.9.0) (2022-06-28)
 
 
