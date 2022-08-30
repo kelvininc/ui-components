@@ -15,11 +15,11 @@
 }
 
 .radio-container {
-	width: 100%;
 	display: flex;
 	align-items: center;
 	cursor: pointer;
 	user-select: none;
+	width: fit-content;
 
 	&--size-large {
 		height: var(--input-height-large);
@@ -51,6 +51,7 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	flex-shrink: 0;
 
 	&:focus {
 		outline: none;
@@ -80,7 +81,6 @@
 	@include kv-font-span-regular();
 	@include ellipsis();
 
-	width: calc(100% - 24px);
 	color: var(--radio-label-text-color);
 	margin-left: $spacing-2x;
 }
