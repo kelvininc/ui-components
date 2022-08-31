@@ -153,6 +153,10 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		return !isNil(this.el.querySelector('[slot="right-slot"]'));
 	}
 
+	private get hasLeftSlot() {
+		return !isNil(this.el.querySelector('[slot="left-slot"]'));
+	}
+
 	private getValue(): string {
 		return typeof this.value === 'number' ? this.value.toString() : (this.value || '').toString();
 	}
@@ -203,21 +207,35 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										class={{
 											'invalid': this.state === EValidationState.Invalid,
 											'has-icon': !isEmpty(this.icon),
-											'slotted': this.hasRightSlot,
+											'left-slotted': this.hasLeftSlot,
+											'right-slotted': this.hasRightSlot,
 											'forced-focus': this.focused
 										}}
 										readonly={this.readonly}
 									/>
-									{this.icon && (
-										<kv-icon
-											name={this.icon}
-											exportparts="icon"
+									{(this.hasLeftSlot || this.icon) && (
+										<div
 											class={{
-												invalid: this.state === EValidationState.Invalid,
-												disabled: this.disabled,
-												focus: this.focused
+												'left-slot-container': true,
+												'focus': this.focused,
+												'invalid': this.state === EValidationState.Invalid,
+												'disabled': this.disabled
 											}}
-										/>
+										>
+											<slot name="left-slot">
+												{this.icon && (
+													<kv-icon
+														name={this.icon}
+														exportparts="icon"
+														class={{
+															invalid: this.state === EValidationState.Invalid,
+															disabled: this.disabled,
+															focus: this.focused
+														}}
+													/>
+												)}
+											</slot>
+										</div>
 									)}
 									{this.hasRightSlot && (
 										<div class={{ 'right-slot-container': true, 'focus': this.focused }}>

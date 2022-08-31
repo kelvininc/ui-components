@@ -118,7 +118,10 @@ export class TextFieldExample {
 | `--input-height-large`              | Text Field's large height.                     |
 | `--input-height-small`              | Text Field's small height.                     |
 | `--input-width`                     | Text Field's width.                            |
-| `--right-slot-width`                | right slot width.                              |
+| `--left-slot-padding-left`          | left slot left padding.                        |
+| `--left-slot-padding-top`           | left slot top padding.                         |
+| `--right-slot-padding-right`        | right slot padding.                            |
+| `--right-slot-width`                | right slot width                               |
 | `--text-color-help-text-default`    | Help Text color when state is default.         |
 | `--text-color-help-text-error`      | Help Text color when state is invalid.         |
 | `--text-color-icon-default`         | Icon color when state is default.              |

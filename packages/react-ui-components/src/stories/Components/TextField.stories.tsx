@@ -33,6 +33,11 @@ export default {
 };
 
 const TextFieldTemplate: ComponentStory<typeof KvTextField> = args => <KvTextField {...args} />;
+const TextFieldLeftSlotTemplate: ComponentStory<typeof KvTextField> = args => (
+	<KvTextField {...args}>
+		<span slot="left-slot">$</span>
+	</KvTextField>
+);
 
 export const Default = TextFieldTemplate.bind({});
 Default.args = {
@@ -141,4 +146,15 @@ SlimIcon.args = {
 	size: EComponentSize.Small,
 	state: EValidationState.None,
 	icon: EIconName.Layer
+};
+
+export const WithLeftSlot = TextFieldLeftSlotTemplate.bind({});
+WithLeftSlot.args = {
+	label: 'Left Slot Text Field',
+	disabled: false,
+	required: false,
+	loading: false,
+	placeholder: 'text here',
+	state: EValidationState.None,
+	size: EComponentSize.Large
 };
