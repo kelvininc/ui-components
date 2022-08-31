@@ -73,7 +73,7 @@ export class KvInfoLabel {
 		const tooltip: HTMLKvTooltipElement = this.el.shadowRoot.querySelector('kv-tooltip');
 		const tooltipText = tooltip.shadowRoot.querySelector('#tooltip') as HTMLElement;
 		if (await clipboardHelper.copyTextToClipboard(this.copyValue)) {
-			tooltipText.innerText = this.tooltipConfig.copyTooltipResultLabel;
+			tooltipText.innerText = this.tooltipConfig.resultLabel;
 		} else {
 			console.error('Copy to clipboard failed');
 		}
@@ -105,7 +105,7 @@ export class KvInfoLabel {
 							<div class="description">
 								{this.description && <div class="text">{this.description}</div>}
 								{this.copyValue && (
-									<kv-tooltip text={this.tooltipConfig.copyTooltipLabel} position={this.tooltipConfig.tooltipPosition}>
+									<kv-tooltip text={this.tooltipConfig.label} position={this.tooltipConfig.position}>
 										<kv-icon class="copy-icon" name={EIconName.Copy} onClick={this.onClickCopyAction} />
 									</kv-tooltip>
 								)}

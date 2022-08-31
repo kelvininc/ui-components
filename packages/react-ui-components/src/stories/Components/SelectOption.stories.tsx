@@ -33,8 +33,8 @@ export default {
 const SelectOptionTemplate: ComponentStory<typeof KvSelectOption> = args => <KvSelectOption {...args}></KvSelectOption>;
 const BottomSlotSelectOptionTemplate: ComponentStory<typeof KvSelectOption> = args => {
 	const cssProps = {
-		'--select-item-height': 'unset',
-		'--select-item-flex-alignment': 'flex-start'
+		'--select-option-height': 'unset',
+		'--select-option-flex-alignment': 'flex-start'
 	} as CSSProperties;
 
 	return (

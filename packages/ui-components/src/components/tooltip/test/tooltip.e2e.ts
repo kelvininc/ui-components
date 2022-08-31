@@ -19,6 +19,20 @@ describe('Tooltip (end-to-end)', () => {
 		});
 	});
 
+	describe('when it renders without text', () => {
+		beforeEach(async () => {
+			page = await newE2EPage();
+			await page.setContent('<kv-tooltip></kv-tooltip>');
+		});
+
+		it('should render not render the container', async () => {
+			const component = await page.find('kv-tooltip');
+			expect(component).toBeTruthy();
+			const textComponent = await page.find('kv-tooltip >>> .tooltip-container');
+			expect(textComponent).toBeFalsy();
+		});
+	});
+
 	describe('when it renders with position setted', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();

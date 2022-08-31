@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, h, Host, Prop, Watch } from '@stencil/core';
-import { formatDate, fromISOToMoment, getDatesBetweenRange, isDateBefore, isDateSame, isDateValid } from '../../utils/date.helper';
+import { formatDateTime, fromISO, getDatesBetweenRange, isDateBefore, isDateSame, isDateValid } from '../../utils/date.helper';
 import { IClickDateEvent, SelectedRange } from '../calendar/calendar.types';
 import { ICalendarRangeDatesSelector, ICalendarRangeDatesSelectorEvents, ISelectRangeDates } from './calendar-range-dates-selector.types';
 
@@ -42,25 +42,29 @@ export class KvCalendarRangeDatesSelector implements ICalendarRangeDatesSelector
 	}
 
 	componentWillLoad() {
-		this.validateRangeDates(this.selectedRangeDates);
+		this.validateRangeDates(this.getSelectedRangeDates());
 	}
 
+	private getSelectedRangeDates = (): SelectedRange => {
+		return this.selectedRangeDates ?? [];
+	};
+
 	private onClickDate = ({ detail: { event, payload: date } }: CustomEvent<IClickDateEvent>): void => {
-		const clickedDateMoment = fromISOToMoment(date);
+		const clickedDate = fromISO(date).startOf('day');
 
 		const [selectedStartDate, selectedEndDate] = this.getSelectedRangeDates();
 
 		// check if start date is not selected
-		if (selectedStartDate === undefined) {
-			this.selectRangeDates.emit({ event, payload: [formatDate(clickedDateMoment)] });
+		if (!selectedStartDate) {
+			this.selectRangeDates.emit({ event, payload: [formatDateTime(clickedDate.startOf('day'))] });
 			return;
 		}
 
 		// check if clicked date is the same as the selected date
-		if (isDateSame(clickedDateMoment, selectedStartDate)) {
+		if (isDateSame(clickedDate, selectedStartDate)) {
 			// check if end date is not selected
-			if (selectedEndDate === undefined) {
-				this.selectRangeDates.emit({ event, payload: [formatDate(clickedDateMoment), formatDate(clickedDateMoment)] });
+			if (!selectedEndDate) {
+				this.selectRangeDates.emit({ event, payload: [formatDateTime(clickedDate.startOf('day')), formatDateTime(clickedDate.endOf('day'))] });
 				return;
 			}
 
@@ -72,21 +76,21 @@ export class KvCalendarRangeDatesSelector implements ICalendarRangeDatesSelector
 		if (selectedEndDate !== undefined) {
 			// reset end date and set
 			// start date to the clicked date
-			this.selectRangeDates.emit({ event, payload: [formatDate(clickedDateMoment)] });
+			this.selectRangeDates.emit({ event, payload: [formatDateTime(clickedDate.startOf('day'))] });
 			return;
 		}
 
 		// check if clicked day is before the start date
-		if (isDateBefore(clickedDateMoment, selectedStartDate)) {
+		if (isDateBefore(clickedDate, selectedStartDate)) {
 			// reset end date and set
 			// start date to clicked date
-			this.selectRangeDates.emit({ event, payload: [formatDate(clickedDateMoment)] });
+			this.selectRangeDates.emit({ event, payload: [formatDateTime(clickedDate.startOf('day'))] });
 			return;
 		}
 
 		// the clicked date is after the clicked date
 		// set end date to the clicked day
-		this.selectRangeDates.emit({ event, payload: [formatDate(selectedStartDate), formatDate(clickedDateMoment)] });
+		this.selectRangeDates.emit({ event, payload: [formatDateTime(fromISO(selectedStartDate).startOf('day')), formatDateTime(clickedDate.endOf('day'))] });
 		return;
 	};
 
@@ -103,8 +107,6 @@ export class KvCalendarRangeDatesSelector implements ICalendarRangeDatesSelector
 
 		return getDatesBetweenRange(selectedStartDate, selectedEndDate);
 	};
-
-	private getSelectedRangeDates = () => this.selectedRangeDates ?? [];
 
 	render() {
 		const [selectedStartDate] = this.getSelectedRangeDates();

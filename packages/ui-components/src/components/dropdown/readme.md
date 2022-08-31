@@ -1,6 +1,4 @@
-# *<kv-dropdown>*
-
-
+# _<kv-dropdown>_
 
 <!-- Auto Generated Below -->
 
@@ -92,19 +90,13 @@ export class KvDropdownExample {
 
 ## Properties
 
-| Property      | Attribute     | Description                                                       | Type                                                                                                                                                                 | Default                        |
-| ------------- | ------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
-| `disabled`    | `disabled`    | (optional) If `true` the dropdown is disabled                     | `boolean`                                                                                                                                                            | `undefined`                    |
-| `errorState`  | `error-state` | (required) The error state for the dropdown                       | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid`                                                                                        | `EValidationState.None`        |
-| `helpText`    | `help-text`   | (optional) The text to display as help text                       | `string \| string[]`                                                                                                                                                 | `[]`                           |
-| `icon`        | `icon`        | (optional) The icon to display on the dropdown                    | `EIconName \| EOtherIconName`                                                                                                                                        | `undefined`                    |
-| `isOpen`      | `is-open`     | (optional) If `true` the list is opened                           | `boolean`                                                                                                                                                            | `false`                        |
-| `label`       | `label`       | (optional) The text to display on the dropdown label              | `string`                                                                                                                                                             | `undefined`                    |
-| `loading`     | `loading`     | (optional) If `true` the dropdown is loading                      | `boolean`                                                                                                                                                            | `false`                        |
-| `placeholder` | `placeholder` | (optional) The text to display as the dropdown placeholder        | `string`                                                                                                                                                             | `DROPDOWN_DEFAULT_PLACEHOLDER` |
-| `placement`   | `placement`   | (optional) The dropdown placement relative to the container       | `"bottom" \| "bottom-end" \| "bottom-start" \| "left" \| "left-end" \| "left-start" \| "right" \| "right-end" \| "right-start" \| "top" \| "top-end" \| "top-start"` | `'bottom'`                     |
-| `required`    | `required`    | (optional) If `true` the dropdown requires a value to be selected | `boolean`                                                                                                                                                            | `undefined`                    |
-| `value`       | `value`       | (optional) The text to display on the dropdown                    | `string`                                                                                                                                                             | `undefined`                    |
+| Property        | Attribute | Description                                           | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Default     |
+| --------------- | --------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `actionElement` | --        | (optional) A reference to the dropdown action element | `HTMLElement`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | `null`      |
+| `inputConfig`   | --        | (optional) The text field options                     | `{ type?: EInputFieldType; label?: string; icon?: EIconName \| EOtherIconName; inputName?: string; examples?: string[]; placeholder?: string; maxLength?: number; minLength?: number; max?: string \| number; min?: string \| number; step?: string \| number; size?: EComponentSize; disabled?: boolean; required?: boolean; loading?: boolean; state?: EValidationState; helpText?: string \| string[]; value?: string \| number; readonly?: boolean; forcedFocus?: boolean; tooltipConfig?: Partial<ITooltip>; }` | `{}`        |
+| `isOpen`        | `is-open` | (optional) If `true` the list is opened               | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | `false`     |
+| `listElement`   | --        | (optional) A reference to the dropdown list element   | `HTMLElement`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | `null`      |
+| `options`       | --        | (optional) The dropdown position config options       | `{ platform?: Platform; placement?: Placement; strategy?: Strategy; middleware?: Middleware[]; }`                                                                                                                                                                                                                                                                                                                                                                                                                    | `undefined` |
 
 
 ## Events
@@ -114,10 +106,31 @@ export class KvDropdownExample {
 | `openStateChange` | Emitted when the dropdown opens state changes | `CustomEvent<boolean>` |
 
 
+## Methods
+
+### `onToggleOpenState() => Promise<void>`
+
+Toogles the dropdown open state
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+
+## Shadow Parts
+
+| Part      | Description          |
+| --------- | -------------------- |
+| `"input"` | The input container. |
+
+
 ## Dependencies
 
 ### Used by
 
+ - [kv-advanced-date-select-dropdown](../advanced-date-select-dropdown)
  - [kv-multi-select-dropdown](../multi-select-dropdown)
  - [kv-single-date-select-dropdown](../single-date-select-dropdown)
  - [kv-single-select-dropdown](../single-select-dropdown)
@@ -134,10 +147,12 @@ graph TD;
   kv-dropdown --> kv-dropdown-base
   kv-dropdown --> kv-text-field
   kv-dropdown --> kv-icon
+  kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
   kv-text-field --> kv-form-help-text
   kv-form-help-text --> kv-icon
+  kv-advanced-date-select-dropdown --> kv-dropdown
   kv-multi-select-dropdown --> kv-dropdown
   kv-single-date-select-dropdown --> kv-dropdown
   kv-single-select-dropdown --> kv-dropdown

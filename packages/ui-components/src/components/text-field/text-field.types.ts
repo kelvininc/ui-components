@@ -1,5 +1,5 @@
 import { EventEmitter } from '@stencil/core';
-import { EComponentSize } from '../../types';
+import { EComponentSize, ITooltip } from '../../types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 
 export enum EInputFieldType {
@@ -60,8 +60,10 @@ export interface ITextField {
 	helpText?: string | string[];
 	/** (optional) Text field value */
 	value?: string | number | null;
-	/** (optional) Text field is editable */
-	uneditable?: boolean;
+	/** (optional) Text field is readonly */
+	readonly?: boolean;
 	/** (optional) Text field focus state */
 	forcedFocus?: boolean;
+	/** (optional) Text field tooltip configuration */
+	tooltipConfig?: Partial<ITooltip>;
 }

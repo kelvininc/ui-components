@@ -80,6 +80,7 @@ export const SearchExample: React.FC = () => (
 graph TD;
   kv-search --> kv-text-field
   kv-search --> kv-icon
+  kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
   kv-text-field --> kv-form-help-text
