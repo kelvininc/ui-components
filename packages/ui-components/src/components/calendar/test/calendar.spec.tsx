@@ -1,19 +1,16 @@
 import { h, SpecPage } from '@stencil/core/internal';
 import { newSpecPage } from '@stencil/core/testing';
 import { KvCalendar } from '../calendar';
-import { getDateMonth, getDateYear } from '../../../utils/date.helper';
 
 describe('Calendar (unit tests)', () => {
 	let page: SpecPage;
 	let component: KvCalendar;
 
 	describe('when uses default props', () => {
-		const now = new Date();
-
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvCalendar],
-				html: '<kv-calendar></kv-calendar>'
+				template: () => <kv-calendar initialDate="2022-08-01"></kv-calendar>
 			});
 			component = page.rootInstance;
 		});
@@ -22,9 +19,9 @@ describe('Calendar (unit tests)', () => {
 			expect(page.root).toMatchSnapshot();
 		});
 
-		it('should initialize `month` and `year` to todays', () => {
-			const expectedTodayMonth = getDateMonth(now);
-			const expectedTodayYear = getDateYear(now);
+		it('should initialize `month` and `year` correctly', () => {
+			const expectedTodayMonth = 8;
+			const expectedTodayYear = 2022;
 
 			expect(component.month).toBe(expectedTodayMonth);
 			expect(component.year).toBe(expectedTodayYear);
@@ -36,7 +33,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-05', '2022-04-06', '2022-04-07']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06', '2022-08-07']}></kv-calendar>
 				});
 				component = page.rootInstance;
 			});
@@ -51,7 +48,7 @@ describe('Calendar (unit tests)', () => {
 				await expect(
 					newSpecPage({
 						components: [KvCalendar],
-						template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-05', 'invalid-date', '2022-04-07']}></kv-calendar>
+						template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', 'invalid-date', '2022-08-07']}></kv-calendar>
 					})
 				).rejects.toThrow('Selected date should be an array with valid dates');
 			});
@@ -63,7 +60,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					html: '<kv-calendar initial-date="2022-04-01"></<kv-calendar>'
+					html: '<kv-calendar initial-date="2022-08-01"></kv-calendar>'
 				});
 				component = page.rootInstance;
 			});
@@ -73,7 +70,7 @@ describe('Calendar (unit tests)', () => {
 			});
 
 			it('should initialize `month` and `year` to the initial date', () => {
-				const expectedTodayMonth = 4;
+				const expectedTodayMonth = 8;
 				const expectedTodayYear = 2022;
 
 				expect(component.month).toBe(expectedTodayMonth);
@@ -86,7 +83,7 @@ describe('Calendar (unit tests)', () => {
 				await expect(
 					newSpecPage({
 						components: [KvCalendar],
-						html: '<kv-calendar initial-date="not-a-valid-initial-date"></<kv-calendar>'
+						html: '<kv-calendar initial-date="not-a-valid-initial-date"></kv-calendar>'
 					})
 				).rejects.toThrow('Initial date should be a valid date');
 			});
@@ -98,7 +95,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" disabledDates={['2022-04-05', '2022-04-06', '2022-04-07']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" disabledDates={['2022-08-05', '2022-08-06', '2022-08-07']}></kv-calendar>
 				});
 				component = page.rootInstance;
 			});
@@ -113,7 +110,7 @@ describe('Calendar (unit tests)', () => {
 				await expect(
 					newSpecPage({
 						components: [KvCalendar],
-						template: () => <kv-calendar initialDate="2022-04-01" disabledDates={['2022-04-05', 'invalid-date', '2022-04-07']}></kv-calendar>
+						template: () => <kv-calendar initialDate="2022-08-01" disabledDates={['2022-08-05', 'invalid-date', '2022-08-07']}></kv-calendar>
 					})
 				).rejects.toThrow('Disabled dates should be an array with valid dates');
 			});
@@ -125,7 +122,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					html: '<kv-calendar min-date="2022-04-01"></<kv-calendar>'
+					html: '<kv-calendar initial-date="2022-08-1" min-date="2022-04-01"></kv-calendar>'
 				});
 				component = page.rootInstance;
 			});
@@ -140,7 +137,7 @@ describe('Calendar (unit tests)', () => {
 				await expect(
 					newSpecPage({
 						components: [KvCalendar],
-						html: '<kv-calendar min-date="not-a-valid-initial-date"></<kv-calendar>'
+						html: '<kv-calendar min-date="not-a-valid-initial-date"></kv-calendar>'
 					})
 				).rejects.toThrow('Min date should be a valid date');
 			});
@@ -152,7 +149,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					html: '<kv-calendar max-date="2022-04-01"></<kv-calendar>'
+					html: '<kv-calendar initial-date="2022-08-01" max-date="2022-04-01"></kv-calendar>'
 				});
 				component = page.rootInstance;
 			});
@@ -167,7 +164,7 @@ describe('Calendar (unit tests)', () => {
 				await expect(
 					newSpecPage({
 						components: [KvCalendar],
-						html: '<kv-calendar max-date="not-a-valid-initial-date"></<kv-calendar>'
+						html: '<kv-calendar max-date="not-a-valid-initial-date"></kv-calendar>'
 					})
 				).rejects.toThrow('Max date should be a valid date');
 			});
@@ -181,7 +178,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" disabledDates={['2022-04-05']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" disabledDates={['2022-08-05']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayDisabled(5);
@@ -198,7 +195,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" minDate="2022-04-05"></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" minDate="2022-08-05"></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayDisabled(4);
@@ -215,7 +212,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" maxDate="2022-04-05"></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" maxDate="2022-08-05"></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayDisabled(6);
@@ -232,7 +229,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" minDate="2022-04-04" disabledDates={['2022-04-05']} maxDate="2022-04-07"></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" minDate="2022-08-04" disabledDates={['2022-08-05']} maxDate="2022-08-07"></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayDisabled(6);
@@ -251,7 +248,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-05']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayActive(5);
@@ -268,7 +265,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-06']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-06']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayActive(5);
@@ -284,7 +281,7 @@ describe('Calendar (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvCalendar],
-				template: () => <kv-calendar initialDate="2022-04-01"></kv-calendar>
+				template: () => <kv-calendar initialDate="2022-08-01"></kv-calendar>
 			});
 			component = page.rootInstance;
 			component.onMouseEnter(5);
@@ -299,7 +296,7 @@ describe('Calendar (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvCalendar],
-				template: () => <kv-calendar initialDate="2022-04-01"></kv-calendar>
+				template: () => <kv-calendar initialDate="2022-08-01"></kv-calendar>
 			});
 			component = page.rootInstance;
 			component.onMouseEnter(5);
@@ -318,7 +315,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" selectedDates={[]}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={[]}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.getSelectedRange();
@@ -335,14 +332,14 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-05']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.getSelectedRange();
 			});
 
 			it('should return an array with only the selected date', () => {
-				expect(result).toEqual(['2022-04-05']);
+				expect(result).toEqual(['2022-08-05']);
 			});
 		});
 
@@ -352,14 +349,14 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-05', '2022-04-06', '2022-04-07']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06', '2022-08-07']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.getSelectedRange();
 			});
 
 			it('should return an array with the first and last element of the selected dates array', () => {
-				expect(result).toEqual(['2022-04-05', '2022-04-07']);
+				expect(result).toEqual(['2022-08-05', '2022-08-07']);
 			});
 		});
 	});
@@ -371,7 +368,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" disabledDates={['2022-04-05']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" disabledDates={['2022-08-05']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayInRange(5);
@@ -388,7 +385,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01"></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01"></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayInRange(5);
@@ -405,7 +402,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-05']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayInRange(5);
@@ -422,7 +419,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-05', '2022-04-06', '2022-04-07']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06', '2022-08-07']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				component.hoveredDay = 9;
@@ -440,7 +437,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-05']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				component.hoveredDay = 9;
@@ -458,7 +455,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-05']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				component.hoveredDay = 9;
@@ -478,7 +475,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01"></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01"></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isSelectedStartDay(5);
@@ -495,7 +492,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-05', '2022-04-06']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isSelectedStartDay(6);
@@ -512,7 +509,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-05', '2022-04-06']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isSelectedStartDay(5);
@@ -531,7 +528,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01"></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01"></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isSelectedEndDay(5);
@@ -549,7 +546,7 @@ describe('Calendar (unit tests)', () => {
 				beforeEach(async () => {
 					page = await newSpecPage({
 						components: [KvCalendar],
-						template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-05']}></kv-calendar>
+						template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-calendar>
 					});
 					component = page.rootInstance;
 					result = component.isSelectedEndDay(6);
@@ -566,7 +563,7 @@ describe('Calendar (unit tests)', () => {
 				beforeEach(async () => {
 					page = await newSpecPage({
 						components: [KvCalendar],
-						template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-05']}></kv-calendar>
+						template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-calendar>
 					});
 					component = page.rootInstance;
 					result = component.isSelectedEndDay(5);
@@ -584,7 +581,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-05', '2022-04-06']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isSelectedEndDay(5);
@@ -601,7 +598,7 @@ describe('Calendar (unit tests)', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
 					components: [KvCalendar],
-					template: () => <kv-calendar initialDate="2022-04-01" selectedDates={['2022-04-05', '2022-04-06']}></kv-calendar>
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isSelectedEndDay(6);
