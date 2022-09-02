@@ -28,8 +28,7 @@ function getFileChecksum(path) {
 }
 
 getFileChecksum(SYMBOLS_FILE_PATH).then((hash) => {
-	const [timestamp] = new Date().toISOString().split(".");
-	const file = `symbols.${timestamp}.${hash}.svg`;
+	const file = `symbols.${hash}.svg`;
 	const destination = `${ASSETS_DIR}/${file}`;
 
 	fse.copySync(SYMBOLS_FILE_PATH, destination, { overwrite: true }, (err) => {
