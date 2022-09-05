@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash-es';
 import { RelativeTimeOption, SelectedRange } from '../../types';
-import { formatDateTime, fromDatesRangeKey } from '../../utils/date.helper';
+import { formatDateTime, formatForTimezone, fromDatesRangeKey } from '../../utils/date.helper';
 import { DEFAULT_RELATIVE_TIME_OPTIONS } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.config';
 import { getDatesRangeFromRelativeOption } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.helper';
 import { ICalendarAdvanceSelectedTime, ECalendarAdvanceTimeType } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.types';
@@ -26,19 +26,23 @@ export const isAbsoluteTimeSelected = (time: ICalendarAdvanceSelectedTime | unde
 	return false;
 };
 
-export const getTimeRange = (time: ICalendarAdvanceSelectedTime | undefined, relativeTimeOptions: RelativeTimeOption[] = DEFAULT_RELATIVE_TIME_OPTIONS): SelectedRange => {
+export const getTimeRange = (
+	time: ICalendarAdvanceSelectedTime | undefined,
+	relativeTimeOptions: RelativeTimeOption[] = DEFAULT_RELATIVE_TIME_OPTIONS,
+	timezone: string
+): SelectedRange => {
 	if (time === undefined) {
 		return [];
 	}
 
 	if (time.type === ECalendarAdvanceTimeType.Relative) {
-		return getDatesRangeFromRelativeOption(time.key as string | undefined, relativeTimeOptions);
+		return getDatesRangeFromRelativeOption(time.key as string | undefined, relativeTimeOptions, timezone);
 	}
 
 	if (time.type === ECalendarAdvanceTimeType.Absolute) {
-		const [startDate, endDate] = fromDatesRangeKey(time.key) as SelectedRange;
+		const [startDate, endDate] = fromDatesRangeKey(time.key);
 
-		return [startDate, endDate];
+		return [startDate, endDate].map(date => formatForTimezone(timezone, date)) as SelectedRange;
 	}
 };
 

@@ -7,12 +7,12 @@ import { TIMEZONES } from './configs/date.config';
 KvCalendarAdvancedDateSelector.displayName = 'KvCalendarAdvancedDateSelector';
 
 export default {
-	title: 'Calendar/AdvanceSelector',
+	title: 'Calendar/AdvancedSelector',
 	component: 'kv-advanced-date-selector',
 	argTypes: {
 		timezone: {
 			type: 'select',
-			options: { arg: 'timezones' }
+			options: TIMEZONES
 		},
 		timezones: {
 			type: 'array',

@@ -1,11 +1,9 @@
-export const searchString = (searchTerm: string | undefined, searchOptions: string[]): string[] => {
+export const searchString = <T extends { label: string }>(searchTerm: string | undefined, searchOptions: T[]): T[] => {
 	if (!searchTerm || searchTerm.length <= 0) {
 		return searchOptions;
 	}
 
 	// filter by search
 	const lowerCaseSearchTerm = searchTerm.toLowerCase();
-	const filteredOptions = searchOptions.filter(option => option.toLowerCase().includes(lowerCaseSearchTerm));
-
-	return filteredOptions;
+	return searchOptions.filter(option => option.label.toLowerCase().includes(lowerCaseSearchTerm));
 };

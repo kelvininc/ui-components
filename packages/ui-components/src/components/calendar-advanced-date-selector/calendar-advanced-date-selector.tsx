@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, h, Host, Prop, State } from '@stencil/core';
+import { Component, Event, EventEmitter, h, Host, Prop, State, Watch } from '@stencil/core';
 import { merge } from 'lodash-es';
 import {
 	ISelectRangeDates,
@@ -6,7 +6,8 @@ import {
 	ICalendarAdvanceAbsoluteTimeConfig,
 	ICalendarAdvanceRelativeTimeConfig,
 	RelativeTimeOption,
-	SelectedRange
+	SelectedRange,
+	ISingleSelectDropdownOptions
 } from '../../types';
 import { fromDatesRangeKey, getDatesRangeKey, getDefaultTimezone, getTimezonesNames } from '../../utils/date.helper';
 import { searchString } from '../../utils/search.helper';
@@ -19,13 +20,19 @@ import {
 	TIMEZONES_SEARCH_LABEL,
 	TIMEZONES_SEARCH_PLACEHOLDER
 } from './calendar-advanced-date-selector.config';
-import { buildAbsoluteTimeStartPlaceholderWhenRelativeSelected, buildTimezonesDropdownOptions, getDatesRangeFromRelativeOption } from './calendar-advanced-date-selector.helper';
+import {
+	buildAbsoluteTimeStartPlaceholderWhenRelativeSelected,
+	buildTimezoneByOffset,
+	buildTimezonesDropdownOptions,
+	getDatesRangeFromRelativeOption
+} from './calendar-advanced-date-selector.helper';
 import {
 	ICalendarAdvancedDateSelector,
 	ICalendarAdvancedDateSelectorEvents,
 	ICalendarAdvanceSelectedTime,
 	ICalendarAdvanceTime,
-	IInputConfig
+	IInputConfig,
+	ITimezoneOffset
 } from './calendar-advanced-date-selector.types';
 
 /**
@@ -49,6 +56,8 @@ export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSele
 	@Prop({ reflect: false }) timezones?: string[] = getTimezonesNames();
 
 	@State() timezonesSearchTerm: string;
+	@State() timezonesByOffset: ITimezoneOffset[];
+	@State() timezoneDropdownOptions: ISingleSelectDropdownOptions;
 
 	/** @inheritdoc */
 	@Event() relativeTimeChange: EventEmitter<ICalendarAdvanceTime>;
@@ -56,6 +65,22 @@ export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSele
 	@Event() absoluteTimeChange: EventEmitter<ICalendarAdvanceTime>;
 	/** @inheritdoc */
 	@Event() timezoneChange: EventEmitter<string>;
+
+	@Watch('timezones')
+	handleTimezonesChanges(timezones: string[]) {
+		this.timezonesByOffset = buildTimezoneByOffset(timezones);
+	}
+
+	@Watch('timezonesSearchTerm')
+	onTimezoneSearch(searchTerm: string) {
+		const searchedTimezones = searchString(searchTerm, this.timezonesByOffset);
+		this.timezoneDropdownOptions = buildTimezonesDropdownOptions(searchedTimezones);
+	}
+
+	componentWillLoad() {
+		this.handleTimezonesChanges(this.timezones);
+		this.onTimezoneSearch('');
+	}
 
 	private onTimezoneSearchTermChange = ({ detail: newSearchTerm }: CustomEvent<string>): void => {
 		this.timezonesSearchTerm = newSearchTerm;
@@ -79,7 +104,7 @@ export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSele
 	private onSelectRelativeOption = ({ detail: newOption }: CustomEvent<string>): void => {
 		this.relativeTimeChange.emit({
 			key: newOption,
-			range: getDatesRangeFromRelativeOption(newOption, this.getRelativeTimeOptions())
+			range: getDatesRangeFromRelativeOption(newOption, this.getRelativeTimeOptions(), this.selectedTimezone)
 		});
 	};
 
@@ -148,8 +173,6 @@ export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSele
 
 	render() {
 		const hasTimezones = this.timezones.length > 0;
-		const searchedTimezones = searchString(this.timezonesSearchTerm, this.timezones);
-		const dropdownOptions = buildTimezonesDropdownOptions(searchedTimezones);
 
 		return (
 			<Host>
@@ -193,10 +216,10 @@ export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSele
 								searchable
 								placeholder={TIMEZONES_PLACEHOLDER}
 								searchPlaceholder={TIMEZONES_SEARCH_PLACEHOLDER}
+								options={this.timezoneDropdownOptions}
 								selectedOption={this.getSelectedTimezone()}
 								onSearchChange={this.onTimezoneSearchTermChange}
 								onOptionSelected={this.onTimezoneSelected}
-								options={dropdownOptions}
 							/>
 						</div>
 					)}

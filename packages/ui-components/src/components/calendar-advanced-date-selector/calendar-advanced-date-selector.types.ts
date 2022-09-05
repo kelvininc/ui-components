@@ -91,3 +91,11 @@ export interface ICalendarAdvanceTimeChange {
 	type: ECalendarAdvanceTimeType;
 	payload?: ICalendarAdvanceTime;
 }
+
+export interface ITimezoneOffset {
+	name: string;
+	offset: number;
+	label: string;
+}
+
+export type ICalendarTimezone = Omit<ITimezoneOffset, 'label'>;
