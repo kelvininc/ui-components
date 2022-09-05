@@ -76,7 +76,7 @@ In addition, you can customize the theme by changing some CSS properties.
 
 ## Caching
 
-By default, the `KvIcon` and `KvIllustration` components require an SVG file with all the `kv-icons` available. The default file is `svg-symbols.svg` which is provided after installing this dependency. For caching purposes, it is also provided a `symbols.${timestamp}.${checksum}.svg` file after installation. If you are caching those SVGs in your project you should use the latter.
+By default, the `KvIcon` and `KvIllustration` components require an SVG file with all the `kv-icons` available. The default file is `svg-symbols.svg` which is provided after installing this dependency. For caching purposes, it is also provided a `symbols.${checksum}.svg` file after installation. If you are caching those SVGs in your project you should use the latter.
 
 ```tsx
 
@@ -84,7 +84,7 @@ import { initialize } from '@kelvininc/react-ui-components';
 
 (...)
 
-initialize({ symbolsFileName: 'symbols.2022-08-29T16:00:49.6e51ea0e37926eff2f3ef11e64be70fa.svg' });
+initialize({ symbolsFileName: 'symbols.6e51ea0e37926eff2f3ef11e64be70fa.svg' });
 
 ```
 

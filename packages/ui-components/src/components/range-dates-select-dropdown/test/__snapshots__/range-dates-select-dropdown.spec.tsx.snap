@@ -13,8 +13,12 @@ exports[`Range Dates Input (unit tests) when uses default props should match the
                   <div class="text-field-container">
                     <kv-form-label></kv-form-label>
                     <div class="input-container input-container--size-large">
-                      <input class="has-icon slotted" placeholder="Select a start date" readonly="" type="text" value="">
-                      <kv-icon exportparts="icon" name="kv-calendar"></kv-icon>
+                      <input class="has-icon right-slotted" placeholder="Select a start date" readonly="" type="text" value="">
+                      <div class="left-slot-container">
+                        <slot name="left-slot">
+                          <kv-icon exportparts="icon" name="kv-calendar"></kv-icon>
+                        </slot>
+                      </div>
                       <div class="right-slot-container">
                         <slot name="right-slot"></slot>
                       </div>
@@ -33,8 +37,12 @@ exports[`Range Dates Input (unit tests) when uses default props should match the
                   <div class="text-field-container">
                     <kv-form-label></kv-form-label>
                     <div class="input-container input-container--size-large">
-                      <input class="has-icon slotted" placeholder="Select an end date" readonly="" type="text" value="">
-                      <kv-icon exportparts="icon" name="kv-calendar"></kv-icon>
+                      <input class="has-icon right-slotted" placeholder="Select an end date" readonly="" type="text" value="">
+                      <div class="left-slot-container">
+                        <slot name="left-slot">
+                          <kv-icon exportparts="icon" name="kv-calendar"></kv-icon>
+                        </slot>
+                      </div>
                       <div class="right-slot-container">
                         <slot name="right-slot"></slot>
                       </div>
