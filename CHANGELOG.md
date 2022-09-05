@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/kelvininc/ui-components/compare/v0.10.0...v0.11.0) (2022-09-05)
+
+
+### Bug Fixes
+
+* **icon:** remove timestamp from copied SVG of symbols [KMAPS-385] ([1019078](https://github.com/kelvininc/ui-components/commit/1019078da0399e3a95d153d6faf21d4faecfc413))
+* **radio-button:** correct ellipses on radio button [KMAPS-384] ([#141](https://github.com/kelvininc/ui-components/issues/141)) ([231cba8](https://github.com/kelvininc/ui-components/commit/231cba8b6ecdb26786366f46a42d461965ee0cef))
+
+
+### Features
+
+* **textfield:** add left slot to enable currency text ([b6c4096](https://github.com/kelvininc/ui-components/commit/b6c40967edac641495cb13add8b19b6be8ddd355))
+
+
+
+
+
 # [0.10.0](https://github.com/kelvininc/ui-components/compare/v0.9.0...v0.10.0) (2022-08-30)
 
 
