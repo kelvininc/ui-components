@@ -1,13 +1,16 @@
 @import '../../assets/styles/globals';
 
 :host {
-	/** 
+	/**
 	 * @prop --range-width: Width of the range slider
 	 * @prop --slider-background-filled: color of the slider when its full
 	 * @prop --slider-background-empty: color of the slider when its empty
 	*/
 
 	--range-width: 100%;
+	--range-height: 12px;
+	--button-selector-width: 20px;
+	--button-selector-height: 20px;
 	--slider-background-filled: #{kv-color('primary')};
 	--slider-background-empty: #{kv-color('neutral-9')};
 }
@@ -25,68 +28,51 @@
 	justify-content: space-between;
 	color: kv-color('neutral-5');
 	margin-top: $spacing-4x;
+	user-select: none;
 }
 
 .slider {
 	width: var(--range-width);
-	height: 10px;
+	height: var(--range-height);
 	outline: none;
+	margin: 0;
 	border-radius: $spacing;
 	background: var(--slider-background-empty);
+	user-select: none;
 
 	&::-webkit-slider-thumb {
-		width: 48px;
-		height: 48px;
+		border: calc($spacing - 1px) solid kv-color('neutral-0');
+		height: calc(var(--button-selector-height) + 5px);
+		width: calc(var(--button-selector-width) + 5px);
+		border-radius: 50%;
+		background: var(--slider-background-filled);
 		cursor: pointer;
-		z-index: 3;
-		position: relative;
+		appearance: none;
+	}
+
+	&::-moz-range-thumb {
+		border: $spacing solid kv-color('neutral-0');
+		height: var(--button-selector-height);
+		width: var(--button-selector-width);
+		border-radius: 50%;
+		background: var(--slider-background-filled);
+		cursor: pointer;
 		appearance: none;
 	}
 }
 
-.selector {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	height: 28px;
-	width: 20px;
-	position: absolute;
-	top: -30px;
-	left: 50%;
-	transform: translateX(-50%);
-	z-index: 2;
-}
-
-.select-btn {
-	position: absolute;
-	border: $spacing solid kv-color('neutral-0');
-	top: 25px;
-	height: 18px;
-	width: 18px;
-	border-radius: 50%;
-	background: var(--slider-background-filled);
-	cursor: pointer;
-	appearance: none;
-}
-
 .select-value {
 	@include kv-font-h1-semibold;
-	width: 48px;
 	height: 48px;
-	top: -38px;
+	top: -68px;
+	transform: translateX(-50%);
 	position: absolute;
 	background-color: transparent;
 	text-align: center;
 	color: kv-color('neutral-2');
-
-	&::after {
-		content: '';
-		position: absolute;
-		bottom: -14px;
-		left: 0;
-	}
 }
 
 input {
 	appearance: none;
 }
+
