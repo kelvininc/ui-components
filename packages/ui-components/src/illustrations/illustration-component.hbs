@@ -1,0 +1,34 @@
+import { Component, Prop, Host, h } from '@stencil/core';
+import { getClassMap } from '../../../utils/css-class.helper';
+
+/**
+ * @part illustration - The illustration container.
+ */
+@Component({
+	tag: '{{tagName}}',
+	styleUrl: '../../../illustrations/illustrations.scss',
+	shadow: true
+})
+export class {{className}} {
+	/**
+	 * (optional) Additional classes to apply for custom CSS. If multiple classes are
+	 * provided they should be separated by spaces.
+	 */
+	@Prop({ reflect: true }) customClass: string | string[] = '';
+
+	render() {
+
+		return (
+			<Host>
+				<svg
+					part="illustration"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="{{viewBox}}"
+					class=\{{ ...getClassMap(this.customClass), illustration: true }}
+				>
+					{{{illustration}}}
+				</svg>
+			</Host>
+		);
+	}
+}

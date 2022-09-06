@@ -1,21 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Illustration (unit tests) when has custom classes should match the snapshot 1`] = `
-<kv-illustration custom-class="icon-full-size" name="pk-es-section-somethingwentwrong">
+<kv-illustration custom-class="icon-full-size" name="kv-es-section-somethingwentwrong">
   <mock:shadow-root>
-    <svg class="icon-full-size illustration" part="illustration" xmlns="http://www.w3.org/2000/svg">
-      <use href="/svg-symbols.svg#pk-es-section-somethingwentwrong-night"></use>
-    </svg>
+    <kv-es-section-somethingwentwrong customclass="icon-full-size"></kv-es-section-somethingwentwrong>
   </mock:shadow-root>
 </kv-illustration>
 `;
 
 exports[`Illustration (unit tests) when uses default props should match the snapshot 1`] = `
-<kv-illustration custom-class="" name="pk-es-section-somethingwentwrong">
+<kv-illustration custom-class="" name="kv-es-section-somethingwentwrong">
   <mock:shadow-root>
-    <svg class="illustration" part="illustration" xmlns="http://www.w3.org/2000/svg">
-      <use href="/svg-symbols.svg#pk-es-section-somethingwentwrong-night"></use>
-    </svg>
+    <kv-es-section-somethingwentwrong customclass=""></kv-es-section-somethingwentwrong>
   </mock:shadow-root>
 </kv-illustration>
 `;

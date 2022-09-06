@@ -10,7 +10,7 @@ describe('Illustration (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvIllustration],
-				html: `<kv-illustration name="pk-es-section-somethingwentwrong"></kv-illustration>`
+				html: `<kv-illustration name="kv-es-section-somethingwentwrong"></kv-illustration>`
 			});
 			component = page.rootInstance;
 		});
@@ -24,7 +24,7 @@ describe('Illustration (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvIllustration],
-				html: `<kv-illustration name="pk-es-section-somethingwentwrong" custom-class="icon-full-size"></kv-illustration>`
+				html: `<kv-illustration name="kv-es-section-somethingwentwrong" custom-class="icon-full-size"></kv-illustration>`
 			});
 			component = page.rootInstance;
 		});

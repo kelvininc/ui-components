@@ -7,5 +7,8 @@ packages/**/dist
 .envrc
 tryouts/*
 
+# Illustrations Components
+packages/ui-components/src/components/illustrations
+
 # Produced build files
 **/stencil-generated

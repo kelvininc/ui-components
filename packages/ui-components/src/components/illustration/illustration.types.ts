@@ -22,6 +22,6 @@ export enum EIllustrationName {
 	// -----------------------------------------
 	// --- PEACOCK - NEW THEME ILLUSTRATIONS ---
 	// -----------------------------------------
-	BoxBuild = 'kv-box-build', // TODO: Missing the gradients
+	BoxBuild = 'kv-box-build',
 	TableBuild = 'kv-table-build' // TODO: Missing the gradients
 }
