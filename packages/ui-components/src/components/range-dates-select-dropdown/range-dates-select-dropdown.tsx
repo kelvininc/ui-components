@@ -2,6 +2,7 @@ import { ComputePositionConfig } from '@floating-ui/dom';
 import { Component, Element, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { isEmpty, merge } from 'lodash-es';
 import { ITextField } from '../../types';
+import { IInputConfig } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.types';
 import { formatDateTime } from '../../utils/date.helper';
 import { EIconName } from '../icon/icon.types';
 import { DEFAULT_DROPDOWN_POSITION_OPTIONS, DEFAULT_END_DATE_INPUT_CONFIG, DEFAULT_START_DATE_INPUT_CONFIG } from './range-dates-select-dropdown.config';
@@ -20,9 +21,9 @@ import { SelectedRange } from '../../types';
 })
 export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IRangeDatesSelectDropdownEvents {
 	/** @inheritdoc */
-	@Prop({ reflect: false }) startInputConfig?: Partial<ITextField> = {};
+	@Prop({ reflect: false }) startInputConfig?: IInputConfig = {};
 	/** @inheritdoc */
-	@Prop({ reflect: false }) endInputConfig?: Partial<ITextField> = {};
+	@Prop({ reflect: false }) endInputConfig?: IInputConfig = {};
 	/** @inheritdoc */
 	@Prop({ reflect: true, mutable: true }) isOpen?: boolean = false;
 	/** @inheritdoc */
@@ -37,10 +38,6 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 	@Prop({ reflect: false }) maxDate?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) dropdownPositionOptions?: Partial<ComputePositionConfig> = DEFAULT_DROPDOWN_POSITION_OPTIONS;
-	/** @inheritdoc */
-	@Prop({ reflect: false }) startDateMask?: string;
-	/** @inheritdoc */
-	@Prop({ reflect: false }) endDateMask?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) autoClose?: boolean = true;
 
@@ -70,9 +67,8 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 
 	public getFormattedSelectedStartDate = (): string | undefined => {
 		const [startDate] = this.getSelectedRangeRanges();
-
 		if (!isEmpty(startDate)) {
-			return formatDateTime(startDate, this.startDateMask);
+			return formatDateTime(startDate, this.startInputConfig.dateMask);
 		}
 	};
 
@@ -80,7 +76,7 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 		const [, endDate] = this.getSelectedRangeRanges();
 
 		if (!isEmpty(endDate)) {
-			return formatDateTime(endDate, this.endDateMask);
+			return formatDateTime(endDate, this.endInputConfig.dateMask);
 		}
 	};
 

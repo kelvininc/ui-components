@@ -2,7 +2,6 @@ import { Component, Event, EventEmitter, h, Host, Prop, State } from '@stencil/c
 import { merge } from 'lodash-es';
 import {
 	ISelectRangeDates,
-	ITextField,
 	ECalendarAdvanceTimeType,
 	ICalendarAdvanceAbsoluteTimeConfig,
 	ICalendarAdvanceRelativeTimeConfig,
@@ -21,7 +20,13 @@ import {
 	TIMEZONES_SEARCH_PLACEHOLDER
 } from './calendar-advanced-date-selector.config';
 import { buildAbsoluteTimeStartPlaceholderWhenRelativeSelected, buildTimezonesDropdownOptions, getDatesRangeFromRelativeOption } from './calendar-advanced-date-selector.helper';
-import { ICalendarAdvancedDateSelector, ICalendarAdvancedDateSelectorEvents, ICalendarAdvanceSelectedTime, ICalendarAdvanceTime } from './calendar-advanced-date-selector.types';
+import {
+	ICalendarAdvancedDateSelector,
+	ICalendarAdvancedDateSelectorEvents,
+	ICalendarAdvanceSelectedTime,
+	ICalendarAdvanceTime,
+	IInputConfig
+} from './calendar-advanced-date-selector.types';
 
 /**
  * @part calendar - The calendar container.
@@ -129,12 +134,16 @@ export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSele
 		return undefined;
 	};
 
-	public getStartInputConfig = (): Partial<ITextField> => {
-		return merge({}, DEFAULT_START_DATE_INPUT_CONFIG, this.absoluteTimeConfig?.startInputConfig ?? {}, { placeholder: this.getAbsoluteTimeStartPlaceholder() });
+	public getStartInputConfig = (): IInputConfig => {
+		return merge({}, DEFAULT_START_DATE_INPUT_CONFIG, this.absoluteTimeConfig?.startInputConfig ?? {}, {
+			placeholder: this.getAbsoluteTimeStartPlaceholder()
+		});
 	};
 
-	public getEndInputConfig = (): Partial<ITextField> => {
-		return merge({}, DEFAULT_END_DATE_INPUT_CONFIG, this.absoluteTimeConfig?.endInputConfig ?? {}, { placeholder: this.getAbsoluteTimeEndPlaceholder() });
+	public getEndInputConfig = (): IInputConfig => {
+		return merge({}, DEFAULT_END_DATE_INPUT_CONFIG, this.absoluteTimeConfig?.endInputConfig ?? {}, {
+			placeholder: this.getAbsoluteTimeEndPlaceholder()
+		});
 	};
 
 	render() {
