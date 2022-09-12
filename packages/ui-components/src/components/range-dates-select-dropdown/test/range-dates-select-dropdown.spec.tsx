@@ -53,7 +53,10 @@ describe('Range Dates Input (unit tests)', () => {
 					page = await newSpecPage({
 						components: [KvRangeDatesSelectDropdown, KvTextField, KvCalendarRangeDatesSelector],
 						template: () => (
-							<kv-range-dates-select-dropdown selectedRangeDates={['2020-04-02', '2020-04-05']} startDateMask="Do MMM, YYYY"></kv-range-dates-select-dropdown>
+							<kv-range-dates-select-dropdown
+								selectedRangeDates={['2020-04-02', '2020-04-05']}
+								startInputConfig={{ dateMask: 'Do MMM, YYYY' }}
+							></kv-range-dates-select-dropdown>
 						)
 					});
 					component = page.rootInstance;
@@ -110,7 +113,10 @@ describe('Range Dates Input (unit tests)', () => {
 					page = await newSpecPage({
 						components: [KvRangeDatesSelectDropdown, KvTextField, KvCalendarRangeDatesSelector],
 						template: () => (
-							<kv-range-dates-select-dropdown selectedRangeDates={['2020-04-02', '2020-04-05']} endDateMask="Do MMM, YYYY"></kv-range-dates-select-dropdown>
+							<kv-range-dates-select-dropdown
+								selectedRangeDates={['2020-04-02', '2020-04-05']}
+								endInputConfig={{ dateMask: 'Do MMM, YYYY' }}
+							></kv-range-dates-select-dropdown>
 						)
 					});
 					component = page.rootInstance;

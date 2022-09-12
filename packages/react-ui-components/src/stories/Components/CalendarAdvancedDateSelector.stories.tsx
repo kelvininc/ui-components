@@ -18,6 +18,9 @@ export default {
 			type: 'array',
 			options: TIMEZONES
 		},
+		absoluteTimeConfig: {
+			type: 'object'
+		},
 		onTimezoneChange: {
 			action: 'timezoneChange'
 		}
@@ -57,13 +60,22 @@ const CalendarAdvancedDateSelectorTemplate: ComponentStory<typeof KvCalendarAdva
 			onTimezoneChange={onTimezoneChange}
 			onRelativeTimeChange={onRelativeTimeChange}
 			onAbsoluteTimeChange={onAbsoluteTimeChange}
+			absoluteTimeConfig={args.absoluteTimeConfig}
 		/>
 	);
 };
 
 export const DefaultState = CalendarAdvancedDateSelectorTemplate.bind({});
 DefaultState.args = {
-	timezones: TIMEZONES
+	timezones: TIMEZONES,
+	absoluteTimeConfig: {
+		startInputConfig: {
+			dateMask: 'YYYY-MM-DD HH:mm:ss'
+		},
+		endInputConfig: {
+			dateMask: 'YYYY-MM-DD'
+		}
+	}
 };
 
 export const NoTimezone = CalendarAdvancedDateSelectorTemplate.bind({});

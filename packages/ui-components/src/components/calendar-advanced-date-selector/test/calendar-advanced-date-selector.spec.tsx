@@ -6,8 +6,7 @@ jest.mock('../../../utils/date.helper', () => ({
 import { h, SpecPage } from '@stencil/core/internal';
 import { KvCalendarAdvancedDateSelector } from '../calendar-advanced-date-selector';
 import { newSpecPage } from '@stencil/core/testing';
-import { ECalendarAdvanceTimeType } from '../calendar-advanced-date-selector.types';
-import { ITextField } from '../../text-field/text-field.types';
+import { ECalendarAdvanceTimeType, IInputConfig } from '../calendar-advanced-date-selector.types';
 
 describe('Calendar Advance Date Selector (unit tests)', () => {
 	let page: SpecPage;
@@ -134,7 +133,7 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 	describe('when `getStartInputConfig` is called', () => {
 		describe('and there is a custom placeholder config defined', () => {
 			describe('and a relative time is selected', () => {
-				let actualResult: Partial<ITextField>;
+				let actualResult: IInputConfig;
 
 				beforeEach(async () => {
 					page = await newSpecPage({
@@ -161,7 +160,7 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 			});
 
 			describe('and a relative time is not selected', () => {
-				let actualResult: Partial<ITextField>;
+				let actualResult: IInputConfig;
 
 				beforeEach(async () => {
 					page = await newSpecPage({
@@ -182,7 +181,7 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 
 		describe('and there is not a custom placeholder config defined', () => {
 			describe('and a relative time is selected', () => {
-				let actualResult: Partial<ITextField>;
+				let actualResult: IInputConfig;
 
 				beforeEach(async () => {
 					page = await newSpecPage({
@@ -208,7 +207,7 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 			});
 
 			describe('and a relative time is not selected', () => {
-				let actualResult: Partial<ITextField>;
+				let actualResult: IInputConfig;
 
 				beforeEach(async () => {
 					page = await newSpecPage({
@@ -231,7 +230,7 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 	describe('when `getEndInputConfig` is called', () => {
 		describe('and there is a custom placeholder config defined', () => {
 			describe('and a relative time is selected', () => {
-				let actualResult: Partial<ITextField>;
+				let actualResult: IInputConfig;
 
 				beforeEach(async () => {
 					page = await newSpecPage({
@@ -258,7 +257,7 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 			});
 
 			describe('and a relative time is not selected', () => {
-				let actualResult: Partial<ITextField>;
+				let actualResult: IInputConfig;
 
 				beforeEach(async () => {
 					page = await newSpecPage({
@@ -279,7 +278,7 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 
 		describe('and there is not a custom placeholder config defined', () => {
 			describe('and a relative time is selected', () => {
-				let actualResult: Partial<ITextField>;
+				let actualResult: IInputConfig;
 
 				beforeEach(async () => {
 					page = await newSpecPage({
@@ -305,7 +304,7 @@ describe('Calendar Advance Date Selector (unit tests)', () => {
 			});
 
 			describe('and a relative time is not selected', () => {
-				let actualResult: Partial<ITextField>;
+				let actualResult: IInputConfig;
 
 				beforeEach(async () => {
 					page = await newSpecPage({
