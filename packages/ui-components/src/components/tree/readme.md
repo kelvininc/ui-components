@@ -127,20 +127,26 @@ export const TreeExample: React.FC = () => (
 
 | Part          | Description              |
 | ------------- | ------------------------ |
+| `"tree"`      | The tree container.      |
 | `"tree-item"` | The tree item container. |
 
 
 ## CSS Custom Properties
 
-| Name                | Description                      |
-| ------------------- | -------------------------------- |
-| `--children-offset` | Offset of the child nodes in px. |
-| `--node-gap`        | Gap between child nodes in px.   |
-| `--node-height`     | Tree Node height.                |
-| `--node-width`      | Tree Node height.                |
+| Name                           | Description                             |
+| ------------------------------ | --------------------------------------- |
+| `--tree-children-offset`       | Offset of the child nodes in px.        |
+| `--tree-children-padding-left` | Left padding for the child nodes in px. |
+| `--tree-node-gap`              | Gap between child nodes in px.          |
+| `--tree-node-height`           | Tree Node height.                       |
+| `--tree-node-width`            | Tree Node height.                       |
 
 
 ## Dependencies
+
+### Used by
+
+ - [kv-tree-dropdown](../tree-dropdown)
 
 ### Depends on
 
@@ -152,6 +158,7 @@ graph TD;
   kv-tree --> kv-tree-item
   kv-tree-item --> kv-icon
   kv-tree-item --> kv-badge
+  kv-tree-dropdown --> kv-tree
   style kv-tree fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

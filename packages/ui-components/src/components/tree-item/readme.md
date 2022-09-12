@@ -123,6 +123,13 @@ export const TreeItemExample: React.FC = () => (
 | `"child-slot"` | Content is placed in the child subgroup and can be expanded and collapsed. |
 
 
+## Shadow Parts
+
+| Part         | Description             |
+| ------------ | ----------------------- |
+| `"children"` | The children container. |
+
+
 ## CSS Custom Properties
 
 | Name                             | Description                                         |
@@ -135,7 +142,10 @@ export const TreeItemExample: React.FC = () => (
 | `--border-color-disabled`        | Border color when state is disabled.                |
 | `--border-color-highlighted`     | Border color when state is highlighted.             |
 | `--border-color-selected`        | Border color when state is selected.                |
+| `--children-margin-left`         | Margin left of the children in px.                  |
+| `--children-margin-top`          | Margin top of children in px.                       |
 | `--children-offset`              | Offset of the child nodes in px.                    |
+| `--children-padding-left`        | Padding left of the children in px.                 |
 | `--connector-lines-color`        | Line color of children's connectors.                |
 | `--icon-color-default`           | Node icon color when node state is default.         |
 | `--icon-color-disabled`          | Node icon color when node state is disabled.        |
@@ -151,6 +161,7 @@ export const TreeItemExample: React.FC = () => (
 | `--title-color-disabled`         | Node title color when node state is disabled.       |
 | `--title-color-no-filled`        | Node title color when node state is not filled.     |
 | `--title-color-selected`         | Node title color when node state is selected.       |
+| `--vertical-lines-height`        | Line height of children's connectors.               |
 
 
 ## Dependencies

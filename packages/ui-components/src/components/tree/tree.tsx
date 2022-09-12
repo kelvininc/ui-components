@@ -1,13 +1,18 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Fragment } from '@stencil/core';
-import { get } from 'lodash-es';
+import { Component, Event, EventEmitter, Fragment, Host, Prop, h } from '@stencil/core';
+
 import { ITreeNodeItem } from './tree.types';
+import { get } from 'lodash-es';
 
 /**
+ * @part tree - The tree container.
  * @part tree-item - The tree item container.
  */
 @Component({
 	tag: 'kv-tree',
-	styleUrl: 'tree.scss',
+	styleUrls: {
+		night: 'tree.night.scss',
+		light: 'tree.light.scss'
+	},
 	shadow: true
 })
 export class KvTree {
@@ -66,7 +71,7 @@ export class KvTree {
 								onItemClick={_ => this.onItemClick(item)}
 								onToggleExpand={_ => this.onToggleExpand(item)}
 								part="tree-item"
-								exportparts="icon"
+								exportparts="icon,children"
 							>
 								{item.children?.length > 0 && this.drawNodes(item.children)}
 							</kv-tree-item>
@@ -77,6 +82,12 @@ export class KvTree {
 	}
 
 	render() {
-		return <Host>{this.nodes?.length > 0 && this.drawNodes(this.nodes)}</Host>;
+		return (
+			<Host>
+				<div class="container" part="tree">
+					{this.nodes?.length > 0 && this.drawNodes(this.nodes)}
+				</div>
+			</Host>
+		);
 	}
 }

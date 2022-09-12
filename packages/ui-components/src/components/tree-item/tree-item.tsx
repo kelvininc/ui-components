@@ -1,14 +1,16 @@
-import { Component, Element, Event, EventEmitter, Fragment, h, Host, Listen, Prop } from '@stencil/core';
-import { throttle, isNumber, isEmpty } from 'lodash-es';
-import { EIconName, EOtherIconName } from '../icon/icon.types';
-import { STATE_ICONS } from './tree-item.config';
-import { ETreeItemState } from './tree-item.types';
+import { Component, Element, Event, EventEmitter, Fragment, Host, Listen, Prop, h } from '@stencil/core';
 import { EAnchorTarget, IAnchor } from '../../utils/types';
+import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { isEmpty, isNumber, throttle } from 'lodash-es';
+
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { EBadgeState } from '../badge/badge.types';
+import { ETreeItemState } from './tree-item.types';
+import { STATE_ICONS } from './tree-item.config';
 
 /**
  * @slot child-slot - Content is placed in the child subgroup and can be expanded and collapsed.
+ * @part children - The children container.
  */
 @Component({
 	tag: 'kv-tree-item',
@@ -163,7 +165,7 @@ export class KvTreeItem implements IAnchor {
 						)}
 						{this.loading && <div class="node-loading"></div>}
 					</div>
-					<div class="children" style={{ display: this.expanded ? 'block' : 'none' }}>
+					<div part="children" class="children" style={{ display: this.expanded ? 'block' : 'none' }}>
 						<slot name="child-slot"></slot>
 					</div>
 				</div>

@@ -2,22 +2,29 @@
 
 :host {
 	/**
-	 * @prop --node-width: Tree Node height.
-	 * @prop --node-height: Tree Node height.
-	 * @prop --node-gap: Gap between child nodes in px.
-	 * @prop --children-offset: Offset of the child nodes in px.
-	 *
-	*/
+	 * @prop --tree-node-width: Tree Node height.
+	 * @prop --tree-node-height: Tree Node height.
+	 * @prop --tree-node-gap: Gap between child nodes in px.
+
+	 * @prop --tree-children-offset: Offset of the child nodes in px.
+	 * @prop --tree-children-padding-left: Left padding for the child nodes in px.
+	 */
 	--tree-node-width: 300px;
 	--tree-node-height: 40px;
 	--tree-node-gap: #{$spacing-2x};
 	--tree-children-offset: #{$spacing-3x};
+	--tree-children-padding-left: #{$spacing-2x};
+
+	.container {
+		width: var(--tree-node-width);
+	}
 
 	kv-tree-item {
 		--node-width: var(--tree-node-width);
 		--node-height: var(--tree-node-height);
 		--node-gap: var(--tree-node-gap);
 		--children-offset: var(--tree-children-offset);
+		--children-padding-left: var(--tree-children-padding-left);
 	}
 
 	> kv-tree-item:not(:first-child)::before {

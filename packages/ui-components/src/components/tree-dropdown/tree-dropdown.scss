@@ -1,0 +1,55 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --dropdown-node-gap: Gap between child nodes in px.
+	 * @prop --dropdown-children-offset: Offset of the child nodes in px.
+	 * @prop --dropdown-padding-left: Left padding of option text in px.
+	 * @prop --dropdown-width: Container width in px;
+	*/
+	--dropdown-node-gap: 0;
+	--dropdown-children-offset: #{$spacing-3x};
+	--dropdown-padding-left: 40px;
+	--dropdown-width: 224px;
+
+	kv-tree {
+		--tree-node-gap: var(--dropdown-node-gap);
+		--tree-children-offset: var(--dropdown-children-offset);
+		--tree-node-width: var(--dropdown-width);
+	}
+
+	.hover::part(tree) {
+		border-radius: $spacing;
+		overflow: hidden;
+	}
+
+	.expanded::part(tree) {
+		margin-bottom: $spacing-2x;
+		border: 1px solid #{$neutral-color-6};
+	}
+
+	.expanded::part(tree-item) {
+		--background-color-highlighted: #{$neutral-color-7};
+	}
+
+	.nochildren::part(tree-item) {
+		--children-padding-left: var(--dropdown-padding-left);
+	}
+
+	kv-tree::part(tree-item) {
+		--vertical-lines-height: 0;
+		--horizontal-lines-width: 0;
+		--background-color-default: var(--kv-background);
+		--border-color-default: none;
+		--background-color-focused: #{$neutral-color-6};
+		--background-color-highlighted: none;
+		--border-color-highlighted: none;
+		--children-margin-top: 0;
+		--children-margin-left: 0;
+		--border-radius: 0;
+	}
+
+	kv-tree::part(children) {
+		--tree-children-padding-left: var(--dropdown-padding-left);
+	}
+}

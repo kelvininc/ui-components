@@ -1,6 +1,7 @@
-import { EIconName, ETreeItemState, ITreeNodeItem, EBadgeState } from '@kelvininc/ui-components';
-import { ComponentStory } from '@storybook/react';
+import { EBadgeState, EIconName, ETreeItemState, ITreeNodeItem } from '@kelvininc/ui-components';
 import React, { useState } from 'react';
+
+import { ComponentStory } from '@storybook/react';
 import { KvTree } from '../../components';
 
 // Required to have the correct TagName in the code sample
