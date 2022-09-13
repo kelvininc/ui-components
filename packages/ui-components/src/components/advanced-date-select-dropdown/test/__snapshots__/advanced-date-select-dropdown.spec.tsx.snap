@@ -6,7 +6,7 @@ exports[`Advance Date Select Dropdown (unit tests) when uses default props shoul
     <div class="advanced-date-select-dropdown">
       <kv-dropdown id="dropdown">
         <div class="calendar-container" id="calendar">
-          <kv-calendar-advanced-date-selector></kv-calendar-advanced-date-selector>
+          <kv-calendar-advanced-date-selector selectedtimezone="Europe/Lisbon"></kv-calendar-advanced-date-selector>
           <div class="footer">
             <div class="selected-time"></div>
             <div class="actions">
