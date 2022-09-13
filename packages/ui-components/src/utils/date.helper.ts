@@ -22,7 +22,8 @@ dayjs.extend(utc);
  * @note The month number should be a number between 1 and 12, where 1 corresponds to January and 12 December.
  */
 
-const newDate = (date: DateInput) => dayjs(date);
+const newDate = (date?: DateInput) => dayjs(date);
+const newTimezoneDate = (timezone: string, date?: DateInput) => dayjs.tz(date, timezone);
 
 // Constructors
 export const fromISO = (date: string): dayjs.Dayjs => newDate(date);
@@ -80,12 +81,14 @@ export const getDatesBetweenRange = (dateRangeStart: DateInput, dateRangeEnd: Da
 
 // Timezones
 export const getTimezonesNames = () => window?.Intl?.supportedValuesOf?.('timeZone') ?? TIMEZONES;
-export const getDefaultTimezone = () => dayjs.tz.guess();
+export const getDefaultTimezone = () => dayjs.tz.guess() ?? 'UTC';
+export const getTimezoneOffset = (zone: string) => newDate().tz(zone).utcOffset();
 
 // Formatters
 export const formatDateTime = (date: DateInput, mask: string = 'YYYY-MM-DD HH:mm:ss'): string => fromDateInput(date).format(mask);
 export const formatDate = (date: DateInput, mask: string = 'YYYY-MM-DD'): string => newDate(date).format(mask);
-export const formatTimezoneName = (timezone: string, date: DateInput = dayjs()): string => `(${newDate(date).tz(timezone).format('Z')}) ${timezone}`;
+export const formatTimezoneName = (timezone: string, date: DateInput = dayjs()): string => `(${newDate(date).tz(timezone).format('Z')}) ${timezone.replace(/_+/g, ' ')}`;
+export const formatForTimezone = (timezone: string, date?: DateInput) => newTimezoneDate(timezone, date).format();
 
 // Utils
 export const areDatesValid = (dates: DateInput[]): boolean => {

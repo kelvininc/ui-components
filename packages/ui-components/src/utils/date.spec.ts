@@ -4,6 +4,7 @@ import {
 	calculateDate,
 	formatDate,
 	formatDateTime,
+	formatForTimezone,
 	formatTimezoneName,
 	fromDateFields,
 	fromDatesRangeKey,
@@ -16,6 +17,7 @@ import {
 	getFirstWeekdayIndexOfMonth,
 	getMonthName,
 	getNumberOfDaysInMonth,
+	getTimezoneOffset,
 	getTimezonesNames,
 	getWeekdaysNames,
 	isDateAfter,
@@ -447,6 +449,18 @@ describe('Date Helper', () => {
 				expect(actualResult).toBe('(+00:00) Europe/Lisbon');
 			});
 		});
+
+		describe('when it is Pacific/Port_Moresby and winter time', () => {
+			let actualResult: string;
+
+			beforeEach(() => {
+				actualResult = formatTimezoneName('Pacific/Port_Moresby', anotherDateMock);
+			});
+
+			it('should be (+10:00) Pacific/Port Moresby', () => {
+				expect(actualResult).toBe('(+10:00) Pacific/Port Moresby');
+			});
+		});
 	});
 
 	describe('#areDatesValid', () => {
@@ -537,6 +551,22 @@ describe('Date Helper', () => {
 
 			it('should be equal to the input', () => {
 				expect(actualResult).toBe('2019-06-20#2019-09-04');
+			});
+		});
+	});
+
+	describe('#getTimezoneOffset', () => {
+		describe('when the timezone is "America/New_York"', () => {
+			it('should return -240', () => {
+				expect(getTimezoneOffset('America/New_York')).toEqual(-240);
+			});
+		});
+	});
+
+	describe('#formatForTimezone', () => {
+		describe('when the timezone is "America/New_York"', () => {
+			it('should return a formatted date with timezone', () => {
+				expect(formatForTimezone('America/New_York', anotherDateMock)).toEqual('1999-12-19T04:20:04-05:00');
 			});
 		});
 	});

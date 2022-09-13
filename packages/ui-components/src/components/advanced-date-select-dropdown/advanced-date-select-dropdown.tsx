@@ -20,7 +20,7 @@ import {
 	isRelativeTimeSelected,
 	isTimeSelected
 } from './advanced-date-select-dropdown.helper';
-import { formatTimezoneName, fromDatesRangeKey, getDefaultTimezone, getTimezonesNames } from '../../utils/date.helper';
+import { formatTimezoneName, fromDatesRangeKey, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
 import { ComputePositionConfig } from '@floating-ui/dom';
 
 @Component({
@@ -38,7 +38,7 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 	/** @inheritdoc */
 	@Prop({ reflect: false }) relativeTimeConfig?: ICalendarAdvanceRelativeTimeConfig;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) selectedTimezone?: string;
+	@Prop({ reflect: false }) selectedTimezone?: string = getDefaultTimezone();
 	/** @inheritdoc */
 	@Prop({ reflect: false }) timezones?: string[] = getTimezonesNames();
 	/** @inheritdoc */
@@ -48,12 +48,6 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
-	/** @inheritdoc */
-	@Event() relativeTimeChange: EventEmitter<ICalendarAdvanceTime>;
-	/** @inheritdoc */
-	@Event() absoluteTimeChange: EventEmitter<ICalendarAdvanceTime>;
-	/** @inheritdoc */
-	@Event() timezoneChange: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event() timeApplied: EventEmitter<ITimeChange>;
 
@@ -68,8 +62,13 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 		this.internalSelectedTime = newSelectedTime;
 	}
 
+	handleSelectedTimezoneChange(newTimezone: string) {
+		this.internalSelectedTimezone = newTimezone;
+	}
+
 	componentWillLoad() {
 		this.handleSelectedTimeChange(this.selectedTime);
+		this.handleSelectedTimezoneChange(this.selectedTimezone);
 	}
 
 	componentDidLoad() {
@@ -129,10 +128,13 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 				type: this.internalSelectedTime.type,
 				payload: {
 					key: this.internalSelectedTime.key,
-					range: getTimeRange(this.internalSelectedTime, this.relativeTimeConfig?.options)
+					range: getTimeRange(this.internalSelectedTime, this.relativeTimeConfig?.options, this.internalSelectedTimezone)
 				}
 			},
-			timezone: this.internalSelectedTimezone
+			timezone: {
+				name: this.internalSelectedTimezone,
+				offset: getTimezoneOffset(this.internalSelectedTimezone)
+			}
 		});
 		this.closeDropdown();
 	};

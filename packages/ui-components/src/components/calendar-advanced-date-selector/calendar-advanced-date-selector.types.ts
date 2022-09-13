@@ -1,6 +1,6 @@
 import { EventEmitter } from '@stencil/core';
 import dayjs from 'dayjs';
-import { ITextField, SelectedRange, DateInput } from '../../types';
+import { SelectedRange, DateInput, ITextField } from '../../types';
 
 export interface ICalendarAdvancedDateSelector {
 	/** (optional) The selected time range */
@@ -33,9 +33,14 @@ export interface ICalendarAdvanceAbsoluteTimeConfig {
 	/** (optional) Absolute time selector maximum accepted date */
 	maxDate?: string;
 	/** (optional) The start date text field input custom configurations */
-	startInputConfig?: Partial<ITextField>;
+	startInputConfig?: IInputConfig;
 	/** (optional) The end date text field input custom configurations */
-	endInputConfig?: Partial<ITextField>;
+	endInputConfig?: IInputConfig;
+}
+
+export interface IInputConfig extends Partial<ITextField> {
+	/** (optional) Text field date format mask */
+	dateMask?: string;
 }
 
 export interface ICalendarAdvanceRelativeTimeConfig {
@@ -86,3 +91,11 @@ export interface ICalendarAdvanceTimeChange {
 	type: ECalendarAdvanceTimeType;
 	payload?: ICalendarAdvanceTime;
 }
+
+export interface ITimezoneOffset {
+	name: string;
+	offset: number;
+	label: string;
+}
+
+export type ICalendarTimezone = Omit<ITimezoneOffset, 'label'>;
