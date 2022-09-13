@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/kelvininc/ui-components/compare/v0.11.0...v0.12.0) (2022-09-13)
+
+
+### Bug Fixes
+
+* **advanced-date-select:** return relative time by timezone ([370ac03](https://github.com/kelvininc/ui-components/commit/370ac0362200448c95dcc828a5c8c7e488bb5296))
+
+
+### Features
+
+* **advanced calendar:** add start/end date format config [KMAPS-437] ([c1da23c](https://github.com/kelvininc/ui-components/commit/c1da23cfe5d49871f869bc9e1c58d9c27fa1217b))
+
+
+
+
+
 # [0.11.0](https://github.com/kelvininc/ui-components/compare/v0.10.0...v0.11.0) (2022-09-05)
 
 
