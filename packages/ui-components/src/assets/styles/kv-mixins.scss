@@ -56,3 +56,21 @@
 		padding: 0;
 	}
 }
+
+@mixin kelvin-scrollbar {
+	::-webkit-scrollbar {
+		width: 15px;
+		height: 15px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		border-radius: 10px;
+		background-color: kv-color('neutral-6');
+		border: 4px solid transparent;
+		background-clip: content-box;
+	}
+
+	::-webkit-scrollbar-corner {
+		background-color: transparent;
+	}
+}
