@@ -34,8 +34,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	/** Toogles the dropdown open state */
 	@Method()
 	async onToggleOpenState() {
-		this.isOpen = !this.isOpen;
-		this.openStateChange.emit(this.isOpen);
+		this.openStateChange.emit(!this.isOpen);
 	}
 
 	private onOpenStateChange = ({ detail: openState }: CustomEvent<boolean>) => {
