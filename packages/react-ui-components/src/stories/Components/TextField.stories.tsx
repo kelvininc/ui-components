@@ -12,6 +12,8 @@ export default {
 		required: { control: { type: 'boolean' } },
 		loading: { control: { type: 'boolean' } },
 		helpText: { control: { type: 'array' } },
+		min: { control: { type: 'number' } },
+		max: { control: { type: 'number' } },
 		state: {
 			control: { type: 'radio' },
 			options: Object.values(EValidationState)
@@ -85,17 +87,17 @@ MaxMinLength.args = {
 };
 
 export const MaxMinValue = TextFieldTemplate.bind({});
-MaxMinLength.args = {
+MaxMinValue.args = {
 	...Default.args,
 	type: EInputFieldType.Number,
 	label: 'Required Text Field',
 	required: true,
-	min: 5,
+	min: 0,
 	max: 10
 };
 
 export const Step = TextFieldTemplate.bind({});
-MaxMinLength.args = {
+Step.args = {
 	...Default.args,
 	type: EInputFieldType.Number,
 	label: 'Required Text Field',
