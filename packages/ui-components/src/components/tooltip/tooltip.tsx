@@ -22,6 +22,10 @@ export class KvTooltip implements ITooltip {
 	@Prop({ reflect: true }) position?: ETooltipPosition;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) options?: Partial<ComputePositionConfig> = DEFAULT_POSITION_CONFIG;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) contentElement?: HTMLElement = null;
 
 	/** The Host's element reference */
 	@Element() el: HTMLKvTooltipElement;
@@ -29,6 +33,67 @@ export class KvTooltip implements ITooltip {
 	private getOptions = (): Partial<ComputePositionConfig> => {
 		return merge({}, { placement: this.position }, this.options);
 	};
+
+	private getTooltipElement = (): HTMLElement | null => {
+		return this.el.shadowRoot.querySelector('#tooltip') as HTMLElement | null;
+	};
+
+	private getContentElement = (): HTMLElement | null => {
+		return this.contentElement ?? (this.el.shadowRoot.querySelector('#content') as HTMLElement | null);
+	};
+
+	private showTooltip = () => {
+		if (!this.disabled) {
+			const tooltip = this.getTooltipElement();
+			tooltip.style.display = 'inline-block';
+			this.update();
+		}
+	};
+
+	private hideTooltip = () => {
+		const tooltip = this.getTooltipElement();
+		tooltip.style.display = '';
+	};
+
+	private update = () => {
+		const tooltip = this.getTooltipElement();
+		const child = this.getContentElement();
+
+		computePosition(child, tooltip, this.getOptions()).then(({ x, y }) => {
+			tooltip.style.left = `${x}px`;
+			tooltip.style.top = `${y}px`;
+		});
+	};
+
+	private listenToEvents = (child: HTMLElement) => {
+		child.addEventListener('mouseenter', this.showTooltip);
+		child.addEventListener('mouseleave', this.hideTooltip);
+		child.addEventListener('focus', this.showTooltip);
+		child.addEventListener('blur', this.hideTooltip);
+	};
+
+	private unlistenToEvents = (child: HTMLElement) => {
+		child.removeEventListener('mouseenter', this.showTooltip);
+		child.removeEventListener('mouseleave', this.hideTooltip);
+		child.removeEventListener('focus', this.showTooltip);
+		child.removeEventListener('blur', this.hideTooltip);
+	};
+
+	componentDidRender() {
+		const child = this.getContentElement();
+		const tooltip = this.getTooltipElement();
+
+		if (tooltip === null) {
+			return;
+		}
+		this.unlistenToEvents(child);
+		this.listenToEvents(child);
+	}
+
+	disconnectedCallback() {
+		const child = this.getContentElement();
+		this.unlistenToEvents(child);
+	}
 
 	render() {
 		return (
@@ -43,35 +108,5 @@ export class KvTooltip implements ITooltip {
 				)}
 			</Host>
 		);
-	}
-
-	componentDidRender() {
-		const child = this.el.shadowRoot.querySelector('#content');
-		const tooltip = this.el.shadowRoot.querySelector('#tooltip') as HTMLElement;
-
-		if (tooltip === null) {
-			return;
-		}
-
-		const update = () => {
-			computePosition(child, tooltip, this.getOptions()).then(({ x, y }) => {
-				tooltip.style.left = `${x}px`;
-				tooltip.style.top = `${y}px`;
-			});
-		};
-
-		const showTooltip = () => {
-			tooltip.style.display = 'inline-block';
-			update();
-		};
-
-		const hideTooltip = () => {
-			tooltip.style.display = '';
-		};
-
-		child.addEventListener('mouseenter', showTooltip);
-		child.addEventListener('mouseleave', hideTooltip);
-		child.addEventListener('focus', showTooltip);
-		child.addEventListener('blur', hideTooltip);
 	}
 }
