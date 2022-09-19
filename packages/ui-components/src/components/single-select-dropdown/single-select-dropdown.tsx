@@ -73,6 +73,10 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	};
 
 	private openStateChangeHandler = (event: CustomEvent<boolean>) => {
+		if (this.disabled) {
+			return;
+		}
+
 		this.isOpen = event.detail;
 
 		if (!this.isOpen) {
