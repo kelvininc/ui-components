@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop, Element, EventEmitter, Event } from '@stencil/core';
 import { IRange, IRangeEvents } from './range.types';
-import { getInputPercentageFromValue, getOffset } from './range.helper';
+import { getInputOffset, getInputPercentageFromValue, getValueOffset } from './range.helper';
 
 @Component({
 	tag: 'kv-range',
@@ -40,12 +40,13 @@ export class KvRange implements IRange, IRangeEvents {
 
 		const inputValue = this.getInputValue(rangeInputValue);
 		const percentage = getInputPercentageFromValue(inputValue, this.min, this.max);
-		const offSet = getOffset(percentage);
+		const inputOffSet = getInputOffset(percentage);
+		const valueOffset = getValueOffset(percentage, inputValue);
 
 		selector.style.left = percentage + '%';
-		selector.style.marginLeft = offSet + 'px';
+		selector.style.marginLeft = valueOffset + 'px';
 
-		rangeInputValue.style.background = `linear-gradient(90deg, var(--slider-background-filled) calc(${percentage}% + ${offSet}px), var(--slider-background-empty) calc(${percentage}% + ${offSet}px))`;
+		rangeInputValue.style.background = `linear-gradient(90deg, var(--slider-background-filled) calc(${percentage}% + ${inputOffSet}px), var(--slider-background-empty) calc(${percentage}% + ${inputOffSet}px))`;
 	};
 
 	private onInputChange = () => {
