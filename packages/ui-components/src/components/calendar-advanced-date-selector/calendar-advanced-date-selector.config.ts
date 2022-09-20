@@ -4,7 +4,7 @@ export const DEFAULT_TIMEZONE_GROUP_NAME = 'System Timezone - Default';
 export const OTHER_TIMEZONES_GROUP_NAME = 'Other Timezones';
 export const TIMEZONES_PLACEHOLDER = 'Select a timezone';
 export const TIMEZONES_SEARCH_LABEL = 'Timezone';
-export const TIMEZONES_SEARCH_PLACEHOLDER = 'Select for a timezone';
+export const TIMEZONES_SEARCH_PLACEHOLDER = 'Search for a timezone';
 
 export const DEFAULT_START_DATE_INPUT_CONFIG: Partial<ITextField> = {
 	label: 'From',
