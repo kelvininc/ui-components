@@ -24,7 +24,7 @@ exports[`Calendar Advance Date Selector (unit tests) when selected time is passe
         </div>
       </div>
       <div class="selector timezone-selector">
-        <kv-single-select-dropdown icon="kv-calendar" label="Timezone" placeholder="Select a timezone" searchable="" searchplaceholder="Select for a timezone" selectedoption="Europe/Lisbon"></kv-single-select-dropdown>
+        <kv-single-select-dropdown icon="kv-time" label="Timezone" placeholder="Select a timezone" searchable="" searchplaceholder="Search for a timezone" selectedoption="Europe/Lisbon"></kv-single-select-dropdown>
       </div>
     </div>
   </mock:shadow-root>
@@ -55,7 +55,7 @@ exports[`Calendar Advance Date Selector (unit tests) when selected time is passe
         </div>
       </div>
       <div class="selector timezone-selector">
-        <kv-single-select-dropdown icon="kv-calendar" label="Timezone" placeholder="Select a timezone" searchable="" searchplaceholder="Select for a timezone" selectedoption="Europe/Lisbon"></kv-single-select-dropdown>
+        <kv-single-select-dropdown icon="kv-time" label="Timezone" placeholder="Select a timezone" searchable="" searchplaceholder="Search for a timezone" selectedoption="Europe/Lisbon"></kv-single-select-dropdown>
       </div>
     </div>
   </mock:shadow-root>
@@ -86,7 +86,7 @@ exports[`Calendar Advance Date Selector (unit tests) when selected timezone is p
         </div>
       </div>
       <div class="selector timezone-selector">
-        <kv-single-select-dropdown icon="kv-calendar" label="Timezone" placeholder="Select a timezone" searchable="" searchplaceholder="Select for a timezone" selectedoption="Europe/Lisbon"></kv-single-select-dropdown>
+        <kv-single-select-dropdown icon="kv-time" label="Timezone" placeholder="Select a timezone" searchable="" searchplaceholder="Search for a timezone" selectedoption="Europe/Lisbon"></kv-single-select-dropdown>
       </div>
     </div>
   </mock:shadow-root>
