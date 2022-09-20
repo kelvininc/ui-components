@@ -18,6 +18,7 @@ export enum EIllustrationName {
 	EsTableBuild = 'kv-es-table-build',
 	EsTableEmpty = 'kv-es-table-empty',
 	EsTableSearch = 'kv-es-table-search',
+	EsKelvinLogotype = 'kv-es-kelvin-logotype',
 	// -----------------------------------------
 	// --- PEACOCK - NEW THEME ILLUSTRATIONS ---
 	// -----------------------------------------
