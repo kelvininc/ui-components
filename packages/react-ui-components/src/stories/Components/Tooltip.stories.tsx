@@ -12,7 +12,12 @@ export default {
 		position: {
 			control: { type: 'select' },
 			options: Object.values(ETooltipPosition)
-		}
+		},
+		disabled: { type: 'boolean' },
+		onMouseEnter: { action: 'Mouse enter' },
+		onMouseLeave: { action: 'Mouse Leave' },
+		onFocus: { action: 'Focus' },
+		onBlur: { action: 'Blur' }
 	},
 	parameters: {
 		notes: require('@ui-notes/tooltip/readme.md'),
@@ -35,4 +40,10 @@ export const FixedPositionState = TooltipTemplate.bind(this);
 FixedPositionState.args = {
 	text: 'Tooltip text',
 	position: ETooltipPosition.Left
+};
+
+export const DisabledState = TooltipTemplate.bind(this);
+DisabledState.args = {
+	text: 'Tooltip text',
+	disabled: true
 };

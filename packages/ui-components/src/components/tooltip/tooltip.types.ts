@@ -8,4 +8,8 @@ export interface ITooltip {
 	position?: ETooltipPosition;
 	/** (optional) Object with tooltip position options */
 	options?: Partial<ComputePositionConfig>;
+	/** (optional) Disables tooltip */
+	disabled?: boolean;
+	/** (optional) Content element reference */
+	contentElement?: HTMLElement;
 }
