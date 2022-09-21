@@ -1,10 +1,11 @@
+import { Component, Element, Event, EventEmitter, Host, Method, Prop, h } from '@stencil/core';
+import { IDropdown, IDropdownEvents } from './dropdown.types';
+
 import { ComputePositionConfig } from '@floating-ui/dom';
-import { Component, Host, h, Prop, Event, EventEmitter, Element, Method } from '@stencil/core';
-import { merge } from 'lodash-es';
+import { DEFAULT_INPUT_CONFIG } from './dropdown.config';
 import { EIconName } from '../icon/icon.types';
 import { ITextField } from '../text-field/text-field.types';
-import { DEFAULT_INPUT_CONFIG } from './dropdown.config';
-import { IDropdown, IDropdownEvents } from './dropdown.types';
+import { merge } from 'lodash-es';
 
 /**
  * @part input - The input container.
@@ -18,7 +19,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: false }) inputConfig?: Partial<ITextField> = {};
 	/** @inheritdoc */
-	@Prop({ reflect: true, mutable: true }) isOpen?: boolean = false;
+	@Prop({ reflect: true }) isOpen?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) options?: Partial<ComputePositionConfig>;
 	/** @inheritdoc */
@@ -38,7 +39,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	}
 
 	private onOpenStateChange = ({ detail: openState }: CustomEvent<boolean>) => {
-		this.isOpen = openState;
+		this.openStateChange.emit(openState);
 	};
 
 	private getInputConfig = () => {

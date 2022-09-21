@@ -1,11 +1,12 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Watch, State } from '@stencil/core';
-import { isEmpty } from 'lodash-es';
+import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { IMultiSelectDropdown, IMultiSelectDropdownEvents, IMultiSelectDropdownOption } from './multi-select-dropdown.types';
-import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
 import { buildSelectGroups, hasGroups } from '../select-group/select-group.helper';
+
+import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
 import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
+import { isEmpty } from 'lodash-es';
 
 @Component({
 	tag: 'kv-multi-select-dropdown',
@@ -15,8 +16,6 @@ import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
 export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelectDropdownEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) placeholder?: string;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) isOpen?: boolean;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) loading?: boolean = false;
 	/** @inheritdoc */
@@ -55,6 +54,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 
 	@State() _selectionDisplayValue: string;
 	@State() _searchValue: string;
+	@State() isOpen: boolean = false;
 
 	private selectOption = (event: CustomEvent<string>) => {
 		const option = event.detail;
@@ -72,8 +72,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		}
 	}
 
-	private openStateChangeHandler = (event: CustomEvent<boolean>) => {
-		this.isOpen = event.detail;
+	private openStateChangeHandler = ({ detail: openState }: CustomEvent<boolean>) => {
+		this.isOpen = openState;
 
 		if (!this.isOpen) {
 			this._searchValue = '';
