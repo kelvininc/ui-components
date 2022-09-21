@@ -20,7 +20,7 @@ exports[`Tree Item (unit tests) when initialized with counter attribute should m
           </div>
         </a>
       </div>
-      <div class="children" style="display: none;">
+      <div class="children" part="children" style="display: none;">
         <slot name="child-slot"></slot>
       </div>
     </div>
@@ -42,7 +42,7 @@ exports[`Tree Item (unit tests) when initialized with disabled attribute should 
           <div class="right-indicators"></div>
         </a>
       </div>
-      <div class="children" style="display: none;">
+      <div class="children" part="children" style="display: none;">
         <slot name="child-slot"></slot>
       </div>
     </div>
@@ -64,7 +64,7 @@ exports[`Tree Item (unit tests) when initialized with preventDefault prop should
           <div class="right-indicators"></div>
         </a>
       </div>
-      <div class="children" style="display: none;">
+      <div class="children" part="children" style="display: none;">
         <slot name="child-slot"></slot>
       </div>
     </div>
@@ -86,7 +86,7 @@ exports[`Tree Item (unit tests) when initialized with required props should matc
           <div class="right-indicators"></div>
         </a>
       </div>
-      <div class="children" style="display: none;">
+      <div class="children" part="children" style="display: none;">
         <slot name="child-slot"></slot>
       </div>
     </div>
@@ -108,7 +108,7 @@ exports[`Tree Item (unit tests) when initialized with selected attribute should 
           <div class="right-indicators"></div>
         </a>
       </div>
-      <div class="children" style="display: none;">
+      <div class="children" part="children" style="display: none;">
         <slot name="child-slot"></slot>
       </div>
     </div>

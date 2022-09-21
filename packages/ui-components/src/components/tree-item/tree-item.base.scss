@@ -5,9 +5,14 @@
 	 * @prop --node-width: Tree Node height.
 	 * @prop --node-height: Tree Node height.
 	 * @prop --node-gap: Gap between child nodes in px.
-	 * @prop --children-offset: Offset of the child nodes in px.
 
 	 * @prop --connector-lines-color: Line color of children's connectors.
+	 * @prop --vertical-lines-height: Line height of children's connectors.
+
+	 * @prop --children-offset: Offset of the child nodes in px.
+	 * @prop --children-margin-top: Margin top of children in px.
+	 * @prop --children-margin-left: Margin left of the children in px.
+	 * @prop --children-padding-left: Padding left of the children in px.
 
 	 * @prop --background-color-default: Background color when state is default.
 	 * @prop --background-color-focused: Background color when state is focused.
@@ -38,34 +43,46 @@
 	--node-height: 40px;
 	--node-gap: #{$spacing-2x};
 	--children-offset: #{$spacing-3x};
+	--vertical-lines-height: calc(var(--private-vertical-line-height) + var(--private-node-gap));
+	--horizontal-lines-width: calc(var(--private-left-shift) - 2px);
+	--children-margin-top: var(--node-gap);
+	--children-padding-left: #{$spacing-2x};
+	--children-margin-left: 0;
+	--border-radius: 2px;
 
 	// Private usage
 	/* stylelint-disable-next-line length-zero-no-unit */
 	--private-left-shift: 0px;
 	--private-node-gap: 0;
 	--private-vertical-line-height: 0;
+	--private-padding-left: 0;
 
 	.node-container {
 		position: relative;
 		user-select: none;
+
 		// Vertical Lines
 		&::after {
 			content: '';
 			position: absolute;
 			border-left: 1px dashed var(--connector-lines-color);
-			height: calc(var(--private-vertical-line-height) + var(--private-node-gap));
+			height: var(--vertical-lines-height);
 			width: 0;
 			top: calc(-1 * var(--private-node-gap));
+			margin-left: calc(var(--children-margin-left) - var(--private-left-shift));
 		}
 	}
 
 	.children {
-		margin-left: calc($spacing-5x + var(--private-left-shift));
+		margin-left: var(--children-margin-left);
+		padding-left: var(--private-padding-left);
 
 		::slotted(kv-tree-item) {
 			--private-left-shift: #{var(--children-offset)};
 			--private-node-gap: #{var(--node-gap)};
 			--private-vertical-line-height: 100%;
+			--children-margin-left: calc(#{$spacing-5x} + var(--private-left-shift));
+			--private-padding-left: #{var(--children-padding-left)};
 		}
 
 		::slotted(kv-tree-item:last-child) {
@@ -84,20 +101,20 @@
 		display: flex;
 		width: var(--node-width);
 		height: var(--node-height);
-		margin: var(--private-node-gap) 0 0 var(--private-left-shift);
+		margin: var(--children-margin-top) 0 0 var(--children-margin-left);
 		align-items: center;
 		box-sizing: border-box;
-		padding: $spacing-2x 0;
+		padding: $spacing-2x 0 $spacing-2x var(--children-padding-left);
 		background-color: var(--background-color-default);
 		border: 1px solid var(--border-color-default);
-		border-radius: 2px;
+		border-radius: var(--border-radius);
 
 		// Horizontal Lines
 		&::before {
 			content: '';
 			position: absolute;
 			left: calc(-1 * var(--private-left-shift));
-			width: calc(var(--private-left-shift) - 2px);
+			width: var(--horizontal-lines-width);
 			border-top: 1px dashed var(--connector-lines-color);
 		}
 

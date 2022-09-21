@@ -1,9 +1,9 @@
-import { h, SpecPage } from '@stencil/core/internal';
-import { newSpecPage } from '@stencil/core/testing';
-import { formatDateTime } from '../../../utils/date.helper';
+import { SpecPage, h } from '@stencil/core/internal';
+
 import { KvCalendarRangeDatesSelector } from '../../calendar-range-dates-selector/calendar-range-dates-selector';
-import { KvTextField } from '../../text-field/text-field';
 import { KvRangeDatesSelectDropdown } from '../range-dates-select-dropdown';
+import { KvTextField } from '../../text-field/text-field';
+import { newSpecPage } from '@stencil/core/testing';
 
 describe('Range Dates Input (unit tests)', () => {
 	let page: SpecPage;

@@ -1,0 +1,10 @@
+@import '../../assets/styles/globals';
+@import './tree.base';
+
+:host {
+	--tree-connector-lines-color: #{kv-color('neutral-5')};
+
+	kv-tree-item {
+		--connector-lines-color: var(--tree-connector-lines-color);
+	}
+}
