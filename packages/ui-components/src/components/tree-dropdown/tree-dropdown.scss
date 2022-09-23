@@ -18,9 +18,10 @@
 		--tree-node-width: var(--dropdown-width);
 	}
 
-	.hover::part(tree) {
+	.tree::part(tree) {
 		border-radius: $spacing;
 		overflow: hidden;
+		border: 1px solid transparent;
 	}
 
 	.expanded::part(tree) {
