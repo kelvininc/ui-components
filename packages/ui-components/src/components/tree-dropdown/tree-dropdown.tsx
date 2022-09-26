@@ -39,7 +39,7 @@ export class KvTreeDropdown {
 			<Host>
 				{this.nodes.map(node => (
 					<kv-tree
-						class={{ hover: true, expanded: this.expandedNodes[node.id], nochildren: !node?.children }}
+						class={{ tree: true, expanded: this.expandedNodes[node.id], nochildren: !node?.children }}
 						nodes={[node]}
 						loading={this.loading}
 						selectedNode={this.selectedNode}
