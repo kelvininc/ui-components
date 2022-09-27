@@ -103,16 +103,17 @@ export const TreeExample: React.FC = () => (
 
 ## Properties
 
-| Property             | Attribute       | Description                                                                                                                             | Type                          | Default     |
-| -------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- | ----------- |
-| `disabledNodes`      | --              | (optional) Dictionary that defines whether the tree node is disabled.                                                                   | `{ [key: string]: boolean; }` | `undefined` |
-| `expandedNodes`      | --              | (optional) Dictionary that defines whether the tree node is expanded or collapsed. Only has visual effect for tree nodes with children. | `{ [key: string]: boolean; }` | `undefined` |
-| `hiddenNodes`        | --              | (optional) Dictionary that defines whether the tree node is hidden.                                                                     | `{ [key: string]: boolean; }` | `undefined` |
-| `highlightedNodes`   | --              | (optional) Dictionary that defines whether the tree node is highlighted.                                                                | `{ [key: string]: boolean; }` | `undefined` |
-| `loading`            | `loading`       | (optional) Defines whether the all tree nodes is loading.                                                                               | `boolean`                     | `false`     |
-| `loadingNodes`       | --              | (optional) Dictionary that defines whether the tree node is loading.                                                                    | `{ [key: string]: boolean; }` | `undefined` |
-| `nodes` _(required)_ | --              | (required) The tree hierarchy items to render in this component                                                                         | `ITreeNodeItem[]`             | `undefined` |
-| `selectedNode`       | `selected-node` | (optional) The currently selected node id                                                                                               | `string`                      | `undefined` |
+| Property             | Attribute       | Description                                                                                                                              | Type                          | Default     |
+| -------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- | ----------- |
+| `disabledNodes`      | --              | (optional) Dictionary that defines whether the tree node is disabled.                                                                    | `{ [key: string]: boolean; }` | `undefined` |
+| `expandedNodes`      | --              | (optional) Dictionary that defines whether the tree node is expanded or collapsed. Only has visual effect for tree nodes with children.  | `{ [key: string]: boolean; }` | `undefined` |
+| `hiddenNodes`        | --              | (optional) Dictionary that defines whether the tree node is hidden.                                                                      | `{ [key: string]: boolean; }` | `undefined` |
+| `highlightedNodes`   | --              | (optional) Dictionary that defines whether the tree node is highlighted.                                                                 | `{ [key: string]: boolean; }` | `undefined` |
+| `loading`            | `loading`       | (optional) Defines whether the all tree nodes is loading.                                                                                | `boolean`                     | `false`     |
+| `loadingNodes`       | --              | (optional) Dictionary that defines whether the tree node is loading.                                                                     | `{ [key: string]: boolean; }` | `undefined` |
+| `nodes` _(required)_ | --              | (required) The tree hierarchy items to render in this component                                                                          | `ITreeNodeItem[]`             | `undefined` |
+| `selectedNode`       | `selected-node` | (optional) The currently selected node id                                                                                                | `string`                      | `undefined` |
+| `spotlightedNodes`   | --              | (optional) Dictionary that defines whether the tree node is spotlight. Only has visual effect for tree nodes with children and expanded. | `{ [key: string]: boolean; }` | `undefined` |
 
 
 ## Events

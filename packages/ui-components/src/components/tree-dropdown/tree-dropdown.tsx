@@ -34,6 +34,16 @@ export class KvTreeDropdown {
 		return node.children?.length >= 0 ? { [node.id]: true } : {};
 	}
 
+	private getSpotlightedNodes() {
+		const node = this.nodes.find(node => node.children?.find(child => child.id === this.selectedNode));
+
+		if (!node) {
+			return {};
+		}
+
+		return { [node.id]: true };
+	}
+
 	render() {
 		return (
 			<Host>
@@ -45,6 +55,7 @@ export class KvTreeDropdown {
 						selectedNode={this.selectedNode}
 						hiddenNodes={this.hiddenNodes}
 						expandedNodes={this.expandedNodes}
+						spotlightedNodes={this.getSpotlightedNodes()}
 						disabledNodes={this.disabledNodes}
 						highlightedNodes={this.getHighlightedNodes(node)}
 						loadingNodes={this.loadingNodes}

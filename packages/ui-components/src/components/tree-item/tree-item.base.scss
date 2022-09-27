@@ -129,6 +129,13 @@
 			border-color: var(--border-color-highlighted);
 		}
 
+		&.spotlight {
+			.title {
+				@include kv-font-label-small-semibold();
+				color: var(--title-color-selected);
+			}
+		}
+
 		&.selected {
 			background-color: var(--background-color-focused);
 			border-color: var(--border-color-selected);

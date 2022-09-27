@@ -49,6 +49,8 @@ export class KvTreeItem implements IAnchor {
 	@Prop({ reflect: true }) selected? = false;
 	/** (optional) Defines whether the tree node is highlighted.*/
 	@Prop({ reflect: true }) highlighted? = false;
+	/** (optional) Defines whether the tree node is spotlight.*/
+	@Prop({ reflect: true }) spotlighted? = false;
 	/** (optional) Defines whether the tree node is loading. */
 	@Prop({ reflect: true }) loading? = false;
 	/** (optional) Defines if the item click event should prevent default behaviour. */
@@ -114,6 +116,7 @@ export class KvTreeItem implements IAnchor {
 							'disabled': this.disabled,
 							'selected': this.selected,
 							'highlighted': this.highlighted,
+							'spotlight': this.spotlighted,
 							'loading': this.loading
 						}}
 					>

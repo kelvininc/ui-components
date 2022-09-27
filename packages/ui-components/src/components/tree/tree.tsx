@@ -23,13 +23,15 @@ export class KvTree {
 	/** (optional) The currently selected node id */
 	@Prop() selectedNode?: string;
 
-	/** (optional) Dictionary that defines whether the tree node is hidden.*/
+	/** (optional) Dictionary that defines whether the tree node is hidden. */
 	@Prop({ reflect: true }) hiddenNodes?: { [key: string]: boolean };
-	/** (optional) Dictionary that defines whether the tree node is expanded or collapsed. Only has visual effect for tree nodes with children.*/
+	/** (optional) Dictionary that defines whether the tree node is expanded or collapsed. Only has visual effect for tree nodes with children. */
 	@Prop({ reflect: true }) expandedNodes?: { [key: string]: boolean };
-	/** (optional) Dictionary that defines whether the tree node is disabled.*/
+	/** (optional) Dictionary that defines whether the tree node is spotlight. Only has visual effect for tree nodes with children and expanded. */
+	@Prop({ reflect: true }) spotlightedNodes?: { [key: string]: boolean };
+	/** (optional) Dictionary that defines whether the tree node is disabled. */
 	@Prop({ reflect: true }) disabledNodes?: { [key: string]: boolean };
-	/** (optional) Dictionary that defines whether the tree node is highlighted.*/
+	/** (optional) Dictionary that defines whether the tree node is highlighted. */
 	@Prop({ reflect: true }) highlightedNodes?: { [key: string]: boolean };
 	/** (optional) Dictionary that defines whether the tree node is loading. */
 	@Prop({ reflect: true }) loadingNodes?: { [key: string]: boolean };
@@ -67,6 +69,7 @@ export class KvTree {
 								disabled={get(this.disabledNodes, [item.id], false)}
 								preventDefault={item.preventDefault}
 								highlighted={get(this.highlightedNodes, [item.id], false)}
+								spotlighted={get(this.spotlightedNodes, [item.id], false)}
 								loading={this.loading || get(this.loadingNodes, [item.id], false)}
 								onItemClick={_ => this.onItemClick(item)}
 								onToggleExpand={_ => this.onToggleExpand(item)}
