@@ -11,8 +11,13 @@ export const getClassList = (classes: string | (string | null | undefined)[] | u
 	return [];
 };
 
-export const getClassMap = (classes: string | string[] | undefined): CssClassMap => {
+export const getClassMap = (classes: string | string[] | CssClassMap | undefined): CssClassMap => {
+	if (typeof classes === 'object' && !Array.isArray(classes)) {
+		return classes;
+	}
 	const map: CssClassMap = {};
+
 	getClassList(classes).forEach(c => (map[c] = true));
+
 	return map;
 };

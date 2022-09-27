@@ -1,5 +1,6 @@
 import { Component, Event, EventEmitter, Fragment, Host, Prop, h } from '@stencil/core';
 
+import { EIconName } from '../icon/icon.types';
 import { ITreeNodeItem } from './tree.types';
 import { get } from 'lodash-es';
 
@@ -35,6 +36,8 @@ export class KvTree {
 	@Prop({ reflect: true }) highlightedNodes?: { [key: string]: boolean };
 	/** (optional) Dictionary that defines whether the tree node is loading. */
 	@Prop({ reflect: true }) loadingNodes?: { [key: string]: boolean };
+	/** (optional) Defines if icon to use for expanding, should be and arrow like icon pointing up. */
+	@Prop({ reflect: true }) expandIcon? = EIconName.ArrowDropUp;
 
 	/** Emitted when the node expand toggle is clicked */
 	@Event() nodeToggleExpand: EventEmitter<ITreeNodeItem>;
@@ -70,6 +73,7 @@ export class KvTree {
 								preventDefault={item.preventDefault}
 								highlighted={get(this.highlightedNodes, [item.id], false)}
 								spotlighted={get(this.spotlightedNodes, [item.id], false)}
+								expandIcon={this.expandIcon}
 								loading={this.loading || get(this.loadingNodes, [item.id], false)}
 								onItemClick={_ => this.onItemClick(item)}
 								onToggleExpand={_ => this.onToggleExpand(item)}

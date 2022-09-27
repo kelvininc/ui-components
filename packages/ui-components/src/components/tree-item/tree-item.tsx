@@ -55,6 +55,8 @@ export class KvTreeItem implements IAnchor {
 	@Prop({ reflect: true }) loading? = false;
 	/** (optional) Defines if the item click event should prevent default behaviour. */
 	@Prop({ reflect: true }) preventDefault? = false;
+	/** (optional) Defines if icon to use for expanding, should be and arrow like icon pointing up. */
+	@Prop({ reflect: true }) expandIcon? = EIconName.ArrowDropUp;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) href?: string;
 	/** @inheritdoc */
@@ -124,7 +126,15 @@ export class KvTreeItem implements IAnchor {
 							<Fragment>
 								{this.requiresToggleButton && (
 									<div class="expander-arrow" onClick={this.toggleClickThrottler}>
-										<kv-icon name={this.expanded ? EIconName.ArrowDropDown : EIconName.ArrowRight} customClass="pk-grey3 icon-24" />
+										<kv-icon
+											name={this.expandIcon}
+											customClass={{
+												'pk-grey3': true,
+												'icon-24': true,
+												'rotate-180': this.expanded,
+												'rotate-90': !this.expanded
+											}}
+										/>
 									</div>
 								)}
 
