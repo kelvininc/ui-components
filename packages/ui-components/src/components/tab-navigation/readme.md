@@ -62,13 +62,11 @@ export const TabNavigationExample: React.FC = () => (
 
 ### Depends on
 
-- [kv-tab-list](../tab-list)
 - [kv-tab-item](../tab-item)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-tab-navigation --> kv-tab-list
   kv-tab-navigation --> kv-tab-item
   style kv-tab-navigation fill:#f9f,stroke:#333,stroke-width:4px
 ```
