@@ -1,12 +1,13 @@
 import { Component, Element, Event, EventEmitter, Fragment, Host, Listen, Prop, h } from '@stencil/core';
-import { EAnchorTarget, IAnchor } from '../../utils/types';
+import { CssClassMap, EAnchorTarget, IAnchor } from '../../utils/types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { ETreeItemLabelSize, ETreeItemState } from './tree-item.types';
 import { isEmpty, isNumber, throttle } from 'lodash-es';
 
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { EBadgeState } from '../badge/badge.types';
-import { ETreeItemState } from './tree-item.types';
 import { STATE_ICONS } from './tree-item.config';
+import { getClassMap } from '../../utils/css-class.helper';
 
 /**
  * @slot child-slot - Content is placed in the child subgroup and can be expanded and collapsed.
@@ -27,10 +28,14 @@ export class KvTreeItem implements IAnchor {
 	@Prop({ reflect: true }) additionalLabel?: string;
 	/** (optional) Defines the placeholder of the tree item, displayed when title is not filled.*/
 	@Prop({ reflect: true }) placeholder?: string;
+	/** (optional) Defines the font size of title and subtitle labels.*/
+	@Prop({ reflect: true }) labelsSize?: ETreeItemLabelSize = ETreeItemLabelSize.Small;
 	/** (optional) Defines the icon of the tree item. If set, an icon will be displayed before the label.*/
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** (optional) Defines the state of the icon.*/
 	@Prop({ reflect: true }) iconState?: ETreeItemState;
+	/** (optional) Provides custom styling to the icons.*/
+	@Prop({ reflect: true }) iconCustomClasses?: string | string[] | CssClassMap = 'icon-24';
 	/** (optional) Defines the counter info of the tree item. If set, an badge will be displayed in the end of tree item.*/
 	@Prop({ reflect: true }) counter?: number;
 	/** (optional) Defines the state of the counter.*/
@@ -49,10 +54,14 @@ export class KvTreeItem implements IAnchor {
 	@Prop({ reflect: true }) selected? = false;
 	/** (optional) Defines whether the tree node is highlighted.*/
 	@Prop({ reflect: true }) highlighted? = false;
+	/** (optional) Defines whether the tree node is spotlight.*/
+	@Prop({ reflect: true }) spotlighted? = false;
 	/** (optional) Defines whether the tree node is loading. */
 	@Prop({ reflect: true }) loading? = false;
 	/** (optional) Defines if the item click event should prevent default behaviour. */
 	@Prop({ reflect: true }) preventDefault? = false;
+	/** (optional) Defines if icon to use for expanding, should be and arrow like icon pointing up. */
+	@Prop({ reflect: true }) expandIcon? = EIconName.ArrowDropUp;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) href?: string;
 	/** @inheritdoc */
@@ -114,6 +123,7 @@ export class KvTreeItem implements IAnchor {
 							'disabled': this.disabled,
 							'selected': this.selected,
 							'highlighted': this.highlighted,
+							'spotlight': this.spotlighted,
 							'loading': this.loading
 						}}
 					>
@@ -121,7 +131,15 @@ export class KvTreeItem implements IAnchor {
 							<Fragment>
 								{this.requiresToggleButton && (
 									<div class="expander-arrow" onClick={this.toggleClickThrottler}>
-										<kv-icon name={this.expanded ? EIconName.ArrowDropDown : EIconName.ArrowRight} customClass="pk-grey3 icon-24" />
+										<kv-icon
+											name={this.expandIcon}
+											customClass={{
+												'pk-grey3': true,
+												...getClassMap(this.iconCustomClasses),
+												'rotate-180': this.expanded,
+												'rotate-90': !this.expanded
+											}}
+										/>
 									</div>
 								)}
 
@@ -139,7 +157,7 @@ export class KvTreeItem implements IAnchor {
 								>
 									{this.icon && (
 										<div class="node-icon">
-											<kv-icon name={this.icon} customClass="icon-24" class="main-icon" exportparts="icon"></kv-icon>
+											<kv-icon name={this.icon} customClass={{ ...getClassMap(this.iconCustomClasses) }} class="main-icon" exportparts="icon"></kv-icon>
 											{this.iconState && (
 												<kv-icon name={STATE_ICONS[this.iconState]} customClass="icon-12" class={{ 'state-icon': true, [this.iconState]: true }} />
 											)}
@@ -147,8 +165,8 @@ export class KvTreeItem implements IAnchor {
 									)}
 
 									{(this.label || this.placeholder) && (
-										<div class="labels">
-											<div class="title">{this.label || this.placeholder}</div>
+										<div class={`labels labels-${this.labelsSize}`}>
+											<div class={`title-${this.labelsSize}`}>{this.label || this.placeholder}</div>
 											{this.additionalLabel && <div class="sub-title">{this.additionalLabel}</div>}
 										</div>
 									)}

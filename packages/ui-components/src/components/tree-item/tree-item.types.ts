@@ -5,3 +5,8 @@ export enum ETreeItemState {
 	Error = 'error',
 	Success = 'success'
 }
+
+export enum ETreeItemLabelSize {
+	Regular = 'regular',
+	Small = 'small'
+}
