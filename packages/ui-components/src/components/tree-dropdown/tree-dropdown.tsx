@@ -1,6 +1,7 @@
 import { Component, Event, EventEmitter, Host, Prop, h } from '@stencil/core';
 
 import { EIconName } from '../icon/icon.types';
+import { ETreeItemLabelSize } from '../../types';
 import { ITreeNodeItem } from '../tree/tree.types';
 
 @Component({
@@ -57,6 +58,7 @@ export class KvTreeDropdown {
 						hiddenNodes={this.hiddenNodes}
 						expandedNodes={this.expandedNodes}
 						spotlightedNodes={this.getSpotlightedNodes()}
+						labelsSize={ETreeItemLabelSize.Regular}
 						expandIcon={EIconName.Collapse}
 						iconCustomClasses="icon-20"
 						disabledNodes={this.disabledNodes}

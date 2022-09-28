@@ -2,6 +2,7 @@ import { Component, Event, EventEmitter, Fragment, Host, Prop, h } from '@stenci
 
 import { CssClassMap } from '../../types';
 import { EIconName } from '../icon/icon.types';
+import { ETreeItemLabelSize } from '../../types';
 import { ITreeNodeItem } from './tree.types';
 import { get } from 'lodash-es';
 
@@ -37,10 +38,12 @@ export class KvTree {
 	@Prop({ reflect: true }) highlightedNodes?: { [key: string]: boolean };
 	/** (optional) Dictionary that defines whether the tree node is loading. */
 	@Prop({ reflect: true }) loadingNodes?: { [key: string]: boolean };
+	/** (optional) Defines the font size of title and subtitle labels.*/
+	@Prop({ reflect: true }) labelsSize?: ETreeItemLabelSize;
 	/** (optional) Defines if icon to use for expanding, should be and arrow like icon pointing up. */
-	@Prop({ reflect: true }) expandIcon? = EIconName.ArrowDropUp;
+	@Prop({ reflect: true }) expandIcon?: EIconName;
 	/** (optional) Provides custom styling to the icons.*/
-	@Prop({ reflect: true }) iconCustomClasses?: string | string[] | CssClassMap = 'icon-24';
+	@Prop({ reflect: true }) iconCustomClasses?: string | string[] | CssClassMap;
 
 	/** Emitted when the node expand toggle is clicked */
 	@Event() nodeToggleExpand: EventEmitter<ITreeNodeItem>;
@@ -62,6 +65,7 @@ export class KvTree {
 								label={item.label}
 								additionalLabel={item.additionalLabel}
 								placeholder={item.placeholder}
+								labelsSize={this.labelsSize}
 								icon={item.icon}
 								iconState={item.iconState}
 								counter={item.counter}

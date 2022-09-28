@@ -1,11 +1,11 @@
 import { Component, Element, Event, EventEmitter, Fragment, Host, Listen, Prop, h } from '@stencil/core';
 import { CssClassMap, EAnchorTarget, IAnchor } from '../../utils/types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { ETreeItemLabelSize, ETreeItemState } from './tree-item.types';
 import { isEmpty, isNumber, throttle } from 'lodash-es';
 
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { EBadgeState } from '../badge/badge.types';
-import { ETreeItemState } from './tree-item.types';
 import { STATE_ICONS } from './tree-item.config';
 import { getClassMap } from '../../utils/css-class.helper';
 
@@ -28,6 +28,8 @@ export class KvTreeItem implements IAnchor {
 	@Prop({ reflect: true }) additionalLabel?: string;
 	/** (optional) Defines the placeholder of the tree item, displayed when title is not filled.*/
 	@Prop({ reflect: true }) placeholder?: string;
+	/** (optional) Defines the font size of title and subtitle labels.*/
+	@Prop({ reflect: true }) labelsSize?: ETreeItemLabelSize = ETreeItemLabelSize.Small;
 	/** (optional) Defines the icon of the tree item. If set, an icon will be displayed before the label.*/
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** (optional) Defines the state of the icon.*/
@@ -163,8 +165,8 @@ export class KvTreeItem implements IAnchor {
 									)}
 
 									{(this.label || this.placeholder) && (
-										<div class="labels">
-											<div class="title">{this.label || this.placeholder}</div>
+										<div class={`labels labels-${this.labelsSize}`}>
+											<div class={`title-${this.labelsSize}`}>{this.label || this.placeholder}</div>
 											{this.additionalLabel && <div class="sub-title">{this.additionalLabel}</div>}
 										</div>
 									)}

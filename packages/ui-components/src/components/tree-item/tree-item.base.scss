@@ -130,8 +130,13 @@
 		}
 
 		&.spotlight {
-			.title {
+			.title-small {
 				@include kv-font-label-small-semibold();
+				color: var(--title-color-selected);
+			}
+
+			.title-regular {
+				@include kv-font-span-semibold();
 				color: var(--title-color-selected);
 			}
 		}
@@ -219,13 +224,20 @@
 		}
 
 		.labels {
-			@include kv-font-label-small-regular();
 			flex: 1;
 			min-width: 0;
 			margin-left: $spacing-2x;
 			display: inline-flex;
 			flex-direction: column;
 			color: var(--title-color-default);
+		}
+
+		.labels-small {
+			@include kv-font-label-small-regular();
+		}
+
+		.labels-regular {
+			@include kv-font-span-regular();
 		}
 
 		.title {
@@ -261,8 +273,13 @@
 				--icon-color: var(--icon-color-selected);
 			}
 
-			.title {
+			.title-small {
 				@include kv-font-label-small-semibold();
+				color: var(--title-color-selected);
+			}
+
+			.title-regular {
+				@include kv-font-span-semibold();
 				color: var(--title-color-selected);
 			}
 		}

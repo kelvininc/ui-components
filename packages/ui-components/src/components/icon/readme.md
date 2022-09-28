@@ -58,6 +58,16 @@ export const SvgIconExample: React.FC = () => (
 | `"icon"` | The icon container. |
 
 
+## CSS Custom Properties
+
+| Name              | Description       |
+| ----------------- | ----------------- |
+| `--icon-color`    | Color of the icon |
+| `--icon-height`   | Height of icon    |
+| `--icon-rotation` | Rotation of icon  |
+| `--icon-width`    | Width of icon     |
+
+
 ## Dependencies
 
 ### Used by

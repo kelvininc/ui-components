@@ -55,7 +55,6 @@
 	},
 	"dependencies": {
 		"@floating-ui/dom": "^0.4.0",
-		"clsx": "^1.2.1",
 		"css-element-queries": "^1.2.3",
 		"inputmask": "5.0.8-beta.17"
 	},
