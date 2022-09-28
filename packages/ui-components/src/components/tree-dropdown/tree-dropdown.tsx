@@ -58,6 +58,7 @@ export class KvTreeDropdown {
 						expandedNodes={this.expandedNodes}
 						spotlightedNodes={this.getSpotlightedNodes()}
 						expandIcon={EIconName.Collapse}
+						iconCustomClasses="icon-20"
 						disabledNodes={this.disabledNodes}
 						highlightedNodes={this.getHighlightedNodes(node)}
 						loadingNodes={this.loadingNodes}

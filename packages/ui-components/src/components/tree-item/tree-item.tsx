@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, Fragment, Host, Listen, Prop, h } from '@stencil/core';
-import { EAnchorTarget, IAnchor } from '../../utils/types';
+import { CssClassMap, EAnchorTarget, IAnchor } from '../../utils/types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { isEmpty, isNumber, throttle } from 'lodash-es';
 
@@ -7,6 +7,7 @@ import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { EBadgeState } from '../badge/badge.types';
 import { ETreeItemState } from './tree-item.types';
 import { STATE_ICONS } from './tree-item.config';
+import { getClassMap } from '../../utils/css-class.helper';
 
 /**
  * @slot child-slot - Content is placed in the child subgroup and can be expanded and collapsed.
@@ -31,6 +32,8 @@ export class KvTreeItem implements IAnchor {
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** (optional) Defines the state of the icon.*/
 	@Prop({ reflect: true }) iconState?: ETreeItemState;
+	/** (optional) Provides custom styling to the icons.*/
+	@Prop({ reflect: true }) iconCustomClasses?: string | string[] | CssClassMap = 'icon-24';
 	/** (optional) Defines the counter info of the tree item. If set, an badge will be displayed in the end of tree item.*/
 	@Prop({ reflect: true }) counter?: number;
 	/** (optional) Defines the state of the counter.*/
@@ -130,7 +133,7 @@ export class KvTreeItem implements IAnchor {
 											name={this.expandIcon}
 											customClass={{
 												'pk-grey3': true,
-												'icon-24': true,
+												...getClassMap(this.iconCustomClasses),
 												'rotate-180': this.expanded,
 												'rotate-90': !this.expanded
 											}}
@@ -152,7 +155,7 @@ export class KvTreeItem implements IAnchor {
 								>
 									{this.icon && (
 										<div class="node-icon">
-											<kv-icon name={this.icon} customClass="icon-24" class="main-icon" exportparts="icon"></kv-icon>
+											<kv-icon name={this.icon} customClass={{ ...getClassMap(this.iconCustomClasses) }} class="main-icon" exportparts="icon"></kv-icon>
 											{this.iconState && (
 												<kv-icon name={STATE_ICONS[this.iconState]} customClass="icon-12" class={{ 'state-icon': true, [this.iconState]: true }} />
 											)}

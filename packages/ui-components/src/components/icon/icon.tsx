@@ -19,7 +19,8 @@ export class KvIcon {
 
 	/**
 	 * (optional) Additional classes to apply for custom CSS. If multiple classes are
-	 * provided they should be separated by spaces.
+	 * provided they should be separated by spaces. It is also valid to provide
+	 * CssClassMap with boolean logic.
 	 */
 	@Prop({ reflect: true }) customClass: string | string[] | CssClassMap = '';
 

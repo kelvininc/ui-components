@@ -44,11 +44,11 @@ export const SvgIconExample: React.FC = () => (
 
 ## Properties
 
-| Property            | Attribute      | Description                                                                                                                 | Type                                | Default     |
-| ------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ----------- |
-| `customClass`       | `custom-class` | (optional) Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. | `CssClassMap \| string \| string[]` | `''`        |
-| `customColor`       | `custom-color` | (optional) Icon custom color                                                                                                | `string`                            | `''`        |
-| `name` _(required)_ | `name`         | (required) Icon symbol name                                                                                                 | `EIconName \| EOtherIconName`       | `undefined` |
+| Property            | Attribute      | Description                                                                                                                                                                             | Type                                | Default     |
+| ------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ----------- |
+| `customClass`       | `custom-class` | (optional) Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. It is also valid to provide CssClassMap with boolean logic. | `CssClassMap \| string \| string[]` | `''`        |
+| `customColor`       | `custom-color` | (optional) Icon custom color                                                                                                                                                            | `string`                            | `''`        |
+| `name` _(required)_ | `name`         | (required) Icon symbol name                                                                                                                                                             | `EIconName \| EOtherIconName`       | `undefined` |
 
 
 ## Shadow Parts
@@ -56,16 +56,6 @@ export const SvgIconExample: React.FC = () => (
 | Part     | Description         |
 | -------- | ------------------- |
 | `"icon"` | The icon container. |
-
-
-## CSS Custom Properties
-
-| Name              | Description       |
-| ----------------- | ----------------- |
-| `--icon-color`    | Color of the icon |
-| `--icon-height`   | Height of icon    |
-| `--icon-rotation` | Rotation of icon  |
-| `--icon-width`    | Width of icon     |
 
 
 ## Dependencies
