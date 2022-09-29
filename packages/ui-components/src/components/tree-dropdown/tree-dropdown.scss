@@ -9,7 +9,7 @@
 	*/
 	--dropdown-node-gap: 0;
 	--dropdown-children-offset: #{$spacing-3x};
-	--dropdown-padding-left: 40px;
+	--dropdown-padding-left: 36px;
 	--dropdown-width: 224px;
 
 	kv-tree {
@@ -48,6 +48,8 @@
 		--children-margin-top: 0;
 		--children-margin-left: 0;
 		--border-radius: 0;
+		--node-icon-width: 20px;
+		--node-icon-height: 20px;
 	}
 
 	kv-tree::part(children) {

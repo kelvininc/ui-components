@@ -60,7 +60,6 @@ export class KvTreeDropdown {
 						spotlightedNodes={this.getSpotlightedNodes()}
 						labelsSize={ETreeItemLabelSize.Regular}
 						expandIcon={EIconName.Collapse}
-						iconCustomClasses="icon-20"
 						disabledNodes={this.disabledNodes}
 						highlightedNodes={this.getHighlightedNodes(node)}
 						loadingNodes={this.loadingNodes}

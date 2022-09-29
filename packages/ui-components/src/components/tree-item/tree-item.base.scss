@@ -28,6 +28,8 @@
 	 * @prop --icon-color-disabled: Node icon color when node state is disabled.
 	 * @prop --icon-color-selected: Node icon color when node state is selected.
 	 * @prop --icon-color-no-filled: Node icon color when node state is no-filled.
+	 * @prop --node-icon-width: Node icon width in px.
+	 * @prop --node-icon-height: Node icon height in px.
 
 	 * @prop --title-color-default: Node title color when node state is default.
 	 * @prop --title-color-disabled: Node title color when node state is disabled.
@@ -49,6 +51,8 @@
 	--children-padding-left: #{$spacing-2x};
 	--children-margin-left: 0;
 	--border-radius: 2px;
+	--node-icon-width: 24px;
+	--node-icon-height: 24px;
 
 	// Private usage
 	/* stylelint-disable-next-line length-zero-no-unit */
@@ -56,6 +60,11 @@
 	--private-node-gap: 0;
 	--private-vertical-line-height: 0;
 	--private-padding-left: 0;
+
+	kv-icon {
+		--icon-width: var(--node-icon-width);
+		--icon-height: var(--node-icon-height);
+	}
 
 	.node-container {
 		position: relative;
@@ -188,8 +197,8 @@
 
 		.node-icon {
 			position: relative;
-			width: 24px;
-			height: 24px;
+			width: var(--node-icon-width);
+			height: var(--node-icon-height);
 		}
 
 		.main-icon {
