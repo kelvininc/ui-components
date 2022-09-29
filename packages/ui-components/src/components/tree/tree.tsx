@@ -41,6 +41,8 @@ export class KvTree {
 	@Prop({ reflect: true }) labelsSize?: ETreeItemLabelSize;
 	/** (optional) Defines if icon to use for expanding, should be and arrow like icon pointing up. */
 	@Prop({ reflect: true }) expandIcon?: EIconName;
+	/** (optional) Defines whether the label should be displayed as tooltip.*/
+	@Prop({ reflect: true }) showTooltip?: boolean;
 
 	/** Emitted when the node expand toggle is clicked */
 	@Event() nodeToggleExpand: EventEmitter<ITreeNodeItem>;
@@ -81,6 +83,7 @@ export class KvTree {
 								loading={this.loading || get(this.loadingNodes, [item.id], false)}
 								onItemClick={_ => this.onItemClick(item)}
 								onToggleExpand={_ => this.onToggleExpand(item)}
+								showTooltip={this.showTooltip}
 								part="tree-item"
 								exportparts="icon,children"
 							>

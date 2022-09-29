@@ -115,6 +115,7 @@ export const TreeExample: React.FC = () => (
 | `loadingNodes`       | --              | (optional) Dictionary that defines whether the tree node is loading.                                                                     | `{ [key: string]: boolean; }`                            | `undefined` |
 | `nodes` _(required)_ | --              | (required) The tree hierarchy items to render in this component                                                                          | `ITreeNodeItem[]`                                        | `undefined` |
 | `selectedNode`       | `selected-node` | (optional) The currently selected node id                                                                                                | `string`                                                 | `undefined` |
+| `showTooltip`        | `show-tooltip`  | (optional) Defines whether the label should be displayed as tooltip.                                                                     | `boolean`                                                | `undefined` |
 | `spotlightedNodes`   | --              | (optional) Dictionary that defines whether the tree node is spotlight. Only has visual effect for tree nodes with children and expanded. | `{ [key: string]: boolean; }`                            | `undefined` |
 
 
@@ -160,6 +161,7 @@ export const TreeExample: React.FC = () => (
 graph TD;
   kv-tree --> kv-tree-item
   kv-tree-item --> kv-icon
+  kv-tree-item --> kv-tooltip
   kv-tree-item --> kv-badge
   kv-tree-dropdown --> kv-tree
   style kv-tree fill:#f9f,stroke:#333,stroke-width:4px

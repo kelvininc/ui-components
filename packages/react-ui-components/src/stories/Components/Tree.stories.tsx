@@ -83,6 +83,11 @@ const nodes: ITreeNodeItem[] = [
 	},
 	{
 		id: '3',
+		label: 'Node 3 is a node with a really long name that does not fit inside the box',
+		icon: EIconName.AssetS
+	},
+	{
+		id: '4',
 		label: 'Node 3'
 	}
 ];

@@ -87,12 +87,14 @@ export const TagLetterExample: React.FC = () => (
 
  - [kv-info-label](../info-label)
  - [kv-text-field](../text-field)
+ - [kv-tree-item](../tree-item)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-info-label --> kv-tooltip
   kv-text-field --> kv-tooltip
+  kv-tree-item --> kv-tooltip
   style kv-tooltip fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -87,6 +87,11 @@ const nodes: ITreeNodeItem[] = [
 		id: '4',
 		label: 'Process Map ABC',
 		icon: EIconName.EntityProdLine
+	},
+	{
+		id: '5',
+		label: 'Enterprise Process Map 01 (Production)',
+		icon: EIconName.EntityProdLine
 	}
 ];
 
@@ -155,6 +160,11 @@ const tree: ITreeNodeItem[] = [
 	{
 		id: '4',
 		label: 'Process Map ABC',
+		icon: EIconName.EntityProdLine
+	},
+	{
+		id: '5',
+		label: 'Enterprise Process Map 01 (Production)',
 		icon: EIconName.EntityProdLine
 	}
 ];

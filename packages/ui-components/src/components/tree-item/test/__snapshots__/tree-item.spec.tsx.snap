@@ -7,9 +7,11 @@ exports[`Tree Item (unit tests) when initialized with counter attribute should m
       <div class="node-wrapper">
         <a class="node-content-wrapper">
           <div class="labels labels-small">
-            <div class="title-small">
-              Node Title
-            </div>
+            <kv-tooltip disabled="" text="Node Title">
+              <div class="title title-small">
+                Node Title
+              </div>
+            </kv-tooltip>
           </div>
           <div class="right-indicators">
             <div class="alarm-bubble">
@@ -35,9 +37,11 @@ exports[`Tree Item (unit tests) when initialized with disabled attribute should 
       <div class="disabled node-wrapper">
         <a class="disabled node-content-wrapper">
           <div class="labels labels-small">
-            <div class="title-small">
-              Node Title
-            </div>
+            <kv-tooltip disabled="" text="Node Title">
+              <div class="title title-small">
+                Node Title
+              </div>
+            </kv-tooltip>
           </div>
           <div class="right-indicators"></div>
         </a>
@@ -57,9 +61,11 @@ exports[`Tree Item (unit tests) when initialized with preventDefault prop should
       <div class="node-wrapper">
         <a class="node-content-wrapper">
           <div class="labels labels-small">
-            <div class="title-small">
-              Node Title
-            </div>
+            <kv-tooltip disabled="" text="Node Title">
+              <div class="title title-small">
+                Node Title
+              </div>
+            </kv-tooltip>
           </div>
           <div class="right-indicators"></div>
         </a>
@@ -79,9 +85,11 @@ exports[`Tree Item (unit tests) when initialized with required props should matc
       <div class="node-wrapper">
         <a class="node-content-wrapper">
           <div class="labels labels-small">
-            <div class="title-small">
-              Node Title
-            </div>
+            <kv-tooltip disabled="" text="Node Title">
+              <div class="title title-small">
+                Node Title
+              </div>
+            </kv-tooltip>
           </div>
           <div class="right-indicators"></div>
         </a>
@@ -101,9 +109,11 @@ exports[`Tree Item (unit tests) when initialized with selected attribute should 
       <div class="node-wrapper selected">
         <a class="node-content-wrapper selected">
           <div class="labels labels-small">
-            <div class="title-small">
-              Node Title
-            </div>
+            <kv-tooltip disabled="" text="Node Title">
+              <div class="title title-small">
+                Node Title
+              </div>
+            </kv-tooltip>
           </div>
           <div class="right-indicators"></div>
         </a>
