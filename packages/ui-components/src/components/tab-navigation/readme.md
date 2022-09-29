@@ -58,6 +58,15 @@ export const TabNavigationExample: React.FC = () => (
 | `tabChange` | When the tab selection changes, emit the requested tab's key | `CustomEvent<string>` |
 
 
+## CSS Custom Properties
+
+| Name                         | Description                  |
+| ---------------------------- | ---------------------------- |
+| `--tab-list-bg-color`        | Background color of the list |
+| `--tab-list-divider-color`   | Tab divider bar color        |
+| `--tab-list-indicator-color` | Tab indicator bar color      |
+
+
 ## Dependencies
 
 ### Depends on

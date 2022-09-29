@@ -1,6 +1,5 @@
 import { Component, Event, EventEmitter, Fragment, Host, Prop, h } from '@stencil/core';
 
-import { CssClassMap } from '../../types';
 import { EIconName } from '../icon/icon.types';
 import { ETreeItemLabelSize } from '../../types';
 import { ITreeNodeItem } from './tree.types';
@@ -42,8 +41,6 @@ export class KvTree {
 	@Prop({ reflect: true }) labelsSize?: ETreeItemLabelSize;
 	/** (optional) Defines if icon to use for expanding, should be and arrow like icon pointing up. */
 	@Prop({ reflect: true }) expandIcon?: EIconName;
-	/** (optional) Provides custom styling to the icons.*/
-	@Prop({ reflect: true }) iconCustomClasses?: string | string[] | CssClassMap;
 
 	/** Emitted when the node expand toggle is clicked */
 	@Event() nodeToggleExpand: EventEmitter<ITreeNodeItem>;
@@ -81,7 +78,6 @@ export class KvTree {
 								highlighted={get(this.highlightedNodes, [item.id], false)}
 								spotlighted={get(this.spotlightedNodes, [item.id], false)}
 								expandIcon={this.expandIcon}
-								iconCustomClasses={this.iconCustomClasses}
 								loading={this.loading || get(this.loadingNodes, [item.id], false)}
 								onItemClick={_ => this.onItemClick(item)}
 								onToggleExpand={_ => this.onToggleExpand(item)}

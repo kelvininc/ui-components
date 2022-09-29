@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Tree Item (unit tests) when initialized with counter attribute should match the snapshot 1`] = `
-<kv-tree-item counter="32" expand-icon="kv-arrow-drop-up" icon-custom-classes="icon-24" label="Node Title" labels-size="small">
+<kv-tree-item counter="32" expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small">
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper">
@@ -29,7 +29,7 @@ exports[`Tree Item (unit tests) when initialized with counter attribute should m
 `;
 
 exports[`Tree Item (unit tests) when initialized with disabled attribute should match the snapshot 1`] = `
-<kv-tree-item disabled="" expand-icon="kv-arrow-drop-up" icon-custom-classes="icon-24" label="Node Title" labels-size="small">
+<kv-tree-item disabled="" expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small">
   <mock:shadow-root>
     <div class="node-container">
       <div class="disabled node-wrapper">
@@ -51,7 +51,7 @@ exports[`Tree Item (unit tests) when initialized with disabled attribute should 
 `;
 
 exports[`Tree Item (unit tests) when initialized with preventDefault prop should match the snapshot 1`] = `
-<kv-tree-item expand-icon="kv-arrow-drop-up" icon-custom-classes="icon-24" label="Node Title" labels-size="small" prevent-default="">
+<kv-tree-item expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small" prevent-default="">
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper">
@@ -73,7 +73,7 @@ exports[`Tree Item (unit tests) when initialized with preventDefault prop should
 `;
 
 exports[`Tree Item (unit tests) when initialized with required props should match the snapshot 1`] = `
-<kv-tree-item expand-icon="kv-arrow-drop-up" icon-custom-classes="icon-24" label="Node Title" labels-size="small">
+<kv-tree-item expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small">
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper">
@@ -95,7 +95,7 @@ exports[`Tree Item (unit tests) when initialized with required props should matc
 `;
 
 exports[`Tree Item (unit tests) when initialized with selected attribute should match the snapshot 1`] = `
-<kv-tree-item expand-icon="kv-arrow-drop-up" icon-custom-classes="icon-24" label="Node Title" labels-size="small" selected="">
+<kv-tree-item expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small" selected="">
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper selected">
