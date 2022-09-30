@@ -27,7 +27,7 @@ export class KvTreeDropdown {
 	/** (optional) Dictionary that defines whether the tree node is loading. */
 	@Prop({ reflect: true }) loadingNodes?: { [key: string]: boolean };
 	/** (optional) Defines whether the labels should be displayed as tooltip.*/
-	@Prop({ reflect: true }) showTooltip?: boolean;
+	@Prop({ reflect: true }) showTooltip?: boolean = true;
 
 	/** Emitted when the node expand toggle is clicked */
 	@Event() nodeToggleExpand: EventEmitter<ITreeNodeItem>;

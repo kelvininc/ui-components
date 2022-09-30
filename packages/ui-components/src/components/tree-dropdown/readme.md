@@ -16,7 +16,7 @@
 | `loadingNodes`       | --              | (optional) Dictionary that defines whether the tree node is loading.                                                                    | `{ [key: string]: boolean; }` | `undefined` |
 | `nodes` _(required)_ | --              | (required) The tree hierarchy items to render in this component                                                                         | `ITreeNodeItem[]`             | `undefined` |
 | `selectedNode`       | `selected-node` | (optional) The currently selected node id                                                                                               | `string`                      | `undefined` |
-| `showTooltip`        | `show-tooltip`  | (optional) Defines whether the labels should be displayed as tooltip.                                                                   | `boolean`                     | `undefined` |
+| `showTooltip`        | `show-tooltip`  | (optional) Defines whether the labels should be displayed as tooltip.                                                                   | `boolean`                     | `true`      |
 
 
 ## Events
