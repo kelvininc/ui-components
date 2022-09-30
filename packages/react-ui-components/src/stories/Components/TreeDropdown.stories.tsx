@@ -30,7 +30,17 @@ const TreeDropdownTemplate: ComponentStory<typeof KvTreeDropdown> = args => {
 		});
 	};
 
-	return <KvTreeDropdown selectedNode={selectedNode} expandedNodes={expandedNodes} onNodeClick={handleItemClick} onNodeToggleExpand={handleToggleExpand} {...args} />;
+	return (
+		<KvTreeDropdown
+			selectedNode={selectedNode}
+			expandedNodes={expandedNodes}
+			onNodeClick={handleItemClick}
+			onNodeToggleExpand={handleToggleExpand}
+			showTooltip
+			tooltipDelay={1000}
+			{...args}
+		/>
+	);
 };
 
 const nodes: ITreeNodeItem[] = [

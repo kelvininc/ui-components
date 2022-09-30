@@ -1,4 +1,4 @@
-import { Component, Element, Host, Prop, h } from '@stencil/core';
+import { Component, Element, Host, Prop, State, h } from '@stencil/core';
 import { ComputePositionConfig, computePosition } from '@floating-ui/dom';
 import { isEmpty, merge } from 'lodash-es';
 
@@ -16,6 +16,8 @@ import { ITooltip } from './tooltip.types';
 	shadow: true
 })
 export class KvTooltip implements ITooltip {
+	/** (optional) Delay to show tooltip in milliseconds. */
+	@Prop({ reflect: true }) delay?: number;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) text: string;
 	/** @inheritdoc */
@@ -26,6 +28,8 @@ export class KvTooltip implements ITooltip {
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) contentElement?: HTMLElement = null;
+
+	@State() timeoutDelayId?: number;
 
 	/** The Host's element reference */
 	@Element() el: HTMLKvTooltipElement;
@@ -50,9 +54,27 @@ export class KvTooltip implements ITooltip {
 		}
 	};
 
+	private showTooltipHandler = () => {
+		if (this.delay) {
+			this.timeoutDelayId = window.setTimeout(() => {
+				this.showTooltip();
+			}, this.delay);
+		} else {
+			this.showTooltip();
+		}
+	};
+
 	private hideTooltip = () => {
 		const tooltip = this.getTooltipElement();
 		tooltip.style.display = '';
+	};
+
+	private hideTooltipHandler = () => {
+		this.hideTooltip();
+		if (this.timeoutDelayId) {
+			clearTimeout(this.timeoutDelayId);
+			this.timeoutDelayId = undefined;
+		}
 	};
 
 	private update = () => {
@@ -66,15 +88,15 @@ export class KvTooltip implements ITooltip {
 	};
 
 	private listenToEvents = (child: HTMLElement) => {
-		child.addEventListener('mouseenter', this.showTooltip);
-		child.addEventListener('mouseleave', this.hideTooltip);
+		child.addEventListener('mouseenter', this.showTooltipHandler);
+		child.addEventListener('mouseleave', this.hideTooltipHandler);
 		child.addEventListener('focus', this.showTooltip);
 		child.addEventListener('blur', this.hideTooltip);
 	};
 
 	private unlistenToEvents = (child: HTMLElement) => {
-		child.removeEventListener('mouseenter', this.showTooltip);
-		child.removeEventListener('mouseleave', this.hideTooltip);
+		child.removeEventListener('mouseenter', this.showTooltipHandler);
+		child.removeEventListener('mouseleave', this.hideTooltipHandler);
 		child.removeEventListener('focus', this.showTooltip);
 		child.removeEventListener('blur', this.hideTooltip);
 	};

@@ -43,6 +43,8 @@ export class KvTree {
 	@Prop({ reflect: true }) expandIcon?: EIconName;
 	/** (optional) Defines whether the label should be displayed as tooltip.*/
 	@Prop({ reflect: true }) showTooltip?: boolean;
+	/** (optional) Delay to show tooltip in milliseconds. */
+	@Prop({ reflect: true }) tooltipDelay?: number;
 
 	/** Emitted when the node expand toggle is clicked */
 	@Event() nodeToggleExpand: EventEmitter<ITreeNodeItem>;
@@ -84,6 +86,7 @@ export class KvTree {
 								onItemClick={_ => this.onItemClick(item)}
 								onToggleExpand={_ => this.onToggleExpand(item)}
 								showTooltip={this.showTooltip}
+								tooltipDelay={this.tooltipDelay}
 								part="tree-item"
 								exportparts="icon,children"
 							>
