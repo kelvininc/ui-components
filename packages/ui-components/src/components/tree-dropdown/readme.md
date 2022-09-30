@@ -16,6 +16,7 @@
 | `loadingNodes`       | --              | (optional) Dictionary that defines whether the tree node is loading.                                                                    | `{ [key: string]: boolean; }` | `undefined` |
 | `nodes` _(required)_ | --              | (required) The tree hierarchy items to render in this component                                                                         | `ITreeNodeItem[]`             | `undefined` |
 | `selectedNode`       | `selected-node` | (optional) The currently selected node id                                                                                               | `string`                      | `undefined` |
+| `showTooltip`        | `show-tooltip`  | (optional) Defines whether the labels should be displayed as tooltip.                                                                   | `boolean`                     | `undefined` |
 
 
 ## Events
@@ -48,6 +49,7 @@ graph TD;
   kv-tree-dropdown --> kv-tree
   kv-tree --> kv-tree-item
   kv-tree-item --> kv-icon
+  kv-tree-item --> kv-tooltip
   kv-tree-item --> kv-badge
   style kv-tree-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```

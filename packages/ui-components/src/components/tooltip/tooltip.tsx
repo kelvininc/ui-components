@@ -1,9 +1,9 @@
-import { computePosition, ComputePositionConfig } from '@floating-ui/dom';
-import { Host, h, Component, Prop, Element } from '@stencil/core';
+import { Component, Element, Host, Prop, h } from '@stencil/core';
+import { ComputePositionConfig, computePosition } from '@floating-ui/dom';
 import { isEmpty, merge } from 'lodash-es';
 
-import { ETooltipPosition } from '../../types';
 import { DEFAULT_POSITION_CONFIG } from './tooltip.config';
+import { ETooltipPosition } from '../../types';
 import { ITooltip } from './tooltip.types';
 
 /**
@@ -98,7 +98,7 @@ export class KvTooltip implements ITooltip {
 	render() {
 		return (
 			<Host>
-				<div id="content" class="tooltip-content" aria-describedby="tooltip" part="content">
+				<div id="content" aria-describedby="tooltip" part="content">
 					<slot></slot>
 				</div>
 				{!isEmpty(this.text) && (

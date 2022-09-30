@@ -107,6 +107,7 @@ export const TreeItemExample: React.FC = () => (
 | `placeholder`     | `placeholder`      | (optional) Defines the placeholder of the tree item, displayed when title is not filled.                                                                                                                                                                                                                                                                                                                                                                                              | `string`                                                                                                                 | `undefined`                |
 | `preventDefault`  | `prevent-default`  | (optional) Defines if the item click event should prevent default behaviour.                                                                                                                                                                                                                                                                                                                                                                                                          | `boolean`                                                                                                                | `false`                    |
 | `selected`        | `selected`         | (optional) Defines whether the tree node is selected by the user.                                                                                                                                                                                                                                                                                                                                                                                                                     | `boolean`                                                                                                                | `false`                    |
+| `showTooltip`     | `show-tooltip`     | (optional) Defines whether the label should be displayed as tooltip.                                                                                                                                                                                                                                                                                                                                                                                                                  | `boolean`                                                                                                                | `false`                    |
 | `spotlighted`     | `spotlighted`      | (optional) Defines whether the tree node is spotlight.                                                                                                                                                                                                                                                                                                                                                                                                                                | `boolean`                                                                                                                | `false`                    |
 | `target`          | `target`           | (optional) The anchor's target                                                                                                                                                                                                                                                                                                                                                                                                                                                        | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top`                      | `undefined`                |
 
@@ -178,12 +179,14 @@ export const TreeItemExample: React.FC = () => (
 ### Depends on
 
 - [kv-icon](../icon)
+- [kv-tooltip](../tooltip)
 - [kv-badge](../badge)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-tree-item --> kv-icon
+  kv-tree-item --> kv-tooltip
   kv-tree-item --> kv-badge
   kv-tree --> kv-tree-item
   style kv-tree-item fill:#f9f,stroke:#333,stroke-width:4px
