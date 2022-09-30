@@ -2,10 +2,12 @@
 
 :host {
 	.dropdown-container {
+		position: relative;
 		user-select: none;
 	}
 
 	.dropdown-list {
+		position: absolute;
 		min-width: 100%;
 		z-index: 2;
 	}
