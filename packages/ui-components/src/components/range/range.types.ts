@@ -14,6 +14,4 @@ export interface IRange {
 	value?: number;
 	/** (optional) Range value step */
 	step?: number;
-	/** (optional) Hide value label */
-	hideLabel?: boolean;
 }
