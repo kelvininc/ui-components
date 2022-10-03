@@ -55,6 +55,8 @@ export class KvTreeItem implements IAnchor {
 	@Prop({ reflect: true }) spotlighted? = false;
 	/** (optional) Defines whether the label should be displayed as tooltip.*/
 	@Prop({ reflect: true }) showTooltip? = false;
+	/** (optional) Delay to show tooltip in milliseconds. */
+	@Prop({ reflect: true }) tooltipDelay?: number;
 	/** (optional) Defines whether the tree node is loading. */
 	@Prop({ reflect: true }) loading? = false;
 	/** (optional) Defines if the item click event should prevent default behaviour. */
@@ -164,7 +166,7 @@ export class KvTreeItem implements IAnchor {
 
 									{(this.label || this.placeholder) && (
 										<div class={`labels labels-${this.labelsSize}`}>
-											<kv-tooltip disabled={!this.showTooltip} text={this.label || this.placeholder}>
+											<kv-tooltip delay={this.tooltipDelay} disabled={!this.showTooltip} text={this.label || this.placeholder}>
 												<div class={{ title: true, [`title-${this.labelsSize}`]: true }}>{this.label || this.placeholder}</div>
 											</kv-tooltip>
 											{this.additionalLabel && <div class="sub-title">{this.additionalLabel}</div>}

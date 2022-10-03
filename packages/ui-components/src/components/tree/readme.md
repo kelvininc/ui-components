@@ -117,6 +117,7 @@ export const TreeExample: React.FC = () => (
 | `selectedNode`       | `selected-node` | (optional) The currently selected node id                                                                                                | `string`                                                 | `undefined` |
 | `showTooltip`        | `show-tooltip`  | (optional) Defines whether the label should be displayed as tooltip.                                                                     | `boolean`                                                | `undefined` |
 | `spotlightedNodes`   | --              | (optional) Dictionary that defines whether the tree node is spotlight. Only has visual effect for tree nodes with children and expanded. | `{ [key: string]: boolean; }`                            | `undefined` |
+| `tooltipDelay`       | `tooltip-delay` | (optional) Delay to show tooltip in milliseconds.                                                                                        | `number`                                                 | `undefined` |
 
 
 ## Events

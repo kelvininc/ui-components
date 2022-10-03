@@ -28,6 +28,8 @@ export class KvTreeDropdown {
 	@Prop({ reflect: true }) loadingNodes?: { [key: string]: boolean };
 	/** (optional) Defines whether the labels should be displayed as tooltip.*/
 	@Prop({ reflect: true }) showTooltip?: boolean;
+	/** (optional) Delay to show tooltip in milliseconds. */
+	@Prop({ reflect: true }) tooltipDelay?: number;
 
 	/** Emitted when the node expand toggle is clicked */
 	@Event() nodeToggleExpand: EventEmitter<ITreeNodeItem>;
@@ -66,6 +68,7 @@ export class KvTreeDropdown {
 						highlightedNodes={this.getHighlightedNodes(node)}
 						loadingNodes={this.loadingNodes}
 						showTooltip={this.showTooltip}
+						tooltipDelay={this.tooltipDelay}
 					></kv-tree>
 				))}
 			</Host>
