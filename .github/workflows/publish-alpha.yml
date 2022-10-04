@@ -1,4 +1,5 @@
 name: publish-alpha
+
 on:
     push:
         branches:
@@ -13,17 +14,22 @@ permissions:
 
 jobs:
     publish:
-        name: Pre-Release Publish
-        runs-on: ubuntu-18.04
+        strategy:
+            matrix:
+                os: [ubuntu-22.04]
+                node: [14]
+
+        name: Pre-Release Publish (${{ matrix.os }} / Node.js ${{ matrix.node }})
+        runs-on: ${{ matrix.os }}
         steps:
             - name: Checkout
               uses: actions/checkout@v2
               with:
-                fetch-depth: "0"
+                  fetch-depth: "0"
             - name: Setup Node ${{ matrix.node_version }}
               uses: actions/setup-node@v2
               with:
-                  node-version: 14
+                  node-version: ${{ matrix.node }}
 
             - name: Git Identity
               run: |
@@ -38,16 +44,16 @@ jobs:
               env:
                   cache-name: cache-node-modules
               with:
-                # npm cache files are stored in `~/.npm` on Linux/macOS
-                path: |
-                     ~/.npm\
-                     node_modules
-                     */*/node_modules
-                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-                restore-keys: |
-                  ${{ runner.os }}-build-${{ env.cache-name }}-
-                  ${{ runner.os }}-build-
-                  ${{ runner.os }}-
+                  # npm cache files are stored in `~/.npm` on Linux/macOS
+                  path: |
+                      ~/.npm\
+                      node_modules
+                      */*/node_modules
+                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-${{ env.cache-name }}-
+                      ${{ runner.os }}-build-
+                      ${{ runner.os }}-
 
             - name: Install
               run: npm install
