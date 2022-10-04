@@ -114,7 +114,9 @@ export class KvTooltip implements ITooltip {
 
 	disconnectedCallback() {
 		const child = this.getContentElement();
-		this.unlistenToEvents(child);
+		if (child) {
+			this.unlistenToEvents(child);
+		}
 	}
 
 	render() {
