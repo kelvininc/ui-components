@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0](https://github.com/kelvininc/ui-components/compare/v0.12.0...v0.13.0) (2022-10-06)
+
+
+### Bug Fixes
+
+* **action-button:** add missing active property ([0d0011d](https://github.com/kelvininc/ui-components/commit/0d0011d62fb5a77b2d14c2df1b692ecfdfaa1590))
+* add custom scroll to timezone select [KMAPS-454] ([d4a0bd7](https://github.com/kelvininc/ui-components/commit/d4a0bd722f1d215eb2bb8769fd8b6d35bee8fc48))
+* correct default timezone search placeholder [KMAPS-455] ([#158](https://github.com/kelvininc/ui-components/issues/158)) ([f837f3f](https://github.com/kelvininc/ui-components/commit/f837f3f9a996bd356c6c351e6d8dbcb290b2e230))
+* correct packages' author name ([20ea3a3](https://github.com/kelvininc/ui-components/commit/20ea3a3bb0449fe5739b6e7ff93255d846a6eeb1))
+* **dropdown-base:** Remove positions of dropdown-base ([37e389b](https://github.com/kelvininc/ui-components/commit/37e389b63e50532251a8ef3e9b42b2eb41745d41))
+* move tab items tab navigation [KMAPS-493] ([31c308f](https://github.com/kelvininc/ui-components/commit/31c308f749cfe84f40e65c026244541821afd77f))
+* **range:** add offset to the input value ([7b19f10](https://github.com/kelvininc/ui-components/commit/7b19f109e114195ace4bba2e9944bb39e2819531))
+* remove state manipulations inside dropdown element ([00e84cb](https://github.com/kelvininc/ui-components/commit/00e84cb85c21d1b8b5ad1ba887592b96534d8571))
+* **single-select-dropdown:** stop opening options when is disabled ([6135c44](https://github.com/kelvininc/ui-components/commit/6135c44c314f19445c6a64ee547edd32d7088ffa))
+* **text-field:** remove 0 default value on numeric inputs [KMAPS-516] ([e0f9d32](https://github.com/kelvininc/ui-components/commit/e0f9d32c7e95be542ba75a5cae2fc50e374bc21b))
+* **text-field:** remove placeholder 0 on type numeric on hover or focus ([12c72d4](https://github.com/kelvininc/ui-components/commit/12c72d4b65537ebb22195f756b9c9915fca9f640))
+* **tooltip:** check if child is null before removeEventListners [KMAPS-532] ([b3255ec](https://github.com/kelvininc/ui-components/commit/b3255ecd2e0ee008ab524f6d4d3cd066884b4622))
+* **tree-dropdown:** align child icons [KMAPS-426] ([9538259](https://github.com/kelvininc/ui-components/commit/953825958cdfe69128c2bd468fb7428502522e52))
+
+
+### Features
+
+* add dropdown tree component [KMAPS-423] ([bfa8540](https://github.com/kelvininc/ui-components/commit/bfa8540986961d174f3bd4561eddd5914393a150))
+* **illustrations:** add kelvin logotype in light and night versions [KMAPS-426] ([bf7e872](https://github.com/kelvininc/ui-components/commit/bf7e872083c98242c3e5bf23eb5a0c179af80293))
+* **tooltip:** add delay before show text [KMAPS-523] ([f4c3496](https://github.com/kelvininc/ui-components/commit/f4c3496ac0dd636ea2e8a2c903b9d8459a60d791))
+* **tooltip:** add disable behaviour ([869141a](https://github.com/kelvininc/ui-components/commit/869141a119daad7f1ca7a7629010ab9379da4315))
+* **tree-dropdown:** add bold to dropdown when child is selected [KMAPS-426] ([72016b6](https://github.com/kelvininc/ui-components/commit/72016b6d7738ced5c5b5ad05dfb5cf342c1ac221))
+* **tree-dropdown:** add border to improve UI ([b019fbd](https://github.com/kelvininc/ui-components/commit/b019fbde7babedd3232826729f5025ba14883ff0))
+* **tree-dropdown:** add tooltip to label [KMAPS-522,KMAPS-523] ([04f3d82](https://github.com/kelvininc/ui-components/commit/04f3d822ed45145e4f8700d765cc655d83339e74))
+* **tree-dropdown:** change arrow icon to collapse arrow [KMAPS-426] ([32593d1](https://github.com/kelvininc/ui-components/commit/32593d1747394919eeac8463f1047802eca28a36))
+* **tree-dropdown:** make font size 14px [KMAPS-426] ([e1b4866](https://github.com/kelvininc/ui-components/commit/e1b486611e0cac37de467fff4257733083d64e59))
+* **tree-dropdown:** make icons 20x20px [KMAPS-426] ([100be4c](https://github.com/kelvininc/ui-components/commit/100be4c8a91ac6b4538924a560a5e0daa99775ad))
+
+
+
+
+
 # [0.12.0](https://github.com/kelvininc/ui-components/compare/v0.11.0...v0.12.0) (2022-09-13)
 
 

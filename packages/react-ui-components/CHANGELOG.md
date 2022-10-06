@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0](https://github.com/kelvininc/ui-components/compare/v0.12.0...v0.13.0) (2022-10-06)
+
+
+### Bug Fixes
+
+* correct packages' author name ([20ea3a3](https://github.com/kelvininc/ui-components/commit/20ea3a3bb0449fe5739b6e7ff93255d846a6eeb1))
+* move tab items tab navigation [KMAPS-493] ([31c308f](https://github.com/kelvininc/ui-components/commit/31c308f749cfe84f40e65c026244541821afd77f))
+* remove state manipulations inside dropdown element ([00e84cb](https://github.com/kelvininc/ui-components/commit/00e84cb85c21d1b8b5ad1ba887592b96534d8571))
+* **text-field:** remove placeholder 0 on type numeric on hover or focus ([12c72d4](https://github.com/kelvininc/ui-components/commit/12c72d4b65537ebb22195f756b9c9915fca9f640))
+
+
+### Features
+
+* add dropdown tree component [KMAPS-423] ([bfa8540](https://github.com/kelvininc/ui-components/commit/bfa8540986961d174f3bd4561eddd5914393a150))
+* **tooltip:** add delay before show text [KMAPS-523] ([f4c3496](https://github.com/kelvininc/ui-components/commit/f4c3496ac0dd636ea2e8a2c903b9d8459a60d791))
+* **tooltip:** add disable behaviour ([869141a](https://github.com/kelvininc/ui-components/commit/869141a119daad7f1ca7a7629010ab9379da4315))
+* **tree-dropdown:** add tooltip to label [KMAPS-522,KMAPS-523] ([04f3d82](https://github.com/kelvininc/ui-components/commit/04f3d822ed45145e4f8700d765cc655d83339e74))
+
+
+
+
+
 # [0.12.0](https://github.com/kelvininc/ui-components/compare/v0.11.0...v0.12.0) (2022-09-13)
 
 
