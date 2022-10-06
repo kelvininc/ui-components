@@ -4,7 +4,12 @@ import { ITooltip } from '../tooltip/tooltip.types';
 
 export const NUMERIC_TEXT_INPUT_MASK_CONFIG: Inputmask.Options = {
 	alias: 'numeric',
-	rightAlign: false
+	rightAlign: false,
+	showMaskOnHover: false,
+	showMaskOnFocus: false,
+	oncleared: function () {
+		this.value = '';
+	}
 };
 
 export const DEFAULT_TEXT_TOOLTIP_CONFIG: Partial<ITooltip> = {

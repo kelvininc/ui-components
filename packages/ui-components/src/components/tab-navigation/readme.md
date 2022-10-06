@@ -58,17 +58,24 @@ export const TabNavigationExample: React.FC = () => (
 | `tabChange` | When the tab selection changes, emit the requested tab's key | `CustomEvent<string>` |
 
 
+## CSS Custom Properties
+
+| Name                         | Description                  |
+| ---------------------------- | ---------------------------- |
+| `--tab-list-bg-color`        | Background color of the list |
+| `--tab-list-divider-color`   | Tab divider bar color        |
+| `--tab-list-indicator-color` | Tab indicator bar color      |
+
+
 ## Dependencies
 
 ### Depends on
 
-- [kv-tab-list](../tab-list)
 - [kv-tab-item](../tab-item)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-tab-navigation --> kv-tab-list
   kv-tab-navigation --> kv-tab-item
   style kv-tab-navigation fill:#f9f,stroke:#333,stroke-width:4px
 ```

@@ -1,0 +1,25 @@
+name: Setup Node.js Project
+description: Configures Node.js, fetches dependencies, and manages caching.
+
+inputs:
+    node-version:
+        required: true
+        description: Node.js version to set up
+
+runs:
+    using: "composite"
+    steps:
+        - name: Setup Node.js
+          uses: actions/setup-node@v3
+          with:
+              node-version: ${{ inputs.node-version }}
+
+        - name: Restore cache
+          uses: actions/cache@v3
+          with:
+              path: "**/node_modules"
+              key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
+        - name: Install dependencies
+          shell: bash
+          run: npm install

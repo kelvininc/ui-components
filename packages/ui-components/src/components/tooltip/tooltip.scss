@@ -8,11 +8,6 @@
 	--container-z-index: 10;
 }
 
-.tooltip-content {
-	width: fit-content;
-	height: fit-content;
-}
-
 .tooltip-container {
 	@include kv-font-span-semibold();
 	height: fit-content;

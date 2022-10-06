@@ -3,16 +3,18 @@
 :host {
 	/**
 	 * @prop --range-width: Width of the range slider
+	 * @prop --range-height: Height of the range slider
+	 * @prop --range-selector-radius: Radius of the range thumb
 	 * @prop --slider-background-filled: color of the slider when its full
 	 * @prop --slider-background-empty: color of the slider when its empty
+	 * @prop --thumb-border-color: thumb border color
+	 * @prop --range-label-color: range labels color
+	 * @prop --select-label-color: select labels color
 	*/
 
 	--range-width: 100%;
 	--range-height: 12px;
-	--button-selector-width: 20px;
-	--button-selector-height: 20px;
-	--slider-background-filled: #{kv-color('primary')};
-	--slider-background-empty: #{kv-color('neutral-9')};
+	--range-selector-radius: 20px;
 }
 
 .range-container {
@@ -26,9 +28,9 @@
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
-	color: kv-color('neutral-5');
 	margin-top: $spacing-4x;
 	user-select: none;
+	color: var(--range-label-color);
 }
 
 .slider {
@@ -37,25 +39,25 @@
 	outline: none;
 	margin: 0;
 	border-radius: $spacing;
-	background: var(--slider-background-empty);
 	user-select: none;
+	background: var(--slider-background-empty);
 
 	&::-webkit-slider-thumb {
-		border: calc($spacing - 1px) solid kv-color('neutral-0');
-		height: calc(var(--button-selector-height) + 5px);
-		width: calc(var(--button-selector-width) + 5px);
-		border-radius: 50%;
+		border: calc($spacing - 1px) solid var(--thumb-border-color);
 		background: var(--slider-background-filled);
+		height: calc(var(--range-selector-radius) + 5px);
+		width: calc(var(--range-selector-radius) + 5px);
+		border-radius: 50%;
 		cursor: pointer;
 		appearance: none;
 	}
 
 	&::-moz-range-thumb {
-		border: $spacing solid kv-color('neutral-0');
-		height: var(--button-selector-height);
-		width: var(--button-selector-width);
-		border-radius: 50%;
+		border: $spacing solid var(--thumb-border-color);
 		background: var(--slider-background-filled);
+		height: var(--range-selector-radius);
+		width: var(--range-selector-radius);
+		border-radius: 50%;
 		cursor: pointer;
 		appearance: none;
 	}
@@ -69,7 +71,7 @@
 	position: absolute;
 	background-color: transparent;
 	text-align: center;
-	color: kv-color('neutral-2');
+	color: var(--select-label-color);
 }
 
 input {

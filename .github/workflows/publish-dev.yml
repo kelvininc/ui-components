@@ -1,4 +1,5 @@
 name: publish-dev
+
 on:
     push:
         branches:
@@ -9,38 +10,24 @@ permissions:
 
 jobs:
     publish:
-        name: Publish Storybook
-        runs-on: ubuntu-18.04
+        strategy:
+            matrix:
+                os: [ubuntu-22.04]
+                node: [14.x]
+
+        name: Publish Storybook (${{ matrix.os }} / Node.js ${{ matrix.node }})
+        runs-on: ${{ matrix.os }}
         steps:
-            - name: Checkout
-              uses: actions/checkout@v2
+            - name: Checkout repository
+              uses: actions/checkout@v3
               with:
-                fetch-depth: "0"
-                token: ${{ secrets.RELEASE_TOKEN }}
+                  fetch-depth: 0
+                  token: ${{ secrets.RELEASE_TOKEN }}
 
-            - name: Setup Node ${{ matrix.node_version }}
-              uses: actions/setup-node@v2
+            - name: Setup Node.js ${{ matrix.node }}
+              uses: ./.github/actions/node-setup
               with:
-                  node-version: 14
-
-            - name: Cache node_modules 📦
-              uses: actions/cache@v2
-              env:
-                  cache-name: cache-node-modules
-              with:
-                # npm cache files are stored in `~/.npm` on Linux/macOS
-                path: |
-                     ~/.npm\
-                     node_modules
-                     */*/node_modules
-                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-                restore-keys: |
-                  ${{ runner.os }}-build-${{ env.cache-name }}-
-                  ${{ runner.os }}-build-
-                  ${{ runner.os }}-
-
-            - name: Install
-              run: npm install
+                  node-version: ${{ matrix.node }}
               env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -57,7 +44,7 @@ jobs:
 
             - name: Build
               run: npm run build:packages
-              env: 
+              env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: Publish Alpha & Master Storybook to GitHub Pages
@@ -65,7 +52,7 @@ jobs:
                   git switch -f master
                   npm run bootstrap
                   npm run build:packages
-                  npm run storybook:deploy -- -- -- --out='./gp' --dry-run  
+                  npm run storybook:deploy -- -- -- --out='./gp' --dry-run
                   git switch -f dev
                   npm run bootstrap
                   npm run build:packages

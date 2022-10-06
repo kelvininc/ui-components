@@ -1,9 +1,12 @@
-import { Component, Host, h, Prop, Listen, Event, EventEmitter } from '@stencil/core';
-import { EComponentSize } from '../../utils/types';
+import { Component, Element, Event, EventEmitter, Host, Listen, Prop, State, Watch, h } from '@stencil/core';
 import { ITabNavigationItem, ITabsNotificationDict } from './tab-navigation.types';
+import { gte, isEmpty } from 'lodash-es';
+
+import { EComponentSize } from '../../utils/types';
 
 @Component({
 	tag: 'kv-tab-navigation',
+	styleUrl: 'tab-navigation.scss',
 	shadow: true
 })
 export class KvTabNavigation {
@@ -25,21 +28,53 @@ export class KvTabNavigation {
 		this.tabChange.emit(event.detail);
 	}
 
+	/** Watch for tab selection change and react accordingly by updating the internal states */
+	@Watch('selectedTabKey')
+	tabSelectionChangeHandler() {
+		this.calculateSelectionAnimationProperties();
+	}
+
+	/** The left offset of the tab indicator (in px), updated when the selected tab changes, starts at 24 due to kv-tab-item's margin */
+	@State() selectedTabIndicatorOffset: number = 0;
+	/** The width of the tab indicator, updated when the selected tab changes */
+	@State() selectedTabIndicatorWidth: number = 0;
+
+	@Element() el: HTMLKvTabNavigationElement;
+
+	componentDidRender() {
+		this.calculateSelectionAnimationProperties();
+	}
+
+	private calculateSelectionAnimationProperties() {
+		const tabIndex = this.tabs?.findIndex(tab => tab.tabKey === this.selectedTabKey);
+
+		if (gte(tabIndex, 0) && !isEmpty(this.tabs) && !isEmpty(this.selectedTabKey)) {
+			const selectedTabEl = this.el.shadowRoot.children[tabIndex] as HTMLKvTabItemElement;
+			this.selectedTabIndicatorOffset = selectedTabEl.offsetLeft;
+			this.selectedTabIndicatorWidth = selectedTabEl.clientWidth;
+		}
+	}
+
 	render() {
+		const tabIndicatorStyle = {
+			left: this.selectedTabIndicatorOffset + 'px',
+			width: this.selectedTabIndicatorWidth + 'px'
+		};
+
 		return (
 			<Host>
-				<kv-tab-list selectedTabKey={this.selectedTabKey} size={this.size}>
-					{this.tabs.map(item => (
-						<kv-tab-item
-							tabKey={item.tabKey}
-							label={item.label}
-							disabled={item.disabled}
-							selected={item.tabKey === this.selectedTabKey}
-							hasNotification={this.notifications[item.tabKey]?.active}
-							notificationColor={this.notifications[item.tabKey]?.color}
-						></kv-tab-item>
-					))}
-				</kv-tab-list>
+				{this.tabs.map(item => (
+					<kv-tab-item
+						tabKey={item.tabKey}
+						label={item.label}
+						disabled={item.disabled}
+						selected={item.tabKey === this.selectedTabKey}
+						size={this.size}
+						hasNotification={this.notifications[item.tabKey]?.active}
+						notificationColor={this.notifications[item.tabKey]?.color}
+					></kv-tab-item>
+				))}
+				<div class="selected-tab-indicator" style={tabIndicatorStyle}></div>
 			</Host>
 		);
 	}

@@ -212,7 +212,7 @@ export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSele
 						<div class="selector timezone-selector">
 							<kv-single-select-dropdown
 								label={TIMEZONES_SEARCH_LABEL}
-								icon={EIconName.Calendar}
+								icon={EIconName.Time}
 								searchable
 								placeholder={TIMEZONES_PLACEHOLDER}
 								searchPlaceholder={TIMEZONES_SEARCH_PLACEHOLDER}

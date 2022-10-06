@@ -10,7 +10,7 @@ describe('Tree Item (end-to-end)', () => {
 		});
 
 		it('should render a label', async () => {
-			const labelEl = await page.find('kv-tree-item >>> .title');
+			const labelEl = await page.find('kv-tree-item >>> .title-small');
 			expect(labelEl.innerText).toContain('Label');
 		});
 

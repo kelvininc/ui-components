@@ -1,14 +1,16 @@
-import { Component, Element, Event, EventEmitter, Fragment, h, Host, Listen, Prop } from '@stencil/core';
-import { throttle, isNumber, isEmpty } from 'lodash-es';
-import { EIconName, EOtherIconName } from '../icon/icon.types';
-import { STATE_ICONS } from './tree-item.config';
-import { ETreeItemState } from './tree-item.types';
+import { Component, Element, Event, EventEmitter, Fragment, Host, Listen, Prop, h } from '@stencil/core';
 import { EAnchorTarget, IAnchor } from '../../utils/types';
+import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { ETreeItemLabelSize, ETreeItemState } from './tree-item.types';
+import { isEmpty, isNumber, throttle } from 'lodash-es';
+
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { EBadgeState } from '../badge/badge.types';
+import { STATE_ICONS } from './tree-item.config';
 
 /**
  * @slot child-slot - Content is placed in the child subgroup and can be expanded and collapsed.
+ * @part children - The children container.
  */
 @Component({
 	tag: 'kv-tree-item',
@@ -25,6 +27,8 @@ export class KvTreeItem implements IAnchor {
 	@Prop({ reflect: true }) additionalLabel?: string;
 	/** (optional) Defines the placeholder of the tree item, displayed when title is not filled.*/
 	@Prop({ reflect: true }) placeholder?: string;
+	/** (optional) Defines the font size of title and subtitle labels.*/
+	@Prop({ reflect: true }) labelsSize?: ETreeItemLabelSize = ETreeItemLabelSize.Small;
 	/** (optional) Defines the icon of the tree item. If set, an icon will be displayed before the label.*/
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** (optional) Defines the state of the icon.*/
@@ -47,10 +51,18 @@ export class KvTreeItem implements IAnchor {
 	@Prop({ reflect: true }) selected? = false;
 	/** (optional) Defines whether the tree node is highlighted.*/
 	@Prop({ reflect: true }) highlighted? = false;
+	/** (optional) Defines whether the tree node is spotlight.*/
+	@Prop({ reflect: true }) spotlighted? = false;
+	/** (optional) Defines whether the label should be displayed as tooltip.*/
+	@Prop({ reflect: true }) showTooltip? = false;
+	/** (optional) Delay to show tooltip in milliseconds. */
+	@Prop({ reflect: true }) tooltipDelay?: number;
 	/** (optional) Defines whether the tree node is loading. */
 	@Prop({ reflect: true }) loading? = false;
 	/** (optional) Defines if the item click event should prevent default behaviour. */
 	@Prop({ reflect: true }) preventDefault? = false;
+	/** (optional) Defines if icon to use for expanding, should be and arrow like icon pointing up. */
+	@Prop({ reflect: true }) expandIcon? = EIconName.ArrowDropUp;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) href?: string;
 	/** @inheritdoc */
@@ -112,6 +124,7 @@ export class KvTreeItem implements IAnchor {
 							'disabled': this.disabled,
 							'selected': this.selected,
 							'highlighted': this.highlighted,
+							'spotlight': this.spotlighted,
 							'loading': this.loading
 						}}
 					>
@@ -119,7 +132,14 @@ export class KvTreeItem implements IAnchor {
 							<Fragment>
 								{this.requiresToggleButton && (
 									<div class="expander-arrow" onClick={this.toggleClickThrottler}>
-										<kv-icon name={this.expanded ? EIconName.ArrowDropDown : EIconName.ArrowRight} customClass="pk-grey3 icon-24" />
+										<kv-icon
+											name={this.expandIcon}
+											customClass={{
+												'pk-grey3': true,
+												'rotate-180': this.expanded,
+												'rotate-90': !this.expanded
+											}}
+										/>
 									</div>
 								)}
 
@@ -137,7 +157,7 @@ export class KvTreeItem implements IAnchor {
 								>
 									{this.icon && (
 										<div class="node-icon">
-											<kv-icon name={this.icon} customClass="icon-24" class="main-icon" exportparts="icon"></kv-icon>
+											<kv-icon name={this.icon} class="main-icon" exportparts="icon"></kv-icon>
 											{this.iconState && (
 												<kv-icon name={STATE_ICONS[this.iconState]} customClass="icon-12" class={{ 'state-icon': true, [this.iconState]: true }} />
 											)}
@@ -145,8 +165,10 @@ export class KvTreeItem implements IAnchor {
 									)}
 
 									{(this.label || this.placeholder) && (
-										<div class="labels">
-											<div class="title">{this.label || this.placeholder}</div>
+										<div class={`labels labels-${this.labelsSize}`}>
+											<kv-tooltip delay={this.tooltipDelay} disabled={!this.showTooltip} text={this.label || this.placeholder}>
+												<div class={{ title: true, [`title-${this.labelsSize}`]: true }}>{this.label || this.placeholder}</div>
+											</kv-tooltip>
 											{this.additionalLabel && <div class="sub-title">{this.additionalLabel}</div>}
 										</div>
 									)}
@@ -163,7 +185,7 @@ export class KvTreeItem implements IAnchor {
 						)}
 						{this.loading && <div class="node-loading"></div>}
 					</div>
-					<div class="children" style={{ display: this.expanded ? 'block' : 'none' }}>
+					<div part="children" class="children" style={{ display: this.expanded ? 'block' : 'none' }}>
 						<slot name="child-slot"></slot>
 					</div>
 				</div>

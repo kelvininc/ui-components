@@ -1,4 +1,5 @@
 name: publish-alpha
+
 on:
     push:
         branches:
@@ -13,17 +14,19 @@ permissions:
 
 jobs:
     publish:
-        name: Pre-Release Publish
-        runs-on: ubuntu-18.04
+        strategy:
+            matrix:
+                os: [ubuntu-22.04]
+                node: [14.x]
+
+        name: Pre-Release Publish (${{ matrix.os }} / Node.js ${{ matrix.node }})
+        runs-on: ${{ matrix.os }}
+
         steps:
-            - name: Checkout
-              uses: actions/checkout@v2
+            - name: Checkout repository
+              uses: actions/checkout@v3
               with:
-                fetch-depth: "0"
-            - name: Setup Node ${{ matrix.node_version }}
-              uses: actions/setup-node@v2
-              with:
-                  node-version: 14
+                  fetch-depth: 0
 
             - name: Git Identity
               run: |
@@ -33,24 +36,10 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Cache node_modules 📦
-              uses: actions/cache@v2
-              env:
-                  cache-name: cache-node-modules
+            - name: Setup Node.js ${{ matrix.node }}
+              uses: ./.github/actions/node-setup
               with:
-                # npm cache files are stored in `~/.npm` on Linux/macOS
-                path: |
-                     ~/.npm\
-                     node_modules
-                     */*/node_modules
-                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-                restore-keys: |
-                  ${{ runner.os }}-build-${{ env.cache-name }}-
-                  ${{ runner.os }}-build-
-                  ${{ runner.os }}-
-
-            - name: Install
-              run: npm install
+                  node-version: ${{ matrix.node }}
 
             - name: Get Tag
               run: echo "LAST_VERSION=$(git describe --tags `git rev-list --tags --max-count=1` | tr -d v)" >> $GITHUB_ENV
@@ -88,7 +77,7 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Build
+            - name: Build packages
               run: npm run build:packages
 
             - name: Setting NPM

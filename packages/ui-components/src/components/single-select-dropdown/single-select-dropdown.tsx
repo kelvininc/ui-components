@@ -1,10 +1,11 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Watch, State } from '@stencil/core';
-import { isEmpty, isNil } from 'lodash-es';
+import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
-import { ISingleSelectDropdown, ISingleSelectDropdownOption, ISingleSelectDropdownOptions, ISingleSelectDropdownEvents } from './single-select-dropdown.types';
-import { SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './single-select-dropdown.config';
+import { ISingleSelectDropdown, ISingleSelectDropdownEvents, ISingleSelectDropdownOption, ISingleSelectDropdownOptions } from './single-select-dropdown.types';
 import { buildSelectGroups, hasGroups } from '../select-group/select-group.helper';
+import { isEmpty, isNil } from 'lodash-es';
+
+import { SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './single-select-dropdown.config';
 /**
  * @part option - The select option container.
  */
@@ -73,6 +74,10 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	};
 
 	private openStateChangeHandler = (event: CustomEvent<boolean>) => {
+		if (this.disabled) {
+			return;
+		}
+
 		this.isOpen = event.detail;
 
 		if (!this.isOpen) {

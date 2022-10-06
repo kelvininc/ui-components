@@ -1,15 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Tree Item (unit tests) when initialized with counter attribute should match the snapshot 1`] = `
-<kv-tree-item counter="32" label="Node Title">
+<kv-tree-item counter="32" expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small">
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper">
         <a class="node-content-wrapper">
-          <div class="labels">
-            <div class="title">
-              Node Title
-            </div>
+          <div class="labels labels-small">
+            <kv-tooltip disabled="" text="Node Title">
+              <div class="title title-small">
+                Node Title
+              </div>
+            </kv-tooltip>
           </div>
           <div class="right-indicators">
             <div class="alarm-bubble">
@@ -20,7 +22,7 @@ exports[`Tree Item (unit tests) when initialized with counter attribute should m
           </div>
         </a>
       </div>
-      <div class="children" style="display: none;">
+      <div class="children" part="children" style="display: none;">
         <slot name="child-slot"></slot>
       </div>
     </div>
@@ -29,20 +31,22 @@ exports[`Tree Item (unit tests) when initialized with counter attribute should m
 `;
 
 exports[`Tree Item (unit tests) when initialized with disabled attribute should match the snapshot 1`] = `
-<kv-tree-item disabled="" label="Node Title">
+<kv-tree-item disabled="" expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small">
   <mock:shadow-root>
     <div class="node-container">
       <div class="disabled node-wrapper">
         <a class="disabled node-content-wrapper">
-          <div class="labels">
-            <div class="title">
-              Node Title
-            </div>
+          <div class="labels labels-small">
+            <kv-tooltip disabled="" text="Node Title">
+              <div class="title title-small">
+                Node Title
+              </div>
+            </kv-tooltip>
           </div>
           <div class="right-indicators"></div>
         </a>
       </div>
-      <div class="children" style="display: none;">
+      <div class="children" part="children" style="display: none;">
         <slot name="child-slot"></slot>
       </div>
     </div>
@@ -51,20 +55,22 @@ exports[`Tree Item (unit tests) when initialized with disabled attribute should 
 `;
 
 exports[`Tree Item (unit tests) when initialized with preventDefault prop should match the snapshot 1`] = `
-<kv-tree-item label="Node Title" prevent-default="">
+<kv-tree-item expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small" prevent-default="">
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper">
         <a class="node-content-wrapper">
-          <div class="labels">
-            <div class="title">
-              Node Title
-            </div>
+          <div class="labels labels-small">
+            <kv-tooltip disabled="" text="Node Title">
+              <div class="title title-small">
+                Node Title
+              </div>
+            </kv-tooltip>
           </div>
           <div class="right-indicators"></div>
         </a>
       </div>
-      <div class="children" style="display: none;">
+      <div class="children" part="children" style="display: none;">
         <slot name="child-slot"></slot>
       </div>
     </div>
@@ -73,20 +79,22 @@ exports[`Tree Item (unit tests) when initialized with preventDefault prop should
 `;
 
 exports[`Tree Item (unit tests) when initialized with required props should match the snapshot 1`] = `
-<kv-tree-item label="Node Title">
+<kv-tree-item expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small">
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper">
         <a class="node-content-wrapper">
-          <div class="labels">
-            <div class="title">
-              Node Title
-            </div>
+          <div class="labels labels-small">
+            <kv-tooltip disabled="" text="Node Title">
+              <div class="title title-small">
+                Node Title
+              </div>
+            </kv-tooltip>
           </div>
           <div class="right-indicators"></div>
         </a>
       </div>
-      <div class="children" style="display: none;">
+      <div class="children" part="children" style="display: none;">
         <slot name="child-slot"></slot>
       </div>
     </div>
@@ -95,20 +103,22 @@ exports[`Tree Item (unit tests) when initialized with required props should matc
 `;
 
 exports[`Tree Item (unit tests) when initialized with selected attribute should match the snapshot 1`] = `
-<kv-tree-item label="Node Title" selected="">
+<kv-tree-item expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small" selected="">
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper selected">
         <a class="node-content-wrapper selected">
-          <div class="labels">
-            <div class="title">
-              Node Title
-            </div>
+          <div class="labels labels-small">
+            <kv-tooltip disabled="" text="Node Title">
+              <div class="title title-small">
+                Node Title
+              </div>
+            </kv-tooltip>
           </div>
           <div class="right-indicators"></div>
         </a>
       </div>
-      <div class="children" style="display: none;">
+      <div class="children" part="children" style="display: none;">
         <slot name="child-slot"></slot>
       </div>
     </div>

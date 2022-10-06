@@ -1,9 +1,9 @@
-import { computePosition, ComputePositionConfig } from '@floating-ui/dom';
-import { Host, h, Component, Prop, Element } from '@stencil/core';
+import { Component, Element, Host, Prop, State, h } from '@stencil/core';
+import { ComputePositionConfig, computePosition } from '@floating-ui/dom';
 import { isEmpty, merge } from 'lodash-es';
 
-import { ETooltipPosition } from '../../types';
 import { DEFAULT_POSITION_CONFIG } from './tooltip.config';
+import { ETooltipPosition } from '../../types';
 import { ITooltip } from './tooltip.types';
 
 /**
@@ -16,12 +16,20 @@ import { ITooltip } from './tooltip.types';
 	shadow: true
 })
 export class KvTooltip implements ITooltip {
+	/** (optional) Delay to show tooltip in milliseconds. */
+	@Prop({ reflect: true }) delay?: number;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) text: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) position?: ETooltipPosition;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) options?: Partial<ComputePositionConfig> = DEFAULT_POSITION_CONFIG;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) contentElement?: HTMLElement = null;
+
+	@State() timeoutDelayId?: number;
 
 	/** The Host's element reference */
 	@Element() el: HTMLKvTooltipElement;
@@ -30,10 +38,91 @@ export class KvTooltip implements ITooltip {
 		return merge({}, { placement: this.position }, this.options);
 	};
 
+	private getTooltipElement = (): HTMLElement | null => {
+		return this.el.shadowRoot.querySelector('#tooltip') as HTMLElement | null;
+	};
+
+	private getContentElement = (): HTMLElement | null => {
+		return this.contentElement ?? (this.el.shadowRoot.querySelector('#content') as HTMLElement | null);
+	};
+
+	private showTooltip = () => {
+		if (!this.disabled) {
+			const tooltip = this.getTooltipElement();
+			tooltip.style.display = 'inline-block';
+			this.update();
+		}
+	};
+
+	private showTooltipHandler = () => {
+		if (this.delay) {
+			this.timeoutDelayId = window.setTimeout(() => {
+				this.showTooltip();
+			}, this.delay);
+		} else {
+			this.showTooltip();
+		}
+	};
+
+	private hideTooltip = () => {
+		const tooltip = this.getTooltipElement();
+		tooltip.style.display = '';
+	};
+
+	private hideTooltipHandler = () => {
+		this.hideTooltip();
+		if (this.timeoutDelayId) {
+			clearTimeout(this.timeoutDelayId);
+			this.timeoutDelayId = undefined;
+		}
+	};
+
+	private update = () => {
+		const tooltip = this.getTooltipElement();
+		const child = this.getContentElement();
+
+		computePosition(child, tooltip, this.getOptions()).then(({ x, y }) => {
+			tooltip.style.left = `${x}px`;
+			tooltip.style.top = `${y}px`;
+		});
+	};
+
+	private listenToEvents = (child: HTMLElement) => {
+		child.addEventListener('mouseenter', this.showTooltipHandler);
+		child.addEventListener('mouseleave', this.hideTooltipHandler);
+		child.addEventListener('focus', this.showTooltip);
+		child.addEventListener('blur', this.hideTooltip);
+	};
+
+	private unlistenToEvents = (child: HTMLElement) => {
+		child.removeEventListener('mouseenter', this.showTooltipHandler);
+		child.removeEventListener('mouseleave', this.hideTooltipHandler);
+		child.removeEventListener('focus', this.showTooltip);
+		child.removeEventListener('blur', this.hideTooltip);
+	};
+
+	componentDidRender() {
+		const child = this.getContentElement();
+		const tooltip = this.getTooltipElement();
+
+		if (tooltip === null) {
+			return;
+		}
+		this.unlistenToEvents(child);
+		this.listenToEvents(child);
+	}
+
+	disconnectedCallback() {
+		const child = this.getContentElement();
+		if (child) {
+			this.unlistenToEvents(child);
+		}
+	}
+
 	render() {
 		return (
 			<Host>
-				<div id="content" class="tooltip-content" aria-describedby="tooltip" part="content">
+				<div id="content" aria-describedby="tooltip" part="content">
 					<slot></slot>
 				</div>
 				{!isEmpty(this.text) && (
@@ -43,35 +132,5 @@ export class KvTooltip implements ITooltip {
 				)}
 			</Host>
 		);
-	}
-
-	componentDidRender() {
-		const child = this.el.shadowRoot.querySelector('#content');
-		const tooltip = this.el.shadowRoot.querySelector('#tooltip') as HTMLElement;
-
-		if (tooltip === null) {
-			return;
-		}
-
-		const update = () => {
-			computePosition(child, tooltip, this.getOptions()).then(({ x, y }) => {
-				tooltip.style.left = `${x}px`;
-				tooltip.style.top = `${y}px`;
-			});
-		};
-
-		const showTooltip = () => {
-			tooltip.style.display = 'inline-block';
-			update();
-		};
-
-		const hideTooltip = () => {
-			tooltip.style.display = '';
-		};
-
-		child.addEventListener('mouseenter', showTooltip);
-		child.addEventListener('mouseleave', hideTooltip);
-		child.addEventListener('focus', showTooltip);
-		child.addEventListener('blur', hideTooltip);
 	}
 }

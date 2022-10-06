@@ -103,16 +103,21 @@ export const TreeExample: React.FC = () => (
 
 ## Properties
 
-| Property             | Attribute       | Description                                                                                                                             | Type                          | Default     |
-| -------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- | ----------- |
-| `disabledNodes`      | --              | (optional) Dictionary that defines whether the tree node is disabled.                                                                   | `{ [key: string]: boolean; }` | `undefined` |
-| `expandedNodes`      | --              | (optional) Dictionary that defines whether the tree node is expanded or collapsed. Only has visual effect for tree nodes with children. | `{ [key: string]: boolean; }` | `undefined` |
-| `hiddenNodes`        | --              | (optional) Dictionary that defines whether the tree node is hidden.                                                                     | `{ [key: string]: boolean; }` | `undefined` |
-| `highlightedNodes`   | --              | (optional) Dictionary that defines whether the tree node is highlighted.                                                                | `{ [key: string]: boolean; }` | `undefined` |
-| `loading`            | `loading`       | (optional) Defines whether the all tree nodes is loading.                                                                               | `boolean`                     | `false`     |
-| `loadingNodes`       | --              | (optional) Dictionary that defines whether the tree node is loading.                                                                    | `{ [key: string]: boolean; }` | `undefined` |
-| `nodes` _(required)_ | --              | (required) The tree hierarchy items to render in this component                                                                         | `ITreeNodeItem[]`             | `undefined` |
-| `selectedNode`       | `selected-node` | (optional) The currently selected node id                                                                                               | `string`                      | `undefined` |
+| Property             | Attribute       | Description                                                                                                                              | Type                                                     | Default     |
+| -------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ----------- |
+| `disabledNodes`      | --              | (optional) Dictionary that defines whether the tree node is disabled.                                                                    | `{ [key: string]: boolean; }`                            | `undefined` |
+| `expandIcon`         | `expand-icon`   | (optional) Defines if icon to use for expanding, should be and arrow like icon pointing up.                                              | `EIconName`                                              | `undefined` |
+| `expandedNodes`      | --              | (optional) Dictionary that defines whether the tree node is expanded or collapsed. Only has visual effect for tree nodes with children.  | `{ [key: string]: boolean; }`                            | `undefined` |
+| `hiddenNodes`        | --              | (optional) Dictionary that defines whether the tree node is hidden.                                                                      | `{ [key: string]: boolean; }`                            | `undefined` |
+| `highlightedNodes`   | --              | (optional) Dictionary that defines whether the tree node is highlighted.                                                                 | `{ [key: string]: boolean; }`                            | `undefined` |
+| `labelsSize`         | `labels-size`   | (optional) Defines the font size of title and subtitle labels.                                                                           | `ETreeItemLabelSize.Regular \| ETreeItemLabelSize.Small` | `undefined` |
+| `loading`            | `loading`       | (optional) Defines whether the all tree nodes is loading.                                                                                | `boolean`                                                | `false`     |
+| `loadingNodes`       | --              | (optional) Dictionary that defines whether the tree node is loading.                                                                     | `{ [key: string]: boolean; }`                            | `undefined` |
+| `nodes` _(required)_ | --              | (required) The tree hierarchy items to render in this component                                                                          | `ITreeNodeItem[]`                                        | `undefined` |
+| `selectedNode`       | `selected-node` | (optional) The currently selected node id                                                                                                | `string`                                                 | `undefined` |
+| `showTooltip`        | `show-tooltip`  | (optional) Defines whether the label should be displayed as tooltip.                                                                     | `boolean`                                                | `undefined` |
+| `spotlightedNodes`   | --              | (optional) Dictionary that defines whether the tree node is spotlight. Only has visual effect for tree nodes with children and expanded. | `{ [key: string]: boolean; }`                            | `undefined` |
+| `tooltipDelay`       | `tooltip-delay` | (optional) Delay to show tooltip in milliseconds.                                                                                        | `number`                                                 | `undefined` |
 
 
 ## Events
@@ -127,20 +132,26 @@ export const TreeExample: React.FC = () => (
 
 | Part          | Description              |
 | ------------- | ------------------------ |
+| `"tree"`      | The tree container.      |
 | `"tree-item"` | The tree item container. |
 
 
 ## CSS Custom Properties
 
-| Name                | Description                      |
-| ------------------- | -------------------------------- |
-| `--children-offset` | Offset of the child nodes in px. |
-| `--node-gap`        | Gap between child nodes in px.   |
-| `--node-height`     | Tree Node height.                |
-| `--node-width`      | Tree Node height.                |
+| Name                           | Description                             |
+| ------------------------------ | --------------------------------------- |
+| `--tree-children-offset`       | Offset of the child nodes in px.        |
+| `--tree-children-padding-left` | Left padding for the child nodes in px. |
+| `--tree-node-gap`              | Gap between child nodes in px.          |
+| `--tree-node-height`           | Tree Node height.                       |
+| `--tree-node-width`            | Tree Node height.                       |
 
 
 ## Dependencies
+
+### Used by
+
+ - [kv-tree-dropdown](../tree-dropdown)
 
 ### Depends on
 
@@ -151,7 +162,9 @@ export const TreeExample: React.FC = () => (
 graph TD;
   kv-tree --> kv-tree-item
   kv-tree-item --> kv-icon
+  kv-tree-item --> kv-tooltip
   kv-tree-item --> kv-badge
+  kv-tree-dropdown --> kv-tree
   style kv-tree fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

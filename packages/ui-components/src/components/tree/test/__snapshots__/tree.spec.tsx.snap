@@ -3,17 +3,19 @@
 exports[`Tree (unit tests) when rendering with required props should match the snapshot 1`] = `
 <kv-tree>
   <mock:shadow-root>
-    <kv-tree-item exportparts="icon" icon="kv-asset-a" label="Node 1" part="tree-item" slot="child-slot">
-      <kv-tree-item exportparts="icon" icon="kv-asset-c" label="Node 1.2 (Disabled)" part="tree-item" slot="child-slot"></kv-tree-item>
-      <kv-tree-item exportparts="icon" icon="kv-asset-p" label="Node 1.3" part="tree-item" slot="child-slot"></kv-tree-item>
-      <kv-tree-item exportparts="icon" icon="kv-asset-p" label="Node 1.4 (Highlighted)" part="tree-item" slot="child-slot"></kv-tree-item>
-      <kv-tree-item exportparts="icon" icon="kv-asset-c" label="Node 1.5" part="tree-item" slot="child-slot">
-        <kv-tree-item exportparts="icon" icon="kv-asset-s" label="Node 1.5.1" part="tree-item" slot="child-slot"></kv-tree-item>
-        <kv-tree-item exportparts="icon" icon="kv-asset-s" label="Node 1.5.2" part="tree-item" slot="child-slot"></kv-tree-item>
+    <div class="container" part="tree">
+      <kv-tree-item exportparts="icon,children" icon="kv-asset-a" label="Node 1" part="tree-item" slot="child-slot">
+        <kv-tree-item exportparts="icon,children" icon="kv-asset-c" label="Node 1.2 (Disabled)" part="tree-item" slot="child-slot"></kv-tree-item>
+        <kv-tree-item exportparts="icon,children" icon="kv-asset-p" label="Node 1.3" part="tree-item" slot="child-slot"></kv-tree-item>
+        <kv-tree-item exportparts="icon,children" icon="kv-asset-p" label="Node 1.4 (Highlighted)" part="tree-item" slot="child-slot"></kv-tree-item>
+        <kv-tree-item exportparts="icon,children" icon="kv-asset-c" label="Node 1.5" part="tree-item" slot="child-slot">
+          <kv-tree-item exportparts="icon,children" icon="kv-asset-s" label="Node 1.5.1" part="tree-item" slot="child-slot"></kv-tree-item>
+          <kv-tree-item exportparts="icon,children" icon="kv-asset-s" label="Node 1.5.2" part="tree-item" slot="child-slot"></kv-tree-item>
+        </kv-tree-item>
       </kv-tree-item>
-    </kv-tree-item>
-    <kv-tree-item counter="32" counterstate="error" exportparts="icon" icon="kv-asset-s-status" iconstate="error" label="Node 2" part="tree-item" slot="child-slot"></kv-tree-item>
-    <kv-tree-item exportparts="icon" label="Node 3" part="tree-item" slot="child-slot"></kv-tree-item>
+      <kv-tree-item counter="32" counterstate="error" exportparts="icon,children" icon="kv-asset-s-status" iconstate="error" label="Node 2" part="tree-item" slot="child-slot"></kv-tree-item>
+      <kv-tree-item exportparts="icon,children" label="Node 3" part="tree-item" slot="child-slot"></kv-tree-item>
+    </div>
   </mock:shadow-root>
 </kv-tree>
 `;

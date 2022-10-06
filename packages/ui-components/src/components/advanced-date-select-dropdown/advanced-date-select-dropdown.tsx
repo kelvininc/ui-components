@@ -1,16 +1,15 @@
-import { Component, Element, Event, EventEmitter, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
-import { isEqual, merge } from 'lodash-es';
+import { Component, Element, Event, EventEmitter, Fragment, Host, Prop, State, Watch, h } from '@stencil/core';
+import { DEFAULT_DATE_INPUT_CONFIG, DEFAULT_DROPDOWN_POSITION_OPTIONS } from './advanced-date-select-dropdown.config';
 import {
+	EActionButtonType,
+	ECalendarAdvanceTimeType,
 	ICalendarAdvanceAbsoluteTimeConfig,
 	ICalendarAdvanceRelativeTimeConfig,
-	ITextField,
-	EActionButtonType,
 	ICalendarAdvanceSelectedTime,
 	ICalendarAdvanceTime,
-	ECalendarAdvanceTimeType,
+	ITextField,
 	SelectedRange
 } from '../../types';
-import { DEFAULT_DATE_INPUT_CONFIG, DEFAULT_DROPDOWN_POSITION_OPTIONS } from './advanced-date-select-dropdown.config';
 import { IAdvancedDateSelectDropdown, IAdvancedDateSelectDropdownEvents, ITimeChange } from './advanced-date-select-dropdown.types';
 import {
 	formatAbsoluteSelectedTime,
@@ -21,6 +20,8 @@ import {
 	isTimeSelected
 } from './advanced-date-select-dropdown.helper';
 import { formatTimezoneName, fromDatesRangeKey, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
+import { isEqual, merge } from 'lodash-es';
+
 import { ComputePositionConfig } from '@floating-ui/dom';
 
 @Component({
@@ -54,6 +55,7 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 	@State() internalSelectedTime: ICalendarAdvanceSelectedTime | undefined;
 	@State() internalSelectedTimezone: string;
 	@State() calendarElement: HTMLDivElement = null;
+	@State() isDropdownOpen: boolean = false;
 
 	@Element() element: HTMLKvAdvancedDateSelectDropdownElement;
 
@@ -146,11 +148,12 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 		this.closeDropdown();
 	};
 
+	private onDropdownChange = ({ detail: openState }: CustomEvent<boolean>) => {
+		this.isDropdownOpen = openState;
+	};
+
 	private closeDropdown = () => {
-		const dropdownElement = this.element.shadowRoot.querySelector('#dropdown') as HTMLKvDropdownElement | undefined;
-		if (dropdownElement) {
-			dropdownElement.onToggleOpenState();
-		}
+		this.isDropdownOpen = !this.isDropdownOpen;
 	};
 
 	public isApplyDisabled = (): boolean => {
@@ -186,7 +189,14 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 						'advanced-date-select-dropdown--selected-absolute': isAbsoluteTimeSelected(this.selectedTime)
 					}}
 				>
-					<kv-dropdown inputConfig={this.getInputConfig()} options={this.dropdownPositionOptions} listElement={this.calendarElement} id="dropdown">
+					<kv-dropdown
+						isOpen={this.isDropdownOpen}
+						onOpenStateChange={this.onDropdownChange}
+						inputConfig={this.getInputConfig()}
+						options={this.dropdownPositionOptions}
+						listElement={this.calendarElement}
+						id="dropdown"
+					>
 						<div id="calendar" class="calendar-container">
 							<kv-calendar-advanced-date-selector
 								selectedTime={this.internalSelectedTime}

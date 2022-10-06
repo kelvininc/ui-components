@@ -51,7 +51,16 @@ export class KvActionButtonText implements IButton, IButtonEvents, IAnchor {
 	render() {
 		return (
 			<Host>
-				<kv-action-button type={this.type} disabled={this.disabled} size={this.size} download={this.download} href={this.href} target={this.target} exportparts="button">
+				<kv-action-button
+					active={this.active}
+					type={this.type}
+					disabled={this.disabled}
+					size={this.size}
+					download={this.download}
+					href={this.href}
+					target={this.target}
+					exportparts="button"
+				>
 					{this.hasIcon && <kv-icon name={this.icon} exportparts="icon" />}
 					<span class="action-button-text" part="button-text">
 						{this.text}
