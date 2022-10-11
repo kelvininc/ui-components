@@ -26,8 +26,8 @@ export default {
 			control: 'select',
 			options: Object.values(EInputFieldType)
 		},
-		textChange: { action: 'text changed...' },
-		textFieldBlur: { action: 'text field on blur' }
+		onTextChange: { action: 'text changed...' },
+		onTextFieldBlur: { action: 'text field on blur' }
 	},
 	parameters: {
 		notes: require('@ui-notes/text-field/readme.md')
@@ -50,6 +50,37 @@ Default.args = {
 	placeholder: 'text here',
 	state: EValidationState.None,
 	size: EComponentSize.Large
+};
+
+export const WithTextInputMask = TextFieldTemplate.bind({});
+WithTextInputMask.args = {
+	label: 'Text Field with text input mask',
+	disabled: false,
+	required: false,
+	loading: false,
+	value: 'Possible Text Here',
+	inputMaskRegex: '[a-zA-Z s]+',
+	placeholder: '',
+	state: EValidationState.None,
+	size: EComponentSize.Large,
+	useInputMask: true,
+	type: EInputFieldType.Text
+};
+
+export const WithNumericInputMask = TextFieldTemplate.bind({});
+WithNumericInputMask.args = {
+	label: 'Text Field with numeric input mask',
+	disabled: false,
+	required: false,
+	loading: false,
+	value: 0,
+	min: -100,
+	max: 100,
+	placeholder: '',
+	state: EValidationState.None,
+	size: EComponentSize.Large,
+	useInputMask: true,
+	type: EInputFieldType.Number
 };
 
 export const DefaultIcon = TextFieldTemplate.bind({});

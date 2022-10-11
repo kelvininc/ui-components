@@ -73,29 +73,31 @@ export class TextFieldExample {
 
 ## Properties
 
-| Property        | Attribute      | Description                                                        | Type                                                                                                                                          | Default                 |
-| --------------- | -------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| `disabled`      | `disabled`     | (optional) Text field disabled                                     | `boolean`                                                                                                                                     | `false`                 |
-| `examples`      | --             | (optional) Text field example values                               | `string[]`                                                                                                                                    | `undefined`             |
-| `forcedFocus`   | `forced-focus` | (optional) Text field focus state                                  | `boolean`                                                                                                                                     | `false`                 |
-| `helpText`      | `help-text`    | (optional) Text field help text                                    | `string \| string[]`                                                                                                                          | `[]`                    |
-| `icon`          | `icon`         | (optional) Text field's icon symbol name                           | `EIconName \| EOtherIconName`                                                                                                                 | `undefined`             |
-| `inputName`     | `input-name`   | (optional) Text field input name                                   | `string`                                                                                                                                      | `undefined`             |
-| `label`         | `label`        | (optional) Text field label                                        | `string`                                                                                                                                      | `undefined`             |
-| `loading`       | `loading`      | (optional) Text field loading state                                | `boolean`                                                                                                                                     | `false`                 |
-| `max`           | `max`          | (optional) Text field maximum value                                | `number \| string`                                                                                                                            | `undefined`             |
-| `maxLength`     | `max-length`   | (optional) Text field maximum number of characters required        | `number`                                                                                                                                      | `undefined`             |
-| `min`           | `min`          | (optional) Text field minimum value                                | `number \| string`                                                                                                                            | `undefined`             |
-| `minLength`     | `min-length`   | (optional) Text field minimum number of characters required        | `number`                                                                                                                                      | `undefined`             |
-| `placeholder`   | `placeholder`  | (optional) Text field place holder                                 | `string`                                                                                                                                      | `undefined`             |
-| `readonly`      | `readonly`     | (optional) Text field is readonly                                  | `boolean`                                                                                                                                     | `false`                 |
-| `required`      | `required`     | (optional) Text field required                                     | `boolean`                                                                                                                                     | `false`                 |
-| `size`          | `size`         | (optional) Sets this tab item to a different styling configuration | `EComponentSize.Large \| EComponentSize.Small`                                                                                                | `EComponentSize.Large`  |
-| `state`         | `state`        | (optional) Text field state                                        | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid`                                                                 | `EValidationState.None` |
-| `step`          | `step`         | (optional) Text field interval between legal numbers               | `number \| string`                                                                                                                            | `undefined`             |
-| `tooltipConfig` | --             | (optional) Text field tooltip configuration                        | `{ text?: string; position?: ETooltipPosition; options?: Partial<ComputePositionConfig>; disabled?: boolean; contentElement?: HTMLElement; }` | `undefined`             |
-| `type`          | `type`         | (optional) Text field type                                         | `EInputFieldType.DateTime \| EInputFieldType.Number \| EInputFieldType.Password \| EInputFieldType.Radio \| EInputFieldType.Text`             | `EInputFieldType.Text`  |
-| `value`         | `value`        | (optional) Text field value                                        | `number \| string`                                                                                                                            | `''`                    |
+| Property         | Attribute          | Description                                                                   | Type                                                                                                                                          | Default                 |
+| ---------------- | ------------------ | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| `disabled`       | `disabled`         | (optional) Text field disabled                                                | `boolean`                                                                                                                                     | `false`                 |
+| `examples`       | --                 | (optional) Text field example values                                          | `string[]`                                                                                                                                    | `undefined`             |
+| `forcedFocus`    | `forced-focus`     | (optional) Text field focus state                                             | `boolean`                                                                                                                                     | `false`                 |
+| `helpText`       | `help-text`        | (optional) Text field help text                                               | `string \| string[]`                                                                                                                          | `[]`                    |
+| `icon`           | `icon`             | (optional) Text field's icon symbol name                                      | `EIconName \| EOtherIconName`                                                                                                                 | `undefined`             |
+| `inputMaskRegex` | `input-mask-regex` | (optional) Input mask regex                                                   | `string`                                                                                                                                      | `''`                    |
+| `inputName`      | `input-name`       | (optional) Text field input name                                              | `string`                                                                                                                                      | `undefined`             |
+| `label`          | `label`            | (optional) Text field label                                                   | `string`                                                                                                                                      | `undefined`             |
+| `loading`        | `loading`          | (optional) Text field loading state                                           | `boolean`                                                                                                                                     | `false`                 |
+| `max`            | `max`              | (optional) Text field maximum value                                           | `number \| string`                                                                                                                            | `undefined`             |
+| `maxLength`      | `max-length`       | (optional) Text field maximum number of characters required                   | `number`                                                                                                                                      | `undefined`             |
+| `min`            | `min`              | (optional) Text field minimum value                                           | `number \| string`                                                                                                                            | `undefined`             |
+| `minLength`      | `min-length`       | (optional) Text field minimum number of characters required                   | `number`                                                                                                                                      | `undefined`             |
+| `placeholder`    | `placeholder`      | (optional) Text field place holder                                            | `string`                                                                                                                                      | `''`                    |
+| `readonly`       | `readonly`         | (optional) Text field is readonly                                             | `boolean`                                                                                                                                     | `false`                 |
+| `required`       | `required`         | (optional) Text field required                                                | `boolean`                                                                                                                                     | `false`                 |
+| `size`           | `size`             | (optional) Sets this tab item to a different styling configuration            | `EComponentSize.Large \| EComponentSize.Small`                                                                                                | `EComponentSize.Large`  |
+| `state`          | `state`            | (optional) Text field state                                                   | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid`                                                                 | `EValidationState.None` |
+| `step`           | `step`             | (optional) Text field interval between legal numbers                          | `number \| string`                                                                                                                            | `undefined`             |
+| `tooltipConfig`  | --                 | (optional) Text field tooltip configuration                                   | `{ text?: string; position?: ETooltipPosition; options?: Partial<ComputePositionConfig>; disabled?: boolean; contentElement?: HTMLElement; }` | `undefined`             |
+| `type`           | `type`             | (optional) Text field type                                                    | `EInputFieldType.DateTime \| EInputFieldType.Number \| EInputFieldType.Password \| EInputFieldType.Radio \| EInputFieldType.Text`             | `EInputFieldType.Text`  |
+| `useInputMask`   | `use-input-mask`   | (optional) Use a input mask when the text field type is number (default true) | `boolean`                                                                                                                                     | `false`                 |
+| `value`          | `value`            | (optional) Text field value                                                   | `number \| string`                                                                                                                            | `''`                    |
 
 
 ## Events
@@ -104,35 +106,6 @@ export class TextFieldExample {
 | --------------- | -------------------------------------- | --------------------- |
 | `textChange`    | Emitted when a keyboard input occurred | `CustomEvent<string>` |
 | `textFieldBlur` | Emitted when text field lost focus     | `CustomEvent<string>` |
-
-
-## CSS Custom Properties
-
-| Name                                | Description                                    |
-| ----------------------------------- | ---------------------------------------------- |
-| `--background-color-default`        | Background color when state is default.        |
-| `--background-color-disabled`       | Background color when state is disabled.       |
-| `--border-color-default`            | Border color when state is default.            |
-| `--border-color-error`              | Border color when state is invalid.            |
-| `--border-color-focused`            | Border color when state is focused.            |
-| `--input-height-large`              | Text Field's large height.                     |
-| `--input-height-small`              | Text Field's small height.                     |
-| `--input-width`                     | Text Field's width.                            |
-| `--left-slot-padding-left`          | left slot left padding.                        |
-| `--left-slot-padding-top`           | left slot top padding.                         |
-| `--right-slot-padding-right`        | right slot padding.                            |
-| `--right-slot-width`                | right slot width                               |
-| `--text-color-help-text-default`    | Help Text color when state is default.         |
-| `--text-color-help-text-error`      | Help Text color when state is invalid.         |
-| `--text-color-icon-default`         | Icon color when state is default.              |
-| `--text-color-icon-disabled`        | Icon color when state is disabled.             |
-| `--text-color-input-default`        | Input text color when state is default.        |
-| `--text-color-input-disabled`       | Input text color when state is disabled.       |
-| `--text-color-input-focused`        | Input Text color when state is focused.        |
-| `--text-color-label`                | Label Text color.                              |
-| `--text-color-placeholder-default`  | Placeholder text color when state is default.  |
-| `--text-color-placeholder-disabled` | Placeholder text color when state is disabled. |
-| `--text-color-placeholder-focused`  | Placeholder text color when state is focused.  |
 
 
 ## Dependencies

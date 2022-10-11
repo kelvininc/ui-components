@@ -66,4 +66,8 @@ export interface ITextField {
 	forcedFocus?: boolean;
 	/** (optional) Text field tooltip configuration */
 	tooltipConfig?: Partial<ITooltip>;
+	/** (optional) Use a input mask when the text field type is number (default true) */
+	useInputMask?: boolean;
+	/** (optional) Input mask regex */
+	inputMaskRegex?: string;
 }
