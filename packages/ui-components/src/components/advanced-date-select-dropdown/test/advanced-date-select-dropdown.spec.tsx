@@ -3,11 +3,15 @@ jest.mock('../../../utils/date.helper', () => ({
 	getDefaultTimezone: () => 'Europe/Lisbon'
 }));
 
-import { h, SpecPage } from '@stencil/core/internal';
-import { newSpecPage } from '@stencil/core/testing';
+import { SpecPage, h } from '@stencil/core/internal';
+
 import { ECalendarAdvanceTimeType } from '../../calendar-advanced-date-selector/calendar-advanced-date-selector.types';
 import { ITextField } from '../../text-field/text-field.types';
 import { KvAdvancedDateSelectDropdown } from '../advanced-date-select-dropdown';
+import MockDate from 'mockdate';
+import { newSpecPage } from '@stencil/core/testing';
+
+MockDate.set(new Date('2022-08-08'));
 
 describe('Advance Date Select Dropdown (unit tests)', () => {
 	let page: SpecPage;

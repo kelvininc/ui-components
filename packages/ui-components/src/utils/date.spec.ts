@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import {
 	areDatesValid,
 	calculateDate,
@@ -10,9 +9,9 @@ import {
 	fromDatesRangeKey,
 	fromISO,
 	getDateMonth,
+	getDateYear,
 	getDatesBetweenRange,
 	getDatesRangeKey,
-	getDateYear,
 	getDefaultTimezone,
 	getFirstWeekdayIndexOfMonth,
 	getMonthName,
@@ -26,6 +25,11 @@ import {
 	isDateInRange,
 	isDateSame
 } from './date.helper';
+
+import MockDate from 'mockdate';
+import dayjs from 'dayjs';
+
+MockDate.set(new Date('2022-08-08'));
 
 describe('Date Helper', () => {
 	let randomDateMock: dayjs.Dayjs;
