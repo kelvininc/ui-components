@@ -1,47 +1,72 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { WidgetProps } from '@rjsf/core';
 import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../stencil-generated';
 import { EValidationState } from '@kelvininc/ui-components';
-import { buildSelectedOptions, getSelectedOptions, processValue } from './utils';
+import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, searchDropdownOptions } from './utils';
 
-const SelectWidget = ({ schema, id, options, label, required, disabled, readonly, value, multiple, onChange, placeholder, rawErrors = [] }: WidgetProps) => {
+const SelectWidget = ({ schema, id, options, label, required, disabled, readonly, value, multiple, onChange, placeholder, rawErrors = [], uiSchema = {} }: WidgetProps) => {
 	const { enumOptions, enumDisabled } = options;
+	const { displayValue, searchable, selectionClearable } = uiSchema;
+
+	const [searchTerm, setSearchTerm] = useState<string | null>(null);
+
+	const defaultDropdownOptions = useMemo(() => buildDropdownOptions(enumOptions, enumDisabled), [enumOptions, enumDisabled]);
+	const filteredOptions = useMemo(() => {
+		if (searchTerm !== null && searchTerm.length > 0) {
+			return searchDropdownOptions(searchTerm, defaultDropdownOptions);
+		}
+
+		return defaultDropdownOptions;
+	}, [searchTerm, defaultDropdownOptions]);
+	const [stateValue, setStateValue] = useState(processValue(schema, value));
 	const emptyValue = useMemo(() => (multiple ? [] : undefined), [multiple]);
-	const args = {
+
+	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => setSearchTerm(searchedLabel), []);
+	const onChangeOptionSelected = useCallback(({ detail: selectedOption }: CustomEvent<string>) => {
+		onChangeValue(selectedOption);
+	}, []);
+	const onChangeOptionsSelected = useCallback(({ detail: selectedOptionsMap }: CustomEvent<{ [key: string]: boolean }>) => {
+		const selectedOptions = getSelectedOptions(selectedOptionsMap);
+		onChangeValue(selectedOptions);
+	}, []);
+	const onSelectionCleared = useCallback(() => {
+		onChangeValue([]);
+	}, [onChange]);
+	const onChangeValue = useCallback(newValue => {
+		const processedValue = processValue(schema, newValue);
+		onChange(processedValue);
+		setStateValue(processedValue);
+	}, []);
+
+	const props = {
 		id,
 		label: label || schema.title,
 		placeholder: placeholder ? placeholder : undefined,
 		required,
 		disabled: disabled || readonly,
 		errorState: rawErrors.length > 0 ? EValidationState.Invalid : EValidationState.Valid,
-		displayValue: typeof value === 'undefined' ? emptyValue : value,
-		options: Array.isArray(enumOptions)
-			? enumOptions.reduce((acc, { value, label }) => {
-					const disabled = Array.isArray(enumDisabled) && enumDisabled.indexOf(value) != -1;
-					acc[value] = { value, label, disabled };
-					return acc;
-			  }, {})
-			: []
+		displayValue: typeof value === 'undefined' ? emptyValue : displayValue?.(value, defaultDropdownOptions),
+		options: filteredOptions,
+		onSearchChange,
+		searchable
 	};
 
-	const [stateValue, setStateValue] = useState(processValue(schema, value));
-	const onChangeOptionSelected = ({ detail: selectedOption }: CustomEvent<string>) => {
-		const newValue = processValue(schema, selectedOption);
-		onChange(newValue);
-		setStateValue(newValue);
-	};
-
-	const onChangeOptionsSelected = ({ detail: selectedOptionsMap }: CustomEvent<{ [key: string]: boolean }>) => {
-		const selectedOptions = getSelectedOptions(selectedOptionsMap);
-		const newValue = processValue(schema, selectedOptions);
-		onChange(newValue);
-		setStateValue(newValue);
-	};
+	useEffect(() => {
+		setStateValue(processValue(schema, value));
+	}, [value]);
 
 	return (
 		<>
 			{!multiple && <KvSingleSelectDropdown {...args} selectedOption={stateValue} onOptionSelected={onChangeOptionSelected} />}
-			{multiple && <KvMultiSelectDropdown {...args} selectedOptions={buildSelectedOptions(stateValue)} onOptionsSelected={onChangeOptionsSelected} />}
+			{multiple && (
+				<KvMultiSelectDropdown
+					selectionClearable={selectionClearable}
+					onSelectionCleared={onSelectionCleared}
+					selectedOptions={buildSelectedOptions(stateValue)}
+					onOptionsSelected={onChangeOptionsSelected}
+					{...props}
+				/>
+			)}
 		</>
 	);
 };

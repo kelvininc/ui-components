@@ -18,11 +18,13 @@ export interface SchemaForm<T> extends Form<T> {
 }
 
 export interface SchemaFormProps<T> extends FormProps<T> {
+	customClass?: string;
 	submittedData?: T;
 	allowDiscardChanges?: boolean;
 }
 
 export function KvSchemaForm<T>({
+	customClass,
 	liveValidate,
 	formData: formDataProp = {} as T,
 	submittedData = {} as T,
@@ -85,7 +87,7 @@ export function KvSchemaForm<T>({
 	}, [formDataProp]);
 
 	return (
-		<div className={classNames(styles['form-container'], { [styles['no-footer']]: !hasFooter })}>
+		<div className={classNames(styles['form-container'], { [styles['no-footer']]: !hasFooter }, customClass)}>
 			<ThemedForm {...themedProps}>
 				{hasFooter && (
 					<div className={classNames(styles['form-footer'], { [styles.scrolling]: isScrolling })}>
@@ -96,7 +98,7 @@ export function KvSchemaForm<T>({
 								size={EComponentSize.Large}
 								type={EActionButtonType.Tertiary}
 								onClickButton={discardChanges}
-							></KvActionButtonText>
+							/>
 						)}
 						{!norender && (
 							<button tabIndex={-1} disabled={!isValid || submitButtonProps?.disabled} className={styles['reset-button-style']} type="submit">
@@ -105,7 +107,7 @@ export function KvSchemaForm<T>({
 									disabled={!isValid || submitButtonProps?.disabled}
 									size={EComponentSize.Large}
 									type={EActionButtonType.Primary}
-								></KvActionButtonText>
+								/>
 							</button>
 						)}
 					</div>
