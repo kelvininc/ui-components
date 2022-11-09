@@ -1,11 +1,13 @@
-import RadioWidget from './RadioWidget/RadioWidget';
-import SelectWidget from './SelectWidget/SelectWidget';
-import SubmitButton from './SubmitButton/SubmitButton';
-import TextWidget from './TextWidget/TextWidget';
+import RadioWidget from './RadioWidget';
+import SelectWidget from './SelectWidget';
+import SubmitButton from './SubmitButton';
+import TextWidget from './TextWidget';
+import CheckboxesWidget from './CheckboxesWidget';
 
 export default {
 	RadioWidget,
 	SelectWidget,
 	TextWidget,
-	SubmitButton
+	SubmitButton,
+	CheckboxesWidget
 };

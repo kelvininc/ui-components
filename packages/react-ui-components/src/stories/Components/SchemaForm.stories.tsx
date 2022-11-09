@@ -546,3 +546,46 @@ CustomSelectWidgetConfigs.args = {
 		}
 	}
 };
+
+export const CheckboxesWidget = FormTemplate.bind(this);
+CheckboxesWidget.args = {
+	showErrorList: false,
+	liveValidate: true,
+	disabled: false,
+	allowDiscardChanges: true,
+	formData: { alarm_statuses: ['resolved'] },
+	schema: {
+		type: 'object',
+		properties: {
+			alarm_statuses: {
+				type: 'array',
+				title: 'Status',
+				uniqueItems: true,
+				minItems: 1,
+				items: {
+					type: 'string',
+					oneOf: [
+						{
+							title: 'Acknowledged',
+							const: 'acknowledged'
+						},
+						{
+							title: 'Active',
+							const: 'active'
+						},
+						{
+							title: 'Resolved',
+							const: 'resolved'
+						}
+					]
+				}
+			}
+		}
+	},
+	uiSchema: {
+		alarm_statuses: {
+			'ui:widget': 'checkboxes',
+			'ui:allButton': true
+		}
+	}
+};
