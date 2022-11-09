@@ -1000,13 +1000,15 @@
 	</symbol>
 
 	<symbol id="kv-sort-az"
-		xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
-		<path d="M2.5 4.5l.705.705L5.5 2.915V11h1V2.915L8.795 5.21 9.5 4.5 6 1z"/>
+		xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+		<path d="M8.667 4.526 11.333 2 14 4.526h-2V14h-1.333V4.526z" fill-opacity="0.4" />
+		<path d="M7.333 11.474 4.667 14 2 11.474h2V2h1.333v9.474z" />
 	</symbol>
 
 	<symbol id="kv-sort-za"
-		xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
-		<path d="M9.5 7.5l-.705-.705L6.5 9.085V1h-1v8.085L3.205 6.79 2.5 7.5 6 11z"/>
+		xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+		<path d="M8.667 4.526 11.333 2 14 4.526h-2V14h-1.333V4.526z" />
+		<path d="M7.333 11.474 4.667 14 2 11.474h2V2h1.333v9.474z" fill-opacity="0.4" />
 	</symbol>
 
 	<symbol id="kv-zoom-in"
@@ -1124,6 +1126,30 @@
 
 	<symbol id="kv-chat" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 		<path d="M20.1 6.6h-1.8v8.1H6.6v1.8c0 .495.405.9.9.9h9.9L21 21V7.5c0-.495-.405-.9-.9-.9zM16.5 12V3.9c0-.495-.405-.9-.9-.9H3.9c-.495 0-.9.405-.9.9v12.6l3.6-3.6h9c.495 0 .9-.405.9-.9z" />
+	</symbol>
+
+	<symbol id="kv-density-low" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+		<path d="M2.5 2.5h15v1.667h-15zm0 13.333h15V17.5h-15z" />
+	</symbol>
+
+	<symbol id="kv-density-medium" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+		<path d="M2.5 2.5h15v1.667h-15zm0 13.333h15V17.5h-15zm0-6.666h15v1.667h-15z" />
+	</symbol>
+
+	<symbol id="kv-density-high" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+		<path d="M2.5 1.667h15v1.667h-15zm0 15h15v1.667h-15zm0-5h15v1.667h-15zm0-5h15v1.667h-15z" />
+	</symbol>
+
+	<symbol id="kv-place" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+		<path d="M8 1.333A4.663 4.663 0 0 0 3.333 6C3.333 9.5 8 14.667 8 14.667S12.667 9.5 12.667 6A4.663 4.663 0 0 0 8 1.333zm0 6.334a1.667 1.667 0 1 1 .001-3.335A1.667 1.667 0 0 1 8 7.667z" />
+	</symbol>
+
+	<symbol id="kv-double-arrow-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+		<path d="m14.658 5 1.175 1.175L12.017 10l3.816 3.825L14.658 15l-5-5 5-5zM9.167 5l1.175 1.175L6.525 10l3.817 3.825L9.167 15l-5-5 5-5z" />
+	</symbol>
+
+	<symbol id="kv-double-arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+		<path d="m5.342 5 5 5-5 5-1.175-1.175L7.983 10 4.167 6.175 5.342 5zm5.491 0 5 5-5 5-1.175-1.175L13.475 10 9.658 6.175 10.833 5z"  />
 	</symbol>
 
 	<!--  PEACOCK - ILLUSTRATIONS  -->
