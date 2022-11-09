@@ -44,6 +44,8 @@ export interface ISingleSelectDropdown {
 	options?: ISingleSelectDropdownOptions;
 	/** (optional) The value of the selected option */
 	selectedOption?: string;
+	/** (optional) The object with the dropdown options filtered */
+	filteredOptions?: ISingleSelectDropdownOptions;
 }
 
 export interface ISingleSelectDropdownEvents {
