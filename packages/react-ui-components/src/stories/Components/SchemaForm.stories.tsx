@@ -1,6 +1,8 @@
+import { IMultiSelectDropdownOptions, ISingleSelectDropdownOptions } from '@kelvininc/ui-components';
 import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
 import KvSchemaForm from '../../components/SchemaForm/SchemaForm';
+import { getDropdownDisplayValue } from './helpers/dropdown.helper';
 
 export default {
 	title: 'Form/SchemaForm',
@@ -464,6 +466,83 @@ AllowDiscardChanges.args = {
 				title: 'Telephone',
 				minLength: 10
 			}
+		}
+	}
+};
+
+export const CustomSelectWidgetConfigs = FormTemplate.bind(this);
+CustomSelectWidgetConfigs.args = {
+	showErrorList: false,
+	liveValidate: true,
+	disabled: false,
+	allowDiscardChanges: true,
+	formData: {},
+	schema: {
+		type: 'object',
+		properties: {
+			alarm_severities: {
+				type: 'array',
+				title: 'Severity',
+				uniqueItems: true,
+				items: {
+					type: 'number',
+					oneOf: [
+						{
+							title: 'Critical',
+							const: 1
+						},
+						{
+							title: 'Urgent',
+							const: 2
+						},
+						{
+							title: 'Advisory',
+							const: 3
+						},
+						{
+							title: 'Medium',
+							const: 4
+						},
+						{
+							title: 'Low',
+							const: 5
+						}
+					]
+				}
+			},
+			alarm_statuses: {
+				type: 'array',
+				title: 'Status',
+				uniqueItems: true,
+				items: {
+					type: 'string',
+					oneOf: [
+						{
+							title: 'Acknowledged',
+							const: 'acknowledged'
+						},
+						{
+							title: 'Active',
+							const: 'active'
+						},
+						{
+							title: 'Resolved',
+							const: 'resolved'
+						}
+					]
+				}
+			}
+		}
+	},
+	uiSchema: {
+		alarm_severities: {
+			displayValue(selectedOptions: string[], options: ISingleSelectDropdownOptions | IMultiSelectDropdownOptions) {
+				return getDropdownDisplayValue(selectedOptions, options, 'status');
+			}
+		},
+		alarm_statuses: {
+			searchable: true,
+			selectionClearable: true
 		}
 	}
 };

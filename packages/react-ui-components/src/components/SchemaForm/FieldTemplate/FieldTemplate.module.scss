@@ -1,4 +1,4 @@
-@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
 
 .new-key-container {
 	width: 100%;
@@ -8,7 +8,7 @@
 
 	.input-container {
 		width: 100%;
-		padding-right:  $spacing-5x;
+		padding-right: $spacing-5x;
 	}
 
 	.delete-button {

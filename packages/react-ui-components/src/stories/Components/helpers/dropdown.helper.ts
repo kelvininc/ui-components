@@ -13,3 +13,19 @@ export const searchDropdownOptions = (term: string, options: ISingleSelectDropdo
 		return accumulator;
 	}, {});
 };
+
+export const getDropdownDisplayValue = (
+	selectedOptions: string[],
+	options: ISingleSelectDropdownOptions | IMultiSelectDropdownOptions,
+	suffix = 'filtered'
+): string | undefined => {
+	if (selectedOptions.length === 0) {
+		return undefined;
+	}
+
+	if (selectedOptions.length === 1 && options[selectedOptions[0]]) {
+		return options[selectedOptions[0]].label;
+	}
+
+	return `${selectedOptions.length} ${suffix}`;
+};

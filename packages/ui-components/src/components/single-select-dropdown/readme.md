@@ -26,7 +26,7 @@ import { KvSingleSelectDropdown } from '@kelvininc/react-ui-components';
 
 export const KvSingleSelectDropdownExample: React.FC = (props) => (
   <>
-    <KvSingleSelectDropdown
+    <KvSingleSelectDropdown 
 		placeholder="Select an option"
 		label="Options"
 		icon={EIconName.Layer}
@@ -120,3 +120,5 @@ graph TD;
 ```
 
 ----------------------------------------------
+
+
