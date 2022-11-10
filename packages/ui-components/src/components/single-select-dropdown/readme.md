@@ -26,7 +26,7 @@ import { KvSingleSelectDropdown } from '@kelvininc/react-ui-components';
 
 export const KvSingleSelectDropdownExample: React.FC = (props) => (
   <>
-    <KvSingleSelectDropdown 
+    <KvSingleSelectDropdown
 		placeholder="Select an option"
 		label="Options"
 		icon={EIconName.Layer}
@@ -46,6 +46,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | `disabled`             | `disabled`                | (optional) If `true` the dropdown is disabled                 | `boolean`                                                                     | `false`                                    |
 | `displayValue`         | `display-value`           | (optional) The text to display on the dropdown                | `string`                                                                      | `undefined`                                |
 | `errorState`           | `error-state`             | (required) The error state for the dropdown                   | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid` | `EValidationState.None`                    |
+| `filteredOptions`      | --                        | (optional) The object with the dropdown options filtered      | `ISingleSelectDropdownOptions`                                                | `undefined`                                |
 | `helpText`             | `help-text`               | (optional) The text to display as help text                   | `string \| string[]`                                                          | `[]`                                       |
 | `icon`                 | `icon`                    | (optional) The icon to display on the dropdown                | `EIconName \| EOtherIconName`                                                 | `undefined`                                |
 | `isOpen`               | `is-open`                 | (optional) If `true` the list is opened                       | `boolean`                                                                     | `false`                                    |
@@ -119,5 +120,3 @@ graph TD;
 ```
 
 ----------------------------------------------
-
-
