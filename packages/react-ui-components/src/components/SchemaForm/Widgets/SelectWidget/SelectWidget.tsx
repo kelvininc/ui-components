@@ -57,7 +57,7 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 
 	return (
 		<>
-			{!multiple && <KvSingleSelectDropdown {...args} selectedOption={stateValue} onOptionSelected={onChangeOptionSelected} />}
+			{!multiple && <KvSingleSelectDropdown selectedOption={stateValue} onOptionSelected={onChangeOptionSelected} {...props} />}
 			{multiple && (
 				<KvMultiSelectDropdown
 					selectionClearable={selectionClearable}
