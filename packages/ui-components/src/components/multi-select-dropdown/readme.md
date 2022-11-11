@@ -58,6 +58,8 @@ export const KvMultiSelectDropdownExample: React.FC = (props) => (
 | `icon`                 | `icon`                    | (optional) The icon to display on the dropdown                                   | `EIconName \| EOtherIconName`                                                 | `undefined`                               |
 | `label`                | `label`                   | (optional) The text to display on the dropdown label                             | `string`                                                                      | `undefined`                               |
 | `loading`              | `loading`                 | (optional) If `true` the dropdown is loading                                     | `boolean`                                                                     | `false`                                   |
+| `maxHeight`            | `max-height`              | (optional) The dropdown's max-height                                             | `string`                                                                      | `undefined`                               |
+| `minHeight`            | `min-height`              | (optional) The dropdown's min-height                                             | `string`                                                                      | `undefined`                               |
 | `noDataAvailableLabel` | `no-data-available-label` | (required) The text to display when there are no options                         | `string`                                                                      | `MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE` |
 | `options`              | --                        | (optional) The object with the dropdown options                                  | `{ [key: string]: IMultiSelectDropdownOption; }`                              | `undefined`                               |
 | `placeholder`          | `placeholder`             | (required) The text to display as the dropdown placeholder                       | `string`                                                                      | `undefined`                               |
@@ -74,13 +76,6 @@ export const KvMultiSelectDropdownExample: React.FC = (props) => (
 | `optionsSelected`  | Emitted when the selected options change | `CustomEvent<{ [key: string]: boolean; }>` |
 | `searchChange`     | Emitted when the search term changes     | `CustomEvent<string>`                      |
 | `selectionCleared` | Emitted when the selection is cleared    | `CustomEvent<void>`                        |
-
-
-## CSS Custom Properties
-
-| Name                    | Description                   |
-| ----------------------- | ----------------------------- |
-| `--dropdown-max-height` | Dropdown list maximum height. |
 
 
 ## Dependencies

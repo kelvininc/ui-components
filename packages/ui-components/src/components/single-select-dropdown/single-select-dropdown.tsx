@@ -48,6 +48,10 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Prop({ reflect: true }) selectedOption?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) filteredOptions?: ISingleSelectDropdownOptions;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) minHeight?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) maxHeight?: string;
 
 	/** @inheritdoc */
 	@Event() optionSelected: EventEmitter<string>;
@@ -176,7 +180,14 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		return (
 			<Host>
 				<kv-dropdown inputConfig={this.getInputConfig()} isOpen={this.isOpen} onOpenStateChange={this.openStateChangeHandler} exportparts="input">
-					<kv-select searchValue={this._searchValue} searchable={this.searchable} onSearchChange={this.onSearchChange} searchPlaceholder={this.searchPlaceholder}>
+					<kv-select
+						searchValue={this._searchValue}
+						searchable={this.searchable}
+						onSearchChange={this.onSearchChange}
+						searchPlaceholder={this.searchPlaceholder}
+						maxHeight={this.maxHeight}
+						minHeight={this.minHeight}
+					>
 						{isEmpty(this.getCurrentOptions()) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
 						{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.getCurrentOptions()))}
 					</kv-select>

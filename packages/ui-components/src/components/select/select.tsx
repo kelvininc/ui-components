@@ -1,4 +1,5 @@
 import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
+import { isNil, omitBy } from 'lodash-es';
 import { SELECT_CLEAR_SELECTION_LABEL } from './select.config';
 import { ISelect, ISelectEvents } from './select.types';
 
@@ -23,6 +24,10 @@ export class KvSelect implements ISelect, ISelectEvents {
 	@Prop({ reflect: true }) selectionClearEnabled?: boolean;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) clearSelectionLabel?: string = SELECT_CLEAR_SELECTION_LABEL;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) minHeight?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) maxHeight?: string;
 
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
@@ -37,9 +42,20 @@ export class KvSelect implements ISelect, ISelectEvents {
 		this.clearSelection.emit();
 	};
 
+	private getCustomStyle = () =>
+		omitBy(
+			{
+				'--select-max-height': this.maxHeight,
+				'--select-min-height': this.minHeight
+			},
+			isNil
+		);
+
 	render() {
+		const customStyle = this.getCustomStyle();
+
 		return (
-			<Host>
+			<Host style={customStyle}>
 				<div class="select-container" part="select">
 					{(this.searchable || this.selectionClearable) && (
 						<div class="select-header-container">

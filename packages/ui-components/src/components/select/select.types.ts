@@ -13,6 +13,10 @@ export interface ISelect {
 	selectionClearEnabled?: boolean;
 	/** (optional) The clear search action text */
 	clearSelectionLabel?: string;
+	/** (optional) The dropdown's min-height */
+	minHeight?: string;
+	/** (optional) The dropdown's max-height */
+	maxHeight?: string;
 }
 
 export interface ISelectEvents {

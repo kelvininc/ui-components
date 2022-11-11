@@ -52,6 +52,8 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | `isOpen`               | `is-open`                 | (optional) If `true` the list is opened                       | `boolean`                                                                     | `false`                                    |
 | `label`                | `label`                   | (optional) The text to display on the dropdown label          | `string`                                                                      | `undefined`                                |
 | `loading`              | `loading`                 | (optional) If `true` the list dropdown is loading             | `boolean`                                                                     | `false`                                    |
+| `maxHeight`            | `max-height`              | (optional) The dropdown's max-height                          | `string`                                                                      | `undefined`                                |
+| `minHeight`            | `min-height`              | (optional) The dropdown's min-height                          | `string`                                                                      | `undefined`                                |
 | `noDataAvailableLabel` | `no-data-available-label` | (required) The text to display when there are no options      | `string`                                                                      | `SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE` |
 | `options`              | --                        | (optional) The object with the dropdown options               | `ISingleSelectDropdownOptions`                                                | `{}`                                       |
 | `placeholder`          | `placeholder`             | (optional) The text to display as the dropdown placeholder    | `string`                                                                      | `undefined`                                |
@@ -74,13 +76,6 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | Part       | Description                  |
 | ---------- | ---------------------------- |
 | `"option"` | The select option container. |
-
-
-## CSS Custom Properties
-
-| Name                    | Description                   |
-| ----------------------- | ----------------------------- |
-| `--dropdown-max-height` | Dropdown list maximum height. |
 
 
 ## Dependencies
