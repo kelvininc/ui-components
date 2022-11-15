@@ -48,6 +48,10 @@ export interface IMultiSelectDropdown {
 	selectedOptions?: { [key: string]: boolean };
 	/** (optional) The object with the dropdown options filtered */
 	filteredOptions?: IMultiSelectDropdownOptions;
+	/** (optional) The dropdown's min-height */
+	minHeight?: string;
+	/** (optional) The dropdown's max-height */
+	maxHeight?: string;
 }
 
 export interface IMultiSelectDropdownEvents {

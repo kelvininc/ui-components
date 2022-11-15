@@ -46,6 +46,10 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: true }) selectedOptions?: { [key: string]: boolean } = {};
 	/** @inheritdoc */
 	@Prop({ reflect: true }) filteredOptions?: { [key: string]: IMultiSelectDropdownOption };
+	/** @inheritdoc */
+	@Prop({ reflect: true }) minHeight?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) maxHeight?: string;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<{ [key: string]: boolean }>;
@@ -173,6 +177,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 						clearSelectionLabel={this.clearSelectionLabel}
 						onClearSelection={this.onClearSelection}
 						onSearchChange={this.onSearchChange}
+						maxHeight={this.maxHeight}
+						minHeight={this.minHeight}
 					>
 						{isEmpty(this.getCurrentOptions()) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
 						{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.getCurrentOptions()))}

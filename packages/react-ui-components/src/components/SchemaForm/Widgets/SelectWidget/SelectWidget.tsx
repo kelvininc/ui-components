@@ -6,7 +6,7 @@ import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, process
 
 const SelectWidget = ({ schema, id, options, label, required, disabled, readonly, value, multiple, onChange, placeholder, rawErrors = [], uiSchema = {} }: WidgetProps) => {
 	const { enumOptions, enumDisabled } = options;
-	const { displayValue, searchable, selectionClearable } = uiSchema;
+	const { displayValue, searchable, selectionClearable, minHeight, maxHeight } = uiSchema;
 
 	const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
@@ -48,7 +48,9 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 		displayValue: typeof value === 'undefined' ? emptyValue : displayValue?.(value, defaultDropdownOptions),
 		options: filteredOptions,
 		onSearchChange,
-		searchable
+		searchable,
+		minHeight,
+		maxHeight
 	};
 
 	useEffect(() => {
