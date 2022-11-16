@@ -2,11 +2,11 @@ import type Inputmask from 'inputmask';
 import { ETooltipPosition } from '../../types';
 import { ITooltip } from '../tooltip/tooltip.types';
 
-export const NUMERIC_TEXT_INPUT_MASK_CONFIG: Inputmask.Options = {
-	alias: 'numeric',
+export const COMMON_INPUT_MASK_CONFIG: Inputmask.Options = {
 	rightAlign: false,
 	showMaskOnHover: false,
 	showMaskOnFocus: false,
+	clearMaskOnLostFocus: false,
 	oncleared: function () {
 		this.value = '';
 	}
