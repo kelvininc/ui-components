@@ -1,7 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { WidgetProps } from '@rjsf/core';
-import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../stencil-generated';
 import { EValidationState } from '@kelvininc/ui-components';
+import { WidgetProps } from '@rjsf/core';
+import classNames from 'classnames';
+import { isEmpty } from 'lodash-es';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../stencil-generated';
+import styles from './SelectWidget.module.scss';
 import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, searchDropdownOptions } from './utils';
 
 const SelectWidget = ({ schema, id, options, label, required, disabled, readonly, value, multiple, onChange, placeholder, rawErrors = [], uiSchema = {} }: WidgetProps) => {
@@ -38,13 +41,16 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 		setStateValue(processedValue);
 	}, []);
 
+	const hasErrors = useMemo(() => !isEmpty(rawErrors), [rawErrors]);
+	const displayedLabel = useMemo(() => schema.title || label, [schema.title, label]);
+
 	const props = {
 		id,
-		label: label || schema.title,
+		label: displayedLabel,
 		placeholder: placeholder ? placeholder : undefined,
 		required,
 		disabled: disabled || readonly,
-		errorState: rawErrors.length > 0 ? EValidationState.Invalid : EValidationState.Valid,
+		errorState: hasErrors ? EValidationState.Invalid : EValidationState.Valid,
 		displayValue: typeof value === 'undefined' ? emptyValue : displayValue?.(value, defaultDropdownOptions),
 		options: filteredOptions,
 		onSearchChange,
@@ -58,7 +64,7 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 	}, [value]);
 
 	return (
-		<>
+		<div className={classNames(styles['input-container'], { [styles['has-errors']]: hasErrors, [styles['has-label']]: !!displayedLabel })}>
 			{!multiple && <KvSingleSelectDropdown selectedOption={stateValue} onOptionSelected={onChangeOptionSelected} {...props} />}
 			{multiple && (
 				<KvMultiSelectDropdown
@@ -69,7 +75,7 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 					{...props}
 				/>
 			)}
-		</>
+		</div>
 	);
 };
 

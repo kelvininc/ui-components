@@ -1,8 +1,11 @@
-import React, { Fragment, useMemo } from 'react';
-import { WidgetProps } from '@rjsf/core';
-import { JSONSchema7TypeName } from 'json-schema';
-import { KvTextField } from '../../../stencil-generated';
 import { EInputFieldType, EValidationState } from '@kelvininc/ui-components';
+import { WidgetProps } from '@rjsf/core';
+import classNames from 'classnames';
+import { JSONSchema7TypeName } from 'json-schema';
+import { isEmpty } from 'lodash-es';
+import React, { useMemo } from 'react';
+import { KvTextField } from '../../../stencil-generated';
+import styles from './TextWidget.module.scss';
 
 const getInputType = (type?: JSONSchema7TypeName | JSONSchema7TypeName[]) => {
 	switch (type) {
@@ -21,12 +24,14 @@ const TextWidget = ({ id, placeholder, required, readonly, disabled, label, valu
 	const _onBlur = (value: CustomEvent<string>) => onBlur(id, value.detail);
 	const inputType = useMemo(() => getInputType(schema.type), [schema.type]);
 	const examples = useMemo(() => (schema.examples ? (schema.examples as string[]).concat(schema.default ? ([schema.default] as string[]) : []) : undefined), [schema.examples]);
+	const hasErrors = useMemo(() => !isEmpty(rawErrors), [rawErrors]);
+	const displayedLabel = useMemo(() => uiSchema['ui:title'] || schema.title || label, [uiSchema, schema.title, label]);
 
 	return (
-		<Fragment>
+		<div className={classNames(styles['input-container'], { [styles['has-errors']]: hasErrors, [styles['has-label']]: !!displayedLabel })}>
 			<KvTextField
 				id={id}
-				label={uiSchema['ui:title'] || schema.title || label}
+				label={displayedLabel}
 				examples={examples}
 				disabled={disabled}
 				readonly={readonly}
@@ -34,12 +39,12 @@ const TextWidget = ({ id, placeholder, required, readonly, disabled, label, valu
 				forcedFocus={autofocus}
 				placeholder={placeholder}
 				type={inputType}
-				state={rawErrors.length > 0 ? EValidationState.Invalid : EValidationState.Valid}
+				state={hasErrors ? EValidationState.Invalid : EValidationState.Valid}
 				value={value || value === 0 ? value : ''}
 				onTextChange={_onChange}
 				onTextFieldBlur={_onBlur}
 			/>
-		</Fragment>
+		</div>
 	);
 };
 

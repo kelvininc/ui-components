@@ -296,6 +296,7 @@ WithArrayFields.args = {
 			}
 		}
 	},
+	formData: {},
 	schema: {
 		definitions: {
 			Thing: {
@@ -586,6 +587,218 @@ CheckboxesWidget.args = {
 		alarm_statuses: {
 			'ui:widget': 'checkboxes',
 			'ui:allButton': true
+		}
+	}
+};
+
+export const InlineForm = FormTemplate.bind(this);
+InlineForm.args = {
+	showErrorList: false,
+	liveValidate: true,
+	disabled: false,
+	allowDiscardChanges: true,
+	formData: {
+		team_info: [{}],
+		assets_oee: [{ asset_name: 'Demo Centrifugal Pump 10' }, { asset_name: 'kelvin simple asset' }]
+	},
+	schema: {
+		type: 'object',
+		properties: {
+			shift_info: {
+				title: 'Shift info',
+				type: 'object',
+				properties: {
+					name: {
+						title: 'Shift name',
+						type: 'string'
+					}
+					// start_at: {
+					// 	title: 'Starts at',
+					// 	type: 'string',
+					// 	format: 'date-time'
+					// },
+					// end_at: {
+					// 	title: 'Ends at',
+					// 	type: 'string',
+					// 	format: 'date-time'
+					// }
+				},
+				required: ['name', 'start_at', 'end_at']
+			},
+			production_info: {
+				title: 'Production info',
+				type: 'object',
+				properties: {
+					sku: {
+						title: 'SKU',
+						type: 'string'
+					}
+					// expected_start_at: {
+					// 	title: 'Expected to start at',
+					// 	type: 'string',
+					// 	format: 'date-time'
+					// },
+					// expected_end_at: {
+					// 	title: 'Expected to end at',
+					// 	type: 'string',
+					// 	format: 'date-time'
+					// }
+				},
+				required: ['sku', 'expected_start_at', 'expected_end_at']
+			},
+			team_info: {
+				title: 'Team info',
+				type: 'array',
+				items: {
+					type: 'object',
+					properties: {
+						name: {
+							title: 'Name',
+							type: 'string',
+							minLength: 8,
+							pattern: '\\d+'
+						},
+						email: {
+							title: 'Email',
+							type: 'string'
+						},
+						phone_country_code: {
+							title: 'Phone country code',
+							type: 'string'
+						},
+						phone_number: {
+							title: 'Phone number',
+							type: 'number'
+						},
+						role: {
+							title: 'Role',
+							type: 'string'
+						},
+						responsible_for: {
+							title: 'Asset responsible for',
+							type: 'string',
+							oneOf: [
+								{
+									title: 'Asset 1',
+									const: 'asset-name-1'
+								},
+								{
+									title: 'Asset 2',
+									const: 'asset-name-2'
+								}
+							]
+						}
+					},
+					required: ['name', 'email', 'phone_country_code', 'phone_number', 'role', 'responsible_for']
+				}
+			},
+			assets_oee: {
+				type: 'array',
+				items: {
+					type: 'object',
+					properties: {
+						asset_name: {
+							type: 'string'
+						},
+						oee_thresholds: {
+							title: 'OEE - Thresholds',
+							type: 'object',
+							properties: {
+								target: {
+									title: 'OEE Target',
+									type: 'number'
+								},
+								critical_alarm: {
+									title: 'OEE Critical',
+									type: 'number'
+								},
+								warning_alarm: {
+									title: 'OEE Urgent',
+									type: 'number'
+								}
+							},
+							required: ['target', 'critical_alarm', 'warning_alarm']
+						},
+						oee_calculation: {
+							title: 'OEE - Calculation',
+							type: 'object',
+							properties: {
+								ideal_cycle_time: {
+									title: 'Ideal cycle time',
+									type: 'number'
+								},
+								total_units: {
+									title: 'Total units',
+									type: 'number'
+								},
+								good_units: {
+									title: 'Good units',
+									type: 'number'
+								},
+								run_time: {
+									title: 'Run time',
+									type: 'number'
+								},
+								planned_production_time: {
+									title: 'Planned production time',
+									type: 'number'
+								}
+							},
+							required: ['ideal_cycle_time', 'total_units', 'good_units', 'run_time', 'planned_production_time']
+						}
+					}
+				}
+			}
+		}
+	},
+	uiSchema: {
+		shift_info: {
+			'ui:inline': true,
+			'ui:inputWidth': '240px'
+		},
+		production_info: {
+			'ui:inline': true,
+			'ui:inputWidth': '240px'
+		},
+		team_info: {
+			'ui:itemPrefix': 'Collaborator',
+			'ui:options': {
+				addable: true,
+				orderable: false,
+				removable: true
+			},
+			'items': {
+				'ui:itemPrefix': 'Collaborator',
+				'ui:inline': true,
+				'ui:inputWidth': '240px'
+			}
+		},
+		assets_oee: {
+			'ui:title': ' ',
+			'ui:options': {
+				addable: false,
+				orderable: false,
+				removable: false
+			},
+			'items': {
+				'ui:fieldset': true,
+				'asset_name': {
+					'ui:title': ' ',
+					'ui:widget': 'readOnlyValue',
+					'ui:readonly': true,
+					'ui:options': {
+						label: false
+					}
+				},
+				'oee_thresholds': {
+					'ui:inline': true,
+					'ui:inputWidth': '240px'
+				},
+				'oee_calculation': {
+					'ui:inline': true,
+					'ui:inputWidth': '240px'
+				}
+			}
 		}
 	}
 };
