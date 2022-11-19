@@ -1,22 +1,26 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
-import { throttle } from 'lodash-es';
+import { isEmpty, throttle } from 'lodash-es';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
-import { IAnchor, EAnchorTarget } from '../../types';
+import { EAnchorTarget, EIconName, EOtherIconName } from '../../types';
 import { IRadioButton, IRadioButtonEvents } from './radio-button.types';
 
 /**
  * @part radio-button - The radio action.
+ * @part radio-icon - The radio button's icon container.
+ * @part radio-text - The radio button's text container.
  */
 @Component({
 	tag: 'kv-radio-button',
 	styleUrl: 'radio-button.scss',
 	shadow: true
 })
-export class KvRadioButton implements IRadioButton, IRadioButtonEvents, IAnchor {
+export class KvRadioButton implements IRadioButton, IRadioButtonEvents {
 	/** @inheritdoc */
-	@Prop({ reflect: true }) label!: string;
+	@Prop({ reflect: true }) value!: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) value: string = this.label;
+	@Prop({ reflect: true }) label?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
@@ -53,13 +57,17 @@ export class KvRadioButton implements IRadioButton, IRadioButtonEvents, IAnchor 
 	};
 
 	render() {
+		const hasLabel = !isEmpty(this.label);
+		const hasIcon = !isEmpty(this.icon);
+
 		return (
 			<Host>
 				<a
 					class={{
 						'radio-button': true,
 						'radio-button--checked': this.checked,
-						'radio-button--disabled': this.disabled
+						'radio-button--disabled': this.disabled,
+						'radio-button--only-icon': hasIcon && !hasLabel
 					}}
 					part="radio-button"
 					onClick={this.onClick}
@@ -67,7 +75,16 @@ export class KvRadioButton implements IRadioButton, IRadioButtonEvents, IAnchor 
 					href={this.href}
 					target={this.target}
 				>
-					{this.label}
+					{hasIcon && (
+						<div class="radio-button-icon" part="radio-icon">
+							<kv-icon name={this.icon} />
+						</div>
+					)}
+					{hasLabel && (
+						<div class="radio-button-label" part="radio-label">
+							{this.label}
+						</div>
+					)}
 				</a>
 			</Host>
 		);

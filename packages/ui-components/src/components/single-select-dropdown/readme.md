@@ -78,6 +78,13 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | `"option"` | The select option container. |
 
 
+## CSS Custom Properties
+
+| Name                    | Description                   |
+| ----------------------- | ----------------------------- |
+| `--dropdown-max-height` | Dropdown list maximum height. |
+
+
 ## Dependencies
 
 ### Used by

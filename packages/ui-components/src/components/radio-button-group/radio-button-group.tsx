@@ -1,5 +1,6 @@
 import { Component, h, Prop, Host, Event, EventEmitter } from '@stencil/core';
-import { IRadioButtonGroup, IRadioButtonGroupEvents, IRadioButtonGroupButton } from './radio-button-group.types';
+import { IRadioButton } from '../radio-button/radio-button.types';
+import { IRadioButtonGroup, IRadioButtonGroupEvents } from './radio-button-group.types';
 
 @Component({
 	tag: 'kv-radio-button-group',
@@ -8,7 +9,7 @@ import { IRadioButtonGroup, IRadioButtonGroupEvents, IRadioButtonGroupButton } f
 })
 export class KvRadioButtonGroup implements IRadioButtonGroup, IRadioButtonGroupEvents {
 	/** @inheritdoc */
-	@Prop({ reflect: true }) buttons: IRadioButtonGroupButton[] = [];
+	@Prop({ reflect: true }) buttons: IRadioButton[] = [];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedButtons?: Record<string, boolean> = {};
 	/** @inheritdoc */
@@ -25,12 +26,13 @@ export class KvRadioButtonGroup implements IRadioButtonGroup, IRadioButtonGroupE
 						exportparts="radio-button"
 						value={button.value}
 						label={button.label}
+						icon={button.icon}
 						download={button.download}
 						href={button.href}
 						target={button.target}
 						preventDefault={button.preventDefault}
 						disabled={this.disabled || button.disabled}
-						checked={this.selectedButtons[button.value ?? button.label] === true}
+						checked={this.selectedButtons[button.value] === true}
 					></kv-radio-button>
 				))}
 			</Host>

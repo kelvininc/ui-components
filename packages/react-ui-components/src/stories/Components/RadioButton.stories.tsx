@@ -1,7 +1,7 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
 import { useArgs } from '@storybook/client-api';
-import { KvRadioButton } from '../../components';
+import { EIconName, KvRadioButton } from '../../components';
 
 export default {
 	title: 'Inputs/Radio Button',
@@ -43,4 +43,17 @@ DisabledState.args = {
 	label: 'Option 3',
 	value: 'opt3',
 	disabled: true
+};
+
+export const WithIconState = RadioButtonTemplate.bind({});
+WithIconState.args = {
+	icon: EIconName.Add,
+	label: 'Option 4',
+	value: 'opt4'
+};
+
+export const OnlyIconState = RadioButtonTemplate.bind({});
+OnlyIconState.args = {
+	icon: EIconName.Add,
+	value: 'opt5'
 };
