@@ -14,5 +14,6 @@ export const COMMON_INPUT_MASK_CONFIG: Inputmask.Options = {
 };
 
 export const DEFAULT_TEXT_TOOLTIP_CONFIG: Partial<ITooltip> = {
-	position: ETooltipPosition.TopStart
+	position: ETooltipPosition.TopStart,
+	truncate: true
 };

@@ -12,4 +12,6 @@ export interface ITooltip {
 	disabled?: boolean;
 	/** (optional) Content element reference */
 	contentElement?: HTMLElement;
+	/** (optional) Set `true` to display tooltip only when the content is trucated */
+	truncate?: boolean;
 }
