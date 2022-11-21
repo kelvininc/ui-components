@@ -117,7 +117,6 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 				...getInputMaskConfig(this.type),
 				min: this.min,
 				max: this.max,
-				placeholder: this.placeholder,
 				regex: this.inputMaskRegex
 			}).mask(this.nativeInput);
 		}
