@@ -7,7 +7,9 @@ export enum EInputFieldType {
 	Number = 'number',
 	Password = 'password',
 	DateTime = 'datetime-local',
-	Radio = 'radio'
+	Date = 'date',
+	Radio = 'radio',
+	Email = 'email'
 }
 
 export enum EValidationState {

@@ -2,7 +2,7 @@ import { EActionButtonType, EComponentSize, EIconName } from '@kelvininc/ui-comp
 import { ArrayFieldTemplateProps, IdSchema, utils } from '@rjsf/core';
 import classNames from 'classnames';
 import { get } from 'lodash-es';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { KvActionButtonIcon, KvActionButtonText } from '../../stencil-generated';
 import styles from './ArrayFieldTemplate.module.scss';
 
@@ -71,7 +71,7 @@ const DefaultArrayItem = ({ children, disabled, hasMoveDown, hasMoveUp, hasRemov
 	const itemPrefix = get(children, ['props', 'uiSchema', 'ui:itemPrefix']);
 
 	return (
-		<fieldset key={key} className={classNames([], { [styles['reset-fieldset-style']]: resetStyle })}>
+		<fieldset key={key} className={classNames({ [styles['reset-fieldset-style']]: resetStyle })}>
 			<div className={styles['array-item-container']}>
 				{itemPrefix && <span className={styles['item-prefix']}>{`${itemPrefix} ${index + 1}`}</span>}
 				{children}
@@ -114,27 +114,25 @@ const DefaultArrayItem = ({ children, disabled, hasMoveDown, hasMoveUp, hasRemov
 	);
 };
 
-const addButton = ({ canAdd, disabled, readonly, uiSchema, onAddClick }: Partial<ArrayFieldTemplateProps>) =>
-	useMemo(() => {
-		if (!canAdd) return;
-		const btnProps = {
-			icon: EIconName.Add,
-			size: EComponentSize.Large,
-			type: EActionButtonType.Secondary,
-			tabIndex: -1,
-			disabled: disabled || readonly,
-			onClickButton: onAddClick
-		};
-		if (uiSchema && uiSchema['ui:itemPrefix']) {
-			return <KvActionButtonText text={`Add ${uiSchema['ui:itemPrefix']}`} {...btnProps} />;
-		} else {
-			return (
-				<div className={styles['array-field-add-button-container']}>
-					<KvActionButtonIcon {...btnProps} />
-				</div>
-			);
-		}
-	}, [canAdd, disabled, readonly, uiSchema]);
+const AddButton = ({ disabled, readonly, uiSchema, onAddClick }: Partial<ArrayFieldTemplateProps>) => {
+	const btnProps = {
+		icon: EIconName.Add,
+		size: EComponentSize.Large,
+		type: EActionButtonType.Secondary,
+		tabIndex: -1,
+		disabled: disabled || readonly,
+		onClickButton: onAddClick
+	};
+	if (uiSchema && uiSchema['ui:itemPrefix']) {
+		return <KvActionButtonText text={`Add ${uiSchema['ui:itemPrefix']}`} {...btnProps} />;
+	} else {
+		return (
+			<div className={styles['array-field-add-button-container']}>
+				<KvActionButtonIcon {...btnProps} />
+			</div>
+		);
+	}
+};
 
 const DefaultFixedArrayFieldTemplate = ({
 	idSchema,
@@ -162,7 +160,7 @@ const DefaultFixedArrayFieldTemplate = ({
 
 			<div className={styles['array-item-list']} key={`array-item-list-${idSchema.$id}`}>
 				{items && items.map(DefaultArrayItem)}
-				{addButton({ canAdd, disabled, readonly, uiSchema, onAddClick })}
+				{canAdd && AddButton({ disabled, readonly, uiSchema, onAddClick })}
 			</div>
 		</fieldset>
 	);
@@ -198,7 +196,7 @@ const DefaultNormalArrayFieldTemplate = ({
 
 				<div className={styles['array-item-list']} key={`array-item-list-${idSchema.$id}`}>
 					{items && items.map(DefaultArrayItem)}
-					{addButton({ canAdd, disabled, readonly, uiSchema, onAddClick })}
+					{canAdd && AddButton({ canAdd, disabled, readonly, uiSchema, onAddClick })}
 				</div>
 			</div>
 		</div>

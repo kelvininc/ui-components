@@ -3,6 +3,7 @@ import { ObjectFieldTemplateProps, utils } from '@rjsf/core';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { KvActionButtonIcon } from '../../stencil-generated';
+import { INPUT_INLINE_WIDTH } from '../config';
 import DescriptionField from '../Fields/DescriptionField';
 import TitleField from '../Fields/TitleField';
 import styles from './ObjectFieldTemplate.module.scss';
@@ -10,7 +11,7 @@ import styles from './ObjectFieldTemplate.module.scss';
 const { canExpand } = utils;
 
 const ObjectFieldTemplate = ({ description, title, required, properties, uiSchema, idSchema, schema, formData, onAddClick, disabled, readonly }: ObjectFieldTemplateProps) => {
-	const propRowWidth = useMemo(() => (uiSchema['ui:inline'] ? uiSchema['ui:inputWidth'] || '250px' : '100%'), [uiSchema]);
+	const propRowWidth = useMemo(() => (uiSchema['ui:inline'] ? uiSchema['ui:inputWidth'] || INPUT_INLINE_WIDTH : '100%'), [uiSchema]);
 	return (
 		<>
 			{(uiSchema['ui:title'] || title) && <TitleField id={`${idSchema.$id}-title`} title={uiSchema['ui:title'] || title} required={required} />}

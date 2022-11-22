@@ -598,6 +598,10 @@ InlineForm.args = {
 	disabled: false,
 	allowDiscardChanges: true,
 	formData: {
+		shift_info: {
+			start_at: '2022-11-16T00:00:00Z',
+			end_at: '2022-11-17T00:00:00Z'
+		},
 		team_info: [{}],
 		assets_oee: [{ asset_name: 'Demo Centrifugal Pump 10' }, { asset_name: 'kelvin simple asset' }]
 	},
@@ -611,17 +615,17 @@ InlineForm.args = {
 					name: {
 						title: 'Shift name',
 						type: 'string'
+					},
+					start_at: {
+						title: 'Starts at',
+						type: 'string',
+						format: 'date-time'
+					},
+					end_at: {
+						title: 'Ends at',
+						type: 'string',
+						format: 'date-time'
 					}
-					// start_at: {
-					// 	title: 'Starts at',
-					// 	type: 'string',
-					// 	format: 'date-time'
-					// },
-					// end_at: {
-					// 	title: 'Ends at',
-					// 	type: 'string',
-					// 	format: 'date-time'
-					// }
 				},
 				required: ['name', 'start_at', 'end_at']
 			},
@@ -632,17 +636,17 @@ InlineForm.args = {
 					sku: {
 						title: 'SKU',
 						type: 'string'
+					},
+					expected_start_at: {
+						title: 'Expected to start at',
+						type: 'string',
+						format: 'date-time'
+					},
+					expected_end_at: {
+						title: 'Expected to end at',
+						type: 'string',
+						format: 'date-time'
 					}
-					// expected_start_at: {
-					// 	title: 'Expected to start at',
-					// 	type: 'string',
-					// 	format: 'date-time'
-					// },
-					// expected_end_at: {
-					// 	title: 'Expected to end at',
-					// 	type: 'string',
-					// 	format: 'date-time'
-					// }
 				},
 				required: ['sku', 'expected_start_at', 'expected_end_at']
 			},
@@ -660,7 +664,8 @@ InlineForm.args = {
 						},
 						email: {
 							title: 'Email',
-							type: 'string'
+							type: 'string',
+							format: 'email'
 						},
 						phone_country_code: {
 							title: 'Phone country code',
