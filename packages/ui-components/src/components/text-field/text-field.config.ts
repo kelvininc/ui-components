@@ -7,6 +7,7 @@ export const COMMON_INPUT_MASK_CONFIG: Inputmask.Options = {
 	showMaskOnHover: false,
 	showMaskOnFocus: false,
 	clearMaskOnLostFocus: false,
+	placeholder: '',
 	oncleared: function () {
 		this.value = '';
 	}
