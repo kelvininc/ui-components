@@ -7,7 +7,7 @@
 
 | Property          | Attribute  | Description                                                                      | Type                        | Default |
 | ----------------- | ---------- | -------------------------------------------------------------------------------- | --------------------------- | ------- |
-| `buttons`         | --         | (optional) List of radio buttons                                                 | `IRadioButtonGroupButton[]` | `[]`    |
+| `buttons`         | --         | (optional) List of radio buttons                                                 | `IRadioButton[]`            | `[]`    |
 | `disabled`        | `disabled` | (optional) Disables all buttons                                                  | `boolean`                   | `false` |
 | `selectedButtons` | --         | (optional) A record with the button's label/value and with if the selected value | `{ [x: string]: boolean; }` | `{}`    |
 
@@ -29,6 +29,7 @@
 ```mermaid
 graph TD;
   kv-radio-button-group --> kv-radio-button
+  kv-radio-button --> kv-icon
   style kv-radio-button-group fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

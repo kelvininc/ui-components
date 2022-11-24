@@ -108,6 +108,35 @@ export class TextFieldExample {
 | `textFieldBlur` | Emitted when text field lost focus     | `CustomEvent<string>` |
 
 
+## CSS Custom Properties
+
+| Name                                | Description                                    |
+| ----------------------------------- | ---------------------------------------------- |
+| `--background-color-default`        | Background color when state is default.        |
+| `--background-color-disabled`       | Background color when state is disabled.       |
+| `--border-color-default`            | Border color when state is default.            |
+| `--border-color-error`              | Border color when state is invalid.            |
+| `--border-color-focused`            | Border color when state is focused.            |
+| `--input-height-large`              | Text Field's large height.                     |
+| `--input-height-small`              | Text Field's small height.                     |
+| `--input-width`                     | Text Field's width.                            |
+| `--left-slot-padding-left`          | left slot left padding.                        |
+| `--left-slot-padding-top`           | left slot top padding.                         |
+| `--right-slot-padding-right`        | right slot padding.                            |
+| `--right-slot-width`                | right slot width                               |
+| `--text-color-help-text-default`    | Help Text color when state is default.         |
+| `--text-color-help-text-error`      | Help Text color when state is invalid.         |
+| `--text-color-icon-default`         | Icon color when state is default.              |
+| `--text-color-icon-disabled`        | Icon color when state is disabled.             |
+| `--text-color-input-default`        | Input text color when state is default.        |
+| `--text-color-input-disabled`       | Input text color when state is disabled.       |
+| `--text-color-input-focused`        | Input Text color when state is focused.        |
+| `--text-color-label`                | Label Text color.                              |
+| `--text-color-placeholder-default`  | Placeholder text color when state is default.  |
+| `--text-color-placeholder-disabled` | Placeholder text color when state is disabled. |
+| `--text-color-placeholder-focused`  | Placeholder text color when state is focused.  |
+
+
 ## Dependencies
 
 ### Used by

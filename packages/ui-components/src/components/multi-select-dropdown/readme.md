@@ -78,6 +78,13 @@ export const KvMultiSelectDropdownExample: React.FC = (props) => (
 | `selectionCleared` | Emitted when the selection is cleared    | `CustomEvent<void>`                        |
 
 
+## CSS Custom Properties
+
+| Name                    | Description                   |
+| ----------------------- | ----------------------------- |
+| `--dropdown-max-height` | Dropdown list maximum height. |
+
+
 ## Dependencies
 
 ### Depends on

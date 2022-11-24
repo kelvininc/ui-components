@@ -1,10 +1,14 @@
 import { EventEmitter } from '@stencil/core';
+import { IAnchor } from '../../types';
+import { EIconName, EOtherIconName } from '../icon/icon.types';
 
-export interface IRadioButton {
-	/** (required) Adds a label aside the button */
-	label: string;
-	/** (optional) The value to be emitted upon click events */
-	value?: string;
+export interface IRadioButton extends IAnchor {
+	/** (required) The value to be emitted upon click events */
+	value: string;
+	/** (optional) The button's icon. Only valid for radio button icon */
+	icon?: EIconName | EOtherIconName;
+	/** (optional) The button's label. Only valid for radio button text */
+	label?: string;
 	/** (optional) Sets the button's styling to be disabled and disables click events */
 	disabled?: boolean;
 	/** (optional) Sets the button as checked */
