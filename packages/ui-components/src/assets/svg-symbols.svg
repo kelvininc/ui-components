@@ -999,6 +999,12 @@
 		<path d="M8 4v2H5.996v12H8v2H4V4h4zm12 0v16h-4v-2h2.004V6H16V4h4z"/>
 	</symbol>
 
+	<symbol id="kv-sort-hover"
+		xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+		<path d="M8.667 4.526 11.333 2 14 4.526h-2V14h-1.333V4.526z" />
+		<path d="M7.333 11.474 4.667 14 2 11.474h2V2h1.333v9.474z" />
+	</symbol>
+
 	<symbol id="kv-sort-az"
 		xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
 		<path d="M8.667 4.526 11.333 2 14 4.526h-2V14h-1.333V4.526z" fill-opacity="0.4" />

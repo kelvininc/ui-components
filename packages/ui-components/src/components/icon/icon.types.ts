@@ -122,6 +122,7 @@ export enum EIconName {
 	Share = 'kv-share',
 	SlimRight = 'kv-slim-right',
 	SortAz = 'kv-sort-az',
+	SortHover = 'kv-sort-hover',
 	SortZa = 'kv-sort-za',
 	Status = 'kv-status',
 	Success = 'kv-success',
