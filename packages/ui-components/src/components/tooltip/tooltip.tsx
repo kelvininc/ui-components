@@ -5,6 +5,7 @@ import { isEmpty, merge } from 'lodash-es';
 import { DEFAULT_POSITION_CONFIG } from './tooltip.config';
 import { ETooltipPosition } from '../../types';
 import { ITooltip } from './tooltip.types';
+import { isElementCollpased } from './tooltip.utils';
 
 /**
  * @part container - The tooltip container.
@@ -28,6 +29,8 @@ export class KvTooltip implements ITooltip {
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) contentElement?: HTMLElement = null;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) truncate?: boolean = false;
 
 	@State() timeoutDelayId?: number;
 
@@ -55,6 +58,8 @@ export class KvTooltip implements ITooltip {
 	};
 
 	private showTooltipHandler = () => {
+		if (this.truncate && !isElementCollpased(this.el)) return;
+
 		if (this.delay) {
 			this.timeoutDelayId = window.setTimeout(() => {
 				this.showTooltip();

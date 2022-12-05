@@ -1,8 +1,6 @@
-# *<kv-tooltip>*
-
+# _<kv-tooltip>_
 
 <!-- Auto Generated Below -->
-
 
 ## Usage
 
@@ -25,7 +23,6 @@
 </kv-tooltip>
 ```
 
-
 ### React
 
 ```tsx
@@ -34,38 +31,36 @@ import React from 'react';
 import { KvTooltip, KvActionButton, ETooltipPosition, EActionButtonType } from '@kelvininc/react-ui-components';
 
 export const TagLetterExample: React.FC = () => (
-  <>
-    {/*-- Default --*/}
-	<KvTooltip text="Tooltip">
-		<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
-	</KvTooltip>
+	<>
+		{/*-- Default --*/}
+		<KvTooltip text="Tooltip">
+			<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
+		</KvTooltip>
 
-	{/*-- With Fixed Position --*/}
-	<KvTooltip text="Tooltip" position={ETooltipPosition.Left}>
-		<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
-	</KvTooltip>
+		{/*-- With Fixed Position --*/}
+		<KvTooltip text="Tooltip" position={ETooltipPosition.Left}>
+			<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
+		</KvTooltip>
 
-	{/*-- With Allowed Positions --*/}
-	<KvTooltip text="Tooltip" allowedPositions={[ETooltipPosition.Top, ETooltipPosition.Bottom]}>
-		<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
-	</KvTooltip>
-  </>
+		{/*-- With Allowed Positions --*/}
+		<KvTooltip text="Tooltip" allowedPositions={[ETooltipPosition.Top, ETooltipPosition.Bottom]}>
+			<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
+		</KvTooltip>
+	</>
 );
 ```
 
-
-
 ## Properties
 
-| Property         | Attribute  | Description                                       | Type                                                                                                                                                                                                                                                                                                                                             | Default                   |
-| ---------------- | ---------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------- |
-| `contentElement` | --         | (optional) Content element reference              | `HTMLElement`                                                                                                                                                                                                                                                                                                                                    | `null`                    |
-| `delay`          | `delay`    | (optional) Delay to show tooltip in milliseconds. | `number`                                                                                                                                                                                                                                                                                                                                         | `undefined`               |
-| `disabled`       | `disabled` | (optional) Disables tooltip                       | `boolean`                                                                                                                                                                                                                                                                                                                                        | `false`                   |
-| `options`        | --         | (optional) Object with tooltip position options   | `{ platform?: Platform; placement?: Placement; strategy?: Strategy; middleware?: Middleware[]; }`                                                                                                                                                                                                                                                | `DEFAULT_POSITION_CONFIG` |
-| `position`       | `position` | (optional) Position of tooltip                    | `ETooltipPosition.Bottom \| ETooltipPosition.BottomEnd \| ETooltipPosition.BottomStart \| ETooltipPosition.Left \| ETooltipPosition.LeftEnd \| ETooltipPosition.LeftStart \| ETooltipPosition.Right \| ETooltipPosition.RightEnd \| ETooltipPosition.RightStart \| ETooltipPosition.Top \| ETooltipPosition.TopEnd \| ETooltipPosition.TopStart` | `undefined`               |
-| `text`           | `text`     | (optional) Text of tooltip                        | `string`                                                                                                                                                                                                                                                                                                                                         | `undefined`               |
-
+| Property         | Attribute  | Description                                                                | Type                                                                                                                                                                                                                                                                                                                                             | Default                   |
+| ---------------- | ---------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------- |
+| `contentElement` | --         | (optional) Content element reference                                       | `HTMLElement`                                                                                                                                                                                                                                                                                                                                    | `null`                    |
+| `delay`          | `delay`    | (optional) Delay to show tooltip in milliseconds.                          | `number`                                                                                                                                                                                                                                                                                                                                         | `undefined`               |
+| `disabled`       | `disabled` | (optional) Disables tooltip                                                | `boolean`                                                                                                                                                                                                                                                                                                                                        | `false`                   |
+| `options`        | --         | (optional) Object with tooltip position options                            | `{ platform?: Platform; placement?: Placement; strategy?: Strategy; middleware?: Middleware[]; }`                                                                                                                                                                                                                                                | `DEFAULT_POSITION_CONFIG` |
+| `position`       | `position` | (optional) Position of tooltip                                             | `ETooltipPosition.Bottom \| ETooltipPosition.BottomEnd \| ETooltipPosition.BottomStart \| ETooltipPosition.Left \| ETooltipPosition.LeftEnd \| ETooltipPosition.LeftStart \| ETooltipPosition.Right \| ETooltipPosition.RightEnd \| ETooltipPosition.RightStart \| ETooltipPosition.Top \| ETooltipPosition.TopEnd \| ETooltipPosition.TopStart` | `undefined`               |
+| `text`           | `text`     | (optional) Text of tooltip                                                 | `string`                                                                                                                                                                                                                                                                                                                                         | `undefined`               |
+| `truncate`       | `truncate` | (optional) Set `true` to display tooltip only when the content is trucated | `boolean`                                                                                                                                                                                                                                                                                                                                        | `false`                   |
 
 ## Shadow Parts
 
@@ -74,23 +69,22 @@ export const TagLetterExample: React.FC = () => (
 | `"container"` | The tooltip container. |
 | `"content"`   | The tooltip content.   |
 
-
 ## CSS Custom Properties
 
 | Name                  | Description                                  |
 | --------------------- | -------------------------------------------- |
 | `--container-z-index` | The z-index value for the tooltip container. |
 
-
 ## Dependencies
 
 ### Used by
 
- - [kv-info-label](../info-label)
- - [kv-text-field](../text-field)
- - [kv-tree-item](../tree-item)
+-   [kv-info-label](../info-label)
+-   [kv-text-field](../text-field)
+-   [kv-tree-item](../tree-item)
 
 ### Graph
+
 ```mermaid
 graph TD;
   kv-info-label --> kv-tooltip
@@ -99,6 +93,4 @@ graph TD;
   style kv-tooltip fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
-
-
+---
