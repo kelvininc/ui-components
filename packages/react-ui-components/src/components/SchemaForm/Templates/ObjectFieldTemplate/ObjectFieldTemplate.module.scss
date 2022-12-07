@@ -1,0 +1,23 @@
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+
+.PropsContainer {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: var(--schema-form-fields-y-gap) var(--schema-form-fields-x-gap);
+
+	&.Inline {
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.PropRow.Hidden {
+		display: none;
+	}
+
+	.AddButtonContainer {
+		width: 100%;
+		display: flex;
+		justify-content: end;
+	}
+}

@@ -1,9 +1,8 @@
-import { utils } from '@rjsf/core';
+import { asNumber, guessType } from '@rjsf/utils';
 import { JSONSchema7 } from 'json-schema';
 import { get } from 'lodash-es';
 import { EnumOptions, IUIDropdownOptions } from './types';
 
-const { asNumber, guessType } = utils;
 const numericTypes = ['number', 'integer'];
 
 /**
@@ -52,7 +51,7 @@ export const buildSelectedOptions = (selectedOptions: string[]): { [key: string]
 		return accumulator;
 	}, {});
 
-export const buildDropdownOptions = (options: EnumOptions, disabledOptions: EnumOptions): IUIDropdownOptions =>
+export const buildDropdownOptions = (options?: EnumOptions, disabledOptions?: EnumOptions): IUIDropdownOptions =>
 	Array.isArray(options)
 		? options.reduce((acc, { value, label }) => {
 				const disabled = Array.isArray(disabledOptions) && disabledOptions.indexOf(value) != -1;

@@ -1,9 +1,9 @@
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import { KvFormLabel, KvRadioButtonGroup } from '../../../stencil-generated';
 import React, { useCallback, useMemo } from 'react';
 import { buildRadioButtons, buildSelectedRadioButtons, toggleSelectedOptions } from './utils';
 import { ICheckboxConfig } from './types';
-import { isEmpty } from 'lodash-es';
+import { get, isEmpty } from 'lodash-es';
 
 const CheckboxesWidget = ({ schema, label, id, disabled, options, value, required, readonly, onChange, uiSchema }: WidgetProps) => {
 	const { enumOptions, enumDisabled, allButton } = options;
@@ -40,7 +40,9 @@ const CheckboxesWidget = ({ schema, label, id, disabled, options, value, require
 
 	return (
 		<>
-			{(uiSchema['ui:title'] || schema.title || label) && <KvFormLabel id={`${id}-title`} label={uiSchema['ui:title'] || schema.title || label} required={required} />}
+			{(get(uiSchema, ['ui:title']) || schema.title || label) && (
+				<KvFormLabel id={`${id}-title`} label={get(uiSchema, ['ui:title']) || schema.title || label} required={required} />
+			)}
 			<KvRadioButtonGroup buttons={buttons} selectedButtons={selectedButtons} onCheckedChange={onCheckedChange} disabled={disabled} />
 		</>
 	);

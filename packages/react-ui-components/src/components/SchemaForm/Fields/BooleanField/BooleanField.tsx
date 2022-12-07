@@ -1,4 +1,4 @@
-import { FieldProps } from '@rjsf/core';
+import { FieldProps } from '@rjsf/utils';
 import React from 'react';
 
 function BooleanField({ schema, name, uiSchema, idSchema, formData, registry, required, disabled, readonly, autofocus, onChange, onFocus, onBlur, rawErrors }: FieldProps) {

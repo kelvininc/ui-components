@@ -1,0 +1,17 @@
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+
+.ArrayItemList {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-5x;
+}
+
+.ArrayFieldTemplate {
+	display: flex;
+
+	.ArrayFieldContainer {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+}

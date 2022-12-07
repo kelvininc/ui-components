@@ -1,13 +1,13 @@
-.input-container {
+.InputContainer {
 	display: flex;
 	flex-direction: column;
 
-	&.has-errors {
+	&.HasErrors {
 		min-height: 59px;
 		justify-content: end;
 	}
 
-	&.has-label:not(.has-errors) {
+	&.HasLabel:not(.HasErrors) {
 		min-height: 81px;
 		justify-content: top;
 	}

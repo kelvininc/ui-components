@@ -26,8 +26,8 @@ export class KvInfoLabel {
 	/** Store the current div content height */
 	@State() currentDescriptionHeight: number = null;
 
-	/** (required) Info label title */
-	@Prop({ reflect: true }) labelTitle!: string;
+	/** (optional) Info label title */
+	@Prop({ reflect: true }) labelTitle?: string;
 	/** (optional) Info label description */
 	@Prop({ reflect: true }) description?: string;
 	/** (optional) Info label description height */
