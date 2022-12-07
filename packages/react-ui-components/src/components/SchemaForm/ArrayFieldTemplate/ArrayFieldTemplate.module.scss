@@ -2,6 +2,8 @@
 
 .array-item-list {
 	display: flex;
+	flex-direction: column;
+	gap: $spacing-5x;
 }
 
 .array-item-container .array-field-template {
@@ -11,11 +13,23 @@
 	margin-left: $spacing-2x;
 }
 
+.reset-fieldset-style {
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
 .array-item-container {
 	width: 100%;
 	display: flex;
 	align-items: center;
-	padding-bottom: $spacing-5x;
+
+	.item-prefix {
+		@include kv-font-label-small-regular;
+		margin-right: $spacing-6x;
+		white-space: nowrap;
+		text-transform: uppercase;
+	}
 
 	.toolbar-container {
 		display: flex;
@@ -36,6 +50,27 @@
 			display: flex;
 			justify-content: end;
 
+		}
+	}
+}
+body {
+	&[mode='light'] {
+		.array-item-container .array-field-template {
+			border-color: kv-color('neutral-2');
+		}
+
+		.array-item-container .item-prefix {
+			color: kv-color('neutral-6');
+		}
+	}
+
+	&[mode='night'] {
+		.array-item-container .array-field-template {
+			border-color: kv-color('neutral-6');
+		}
+
+		.array-item-container .item-prefix {
+			color: kv-color('neutral-2');
 		}
 	}
 }

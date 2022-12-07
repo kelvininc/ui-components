@@ -1,0 +1,19 @@
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+
+.value-label {
+	@include kv-font-h3-semibold;
+}
+
+body {
+	&[mode='light'] {
+		.value-label {
+			color: kv-color('neutral-6');
+		}
+	}
+
+	&[mode='night'] {
+		.value-label {
+			color: kv-color('neutral-2');
+		}
+	}
+}

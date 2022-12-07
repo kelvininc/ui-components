@@ -6,7 +6,7 @@
 
 	.required {
 		@include kv-font-label-small-uppercase-semibold;
-		
+
 		color: kv-color('error');
 		margin: 0 $spacing;
 	}
