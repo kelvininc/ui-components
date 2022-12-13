@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Tooltip (unit tests) when has a position should match the snapshot 1`] = `
-<kv-tooltip position="left" text="Tooltip">
+<kv-tooltip delay="1000" position="left" text="Tooltip">
   <mock:shadow-root>
     <div aria-describedby="tooltip" id="content" part="content">
       <slot></slot>
@@ -14,7 +14,7 @@ exports[`Tooltip (unit tests) when has a position should match the snapshot 1`] 
 `;
 
 exports[`Tooltip (unit tests) when uses default props should match the snapshot 1`] = `
-<kv-tooltip text="Tooltip">
+<kv-tooltip delay="1000" text="Tooltip">
   <mock:shadow-root>
     <div aria-describedby="tooltip" id="content" part="content">
       <slot></slot>
