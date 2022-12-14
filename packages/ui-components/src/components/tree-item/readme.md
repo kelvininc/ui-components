@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Angular
@@ -38,6 +39,7 @@
 	<kv-tree-item label="Node 3" slot="child-slot"></kv-tree-item>
 </kv-tree-item>
 ```
+
 
 ### React
 
@@ -81,6 +83,8 @@ export const TreeItemExample: React.FC = () => (
 );
 ```
 
+
+
 ## Properties
 
 | Property          | Attribute          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Type                                                                                                                     | Default                    |
@@ -108,6 +112,7 @@ export const TreeItemExample: React.FC = () => (
 | `target`          | `target`           | (optional) The anchor's target                                                                                                                                                                                                                                                                                                                                                                                                                                                        | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top`                      | `undefined`                |
 | `tooltipDelay`    | `tooltip-delay`    | (optional) Delay to show tooltip in milliseconds.                                                                                                                                                                                                                                                                                                                                                                                                                                     | `number`                                                                                                                 | `undefined`                |
 
+
 ## Events
 
 | Event          | Description                               | Type                      |
@@ -115,17 +120,20 @@ export const TreeItemExample: React.FC = () => (
 | `itemClick`    | Emitted when the tree item is clicked     | `CustomEvent<MouseEvent>` |
 | `toggleExpand` | Emitted when the expand toggle is clicked | `CustomEvent<MouseEvent>` |
 
+
 ## Slots
 
 | Slot           | Description                                                                |
 | -------------- | -------------------------------------------------------------------------- |
 | `"child-slot"` | Content is placed in the child subgroup and can be expanded and collapsed. |
 
+
 ## Shadow Parts
 
 | Part         | Description             |
 | ------------ | ----------------------- |
 | `"children"` | The children container. |
+
 
 ## CSS Custom Properties
 
@@ -162,20 +170,20 @@ export const TreeItemExample: React.FC = () => (
 | `--title-color-selected`         | Node title color when node state is selected.       |
 | `--vertical-lines-height`        | Line height of children's connectors.               |
 
+
 ## Dependencies
 
 ### Used by
 
--   [kv-tree](../tree)
+ - [kv-tree](../tree)
 
 ### Depends on
 
--   [kv-icon](../icon)
--   [kv-tooltip](../tooltip)
--   [kv-badge](../badge)
+- [kv-icon](../icon)
+- [kv-tooltip](../tooltip)
+- [kv-badge](../badge)
 
 ### Graph
-
 ```mermaid
 graph TD;
   kv-tree-item --> kv-icon
@@ -185,4 +193,6 @@ graph TD;
   style kv-tree-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
+
+

@@ -2,6 +2,7 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Usage
 
 ### Angular
@@ -23,6 +24,7 @@
 </kv-tooltip>
 ```
 
+
 ### React
 
 ```tsx
@@ -31,24 +33,26 @@ import React from 'react';
 import { KvTooltip, KvActionButton, ETooltipPosition, EActionButtonType } from '@kelvininc/react-ui-components';
 
 export const TagLetterExample: React.FC = () => (
-	<>
-		{/*-- Default --*/}
-		<KvTooltip text="Tooltip">
-			<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
-		</KvTooltip>
+  <>
+    {/*-- Default --*/}
+	<KvTooltip text="Tooltip">
+		<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
+	</KvTooltip>
 
-		{/*-- With Fixed Position --*/}
-		<KvTooltip text="Tooltip" position={ETooltipPosition.Left}>
-			<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
-		</KvTooltip>
+	{/*-- With Fixed Position --*/}
+	<KvTooltip text="Tooltip" position={ETooltipPosition.Left}>
+		<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
+	</KvTooltip>
 
-		{/*-- With Allowed Positions --*/}
-		<KvTooltip text="Tooltip" allowedPositions={[ETooltipPosition.Top, ETooltipPosition.Bottom]}>
-			<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
-		</KvTooltip>
-	</>
+	{/*-- With Allowed Positions --*/}
+	<KvTooltip text="Tooltip" allowedPositions={[ETooltipPosition.Top, ETooltipPosition.Bottom]}>
+		<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
+	</KvTooltip>
+  </>
 );
 ```
+
+
 
 ## Properties
 
@@ -62,6 +66,7 @@ export const TagLetterExample: React.FC = () => (
 | `text`           | `text`     | (optional) Text of tooltip                                                 | `string`                                                                                                                                                                                                                                                                                                                                         | `undefined`               |
 | `truncate`       | `truncate` | (optional) Set `true` to display tooltip only when the content is trucated | `boolean`                                                                                                                                                                                                                                                                                                                                        | `false`                   |
 
+
 ## Shadow Parts
 
 | Part          | Description            |
@@ -69,22 +74,23 @@ export const TagLetterExample: React.FC = () => (
 | `"container"` | The tooltip container. |
 | `"content"`   | The tooltip content.   |
 
+
 ## CSS Custom Properties
 
 | Name                  | Description                                  |
 | --------------------- | -------------------------------------------- |
 | `--container-z-index` | The z-index value for the tooltip container. |
 
+
 ## Dependencies
 
 ### Used by
 
--   [kv-info-label](../info-label)
--   [kv-text-field](../text-field)
--   [kv-tree-item](../tree-item)
+ - [kv-info-label](../info-label)
+ - [kv-text-field](../text-field)
+ - [kv-tree-item](../tree-item)
 
 ### Graph
-
 ```mermaid
 graph TD;
   kv-info-label --> kv-tooltip
@@ -93,4 +99,6 @@ graph TD;
   style kv-tooltip fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
----
+----------------------------------------------
+
+
