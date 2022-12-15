@@ -54,3 +54,24 @@
 .reset-button-style {
 	@include reset-button-style;
 }
+
+body {
+	&[mode='light'] {
+		.form-container form {
+			@include kelvin-light-scrollbar();
+		}
+
+		.form-footer.scrolling {
+			border-color: kv-color('neutral-3')
+		}
+	}
+
+	&[mode='night'] {
+		.form-container form {
+			@include kelvin-night-scrollbar();
+		}
+		.form-footer.scrolling {
+			border-color: kv-color('neutral-6')
+		}
+	}
+}

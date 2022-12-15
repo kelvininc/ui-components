@@ -57,20 +57,30 @@
 	}
 }
 
-@mixin kelvin-scrollbar {
-	::-webkit-scrollbar {
-		width: 15px;
-		height: 15px;
-	}
+@mixin custom-scrollbar($color) {
+	@if (kv-color($color, 'base')) {
+		::-webkit-scrollbar {
+			width: 15px;
+			height: 15px;
+		}
 
-	::-webkit-scrollbar-thumb {
-		border-radius: 10px;
-		background-color: kv-color('neutral-6');
-		border: 4px solid transparent;
-		background-clip: content-box;
-	}
+		::-webkit-scrollbar-thumb {
+			border-radius: 10px;
+			background-color: kv-color($color, 'base');
+			border: 4px solid transparent;
+			background-clip: content-box;
+		}
 
-	::-webkit-scrollbar-corner {
-		background-color: transparent;
+		::-webkit-scrollbar-corner {
+			background-color: transparent;
+		}
 	}
+}
+
+@mixin kelvin-light-scrollbar {
+	@include custom-scrollbar('neutral-3');
+}
+
+@mixin kelvin-night-scrollbar {
+	@include custom-scrollbar('neutral-6');
 }
