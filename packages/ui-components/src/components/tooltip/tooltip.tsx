@@ -2,7 +2,7 @@ import { Component, Element, Host, Prop, State, h } from '@stencil/core';
 import { ComputePositionConfig, computePosition } from '@floating-ui/dom';
 import { isEmpty, merge } from 'lodash-es';
 
-import { DEFAULT_POSITION_CONFIG } from './tooltip.config';
+import { DEFAULT_DELAY_CONFIG, DEFAULT_POSITION_CONFIG } from './tooltip.config';
 import { ETooltipPosition } from '../../types';
 import { ITooltip } from './tooltip.types';
 import { isElementCollpased } from './tooltip.utils';
@@ -18,7 +18,7 @@ import { isElementCollpased } from './tooltip.utils';
 })
 export class KvTooltip implements ITooltip {
 	/** (optional) Delay to show tooltip in milliseconds. */
-	@Prop({ reflect: true }) delay?: number;
+	@Prop({ reflect: true }) delay?: number = DEFAULT_DELAY_CONFIG;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) text: string;
 	/** @inheritdoc */
