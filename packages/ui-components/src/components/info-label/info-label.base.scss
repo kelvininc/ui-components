@@ -48,7 +48,6 @@
 
 		kv-icon {
 			--icon-color: #{var(--expanded-button-color)};
-			display: flex;
 			margin-left: $spacing;
 			transition: transform 0.3s ease-in-out;
 		}
