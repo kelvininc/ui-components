@@ -67,17 +67,16 @@ import '@kelvininc/react-ui-components/assets/fonts/font-proxima-nova.css';
 Now you are ready to use all available *Kelvin UI Components*. For example:
 
 ```tsx
-import { EActionButtonType, KvActionButton } from '@kelvininc/react-ui-components';
+import { EActionButtonType, KvActionButtonText } from '@kelvininc/react-ui-components';
 
 (...)
 
-<KvActionButton
-	type={EActionButtonType.PrimaryButton}
+<KvActionButtonText
+	type={EActionButtonType.Primary}
 	text="My Button"
-	smallSize="true"
-	fixedWidth={250}
-	onButtonClick={this.onButtonClick}>
-</KvActionButton>
+	size={EComponentSize.Small}
+	onClickButton={this.onButtonClick}>
+</KvActionButtonText>
 ```
 
 Including the global style file you can access our foundation design system definitions like [colors](/story/foundation-colors--page), [spacings](?path=/docs/foundation-spatial-system--page) and [typography](/docs/foundation-typography--page)
@@ -158,6 +157,7 @@ initialize({styleMode: StyleMode.Light});
 
 ```
 <br />
+
 In addition, you can customize the theme by changing some CSS properties.
 
 ***Example***: Setting the *Primary Color*
@@ -185,3 +185,55 @@ import { initialize, StyleMode } from '@kelvininc/[react|angular]-ui-components'
 initialize({ baseAssetsUrl: '/clients/' });
 
 ```
+
+## Aditional Information
+
+When using components with props that can assume the value `undefined`, if no default value is defined, Stencil will consider the `undefined` value after the first render.
+
+Considering the following example where, `tooltipDelay` prop can be `undefined`:
+
+```tsx
+const ComponentWrapper({
+	text,
+	tooltipText,
+	tooltipDelay,
+	onButtonClick
+}) {
+	return (
+		<KvTooltip text={tooltipText} delay={tooltipDelay}>
+			<KvActionButtonText
+				type={EActionButtonType.Primary}
+				text={text}
+				size={EComponentSize.Small}
+				onClickButton={this.onButtonClick}>
+			</KvActionButtonText>
+		</KvTooltip>
+	);
+}
+```
+
+At first render, the `KvTooltip` will assume its prop default value of 1 second. However, when the `ComponentWrapper` re-renders, this prop value will be set to `undefined` overwriting the previous value of 1 second. This happens because the `KvTooltip` doesn't fall back to the default value when a prop is `undefined`, it simply uses that value when the component is mounted.
+
+If you want to work around this behaviour please consider setting your drilled prop to a default value as it's shown in the example below:
+
+```tsx
+const ComponentWrapper({
+	text,
+	tooltipText,
+	tooltipDelay = 1000,
+	onButtonClick
+}) {
+	return (
+		<KvTooltip text={tooltipText} delay={tooltipDelay}>
+			<KvActionButtonText
+				type={EActionButtonType.Primary}
+				text={text}
+				size={EComponentSize.Small}
+				onClickButton={this.onButtonClick}>
+			</KvActionButtonText>
+		</KvTooltip>
+	);
+}
+```
+
+The same behaviour is expected in Angular.
