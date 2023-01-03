@@ -52,7 +52,8 @@ export class KvTooltip implements ITooltip {
 	private showTooltip = () => {
 		if (!this.disabled) {
 			const tooltip = this.getTooltipElement();
-			tooltip.style.display = 'inline-block';
+			tooltip.classList.remove('tooltip-container-hidden');
+			tooltip.classList.toggle('tooltip-container-visible');
 			this.update();
 		}
 	};
@@ -71,7 +72,8 @@ export class KvTooltip implements ITooltip {
 
 	private hideTooltip = () => {
 		const tooltip = this.getTooltipElement();
-		tooltip.style.display = '';
+		tooltip.classList.remove('tooltip-container-visible');
+		tooltip.classList.toggle('tooltip-container-hidden');
 	};
 
 	private hideTooltipHandler = () => {

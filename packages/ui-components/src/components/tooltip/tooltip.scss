@@ -23,6 +23,19 @@
 	padding: $spacing $spacing-2x;
 	position: fixed;
 	z-index: var(--container-z-index);
-	display: none;
 	white-space: normal;
+	visibility: hidden;
+	opacity: 0;
+}
+
+.tooltip-container-visible {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity 0.3s linear;
+}
+
+.tooltip-container-hidden {
+	visibility: hidden;
+	opacity: 0;
+	transition: visibility 0s 0.3s, opacity 0.3s linear;
 }
