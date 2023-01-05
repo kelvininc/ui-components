@@ -44,7 +44,7 @@
 kv-icon {
 	--icon-width: var(--toaster-icons-width);
 	--icon-height: var(--toaster-icons-height);
-	margin: 9px $spacing-4x 5px 0;
+	margin-right: $spacing-4x;
 	object-fit: contain;
 }
 
@@ -60,7 +60,7 @@ kv-icon {
 	align-items: center;
 	justify-content: space-between;
 	z-index: 1000;
-	padding: $spacing-5x $spacing-4x $spacing-5x $spacing-6x;
+	padding: $spacing-5x;
 	border-radius: 2px;
 	border: solid 1px var(--kv-color-neutral-6);
 	background-color: var(--background-color-default);
@@ -140,10 +140,10 @@ kv-icon {
 	.toaster-close-icon {
 		display: flex;
 		align-items: center;
+		margin-left: $spacing-4x;
 
 		kv-icon {
-			margin: $spacing-2x 0 $spacing $spacing-4x;
-			padding: $spacing-2x;
+			margin: 0;
 			user-select: none;
 			cursor: pointer;
 

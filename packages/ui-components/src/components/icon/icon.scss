@@ -14,6 +14,7 @@
 }
 
 .icon {
+	display: flex;
 	fill: var(--icon-color);
 	width: var(--icon-width);
 	height: var(--icon-height);

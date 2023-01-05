@@ -1158,6 +1158,26 @@
 		<path d="m5.342 5 5 5-5 5-1.175-1.175L7.983 10 4.167 6.175 5.342 5zm5.491 0 5 5-5 5-1.175-1.175L13.475 10 9.658 6.175 10.833 5z"  />
 	</symbol>
 
+	<symbol id="kv-square" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28">
+		<path d="M0 0H28V28H0V0Z"  />
+	</symbol>
+
+	<symbol id="kv-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28">
+		<path d="M14 28C21.732 28 28 21.732 28 14C28 6.26801 21.732 0 14 0C6.26801 0 0 6.26801 0 14C0 21.732 6.26801 28 14 28Z"  />
+	</symbol>
+
+	<symbol id="kv-diamond" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28">
+		<path d="M0 14L14 0L28 14L14 28L0 14Z"  />
+	</symbol>
+
+	<symbol id="kv-nabla" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28">
+		<path d="M14 28L0 0H28L14 28Z"  />
+	</symbol>
+
+	<symbol id="kv-triangle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28">
+		<path d="M14 0L28 28H0L14 0Z"  />
+	</symbol>
+
 	<!--  PEACOCK - ILLUSTRATIONS  -->
 	<!--  THEME LIGHT -->
 

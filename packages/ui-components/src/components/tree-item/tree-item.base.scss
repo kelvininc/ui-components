@@ -179,7 +179,6 @@
 
 		kv-icon {
 			--icon-color: var(--icon-color-default);
-			display: flex;
 			align-items: center;
 		}
 	}
@@ -213,7 +212,7 @@
 			--icon-color: #{kv-color('neutral-1')};
 			position: absolute;
 			right: 0;
-			bottom: -5px;
+			bottom: 0;
 
 			&.info {
 				--icon-color: #{kv-color('info')};
