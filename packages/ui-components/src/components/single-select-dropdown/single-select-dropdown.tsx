@@ -46,6 +46,12 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Prop({ reflect: true }) options?: ISingleSelectDropdownOptions = {};
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedOption?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) filteredOptions?: ISingleSelectDropdownOptions;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) minHeight?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) maxHeight?: string;
 
 	/** @inheritdoc */
 	@Event() optionSelected: EventEmitter<string>;
@@ -159,16 +165,31 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		helpText: this.helpText
 	});
 
+	private getCurrentOptions = (): ISingleSelectDropdownOptions => {
+		if (!isNil(this.filteredOptions)) {
+			return this.filteredOptions;
+		}
+
+		return this.options;
+	};
+
 	render() {
-		const groups = buildSelectGroups(this.options);
+		const groups = buildSelectGroups(this.getCurrentOptions());
 		const groupNames = Object.keys(groups);
 
 		return (
 			<Host>
 				<kv-dropdown inputConfig={this.getInputConfig()} isOpen={this.isOpen} onOpenStateChange={this.openStateChangeHandler} exportparts="input">
-					<kv-select searchValue={this._searchValue} searchable={this.searchable} onSearchChange={this.onSearchChange} searchPlaceholder={this.searchPlaceholder}>
-						{isEmpty(this.options) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
-						{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.options))}
+					<kv-select
+						searchValue={this._searchValue}
+						searchable={this.searchable}
+						onSearchChange={this.onSearchChange}
+						searchPlaceholder={this.searchPlaceholder}
+						maxHeight={this.maxHeight}
+						minHeight={this.minHeight}
+					>
+						{isEmpty(this.getCurrentOptions()) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
+						{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.getCurrentOptions()))}
 					</kv-select>
 				</kv-dropdown>
 			</Host>

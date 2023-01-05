@@ -1,0 +1,30 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --tag-background-color: Tag Background Color.
+	 * @prop --tag-label-color: Tag text Color.
+	 * @prop --tag-content-gap: Gap between text and slot
+	 */
+
+	--tag-background-color: #{kv-color('neutral-6')};
+	--tag-label-color: #{kv-color('neutral-2')};
+	--tag-content-gap: #{$spacing};
+}
+
+.tag-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: var(--tag-content-gap);
+	width: fit-content;
+	border-radius: 4px;
+	padding: $spacing;
+	background-color: var(--tag-background-color);
+
+	.tag-label {
+		@include kv-font-label-small-uppercase-regular;
+
+		color: var(--tag-label-color);
+	}
+}

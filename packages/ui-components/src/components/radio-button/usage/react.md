@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
 
-import { KvRadioButton } from '@kelvininc/react-ui-components';
+import { KvRadioButton, EIconName } from '@kelvininc/react-ui-components';
 
 export const RadioButtonExample: React.FC = () => (
 	<>
@@ -13,6 +13,12 @@ export const RadioButtonExample: React.FC = () => (
 
 		{/*-- Checked --*/}
 		<KvRadioButton label="Option 1" value="option-1" checked />
+
+		{/*-- With Icon --*/}
+		<KvRadioButton icon={EIconName.Add} label="Option 1" value="option-1" />
+
+		{/*-- Only Icon --*/}
+		<KvRadioButton icon={EIconName.Add} value="option-1" />
 	</>
 );
 ```

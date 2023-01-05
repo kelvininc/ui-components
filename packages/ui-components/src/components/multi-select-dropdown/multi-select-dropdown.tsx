@@ -1,12 +1,12 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
-import { IMultiSelectDropdown, IMultiSelectDropdownEvents, IMultiSelectDropdownOption } from './multi-select-dropdown.types';
+import { IMultiSelectDropdown, IMultiSelectDropdownEvents, IMultiSelectDropdownOption, IMultiSelectDropdownOptions } from './multi-select-dropdown.types';
 import { buildSelectGroups, hasGroups } from '../select-group/select-group.helper';
 
 import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
 import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
-import { isEmpty } from 'lodash-es';
+import { isEmpty, isNil } from 'lodash-es';
 
 @Component({
 	tag: 'kv-multi-select-dropdown',
@@ -44,6 +44,12 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: true }) options?: { [key: string]: IMultiSelectDropdownOption };
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedOptions?: { [key: string]: boolean } = {};
+	/** @inheritdoc */
+	@Prop({ reflect: true }) filteredOptions?: { [key: string]: IMultiSelectDropdownOption };
+	/** @inheritdoc */
+	@Prop({ reflect: true }) minHeight?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) maxHeight?: string;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<{ [key: string]: boolean }>;
@@ -113,6 +119,14 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		));
 	};
 
+	private getCurrentOptions = (): IMultiSelectDropdownOptions => {
+		if (!isNil(this.filteredOptions)) {
+			return this.filteredOptions;
+		}
+
+		return this.options;
+	};
+
 	componentWillLoad() {
 		this._selectionDisplayValue = this.displayValue;
 
@@ -147,9 +161,9 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	});
 
 	render() {
-		const groups = buildSelectGroups(this.options);
+		const groups = buildSelectGroups(this.getCurrentOptions());
 		const groupNames = Object.keys(groups);
-		const isSelectionClearable = !isEmpty(this.options) && this.selectionClearable;
+		const isSelectionClearable = !isEmpty(this.getCurrentOptions()) && this.selectionClearable;
 		const isSelectionClearEnabled = Object.keys(this.selectedOptions).length > 0;
 
 		return (
@@ -163,9 +177,11 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 						clearSelectionLabel={this.clearSelectionLabel}
 						onClearSelection={this.onClearSelection}
 						onSearchChange={this.onSearchChange}
+						maxHeight={this.maxHeight}
+						minHeight={this.minHeight}
 					>
-						{isEmpty(this.options) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
-						{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.options))}
+						{isEmpty(this.getCurrentOptions()) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
+						{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.getCurrentOptions()))}
 					</kv-select>
 				</kv-dropdown>
 			</Host>

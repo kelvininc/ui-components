@@ -46,6 +46,12 @@ export interface IMultiSelectDropdown {
 	options?: IMultiSelectDropdownOptions;
 	/** (optional) The object with indexed by the dropdown labels and its selected value */
 	selectedOptions?: { [key: string]: boolean };
+	/** (optional) The object with the dropdown options filtered */
+	filteredOptions?: IMultiSelectDropdownOptions;
+	/** (optional) The dropdown's min-height */
+	minHeight?: string;
+	/** (optional) The dropdown's max-height */
+	maxHeight?: string;
 }
 
 export interface IMultiSelectDropdownEvents {

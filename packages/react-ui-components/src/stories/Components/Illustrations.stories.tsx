@@ -7,7 +7,7 @@ export default {
 	argTypes: {
 		name: {
 			control: { type: 'select' },
-			options: Object.keys(EIllustrationName)
+			options: Object.values(EIllustrationName)
 		},
 		customClass: {
 			control: { type: 'text' }

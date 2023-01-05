@@ -1,11 +1,17 @@
-import RadioWidget from './RadioWidget/RadioWidget';
-import SelectWidget from './SelectWidget/SelectWidget';
-import SubmitButton from './SubmitButton/SubmitButton';
-import TextWidget from './TextWidget/TextWidget';
+import RadioWidget from './RadioWidget';
+import SelectWidget from './SelectWidget';
+import CheckboxesWidget from './CheckboxesWidget';
+import ReadOnlyValueWidget from './ReadOnlyValueWidget';
+import EmailWidget from './EmailWidget';
+import DateTimeWidget from './DateTimeWidget';
+import DateWidget from './DateWidget';
 
 export default {
 	RadioWidget,
 	SelectWidget,
-	TextWidget,
-	SubmitButton
+	CheckboxesWidget,
+	ReadOnlyValueWidget,
+	EmailWidget,
+	DateTimeWidget,
+	DateWidget
 };

@@ -1,0 +1,19 @@
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+
+.ValueLabel {
+	@include kv-font-h3-semibold;
+}
+
+body {
+	&[mode='light'] {
+		.ValueLabel {
+			color: kv-color('neutral-6');
+		}
+	}
+
+	&[mode='night'] {
+		.ValueLabel {
+			color: kv-color('neutral-2');
+		}
+	}
+}

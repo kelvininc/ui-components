@@ -1,7 +1,7 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
 import { useArgs } from '@storybook/client-api';
-import { KvRadioButtonGroup } from '../../components';
+import { EIconName, KvRadioButtonGroup } from '../../components';
 
 export default {
 	title: 'Inputs/Radio Button Group',
@@ -31,8 +31,8 @@ const RadioButtonGroupTemplate: ComponentStory<typeof KvRadioButtonGroup> = args
 	return <KvRadioButtonGroup {...args} onCheckedChange={onCheckedChange} />;
 };
 
-export const DefaultState = RadioButtonGroupTemplate.bind({});
-DefaultState.args = {
+export const TextButtonsState = RadioButtonGroupTemplate.bind({});
+TextButtonsState.args = {
 	buttons: [
 		{
 			label: 'Option 1',
@@ -62,5 +62,28 @@ DefaultState.args = {
 		opt3: false,
 		opt4: true,
 		opt5: false
+	}
+};
+
+export const IconButtonsState = RadioButtonGroupTemplate.bind({});
+IconButtonsState.args = {
+	buttons: [
+		{
+			icon: EIconName.DensityLow,
+			value: 'low'
+		},
+		{
+			icon: EIconName.DensityMedium,
+			value: 'medium'
+		},
+		{
+			icon: EIconName.DensityHigh,
+			value: 'high'
+		}
+	],
+	selectedButtons: {
+		low: true,
+		medium: false,
+		hight: false
 	}
 };

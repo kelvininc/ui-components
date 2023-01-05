@@ -1,22 +1,17 @@
-import { ThemeProps, utils } from '@rjsf/core';
+import { ThemeProps } from '@rjsf/core';
 import Fields from '../Fields';
-import FieldTemplate from '../FieldTemplate';
-import ObjectFieldTemplate from '../ObjectFieldTemplate';
 import Widgets from '../Widgets';
-import ErrorList from '../ErrorList';
-import ArrayFieldTemplate from '../ArrayFieldTemplate';
+import Templates from '../Templates';
+import ReadOnlyValueWidget from '../Widgets/ReadOnlyValueWidget';
 
-const { getDefaultRegistry } = utils;
-
-const { fields, widgets } = getDefaultRegistry();
+const widgetsCustom = {
+	readOnlyValue: ReadOnlyValueWidget
+};
 
 const Theme: ThemeProps = {
-	ArrayFieldTemplate,
-	fields: { ...fields, ...Fields },
-	FieldTemplate,
-	ObjectFieldTemplate,
-	widgets: { ...widgets, ...Widgets },
-	ErrorList
+	fields: Fields,
+	templates: Templates,
+	widgets: { ...Widgets, ...widgetsCustom }
 };
 
 export default Theme;

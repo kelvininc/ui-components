@@ -14,7 +14,8 @@
 }
 
 .select-container {
-	@include kelvin-scrollbar;
+	// TODO: need to change when this component is styled to light mode
+	@include kelvin-night-scrollbar();
 
 	border: var(--select-border);
 	border-radius: var(--select-border-radius);

@@ -44,6 +44,12 @@ export interface ISingleSelectDropdown {
 	options?: ISingleSelectDropdownOptions;
 	/** (optional) The value of the selected option */
 	selectedOption?: string;
+	/** (optional) The object with the dropdown options filtered */
+	filteredOptions?: ISingleSelectDropdownOptions;
+	/** (optional) The dropdown's min-height */
+	minHeight?: string;
+	/** (optional) The dropdown's max-height */
+	maxHeight?: string;
 }
 
 export interface ISingleSelectDropdownEvents {

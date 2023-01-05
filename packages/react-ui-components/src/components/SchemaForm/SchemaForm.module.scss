@@ -1,56 +1,72 @@
 @import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
 
-.form-container {
-	--schema-form-x-padding: 0;
-	--schema-form-y-padding: 0;
-	$footer-height: calc(38px + ($spacing-4x) + var(--schema-form-y-padding));
+.FormContainer {
+	/**
+	* @prop --schema-form-x-padding: horizontal form padding
+	* @prop --schema-form-y-padding: vertical form padding
+	* @prop --schema-form-fields-x-gap: horizontal gap between fields
+	* @prop --schema-form-fields-y-gap: vertical gap between fields
+	*/
+	--schema-form-x-padding: 0px;
+	--schema-form-y-padding: 0px;
+	--schema-form-fields-x-gap: #{$spacing-5x};
+	--schema-form-fields-y-gap: #{$spacing-5x};
 
 	width: 100%;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	position: relative;
-	padding-top: var(--schema-form-y-padding);
+	padding: var(--schema-form-y-padding) 0;
 	box-sizing: border-box;
 
 	form {
 		width: 100%;
-		height: 100%;
 		display: flex;
+		flex: 1;
+		min-height: 0;
 		flex-direction: column;
 		justify-content: space-between;
 	}
 
 	form > div[class^="FieldTemplate"] {
-		height: calc(100% - $footer-height);
+		height: 100%;
 		overflow-y: auto;
 		overflow-x: hidden;
 		box-sizing: border-box;
 		padding: 0 var(--schema-form-x-padding);
 	}
 
-	&.no-footer {
-		form > div[class^="FieldTemplate"] {
-			height: 100%;
-		}
-	}
-
-	.form-footer {
+	.FormFooter {
 		display: flex;
 		justify-content: end;
-		align-items: center;
-		padding: $spacing-4x var(--schema-form-x-padding) var(--schema-form-y-padding) var(--schema-form-x-padding);
+		align-items: end;
+		padding: $spacing-4x var(--schema-form-x-padding) 0 var(--schema-form-x-padding);
+		gap: $spacing-3x;
 
-		&.scrolling {
+		&.Scrolling {
 			border-top: 1px solid kv-color('neutral-6');
-		}
-
-		kv-action-button-text + button > kv-action-button-text {
-			padding-left: $spacing-3x;
 		}
 	}
 }
 
-.reset-button-style {
-	@include reset-button-style;
+body {
+	&[mode='light'] {
+		.FormContainer form {
+			@include kelvin-light-scrollbar();
+		}
+
+		.FormFooter.Scrolling {
+			border-color: kv-color('neutral-3')
+		}
+	}
+
+	&[mode='night'] {
+		.FormContainer form {
+			@include kelvin-night-scrollbar();
+		}
+		.FormFooter.Scrolling {
+			border-color: kv-color('neutral-6')
+		}
+	}
 }

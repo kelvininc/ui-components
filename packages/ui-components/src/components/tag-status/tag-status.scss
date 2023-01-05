@@ -1,0 +1,43 @@
+@import '../../assets/styles/globals';
+
+.status {
+	&-container {
+		display: flex;
+		align-items: center;
+
+		kv-icon {
+			--icon-width: 16px;
+			--icon-height: 16px;
+		}
+	}
+
+	&-success {
+		kv-icon {
+			--icon-color: #{kv-color('success')};
+		}
+	}
+
+	&-error {
+		kv-icon {
+			--icon-color: #{kv-color('error')};
+		}
+	}
+
+	&-none {
+		kv-icon {
+			--icon-color: #{kv-color('neutral-4')};
+		}
+	}
+
+	&-warning {
+		kv-icon {
+			--icon-color: #{kv-color('warning')};
+		}
+	}
+}
+
+.status-label {
+	@include kv-font-label-small-regular();
+	color: kv-color('neutral-2');
+	margin-left: $spacing-2x;
+}

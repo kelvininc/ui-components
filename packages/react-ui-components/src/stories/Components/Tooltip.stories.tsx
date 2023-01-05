@@ -17,7 +17,8 @@ export default {
 		onMouseEnter: { action: 'Mouse enter' },
 		onMouseLeave: { action: 'Mouse Leave' },
 		onFocus: { action: 'Focus' },
-		onBlur: { action: 'Blur' }
+		onBlur: { action: 'Blur' },
+		truncate: { type: 'boolean' }
 	},
 	parameters: {
 		notes: require('@ui-notes/tooltip/readme.md'),
@@ -28,6 +29,14 @@ export default {
 const TooltipTemplate: ComponentStory<typeof KvTooltip> = args => (
 	<KvTooltip {...args}>
 		<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
+	</KvTooltip>
+);
+
+const TooltipTruncateTemplate: ComponentStory<typeof KvTooltip> = args => (
+	<KvTooltip {...args}>
+		<KvActionButton type={EActionButtonType.Primary}>
+			<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: 50 }}>Hover me!</div>
+		</KvActionButton>
 	</KvTooltip>
 );
 
@@ -46,4 +55,10 @@ export const DisabledState = TooltipTemplate.bind(this);
 DisabledState.args = {
 	text: 'Tooltip text',
 	disabled: true
+};
+
+export const TruncateState = TooltipTruncateTemplate.bind(this);
+TruncateState.args = {
+	text: 'Tooltip text',
+	truncate: true
 };

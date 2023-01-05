@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Text Field (unit tests) when has a label should match the snapshot 1`] = `
-<kv-text-field label="Text Field" state="none" type="text" value="">
+<kv-text-field input-mask-regex="" label="Text Field" placeholder="" state="none" type="text" value="">
   <mock:shadow-root>
-    <kv-tooltip position="top-start">
+    <kv-tooltip position="top-start" truncate="">
       <div class="text-field-container">
         <kv-form-label label="Text Field"></kv-form-label>
         <div class="input-container input-container--size-large">
-          <input type="text" value="">
+          <input placeholder="" type="text" value="">
         </div>
         <kv-form-help-text state="none"></kv-form-help-text>
       </div>
@@ -17,13 +17,13 @@ exports[`Text Field (unit tests) when has a label should match the snapshot 1`] 
 `;
 
 exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] = `
-<kv-text-field disabled="" state="none" type="text" value="">
+<kv-text-field disabled="" input-mask-regex="" placeholder="" state="none" type="text" value="">
   <mock:shadow-root>
-    <kv-tooltip position="top-start">
+    <kv-tooltip position="top-start" truncate="">
       <div class="text-field-container">
         <kv-form-label></kv-form-label>
         <div class="input-container input-container--size-large">
-          <input disabled="" type="text" value="">
+          <input disabled="" placeholder="" type="text" value="">
         </div>
         <kv-form-help-text state="none"></kv-form-help-text>
       </div>
@@ -33,13 +33,13 @@ exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] 
 `;
 
 exports[`Text Field (unit tests) when uses default props should match the snapshot 1`] = `
-<kv-text-field state="none" type="text" value="">
+<kv-text-field input-mask-regex="" placeholder="" state="none" type="text" value="">
   <mock:shadow-root>
-    <kv-tooltip position="top-start">
+    <kv-tooltip position="top-start" truncate="">
       <div class="text-field-container">
         <kv-form-label></kv-form-label>
         <div class="input-container input-container--size-large">
-          <input type="text" value="">
+          <input placeholder="" type="text" value="">
         </div>
         <kv-form-help-text state="none"></kv-form-help-text>
       </div>

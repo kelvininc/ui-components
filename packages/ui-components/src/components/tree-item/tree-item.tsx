@@ -166,7 +166,7 @@ export class KvTreeItem implements IAnchor {
 
 									{(this.label || this.placeholder) && (
 										<div class={`labels labels-${this.labelsSize}`}>
-											<kv-tooltip delay={this.tooltipDelay} disabled={!this.showTooltip} text={this.label || this.placeholder}>
+											<kv-tooltip delay={this.tooltipDelay} disabled={!this.showTooltip} text={this.label || this.placeholder} truncate>
 												<div class={{ title: true, [`title-${this.labelsSize}`]: true }}>{this.label || this.placeholder}</div>
 											</kv-tooltip>
 											{this.additionalLabel && <div class="sub-title">{this.additionalLabel}</div>}

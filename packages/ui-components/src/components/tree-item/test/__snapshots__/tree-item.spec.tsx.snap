@@ -7,7 +7,7 @@ exports[`Tree Item (unit tests) when initialized with counter attribute should m
       <div class="node-wrapper">
         <a class="node-content-wrapper">
           <div class="labels labels-small">
-            <kv-tooltip disabled="" text="Node Title">
+            <kv-tooltip disabled="" text="Node Title" truncate="">
               <div class="title title-small">
                 Node Title
               </div>
@@ -37,7 +37,7 @@ exports[`Tree Item (unit tests) when initialized with disabled attribute should 
       <div class="disabled node-wrapper">
         <a class="disabled node-content-wrapper">
           <div class="labels labels-small">
-            <kv-tooltip disabled="" text="Node Title">
+            <kv-tooltip disabled="" text="Node Title" truncate="">
               <div class="title title-small">
                 Node Title
               </div>
@@ -61,7 +61,7 @@ exports[`Tree Item (unit tests) when initialized with preventDefault prop should
       <div class="node-wrapper">
         <a class="node-content-wrapper">
           <div class="labels labels-small">
-            <kv-tooltip disabled="" text="Node Title">
+            <kv-tooltip disabled="" text="Node Title" truncate="">
               <div class="title title-small">
                 Node Title
               </div>
@@ -85,7 +85,7 @@ exports[`Tree Item (unit tests) when initialized with required props should matc
       <div class="node-wrapper">
         <a class="node-content-wrapper">
           <div class="labels labels-small">
-            <kv-tooltip disabled="" text="Node Title">
+            <kv-tooltip disabled="" text="Node Title" truncate="">
               <div class="title title-small">
                 Node Title
               </div>
@@ -109,7 +109,7 @@ exports[`Tree Item (unit tests) when initialized with selected attribute should 
       <div class="node-wrapper selected">
         <a class="node-content-wrapper selected">
           <div class="labels labels-small">
-            <kv-tooltip disabled="" text="Node Title">
+            <kv-tooltip disabled="" text="Node Title" truncate="">
               <div class="title title-small">
                 Node Title
               </div>

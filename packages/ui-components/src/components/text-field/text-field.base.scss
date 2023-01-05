@@ -43,7 +43,7 @@
 	--right-slot-padding-right: #{$spacing-9x};
 	--right-slot-width: 36px;
 	--left-slot-padding-left: #{$spacing-6x};
-	--left-slot-padding-top: 2px;
+	--left-slot-padding-top: 0;
 }
 
 kv-form-label {
@@ -72,6 +72,7 @@ kv-tooltip::part(content) {
 input {
 	@include kv-font-span-regular;
 
+	appearance: textfield;
 	width: 100%;
 	height: 100%;
 	padding-left: $spacing-2x;
@@ -129,6 +130,11 @@ input {
 
 	&:read-only {
 		cursor: pointer;
+	}
+
+	&::-webkit-outer-spin-button,
+	&::-webkit-inner-spin-button {
+		appearance: none;
 	}
 }
 

@@ -100,4 +100,113 @@ describe('Text Field (end-to-end)', () => {
 			expect(errorComponent).toBeTruthy();
 		});
 	});
+
+	describe('when the text field has input mask for numeric type', () => {
+		beforeEach(async () => {
+			page = await newE2EPage();
+			await page.setContent('<kv-text-field type="number" min="0" max="1" value="0" required use-input-mask=true></kv-text-field>');
+		});
+
+		describe('when user inputs 1', () => {
+			let spyChangeEvent: EventSpy;
+			let textFieldComponent: E2EElement;
+
+			beforeEach(async () => {
+				textFieldComponent = await page.find('kv-text-field');
+				spyChangeEvent = await textFieldComponent.spyOnEvent('textChange');
+
+				const textFieldElement = await page.find('kv-text-field >>> input');
+				await textFieldElement.type('1');
+
+				await page.waitForTimeout(300);
+			});
+
+			it('should emit change event', () => {
+				expect(spyChangeEvent).toHaveReceivedEventDetail('1');
+			});
+		});
+
+		describe('when user changes text but value is higher than max', () => {
+			let spyChangeEvent: EventSpy;
+			let textFieldComponent: E2EElement;
+
+			beforeEach(async () => {
+				textFieldComponent = await page.find('kv-text-field');
+				spyChangeEvent = await textFieldComponent.spyOnEvent('textChange');
+
+				const textFieldElement = await page.find('kv-text-field >>> input');
+				await textFieldElement.type('9');
+
+				await page.waitForTimeout(300);
+			});
+
+			it('should not emit change event', () => {
+				expect(spyChangeEvent).not.toHaveReceivedEvent();
+			});
+		});
+
+		describe('when user changes text but value is a string', () => {
+			let spyChangeEvent: EventSpy;
+			let textFieldComponent: E2EElement;
+
+			beforeEach(async () => {
+				textFieldComponent = await page.find('kv-text-field');
+				spyChangeEvent = await textFieldComponent.spyOnEvent('textChange');
+
+				const textFieldElement = await page.find('kv-text-field >>> input');
+				await textFieldElement.type('a');
+
+				await page.waitForTimeout(300);
+			});
+
+			it('should not emit change event', () => {
+				expect(spyChangeEvent).not.toHaveReceivedEvent();
+			});
+		});
+	});
+
+	describe('when the text field has input mask for string type with leters only regex', () => {
+		beforeEach(async () => {
+			page = await newE2EPage();
+			await page.setContent('<kv-text-field type="text" use-input-mask=true input-mask-regex="[a-zA-Z]+" required use-input-mask=true></kv-text-field>');
+		});
+
+		describe('when user inputs a', () => {
+			let spyChangeEvent: EventSpy;
+			let textFieldComponent: E2EElement;
+
+			beforeEach(async () => {
+				textFieldComponent = await page.find('kv-text-field');
+				spyChangeEvent = await textFieldComponent.spyOnEvent('textChange');
+
+				const textFieldElement = await page.find('kv-text-field >>> input');
+				await textFieldElement.type('a');
+
+				await page.waitForTimeout(300);
+			});
+
+			it('should emit change event', () => {
+				expect(spyChangeEvent).toHaveReceivedEventDetail('a');
+			});
+		});
+
+		describe('when user inputs a number', () => {
+			let spyChangeEvent: EventSpy;
+			let textFieldComponent: E2EElement;
+
+			beforeEach(async () => {
+				textFieldComponent = await page.find('kv-text-field');
+				spyChangeEvent = await textFieldComponent.spyOnEvent('textChange');
+
+				const textFieldElement = await page.find('kv-text-field >>> input');
+				await textFieldElement.type('1');
+
+				await page.waitForTimeout(300);
+			});
+
+			it('should not emit change event', () => {
+				expect(spyChangeEvent).not.toHaveReceivedEvent();
+			});
+		});
+	});
 });

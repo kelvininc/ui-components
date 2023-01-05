@@ -84,7 +84,7 @@ export const InfoLabelExample: React.FC = () => (
 | `descriptionCollapsedText` | `description-collapsed-text` | (optional) Info label description collapse text | `string` | `DEFAULT_DESCRIPTION_COLLAPSED_TEXT` |
 | `descriptionHeight`        | `description-height`         | (optional) Info label description height        | `number` | `undefined`                          |
 | `descriptionOpenedText`    | `description-opened-text`    | (optional) Info label description opened text   | `string` | `DEFAULT_DESCRIPTION_OPENED_TEXT`    |
-| `labelTitle` _(required)_  | `label-title`                | (required) Info label title                     | `string` | `undefined`                          |
+| `labelTitle`               | `label-title`                | (optional) Info label title                     | `string` | `undefined`                          |
 
 
 ## CSS Custom Properties

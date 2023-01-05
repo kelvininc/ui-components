@@ -1,8 +1,8 @@
-import { utils } from '@rjsf/core';
+import { asNumber, guessType } from '@rjsf/utils';
 import { JSONSchema7 } from 'json-schema';
 import { get } from 'lodash-es';
+import { EnumOptions, IUIDropdownOptions } from './types';
 
-const { asNumber, guessType } = utils;
 const numericTypes = ['number', 'integer'];
 
 /**
@@ -50,3 +50,26 @@ export const buildSelectedOptions = (selectedOptions: string[]): { [key: string]
 
 		return accumulator;
 	}, {});
+
+export const buildDropdownOptions = (options?: EnumOptions, disabledOptions?: EnumOptions): IUIDropdownOptions =>
+	Array.isArray(options)
+		? options.reduce((acc, { value, label }) => {
+				const disabled = Array.isArray(disabledOptions) && disabledOptions.indexOf(value) != -1;
+				acc[value] = { value, label, disabled };
+				return acc;
+		  }, {})
+		: [];
+
+export const searchDropdownOptions = (term: string, options: IUIDropdownOptions) => {
+	const lowerCaseTerm = term.toLowerCase();
+	return Object.keys(options).reduce<IUIDropdownOptions>((accumulator, key) => {
+		const option = options[key];
+		const lowerCaseLabel = option.label.toLowerCase();
+
+		if (lowerCaseLabel.includes(lowerCaseTerm)) {
+			accumulator[key] = option;
+		}
+
+		return accumulator;
+	}, {});
+};

@@ -2,9 +2,10 @@ import { Component, Element, Host, Prop, State, h } from '@stencil/core';
 import { ComputePositionConfig, computePosition } from '@floating-ui/dom';
 import { isEmpty, merge } from 'lodash-es';
 
-import { DEFAULT_POSITION_CONFIG } from './tooltip.config';
+import { DEFAULT_DELAY_CONFIG, DEFAULT_POSITION_CONFIG } from './tooltip.config';
 import { ETooltipPosition } from '../../types';
 import { ITooltip } from './tooltip.types';
+import { isElementCollpased } from './tooltip.utils';
 
 /**
  * @part container - The tooltip container.
@@ -17,7 +18,7 @@ import { ITooltip } from './tooltip.types';
 })
 export class KvTooltip implements ITooltip {
 	/** (optional) Delay to show tooltip in milliseconds. */
-	@Prop({ reflect: true }) delay?: number;
+	@Prop({ reflect: true }) delay?: number = DEFAULT_DELAY_CONFIG;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) text: string;
 	/** @inheritdoc */
@@ -28,6 +29,8 @@ export class KvTooltip implements ITooltip {
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) contentElement?: HTMLElement = null;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) truncate?: boolean = false;
 
 	@State() timeoutDelayId?: number;
 
@@ -49,12 +52,15 @@ export class KvTooltip implements ITooltip {
 	private showTooltip = () => {
 		if (!this.disabled) {
 			const tooltip = this.getTooltipElement();
-			tooltip.style.display = 'inline-block';
+			tooltip.classList.remove('tooltip-container-hidden');
+			tooltip.classList.toggle('tooltip-container-visible');
 			this.update();
 		}
 	};
 
 	private showTooltipHandler = () => {
+		if (this.truncate && !isElementCollpased(this.el)) return;
+
 		if (this.delay) {
 			this.timeoutDelayId = window.setTimeout(() => {
 				this.showTooltip();
@@ -66,7 +72,8 @@ export class KvTooltip implements ITooltip {
 
 	private hideTooltip = () => {
 		const tooltip = this.getTooltipElement();
-		tooltip.style.display = '';
+		tooltip.classList.remove('tooltip-container-visible');
+		tooltip.classList.toggle('tooltip-container-hidden');
 	};
 
 	private hideTooltipHandler = () => {

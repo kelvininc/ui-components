@@ -55,6 +55,8 @@ export const KvSelectExample: React.FC = () => (
 | Property                | Attribute                 | Description                                                       | Type      | Default                        |
 | ----------------------- | ------------------------- | ----------------------------------------------------------------- | --------- | ------------------------------ |
 | `clearSelectionLabel`   | `clear-selection-label`   | (optional) The clear search action text                           | `string`  | `SELECT_CLEAR_SELECTION_LABEL` |
+| `maxHeight`             | `max-height`              | (optional) The dropdown's max-height                              | `string`  | `undefined`                    |
+| `minHeight`             | `min-height`              | (optional) The dropdown's min-height                              | `string`  | `undefined`                    |
 | `searchPlaceholder`     | `search-placeholder`      | (optional) The list search text field placeholder                 | `string`  | `undefined`                    |
 | `searchValue`           | `search-value`            | (optional) The search value on the list                           | `string`  | `undefined`                    |
 | `searchable`            | `searchable`              | (optional) If `true` the list has a search text field             | `boolean` | `false`                        |

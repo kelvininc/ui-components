@@ -1,11 +1,12 @@
 import { Component, Element, Event, EventEmitter, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
 import { isEmpty, isNil, merge } from 'lodash-es';
-import Inputmask from 'inputmask';
 import { EComponentSize } from '../../utils/types';
 import { EInputFieldType, EValidationState, ITextFieldEvents, ITextField } from './text-field.types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
-import { DEFAULT_TEXT_TOOLTIP_CONFIG, NUMERIC_TEXT_INPUT_MASK_CONFIG } from './text-field.config';
+import { DEFAULT_TEXT_TOOLTIP_CONFIG } from './text-field.config';
 import { ITooltip } from '../tooltip/tooltip.types';
+import { getInputMaskConfig, isInputMaskCompatibleType } from './text-field.utils';
+import Inputmask from 'inputmask';
 
 @Component({
 	tag: 'kv-text-field',
@@ -30,7 +31,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) inputName?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) placeholder?: string;
+	@Prop({ reflect: true }) placeholder?: string = '';
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxLength?: number;
 	/** @inheritdoc */
@@ -61,6 +62,11 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	@Prop({ reflect: true }) tooltipConfig?: Partial<ITooltip>;
 	/** @inheritdoc */
 	@Prop({ reflect: true, mutable: true }) value?: string | number | null = '';
+	/** @inheritdoc */
+	@Prop({ reflect: true }) useInputMask?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) inputMaskRegex?: string = '';
+
 	/** Watch `value` property for changes and update native input element accordingly */
 	@Watch('value')
 	valueChangeHandler(newValue: string | number | null) {
@@ -106,11 +112,12 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	}
 
 	componentDidLoad() {
-		if (this.type === EInputFieldType.Number) {
+		if (this.useInputMask && isInputMaskCompatibleType(this.type)) {
 			return Inputmask({
-				...NUMERIC_TEXT_INPUT_MASK_CONFIG,
+				...getInputMaskConfig(this.type),
 				min: this.min,
-				max: this.max
+				max: this.max,
+				regex: this.inputMaskRegex
 			}).mask(this.nativeInput);
 		}
 	}
@@ -162,7 +169,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	}
 
 	private getType(): string {
-		return this.type === EInputFieldType.Number ? EInputFieldType.Text : this.type;
+		return this.useInputMask ? EInputFieldType.Text : this.type;
 	}
 
 	private getTooltipConfig = (): Partial<ITooltip> => {
