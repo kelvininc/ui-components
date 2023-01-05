@@ -4,13 +4,6 @@
 	/**
 	 * @prop --illustration-height: Height of illustration
 	 * @prop --illustration-width: Width of illustration
-	 */
-	--illustration-height: 200px;
-	--illustration-width: 200px;
-}
-
-.illustration {
-	/**
 	 * @prop --illustration-color: Base color used in the illustration
 	 * @prop --illustration-color-light-90: 90% lighter version of the illustration base color
 	 * @prop --illustration-color-light-80: 80% lighter version of the illustration base color
@@ -18,19 +11,9 @@
 	 * @prop --illustration-color-dark-35: 35% darker version of the illustration base color
 	 * @prop --illustration-success-color: Success color used in the illustration
 	 */
+	--illustration-height: 200px;
+	--illustration-width: 200px;
 
-	--illustration-color: var(--kv-illustrations-color, #{$primary-color});
-	--illustration-color-light-90: var(--kv-illustrations-color-light-90, #{mix(#fff, $primary-color, 89.5%)});
-	--illustration-color-light-80: var(--kv-illustrations-color-light-80, #{mix(#fff, $primary-color, 78.5%)});
-	--illustration-color-dark-55: var(--kv-illustrations-color-dark-55, #{mix(#000, $primary-color, 54.5%)});
-	--illustration-color-dark-35: var(--kv-illustrations-color-dark-35, #{mix(#000, $primary-color, 36%)});
-	--illustration-success-color: var(--kv-illustrations-success-color, #{$success-color});
-
-	width: var(--illustration-width);
-	height: var(--illustration-height);
-
-	&-full-size {
-		width: 100%;
-		height: 100%;
-	}
+	width: 100%;
+	height: 100%;
 }

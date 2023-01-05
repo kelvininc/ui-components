@@ -1,6 +1,4 @@
-import { Component, Prop, Host, h } from '@stencil/core';
-import { getClassMap } from '../../utils/css-class.helper';
-import { getConfig } from '../utils';
+import { Component, Prop, h, Host } from '@stencil/core';
 import { EIllustrationName } from './illustration.types';
 
 /**
@@ -22,20 +20,11 @@ export class KvIllustration {
 	@Prop({ reflect: true }) customClass: string | string[] = '';
 
 	render() {
-		const { baseAssetsUrl, symbolsFileName, styleMode } = getConfig();
+		const Tag = this.name;
 
 		return (
 			<Host>
-				<svg
-					part="illustration"
-					xmlns="http://www.w3.org/2000/svg"
-					class={{
-						...getClassMap(this.customClass),
-						illustration: true
-					}}
-				>
-					<use href={`${baseAssetsUrl}${symbolsFileName}#${this.name}-${styleMode}`}></use>
-				</svg>
+				<Tag customClass={this.customClass} />
 			</Host>
 		);
 	}
