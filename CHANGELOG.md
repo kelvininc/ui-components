@@ -3,6 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/kelvininc/ui-components/compare/v0.13.0...v0.14.0) (2023-01-05)
+
+
+### Bug Fixes
+
+* correct props variable name ([90f7f23](https://github.com/kelvininc/ui-components/commit/90f7f23037f248b7a2a87a5a55fbf043129ddcca))
+* **dropdown:** add `filteredOptions` to select dropdowns ([e986322](https://github.com/kelvininc/ui-components/commit/e9863224a0390aa17d1f07efeec93ce64c5ed82e))
+* **kv-icon:** remove height offset from icon and add new tag component ([b618cbf](https://github.com/kelvininc/ui-components/commit/b618cbf5e2660ed19428c7e3e7ade3b2f6c86907))
+* **textfield:** allow 0 as default numeric type input ([729d4b2](https://github.com/kelvininc/ui-components/commit/729d4b23ede9381f9788a00d86669c713149e89e))
+* **textfield:** remove placeholder from inputmask configuration ([397ec9c](https://github.com/kelvininc/ui-components/commit/397ec9ca41e482279042bd20af03cc3c8a7d6b88))
+
+
+* feat(schema-form)!: updates rjsf dependency to allow validating dependencies in dates and times. ([4c30faf](https://github.com/kelvininc/ui-components/commit/4c30faf9abd3d74f6c50dce5b783c087c0744d6d))
+* feat(radio-button)!: add icon to radio button ([5fdfdf8](https://github.com/kelvininc/ui-components/commit/5fdfdf896ab74edcaee314755ee1fb949fd5f7d4))
+
+
+### Features
+
+* enable customize dropdowns height with props ([a19ddd9](https://github.com/kelvininc/ui-components/commit/a19ddd91f4ad84edd449ab96a4ecf3ed5f05bd28))
+* **icons:** add more icons to svg-symbols ([b006039](https://github.com/kelvininc/ui-components/commit/b0060399576c8b80ea6e76bafb4b7b2639756831))
+* **icons:** add order hover icon ([0cba530](https://github.com/kelvininc/ui-components/commit/0cba530359b8c427011e3bb99aaf26e10f96c989))
+* **schema-form:** add checkboxes widget ([2d970fd](https://github.com/kelvininc/ui-components/commit/2d970fd4736d4e9ba66c273869a95e7a83a4386d))
+* **schema-form:** add date and email input widgets ([3398f88](https://github.com/kelvininc/ui-components/commit/3398f88ea7f18f688b366988abe60f839b12e105))
+* **schema-form:** add scroll style on form ([ec90a63](https://github.com/kelvininc/ui-components/commit/ec90a63c88a2ac5989c63baa01048305ce7fc15a))
+* **schema-form:** add searchable behaviour to select widget ([5e113f1](https://github.com/kelvininc/ui-components/commit/5e113f141d6116c1992db22abdad6aa3105b5bb0))
+* **schema-form:** allow inline form ([a9ca2b8](https://github.com/kelvininc/ui-components/commit/a9ca2b853669407c1da1945b29e6a829aa9f253f))
+* **status:** add new status tag component ([#199](https://github.com/kelvininc/ui-components/issues/199)) ([c8e71ab](https://github.com/kelvininc/ui-components/commit/c8e71ab7df24808ae986c36bb1aadd49608c0245))
+* **tooltip:** add default delay to tooltip ([#193](https://github.com/kelvininc/ui-components/issues/193)) ([f8b9128](https://github.com/kelvininc/ui-components/commit/f8b9128481c3d55c698752878a9acf3f577a7895))
+* **tooltip:** add fade in/out animation to tooltip ([#197](https://github.com/kelvininc/ui-components/issues/197)) ([eb57522](https://github.com/kelvininc/ui-components/commit/eb5752218eed5d5e7c3f03734aec8f4e269cdd6d))
+* **tooltip:** add white space normal ([efc7df3](https://github.com/kelvininc/ui-components/commit/efc7df3fbad1f14c24e86a2e1245482efed945b5))
+* **tooltip:** only display tooltip when string is ellipsed ([#189](https://github.com/kelvininc/ui-components/issues/189)) ([fe7764e](https://github.com/kelvininc/ui-components/commit/fe7764ed1695fba29d9e1e8697ebfbf7db9e41e7))
+
+
+### Performance Improvements
+
+* **illustrations:** generate illustrations in build time ([#148](https://github.com/kelvininc/ui-components/issues/148)) ([87808f6](https://github.com/kelvininc/ui-components/commit/87808f69c942348e2537e7c94a2e25edd1989bcc))
+
+
+### BREAKING CHANGES
+
+* showErrorList now accepts 'top' 'bottom' or false only.
+* label property is now optional and value is required
+
+
+
+
+
 # [0.13.0](https://github.com/kelvininc/ui-components/compare/v0.12.0...v0.13.0) (2022-10-06)
 
 
