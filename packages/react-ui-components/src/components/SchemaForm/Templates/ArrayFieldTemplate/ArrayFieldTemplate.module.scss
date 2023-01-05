@@ -3,7 +3,7 @@
 .ArrayItemList {
 	display: flex;
 	flex-direction: column;
-	gap: $spacing-5x;
+	gap: var(--schema-form-fields-y-gap) var(--schema-form-fields-x-gap);
 }
 
 .ArrayFieldTemplate {
