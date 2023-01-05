@@ -1,4 +1,5 @@
 import { Component, h, Host, Prop } from '@stencil/core';
+import { isValidLabel } from '../../utils/string.helper';
 
 @Component({
 	tag: 'kv-form-label',
@@ -19,7 +20,7 @@ export class KvFormLabel {
 		return (
 			<Host>
 				<div class="form-field-container">
-					{this.label && (
+					{isValidLabel(this.label) && (
 						<div class="label-container">
 							{this.required && <span class="required">*</span>}
 							{this.label && <span class="label">{this.label}</span>}

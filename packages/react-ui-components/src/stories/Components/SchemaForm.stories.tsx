@@ -1,8 +1,17 @@
 import { IMultiSelectDropdownOptions, ISingleSelectDropdownOptions } from '@kelvininc/ui-components';
+import { IChangeEvent } from '@rjsf/core';
 import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
-import KvSchemaForm from '../../components/SchemaForm/SchemaForm';
+import { KvSchemaForm, SchemaFormProps } from '../../components';
 import { getDropdownDisplayValue } from './helpers/dropdown.helper';
+import { action } from '@storybook/addon-actions';
+import { FormValidation } from '@rjsf/utils';
+
+enum EShowErrorListType {
+	Top = 'top',
+	Bottom = 'bottom',
+	None = 'none'
+}
 
 export default {
 	title: 'Form/SchemaForm',
@@ -11,11 +20,12 @@ export default {
 		onChange: {
 			action: 'change'
 		},
-		onSubmit: {
-			action: 'submit'
-		},
 		onError: {
 			action: 'error'
+		},
+		showErrorList: {
+			control: { type: 'inline-radio' },
+			options: Object.values(EShowErrorListType)
 		}
 	},
 	parameters: {
@@ -23,7 +33,20 @@ export default {
 	}
 };
 
-const FormTemplate: ComponentStory<any> = args => <KvSchemaForm<any> {...args}></KvSchemaForm>;
+const FormTemplate: ComponentStory<any> = args => (
+	<div style={{ height: '500px' }}>
+		<KvSchemaForm<any>
+			{...args}
+			onSubmit={(e: IChangeEvent<any>) => {
+				action('submit')(e);
+			}}
+			customValidate={(data: any, errors: FormValidation<any>) => {
+				console.log('customValidate', data);
+				return errors;
+			}}
+		></KvSchemaForm>
+	</div>
+);
 
 export const Default = FormTemplate.bind(this);
 Default.args = {
@@ -36,7 +59,7 @@ Default.args = {
 		'boolean-example': true,
 		'enum-example': 'foo',
 		'string-example': 'value',
-		'multipleChoicesList-example': ['foo', 'qux']
+		'multipleChoicesList-example': ['fuzz', 'qux']
 	},
 	schema: {
 		type: 'object',
@@ -81,7 +104,7 @@ Default.args = {
 				title: 'A multiple choices list',
 				items: {
 					type: 'string',
-					enum: ['foo', 'bar', 'fuzz', 'qux']
+					enum: ['bar', 'fuzz', 'qux']
 				},
 				uniqueItems: true
 			}
@@ -200,7 +223,7 @@ WithSubmitButtonOptions.args = {
 
 export const WithErrorList = FormTemplate.bind(this);
 WithErrorList.args = {
-	showErrorList: true,
+	showErrorList: 'top',
 	liveValidate: true,
 	disabled: false,
 	formData: {
@@ -240,6 +263,7 @@ export const WithAdditionalProperties = FormTemplate.bind(this);
 WithAdditionalProperties.args = {
 	liveValidate: true,
 	disabled: false,
+	formData: {},
 	schema: {
 		title: 'Additional Properties form',
 		description: 'A simple form with additional properties example.',
@@ -268,15 +292,34 @@ WithArrayFields.args = {
 	uiSchema: {
 		listOfStrings: {
 			items: {
+				'ui:title': ' ',
 				'ui:emptyValue': ''
 			}
 		},
+		minItemsList: {
+			items: {
+				'ui:title': ' '
+			}
+		},
+		nestedList: {
+			items: {
+				items: {
+					'ui:title': ' '
+				}
+			}
+		},
 		unorderable: {
+			'items': {
+				'ui:title': ' '
+			},
 			'ui:options': {
 				orderable: false
 			}
 		},
 		unremovable: {
+			'items': {
+				'ui:title': ' '
+			},
 			'ui:options': {
 				removable: false
 			}
@@ -296,7 +339,6 @@ WithArrayFields.args = {
 			}
 		}
 	},
-	formData: {},
 	schema: {
 		definitions: {
 			Thing: {
@@ -427,14 +469,17 @@ WithArrayFields.args = {
 
 const DiscardChangesTemplate: ComponentStory<any> = args => {
 	const [submittedData, setSubmittedData] = useState({});
-
 	return (
 		<KvSchemaForm<any>
 			{...args}
 			submittedData={submittedData}
-			onSubmit={(data: any) => {
-				console.log('KvSchemaForm submit', data);
+			onSubmit={(data: IChangeEvent<any>) => {
+				action('submit')(data);
 				setSubmittedData(data.formData);
+			}}
+			customValidate={(data: any, errors: FormValidation<any>) => {
+				console.log('customValidate', data);
+				return errors;
 			}}
 		></KvSchemaForm>
 	);
@@ -592,6 +637,245 @@ CheckboxesWidget.args = {
 };
 
 export const InlineForm = FormTemplate.bind(this);
+const inlineSchema: SchemaFormProps<any>['schema'] = {
+	type: 'object',
+	properties: {
+		shift_info: {
+			title: 'Shift info',
+			type: 'object',
+			properties: {
+				name: {
+					title: 'Shift name',
+					type: 'string'
+				},
+				start_at: {
+					title: 'Starts at',
+					type: 'string',
+					format: 'date-time'
+				},
+				end_at: {
+					title: 'Ends at',
+					type: 'string',
+					format: 'date-time',
+					formatExclusiveMinimum: { $data: '1/start_at' }
+				}
+			},
+			required: ['name', 'start_at', 'end_at']
+		},
+		production_info: {
+			title: 'Production info',
+			type: 'object',
+			properties: {
+				sku: {
+					title: 'SKU',
+					type: 'string'
+				},
+				expected_start_at: {
+					title: 'Expected to start at',
+					type: 'string',
+					format: 'date-time'
+				},
+				expected_end_at: {
+					title: 'Expected to end at',
+					type: 'string',
+					format: 'date-time',
+					formatExclusiveMinimum: { $data: '1/expected_start_at' }
+				}
+			},
+			required: ['sku', 'expected_start_at', 'expected_end_at']
+		},
+		team_info: {
+			title: 'Team info',
+			type: 'array',
+			items: {
+				type: 'object',
+				properties: {
+					name: {
+						title: 'Name',
+						type: 'string'
+					},
+					email: {
+						title: 'Email',
+						type: 'string',
+						format: 'email'
+					},
+					phone_country_code: {
+						title: 'Phone country code',
+						type: 'string'
+					},
+					phone_number: {
+						title: 'Phone number',
+						type: 'number'
+					},
+					role: {
+						title: 'Role',
+						type: 'string'
+					},
+					responsible_for: {
+						title: 'Asset responsible for',
+						type: 'string',
+						oneOf: [
+							{
+								title: 'Asset 3',
+								const: 'asset-name-3'
+							},
+							{
+								title: 'Asset 2',
+								const: 'asset-name-2'
+							},
+							{
+								title: 'Asset 1',
+								const: 'asset-name-1'
+							}
+						]
+					}
+				},
+				required: ['name', 'email', 'phone_country_code', 'phone_number', 'role', 'responsible_for']
+			}
+		},
+		assets_oee: {
+			type: 'array',
+			items: {
+				type: 'object',
+				properties: {
+					asset_name: {
+						type: 'string',
+						oneOf: [
+							{
+								title: 'Asset 3',
+								const: 'asset-name-3'
+							},
+							{
+								title: 'Asset 2',
+								const: 'asset-name-2'
+							},
+							{
+								title: 'Asset 1',
+								const: 'asset-name-1'
+							}
+						]
+					},
+					oee_thresholds: {
+						title: 'OEE - Thresholds',
+						type: 'object',
+						properties: {
+							target: {
+								title: 'OEE Target',
+								type: 'number',
+								exclusiveMinimum: 0
+							},
+							critical_alarm: {
+								title: 'OEE Critical',
+								type: 'number',
+								exclusiveMinimum: 0
+							},
+							warning_alarm: {
+								title: 'OEE Urgent',
+								type: 'number',
+								exclusiveMinimum: 0
+							}
+						},
+						required: ['target', 'critical_alarm', 'warning_alarm']
+					},
+					oee_calculation: {
+						title: 'OEE - Calculation',
+						type: 'object',
+						properties: {
+							ideal_cycle_time: {
+								title: 'Ideal cycle time',
+								type: 'number',
+								exclusiveMinimum: 0
+							},
+							total_units: {
+								title: 'Total units',
+								type: 'number',
+								exclusiveMinimum: 0
+							},
+							good_units: {
+								title: 'Good units',
+								type: 'number',
+								exclusiveMinimum: 0,
+								maximum: {
+									$data: '1/total_units'
+								} as any
+							},
+							run_time: {
+								title: 'Run time',
+								type: 'number',
+								exclusiveMinimum: 0,
+								maximum: {
+									$data: '1/planned_production_time'
+								} as any // Type conflict occurs because JSONSchema7 don't support (yet) dynamic values but AJV Validate allow it. https://ajv.js.org/guide/combining-schemas.html#data-reference
+							},
+							planned_production_time: {
+								title: 'Planned production time',
+								type: 'number',
+								minimum: 0
+							}
+						},
+						required: ['ideal_cycle_time', 'total_units', 'good_units', 'run_time', 'planned_production_time']
+					}
+				}
+			}
+		}
+	}
+};
+
+const inlineUiSchema: SchemaFormProps<any>['uiSchema'] = {
+	shift_info: {
+		'ui:inline': true,
+		'ui:inputWidth': '240px'
+	},
+	production_info: {
+		'ui:inline': true,
+		'ui:inputWidth': '240px'
+	},
+	team_info: {
+		'ui:itemPrefix': 'Collaborator',
+		'ui:options': {
+			addable: true,
+			orderable: false,
+			removable: true
+		},
+		'items': {
+			'ui:title': '',
+			'ui:itemPrefix': 'Collaborator',
+			'ui:inline': true,
+			'ui:inputWidth': '240px',
+			'responsible_for': {
+				searchable: true
+			}
+		}
+	},
+	assets_oee: {
+		'ui:title': '',
+		'ui:options': {
+			addable: false,
+			orderable: false,
+			removable: false
+		},
+		'items': {
+			'ui:title': '',
+			'ui:fieldset': true,
+			'asset_name': {
+				'ui:widget': 'readOnlyValue',
+				'ui:readonly': true,
+				'ui:options': {
+					label: false
+				}
+			},
+			'oee_thresholds': {
+				'ui:inline': true,
+				'ui:inputWidth': '240px'
+			},
+			'oee_calculation': {
+				'ui:inline': true,
+				'ui:inputWidth': '240px'
+			}
+		}
+	}
+};
+
 InlineForm.args = {
 	showErrorList: false,
 	liveValidate: true,
@@ -603,207 +887,8 @@ InlineForm.args = {
 			end_at: '2022-11-17T00:00:00Z'
 		},
 		team_info: [{}],
-		assets_oee: [{ asset_name: 'Demo Centrifugal Pump 10' }, { asset_name: 'kelvin simple asset' }]
+		assets_oee: [{ asset_name: 'asset-name-3' }, { asset_name: 'asset-name-2' }]
 	},
-	schema: {
-		type: 'object',
-		properties: {
-			shift_info: {
-				title: 'Shift info',
-				type: 'object',
-				properties: {
-					name: {
-						title: 'Shift name',
-						type: 'string'
-					},
-					start_at: {
-						title: 'Starts at',
-						type: 'string',
-						format: 'date-time'
-					},
-					end_at: {
-						title: 'Ends at',
-						type: 'string',
-						format: 'date-time'
-					}
-				},
-				required: ['name', 'start_at', 'end_at']
-			},
-			production_info: {
-				title: 'Production info',
-				type: 'object',
-				properties: {
-					sku: {
-						title: 'SKU',
-						type: 'string'
-					},
-					expected_start_at: {
-						title: 'Expected to start at',
-						type: 'string',
-						format: 'date-time'
-					},
-					expected_end_at: {
-						title: 'Expected to end at',
-						type: 'string',
-						format: 'date-time'
-					}
-				},
-				required: ['sku', 'expected_start_at', 'expected_end_at']
-			},
-			team_info: {
-				title: 'Team info',
-				type: 'array',
-				items: {
-					type: 'object',
-					properties: {
-						name: {
-							title: 'Name',
-							type: 'string',
-							minLength: 8,
-							pattern: '\\d+'
-						},
-						email: {
-							title: 'Email',
-							type: 'string',
-							format: 'email'
-						},
-						phone_country_code: {
-							title: 'Phone country code',
-							type: 'string'
-						},
-						phone_number: {
-							title: 'Phone number',
-							type: 'number'
-						},
-						role: {
-							title: 'Role',
-							type: 'string'
-						},
-						responsible_for: {
-							title: 'Asset responsible for',
-							type: 'string',
-							oneOf: [
-								{
-									title: 'Asset 1',
-									const: 'asset-name-1'
-								},
-								{
-									title: 'Asset 2',
-									const: 'asset-name-2'
-								}
-							]
-						}
-					},
-					required: ['name', 'email', 'phone_country_code', 'phone_number', 'role', 'responsible_for']
-				}
-			},
-			assets_oee: {
-				type: 'array',
-				items: {
-					type: 'object',
-					properties: {
-						asset_name: {
-							type: 'string'
-						},
-						oee_thresholds: {
-							title: 'OEE - Thresholds',
-							type: 'object',
-							properties: {
-								target: {
-									title: 'OEE Target',
-									type: 'number'
-								},
-								critical_alarm: {
-									title: 'OEE Critical',
-									type: 'number'
-								},
-								warning_alarm: {
-									title: 'OEE Urgent',
-									type: 'number'
-								}
-							},
-							required: ['target', 'critical_alarm', 'warning_alarm']
-						},
-						oee_calculation: {
-							title: 'OEE - Calculation',
-							type: 'object',
-							properties: {
-								ideal_cycle_time: {
-									title: 'Ideal cycle time',
-									type: 'number'
-								},
-								total_units: {
-									title: 'Total units',
-									type: 'number'
-								},
-								good_units: {
-									title: 'Good units',
-									type: 'number'
-								},
-								run_time: {
-									title: 'Run time',
-									type: 'number'
-								},
-								planned_production_time: {
-									title: 'Planned production time',
-									type: 'number'
-								}
-							},
-							required: ['ideal_cycle_time', 'total_units', 'good_units', 'run_time', 'planned_production_time']
-						}
-					}
-				}
-			}
-		}
-	},
-	uiSchema: {
-		shift_info: {
-			'ui:inline': true,
-			'ui:inputWidth': '240px'
-		},
-		production_info: {
-			'ui:inline': true,
-			'ui:inputWidth': '240px'
-		},
-		team_info: {
-			'ui:itemPrefix': 'Collaborator',
-			'ui:options': {
-				addable: true,
-				orderable: false,
-				removable: true
-			},
-			'items': {
-				'ui:itemPrefix': 'Collaborator',
-				'ui:inline': true,
-				'ui:inputWidth': '240px'
-			}
-		},
-		assets_oee: {
-			'ui:title': ' ',
-			'ui:options': {
-				addable: false,
-				orderable: false,
-				removable: false
-			},
-			'items': {
-				'ui:fieldset': true,
-				'asset_name': {
-					'ui:title': ' ',
-					'ui:widget': 'readOnlyValue',
-					'ui:readonly': true,
-					'ui:options': {
-						label: false
-					}
-				},
-				'oee_thresholds': {
-					'ui:inline': true,
-					'ui:inputWidth': '240px'
-				},
-				'oee_calculation': {
-					'ui:inline': true,
-					'ui:inputWidth': '240px'
-				}
-			}
-		}
-	}
+	schema: inlineSchema,
+	uiSchema: inlineUiSchema
 };

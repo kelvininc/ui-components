@@ -1,0 +1,13 @@
+@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+
+.TitleContainer {
+	margin-bottom: $spacing-2x;
+	display: flex;
+
+	.Required {
+		@include kv-font-label-small-uppercase-semibold;
+
+		color: kv-color('error');
+		margin: 0 $spacing;
+	}
+}

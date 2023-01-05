@@ -1,13 +1,13 @@
 @import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
 
-.radio-list-container {
+.RadioListContainer {
 	display: flex;
 	flex-direction: column;
 	column-gap: $spacing-5x;
 	flex-wrap: wrap;
 	margin-left: $spacing;
 
-	&.inline {
+	&.Inline {
 		flex-direction: row;
 	}
 }

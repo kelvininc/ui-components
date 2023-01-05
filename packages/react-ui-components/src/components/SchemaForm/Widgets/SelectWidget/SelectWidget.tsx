@@ -1,5 +1,5 @@
 import { EValidationState } from '@kelvininc/ui-components';
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -64,7 +64,7 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 	}, [value]);
 
 	return (
-		<div className={classNames(styles['input-container'], { [styles['has-errors']]: hasErrors, [styles['has-label']]: !!displayedLabel })}>
+		<div className={classNames(styles.InputContainer, { [styles.HasErrors]: hasErrors, [styles.HasLabel]: !!displayedLabel })}>
 			{!multiple && <KvSingleSelectDropdown selectedOption={stateValue} onOptionSelected={onChangeOptionSelected} {...props} />}
 			{multiple && (
 				<KvMultiSelectDropdown

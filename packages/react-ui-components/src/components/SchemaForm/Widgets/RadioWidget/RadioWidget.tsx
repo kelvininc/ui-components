@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import { KvRadio, KvFormLabel } from '../../../stencil-generated';
 import styles from './RadioWidget.module.scss';
 import classNames from 'classnames';
+import { get } from 'lodash-es';
 
 const RadioWidget = ({ label, required, schema, id, options, value, disabled, readonly, onChange, uiSchema }: WidgetProps) => {
 	const { enumOptions, enumDisabled, inline } = options;
@@ -10,8 +11,10 @@ const RadioWidget = ({ label, required, schema, id, options, value, disabled, re
 
 	return (
 		<>
-			{(uiSchema['ui:title'] || schema.title || label) && <KvFormLabel id={`${id}-title`} label={uiSchema['ui:title'] || schema.title || label} required={required} />}
-			<div className={classNames(styles['radio-list-container'], { [styles.inline]: inlineMemo })}>
+			{(get(uiSchema, ['ui:title']) || schema.title || label) && (
+				<KvFormLabel id={`${id}-title`} label={get(uiSchema, ['ui:title']) || schema.title || label} required={required} />
+			)}
+			<div className={classNames(styles.RadioListContainer, { [styles.Inline]: inlineMemo })}>
 				{Array.isArray(enumOptions) &&
 					enumOptions.map((option, i: number) => {
 						const itemDisabled = Array.isArray(enumDisabled) && enumDisabled.indexOf(option.value) !== -1;

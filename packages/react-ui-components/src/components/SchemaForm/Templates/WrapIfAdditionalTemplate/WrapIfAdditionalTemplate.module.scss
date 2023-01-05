@@ -1,0 +1,17 @@
+@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
+
+.NewKeyContainer {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+
+	.InputContainer {
+		width: 100%;
+		padding-right: $spacing-5x;
+	}
+
+	.DeleteButton {
+		padding-top: $spacing-6x;
+	}
+}

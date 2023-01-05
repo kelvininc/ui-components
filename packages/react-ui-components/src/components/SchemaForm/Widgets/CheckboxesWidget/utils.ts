@@ -2,7 +2,11 @@ import { IRadioButton } from '@kelvininc/ui-components';
 import { ALL_BUTTON_VALUE } from './config';
 import { CheckboxOption, ICheckboxConfig } from './types';
 
-export const buildRadioButtons = <T extends CheckboxOption>(options: T[], enumDisabled: string[], { multiple, allButton, disabled, readonly }: ICheckboxConfig): IRadioButton[] =>
+export const buildRadioButtons = <T extends CheckboxOption>(
+	options: T[],
+	enumDisabled: (string | number | boolean)[],
+	{ multiple, allButton, disabled, readonly }: ICheckboxConfig
+): IRadioButton[] =>
 	options.reduce<IRadioButton[]>(
 		(accumulator, { label, value }) => [
 			...accumulator,
@@ -44,7 +48,7 @@ export const buildSelectedRadioButtons = <T extends CheckboxOption>(
 	}, {});
 };
 
-export const toggleSelectedOptions = <T extends { label: string; value: string }>(
+export const toggleSelectedOptions = <T extends CheckboxOption>(
 	selectedOptionValue: string,
 	selectedOptions: string[],
 	allOptions: T[],
