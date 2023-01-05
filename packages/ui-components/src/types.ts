@@ -32,3 +32,4 @@ export * from './components/advanced-date-select-dropdown/advanced-date-select-d
 export * from './components/range/range.types';
 export * from './components/toggle-tip/toggle-tip.types';
 export * from './components/tooltip/tooltip.types';
+export * from './components/tag-status/tag-status.types';
