@@ -1,0 +1,117 @@
+@use 'sass:map';
+@import '../../assets/styles/globals';
+
+$icon-sizes: (
+	xxsmall: 12px,
+	xsmall: 16px,
+	small: 18px,
+	normal: 24px,
+	large: 28px
+);
+
+$alarms-severity-colors: (
+	'1': #{kv-color('error', 'dark')},
+	'2': #{kv-color('warning', 'dark')},
+	'3': #{kv-color('secondary-1', 'dark')},
+	'4': #{kv-color('secondary-3', 'dark')},
+	'5': #{kv-color('info', 'dark')}
+);
+
+$alarms-severity-background: (
+	'1': #{kv-color('error', 'dark', 0.16)},
+	'2': #{kv-color('warning', 'dark', 0.16)},
+	'3': #{kv-color('secondary-1', 'dark', 0.16)},
+	'4': #{kv-color('secondary-3', 'dark', 0.16)},
+	'5': #{kv-color('info', 'dark', 0.16)}
+);
+
+@mixin icon-size-theme($size) {
+	kv-icon {
+		--icon-height: #{map.get($icon-sizes, $size)};
+		--icon-width: #{map.get($icon-sizes, $size)};
+	}
+}
+
+@mixin icon-color-theme($severity) {
+	$color: map.get($alarms-severity-colors, $severity);
+
+	kv-icon {
+		--icon-color: #{$color};
+	}
+}
+
+@mixin badge-bg-color-theme($severity) {
+	$color: map.get($alarms-severity-colors, $severity);
+	$background: map.get($alarms-severity-background, $severity);
+
+	kv-tag {
+		--tag-background-color: #{$background};
+	}
+
+	kv-icon {
+		--icon-color: #{$color};
+	}
+}
+
+:host {
+	.alarm-tag {
+		kv-tag {
+			--tag-content-padding: #{$spacing};
+		}
+
+		&--severity-1 {
+			@include badge-bg-color-theme('1');
+		}
+
+		&--severity-2 {
+			@include badge-bg-color-theme('2');
+		}
+
+		&--severity-3 {
+			@include badge-bg-color-theme('3');
+		}
+
+		&--severity-4 {
+			@include badge-bg-color-theme('4');
+		}
+
+		&--severity-5 {
+			@include badge-bg-color-theme('5');
+		}
+	}
+
+	.icon-wrapper {
+		&--size-xxsmall {
+			@include icon-size-theme('xxsmall');
+		}
+
+		&--size-xsmall {
+			@include icon-size-theme('xsmall');
+		}
+
+		&--size-small {
+			@include icon-size-theme('small');
+		}
+
+		&--size-normal {
+			@include icon-size-theme('normal');
+		}
+
+		&--size-large {
+			@include icon-size-theme('large');
+		}
+	}
+
+	.alarm-tag-container {
+		display: flex;
+		flex-direction: row;
+		gap: $spacing;
+		align-items: center;
+
+		.alarm-tag-label {
+			@include kv-font-span-regular;
+
+			color: kv-color('neutral-2');
+		}
+	}
+}
