@@ -13,6 +13,8 @@ const angularValueAccessorBindings: ValueAccessorConfig[] = [
 	}
 ];
 
+const SOURCE_MAP = process.env.SOURCE_MAP ?? false;
+
 export const config: Config = {
 	namespace: 'Peacock-UI',
 	globalScript: 'src/globals/globals.ts',
@@ -51,6 +53,7 @@ export const config: Config = {
 		}
 	],
 	plugins: [sass()],
+	sourceMap: SOURCE_MAP,
 	testing: {
 		moduleNameMapper: {
 			'^lodash-es$': 'lodash'
