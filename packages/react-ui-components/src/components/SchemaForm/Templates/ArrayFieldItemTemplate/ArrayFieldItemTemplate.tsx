@@ -1,7 +1,7 @@
 import { EActionButtonType, EComponentSize, EIconName } from '@kelvininc/ui-components';
 import { ArrayFieldTemplateItemType } from '@rjsf/utils';
 import classNames from 'classnames';
-import { get } from 'lodash-es';
+import { get } from 'lodash';
 import React from 'react';
 import { KvActionButtonIcon } from '../../../stencil-generated';
 import styles from './ArrayFieldItemTemplate.module.scss';

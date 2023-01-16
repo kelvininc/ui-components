@@ -3,7 +3,7 @@ import { KvFormLabel, KvRadioButtonGroup } from '../../../stencil-generated';
 import React, { useCallback, useMemo } from 'react';
 import { buildRadioButtons, buildSelectedRadioButtons, toggleSelectedOptions } from './utils';
 import { ICheckboxConfig } from './types';
-import { get, isEmpty } from 'lodash-es';
+import { get, isEmpty } from 'lodash';
 
 const CheckboxesWidget = ({ schema, label, id, disabled, options, value, required, readonly, onChange, uiSchema }: WidgetProps) => {
 	const { enumOptions, enumDisabled, allButton } = options;

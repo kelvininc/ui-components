@@ -1,4 +1,4 @@
-import { throttle } from 'lodash-es';
+import { throttle } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 
 export function getScrollTop(element?: HTMLDivElement) {

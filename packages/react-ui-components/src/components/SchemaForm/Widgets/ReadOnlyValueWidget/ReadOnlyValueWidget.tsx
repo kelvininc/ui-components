@@ -1,5 +1,5 @@
 import { WidgetProps } from '@rjsf/utils';
-import { get } from 'lodash-es';
+import { get } from 'lodash';
 import React from 'react';
 import { getMatchingOption } from './helper';
 import styles from './ReadOnlyValueWidget.module.scss';

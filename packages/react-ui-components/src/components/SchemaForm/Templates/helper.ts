@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash-es';
+import { isEmpty } from 'lodash';
 
 export const isValidLabel = (label: string) => {
 	return !isEmpty(label?.trim());
