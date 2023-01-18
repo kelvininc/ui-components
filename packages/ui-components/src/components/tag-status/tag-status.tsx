@@ -1,6 +1,7 @@
 import { Component, Host, h, Prop } from '@stencil/core';
-import { STATUS_CONFIG } from './tag-status.config';
-import { ETagStatusType, ITagStatus } from './tag-status.types';
+import { ETagState, ITagStatus } from './tag-status.types';
+import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { isEmpty } from 'lodash';
 
 @Component({
 	tag: 'kv-tag-status',
@@ -8,16 +9,19 @@ import { ETagStatusType, ITagStatus } from './tag-status.types';
 	shadow: true
 })
 export class KvTagStatus implements ITagStatus {
-	@Prop({ reflect: true }) type: ETagStatusType = ETagStatusType.Unknown;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) state!: ETagState;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) icon!: EIconName | EOtherIconName;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) label?: string;
 
 	render() {
-		const { state, icon, label } = STATUS_CONFIG[this.type];
-
 		return (
 			<Host>
-				<div class={`status-container status-${state}`}>
-					<kv-icon name={icon} />
-					<span class="status-label">{label}</span>
+				<div class={`status-container status-${this.state}`}>
+					<kv-icon name={this.icon} />
+					{!isEmpty(this.label) && <span class="status-label">{this.label}</span>}
 				</div>
 			</Host>
 		);

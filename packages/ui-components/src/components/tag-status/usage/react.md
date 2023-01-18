@@ -6,10 +6,10 @@ import { KvTagStatus, ETagStatusType } from '@kelvininc/react-ui-components';
 export const TagStatusExample: React.FC = () => (
 	<>
 		{/*-- Default --*/}
-		<KvTagStatus />
+		<KvTagStatus state={ETagState.Error} icon={EIconName.Error} label="Failed"/>
 
-		{/*-- With Type --*/}
-		<KvTagStatus type={ETagStatusType.Running} />
+		{/*-- Without label --*/}
+		<KvTagStatus state={ETagState.Error} icon={EIconName.Error} />
 	</>
 );
 ```

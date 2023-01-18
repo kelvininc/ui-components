@@ -23,7 +23,7 @@
 		}
 	}
 
-	&-none {
+	&-unknown {
 		kv-icon {
 			--icon-color: #{kv-color('neutral-4')};
 		}
@@ -32,6 +32,12 @@
 	&-warning {
 		kv-icon {
 			--icon-color: #{kv-color('warning')};
+		}
+	}
+
+	&-info {
+		kv-icon {
+			--icon-color: #{kv-color('info')};
 		}
 	}
 }
