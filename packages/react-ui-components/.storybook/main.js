@@ -26,7 +26,8 @@ module.exports = {
 	webpackFinal: async config => {
 		config.resolve.alias = {
 			...config.resolve?.alias,
-			'@ui-notes': path.resolve(__dirname, '../../ui-components/src/components')
+			'@ui-notes': path.resolve(__dirname, '../../ui-components/src/components'),
+			'@react-ui-notes': path.resolve(__dirname, '../src/components'),
 		};
 
 		return config;
