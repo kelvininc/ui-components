@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tag-alarm (unit tests) when custom label and size are provided should match the snapshot 1`] = `
+<kv-tag-alarm label="Test" severity="1" size="large">
+  <mock:shadow-root>
+    <div class="alarm-tag alarm-tag--severity-1">
+      <kv-tag>
+        <div class="alarm-tag-container" slot="left-slot">
+          <div class="icon-wrapper icon-wrapper--size-large">
+            <kv-icon name="kv-circle"></kv-icon>
+          </div>
+          <div class="alarm-tag-label">
+            Test
+          </div>
+        </div>
+      </kv-tag>
+    </div>
+  </mock:shadow-root>
+</kv-tag-alarm>
+`;
+
+exports[`tag-alarm (unit tests) when label is hidden should match the snapshot 1`] = `
+<kv-tag-alarm hide-label="" label="" severity="1" size="normal">
+  <mock:shadow-root>
+    <div class="alarm-tag alarm-tag--severity-1">
+      <kv-tag>
+        <div class="alarm-tag-container" slot="left-slot">
+          <div class="icon-wrapper icon-wrapper--size-normal">
+            <kv-icon name="kv-circle"></kv-icon>
+          </div>
+        </div>
+      </kv-tag>
+    </div>
+  </mock:shadow-root>
+</kv-tag-alarm>
+`;
+
+exports[`tag-alarm (unit tests) when uses default props should match the snapshot 1`] = `
+<kv-tag-alarm label="" severity="1" size="normal">
+  <mock:shadow-root>
+    <div class="alarm-tag alarm-tag--severity-1">
+      <kv-tag>
+        <div class="alarm-tag-container" slot="left-slot">
+          <div class="icon-wrapper icon-wrapper--size-normal">
+            <kv-icon name="kv-circle"></kv-icon>
+          </div>
+          <div class="alarm-tag-label">
+            Critical
+          </div>
+        </div>
+      </kv-tag>
+    </div>
+  </mock:shadow-root>
+</kv-tag-alarm>
+`;

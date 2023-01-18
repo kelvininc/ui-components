@@ -84,6 +84,7 @@ export const SvgIconExample: React.FC = () => (
  - [kv-search](../search)
  - [kv-select-option](../select-option)
  - [kv-switch-button](../switch-button)
+ - [kv-tag-alarm](../tag-alarm)
  - [kv-tag-status](../tag-status)
  - [kv-text-field](../text-field)
  - [kv-toaster](../toaster)
@@ -104,6 +105,7 @@ graph TD;
   kv-search --> kv-icon
   kv-select-option --> kv-icon
   kv-switch-button --> kv-icon
+  kv-tag-alarm --> kv-icon
   kv-tag-status --> kv-icon
   kv-text-field --> kv-icon
   kv-toaster --> kv-icon
