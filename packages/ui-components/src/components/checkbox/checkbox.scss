@@ -1,0 +1,33 @@
+:host {
+	/**
+	 * @prop --checkbox-size: Text checkbox height and width. Default: 16px.
+	 * @prop --checkbox-icon-size: Text checkbox height and width. Default: 16px.
+	 */
+
+	--checkbox-size: 16px;
+	--checkbox-icon-size: 16px;
+
+	width: var(--checkbox-size);
+	height: var(--checkbox-size);
+
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	cursor: pointer;
+	user-select: none;
+
+	kv-icon {
+		--icon-width: var(--checkbox-icon-size);
+		--icon-height: var(--checkbox-icon-size);
+	}
+}
+
+:host(:hover:not(.disabled)) {
+	opacity: 0.8;
+}
+
+:host(.disabled) {
+	opacity: 0.4;
+	cursor: not-allowed;
+}

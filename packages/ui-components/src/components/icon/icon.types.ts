@@ -194,6 +194,7 @@ export enum EOtherIconName {
 	IconCheckState = 'icon-check-state',
 	IconCheckHoverState = 'icon-check-hover-state',
 	IconUncheckState = 'icon-uncheck-state',
+	IconIndeterminateState = 'icon-indeterminate-state',
 	IconLeftArrowThin = 'icon-left-arrow-thin',
 	IconRightArrowThin = 'icon-right-arrow-thin',
 	IconSaveDisk = 'icon-save-disk',

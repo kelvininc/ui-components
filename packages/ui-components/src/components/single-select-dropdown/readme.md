@@ -105,7 +105,8 @@ graph TD;
   kv-single-select-dropdown --> kv-select-option
   kv-single-select-dropdown --> kv-dropdown
   kv-single-select-dropdown --> kv-select
-  kv-select-option --> kv-icon
+  kv-select-option --> kv-checkbox
+  kv-checkbox --> kv-icon
   kv-dropdown --> kv-dropdown-base
   kv-dropdown --> kv-text-field
   kv-dropdown --> kv-icon

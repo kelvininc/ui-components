@@ -38,7 +38,7 @@
 		display: flex;
 		flex-direction: column;
 		min-width: 0;
-		
+
 		.item-label {
 			@include kv-font-span-regular;
 			transition: font-weight var(--select-option-transition-duration) linear;
@@ -72,8 +72,7 @@
 		align-items: var(--select-option-flex-alignment);
 	}
 
-	kv-icon {
-		display: inline-flex;
+	kv-checkbox {
 		margin-right: $spacing-2x;
 	}
 }
