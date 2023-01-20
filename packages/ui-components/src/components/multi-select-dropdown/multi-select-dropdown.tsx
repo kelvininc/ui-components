@@ -41,11 +41,11 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: true }) noDataAvailableLabel?: string = MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) options?: { [key: string]: IMultiSelectDropdownOption };
+	@Prop({ reflect: true }) options?: IMultiSelectDropdownOptions = {};
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedOptions?: { [key: string]: boolean } = {};
 	/** @inheritdoc */
-	@Prop({ reflect: true }) filteredOptions?: { [key: string]: IMultiSelectDropdownOption };
+	@Prop({ reflect: true }) filteredOptions?: IMultiSelectDropdownOptions = {};
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minHeight?: string;
 	/** @inheritdoc */
@@ -58,20 +58,20 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Event() selectionCleared: EventEmitter<void>;
 
-	@State() _selectionDisplayValue: string;
+	@State() _selectionDisplayValue: string | undefined;
 	@State() _searchValue: string;
 	@State() isOpen: boolean = false;
 
 	private selectOption = (event: CustomEvent<string>) => {
 		const option = event.detail;
 		// triple bang for handling false, true and undefined
-		const newOptions = { ...this.selectedOptions, [option]: !!!this.selectedOptions[option] };
+		const newOptions = { ...this.selectedOptions, [option]: !!!this.selectedOptions?.[option] };
 
 		this.optionsSelected.emit(newOptions);
 	};
 
 	private calculateLabelValue() {
-		if (this.displayValue?.length > 0) {
+		if (this.displayValue?.length) {
 			this._selectionDisplayValue = this.displayValue;
 		} else {
 			this._selectionDisplayValue = getDropdownDisplayValue(this.options, this.selectedOptions);
@@ -112,14 +112,14 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 				label={option.label}
 				value={option.value}
 				disabled={option.disabled}
-				selected={this.selectedOptions[option.value]}
+				selected={this.selectedOptions?.[option.value]}
 				togglable={true}
 				onItemSelected={this.selectOption}
 			/>
 		));
 	};
 
-	private getCurrentOptions = (): IMultiSelectDropdownOptions => {
+	private getCurrentOptions = (): IMultiSelectDropdownOptions | undefined => {
 		if (!isNil(this.filteredOptions)) {
 			return this.filteredOptions;
 		}
@@ -164,7 +164,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		const groups = buildSelectGroups(this.getCurrentOptions());
 		const groupNames = Object.keys(groups);
 		const isSelectionClearable = !isEmpty(this.getCurrentOptions()) && this.selectionClearable;
-		const isSelectionClearEnabled = Object.keys(this.selectedOptions).length > 0;
+		const isSelectionClearEnabled = Object.keys(this.selectedOptions ?? {}).length > 0;
 
 		return (
 			<Host>
@@ -180,8 +180,10 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 						maxHeight={this.maxHeight}
 						minHeight={this.minHeight}
 					>
-						{isEmpty(this.getCurrentOptions()) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
-						{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.getCurrentOptions()))}
+						{isEmpty(this.getCurrentOptions()) && this.noDataAvailableLabel && (
+							<kv-select-option class="no-data" label={this.noDataAvailableLabel} value="no-data-available" />
+						)}
+						{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.getCurrentOptions() ?? {}))}
 					</kv-select>
 				</kv-dropdown>
 			</Host>
