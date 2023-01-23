@@ -102,6 +102,13 @@ export const KvAdvancedDateExample: React.FC = () => (
 | `timeApplied`     | Emitted when a time selector is applied                | `CustomEvent<ITimeChange>` |
 
 
+## CSS Custom Properties
+
+| Name                     | Description           |
+| ------------------------ | --------------------- |
+| `--dropdown-input-width` | Dropdown input width. |
+
+
 ## Dependencies
 
 ### Depends on

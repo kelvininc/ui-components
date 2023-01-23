@@ -122,6 +122,7 @@ export enum EIconName {
 	Rotate = 'kv-rotate',
 	Save = 'kv-save',
 	Search = 'kv-search',
+	Settings = 'kv-settings',
 	Share = 'kv-share',
 	SlimRight = 'kv-slim-right',
 	SortAz = 'kv-sort-az',
