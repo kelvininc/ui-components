@@ -11,10 +11,10 @@
 
 ```html
 <!-- Default -->
-<kv-tag-status />
+<kv-tag-status [state]="ETagState.Error" [icon]="EIconName.Error" label="Failed"/>
 
-<!-- With Type -->
-<kv-tag-status [type]="ETagStatusType.Running" />
+<!-- Without label -->
+<kv-tag-status [state]="ETagState.Error" [icon]="EIconName.Error" />
 ```
 
 
@@ -28,10 +28,10 @@ import { KvTagStatus, ETagStatusType } from '@kelvininc/react-ui-components';
 export const TagStatusExample: React.FC = () => (
 	<>
 		{/*-- Default --*/}
-		<KvTagStatus />
+		<KvTagStatus state={ETagState.Error} icon={EIconName.Error} label="Failed"/>
 
-		{/*-- With Type --*/}
-		<KvTagStatus type={ETagStatusType.Running} />
+		{/*-- Without label --*/}
+		<KvTagStatus state={ETagState.Error} icon={EIconName.Error} />
 	</>
 );
 ```
@@ -40,9 +40,11 @@ export const TagStatusExample: React.FC = () => (
 
 ## Properties
 
-| Property | Attribute | Description                             | Type                                                                                                                                                                                 | Default                  |
-| -------- | --------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------ |
-| `type`   | `type`    | (optional) Defines the status tag type. | `ETagStatusType.Failed \| ETagStatusType.Offline \| ETagStatusType.Online \| ETagStatusType.Partially \| ETagStatusType.Pending \| ETagStatusType.Running \| ETagStatusType.Unknown` | `ETagStatusType.Unknown` |
+| Property             | Attribute | Description                                  | Type                                                                                               | Default     |
+| -------------------- | --------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------- |
+| `icon` _(required)_  | `icon`    | (required) Defines the icon to be displayed. | `EIconName \| EOtherIconName`                                                                      | `undefined` |
+| `label`              | `label`   | (optional) Defines the content of the label. | `string`                                                                                           | `undefined` |
+| `state` _(required)_ | `state`   | (required) Defines the color of the icon.    | `ETagState.Error \| ETagState.Info \| ETagState.Success \| ETagState.Unknown \| ETagState.Warning` | `undefined` |
 
 
 ## Dependencies

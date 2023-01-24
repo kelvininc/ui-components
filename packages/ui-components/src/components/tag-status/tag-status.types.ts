@@ -1,29 +1,18 @@
-import { EIconName } from '../icon/icon.types';
+import { EIconName, EOtherIconName } from '../icon/icon.types';
 
 export interface ITagStatus {
-	/** (optional) Defines the status tag type.*/
-	type?: ETagStatusType;
-}
-
-export enum ETagStatusType {
-	Running = 'running',
-	Online = 'online',
-	Failed = 'failed',
-	Offline = 'offline',
-	Unknown = 'unknown',
-	Pending = 'pending',
-	Partially = 'partially'
+	/** (required) Defines the color of the icon.*/
+	state: ETagState;
+	/** (required) Defines the icon to be displayed.*/
+	icon: EIconName | EOtherIconName;
+	/** (optional) Defines the content of the label.*/
+	label?: string;
 }
 
 export enum ETagState {
-	None = 'none',
+	Unknown = 'unknown',
 	Success = 'success',
 	Warning = 'warning',
-	Error = 'error'
-}
-
-export interface ITagStatusConfig {
-	label: string;
-	icon: EIconName;
-	state: ETagState;
+	Error = 'error',
+	Info = 'info'
 }
