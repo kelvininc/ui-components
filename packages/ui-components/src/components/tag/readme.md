@@ -42,12 +42,26 @@ export const TagExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                     | Description               |
-| ------------------------ | ------------------------- |
-| `--tag-background-color` | Tag Background Color.     |
-| `--tag-content-gap`      | Gap between text and slot |
-| `--tag-label-color`      | Tag text Color.           |
+| Name                     | Description                |
+| ------------------------ | -------------------------- |
+| `--tag-background-color` | Tag Background Color.      |
+| `--tag-content-gap`      | Gap between text and slot. |
+| `--tag-content-padding`  | Padding insise content     |
+| `--tag-label-color`      | Tag text Color.            |
 
+
+## Dependencies
+
+### Used by
+
+ - [kv-tag-alarm](../tag-alarm)
+
+### Graph
+```mermaid
+graph TD;
+  kv-tag-alarm --> kv-tag
+  style kv-tag fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 

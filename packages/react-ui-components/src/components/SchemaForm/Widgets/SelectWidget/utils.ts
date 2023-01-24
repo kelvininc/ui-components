@@ -1,6 +1,6 @@
 import { asNumber, guessType } from '@rjsf/utils';
 import { JSONSchema7 } from 'json-schema';
-import { get } from 'lodash-es';
+import { get } from 'lodash';
 import { EnumOptions, IUIDropdownOptions } from './types';
 
 const numericTypes = ['number', 'integer'];
@@ -60,7 +60,7 @@ export const buildDropdownOptions = (options?: EnumOptions, disabledOptions?: En
 		  }, {})
 		: [];
 
-export const searchDropdownOptions = (term: string, options: IUIDropdownOptions) => {
+export const searchDropdownOptions = (term: string, options: IUIDropdownOptions): IUIDropdownOptions => {
 	const lowerCaseTerm = term.toLowerCase();
 	return Object.keys(options).reduce<IUIDropdownOptions>((accumulator, key) => {
 		const option = options[key];

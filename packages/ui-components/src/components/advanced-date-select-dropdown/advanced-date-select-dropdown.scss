@@ -1,12 +1,19 @@
 @import '../../assets/styles/globals';
 
+:host {
+	/**
+	 * @prop --dropdown-input-width: Dropdown input width.
+	 */
+	--dropdown-input-width: #{365px};
+}
+
 .advanced-date-select-dropdown {
 	position: relative;
 	user-select: none;
 
 	&--selected-absolute {
 		kv-dropdown::part(input) {
-			--input-width: 365px;
+			--input-width: var(--dropdown-input-width);
 		}
 	}
 }

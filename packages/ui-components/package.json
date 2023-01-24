@@ -39,6 +39,7 @@
 	"scripts": {
 		"prebuild": "node scripts/generate-illustrations",
 		"build": "stencil build --docs",
+		"build:analyze": "SOURCE_MAP=true stencil build --docs && source-map-explorer dist/components/*.js",
 		"build:watch": "stencil build --watch",
 		"start": "stencil build --dev --watch --serve",
 		"clean": "rm -rf node_modules dist loader unit-coverage www docs",
@@ -86,6 +87,7 @@
 		"lodash-es": "^4.17.21",
 		"prettier": "^2.5.1",
 		"puppeteer": "^18.0.5",
+		"source-map-explorer": "^2.5.3",
 		"stylelint": "^14.3.0",
 		"stylelint-config-sass-guidelines": "^9.0.1",
 		"svg-parser": "^2.0.4",

@@ -26,7 +26,6 @@ describe('Action Button Text (unit tests)', () => {
 
 		it('should initialize `icon` with undefined', () => {
 			expect(component.icon).toBeUndefined();
-			expect(component.hasIcon).toBe(false);
 		});
 
 		it('should initialize `size` with large', () => {
@@ -45,20 +44,6 @@ describe('Action Button Text (unit tests)', () => {
 
 		it('should match the snapshot', () => {
 			expect(page.root).toMatchSnapshot();
-		});
-
-		it('should initialize `hasIcon` with true', () => {
-			expect(component.hasIcon).toBe(true);
-		});
-
-		describe('and the icon is removed', () => {
-			beforeEach(() => {
-				page.root.setAttribute('icon', '');
-			});
-
-			it('should change `hasIcon` to false', () => {
-				expect(component.hasIcon).toBe(false);
-			});
 		});
 	});
 });

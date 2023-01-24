@@ -1,6 +1,6 @@
 import { EInputFieldType, EValidationState } from '@kelvininc/ui-components';
 import classNames from 'classnames';
-import { get, isArray, isEmpty } from 'lodash-es';
+import { get, isArray, isEmpty } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
 import { KvTextField } from '../../../stencil-generated';
 import styles from './BaseInputTemplate.module.scss';

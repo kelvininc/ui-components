@@ -1,5 +1,4 @@
-import { Component, Event, EventEmitter, h, Host, Prop, State, Watch } from '@stencil/core';
-import { isEmpty } from 'lodash-es';
+import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { EActionButtonType, IButton } from '../action-button/action-button.types';
 import { EComponentSize, IAnchor, EAnchorTarget } from '../../utils/types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
@@ -40,15 +39,6 @@ export class KvActionButtonSplit implements IButton, IAnchor {
 	@Prop({ reflect: true }) target?: EAnchorTarget;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) download?: string;
-
-	/** Whether the left button icon exists and it's not empty */
-	@State() hasIcon: boolean = !isEmpty(this.icon);
-
-	/** Watch `icon` property for changes and update `hasIcon` accordingly */
-	@Watch('icon')
-	iconHandler(newIcon: string) {
-		this.hasIcon = !isEmpty(newIcon);
-	}
 
 	/** Emitted when left button is clicked */
 	@Event() clickLeftButton: EventEmitter<MouseEvent>;

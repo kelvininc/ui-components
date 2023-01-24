@@ -1,25 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Status Tag (unit tests) when has a type should match the snapshot 1`] = `
-<kv-tag-status type="pending">
+exports[`Status Tag (unit tests) when uses state error and icon error should match the snapshot 1`] = `
+<kv-tag-status icon="kv-error" label="Error" state="error">
   <mock:shadow-root>
-    <div class="status-container status-warning">
-      <kv-icon name="kv-building"></kv-icon>
-      <span class="status-label">
-        Pending Deploy
-      </span>
-    </div>
-  </mock:shadow-root>
-</kv-tag-status>
-`;
-
-exports[`Status Tag (unit tests) when uses default props should match the snapshot 1`] = `
-<kv-tag-status type="unknown">
-  <mock:shadow-root>
-    <div class="status-container status-none">
+    <div class="status-container status-error">
       <kv-icon name="kv-error"></kv-icon>
       <span class="status-label">
-        Unknown
+        Error
       </span>
     </div>
   </mock:shadow-root>

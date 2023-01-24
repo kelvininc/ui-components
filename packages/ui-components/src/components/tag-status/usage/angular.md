@@ -1,7 +1,7 @@
 ```html
 <!-- Default -->
-<kv-tag-status />
+<kv-tag-status [state]="ETagState.Error" [icon]="EIconName.Error" label="Failed"/>
 
-<!-- With Type -->
-<kv-tag-status [type]="ETagStatusType.Running" />
+<!-- Without label -->
+<kv-tag-status [state]="ETagState.Error" [icon]="EIconName.Error" />
 ```
