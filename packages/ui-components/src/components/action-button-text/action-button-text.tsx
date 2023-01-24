@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, h, Host, Prop, State, Watch } from '@stencil/core';
+import { Component, Event, EventEmitter, h, Host, Prop, State } from '@stencil/core';
 import { isEmpty } from 'lodash-es';
 import { EActionButtonType, IButton, IButtonEvents } from '../action-button/action-button.types';
 import { EAnchorTarget, EComponentSize, IAnchor } from '../../utils/types';
@@ -39,15 +39,6 @@ export class KvActionButtonText implements IButton, IButtonEvents, IAnchor {
 	/** @inheritdoc */
 	@Event() blurButton: EventEmitter<FocusEvent>;
 
-	/** (optional) Whether the icon exist and it's not empty */
-	@State() hasIcon: boolean = !isEmpty(this.icon);
-
-	/** Watch `icon` property for changes and update `hasIcon` accordingly */
-	@Watch('icon')
-	iconHandler(newIcon: string) {
-		this.hasIcon = !isEmpty(newIcon);
-	}
-
 	render() {
 		return (
 			<Host>
@@ -61,7 +52,7 @@ export class KvActionButtonText implements IButton, IButtonEvents, IAnchor {
 					target={this.target}
 					exportparts="button"
 				>
-					{this.hasIcon && <kv-icon name={this.icon} exportparts="icon" />}
+					{this.icon && <kv-icon name={this.icon} exportparts="icon" />}
 					<span class="action-button-text" part="button-text">
 						{this.text}
 					</span>
