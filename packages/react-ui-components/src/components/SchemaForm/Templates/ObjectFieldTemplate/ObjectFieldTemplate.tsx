@@ -1,7 +1,7 @@
 import { EActionButtonType, EComponentSize, EIconName } from '@kelvininc/ui-components';
 import { ObjectFieldTemplateProps, canExpand, getTemplate, getUiOptions } from '@rjsf/utils';
 import classNames from 'classnames';
-import { get } from 'lodash-es';
+import { get } from 'lodash';
 import React, { useMemo } from 'react';
 import { KvActionButtonIcon } from '../../../stencil-generated';
 import { INPUT_INLINE_WIDTH } from '../../config';

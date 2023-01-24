@@ -1,6 +1,6 @@
 import { EValidationState } from '@kelvininc/ui-components';
 import { ErrorListProps, RJSFValidationError } from '@rjsf/utils';
-import { isEmpty } from 'lodash-es';
+import { isEmpty } from 'lodash';
 import React from 'react';
 import { KvFormHelpText } from '../../../stencil-generated';
 import styles from './ErrorListTemplate.module.scss';

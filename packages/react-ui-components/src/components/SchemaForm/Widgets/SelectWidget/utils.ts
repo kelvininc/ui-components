@@ -1,6 +1,6 @@
 import { asNumber, guessType } from '@rjsf/utils';
 import { JSONSchema7 } from 'json-schema';
-import { get } from 'lodash-es';
+import { get } from 'lodash';
 import { EnumOptions, IUIDropdownOptions } from './types';
 
 const numericTypes = ['number', 'integer'];

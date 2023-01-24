@@ -1,6 +1,6 @@
 import { EValidationState } from '@kelvininc/ui-components';
 import { FieldTemplateProps, getTemplate, getUiOptions } from '@rjsf/utils';
-import { isEmpty } from 'lodash-es';
+import { isEmpty } from 'lodash';
 import React from 'react';
 import { KvFormHelpText } from '../../../stencil-generated';
 import styles from './FieldTemplate.module.scss';

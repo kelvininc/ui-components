@@ -1,5 +1,5 @@
 import { TitleFieldProps } from '@rjsf/utils';
-import { get } from 'lodash-es';
+import { get } from 'lodash';
 import React from 'react';
 import { KvInfoLabel } from '../../../stencil-generated';
 import { isValidLabel } from '../helper';

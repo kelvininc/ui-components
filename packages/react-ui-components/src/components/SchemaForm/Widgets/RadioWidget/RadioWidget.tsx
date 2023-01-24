@@ -3,7 +3,7 @@ import { WidgetProps } from '@rjsf/utils';
 import { KvRadio, KvFormLabel } from '../../../stencil-generated';
 import styles from './RadioWidget.module.scss';
 import classNames from 'classnames';
-import { get } from 'lodash-es';
+import { get } from 'lodash';
 
 const RadioWidget = ({ label, required, schema, id, options, value, disabled, readonly, onChange, uiSchema }: WidgetProps) => {
 	const { enumOptions, enumDisabled, inline } = options;
