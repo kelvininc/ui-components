@@ -7,7 +7,7 @@ exports[`Text Field (unit tests) when has a label should match the snapshot 1`] 
       <div class="text-field-container">
         <kv-form-label label="Text Field"></kv-form-label>
         <div class="input-container input-container--size-large">
-          <input placeholder="" type="text" value="">
+          <input part="input" placeholder="" type="text" value="">
         </div>
         <kv-form-help-text state="none"></kv-form-help-text>
       </div>
@@ -23,7 +23,7 @@ exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] 
       <div class="text-field-container">
         <kv-form-label></kv-form-label>
         <div class="input-container input-container--size-large">
-          <input disabled="" placeholder="" type="text" value="">
+          <input disabled="" part="input" placeholder="" type="text" value="">
         </div>
         <kv-form-help-text state="none"></kv-form-help-text>
       </div>
@@ -39,7 +39,7 @@ exports[`Text Field (unit tests) when uses default props should match the snapsh
       <div class="text-field-container">
         <kv-form-label></kv-form-label>
         <div class="input-container input-container--size-large">
-          <input placeholder="" type="text" value="">
+          <input part="input" placeholder="" type="text" value="">
         </div>
         <kv-form-help-text state="none"></kv-form-help-text>
       </div>

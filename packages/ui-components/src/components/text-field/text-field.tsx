@@ -8,6 +8,9 @@ import { ITooltip } from '../tooltip/tooltip.types';
 import { getInputMaskConfig, isInputMaskCompatibleType } from './text-field.utils';
 import Inputmask from 'inputmask';
 
+/**
+ * @part input - The input element.
+ */
 @Component({
 	tag: 'kv-text-field',
 	styleUrls: {
@@ -211,6 +214,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										onInput={this.onInputHandler}
 										onBlur={this.onBlurHandler}
 										onFocus={this.onFocusHandler}
+										part="input"
 										class={{
 											'invalid': this.state === EValidationState.Invalid,
 											'has-icon': !isEmpty(this.icon),

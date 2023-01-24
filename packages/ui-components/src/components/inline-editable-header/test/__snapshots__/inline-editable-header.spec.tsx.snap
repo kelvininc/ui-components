@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InlineEditableHeader (end-to-end) when rendering with a value in edit mode should match the snapshot 1`] = `
+<kv-inline-editable-header is-editing="" value="Hello">
+  <mock:shadow-root>
+    <div class="inline-editable-header">
+      <div class="edit-mode-wrapper">
+        <kv-text-field value="Hello"></kv-text-field>
+        <kv-action-button-icon icon="kv-done-all" size="large" type="tertiary"></kv-action-button-icon>
+        <kv-action-button-icon icon="kv-close" size="large" type="tertiary"></kv-action-button-icon>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-inline-editable-header>
+`;
+
+exports[`InlineEditableHeader (end-to-end) when rendering with a value should match the snapshot 1`] = `
+<kv-inline-editable-header value="Hello">
+  <mock:shadow-root>
+    <div class="inline-editable-header">
+      <div class="label">
+        Hello
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-inline-editable-header>
+`;
+
+exports[`InlineEditableHeader (end-to-end) when rendering with a value that is invalid should match the snapshot 1`] = `
+<kv-inline-editable-header help-text="It is invalid" is-editing="" state="invalid" value="Hello">
+  <mock:shadow-root>
+    <div class="inline-editable-header">
+      <div class="edit-mode-wrapper">
+        <kv-text-field helptext="It is invalid" state="invalid" value="Hello"></kv-text-field>
+        <kv-action-button-icon icon="kv-done-all" size="large" type="tertiary"></kv-action-button-icon>
+        <kv-action-button-icon icon="kv-close" size="large" type="tertiary"></kv-action-button-icon>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-inline-editable-header>
+`;

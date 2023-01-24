@@ -1,0 +1,58 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --editable-header-width: Sets the width of the container for this component (in px)
+	*/
+	--editable-header-width: 508px;
+}
+
+$container-height: 36px;
+
+$label-width: calc(var(--editable-header-width) - 92px);
+$label-border: 1px solid kv-color('neutral-6');
+$label-border-radius: #{$spacing};
+
+$label-color: kv-color('neutral-0');
+
+.inline-editable-header {
+	width: var(--editable-header-width);
+	height: $container-height;
+
+	.label {
+		@include ellipsis;
+		@include kv-font-h2-semibold;
+
+		box-sizing: border-box;
+		cursor: pointer;
+		user-select: none;
+		color: $label-color;
+		width: $label-width;
+		padding: 0 $spacing-2x;
+
+		&:not(.read-only):hover {
+			border: $label-border;
+			border-radius: $label-border-radius;
+		}
+
+		&.read-only {
+			cursor: default;
+			user-select: none;
+			pointer-events: none;
+		}
+	}
+
+	.edit-mode-wrapper {
+		display: flex;
+		gap: $spacing-2x;
+
+		kv-text-field {
+			--input-width: #{$label-width};
+			--text-color-input-default: #{$label-color};
+		}
+
+		kv-text-field::part(input) {
+			@include kv-font-h2-semibold;
+		}
+	}
+}

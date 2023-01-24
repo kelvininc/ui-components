@@ -106,6 +106,7 @@ export const SwitchButtonExample: React.FC = () => (
 ### Used by
 
  - [kv-calendar](../calendar)
+ - [kv-inline-editable-header](../inline-editable-header)
 
 ### Depends on
 
@@ -120,6 +121,7 @@ graph TD;
   kv-action-button-icon --> kv-icon
   kv-action-button-icon --> kv-badge
   kv-calendar --> kv-action-button-icon
+  kv-inline-editable-header --> kv-action-button-icon
   style kv-action-button-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

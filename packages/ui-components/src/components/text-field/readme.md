@@ -108,6 +108,13 @@ export class TextFieldExample {
 | `textFieldBlur` | Emitted when text field lost focus     | `CustomEvent<string>` |
 
 
+## Shadow Parts
+
+| Part      | Description        |
+| --------- | ------------------ |
+| `"input"` | The input element. |
+
+
 ## CSS Custom Properties
 
 | Name                                | Description                                    |
@@ -142,6 +149,7 @@ export class TextFieldExample {
 ### Used by
 
  - [kv-dropdown](../dropdown)
+ - [kv-inline-editable-header](../inline-editable-header)
  - [kv-range-dates-select-dropdown](../range-dates-select-dropdown)
  - [kv-search](../search)
 
@@ -161,6 +169,7 @@ graph TD;
   kv-text-field --> kv-form-help-text
   kv-form-help-text --> kv-icon
   kv-dropdown --> kv-text-field
+  kv-inline-editable-header --> kv-text-field
   kv-range-dates-select-dropdown --> kv-text-field
   kv-search --> kv-text-field
   style kv-text-field fill:#f9f,stroke:#333,stroke-width:4px
