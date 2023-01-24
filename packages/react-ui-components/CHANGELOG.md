@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/kelvininc/ui-components/compare/v0.14.0...v0.15.0) (2023-01-24)
+
+
+### Bug Fixes
+
+* **action-button-icon:** remove height offset ([da025fa](https://github.com/kelvininc/ui-components/commit/da025fa6b84c4184f40e11959e0d1aeffb10db77))
+* **multi-select-dropdown:** add empty check to options ([0f24d64](https://github.com/kelvininc/ui-components/commit/0f24d64643304e2995573ebf55fd39dcd9e3c472))
+* **react-ui-components:** change build config to organize correctly the lodash dependency ([9976a7c](https://github.com/kelvininc/ui-components/commit/9976a7c55428654def41efd981b5369c3daec296))
+
+
+* fix(tag-status)!: replace tag status props to expand functionallity ([beec9c8](https://github.com/kelvininc/ui-components/commit/beec9c8368d9db0f242b23ea4708a9578d3ae711))
+
+
+### Features
+
+* **tag-alarm:** add new tag alarm component ([62d2b41](https://github.com/kelvininc/ui-components/commit/62d2b419d9c853198ee6197ee94e5cac6c784906))
+
+
+### BREAKING CHANGES
+
+* replaces the previous prop 'type' by 'state' to specify the color of the icon, 'icon' to specify the icon to be displayed and 'label' (optional) to define the text.
+
+
+
+
+
 # [0.14.0](https://github.com/kelvininc/ui-components/compare/v0.13.0...v0.14.0) (2023-01-05)
 
 
