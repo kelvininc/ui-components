@@ -39,6 +39,7 @@ export enum EIconName {
 	Cloud = 'kv-cloud',
 	Code = 'kv-code',
 	Collapse = 'kv-collapse',
+	Connection = 'kv-connection',
 	Copy = 'kv-copy',
 	Cpu = 'kv-cpu',
 	Dashboard = 'kv-dashboard',
