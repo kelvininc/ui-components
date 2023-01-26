@@ -1,5 +1,4 @@
-import { Component, Event, EventEmitter, h, Host, Prop, State } from '@stencil/core';
-import { isEmpty } from 'lodash-es';
+import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { EActionButtonType, IButton, IButtonEvents } from '../action-button/action-button.types';
 import { EAnchorTarget, EComponentSize, IAnchor } from '../../utils/types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
