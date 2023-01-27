@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.16.0](https://github.com/kelvininc/ui-components/compare/v0.15.0...v0.16.0) (2023-01-27)
+
+
+### Features
+
+* **checkbox:** add `kv-checkbox` component ([359687f](https://github.com/kelvininc/ui-components/commit/359687f8aafc04aad2e07e0690d32b55d5b90d2a))
+
+
+
+
+
 # [0.15.0](https://github.com/kelvininc/ui-components/compare/v0.14.0...v0.15.0) (2023-01-24)
 
 
