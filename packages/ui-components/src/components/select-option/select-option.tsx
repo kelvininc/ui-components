@@ -1,5 +1,4 @@
-/** @inheritdoc */ import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
-import { EOtherIconName } from '../icon/icon.types';
+import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { ISelectOption, ISelectOptionEvents } from './select-option.types';
 
 @Component({
@@ -42,7 +41,7 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 					}}
 					onClick={this.onItemClick}
 				>
-					{this.togglable && <kv-icon name={this.selected ? EOtherIconName.IconCheckState : EOtherIconName.IconUncheckState} custom-class="icon-16"></kv-icon>}
+					{this.togglable && <kv-checkbox checked={this.selected} />}
 					<div class="text-container">
 						<div class="item-label">{this.label}</div>
 						<slot></slot>

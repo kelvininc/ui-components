@@ -82,12 +82,13 @@ export const KvSelectOptionExample: React.FC = () => (
 
 ### Depends on
 
-- [kv-icon](../icon)
+- [kv-checkbox](../checkbox)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-select-option --> kv-icon
+  kv-select-option --> kv-checkbox
+  kv-checkbox --> kv-icon
   kv-calendar-advanced-date-selector --> kv-select-option
   kv-multi-select-dropdown --> kv-select-option
   kv-single-select-dropdown --> kv-select-option
