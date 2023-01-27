@@ -6,7 +6,7 @@ import { buildSelectGroups, hasGroups } from '../select-group/select-group.helpe
 
 import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
 import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
-import { isEmpty, isNil } from 'lodash-es';
+import { isEmpty } from 'lodash-es';
 
 @Component({
 	tag: 'kv-multi-select-dropdown',
@@ -120,7 +120,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	};
 
 	private getCurrentOptions = (): IMultiSelectDropdownOptions | undefined => {
-		if (!isNil(this.filteredOptions)) {
+		if (!isEmpty(this.filteredOptions)) {
 			return this.filteredOptions;
 		}
 
