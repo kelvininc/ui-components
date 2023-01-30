@@ -52,7 +52,8 @@ import {
 	KvModal,
 	KvFormHelpText,
 	KvFormLabel,
-	KvRange
+	KvRange,
+	KvWizardHeader
 } from './stencil-generated/component';
 
 defineCustomElements(window);
@@ -108,7 +109,8 @@ const COMPONENTS = [
 	KvModal,
 	KvFormHelpText,
 	KvFormLabel,
-	KvRange
+	KvRange,
+	KvWizardHeader
 ];
 
 @NgModule({
