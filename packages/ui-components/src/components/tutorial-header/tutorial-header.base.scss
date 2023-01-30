@@ -1,0 +1,31 @@
+@import '../../assets/styles/globals';
+
+/**
+ * @prop --text-color: The color to use for all text
+ */
+
+.tutorial-header-container {
+	display: flex;
+	align-items: center;
+	padding: $spacing-4x;
+
+	.label,
+	.description,
+	.separator {
+		color: var(--text-color);
+	}
+
+	.label,
+	.separator {
+		@include kv-font-span-semibold;
+	}
+
+	.description {
+		@include ellipsis;
+		@include kv-font-span-regular;
+	}
+
+	.separator {
+		padding: 0 $spacing;
+	}
+}

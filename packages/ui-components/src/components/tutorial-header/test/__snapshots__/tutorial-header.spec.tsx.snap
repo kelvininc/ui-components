@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TutorialHeader (unit tests) when rendering with a different separator should match the snapshot 1`] = `
+<kv-tutorial-header description="Choose an application" label="Step 1" separator="⬤">
+  <mock:shadow-root>
+    <div class="tutorial-header-container">
+      <span class="label">
+        Step 1
+      </span>
+      <span class="separator">
+        ⬤
+      </span>
+      <span class="description">
+        Choose an application
+      </span>
+    </div>
+  </mock:shadow-root>
+</kv-tutorial-header>
+`;
+
+exports[`TutorialHeader (unit tests) when rendering with defaults should match the snapshot 1`] = `
+<kv-tutorial-header description="Choose an application" label="Step 1" separator="-">
+  <mock:shadow-root>
+    <div class="tutorial-header-container">
+      <span class="label">
+        Step 1
+      </span>
+      <span class="separator">
+        -
+      </span>
+      <span class="description">
+        Choose an application
+      </span>
+    </div>
+  </mock:shadow-root>
+</kv-tutorial-header>
+`;
