@@ -35,3 +35,4 @@ export * from './components/toggle-tip/toggle-tip.types';
 export * from './components/tooltip/tooltip.types';
 export * from './components/tag-status/tag-status.types';
 export * from './components/tag-alarm/tag-alarm.types';
+export * from './components/switch-button/switch-button.types';
