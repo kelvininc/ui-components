@@ -11,9 +11,6 @@
 <!-- Default -->
 <kv-switch-button></kv-switch-button>
 
-<!-- Labeled -->
-<kv-switch-button label="Switch"></kv-switch-button>
-
 <!-- Disabled -->
 <kv-switch-button disabled></kv-switch-button>
 
@@ -34,9 +31,6 @@ export const SwitchButtonExample: React.FC = () => (
   <>
     {/*-- Default --*/}
     <KvSwitchButton/>
-
-    {/*-- Labeled --*/}
-	<KvSwitchButton label="Switch"/>
 
 	{/*-- Disabled --*/}
 	<KvSwitchButton disabled/>
@@ -66,9 +60,6 @@ export class SwichButtonExample {
       	// Default
 		<kv-switch-button></kv-switch-button>
 
-		// Labeled
-		<kv-switch-button label="Switch"></kv-switch-button>
-
 		// Disabled
 		<kv-switch-button disabled></kv-switch-button>
 
@@ -84,12 +75,11 @@ export class SwichButtonExample {
 
 ## Properties
 
-| Property   | Attribute  | Description                                 | Type                                           | Default                |
-| ---------- | ---------- | ------------------------------------------- | ---------------------------------------------- | ---------------------- |
-| `checked`  | `checked`  | (optional) If `true` the button is ON       | `boolean`                                      | `false`                |
-| `disabled` | `disabled` | (optional) If `true` the button is disabled | `boolean`                                      | `false`                |
-| `label`    | `label`    | (optional) Button's label                   | `string`                                       | `''`                   |
-| `size`     | `size`     | (optional) Button's size                    | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
+| Property   | Attribute  | Description                                                  | Type                                           | Default                |
+| ---------- | ---------- | ------------------------------------------------------------ | ---------------------------------------------- | ---------------------- |
+| `checked`  | `checked`  | (optional) If `true` the button is ON. Default `false`       | `boolean`                                      | `false`                |
+| `disabled` | `disabled` | (optional) If `true` the button is disabled. Default `false` | `boolean`                                      | `false`                |
+| `size`     | `size`     | (optional) Button's size. Default `EComponentSize.Large`     | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
 
 
 ## Events
@@ -112,7 +102,6 @@ export class SwichButtonExample {
 
 | Name                     | Description                             |
 | ------------------------ | --------------------------------------- |
-| `--label-text-color`     | Label text color.                       |
 | `--off-background-color` | Button background color when's OFF.     |
 | `--on-background-color`  | Button background color when's ON.      |
 | `--sqr-background-color` | Icon square container background color. |

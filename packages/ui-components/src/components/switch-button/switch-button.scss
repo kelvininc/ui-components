@@ -49,7 +49,7 @@ $icon-sizes: (
 
 		kv-icon {
 			--icon-width: #{$icon-size};
-			--icon-height: unset;
+			--icon-height: #{$icon-size};
 		}
 	}
 
@@ -61,30 +61,18 @@ $icon-sizes: (
 
 :host {
 	/**
-	 * @prop --label-text-color: Label text color.
 	 * @prop --off-background-color: Button background color when's OFF.
 	 * @prop --on-background-color: Button background color when's ON.
 	 * @prop --sqr-background-color: Icon square container background color.
 	 */
 
-	--label-text-color: #{kv-color('neutral-4')};
 	--off-background-color: #{kv-color('neutral-5')};
 	--on-background-color: #{kv-color('primary')};
 	--sqr-background-color: #{kv-color('primary', 'contrast')};
-}
 
-.switch-button-container {
-	display: inline-flex;
+	display: flex;
 	align-items: center;
-
-	user-select: none;
-}
-
-.label {
-	@include kv-font-label-small-uppercase-semibold;
-	flex-shrink: 0;
-	color: var(--label-text-color);
-	padding-right: $spacing-3x;
+	gap: $spacing-2x;
 }
 
 .switch-button {

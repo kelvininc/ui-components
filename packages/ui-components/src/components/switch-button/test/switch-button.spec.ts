@@ -31,41 +31,5 @@ describe('Switch Button (unit tests)', () => {
 		it('should initialize `size` with large', () => {
 			expect(component.size).toBe(EComponentSize.Large);
 		});
-
-		it('should initialize `label` with empty string', () => {
-			expect(component.label).toBe('');
-		});
-
-		it('should initialize `hasLabel` with false', () => {
-			expect(component.hasLabel).toBe(false);
-		});
-	});
-
-	describe('when has a label', () => {
-		beforeEach(async () => {
-			page = await newSpecPage({
-				components: [KvSwitchButton],
-				html: `<kv-switch-button label="Switch"></kv-switch-button>`
-			});
-			component = page.rootInstance;
-		});
-
-		it('should match the snapshot', () => {
-			expect(page.root).toMatchSnapshot();
-		});
-
-		it('should initialize `hasLabel` with true', () => {
-			expect(component.hasLabel).toBe(true);
-		});
-
-		describe('and the label is removed', () => {
-			beforeEach(() => {
-				page.root.setAttribute('label', '');
-			});
-
-			it('should change `hasLabel` to false', () => {
-				expect(component.hasLabel).toBe(false);
-			});
-		});
 	});
 });

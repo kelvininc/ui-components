@@ -9,11 +9,6 @@ describe('Switch Button (end-to-end)', () => {
 			await page.setContent('<kv-switch-button></kv-switch-button>');
 		});
 
-		it('should not render a label', async () => {
-			const labelComponent = await page.find('kv-switch-button >>> .label');
-			expect(labelComponent).toBeFalsy();
-		});
-
 		describe('and user clicks on the button', () => {
 			let spyChangeEvent: EventSpy;
 			let switchButtonElement: E2EElement;
@@ -25,7 +20,7 @@ describe('Switch Button (end-to-end)', () => {
 				const buttonElement = await page.find('kv-switch-button >>> .switch-button');
 				await buttonElement.click();
 
-				await page.waitForTimeout(300);
+				await new Promise(resolve => setTimeout(resolve, 300));
 			});
 
 			it('should change `checked` to true', async () => {
@@ -35,19 +30,6 @@ describe('Switch Button (end-to-end)', () => {
 			it('should emit switchChange event with true', () => {
 				expect(spyChangeEvent).toHaveReceivedEventDetail(true);
 			});
-		});
-	});
-
-	describe('when has a label', () => {
-		beforeEach(async () => {
-			page = await newE2EPage();
-			await page.setContent('<kv-switch-button label="Switch"></kv-switch-button>');
-		});
-
-		it('should render label', async () => {
-			const labelComponent = await page.find('kv-switch-button >>> .label');
-			expect(labelComponent).toBeTruthy();
-			expect(labelComponent.innerText.toLocaleLowerCase()).toBe('switch');
 		});
 	});
 
@@ -68,7 +50,7 @@ describe('Switch Button (end-to-end)', () => {
 				const buttonElement = await page.find('kv-switch-button >>> .switch-button');
 				await buttonElement.click();
 
-				await page.waitForTimeout(300);
+				await new Promise(resolve => setTimeout(resolve, 300));
 			});
 
 			it('should not change `checked` to true', async () => {
@@ -98,7 +80,7 @@ describe('Switch Button (end-to-end)', () => {
 				const buttonElement = await page.find('kv-switch-button >>> .switch-button');
 				await buttonElement.click();
 
-				await page.waitForTimeout(300);
+				await new Promise(resolve => setTimeout(resolve, 300));
 			});
 
 			it('should change `checked` to false', async () => {
