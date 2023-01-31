@@ -1,13 +1,13 @@
 import { EventEmitter } from '@stencil/core';
 
 export interface IModalConfig {
-	/** (optional) The modal title label */
+	/** (optional) Defines the modal title label */
 	headerTitle?: string;
-	/** (optional) The modal has a backdrop */
-	hasBackdrop?: boolean;
-	/** (optional) The modal can be closed by the button or click outside */
-	closable?: boolean;
-	/** (optional) The modal shows the close button */
+	/** (optional) Defines if the modal has an overlay background */
+	showOverlay?: boolean;
+	/** (optional) Defines if the modal can be closed with a click on the overlay */
+	closeOnOverlayClick?: boolean;
+	/** (optional) Defines if the modal shows the close button */
 	showCloseButton?: boolean;
 }
 

@@ -14,9 +14,9 @@ export class KvModal implements IModalConfig, IModalEvents {
 	/** @inheritdoc */
 	@Prop() headerTitle?: string;
 	/** @inheritdoc */
-	@Prop() hasBackdrop: boolean = true;
+	@Prop() showOverlay: boolean = true;
 	/** @inheritdoc */
-	@Prop() closable?: boolean = true;
+	@Prop() closeOnOverlayClick?: boolean = true;
 	/** @inheritdoc */
 	@Prop() showCloseButton: boolean = true;
 
@@ -29,22 +29,20 @@ export class KvModal implements IModalConfig, IModalEvents {
 	};
 
 	render() {
-		const shouldShowCloseBtn = this.closable && this.showCloseButton;
-
 		return (
 			<Host>
 				<div
 					class={{
-						'modal-overlay': this.hasBackdrop
+						'modal-overlay': this.showOverlay
 					}}
-					onClick={this.closable && this.onClose}
+					onClick={this.closeOnOverlayClick && this.onClose}
 				/>
 				<div class="modal-container">
 					<div class="top-bar">
 						<div class="title">{this.headerTitle}</div>
 						<div class="actions">
 							<slot name="more-top-actions"></slot>
-							{shouldShowCloseBtn && (
+							{this.showCloseButton && (
 								<div class="close" onClick={this.onClose}>
 									<kv-icon name={EIconName.Close}></kv-icon>
 								</div>
