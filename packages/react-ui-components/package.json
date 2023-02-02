@@ -50,6 +50,7 @@
 	],
 	"dependencies": {
 		"@kelvininc/ui-components": "0.5.3",
+		"@monaco-editor/react": "^4.4.6",
 		"@rjsf/core": "5.0.0-beta.12",
 		"@rjsf/utils": "5.0.0-beta.12",
 		"@rjsf/validator-ajv8": "5.0.0-beta.12",
@@ -85,6 +86,7 @@
 		"jest": "^23.0.0",
 		"jest-dom": "^3.0.2",
 		"lodash": "^4.17.21",
+		"monaco-editor": "^0.34.1",
 		"prettier": "^2.5.1",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
