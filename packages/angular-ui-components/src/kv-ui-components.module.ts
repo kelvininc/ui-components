@@ -32,6 +32,9 @@ import {
 	KvRangeDatesSelectDropdown,
 	KvStateIndicator,
 	KvSearch,
+	KvStepBar,
+	KvStepIndicator,
+	KvStepProgressBar,
 	KvIcon,
 	KvSwitchButton,
 	KvTabItem,
@@ -53,7 +56,8 @@ import {
 	KvFormHelpText,
 	KvFormLabel,
 	KvRange,
-	KvWizardHeader
+	KvWizardHeader,
+	KvWizardFooter
 } from './stencil-generated/component';
 
 defineCustomElements(window);
@@ -65,6 +69,7 @@ const COMPONENTS = [
 	KvActionButtonSplit,
 	KvAdvancedDateSelectDropdown,
 	KvBadge,
+	KvCheckbox,
 	KvSwitchButton,
 	KvIllustration,
 	KvLink,
@@ -96,6 +101,9 @@ const COMPONENTS = [
 	KvSelect,
 	KvSelectGroup,
 	KvSelectOption,
+	KvStepBar,
+	KvStepIndicator,
+	KvStepProgressBar,
 	KvDropdown,
 	KvDropdownBase,
 	KvSingleSelectDropdown,
@@ -110,7 +118,8 @@ const COMPONENTS = [
 	KvFormHelpText,
 	KvFormLabel,
 	KvRange,
-	KvWizardHeader
+	KvWizardHeader,
+	KvWizardFooter
 ];
 
 @NgModule({

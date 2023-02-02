@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Wizard Footer (unit tests) when using required props and steps dont have errors should match the snapshot 1`] = `
+<kv-wizard-footer current-step="1" next-btn-label="Next" next-enabled="" prev-enabled="" progress-percentage="50" show-step-bar="">
+  <mock:shadow-root>
+    <div class="wizard-footer-container">
+      <div class="wizard-stepper">
+        <kv-step-bar currentstep="1" progresspercentage="50"></kv-step-bar>
+      </div>
+      <div class="actions-container">
+        <slot name="additional-actions"></slot>
+        <kv-action-button-text text="Next" type="primary"></kv-action-button-text>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-wizard-footer>
+`;
+
+exports[`Wizard Footer (unit tests) when using required props and steps have errors should match the snapshot 1`] = `
+<kv-wizard-footer current-step="1" has-error="" next-btn-label="Next" next-enabled="" prev-enabled="" progress-percentage="50" show-step-bar="">
+  <mock:shadow-root>
+    <div class="wizard-footer-container">
+      <div class="wizard-stepper">
+        <kv-step-bar currentstep="1" haserror="" progresspercentage="50"></kv-step-bar>
+      </div>
+      <div class="actions-container">
+        <slot name="additional-actions"></slot>
+        <kv-action-button-text text="Next" type="primary"></kv-action-button-text>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-wizard-footer>
+`;
