@@ -35,3 +35,6 @@ export * from './components/toggle-tip/toggle-tip.types';
 export * from './components/tooltip/tooltip.types';
 export * from './components/tag-status/tag-status.types';
 export * from './components/tag-alarm/tag-alarm.types';
+export * from './components/step-indicator/step-indicator.types';
+export * from './components/step-progress-bar/step-progress-bar.types';
+export * from './components/step-bar/step-bar.types';

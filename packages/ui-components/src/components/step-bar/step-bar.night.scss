@@ -1,0 +1,6 @@
+@import './step-bar.base';
+
+:host {
+	--step-label-color: #{kv-color('neutral-4')};
+	--step-counter-color: #{kv-color('neutral-1')};
+}

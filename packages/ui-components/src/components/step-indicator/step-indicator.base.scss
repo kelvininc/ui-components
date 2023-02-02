@@ -1,0 +1,36 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	* @prop --indicator-radius: The size of the circle drawn
+	* @prop --indicator-default-color: The color to show by default on the indicator
+	* @prop --indicator-default-border-color: The border color to show by default on the indicator
+	* @prop --indicator-active-color: The color to show when the indicator is active
+	* @prop --indicator-active-border-color: The border color to show when the indicator is active
+	* @prop --indicator-error-border-color: The color to show on the border that highlights the indicator when there's an error
+	*/
+	--indicator-radius: 12px;
+}
+
+.indicator {
+	box-sizing: border-box;
+	width: var(--indicator-radius);
+	height: var(--indicator-radius);
+	border-radius: 50%;
+	background-color: var(--indicator-default-color);
+	border: 1px solid var(--indicator-default-border-color);
+	transition: all 0.25s ease;
+
+	&--state-enabled {
+		cursor: pointer;
+	}
+
+	&--state-active {
+		background-color: var(--indicator-active-color);
+		border-color: var(--indicator-active-border-color);
+	}
+
+	&--state-error {
+		border-color: var(--indicator-error-border-color);
+	}
+}

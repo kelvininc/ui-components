@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KvStepBar (unit tests) when rendering with required props and \`hasError\` true should match the snapshot 1`] = `
+<kv-step-bar current-step="1" label="Progress:" progress-percentage="50">
+  <mock:shadow-root>
+    <div class="label-container">
+      <span class="label">
+        Progress:
+      </span>
+      <span class="step-counter">
+        2/3 Steps
+      </span>
+    </div>
+    <div class="progress-bar-container">
+      <kv-step-progress-bar progresspercentage="50">
+        <kv-step-indicator active="" enabled="" haserror="" stepkey="0"></kv-step-indicator>
+        <kv-step-indicator active="" enabled="" haserror="" stepkey="1"></kv-step-indicator>
+        <kv-step-indicator stepkey="2"></kv-step-indicator>
+      </kv-step-progress-bar>
+    </div>
+  </mock:shadow-root>
+</kv-step-bar>
+`;
+
+exports[`KvStepBar (unit tests) when rendering with required props should match the snapshot 1`] = `
+<kv-step-bar current-step="1" label="Progress:" progress-percentage="50">
+  <mock:shadow-root>
+    <div class="label-container">
+      <span class="label">
+        Progress:
+      </span>
+      <span class="step-counter">
+        2/3 Steps
+      </span>
+    </div>
+    <div class="progress-bar-container">
+      <kv-step-progress-bar progresspercentage="50">
+        <kv-step-indicator active="" enabled="" stepkey="0"></kv-step-indicator>
+        <kv-step-indicator active="" enabled="" stepkey="1"></kv-step-indicator>
+        <kv-step-indicator stepkey="2"></kv-step-indicator>
+      </kv-step-progress-bar>
+    </div>
+  </mock:shadow-root>
+</kv-step-bar>
+`;

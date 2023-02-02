@@ -1,0 +1,9 @@
+@import './step-indicator.base';
+
+:host {
+	--indicator-default-color: #{kv-color('neutral-5')};
+	--indicator-default-border-color: #{kv-color('neutral-6')};
+	--indicator-active-color: #{kv-color('neutral-2')};
+	--indicator-active-border-color: #{kv-color('primary')};
+	--indicator-error-border-color: #{kv-color('error')};
+}
