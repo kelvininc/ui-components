@@ -3,9 +3,11 @@ import Fields from '../Fields';
 import Widgets from '../Widgets';
 import Templates from '../Templates';
 import ReadOnlyValueWidget from '../Widgets/ReadOnlyValueWidget';
+import AdvancedDateSelectDropdownWidget from '../Widgets/AdvancedDateSelectDropdownWidget';
 
 const widgetsCustom = {
-	readOnlyValue: ReadOnlyValueWidget
+	readOnlyValue: ReadOnlyValueWidget,
+	advancedDateSelectDropdown: AdvancedDateSelectDropdownWidget
 };
 
 const Theme: ThemeProps = {

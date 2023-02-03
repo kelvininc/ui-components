@@ -6,6 +6,7 @@ import { KvSchemaForm, SchemaFormProps } from '../../components';
 import { getDropdownDisplayValue } from './helpers/dropdown.helper';
 import { action } from '@storybook/addon-actions';
 import { FormValidation } from '@rjsf/utils';
+import { offset } from '@floating-ui/dom';
 
 enum EShowErrorListType {
 	Top = 'top',
@@ -891,4 +892,29 @@ InlineForm.args = {
 	},
 	schema: inlineSchema,
 	uiSchema: inlineUiSchema
+};
+
+const DEFAULT_DROPDOWN_POSITION_OPTIONS = {
+	placement: 'bottom-end',
+	middleware: [offset(2)]
+};
+
+export const AdvancedDateSelectDropdownWidget = FormTemplate.bind(this);
+AdvancedDateSelectDropdownWidget.args = {
+	schema: {
+		type: 'object',
+		properties: {
+			advanced_date_select_dropdown: {
+				type: 'string',
+				title: 'Advanced Date Select Dropdown',
+				format: 'date-time'
+			}
+		}
+	},
+	uiSchema: {
+		advanced_date_select_dropdown: {
+			'ui:dropdownPositionOptions': DEFAULT_DROPDOWN_POSITION_OPTIONS,
+			'ui:widget': 'advancedDateSelectDropdown'
+		}
+	}
 };
