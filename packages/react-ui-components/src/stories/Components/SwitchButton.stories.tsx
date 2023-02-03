@@ -23,7 +23,6 @@ const SwitchButtonTemplate: ComponentStory<typeof KvSwitchButton> = args => <KvS
 
 export const DefaultState = SwitchButtonTemplate.bind(this);
 DefaultState.args = {
-	label: 'Switch',
 	checked: false,
 	disabled: false,
 	size: EComponentSize.Large
