@@ -17,7 +17,7 @@ describe('Modal (end-to-end)', () => {
 			closeBtnEl = await page.find('kv-modal >>> .close');
 		});
 
-		it('should render the modal with a backdrop', async () => {
+		it('should render the modal with an overlay', async () => {
 			expect(overlayEl).toBeTruthy();
 		});
 
@@ -48,10 +48,10 @@ describe('Modal (end-to-end)', () => {
 		});
 	});
 
-	describe('when rendering with closable prop false', () => {
+	describe('when not allowing the modal to be closed', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-modal closable="false"></kv-modal>');
+			await page.setContent('<kv-modal show-close-button="false" close-on-overlay-click="false"></kv-modal>');
 			hostEl = await page.find('kv-modal');
 			overlayEl = await page.find('kv-modal >>> .modal-overlay');
 			closeBtnEl = await page.find('kv-modal >>> .close');

@@ -18,8 +18,8 @@ describe('Modal (unit tests)', () => {
 			expect(page.root).toMatchSnapshot();
 		});
 
-		it('should set the backdrop to render', () => {
-			expect(comp.hasBackdrop).toBe(true);
+		it('should set the overlay to render', () => {
+			expect(comp.showOverlay).toBe(true);
 		});
 
 		it('should set the close button to render', () => {
