@@ -58,6 +58,7 @@ export enum EIconName {
 	DoubleArrowRight = 'kv-double-arrow-right',
 	DoneAll = 'kv-done-all',
 	Download = 'kv-download',
+	DownloadBucket = 'kv-download-bucket',
 	DragDrop = 'kv-drag-drop',
 	Edit = 'kv-edit',
 	EntityArea = 'kv-entity-area',
