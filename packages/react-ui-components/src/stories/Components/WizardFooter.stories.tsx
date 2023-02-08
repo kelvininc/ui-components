@@ -58,11 +58,6 @@ export default {
 			control: {
 				type: 'boolean'
 			}
-		},
-		extraBtns: {
-			control: {
-				type: 'object'
-			}
 		}
 	},
 	parameters: {

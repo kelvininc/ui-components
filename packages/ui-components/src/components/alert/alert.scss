@@ -1,0 +1,76 @@
+@import '../../assets/styles/globals';
+
+.alert-container {
+	background-color: $neutral-color-0;
+}
+
+.alert {
+	display: flex;
+	padding: $spacing-4x;
+	justify-content: space-between;
+	align-items: center;
+
+	&--type-info {
+		background-color: #{kv-color('info', 'light', 0.4)};
+
+		kv-icon {
+			--icon-color: #{kv-color('info')};
+		}
+	}
+
+	&--type-error {
+		background-color: #{kv-color('error', 'light', 0.4)};
+
+		kv-icon {
+			--icon-color: #{kv-color('error')};
+		}
+	}
+
+	&--type-success {
+		background-color: #{kv-color('success', 'light', 0.4)};
+
+		kv-icon {
+			--icon-color: #{kv-color('success')};
+		}
+	}
+
+	&--type-warning {
+		background-color: #{kv-color('warning', 'light', 0.4)};
+
+		kv-icon {
+			--icon-color: #{kv-color('warning')};
+		}
+	}
+
+	.information {
+		display: flex;
+		align-items: center;
+
+		kv-icon {
+			--icon-height: 24px;
+			--icon-width: 24px;
+		}
+
+		.icon {
+			margin-right: $spacing-3x;
+		}
+
+		.title {
+			@include kv-font-span-semibold;
+
+			color: #{kv-color('neutral-9')};
+		}
+
+		.description {
+			@include kv-font-paragraph-regular;
+
+			color: #{kv-color('neutral-6')};
+			margin-top: $spacing;
+		}
+	}
+}
+
+.alert--size-small {
+	flex-direction: column;
+	align-items: flex-start;
+}
