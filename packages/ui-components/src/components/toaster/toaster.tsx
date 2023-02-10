@@ -96,15 +96,11 @@ export class KvToaster implements IToaster, IToasterEvents {
 						'toaster-container': true,
 						'animate-fade-in': this.fadeInActive,
 						'animate-fade-out': this.fadeOutActive,
-						[`toaster-container--large`]: !isEmpty(this.description)
+						[`toaster-container--large`]: !isEmpty(this.description),
+						[`toaster-type--${this.type}`]: true
 					}}
 				>
-					<div
-						class={{
-							'toaster-icon': true,
-							[`toaster-icon--${this.type}`]: true
-						}}
-					>
+					<div class="toaster-icon">
 						<kv-icon name={this.iconType.icon}></kv-icon>
 					</div>
 					<div class="message-content">
@@ -114,7 +110,7 @@ export class KvToaster implements IToaster, IToasterEvents {
 					<slot></slot>
 					{this.closable && (
 						<div class="toaster-close-icon">
-							<kv-icon name={CLOSE_ICON.icon} onClick={this.onCloseClick}></kv-icon>
+							<kv-icon name={CLOSE_ICON.icon} customClass="icon-16" onClick={this.onCloseClick}></kv-icon>
 						</div>
 					)}
 				</div>
