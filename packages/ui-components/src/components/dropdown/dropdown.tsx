@@ -26,6 +26,8 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	@Prop({ reflect: false }) actionElement?: HTMLElement = null;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) listElement?: HTMLElement = null;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) disabled?: boolean = false;
 
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
@@ -35,15 +37,19 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	/** Toogles the dropdown open state */
 	@Method()
 	async onToggleOpenState() {
-		this.openStateChange.emit(!this.isOpen);
+		if (!this.disabled) {
+			this.openStateChange.emit(!this.isOpen);
+		}
 	}
 
 	private onOpenStateChange = ({ detail: openState }: CustomEvent<boolean>) => {
-		this.openStateChange.emit(openState);
+		if (!this.disabled) {
+			this.openStateChange.emit(openState);
+		}
 	};
 
 	private getInputConfig = () => {
-		return merge({}, DEFAULT_INPUT_CONFIG, this.inputConfig);
+		return merge({}, DEFAULT_INPUT_CONFIG, { disabled: this.disabled }, this.inputConfig);
 	};
 
 	render() {
@@ -56,6 +62,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 						onOpenStateChange={this.onOpenStateChange}
 						actionElement={this.actionElement}
 						listElement={this.listElement}
+						disabled={this.disabled}
 					>
 						<div slot="action">
 							<kv-text-field

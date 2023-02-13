@@ -25,7 +25,6 @@ export default {
 		}
 	},
 	parameters: {
-		layout: 'centered',
 		notes: require('@ui-notes/advanced-date-select-dropdown/readme.md')
 	}
 };

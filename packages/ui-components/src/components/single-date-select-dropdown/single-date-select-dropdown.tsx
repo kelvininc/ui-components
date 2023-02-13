@@ -26,6 +26,8 @@ export class KvSingleDateSelectDropdown implements ISingleDateSelectDropdown, IS
 	@Prop({ reflect: false }) maxDate?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) dateMask?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled?: boolean = false;
 
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
@@ -52,7 +54,7 @@ export class KvSingleDateSelectDropdown implements ISingleDateSelectDropdown, IS
 		return (
 			<Host>
 				<div class="single-date-select-dropdown">
-					<kv-dropdown isOpen={this.isDropdownOpen} onOpenStateChange={this.onDropdownChange} inputConfig={this.getInputConfig()}>
+					<kv-dropdown isOpen={this.isDropdownOpen} onOpenStateChange={this.onDropdownChange} inputConfig={this.getInputConfig()} disabled={this.disabled}>
 						<div class="calendar-container">
 							<kv-calendar-single-date-selector
 								selectedDate={this.selectedDate}

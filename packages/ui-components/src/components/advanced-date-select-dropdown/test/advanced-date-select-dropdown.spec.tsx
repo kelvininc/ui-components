@@ -211,6 +211,32 @@ describe('Advance Date Select Dropdown (unit tests)', () => {
 			});
 		});
 
+		describe('and no timezones are available', () => {
+			let actualResult: Partial<ITextField>;
+
+			beforeEach(async () => {
+				page = await newSpecPage({
+					components: [KvAdvancedDateSelectDropdown],
+					template: () => (
+						<kv-advanced-date-select-dropdown
+							selectedTime={{
+								type: ECalendarAdvanceTimeType.Absolute,
+								key: '2020-04-01T00:00:00Z#2020-04-05T23:59:59Z'
+							}}
+							timezones={[]}
+						/>
+					)
+				});
+				component = page.rootInstance;
+
+				actualResult = component.getInputConfig();
+			});
+
+			it('should return a config with formatted time as the tooltip', () => {
+				expect(actualResult.tooltipConfig.text).toBe('2020-04-01 00:00:00 to 2020-04-05 23:59:59');
+			});
+		});
+
 		describe('and the timezone is not selected', () => {
 			let actualResult: Partial<ITextField>;
 

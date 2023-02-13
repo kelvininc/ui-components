@@ -9,6 +9,8 @@ export interface IAdvancedDateSelectDropdown extends ICalendarAdvancedDateSelect
 	dateMask?: string;
 	/** (optional) The dropdown position options */
 	dropdownPositionOptions?: Partial<ComputePositionConfig>;
+	/** (optional) If `true` clicking on the input will not open the calendar dropdown. Default: false */
+	disabled?: boolean;
 }
 
 export interface IAdvancedDateSelectDropdownEvents {

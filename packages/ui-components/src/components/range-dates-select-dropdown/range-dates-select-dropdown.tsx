@@ -40,6 +40,8 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 	@Prop({ reflect: false }) dropdownPositionOptions?: Partial<ComputePositionConfig> = DEFAULT_DROPDOWN_POSITION_OPTIONS;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) autoClose?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled?: boolean = false;
 
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
@@ -112,7 +114,7 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 		return (
 			<Host>
 				<div class="range-dates-select-dropdown">
-					<kv-dropdown-base isOpen={this.isOpen} options={this.dropdownPositionOptions} onOpenStateChange={this.onOpenStateChange}>
+					<kv-dropdown-base isOpen={this.isOpen} options={this.dropdownPositionOptions} onOpenStateChange={this.onOpenStateChange} disabled={this.disabled}>
 						<div slot="action" class="inputs-container">
 							<div class="start-single-date-select-dropdown">
 								<kv-text-field

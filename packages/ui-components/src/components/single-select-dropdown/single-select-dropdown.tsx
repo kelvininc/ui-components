@@ -80,10 +80,6 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	};
 
 	private openStateChangeHandler = (event: CustomEvent<boolean>) => {
-		if (this.disabled) {
-			return;
-		}
-
 		this.isOpen = event.detail;
 
 		if (!this.isOpen) {
@@ -179,7 +175,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 		return (
 			<Host>
-				<kv-dropdown inputConfig={this.getInputConfig()} isOpen={this.isOpen} onOpenStateChange={this.openStateChangeHandler} exportparts="input">
+				<kv-dropdown inputConfig={this.getInputConfig()} isOpen={this.isOpen} disabled={this.disabled} onOpenStateChange={this.openStateChangeHandler} exportparts="input">
 					<kv-select
 						searchValue={this._searchValue}
 						searchable={this.searchable}

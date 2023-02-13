@@ -2,25 +2,23 @@
 
 :host {
 	/**
-	 * @prop --dropdown-input-width: Dropdown input width.
+	 * @prop --dropdown-input-width: The dropdown's input width when an absolute time is picked.
 	 */
-	--dropdown-input-width: #{365px};
+	--dropdown-absolute-time-selected-input-width: #{365px};
 }
 
 .advanced-date-select-dropdown {
-	position: relative;
 	user-select: none;
 
 	&--selected-absolute {
 		kv-dropdown::part(input) {
-			--input-width: var(--dropdown-input-width);
+			--input-width: var(--dropdown-absolute-time-selected-input-width);
 		}
 	}
 }
 
 .calendar-container {
-	position: absolute;
-	z-index: 2;
+	display: inline-block;
 
 	kv-calendar-advanced-date-selector::part(calendar) {
 		border-bottom-left-radius: 0;

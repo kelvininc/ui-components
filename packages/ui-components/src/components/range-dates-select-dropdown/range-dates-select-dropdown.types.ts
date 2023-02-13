@@ -19,6 +19,8 @@ export interface IRangeDatesSelectDropdown extends ICalendarRangeDatesSelector, 
 	endDateMask?: string;
 	/** (optional) If `true` the dropdown will be automatically closed after start and end date is selected */
 	autoClose?: boolean;
+	/** (optional) If `true` clicking on the input will not open the calendar dropdown. Default: false */
+	disabled?: boolean;
 }
 
 export interface IRangeDatesSelectDropdownEvents extends ICalendarRangeDatesSelectorEvents {
