@@ -51,20 +51,20 @@ $colors: (
 	'secondary-1': (
 		base: $secondary-1-color,
 		contrast: #fff,
-		dark: get-color-dark($secondary-1-color),
-		light: get-color-light($secondary-1-color)
+		dark: #9e0c96,
+		light: #f0cfee
 	),
 	'secondary-2': (
 		base: $secondary-2-color,
 		contrast: #fff,
-		dark: get-color-dark($secondary-2-color),
-		light: get-color-light($secondary-2-color)
+		dark: #04053e,
+		light: #cdcdda
 	),
 	'secondary-3': (
 		base: $secondary-3-color,
 		contrast: #fff,
-		dark: get-color-dark($secondary-3-color),
-		light: get-color-light($secondary-3-color)
+		dark: #305960,
+		light: #d7e0e2
 	),
 	'secondary-4': (
 		base: $secondary-4-color,
@@ -73,26 +73,26 @@ $colors: (
 	'info': (
 		base: $info-color,
 		contrast: #fff,
-		dark: get-color-dark($info-color),
-		light: get-color-light($info-color)
+		dark: #2261d4,
+		light: #c6daff
 	),
 	'success': (
 		base: $success-color,
 		contrast: #fff,
-		dark: get-color-dark($success-color),
-		light: get-color-light($success-color)
+		dark: #048f4d,
+		light: #dff7e6
 	),
 	'warning': (
 		base: $warning-color,
 		contrast: #fff,
-		dark: get-color-dark($warning-color),
-		light: get-color-light($warning-color)
+		dark: #e0a93b,
+		light: #ffe3ac
 	),
 	'error': (
 		base: $error-color,
 		contrast: #fff,
-		dark: get-color-dark($error-color),
-		light: get-color-light($error-color)
+		dark: #c61600,
+		light: #f9d1cc
 	),
 	'background': (
 		/* Steps move towards their contrasting color. */
