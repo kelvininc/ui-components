@@ -20,9 +20,9 @@
 	--modal-z-index: 1;
 	--modal-overlay-color: #{kv-color('background', 'step-1')};
 	--modal-background-color: #{kv-color('background')};
-	--modal-title-text-color: #{kv-color('kv-text')};
-	--modal-close-button-width: 20px;
-	--modal-close-button-height: 20px;
+	--modal-title-text-color: #{kv-color('neutral-4')};
+	--modal-close-button-width: #{$spacing-4x};
+	--modal-close-button-height: #{$spacing-4x};
 }
 
 .modal-overlay {
@@ -59,7 +59,7 @@
 		height: var(--modal-header-height);
 
 		.title {
-			@include kv-font-label-small-uppercase-bold;
+			@include kv-font-label-small-uppercase-regular;
 			color: var(--modal-title-text-color);
 		}
 

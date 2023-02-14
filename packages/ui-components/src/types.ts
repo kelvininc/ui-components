@@ -42,3 +42,4 @@ export * from './components/step-progress-bar/step-progress-bar.types';
 export * from './components/step-bar/step-bar.types';
 export * from './components/wizard-footer/wizard-footer.types';
 export * from './components/alert/alert.types';
+export * from './components/wizard/wizard.types';
