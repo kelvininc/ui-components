@@ -1,0 +1,26 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --stepper-width: defines in px how much space the stepper should take up
+	*/
+	--stepper-width: 100%;
+}
+
+.wizard-footer-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: $spacing-4x;
+
+	.actions-container {
+		display: flex;
+		gap: $spacing-3x;
+	}
+
+	.wizard-stepper {
+		width: var(--stepper-width);
+		padding-right: $spacing-4x;
+	}
+}
+

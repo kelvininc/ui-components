@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StepProgressBar (unit tests) when rendering with required props and error state when the component loads should match the snapshot 1`] = `
+<kv-step-progress-bar has-error="" progress-percentage="50">
+  <mock:shadow-root>
+    <div class="progress-wrapper">
+      <div class="error progress-bar-filler" style="width: 50%;"></div>
+      <div class="steps-container">
+        <slot></slot>
+      </div>
+    </div>
+  </mock:shadow-root>
+  <kv-step-indicator active="" has-error="">
+    <kv-step-indicator active="" has-error="">
+      <kv-step-indicator></kv-step-indicator>
+    </kv-step-indicator>
+  </kv-step-indicator>
+</kv-step-progress-bar>
+`;
+
+exports[`StepProgressBar (unit tests) when rendering with required props when the component loads should match the snapshot 1`] = `
+<kv-step-progress-bar progress-percentage="50">
+  <mock:shadow-root>
+    <div class="progress-wrapper">
+      <div class="progress-bar-filler" style="width: 50%;"></div>
+      <div class="steps-container">
+        <slot></slot>
+      </div>
+    </div>
+  </mock:shadow-root>
+  <kv-step-indicator active="">
+    <kv-step-indicator active="">
+      <kv-step-indicator></kv-step-indicator>
+    </kv-step-indicator>
+  </kv-step-indicator>
+</kv-step-progress-bar>
+`;

@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StepIndicator (unit tests) when rendering with \`active\` when the component loads should match the snapshot 1`] = `
+<kv-step-indicator active="">
+  <mock:shadow-root>
+    <div class="indicator indicator--state-active"></div>
+  </mock:shadow-root>
+</kv-step-indicator>
+`;
+
+exports[`StepIndicator (unit tests) when rendering with \`hasError\` when the component loads should match the snapshot 1`] = `
+<kv-step-indicator has-error="">
+  <mock:shadow-root>
+    <div class="indicator indicator--state-error"></div>
+  </mock:shadow-root>
+</kv-step-indicator>
+`;
+
+exports[`StepIndicator (unit tests) when rendering with default props when the component loads should match the snapshot 1`] = `
+<kv-step-indicator>
+  <mock:shadow-root>
+    <div class="indicator"></div>
+  </mock:shadow-root>
+</kv-step-indicator>
+`;

@@ -1,0 +1,45 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	* @prop --progress-bar-height: The height of the progress bar
+	* @prop --progress-bar-background-color: The color of the progress bar container
+	* @prop --progress-bar-filler-success-color: The color of the progress bar filler
+	* @prop --progress-bar-filler-error-color: The color of the progress bar filler when in error
+	*/
+	--progress-bar-height: 12px;
+}
+
+$progress-bar-height-half: calc(var(--progress-bar-height) / 2);
+
+.progress-wrapper {
+	display: flex;
+	position: relative;
+	align-items: center;
+	justify-content: space-between;
+	height: var(--progress-bar-height);
+	border-radius: $progress-bar-height-half;
+	background-color: var(--progress-bar-background-color);
+	padding: 0 $progress-bar-height-half;
+
+	.progress-bar-filler {
+		position: relative;
+		height: inherit;
+		background-color: var(--progress-bar-filler-success-color);
+		transition: width 0.25s ease-in-out;
+
+		&.error {
+			background-color: var(--progress-bar-filler-error-color);
+		}
+	}
+
+	.steps-container {
+		position: absolute;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+}

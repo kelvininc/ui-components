@@ -37,3 +37,7 @@ export * from './components/tag-status/tag-status.types';
 export * from './components/tag-alarm/tag-alarm.types';
 export * from './components/switch-button/switch-button.types';
 export * from './components/wizard-header/wizard-header.types';
+export * from './components/step-indicator/step-indicator.types';
+export * from './components/step-progress-bar/step-progress-bar.types';
+export * from './components/step-bar/step-bar.types';
+export * from './components/wizard-footer/wizard-footer.types';
