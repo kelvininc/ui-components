@@ -245,7 +245,13 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										</div>
 									)}
 									{this.hasRightSlot && (
-										<div class={{ 'right-slot-container': true, 'focus': this.focused }}>
+										<div
+											class={{
+												'right-slot-container': true,
+												'focus': this.focused,
+												'disabled': this.disabled
+											}}
+										>
 											<slot name="right-slot"></slot>
 										</div>
 									)}

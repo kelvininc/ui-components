@@ -168,7 +168,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 
 		return (
 			<Host>
-				<kv-dropdown inputConfig={this.getInputConfig()} isOpen={this.isOpen} onOpenStateChange={this.openStateChangeHandler} exportparts="input">
+				<kv-dropdown inputConfig={this.getInputConfig()} isOpen={this.isOpen} onOpenStateChange={this.openStateChangeHandler} disabled={this.disabled} exportparts="input">
 					<kv-select
 						searchable={this.searchable}
 						searchValue={this._searchValue}

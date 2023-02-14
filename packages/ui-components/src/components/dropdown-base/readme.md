@@ -7,12 +7,13 @@
 
 ## Properties
 
-| Property        | Attribute | Description                                           | Type                                                                                              | Default                   |
-| --------------- | --------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------- |
-| `actionElement` | --        | (optional) A reference to the dropdown action element | `HTMLElement`                                                                                     | `null`                    |
-| `isOpen`        | `is-open` | (optional) If `true` the list is opened               | `boolean`                                                                                         | `false`                   |
-| `listElement`   | --        | (optional) A reference to the dropdown list element   | `HTMLElement`                                                                                     | `null`                    |
-| `options`       | --        | (optional) The dropdown position config options       | `{ platform?: Platform; placement?: Placement; strategy?: Strategy; middleware?: Middleware[]; }` | `DEFAULT_POSITION_CONFIG` |
+| Property        | Attribute  | Description                                                                                      | Type                                                                                              | Default                   |
+| --------------- | ---------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- | ------------------------- |
+| `actionElement` | --         | (optional) A reference to the dropdown action element                                            | `HTMLElement`                                                                                     | `null`                    |
+| `disabled`      | `disabled` | (optional) If `true` clicking outside the dropdown will not trigger state change. Default: false | `boolean`                                                                                         | `false`                   |
+| `isOpen`        | `is-open`  | (optional) If `true` the list is opened                                                          | `boolean`                                                                                         | `false`                   |
+| `listElement`   | --         | (optional) A reference to the dropdown list element                                              | `HTMLElement`                                                                                     | `null`                    |
+| `options`       | --         | (optional) The dropdown position config options                                                  | `{ platform?: Platform; placement?: Placement; strategy?: Strategy; middleware?: Middleware[]; }` | `DEFAULT_POSITION_CONFIG` |
 
 
 ## Events

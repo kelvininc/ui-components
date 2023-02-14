@@ -128,7 +128,7 @@ input {
 		}
 	}
 
-	&:read-only {
+	&:read-only:not(:disabled) {
 		cursor: pointer;
 	}
 
@@ -201,6 +201,10 @@ input {
 		width: var(--right-slot-width);
 		overflow: hidden;
 
+		&:not(.disabled) {
+			cursor: pointer;
+		}
+
 		::slotted(kv-icon) {
 			--icon-width: 16px;
 			--icon-height: 16px;
@@ -211,7 +215,6 @@ input {
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			cursor: pointer;
 		}
 
 		&.focus {

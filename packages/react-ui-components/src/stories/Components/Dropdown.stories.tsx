@@ -55,3 +55,15 @@ Default.args = {
 		helpText: 'You can select several options'
 	}
 };
+
+export const Disabled = DropdownTemplate.bind({});
+Disabled.args = {
+	disabled: true,
+	inputConfig: {
+		label: 'Options',
+		icon: EIconName.Layer,
+		required: true,
+		placeholder: 'Select an option',
+		helpText: 'You can select several options'
+	}
+};
