@@ -14,12 +14,14 @@
 	&-success {
 		kv-icon {
 			--icon-color: #{kv-color('success')};
+			--icon-background-color: #{kv-color('neutral-0')};
 		}
 	}
 
 	&-error {
 		kv-icon {
 			--icon-color: #{kv-color('error')};
+			--icon-background-color: #{kv-color('neutral-0')};
 		}
 	}
 
@@ -38,6 +40,7 @@
 	&-info {
 		kv-icon {
 			--icon-color: #{kv-color('info')};
+			--icon-background-color: #{kv-color('neutral-0')};
 		}
 	}
 }
