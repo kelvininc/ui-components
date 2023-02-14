@@ -216,6 +216,7 @@
 
 			&.info {
 				--icon-color: #{kv-color('info')};
+				--icon-background-color: #{kv-color('neutral-0')};
 			}
 
 			&.warning {
@@ -224,10 +225,12 @@
 
 			&.success {
 				--icon-color: #{kv-color('success')};
+				--icon-background-color: #{kv-color('neutral-0')};
 			}
 
 			&.error {
 				--icon-color: #{kv-color('error')};
+				--icon-background-color: #{kv-color('neutral-0')};
 			}
 		}
 
