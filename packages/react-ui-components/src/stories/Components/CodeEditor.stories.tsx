@@ -37,6 +37,11 @@ export default {
 			control: {
 				type: 'boolean'
 			}
+		},
+		paddingTop: {
+			control: {
+				type: 'number'
+			}
 		}
 	},
 	parameters: {
