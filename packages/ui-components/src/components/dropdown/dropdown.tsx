@@ -42,12 +42,6 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 		}
 	}
 
-	private onOpenStateChange = ({ detail: openState }: CustomEvent<boolean>) => {
-		if (!this.disabled) {
-			this.openStateChange.emit(openState);
-		}
-	};
-
 	private getInputConfig = () => {
 		return merge({}, DEFAULT_INPUT_CONFIG, { disabled: this.disabled }, this.inputConfig);
 	};
@@ -56,14 +50,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 		return (
 			<Host>
 				<div class="dropdown-container">
-					<kv-dropdown-base
-						isOpen={this.isOpen}
-						options={this.options}
-						onOpenStateChange={this.onOpenStateChange}
-						actionElement={this.actionElement}
-						listElement={this.listElement}
-						disabled={this.disabled}
-					>
+					<kv-dropdown-base isOpen={this.isOpen} options={this.options} actionElement={this.actionElement} listElement={this.listElement} disabled={this.disabled}>
 						<div slot="action">
 							<kv-text-field
 								{...this.getInputConfig()}

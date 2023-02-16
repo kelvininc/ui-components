@@ -57,4 +57,6 @@ export interface ISingleSelectDropdownEvents {
 	optionSelected: EventEmitter<string>;
 	/** Emitted when the search term changes */
 	searchChange: EventEmitter<string>;
+	/** Emitted when the dropdown open state changes */
+	openStateChange: EventEmitter<boolean>;
 }

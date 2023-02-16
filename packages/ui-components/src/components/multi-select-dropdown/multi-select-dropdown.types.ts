@@ -61,4 +61,6 @@ export interface IMultiSelectDropdownEvents {
 	searchChange: EventEmitter<string>;
 	/** Emitted when the selection is cleared */
 	selectionCleared: EventEmitter<void>;
+	/** Emitted when the dropdown open state changes */
+	openStateChange: EventEmitter<boolean>;
 }

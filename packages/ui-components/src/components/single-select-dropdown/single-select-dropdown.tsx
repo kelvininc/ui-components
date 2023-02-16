@@ -57,6 +57,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Event() optionSelected: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
+	/** @inheritdoc */
+	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 
 	@State() _selectedOption: string;
 	@State() _selectedOptionLabel: string;
@@ -69,9 +71,11 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this._selectedOption = option.value;
 		this._selectedOptionLabel = option.label;
 		this.optionSelected.emit(option.value);
-		this.isOpen = false;
 		this._searchValue = '';
 		this.searchChange.emit('');
+
+		this.isOpen = false;
+		this.openStateChange.emit(false);
 	};
 
 	private onSearchChange = (event: CustomEvent<string>) => {

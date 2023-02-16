@@ -93,11 +93,13 @@ export const KvCalendarAdvancedDateExample: React.FC = () => (
 
 ## Events
 
-| Event                | Description                                     | Type                                                  |
-| -------------------- | ----------------------------------------------- | ----------------------------------------------------- |
-| `absoluteTimeChange` | Emitted when the absolute time selector changes | `CustomEvent<{ key: string; range: SelectedRange; }>` |
-| `relativeTimeChange` | Emitted when the relative time selector changes | `CustomEvent<{ key: string; range: SelectedRange; }>` |
-| `timezoneChange`     | Emitted when selected timezone changes          | `CustomEvent<string>`                                 |
+| Event                         | Description                                                 | Type                                                  |
+| ----------------------------- | ----------------------------------------------------------- | ----------------------------------------------------- |
+| `absoluteTimeChange`          | Emitted when the absolute time selector changes             | `CustomEvent<{ key: string; range: SelectedRange; }>` |
+| `rangeDropdownStateChange`    | Emitted when the range calendar dropdown open state changes | `CustomEvent<boolean>`                                |
+| `relativeTimeChange`          | Emitted when the relative time selector changes             | `CustomEvent<{ key: string; range: SelectedRange; }>` |
+| `timezoneChange`              | Emitted when selected timezone changes                      | `CustomEvent<string>`                                 |
+| `timezoneDropdownStateChange` | Emitted when the timezone dropdown open state changes       | `CustomEvent<boolean>`                                |
 
 
 ## Shadow Parts

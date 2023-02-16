@@ -65,10 +65,11 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 
 ## Events
 
-| Event            | Description                             | Type                  |
-| ---------------- | --------------------------------------- | --------------------- |
-| `optionSelected` | Emitted when the selected option change | `CustomEvent<string>` |
-| `searchChange`   | Emitted when the search term changes    | `CustomEvent<string>` |
+| Event             | Description                                  | Type                   |
+| ----------------- | -------------------------------------------- | ---------------------- |
+| `openStateChange` | Emitted when the dropdown open state changes | `CustomEvent<boolean>` |
+| `optionSelected`  | Emitted when the selected option change      | `CustomEvent<string>`  |
+| `searchChange`    | Emitted when the search term changes         | `CustomEvent<string>`  |
 
 
 ## Shadow Parts
