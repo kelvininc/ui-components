@@ -25,6 +25,8 @@ export interface ICodeEditorProps {
 	theme?: ECodeEditorTheme;
 	/** Use this property to define and set a custom theme on the editor */
 	customTheme?: CustomThemeData;
+	/** Use this property to add some padding (in px) at the top of the editor */
+	paddingTop?: number;
 	/** Use this property to pass a callback function for when the value (`code`) changes. */
 	onChange?: OnEditorChangeCallback;
 }
