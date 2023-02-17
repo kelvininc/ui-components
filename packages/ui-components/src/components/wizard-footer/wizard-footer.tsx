@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, Host, Prop, h } from '@stencil/core';
-import { IWizardFooter, IWizardFooterActionBtn, IWizardFooterEvents } from './wizard-footer.types';
+import { IWizardFooter, IWizardFooterEvents } from './wizard-footer.types';
 import { EActionButtonType, IStepBarStep } from '../../types';
 import { isEmpty } from 'lodash';
 

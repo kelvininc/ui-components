@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Alert (unit tests when using required props and defaults should match the snapshot 1`] = `
+<kv-alert label="Main Message" show-icon="" size="large" type="info">
+  <mock:shadow-root>
+    <div class="alert-container">
+      <div class="alert alert--type-info">
+        <div class="information">
+          <kv-icon class="icon" name="kv-error"></kv-icon>
+          <div class="text-container">
+            <div class="title">
+              Main Message
+            </div>
+          </div>
+        </div>
+        <slot name="actions"></slot>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-alert>
+`;
+
+exports[`Alert (unit tests when using required props and description should match the snapshot 1`] = `
+<kv-alert description="Secondary Message" label="Main Message" show-icon="" size="large" type="info">
+  <mock:shadow-root>
+    <div class="alert-container">
+      <div class="alert alert--type-info">
+        <div class="information">
+          <kv-icon class="icon" name="kv-error"></kv-icon>
+          <div class="text-container">
+            <div class="title">
+              Main Message
+            </div>
+            <div class="description">
+              Secondary Message
+            </div>
+          </div>
+        </div>
+        <slot name="actions"></slot>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-alert>
+`;
+
+exports[`Alert (unit tests when using required props and showIcon \`false\` should match the snapshot 1`] = `
+<kv-alert label="Main Message" show-icon="false" size="large" type="info">
+  <mock:shadow-root>
+    <div class="alert-container">
+      <div class="alert alert--type-info">
+        <div class="information">
+          <div class="text-container">
+            <div class="title">
+              Main Message
+            </div>
+          </div>
+        </div>
+        <slot name="actions"></slot>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-alert>
+`;
