@@ -56,7 +56,7 @@
 		"validate": "npm run lint && npm run test && npm run build"
 	},
 	"dependencies": {
-		"@floating-ui/dom": "^0.4.0",
+		"@floating-ui/dom": "^1.2.1",
 		"css-element-queries": "^1.2.3",
 		"inputmask": "5.0.8-beta.17"
 	},

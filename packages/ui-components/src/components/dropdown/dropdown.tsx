@@ -2,7 +2,7 @@ import { Component, Element, Event, EventEmitter, Host, Method, Prop, h } from '
 import { IDropdown, IDropdownEvents } from './dropdown.types';
 
 import { ComputePositionConfig } from '@floating-ui/dom';
-import { DEFAULT_INPUT_CONFIG } from './dropdown.config';
+import { DEFAULT_DROPDOWN_POSITION_CONFIG, DEFAULT_INPUT_CONFIG } from './dropdown.config';
 import { EIconName } from '../icon/icon.types';
 import { ITextField } from '../text-field/text-field.types';
 import { merge } from 'lodash-es';
@@ -21,7 +21,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) isOpen?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) options?: Partial<ComputePositionConfig>;
+	@Prop({ reflect: false }) options?: Partial<ComputePositionConfig> = DEFAULT_DROPDOWN_POSITION_CONFIG;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) actionElement?: HTMLElement = null;
 	/** @inheritdoc */
