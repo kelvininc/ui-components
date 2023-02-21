@@ -12,11 +12,6 @@ export default {
 				type: 'text'
 			}
 		},
-		debounceTime: {
-			control: {
-				type: 'number'
-			}
-		},
 		language: {
 			control: {
 				type: 'text'

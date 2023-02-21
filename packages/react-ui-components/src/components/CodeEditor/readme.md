@@ -32,10 +32,6 @@ Defaults to: `undefined`
 Use this property to set the editor to a read only mode where the user cannot modify the value.
 Defaults to: `false`
 
-### _debounceTime (number)_
-Use this property to define the debounce time in ms of the `onChange` function.
-Defaults to: `200`
-
 ### _loadingComponent (ReactNode)_
 Use this property to define a placeholder component to display when the editor is loading.
 Defaults to: `<KvLoader />`
