@@ -17,7 +17,14 @@ kv-icon {
 }
 
 .action-button-text {
-
-	@include kv-font-span-semibold;
 	white-space: nowrap;
 }
+
+kv-action-button[size='large'] .action-button-text {
+	@include kv-font-span-semibold;
+}
+
+kv-action-button[size='small'] .action-button-text {
+	@include kv-font-label-small-semibold;
+}
+
