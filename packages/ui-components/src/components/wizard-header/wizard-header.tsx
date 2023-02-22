@@ -3,9 +3,7 @@ import { IWizardHeader } from './wizard-header.types';
 
 @Component({
 	tag: 'kv-wizard-header',
-	styleUrls: {
-		night: 'wizard-header.night.scss'
-	},
+	styleUrl: 'wizard-header.scss',
 	shadow: true
 })
 export class KvWizardHeader implements IWizardHeader {
