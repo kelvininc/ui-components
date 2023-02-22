@@ -53,6 +53,19 @@ export const WizardHeaderExamples = () => (
 | `--text-color` | The color to use for all text |
 
 
+## Dependencies
+
+### Used by
+
+ - [kv-wizard](../wizard)
+
+### Graph
+```mermaid
+graph TD;
+  kv-wizard --> kv-wizard-header
+  style kv-wizard-header fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 

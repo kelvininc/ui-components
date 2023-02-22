@@ -57,6 +57,7 @@ import {
 	KvFormHelpText,
 	KvFormLabel,
 	KvRange,
+	KvWizard,
 	KvWizardHeader,
 	KvWizardFooter
 } from './stencil-generated/component';
@@ -120,6 +121,7 @@ const COMPONENTS = [
 	KvFormHelpText,
 	KvFormLabel,
 	KvRange,
+	KvWizard,
 	KvWizardHeader,
 	KvWizardFooter
 ];

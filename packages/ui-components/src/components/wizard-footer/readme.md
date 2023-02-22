@@ -142,6 +142,10 @@ export const KvWizardFooterExample: React.FC = () => {
 
 ## Dependencies
 
+### Used by
+
+ - [kv-wizard](../wizard)
+
 ### Depends on
 
 - [kv-step-bar](../step-bar)
@@ -156,6 +160,7 @@ graph TD;
   kv-step-bar --> kv-step-indicator
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon
+  kv-wizard --> kv-wizard-footer
   style kv-wizard-footer fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
