@@ -15,8 +15,6 @@ export interface ICodeEditorProps {
 	code?: string;
 	/** Use this property to set the editor to a read only mode where the user cannot modify the value. */
 	readOnly?: boolean;
-	/** Use this property to define the debounce time in ms of the `onChange` function. */
-	debounceTime?: number;
 	/** Use this property to define a placeholder component to display when the editor is loading. */
 	loadingComponent?: ReactNode;
 	/** Use this property to define the language mode of the editor. */
