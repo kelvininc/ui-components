@@ -52,6 +52,8 @@ export class KvTooltip implements ITooltip {
 	private showTooltip = () => {
 		if (!this.disabled) {
 			const tooltip = this.getTooltipElement();
+			if (!tooltip) return;
+
 			tooltip.classList.remove('tooltip-container-hidden');
 			tooltip.classList.toggle('tooltip-container-visible');
 			this.update();
@@ -72,6 +74,8 @@ export class KvTooltip implements ITooltip {
 
 	private hideTooltip = () => {
 		const tooltip = this.getTooltipElement();
+		if (!tooltip) return;
+
 		tooltip.classList.remove('tooltip-container-visible');
 		tooltip.classList.toggle('tooltip-container-hidden');
 	};
@@ -87,6 +91,7 @@ export class KvTooltip implements ITooltip {
 	private update = () => {
 		const tooltip = this.getTooltipElement();
 		const child = this.getContentElement();
+		if (!tooltip) return;
 
 		computePosition(child, tooltip, this.getOptions()).then(({ x, y }) => {
 			tooltip.style.left = `${x}px`;
@@ -111,10 +116,8 @@ export class KvTooltip implements ITooltip {
 	componentDidRender() {
 		const child = this.getContentElement();
 		const tooltip = this.getTooltipElement();
+		if (!tooltip) return;
 
-		if (tooltip === null) {
-			return;
-		}
 		this.unlistenToEvents(child);
 		this.listenToEvents(child);
 	}
