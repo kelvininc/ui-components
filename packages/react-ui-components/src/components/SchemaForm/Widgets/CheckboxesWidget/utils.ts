@@ -1,19 +1,19 @@
-import { IRadioButton } from '@kelvininc/ui-components';
+import { IToggleButton } from '@kelvininc/ui-components';
 import { ALL_BUTTON_VALUE } from './config';
 import { CheckboxOption, ICheckboxConfig } from './types';
 
-export const buildRadioButtons = <T extends CheckboxOption>(
+export const buildToggleButtons = <T extends CheckboxOption>(
 	options: T[],
 	enumDisabled: (string | number | boolean)[],
-	{ multiple, allButton, disabled, readonly }: ICheckboxConfig
-): IRadioButton[] =>
-	options.reduce<IRadioButton[]>(
-		(accumulator, { label, value }) => [
-			...accumulator,
+	{ multiple, allButton, readonly }: ICheckboxConfig
+): IToggleButton[] =>
+	options.reduce<IToggleButton[]>(
+		(acc, { label, value }) => [
+			...acc,
 			{
 				label,
 				value,
-				disabled: disabled || enumDisabled.includes(value) || readonly
+				disabled: enumDisabled.includes(value) || readonly
 			}
 		],
 		multiple && allButton
@@ -26,7 +26,7 @@ export const buildRadioButtons = <T extends CheckboxOption>(
 			: []
 	);
 
-export const buildSelectedRadioButtons = <T extends CheckboxOption>(
+export const buildSelectedToggleButtons = <T extends CheckboxOption>(
 	selectedOptions: string[],
 	allOptions: T[],
 	{ multiple, allButton }: ICheckboxConfig
@@ -41,11 +41,23 @@ export const buildSelectedRadioButtons = <T extends CheckboxOption>(
 		return { [ALL_BUTTON_VALUE]: true };
 	}
 
-	return selectedOptions.reduce<{ [key: string]: boolean }>((accumulator, selectOption) => {
-		accumulator[selectOption] = true;
+	return selectedOptions.reduce<{ [key: string]: boolean }>((acc, selectOption) => {
+		acc[selectOption] = true;
 
-		return accumulator;
+		return acc;
 	}, {});
+};
+
+export const buildDisabledToggleButtons = (buttons: IToggleButton[]): { [key: string]: boolean } => {
+	const disabledButtons: { [key: string]: boolean } = buttons.reduce<{ [key: string]: boolean }>((acc, button) => {
+		acc[button.value] = button.disabled ?? false;
+
+		return acc;
+	}, {});
+
+	disabledButtons[ALL_BUTTON_VALUE] = Object.values(disabledButtons).some(value => value);
+
+	return disabledButtons;
 };
 
 export const toggleSelectedOptions = <T extends CheckboxOption>(

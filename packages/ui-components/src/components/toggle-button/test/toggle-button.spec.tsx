@@ -1,15 +1,15 @@
 import { newSpecPage, SpecPage } from '@stencil/core/testing';
-import { KvRadioButton } from '../radio-button';
+import { KvToggleButton } from '../toggle-button';
 
-describe('Radio Button (unit tests)', () => {
+describe('Toggle Button (unit tests)', () => {
 	let page: SpecPage;
-	let component: KvRadioButton;
+	let component: KvToggleButton;
 
 	describe('when the component loads with label', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvRadioButton],
-				html: '<kv-radio-button label="Option 1" value="opt1"></kv-radio-button>'
+				components: [KvToggleButton],
+				html: '<kv-toggle-button label="Option 1" value="opt1"></kv-toggle-button>'
 			});
 			component = page.rootInstance;
 		});
@@ -22,8 +22,8 @@ describe('Radio Button (unit tests)', () => {
 	describe('when the component loads with icon', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvRadioButton],
-				html: '<kv-radio-button icon="kv-add" value="opt1"></kv-radio-button>'
+				components: [KvToggleButton],
+				html: '<kv-toggle-button icon="kv-add" value="opt1"></kv-toggle-button>'
 			});
 			component = page.rootInstance;
 		});
@@ -36,8 +36,8 @@ describe('Radio Button (unit tests)', () => {
 	describe('when the component loads with label and icon', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvRadioButton],
-				html: '<kv-radio-button label="Add item" icon="kv-add" value="opt1"></kv-radio-button>'
+				components: [KvToggleButton],
+				html: '<kv-toggle-button label="Add item" icon="kv-add" value="opt1"></kv-toggle-button>'
 			});
 			component = page.rootInstance;
 		});
@@ -50,8 +50,8 @@ describe('Radio Button (unit tests)', () => {
 	describe('when the component loads with disabled prop', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvRadioButton],
-				html: '<kv-radio-button label="Option 1" value="opt1" disabled></kv-radio-button>'
+				components: [KvToggleButton],
+				html: '<kv-toggle-button label="Option 1" value="opt1" disabled></kv-toggle-button>'
 			});
 			component = page.rootInstance;
 		});
@@ -64,8 +64,8 @@ describe('Radio Button (unit tests)', () => {
 	describe('when the component loads with checked prop', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvRadioButton],
-				html: '<kv-radio-button label="Option 1" value="opt1" checked></kv-radio-button>'
+				components: [KvToggleButton],
+				html: '<kv-toggle-button label="Option 1" value="opt1" checked></kv-toggle-button>'
 			});
 			component = page.rootInstance;
 		});
@@ -78,8 +78,8 @@ describe('Radio Button (unit tests)', () => {
 	describe('when the component loads with preventDefault prop', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvRadioButton],
-				html: '<kv-radio-button label="Option 1" value="opt1" prevent-default="true"></kv-radio-button>'
+				components: [KvToggleButton],
+				html: '<kv-toggle-button label="Option 1" value="opt1" prevent-default="true"></kv-toggle-button>'
 			});
 			component = page.rootInstance;
 		});

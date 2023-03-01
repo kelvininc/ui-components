@@ -1,9 +1,9 @@
 @import '../../assets/styles/globals';
 
-:host > kv-radio-button {
+:host > kv-toggle-button {
 	margin-right: $spacing;
 }
 
-:host > kv-radio-button:last-child {
+:host > kv-toggle-button:last-child {
 	margin-right: unset;
 }

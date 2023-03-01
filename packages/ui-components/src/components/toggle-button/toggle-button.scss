@@ -2,34 +2,34 @@
 
 :host {
 	/**
-	 * @prop --button-width: Radio button component's width.
-	 * @prop --button-height: Radio button component's height.
-	 * @prop --button-icon-width: Radio button component's icon width.
-	 * @prop --button-icon-height: Radio button component's icon height.
-	 * @prop --button-padding: Radio button component's padding.
-	 * @prop --text-color-default: Radio button component's text color default.
-	 * @prop --text-color-active: Radio button component's text color active.
-	 * @prop --text-color-disabled: Radio button component's text color disabled.
-	 * @prop --background-color-default: Radio button component's background color default.
-	 * @prop --background-color-active: Radio button component's background color active.
-	 * @prop --background-color-disabled: Radio button component's background color disabled.
-	 * @prop --border-color-default: Radio button component's border color default.
-	 * @prop --border-color-active: Radio button component's border color active.
-	 * @prop --border-color-disabled: Radio button component's border color disabled.
+	 * @prop --button-width: toggle button component's width.
+	 * @prop --button-height: toggle button component's height.
+	 * @prop --button-icon-width: toggle button component's icon width.
+	 * @prop --button-icon-height: toggle button component's icon height.
+	 * @prop --button-padding: toggle button component's padding.
+	 * @prop --text-color-default: toggle button component's text color default.
+	 * @prop --text-color-active: toggle button component's text color active.
+	 * @prop --text-color-disabled: toggle button component's text color disabled.
+	 * @prop --background-color-default: toggle button component's background color default.
+	 * @prop --background-color-active: toggle button component's background color active.
+	 * @prop --background-color-disabled: toggle button component's background color disabled.
+	 * @prop --border-color-default: toggle button component's border color default.
+	 * @prop --border-color-active: toggle button component's border color active.
+	 * @prop --border-color-disabled: toggle button component's border color disabled.
 	 */
 
 	--text-color-default: #{kv-color('neutral-2')};
 	--text-color-active: #{kv-color('neutral-0')};
-	--text-color-disabled: #{kv-color('neutral-4')};
+	--text-color-disabled: #{kv-color('neutral-5')};
 	--background-color-default: #{kv-color('neutral-6')};
 	--background-color-active: #{kv-color('neutral-6')};
-	--background-color-disabled: #{kv-color('neutral-6')};
+	--background-color-disabled: #{kv-color('neutral-7')};
 	--border-color-default: #{kv-color('neutral-6')};
 	--border-color-active: #{kv-color('neutral-0')};
 	--border-color-disabled: #{kv-color('neutral-6')};
 }
 
-.radio-button {
+.toggle-button {
 	@include kv-font-label-small-regular;
 
 	text-decoration: none;
@@ -54,9 +54,9 @@
 	height: var(--button-height, 36px);
 	padding: var(--button-padding, 0 $spacing-3x);
 
-	.radio-button-icon,
-	.radio-button-icon kv-icon,
-	.radio-button-label {
+	.toggle-button-icon,
+	.toggle-button-icon kv-icon,
+	.toggle-button-label {
 		display: flex;
 		align-items: center;
 	}
@@ -68,7 +68,7 @@
 		color: var(--text-color-active);
 		background: var(--background-color-active);
 
-		.radio-button-icon kv-icon {
+		.toggle-button-icon kv-icon {
 			--icon-color: var(--text-color-active);
 		}
 	}
@@ -81,7 +81,7 @@
 		cursor: not-allowed;
 		pointer-events: none;
 
-		.radio-button-icon kv-icon {
+		.toggle-button-icon kv-icon {
 			--icon-color: var(--text-color-disabled);
 		}
 	}

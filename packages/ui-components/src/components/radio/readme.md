@@ -78,6 +78,19 @@ export const RadioExample: React.FC = () => (
 | `--radio-label-text-color`    | Radio label color.                           |
 
 
+## Dependencies
+
+### Used by
+
+ - [kv-toggle-button](../toggle-button)
+
+### Graph
+```mermaid
+graph TD;
+  kv-toggle-button --> kv-radio
+  style kv-radio fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 

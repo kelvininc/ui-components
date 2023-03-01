@@ -1,20 +1,20 @@
 import { newSpecPage, SpecPage } from '@stencil/core/testing';
 import { cloneDeep } from 'lodash-es';
-import { KvRadioButtonGroup } from '../radio-button-group';
-import { RADIO_BUTTON_ITEMS } from './radio-button-group.mock';
+import { KvToggleButtonGroup } from '../toggle-button-group';
+import { TOGGLE_BUTTON_ITEMS } from './toggle-button-group.mock';
 import { h } from '@stencil/core';
 
-describe('Radio Button Group (unit tests)', () => {
+describe('Toggle Button Group (unit tests)', () => {
 	let page: SpecPage;
-	let component: KvRadioButtonGroup;
+	let component: KvToggleButtonGroup;
 
-	const radioButtonsMock = cloneDeep(RADIO_BUTTON_ITEMS);
+	const toggleButtonsMock = cloneDeep(TOGGLE_BUTTON_ITEMS);
 
 	describe('when rendering with default props', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvRadioButtonGroup],
-				template: () => <kv-radio-button-group buttons={radioButtonsMock}></kv-radio-button-group>
+				components: [KvToggleButtonGroup],
+				template: () => <kv-toggle-button-group buttons={toggleButtonsMock}></kv-toggle-button-group>
 			});
 			component = page.rootInstance;
 		});
@@ -35,8 +35,7 @@ describe('Radio Button Group (unit tests)', () => {
 				},
 				{
 					value: 'opt3',
-					label: 'Option 3',
-					disabled: true
+					label: 'Option 3'
 				},
 				{
 					value: 'opt4',

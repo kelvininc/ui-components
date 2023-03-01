@@ -1,6 +1,6 @@
-import { IRadioButton } from '../../radio-button/radio-button.types';
+import { IToggleButton } from '../../toggle-button/toggle-button.types';
 
-export const RADIO_BUTTON_ITEMS: IRadioButton[] = [
+export const TOGGLE_BUTTON_ITEMS: IToggleButton[] = [
 	{
 		value: 'opt1',
 		label: 'Option 1'
@@ -11,8 +11,7 @@ export const RADIO_BUTTON_ITEMS: IRadioButton[] = [
 	},
 	{
 		value: 'opt3',
-		label: 'Option 3',
-		disabled: true
+		label: 'Option 3'
 	},
 	{
 		value: 'opt4',

@@ -2,20 +2,20 @@ import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { isEmpty, throttle } from 'lodash-es';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { EAnchorTarget, EIconName, EOtherIconName } from '../../types';
-import { IRadioButton, IRadioButtonEvents } from './radio-button.types';
+import { IToggleButton, IToggleButtonEvents } from './toggle-button.types';
 
 /**
- * @part radio-button - The radio action.
- * @part radio-icon - The radio button's icon container.
- * @part radio-text - The radio button's text container.
- * @part radio-label - The radio button's label container.
+ * @part toggle-button - The toggle action.
+ * @part toggle-icon - The toggle button's icon container.
+ * @part toggle-text - The toggle button's text container.
+ * @part toggle-label - The toggle button's label container.
  */
 @Component({
-	tag: 'kv-radio-button',
-	styleUrl: 'radio-button.scss',
+	tag: 'kv-toggle-button',
+	styleUrl: 'toggle-button.scss',
 	shadow: true
 })
-export class KvRadioButton implements IRadioButton, IRadioButtonEvents {
+export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) value!: string;
 	/** @inheritdoc */
@@ -34,6 +34,8 @@ export class KvRadioButton implements IRadioButton, IRadioButtonEvents {
 	@Prop({ reflect: true }) download?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) preventDefault? = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) withRadio?: boolean = false;
 
 	/** @inheritdoc */
 	@Event() checkedChange: EventEmitter<string>;
@@ -65,24 +67,25 @@ export class KvRadioButton implements IRadioButton, IRadioButtonEvents {
 			<Host>
 				<a
 					class={{
-						'radio-button': true,
-						'radio-button--checked': this.checked,
-						'radio-button--disabled': this.disabled,
-						'radio-button--only-icon': hasIcon && !hasLabel
+						'toggle-button': true,
+						'toggle-button--checked': this.checked,
+						'toggle-button--disabled': this.disabled,
+						'toggle-button--only-icon': hasIcon && !hasLabel
 					}}
-					part="radio-button"
+					part="toggle-button"
 					onClick={this.onClick}
 					download={this.download}
 					href={this.href}
 					target={this.target}
 				>
+					{this.withRadio && <kv-radio checked={this.checked} />}
 					{hasIcon && (
-						<div class="radio-button-icon" part="radio-icon">
+						<div class="toggle-button-icon" part="toggle-icon">
 							<kv-icon name={this.icon} />
 						</div>
 					)}
 					{hasLabel && (
-						<div class="radio-button-label" part="radio-label">
+						<div class="toggle-button-label" part="toggle-label">
 							{this.label}
 						</div>
 					)}
