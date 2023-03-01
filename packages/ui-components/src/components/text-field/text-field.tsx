@@ -18,6 +18,7 @@ import Inputmask from 'inputmask';
 })
 export class KvTextField implements ITextField, ITextFieldEvents {
 	private nativeInput?: HTMLInputElement;
+	private maskInstance: Inputmask.Instance;
 
 	@Element() el!: HTMLKvTextFieldElement;
 	/** @inheritdoc */
@@ -59,6 +60,8 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) forcedFocus: boolean = false;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) highlighted: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) tooltipConfig?: Partial<ITooltip>;
 	/** @inheritdoc */
 	@Prop({ reflect: true, mutable: true }) value?: string | number | null = '';
@@ -90,6 +93,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 
 	/** Internal help texts state */
 	@State() _helpTexts: string[];
+
 	/** Watch the `helpText` property and update internal state accordingly */
 	@Watch('helpText')
 	helpTextChangeHandler(newValue: string | string[]) {
@@ -105,6 +109,23 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		}
 	}
 
+	@Watch('useInputMask')
+	handleUseInputMask(newValue: boolean) {
+		if (newValue && isInputMaskCompatibleType(this.type) && !this.maskInstance) {
+			this.maskInstance = Inputmask({
+				...getInputMaskConfig(this.type),
+				min: this.min,
+				max: this.max,
+				regex: this.inputMaskRegex
+			}).mask(this.nativeInput);
+		} else {
+			if (this.nativeInput) {
+				Inputmask.remove(this.nativeInput);
+				this.valueChangeHandler(this.value);
+			}
+		}
+	}
+
 	componentWillLoad() {
 		// Init the states because Watches run only on component updates
 		this._helpTexts = this.buildHelpTextMessages(this.helpText);
@@ -112,14 +133,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	}
 
 	componentDidLoad() {
-		if (this.useInputMask && isInputMaskCompatibleType(this.type)) {
-			return Inputmask({
-				...getInputMaskConfig(this.type),
-				min: this.min,
-				max: this.max,
-				regex: this.inputMaskRegex
-			}).mask(this.nativeInput);
-		}
+		this.handleUseInputMask(this.useInputMask);
 	}
 
 	/** Text field focus state */
@@ -196,7 +210,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 								<Fragment>
 									<input
 										id={id}
-										ref={input => (this.nativeInput = input)}
+										ref={input => (this.nativeInput = input as HTMLInputElement)}
 										type={type}
 										list={!isNil(this.examples) ? `examples_${id}` : undefined}
 										name={this.inputName}
@@ -216,7 +230,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 											'has-icon': !isEmpty(this.icon),
 											'left-slotted': this.hasLeftSlot,
 											'right-slotted': this.hasRightSlot,
-											'forced-focus': this.focused
+											'forced-focus': this.focused || this.highlighted
 										}}
 										readonly={this.readonly}
 									/>
@@ -224,7 +238,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										<div
 											class={{
 												'left-slot-container': true,
-												'focus': this.focused,
+												'focus': this.focused || this.highlighted,
 												'invalid': this.state === EValidationState.Invalid,
 												'disabled': this.disabled
 											}}
@@ -237,7 +251,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 														class={{
 															invalid: this.state === EValidationState.Invalid,
 															disabled: this.disabled,
-															focus: this.focused
+															focus: this.focused || this.highlighted
 														}}
 													/>
 												)}
@@ -248,7 +262,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										<div
 											class={{
 												'right-slot-container': true,
-												'focus': this.focused,
+												'focus': this.focused || this.highlighted,
 												'disabled': this.disabled
 											}}
 										>

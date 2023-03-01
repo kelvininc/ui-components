@@ -1,0 +1,45 @@
+import { ComputePositionConfig } from '@floating-ui/dom';
+import { ITextField } from '../text-field/text-field.types';
+import { IRelativeTimePickerOption, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
+import { EventEmitter } from '@stencil/core';
+import { SelectedRange } from '../../types';
+
+export interface ITimePicker {
+	/** (optional) Configuration of the dropdown input */
+	inputConfig?: Partial<ITextField>;
+	/** (optional) Dropdown possible positions */
+	dropdownPositionOptions?: Partial<ComputePositionConfig>;
+	/** (optional) Defines if the dropdown is disabled */
+	disabled?: boolean;
+	/** (optional) Determines if the show calendar toggle is enabled */
+	showCalendar?: boolean;
+	/** (optional) Selected time key */
+	selectedTimeState?: ITimePickerTime;
+	/** (optional) Relative time picker options*/
+	relativeTimePickerOptions?: IRelativeTimePickerOption[][];
+	/** (optional) Selected time zone */
+	selectedTimezone?: string;
+	/** (optional) Timezones */
+	timezones?: string[];
+	/** (optional) Determines if the customize interval otion is visible */
+	displayCustomizeInterval?: boolean;
+	/** (optional) Determines if the timezone dropdown is visible */
+	displayTimezoneDropdown?: boolean;
+	/** (optional) Lets the timezone visible but doens't let the user change it */
+	disableTimezoneSelection?: boolean;
+}
+
+export interface ITimePickerEvents {
+	/** Emitted when time range changes */
+	timeRangeChange: EventEmitter<ITimePickerTime>;
+	/** Emitted when dropdown state changes */
+	dropdownStateChange: EventEmitter<boolean>;
+	/** Emitted when cancel button is clicked */
+	cancelClicked: EventEmitter<CustomEvent<MouseEvent>>;
+}
+
+export interface ITimePickerTime {
+	key: string;
+	range: SelectedRange;
+	timezone?: ITimePickerTimezone;
+}

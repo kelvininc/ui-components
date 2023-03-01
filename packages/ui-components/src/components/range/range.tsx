@@ -64,7 +64,7 @@ export class KvRange implements IRange, IRangeEvents {
 		return (
 			<Host>
 				<div class="range-container">
-					<input id="slider" class="slider" type="range" min={this.min} max={this.max} value={this.value} step={this.step} onInput={this.onInputChange} />
+					<input id="slider" class="slider" type="range" min={this.min} max={this.max} step={this.step} value={this.value} onInput={this.onInputChange} />
 					{!this.hideLabel && (
 						<span id="select-value" class="select-value">
 							{this.value}

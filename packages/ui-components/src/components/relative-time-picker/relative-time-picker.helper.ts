@@ -1,22 +1,22 @@
 import { ERelativeTimeComparisonConfig, IDateTimeRangeFormatter, IRelativeTimeDropdownOption, IRelativeTimePickerOption, SelectedRangeDetail } from './relative-time-picker.types';
-import { calculateDate, isDateTimeBefore, newDate, newTimezoneDate } from '../../utils/date.helper';
+import { calculateDate, isDateTimeBefore, newDate } from '../../utils/date.helper';
 import { Dayjs } from 'dayjs';
 import { isEmpty } from 'lodash-es';
 import { BOTTOM_OPTIONS_HEIGHT, GROUP_GAP, MAX_HEIGHT, PADDING_SIZE, SELECT_OPTION_HEIGHT } from './relative-time-picker.config';
 import { SelectedRange } from '../../types';
 
-export const buildRelativeTimeSelectOptions = (options: IRelativeTimePickerOption[][], timeZone: string): IRelativeTimeDropdownOption[][] => {
+export const buildRelativeTimeSelectOptions = (options: IRelativeTimePickerOption[][]): IRelativeTimeDropdownOption[][] => {
 	return options.reduce<IRelativeTimeDropdownOption[][]>((acc, group) => {
-		const groupOptions = buildRelativeTimeGroupOptions(group, timeZone);
+		const groupOptions = buildRelativeTimeGroupOptions(group);
 		acc.push(groupOptions);
 
 		return acc;
 	}, []);
 };
 
-export const buildRelativeTimeGroupOptions = (options: IRelativeTimePickerOption[], timeZone: string): IRelativeTimeDropdownOption[] => {
+export const buildRelativeTimeGroupOptions = (options: IRelativeTimePickerOption[]): IRelativeTimeDropdownOption[] => {
 	return options.reduce<IRelativeTimeDropdownOption[]>((acc, option) => {
-		const { description, range } = buildOptionRange(option, timeZone);
+		const { description, range } = buildOptionRange(option);
 
 		const newOption: IRelativeTimeDropdownOption = {
 			key: option.value,
@@ -31,42 +31,42 @@ export const buildRelativeTimeGroupOptions = (options: IRelativeTimePickerOption
 	}, []);
 };
 
-export const buildOptionRange = (option: IRelativeTimePickerOption, timeZone: string): SelectedRangeDetail => {
+export const buildOptionRange = (option: IRelativeTimePickerOption): SelectedRangeDetail => {
 	switch (option.comparisonConfig) {
 		case ERelativeTimeComparisonConfig.StartDateEndDate:
-			return buildStartDateEndDateConfigRange(option, timeZone);
+			return buildStartDateEndDateConfigRange(option);
 		case ERelativeTimeComparisonConfig.StartDate || ERelativeTimeComparisonConfig.EndDate:
-			return buildSingleDateConfigRange(option, timeZone);
+			return buildSingleDateConfigRange(option);
 		case ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits:
-			return buildAbsoluteAmountOfUnitsConfigRange(option, timeZone);
+			return buildAbsoluteAmountOfUnitsConfigRange(option);
 		default:
-			return buildRelativeAmountOfUnitsConfigRange(option, timeZone);
+			return buildRelativeAmountOfUnitsConfigRange(option);
 	}
 };
 
-export const buildStartDateEndDateConfigRange = (option: IRelativeTimePickerOption, timeZone: string): SelectedRangeDetail => {
-	const startDateTime = newTimezoneDate(timeZone, option.startDate.date);
-	const endDateTime = newTimezoneDate(timeZone, option.endDate.date);
+export const buildStartDateEndDateConfigRange = (option: IRelativeTimePickerOption): SelectedRangeDetail => {
+	const startDateTime = newDate(option.startDate.date);
+	const endDateTime = newDate(option.endDate.date);
 
 	return buildSelectedRangeDetail(startDateTime, endDateTime, option.labelRangeFormatter);
 };
 
-export const buildSingleDateConfigRange = (option: IRelativeTimePickerOption, timeZone: string): SelectedRangeDetail => {
-	const nowDateTime = newTimezoneDate(timeZone);
-	const calculatedDate = newTimezoneDate(timeZone, option.startDate.date);
+export const buildSingleDateConfigRange = (option: IRelativeTimePickerOption): SelectedRangeDetail => {
+	const nowDateTime = newDate();
+	const calculatedDate = newDate(option.startDate.date);
 
 	return buildSelectedRangeDetail(nowDateTime, calculatedDate, option.labelRangeFormatter);
 };
 
-export const buildRelativeAmountOfUnitsConfigRange = (option: IRelativeTimePickerOption, timeZone: string): SelectedRangeDetail => {
-	const nowDateTime = newTimezoneDate(timeZone);
+export const buildRelativeAmountOfUnitsConfigRange = (option: IRelativeTimePickerOption): SelectedRangeDetail => {
+	const nowDateTime = newDate();
 	const { amount, unit } = option.startDate;
 	const calculatedDate = calculateDate(nowDateTime, amount, unit);
 	return buildSelectedRangeDetail(nowDateTime, calculatedDate, option.labelRangeFormatter);
 };
 
-export const buildAbsoluteAmountOfUnitsConfigRange = (option: IRelativeTimePickerOption, timeZone: string): SelectedRangeDetail => {
-	const nowDateTime = newTimezoneDate(timeZone);
+export const buildAbsoluteAmountOfUnitsConfigRange = (option: IRelativeTimePickerOption): SelectedRangeDetail => {
+	const nowDateTime = newDate();
 	const { unit: startDateUnit, amount: startDateAmount } = option.startDate;
 	const { unit: endDateUnit, amount: endDateAmount } = option.endDate;
 

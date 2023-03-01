@@ -4,6 +4,8 @@ import { EIconName } from '../icon/icon.types';
 export interface IInputWrapper {
 	/** Defines the state of the component */
 	contentVisible: boolean;
+	/** Defines if the content can be seen */
+	contentDisabled?: boolean;
 	/** Label that is shown when the component is in Default state */
 	label?: string;
 	/** Icon that is displayed when the component is hovered and is in default state */

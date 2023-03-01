@@ -109,6 +109,10 @@ export class SwichButtonExample {
 
 ## Dependencies
 
+### Used by
+
+ - [kv-time-picker](../time-picker)
+
 ### Depends on
 
 - [kv-icon](../icon)
@@ -117,6 +121,7 @@ export class SwichButtonExample {
 ```mermaid
 graph TD;
   kv-switch-button --> kv-icon
+  kv-time-picker --> kv-switch-button
   style kv-switch-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

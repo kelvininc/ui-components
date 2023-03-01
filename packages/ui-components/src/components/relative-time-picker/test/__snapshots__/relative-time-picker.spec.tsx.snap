@@ -24,7 +24,7 @@ exports[`KvRelativeTimePicker (unit tests) when the component loads with empty p
         </div>
       </div>
       <div class="selectable">
-        <kv-select-option label="Customize Interval" value="customize-interval"></kv-select-option>
+        <kv-select-option label="Custom Interval" value="customize-interval"></kv-select-option>
       </div>
       <div class="selectable">
         <kv-input-wrapper icon="kv-edit">

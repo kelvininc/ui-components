@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Absolute Time Picker (unit tests) when default props and initial date are used should match the snapshot 1`] = `
+<kv-absolute-time-picker>
+  <div class="absolute-time-picker-container">
+    <div class="header">
+      <div class="title">
+        Custom Interval
+      </div>
+    </div>
+    <div class="absolute-input">
+      <kv-date-time-input highlighted="" label="From" placeholder="dd-mm-yyyy 00:00:00" size="small" useinputmask="" value=""></kv-date-time-input>
+      <kv-date-time-input label="To" placeholder="dd-mm-yyyy 00:00:00" size="small" useinputmask="" value=""></kv-date-time-input>
+    </div>
+    <div class="calendars">
+      <kv-time-picker-calendar displaypreviousmontharrow="" hovereddate="" initialdate="2023-03-03" maxdate="" mindate=""></kv-time-picker-calendar>
+      <kv-time-picker-calendar displaynextmontharrow="" hovereddate="" initialdate="2023-04-03" maxdate="" mindate=""></kv-time-picker-calendar>
+    </div>
+  </div>
+</kv-absolute-time-picker>
+`;

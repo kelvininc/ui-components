@@ -49,6 +49,8 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	@Prop({ reflect: false }) customizeIntervalOptionVisible?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) timezoneSelectVisible?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disableTimezoneSelection?: boolean = false;
 
 	/** State that keeps the relative options that are constantly updated if the time
 	 * changes
@@ -74,8 +76,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	@Watch('options')
 	handleRelativeTimeOptionsChanges() {
 		const optionsToBuild = this.options ?? DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS;
-		const timezone = this.getSelectedTimezone();
-		const dropdownOptions = buildRelativeTimeSelectOptions(optionsToBuild, timezone);
+		const dropdownOptions = buildRelativeTimeSelectOptions(optionsToBuild);
 		this.relativeTimeOptions = dropdownOptions;
 
 		if (!isEmpty(this.selectedTimeKey) && this.selectedTimeKey !== CUSTOMIZE_INTERVAL_KEY) {
@@ -219,6 +220,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 						<div class="selectable">
 							<kv-input-wrapper
 								contentVisible={this.timezoneContentVisible}
+								contentDisabled={this.disableTimezoneSelection}
 								label={this.getSelectedTimezone()}
 								icon={EIconName.Edit}
 								onContentClick={this.handleShowTimezoneContent}

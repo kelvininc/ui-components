@@ -2,7 +2,7 @@ import { ERelativeTimeComparisonConfig, IRelativeTimePickerOption } from './rela
 
 export const TIME_RANGE_UPDATE_INTERVAL = 10000;
 export const CUSTOMIZE_INTERVAL_KEY = 'customize-interval';
-export const CUSTOMIZE_INTERVAL_LABEL = 'Customize Interval';
+export const CUSTOMIZE_INTERVAL_LABEL = 'Custom Interval';
 
 export const TIMEZONES_PLACEHOLDER = 'Select a timezone';
 export const TIMEZONES_SEARCH_PLACEHOLDER = 'Search for a timezone';
@@ -114,7 +114,7 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 	],
 	[
 		{
-			label: 'Last 5 mins',
+			label: 'Last 5 minutes',
 			value: 'last-5-m',
 			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
@@ -128,7 +128,7 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			}
 		},
 		{
-			label: 'Last 15 mins',
+			label: 'Last 15 minutes',
 			value: 'last-15-m',
 			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
@@ -142,7 +142,7 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			}
 		},
 		{
-			label: 'Last 30 mins',
+			label: 'Last 30 minutes',
 			value: 'last-30-m',
 			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {

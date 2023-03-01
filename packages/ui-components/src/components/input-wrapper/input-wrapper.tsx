@@ -11,6 +11,8 @@ export class KvInputWrapper implements IInputWrapper, IInputWrapperEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: false }) contentVisible!: boolean;
 	/** @inheritdoc */
+	@Prop({ reflect: false }) contentDisabled?: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: false }) label?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) icon?: EIconName = EIconName.Edit;
@@ -19,7 +21,7 @@ export class KvInputWrapper implements IInputWrapper, IInputWrapperEvents {
 	@Event() contentClick: EventEmitter<boolean>;
 
 	private handleContentClick = () => {
-		if (!this.contentVisible) {
+		if (!this.contentVisible && !this.contentDisabled) {
 			this.contentClick.emit(this.contentVisible);
 		}
 	};
@@ -27,8 +29,14 @@ export class KvInputWrapper implements IInputWrapper, IInputWrapperEvents {
 	render() {
 		return (
 			<Host>
-				<div class={{ 'input-container': true, 'input-container--content-hidden': !this.contentVisible }} onClick={this.handleContentClick}>
-					{this.contentVisible ? (
+				<div
+					class={{
+						'input-container': true,
+						'input-container--content-hidden': !this.contentVisible && !this.contentDisabled
+					}}
+					onClick={this.handleContentClick}
+				>
+					{this.contentVisible && !this.contentDisabled ? (
 						<div class="slot-container">
 							<slot />
 						</div>

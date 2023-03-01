@@ -46,11 +46,12 @@ export const KvInputWrapperExample: React.FC = () => (
 
 ## Properties
 
-| Property                      | Attribute         | Description                                                                  | Type        | Default          |
-| ----------------------------- | ----------------- | ---------------------------------------------------------------------------- | ----------- | ---------------- |
-| `contentVisible` _(required)_ | `content-visible` | Defines the state of the component                                           | `boolean`   | `undefined`      |
-| `icon`                        | `icon`            | Icon that is displayed when the component is hovered and is in default state | `EIconName` | `EIconName.Edit` |
-| `label`                       | `label`           | Label that is shown when the component is in Default state                   | `string`    | `undefined`      |
+| Property                      | Attribute          | Description                                                                  | Type        | Default          |
+| ----------------------------- | ------------------ | ---------------------------------------------------------------------------- | ----------- | ---------------- |
+| `contentDisabled`             | `content-disabled` | Defines if the content can be seen                                           | `boolean`   | `false`          |
+| `contentVisible` _(required)_ | `content-visible`  | Defines the state of the component                                           | `boolean`   | `undefined`      |
+| `icon`                        | `icon`             | Icon that is displayed when the component is hovered and is in default state | `EIconName` | `EIconName.Edit` |
+| `label`                       | `label`            | Label that is shown when the component is in Default state                   | `string`    | `undefined`      |
 
 
 ## Events

@@ -49,6 +49,7 @@ export const KvRelativeTimePickerExample: React.FC = () => (
 | Property                         | Attribute                           | Description                                                             | Type                            | Default                                |
 | -------------------------------- | ----------------------------------- | ----------------------------------------------------------------------- | ------------------------------- | -------------------------------------- |
 | `customizeIntervalOptionVisible` | `customize-interval-option-visible` | (optional) Defines if the customize interval select option is available | `boolean`                       | `true`                                 |
+| `disableTimezoneSelection`       | `disable-timezone-selection`        | (optional) Lets the timezone visible but doens't let the user change it | `boolean`                       | `false`                                |
 | `options`                        | --                                  | (optional) Selectable relative time options                             | `IRelativeTimePickerOption[][]` | `DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS` |
 | `selectedTimeKey`                | `selected-time-key`                 | (optional) Selected time range key                                      | `string`                        | `undefined`                            |
 | `selectedTimezone`               | `selected-timezone`                 | (optional) Currently selected timezone name                             | `string`                        | `undefined`                            |
@@ -73,6 +74,10 @@ export const KvRelativeTimePickerExample: React.FC = () => (
 
 
 ## Dependencies
+
+### Used by
+
+ - [kv-time-picker](../time-picker)
 
 ### Depends on
 
@@ -106,6 +111,7 @@ graph TD;
   kv-select --> kv-search
   kv-search --> kv-text-field
   kv-search --> kv-icon
+  kv-time-picker --> kv-relative-time-picker
   style kv-relative-time-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

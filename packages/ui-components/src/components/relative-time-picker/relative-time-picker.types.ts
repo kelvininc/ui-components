@@ -15,6 +15,8 @@ export interface IRelativeTimePicker {
 	customizeIntervalOptionVisible?: boolean;
 	/** (optional) Defines if the timezone select option is available */
 	timezoneSelectVisible?: boolean;
+	/** (optional) Lets the timezone visible but doens't let the user change it */
+	disableTimezoneSelection?: boolean;
 }
 
 export interface IRelativeTimePickerEvents {

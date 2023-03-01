@@ -7,6 +7,7 @@ import {
 	getDateMonth,
 	getDateYear,
 	getFirstWeekdayIndexOfMonth,
+	getMonthTitle,
 	getNumberOfDaysInMonth,
 	getWeekdaysNames,
 	isDateAfter,
@@ -18,7 +19,6 @@ import {
 } from '../../utils/date.helper';
 import { EActionButtonType } from '../action-button/action-button.types';
 import { EIconName } from '../icon/icon.types';
-import { getMonthTitle } from './calendar.helper';
 import { ICalendar, ICalendarEvents, IChangeYearEvent, IChangeMonthEvent, IClickDateEvent, SelectedRange } from './calendar.types';
 
 /**

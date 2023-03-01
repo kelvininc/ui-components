@@ -5,7 +5,7 @@ import React from 'react';
 KvRelativeTimePicker.displayName = 'KvRelativeTimePicker';
 
 export default {
-	title: 'Calendar/Time Picker/RelativeTimePicker',
+	title: 'Time Picker/RelativeTimePicker',
 	component: 'kv-relative-time-picker',
 	argTypes: {
 		onTimezoneChange: {

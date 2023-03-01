@@ -6,6 +6,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import localeData from 'dayjs/plugin/localeData';
 import objectSupport from 'dayjs/plugin/objectSupport';
 import timezone from 'dayjs/plugin/timezone';
+import isBetween from 'dayjs/plugin/isBetween';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import utc from 'dayjs/plugin/utc';
 import { TIMEZONES } from './date.config';
@@ -16,6 +17,7 @@ dayjs.extend(customParseFormat);
 dayjs.extend(localeData);
 dayjs.extend(objectSupport);
 dayjs.extend(timezone);
+dayjs.extend(isBetween);
 dayjs.extend(utc);
 
 /**
@@ -55,6 +57,7 @@ export const getFirstWeekdayIndexOfMonth = (month: number, year: number): number
 // Dates
 export const isDateBefore = (dateA: DateInput, dateB: DateInput): boolean => newDate(dateA).isBefore(dateB, 'days');
 export const isDateTimeBefore = (dateA: DateInput, dateB: DateInput): boolean => newDate(dateA).isBefore(dateB);
+export const isDateTimeAfter = (dateA: DateInput, dateB: DateInput): boolean => newDate(dateA).isAfter(dateB);
 export const isDateAfter = (dateA: DateInput, dateB: DateInput): boolean => newDate(dateA).isAfter(dateB, 'days');
 export const isDateSame = (dateA: DateInput, dateB: DateInput): boolean => newDate(dateA).isSame(dateB, 'days');
 export const isDateInRange = (date: DateInput, rangeStartDate: DateInput, rangeEndDate: DateInput, inclusive: boolean = true): boolean => {
@@ -117,3 +120,4 @@ export const fromDatesRangeKey = (datesKey: string): SelectedRange => {
 
 	return [startDate, endDate].filter(isDateValid) as SelectedRange;
 };
+export const getMonthTitle = (month: number, year: number): string => `${getMonthName(month)} ${year}`;
