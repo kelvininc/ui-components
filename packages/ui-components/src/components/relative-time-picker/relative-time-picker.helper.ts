@@ -1,9 +1,16 @@
-import { ERelativeTimeComparisonConfig, IDateTimeRangeFormatter, IRelativeTimeDropdownOption, IRelativeTimePickerOption, SelectedRangeDetail } from './relative-time-picker.types';
-import { calculateDate, isDateTimeBefore, newDate, newTimezoneDate } from '../../utils/date.helper';
-import { Dayjs } from 'dayjs';
+import {
+	ERelativeTimeComparisonConfig,
+	EUnitReference,
+	IDateTimeRangeFormatter,
+	IRelativeTimeDropdownOption,
+	IRelativeTimePickerOption,
+	SelectedRangeDetail
+} from './relative-time-picker.types';
+import { calculateDate, isDateTimeBefore, newTimezoneDate } from '../../utils/date.helper';
+import dayjs, { Dayjs } from 'dayjs';
 import { isEmpty } from 'lodash-es';
 import { BOTTOM_OPTIONS_HEIGHT, GROUP_GAP, MAX_HEIGHT, PADDING_SIZE, SELECT_OPTION_HEIGHT } from './relative-time-picker.config';
-import { SelectedRange } from '../../types';
+import { SelectedTimestampRange } from '../../types';
 
 export const buildRelativeTimeSelectOptions = (options: IRelativeTimePickerOption[][], timeZone: string): IRelativeTimeDropdownOption[][] => {
 	return options.reduce<IRelativeTimeDropdownOption[][]>((acc, group) => {
@@ -31,6 +38,7 @@ export const buildRelativeTimeGroupOptions = (options: IRelativeTimePickerOption
 	}, []);
 };
 
+/** Date range builders */
 export const buildOptionRange = (option: IRelativeTimePickerOption, timeZone: string): SelectedRangeDetail => {
 	switch (option.comparisonConfig) {
 		case ERelativeTimeComparisonConfig.StartDateEndDate:
@@ -44,6 +52,7 @@ export const buildOptionRange = (option: IRelativeTimePickerOption, timeZone: st
 	}
 };
 
+// Build date from config with start and end date
 export const buildStartDateEndDateConfigRange = (option: IRelativeTimePickerOption, timeZone: string): SelectedRangeDetail => {
 	const startDateTime = newTimezoneDate(timeZone, option.startDate.date);
 	const endDateTime = newTimezoneDate(timeZone, option.endDate.date);
@@ -51,6 +60,7 @@ export const buildStartDateEndDateConfigRange = (option: IRelativeTimePickerOpti
 	return buildSelectedRangeDetail(startDateTime, endDateTime, option.labelRangeFormatter);
 };
 
+// Build date from config with start or end date
 export const buildSingleDateConfigRange = (option: IRelativeTimePickerOption, timeZone: string): SelectedRangeDetail => {
 	const nowDateTime = newTimezoneDate(timeZone);
 	const calculatedDate = newTimezoneDate(timeZone, option.startDate.date);
@@ -58,38 +68,67 @@ export const buildSingleDateConfigRange = (option: IRelativeTimePickerOption, ti
 	return buildSelectedRangeDetail(nowDateTime, calculatedDate, option.labelRangeFormatter);
 };
 
+// Build date with both start and end date relative to now timestamp
+export const buildAbsoluteAmountOfUnitsConfigRange = (option: IRelativeTimePickerOption, timeZone: string): SelectedRangeDetail => {
+	const nowDateTime = newTimezoneDate(timeZone);
+	const { unit: startDateUnit, amount: startDateAmount, unitReference: startUnitReference } = option.startDate;
+	const { unit: endDateUnit, amount: endDateAmount, unitReference: endUnitReference } = option.endDate;
+
+	const startDateTime = calculateDateWithUnitReference(calculateDate(nowDateTime, startDateAmount, startDateUnit), startDateUnit, startUnitReference);
+	const endDateTime = calculateDateWithUnitReference(calculateDate(nowDateTime, endDateAmount, endDateUnit), endDateUnit, endUnitReference);
+
+	return buildSelectedRangeDetail(startDateTime, endDateTime, option.labelRangeFormatter);
+};
+
+// Build date with start date relative to now timestamp
 export const buildRelativeAmountOfUnitsConfigRange = (option: IRelativeTimePickerOption, timeZone: string): SelectedRangeDetail => {
 	const nowDateTime = newTimezoneDate(timeZone);
-	const { amount, unit } = option.startDate;
-	const calculatedDate = calculateDate(nowDateTime, amount, unit);
+	const { amount, unit, unitReference } = option.startDate;
+	const calculatedDate = calculateDateWithUnitReference(calculateDate(nowDateTime, amount, unit), unit, unitReference);
+
 	return buildSelectedRangeDetail(nowDateTime, calculatedDate, option.labelRangeFormatter);
 };
 
-export const buildAbsoluteAmountOfUnitsConfigRange = (option: IRelativeTimePickerOption, timeZone: string): SelectedRangeDetail => {
-	const nowDateTime = newTimezoneDate(timeZone);
-	const { unit: startDateUnit, amount: startDateAmount } = option.startDate;
-	const { unit: endDateUnit, amount: endDateAmount } = option.endDate;
+const calculateDateWithUnitReference = (date: dayjs.Dayjs, unit: dayjs.ManipulateType | dayjs.QUnitType, unitReference?: EUnitReference): dayjs.Dayjs => {
+	if (!unitReference) {
+		return date;
+	}
 
-	const startDateTime = calculateDate(nowDateTime, startDateAmount, startDateUnit);
-	const endDateTime = calculateDate(nowDateTime, endDateAmount, endDateUnit);
-
-	return buildSelectedRangeDetail(startDateTime.startOf(startDateUnit), endDateTime.endOf(endDateUnit), option.labelRangeFormatter);
+	if (unitReference === EUnitReference.StartOfUnit) {
+		return date.startOf(unit);
+	} else {
+		return date.endOf(unit);
+	}
 };
 
+/**
+ * Builds the range of the start and end date and returns the range array, ordering the dates if needed
+ * @param dateA date (start or end)
+ * @param dateB date (start or end)
+ * @param labelRangeFormatter specifies the description displayed in the list of time options
+ * @returns range containing start date and end date ordered
+ */
 export const buildSelectedRangeDetail = (dateA: Dayjs, dateB: Dayjs, labelRangeFormatter: IDateTimeRangeFormatter): SelectedRangeDetail => {
 	if (isDateTimeBefore(dateA, dateB)) {
 		return {
-			range: [dateA.format(), dateB.format()],
+			range: [dateA.valueOf(), dateB.valueOf()],
 			description: buildDateRangeDescription(dateA, dateB, labelRangeFormatter)
 		};
 	} else {
 		return {
-			range: [dateB.format(), dateA.format()],
+			range: [dateB.valueOf(), dateA.valueOf()],
 			description: buildDateRangeDescription(dateB, dateA, labelRangeFormatter)
 		};
 	}
 };
 
+/**
+ * Builds the description of the date
+ * @param startDate start date
+ * @param endDate end date
+ * @param formatObject specifies how the dates and the separators should be read
+ * @returns description of the range accordingly with the format object
+ */
 export const buildDateRangeDescription = (startDate: Dayjs, endDate: Dayjs, formatObject: IDateTimeRangeFormatter) => {
 	const startDateDescription = !isEmpty(formatObject.startDateFormatter) ? startDate.format(formatObject.startDateFormatter) : '';
 	const separator = !isEmpty(formatObject.separator) ? ` ${formatObject.separator} ` : '';
@@ -98,12 +137,12 @@ export const buildDateRangeDescription = (startDate: Dayjs, endDate: Dayjs, form
 	return `${startDateDescription}${separator}${endDateDescription}`;
 };
 
-export const getSelectedKeyRange = (options: IRelativeTimeDropdownOption[][], key: string): SelectedRange => {
+export const getSelectedKeyRange = (options: IRelativeTimeDropdownOption[][], key: string): SelectedTimestampRange => {
 	const selectedItem = options.flat().find(item => item.key === key);
 	return selectedItem.range;
 };
 
-export const hasRangeChanged = (selectedRange: SelectedRange, currentRange: SelectedRange): boolean => {
+export const hasRangeChanged = (selectedRange: SelectedTimestampRange, currentRange: SelectedTimestampRange): boolean => {
 	if (isEmpty(selectedRange)) return true;
 
 	const currentRangeStartDate = getDateTimeWithResetedSeconds(currentRange[0]);
@@ -118,8 +157,8 @@ export const hasRangeChanged = (selectedRange: SelectedRange, currentRange: Sele
 	return false;
 };
 
-const getDateTimeWithResetedSeconds = (date: string): string => {
-	return newDate(date).second(0).toString();
+const getDateTimeWithResetedSeconds = (date: number): string => {
+	return dayjs(date).set('second', 0).format();
 };
 
 export const isScrollNeeded = (options: IRelativeTimePickerOption[][], displayingCustomizeOption: boolean, displayingTimezoneDropdown: boolean) => {

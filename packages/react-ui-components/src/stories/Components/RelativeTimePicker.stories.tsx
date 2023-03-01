@@ -5,7 +5,7 @@ import React from 'react';
 KvRelativeTimePicker.displayName = 'KvRelativeTimePicker';
 
 export default {
-	title: 'Time Picker/RelativeTimePicker',
+	title: 'Time Picker/Relative Time Picker',
 	component: 'kv-relative-time-picker',
 	argTypes: {
 		onTimezoneChange: {
@@ -28,20 +28,20 @@ const RelativeTimePickerTemplate: ComponentStory<typeof KvRelativeTimePicker> = 
 export const DefaultState = RelativeTimePickerTemplate.bind({});
 DefaultState.args = {
 	selectedTimeKey: 'today',
-	customizeIntervalOptionVisible: true,
-	timezoneSelectVisible: true
+	customIntervalOptionEnabled: true,
+	timezoneSelectionEnabled: true
 };
 
 export const TimezoneHidden = RelativeTimePickerTemplate.bind({});
 TimezoneHidden.args = {
 	selectedTimeKey: 'today',
-	customizeIntervalOptionVisible: true,
-	timezoneSelectVisible: false
+	customIntervalOptionEnabled: true,
+	timezoneSelectionEnabled: false
 };
 
 export const OnlySliderVisible = RelativeTimePickerTemplate.bind({});
 OnlySliderVisible.args = {
 	selectedTimeKey: 'today',
-	customizeIntervalOptionVisible: false,
-	timezoneSelectVisible: false
+	customIntervalOptionEnabled: false,
+	timezoneSelectionEnabled: false
 };

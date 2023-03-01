@@ -11,7 +11,7 @@ describe('KvRelativeTimePicker (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvRelativeTimePicker],
-				template: () => <kv-relative-time-picker options={MOCK_RELATIVE_TIME_OPTIONS_GROUPS}></kv-relative-time-picker>
+				template: () => <kv-relative-time-picker options={MOCK_RELATIVE_TIME_OPTIONS_GROUPS} />
 			});
 			component = page.rootInstance;
 		});
@@ -21,11 +21,11 @@ describe('KvRelativeTimePicker (unit tests)', () => {
 		});
 
 		it('should display customize interval option', () => {
-			expect(component.customizeIntervalOptionVisible).toEqual(true);
+			expect(component.customIntervalOptionEnabled).toEqual(true);
 		});
 
 		it('should display timezone select component', () => {
-			expect(component.timezoneSelectVisible).toEqual(true);
+			expect(component.timezoneSelectionEnabled).toEqual(true);
 		});
 	});
 
@@ -33,13 +33,7 @@ describe('KvRelativeTimePicker (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvRelativeTimePicker],
-				template: () => (
-					<kv-relative-time-picker
-						options={MOCK_RELATIVE_TIME_OPTIONS_GROUPS}
-						customizeIntervalOptionVisible={false}
-						timezoneSelectVisible={false}
-					></kv-relative-time-picker>
-				)
+				template: () => <kv-relative-time-picker options={MOCK_RELATIVE_TIME_OPTIONS_GROUPS} customIntervalOptionEnabled={false} timezoneSelectionEnabled={false} />
 			});
 			component = page.rootInstance;
 		});
@@ -49,11 +43,11 @@ describe('KvRelativeTimePicker (unit tests)', () => {
 		});
 
 		it('should display customize interval option', () => {
-			expect(component.customizeIntervalOptionVisible).toEqual(false);
+			expect(component.customIntervalOptionEnabled).toEqual(false);
 		});
 
 		it('should display timezone select component', () => {
-			expect(component.timezoneSelectVisible).toEqual(false);
+			expect(component.timezoneSelectionEnabled).toEqual(false);
 		});
 	});
 });

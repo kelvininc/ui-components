@@ -18,6 +18,7 @@ import Inputmask from 'inputmask';
 })
 export class KvTextField implements ITextField, ITextFieldEvents {
 	private nativeInput?: HTMLInputElement;
+	private maskInstance: Inputmask.Instance;
 
 	@Element() el!: HTMLKvTextFieldElement;
 	/** @inheritdoc */
@@ -92,6 +93,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 
 	/** Internal help texts state */
 	@State() _helpTexts: string[];
+
 	/** Watch the `helpText` property and update internal state accordingly */
 	@Watch('helpText')
 	helpTextChangeHandler(newValue: string | string[]) {
@@ -107,15 +109,10 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		}
 	}
 
-	componentWillLoad() {
-		// Init the states because Watches run only on component updates
-		this._helpTexts = this.buildHelpTextMessages(this.helpText);
-		this.focused = this.forcedFocus;
-	}
-
-	componentDidLoad() {
-		if (this.useInputMask && isInputMaskCompatibleType(this.type)) {
-			return Inputmask({
+	@Watch('useInputMask')
+	handleUseInputMask(newValue: boolean) {
+		if (newValue && isInputMaskCompatibleType(this.type) && !this.maskInstance) {
+			this.maskInstance = Inputmask({
 				...getInputMaskConfig(this.type),
 				min: this.min,
 				max: this.max,
@@ -127,6 +124,16 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 				this.valueChangeHandler(this.value);
 			}
 		}
+	}
+
+	componentWillLoad() {
+		// Init the states because Watches run only on component updates
+		this._helpTexts = this.buildHelpTextMessages(this.helpText);
+		this.focused = this.forcedFocus;
+	}
+
+	componentDidLoad() {
+		this.handleUseInputMask(this.useInputMask);
 	}
 
 	/** Text field focus state */
@@ -203,7 +210,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 								<Fragment>
 									<input
 										id={id}
-										ref={input => (this.nativeInput = input)}
+										ref={input => (this.nativeInput = input as HTMLInputElement)}
 										type={type}
 										list={!isNil(this.examples) ? `examples_${id}` : undefined}
 										name={this.inputName}

@@ -1,8 +1,8 @@
-import { ERelativeTimeComparisonConfig, IRelativeTimePickerOption } from './relative-time-picker.types';
+import { ERelativeTimeComparisonConfig, EUnitReference, IRelativeTimePickerOption } from './relative-time-picker.types';
 
 export const TIME_RANGE_UPDATE_INTERVAL = 10000;
 export const CUSTOMIZE_INTERVAL_KEY = 'customize-interval';
-export const CUSTOMIZE_INTERVAL_LABEL = 'Customize Interval';
+export const CUSTOMIZE_INTERVAL_LABEL = 'Custom Interval';
 
 export const TIMEZONES_PLACEHOLDER = 'Select a timezone';
 export const TIMEZONES_SEARCH_PLACEHOLDER = 'Search for a timezone';
@@ -15,7 +15,8 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
 				amount: 0,
-				unit: 'days'
+				unit: 'days',
+				unitReference: EUnitReference.StartOfUnit
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM',
@@ -29,11 +30,13 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
 			startDate: {
 				amount: -1,
-				unit: 'days'
+				unit: 'days',
+				unitReference: EUnitReference.StartOfUnit
 			},
 			endDate: {
 				amount: -1,
-				unit: 'days'
+				unit: 'days',
+				unitReference: EUnitReference.EndOfUnit
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM'
@@ -45,11 +48,13 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
 			startDate: {
 				amount: 0,
-				unit: 'week'
+				unit: 'week',
+				unitReference: EUnitReference.StartOfUnit
 			},
 			endDate: {
 				amount: 0,
-				unit: 'week'
+				unit: 'week',
+				unitReference: EUnitReference.EndOfUnit
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM',
@@ -63,11 +68,13 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
 			startDate: {
 				amount: 0,
-				unit: 'month'
+				unit: 'month',
+				unitReference: EUnitReference.StartOfUnit
 			},
 			endDate: {
 				amount: 0,
-				unit: 'month'
+				unit: 'month',
+				unitReference: EUnitReference.EndOfUnit
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM',
@@ -81,11 +88,13 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
 			startDate: {
 				amount: 0,
-				unit: 'quarter'
+				unit: 'quarter',
+				unitReference: EUnitReference.StartOfUnit
 			},
 			endDate: {
 				amount: 0,
-				unit: 'quarter'
+				unit: 'quarter',
+				unitReference: EUnitReference.EndOfUnit
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM',
@@ -99,11 +108,13 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
 			startDate: {
 				amount: 0,
-				unit: 'year'
+				unit: 'year',
+				unitReference: EUnitReference.StartOfUnit
 			},
 			endDate: {
 				amount: 0,
-				unit: 'year'
+				unit: 'year',
+				unitReference: EUnitReference.EndOfUnit
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM',
@@ -114,7 +125,7 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 	],
 	[
 		{
-			label: 'Last 5 mins',
+			label: 'Last 5 minutes',
 			value: 'last-5-m',
 			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
@@ -128,7 +139,7 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			}
 		},
 		{
-			label: 'Last 15 mins',
+			label: 'Last 15 minutes',
 			value: 'last-15-m',
 			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
@@ -142,7 +153,7 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			}
 		},
 		{
-			label: 'Last 30 mins',
+			label: 'Last 30 minutes',
 			value: 'last-30-m',
 			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
@@ -247,11 +258,13 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
 			startDate: {
 				amount: -1,
-				unit: 'week'
+				unit: 'week',
+				unitReference: EUnitReference.StartOfUnit
 			},
 			endDate: {
 				amount: -1,
-				unit: 'week'
+				unit: 'week',
+				unitReference: EUnitReference.EndOfUnit
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM',
@@ -281,11 +294,13 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
 			startDate: {
 				amount: -1,
-				unit: 'month'
+				unit: 'month',
+				unitReference: EUnitReference.StartOfUnit
 			},
 			endDate: {
 				amount: -1,
-				unit: 'month'
+				unit: 'month',
+				unitReference: EUnitReference.EndOfUnit
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM',
@@ -315,11 +330,13 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
 			startDate: {
 				amount: -1,
-				unit: 'quarter'
+				unit: 'quarter',
+				unitReference: EUnitReference.StartOfUnit
 			},
 			endDate: {
 				amount: -1,
-				unit: 'quarter'
+				unit: 'quarter',
+				unitReference: EUnitReference.EndOfUnit
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM',
@@ -349,11 +366,13 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
 			startDate: {
 				amount: -1,
-				unit: 'year'
+				unit: 'year',
+				unitReference: EUnitReference.StartOfUnit
 			},
 			endDate: {
 				amount: -1,
-				unit: 'year'
+				unit: 'year',
+				unitReference: EUnitReference.EndOfUnit
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM',
@@ -383,11 +402,13 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
 			startDate: {
 				amount: -2,
-				unit: 'year'
+				unit: 'year',
+				unitReference: EUnitReference.StartOfUnit
 			},
 			endDate: {
 				amount: -1,
-				unit: 'year'
+				unit: 'year',
+				unitReference: EUnitReference.EndOfUnit
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM YYYY',
@@ -431,4 +452,4 @@ export const BOTTOM_OPTIONS_HEIGHT = 41;
 export const SELECT_OPTION_HEIGHT = 32;
 export const GROUP_GAP = 12; //spacing-3x
 export const MAX_HEIGHT = 347;
-export const PADDING_SIZE = 16;
+export const PADDING_SIZE = 16; //spacing-4x

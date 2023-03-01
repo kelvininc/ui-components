@@ -135,6 +135,7 @@ Type: `Promise<void>`
  - [kv-multi-select-dropdown](../multi-select-dropdown)
  - [kv-single-date-select-dropdown](../single-date-select-dropdown)
  - [kv-single-select-dropdown](../single-select-dropdown)
+ - [kv-time-picker](../time-picker)
 
 ### Depends on
 
@@ -157,6 +158,7 @@ graph TD;
   kv-multi-select-dropdown --> kv-dropdown
   kv-single-date-select-dropdown --> kv-dropdown
   kv-single-select-dropdown --> kv-dropdown
+  kv-time-picker --> kv-dropdown
   style kv-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

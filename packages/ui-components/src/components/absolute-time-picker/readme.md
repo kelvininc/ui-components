@@ -82,6 +82,10 @@ export const KvAbsoluteTimePicker: React.FC = () => (
 
 ## Dependencies
 
+### Used by
+
+ - [kv-time-picker](../time-picker)
+
 ### Depends on
 
 - [kv-icon](../icon)
@@ -97,6 +101,7 @@ graph TD;
   kv-date-time-input --> kv-form-label
   kv-time-picker-calendar --> kv-icon
   kv-time-picker-calendar --> kv-time-picker-calendar-day
+  kv-time-picker --> kv-absolute-time-picker
   style kv-absolute-time-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

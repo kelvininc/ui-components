@@ -20,14 +20,14 @@ export default {
 	}
 };
 
-const TextFieldTemplate: ComponentStory<typeof KvDateTimeInput> = args => <KvDateTimeInput {...args} />;
-export const Default = TextFieldTemplate.bind({});
+const DateTimeInputTemplate: ComponentStory<typeof KvDateTimeInput> = args => <KvDateTimeInput {...args} />;
+export const Default = DateTimeInputTemplate.bind({});
 Default.args = {
-	label: 'Default Text Field',
+	label: 'Default Text input',
 	size: EComponentSize.Large
 };
 
-export const DateTimeInputMask = TextFieldTemplate.bind({});
+export const DateTimeInputMask = DateTimeInputTemplate.bind({});
 DateTimeInputMask.args = {
 	label: 'Date time input mask',
 	useInputMask: true,

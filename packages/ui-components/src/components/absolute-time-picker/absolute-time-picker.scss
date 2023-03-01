@@ -16,7 +16,8 @@
 		width: fit-content;
 
 		kv-icon {
-			--icon-color: #{kv-color('neutral-4')};}
+			--icon-color: #{kv-color('neutral-4')};
+		}
 
 		.back-text {
 			@include kv-font-label-small-regular;
