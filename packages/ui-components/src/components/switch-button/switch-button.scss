@@ -76,6 +76,7 @@ $icon-sizes: (
 }
 
 .switch-button {
+	display: flex;
 	box-sizing: border-box;
 
 	cursor: pointer;
