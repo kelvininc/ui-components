@@ -65,6 +65,10 @@ export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSele
 	@Event() absoluteTimeChange: EventEmitter<ICalendarAdvanceTime>;
 	/** @inheritdoc */
 	@Event() timezoneChange: EventEmitter<string>;
+	/** @inheritdoc */
+	@Event({ bubbles: false }) rangeDropdownStateChange: EventEmitter<boolean>;
+	/** @inheritdoc */
+	@Event({ bubbles: false }) timezoneDropdownStateChange: EventEmitter<boolean>;
 
 	@Watch('timezones')
 	handleTimezonesChanges(timezones: string[]) {
@@ -146,6 +150,14 @@ export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSele
 		return 'Now';
 	};
 
+	private onDropdownChange = ({ detail: openState }: CustomEvent<boolean>) => {
+		this.rangeDropdownStateChange.emit(openState);
+	};
+
+	private onTimezoneChange = ({ detail: openState }: CustomEvent<boolean>) => {
+		this.timezoneDropdownStateChange.emit(openState);
+	};
+
 	public getSelectedTimezone = (): string | undefined => {
 		if (this.selectedTimezone !== undefined) {
 			return this.selectedTimezone;
@@ -190,6 +202,7 @@ export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSele
 								startInputConfig={this.getStartInputConfig()}
 								endInputConfig={this.getEndInputConfig()}
 								onSelectRangeDates={this.onSelectRangeDates}
+								onOpenStateChange={this.onDropdownChange}
 							/>
 						</div>
 						<div class="selector relative-date-selector">
@@ -220,6 +233,7 @@ export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSele
 								selectedOption={this.getSelectedTimezone()}
 								onSearchChange={this.onTimezoneSearchTermChange}
 								onOptionSelected={this.onTimezoneSelected}
+								onOpenStateChange={this.onTimezoneChange}
 							/>
 						</div>
 					)}

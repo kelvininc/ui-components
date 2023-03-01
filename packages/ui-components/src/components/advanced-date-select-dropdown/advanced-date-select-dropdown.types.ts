@@ -14,8 +14,12 @@ export interface IAdvancedDateSelectDropdown extends ICalendarAdvancedDateSelect
 }
 
 export interface IAdvancedDateSelectDropdownEvents {
-	/** Emitted when the calendar selector opens state changes */
-	openStateChange: EventEmitter<boolean>;
+	/** Emitted when the calendar dropdown open state changes */
+	dropdownStateChange: EventEmitter<boolean>;
+	/** Emitted when the range calendar dropdown open state changes */
+	rangeDropdownStateChange: EventEmitter<boolean>;
+	/** Emitted when the timezone dropdown open state changes */
+	timezoneDropdownStateChange: EventEmitter<boolean>;
 	/** Emitted when a time selector is applied */
 	timeApplied: EventEmitter<ITimeChange>;
 }

@@ -8,6 +8,7 @@ import { IRadioButton, IRadioButtonEvents } from './radio-button.types';
  * @part radio-button - The radio action.
  * @part radio-icon - The radio button's icon container.
  * @part radio-text - The radio button's text container.
+ * @part radio-label - The radio button's label container.
  */
 @Component({
 	tag: 'kv-radio-button',

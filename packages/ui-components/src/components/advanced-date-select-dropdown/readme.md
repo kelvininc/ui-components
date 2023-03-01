@@ -97,10 +97,12 @@ export const KvAdvancedDateExample: React.FC = () => (
 
 ## Events
 
-| Event             | Description                                            | Type                       |
-| ----------------- | ------------------------------------------------------ | -------------------------- |
-| `openStateChange` | Emitted when the calendar selector opens state changes | `CustomEvent<boolean>`     |
-| `timeApplied`     | Emitted when a time selector is applied                | `CustomEvent<ITimeChange>` |
+| Event                         | Description                                                 | Type                       |
+| ----------------------------- | ----------------------------------------------------------- | -------------------------- |
+| `dropdownStateChange`         | Emitted when the calendar dropdown open state changes       | `CustomEvent<boolean>`     |
+| `rangeDropdownStateChange`    | Emitted when the range calendar dropdown open state changes | `CustomEvent<boolean>`     |
+| `timeApplied`                 | Emitted when a time selector is applied                     | `CustomEvent<ITimeChange>` |
+| `timezoneDropdownStateChange` | Emitted when the timezone dropdown open state changes       | `CustomEvent<boolean>`     |
 
 
 ## CSS Custom Properties

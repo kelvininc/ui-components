@@ -50,7 +50,11 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 	@Prop({ reflect: true }) disabled?: boolean = false;
 
 	/** @inheritdoc */
-	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
+	@Event({ bubbles: false }) dropdownStateChange: EventEmitter<boolean>;
+	/** @inheritdoc */
+	@Event({ bubbles: false }) rangeDropdownStateChange: EventEmitter<boolean>;
+	/** @inheritdoc */
+	@Event({ bubbles: false }) timezoneDropdownStateChange: EventEmitter<boolean>;
 	/** @inheritdoc */
 	@Event() timeApplied: EventEmitter<ITimeChange>;
 
@@ -151,10 +155,12 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 
 	private onDropdownChange = ({ detail: openState }: CustomEvent<boolean>) => {
 		this.isDropdownOpen = openState;
+		this.dropdownStateChange.emit(openState);
 	};
 
 	private closeDropdown = () => {
-		this.isDropdownOpen = !this.isDropdownOpen;
+		this.isDropdownOpen = false;
+		this.dropdownStateChange.emit(false);
 	};
 
 	public isApplyDisabled = (): boolean => {
