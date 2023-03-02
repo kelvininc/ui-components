@@ -1,18 +1,18 @@
 import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
-import { EActionButtonType, IButton, IButtonEvents } from '../action-button/action-button.types';
-import { EAnchorTarget, EComponentSize, IAnchor } from '../../utils/types';
+import { EActionButtonType } from '../action-button/action-button.types';
+import { EAnchorTarget, EComponentSize } from '../../utils/types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
-import { IButtonIcon } from './action-button.types';
 import { EBadgeState } from '../badge/badge.types';
 import { isEmpty } from 'lodash-es';
+import { IActionButtonIconConfig } from './action-button-icon-types';
 
 @Component({
 	tag: 'kv-action-button-icon',
 	styleUrl: 'action-button-icon.scss',
 	shadow: true
 })
-export class KvActionButtonIcon implements IButton, IButtonIcon, IButtonEvents, IAnchor {
-	/** (required) Button's icon symbol name */
+export class KvActionButtonIcon implements IActionButtonIconConfig {
+	/** @inheritdoc */
 	@Prop({ reflect: true }) icon!: EIconName | EOtherIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) type!: EActionButtonType;
