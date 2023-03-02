@@ -24,6 +24,7 @@
 }
 
 .select-options-container {
+	padding: $spacing-3x 0;
 	max-height: var(--select-max-height);
 	overflow-y: auto;
 }
