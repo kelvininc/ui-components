@@ -28,11 +28,13 @@ import {
 	KvSingleSelectDropdown,
 	KvMultiSelectDropdown,
 	KvIllustration,
+	KvInputWrapper,
 	KvLink,
 	KvLoader,
 	KvRadio,
 	KvSingleDateSelectDropdown,
 	KvRangeDatesSelectDropdown,
+	KvRelativeTimePicker,
 	KvStateIndicator,
 	KvSearch,
 	KvStepBar,
@@ -46,6 +48,7 @@ import {
 	KvTagLetter,
 	KvTagAlarm,
 	KvTextField,
+	KvTimePickerSelectOption,
 	KvToaster,
 	KvTooltip,
 	KvToggleTip,
@@ -94,6 +97,7 @@ const COMPONENTS = [
 	KvRadio,
 	KvSingleDateSelectDropdown,
 	KvRangeDatesSelectDropdown,
+	KvRelativeTimePicker,
 	KvIcon,
 	KvTag,
 	KvTagLetter,
@@ -127,7 +131,9 @@ const COMPONENTS = [
 	KvRange,
 	KvWizard,
 	KvWizardHeader,
-	KvWizardFooter
+	KvWizardFooter,
+	KvInputWrapper,
+	KvTimePickerSelectOption
 ];
 
 @NgModule({

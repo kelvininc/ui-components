@@ -6,9 +6,11 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import localeData from 'dayjs/plugin/localeData';
 import objectSupport from 'dayjs/plugin/objectSupport';
 import timezone from 'dayjs/plugin/timezone';
+import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import utc from 'dayjs/plugin/utc';
 import { TIMEZONES } from './date.config';
 
+dayjs.extend(quarterOfYear);
 dayjs.extend(advancedFormat);
 dayjs.extend(customParseFormat);
 dayjs.extend(localeData);
@@ -22,8 +24,8 @@ dayjs.extend(utc);
  * @note The month number should be a number between 1 and 12, where 1 corresponds to January and 12 December.
  */
 
-const newDate = (date?: DateInput) => dayjs(date);
-const newTimezoneDate = (timezone: string, date?: DateInput) => dayjs.tz(date, timezone);
+export const newDate = (date?: DateInput) => dayjs(date);
+export const newTimezoneDate = (timezone: string, date?: DateInput) => dayjs.tz(date, timezone);
 
 // Constructors
 export const fromISO = (date: string): dayjs.Dayjs => newDate(date);
@@ -52,6 +54,7 @@ export const getFirstWeekdayIndexOfMonth = (month: number, year: number): number
 
 // Dates
 export const isDateBefore = (dateA: DateInput, dateB: DateInput): boolean => newDate(dateA).isBefore(dateB, 'days');
+export const isDateTimeBefore = (dateA: DateInput, dateB: DateInput): boolean => newDate(dateA).isBefore(dateB);
 export const isDateAfter = (dateA: DateInput, dateB: DateInput): boolean => newDate(dateA).isAfter(dateB, 'days');
 export const isDateSame = (dateA: DateInput, dateB: DateInput): boolean => newDate(dateA).isSame(dateB, 'days');
 export const isDateInRange = (date: DateInput, rangeStartDate: DateInput, rangeEndDate: DateInput, inclusive: boolean = true): boolean => {
@@ -101,7 +104,13 @@ export const isDateValid = (date: DateInput): boolean => {
 
 	return newDate(date).isValid();
 };
-export const calculateDate = (date: DateInput, amount: number = 0, unit: dayjs.ManipulateType = 'days'): dayjs.Dayjs => newDate(date).add(amount, unit);
+export const calculateDate = (date: DateInput, amount: number = 0, unit: dayjs.ManipulateType | dayjs.QUnitType = 'days'): dayjs.Dayjs => {
+	if (unit === 'quarter') {
+		return newDate(date).add(amount, 'quarter');
+	}
+
+	return newDate(date).add(amount, unit as dayjs.ManipulateType);
+};
 export const getDatesRangeKey = (startDate: string = 'start-date', endDate: string = 'end-date'): string => `${startDate}#${endDate}`;
 export const fromDatesRangeKey = (datesKey: string): SelectedRange => {
 	const [startDate, endDate] = datesKey.split('#');

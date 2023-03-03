@@ -95,6 +95,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 ### Used by
 
  - [kv-calendar-advanced-date-selector](../calendar-advanced-date-selector)
+ - [kv-relative-time-picker](../relative-time-picker)
 
 ### Depends on
 
@@ -124,6 +125,7 @@ graph TD;
   kv-search --> kv-text-field
   kv-search --> kv-icon
   kv-calendar-advanced-date-selector --> kv-single-select-dropdown
+  kv-relative-time-picker --> kv-single-select-dropdown
   style kv-single-select-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
