@@ -1,5 +1,6 @@
 export enum EIconName {
 	Add = 'kv-add',
+	AddCrossCircle = 'kv-add-cross-circle',
 	AlarmClass = 'kv-alarm-class',
 	Alert = 'kv-alert',
 	AlignBottom = 'kv-align-bottom',
@@ -58,6 +59,7 @@ export enum EIconName {
 	DoubleArrowLeft = 'kv-double-arrow-left',
 	DoubleArrowRight = 'kv-double-arrow-right',
 	DoneAll = 'kv-done-all',
+	DoNotDisturbOnCircle = 'kv-do-not-disturb-on-circle',
 	Download = 'kv-download',
 	DragDrop = 'kv-drag-drop',
 	Edit = 'kv-edit',
@@ -190,7 +192,6 @@ export enum EOtherIconName {
 	IconAzure = 'icon-azure',
 	IconSortArrow = 'icon-sort-arrow',
 	IconSortUnset = 'icon-sort-unset',
-	IconAddCrossCircle = 'icon-add-cross-circle',
 	IconClearCrossCircle = 'icon-clear-cross-circle',
 	IconCheckState = 'icon-check-state',
 	IconCheckHoverState = 'icon-check-hover-state',
