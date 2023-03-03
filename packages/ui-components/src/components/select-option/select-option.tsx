@@ -1,5 +1,6 @@
-import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
+import { Component, Element, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { ISelectOption, ISelectOptionEvents } from './select-option.types';
+import { isNil } from 'lodash';
 
 @Component({
 	tag: 'kv-select-option',
@@ -7,6 +8,8 @@ import { ISelectOption, ISelectOptionEvents } from './select-option.types';
 	shadow: true
 })
 export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
+	@Element() el!: HTMLKvSelectOptionElement;
+
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label!: string;
 	/** @inheritdoc */
@@ -17,8 +20,6 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	@Prop({ reflect: true }) selected?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) togglable?: boolean = false;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) hasBottomSlot?: boolean = false;
 
 	/** @inheritdoc */
 	@Event() itemSelected: EventEmitter<string>;
@@ -28,6 +29,10 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 			this.itemSelected.emit(this.value);
 		}
 	};
+
+	private get hasBottomSlot() {
+		return !isNil(this.el.querySelector('[slot="text-bottom-slot"]'));
+	}
 
 	render() {
 		return (
@@ -41,11 +46,14 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 					}}
 					onClick={this.onItemClick}
 				>
-					{this.togglable && <kv-checkbox checked={this.selected} />}
-					<div class="text-container">
-						<div class="item-label">{this.label}</div>
-						<slot></slot>
+					<div class="label-wrapper">
+						{this.togglable && <kv-checkbox checked={this.selected} />}
+						<div class="text-container">
+							<div class="item-label">{this.label}</div>
+							<slot name="text-bottom-slot"></slot>
+						</div>
 					</div>
+					<slot name="text-right-slot"></slot>
 				</div>
 			</Host>
 		);

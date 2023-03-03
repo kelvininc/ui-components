@@ -55,14 +55,15 @@ describe('Select Item (end-to-end)', () => {
 		});
 	});
 
-	describe('when the component renders with has-bottom-slot flag', () => {
+	describe('when the component renders with a bottom slot', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
 			await page.setContent(`
 				<kv-select-option
 					label='Option 1'
 					value='option1'
-					has-bottom-slot>
+				>
+					<div slot="text-bottom-slot">Bottom Slot</div>
 				</kv-select-option>`);
 			selectOptionEl = await page.find('kv-select-option');
 			itemEl = await page.find('kv-select-option >>> .select-option');
@@ -70,6 +71,26 @@ describe('Select Item (end-to-end)', () => {
 
 		it('should have the .has-bottom-slot class', () => {
 			expect(itemEl).toHaveClass('has-bottom-slot');
+		});
+	});
+
+	describe('when the component renders with a right slot', () => {
+		beforeEach(async () => {
+			page = await newE2EPage();
+			await page.setContent(`
+				<kv-select-option
+					label='Option 1'
+					value='option1'
+				>
+					<div class="slot-class" slot="text-right-slot">Right Slot</div>
+				</kv-select-option>`);
+		});
+
+		it('should have the content of the right slot', async () => {
+			const selectOptionComponent = await page.find('kv-select-option');
+			const slotComponent = await selectOptionComponent.find('.slot-class');
+			expect(slotComponent).toBeTruthy();
+			expect(slotComponent.innerText).toBe('Right Slot');
 		});
 	});
 });

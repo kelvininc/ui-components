@@ -11,8 +11,6 @@ export interface ISelectOption {
 	selected?: boolean;
 	/** (optional)  If `true` the item is togglable */
 	togglable?: boolean;
-	/** (optional) If `true` styles the item to fit content below label */
-	hasBottomSlot?: boolean;
 }
 
 export interface ISelectOptionEvents {

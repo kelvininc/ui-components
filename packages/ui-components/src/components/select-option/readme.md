@@ -41,14 +41,13 @@ export const KvSelectOptionExample: React.FC = () => (
 
 ## Properties
 
-| Property             | Attribute         | Description                                                     | Type      | Default     |
-| -------------------- | ----------------- | --------------------------------------------------------------- | --------- | ----------- |
-| `disabled`           | `disabled`        | (optional) If `true` the item is disabled                       | `boolean` | `false`     |
-| `hasBottomSlot`      | `has-bottom-slot` | (optional) If `true` styles the item to fit content below label | `boolean` | `false`     |
-| `label` _(required)_ | `label`           | (required) The text to display on the item                      | `string`  | `undefined` |
-| `selected`           | `selected`        | (optional) If `true` the item is selected                       | `boolean` | `false`     |
-| `togglable`          | `togglable`       | (optional)  If `true` the item is togglable                     | `boolean` | `false`     |
-| `value` _(required)_ | `value`           | (required) The item value                                       | `string`  | `undefined` |
+| Property             | Attribute   | Description                                 | Type      | Default     |
+| -------------------- | ----------- | ------------------------------------------- | --------- | ----------- |
+| `disabled`           | `disabled`  | (optional) If `true` the item is disabled   | `boolean` | `false`     |
+| `label` _(required)_ | `label`     | (required) The text to display on the item  | `string`  | `undefined` |
+| `selected`           | `selected`  | (optional) If `true` the item is selected   | `boolean` | `false`     |
+| `togglable`          | `togglable` | (optional)  If `true` the item is togglable | `boolean` | `false`     |
+| `value` _(required)_ | `value`     | (required) The item value                   | `string`  | `undefined` |
 
 
 ## Events
