@@ -32,7 +32,7 @@ const DropdownTemplate: ComponentStory<typeof KvDropdown> = args => {
 	return (
 		<KvDropdown isOpen={isOpen} onOpenStateChange={onDropdownChange} {...args}>
 			<KvSelect searchable={true}>
-				<KvSelectOption label="First label here" value="value-01" togglable={true}></KvSelectOption>
+				<KvSelectOption label="This select option has a really really really long first label here " value="value-01" togglable={true}></KvSelectOption>
 				<KvSelectOption label="Second label here" value="value-02" togglable={true}></KvSelectOption>
 				<KvSelectOption label="Third label here" value="value-03" disabled togglable={true}></KvSelectOption>
 				<KvSelectOption label="Fourth label here" value="value-04" togglable={true}></KvSelectOption>
