@@ -43,6 +43,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 
 | Property               | Attribute                 | Description                                                   | Type                                                                          | Default                                    |
 | ---------------------- | ------------------------- | ------------------------------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------ |
+| `clearSelectionLabel`  | `clear-selection-label`   | (optional) The clear search action text                       | `string`                                                                      | `SINGLE_SELECT_CLEAR_SELECTION_LABEL`      |
 | `disabled`             | `disabled`                | (optional) If `true` the dropdown is disabled                 | `boolean`                                                                     | `false`                                    |
 | `displayValue`         | `display-value`           | (optional) The text to display on the dropdown                | `string`                                                                      | `undefined`                                |
 | `errorState`           | `error-state`             | (required) The error state for the dropdown                   | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid` | `EValidationState.None`                    |
@@ -61,15 +62,17 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | `searchPlaceholder`    | `search-placeholder`      | (optional) The list search text field placeholder             | `string`                                                                      | `undefined`                                |
 | `searchable`           | `searchable`              | (optional) If `true` the dropdown is searchable               | `boolean`                                                                     | `false`                                    |
 | `selectedOption`       | `selected-option`         | (optional) The value of the selected option                   | `string`                                                                      | `undefined`                                |
+| `selectionClearable`   | `selection-clearable`     | (optional) If `true` dropdown items can be cleared            | `boolean`                                                                     | `undefined`                                |
 
 
 ## Events
 
-| Event             | Description                                  | Type                   |
-| ----------------- | -------------------------------------------- | ---------------------- |
-| `openStateChange` | Emitted when the dropdown open state changes | `CustomEvent<boolean>` |
-| `optionSelected`  | Emitted when the selected option change      | `CustomEvent<string>`  |
-| `searchChange`    | Emitted when the search term changes         | `CustomEvent<string>`  |
+| Event              | Description                                  | Type                   |
+| ------------------ | -------------------------------------------- | ---------------------- |
+| `openStateChange`  | Emitted when the dropdown open state changes | `CustomEvent<boolean>` |
+| `optionSelected`   | Emitted when the selected option change      | `CustomEvent<string>`  |
+| `searchChange`     | Emitted when the search term changes         | `CustomEvent<string>`  |
+| `selectionCleared` | Emitted when the selection is cleared        | `CustomEvent<void>`    |
 
 
 ## Shadow Parts

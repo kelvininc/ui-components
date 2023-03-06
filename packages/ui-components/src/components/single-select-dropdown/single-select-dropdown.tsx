@@ -5,7 +5,7 @@ import { ISingleSelectDropdown, ISingleSelectDropdownEvents, ISingleSelectDropdo
 import { buildSelectGroups, hasGroups } from '../select-group/select-group.helper';
 import { isEmpty, isNil } from 'lodash-es';
 
-import { SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './single-select-dropdown.config';
+import { SINGLE_SELECT_CLEAR_SELECTION_LABEL, SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './single-select-dropdown.config';
 /**
  * @part option - The select option container.
  */
@@ -28,6 +28,10 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Prop({ reflect: true }) searchable?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchPlaceholder?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) selectionClearable?: boolean;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) clearSelectionLabel?: string = SINGLE_SELECT_CLEAR_SELECTION_LABEL;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) required?: boolean = false;
 	/** @inheritdoc */
@@ -57,6 +61,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Event() optionSelected: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
+	/** @inheritdoc */
+	@Event() selectionCleared: EventEmitter<void>;
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 
@@ -173,9 +179,18 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		return this.options;
 	};
 
+	private onClearSelection = () => {
+		this._selectedOption = undefined;
+		this.selectionCleared.emit();
+		this.calculateLabelValue();
+	};
+
 	render() {
 		const groups = buildSelectGroups(this.getCurrentOptions());
 		const groupNames = Object.keys(groups);
+
+		const isSelectionClearable = !isEmpty(this.getCurrentOptions()) && this.selectionClearable;
+		const isSelectionClearEnabled = !isEmpty(this._selectedOption);
 
 		return (
 			<Host>
@@ -183,6 +198,10 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 					<kv-select
 						searchValue={this._searchValue}
 						searchable={this.searchable}
+						selectionClearable={isSelectionClearable}
+						selectionClearEnabled={isSelectionClearEnabled}
+						clearSelectionLabel={this.clearSelectionLabel}
+						onClearSelection={this.onClearSelection}
 						onSearchChange={this.onSearchChange}
 						searchPlaceholder={this.searchPlaceholder}
 						maxHeight={this.maxHeight}
