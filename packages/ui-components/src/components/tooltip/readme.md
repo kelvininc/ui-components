@@ -77,10 +77,10 @@ export const TagLetterExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                      | Description                                         |
-| ------------------------- | --------------------------------------------------- |
-| `--container-white-space` | The white space strategy for the tooltip container. |
-| `--container-z-index`     | The z-index value for the tooltip container.        |
+| Name                      | Description                                                           |
+| ------------------------- | --------------------------------------------------------------------- |
+| `--container-white-space` | The white space strategy for the tooltip container (default: normal). |
+| `--container-z-index`     | The z-index value for the tooltip container.                          |
 
 
 ## Dependencies
