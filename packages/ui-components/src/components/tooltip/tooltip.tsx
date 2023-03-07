@@ -1,4 +1,4 @@
-import { Component, Element, Host, Prop, State, h } from '@stencil/core';
+import { Component, Element, Host, Prop, State, Watch, h } from '@stencil/core';
 import { ComputePositionConfig, computePosition } from '@floating-ui/dom';
 import { isEmpty, merge } from 'lodash-es';
 
@@ -36,6 +36,11 @@ export class KvTooltip implements ITooltip {
 
 	/** The Host's element reference */
 	@Element() el: HTMLKvTooltipElement;
+
+	@Watch('text')
+	textChangeWatcher() {
+		this.update();
+	}
 
 	private getOptions = (): Partial<ComputePositionConfig> => {
 		return merge({}, { placement: this.position }, this.options);

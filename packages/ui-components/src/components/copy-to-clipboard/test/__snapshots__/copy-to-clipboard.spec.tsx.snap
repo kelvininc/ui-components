@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Copy To Clipboard (unit tests) when rendering with content projection should match the snapshot 1`] = `
+<kv-copy-to-clipboard copiable-text="https://kelvin.ai" tooltip-suffix="Link">
+  <mock:shadow-root>
+    <div class="copy-to-clipboard-container">
+      <kv-tooltip text="Copy Link">
+        <div class="copy-to-clipboard-content" part="content">
+          <slot></slot>
+          <div class="state-icon">
+            <kv-icon customclass="icon-16" name="kv-copy-clipboard"></kv-icon>
+          </div>
+        </div>
+      </kv-tooltip>
+    </div>
+  </mock:shadow-root>
+  <span>
+    Click me to copy the link
+  </span>
+</kv-copy-to-clipboard>
+`;
+
+exports[`Copy To Clipboard (unit tests) when rendering with custom tooltip suffix should match the snapshot 1`] = `
+<kv-copy-to-clipboard copiable-text="https://kelvin.ai" tooltip-suffix="Link">
+  <mock:shadow-root>
+    <div class="copy-to-clipboard-container">
+      <kv-tooltip text="Copy Link">
+        <div class="copy-to-clipboard-content" part="content">
+          <slot></slot>
+          <div class="state-icon">
+            <kv-icon customclass="icon-16" name="kv-copy-clipboard"></kv-icon>
+          </div>
+        </div>
+      </kv-tooltip>
+    </div>
+  </mock:shadow-root>
+</kv-copy-to-clipboard>
+`;
+
+exports[`Copy To Clipboard (unit tests) when rendering with required props should match the snapshot 1`] = `
+<kv-copy-to-clipboard copiable-text="https://kelvin.ai">
+  <mock:shadow-root>
+    <div class="copy-to-clipboard-container">
+      <kv-tooltip text="Copy">
+        <div class="copy-to-clipboard-content" part="content">
+          <slot></slot>
+          <div class="state-icon">
+            <kv-icon customclass="icon-16" name="kv-copy-clipboard"></kv-icon>
+          </div>
+        </div>
+      </kv-tooltip>
+    </div>
+  </mock:shadow-root>
+</kv-copy-to-clipboard>
+`;
