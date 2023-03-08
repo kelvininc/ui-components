@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import Editor, { OnMount, useMonaco } from '@monaco-editor/react';
-import type { editor } from 'monaco-editor';
-import { DEFAULT_EDITOR_LANGUAGE, DEFAULT_EDITOR_THEME, DEFAULT_MONACO_OPTIONS, DEFAULT_PADDING_TOP } from './config';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import Editor, { useMonaco } from '@monaco-editor/react';
+import { DEFAULT_EDITOR_LANGUAGE, DEFAULT_EDITOR_THEME, DEFAULT_PADDING_TOP, FONT_NOT_FOUND_ERROR } from './config';
 import { ECodeEditorTheme, ICodeEditorProps, OnEditorChangeCallback } from './types';
 import { KvLoader } from '../stencil-generated';
+import { getEditorOptions } from './utils';
 
 export const KvCodeEditor = ({
 	code,
 	readOnly = false,
-	loadingComponent = <KvLoader />,
+	loadingComponent = <KvLoader isLoading />,
 	language = DEFAULT_EDITOR_LANGUAGE,
 	theme = DEFAULT_EDITOR_THEME,
 	customTheme,
@@ -16,13 +16,19 @@ export const KvCodeEditor = ({
 	onChange
 }: ICodeEditorProps) => {
 	const monaco = useMonaco();
-	const editorRef = useRef<editor.IStandaloneCodeEditor>();
-	const readOnlyRef = useRef<boolean>(readOnly);
+	const [isFontLoaded, setFontLoaded] = useState(false);
 
-	const onTextChange: OnEditorChangeCallback = value => onChange?.(value);
-	const onEditorMount: OnMount = useMemo(() => editor => (editorRef.current = editor), []);
+	const options = useMemo(() => getEditorOptions({ readOnly, padding: { top: paddingTop } }), [readOnly, paddingTop]);
 
-	const editorOptions: editor.IEditorOptions = useMemo(() => ({ readOnly, padding: { top: paddingTop } }), [readOnly, paddingTop]);
+	const loadFont = useCallback(async () => {
+		try {
+			const { fontSize, fontFamily } = options;
+			await document.fonts.load(`${fontSize}px ${fontFamily}`);
+			setFontLoaded(true);
+		} catch (error) {
+			throw new Error(FONT_NOT_FOUND_ERROR);
+		}
+	}, [options.fontSize, options.fontFamily]);
 
 	const setupEditor = useCallback(() => {
 		if (!monaco || !customTheme) return;
@@ -30,20 +36,18 @@ export const KvCodeEditor = ({
 		monaco.editor.setTheme(ECodeEditorTheme.Custom);
 	}, [monaco, customTheme]);
 
-	const updateOptions = useCallback(() => {
-		if (!editorRef.current) return;
-		if (readOnlyRef.current) {
-			readOnlyRef.current = readOnly;
-		}
-		editorRef.current.updateOptions(editorOptions);
-	}, [editorRef.current, readOnlyRef.current, editorOptions]);
+	const onTextChange: OnEditorChangeCallback = useCallback(value => onChange?.(value), [onChange]);
 
 	useEffect(() => {
+		loadFont();
 		setupEditor();
-		updateOptions();
-	}, [setupEditor, updateOptions]);
+	}, [loadFont, setupEditor]);
 
-	return <Editor language={language} theme={theme} options={DEFAULT_MONACO_OPTIONS} value={code} loading={loadingComponent} onMount={onEditorMount} onChange={onTextChange} />;
+	if (!isFontLoaded) {
+		return loadingComponent;
+	}
+
+	return <Editor language={language} theme={theme} options={options} value={code} loading={loadingComponent} onChange={onTextChange} />;
 };
 
 export default KvCodeEditor;

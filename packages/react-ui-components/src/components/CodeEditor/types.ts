@@ -1,8 +1,8 @@
 import type { editor } from 'monaco-editor';
-import { ReactNode } from 'react';
 
 export type OnEditorChangeCallback = (value: string | undefined) => void;
 export type CustomThemeData = editor.IStandaloneThemeData;
+export type CustomEditorOptions = editor.IEditorOptions & editor.IGlobalEditorOptions;
 
 export enum ECodeEditorTheme {
 	Dark = 'vs-dark',
@@ -16,7 +16,7 @@ export interface ICodeEditorProps {
 	/** Use this property to set the editor to a read only mode where the user cannot modify the value. */
 	readOnly?: boolean;
 	/** Use this property to define a placeholder component to display when the editor is loading. */
-	loadingComponent?: ReactNode;
+	loadingComponent?: JSX.Element;
 	/** Use this property to define the language mode of the editor. */
 	language?: string;
 	/** Use this property to define the theme of the editor. */
