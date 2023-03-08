@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, Host, Method, Prop, h } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, Host, Method, Prop, h, State } from '@stencil/core';
 import { IDropdown, IDropdownEvents } from './dropdown.types';
 
 import { ComputePositionConfig } from '@floating-ui/dom';
@@ -34,7 +34,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 
 	@Element() el: HTMLKvDropdownElement;
 
-	/** Toogles the dropdown open state */
+	/** Toggles the dropdown open state */
 	@Method()
 	async onToggleOpenState() {
 		if (!this.disabled) {
@@ -42,15 +42,22 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 		}
 	}
 
+	/** Internal actionElement ref */
+	@State() _actionElement: HTMLElement;
+
 	private getInputConfig = () => {
 		return merge({}, DEFAULT_INPUT_CONFIG, { disabled: this.disabled }, this.inputConfig);
 	};
+
+	componentDidRender() {
+		this._actionElement = this.actionElement ?? this.el.shadowRoot.querySelector('#dropdown-input').shadowRoot.querySelector('#dropdown-input');
+	}
 
 	render() {
 		return (
 			<Host>
 				<div class="dropdown-container">
-					<kv-dropdown-base isOpen={this.isOpen} options={this.options} actionElement={this.actionElement} listElement={this.listElement} disabled={this.disabled}>
+					<kv-dropdown-base isOpen={this.isOpen} options={this.options} actionElement={this._actionElement} listElement={this.listElement} disabled={this.disabled}>
 						<div slot="action">
 							<kv-text-field
 								{...this.getInputConfig()}
