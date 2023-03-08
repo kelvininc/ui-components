@@ -1,0 +1,45 @@
+@import '../../assets/styles/globals';
+
+.description-list-container {
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	gap: $spacing-5x $spacing-7x;
+	word-break: break-all;
+	align-items: baseline;
+
+	.title {
+		@include kv-font-label-small-uppercase-regular;
+		color: kv-color('neutral-4');
+	}
+
+	.description {
+		@include kv-font-paragraph-regular;
+		color: kv-color('neutral-2');
+
+		kv-tooltip {
+			&::part(content) {
+				display: inline;
+			}
+
+			&::part(container) {
+				padding: $spacing-2x;
+			}
+		}
+
+		kv-toggle-tip {
+			&::part(toggle-tip-open-element-container) {
+				display: inline-block;
+				vertical-align: text-top;
+				margin-left: $spacing-2x;
+			}
+
+			&::part(toggle-tip-container) {
+				padding: $spacing-2x;
+			}
+		}
+
+		kv-icon::part(icon) {
+			cursor: pointer;
+		}
+	}
+}
