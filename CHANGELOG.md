@@ -3,6 +3,59 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.17.0](https://github.com/kelvininc/ui-components/compare/v0.16.0...v0.17.0) (2023-03-10)
+
+
+### Bug Fixes
+
+* **action-button-text:** fix text font ([cecf730](https://github.com/kelvininc/ui-components/commit/cecf730ef8d8a3f33dbf13f77cd0d6c6f36db1d8))
+* add storybook build to CI ([711fa3e](https://github.com/kelvininc/ui-components/commit/711fa3ea7e1026f1e2c17d40ea4eafef449f979a))
+* **calendar:** split dropdowns open state changes into multiple events ([4f64475](https://github.com/kelvininc/ui-components/commit/4f64475f1230a08cb9feec9aa27be19e1f26652b))
+* **code-editor:** wait until font is loaded and use initial props ([58aa6fe](https://github.com/kelvininc/ui-components/commit/58aa6fe44b7a5ba8ed9f313ab246be457a5bdf6f))
+* **colors:** fix light/dark color codes ([53d8b0a](https://github.com/kelvininc/ui-components/commit/53d8b0a677431356375021dff20fb407aa03f8be))
+* **dropdown:** add missing flip middleware ([1e1509e](https://github.com/kelvininc/ui-components/commit/1e1509e5761597c78412510e5f54cce52590c748))
+* **dropdown:** Change dropdown list default width to be the same as its action ([#240](https://github.com/kelvininc/ui-components/issues/240)) ([725ce66](https://github.com/kelvininc/ui-components/commit/725ce667a37c0c33e69fe17af9e403287dc0062b))
+* **dropdown:** fix position where the dropdown-list is open ([#255](https://github.com/kelvininc/ui-components/issues/255)) ([1f0b0ef](https://github.com/kelvininc/ui-components/commit/1f0b0efdb3a45b155a0e1acc57028c0fa6e28382))
+* **modal:** export modal overlay types ([2135507](https://github.com/kelvininc/ui-components/commit/213550722fd79cea152f97f23d1ab540f52b7d99))
+* **search:** fix clean search ([b14ab79](https://github.com/kelvininc/ui-components/commit/b14ab79f8798686c45650babc22b54ba0f9bdbd6))
+* **switch-button:** align svg inside toggle button ([42fdd8e](https://github.com/kelvininc/ui-components/commit/42fdd8eeaa93005d46731faa386bf54f591672ca))
+* **switch-button:** replace label with slots ([c63ce86](https://github.com/kelvininc/ui-components/commit/c63ce8626bdea144a4164c6518504d266b62ffd5))
+* **tag-status, toaster, tree-item:** add white background to icon when state is success error or info ([7b74fbf](https://github.com/kelvininc/ui-components/commit/7b74fbfde18b6fdf89cec7c1a0b955f102f276c1))
+* **toaster:** fix toaster aspect and position ([6879585](https://github.com/kelvininc/ui-components/commit/68795856cf9068f558868211b5e55b0b58eb0ba2))
+* **tooltip:** protect code when tooltip text is empty ([a75c2b0](https://github.com/kelvininc/ui-components/commit/a75c2b07390e5a28df446057f4c1eb21b002c1fb))
+* **wizard-header:** change text and separator color ([fd535aa](https://github.com/kelvininc/ui-components/commit/fd535aac09c974c6dd47d22fa59d64f6060368c4))
+
+
+* fix(code-editor)!: remove memoization and debounce time from onChange ([b28efa8](https://github.com/kelvininc/ui-components/commit/b28efa8ee12ff9f7a4a25340ff0c5c56e96b2698))
+* fix(modal)!: click outside behavior can now be customized ([55d2a29](https://github.com/kelvininc/ui-components/commit/55d2a2982c57cc79fa0696403a551f4480e74e60))
+
+
+### Features
+
+* **alert:** add component ([355f046](https://github.com/kelvininc/ui-components/commit/355f04612787fb794cf5975f0a2a70aa34704f0a))
+* **code-editor:** add component ([2ffe8c7](https://github.com/kelvininc/ui-components/commit/2ffe8c760129c08404a778c7c630cd27ae60308a))
+* **code-editor:** add padding top option ([e0c2389](https://github.com/kelvininc/ui-components/commit/e0c2389f1968c2d1cf08c67c4c37add11ff5d46f))
+* **dropdown-base:** add top and bottom spacing ([#250](https://github.com/kelvininc/ui-components/issues/250)) ([57ff14a](https://github.com/kelvininc/ui-components/commit/57ff14a8236e70d0bdb15557105ce4baecab0d81))
+* **dropdown:** add `disabled` prop ([8828615](https://github.com/kelvininc/ui-components/commit/88286153ca09451d976971a5b362b5b820ac45a2))
+* **icon:** add close circle ([a3cc70d](https://github.com/kelvininc/ui-components/commit/a3cc70d992cbb8c8cdb6e15ef85d3f2cb1b45942))
+* **icon:** add do not disturb on circle and update add cross circle ([#244](https://github.com/kelvininc/ui-components/issues/244)) ([16b47c5](https://github.com/kelvininc/ui-components/commit/16b47c5fa26ee81ebb6093b85e99b8b0add9148a))
+* **icon:** add download bucket icon ([0cefd0d](https://github.com/kelvininc/ui-components/commit/0cefd0daff1dfae5ed2a2206b34e14c02671bad0))
+* **single-select-dropdown:** allow clear selected item in single-select-dropdown ([#252](https://github.com/kelvininc/ui-components/issues/252)) ([faad5e5](https://github.com/kelvininc/ui-components/commit/faad5e5da988a59b328bb628aa39ee9644611203))
+* **tooltip:** add white space variable to tooltip configurable css properties ([06b899b](https://github.com/kelvininc/ui-components/commit/06b899b3ab90650a2004052d9ca473725fc386f6))
+* **wizard-footer:** add component ([c782eb6](https://github.com/kelvininc/ui-components/commit/c782eb6eaa6ffc1c462b01f7f87d5f80ab872867))
+* **wizard-header:** add component ([7c7daa2](https://github.com/kelvininc/ui-components/commit/7c7daa289588505665a7745c5970656438ef27bc))
+* **wizard:** add wizard component ([6c1421f](https://github.com/kelvininc/ui-components/commit/6c1421fb9edf6be9235354190fa61445f2771067))
+
+
+### BREAKING CHANGES
+
+* This commit removes the `debounceTime` property from the component, therefore removing the default 200ms wait before firing a change event.
+* `closable` was removed, to replicate the previous behavior set `closeOnOverlayClick` and `showCloseButton` to false.
+
+
+
+
+
 # [0.16.0](https://github.com/kelvininc/ui-components/compare/v0.15.0...v0.16.0) (2023-01-27)
 
 
