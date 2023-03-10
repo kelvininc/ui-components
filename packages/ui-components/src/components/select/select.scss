@@ -30,6 +30,9 @@
 }
 
 .select-header-container {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-3x;
 	padding: $spacing-3x $spacing-4x;
 	border-bottom: var(--select-border);
 }
@@ -37,7 +40,6 @@
 .selection-clear {
 	@include kv-font-span-regular;
 	user-select: none;
-	margin-top: $spacing-3x;
 	color: kv-color('neutral-2');
 	cursor: pointer;
 

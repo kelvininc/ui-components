@@ -26,6 +26,10 @@ export interface ISingleSelectDropdown {
 	searchable?: boolean;
 	/** (optional) The list search text field placeholder */
 	searchPlaceholder?: string;
+	/** (optional) If `true` dropdown items can be cleared */
+	selectionClearable?: boolean;
+	/** (optional) The clear search action text */
+	clearSelectionLabel?: string;
 	/** (optional) If `true` dropdown requires a value to be selected */
 	required?: boolean;
 	/** (optional) The text to display on the dropdown label */
@@ -57,6 +61,8 @@ export interface ISingleSelectDropdownEvents {
 	optionSelected: EventEmitter<string>;
 	/** Emitted when the search term changes */
 	searchChange: EventEmitter<string>;
+	/** Emitted when the selection is cleared */
+	selectionCleared: EventEmitter<void>;
 	/** Emitted when the dropdown open state changes */
 	openStateChange: EventEmitter<boolean>;
 }
