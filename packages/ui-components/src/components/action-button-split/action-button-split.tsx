@@ -1,19 +1,20 @@
 import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
-import { EActionButtonType, IButton } from '../action-button/action-button.types';
-import { EComponentSize, IAnchor, EAnchorTarget } from '../../utils/types';
+import { EActionButtonType } from '../action-button/action-button.types';
+import { EComponentSize, EAnchorTarget } from '../../utils/types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { IActionButtonSplitConfig } from './action-button-split.types';
 
 @Component({
 	tag: 'kv-action-button-split',
 	styleUrl: 'action-button-split.scss',
 	shadow: true
 })
-export class KvActionButtonSplit implements IButton, IAnchor {
-	/** (required) Right button icon symbol name */
+export class KvActionButtonSplit implements IActionButtonSplitConfig {
+	/** @inheritdoc */
 	@Prop({ reflect: true }) splitIcon!: EIconName | EOtherIconName;
-	/** (required) (required) Button's text */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) text!: string;
-	/** (optional) Button's left icon symbol name */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) type!: EActionButtonType;
@@ -23,34 +24,34 @@ export class KvActionButtonSplit implements IButton, IAnchor {
 	@Prop({ reflect: true }) active: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
-	/** (optional) The left button anchor's link to open when clicking */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) leftHref?: string;
-	/** (optional) The left button anchor's target */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) leftTarget?: EAnchorTarget;
-	/** (optional) The left button anchor's download filename */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) leftDownload?: string;
-	/** (optional) The right button anchor's link to open when clicking */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) rightHref?: string;
-	/** (optional) The right button anchor's target */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) rightTarget?: EAnchorTarget;
-	/** (optional) The right button anchor's download filename */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) rightDownload?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) target?: EAnchorTarget;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) download?: string;
 
-	/** Emitted when left button is clicked */
+	/** @inheritdoc */
 	@Event() clickLeftButton: EventEmitter<MouseEvent>;
-	/** Emitted when right button is clicked */
+	/** @inheritdoc */
 	@Event() clickRightButton: EventEmitter<MouseEvent>;
-	/** Emitted when left button is focused */
+	/** @inheritdoc */
 	@Event() focusLeftButton: EventEmitter<FocusEvent>;
-	/** Emitted when right button is focused */
+	/** @inheritdoc */
 	@Event() focusRightButton: EventEmitter<FocusEvent>;
-	/** Emitted when left button is blur */
+	/** @inheritdoc */
 	@Event() blurLeftButton: EventEmitter<FocusEvent>;
-	/** Emitted when right button is blur */
+	/** @inheritdoc */
 	@Event() blurRightButton: EventEmitter<FocusEvent>;
 
 	private onClickLeftButton = (event: CustomEvent<MouseEvent>) => {

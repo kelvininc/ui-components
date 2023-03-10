@@ -2,9 +2,6 @@
 <!-- Default -->
 <kv-switch-button></kv-switch-button>
 
-<!-- Labeled -->
-<kv-switch-button label="Switch"></kv-switch-button>
-
 <!-- Disabled -->
 <kv-switch-button disabled></kv-switch-button>
 

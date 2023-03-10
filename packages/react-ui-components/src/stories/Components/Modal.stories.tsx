@@ -43,10 +43,10 @@ NoCloseButton.args = {
 	showCloseButton: false
 };
 
-export const NoBackdrop = ControlledModalTemplate.bind(this);
-NoBackdrop.args = {
+export const NoOverlay = ControlledModalTemplate.bind(this);
+NoOverlay.args = {
 	...DefaultState.args,
-	hasBackdrop: false
+	showOverlay: false
 };
 
 export const WithContentProjection = ControlledModalTemplate.bind(this);

@@ -73,22 +73,16 @@ export const ToasterExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                         | Description                |
-| ---------------------------- | -------------------------- |
-| `--background-color-default` | Toaster background color.  |
-| `--error-icon-color`         | Error color.               |
-| `--info-icon-color`          | Info color.                |
-| `--kv-color-neutral-2`       | Main message color.        |
-| `--kv-color-neutral-4`       | Secondary message color.   |
-| `--kv-color-neutral-6`       | Toaster border color.      |
-| `--reset-button-focused`     | Close button focused.      |
-| `--success-icon-color`       | Success color.             |
-| `--toaster-icons-height`     | toaster icons height       |
-| `--toaster-icons-width`      | toaster icons width        |
-| `--toaster-large-height`     | Toaster with two messages. |
-| `--toaster-small-height`     | Toaster with one message.  |
-| `--toaster-width`            | Toaster width.             |
-| `--warning-icon-color`       | Warning color.             |
+| Name                         | Description                            |
+| ---------------------------- | -------------------------------------- |
+| `--background-color-default` | Toaster background color.              |
+| `--reset-button-focused`     | Close button focused.                  |
+| `--toaster-icons-height`     | toaster icons height                   |
+| `--toaster-icons-width`      | toaster icons width                    |
+| `--toaster-large-height`     | Toaster with two messages.             |
+| `--toaster-small-height`     | Toaster with one message.              |
+| `--toaster-top-space`        | Space between Toaster and top of page. |
+| `--toaster-width`            | Toaster width.                         |
 
 
 ## Dependencies

@@ -1,0 +1,39 @@
+@import '../../assets/styles/globals';
+
+/**
+ * @prop --text-color: The color to use for all text
+ * @prop --separator-color: The color to use for the separator
+ */
+
+:host {
+	--text-color: #{kv-color('neutral-1')};
+	--separator-color: #{kv-color('neutral-2')};
+}
+
+.wizard-header-container {
+	display: flex;
+	align-items: center;
+	padding: $spacing-4x;
+
+	.label,
+	.description {
+		color: var(--text-color);
+	}
+
+	.label {
+		@include kv-font-label-small-uppercase-semibold;
+	}
+
+	.description {
+		@include ellipsis;
+		@include kv-font-paragraph-light;
+	}
+
+	.separator {
+		width: 4px;
+		height: 4px;
+		border-radius: 50%;
+		margin: 0 $spacing-2x;
+		background-color: var(--separator-color);
+	}
+}

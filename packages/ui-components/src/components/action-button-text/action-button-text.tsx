@@ -1,7 +1,8 @@
 import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
-import { EActionButtonType, IButton, IButtonEvents } from '../action-button/action-button.types';
-import { EAnchorTarget, EComponentSize, IAnchor } from '../../utils/types';
+import { EActionButtonType } from '../action-button/action-button.types';
+import { EAnchorTarget, EComponentSize } from '../../utils/types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { IActionButtonTextConfig } from './action-button-text.types';
 
 /**
  * @part button-text - The text button.
@@ -11,10 +12,10 @@ import { EIconName, EOtherIconName } from '../icon/icon.types';
 	styleUrl: 'action-button-text.scss',
 	shadow: true
 })
-export class KvActionButtonText implements IButton, IButtonEvents, IAnchor {
-	/** (required) (required) Button's text */
+export class KvActionButtonText implements IActionButtonTextConfig {
+	/** @inheritdoc */
 	@Prop({ reflect: true }) text!: string;
-	/** (optional) Button's left icon symbol name */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) type!: EActionButtonType;

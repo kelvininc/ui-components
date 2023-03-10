@@ -1,0 +1,7 @@
+@import './step-progress-bar.base';
+
+:host {
+	--progress-bar-background-color: #{kv-color('neutral-6')};
+	--progress-bar-filler-success-color: #{kv-color('success')};
+	--progress-bar-filler-error-color: #{kv-color('error')};
+}

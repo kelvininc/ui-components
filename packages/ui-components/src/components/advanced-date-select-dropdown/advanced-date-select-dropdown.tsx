@@ -46,15 +46,20 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 	@Prop({ reflect: false }) dateMask?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) dropdownPositionOptions?: Partial<ComputePositionConfig> = DEFAULT_DROPDOWN_POSITION_OPTIONS;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled?: boolean = false;
 
 	/** @inheritdoc */
-	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
+	@Event({ bubbles: false }) dropdownStateChange: EventEmitter<boolean>;
+	/** @inheritdoc */
+	@Event({ bubbles: false }) rangeDropdownStateChange: EventEmitter<boolean>;
+	/** @inheritdoc */
+	@Event({ bubbles: false }) timezoneDropdownStateChange: EventEmitter<boolean>;
 	/** @inheritdoc */
 	@Event() timeApplied: EventEmitter<ITimeChange>;
 
 	@State() internalSelectedTime: ICalendarAdvanceSelectedTime | undefined;
 	@State() internalSelectedTimezone: string;
-	@State() calendarElement: HTMLDivElement = null;
 	@State() isDropdownOpen: boolean = false;
 
 	@Element() element: HTMLKvAdvancedDateSelectDropdownElement;
@@ -73,19 +78,19 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 		this.handleSelectedTimezoneChange(this.selectedTimezone);
 	}
 
-	componentDidLoad() {
-		this.calendarElement = this.element.shadowRoot.querySelector('#calendar');
-	}
-
 	private getTextFieldTooltip = (): string | undefined => {
 		if (this.selectedTime !== undefined) {
-			if (this.selectedTimezone !== undefined) {
-				return formatTimezoneName(this.selectedTimezone);
-			}
+			if (this.timezones.length > 0) {
+				if (this.selectedTimezone !== undefined) {
+					return formatTimezoneName(this.selectedTimezone);
+				}
 
-			const defaultTimezone = getDefaultTimezone();
-			if (this.timezones.includes(defaultTimezone)) {
-				return formatTimezoneName(defaultTimezone);
+				const defaultTimezone = getDefaultTimezone();
+				if (this.timezones.includes(defaultTimezone)) {
+					return formatTimezoneName(defaultTimezone);
+				}
+			} else {
+				return this.getFormattedSelectedTime();
 			}
 		}
 	};
@@ -150,10 +155,12 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 
 	private onDropdownChange = ({ detail: openState }: CustomEvent<boolean>) => {
 		this.isDropdownOpen = openState;
+		this.dropdownStateChange.emit(openState);
 	};
 
 	private closeDropdown = () => {
-		this.isDropdownOpen = !this.isDropdownOpen;
+		this.isDropdownOpen = false;
+		this.dropdownStateChange.emit(false);
 	};
 
 	public isApplyDisabled = (): boolean => {
@@ -194,8 +201,7 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 						onOpenStateChange={this.onDropdownChange}
 						inputConfig={this.getInputConfig()}
 						options={this.dropdownPositionOptions}
-						listElement={this.calendarElement}
-						id="dropdown"
+						disabled={this.disabled}
 					>
 						<div id="calendar" class="calendar-container">
 							<kv-calendar-advanced-date-selector

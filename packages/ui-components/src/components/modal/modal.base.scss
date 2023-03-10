@@ -6,9 +6,8 @@
 	* @prop --modal-width: The modal's width in px.
 	* @prop --modal-header-height: The modal's header height in px.
 	* @prop --modal-footer-height: The modal's footer height in px.
-	* @prop --modal-overlay-z-index: The modal's overlay z-index css property value.
-	* @prop --modal-body-z-index: The modal's body z-index css property value.
-	* @prop --modal-backdrop-color: The modal's backdrop/overlay color.
+	* @prop --modal-z-index: The modal's z-index
+	* @prop --modal-overlay-color: The modal's overlay color.
 	* @prop --modal-background-color: The modal's background color.
 	* @prop --modal-title-text-color: The modal's text header color.
 	* @prop --modal-close-button-width: The modal's close button width
@@ -18,20 +17,19 @@
 	--modal-width: fit-content;
 	--modal-header-height: 60px;
 	--modal-footer-height: unset;
-	--modal-overlay-z-index: 0;
-	--modal-body-z-index: 1;
-	--modal-backdrop-color: #{kv-color('background', 'step-1')};
+	--modal-z-index: 1;
+	--modal-overlay-color: #{kv-color('background', 'step-1')};
 	--modal-background-color: #{kv-color('background')};
-	--modal-title-text-color: #{kv-color('kv-text')};
-	--modal-close-button-width: 20px;
-	--modal-close-button-height: 20px;
+	--modal-title-text-color: #{kv-color('neutral-4')};
+	--modal-close-button-width: #{$spacing-4x};
+	--modal-close-button-height: #{$spacing-4x};
 }
 
 .modal-overlay {
 	position: fixed;
 	inset: 0;
-	z-index: var(--modal-overlay-z-index);
-	background: var(--modal-backdrop-color);
+	z-index: var(--modal-z-index);
+	background: var(--modal-overlay-color);
 }
 
 .modal-container {
@@ -51,7 +49,7 @@
 	background-color: var(--modal-background-color);
 	display: flex;
 	flex-direction: column;
-	z-index: var(--modal-body-z-index);
+	z-index: var(--modal-z-index);
 
 	.top-bar {
 		display: flex;
@@ -61,7 +59,7 @@
 		height: var(--modal-header-height);
 
 		.title {
-			@include kv-font-label-small-uppercase-bold;
+			@include kv-font-label-small-uppercase-regular;
 			color: var(--modal-title-text-color);
 		}
 

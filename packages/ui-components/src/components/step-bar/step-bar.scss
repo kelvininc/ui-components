@@ -1,0 +1,29 @@
+@import '../../assets/styles/globals';
+
+/**
+* @prop --step-label-color: The color of the label.
+* @prop --step-counter-color: The color of the step counter.
+*/
+
+:host {
+	--step-label-color: #{kv-color('neutral-0')};
+	--step-counter-color: #{kv-color('neutral-1')};
+}
+
+.label-container {
+	.label {
+		@include kv-font-label-small-semibold;
+		color: var(--step-label-color);
+	}
+
+	.step-counter {
+		@include kv-font-label-small-regular;
+
+		color: var(--step-counter-color);
+		margin-left: $spacing;
+	}
+}
+
+.progress-bar-container {
+	margin-top: $spacing;
+}

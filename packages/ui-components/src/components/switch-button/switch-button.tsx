@@ -1,9 +1,9 @@
-import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
+import { Component, Event, EventEmitter, Host, Prop, h } from '@stencil/core';
 import { EComponentSize } from '../../utils/types';
 import throttle from 'lodash/throttle';
-import { isEmpty } from 'lodash-es';
 import { EIconName } from '../icon/icon.types';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
+import { ISwitchButton, ISwitchButtonEvents } from './switch-button.types';
 
 /**
  * @part icon-svg - The switch icon.
@@ -15,31 +15,18 @@ import { DEFAULT_THROTTLE_WAIT } from '../../config';
 	styleUrl: 'switch-button.scss',
 	shadow: true
 })
-export class KvSwitchButton {
-	/** (optional) Button's label */
-	@Prop() label: string = '';
-
-	/** Watch `label` property for changes and update `hasLabel` accordingly */
-	@Watch('label')
-	labelHandler(newValue?: string) {
-		this.hasLabel = !isEmpty(newValue);
-	}
-
-	/** (optional) If `true` the button is disabled */
+export class KvSwitchButton implements ISwitchButton, ISwitchButtonEvents {
+	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled: boolean = false;
-	/** (optional) If `true` the button is ON */
+	/** @inheritdoc */
 	@Prop({ reflect: true, mutable: true }) checked: boolean = false;
-	/** (optional) Button's size */
+	/** @inheritdoc */
 	@Prop() size: EComponentSize = EComponentSize.Large;
 
-	/** Whether the label exist and it's not empty */
-	@State() hasLabel: boolean = !isEmpty(this.label);
-
-	/** Emitted when switch's state changes */
+	/** @inheritdoc */
 	@Event() switchChange: EventEmitter<boolean>;
 
 	private onSwitchClick: () => void;
-
 	private onStateChange() {
 		if (this.disabled) {
 			return;
@@ -58,25 +45,22 @@ export class KvSwitchButton {
 
 		return (
 			<Host>
-				<div class="switch-button-container">
-					{this.hasLabel && <span class="label">{this.label}</span>}
-					<div class="switch-button-content">
-						<div
-							class={{
-								'switch-button': true,
-								'switch-button--disabled': this.disabled,
-								'switch-button--on': this.checked,
-								[`switch-button--${this.size}`]: true
-							}}
-							part="button"
-							onClick={this.onSwitchClick}
-						>
-							<div class="icon-square" part="icon-square">
-								<kv-icon name={iconName} part="icon-svg" />
-							</div>
-						</div>
+				<slot name="left-slot" />
+				<div
+					class={{
+						'switch-button': true,
+						'switch-button--disabled': this.disabled,
+						'switch-button--on': this.checked,
+						[`switch-button--${this.size}`]: true
+					}}
+					part="button"
+					onClick={this.onSwitchClick}
+				>
+					<div class="icon-square" part="icon-square">
+						<kv-icon name={iconName} part="icon-svg" />
 					</div>
 				</div>
+				<slot name="right-slot" />
 			</Host>
 		);
 	}

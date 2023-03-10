@@ -9,11 +9,17 @@ export interface IAdvancedDateSelectDropdown extends ICalendarAdvancedDateSelect
 	dateMask?: string;
 	/** (optional) The dropdown position options */
 	dropdownPositionOptions?: Partial<ComputePositionConfig>;
+	/** (optional) If `true` clicking on the input will not open the calendar dropdown. Default: false */
+	disabled?: boolean;
 }
 
 export interface IAdvancedDateSelectDropdownEvents {
-	/** Emitted when the calendar selector opens state changes */
-	openStateChange: EventEmitter<boolean>;
+	/** Emitted when the calendar dropdown open state changes */
+	dropdownStateChange: EventEmitter<boolean>;
+	/** Emitted when the range calendar dropdown open state changes */
+	rangeDropdownStateChange: EventEmitter<boolean>;
+	/** Emitted when the timezone dropdown open state changes */
+	timezoneDropdownStateChange: EventEmitter<boolean>;
 	/** Emitted when a time selector is applied */
 	timeApplied: EventEmitter<ITimeChange>;
 }

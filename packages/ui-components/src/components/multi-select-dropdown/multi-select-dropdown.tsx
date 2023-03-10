@@ -57,6 +57,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Event() searchChange: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event() selectionCleared: EventEmitter<void>;
+	/** @inheritdoc */
+	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 
 	@State() _selectionDisplayValue: string | undefined;
 	@State() _searchValue: string;
@@ -168,7 +170,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 
 		return (
 			<Host>
-				<kv-dropdown inputConfig={this.getInputConfig()} isOpen={this.isOpen} onOpenStateChange={this.openStateChangeHandler} exportparts="input">
+				<kv-dropdown inputConfig={this.getInputConfig()} isOpen={this.isOpen} onOpenStateChange={this.openStateChangeHandler} disabled={this.disabled} exportparts="input">
 					<kv-select
 						searchable={this.searchable}
 						searchValue={this._searchValue}

@@ -6,15 +6,8 @@
 	 * @prop --toaster-small-height: Toaster with one message.
 
 	 * @prop --toaster-width: Toaster width.
+	 * @prop --toaster-top-space: Space between Toaster and top of page.
 	 * @prop --background-color-default: Toaster background color.
-	 * @prop --kv-color-neutral-2: Main message color.
-	 * @prop --kv-color-neutral-4: Secondary message color.
-	 * @prop --kv-color-neutral-6: Toaster border color.
-
-	 * @prop --info-icon-color: Info color.
-	 * @prop --warning-icon-color: Warning color.
-	 * @prop --error-icon-color: Error color.
-	 * @prop --success-icon-color: Success color.
 
 	 * @prop --reset-button-focused: Close button focused.
 	 * @prop --toaster-icons-height: toaster icons height
@@ -22,18 +15,11 @@
 	 */
 
 	--toaster-large-height: 74px;
-	--toaster-small-height: 58px;
+	--toaster-small-height: 56px;
 
-	--toaster-width: 624px;
+	--toaster-width: 500px;
+	--toaster-top-space: #{$spacing-4x};
 	--background-color-default: #{kv-color('neutral-6')};
-	--kv-color-neutral-2: #{kv-color('neutral-2')};
-	--kv-color-neutral-4: #{kv-color('neutral-4')};
-	--kv-color-neutral-6: #{kv-color('neutral-6')};
-
-	--info-icon-color: #{kv-color('info')};
-	--warning-icon-color: #{kv-color('warning')};
-	--error-icon-color: #{kv-color('error')};
-	--success-icon-color: #{kv-color('success')};
 
 	--close-button-focused: #{kv-color('neutral-2')};
 
@@ -50,22 +36,56 @@ kv-icon {
 
 .toaster-container {
 	position: absolute;
-	top: 0;
+	top: var(--toaster-top-space);
 	left: 0;
 	right: 0;
 	margin: 0 auto;
 	width: var(--toaster-width);
-	height: var(--toaster-small-height);
+	min-height: var(--toaster-small-height);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	z-index: 1000;
-	padding: $spacing-5x;
-	border-radius: 2px;
-	border: solid 1px var(--kv-color-neutral-6);
+	padding: $spacing-4x;
+	border-left: solid 2px kv-color('neutral-6');
 	background-color: var(--background-color-default);
 	box-sizing: border-box;
 	overflow: hidden;
+
+	&.toaster-type--info {
+		border-color: kv-color('info');
+
+		.toaster-icon kv-icon {
+			--icon-color: #{kv-color('info')};
+			--icon-background-color: #{kv-color('neutral-0')};
+		}
+	}
+
+	&.toaster-type--warning {
+		border-color: kv-color('warning');
+
+		.toaster-icon kv-icon {
+			--icon-color: #{kv-color('warning')};
+		}
+	}
+
+	&.toaster-type--error {
+		border-color: kv-color('error');
+
+		.toaster-icon kv-icon {
+			--icon-color: #{kv-color('error')};
+			--icon-background-color: #{kv-color('neutral-0')};
+		}
+	}
+
+	&.toaster-type--success {
+		border-color: kv-color('success');
+
+		.toaster-icon kv-icon {
+			--icon-color: #{kv-color('success')};
+			--icon-background-color: #{kv-color('neutral-0')};
+		}
+	}
 
 	&.animate-fade-in {
 		animation-duration: 0.5s;
@@ -80,7 +100,7 @@ kv-icon {
 	}
 
 	&.toaster-container--large {
-		height: var(--toaster-large-height);
+		min-height: var(--toaster-large-height);
 
 		&.animate-fade-in {
 			animation-name: animate-fade-in-large;
@@ -94,30 +114,6 @@ kv-icon {
 	.toaster-icon {
 		display: flex;
 		align-items: center;
-
-		&.toaster-icon--info {
-			kv-icon {
-				--icon-color: var(--info-icon-color);
-			}
-		}
-
-		&.toaster-icon--warning {
-			kv-icon {
-				--icon-color: var(--warning-icon-color);
-			}
-		}
-
-		&.toaster-icon--error {
-			kv-icon {
-				--icon-color: var(--error-icon-color);
-			}
-		}
-
-		&.toaster-icon--success {
-			kv-icon {
-				--icon-color: var(--success-icon-color);
-			}
-		}
 	}
 
 	.message-content {
@@ -127,13 +123,13 @@ kv-icon {
 
 		.main-message {
 			@include kv-font-span-semibold;
-			color: var(--kv-color-neutral-2);
+			color: kv-color('neutral-2');
 		}
 
 		.secondary-message {
 			@include kv-font-span-regular;
 			margin-top: $spacing;
-			color: var(--kv-color-neutral-4);
+			color: kv-color('neutral-4');
 		}
 	}
 

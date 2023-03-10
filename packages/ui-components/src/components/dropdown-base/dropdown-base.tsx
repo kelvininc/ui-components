@@ -20,6 +20,8 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 	@Prop({ reflect: false }) actionElement?: HTMLElement = null;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) listElement?: HTMLElement = null;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled?: boolean = false;
 
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
@@ -28,6 +30,10 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 
 	@Listen('click', { target: 'window' })
 	checkForClickOutside(event: MouseEvent) {
+		if (this.disabled) {
+			return;
+		}
+
 		// Check if clicked inside the dropdown
 		if (this.didClickOnDropdownAction(event) || this.didClickOnDropdownList(event)) {
 			return;

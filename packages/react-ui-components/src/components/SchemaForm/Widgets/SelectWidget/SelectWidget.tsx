@@ -33,7 +33,7 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 		onChangeValue(selectedOptions);
 	}, []);
 	const onSelectionCleared = useCallback(() => {
-		onChangeValue([]);
+		onChangeValue(multiple ? [] : undefined);
 	}, [onChange]);
 	const onChangeValue = useCallback(newValue => {
 		const processedValue = processValue(schema, newValue);
@@ -56,7 +56,9 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 		onSearchChange,
 		searchable,
 		minHeight,
-		maxHeight
+		maxHeight,
+		selectionClearable,
+		onSelectionCleared
 	};
 
 	useEffect(() => {
@@ -66,15 +68,7 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 	return (
 		<div className={classNames(styles.InputContainer, { [styles.HasErrors]: hasErrors, [styles.HasLabel]: !!displayedLabel })}>
 			{!multiple && <KvSingleSelectDropdown selectedOption={stateValue} onOptionSelected={onChangeOptionSelected} {...props} />}
-			{multiple && (
-				<KvMultiSelectDropdown
-					selectionClearable={selectionClearable}
-					onSelectionCleared={onSelectionCleared}
-					selectedOptions={buildSelectedOptions(stateValue)}
-					onOptionsSelected={onChangeOptionsSelected}
-					{...props}
-				/>
-			)}
+			{multiple && <KvMultiSelectDropdown selectedOptions={buildSelectedOptions(stateValue)} onOptionsSelected={onChangeOptionsSelected} {...props} />}
 		</div>
 	);
 };

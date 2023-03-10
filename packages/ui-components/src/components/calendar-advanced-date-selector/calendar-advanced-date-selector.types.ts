@@ -22,6 +22,10 @@ export interface ICalendarAdvancedDateSelectorEvents {
 	absoluteTimeChange: EventEmitter<ICalendarAdvanceTime>;
 	/** Emitted when selected timezone changes */
 	timezoneChange: EventEmitter<string>;
+	/** Emitted when the range calendar dropdown open state changes */
+	rangeDropdownStateChange: EventEmitter<boolean>;
+	/** Emitted when the timezone dropdown open state changes */
+	timezoneDropdownStateChange: EventEmitter<boolean>;
 }
 export interface ICalendarAdvanceAbsoluteTimeConfig {
 	/** (optional) Absolute time selector calendars initial date */

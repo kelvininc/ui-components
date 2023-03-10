@@ -78,12 +78,12 @@ export const RadioButtonExample: React.FC = () => (
 
 ## Shadow Parts
 
-| Part             | Description                        |
-| ---------------- | ---------------------------------- |
-| `"radio-button"` | The radio action.                  |
-| `"radio-icon"`   | The radio button's icon container. |
-| `"radio-label"`  |                                    |
-| `"radio-text"`   | The radio button's text container. |
+| Part             | Description                         |
+| ---------------- | ----------------------------------- |
+| `"radio-button"` | The radio action.                   |
+| `"radio-icon"`   | The radio button's icon container.  |
+| `"radio-label"`  | The radio button's label container. |
+| `"radio-text"`   | The radio button's text container.  |
 
 
 ## CSS Custom Properties

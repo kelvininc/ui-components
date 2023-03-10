@@ -71,11 +71,12 @@ export const KvMultiSelectDropdownExample: React.FC = (props) => (
 
 ## Events
 
-| Event              | Description                              | Type                                       |
-| ------------------ | ---------------------------------------- | ------------------------------------------ |
-| `optionsSelected`  | Emitted when the selected options change | `CustomEvent<{ [key: string]: boolean; }>` |
-| `searchChange`     | Emitted when the search term changes     | `CustomEvent<string>`                      |
-| `selectionCleared` | Emitted when the selection is cleared    | `CustomEvent<void>`                        |
+| Event              | Description                                  | Type                                       |
+| ------------------ | -------------------------------------------- | ------------------------------------------ |
+| `openStateChange`  | Emitted when the dropdown open state changes | `CustomEvent<boolean>`                     |
+| `optionsSelected`  | Emitted when the selected options change     | `CustomEvent<{ [key: string]: boolean; }>` |
+| `searchChange`     | Emitted when the search term changes         | `CustomEvent<string>`                      |
+| `selectionCleared` | Emitted when the selection is cleared        | `CustomEvent<void>`                        |
 
 
 ## CSS Custom Properties
