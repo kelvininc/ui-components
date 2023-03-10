@@ -56,6 +56,15 @@ TertiaryState.args = {
 	disabled: false
 };
 
+export const GhostState = ActionButtonTextTemplate.bind({});
+GhostState.args = {
+	type: EActionButtonType.Ghost,
+	text: 'Ghost Button',
+	size: EComponentSize.Large,
+	icon: EIconName.Add,
+	disabled: false
+};
+
 export const DangerState = ActionButtonTextTemplate.bind({});
 DangerState.args = {
 	type: EActionButtonType.Danger,

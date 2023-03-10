@@ -5,30 +5,35 @@ $btn-text-colors: (
 		primary: kv-color('text'),
 		secondary: kv-color('text'),
 		tertiary: kv-color('text'),
+		ghost: kv-color('text'),
 		danger: kv-color('text')
 	),
 	hover: (
 		primary: kv-color('text'),
 		secondary: kv-color('text'),
 		tertiary: kv-color('neutral-2'),
+		ghost: kv-color('neutral-2'),
 		danger: kv-color('text')
 	),
 	focus: (
 		primary: kv-color('text'),
 		secondary: kv-color('text'),
 		tertiary: kv-color('text'),
+		ghost: kv-color('text'),
 		danger: kv-color('text')
 	),
 	disabled: (
 		primary: kv-color('neutral-5'),
 		secondary: kv-color('neutral-5'),
 		tertiary: kv-color('neutral-5'),
+		ghost: kv-color('neutral-5'),
 		danger: kv-color('text')
 	),
 	active: (
 		primary: kv-color('text'),
 		secondary: kv-color('text'),
 		tertiary: kv-color('neutral-2'),
+		ghost: kv-color('neutral-2'),
 		danger: kv-color('text')
 	)
 );
@@ -37,30 +42,35 @@ $btn-background-colors: (
 		primary: kv-color('primary'),
 		secondary: kv-color('neutral-6'),
 		tertiary: transparent,
+		ghost: transparent,
 		danger: kv-color('error')
 	),
 	hover: (
 		primary: kv-color('primary', 'dark'),
 		secondary: kv-color('neutral-5'),
 		tertiary: transparent,
+		ghost: kv-color('neutral-7'),
 		danger: kv-color('error', 'dark')
 	),
 	focus: (
 		primary: kv-color('primary'),
 		secondary: kv-color('neutral-6'),
 		tertiary: transparent,
+		ghost: kv-color('neutral-7'),
 		danger: kv-color('error')
 	),
 	disabled: (
 		primary: kv-color('neutral-3'),
 		secondary: kv-color('neutral-3'),
 		tertiary: transparent,
+		ghost: transparent,
 		danger: kv-color('error', 'light')
 	),
 	active: (
 		primary: kv-color('primary', 'dark'),
 		secondary: kv-color('neutral-5'),
 		tertiary: transparent,
+		ghost: kv-color('neutral-7'),
 		danger: kv-color('error', 'dark')
 	)
 );
@@ -69,30 +79,35 @@ $btn-border-colors: (
 		primary: kv-color('primary'),
 		secondary: kv-color('neutral-6'),
 		tertiary: kv-color('neutral-0'),
+		ghost: transparent,
 		danger: kv-color('error')
 	),
 	hover: (
 		primary: kv-color('primary', 'dark'),
 		secondary: kv-color('neutral-5'),
 		tertiary: kv-color('neutral-2'),
+		ghost: transparent,
 		danger: kv-color('error', 'dark')
 	),
 	focus: (
 		primary: kv-color('primary'),
 		secondary: kv-color('neutral-0'),
 		tertiary: transparent,
+		ghost: transparent,
 		danger: transparent
 	),
 	disabled: (
 		primary: kv-color('neutral-3'),
 		secondary: kv-color('neutral-3'),
 		tertiary: kv-color('neutral-5'),
+		ghost: transparent,
 		danger:  kv-color('error', 'light')
 	),
 	active: (
 		primary: kv-color('primary', 'dark'),
 		secondary: kv-color('neutral-5'),
 		tertiary: kv-color('neutral-2'),
+		ghost: transparent,
 		danger: kv-color('error', 'dark')
 	)
 );
@@ -330,66 +345,81 @@ $btn-paddings-x: (
 	--text-color-default-primary: #{get-text-color('default', 'primary')};
 	--text-color-default-secondary: #{get-text-color('default', 'secondary')};
 	--text-color-default-tertiary: #{get-text-color('default', 'tertiary')};
+	--text-color-default-ghost: #{get-text-color('default', 'ghost')};
 	--text-color-default-danger: #{get-text-color('default', 'danger')};
 	--text-color-hover-primary: #{get-text-color('hover', 'primary')};
 	--text-color-hover-secondary: #{get-text-color('hover', 'secondary')};
 	--text-color-hover-tertiary: #{get-text-color('hover', 'tertiary')};
+	--text-color-hover-ghost: #{get-text-color('hover', 'ghost')};
 	--text-color-hover-danger: #{get-text-color('hover', 'danger')};
 	--text-color-focus-primary: #{get-text-color('focus', 'primary')};
 	--text-color-focus-secondary: #{get-text-color('focus', 'secondary')};
 	--text-color-focus-tertiary: #{get-text-color('focus', 'tertiary')};
+	--text-color-focus-ghost: #{get-text-color('focus', 'ghost')};
 	--text-color-focus-danger: #{get-text-color('focus', 'danger')};
 	--text-color-disabled-primary: #{get-text-color('disabled', 'primary')};
 	--text-color-disabled-secondary: #{get-text-color('disabled', 'secondary')};
 	--text-color-disabled-tertiary: #{get-text-color('disabled', 'tertiary')};
+	--text-color-disabled-ghost: #{get-text-color('disabled', 'ghost')};
 	--text-color-disabled-danger: #{get-text-color('disabled', 'danger')};
 	--text-color-active-primary: #{get-text-color('active', 'primary')};
 	--text-color-active-secondary: #{get-text-color('active', 'secondary')};
 	--text-color-active-tertiary: #{get-text-color('active', 'tertiary')};
+	--text-color-active-ghost: #{get-text-color('active', 'ghost')};
 	--text-color-active-danger: #{get-text-color('active', 'danger')};
 
 	// background colors
 	--background-color-default-primary: #{get-background-color('default', 'primary')};
 	--background-color-default-secondary: #{get-background-color('default', 'secondary')};
 	--background-color-default-tertiary: #{get-background-color('default', 'tertiary')};
+	--background-color-default-ghost: #{get-background-color('default', 'ghost')};
 	--background-color-default-danger: #{get-background-color('default', 'danger')};
 	--background-color-hover-primary: #{get-background-color('hover', 'primary')};
 	--background-color-hover-secondary: #{get-background-color('hover', 'secondary')};
 	--background-color-hover-tertiary: #{get-background-color('hover', 'tertiary')};
+	--background-color-hover-ghost: #{get-background-color('hover', 'ghost')};
 	--background-color-hover-danger: #{get-background-color('hover', 'danger')};
 	--background-color-focus-primary: #{get-background-color('focus', 'primary')};
 	--background-color-focus-secondary: #{get-background-color('focus', 'secondary')};
 	--background-color-focus-tertiary: #{get-background-color('focus', 'tertiary')};
+	--background-color-focus-ghost: #{get-background-color('focus', 'ghost')};
 	--background-color-focus-danger: #{get-background-color('focus', 'danger')};
 	--background-color-disabled-primary: #{get-background-color('disabled', 'primary')};
 	--background-color-disabled-secondary: #{get-background-color('disabled', 'secondary')};
 	--background-color-disabled-tertiary: #{get-background-color('disabled', 'tertiary')};
+	--background-color-disabled-ghost: #{get-background-color('disabled', 'ghost')};
 	--background-color-disabled-danger: #{get-background-color('disabled', 'danger')};
 	--background-color-active-primary: #{get-background-color('active', 'primary')};
 	--background-color-active-secondary: #{get-background-color('active', 'secondary')};
 	--background-color-active-tertiary: #{get-background-color('active', 'tertiary')};
+	--background-color-active-ghost: #{get-background-color('active', 'ghost')};
 	--background-color-active-danger: #{get-background-color('active', 'danger')};
 
 	// borders colors
 	--border-color-default-primary: #{get-border-color('default', 'primary')};
 	--border-color-default-secondary: #{get-border-color('default', 'secondary')};
 	--border-color-default-tertiary: #{get-border-color('default', 'tertiary')};
+	--border-color-default-ghost: #{get-border-color('default', 'ghost')};
 	--border-color-default-danger: #{get-border-color('default', 'danger')};
 	--border-color-hover-primary: #{get-border-color('hover', 'primary')};
 	--border-color-hover-secondary: #{get-border-color('hover', 'secondary')};
 	--border-color-hover-tertiary: #{get-border-color('hover', 'tertiary')};
+	--border-color-hover-ghost: #{get-border-color('hover', 'ghost')};
 	--border-color-hover-danger: #{get-border-color('hover', 'danger')};
 	--border-color-focus-primary: #{get-border-color('focus', 'primary')};
 	--border-color-focus-secondary: #{get-border-color('focus', 'secondary')};
 	--border-color-focus-tertiary: #{get-border-color('focus', 'tertiary')};
+	--border-color-focus-ghost: #{get-border-color('focus', 'ghost')};
 	--border-color-focus-danger: #{get-border-color('focus', 'danger')};
 	--border-color-disabled-primary: #{get-border-color('disabled', 'primary')};
 	--border-color-disabled-secondary: #{get-border-color('disabled', 'secondary')};
 	--border-color-disabled-tertiary: #{get-border-color('disabled', 'tertiary')};
+	--border-color-disabled-ghost: #{get-border-color('disabled', 'ghost')};
 	--border-color-disabled-danger: #{get-border-color('disabled', 'danger')};
 	--border-color-active-primary: #{get-border-color('active', 'primary')};
 	--border-color-active-secondary: #{get-border-color('active', 'secondary')};
 	--border-color-active-tertiary: #{get-border-color('active', 'tertiary')};
+	--border-color-active-ghost: #{get-border-color('active', 'ghost')};
 	--border-color-active-danger: #{get-border-color('active', 'danger')};
 
 	--button-height-large: #{get-height('large')};
@@ -422,6 +452,10 @@ $btn-paddings-x: (
 
 	&--type-tertiary {
 		@include button-type-theme('tertiary');
+	}
+
+	&--type-ghost {
+		@include button-type-theme('ghost');
 	}
 
 	&--type-danger {
