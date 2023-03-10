@@ -87,10 +87,11 @@ export const ToggleTipExample: React.FC = () => (
 
 ## Shadow Parts
 
-| Part                        | Description                  |
-| --------------------------- | ---------------------------- |
-| `"toggle-tip-container"`    | The toggle tip container.    |
-| `"toggle-tip-slot-content"` | The toggle tip slot content. |
+| Part                                  | Description                             |
+| ------------------------------------- | --------------------------------------- |
+| `"toggle-tip-container"`              | The toggle tip container.               |
+| `"toggle-tip-open-element-container"` | The toggle tip's open element container |
+| `"toggle-tip-slot-content"`           | The toggle tip slot content.            |
 
 
 ## CSS Custom Properties
