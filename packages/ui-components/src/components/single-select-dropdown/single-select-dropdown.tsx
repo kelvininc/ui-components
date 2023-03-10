@@ -6,6 +6,7 @@ import { buildSelectGroups, hasGroups } from '../select-group/select-group.helpe
 import { isEmpty, isNil } from 'lodash-es';
 
 import { SINGLE_SELECT_CLEAR_SELECTION_LABEL, SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './single-select-dropdown.config';
+import { EComponentSize } from '../../types';
 /**
  * @part option - The select option container.
  */
@@ -56,6 +57,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Prop({ reflect: true }) minHeight?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxHeight?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) inputSize?: EComponentSize = EComponentSize.Large;
 
 	/** @inheritdoc */
 	@Event() optionSelected: EventEmitter<string>;
@@ -168,7 +171,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		required: this.required,
 		placeholder: this.placeholder,
 		state: this.errorState,
-		helpText: this.helpText
+		helpText: this.helpText,
+		size: this.inputSize
 	});
 
 	private getCurrentOptions = (): ISingleSelectDropdownOptions => {

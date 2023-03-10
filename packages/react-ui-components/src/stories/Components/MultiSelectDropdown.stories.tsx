@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React, { useCallback, useMemo, useState } from 'react';
-import { EIconName, IMultiSelectDropdownOptions, KvMultiSelectDropdown } from '../../components';
+import { EComponentSize, EIconName, IMultiSelectDropdownOptions, KvMultiSelectDropdown } from '../../components';
 import { searchDropdownOptions } from './helpers/dropdown.helper';
 
 // Required to have the correct TagName in the code sample
@@ -42,6 +42,10 @@ export default {
 		},
 		selectedOptions: {
 			control: { type: 'object' }
+		},
+		inputSize: {
+			control: { type: 'radio' },
+			options: Object.values(EComponentSize)
 		}
 	},
 	parameters: {

@@ -1,6 +1,7 @@
 import { EventEmitter } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
+import { EComponentSize } from '../../types';
 
 export interface IMultiSelectDropdownOption {
 	label: string;
@@ -52,6 +53,8 @@ export interface IMultiSelectDropdown {
 	minHeight?: string;
 	/** (optional) The dropdown's max-height */
 	maxHeight?: string;
+	/** (optional) The size of the input */
+	inputSize?: EComponentSize;
 }
 
 export interface IMultiSelectDropdownEvents {
