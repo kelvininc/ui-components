@@ -6,6 +6,7 @@ import { DEFAULT_AUTOPLACEMENT_CONFIG, DEFAULT_OFFSET, DEFAULT_SHIFT_CONFIG, DEF
 import { IToggleTip, IToggleTipEvents } from './toggle-tip.types';
 
 /**
+ * @part toggle-tip-open-element-container - The toggle tip's open element container
  * @part toggle-tip-container - The toggle tip container.
  * @part toggle-tip-slot-content - The toggle tip slot content.
  */
@@ -82,7 +83,8 @@ export class KvToggleTip implements IToggleTip, IToggleTipEvents {
 		return middleware;
 	};
 
-	private onButtonClick = () => {
+	private onButtonClick = (ev: MouseEvent) => {
+		ev.stopPropagation();
 		this.isOpen = !this.isOpen;
 		this.openStateChange.emit(this.isOpen);
 	};
@@ -137,7 +139,7 @@ export class KvToggleTip implements IToggleTip, IToggleTipEvents {
 	render() {
 		return (
 			<Host>
-				<div id="toggle-tip-open-element-wrapper" class="toggle-tip-open-element-wrapper">
+				<div id="toggle-tip-open-element-wrapper" class="toggle-tip-open-element-wrapper" part="toggle-tip-open-element-container">
 					<slot name="open-element-slot"></slot>
 				</div>
 				<div id="toggle-tip-container" class="toggle-tip-container" part="toggle-tip-container">

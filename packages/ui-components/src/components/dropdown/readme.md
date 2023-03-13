@@ -111,7 +111,7 @@ export class KvDropdownExample {
 
 ### `onToggleOpenState() => Promise<void>`
 
-Toogles the dropdown open state
+Toggles the dropdown open state
 
 #### Returns
 
