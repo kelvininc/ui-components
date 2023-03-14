@@ -87,6 +87,7 @@ export const TagLetterExample: React.FC = () => (
 
 ### Used by
 
+ - [kv-copy-to-clipboard](../copy-to-clipboard)
  - [kv-info-label](../info-label)
  - [kv-text-field](../text-field)
  - [kv-tree-item](../tree-item)
@@ -94,6 +95,7 @@ export const TagLetterExample: React.FC = () => (
 ### Graph
 ```mermaid
 graph TD;
+  kv-copy-to-clipboard --> kv-tooltip
   kv-info-label --> kv-tooltip
   kv-text-field --> kv-tooltip
   kv-tree-item --> kv-tooltip

@@ -1,0 +1,36 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+		@prop --container-width: Width of the container
+	**/
+	--container-width: fit-content;
+}
+
+.copy-to-clipboard-container {
+	width: var(--container-width);
+}
+
+.copy-to-clipboard-content {
+	display: flex;
+	justify-content: space-between;
+	box-sizing: border-box;
+	border-radius: $spacing;
+	padding: $spacing-2x;
+
+	&:hover {
+		cursor: pointer;
+		background-color: kv-color('neutral-6');
+	}
+
+	.state-icon {
+		align-self: self-end;
+
+		&--success {
+			kv-icon {
+				--icon-color: #{kv-color('success')};
+				--icon-background-color: #{kv-color('neutral-0')};
+			}
+		}
+	}
+}
