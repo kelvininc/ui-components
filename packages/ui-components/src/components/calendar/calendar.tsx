@@ -7,6 +7,7 @@ import {
 	getDateMonth,
 	getDateYear,
 	getFirstWeekdayIndexOfMonth,
+	getMonthAndYearTitle,
 	getNumberOfDaysInMonth,
 	getWeekdaysNames,
 	isDateAfter,
@@ -18,7 +19,6 @@ import {
 } from '../../utils/date.helper';
 import { EActionButtonType } from '../action-button/action-button.types';
 import { EIconName } from '../icon/icon.types';
-import { getMonthTitle } from './calendar.helper';
 import { ICalendar, ICalendarEvents, IChangeYearEvent, IChangeMonthEvent, IClickDateEvent, SelectedRange } from './calendar.types';
 
 /**
@@ -233,7 +233,7 @@ export class KvCalendar implements ICalendar, ICalendarEvents {
 				<div class="calendar" part="calendar-container">
 					<div class="calendar__header">
 						<kv-action-button-icon icon={EIconName.ArrowLeft} type={EActionButtonType.Tertiary} onClickButton={this.onClickPreviousMonth} />
-						<div class="month">{getMonthTitle(this.month, this.year)}</div>
+						<div class="month">{getMonthAndYearTitle(this.month, this.year)}</div>
 						<kv-action-button-icon icon={EIconName.ArrowRight} type={EActionButtonType.Tertiary} onClickButton={this.onClickNextMonth} />
 					</div>
 					<div class="calendar__body">

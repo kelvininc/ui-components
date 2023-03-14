@@ -8,7 +8,8 @@ describe('relative-time-picker', () => {
 
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-relative-time-picker></kv-relative-time-picker>');
+			await page.setContent('<kv-relative-time-picker selectedTimeKey="today" />');
+			await page.waitForChanges();
 
 			const relativeTimePickerSelectorElement = await page.find('kv-relative-time-picker');
 			spyChangeEvent = await relativeTimePickerSelectorElement.spyOnEvent('selectedRelativeTimeChange');
@@ -17,7 +18,6 @@ describe('relative-time-picker', () => {
 			dropdownElement.triggerEvent('itemSelected', {
 				detail: 'yesterday'
 			});
-
 			await page.waitForChanges();
 		});
 
