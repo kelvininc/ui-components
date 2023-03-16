@@ -5,6 +5,7 @@ export enum EActionButtonType {
 	Primary = 'primary',
 	Secondary = 'secondary',
 	Tertiary = 'tertiary',
+	Ghost = 'ghost',
 	Danger = 'danger'
 }
 

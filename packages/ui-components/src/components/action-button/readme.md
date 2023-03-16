@@ -45,6 +45,9 @@ export const SwitchButtonExample: React.FC = () => (
 		{/*-- Tertiary --*/}
 		<KvActionButton type={EActionButtonType.Tertiary}>Tertiary Button</KvActionButton>
 
+		{/*-- Tertiary --*/}
+		<KvActionButton type={EActionButtonType.Ghost}>Ghost Button</KvActionButton>
+
 		{/*-- Disabled --*/}
 		<KvActionButton disabled type={EActionButtonType.Primary}>
 			Disabled Button
@@ -62,15 +65,15 @@ export const SwitchButtonExample: React.FC = () => (
 
 ## Properties
 
-| Property            | Attribute  | Description                                                                                                     | Type                                                                                                                 | Default                |
-| ------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `active`            | `active`   | (optional) If `true` the button is active                                                                       | `boolean`                                                                                                            | `false`                |
-| `disabled`          | `disabled` | (optional) If `true` the button is disabled                                                                     | `boolean`                                                                                                            | `false`                |
-| `download`          | `download` | (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename | `string`                                                                                                             | `undefined`            |
-| `href`              | `href`     | (optional) The anchor's link to open when clicking                                                              | `string`                                                                                                             | `undefined`            |
-| `size`              | `size`     | (optional) Button's size                                                                                        | `EComponentSize.Large \| EComponentSize.Small`                                                                       | `EComponentSize.Large` |
-| `target`            | `target`   | (optional) The anchor's target                                                                                  | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top`                  | `undefined`            |
-| `type` _(required)_ | `type`     | (required) Button's type                                                                                        | `EActionButtonType.Danger \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
+| Property            | Attribute  | Description                                                                                                     | Type                                                                                                                                            | Default                |
+| ------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `active`            | `active`   | (optional) If `true` the button is active                                                                       | `boolean`                                                                                                                                       | `false`                |
+| `disabled`          | `disabled` | (optional) If `true` the button is disabled                                                                     | `boolean`                                                                                                                                       | `false`                |
+| `download`          | `download` | (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename | `string`                                                                                                                                        | `undefined`            |
+| `href`              | `href`     | (optional) The anchor's link to open when clicking                                                              | `string`                                                                                                                                        | `undefined`            |
+| `size`              | `size`     | (optional) Button's size                                                                                        | `EComponentSize.Large \| EComponentSize.Small`                                                                                                  | `EComponentSize.Large` |
+| `target`            | `target`   | (optional) The anchor's target                                                                                  | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top`                                             | `undefined`            |
+| `type` _(required)_ | `type`     | (required) Button's type                                                                                        | `EActionButtonType.Danger \| EActionButtonType.Ghost \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
 
 
 ## Events

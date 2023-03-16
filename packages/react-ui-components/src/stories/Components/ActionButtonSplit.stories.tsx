@@ -63,6 +63,16 @@ TertiaryState.args = {
 	disabled: false
 };
 
+export const GhostState = ActionButtonSplitTemplate.bind({});
+GhostState.args = {
+	type: EActionButtonType.Ghost,
+	text: 'Ghost Button',
+	splitIcon: EIconName.ArrowDropDown,
+	size: EComponentSize.Large,
+	icon: EIconName.Add,
+	disabled: false
+};
+
 export const DangerState = ActionButtonSplitTemplate.bind({});
 DangerState.args = {
 	type: EActionButtonType.Danger,

@@ -49,6 +49,14 @@ TertiaryState.args = {
 	active: false
 };
 
+export const GhostState = ButtonTemplate.bind({});
+GhostState.args = {
+	type: EActionButtonType.Ghost,
+	size: EComponentSize.Large,
+	disabled: false,
+	active: false
+};
+
 export const DangerState = ButtonTemplate.bind({});
 DangerState.args = {
 	type: EActionButtonType.Danger,
