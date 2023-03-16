@@ -7,6 +7,7 @@ import { buildSelectGroups, hasGroups } from '../select-group/select-group.helpe
 import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
 import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
 import { isEmpty } from 'lodash-es';
+import { EComponentSize } from '../../types';
 
 @Component({
 	tag: 'kv-multi-select-dropdown',
@@ -50,6 +51,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: true }) minHeight?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxHeight?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) inputSize?: EComponentSize = EComponentSize.Large;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<{ [key: string]: boolean }>;
@@ -159,7 +162,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		required: this.required,
 		placeholder: this.placeholder,
 		state: this.errorState,
-		helpText: this.helpText
+		helpText: this.helpText,
+		size: this.inputSize
 	});
 
 	render() {
