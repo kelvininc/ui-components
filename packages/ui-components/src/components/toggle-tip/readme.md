@@ -103,6 +103,19 @@ export const ToggleTipExample: React.FC = () => (
 | `--toggletip-z-index`              | toggle tip z-index.   |
 
 
+## Dependencies
+
+### Used by
+
+ - [kv-description-list](../description-list)
+
+### Graph
+```mermaid
+graph TD;
+  kv-description-list --> kv-toggle-tip
+  style kv-toggle-tip fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 
