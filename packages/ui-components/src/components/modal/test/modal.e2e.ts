@@ -7,6 +7,7 @@ describe('Modal (end-to-end)', () => {
 	let closeBtnEl: E2EElement;
 
 	let spyCloseEvent: EventSpy;
+	let spyOverlayEvent: EventSpy;
 
 	describe('when rendering with default props', () => {
 		beforeEach(async () => {
@@ -14,7 +15,7 @@ describe('Modal (end-to-end)', () => {
 			await page.setContent('<kv-modal></kv-modal>');
 			hostEl = await page.find('kv-modal');
 			overlayEl = await page.find('kv-modal >>> .modal-overlay');
-			closeBtnEl = await page.find('kv-modal >>> .close');
+			closeBtnEl = await page.find('kv-modal >>> .close-button');
 		});
 
 		it('should render the modal with an overlay', async () => {
@@ -38,12 +39,12 @@ describe('Modal (end-to-end)', () => {
 
 		describe('and the user clicks outside the modal body', () => {
 			beforeEach(async () => {
-				spyCloseEvent = await hostEl.spyOnEvent('clickClose');
+				spyOverlayEvent = await hostEl.spyOnEvent('clickOverlay');
 				await overlayEl.click({ offset: { x: 0, y: 0 } });
 			});
 
 			it('should emit the close event', () => {
-				expect(spyCloseEvent).toHaveReceivedEvent();
+				expect(spyOverlayEvent).toHaveReceivedEvent();
 			});
 		});
 	});
@@ -51,10 +52,10 @@ describe('Modal (end-to-end)', () => {
 	describe('when not allowing the modal to be closed', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-modal show-close-button="false" close-on-overlay-click="false"></kv-modal>');
+			await page.setContent('<kv-modal show-close-button="false"></kv-modal>');
 			hostEl = await page.find('kv-modal');
 			overlayEl = await page.find('kv-modal >>> .modal-overlay');
-			closeBtnEl = await page.find('kv-modal >>> .close');
+			closeBtnEl = await page.find('kv-modal >>> .close-button');
 		});
 
 		it('should not render the close button', () => {
@@ -64,7 +65,7 @@ describe('Modal (end-to-end)', () => {
 		describe('and the user clicks outside the modal body', () => {
 			beforeEach(async () => {
 				spyCloseEvent = await hostEl.spyOnEvent('clickClose');
-				await overlayEl.click({ offset: { x: 0, y: 0 } });
+				await overlayEl.click();
 			});
 
 			it('should not emit the close event', () => {

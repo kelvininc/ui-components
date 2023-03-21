@@ -32,35 +32,45 @@ export const ModalOverlayExample: React.FC = (args: ModalOverlayProps) => {
 
 ## Properties
 
-| Property              | Attribute                | Description                                                               | Type      | Default     |
-| --------------------- | ------------------------ | ------------------------------------------------------------------------- | --------- | ----------- |
-| `closeOnOverlayClick` | `close-on-overlay-click` | (optional) Defines if the modal can be closed with a click on the overlay | `boolean` | `true`      |
-| `headerTitle`         | `header-title`           | (optional) Defines the modal title label                                  | `string`  | `undefined` |
-| `showCloseButton`     | `show-close-button`      | (optional) Defines if the modal shows the close button                    | `boolean` | `true`      |
-| `showOverlay`         | `show-overlay`           | (optional) Defines if the modal has an overlay background                 | `boolean` | `true`      |
+| Property          | Attribute           | Description                                               | Type                                | Default     |
+| ----------------- | ------------------- | --------------------------------------------------------- | ----------------------------------- | ----------- |
+| `customClass`     | `custom-class`      | (optional) Additional classes to apply for custom CSS.    | `CssClassMap \| string \| string[]` | `''`        |
+| `headerTitle`     | `header-title`      | (optional) Defines the modal title label                  | `string`                            | `undefined` |
+| `showCloseButton` | `show-close-button` | (optional) Defines if the modal shows the close button    | `boolean`                           | `true`      |
+| `showOverlay`     | `show-overlay`      | (optional) Defines if the modal has an overlay background | `boolean`                           | `true`      |
 
 
 ## Events
 
-| Event        | Description                              | Type                |
-| ------------ | ---------------------------------------- | ------------------- |
-| `clickClose` | Emitted when the close button is clicked | `CustomEvent<void>` |
+| Event          | Description                                   | Type                |
+| -------------- | --------------------------------------------- | ------------------- |
+| `clickClose`   | Emitted when the close button is clicked      | `CustomEvent<void>` |
+| `clickOverlay` | Emitted when the overlay container is clicked | `CustomEvent<void>` |
+
+
+## Shadow Parts
+
+| Part        | Description                  |
+| ----------- | ---------------------------- |
+| `"content"` | The modal's content section. |
+| `"topbar"`  | The modal's topbar section.  |
 
 
 ## CSS Custom Properties
 
-| Name                          | Description                      |
-| ----------------------------- | -------------------------------- |
-| `--modal-background-color`    | The modal's background color.    |
-| `--modal-close-button-height` | The modal's close button height  |
-| `--modal-close-button-width`  | The modal's close button width   |
-| `--modal-footer-height`       | The modal's footer height in px. |
-| `--modal-header-height`       | The modal's header height in px. |
-| `--modal-height`              | The modal's height in px.        |
-| `--modal-overlay-color`       | The modal's overlay color.       |
-| `--modal-title-text-color`    | The modal's text header color.   |
-| `--modal-width`               | The modal's width in px.         |
-| `--modal-z-index`             | The modal's z-index              |
+| Name                          | Description                       |
+| ----------------------------- | --------------------------------- |
+| `--modal-background-color`    | The modal's background color.     |
+| `--modal-close-button-height` | The modal's close button height   |
+| `--modal-close-button-width`  | The modal's close button width    |
+| `--modal-height`              | The modal's height in px.         |
+| `--modal-min-height`          | The modal's minimum height in px. |
+| `--modal-min-width`           | The modal's minimum width in px.  |
+| `--modal-overlay-color`       | The modal's overlay color.        |
+| `--modal-topbar-height`       | The modal's topbar height in px.  |
+| `--modal-topbar-text-color`   | The modal's text topbar color.    |
+| `--modal-width`               | The modal's width in px.          |
+| `--modal-z-index`             | The modal's z-index               |
 
 
 ## Dependencies
