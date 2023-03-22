@@ -66,9 +66,12 @@ export const KvCopyToClipboardExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                | Description            |
-| ------------------- | ---------------------- |
-| `--container-width` | Width of the container |
+| Name                   | Description            |
+| ---------------------- | ---------------------- |
+| `--container-width`    | Width of the container |
+| `--icon-color-default` | Start icon color       |
+| `--icon-color-success` | Success icon color     |
+| `--icon-start-opacity` | Start icon opacity     |
 
 
 ## Dependencies

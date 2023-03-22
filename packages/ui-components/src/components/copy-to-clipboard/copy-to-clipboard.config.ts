@@ -18,5 +18,7 @@ export const TOOLTIP_CONFIG: Partial<ComputePositionConfig> = {
 	]
 };
 
+export const TOOLTIP_DELAY = 500;
+
 export const STATE_TRANSITION_DURATION_MS = 2000;
 export const UNABLE_TO_COPY_ERROR = 'Unable to copy to clipboard';
