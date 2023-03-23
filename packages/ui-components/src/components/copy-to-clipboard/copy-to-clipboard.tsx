@@ -1,6 +1,6 @@
 import { Component, Host, Prop, State, h } from '@stencil/core';
 import { ECopyToClipboardState, ICopyToClipboard } from './copy-to-clipboard.types';
-import { ICON_CONFIGS, STATE_TRANSITION_DURATION_MS, TOOLTIP_CONFIG, UNABLE_TO_COPY_ERROR } from './copy-to-clipboard.config';
+import { ICON_CONFIGS, STATE_TRANSITION_DURATION_MS, TOOLTIP_CONFIG, TOOLTIP_DELAY, UNABLE_TO_COPY_ERROR } from './copy-to-clipboard.config';
 import clipboardHelper from '../../utils/clipboard.helper';
 import { getTooltipText } from './copy-to-clipboard.utils';
 
@@ -20,7 +20,9 @@ export class KvCopyToClipboard implements ICopyToClipboard {
 
 	@State() copyState: ECopyToClipboardState = ECopyToClipboardState.ReadyToCopy;
 
-	private onTextCopy = async () => {
+	private onTextCopy = async (ev: MouseEvent) => {
+		ev.stopPropagation();
+
 		if (this.copyState === ECopyToClipboardState.Copied) return;
 
 		try {
@@ -39,21 +41,19 @@ export class KvCopyToClipboard implements ICopyToClipboard {
 	render() {
 		return (
 			<Host>
-				<div class="copy-to-clipboard-container" onClick={this.onTextCopy}>
-					<kv-tooltip text={this.tooltipText} options={TOOLTIP_CONFIG}>
-						<div part="content" class="copy-to-clipboard-content">
-							<slot></slot>
-							<div
-								class={{
-									'state-icon': true,
-									'state-icon--success': this.copyState === ECopyToClipboardState.Copied
-								}}
-							>
-								<kv-icon name={ICON_CONFIGS[this.copyState]} customClass={'icon-16'} />
-							</div>
+				<kv-tooltip text={this.tooltipText} options={TOOLTIP_CONFIG} delay={TOOLTIP_DELAY} onClick={this.onTextCopy}>
+					<div part="content" class="copy-to-clipboard-container">
+						<slot></slot>
+						<div
+							class={{
+								'state-icon': true,
+								'state-icon--success': this.copyState === ECopyToClipboardState.Copied
+							}}
+						>
+							<kv-icon name={ICON_CONFIGS[this.copyState]} />
 						</div>
-					</kv-tooltip>
-				</div>
+					</div>
+				</kv-tooltip>
 			</Host>
 		);
 	}

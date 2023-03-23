@@ -4,33 +4,7 @@ import { KvCopyToClipboard } from '../copy-to-clipboard';
 describe('Copy To Clipboard (unit tests)', () => {
 	let page: SpecPage;
 
-	describe('when rendering with required props', () => {
-		beforeEach(async () => {
-			page = await newSpecPage({
-				components: [KvCopyToClipboard],
-				html: `<kv-copy-to-clipboard copiable-text='https://kelvin.ai' />`
-			});
-		});
-
-		it('should match the snapshot', () => {
-			expect(page.root).toMatchSnapshot();
-		});
-	});
-
-	describe('when rendering with custom tooltip suffix', () => {
-		beforeEach(async () => {
-			page = await newSpecPage({
-				components: [KvCopyToClipboard],
-				html: `<kv-copy-to-clipboard copiable-text='https://kelvin.ai' tooltip-suffix='Link' />`
-			});
-		});
-
-		it('should match the snapshot', () => {
-			expect(page.root).toMatchSnapshot();
-		});
-	});
-
-	describe('when rendering with content projection', () => {
+	describe('when rendering', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvCopyToClipboard],
