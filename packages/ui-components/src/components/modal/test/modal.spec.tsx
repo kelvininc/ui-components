@@ -27,7 +27,7 @@ describe('Modal (unit tests)', () => {
 		});
 	});
 
-	describe('when using a label', () => {
+	describe('when using a title', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvModal],
@@ -40,7 +40,7 @@ describe('Modal (unit tests)', () => {
 			expect(page.root).toMatchSnapshot();
 		});
 
-		it('should set the correct label', () => {
+		it('should set the correct title', () => {
 			expect(comp.headerTitle).toEqual('Hello World');
 		});
 	});

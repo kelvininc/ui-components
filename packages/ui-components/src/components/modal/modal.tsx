@@ -1,7 +1,13 @@
 import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
+import { CssClassMap } from '../../types';
+import { getClassMap } from '../../utils/css-class.helper';
 import { EIconName } from '../icon/icon.types';
 import { IModalConfig, IModalEvents } from './modal.types';
 
+/**
+ * @part topbar - The modal's topbar section.
+ * @part content - The modal's content section.
+ */
 @Component({
 	tag: 'kv-modal',
 	styleUrls: {
@@ -14,49 +20,47 @@ export class KvModal implements IModalConfig, IModalEvents {
 	/** @inheritdoc */
 	@Prop() headerTitle?: string;
 	/** @inheritdoc */
-	@Prop() showOverlay: boolean = true;
+	@Prop() showOverlay?: boolean = true;
 	/** @inheritdoc */
-	@Prop() closeOnOverlayClick?: boolean = true;
+	@Prop() showCloseButton?: boolean = true;
 	/** @inheritdoc */
-	@Prop() showCloseButton: boolean = true;
+	@Prop({ reflect: true }) customClass: string | string[] | CssClassMap = '';
 
 	/** @inheritdoc */
 	@Event() clickClose: EventEmitter<void>;
+	/** @inheritdoc */
+	@Event() clickOverlay: EventEmitter<void>;
 
 	private onClose = (ev: MouseEvent) => {
 		ev.preventDefault();
 		this.clickClose.emit();
 	};
 
+	private onClickOverlay = (ev: MouseEvent) => {
+		ev.preventDefault();
+		this.clickOverlay.emit();
+	};
+
 	render() {
 		return (
-			<Host>
-				<div
-					class={{
-						'modal-overlay': this.showOverlay
-					}}
-					onClick={this.closeOnOverlayClick && this.onClose}
-				/>
+			<Host class={getClassMap(this.customClass)}>
+				<div class={{ 'modal-overlay': this.showOverlay }} onClick={this.onClickOverlay} />
 				<div class="modal-container">
-					<div class="top-bar">
+					<div class="topbar" part="topbar">
 						<div class="title">{this.headerTitle}</div>
 						<div class="actions">
-							<slot name="more-top-actions"></slot>
+							<slot name="more-topbar-actions"></slot>
 							{this.showCloseButton && (
-								<div class="close" onClick={this.onClose}>
-									<kv-icon name={EIconName.Close}></kv-icon>
+								<div class="close-button" onClick={this.onClose}>
+									<kv-icon name={EIconName.Close} />
 								</div>
 							)}
 						</div>
 					</div>
-					<div class="content">
+					<div class="content" part="content">
 						<slot name="header"></slot>
-						<div class="body">
-							<slot name="body"></slot>
-						</div>
-						<div class="footer">
-							<slot name="footer"></slot>
-						</div>
+						<slot name="body"></slot>
+						<slot name="footer"></slot>
 					</div>
 				</div>
 			</Host>

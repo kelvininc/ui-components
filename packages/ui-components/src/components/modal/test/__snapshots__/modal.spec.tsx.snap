@@ -1,29 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Modal (unit tests) when using a label should match the snapshot 1`] = `
-<kv-modal header-title="Hello World">
+exports[`Modal (unit tests) when using a title should match the snapshot 1`] = `
+<kv-modal custom-class="" header-title="Hello World">
   <mock:shadow-root>
     <div class="modal-overlay"></div>
     <div class="modal-container">
-      <div class="top-bar">
+      <div class="topbar" part="topbar">
         <div class="title">
           Hello World
         </div>
         <div class="actions">
-          <slot name="more-top-actions"></slot>
-          <div class="close">
+          <slot name="more-topbar-actions"></slot>
+          <div class="close-button">
             <kv-icon name="kv-close"></kv-icon>
           </div>
         </div>
       </div>
-      <div class="content">
+      <div class="content" part="content">
         <slot name="header"></slot>
-        <div class="body">
-          <slot name="body"></slot>
-        </div>
-        <div class="footer">
-          <slot name="footer"></slot>
-        </div>
+        <slot name="body"></slot>
+        <slot name="footer"></slot>
       </div>
     </div>
   </mock:shadow-root>
@@ -31,27 +27,23 @@ exports[`Modal (unit tests) when using a label should match the snapshot 1`] = `
 `;
 
 exports[`Modal (unit tests) when using default props should match the snapshot 1`] = `
-<kv-modal>
+<kv-modal custom-class="">
   <mock:shadow-root>
     <div class="modal-overlay"></div>
     <div class="modal-container">
-      <div class="top-bar">
+      <div class="topbar" part="topbar">
         <div class="title"></div>
         <div class="actions">
-          <slot name="more-top-actions"></slot>
-          <div class="close">
+          <slot name="more-topbar-actions"></slot>
+          <div class="close-button">
             <kv-icon name="kv-close"></kv-icon>
           </div>
         </div>
       </div>
-      <div class="content">
+      <div class="content" part="content">
         <slot name="header"></slot>
-        <div class="body">
-          <slot name="body"></slot>
-        </div>
-        <div class="footer">
-          <slot name="footer"></slot>
-        </div>
+        <slot name="body"></slot>
+        <slot name="footer"></slot>
       </div>
     </div>
   </mock:shadow-root>
