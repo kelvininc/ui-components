@@ -31,7 +31,11 @@ export class KvTagStatus implements ITagStatus {
 					>
 						<kv-icon name={this.icon} exportparts="icon" />
 					</div>
-					{!isEmpty(this.label) && <div class="label">{this.label}</div>}
+					{!isEmpty(this.label) && (
+						<div class="label" part="label">
+							{this.label}
+						</div>
+					)}
 				</div>
 			</Host>
 		);

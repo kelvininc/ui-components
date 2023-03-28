@@ -7,7 +7,7 @@ exports[`Status Tag (unit tests) when uses state error and icon error should mat
       <div class="icon icon--state-error">
         <kv-icon exportparts="icon" name="kv-error"></kv-icon>
       </div>
-      <div class="label">
+      <div class="label" part="label">
         Error
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { EComponentSize, EIconName, ETagState, KvTagStatus } from '../../components';
+import { EIconName, ETagState, KvTagStatus } from '../../components';
 
 KvTagStatus.displayName = 'KvTagStatus';
 
