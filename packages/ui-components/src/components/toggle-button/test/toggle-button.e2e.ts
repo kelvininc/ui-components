@@ -1,30 +1,30 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
 
-describe('Radio Button (end-to-end)', () => {
+describe('Toggle Button (end-to-end)', () => {
 	let page: E2EPage;
 
 	describe('when rendering with label', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-radio-button label="Option 1" value="opt1"></kv-radio-button>');
+			await page.setContent('<kv-toggle-button label="Option 1" value="opt1"></kv-toggle-button>');
 		});
 
 		it('should render a label', async () => {
-			const labelComponent = await page.find('kv-radio-button >>> .radio-button');
+			const labelComponent = await page.find('kv-toggle-button >>> .toggle-button');
 			expect(labelComponent).toBeTruthy();
 			expect(labelComponent.innerText).toBe('Option 1');
 		});
 
 		describe('and user clicks on the button', () => {
 			let spyCheckedChangeEvent: EventSpy;
-			let radioElement: E2EElement;
+			let toggleElement: E2EElement;
 
 			beforeEach(async () => {
-				radioElement = await page.find('kv-radio-button');
-				spyCheckedChangeEvent = await radioElement.spyOnEvent('checkedChange');
+				toggleElement = await page.find('kv-toggle-button');
+				spyCheckedChangeEvent = await toggleElement.spyOnEvent('checkedChange');
 
-				const radioBtn = await page.find('kv-radio-button >>> .radio-button');
-				await radioBtn.click();
+				const toggleBtn = await page.find('kv-toggle-button >>> .toggle-button');
+				await toggleBtn.click();
 				await page.waitForTimeout(300);
 			});
 
@@ -37,24 +37,24 @@ describe('Radio Button (end-to-end)', () => {
 	describe('when rendering with icon props', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-radio-button icon="kv-add" value="opt1"></kv-radio-button>');
+			await page.setContent('<kv-toggle-button icon="kv-add" value="opt1"></kv-toggle-button>');
 		});
 
 		it('should render a icon', async () => {
-			const iconComponent = await page.find('kv-radio-button >>> kv-icon');
+			const iconComponent = await page.find('kv-toggle-button >>> kv-icon');
 			expect(iconComponent).toBeTruthy();
 		});
 
 		describe('and user clicks on the button', () => {
 			let spyCheckedChangeEvent: EventSpy;
-			let radioElement: E2EElement;
+			let toggleElement: E2EElement;
 
 			beforeEach(async () => {
-				radioElement = await page.find('kv-radio-button');
-				spyCheckedChangeEvent = await radioElement.spyOnEvent('checkedChange');
+				toggleElement = await page.find('kv-toggle-button');
+				spyCheckedChangeEvent = await toggleElement.spyOnEvent('checkedChange');
 
-				const radioBtn = await page.find('kv-radio-button >>> .radio-button');
-				await radioBtn.click();
+				const toggleBtn = await page.find('kv-toggle-button >>> .toggle-button');
+				await toggleBtn.click();
 				await page.waitForTimeout(300);
 			});
 
@@ -67,30 +67,30 @@ describe('Radio Button (end-to-end)', () => {
 	describe('when rendering with icon and label props', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-radio-button label="Add item" icon="kv-add" value="opt1"></kv-radio-button>');
+			await page.setContent('<kv-toggle-button label="Add item" icon="kv-add" value="opt1"></kv-toggle-button>');
 		});
 
 		it('should render a label', async () => {
-			const labelComponent = await page.find('kv-radio-button >>> .radio-button');
+			const labelComponent = await page.find('kv-toggle-button >>> .toggle-button');
 			expect(labelComponent).toBeTruthy();
 			expect(labelComponent.innerText).toBe('Add item');
 		});
 
 		it('should render a icon', async () => {
-			const iconComponent = await page.find('kv-radio-button >>> kv-icon');
+			const iconComponent = await page.find('kv-toggle-button >>> kv-icon');
 			expect(iconComponent).toBeTruthy();
 		});
 
 		describe('and user clicks on the button', () => {
 			let spyCheckedChangeEvent: EventSpy;
-			let radioElement: E2EElement;
+			let toggleElement: E2EElement;
 
 			beforeEach(async () => {
-				radioElement = await page.find('kv-radio-button');
-				spyCheckedChangeEvent = await radioElement.spyOnEvent('checkedChange');
+				toggleElement = await page.find('kv-toggle-button');
+				spyCheckedChangeEvent = await toggleElement.spyOnEvent('checkedChange');
 
-				const radioBtn = await page.find('kv-radio-button >>> .radio-button');
-				await radioBtn.click();
+				const toggleBtn = await page.find('kv-toggle-button >>> .toggle-button');
+				await toggleBtn.click();
 				await page.waitForTimeout(300);
 			});
 
@@ -103,19 +103,19 @@ describe('Radio Button (end-to-end)', () => {
 	describe('when rendering with disabled prop', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-radio-button label="Option 1" disabled></kv-radio-button>');
+			await page.setContent('<kv-toggle-button label="Option 1" disabled></kv-toggle-button>');
 		});
 
 		describe('and user clicks on the button', () => {
 			let spyCheckedChangeEvent: EventSpy;
-			let radioElement: E2EElement;
+			let toggleElement: E2EElement;
 
 			beforeEach(async () => {
-				radioElement = await page.find('kv-radio-button');
-				spyCheckedChangeEvent = await radioElement.spyOnEvent('checkedChange');
+				toggleElement = await page.find('kv-toggle-button');
+				spyCheckedChangeEvent = await toggleElement.spyOnEvent('checkedChange');
 
-				const radio = await page.find('kv-radio-button >>> .radio-button');
-				await radio.click();
+				const toggle = await page.find('kv-toggle-button >>> .toggle-button');
+				await toggle.click();
 				await page.waitForTimeout(300);
 			});
 

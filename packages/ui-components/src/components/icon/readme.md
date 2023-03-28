@@ -83,7 +83,6 @@ export const SvgIconExample: React.FC = () => (
  - [kv-form-help-text](../form-help-text)
  - [kv-info-label](../info-label)
  - [kv-modal](../modal)
- - [kv-radio-button](../radio-button)
  - [kv-range-dates-select-dropdown](../range-dates-select-dropdown)
  - [kv-search](../search)
  - [kv-switch-button](../switch-button)
@@ -91,6 +90,7 @@ export const SvgIconExample: React.FC = () => (
  - [kv-tag-status](../tag-status)
  - [kv-text-field](../text-field)
  - [kv-toaster](../toaster)
+ - [kv-toggle-button](../toggle-button)
  - [kv-tree-item](../tree-item)
 
 ### Graph
@@ -107,7 +107,6 @@ graph TD;
   kv-form-help-text --> kv-icon
   kv-info-label --> kv-icon
   kv-modal --> kv-icon
-  kv-radio-button --> kv-icon
   kv-range-dates-select-dropdown --> kv-icon
   kv-search --> kv-icon
   kv-switch-button --> kv-icon
@@ -115,6 +114,7 @@ graph TD;
   kv-tag-status --> kv-icon
   kv-text-field --> kv-icon
   kv-toaster --> kv-icon
+  kv-toggle-button --> kv-icon
   kv-tree-item --> kv-icon
   style kv-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```
