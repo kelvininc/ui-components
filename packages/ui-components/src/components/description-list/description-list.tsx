@@ -29,7 +29,7 @@ export class KvDescriptionList implements IDescriptionList {
 									{description}
 								</kv-tooltip>
 								{popoverInfo?.icon && (
-									<kv-toggle-tip text={popoverInfo.text} {...this.iconToggletipConfig}>
+									<kv-toggle-tip text={popoverInfo.text} {...this.iconToggletipConfig} exportparts="toggle-tip-container">
 										<kv-icon name={popoverInfo.icon} customClass={'icon-16'} slot="open-element-slot" />
 									</kv-toggle-tip>
 								)}

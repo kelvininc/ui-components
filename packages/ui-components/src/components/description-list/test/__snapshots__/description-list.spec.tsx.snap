@@ -11,7 +11,7 @@ exports[`Description List (unit tests) when rendering with an item with icon too
         <kv-tooltip text="">
           cluster-a-brownie
         </kv-tooltip>
-        <kv-toggle-tip position="bottom-start" text="This name cannot be changed">
+        <kv-toggle-tip exportparts="toggle-tip-container" position="bottom-start" text="This name cannot be changed">
           <kv-icon customclass="icon-16" name="kv-info" slot="open-element-slot"></kv-icon>
         </kv-toggle-tip>
       </div>
