@@ -47,6 +47,13 @@ export const TagStatusExample: React.FC = () => (
 | `state` _(required)_ | `state`   | (required) Defines the color of the icon.    | `ETagState.Error \| ETagState.Info \| ETagState.Success \| ETagState.Unknown \| ETagState.Warning` | `undefined` |
 
 
+## Shadow Parts
+
+| Part      | Description        |
+| --------- | ------------------ |
+| `"label"` | The label element. |
+
+
 ## Dependencies
 
 ### Depends on

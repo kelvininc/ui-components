@@ -1,52 +1,52 @@
 @import '../../assets/styles/globals';
 
-.status {
-	&-container {
-		display: flex;
-		align-items: center;
+.tag-status {
+	display: flex;
+	align-items: center;
+	gap: $spacing-2x;
 
+	.label {
+		@include kv-font-paragraph-regular;
+		color: kv-color('neutral-2');
+	}
+
+	.icon {
 		kv-icon {
 			--icon-width: 16px;
 			--icon-height: 16px;
 		}
-	}
 
-	&-success {
-		kv-icon {
-			--icon-color: #{kv-color('success')};
-			--icon-background-color: #{kv-color('neutral-0')};
+		&--state-success {
+			kv-icon {
+				--icon-color: #{kv-color('success')};
+				--icon-background-color: #{kv-color('neutral-0')};
+			}
+		}
+
+		&--state-error {
+			kv-icon {
+				--icon-color: #{kv-color('error')};
+				--icon-background-color: #{kv-color('neutral-0')};
+			}
+		}
+
+		&--state-unknown {
+			kv-icon {
+				--icon-color: #{kv-color('neutral-4')};
+			}
+		}
+
+		&--state-warning {
+			kv-icon {
+				--icon-color: #{kv-color('warning')};
+			}
+		}
+
+		&--state-info {
+			kv-icon {
+				--icon-color: #{kv-color('info')};
+				--icon-background-color: #{kv-color('neutral-0')};
+			}
 		}
 	}
-
-	&-error {
-		kv-icon {
-			--icon-color: #{kv-color('error')};
-			--icon-background-color: #{kv-color('neutral-0')};
-		}
-	}
-
-	&-unknown {
-		kv-icon {
-			--icon-color: #{kv-color('neutral-4')};
-		}
-	}
-
-	&-warning {
-		kv-icon {
-			--icon-color: #{kv-color('warning')};
-		}
-	}
-
-	&-info {
-		kv-icon {
-			--icon-color: #{kv-color('info')};
-			--icon-background-color: #{kv-color('neutral-0')};
-		}
-	}
-}
-
-.status-label {
-	@include kv-font-label-small-regular();
-	color: kv-color('neutral-2');
-	margin-left: $spacing-2x;
 }
