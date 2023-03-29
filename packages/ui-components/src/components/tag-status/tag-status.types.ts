@@ -1,3 +1,4 @@
+import { EComponentSize } from '../../types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 
 export interface ITagStatus {
@@ -7,6 +8,8 @@ export interface ITagStatus {
 	icon: EIconName | EOtherIconName;
 	/** (optional) Defines the content of the label.*/
 	label?: string;
+	/** (optional) Defines the tag status size. Default: 'small'.*/
+	size?: EComponentSize;
 }
 
 export enum ETagState {

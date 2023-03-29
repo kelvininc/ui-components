@@ -10,7 +10,7 @@ describe('Status (end-to-end)', () => {
 		});
 
 		it('should render the correct text', async () => {
-			const typeComponent = await page.find('kv-tag-status >>> span');
+			const typeComponent = await page.find('kv-tag-status >>> .label');
 			expect(typeComponent.innerText).toBe('unknown');
 		});
 
@@ -21,8 +21,8 @@ describe('Status (end-to-end)', () => {
 		});
 
 		it('should render the correct icon color', async () => {
-			const firstChild = await page.find('kv-tag-status >>> div');
-			expect(firstChild).toHaveClass('status-unknown');
+			const icon = await page.find('kv-tag-status >>> .icon');
+			expect(icon).toHaveClass('icon--state-unknown');
 		});
 	});
 
@@ -39,8 +39,8 @@ describe('Status (end-to-end)', () => {
 		});
 
 		it('should render the correct icon color', async () => {
-			const firstChild = await page.find('kv-tag-status >>> div');
-			expect(firstChild).toHaveClass('status-error');
+			const icon = await page.find('kv-tag-status >>> .icon');
+			expect(icon).toHaveClass('icon--state-error');
 		});
 	});
 });
