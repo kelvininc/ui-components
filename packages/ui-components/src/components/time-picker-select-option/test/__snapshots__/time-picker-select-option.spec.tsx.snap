@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KvTimePickerSelectOption (unit tests) when rendering with default props when the component loads should match the snapshot 1`] = `
+<kv-time-picker-select-option label="Option 1" value="option1">
+  <mock:shadow-root>
+    <div class="select-option">
+      <div class="text-container">
+        <div class="item-label">
+          Option 1
+        </div>
+        <div class="item-description"></div>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-time-picker-select-option>
+`;

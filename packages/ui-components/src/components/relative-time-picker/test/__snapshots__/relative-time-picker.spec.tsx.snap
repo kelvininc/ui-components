@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KvRelativeTimePicker (unit tests) when the component loads with both customize interval and timezone components hidden should match the snapshot 1`] = `
+<kv-relative-time-picker>
+  <mock:shadow-root>
+    <div class="relative-time-container" style="--max-height: 347px; --group-gap: 12px;">
+      <div class="relative-time-selector" style="--option-height: 32px; --padding-size: 16px;">
+        <div class="relative-time-group">
+          <kv-time-picker-select-option description="1 Jan 2018 to 1 Jan 2023" label="All time" value="all-time"></kv-time-picker-select-option>
+        </div>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-relative-time-picker>
+`;
+
+exports[`KvRelativeTimePicker (unit tests) when the component loads with empty props should match the snapshot 1`] = `
+<kv-relative-time-picker>
+  <mock:shadow-root>
+    <div class="relative-time-container" style="--max-height: 347px; --group-gap: 12px;">
+      <div class="relative-time-selector" style="--option-height: 32px; --padding-size: 16px;">
+        <div class="relative-time-group">
+          <kv-time-picker-select-option description="1 Jan 2018 to 1 Jan 2023" label="All time" value="all-time"></kv-time-picker-select-option>
+        </div>
+      </div>
+      <div class="selectable">
+        <kv-select-option label="Customize Interval" value="customize-interval"></kv-select-option>
+      </div>
+      <div class="selectable">
+        <kv-input-wrapper icon="kv-edit">
+          <kv-single-select-dropdown icon="kv-time" inputsize="small" placeholder="Select a timezone" searchable="" searchplaceholder="Search for a timezone"></kv-single-select-dropdown>
+        </kv-input-wrapper>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-relative-time-picker>
+`;

@@ -217,6 +217,12 @@ input {
 			align-items: center;
 		}
 
+		&.disabled {
+			::slotted(kv-icon) {
+				--icon-color: var(--text-color-input-disabled);
+			}
+		}
+
 		&.focus {
 			::slotted(kv-icon) {
 				--icon-color: var(--text-color-input-focused);
