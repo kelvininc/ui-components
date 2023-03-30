@@ -1,51 +1,86 @@
 @import '../../assets/styles/globals';
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --tag-status-label-color: Tag status label text color.
+	 * @prop --tag-status-icon-size: Tag status icon width and height in pixels.
+	 * @prop --tag-status-icon-success-color: Tag status icon success color.
+	 * @prop --tag-status-icon-success-background-color: Tag status icon success background color.
+	 * @prop --tag-status-icon-error-color: Tag status icon error color.
+	 * @prop --tag-status-icon-error-background-color: Tag status icon error background color.
+	 * @prop --tag-status-icon-unknown-color: Tag status icon unknown color.
+	 * @prop --tag-status-icon-unknown-background-color: Tag status icon unknown background color.
+	 * @prop --tag-status-icon-warning-color: Tag status icon warning color.
+	 * @prop --tag-status-icon-warning-background-color: Tag status icon warning background color.
+	 * @prop --tag-status-icon-info-color: Tag status icon info color.
+	 * @prop --tag-status-icon-info-background-color: Tag status icon info background color.
+	 * @prop --tag-status-gap: Tag status gap between label and icon in pixels.
+	 */
+
+	--tag-status-label-color: #{kv-color('neutral-2')};
+	--tag-status-icon-size: 16px;
+	--tag-status-icon-success-color: #{kv-color('success')};
+	--tag-status-icon-success-background-color: #{kv-color('neutral-0')};
+	--tag-status-icon-error-color: #{kv-color('error')};
+	--tag-status-icon-error-background-color: #{kv-color('neutral-0')};
+	--tag-status-icon-unknown-color: #{kv-color('neutral-4')};
+	--tag-status-icon-unknown-background-color: transparent;
+	--tag-status-icon-warning-color: #{kv-color('warning')};
+	--tag-status-icon-warning-background-color: transparent;
+	--tag-status-icon-info-color: #{kv-color('info')};
+	--tag-status-icon-info-background-color: #{kv-color('neutral-0')};
+	--tag-status-gap: #{$spacing-2x};
+}
 
 .tag-status {
 	display: flex;
 	align-items: center;
-	gap: $spacing-2x;
+	gap: var(--tag-status-gap);
 
 	.label {
-		@include kv-font-paragraph-regular;
-		color: kv-color('neutral-2');
+		@include kv-font-label-small-regular;
+		color: var(--tag-status-label-color);
 	}
 
 	.icon {
 		kv-icon {
-			--icon-width: 16px;
-			--icon-height: 16px;
+			--icon-width: var(--tag-status-icon-size);
+			--icon-height: var(--tag-status-icon-size);
 		}
 
 		&--state-success {
 			kv-icon {
-				--icon-color: #{kv-color('success')};
-				--icon-background-color: #{kv-color('neutral-0')};
+				--icon-color: var(--tag-status-icon-success-color);
+				--icon-background-color: var(--tag-status-icon-success-background-color);
 			}
 		}
 
 		&--state-error {
 			kv-icon {
-				--icon-color: #{kv-color('error')};
-				--icon-background-color: #{kv-color('neutral-0')};
+				--icon-color: var(--tag-status-icon-error-color);
+				--icon-background-color: var(--tag-status-icon-error-background-color);
 			}
 		}
 
 		&--state-unknown {
 			kv-icon {
-				--icon-color: #{kv-color('neutral-4')};
+				--icon-color: var(--tag-status-icon-unknown-color);
+				--icon-background-color: var(--tag-status-icon-unknown-background-color);
 			}
 		}
 
 		&--state-warning {
 			kv-icon {
-				--icon-color: #{kv-color('warning')};
+				--icon-color: var(--tag-status-icon-warning-color);
+				--icon-background-color: var(--tag-status-icon-warning-background-color);
 			}
 		}
 
 		&--state-info {
 			kv-icon {
-				--icon-color: #{kv-color('info')};
-				--icon-background-color: #{kv-color('neutral-0')};
+				--icon-color: var(--tag-status-icon-info-color);
+				--icon-background-color: var(--tag-status-icon-info-background-color);
 			}
 		}
 	}
