@@ -90,6 +90,13 @@ export const toggleSelectedOptions = <T extends CheckboxOption>(
 
 			return allOptions.map(({ value }) => value);
 		}
+
+		if (allButtonsSelected) return [selectedOptionValue];
+
+		// when trying to deselected the last option, 'All' button should be selected
+		if (selectedOptions.includes(selectedOptionValue) && selectedOptions.length === minItems) {
+			return allOptions.map(({ value }) => value);
+		}
 	}
 
 	// check if the button was already checked
@@ -98,7 +105,6 @@ export const toggleSelectedOptions = <T extends CheckboxOption>(
 		if (selectedOptions.length === minItems) {
 			return selectedOptions;
 		}
-
 		return selectedOptions.filter(value => value !== selectedOptionValue);
 	}
 
