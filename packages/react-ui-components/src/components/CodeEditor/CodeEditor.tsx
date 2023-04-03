@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Editor, { useMonaco } from '@monaco-editor/react';
-import { DEFAULT_EDITOR_LANGUAGE, DEFAULT_EDITOR_THEME, DEFAULT_PADDING_TOP, FONT_NOT_FOUND_ERROR } from './config';
+import { DEFAULT_EDITOR_LANGUAGE, DEFAULT_EDITOR_THEME, DEFAULT_PADDING_TOP, FONT_NOT_FOUND_ERROR, KELVIN_CODE_EDITOR_THEME } from './config';
 import { ECodeEditorTheme, ICodeEditorProps, OnEditorChangeCallback } from './types';
 import { KvLoader } from '../stencil-generated';
 import { getEditorOptions } from './utils';
@@ -11,7 +11,7 @@ export const KvCodeEditor = ({
 	loadingComponent = <KvLoader isLoading />,
 	language = DEFAULT_EDITOR_LANGUAGE,
 	theme = DEFAULT_EDITOR_THEME,
-	customTheme,
+	customTheme = KELVIN_CODE_EDITOR_THEME,
 	paddingTop = DEFAULT_PADDING_TOP,
 	onChange
 }: ICodeEditorProps) => {
