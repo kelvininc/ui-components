@@ -28,13 +28,9 @@ All the props described below are optional.
 Use this property to pass a starting value to the editor.
 Defaults to: `undefined`
 
-### _readOnly (boolean)_
-Use this property to set the editor to a read only mode where the user cannot modify the value.
-Defaults to: `false`
-
-### _loadingComponent (ReactNode)_
+### _LoadingComponent (FunctionComponent)_
 Use this property to define a placeholder component to display when the editor is loading.
-Defaults to: `<KvLoader />`
+Defaults to: `<KvLoader isLoading />`
 
 ### _language (string)_
 Use this property to define the language mode of the editor.
@@ -48,9 +44,8 @@ Defaults to: `ECodeEditorTheme.Dark`
 Use this property to define and set a custom theme on the editor
 Defaults to: `undefined`
 
-### _paddingTop (number)_
-Use this property to add some padding (in px) at the top of the editor
-Defaults to: `0`
+### _customOptions (CodeEditorOptions)_
+Use this property to define options on the editor
 
 ### _onChange (OnEditorChangeCallback)_
 Use this property to pass a callback function for when the value (`code`) changes.

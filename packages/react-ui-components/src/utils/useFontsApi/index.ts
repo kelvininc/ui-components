@@ -1,2 +1,2 @@
-export * from './useScroll';
+export * from './types';
 export * from './useFontsApi';
