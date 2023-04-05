@@ -1,11 +1,6 @@
 import { isNil } from 'lodash-es';
 
-const bundle = {
-	fallbackCopyTextToClipboard,
-	copyTextToClipboard
-};
-
-function fallbackCopyTextToClipboard(text: string) {
+export function fallbackCopyTextToClipboard(text: string) {
 	const textArea = document.createElement('textarea');
 	let isCopySuccessful = true;
 
@@ -26,11 +21,11 @@ function fallbackCopyTextToClipboard(text: string) {
 	return isCopySuccessful;
 }
 
-async function copyTextToClipboard(text: string): Promise<boolean> {
+export async function copyTextToClipboard(text: string): Promise<boolean> {
 	const sanitizedText = !isNil(text) ? text.replace(/^\s+|\s+$/gm, '') : '';
 
 	if (isNil(navigator.clipboard)) {
-		return bundle.fallbackCopyTextToClipboard(sanitizedText);
+		return fallbackCopyTextToClipboard(sanitizedText);
 	}
 
 	return await navigator.clipboard.writeText(sanitizedText).then(
@@ -38,5 +33,3 @@ async function copyTextToClipboard(text: string): Promise<boolean> {
 		_ => false
 	);
 }
-
-export default bundle;

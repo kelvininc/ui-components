@@ -1,7 +1,7 @@
 import { Component, Host, Prop, State, h } from '@stencil/core';
 import { ECopyToClipboardState, ICopyToClipboard } from './copy-to-clipboard.types';
 import { ICON_CONFIGS, STATE_TRANSITION_DURATION_MS, TOOLTIP_CONFIG, TOOLTIP_DELAY, UNABLE_TO_COPY_ERROR } from './copy-to-clipboard.config';
-import clipboardHelper from '../../utils/clipboard.helper';
+import { copyTextToClipboard } from '../../utils/clipboard.helper';
 import { getTooltipText } from './copy-to-clipboard.utils';
 
 /**
@@ -26,7 +26,7 @@ export class KvCopyToClipboard implements ICopyToClipboard {
 		if (this.copyState === ECopyToClipboardState.Copied) return;
 
 		try {
-			await clipboardHelper.copyTextToClipboard(this.copiableText);
+			await copyTextToClipboard(this.copiableText);
 			this.copyState = ECopyToClipboardState.Copied;
 			setTimeout(() => (this.copyState = ECopyToClipboardState.ReadyToCopy), STATE_TRANSITION_DURATION_MS);
 		} catch {
