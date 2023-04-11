@@ -25,6 +25,8 @@
 	--modal-background-color: #{kv-color('neutral-8')};
 	--modal-close-button-width: 16px;
 	--modal-close-button-height: 16px;
+	--modal-topbar-border: 1px;
+	--modal-topbar-padding: 0 16px;
 }
 
 .modal-overlay {
@@ -57,9 +59,9 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 0 $spacing-4x;
+		padding: var(--modal-topbar-padding);
 		height: var(--modal-topbar-height);
-		border-bottom: 1px solid kv-color('neutral-7');
+		border-bottom: var(--modal-topbar-border) solid kv-color('neutral-7');
 
 		.title {
 			@include kv-font-label-small-uppercase-regular;
