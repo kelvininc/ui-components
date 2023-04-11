@@ -1,0 +1,46 @@
+@import '../../assets/styles/globals';
+
+.radio-list-item-container {
+	display: flex;
+	align-items: center;
+	border: 1px solid kv-color('neutral-7');
+	border-radius: 2px;
+	padding: $spacing-4x;
+	transition: border-color 0.25s ease-in-out;
+	cursor: pointer;
+	user-select: none;
+
+	&--checked,
+	&:hover {
+		border-color: kv-color('neutral-0');
+	}
+
+	&--disabled {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+
+	kv-radio {
+		--input-height-large: unset;
+	}
+
+	.info {
+		margin-left: $spacing-4x;
+
+		.label {
+
+			@include kv-font-h4-semibold;
+			color: kv-color('neutral-0');
+		}
+
+		.description {
+
+			@include kv-font-paragraph-regular;
+			color: kv-color('neutral-4');
+
+			kv-link::part(container) {
+				display: inline;
+			}
+		}
+	}
+}

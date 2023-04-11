@@ -1,6 +1,9 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { EAnchorTarget, IAnchor } from '../../utils/types';
 
+/**
+ * @part container - The link's container
+ */
 @Component({
 	tag: 'kv-link',
 	styleUrl: 'link.scss',
@@ -26,7 +29,7 @@ export class KvLink implements IAnchor {
 	render() {
 		return (
 			<Host>
-				<div class="link-container">
+				<div class="link-container" part="container">
 					<a class="label" href={this.href} target={this.target} onClick={this.onLabelClick}>
 						{this.label}
 					</a>
