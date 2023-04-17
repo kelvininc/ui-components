@@ -82,11 +82,13 @@ export const RadioExample: React.FC = () => (
 
 ### Used by
 
+ - [kv-radio-list-item](../radio-list-item)
  - [kv-toggle-button](../toggle-button)
 
 ### Graph
 ```mermaid
 graph TD;
+  kv-radio-list-item --> kv-radio
   kv-toggle-button --> kv-radio
   style kv-radio fill:#f9f,stroke:#333,stroke-width:4px
 ```

@@ -88,6 +88,26 @@ export class SwichButtonExample {
 | `labelClick` | Emitted when clicking the label | `CustomEvent<MouseEvent>` |
 
 
+## Shadow Parts
+
+| Part          | Description          |
+| ------------- | -------------------- |
+| `"container"` | The link's container |
+
+
+## Dependencies
+
+### Used by
+
+ - [kv-radio-list-item](../radio-list-item)
+
+### Graph
+```mermaid
+graph TD;
+  kv-radio-list-item --> kv-link
+  style kv-link fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 

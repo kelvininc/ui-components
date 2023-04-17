@@ -1,0 +1,7 @@
+@import '../../assets/styles/globals';
+
+.radio-list-items {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-2x;
+}
