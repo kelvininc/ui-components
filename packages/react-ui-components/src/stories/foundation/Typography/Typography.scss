@@ -13,9 +13,6 @@
 	.kv-font-h2-semibold {
 		@include kv-font-h2-semibold;
 	}
-	.kv-font-h3-regular {
-		@include kv-font-h3-regular;
-	}
 	.kv-font-h3-semibold {
 		@include kv-font-h3-semibold;
 	}
@@ -30,9 +27,6 @@
 	.kv-font-label-large-regular {
 		@include kv-font-label-large-regular;
 	}
-	.kv-font-label-medium-light {
-		@include kv-font-label-medium-light;
-	}
 	.kv-font-label-medium-regular {
 		@include kv-font-label-medium-regular;
 	}
@@ -41,6 +35,12 @@
 	}
 	.kv-font-label-small-semibold {
 		@include kv-font-label-small-semibold;
+	}
+	.kv-font-label-small-bold {
+		@include kv-font-label-small-bold;
+	}
+	.kv-font-label-small-uppercase-regular {
+		@include kv-font-label-small-uppercase-regular;
 	}
 	.kv-font-label-small-uppercase-semibold {
 		@include kv-font-label-small-uppercase-semibold;
@@ -53,6 +53,12 @@
 	}
 	.kv-font-label-xsmall-regular {
 		@include kv-font-label-xsmall-regular;
+	}
+	.kv-font-label-xsmall-semibold {
+		@include kv-font-label-xsmall-semibold;
+	}
+	.kv-font-label-xsmall-bold {
+		@include kv-font-label-xsmall-bold;
 	}
 	.kv-font-label-xsmall-uppercase-regular {
 		@include kv-font-label-xsmall-uppercase-regular;
@@ -70,6 +76,9 @@
 	}
 	.kv-font-span-semibold {
 		@include kv-font-span-semibold;
+	}
+	.kv-font-span-uppercase-semibold {
+		@include kv-font-span-uppercase-semibold;
 	}
 
 	/** PARAGRAPHS **/
