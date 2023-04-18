@@ -1,0 +1,44 @@
+@import '../../assets/styles/globals';
+
+.absolute-time-picker-container {
+	display: flex;
+	flex-direction: column;
+	background-color: kv-color('neutral-7');
+	padding: $spacing-4x;
+	gap: $spacing-3x;
+	width: fit-content;
+
+	.navigate-back {
+		display: flex;
+		gap: $spacing;
+		align-items: center;
+		cursor: pointer;
+		width: fit-content;
+
+		kv-icon {
+			--icon-color: #{kv-color('neutral-4')};}
+
+		.back-text {
+			@include kv-font-label-small-regular;
+			color: kv-color('neutral-4');
+			user-select: none;
+		}
+	}
+
+	.header {
+		.title {
+			@include kv-font-h4-semibold;
+			color: kv-color('neutral-2');
+		}
+	}
+
+	.absolute-input {
+		display: flex;
+		gap: $spacing-6x;
+	}
+
+	.calendars {
+		display: flex;
+		gap: $spacing-6x;
+	}
+}
