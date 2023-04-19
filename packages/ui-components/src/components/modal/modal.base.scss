@@ -18,7 +18,7 @@
 	--modal-min-height: 235px;
 	--modal-width: fit-content;
 	--modal-min-width: 400px;
-	--modal-topbar-height: 60px;
+	--modal-topbar-height: 50px;
 	--modal-topbar-text-color: #{kv-color('neutral-4')};
 	--modal-z-index: 1;
 	--modal-overlay-color: #{kv-color('neutral-9', 'base', 0.8)};
@@ -60,6 +60,7 @@
 		padding: 0 $spacing-4x;
 		height: var(--modal-topbar-height);
 		border-bottom: 1px solid kv-color('neutral-7');
+		box-sizing: border-box;
 
 		.title {
 			@include kv-font-label-small-uppercase-regular;
@@ -76,6 +77,8 @@
 	.content {
 		display: flex;
 		flex-direction: column;
+		flex: 1;
+		min-height: 0;
 	}
 
 	.close-button {
