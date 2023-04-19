@@ -165,7 +165,9 @@ export enum EIconName {
 	Uptime = 'kv-uptime',
 	Warning = 'kv-warning',
 	ZoomIn = 'kv-zoom-in',
-	ZoomOut = 'kv-zoom-out'
+	ZoomOut = 'kv-zoom-out',
+	SettingsSuggest = 'kv-settings-suggest',
+	PushPin = 'kv-push-pin'
 }
 
 export enum EOtherIconName {
