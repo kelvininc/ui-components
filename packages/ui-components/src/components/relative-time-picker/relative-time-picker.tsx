@@ -22,11 +22,11 @@ import {
 import { ISingleSelectDropdownOptions } from '../single-select-dropdown/single-select-dropdown.types';
 import { ITimezoneOffset } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.types';
 import { EIconName } from '../icon/icon.types';
-import { getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
+import { formatTimezoneName, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
 import { searchString } from '../../utils/search.helper';
 import { buildTimezoneByOffset, buildTimezonesDropdownOptions } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.helper';
 import { buildRelativeTimeSelectOptions, getSelectedKeyRange, hasRangeChanged, isScrollNeeded } from './relative-time-picker.helper';
-import { EComponentSize, SelectedRange } from '../../types';
+import { EComponentSize, SelectedTimestampRange } from '../../types';
 import { isEmpty } from 'lodash-es';
 
 @Component({
@@ -46,9 +46,13 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	/** @inheritdoc */
 	@Prop({ reflect: false }) timezones?: string[] = getTimezonesNames();
 	/** @inheritdoc */
-	@Prop({ reflect: false }) customizeIntervalOptionVisible?: boolean = true;
+	@Prop({ reflect: false }) customIntervalOptionEnabled?: boolean = true;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) timezoneSelectVisible?: boolean = true;
+	@Prop({ reflect: false }) timezoneSelectionEnabled?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) timezoneContentVisible?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disableTimezoneSelection?: boolean = false;
 
 	/** State that keeps the relative options that are constantly updated if the time
 	 * changes
@@ -60,9 +64,8 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	@State() timezoneDropdownOptions: ISingleSelectDropdownOptions;
 	/** State to determine if a scrollbar is needed to display all the options */
 	@State() hasScroll: boolean = false;
-	/** State to determine if the timezone dropdown is visible */
-	@State() timezoneContentVisible: boolean = false;
-	@State() selectedOptionRange: SelectedRange;
+	/** Selected option range in timestamp */
+	@State() selectedOptionRange: SelectedTimestampRange;
 
 	/** @inheritdoc */
 	@Event() selectedRelativeTimeChange: EventEmitter<ITimePickerRelativeTime>;
@@ -70,12 +73,13 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	@Event() customizeIntervalClicked: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event() timezoneChange: EventEmitter<ITimePickerTimezone>;
+	/** @inheritdoc */
+	@Event() timezoneInputClicked: EventEmitter<boolean>;
 
 	@Watch('options')
 	handleRelativeTimeOptionsChanges() {
 		const optionsToBuild = this.options ?? DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS;
-		const timezone = this.getSelectedTimezone();
-		const dropdownOptions = buildRelativeTimeSelectOptions(optionsToBuild, timezone);
+		const dropdownOptions = buildRelativeTimeSelectOptions(optionsToBuild, this.selectedTimezone);
 		this.relativeTimeOptions = dropdownOptions;
 
 		if (!isEmpty(this.selectedTimeKey) && this.selectedTimeKey !== CUSTOMIZE_INTERVAL_KEY) {
@@ -85,7 +89,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 
 		if (this.relativeTimeOptions && this.relativeTimeOptions.length === 0) return;
 
-		this.hasScroll = isScrollNeeded(this.options, this.customizeIntervalOptionVisible, this.timezoneSelectVisible);
+		this.hasScroll = isScrollNeeded(this.options, this.customIntervalOptionEnabled, this.timezoneSelectionEnabled);
 	}
 
 	@Watch('timezones')
@@ -104,6 +108,11 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 		if (newKey !== CUSTOMIZE_INTERVAL_KEY) {
 			this.selectedOptionRange = getSelectedKeyRange(this.relativeTimeOptions, this.selectedTimeKey);
 		}
+	}
+
+	@Watch('selectedTimezone')
+	onSelectedTimezoneChange() {
+		this.handleRelativeTimeOptionsChanges();
 	}
 
 	componentWillLoad() {
@@ -133,11 +142,11 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 		});
 	};
 
-	private onSelectRelativeOption = ({ detail: newOption }: CustomEvent<string>, range: SelectedRange): void => {
+	private onSelectRelativeOption = ({ detail: newOption }: CustomEvent<string>, range: SelectedTimestampRange): void => {
 		this.hasSelectedKeyRangeChanged(range, newOption);
 	};
 
-	private hasSelectedKeyRangeChanged = (newRange: SelectedRange, optionSelected: string): void => {
+	private hasSelectedKeyRangeChanged = (newRange: SelectedTimestampRange, optionSelected: string): void => {
 		if (hasRangeChanged(this.selectedOptionRange, newRange) || optionSelected !== this.selectedTimeKey) {
 			this.selectedOptionRange = newRange;
 			this.selectedRelativeTimeChange.emit({
@@ -153,7 +162,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	};
 
 	private handleShowTimezoneContent = () => {
-		this.timezoneContentVisible = true;
+		this.timezoneInputClicked.emit(true);
 	};
 
 	private getSelectedTimezone = (): string | undefined => {
@@ -167,6 +176,11 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 		}
 
 		return undefined;
+	};
+
+	private getSelectedTimezoneTitle = (): string => {
+		const timezone = this.getSelectedTimezone();
+		return timezone ? formatTimezoneName(timezone) : '';
 	};
 
 	render() {
@@ -204,7 +218,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 							</div>
 						))}
 					</div>
-					{this.customizeIntervalOptionVisible && (
+					{this.customIntervalOptionEnabled && (
 						<div class="selectable">
 							<kv-select-option
 								key={CUSTOMIZE_INTERVAL_KEY}
@@ -215,11 +229,12 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 							/>
 						</div>
 					)}
-					{this.timezoneSelectVisible && (
+					{this.timezoneSelectionEnabled && (
 						<div class="selectable">
 							<kv-input-wrapper
 								contentVisible={this.timezoneContentVisible}
-								label={this.getSelectedTimezone()}
+								contentHidden={this.disableTimezoneSelection}
+								label={this.getSelectedTimezoneTitle()}
 								icon={EIconName.Edit}
 								onContentClick={this.handleShowTimezoneContent}
 							>

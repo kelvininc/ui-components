@@ -44,6 +44,7 @@ export * from './components/wizard-footer/wizard-footer.types';
 export * from './components/alert/alert.types';
 export * from './components/wizard/wizard.types';
 export * from './components/description-list/description-list.types';
+export * from './components/time-picker/time-picker.types';
 export * from './components/relative-time-picker/relative-time-picker.types';
 export * from './components/radio-list-item/radio-list-item.types';
 export * from './components/radio-list/radio-list.types';

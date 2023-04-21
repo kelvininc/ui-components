@@ -4,13 +4,14 @@ import { EComponentSize } from '../../types';
 import { isNil } from 'lodash';
 import { DATE_TIME_INPUTMASK_CONFIG } from './date-time-input.config';
 import { IDateTimeInput, IDateTimeInputEvents } from './date-time-input.types';
+import Inputmask from 'inputmask';
 
 @Component({
 	tag: 'kv-date-time-input',
 	styleUrl: 'date-time-input.scss',
 	shadow: false
 })
-export class DateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
+export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	@Element() el!: HTMLKvDateTimeInputElement;
 
 	/** @inheritdoc */
@@ -33,6 +34,10 @@ export class DateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	@Prop({ reflect: true }) forcedFocus: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) highlighted: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) required: boolean = false;
 
 	@State() focused = false;
 
@@ -137,7 +142,7 @@ export class DateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 		return (
 			<Host>
 				<div class="date-time-input-container">
-					<kv-form-label label={this.label} />
+					<kv-form-label label={this.label} required={this.required} />
 					<div
 						class={{
 							'input-container': true,
@@ -150,13 +155,14 @@ export class DateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 								ref={input => (this.nativeInput = input as HTMLInputElement)}
 								type={EInputFieldType.Text}
 								name={this.inputName}
+								disabled={this.disabled}
 								placeholder={this.placeholder}
 								value={value}
 								onInput={this.onInputHandler}
 								onBlur={this.onBlurHandler}
 								onFocus={this.onFocusHandler}
 								class={{
-									'forced-focus': this.focused || this.highlighted
+									'forced-focus': (this.focused || this.highlighted) && !this.disabled
 								}}
 							/>
 						</Fragment>

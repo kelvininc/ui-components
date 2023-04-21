@@ -192,7 +192,7 @@ WithLeftSlot.args = {
 	size: EComponentSize.Large
 };
 
-export const DateTimeInputMask = TextFieldLeftSlotTemplate.bind({});
+export const DateTimeInputMask = TextFieldTemplate.bind({});
 DateTimeInputMask.args = {
 	label: 'Date time input mask',
 	disabled: false,

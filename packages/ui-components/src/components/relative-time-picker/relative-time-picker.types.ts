@@ -1,5 +1,5 @@
 import { EventEmitter } from '@stencil/core';
-import { DateInput, SelectedRange } from '../../types';
+import { DateInput, SelectedTimestampRange } from '../../types';
 import dayjs from 'dayjs';
 
 export interface IRelativeTimePicker {
@@ -12,9 +12,15 @@ export interface IRelativeTimePicker {
 	/** (optional) List of all selectable timezones */
 	timezones?: string[];
 	/** (optional) Defines if the customize interval select option is available */
-	customizeIntervalOptionVisible?: boolean;
+	customIntervalOptionEnabled?: boolean;
 	/** (optional) Defines if the timezone select option is available */
-	timezoneSelectVisible?: boolean;
+	timezoneSelectionEnabled?: boolean;
+	/** (optional) Lets the timezone visible but doens't let the user change it */
+	disableTimezoneSelection?: boolean;
+	/** (optional) Determines if the input wrapper content containing the timezone is visible
+	 * if true, the dropdown will be visible; if false, the content will display the timezone title
+	 */
+	timezoneContentVisible?: boolean;
 }
 
 export interface IRelativeTimePickerEvents {
@@ -24,6 +30,8 @@ export interface IRelativeTimePickerEvents {
 	customizeIntervalClicked: EventEmitter<string>;
 	/** Emitted when selected timezone changes */
 	timezoneChange: EventEmitter<ITimePickerTimezone>;
+	/** Emitted when the input wrapper containing the timezone is clicked */
+	timezoneInputClicked: EventEmitter<boolean>;
 }
 
 export interface IRelativeTimePickerOption {
@@ -50,6 +58,8 @@ export type DateTimeCalculation = {
 	amount?: number;
 	// the unit type to add/subtract to the relative time
 	unit?: dayjs.ManipulateType | dayjs.QUnitType;
+	// unit reference (start of Or end of)
+	unitReference?: EUnitReference;
 };
 
 export interface IDateTimeRangeFormatter {
@@ -87,17 +97,22 @@ export enum ERelativeTimeComparisonConfig {
 	StartDateEndDate = 'startDateEndDate'
 }
 
+export enum EUnitReference {
+	StartOfUnit = 'startOfUnit',
+	EndOfUnit = 'endOfUnit'
+}
+
 export interface IRelativeTimeDropdownOption {
 	key: string;
 	label: string;
 	value: string;
 	description?: string;
-	range: SelectedRange;
+	range: SelectedTimestampRange;
 }
 
 export type ITimePickerRelativeTime = {
 	key: string;
-	range: SelectedRange;
+	range: SelectedTimestampRange;
 };
 
 export type ITimePickerTimezone = {
@@ -106,6 +121,6 @@ export type ITimePickerTimezone = {
 };
 
 export type SelectedRangeDetail = {
-	range: SelectedRange;
+	range: SelectedTimestampRange;
 	description: string;
 };

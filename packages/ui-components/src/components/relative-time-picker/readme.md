@@ -46,23 +46,26 @@ export const KvRelativeTimePickerExample: React.FC = () => (
 
 ## Properties
 
-| Property                         | Attribute                           | Description                                                             | Type                            | Default                                |
-| -------------------------------- | ----------------------------------- | ----------------------------------------------------------------------- | ------------------------------- | -------------------------------------- |
-| `customizeIntervalOptionVisible` | `customize-interval-option-visible` | (optional) Defines if the customize interval select option is available | `boolean`                       | `true`                                 |
-| `options`                        | --                                  | (optional) Selectable relative time options                             | `IRelativeTimePickerOption[][]` | `DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS` |
-| `selectedTimeKey`                | `selected-time-key`                 | (optional) Selected time range key                                      | `string`                        | `undefined`                            |
-| `selectedTimezone`               | `selected-timezone`                 | (optional) Currently selected timezone name                             | `string`                        | `undefined`                            |
-| `timezoneSelectVisible`          | `timezone-select-visible`           | (optional) Defines if the timezone select option is available           | `boolean`                       | `true`                                 |
-| `timezones`                      | --                                  | (optional) List of all selectable timezones                             | `string[]`                      | `getTimezonesNames()`                  |
+| Property                      | Attribute                        | Description                                                                                                                                                                        | Type                            | Default                                |
+| ----------------------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | -------------------------------------- |
+| `customIntervalOptionEnabled` | `custom-interval-option-enabled` | (optional) Defines if the customize interval select option is available                                                                                                            | `boolean`                       | `true`                                 |
+| `disableTimezoneSelection`    | `disable-timezone-selection`     | (optional) Lets the timezone visible but doens't let the user change it                                                                                                            | `boolean`                       | `false`                                |
+| `options`                     | --                               | (optional) Selectable relative time options                                                                                                                                        | `IRelativeTimePickerOption[][]` | `DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS` |
+| `selectedTimeKey`             | `selected-time-key`              | (optional) Selected time range key                                                                                                                                                 | `string`                        | `undefined`                            |
+| `selectedTimezone`            | `selected-timezone`              | (optional) Currently selected timezone name                                                                                                                                        | `string`                        | `undefined`                            |
+| `timezoneContentVisible`      | `timezone-content-visible`       | (optional) Determines if the input wrapper content containing the timezone is visible if true, the dropdown will be visible; if false, the content will display the timezone title | `boolean`                       | `false`                                |
+| `timezoneSelectionEnabled`    | `timezone-selection-enabled`     | (optional) Defines if the timezone select option is available                                                                                                                      | `boolean`                       | `true`                                 |
+| `timezones`                   | --                               | (optional) List of all selectable timezones                                                                                                                                        | `string[]`                      | `getTimezonesNames()`                  |
 
 
 ## Events
 
-| Event                        | Description                                | Type                                                  |
-| ---------------------------- | ------------------------------------------ | ----------------------------------------------------- |
-| `customizeIntervalClicked`   | Emitted when customize interval is clicked | `CustomEvent<string>`                                 |
-| `selectedRelativeTimeChange` | Emitted when the selected time key changes | `CustomEvent<{ key: string; range: SelectedRange; }>` |
-| `timezoneChange`             | Emitted when selected timezone changes     | `CustomEvent<{ name: string; offset: number; }>`      |
+| Event                        | Description                                                       | Type                                                           |
+| ---------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------- |
+| `customizeIntervalClicked`   | Emitted when customize interval is clicked                        | `CustomEvent<string>`                                          |
+| `selectedRelativeTimeChange` | Emitted when the selected time key changes                        | `CustomEvent<{ key: string; range: SelectedTimestampRange; }>` |
+| `timezoneChange`             | Emitted when selected timezone changes                            | `CustomEvent<{ name: string; offset: number; }>`               |
+| `timezoneInputClicked`       | Emitted when the input wrapper containing the timezone is clicked | `CustomEvent<boolean>`                                         |
 
 
 ## CSS Custom Properties
@@ -73,6 +76,10 @@ export const KvRelativeTimePickerExample: React.FC = () => (
 
 
 ## Dependencies
+
+### Used by
+
+ - [kv-time-picker](../time-picker)
 
 ### Depends on
 
@@ -106,6 +113,7 @@ graph TD;
   kv-select --> kv-search
   kv-search --> kv-text-field
   kv-search --> kv-icon
+  kv-time-picker --> kv-relative-time-picker
   style kv-relative-time-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
