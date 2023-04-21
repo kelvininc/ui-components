@@ -3,6 +3,50 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.18.0](https://github.com/kelvininc/ui-components/compare/v0.17.0...v0.18.0) (2023-04-21)
+
+
+### Bug Fixes
+
+* **action-button:** remove unwanted right border [KMAPS-884] ([#270](https://github.com/kelvininc/ui-components/issues/270)) ([e23814c](https://github.com/kelvininc/ui-components/commit/e23814c5123a9bbb243c2e9b68f3f426c6319a72))
+* **copy-to-clipboard:** change component behavior on hover and minor updates ([763fac4](https://github.com/kelvininc/ui-components/commit/763fac4f9eeee14eb92d932dc6f9c67bbdce730c))
+* **help-text:** change help-text label color to match DS ([36a44bf](https://github.com/kelvininc/ui-components/commit/36a44bffaecf19737d6cef9793d1f271fc3fd2c9))
+* **modal:** enable style customization on modal component ([cf49632](https://github.com/kelvininc/ui-components/commit/cf4963253e87ba3681fc694ab6a206591beca5ea))
+* **modal:** set correct topbar height ([b5723d6](https://github.com/kelvininc/ui-components/commit/b5723d6aee65f609f9ff6a5d40c40fa96f140efb))
+* **single-select-dropdown:** update icon size [KMAPS-910] ([#276](https://github.com/kelvininc/ui-components/issues/276)) ([24e9293](https://github.com/kelvininc/ui-components/commit/24e9293b1707115bdddf5fac2a89fce657065339))
+* **tag-status:** update tag status style ([d7ad25b](https://github.com/kelvininc/ui-components/commit/d7ad25b7a63bd9a5b8013e348fa8e19047528168))
+* **toggletip:** stop click event propagation ([404c668](https://github.com/kelvininc/ui-components/commit/404c6686878c6d80e154407865e7e95b47ac3a29))
+* **tooltip:** fix tooltip action width calculation when text is ellipsis ([#273](https://github.com/kelvininc/ui-components/issues/273)) ([3ca743c](https://github.com/kelvininc/ui-components/commit/3ca743c009af7a86e8242610f1def4a60eac7adf))
+
+
+* fix(typography)!: update typography mixins according to DS ([25080af](https://github.com/kelvininc/ui-components/commit/25080af8fc458feba3055fa33e946ac23b81b2f5))
+
+
+### Features
+
+* **absolute-time-picker:** add new absolute time picker component ([5e51363](https://github.com/kelvininc/ui-components/commit/5e513639ffbabe52a7c0b2afd5733bf3411f1411))
+* **action-button:** update design ([#249](https://github.com/kelvininc/ui-components/issues/249)) ([f66cfa3](https://github.com/kelvininc/ui-components/commit/f66cfa3d13fb507206002e7fa0c044551c43d713))
+* **copy-to-clipboard:** add component ([3684505](https://github.com/kelvininc/ui-components/commit/36845053165093f19d4add294ea28a8df1c0ec06))
+* **description-list:** add component ([054df2d](https://github.com/kelvininc/ui-components/commit/054df2df6284d4c9421afadf15bfe7fbdaaf3916))
+* **description-list:** support toggletip container styling from outside ([bdbf655](https://github.com/kelvininc/ui-components/commit/bdbf6553521aef4d60f478464bfdf900f4ae4227))
+* **dropdown:** add input size configuration ([a251610](https://github.com/kelvininc/ui-components/commit/a251610bc35448b67c105940d1146c8d031a3799))
+* expose utils ([f2a4885](https://github.com/kelvininc/ui-components/commit/f2a4885975aeaeba7dd44e1473d2d71a85a05b18))
+* **icon:** add new icons ([#264](https://github.com/kelvininc/ui-components/issues/264)) ([cd94c32](https://github.com/kelvininc/ui-components/commit/cd94c3243a153d7e87bc4add71a8645e6fbfa16f))
+* **icons:** add settings and pin icons ([1e45036](https://github.com/kelvininc/ui-components/commit/1e450364e712fade08e433a3001ca75983231d9c))
+* **radio-list:** add component ([9d465b6](https://github.com/kelvininc/ui-components/commit/9d465b67e5cc89b919d4d1386c8ce594967a5da2))
+* **relative-time-picker:** new relative time picker component ([9bacb89](https://github.com/kelvininc/ui-components/commit/9bacb898155ab861c9a4fb152f1472fd7670d6e0))
+* **tag-status:** add custom css properties to tag status style ([221862d](https://github.com/kelvininc/ui-components/commit/221862df86242859865532eb46efd469c99ac88b))
+* **time-range:** add new time range picker component ([a6042ca](https://github.com/kelvininc/ui-components/commit/a6042ca8c92ecad81b6838e5160f8dee6cd0db36))
+
+
+### BREAKING CHANGES
+
+* 'kv-font-h3-regular' and 'kv-font-label-medium-light' mixins were removed
+
+
+
+
+
 # [0.17.0](https://github.com/kelvininc/ui-components/compare/v0.16.0...v0.17.0) (2023-03-10)
 
 
