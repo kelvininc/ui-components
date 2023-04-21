@@ -52,11 +52,12 @@ export const KvTimePickerExample: React.FC = () => (
 
 ## Events
 
-| Event                 | Description                           | Type                                   |
-| --------------------- | ------------------------------------- | -------------------------------------- |
-| `cancelClicked`       | Emitted when cancel button is clicked | `CustomEvent<CustomEvent<MouseEvent>>` |
-| `dropdownStateChange` | Emitted when dropdown state changes   | `CustomEvent<boolean>`                 |
-| `timeRangeChange`     | Emitted when time range changes       | `CustomEvent<ITimePickerTime>`         |
+| Event                     | Description                                     | Type                                   |
+| ------------------------- | ----------------------------------------------- | -------------------------------------- |
+| `cancelClicked`           | Emitted when cancel button is clicked           | `CustomEvent<CustomEvent<MouseEvent>>` |
+| `dropdownStateChange`     | Emitted when dropdown state changes             | `CustomEvent<boolean>`                 |
+| `showCalendarStateChange` | Emitted when show calendar button state changes | `CustomEvent<boolean>`                 |
+| `timeRangeChange`         | Emitted when time range changes                 | `CustomEvent<ITimePickerTime>`         |
 
 
 ## Dependencies
