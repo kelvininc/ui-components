@@ -67,7 +67,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 								readonly
 								part="input"
 							>
-								<kv-icon slot="right-slot" name={this.isOpen ? EIconName.ArrowDropUp : EIconName.ArrowDropDown} customClass="icon-24" />
+								<kv-icon slot="right-slot" name={this.isOpen ? EIconName.ArrowDropUp : EIconName.ArrowDropDown} customClass="icon-20" />
 							</kv-text-field>
 						</div>
 						<div slot="list">

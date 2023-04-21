@@ -1,7 +1,7 @@
 import { ComponentStory } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
-import { KvCodeEditor, ECodeEditorTheme, CustomThemeData } from '../../components';
+import { KvCodeEditor, ECodeEditorTheme } from '../../components';
 
 export default {
 	title: 'Inputs/CodeEditor',
@@ -23,19 +23,14 @@ export default {
 			},
 			options: Object.values(ECodeEditorTheme)
 		},
-		customTheme: {
+		customOptions: {
 			control: {
 				type: 'object'
 			}
 		},
-		readOnly: {
+		customTheme: {
 			control: {
-				type: 'boolean'
-			}
-		},
-		paddingTop: {
-			control: {
-				type: 'number'
+				type: 'object'
 			}
 		}
 	},
@@ -45,6 +40,14 @@ export default {
 };
 
 const onChangeAction = action('Data Changed');
+
+const code = `{
+	"name": "Name",
+	"props": {
+		"title": "Title",
+		"owner": 1
+	}
+}`;
 
 const DefaultCodeEditorTemplate: ComponentStory<typeof KvCodeEditor> = args => {
 	const wrapperStyle = { width: '640px', height: '480px' };
@@ -57,11 +60,15 @@ const DefaultCodeEditorTemplate: ComponentStory<typeof KvCodeEditor> = args => {
 };
 
 export const Default = DefaultCodeEditorTemplate.bind(this);
+Default.args = {
+	language: 'json',
+	code
+};
 
-const CustomCodeEditorTemplate: ComponentStory<typeof KvCodeEditor> = args => {
-	const wrapperStyle = { width: '640px', height: '480px' };
-
-	const customDarkTheme: CustomThemeData = {
+export const CustomTheme = DefaultCodeEditorTemplate.bind(this);
+CustomTheme.args = {
+	...Default.args,
+	customTheme: {
 		base: 'vs-dark',
 		inherit: true,
 		rules: [],
@@ -70,13 +77,5 @@ const CustomCodeEditorTemplate: ComponentStory<typeof KvCodeEditor> = args => {
 			'editor.background': '#3f3f3f',
 			'editor.lineHighlightBorder': '#3f3f3f'
 		}
-	};
-
-	return (
-		<div style={wrapperStyle}>
-			<KvCodeEditor {...args} customTheme={customDarkTheme} onChange={onChangeAction} />
-		</div>
-	);
+	}
 };
-
-export const CustomTheme = CustomCodeEditorTemplate.bind(this);

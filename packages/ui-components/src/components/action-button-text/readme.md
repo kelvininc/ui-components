@@ -43,6 +43,9 @@ export const SwitchButtonExample: React.FC = () => (
 		{/*-- Tertiary --*/}
 		<KvActionButtonText text="Tertiary Button" icon={EIconName.Add} type={EActionButtonType.Tertiary}></KvActionButtonText>
 
+		{/*-- Ghost --*/}
+		<KvActionButtonText text="Ghost Button" icon={EIconName.Add} type={EActionButtonType.Ghost}></KvActionButtonText>
+
 		{/*-- Disabled --*/}
 		<KvActionButtonText disabled text="Disabled Button" icon={EIconName.Add} type={EActionButtonType.Primary}></KvActionButtonText>
 
@@ -56,17 +59,17 @@ export const SwitchButtonExample: React.FC = () => (
 
 ## Properties
 
-| Property            | Attribute  | Description                                                                                                     | Type                                                                                                                 | Default                |
-| ------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `active`            | `active`   | (optional) If `true` the button is active                                                                       | `boolean`                                                                                                            | `false`                |
-| `disabled`          | `disabled` | (optional) If `true` the button is disabled                                                                     | `boolean`                                                                                                            | `false`                |
-| `download`          | `download` | (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename | `string`                                                                                                             | `undefined`            |
-| `href`              | `href`     | (optional) The anchor's link to open when clicking                                                              | `string`                                                                                                             | `undefined`            |
-| `icon`              | `icon`     | (optional) Button's left icon symbol name                                                                       | `EIconName \| EOtherIconName`                                                                                        | `undefined`            |
-| `size`              | `size`     | (optional) Button's size                                                                                        | `EComponentSize.Large \| EComponentSize.Small`                                                                       | `EComponentSize.Large` |
-| `target`            | `target`   | (optional) The anchor's target                                                                                  | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top`                  | `undefined`            |
-| `text` _(required)_ | `text`     | (required) (required) Button's text                                                                             | `string`                                                                                                             | `undefined`            |
-| `type` _(required)_ | `type`     | (required) Button's type                                                                                        | `EActionButtonType.Danger \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
+| Property            | Attribute  | Description                                                                                                     | Type                                                                                                                                            | Default                |
+| ------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `active`            | `active`   | (optional) If `true` the button is active                                                                       | `boolean`                                                                                                                                       | `false`                |
+| `disabled`          | `disabled` | (optional) If `true` the button is disabled                                                                     | `boolean`                                                                                                                                       | `false`                |
+| `download`          | `download` | (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename | `string`                                                                                                                                        | `undefined`            |
+| `href`              | `href`     | (optional) The anchor's link to open when clicking                                                              | `string`                                                                                                                                        | `undefined`            |
+| `icon`              | `icon`     | (optional) Button's left icon symbol name                                                                       | `EIconName \| EOtherIconName`                                                                                                                   | `undefined`            |
+| `size`              | `size`     | (optional) Button's size                                                                                        | `EComponentSize.Large \| EComponentSize.Small`                                                                                                  | `EComponentSize.Large` |
+| `target`            | `target`   | (optional) The anchor's target                                                                                  | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top`                                             | `undefined`            |
+| `text` _(required)_ | `text`     | (required) (required) Button's text                                                                             | `string`                                                                                                                                        | `undefined`            |
+| `type` _(required)_ | `type`     | (required) Button's type                                                                                        | `EActionButtonType.Danger \| EActionButtonType.Ghost \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
 
 
 ## Events
@@ -99,6 +102,7 @@ export const SwitchButtonExample: React.FC = () => (
 
  - [kv-action-button-split](../action-button-split)
  - [kv-advanced-date-select-dropdown](../advanced-date-select-dropdown)
+ - [kv-time-picker](../time-picker)
  - [kv-wizard-footer](../wizard-footer)
 
 ### Depends on
@@ -113,6 +117,7 @@ graph TD;
   kv-action-button-text --> kv-icon
   kv-action-button-split --> kv-action-button-text
   kv-advanced-date-select-dropdown --> kv-action-button-text
+  kv-time-picker --> kv-action-button-text
   kv-wizard-footer --> kv-action-button-text
   style kv-action-button-text fill:#f9f,stroke:#333,stroke-width:4px
 ```

@@ -87,10 +87,11 @@ export const ToggleTipExample: React.FC = () => (
 
 ## Shadow Parts
 
-| Part                        | Description                  |
-| --------------------------- | ---------------------------- |
-| `"toggle-tip-container"`    | The toggle tip container.    |
-| `"toggle-tip-slot-content"` | The toggle tip slot content. |
+| Part                                  | Description                             |
+| ------------------------------------- | --------------------------------------- |
+| `"toggle-tip-container"`              | The toggle tip container.               |
+| `"toggle-tip-open-element-container"` | The toggle tip's open element container |
+| `"toggle-tip-slot-content"`           | The toggle tip slot content.            |
 
 
 ## CSS Custom Properties
@@ -101,6 +102,19 @@ export const ToggleTipExample: React.FC = () => (
 | `--toggle-tip-container-width`     | toggle tip width.     |
 | `--toggletip-z-index`              | toggle tip z-index.   |
 
+
+## Dependencies
+
+### Used by
+
+ - [kv-description-list](../description-list)
+
+### Graph
+```mermaid
+graph TD;
+  kv-description-list --> kv-toggle-tip
+  style kv-toggle-tip fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 

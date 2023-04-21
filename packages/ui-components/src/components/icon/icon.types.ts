@@ -43,6 +43,7 @@ export enum EIconName {
 	Collapse = 'kv-collapse',
 	Connection = 'kv-connection',
 	Copy = 'kv-copy',
+	CopyClipboard = 'kv-copy-clipboard',
 	Column = 'kv-column',
 	Cpu = 'kv-cpu',
 	Dashboard = 'kv-dashboard',
@@ -56,8 +57,10 @@ export enum EIconName {
 	DeviceType = 'kv-device-type',
 	Diamond = 'kv-diamond',
 	Docs = 'kv-docs',
+	DoubleArrowUp = 'kv-double-arrow-up',
 	DoubleArrowLeft = 'kv-double-arrow-left',
 	DoubleArrowRight = 'kv-double-arrow-right',
+	DoubleArrowDown = 'kv-double-arrow-down',
 	DoneAll = 'kv-done-all',
 	DoNotDisturbOnCircle = 'kv-do-not-disturb-on-circle',
 	Download = 'kv-download',
@@ -122,6 +125,8 @@ export enum EIconName {
 	Place = 'kv-place',
 	Play = 'kv-play',
 	Protip = 'kv-protip',
+	RadioBtn = 'kv-radio-btn',
+	RadioBtnSelected = 'kv-radio-btn-selected',
 	Refresh = 'kv-refresh',
 	ResetZoom = 'kv-reset-zoom',
 	Restart = 'kv-restart',
@@ -141,6 +146,8 @@ export enum EIconName {
 	Success = 'kv-success',
 	SupervisedUser = 'kv-supervised-user',
 	SystemSource = 'kv-system-source',
+	TagControlChange = 'kv-tag-control-change',
+	TagAlarm = 'kv-tag-alarm',
 	Three = 'kv-three',
 	Time = 'kv-time',
 	Todo = 'kv-todo',
@@ -158,7 +165,9 @@ export enum EIconName {
 	Uptime = 'kv-uptime',
 	Warning = 'kv-warning',
 	ZoomIn = 'kv-zoom-in',
-	ZoomOut = 'kv-zoom-out'
+	ZoomOut = 'kv-zoom-out',
+	SettingsSuggest = 'kv-settings-suggest',
+	PushPin = 'kv-push-pin'
 }
 
 export enum EOtherIconName {
@@ -177,8 +186,6 @@ export enum EOtherIconName {
 	IconShadowMismatch = 'icon-shadow-mismatch',
 	IconCollapseOpen = 'icon-collapse-open',
 	IconCollapseClose = 'icon-collapse-close',
-	IconRadioBtn = 'icon-radio-btn',
-	IconRadioBtnSelected = 'icon-radio-btn-selected',
 	IconCheckmark = 'icon-checkmark',
 	IconArrow = 'icon-arrow',
 	IconLock = 'icon-lock',

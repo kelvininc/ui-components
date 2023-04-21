@@ -1,7 +1,7 @@
 import { Component, Prop, h, Host, Element, State } from '@stencil/core';
 import { ResizeSensor } from 'css-element-queries';
 import { isEmpty } from 'lodash-es';
-import clipboardHelper from '../../utils/clipboard.helper';
+import { copyTextToClipboard } from '../../utils/clipboard.helper';
 import { EIconName } from '../icon/icon.types';
 import { DEFAULT_DESCRIPTION_COLLAPSED_TEXT, DEFAULT_DESCRIPTION_OPENED_TEXT } from './info-label.config';
 import { COPY_TOOLTIP } from './info-label.types';
@@ -72,7 +72,7 @@ export class KvInfoLabel {
 	private onClickCopyAction = async () => {
 		const tooltip: HTMLKvTooltipElement = this.el.shadowRoot.querySelector('kv-tooltip');
 		const tooltipText = tooltip.shadowRoot.querySelector('#tooltip') as HTMLElement;
-		if (await clipboardHelper.copyTextToClipboard(this.copyValue)) {
+		if (await copyTextToClipboard(this.copyValue)) {
 			tooltipText.innerText = this.tooltipConfig.resultLabel;
 		} else {
 			console.error('Copy to clipboard failed');

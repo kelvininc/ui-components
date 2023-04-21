@@ -87,15 +87,21 @@ export const TagLetterExample: React.FC = () => (
 
 ### Used by
 
+ - [kv-copy-to-clipboard](../copy-to-clipboard)
+ - [kv-description-list](../description-list)
  - [kv-info-label](../info-label)
  - [kv-text-field](../text-field)
+ - [kv-time-picker](../time-picker)
  - [kv-tree-item](../tree-item)
 
 ### Graph
 ```mermaid
 graph TD;
+  kv-copy-to-clipboard --> kv-tooltip
+  kv-description-list --> kv-tooltip
   kv-info-label --> kv-tooltip
   kv-text-field --> kv-tooltip
+  kv-time-picker --> kv-tooltip
   kv-tree-item --> kv-tooltip
   style kv-tooltip fill:#f9f,stroke:#333,stroke-width:4px
 ```

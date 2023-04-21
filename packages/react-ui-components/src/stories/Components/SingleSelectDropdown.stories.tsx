@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { EIconName, KvSingleSelectDropdown } from '../../components';
+import { EComponentSize, EIconName, KvSingleSelectDropdown } from '../../components';
 
 // Required to have the correct TagName in the code sample
 KvSingleSelectDropdown.displayName = 'KvSingleSelectDropdown';
@@ -38,6 +38,10 @@ export default {
 		},
 		selectedOption: {
 			control: { type: 'text' }
+		},
+		inputSize: {
+			control: { type: 'radio' },
+			options: Object.values(EComponentSize)
 		}
 	},
 	parameters: {

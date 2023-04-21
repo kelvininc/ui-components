@@ -1,4 +1,4 @@
-import { EIconName, KvDropdown, KvSelect, KvSelectOption } from '../../components';
+import { EComponentSize, EIconName, KvDropdown, KvSelect, KvSelectOption } from '../../components';
 
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
@@ -52,7 +52,8 @@ Default.args = {
 		icon: EIconName.Layer,
 		required: true,
 		placeholder: 'Select an option',
-		helpText: 'You can select several options'
+		helpText: 'You can select several options',
+		size: EComponentSize.Large
 	}
 };
 
@@ -64,6 +65,7 @@ Disabled.args = {
 		icon: EIconName.Layer,
 		required: true,
 		placeholder: 'Select an option',
-		helpText: 'You can select several options'
+		helpText: 'You can select several options',
+		size: EComponentSize.Large
 	}
 };

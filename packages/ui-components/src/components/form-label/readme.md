@@ -62,11 +62,15 @@ export const FormLabelExample: React.FC = () => (
 
 ### Used by
 
+ - [kv-date-time-input](../date-time-input)
+ - [kv-radio-list](../radio-list)
  - [kv-text-field](../text-field)
 
 ### Graph
 ```mermaid
 graph TD;
+  kv-date-time-input --> kv-form-label
+  kv-radio-list --> kv-form-label
   kv-text-field --> kv-form-label
   style kv-form-label fill:#f9f,stroke:#333,stroke-width:4px
 ```

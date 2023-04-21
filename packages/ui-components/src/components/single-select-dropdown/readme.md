@@ -50,6 +50,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | `filteredOptions`      | --                        | (optional) The object with the dropdown options filtered      | `ISingleSelectDropdownOptions`                                                | `undefined`                                |
 | `helpText`             | `help-text`               | (optional) The text to display as help text                   | `string \| string[]`                                                          | `[]`                                       |
 | `icon`                 | `icon`                    | (optional) The icon to display on the dropdown                | `EIconName \| EOtherIconName`                                                 | `undefined`                                |
+| `inputSize`            | `input-size`              | (optional) The size of the input                              | `EComponentSize.Large \| EComponentSize.Small`                                | `EComponentSize.Large`                     |
 | `isOpen`               | `is-open`                 | (optional) If `true` the list is opened                       | `boolean`                                                                     | `false`                                    |
 | `label`                | `label`                   | (optional) The text to display on the dropdown label          | `string`                                                                      | `undefined`                                |
 | `loading`              | `loading`                 | (optional) If `true` the list dropdown is loading             | `boolean`                                                                     | `false`                                    |
@@ -94,6 +95,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 ### Used by
 
  - [kv-calendar-advanced-date-selector](../calendar-advanced-date-selector)
+ - [kv-relative-time-picker](../relative-time-picker)
 
 ### Depends on
 
@@ -123,6 +125,7 @@ graph TD;
   kv-search --> kv-text-field
   kv-search --> kv-icon
   kv-calendar-advanced-date-selector --> kv-single-select-dropdown
+  kv-relative-time-picker --> kv-single-select-dropdown
   style kv-single-select-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -9,7 +9,8 @@ export const isElementCollpased = (element: HTMLElement): boolean => {
 		const { width: rectWidth } = range.getBoundingClientRect();
 		const { clientWidth: collapsedWidth } = collapsedElement;
 
-		if (collapsedWidth > rectWidth) return false;
+		// once rectWidth comes as a real value and collapsedWidth as a rounded value, this calculation was incorrect.
+		if (collapsedWidth >= Math.round(rectWidth)) return false;
 	}
 
 	return true;

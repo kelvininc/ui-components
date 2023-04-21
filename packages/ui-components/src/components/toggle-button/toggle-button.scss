@@ -1,0 +1,102 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --button-width: toggle button component's width.
+	 * @prop --button-height: toggle button component's height.
+	 * @prop --button-icon-width: toggle button component's icon width.
+	 * @prop --button-icon-height: toggle button component's icon height.
+	 * @prop --button-padding: toggle button component's padding.
+	 * @prop --text-color-default: toggle button component's text color default.
+	 * @prop --text-color-active: toggle button component's text color active.
+	 * @prop --text-color-disabled: toggle button component's text color disabled.
+	 * @prop --background-color-default: toggle button component's background color default.
+	 * @prop --background-color-active: toggle button component's background color active.
+	 * @prop --background-color-disabled: toggle button component's background color disabled.
+	 * @prop --border-color-default: toggle button component's border color default.
+	 * @prop --border-color-active: toggle button component's border color active.
+	 * @prop --border-color-disabled: toggle button component's border color disabled.
+	 */
+
+	--text-color-default: #{kv-color('neutral-2')};
+	--text-color-active: #{kv-color('neutral-0')};
+	--text-color-disabled: #{kv-color('neutral-5')};
+	--background-color-default: #{kv-color('neutral-6')};
+	--background-color-active: #{kv-color('neutral-6')};
+	--background-color-disabled: #{kv-color('neutral-7')};
+	--border-color-default: #{kv-color('neutral-6')};
+	--border-color-active: #{kv-color('neutral-0')};
+	--border-color-disabled: #{kv-color('neutral-6')};
+}
+
+.toggle-button {
+	@include kv-font-label-small-regular;
+
+	text-decoration: none;
+
+	position: relative;
+	user-select: none;
+	cursor: pointer;
+	box-sizing: border-box;
+
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: $spacing-2x;
+
+	border-radius: 2px;
+
+	border: 1px solid var(--border-color-default);
+	color: var(--text-color-default);
+	background: var(--background-color-default);
+
+	width: var(--button-width, initial);
+	height: var(--button-height, 36px);
+	padding: var(--button-padding, 0 $spacing-3x);
+
+	.toggle-button-icon,
+	.toggle-button-icon kv-icon,
+	.toggle-button-label {
+		display: flex;
+		align-items: center;
+	}
+
+	&--checked {
+		@include kv-font-label-small-semibold;
+
+		border-color: var(--border-color-active);
+		color: var(--text-color-active);
+		background: var(--background-color-active);
+
+		.toggle-button-icon kv-icon {
+			--icon-color: var(--text-color-active);
+		}
+	}
+
+	&--disabled {
+		border-color: var(--border-color-disabled);
+		color: var(--text-color-disabled);
+		background: var(--background-color-disabled);
+
+		cursor: not-allowed;
+		pointer-events: none;
+
+		.toggle-button-icon kv-icon {
+			--icon-color: var(--text-color-disabled);
+		}
+	}
+
+	&--only-icon {
+		width: var(--button-width, 28px);
+		height: var(--button-height, 28px);
+		padding: var(--button-padding, $spacing);
+
+		kv-icon {
+			--icon-color: var(--text-color-default);
+			--icon-width: var(--button-icon-width, 20px);
+			--icon-height: var(--button-icon-height, 20px);
+			width: var(--button-icon-width, 20px);
+			height: var(--button-icon-height, 20px);
+		}
+	}
+}

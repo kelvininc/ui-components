@@ -1,17 +1,18 @@
 import { WidgetProps } from '@rjsf/utils';
-import { KvFormLabel, KvRadioButtonGroup } from '../../../stencil-generated';
+import { KvFormLabel, KvToggleButtonGroup } from '../../../stencil-generated';
 import React, { useCallback, useMemo } from 'react';
-import { buildRadioButtons, buildSelectedRadioButtons, toggleSelectedOptions } from './utils';
+import { buildToggleButtons, buildSelectedToggleButtons, toggleSelectedOptions, buildDisabledToggleButtons } from './utils';
 import { ICheckboxConfig } from './types';
 import { get, isEmpty } from 'lodash';
 
-const CheckboxesWidget = ({ schema, label, id, disabled, options, value, required, readonly, onChange, uiSchema }: WidgetProps) => {
+const CheckboxesWidget = ({ schema, label, id, options, disabled, value, required, readonly, onChange, uiSchema }: WidgetProps) => {
 	const { enumOptions, enumDisabled, allButton } = options;
 	const { maxItems, minItems } = schema;
 
 	const selectedOptions = useMemo(() => (Array.isArray(value) ? value : []), [value]);
 	const allOptions = useMemo(() => (Array.isArray(enumOptions) ? enumOptions : []), [enumOptions]);
 	const disabledOptions = useMemo(() => (Array.isArray(enumDisabled) ? enumDisabled : []), [enumDisabled]);
+
 	const minimumItems = useMemo(() => minItems ?? 0, [minItems]);
 	const maximumItems = useMemo(() => maxItems ?? allOptions.length, [maxItems, allOptions.length]);
 	const multiple = useMemo(() => minimumItems > 0 || maximumItems > 1, [minItems, maxItems]);
@@ -21,14 +22,14 @@ const CheckboxesWidget = ({ schema, label, id, disabled, options, value, require
 			allButton: allButton === true,
 			minItems: minimumItems,
 			maxItems: maximumItems,
-			disabled,
 			required,
 			readonly
 		}),
-		[multiple, allButton, minItems, maxItems, disabled, required, readonly]
+		[multiple, allButton, minItems, maxItems, required, readonly]
 	);
-	const buttons = useMemo(() => buildRadioButtons(allOptions, disabledOptions, config), [allOptions, disabledOptions, config]);
-	const selectedButtons = useMemo(() => buildSelectedRadioButtons(selectedOptions, allOptions, config), [selectedOptions, allOptions, config]);
+	const buttons = useMemo(() => buildToggleButtons(allOptions, disabledOptions, config), [allOptions, disabledOptions, config]);
+	const selectedButtons = useMemo(() => buildSelectedToggleButtons(selectedOptions, allOptions, config), [selectedOptions, allOptions, config]);
+	const disabledButtons = useMemo(() => buildDisabledToggleButtons(buttons), [buttons]);
 
 	const onCheckedChange = useCallback(
 		({ detail: selectedOptionValue }: CustomEvent<string>) => {
@@ -43,7 +44,7 @@ const CheckboxesWidget = ({ schema, label, id, disabled, options, value, require
 			{(get(uiSchema, ['ui:title']) || schema.title || label) && (
 				<KvFormLabel id={`${id}-title`} label={get(uiSchema, ['ui:title']) || schema.title || label} required={required} />
 			)}
-			<KvRadioButtonGroup buttons={buttons} selectedButtons={selectedButtons} onCheckedChange={onCheckedChange} disabled={disabled} />
+			<KvToggleButtonGroup buttons={buttons} selectedButtons={selectedButtons} onCheckedChange={onCheckedChange} disabled={disabled} disabledButtons={disabledButtons} />
 		</>
 	);
 };

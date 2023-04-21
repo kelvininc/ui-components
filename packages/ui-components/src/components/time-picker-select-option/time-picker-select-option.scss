@@ -1,0 +1,62 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --time-picker-select-option-padding: Select padding.
+	 * @prop --time-picker-select-option-background-color: Background color.
+	 * @prop --time-picker-select-option-height: Select option height.
+	 */
+	--time-picker-select-option-padding: #{0 $spacing-4x};
+	--time-picker-select-option-background-color: #{transparent};
+	--time-picker-select-option-height: #{32px};
+}
+
+.select-option {
+	height: var(--time-picker-select-option-height);
+	padding: var(--time-picker-select-option-padding);
+	display: flex;
+	align-items: center;
+	user-select: none;
+	cursor: pointer;
+	background-color: var(--time-picker-select-option-background-color);
+	transition: background-color 100ms linear;
+
+	.text-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		min-width: 0;
+		width: 100%;
+
+		.item-label {
+			@include kv-font-span-regular;
+			@include ellipsis();
+			transition: font-weight 100ms linear;
+			color: kv-color('neutral-2');
+		}
+
+		.item-description {
+			@include kv-font-label-small-regular;
+			color: kv-color('neutral-4');
+		}
+	}
+
+	&.selected {
+		background-color: kv-color('neutral-6');
+
+		.item-label {
+			@include kv-font-span-semibold;
+			color: kv-color('neutral-2');
+		}
+
+		.item-description {
+			@include kv-font-span-semibold;
+			transition: font-weight 100ms linear;
+			color: kv-color('neutral-2');
+		}
+	}
+
+	&:hover {
+		background-color: kv-color('neutral-6');
+	}
+}

@@ -14,6 +14,9 @@ export const SwitchButtonExample: React.FC = () => (
 		{/*-- Tertiary --*/}
 		<KvActionButtonIcon icon={EIconName.Add} type={EActionButtonType.Tertiary}></KvActionButtonIcon>
 
+		{/*-- Ghost --*/}
+		<KvActionButtonIcon icon={EIconName.Add} type={EActionButtonType.Ghost}></KvActionButtonIcon>
+
 		{/*-- Danger --*/}
 		<KvActionButtonIcon icon={EIconName.Add} type={EActionButtonType.Danger}></KvActionButtonIcon>
 

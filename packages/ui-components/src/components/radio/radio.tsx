@@ -76,7 +76,7 @@ export class KvRadio {
 					onClick={this.clickThrottler}
 				>
 					<div tabIndex={this.isChecked || this.isDisabled ? -1 : 0} class="circle">
-						<div class="checked-icon"></div>
+						<div class="checked-icon" />
 					</div>
 					{this.label && <span class="label">{this.label}</span>}
 				</div>

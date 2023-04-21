@@ -3,26 +3,28 @@
 :host {
 	/**
 	* @prop --modal-height: The modal's height in px.
+	* @prop --modal-min-height: The modal's minimum height in px.
 	* @prop --modal-width: The modal's width in px.
-	* @prop --modal-header-height: The modal's header height in px.
-	* @prop --modal-footer-height: The modal's footer height in px.
+	* @prop --modal-min-width: The modal's minimum width in px.
+	* @prop --modal-topbar-height: The modal's topbar height in px.
+	* @prop --modal-topbar-text-color: The modal's text topbar color.
 	* @prop --modal-z-index: The modal's z-index
 	* @prop --modal-overlay-color: The modal's overlay color.
 	* @prop --modal-background-color: The modal's background color.
-	* @prop --modal-title-text-color: The modal's text header color.
 	* @prop --modal-close-button-width: The modal's close button width
 	* @prop --modal-close-button-height: The modal's close button height
 	*/
 	--modal-height: fit-content;
+	--modal-min-height: 235px;
 	--modal-width: fit-content;
-	--modal-header-height: 60px;
-	--modal-footer-height: unset;
+	--modal-min-width: 400px;
+	--modal-topbar-height: 50px;
+	--modal-topbar-text-color: #{kv-color('neutral-4')};
 	--modal-z-index: 1;
-	--modal-overlay-color: #{kv-color('background', 'step-1')};
-	--modal-background-color: #{kv-color('background')};
-	--modal-title-text-color: #{kv-color('neutral-4')};
-	--modal-close-button-width: #{$spacing-4x};
-	--modal-close-button-height: #{$spacing-4x};
+	--modal-overlay-color: #{kv-color('neutral-9', 'base', 0.8)};
+	--modal-background-color: #{kv-color('neutral-8')};
+	--modal-close-button-width: 16px;
+	--modal-close-button-height: 16px;
 }
 
 .modal-overlay {
@@ -42,50 +44,50 @@
 	right: 0;
 	margin: auto;
 	width: var(--modal-width);
+	min-width: var(--modal-min-width);
 	height: var(--modal-height);
-	min-width: 400px;
-	min-height: 235px;
+	min-height: var(--modal-min-height);
 	border-radius: 10px;
 	background-color: var(--modal-background-color);
 	display: flex;
 	flex-direction: column;
 	z-index: var(--modal-z-index);
 
-	.top-bar {
+	.topbar {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		padding: 0 $spacing-4x;
-		height: var(--modal-header-height);
+		height: var(--modal-topbar-height);
+		border-bottom: 1px solid kv-color('neutral-7');
+		box-sizing: border-box;
 
 		.title {
 			@include kv-font-label-small-uppercase-regular;
-			color: var(--modal-title-text-color);
+			color: var(--modal-topbar-text-color);
 		}
 
 		.actions {
 			display: inline-flex;
 			align-items: center;
+			gap: $spacing-3x;
 		}
 	}
 
 	.content {
 		display: flex;
 		flex-direction: column;
-
-		.footer {
-			flex-shrink: 0;
-		}
+		flex: 1;
+		min-height: 0;
 	}
 
-	.close {
-		cursor: pointer;
+	.close-button {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
+		cursor: pointer;
 		user-select: none;
 		pointer-events: all;
-		margin-left: $spacing-3x;
 
 		kv-icon {
 			--icon-width: var(--modal-close-button-width);

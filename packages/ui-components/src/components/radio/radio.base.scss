@@ -35,10 +35,6 @@
 
 		.circle {
 			border-color: var(--radio-input-default-color);
-
-			.checked-icon {
-				background: var(--radio-input-default-color);
-			}
 		}
 	}
 }
@@ -59,8 +55,9 @@
 	}
 
 	.checked-icon {
-		height: 0;
-		width: 0;
+		height: 8px;
+		width: 8px;
+		border-radius: 50%;
 		transition: all 0.2s ease-out;
 	}
 }

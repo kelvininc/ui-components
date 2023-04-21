@@ -612,12 +612,12 @@ CheckboxesWidget.args = {
 					type: 'string',
 					oneOf: [
 						{
-							title: 'Acknowledged',
-							const: 'acknowledged'
-						},
-						{
 							title: 'Active',
 							const: 'active'
+						},
+						{
+							title: 'Acknowledged',
+							const: 'acknowledged'
 						},
 						{
 							title: 'Resolved',

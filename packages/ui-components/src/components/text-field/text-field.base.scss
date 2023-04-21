@@ -36,7 +36,7 @@
 
 	--text-color-icon-default: #{kv-color('neutral-4')};
 	--text-color-input-disabled: #{kv-color('neutral-5')};
-	--text-color-help-text-default: #{kv-color('neutral-5')};
+	--text-color-help-text-default: #{kv-color('neutral-4')};
 	--text-color-help-text-error: #{kv-color('error')};
 
 	--border-color-error: #{kv-color('error')};
@@ -215,6 +215,12 @@ input {
 			display: flex;
 			justify-content: center;
 			align-items: center;
+		}
+
+		&.disabled {
+			::slotted(kv-icon) {
+				--icon-color: var(--text-color-input-disabled);
+			}
 		}
 
 		&.focus {

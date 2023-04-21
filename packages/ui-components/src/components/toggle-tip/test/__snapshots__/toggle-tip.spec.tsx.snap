@@ -3,7 +3,7 @@
 exports[`Toggle Tip (unit tests) when has a position should match the snapshot 1`] = `
 <kv-toggle-tip position="left" text="Toggle tip">
   <mock:shadow-root>
-    <div class="toggle-tip-open-element-wrapper" id="toggle-tip-open-element-wrapper">
+    <div class="toggle-tip-open-element-wrapper" id="toggle-tip-open-element-wrapper" part="toggle-tip-open-element-container">
       <slot name="open-element-slot"></slot>
     </div>
     <div class="toggle-tip-container" id="toggle-tip-container" part="toggle-tip-container">
@@ -22,7 +22,7 @@ exports[`Toggle Tip (unit tests) when has a position should match the snapshot 1
 exports[`Toggle Tip (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-toggle-tip text="Toggle tip">
   <mock:shadow-root>
-    <div class="toggle-tip-open-element-wrapper" id="toggle-tip-open-element-wrapper">
+    <div class="toggle-tip-open-element-wrapper" id="toggle-tip-open-element-wrapper" part="toggle-tip-open-element-container">
       <slot name="open-element-slot"></slot>
     </div>
     <div class="toggle-tip-container" id="toggle-tip-container" part="toggle-tip-container">

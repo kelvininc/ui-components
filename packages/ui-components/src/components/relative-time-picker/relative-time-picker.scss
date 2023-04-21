@@ -1,0 +1,45 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --background-color: Background color.
+	 */
+	--background-color: #{kv-color('neutral-7')};
+}
+
+.relative-time-container {
+	@include kelvin-night-scrollbar();
+	display: flex;
+	flex-direction: column;
+	width: 328px;
+	max-height: var(--max-height);
+	background-color: var(--background-color);
+
+	.relative-time-selector {
+		padding: var(--padding-size) 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--group-gap);
+		overflow: auto;
+		min-height: 233px;
+
+		kv-time-picker-select-option {
+			--time-picker-select-option-height: var(--option-height);
+		}
+
+		&--has-scroll {
+			kv-time-picker-select-option {
+				--time-picker-select-option-padding: #{0 $spacing 0 $spacing-4x};
+			}
+		}
+	}
+
+	.selectable {
+		border-top: 1px solid kv-color('neutral-6');
+		padding: $spacing 0;
+
+		kv-single-select-dropdown {
+			--dropdown-max-height: 210px;
+		}
+	}
+}

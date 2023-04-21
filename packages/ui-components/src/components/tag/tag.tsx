@@ -1,5 +1,5 @@
 import { Component, Host, Prop, h } from '@stencil/core';
-import isValidLabel from '../../utils/string.helper';
+import { isValidLabel } from '../../utils/string.helper';
 
 @Component({
 	tag: 'kv-tag',

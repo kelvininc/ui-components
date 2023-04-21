@@ -1,0 +1,54 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+		@prop --container-width: Width of the container
+		@prop --icon-start-opacity: Start icon opacity
+		@prop --icon-color-default: Start icon color
+		@prop --icon-color-success: Success icon color
+	**/
+	--container-width: 100%;
+	--icon-start-opacity: 0;
+	--icon-color-default: #{kv-color('neutral-2')};
+	--icon-color-success: #{kv-color('success')};
+}
+
+.copy-to-clipboard-container {
+	width: var(--container-width);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: $spacing;
+	padding: $spacing-2x;
+	box-sizing: border-box;
+	transition: background-color 0.2s ease-in-out,
+		opacity 0.25s ease-in-out;
+
+	&:hover {
+		cursor: pointer;
+		background-color: kv-color('neutral-6');
+
+		.state-icon kv-icon {
+			opacity: 1;
+		}
+	}
+
+	.state-icon {
+		margin-left: $spacing-2x;
+
+		kv-icon {
+			--icon-height: 16px;
+			--icon-width: 16px;
+			--icon-color: var(--icon-color-default);
+
+			opacity: var(--icon-start-opacity);
+		}
+
+		&--success {
+			kv-icon {
+				--icon-color: var(--icon-color-success);
+				--icon-background-color: #{kv-color('neutral-0')};
+			}
+		}
+	}
+}

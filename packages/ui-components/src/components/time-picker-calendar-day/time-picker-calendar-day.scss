@@ -1,0 +1,67 @@
+@import '../../assets/styles/globals';
+
+:host {
+	--day-width: 28px;
+	--day-height: 28px;
+}
+
+.time-picker-calendar-day {
+	@include kv-font-label-small-regular;
+	width: var(--day-width);
+	height: var(--day-height);
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	background-color: transparent;
+	color: kv-color('neutral-4');
+
+	user-select: none;
+	cursor: pointer;
+
+	&:hover:not(.time-picker-calendar-day--disabled):not(.time-picker-calendar-day--active) {
+		background-color: kv-color('info', 'base', 0.16);
+	}
+
+	&--today:not(.time-picker-calendar-day--disabled) {
+		border: 1px solid kv-color('neutral-5');
+		width: calc(var(--day-width) - 2px);
+		height: calc(var(--day-height) - 2px);
+	}
+
+	&--in-range:not(.time-picker-calendar-day--disabled) {
+		background-color: kv-color('info', 'base', 0.16);
+	}
+
+	&--active:not(.time-picker-calendar-day--disabled) {
+		background-color: kv-color('primary', 'dark');
+		color: kv-color('neutral-2');
+
+		&:hover {
+			background-color: kv-color('info', 'base', 0.16);
+			color: kv-color('neutral-4');
+		}
+	}
+
+	&--range-start:not(.time-picker-calendar-day--disabled) {
+		background-color: kv-color('primary', 'dark');
+		color: kv-color('neutral-2');
+	}
+
+	&--range-end:not(.time-picker-calendar-day--disabled) {
+		background-color: kv-color('primary', 'dark');
+		color: kv-color('neutral-2');
+	}
+
+	&--between-dates:not(.time-picker-calendar-day--disabled) {
+		background-color: kv-color('info', 'base', 0.16);
+		color: kv-color('neutral-4');
+	}
+
+	&--disabled {
+		cursor: not-allowed;
+
+		color: kv-color('neutral-5');
+	}
+}

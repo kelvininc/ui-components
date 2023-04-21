@@ -23,7 +23,8 @@ import {
 	isDateBefore,
 	isDateInArray,
 	isDateInRange,
-	isDateSame
+	isDateSame,
+	isDateTimeBefore
 } from './date.helper';
 
 import MockDate from 'mockdate';
@@ -517,6 +518,18 @@ describe('Date Helper', () => {
 				expect(actualResult).toBe(true);
 			});
 		});
+
+		describe('when a quarter is added', () => {
+			it('should return date with a quarter ahead', () => {
+				expect(calculateDate(dayjs('01-01-2023', 'DD-MM-YYYY'), 1, 'quarter').format('DD-MM-YYYY')).toEqual(dayjs('01-04-2023', 'DD-MM-YYYY').format('DD-MM-YYYY'));
+			});
+		});
+
+		describe('when a quarter is subtracted', () => {
+			it('should return date with a quarter behind', () => {
+				expect(calculateDate(dayjs('01-01-2023', 'DD-MM-YYYY'), -1, 'quarter').format('DD-MM-YYYY')).toEqual(dayjs('01-10-2022', 'DD-MM-YYYY').format('DD-MM-YYYY'));
+			});
+		});
 	});
 
 	describe('#getDatesRangeKey', () => {
@@ -571,6 +584,32 @@ describe('Date Helper', () => {
 		describe('when the timezone is "America/New_York"', () => {
 			it('should return a formatted date with timezone', () => {
 				expect(formatForTimezone('America/New_York', anotherDateMock)).toEqual('1999-12-19T04:20:04-05:00');
+			});
+		});
+	});
+
+	describe('#isDateTimeBefore', () => {
+		describe('when date A is before date B by days', () => {
+			it('should return true', () => {
+				expect(isDateTimeBefore(dayjs('26-12-1996', 'DD-MM-YYYY'), dayjs('29-12-1996', 'DD-MM-YYYY'))).toEqual(true);
+			});
+		});
+
+		describe('when date A is after date B by days', () => {
+			it('should return false', () => {
+				expect(isDateTimeBefore(dayjs('29-12-1996', 'DD-MM-YYYY'), dayjs('26-12-1996', 'DD-MM-YYYY'))).toEqual(false);
+			});
+		});
+
+		describe('when date A is before date B by hours', () => {
+			it('should return true', () => {
+				expect(isDateTimeBefore(dayjs('26-12-1996 22:00:02', 'DD-MM-YYYY HH:mm:ss'), dayjs('26-12-1996 22:01:02', 'DD-MM-YYYY HH:mm:ss'))).toEqual(true);
+			});
+		});
+
+		describe('when date A is after date B by hours', () => {
+			it('should return false', () => {
+				expect(isDateTimeBefore(dayjs('26-12-1996 22:10:02', 'DD-MM-YYYY HH:mm:ss'), dayjs('26-12-1996 22:00:02', 'DD-MM-YYYY HH:mm:ss'))).toEqual(false);
 			});
 		});
 	});

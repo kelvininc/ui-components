@@ -1,0 +1,87 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --calendar-background-color: The calendar background color.
+	 * @prop --calendar-width: The calendar container width.
+	 * @prop --calendar-horizontal-padding: The calendar container horizontal padding.
+	 * @prop --calendar-vertical-padding: The calendar container vertical padding.
+	 * @prop --calendar-month-title-text-color: The calendar month text color.
+	 * @prop --calendar-month-weekday-text-color: The calendar week day text color.
+	 */
+
+	--calendar-width: 196px;
+	--calendar-horizontal-padding: #{0px};
+	--calendar-vertical-padding: #{0px};
+	--calendar-background-color: #{kv-color('neutral-7')};
+	--calendar-month-title-text-color: #{kv-color('neutral-2')};
+	--calendar-month-weekday-text-color: #{kv-color('neutral-4')};
+}
+
+@function get-day-width() {
+	@return calc((var(--calendar-width) - (var(--calendar-horizontal-padding) * 2)) / 7);
+}
+
+.calendar {
+	padding: var(--calendar-vertical-padding) var(--calendar-horizontal-padding);
+	background-color: var(--calendar-background-color);
+	border-radius: 4px;
+
+	width: var(--calendar-width);
+
+	box-sizing: border-box;
+
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		margin-bottom: $spacing-2x;
+
+		.month {
+			@include kv-font-span-regular;
+			color: var(--calendar-month-title-text-color);
+			user-select: none;
+		}
+
+		.navigator {
+			min-width: 16px;
+			cursor: pointer;
+
+			&--disabled {
+				cursor: not-allowed;
+
+				kv-icon {
+					--icon-color: #{kv-color('neutral-5')};
+				}
+			}
+		}
+	}
+
+	&__body {
+		.calendar-month {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, calc(get-day-width() * 7));
+
+			&__weekdays {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				user-select: none;
+				margin-bottom: $spacing;
+
+				.weekday {
+					@include kv-font-label-small-regular;
+					width: get-day-width();
+					color: var(--calendar-month-weekday-text-color);
+					text-align: center;
+				}
+			}
+
+			&__days {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, get-day-width());
+			}
+		}
+	}
+}
