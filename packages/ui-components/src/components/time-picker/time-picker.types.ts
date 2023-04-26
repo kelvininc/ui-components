@@ -37,6 +37,8 @@ export interface ITimePickerEvents {
 	dropdownStateChange: EventEmitter<boolean>;
 	/** Emitted when cancel button is clicked */
 	cancelClicked: EventEmitter<CustomEvent<MouseEvent>>;
+	/** Emitted when show calendar button state changes */
+	showCalendarStateChange: EventEmitter<boolean>;
 }
 
 export interface ITimePickerTime {

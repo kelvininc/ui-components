@@ -13,7 +13,7 @@ export default {
 			options: Object.values(EComponentSize)
 		},
 		onTextChange: { action: 'text changed...' },
-		onTextFieldBlur: { action: 'text field on blur' }
+		onDateTimeBlur: { action: 'date time on blur' }
 	},
 	parameters: {
 		notes: require('@ui-notes/date-time-input/readme.md')
