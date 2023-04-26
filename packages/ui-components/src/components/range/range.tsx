@@ -22,6 +22,12 @@ export class KvRange implements IRange, IRangeEvents {
 	@Prop({ reflect: true }) step?: number = 1;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) hideLabel?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) minLabel?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) maxLabel?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled: boolean = false;
 
 	/** @inheritdoc */
 	@Event() valueChange: EventEmitter<number>;
@@ -36,6 +42,14 @@ export class KvRange implements IRange, IRangeEvents {
 
 	private getInputValue = (element: HTMLInputElement) => {
 		return parseInt(element.value);
+	};
+
+	private getMinLabel = (): string => {
+		return this.minLabel || `${this.min}`;
+	};
+
+	private getMaxLabel = (): string => {
+		return this.maxLabel || `${this.max}`;
 	};
 
 	private applyCssStyles = () => {
@@ -61,18 +75,31 @@ export class KvRange implements IRange, IRangeEvents {
 	};
 
 	render() {
+		const displayMinLabel = this.getMinLabel();
+		const displayMaxLabel = this.getMaxLabel();
+
 		return (
 			<Host>
-				<div class="range-container">
-					<input id="slider" class="slider" type="range" min={this.min} max={this.max} step={this.step} value={this.value} onInput={this.onInputChange} />
+				<div class={{ 'range-container': true, 'has-label': !this.hideLabel }}>
+					<input
+						id="slider"
+						class="slider"
+						type="range"
+						min={this.min}
+						max={this.max}
+						step={this.step}
+						value={this.value}
+						disabled={this.disabled}
+						onInput={this.onInputChange}
+					/>
 					{!this.hideLabel && (
 						<span id="select-value" class="select-value">
 							{this.value}
 						</span>
 					)}
 					<div class="range-min-max">
-						<span>{this.min}</span>
-						<span>{this.max}</span>
+						<span>{displayMinLabel}</span>
+						<span>{displayMaxLabel}</span>
 					</div>
 				</div>
 			</Host>
