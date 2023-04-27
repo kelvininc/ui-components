@@ -6,13 +6,13 @@ import {
 	IRelativeTimePickerOption,
 	SelectedRangeDetail
 } from './relative-time-picker.types';
-import { calculateDate, isDateTimeBefore, newTimezoneDate } from '../../utils/date.helper';
+import { calculateDate, getDefaultTimezone, isDateTimeBefore, newTimezoneDate, newTimezoneDateFromFormat } from '../../utils/date.helper';
 import dayjs, { Dayjs } from 'dayjs';
 import { isEmpty } from 'lodash-es';
 import { BOTTOM_OPTIONS_HEIGHT, GROUP_GAP, MAX_HEIGHT, PADDING_SIZE, SELECT_OPTION_HEIGHT } from './relative-time-picker.config';
 import { SelectedTimestampRange } from '../../types';
 
-export const buildRelativeTimeSelectOptions = (options: IRelativeTimePickerOption[][], timeZone: string): IRelativeTimeDropdownOption[][] => {
+export const buildRelativeTimeSelectOptions = (options: IRelativeTimePickerOption[][], timeZone: string = getDefaultTimezone()): IRelativeTimeDropdownOption[][] => {
 	return options.reduce<IRelativeTimeDropdownOption[][]>((acc, group) => {
 		const groupOptions = buildRelativeTimeGroupOptions(group, timeZone);
 		acc.push(groupOptions);
@@ -54,8 +54,8 @@ export const buildOptionRange = (option: IRelativeTimePickerOption, timeZone: st
 
 // Build date from config with start and end date
 export const buildStartDateEndDateConfigRange = (option: IRelativeTimePickerOption, timeZone: string): SelectedRangeDetail => {
-	const startDateTime = newTimezoneDate(timeZone, option.startDate.date);
-	const endDateTime = newTimezoneDate(timeZone, option.endDate.date);
+	const startDateTime = newTimezoneDateFromFormat(timeZone, option.startDate.dateFormat, option.startDate.date);
+	const endDateTime = newTimezoneDateFromFormat(timeZone, option.endDate.dateFormat, option.endDate.date);
 
 	return buildSelectedRangeDetail(startDateTime, endDateTime, option.labelRangeFormatter);
 };
@@ -63,7 +63,7 @@ export const buildStartDateEndDateConfigRange = (option: IRelativeTimePickerOpti
 // Build date from config with start or end date
 export const buildSingleDateConfigRange = (option: IRelativeTimePickerOption, timeZone: string): SelectedRangeDetail => {
 	const nowDateTime = newTimezoneDate(timeZone);
-	const calculatedDate = newTimezoneDate(timeZone, option.startDate.date);
+	const calculatedDate = newTimezoneDateFromFormat(timeZone, option.startDate.dateFormat, option.startDate.date);
 
 	return buildSelectedRangeDetail(nowDateTime, calculatedDate, option.labelRangeFormatter);
 };
