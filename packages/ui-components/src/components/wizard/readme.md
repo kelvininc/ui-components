@@ -89,6 +89,8 @@ export const KvWizardExample: React.FC = () => {
 
 | Name                     | Description                                       |
 | ------------------------ | ------------------------------------------------- |
+| `--wizard-footer-height` | defines how much space the footer should take up  |
+| `--wizard-header-height` | defines how much space the header should take up  |
 | `--wizard-stepper-width` | defines how much space the stepper should take up |
 
 

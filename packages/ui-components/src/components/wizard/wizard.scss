@@ -3,12 +3,13 @@
 :host {
 	/**
 	 * @prop --wizard-stepper-width: defines how much space the stepper should take up
+	 * @prop --wizard-header-height: defines how much space the header should take up
+	 * @prop --wizard-footer-height: defines how much space the footer should take up
 	*/
 	--wizard-stepper-width: 100%;
+	--wizard-header-height: 66px;
+	--wizard-footer-height: 68px;
 }
-
-$wizard-header-height: 66px;
-$wizard-footer-height: 68px;
 
 .wizard {
 	height: 100%;
@@ -18,26 +19,29 @@ $wizard-footer-height: 68px;
 
 	.wizard-header {
 		width: 100%;
-		height: $wizard-header-height;
+		height: var(--wizard-header-height);
 		padding: $spacing-2x;
 		box-sizing: border-box;
 	}
 
 	.wizard-content {
 		width: 100%;
-		height: calc(100% - $wizard-footer-height);
+		height: calc(100% - var(--wizard-footer-height));
 
 		&.has-header {
-			height: calc(100% - $wizard-footer-height - $wizard-header-height);
+			height: calc(100% - var(--wizard-footer-height) - var(--wizard-header-height));
 		}
 	}
 
 	.wizard-footer {
 		width: 100%;
-		height: $wizard-footer-height;
+		height: var(--wizard-footer-height);
+		display: flex;
+		align-items: flex-end;
 
 		kv-wizard-footer {
 			--stepper-width: var(--wizard-stepper-width);
+			width: 100%;
 		}
 	}
 }
