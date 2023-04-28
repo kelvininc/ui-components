@@ -44,13 +44,13 @@ export class KvRange implements IRange, IRangeEvents {
 		return parseInt(element.value);
 	};
 
-	private getMinLabel = (): string => {
+	get displayMinLabel() {
 		return this.minLabel || `${this.min}`;
-	};
+	}
 
-	private getMaxLabel = (): string => {
+	get displayMaxLabel() {
 		return this.maxLabel || `${this.max}`;
-	};
+	}
 
 	private applyCssStyles = () => {
 		const rangeInputValue = this.getRangeElement();
@@ -75,9 +75,6 @@ export class KvRange implements IRange, IRangeEvents {
 	};
 
 	render() {
-		const displayMinLabel = this.getMinLabel();
-		const displayMaxLabel = this.getMaxLabel();
-
 		return (
 			<Host>
 				<div class={{ 'range-container': true, 'has-label': !this.hideLabel }}>
@@ -98,8 +95,8 @@ export class KvRange implements IRange, IRangeEvents {
 						</span>
 					)}
 					<div class="range-min-max">
-						<span>{displayMinLabel}</span>
-						<span>{displayMaxLabel}</span>
+						<span>{this.displayMinLabel}</span>
+						<span>{this.displayMaxLabel}</span>
 					</div>
 				</div>
 			</Host>
