@@ -79,7 +79,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	@Watch('options')
 	handleRelativeTimeOptionsChanges() {
 		const optionsToBuild = this.options ?? DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS;
-		const dropdownOptions = buildRelativeTimeSelectOptions(optionsToBuild, this.selectedTimezone);
+		const dropdownOptions = buildRelativeTimeSelectOptions(optionsToBuild, this.getSelectedTimezone());
 		this.relativeTimeOptions = dropdownOptions;
 
 		if (!isEmpty(this.selectedTimeKey) && this.selectedTimeKey !== CUSTOMIZE_INTERVAL_KEY) {

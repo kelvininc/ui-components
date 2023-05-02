@@ -249,6 +249,20 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 				separator: 'to',
 				endDateFormatter: 'D MMM HH:mm'
 			}
+		},
+		{
+			label: 'Last 72 hours',
+			value: 'last-72-h',
+			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
+			startDate: {
+				amount: -72,
+				unit: 'hours'
+			},
+			labelRangeFormatter: {
+				startDateFormatter: 'D MMM HH:mm',
+				separator: 'to',
+				endDateFormatter: 'D MMM HH:mm'
+			}
 		}
 	],
 	[
@@ -437,7 +451,8 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			value: 'all-time',
 			comparisonConfig: ERelativeTimeComparisonConfig.StartDate,
 			startDate: {
-				date: '1-01-2018'
+				date: '2018-01-01',
+				dateFormat: 'YYYY-MM-DD'
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM YYYY',

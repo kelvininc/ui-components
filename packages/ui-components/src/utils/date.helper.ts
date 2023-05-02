@@ -28,6 +28,7 @@ dayjs.extend(utc);
 
 export const newDate = (date?: DateInput) => dayjs(date);
 export const newTimezoneDate = (timezone: string, date?: DateInput) => dayjs.tz(date, timezone);
+export const newTimezoneDateFromFormat = (timezone: string, format: string, date: DateInput) => dayjs.tz(date, format, timezone);
 
 // Constructors
 export const fromISO = (date: string): dayjs.Dayjs => newDate(date);
