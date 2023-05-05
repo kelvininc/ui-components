@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](https://github.com/kelvininc/ui-components/compare/v0.18.0...v0.19.0) (2023-05-05)
+
+
+### Bug Fixes
+
+* **relative-time-picker:** add default timezone to prevent firefox errors on relative time options list ([c48a15e](https://github.com/kelvininc/ui-components/commit/c48a15e5fcfc27cf096d37b9515c4a52d2033de3))
+* **time-picker:** sync initial view with show calendar toggle state ([d74f6e5](https://github.com/kelvininc/ui-components/commit/d74f6e5cc1a80c26c506471626013112ab52475c))
+
+
+### Features
+
+* **icons:**  add log and telemetry icons ([152315b](https://github.com/kelvininc/ui-components/commit/152315b410c655dfcb0c37b313948465e5f61580))
+* **range:** add optional min and max labels and fix some styles ([1d8ed6b](https://github.com/kelvininc/ui-components/commit/1d8ed6b75e8970d7a26f9d38d5070ceb35fa12f2))
+* **wizard:** allow configure the header and footer height ([a43ff2f](https://github.com/kelvininc/ui-components/commit/a43ff2f7be1674b9fe0543e18db97a3719bd0e83))
+
+
+
+
+
 # [0.18.0](https://github.com/kelvininc/ui-components/compare/v0.17.0...v0.18.0) (2023-04-21)
 
 

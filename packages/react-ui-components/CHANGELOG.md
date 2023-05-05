@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](https://github.com/kelvininc/ui-components/compare/v0.18.0...v0.19.0) (2023-05-05)
+
+
+### Bug Fixes
+
+* **time-picker:** sync initial view with show calendar toggle state ([d74f6e5](https://github.com/kelvininc/ui-components/commit/d74f6e5cc1a80c26c506471626013112ab52475c))
+
+
+
+
+
 # [0.18.0](https://github.com/kelvininc/ui-components/compare/v0.17.0...v0.18.0) (2023-04-21)
 
 
