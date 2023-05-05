@@ -16,4 +16,10 @@ export interface IRange {
 	step?: number;
 	/** (optional) Hide value label */
 	hideLabel?: boolean;
+	/** (optional) Min label */
+	minLabel?: string;
+	/** (optional) Max label */
+	maxLabel?: string;
+	/** (optional) Range input disabled */
+	disabled?: boolean;
 }
