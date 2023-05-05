@@ -44,7 +44,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) showCalendar?: boolean = false;
+	@Prop({ reflect: true, mutable: true }) showCalendar?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedTimeOption?: ITimePickerTime;
 	/** @inheritdoc */
@@ -83,10 +83,17 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	@Event() dropdownStateChange: EventEmitter<boolean>;
 	/** @inheritdoc */
 	@Event() cancelClicked: EventEmitter<CustomEvent<MouseEvent>>;
+	/** @inheritdoc */
+	@Event() showCalendarStateChange: EventEmitter<boolean>;
 
 	@Watch('selectedTimeOption')
 	handleSelectTimeStateChange(timeState: ITimePickerTime) {
 		this.selectedTimeState = timeState;
+	}
+
+	@Watch('showCalendar')
+	handleShowCalendarChange() {
+		this.syncShowCalendarViewState();
 	}
 
 	componentWillLoad() {
@@ -97,6 +104,11 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 				this.selectedTimeState = this.selectedTimeOption;
 			}
 		}
+		this.syncShowCalendarViewState();
+	}
+
+	private syncShowCalendarViewState() {
+		this.timePickerView = this.showCalendar ? ETimePickerView.FullView : ETimePickerView.RelativeTimePicker;
 	}
 
 	private resetDefaultSelectedTimeState = () => {
@@ -217,6 +229,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	private onShowCalendarClick = () => {
 		if (!this.calendarViewLocked) {
 			this.timePickerView = this.showCalendar ? ETimePickerView.RelativeTimePicker : ETimePickerView.FullView;
+			this.showCalendarStateChange.emit(!this.showCalendar);
 			this.showCalendar = !this.showCalendar;
 		}
 	};

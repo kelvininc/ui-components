@@ -10,16 +10,16 @@ export default {
 	component: 'kv-absolute-time-picker',
 	argTypes: {
 		onSelectRangeDatesChange: {
-			action: 'change'
+			action: 'selectRangeDatesChange'
 		},
 		onBackButtonClicked: {
-			action: 'change'
+			action: 'backButtonClicked'
 		},
 		onRelativeTimeConfigReset: {
-			action: 'change'
+			action: 'relativeTimeConfigReset'
 		},
 		onRelativeTimeConfigChange: {
-			action: 'change'
+			action: 'relativeTimeConfigChange'
 		}
 	},
 	parameters: {

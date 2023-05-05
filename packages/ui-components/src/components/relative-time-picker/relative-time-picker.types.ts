@@ -53,6 +53,8 @@ export type DateTimeCalculation = {
 	// Date which the calculation should be relative to.
 	// if undefined, now will be used
 	date?: DateInput;
+	// Format of the provided date
+	dateFormat?: string;
 	// the amount of units to add to the relative time
 	// if this number is negative, the amount will be subtracted
 	amount?: number;

@@ -9,13 +9,16 @@ export default {
 	component: 'kv-time-picker',
 	argTypes: {
 		onTimeRangeChange: {
-			action: 'change'
+			action: 'timeRangeChange'
 		},
 		onDropdownStateChange: {
-			action: 'change'
+			action: 'dropdownStateChange'
 		},
 		onCancelClicked: {
-			action: 'change'
+			action: 'cancelClicked'
+		},
+		onShowCalendarStateChange: {
+			action: 'showCalendarStateChange'
 		}
 	},
 	parameters: {

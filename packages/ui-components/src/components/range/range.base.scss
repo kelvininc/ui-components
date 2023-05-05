@@ -1,5 +1,7 @@
 @import '../../assets/styles/globals';
 
+$label-height: 49px;
+
 :host {
 	/**
 	 * @prop --range-width: Width of the range slider
@@ -13,34 +15,39 @@
 	*/
 
 	--range-width: 100%;
-	--range-height: 12px;
+	--range-height: 10px;
 	--range-selector-radius: 20px;
 }
 
 .range-container {
 	width: var(--range-width);
-	margin: 24% auto;
+	margin-top: calc(var(--range-selector-radius) * 0.5);
 	position: relative;
+
+	&.has-label {
+		margin-top: $label-height;
+	}
 }
 
 .range-min-max {
-	@include kv-font-label-small-regular;
+	@include kv-font-span-regular;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
-	margin-top: $spacing-4x;
+	margin-top: $spacing;
 	user-select: none;
 	color: var(--range-label-color);
 }
 
 .slider {
-	width: var(--range-width);
+	width: calc(var(--range-width) - 2px);
 	height: var(--range-height);
 	outline: none;
 	margin: 0;
-	border-radius: $spacing;
+	border-radius: 6px;
 	user-select: none;
 	background: var(--slider-background-empty);
+	border: 1px solid var(--slider-background-empty);
 
 	&::-webkit-slider-thumb {
 		border: calc($spacing - 1px) solid var(--thumb-border-color);
@@ -61,12 +68,16 @@
 		cursor: pointer;
 		appearance: none;
 	}
+
+	&:disabled::-webkit-slider-thumb {
+		cursor: not-allowed;
+		user-select: none;
+	}
 }
 
 .select-value {
-	@include kv-font-h1-semibold;
-	height: 48px;
-	top: -68px;
+	@include kv-font-h2-semibold;
+	top: calc(-1 * $label-height);
 	transform: translateX(-50%);
 	position: absolute;
 	background-color: transparent;
