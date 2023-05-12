@@ -82,6 +82,23 @@ const TimePickerSettedRelativeTimeTemplate: ComponentStory<typeof KvTimePicker> 
 	return <KvTimePicker {...args} selectedTimeOption={selectedTime} onTimeRangeChange={onRelativeTimeChange} />;
 };
 
+const TimePickerWithoutTimezoneTemplate: ComponentStory<typeof KvTimePicker> = args => {
+	const [selectedTime, setSelectedTime] = useState<ITimePickerTime>({
+		key: 'last-72-h',
+		range: []
+	});
+	const onRelativeTimeChange = ({ detail: newRelativeOption }: CustomEvent<ITimePickerTime>) => {
+		setSelectedTime({
+			key: newRelativeOption.key,
+			range: newRelativeOption.range,
+			timezone: newRelativeOption.timezone
+		});
+	};
+
+	return <KvTimePicker {...args} selectedTimeOption={selectedTime} onTimeRangeChange={onRelativeTimeChange} />;
+};
+
 export const DefaultState = TimePickerTemplate.bind({});
 export const AbsoluteTimeOptionSelected = TimePickerSettedTimeTemplate.bind({});
 export const RelativeTimeOptionSelected = TimePickerSettedRelativeTimeTemplate.bind({});
+export const NoTimezoneProvided = TimePickerWithoutTimezoneTemplate.bind({});
