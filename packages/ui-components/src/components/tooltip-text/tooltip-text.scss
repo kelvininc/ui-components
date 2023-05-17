@@ -2,19 +2,21 @@
 
 :host {
 	/**
-	  * @prop --container-z-index: The z-index value for the tooltip container.
+	  * @prop --container-z-index: The z-index value for the tooltip container(default: 10).
 	  * @prop --container-white-space: The white space strategy for the tooltip container (default: normal).
+	  * @prop --container-max-width: The max width for the tooltip container (default: 240px).
 	 */
 
 	--container-z-index: 10;
 	--container-white-space: normal;
+	--container-max-width: 240px;
 }
 
 .tooltip-container {
 	@include kv-font-span-semibold();
 	height: fit-content;
 	width: fit-content;
-	max-width: 240px;
+	max-width: var(--container-max-width);
 	word-wrap: break-word;
 	color: kv-color('neutral-0');
 	background-color: kv-color('neutral-6');
@@ -28,16 +30,11 @@
 	white-space: var(--container-white-space);
 	visibility: hidden;
 	opacity: 0;
-}
-
-.tooltip-container-visible {
-	visibility: visible;
-	opacity: 1;
-	transition: opacity 0.3s linear;
-}
-
-.tooltip-container-hidden {
-	visibility: hidden;
-	opacity: 0;
 	transition: visibility 0s 0.3s, opacity 0.3s linear;
+
+	&--visible {
+		visibility: visible;
+		opacity: 1;
+		transition: opacity 0.3s linear;
+	}
 }

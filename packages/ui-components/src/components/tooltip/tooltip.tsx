@@ -1,26 +1,22 @@
 import { Component, Element, Host, Prop, State, Watch, h } from '@stencil/core';
 import { ComputePositionConfig, computePosition } from '@floating-ui/dom';
-import { isEmpty, merge } from 'lodash-es';
+import { isEmpty, isEqual, merge } from 'lodash-es';
 
-import { DEFAULT_DELAY_CONFIG, DEFAULT_POSITION_CONFIG } from './tooltip.config';
+import { DEFAULT_DELAY_CONFIG, DEFAULT_POSITION_CONFIG, TOOLTIP_TEXT_ID } from './tooltip.config';
 import { ETooltipPosition } from '../../types';
 import { ITooltip } from './tooltip.types';
-import { isElementCollpased } from './tooltip.utils';
+import { forwardStyleProperties, isElementCollapsed } from './tooltip.utils';
 
 /**
- * @part container - The tooltip container.
  * @part content - The tooltip content.
  */
 @Component({
 	tag: 'kv-tooltip',
-	styleUrl: 'tooltip.scss',
 	shadow: true
 })
 export class KvTooltip implements ITooltip {
-	/** (optional) Delay to show tooltip in milliseconds. */
-	@Prop({ reflect: true }) delay?: number = DEFAULT_DELAY_CONFIG;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) text: string;
+	@Prop({ reflect: true }) text: string = '';
 	/** @inheritdoc */
 	@Prop({ reflect: true }) position?: ETooltipPosition;
 	/** @inheritdoc */
@@ -31,6 +27,8 @@ export class KvTooltip implements ITooltip {
 	@Prop({ reflect: false }) contentElement?: HTMLElement = null;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) truncate?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) delay?: number = DEFAULT_DELAY_CONFIG;
 
 	@State() timeoutDelayId?: number;
 
@@ -38,51 +36,54 @@ export class KvTooltip implements ITooltip {
 	@Element() el: HTMLKvTooltipElement;
 
 	@Watch('text')
-	textChangeWatcher() {
-		this.update();
+	textChangeWatcher(newValue: string) {
+		if (isEqual(this.text, newValue)) {
+			return;
+		}
+		this.text = newValue;
+		this.update(false);
 	}
 
 	private getOptions = (): Partial<ComputePositionConfig> => {
 		return merge({}, { placement: this.position }, this.options);
 	};
 
-	private getTooltipElement = (): HTMLElement | null => {
-		return this.el.shadowRoot.querySelector('#tooltip') as HTMLElement | null;
+	private getTooltipElement = (): HTMLElement => {
+		const tooltipEl = document.getElementById(TOOLTIP_TEXT_ID);
+		if (tooltipEl) {
+			return tooltipEl;
+		}
+
+		const tooltipElement = document.createElement('kv-tooltip-text');
+		tooltipElement.style.position = 'absolute';
+		tooltipElement.setAttribute('id', TOOLTIP_TEXT_ID);
+		tooltipElement.setAttribute('text', this.text);
+		tooltipElement.setAttribute('visible', 'false');
+		document.body.append(tooltipElement);
+
+		return tooltipElement;
 	};
 
 	private getContentElement = (): HTMLElement | null => {
 		return this.contentElement ?? (this.el.shadowRoot.querySelector('#content') as HTMLElement | null);
 	};
 
-	private showTooltip = () => {
-		if (!this.disabled) {
-			const tooltip = this.getTooltipElement();
-			if (!tooltip) return;
-
-			tooltip.classList.remove('tooltip-container-hidden');
-			tooltip.classList.toggle('tooltip-container-visible');
-			this.update();
-		}
-	};
-
 	private showTooltipHandler = () => {
-		if (this.truncate && !isElementCollpased(this.el)) return;
+		if (this.truncate && !isElementCollapsed(this.el)) return;
 
 		if (this.delay) {
 			this.timeoutDelayId = window.setTimeout(() => {
-				this.showTooltip();
+				this.update();
 			}, this.delay);
 		} else {
-			this.showTooltip();
+			this.update();
 		}
 	};
 
 	private hideTooltip = () => {
 		const tooltip = this.getTooltipElement();
-		if (!tooltip) return;
 
-		tooltip.classList.remove('tooltip-container-visible');
-		tooltip.classList.toggle('tooltip-container-hidden');
+		tooltip.setAttribute('visible', 'false');
 	};
 
 	private hideTooltipHandler = () => {
@@ -93,58 +94,38 @@ export class KvTooltip implements ITooltip {
 		}
 	};
 
-	private update = () => {
+	private update = (forceVisibility = true) => {
 		const tooltip = this.getTooltipElement();
 		const child = this.getContentElement();
-		if (!tooltip) return;
+		if (!child || isEmpty(this.text)) return;
 
-		computePosition(child, tooltip, this.getOptions()).then(({ x, y }) => {
-			tooltip.style.left = `${x}px`;
-			tooltip.style.top = `${y}px`;
-		});
+		tooltip.setAttribute('text', this.text);
+		forwardStyleProperties(tooltip, this.el);
+		// We need the timeout to have the tooltip-container sizes updated before compute the position
+		setTimeout(() => {
+			computePosition(child, tooltip.shadowRoot.querySelector('.tooltip-container'), this.getOptions()).then(({ x, y }) => {
+				tooltip.style.left = `${x}px`;
+				tooltip.style.top = `${y}px`;
+				if (forceVisibility) {
+					tooltip.setAttribute('visible', 'true');
+				}
+			});
+		}, 100);
 	};
-
-	private listenToEvents = (child: HTMLElement) => {
-		child.addEventListener('mouseenter', this.showTooltipHandler);
-		child.addEventListener('mouseleave', this.hideTooltipHandler);
-		child.addEventListener('focus', this.showTooltip);
-		child.addEventListener('blur', this.hideTooltip);
-	};
-
-	private unlistenToEvents = (child: HTMLElement) => {
-		child.removeEventListener('mouseenter', this.showTooltipHandler);
-		child.removeEventListener('mouseleave', this.hideTooltipHandler);
-		child.removeEventListener('focus', this.showTooltip);
-		child.removeEventListener('blur', this.hideTooltip);
-	};
-
-	componentDidRender() {
-		const child = this.getContentElement();
-		const tooltip = this.getTooltipElement();
-		if (!tooltip) return;
-
-		this.unlistenToEvents(child);
-		this.listenToEvents(child);
-	}
-
-	disconnectedCallback() {
-		const child = this.getContentElement();
-		if (child) {
-			this.unlistenToEvents(child);
-		}
-	}
 
 	render() {
 		return (
 			<Host>
-				<div id="content" aria-describedby="tooltip" part="content">
+				<div
+					id="content"
+					part="content"
+					onMouseOver={this.showTooltipHandler}
+					onMouseOut={this.hideTooltipHandler}
+					onBlur={this.hideTooltipHandler}
+					onClick={this.hideTooltipHandler}
+				>
 					<slot></slot>
 				</div>
-				{!isEmpty(this.text) && (
-					<div id="tooltip" class="tooltip-container" role="tooltip" part="container">
-						{this.text}
-					</div>
-				)}
 			</Host>
 		);
 	}

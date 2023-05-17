@@ -3,7 +3,7 @@ import React from 'react';
 
 import { KvTooltip, KvActionButton, ETooltipPosition, EActionButtonType } from '@kelvininc/react-ui-components';
 
-export const TagLetterExample: React.FC = () => (
+export const TooltipExample: React.FC = () => (
   <>
     {/*-- Default --*/}
 	<KvTooltip text="Tooltip">

@@ -108,6 +108,7 @@ export const InfoLabelExample: React.FC = () => (
 graph TD;
   kv-info-label --> kv-tooltip
   kv-info-label --> kv-icon
+  kv-tooltip --> kv-tooltip-text
   style kv-info-label fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
