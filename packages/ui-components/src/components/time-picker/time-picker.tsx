@@ -88,7 +88,10 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 
 	@Watch('selectedTimeOption')
 	handleSelectTimeStateChange(timeState: ITimePickerTime) {
-		this.selectedTimeState = timeState;
+		this.selectedTimeState = {
+			...timeState,
+			timezone: timeState.timezone ?? this.getSelectedTimezone()
+		};
 	}
 
 	@Watch('showCalendar')
@@ -101,7 +104,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 			this.resetDefaultSelectedTimeState();
 		} else {
 			if (isEmpty(this.selectedTimeState)) {
-				this.selectedTimeState = this.selectedTimeOption;
+				this.syncTimeStateWithTimeOption();
 			}
 		}
 		this.syncShowCalendarViewState();
@@ -109,6 +112,13 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 
 	private syncShowCalendarViewState() {
 		this.timePickerView = this.showCalendar ? ETimePickerView.FullView : ETimePickerView.RelativeTimePicker;
+	}
+
+	private syncTimeStateWithTimeOption() {
+		this.selectedTimeState = {
+			...this.selectedTimeOption,
+			timezone: this.selectedTimeOption.timezone ?? this.getSelectedTimezone()
+		};
 	}
 
 	private resetDefaultSelectedTimeState = () => {
@@ -138,7 +148,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 		this.dropdownStateChange.emit(isDropdownOpen);
 		if (!this.isApplyButtonDisabled() && !isDropdownOpen) {
 			if (!isEmpty(this.selectedTimeOption)) {
-				this.selectedTimeState = this.selectedTimeOption;
+				this.syncTimeStateWithTimeOption();
 			} else {
 				this.resetDefaultSelectedTimeState();
 			}
@@ -176,7 +186,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	};
 
 	private onSelectedTimezoneChange = ({ detail: timezone }: CustomEvent<ITimePickerTimezone>) => {
-		const previousTimezone = this.selectedTimeState.timezone.name;
+		const previousTimezone = this.getSelectedTimezone().name;
 		const range =
 			this.selectedTimeState.key === CUSTOMIZE_INTERVAL_KEY
 				? getTimestampFromDateRange(this.selectedTimeState.range, previousTimezone, timezone.name)
@@ -285,7 +295,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 			return false;
 		}
 
-		if (this.selectedTimeState && this.selectedTimeOption && this.selectedTimeState.timezone.name !== this.selectedTimeOption.timezone.name) {
+		if (this.selectedTimeState && this.selectedTimeOption && this.selectedTimeState.timezone?.name !== this.selectedTimeOption.timezone?.name) {
 			return false;
 		}
 
