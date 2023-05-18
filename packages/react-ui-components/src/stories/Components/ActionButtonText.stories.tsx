@@ -56,6 +56,16 @@ TertiaryState.args = {
 	disabled: false
 };
 
+export const TertiaryLoadingState = ActionButtonTextTemplate.bind({});
+TertiaryLoadingState.args = {
+	type: EActionButtonType.Tertiary,
+	text: 'Tertiary Button',
+	size: EComponentSize.Large,
+	icon: EIconName.Add,
+	disabled: false,
+	loading: true
+};
+
 export const GhostState = ActionButtonTextTemplate.bind({});
 GhostState.args = {
 	type: EActionButtonType.Ghost,

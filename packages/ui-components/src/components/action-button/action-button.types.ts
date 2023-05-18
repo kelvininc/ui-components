@@ -16,6 +16,8 @@ export interface IButton {
 	disabled: boolean;
 	/** (optional) If `true` the button is active */
 	active: boolean;
+	/** (optional) If `true` the button is of type loading */
+	loading: boolean;
 	/** (optional) Button's size */
 	size: EComponentSize;
 }

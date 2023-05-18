@@ -23,6 +23,8 @@ export class KvActionButtonSplit implements IActionButtonSplitConfig {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) active: boolean = false;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) loading: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) leftHref?: string;
@@ -85,6 +87,7 @@ export class KvActionButtonSplit implements IActionButtonSplitConfig {
 						size={this.size}
 						download={this.leftDownload}
 						href={this.leftHref}
+						loading={this.loading}
 						target={this.leftTarget}
 						onClickButton={this.onClickLeftButton}
 						onFocusButton={this.onFocusLeftButton}
@@ -97,6 +100,7 @@ export class KvActionButtonSplit implements IActionButtonSplitConfig {
 						size={this.size}
 						download={this.rightDownload}
 						href={this.rightHref}
+						loading={this.loading}
 						target={this.rightTarget}
 						onClickButton={this.onClickRightButton}
 						onFocusButton={this.onFocusRightButton}

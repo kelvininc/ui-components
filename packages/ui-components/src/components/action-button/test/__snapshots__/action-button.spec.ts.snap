@@ -3,9 +3,11 @@
 exports[`Action Button (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-action-button size="large" type="primary">
   <mock:shadow-root>
-    <a class="action-button action-button--size-large action-button--type-primary" part="button" tabindex="0">
-      <slot></slot>
-    </a>
+    <div class="action-button-wrapper">
+      <a class="action-button action-button--size-large action-button--type-primary" part="button" tabindex="0">
+        <slot></slot>
+      </a>
+    </div>
   </mock:shadow-root>
 </kv-action-button>
 `;

@@ -70,6 +70,7 @@ export const SwitchButtonExample: React.FC = () => (
 | `leftDownload`           | `left-download`  | (optional) The left button anchor's download filename                                                           | `string`                                                                                                                                        | `undefined`            |
 | `leftHref`               | `left-href`      | (optional) The left button anchor's link to open when clicking                                                  | `string`                                                                                                                                        | `undefined`            |
 | `leftTarget`             | `left-target`    | (optional) The left button anchor's target                                                                      | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top`                                             | `undefined`            |
+| `loading`                | `loading`        | (optional) If `true` the button is of type loading                                                              | `boolean`                                                                                                                                       | `false`                |
 | `rightDownload`          | `right-download` | (optional) The right button anchor's download filename                                                          | `string`                                                                                                                                        | `undefined`            |
 | `rightHref`              | `right-href`     | (optional) The right button anchor's link to open when clicking                                                 | `string`                                                                                                                                        | `undefined`            |
 | `rightTarget`            | `right-target`   | (optional) The right button anchor's target                                                                     | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top`                                             | `undefined`            |
@@ -90,18 +91,6 @@ export const SwitchButtonExample: React.FC = () => (
 | `clickRightButton` | Emitted when right button is clicked | `CustomEvent<MouseEvent>` |
 | `focusLeftButton`  | Emitted when left button is focused  | `CustomEvent<FocusEvent>` |
 | `focusRightButton` | Emitted when right button is focused | `CustomEvent<FocusEvent>` |
-
-
-## CSS Custom Properties
-
-| Name                             | Description                                         |
-| -------------------------------- | --------------------------------------------------- |
-| `--button-split-height-large`    | Split button height when size is large.             |
-| `--button-split-height-small`    | Split button height when size is size.              |
-| `--button-split-icon-height`     | Split button icon height.                           |
-| `--button-split-icon-width`      | Split button icon width.                            |
-| `--button-split-padding-x-large` | Split button horizontal padding when size is large. |
-| `--button-split-padding-x-small` | Split button horizontal padding when size is size.  |
 
 
 ## Dependencies

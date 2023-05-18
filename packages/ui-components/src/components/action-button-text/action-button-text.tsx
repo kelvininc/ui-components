@@ -24,6 +24,8 @@ export class KvActionButtonText implements IActionButtonTextConfig {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) active: boolean = false;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) loading: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) href?: string;
@@ -44,6 +46,7 @@ export class KvActionButtonText implements IActionButtonTextConfig {
 			<Host>
 				<kv-action-button
 					active={this.active}
+					loading={this.loading}
 					type={this.type}
 					disabled={this.disabled}
 					size={this.size}
