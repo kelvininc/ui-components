@@ -38,10 +38,10 @@ export const SvgIconExample: React.FC = () => (
 
 ## Properties
 
-| Property            | Attribute      | Description                                                                                                                 | Type                 | Default     |
-| ------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------- | ----------- |
-| `customClass`       | `custom-class` | (optional) Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. | `string \| string[]` | `''`        |
-| `name` _(required)_ | `name`         | (required) Illustration symbol name                                                                                         | `EIllustrationName`  | `undefined` |
+| Property            | Attribute      | Description                                                                                                                                                                             | Type                                | Default     |
+| ------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ----------- |
+| `customClass`       | `custom-class` | (optional) Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. It is also valid to provide CssClassMap with boolean logic. | `CssClassMap \| string \| string[]` | `''`        |
+| `name` _(required)_ | `name`         | (required) Illustration symbol name                                                                                                                                                     | `EIllustrationName`                 | `undefined` |
 
 
 ## Shadow Parts

@@ -38,10 +38,9 @@ export const TooltipTextExample: React.FC = () => (
 
 ## Properties
 
-| Property  | Attribute | Description                                      | Type      | Default |
-| --------- | --------- | ------------------------------------------------ | --------- | ------- |
-| `text`    | `text`    | (optional) Text of tooltip                       | `string`  | `''`    |
-| `visible` | `visible` | (optional) Visibility of tooltip (default false) | `boolean` | `false` |
+| Property | Attribute | Description                | Type     | Default |
+| -------- | --------- | -------------------------- | -------- | ------- |
+| `text`   | `text`    | (optional) Text of tooltip | `string` | `''`    |
 
 
 ## CSS Custom Properties
@@ -50,7 +49,6 @@ export const TooltipTextExample: React.FC = () => (
 | ------------------------- | --------------------------------------------------------------------- |
 | `--container-max-width`   | The max width for the tooltip container (default: 240px).             |
 | `--container-white-space` | The white space strategy for the tooltip container (default: normal). |
-| `--container-z-index`     | The z-index value for the tooltip container(default: 10).             |
 
 
 ## Dependencies

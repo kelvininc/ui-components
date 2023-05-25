@@ -15,10 +15,3 @@ export const isElementCollapsed = (element: HTMLElement): boolean => {
 
 	return true;
 };
-
-export const forwardStyleProperties = (tooltipContainer: HTMLElement, parent: HTMLKvTooltipElement) => {
-	const computedStyle = getComputedStyle(parent);
-	tooltipContainer.style.setProperty('--container-z-index', computedStyle.getPropertyValue('--container-z-index'));
-	tooltipContainer.style.setProperty('--container-white-space', computedStyle.getPropertyValue('--container-white-space'));
-	tooltipContainer.style.setProperty('--container-max-width', computedStyle.getPropertyValue('--container-max-width'));
-};

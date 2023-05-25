@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
-import { CssClassMap } from '../../types';
+import { CustomCssClass } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 import { EIconName } from '../icon/icon.types';
 import { IModalConfig, IModalEvents } from './modal.types';
@@ -24,7 +24,7 @@ export class KvModal implements IModalConfig, IModalEvents {
 	/** @inheritdoc */
 	@Prop() showCloseButton?: boolean = true;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) customClass: string | string[] | CssClassMap = '';
+	@Prop({ reflect: true }) customClass: CustomCssClass = '';
 
 	/** @inheritdoc */
 	@Event() clickClose: EventEmitter<void>;

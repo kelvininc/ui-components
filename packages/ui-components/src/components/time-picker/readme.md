@@ -87,6 +87,7 @@ graph TD;
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
   kv-text-field --> kv-form-help-text
+  kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
   kv-relative-time-picker --> kv-time-picker-select-option

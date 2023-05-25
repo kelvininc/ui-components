@@ -1,11 +1,13 @@
-import { Component, Element, Host, Prop, State, Watch, h } from '@stencil/core';
-import { ComputePositionConfig, computePosition } from '@floating-ui/dom';
-import { isEmpty, isEqual, merge } from 'lodash-es';
+import { Component, Element, Host, Prop, State, h } from '@stencil/core';
+import { ComputePositionConfig, Middleware, autoPlacement } from '@floating-ui/dom';
 
-import { DEFAULT_DELAY_CONFIG, DEFAULT_POSITION_CONFIG, TOOLTIP_TEXT_ID } from './tooltip.config';
-import { ETooltipPosition } from '../../types';
+import { DEFAULT_AUTO_PLACEMENT_CONFIG, DEFAULT_DELAY_CONFIG, DEFAULT_POSITION_CONFIG } from './tooltip.config';
+import { CustomCssClass, ETooltipPosition } from '../../types';
 import { ITooltip } from './tooltip.types';
-import { forwardStyleProperties, isElementCollapsed } from './tooltip.utils';
+import { isElementCollapsed } from './tooltip.utils';
+import { isEmpty } from 'lodash';
+import { getClassMap } from '../../utils/css-class.helper';
+import { mergeComputePositionConfigs } from '../../utils/floating-ui.helper';
 
 /**
  * @part content - The tooltip content.
@@ -20,6 +22,8 @@ export class KvTooltip implements ITooltip {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) position?: ETooltipPosition;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) allowedPositions?: ETooltipPosition[];
+	/** @inheritdoc */
 	@Prop({ reflect: false }) options?: Partial<ComputePositionConfig> = DEFAULT_POSITION_CONFIG;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
@@ -29,89 +33,50 @@ export class KvTooltip implements ITooltip {
 	@Prop({ reflect: false }) truncate?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) delay?: number = DEFAULT_DELAY_CONFIG;
-
-	@State() timeoutDelayId?: number;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) withArrow: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
 
 	/** The Host's element reference */
 	@Element() el: HTMLKvTooltipElement;
 
-	@Watch('text')
-	textChangeWatcher(newValue: string) {
-		if (isEqual(this.text, newValue)) {
-			return;
-		}
-		this.text = newValue;
-		this.update(false);
-	}
+	@State() showTooltip: boolean = false;
 
-	private getOptions = (): Partial<ComputePositionConfig> => {
-		return merge({}, { placement: this.position }, this.options);
-	};
-
-	private getTooltipElement = (): HTMLElement => {
-		const tooltipEl = document.getElementById(TOOLTIP_TEXT_ID);
-		if (tooltipEl) {
-			return tooltipEl;
-		}
-
-		const tooltipElement = document.createElement('kv-tooltip-text');
-		tooltipElement.style.position = 'absolute';
-		tooltipElement.setAttribute('id', TOOLTIP_TEXT_ID);
-		tooltipElement.setAttribute('text', this.text);
-		tooltipElement.setAttribute('visible', 'false');
-		document.body.append(tooltipElement);
-
-		return tooltipElement;
-	};
+	private tooltipContent: HTMLElement;
 
 	private getContentElement = (): HTMLElement | null => {
-		return this.contentElement ?? (this.el.shadowRoot.querySelector('#content') as HTMLElement | null);
+		return this.contentElement ?? this.tooltipContent;
 	};
 
-	private showTooltipHandler = () => {
-		if (this.truncate && !isElementCollapsed(this.el)) return;
+	private getOptions = (): Partial<ComputePositionConfig> => {
+		const placement = isEmpty(this.allowedPositions) ? this.position : undefined;
+		const middleware: Array<Middleware> = [];
 
-		if (this.delay) {
-			this.timeoutDelayId = window.setTimeout(() => {
-				this.update();
-			}, this.delay);
-		} else {
-			this.update();
+		if (!isEmpty(this.allowedPositions) && isEmpty(placement)) {
+			middleware.push(
+				autoPlacement({
+					...DEFAULT_AUTO_PLACEMENT_CONFIG,
+					allowedPlacements: this.allowedPositions
+				})
+			);
 		}
-	};
 
-	private hideTooltip = () => {
-		const tooltip = this.getTooltipElement();
-
-		tooltip.setAttribute('visible', 'false');
+		return mergeComputePositionConfigs({ placement, middleware }, this.options);
 	};
 
 	private hideTooltipHandler = () => {
-		this.hideTooltip();
-		if (this.timeoutDelayId) {
-			clearTimeout(this.timeoutDelayId);
-			this.timeoutDelayId = undefined;
-		}
+		this.showTooltip = false;
 	};
 
-	private update = (forceVisibility = true) => {
-		const tooltip = this.getTooltipElement();
-		const child = this.getContentElement();
-		if (!child || isEmpty(this.text)) return;
-
-		tooltip.setAttribute('text', this.text);
-		forwardStyleProperties(tooltip, this.el);
-		// We need the timeout to have the tooltip-container sizes updated before compute the position
-		setTimeout(() => {
-			computePosition(child, tooltip.shadowRoot.querySelector('.tooltip-container'), this.getOptions()).then(({ x, y }) => {
-				tooltip.style.left = `${x}px`;
-				tooltip.style.top = `${y}px`;
-				if (forceVisibility) {
-					tooltip.setAttribute('visible', 'true');
-				}
-			});
-		}, 100);
+	private showTooltipHandler = () => {
+		if (this.disabled || (this.truncate && !isElementCollapsed(this.el))) return;
+		this.showTooltip = true;
 	};
+
+	disconnectedCallback() {
+		this.showTooltip = false;
+	}
 
 	render() {
 		return (
@@ -119,6 +84,7 @@ export class KvTooltip implements ITooltip {
 				<div
 					id="content"
 					part="content"
+					ref={el => (this.tooltipContent = el)}
 					onMouseOver={this.showTooltipHandler}
 					onMouseOut={this.hideTooltipHandler}
 					onBlur={this.hideTooltipHandler}
@@ -126,6 +92,11 @@ export class KvTooltip implements ITooltip {
 				>
 					<slot></slot>
 				</div>
+				{this.showTooltip && (
+					<kv-portal delay={this.delay} withArrow={this.withArrow} animated reference={this.getContentElement()} options={this.getOptions()}>
+						<kv-tooltip-text class={{ ...getClassMap(this.customClass) }} text={this.text} />
+					</kv-portal>
+				)}
 			</Host>
 		);
 	}

@@ -1,6 +1,8 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { EActionButtonType, ETooltipPosition, KvActionButton, KvTooltip } from '../../components';
+import styles from './style.module.scss';
+
+import { EActionButtonType, ETooltipPosition, KvActionButton, KvActionButtonText, KvTooltip } from '../../../components';
 
 KvTooltip.displayName = 'KvTooltip';
 
@@ -13,11 +15,12 @@ export default {
 			control: { type: 'select' },
 			options: Object.values(ETooltipPosition)
 		},
+		customClass: {
+			control: { type: 'text' }
+		},
 		disabled: { type: 'boolean' },
 		onMouseEnter: { action: 'Mouse enter' },
 		onMouseLeave: { action: 'Mouse Leave' },
-		onFocus: { action: 'Focus' },
-		onBlur: { action: 'Blur' },
 		truncate: { type: 'boolean' }
 	},
 	parameters: {
@@ -28,7 +31,7 @@ export default {
 
 const TooltipTemplate: ComponentStory<typeof KvTooltip> = args => (
 	<KvTooltip {...args}>
-		<KvActionButton type={EActionButtonType.Primary}>Hover me!</KvActionButton>
+		<KvActionButtonText text="Hover me!" type={EActionButtonType.Primary} />
 	</KvTooltip>
 );
 
@@ -61,4 +64,22 @@ export const TruncateState = TooltipTruncateTemplate.bind(this);
 TruncateState.args = {
 	text: 'Tooltip text',
 	truncate: true
+};
+
+export const WithArrowState = TooltipTemplate.bind(this);
+WithArrowState.args = {
+	text: 'Tooltip text',
+	withArrow: true
+};
+
+export const CustomClassState = TooltipTemplate.bind(this);
+CustomClassState.args = {
+	text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lacinia tellus nisi, ut pulvinar dui scelerisque ut. Nullam elementum diam id auctor feugiat.\n\nFusce nec malesuada nisl, vitae lacinia ex. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Cras at arcu at odio dictum convallis non eget justo. Nulla ut urna bibendum, laoreet nisi in, scelerisque lorem. Vivamus non varius sem. Praesent suscipit blandit purus in tristique.',
+	customClass: styles.TooltipCustomClass
+};
+
+export const AllowedPositionsState = TooltipTemplate.bind(this);
+AllowedPositionsState.args = {
+	text: 'Tooltip text',
+	allowedPositions: [ETooltipPosition.Top, ETooltipPosition.Right]
 };

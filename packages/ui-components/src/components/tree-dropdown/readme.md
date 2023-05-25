@@ -52,6 +52,7 @@ graph TD;
   kv-tree-item --> kv-icon
   kv-tree-item --> kv-tooltip
   kv-tree-item --> kv-badge
+  kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
   style kv-tree-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```

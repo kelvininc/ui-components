@@ -32,12 +32,12 @@ export const ModalOverlayExample: React.FC = (args: ModalOverlayProps) => {
 
 ## Properties
 
-| Property          | Attribute           | Description                                               | Type                                | Default     |
-| ----------------- | ------------------- | --------------------------------------------------------- | ----------------------------------- | ----------- |
-| `customClass`     | `custom-class`      | (optional) Additional classes to apply for custom CSS.    | `CssClassMap \| string \| string[]` | `''`        |
-| `headerTitle`     | `header-title`      | (optional) Defines the modal title label                  | `string`                            | `undefined` |
-| `showCloseButton` | `show-close-button` | (optional) Defines if the modal shows the close button    | `boolean`                           | `true`      |
-| `showOverlay`     | `show-overlay`      | (optional) Defines if the modal has an overlay background | `boolean`                           | `true`      |
+| Property          | Attribute           | Description                                                                                                                                                                             | Type                                | Default     |
+| ----------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ----------- |
+| `customClass`     | `custom-class`      | (optional) Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. It is also valid to provide CssClassMap with boolean logic. | `CssClassMap \| string \| string[]` | `''`        |
+| `headerTitle`     | `header-title`      | (optional) Defines the modal title label                                                                                                                                                | `string`                            | `undefined` |
+| `showCloseButton` | `show-close-button` | (optional) Defines if the modal shows the close button                                                                                                                                  | `boolean`                           | `true`      |
+| `showOverlay`     | `show-overlay`      | (optional) Defines if the modal has an overlay background                                                                                                                               | `boolean`                           | `true`      |
 
 
 ## Events

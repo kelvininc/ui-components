@@ -1,7 +1,7 @@
 import { Component, Host, Prop, h } from '@stencil/core';
 import { EIconName, EOtherIconName } from './icon.types';
 
-import { CssClassMap } from '../../types';
+import { CustomCssClass, ICustomCss } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 import { getConfig } from '../utils';
 
@@ -13,16 +13,11 @@ import { getConfig } from '../utils';
 	styleUrl: 'icon.scss',
 	shadow: true
 })
-export class KvIcon {
+export class KvIcon implements ICustomCss {
 	/** (required) Icon symbol name */
 	@Prop({ reflect: true }) name!: EIconName | EOtherIconName;
-
-	/**
-	 * (optional) Additional classes to apply for custom CSS. If multiple classes are
-	 * provided they should be separated by spaces. It is also valid to provide
-	 * CssClassMap with boolean logic.
-	 */
-	@Prop({ reflect: true }) customClass: string | string[] | CssClassMap = '';
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customClass: CustomCssClass = '';
 
 	/** (optional) Icon custom color */
 	@Prop({ reflect: true }) customColor: string = '';

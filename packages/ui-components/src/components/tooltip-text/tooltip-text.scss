@@ -2,12 +2,10 @@
 
 :host {
 	/**
-	  * @prop --container-z-index: The z-index value for the tooltip container(default: 10).
 	  * @prop --container-white-space: The white space strategy for the tooltip container (default: normal).
 	  * @prop --container-max-width: The max width for the tooltip container (default: 240px).
 	 */
 
-	--container-z-index: 10;
 	--container-white-space: normal;
 	--container-max-width: 240px;
 }
@@ -25,16 +23,5 @@
 	user-select: none;
 	border-radius: 2px;
 	padding: $spacing $spacing-2x;
-	position: fixed;
-	z-index: var(--container-z-index);
 	white-space: var(--container-white-space);
-	visibility: hidden;
-	opacity: 0;
-	transition: visibility 0s 0.3s, opacity 0.3s linear;
-
-	&--visible {
-		visibility: visible;
-		opacity: 1;
-		transition: opacity 0.3s linear;
-	}
 }
