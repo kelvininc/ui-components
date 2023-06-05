@@ -497,14 +497,6 @@ $btn-paddings-x: (
 	}
 }
 
-.action-button-wrapper {
-	width: fit-content;
-	height: fit-content;
-	padding: 2px;
-	overflow: hidden;
-	border-radius: 4px;
-}
-
 @keyframes loadingrotate {
 	/* Use 0% instead for anticlockwise */
 	100% {
