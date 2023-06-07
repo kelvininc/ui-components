@@ -52,27 +52,25 @@ export class KvActionButton implements IButton, IButtonEvents, IAnchor {
 	render() {
 		return (
 			<Host aria-disabled={this.disabled} onClick={this.onClickButton}>
-				<div class="action-button-wrapper">
-					<a
-						class={{
-							'action-button': true,
-							'action-button--disabled': this.disabled,
-							'action-button--active': this.active,
-							'action-button--loading': this.loading,
-							[`action-button--type-${this.type}`]: true,
-							[`action-button--size-${this.size}`]: true
-						}}
-						tabIndex={this.disabled ? -1 : 0}
-						part="button"
-						download={this.download}
-						href={this.href}
-						target={this.target}
-						onFocus={this.onFocusButton}
-						onBlur={this.onBlurButton}
-					>
-						<slot />
-					</a>
-				</div>
+				<a
+					class={{
+						'action-button': true,
+						'action-button--disabled': this.disabled,
+						'action-button--active': this.active,
+						'action-button--loading': this.loading,
+						[`action-button--type-${this.type}`]: true,
+						[`action-button--size-${this.size}`]: true
+					}}
+					tabIndex={this.disabled ? -1 : 0}
+					part="button"
+					download={this.download}
+					href={this.href}
+					target={this.target}
+					onFocus={this.onFocusButton}
+					onBlur={this.onBlurButton}
+				>
+					<slot />
+				</a>
 			</Host>
 		);
 	}

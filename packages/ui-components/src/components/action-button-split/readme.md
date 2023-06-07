@@ -93,6 +93,18 @@ export const SwitchButtonExample: React.FC = () => (
 | `focusRightButton` | Emitted when right button is focused | `CustomEvent<FocusEvent>` |
 
 
+## CSS Custom Properties
+
+| Name                             | Description                                         |
+| -------------------------------- | --------------------------------------------------- |
+| `--button-split-height-large`    | Split button height when size is large.             |
+| `--button-split-height-small`    | Split button height when size is size.              |
+| `--button-split-icon-height`     | Split button icon height.                           |
+| `--button-split-icon-width`      | Split button icon width.                            |
+| `--button-split-padding-x-large` | Split button horizontal padding when size is large. |
+| `--button-split-padding-x-small` | Split button horizontal padding when size is size.  |
+
+
 ## Dependencies
 
 ### Depends on
