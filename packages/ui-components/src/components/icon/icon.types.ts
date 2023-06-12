@@ -120,6 +120,7 @@ export enum EIconName {
 	Nabla = 'kv-nabla',
 	NavClose = 'kv-nav-close',
 	NavOpen = 'kv-nav-open',
+	Notes = 'kv-notes',
 	Notifications = 'kv-notifications',
 	One = 'kv-one',
 	Out = 'kv-out',

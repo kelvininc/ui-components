@@ -1,4 +1,4 @@
-import { IMultiSelectDropdownOptions, ISingleSelectDropdownOptions } from '@kelvininc/ui-components';
+import { EIconName, IMultiSelectDropdownOptions, ISingleSelectDropdownOptions } from '@kelvininc/ui-components';
 import { IChangeEvent } from '@rjsf/core';
 import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
@@ -632,6 +632,31 @@ CheckboxesWidget.args = {
 		alarm_statuses: {
 			'ui:widget': 'checkboxes',
 			'ui:allButton': true
+		}
+	}
+};
+
+export const TextareaWidget = FormTemplate.bind({});
+TextareaWidget.args = {
+	schema: {
+		type: 'object',
+		properties: {
+			description: {
+				type: 'string',
+				title: 'Description'
+			}
+		},
+		required: ['description']
+	},
+	uiSchema: {
+		'description': {
+			'ui:widget': 'textarea',
+			'maxCharLength': 200,
+			'iconName': EIconName.Notes,
+			'ui:placeholder': 'Add description'
+		},
+		'ui:submitButtonOptions': {
+			norender: true
 		}
 	}
 };

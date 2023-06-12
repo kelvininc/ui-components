@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text Area (unit tests) when initialized with icon should match the snapshot 1`] = `
+<kv-text-area icon="kv-notes" max-char-length="100">
+  <mock:shadow-root>
+    <div class="text-area-container">
+      <kv-icon class="left-icon" customclass="icon-20" name="kv-notes"></kv-icon>
+      <div class="text-area">
+        <div class="text-area-wrapper">
+          <div class="input placeholder" contenteditable=""></div>
+        </div>
+        <div class="character-counter">
+          Max. character: 0/100
+        </div>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-text-area>
+`;
+
+exports[`Text Area (unit tests) when initialized with required props should match the snapshot 1`] = `
+<kv-text-area max-char-length="100">
+  <mock:shadow-root>
+    <div class="text-area-container">
+      <div class="text-area">
+        <div class="text-area-wrapper">
+          <div class="input placeholder" contenteditable=""></div>
+        </div>
+        <div class="character-counter">
+          Max. character: 0/100
+        </div>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-text-area>
+`;
+
+exports[`Text Area (unit tests) when initialized with text and placeholder should match the snapshot 1`] = `
+<kv-text-area max-char-length="100" placeholder="Add Description" text="Hello World">
+  <mock:shadow-root>
+    <div class="text-area-container">
+      <div class="text-area">
+        <div class="editing text-area-wrapper">
+          <div class="input" contenteditable="" data-placeholder="Add Description">
+            Hello World
+          </div>
+        </div>
+        <div class="character-counter">
+          Max. character: 11/100
+        </div>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-text-area>
+`;
+
+exports[`Text Area (unit tests) when initialized with text should match the snapshot 1`] = `
+<kv-text-area max-char-length="100" text="Hello World">
+  <mock:shadow-root>
+    <div class="text-area-container">
+      <div class="text-area">
+        <div class="editing text-area-wrapper">
+          <div class="input" contenteditable="">
+            Hello World
+          </div>
+        </div>
+        <div class="character-counter">
+          Max. character: 11/100
+        </div>
+      </div>
+    </div>
+  </mock:shadow-root>
+</kv-text-area>
+`;
