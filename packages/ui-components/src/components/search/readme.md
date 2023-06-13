@@ -84,6 +84,8 @@ graph TD;
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
   kv-text-field --> kv-form-help-text
+  kv-tooltip --> kv-portal
+  kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
   kv-select --> kv-search
   style kv-search fill:#f9f,stroke:#333,stroke-width:4px

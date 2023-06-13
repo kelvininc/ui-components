@@ -1,4 +1,4 @@
-import { CssClassMap } from '../types';
+import { CssClassMap, CustomCssClass } from '../types';
 
 export const getClassList = (classes: string | (string | null | undefined)[] | undefined): string[] => {
 	if (classes !== undefined) {
@@ -11,7 +11,7 @@ export const getClassList = (classes: string | (string | null | undefined)[] | u
 	return [];
 };
 
-export const getClassMap = (classes: string | string[] | CssClassMap | undefined): CssClassMap => {
+export const getClassMap = (classes: CustomCssClass | undefined): CssClassMap => {
 	if (typeof classes === 'object' && !Array.isArray(classes)) {
 		return classes;
 	}
