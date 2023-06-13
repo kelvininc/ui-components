@@ -63,6 +63,17 @@ TertiaryState.args = {
 	disabled: false
 };
 
+export const TertiaryLoadingState = ActionButtonSplitTemplate.bind({});
+TertiaryLoadingState.args = {
+	type: EActionButtonType.Tertiary,
+	text: 'Tertiary Button',
+	splitIcon: EIconName.ArrowDropDown,
+	size: EComponentSize.Large,
+	icon: EIconName.Add,
+	disabled: false,
+	loading: true
+};
+
 export const GhostState = ActionButtonSplitTemplate.bind({});
 GhostState.args = {
 	type: EActionButtonType.Ghost,

@@ -1,0 +1,31 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --portal-arrow-color: arrow color.
+	 */
+
+	--portal-arrow-color: #{kv-color('neutral-6')};
+}
+
+.portal-container {
+	visibility: hidden;
+	opacity: 0;
+
+	&--visible {
+		visibility: visible;
+		opacity: 1;
+	}
+
+	&--visible.portal-container--animated {
+		transition: opacity 0.3s linear;
+	}
+
+	.portal-arrow {
+		position: absolute;
+		background: var(--portal-arrow-color);
+		width: 10px;
+		height: 10px;
+	}
+}
+

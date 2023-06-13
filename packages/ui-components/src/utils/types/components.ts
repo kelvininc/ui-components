@@ -14,6 +14,17 @@ export interface IAnchor {
 	download?: string;
 }
 
+export type CustomCssClass = string | string[] | CssClassMap;
+
+export interface ICustomCss {
+	/**
+	 * (optional) Additional classes to apply for custom CSS. If multiple classes are
+	 * provided they should be separated by spaces. It is also valid to provide
+	 * CssClassMap with boolean logic.
+	 */
+	customClass?: CustomCssClass;
+}
+
 export interface CssClassMap {
 	[className: string]: boolean;
 }

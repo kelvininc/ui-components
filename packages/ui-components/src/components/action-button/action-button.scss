@@ -86,14 +86,14 @@ $btn-border-colors: (
 		primary: kv-color('primary', 'dark'),
 		secondary: kv-color('neutral-5'),
 		tertiary: kv-color('neutral-2'),
-		ghost: transparent,
+		ghost: kv-color('neutral-7'),
 		danger: kv-color('error', 'dark')
 	),
 	focus: (
 		primary: kv-color('primary'),
 		secondary: kv-color('neutral-0'),
 		tertiary: transparent,
-		ghost: transparent,
+		ghost: kv-color('neutral-7'),
 		danger: transparent
 	),
 	disabled: (
@@ -101,13 +101,13 @@ $btn-border-colors: (
 		secondary: kv-color('neutral-3'),
 		tertiary: kv-color('neutral-5'),
 		ghost: transparent,
-		danger:  kv-color('error', 'light')
+		danger: kv-color('error', 'light')
 	),
 	active: (
 		primary: kv-color('primary', 'dark'),
 		secondary: kv-color('neutral-5'),
 		tertiary: kv-color('neutral-2'),
-		ghost: transparent,
+		ghost: kv-color('neutral-7'),
 		danger: kv-color('error', 'dark')
 	)
 );
@@ -250,7 +250,6 @@ $btn-paddings-x: (
 			filter: blur(2px);
 			position: absolute;
 			z-index: -1;
-			inset: 0;
 			border: 1px solid $btn-focus-border-color;
 		}
 	}
@@ -453,6 +452,27 @@ $btn-paddings-x: (
 
 	&--type-tertiary {
 		@include button-type-theme('tertiary');
+
+		&.action-button--loading {
+			border-color: transparent;
+			overflow: hidden;
+
+			&::before {
+				content: '';
+				background-image: conic-gradient(transparent, kv-color('neutral-6'), transparent);
+				width: 150%;
+				aspect-ratio: 1/1;
+
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%) rotate(0deg);
+				animation: loadingrotate 3s infinite linear;
+
+				border-radius: inherit;
+				z-index: -1;
+			}
+		}
 	}
 
 	&--type-ghost {
@@ -474,5 +494,12 @@ $btn-paddings-x: (
 	&--disabled {
 		cursor: not-allowed;
 		user-select: none;
+	}
+}
+
+@keyframes loadingrotate {
+	/* Use 0% instead for anticlockwise */
+	100% {
+		transform: translate(-50%, -50%) rotate(360deg);
 	}
 }

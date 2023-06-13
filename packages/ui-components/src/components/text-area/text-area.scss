@@ -1,0 +1,72 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	* @prop --height-default: The height of the text area when there's no text
+	* @prop --height-active: The height of the text area when there's text
+	*/
+	--height-default: 21px;
+	--height-active: 84px;
+}
+
+.text-area-container {
+	display: flex;
+	gap: $spacing-2x;
+
+	.left-icon {
+		margin-top: $spacing-2x;
+	}
+
+	.text-area {
+		@include kelvin-night-scrollbar();
+
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+
+		.text-area-wrapper {
+			padding: $spacing-2x $spacing-3x;
+			border: 1px solid kv-color('neutral-7');
+			border-radius: $spacing;
+			height: var(--height-default);
+			overflow: auto;
+			transition: height 0.25s ease-in-out;
+
+			.input {
+				@include kv-font-span-regular;
+				outline: none;
+				height: inherit;
+				color: kv-color('neutral-4');
+				overflow-wrap: anywhere;
+
+				&.placeholder::before {
+					content: attr(data-placeholder);
+				}
+			}
+
+			&:hover,
+			&.editing {
+				border: 1px solid kv-color('neutral-6');
+			}
+
+			&.editing,
+			&.has-text {
+				height: var(--height-active);
+
+				.input {
+					color: kv-color('neutral-2');
+				}
+			}
+
+			&:hover:not(.editing) {
+				cursor: pointer;
+			}
+		}
+
+		.character-counter {
+			@include kv-font-label-small-regular;
+			color: kv-color('neutral-4');
+			margin: $spacing $spacing 0 $spacing-4x;
+		}
+	}
+}

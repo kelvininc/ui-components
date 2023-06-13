@@ -21,6 +21,8 @@ export class KvActionButtonIcon implements IActionButtonIconConfig {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) active: boolean = false;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) loading: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Small;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) href?: string;
@@ -52,6 +54,7 @@ export class KvActionButtonIcon implements IActionButtonIconConfig {
 					<kv-action-button
 						type={this.type}
 						active={this.active}
+						loading={this.loading}
 						size={this.size}
 						disabled={this.disabled}
 						download={this.download}

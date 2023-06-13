@@ -1,15 +1,13 @@
 import { EventEmitter } from '@stencil/core';
-import { CssClassMap } from '../../types';
+import { ICustomCss } from '../../types';
 
-export interface IModalConfig {
+export interface IModalConfig extends ICustomCss {
 	/** (optional) Defines the modal title label */
 	headerTitle?: string;
 	/** (optional) Defines if the modal has an overlay background */
 	showOverlay?: boolean;
 	/** (optional) Defines if the modal shows the close button */
 	showCloseButton?: boolean;
-	/** (optional) Additional classes to apply for custom CSS. */
-	customClass?: string | string[] | CssClassMap;
 }
 
 export interface IModalEvents {

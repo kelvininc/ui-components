@@ -5,6 +5,7 @@ import ReadOnlyValueWidget from './ReadOnlyValueWidget';
 import EmailWidget from './EmailWidget';
 import DateTimeWidget from './DateTimeWidget';
 import DateWidget from './DateWidget';
+import TextareaWidget from './TextareaWidget';
 
 export default {
 	RadioWidget,
@@ -13,5 +14,6 @@ export default {
 	ReadOnlyValueWidget,
 	EmailWidget,
 	DateTimeWidget,
-	DateWidget
+	DateWidget,
+	TextareaWidget
 };

@@ -1,4 +1,5 @@
 import { Component, Prop, Host, h } from '@stencil/core';
+import { CustomCssClass, ICustomCss } from '../../../types';
 import { getClassMap } from '../../../utils/css-class.helper';
 
 /**
@@ -9,12 +10,9 @@ import { getClassMap } from '../../../utils/css-class.helper';
 	styleUrl: '../../../illustrations/illustrations.scss',
 	shadow: true
 })
-export class {{className}} {
-	/**
-	 * (optional) Additional classes to apply for custom CSS. If multiple classes are
-	 * provided they should be separated by spaces.
-	 */
-	@Prop({ reflect: true }) customClass: string | string[] = '';
+export class {{className}} implements ICustomCss {
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customClass: CustomCssClass = '';
 
 	render() {
 

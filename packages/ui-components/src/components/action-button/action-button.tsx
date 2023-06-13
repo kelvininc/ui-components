@@ -18,6 +18,8 @@ export class KvActionButton implements IButton, IButtonEvents, IAnchor {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) active: boolean = false;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) loading: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) href?: string;
@@ -55,6 +57,7 @@ export class KvActionButton implements IButton, IButtonEvents, IAnchor {
 						'action-button': true,
 						'action-button--disabled': this.disabled,
 						'action-button--active': this.active,
+						'action-button--loading': this.loading,
 						[`action-button--type-${this.type}`]: true,
 						[`action-button--size-${this.size}`]: true
 					}}

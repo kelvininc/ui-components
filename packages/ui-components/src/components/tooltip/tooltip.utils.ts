@@ -1,6 +1,6 @@
 import { getCollapsedElement } from '../utils';
 
-export const isElementCollpased = (element: HTMLElement): boolean => {
+export const isElementCollapsed = (element: HTMLElement): boolean => {
 	const collapsedElement = getCollapsedElement(Array.from(element.childNodes));
 	if (collapsedElement !== undefined) {
 		const range = new Range();
