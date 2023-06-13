@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](https://github.com/kelvininc/ui-components/compare/v0.19.0...v0.20.0) (2023-06-13)
+
+
+### Bug Fixes
+
+* **time-picker:** allow empty timezone state in props ([30b8884](https://github.com/kelvininc/ui-components/commit/30b8884b289290baa3952c37900f3831b9ca46b4))
+
+
+### Features
+
+* **button:** add loading state ([ac6c73f](https://github.com/kelvininc/ui-components/commit/ac6c73fb348b372a3d6dc69d67a0e030fb7d0eab))
+* **text-area:** add component ([11b1e5a](https://github.com/kelvininc/ui-components/commit/11b1e5a679dc0602a4c84142c13a8cc8bf73311f))
+
+
+
+
+
 # [0.19.0](https://github.com/kelvininc/ui-components/compare/v0.18.0...v0.19.0) (2023-05-05)
 
 

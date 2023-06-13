@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](https://github.com/kelvininc/ui-components/compare/v0.19.0...v0.20.0) (2023-06-13)
+
+
+### Features
+
+* **text-area:** add component ([11b1e5a](https://github.com/kelvininc/ui-components/commit/11b1e5a679dc0602a4c84142c13a8cc8bf73311f))
+
+
+
+
+
 # [0.19.0](https://github.com/kelvininc/ui-components/compare/v0.18.0...v0.19.0) (2023-05-05)
 
 **Note:** Version bump only for package @kelvininc/angular-ui-components

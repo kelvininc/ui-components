@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](https://github.com/kelvininc/ui-components/compare/v0.19.0...v0.20.0) (2023-06-13)
+
+
+### Bug Fixes
+
+* **action-button:** remove ghost button flickering on hover ([d6c40fd](https://github.com/kelvininc/ui-components/commit/d6c40fde21a304b1c39d0b00f74abd6e75ec9eb4))
+* **action-button:** remove padding around button due to loading animation ([1f62678](https://github.com/kelvininc/ui-components/commit/1f626784134243d3b98201ac8f71ebead67392d1))
+* **icons:** replace entity-asset and entity-area icons ([5a53e22](https://github.com/kelvininc/ui-components/commit/5a53e22b4295d47ad4ba0b49ee6bc663f9b31608))
+* **time-picker:** allow empty timezone state in props ([30b8884](https://github.com/kelvininc/ui-components/commit/30b8884b289290baa3952c37900f3831b9ca46b4))
+* **time-picker:** show calendar state sync ([4ce2a5c](https://github.com/kelvininc/ui-components/commit/4ce2a5c4907e8604dc0d8dafecf29f81486c5468))
+* **tooltip:** add tooltip floating content in body context ([437fb9e](https://github.com/kelvininc/ui-components/commit/437fb9ee1a8e7eb438669fe48461464a0b1b7166))
+
+
+### Features
+
+* **button:** add loading state ([ac6c73f](https://github.com/kelvininc/ui-components/commit/ac6c73fb348b372a3d6dc69d67a0e030fb7d0eab))
+* **icons:** add data explorer and applications icons ([c392f89](https://github.com/kelvininc/ui-components/commit/c392f8964a2222e8b838543e177278ff439730c6))
+* **text-area:** add component ([11b1e5a](https://github.com/kelvininc/ui-components/commit/11b1e5a679dc0602a4c84142c13a8cc8bf73311f))
+
+
+
+
+
 # [0.19.0](https://github.com/kelvininc/ui-components/compare/v0.18.0...v0.19.0) (2023-05-05)
 
 
