@@ -7,7 +7,7 @@ import { ComputePositionConfig } from '@floating-ui/dom';
 @Component({
 	tag: 'kv-description-list',
 	styleUrl: 'description-list.scss',
-	shadow: true
+	shadow: false
 })
 export class KvDescriptionList implements IDescriptionList {
 	/** @inheritdoc */
@@ -25,12 +25,12 @@ export class KvDescriptionList implements IDescriptionList {
 						<Fragment>
 							<div class="title">{title}</div>
 							<div class="description">
-								<kv-tooltip text={getTooltipText(popoverInfo)} options={this.descriptionTooltipConfig}>
+								<kv-tooltip text={getTooltipText(popoverInfo)} options={this.descriptionTooltipConfig} customClass="description-list-tooltip-container">
 									{description}
 								</kv-tooltip>
 								{popoverInfo?.icon && (
-									<kv-toggle-tip text={popoverInfo.text} {...this.iconToggletipConfig} exportparts="toggle-tip-container">
-										<kv-icon name={popoverInfo.icon} customClass={'icon-16'} slot="open-element-slot" />
+									<kv-toggle-tip text={popoverInfo.text} {...this.iconToggletipConfig} customClass="description-list-tooltip-container">
+										<kv-icon name={popoverInfo.icon} customClass="icon-16" slot="open-element-slot" />
 									</kv-toggle-tip>
 								)}
 							</div>

@@ -9,7 +9,7 @@ import { formatDateTime } from '../../utils/date.helper';
 @Component({
 	tag: 'kv-single-date-select-dropdown',
 	styleUrl: 'single-date-select-dropdown.scss',
-	shadow: true
+	shadow: false
 })
 export class KvSingleDateSelectDropdown implements ISingleDateSelectDropdown, ISingleDateSelectDropdownEvents {
 	/** @inheritdoc */
@@ -55,8 +55,9 @@ export class KvSingleDateSelectDropdown implements ISingleDateSelectDropdown, IS
 			<Host>
 				<div class="single-date-select-dropdown">
 					<kv-dropdown isOpen={this.isDropdownOpen} onOpenStateChange={this.onDropdownChange} inputConfig={this.getInputConfig()} disabled={this.disabled}>
-						<div class="calendar-container">
+						<div class="single-date-select-calendar-container ">
 							<kv-calendar-single-date-selector
+								onSelectDate={({ detail }) => this.selectDate.emit(detail)}
 								selectedDate={this.selectedDate}
 								initialDate={this.initialDate}
 								disabledDates={this.disabledDates}

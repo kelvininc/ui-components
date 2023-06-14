@@ -1,16 +1,17 @@
-import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { IMultiSelectDropdown, IMultiSelectDropdownEvents, IMultiSelectDropdownOptions } from './multi-select-dropdown.types';
 
 import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
 import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
-import { EComponentSize } from '../../types';
+import { CustomCssClass, EComponentSize } from '../../types';
+import { getCssStyle } from '../utils';
 
 @Component({
 	tag: 'kv-multi-select-dropdown',
 	styleUrl: 'multi-select-dropdown.scss',
-	shadow: true
+	shadow: false
 })
 export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelectDropdownEvents {
 	/** @inheritdoc */
@@ -51,6 +52,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: true }) maxHeight?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) inputSize?: EComponentSize = EComponentSize.Large;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
@@ -64,6 +67,9 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@State() _selectionDisplayValue: string | undefined;
 	@State() _searchValue: string;
 	@State() _isOpen: boolean = false;
+
+	/** The Host's element reference */
+	@Element() el: HTMLKvMultiSelectDropdownElement;
 
 	private selectOption = ({ detail: newOptions }: CustomEvent<Record<string, boolean>>) => {
 		this.optionsSelected.emit(newOptions);
@@ -131,10 +137,15 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		};
 	}
 
+	private getMaxHeight() {
+		const maxHeight = getCssStyle(this.el, '--dropdown-max-height');
+		return this.maxHeight ?? maxHeight;
+	}
+
 	render() {
 		return (
 			<Host>
-				<kv-dropdown inputConfig={this.inputConfig} isOpen={this._isOpen} onOpenStateChange={this.openStateChangeHandler} disabled={this.disabled} exportparts="input">
+				<kv-dropdown inputConfig={this.inputConfig} isOpen={this._isOpen} onOpenStateChange={this.openStateChangeHandler} disabled={this.disabled}>
 					<kv-select-multi-options
 						options={this.options}
 						filteredOptions={this.filteredOptions}
@@ -144,7 +155,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 						searchValue={this._searchValue}
 						selectionClearable={this.selectionClearable}
 						clearSelectionLabel={this.clearSelectionLabel}
-						maxHeight={this.maxHeight}
+						maxHeight={this.getMaxHeight()}
 						minHeight={this.minHeight}
 						onSearchChange={this.onSearchChange}
 						onSelectionCleared={this.onClearSelection}

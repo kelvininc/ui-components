@@ -1,5 +1,5 @@
 import { ComponentStory } from '@storybook/react';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { EComponentSize, EIconName, IMultiSelectDropdownOptions, KvMultiSelectDropdown } from '../../components';
 import { searchDropdownOptions } from './helpers/dropdown.helper';
 
@@ -53,12 +53,35 @@ export default {
 	}
 };
 
-const MultiSelectDropdownTemplate: ComponentStory<typeof KvMultiSelectDropdown> = ({ options, ...otherProps }: { options?: IMultiSelectDropdownOptions }) => {
+const MultiSelectDropdownTemplate: ComponentStory<typeof KvMultiSelectDropdown> = ({
+	options,
+	selectedOptions,
+	...otherProps
+}: {
+	options?: IMultiSelectDropdownOptions;
+	selectedOptions?: Record<string, boolean>;
+}) => {
 	const [searchTerm, setSearchTerm] = useState<string | null>(null);
 	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => setSearchTerm(searchedLabel), []);
 	const filteredOptions = useMemo(() => searchDropdownOptions(searchTerm ?? '', options ?? {}), [searchTerm, options]);
 
-	return <KvMultiSelectDropdown onSearchChange={onSearchChange} options={options} filteredOptions={filteredOptions} {...otherProps} />;
+	const onOptionsSelected = useCallback(({ detail: options }: CustomEvent<Record<string, boolean>>) => setSelected(options), []);
+	const [selected, setSelected] = useState<Record<string, boolean>>(selectedOptions || {});
+
+	useEffect(() => {
+		setSelected(selectedOptions || {});
+	}, [selectedOptions]);
+
+	return (
+		<KvMultiSelectDropdown
+			onSearchChange={onSearchChange}
+			selectedOptions={selected}
+			options={options}
+			filteredOptions={filteredOptions}
+			onOptionsSelected={onOptionsSelected}
+			{...otherProps}
+		/>
+	);
 };
 
 export const Default = MultiSelectDropdownTemplate.bind({});

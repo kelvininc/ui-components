@@ -78,7 +78,7 @@ export const SwitchButtonExample: React.FC = () => (
 | `splitIcon` _(required)_ | `split-icon`     | (required) Right button icon symbol name                                                                        | `EIconName \| EOtherIconName`                                                                                                                   | `undefined`            |
 | `target`                 | `target`         | (optional) The anchor's target                                                                                  | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top`                                             | `undefined`            |
 | `text` _(required)_      | `text`           | (required) (required) Button's text                                                                             | `string`                                                                                                                                        | `undefined`            |
-| `type` _(required)_      | `type`           | (required) Button's type                                                                                        | `EActionButtonType.Danger \| EActionButtonType.Ghost \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
+| `type` _(required)_      | `type`           | (optional) Button's type                                                                                        | `EActionButtonType.Danger \| EActionButtonType.Ghost \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
 
 
 ## Events

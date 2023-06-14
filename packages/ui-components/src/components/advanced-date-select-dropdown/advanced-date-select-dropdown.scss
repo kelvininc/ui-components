@@ -1,23 +1,18 @@
 @import '../../assets/styles/globals';
 
-:host {
-	/**
-	 * @prop --dropdown-input-width: The dropdown's input width when an absolute time is picked.
-	 */
-	--dropdown-absolute-time-selected-input-width: #{365px};
-}
-
 .advanced-date-select-dropdown {
+	--dropdown-absolute-time-selected-input-width: #{365px};
+
 	user-select: none;
 
 	&--selected-absolute {
-		kv-dropdown::part(input) {
+		kv-dropdown kv-text-field {
 			--input-width: var(--dropdown-absolute-time-selected-input-width);
 		}
 	}
 }
 
-.calendar-container {
+.advanced-date-select-calendar-container {
 	display: inline-block;
 
 	kv-calendar-advanced-date-selector::part(calendar) {

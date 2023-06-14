@@ -1,6 +1,10 @@
 import { ComputePositionConfig, offset, size, MiddlewareState } from '@floating-ui/dom';
 import { EIconName } from '../icon/icon.types';
 import { EInputFieldType, EValidationState, ITextField } from '../text-field/text-field.types';
+import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
+
+// It needs to be lower because there are other dropdowns with a portal inside
+export const TIME_PICKER_PORTAL_Z_INDEX = DEFAULT_DROPDOWN_Z_INDEX - 1;
 
 export const TIME_RANGE_PICKER_DROPDOWN_INPUT_OFFSET = 8;
 

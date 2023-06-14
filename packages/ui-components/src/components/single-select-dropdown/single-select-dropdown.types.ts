@@ -1,7 +1,7 @@
 import { EventEmitter } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
-import { EComponentSize } from '../../types';
+import { EComponentSize, ICustomCss } from '../../types';
 
 export interface ISingleSelectDropdownOption {
 	label: string;
@@ -14,7 +14,7 @@ export interface ISingleSelectDropdownOptions {
 	[key: string]: ISingleSelectDropdownOption;
 }
 
-export interface ISingleSelectDropdown {
+export interface ISingleSelectDropdown extends ICustomCss {
 	/** (optional) The text to display as the dropdown placeholder */
 	placeholder: string;
 	/** (optional) If `true` the list is opened */

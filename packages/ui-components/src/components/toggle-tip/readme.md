@@ -64,18 +64,17 @@ export const ToggleTipExample: React.FC = () => (
 
 ## Properties
 
-| Property           | Attribute    | Description                                                                                | Type                                                                                                                                                                                                                                                                                                                                             | Default     |
-| ------------------ | ------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| `allowedPositions` | --           | (optional) Array of allowed positions of toggle tip (if defined the 'position' is ignored) | `ETooltipPosition[]`                                                                                                                                                                                                                                                                                                                             | `undefined` |
-| `arrowElement`     | --           | (optional) html arrow element ref                                                          | `HTMLElement`                                                                                                                                                                                                                                                                                                                                    | `null`      |
-| `containerElement` | --           | (optional) html toggle tip container ref                                                   | `HTMLElement`                                                                                                                                                                                                                                                                                                                                    | `null`      |
-| `disabled`         | `disabled`   | (optional) if true it will disable clicks to open toggle tip                               | `boolean`                                                                                                                                                                                                                                                                                                                                        | `false`     |
-| `isFixed`          | `is-fixed`   | (optional) if true it will ignore outside clicks to close the toggle tip                   | `boolean`                                                                                                                                                                                                                                                                                                                                        | `false`     |
-| `isOpen`           | `is-open`    | (optional) Set open state of toggle tip, default false                                     | `boolean`                                                                                                                                                                                                                                                                                                                                        | `false`     |
-| `openElement`      | --           | (optional) html toggle tip opening element ref                                             | `HTMLElement`                                                                                                                                                                                                                                                                                                                                    | `null`      |
-| `position`         | `position`   | (optional) Position of toggletip                                                           | `ETooltipPosition.Bottom \| ETooltipPosition.BottomEnd \| ETooltipPosition.BottomStart \| ETooltipPosition.Left \| ETooltipPosition.LeftEnd \| ETooltipPosition.LeftStart \| ETooltipPosition.Right \| ETooltipPosition.RightEnd \| ETooltipPosition.RightStart \| ETooltipPosition.Top \| ETooltipPosition.TopEnd \| ETooltipPosition.TopStart` | `undefined` |
-| `text`             | `text`       | (optional) Text of toggletip                                                               | `string`                                                                                                                                                                                                                                                                                                                                         | `undefined` |
-| `withArrow`        | `with-arrow` | (optional) if true it will render an arrow pointing to the opening element                 | `boolean`                                                                                                                                                                                                                                                                                                                                        | `false`     |
+| Property           | Attribute      | Description                                                                                                                                                                             | Type                                                                                                                                                                                                                                                                                                                                                                           | Default                  |
+| ------------------ | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------ |
+| `allowedPositions` | --             | (optional) Array of allowed positions of toggle tip (if defined the 'position' is ignored)                                                                                              | `ETooltipPosition[]`                                                                                                                                                                                                                                                                                                                                                           | `undefined`              |
+| `customClass`      | `custom-class` | (optional) Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. It is also valid to provide CssClassMap with boolean logic. | `CssClassMap \| string \| string[]`                                                                                                                                                                                                                                                                                                                                            | `''`                     |
+| `disabled`         | `disabled`     | (optional) if true it will disable clicks to open toggle tip                                                                                                                            | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `false`                  |
+| `isFixed`          | `is-fixed`     | (optional) if true it will ignore outside clicks to close the toggle tip                                                                                                                | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `false`                  |
+| `isOpen`           | `is-open`      | (optional) Set open state of toggle tip, default false                                                                                                                                  | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `false`                  |
+| `options`          | --             | (optional) Object with tooltip position options                                                                                                                                         | `{ placement?: Placement; strategy?: Strategy; middleware?: (false \| { name: string; options?: any; fn: (state: { platform: Platform; placement: Placement; strategy: Strategy; x: number; y: number; initialPlacement: Placement; middlewareData: MiddlewareData; rects: ElementRects; elements: Elements; }) => Promisable<MiddlewareReturn>; })[]; platform?: Platform; }` | `DEFAULT_TOOLTIP_CONFIG` |
+| `position`         | `position`     | (optional) Position of toggletip                                                                                                                                                        | `ETooltipPosition.Bottom \| ETooltipPosition.BottomEnd \| ETooltipPosition.BottomStart \| ETooltipPosition.Left \| ETooltipPosition.LeftEnd \| ETooltipPosition.LeftStart \| ETooltipPosition.Right \| ETooltipPosition.RightEnd \| ETooltipPosition.RightStart \| ETooltipPosition.Top \| ETooltipPosition.TopEnd \| ETooltipPosition.TopStart`                               | `undefined`              |
+| `text`             | `text`         | (optional) Text of toggletip                                                                                                                                                            | `string`                                                                                                                                                                                                                                                                                                                                                                       | `undefined`              |
+| `withArrow`        | `with-arrow`   | (optional) if true it will render an arrow pointing to the opening element                                                                                                              | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `false`                  |
 
 
 ## Events
@@ -85,33 +84,22 @@ export const ToggleTipExample: React.FC = () => (
 | `openStateChange` | Emitted when the dropdown opens state changes | `CustomEvent<boolean>` |
 
 
-## Shadow Parts
-
-| Part                                  | Description                             |
-| ------------------------------------- | --------------------------------------- |
-| `"toggle-tip-container"`              | The toggle tip container.               |
-| `"toggle-tip-open-element-container"` | The toggle tip's open element container |
-| `"toggle-tip-slot-content"`           | The toggle tip slot content.            |
-
-
-## CSS Custom Properties
-
-| Name                               | Description           |
-| ---------------------------------- | --------------------- |
-| `--toggle-tip-container-max-width` | toggle tip max width. |
-| `--toggle-tip-container-width`     | toggle tip width.     |
-| `--toggletip-z-index`              | toggle tip z-index.   |
-
-
 ## Dependencies
 
 ### Used by
 
  - [kv-description-list](../description-list)
 
+### Depends on
+
+- [kv-portal](../portal)
+- [kv-tooltip-text](../tooltip-text)
+
 ### Graph
 ```mermaid
 graph TD;
+  kv-toggle-tip --> kv-portal
+  kv-toggle-tip --> kv-tooltip-text
   kv-description-list --> kv-toggle-tip
   style kv-toggle-tip fill:#f9f,stroke:#333,stroke-width:4px
 ```

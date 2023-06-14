@@ -1,4 +1,10 @@
+@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
+
 .TooltipCustomClass {
 	--container-white-space: pre-line;
 	--container-max-width: 480px;
+
+	&::part(tooltip-container) {
+		padding: $spacing-5x;
+	}
 }

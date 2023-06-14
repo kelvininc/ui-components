@@ -10,9 +10,6 @@
 ```html
 <!-- Default -->
 <kv-tooltip-text text="Tooltip" />
-
-<!-- Visible -->
-<kv-tooltip-text text="Tooltip" [visible]="true" />
 ```
 
 
@@ -27,9 +24,6 @@ export const TooltipTextExample: React.FC = () => (
   <>
     {/*-- Default --*/}
 	<KvTooltipText text="Tooltip" />
-
-	{/*-- visible --*/}
-	<KvTooltipText text="Tooltip" visible={true} />
   </>
 );
 ```
@@ -41,6 +35,14 @@ export const TooltipTextExample: React.FC = () => (
 | Property | Attribute | Description                | Type     | Default |
 | -------- | --------- | -------------------------- | -------- | ------- |
 | `text`   | `text`    | (optional) Text of tooltip | `string` | `''`    |
+
+
+## Shadow Parts
+
+| Part                     | Description               |
+| ------------------------ | ------------------------- |
+| `"tooltip-container"`    | The tooltip container.    |
+| `"tooltip-slot-content"` | The tooltip slot content. |
 
 
 ## CSS Custom Properties
@@ -55,11 +57,13 @@ export const TooltipTextExample: React.FC = () => (
 
 ### Used by
 
+ - [kv-toggle-tip](../toggle-tip)
  - [kv-tooltip](../tooltip)
 
 ### Graph
 ```mermaid
 graph TD;
+  kv-toggle-tip --> kv-tooltip-text
   kv-tooltip --> kv-tooltip-text
   style kv-tooltip-text fill:#f9f,stroke:#333,stroke-width:4px
 ```

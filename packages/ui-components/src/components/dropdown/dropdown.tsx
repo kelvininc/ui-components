@@ -7,13 +7,10 @@ import { EIconName } from '../icon/icon.types';
 import { ITextField } from '../text-field/text-field.types';
 import { merge } from 'lodash-es';
 
-/**
- * @part input - The input container.
- */
 @Component({
 	tag: 'kv-dropdown',
 	styleUrl: 'dropdown.scss',
-	shadow: true
+	shadow: false
 })
 export class KvDropdown implements IDropdown, IDropdownEvents {
 	/** @inheritdoc */
@@ -28,6 +25,10 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	@Prop({ reflect: false }) listElement?: HTMLElement = null;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) disabled?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) clickOutsideClose?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) zIndex?: number;
 
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
@@ -50,29 +51,29 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	};
 
 	componentDidRender() {
-		this._actionElement = this.actionElement ?? this.el.shadowRoot.querySelector('#dropdown-input').shadowRoot.querySelector('#dropdown-input');
+		this._actionElement = this.actionElement ?? this.el.querySelector('#dropdown-input').shadowRoot.querySelector('#dropdown-input');
 	}
 
 	render() {
 		return (
 			<Host>
 				<div class="dropdown-container">
-					<kv-dropdown-base isOpen={this.isOpen} options={this.options} actionElement={this._actionElement} listElement={this.listElement} disabled={this.disabled}>
+					<kv-dropdown-base
+						isOpen={this.isOpen}
+						options={this.options}
+						actionElement={this._actionElement}
+						listElement={this.listElement}
+						clickOutsideClose={this.clickOutsideClose}
+						zIndex={this.zIndex}
+					>
 						<div slot="action">
-							<kv-text-field
-								{...this.getInputConfig()}
-								id="dropdown-input"
-								forcedFocus={this.isOpen}
-								onClick={this.onToggleOpenState.bind(this)}
-								readonly
-								part="input"
-							>
+							<kv-text-field {...this.getInputConfig()} id="dropdown-input" forcedFocus={this.isOpen} onClick={this.onToggleOpenState.bind(this)} readonly>
 								<kv-icon slot="right-slot" name={this.isOpen ? EIconName.ArrowDropUp : EIconName.ArrowDropDown} customClass="icon-20" />
 							</kv-text-field>
 						</div>
 						<div slot="list">
 							<div id="select" class="select">
-								<slot></slot>
+								<slot />
 							</div>
 						</div>
 					</kv-dropdown-base>
