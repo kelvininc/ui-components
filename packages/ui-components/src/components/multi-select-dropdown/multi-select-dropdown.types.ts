@@ -2,6 +2,7 @@ import { EventEmitter } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
 import { EComponentSize } from '../../types';
+import { ISelectMultiOptionsConfig, ISelectMultiOptionsEvents } from '../select-multi-options/select-multi-options.types';
 
 export interface IMultiSelectDropdownOption {
 	label: string;
@@ -14,7 +15,7 @@ export interface IMultiSelectDropdownOptions {
 	[key: string]: IMultiSelectDropdownOption;
 }
 
-export interface IMultiSelectDropdown {
+export interface IMultiSelectDropdown extends Omit<ISelectMultiOptionsConfig, 'searchValue'> {
 	/** (required) The text to display as the dropdown placeholder */
 	placeholder?: string;
 	/** (optional) If `true` the dropdown is opened */
@@ -23,12 +24,6 @@ export interface IMultiSelectDropdown {
 	loading?: boolean;
 	/** (optional) The icon to display on the dropdown */
 	icon?: EIconName | EOtherIconName;
-	/** (optional) If `true` the dropdown is searchable */
-	searchable?: boolean;
-	/** (optional) If `true` dropdown items can be cleared */
-	selectionClearable?: boolean;
-	/** (optional) The clear search action text */
-	clearSelectionLabel?: string;
 	/** (optional) If `true` dropdown requires a value to be selected */
 	required?: boolean;
 	/** (optional) The text to display on the dropdown label */
@@ -41,29 +36,11 @@ export interface IMultiSelectDropdown {
 	helpText?: string | string[];
 	/** (optional) If `true` the dropdown is disabled */
 	disabled?: boolean;
-	/** (required) The text to display when there are no options */
-	noDataAvailableLabel?: string;
-	/** (optional) The object with the dropdown options */
-	options?: IMultiSelectDropdownOptions;
-	/** (optional) The object with indexed by the dropdown labels and its selected value */
-	selectedOptions?: { [key: string]: boolean };
-	/** (optional) The object with the dropdown options filtered */
-	filteredOptions?: IMultiSelectDropdownOptions;
-	/** (optional) The dropdown's min-height */
-	minHeight?: string;
-	/** (optional) The dropdown's max-height */
-	maxHeight?: string;
 	/** (optional) The size of the input */
 	inputSize?: EComponentSize;
 }
 
-export interface IMultiSelectDropdownEvents {
-	/** Emitted when the selected options change */
-	optionsSelected: EventEmitter<{ [key: string]: boolean }>;
-	/** Emitted when the search term changes */
-	searchChange: EventEmitter<string>;
-	/** Emitted when the selection is cleared */
-	selectionCleared: EventEmitter<void>;
+export interface IMultiSelectDropdownEvents extends ISelectMultiOptionsEvents {
 	/** Emitted when the dropdown open state changes */
 	openStateChange: EventEmitter<boolean>;
 }
