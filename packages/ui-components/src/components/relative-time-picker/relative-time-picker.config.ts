@@ -267,6 +267,20 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 	],
 	[
 		{
+			label: 'Last 7 days',
+			value: 'last-7-d',
+			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
+			startDate: {
+				amount: -7,
+				unit: 'days'
+			},
+			labelRangeFormatter: {
+				startDateFormatter: 'D MMM',
+				separator: 'to',
+				endDateFormatter: 'D MMM'
+			}
+		},
+		{
 			label: 'Last week',
 			value: 'last-1-w',
 			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
@@ -285,13 +299,15 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 				separator: 'to',
 				endDateFormatter: 'D MMM'
 			}
-		},
+		}
+	],
+	[
 		{
-			label: 'Last 7 days',
-			value: 'last-7-d',
+			label: 'Last 30 days',
+			value: 'last-30-d',
 			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
-				amount: -7,
+				amount: -30,
 				unit: 'days'
 			},
 			labelRangeFormatter: {
@@ -299,9 +315,7 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 				separator: 'to',
 				endDateFormatter: 'D MMM'
 			}
-		}
-	],
-	[
+		},
 		{
 			label: 'Last month',
 			value: 'last-1-m',
@@ -321,23 +335,23 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 				separator: 'to',
 				endDateFormatter: 'D MMM'
 			}
-		},
-		{
-			label: 'Last 30 days',
-			value: 'last-30-d',
-			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
-			startDate: {
-				amount: -30,
-				unit: 'days'
-			},
-			labelRangeFormatter: {
-				startDateFormatter: 'D MMM',
-				separator: 'to',
-				endDateFormatter: 'D MMM'
-			}
 		}
 	],
 	[
+		{
+			label: 'Last 90 days',
+			value: 'last-90-d',
+			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
+			startDate: {
+				amount: -90,
+				unit: 'days'
+			},
+			labelRangeFormatter: {
+				startDateFormatter: 'D MMM YYYY',
+				separator: 'to',
+				endDateFormatter: 'D MMM YYYY'
+			}
+		},
 		{
 			label: 'Last quarter',
 			value: 'last-1-q',
@@ -357,13 +371,15 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 				separator: 'to',
 				endDateFormatter: 'D MMM YYYY'
 			}
-		},
+		}
+	],
+	[
 		{
-			label: 'Last 90 days',
-			value: 'last-90-d',
+			label: 'Last 365 days',
+			value: 'last-365-d',
 			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
-				amount: -90,
+				amount: -365,
 				unit: 'days'
 			},
 			labelRangeFormatter: {
@@ -371,9 +387,7 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 				separator: 'to',
 				endDateFormatter: 'D MMM YYYY'
 			}
-		}
-	],
-	[
+		},
 		{
 			label: 'Last year',
 			value: 'last-1-y',
@@ -393,13 +407,15 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 				separator: 'to',
 				endDateFormatter: 'D MMM YYYY'
 			}
-		},
+		}
+	],
+	[
 		{
-			label: 'Last 365 days',
-			value: 'last-365-d',
+			label: 'Last 731 days',
+			value: 'last-731-d',
 			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
-				amount: -365,
+				amount: -731,
 				unit: 'days'
 			},
 			labelRangeFormatter: {
@@ -407,9 +423,7 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 				separator: 'to',
 				endDateFormatter: 'D MMM YYYY'
 			}
-		}
-	],
-	[
+		},
 		{
 			label: 'Last 2 years',
 			value: 'last-2-y',
@@ -423,20 +437,6 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 				amount: -1,
 				unit: 'year',
 				unitReference: EUnitReference.EndOfUnit
-			},
-			labelRangeFormatter: {
-				startDateFormatter: 'D MMM YYYY',
-				separator: 'to',
-				endDateFormatter: 'D MMM YYYY'
-			}
-		},
-		{
-			label: 'Last 731 days',
-			value: 'last-731-d',
-			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
-			startDate: {
-				amount: -731,
-				unit: 'days'
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM YYYY',
