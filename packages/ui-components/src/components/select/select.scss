@@ -45,6 +45,6 @@
 
 	&.disabled {
 		color: kv-color('neutral-5');
-		cursor: auto;
+		cursor: not-allowed;
 	}
 }
