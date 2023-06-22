@@ -95,6 +95,22 @@ Default.args = {
 		option8: {
 			value: 'option8',
 			label: 'Option 8'
+		},
+		option9: {
+			value: 'option9',
+			label: 'Option 9'
+		},
+		option10: {
+			value: 'option10',
+			label: 'Option 10'
+		},
+		option11: {
+			value: 'option11',
+			label: 'Option 11'
+		},
+		option12: {
+			value: 'option12',
+			label: 'Option 12'
 		}
 	},
 	selectedOptions: { option2: true, option3: true },

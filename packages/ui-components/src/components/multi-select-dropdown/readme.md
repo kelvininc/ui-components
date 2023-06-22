@@ -66,18 +66,18 @@ export const KvMultiSelectDropdownExample: React.FC = (props) => (
 | `placeholder`          | `placeholder`             | (required) The text to display as the dropdown placeholder                       | `string`                                                                      | `undefined`                               |
 | `required`             | `required`                | (optional) If `true` dropdown requires a value to be selected                    | `boolean`                                                                     | `undefined`                               |
 | `searchable`           | `searchable`              | (optional) If `true` the dropdown is searchable                                  | `boolean`                                                                     | `undefined`                               |
-| `selectedOptions`      | --                        | (optional) The object with indexed by the dropdown labels and its selected value | `{ [key: string]: boolean; }`                                                 | `{}`                                      |
+| `selectedOptions`      | --                        | (optional) The object with indexed by the dropdown labels and its selected value | `{ [x: string]: boolean; }`                                                   | `{}`                                      |
 | `selectionClearable`   | `selection-clearable`     | (optional) If `true` dropdown items can be cleared                               | `boolean`                                                                     | `undefined`                               |
 
 
 ## Events
 
-| Event              | Description                                  | Type                                       |
-| ------------------ | -------------------------------------------- | ------------------------------------------ |
-| `openStateChange`  | Emitted when the dropdown open state changes | `CustomEvent<boolean>`                     |
-| `optionsSelected`  | Emitted when the selected options change     | `CustomEvent<{ [key: string]: boolean; }>` |
-| `searchChange`     | Emitted when the search term changes         | `CustomEvent<string>`                      |
-| `selectionCleared` | Emitted when the selection is cleared        | `CustomEvent<void>`                        |
+| Event              | Description                                  | Type                                     |
+| ------------------ | -------------------------------------------- | ---------------------------------------- |
+| `openStateChange`  | Emitted when the dropdown open state changes | `CustomEvent<boolean>`                   |
+| `optionsSelected`  | Emitted when the selected options change     | `CustomEvent<{ [x: string]: boolean; }>` |
+| `searchChange`     | Emitted when the search term changes         | `CustomEvent<string>`                    |
+| `selectionCleared` | Emitted when the selection is cleared        | `CustomEvent<void>`                      |
 
 
 ## CSS Custom Properties
@@ -91,20 +91,14 @@ export const KvMultiSelectDropdownExample: React.FC = (props) => (
 
 ### Depends on
 
-- [kv-select-group](../select-group)
-- [kv-select-option](../select-option)
 - [kv-dropdown](../dropdown)
-- [kv-select](../select)
+- [kv-select-multi-options](../select-multi-options)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-multi-select-dropdown --> kv-select-group
-  kv-multi-select-dropdown --> kv-select-option
   kv-multi-select-dropdown --> kv-dropdown
-  kv-multi-select-dropdown --> kv-select
-  kv-select-option --> kv-checkbox
-  kv-checkbox --> kv-icon
+  kv-multi-select-dropdown --> kv-select-multi-options
   kv-dropdown --> kv-dropdown-base
   kv-dropdown --> kv-text-field
   kv-dropdown --> kv-icon
@@ -115,6 +109,11 @@ graph TD;
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
+  kv-select-multi-options --> kv-select-group
+  kv-select-multi-options --> kv-select-option
+  kv-select-multi-options --> kv-select
+  kv-select-option --> kv-checkbox
+  kv-checkbox --> kv-icon
   kv-select --> kv-search
   kv-search --> kv-text-field
   kv-search --> kv-icon

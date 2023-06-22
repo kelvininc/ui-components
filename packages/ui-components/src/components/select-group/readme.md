@@ -54,13 +54,13 @@ export const KvSelectGroupExample: React.FC = props => (
 
 ### Used by
 
- - [kv-multi-select-dropdown](../multi-select-dropdown)
+ - [kv-select-multi-options](../select-multi-options)
  - [kv-single-select-dropdown](../single-select-dropdown)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-multi-select-dropdown --> kv-select-group
+  kv-select-multi-options --> kv-select-group
   kv-single-select-dropdown --> kv-select-group
   style kv-select-group fill:#f9f,stroke:#333,stroke-width:4px
 ```
