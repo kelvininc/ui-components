@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
-import { ITimePickerTime, KvTimePicker } from '../../components';
-import React, { useState } from 'react';
+import { ITimePickerTime, KvTimePicker, KvTimePickerCustomEvent } from '../../components';
+import React, { useCallback, useState } from 'react';
 
 KvTimePicker.displayName = 'KvTimePicker';
 
@@ -27,7 +27,12 @@ export default {
 };
 
 const TimePickerTemplate: ComponentStory<typeof KvTimePicker> = args => {
+	const [showCalendar, setShowCalendar] = useState<boolean>(false);
 	const [selectedTime, setSelectedTime] = useState<ITimePickerTime>();
+
+	const onShowCalendarStateChange = useCallback(({ detail }: KvTimePickerCustomEvent<boolean>) => {
+		setShowCalendar(detail);
+	}, []);
 
 	const onRelativeTimeChange = ({ detail: newRelativeOption }: CustomEvent<ITimePickerTime>) => {
 		setSelectedTime({
@@ -37,10 +42,19 @@ const TimePickerTemplate: ComponentStory<typeof KvTimePicker> = args => {
 		});
 	};
 
-	return <KvTimePicker {...args} selectedTimeOption={selectedTime} onTimeRangeChange={onRelativeTimeChange} />;
+	return (
+		<KvTimePicker
+			{...args}
+			showCalendar={showCalendar}
+			onShowCalendarStateChange={onShowCalendarStateChange}
+			selectedTimeOption={selectedTime}
+			onTimeRangeChange={onRelativeTimeChange}
+		/>
+	);
 };
 
 const TimePickerSettedTimeTemplate: ComponentStory<typeof KvTimePicker> = args => {
+	const [showCalendar, setShowCalendar] = useState<boolean>(false);
 	const [selectedTime, setSelectedTime] = useState<ITimePickerTime>({
 		key: 'customize-interval',
 		range: [1681319856833, 1681406272018],
@@ -50,6 +64,10 @@ const TimePickerSettedTimeTemplate: ComponentStory<typeof KvTimePicker> = args =
 		}
 	});
 
+	const onShowCalendarStateChange = useCallback(({ detail }: KvTimePickerCustomEvent<boolean>) => {
+		setShowCalendar(detail);
+	}, []);
+
 	const onRelativeTimeChange = ({ detail: newRelativeOption }: CustomEvent<ITimePickerTime>) => {
 		setSelectedTime({
 			key: newRelativeOption.key,
@@ -58,10 +76,19 @@ const TimePickerSettedTimeTemplate: ComponentStory<typeof KvTimePicker> = args =
 		});
 	};
 
-	return <KvTimePicker {...args} selectedTimeOption={selectedTime} onTimeRangeChange={onRelativeTimeChange} />;
+	return (
+		<KvTimePicker
+			{...args}
+			showCalendar={showCalendar}
+			onShowCalendarStateChange={onShowCalendarStateChange}
+			selectedTimeOption={selectedTime}
+			onTimeRangeChange={onRelativeTimeChange}
+		/>
+	);
 };
 
 const TimePickerSettedRelativeTimeTemplate: ComponentStory<typeof KvTimePicker> = args => {
+	const [showCalendar, setShowCalendar] = useState<boolean>(false);
 	const [selectedTime, setSelectedTime] = useState<ITimePickerTime>({
 		key: 'last-24-h',
 		range: [],
@@ -71,6 +98,10 @@ const TimePickerSettedRelativeTimeTemplate: ComponentStory<typeof KvTimePicker> 
 		}
 	});
 
+	const onShowCalendarStateChange = useCallback(({ detail }: KvTimePickerCustomEvent<boolean>) => {
+		setShowCalendar(detail);
+	}, []);
+
 	const onRelativeTimeChange = ({ detail: newRelativeOption }: CustomEvent<ITimePickerTime>) => {
 		setSelectedTime({
 			key: newRelativeOption.key,
@@ -79,14 +110,26 @@ const TimePickerSettedRelativeTimeTemplate: ComponentStory<typeof KvTimePicker> 
 		});
 	};
 
-	return <KvTimePicker {...args} selectedTimeOption={selectedTime} onTimeRangeChange={onRelativeTimeChange} />;
+	return (
+		<KvTimePicker
+			{...args}
+			showCalendar={showCalendar}
+			onShowCalendarStateChange={onShowCalendarStateChange}
+			selectedTimeOption={selectedTime}
+			onTimeRangeChange={onRelativeTimeChange}
+		/>
+	);
 };
 
 const TimePickerWithoutTimezoneTemplate: ComponentStory<typeof KvTimePicker> = args => {
+	const [showCalendar, setShowCalendar] = useState<boolean>(false);
 	const [selectedTime, setSelectedTime] = useState<ITimePickerTime>({
 		key: 'last-72-h',
 		range: []
 	});
+	const onShowCalendarStateChange = useCallback(({ detail }: KvTimePickerCustomEvent<boolean>) => {
+		setShowCalendar(detail);
+	}, []);
 	const onRelativeTimeChange = ({ detail: newRelativeOption }: CustomEvent<ITimePickerTime>) => {
 		setSelectedTime({
 			key: newRelativeOption.key,
@@ -95,7 +138,15 @@ const TimePickerWithoutTimezoneTemplate: ComponentStory<typeof KvTimePicker> = a
 		});
 	};
 
-	return <KvTimePicker {...args} selectedTimeOption={selectedTime} onTimeRangeChange={onRelativeTimeChange} />;
+	return (
+		<KvTimePicker
+			{...args}
+			showCalendar={showCalendar}
+			onShowCalendarStateChange={onShowCalendarStateChange}
+			selectedTimeOption={selectedTime}
+			onTimeRangeChange={onRelativeTimeChange}
+		/>
+	);
 };
 
 export const DefaultState = TimePickerTemplate.bind({});
