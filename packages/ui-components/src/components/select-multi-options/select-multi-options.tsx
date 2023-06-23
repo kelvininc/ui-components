@@ -63,8 +63,12 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	};
 
 	private onOptionSelection = ({ detail: option }: CustomEvent<string>) => {
-		// triple bang for handling false, true and undefined
-		const newOptions = { ...this.selectedOptions, [option]: !!!this.selectedOptions?.[option] };
+		let { [option]: isSelected, ...newOptions } = this.selectedOptions;
+
+		if (!isSelected) {
+			newOptions[option] = true;
+		}
+
 		this.optionsSelected.emit(newOptions);
 	};
 

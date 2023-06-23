@@ -35,17 +35,10 @@ export const processValue = (schema: JSONSchema7, value: any) => {
 	return value;
 };
 
-export const getSelectedOptions = (selectedOptionsMap: { [key: string]: boolean }): string[] =>
-	Object.keys(selectedOptionsMap).reduce<string[]>((accumulator, selectedOptionsKey) => {
-		if (selectedOptionsMap[selectedOptionsKey]) {
-			accumulator.push(selectedOptionsKey);
-		}
+export const getSelectedOptions = (selectedOptionsMap: Record<string, boolean>): string[] => Object.keys(selectedOptionsMap);
 
-		return accumulator;
-	}, []);
-
-export const buildSelectedOptions = (selectedOptions: string[]): { [key: string]: boolean } =>
-	selectedOptions.reduce<{ [key: string]: boolean }>((accumulator, selectOptionKey) => {
+export const buildSelectedOptions = (selectedOptions: string[]): Record<string, boolean> =>
+	selectedOptions.reduce<Record<string, boolean>>((accumulator, selectOptionKey) => {
 		accumulator[selectOptionKey] = true;
 
 		return accumulator;
