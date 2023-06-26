@@ -12,6 +12,9 @@ export default {
 		label: {
 			control: { type: 'text' }
 		},
+		description: {
+			control: { type: 'text' }
+		},
 		value: {
 			control: { type: 'text' }
 		},
@@ -48,6 +51,7 @@ export const Default = SelectOptionTemplate.bind({});
 Default.args = {
 	label: 'Label 1',
 	value: 'label-1',
+	description: '',
 	selected: true,
 	togglable: true,
 	disabled: false
