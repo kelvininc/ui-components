@@ -12,6 +12,8 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) value!: string;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) description?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selected?: boolean = false;
@@ -43,7 +45,10 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 				>
 					{this.togglable && <kv-checkbox checked={this.selected} />}
 					<div class="text-container">
-						<div class="item-label">{this.label}</div>
+						<div class="item-label">
+							{this.label}
+							{this.description && <div class="item-description">{this.description}</div>}
+						</div>
 						<slot></slot>
 					</div>
 				</div>

@@ -5,6 +5,8 @@ export interface ISelectOption {
 	label: string;
 	/** (required) The item value */
 	value: string;
+	/** (optional) Description of the item displayed on the left */
+	description?: string;
 	/** (optional) If `true` the item is disabled */
 	disabled?: boolean;
 	/** (optional) If `true` the item is selected */
