@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { cloneDeep, isEmpty, isEqualWith } from 'lodash';
 import React, { ComponentProps, ComponentType, ForwardedRef, forwardRef, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
 import { useScroll } from '../../utils';
-import { KvActionButtonText } from '../stencil-generated';
+import { KvActionButtonText, KvTooltip } from '../stencil-generated';
 import { DEFAULT_VALIDATOR, SCROLL_OFFSET } from './config';
 import { useFieldTemplateElement } from './hooks/useFieldTemplateElement';
 import styles from './SchemaForm.module.scss';
@@ -112,13 +112,15 @@ export function KvSchemaForm<T>({
 						/>
 					)}
 					{!norender && (
-						<KvActionButtonText
-							text={submitText || 'Save'}
-							disabled={!isValid || submitButtonProps?.disabled}
-							size={EComponentSize.Large}
-							type={EActionButtonType.Primary}
-							onClickButton={onSubmitClick}
-						/>
+						<KvTooltip text={submitButtonProps?.tooltipText} position={submitButtonProps?.tooltipPosition}>
+							<KvActionButtonText
+								text={submitText || 'Save'}
+								disabled={!isValid || submitButtonProps?.disabled}
+								size={EComponentSize.Large}
+								type={EActionButtonType.Primary}
+								onClickButton={onSubmitClick}
+							/>
+						</KvTooltip>
 					)}
 				</div>
 			)}
