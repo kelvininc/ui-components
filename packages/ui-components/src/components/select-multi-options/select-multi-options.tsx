@@ -54,21 +54,11 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		return this.options;
 	}
 
-	private onSearchChange = ({ detail: searchValue }: CustomEvent<string>) => {
-		this.searchChange.emit(searchValue);
-	};
-
 	private onClearSelection = () => {
 		this.selectionCleared.emit();
 	};
 
-	private onOptionSelection = ({ detail: option }: CustomEvent<string>) => {
-		let { [option]: isSelected, ...newOptions } = this.selectedOptions;
-
-		if (!isSelected) {
-			newOptions[option] = true;
-		}
-
+	private onSelectedOptionsChange = ({ detail: newOptions }: CustomEvent<Record<string, boolean>>) => {
 		this.optionsSelected.emit(newOptions);
 	};
 
@@ -81,16 +71,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	};
 
 	private renderOptions = (options: ISelectMultiOption[]) => {
-		return options.map(option => (
-			<kv-select-option
-				label={option.label}
-				value={option.value}
-				disabled={option.disabled}
-				selected={this.selectedOptions?.[option.value]}
-				togglable={true}
-				onItemSelected={this.onOptionSelection}
-			/>
-		));
+		return options.map(option => <kv-select-option-multi-level option={option} selectedOptions={this.selectedOptions} onOptionSelected={this.onSelectedOptionsChange} />);
 	};
 
 	render() {
@@ -109,10 +90,14 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 				selectionClearable={isSelectionClearable}
 				selectionClearEnabled={isSelectionClearEnabled}
 				clearSelectionLabel={this.clearSelectionLabel}
-				onSearchChange={this.onSearchChange}
 				onClearSelection={this.onClearSelection}
 			>
-				{isEmpty(currentOptions) && this.noDataAvailableLabel && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value="no-data-available" />}
+				<slot name="header-actions" slot="select-header-actions" />
+				{isEmpty(currentOptions) && this.noDataAvailableLabel && (
+					<slot name="no-data-available">
+						<kv-select-option class="no-data" label={this.noDataAvailableLabel} value="no-data-available" />
+					</slot>
+				)}
 				{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(currentOptions ?? {}))}
 			</kv-select>
 		);

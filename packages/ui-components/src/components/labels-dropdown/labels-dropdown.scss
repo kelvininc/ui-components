@@ -1,0 +1,68 @@
+@import '../../assets/styles/globals';
+
+.selected-labels-container {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	justify-content: space-between;
+	gap: $spacing-8x;
+	cursor: pointer;
+
+	.selected-labels {
+		overflow: hidden;
+		display: flex;
+		gap: $spacing-2x;
+	}
+
+	.overflowing-counter {
+		@include kv-font-label-small-regular;
+		color: kv-color('neutral-0');
+
+		height: 16px;
+		padding: $spacing $spacing-2x;
+		background-color: kv-color('primary');
+		border-radius: 2px;
+	}
+
+	kv-icon::part(icon) {
+		cursor: pointer;
+	}
+}
+
+.header-actions {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+
+	.actions,
+	.selected-items-counter {
+		@include kv-font-label-small-regular;
+	}
+
+	.action-label,
+	.selected-items-counter {
+		color: kv-color('neutral-2');
+	}
+
+	.actions {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: $spacing-2x;
+	}
+
+	.action-label {
+		cursor: pointer;
+		user-select: none;
+
+		&.disabled {
+			pointer-events: none;
+			color: kv-color('neutral-5');
+		}
+	}
+
+	.action-separator {
+		height: 12px;
+		border-left: 1px solid kv-color('neutral-6');
+	}
+}

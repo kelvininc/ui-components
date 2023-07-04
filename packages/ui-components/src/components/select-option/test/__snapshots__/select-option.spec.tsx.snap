@@ -3,14 +3,15 @@
 exports[`KvSelectOption (unit tests) when rendering with bottom slot flag \`true\` should match the snapshot 1`] = `
 <kv-select-option has-bottom-slot="" label="Option 1" value="option1">
   <mock:shadow-root>
-    <div class="has-bottom-slot select-option">
+    <div class="has-bottom-slot select-option" part="option-container">
       <div class="text-container">
-        <div class="item-label">
+        <div class="item-label" part="label">
           Option 1
         </div>
         <slot></slot>
       </div>
     </div>
+    <slot name="host-bottom-slot"></slot>
   </mock:shadow-root>
 </kv-select-option>
 `;
@@ -18,14 +19,15 @@ exports[`KvSelectOption (unit tests) when rendering with bottom slot flag \`true
 exports[`KvSelectOption (unit tests) when rendering with default props when the component loads should match the snapshot 1`] = `
 <kv-select-option label="Option 1" value="option1">
   <mock:shadow-root>
-    <div class="select-option">
+    <div class="select-option" part="option-container">
       <div class="text-container">
-        <div class="item-label">
+        <div class="item-label" part="label">
           Option 1
         </div>
         <slot></slot>
       </div>
     </div>
+    <slot name="host-bottom-slot"></slot>
   </mock:shadow-root>
 </kv-select-option>
 `;

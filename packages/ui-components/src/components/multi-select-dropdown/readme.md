@@ -112,8 +112,11 @@ graph TD;
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
   kv-select-multi-options --> kv-select-group
-  kv-select-multi-options --> kv-select-option
+  kv-select-multi-options --> kv-select-option-multi-level
   kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-select-option
+  kv-select-option-multi-level --> kv-select-option
+  kv-select-option-multi-level --> kv-select-option-multi-level
   kv-select-option --> kv-checkbox
   kv-checkbox --> kv-icon
   kv-select --> kv-search

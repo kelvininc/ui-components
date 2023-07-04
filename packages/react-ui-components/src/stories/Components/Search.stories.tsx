@@ -1,5 +1,5 @@
 import { ComponentStory } from '@storybook/react';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { EComponentSize, KvSearch, KvTextField } from '../../components';
 
 KvTextField.displayName = 'KvSearch';
@@ -28,7 +28,14 @@ export default {
 	}
 };
 
-const SearchTemplate: ComponentStory<typeof KvSearch> = args => <KvSearch {...args} />;
+const SearchTemplate: ComponentStory<typeof KvSearch> = args => {
+	const [searchValue, setSearchValue] = useState('');
+	const onSearchTermChange = useCallback(({ detail }: CustomEvent<string>) => {
+		setSearchValue(detail);
+	}, []);
+
+	return <KvSearch {...args} value={searchValue} onTextChange={onSearchTermChange} />;
+};
 
 export const Default = SearchTemplate.bind({});
 Default.args = {

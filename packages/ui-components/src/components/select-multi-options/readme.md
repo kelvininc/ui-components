@@ -41,20 +41,25 @@
 
 ### Used by
 
+ - [kv-labels-dropdown](../labels-dropdown)
  - [kv-multi-select-dropdown](../multi-select-dropdown)
 
 ### Depends on
 
 - [kv-select-group](../select-group)
-- [kv-select-option](../select-option)
+- [kv-select-option-multi-level](../select-option-multi-level)
 - [kv-select](../select)
+- [kv-select-option](../select-option)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-select-multi-options --> kv-select-group
-  kv-select-multi-options --> kv-select-option
+  kv-select-multi-options --> kv-select-option-multi-level
   kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-select-option
+  kv-select-option-multi-level --> kv-select-option
+  kv-select-option-multi-level --> kv-select-option-multi-level
   kv-select-option --> kv-checkbox
   kv-checkbox --> kv-icon
   kv-select --> kv-search
@@ -67,6 +72,7 @@ graph TD;
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
+  kv-labels-dropdown --> kv-select-multi-options
   kv-multi-select-dropdown --> kv-select-multi-options
   style kv-select-multi-options fill:#f9f,stroke:#333,stroke-width:4px
 ```
