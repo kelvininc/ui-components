@@ -1,4 +1,5 @@
-import { IMultiSelectDropdownOptions, ISingleSelectDropdownOptions } from '@kelvininc/ui-components';
+import { IMultiSelectDropdownOptions, ISingleSelectDropdownOptions, ISelectMultiOptions } from '@kelvininc/ui-components';
+import { isEmpty } from 'lodash';
 
 export const searchDropdownOptions = (term: string, options: ISingleSelectDropdownOptions | IMultiSelectDropdownOptions) => {
 	const lowerCaseTerm = term.toLowerCase();
@@ -11,6 +12,31 @@ export const searchDropdownOptions = (term: string, options: ISingleSelectDropdo
 		}
 
 		return accumulator;
+	}, {});
+};
+
+export const searchMultiLevelDropdownOptions = (term: string, options: ISelectMultiOptions) => {
+	if (isEmpty(term)) {
+		return;
+	}
+
+	return Object.keys(options).reduce<ISelectMultiOptions>((acc, key) => {
+		const option = options[key];
+		if (isEmpty(option.children)) {
+			if (option.label.includes(term)) {
+				acc[key] = option;
+			}
+		} else {
+			const childrenMatches = searchMultiLevelDropdownOptions(term, option.children);
+
+			if (!isEmpty(childrenMatches)) {
+				acc[key] = {
+					...option,
+					children: childrenMatches
+				};
+			}
+		}
+		return acc;
 	}, {});
 };
 

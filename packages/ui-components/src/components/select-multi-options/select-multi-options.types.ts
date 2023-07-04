@@ -4,7 +4,7 @@ export interface ISelectMultiOption {
 	label: string;
 	value: string;
 	disabled?: boolean;
-	children?: ISelectMultiOption[];
+	children?: ISelectMultiOptions;
 	group?: string;
 }
 

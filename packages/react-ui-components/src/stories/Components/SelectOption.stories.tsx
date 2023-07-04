@@ -37,6 +37,7 @@ const SelectOptionTemplate: ComponentStory<typeof KvSelectOption> = args => <KvS
 const BottomSlotSelectOptionTemplate: ComponentStory<typeof KvSelectOption> = args => {
 	const cssProps = {
 		'--select-option-height': 'unset',
+		'--select-option-text-flex-direction': 'column',
 		'--select-option-flex-alignment': 'flex-start'
 	} as CSSProperties;
 

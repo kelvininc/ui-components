@@ -37,6 +37,7 @@ export class KvSelect implements ISelect, ISelectEvents {
 	@Element() el: HTMLKvSelectElement;
 
 	private onSearchChange = (event: CustomEvent<string>) => {
+		event.stopPropagation();
 		this.searchChange.emit(event.detail);
 	};
 

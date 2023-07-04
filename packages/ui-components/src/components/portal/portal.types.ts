@@ -8,6 +8,8 @@ export interface IPortal {
 	reference: HTMLElement;
 	/** (optional) options used to compute the portal position */
 	options?: ComputePositionConfig;
+	/** (optional) toggles portal visibility */
+	show?: boolean;
 	/** (optional) enable position auto update (default true) */
 	autoUpdate?: boolean;
 	/** (optional) if true portal content will gradually appear (default false) */

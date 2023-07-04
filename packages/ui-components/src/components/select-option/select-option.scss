@@ -12,8 +12,10 @@
 	 * @prop --select-option-label-color-selected: Select option label color when selected.
 	 */
 
+	--select-option-width: 100%;
 	--select-option-height: 32px;
 	--select-option-transition-duration: 100ms;
+	--select-option-text-flex-direction: row;
 	--select-option-flex-alignment: center;
 
 	--select-option-background-color: #{kv-color('neutral-7')};
@@ -28,6 +30,7 @@
 	height: var(--select-option-height);
 	padding: 0 $spacing-4x;
 	display: flex;
+	flex-direction: row;
 	align-items: var(--select-option-flex-alignment);
 	user-select: none;
 	cursor: pointer;
@@ -36,23 +39,22 @@
 
 	.text-container {
 		display: flex;
-		flex-direction: column;
 		min-width: 0;
-		width: 100%;
+		width: var(--select-option-width);
+		justify-content: space-between;
+		flex-direction: var(--select-option-text-flex-direction);
+		align-items: var(--select-option-flex-alignment);
 
 		.item-label {
 			@include ellipsis();
 			@include kv-font-span-regular;
 			transition: font-weight var(--select-option-transition-duration) linear;
 			color: var(--select-option-label-color);
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
+		}
 
-			.item-description {
-				@include kv-font-label-small-regular;
-				color: kv-color('neutral-4');
-			}
+		.item-description {
+			@include kv-font-label-small-regular;
+			color: kv-color('neutral-4');
 		}
 	}
 
