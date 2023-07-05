@@ -1,4 +1,4 @@
-import { EIconName, IMultiSelectDropdownOptions, ISingleSelectDropdownOptions } from '@kelvininc/ui-components';
+import { EIconName, ETooltipPosition, IMultiSelectDropdownOptions, ISingleSelectDropdownOptions } from '@kelvininc/ui-components';
 import { IChangeEvent } from '@rjsf/core';
 import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
@@ -185,7 +185,7 @@ WithSubmitButtonOptions.args = {
 	},
 	uiSchema: {
 		'ui:submitButtonOptions': {
-			props: { disabled: false },
+			props: { disabled: false, tooltipText: 'Test to button tooltip', tooltipPosition: ETooltipPosition.Top },
 			norender: false,
 			submitText: 'Save Button'
 		},
