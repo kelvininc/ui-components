@@ -8,7 +8,8 @@ import {
 	DEFAULT_TIME_RANGE_DROPDOWN_POSITION_OPTIONS,
 	DEFAULT_TIME_RANGE_PICKER_INPUT_CONFIG,
 	ETimePickerView,
-	FULL_RANGE_SIZE
+	FULL_RANGE_SIZE,
+	TIME_PICKER_PORTAL_Z_INDEX
 } from './time-picker.config';
 import { ComputePositionConfig } from '@floating-ui/dom';
 import { EComponentSize, ETooltipPosition, SelectedRange } from '../../types';
@@ -76,6 +77,8 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	@State() calendarViewLocked: boolean = false;
 	// Defines if the timezone dropdown is visible in the input wrapper
 	@State() timezoneSelectionContentVisible = false;
+
+	@State() internalDropdownsOpen: boolean = false;
 
 	/** @inheritdoc */
 	@Event() timeRangeChange: EventEmitter<ITimePickerTime>;
@@ -354,101 +357,106 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 		return getAbsoluteTimePickerRangeDates(this.selectedTimeState);
 	};
 
+	private onInternalDropdownsStateChange = ({ detail: openState }: CustomEvent<boolean>) => {
+		this.internalDropdownsOpen = openState;
+	};
+
 	render() {
 		const dropdownPositionConfig = this.dropdownPositionOptions;
 		const inputConfig = this.getInputConfig();
 		return (
 			<Host>
-				<div class="time-range-container">
-					<kv-dropdown
-						isOpen={this.dropdownOpen}
-						onOpenStateChange={this.onDropdownChange}
-						inputConfig={inputConfig}
-						options={dropdownPositionConfig}
-						disabled={this.disabled}
-					>
-						<div class="content">
+				<kv-dropdown
+					isOpen={this.dropdownOpen}
+					onOpenStateChange={this.onDropdownChange}
+					inputConfig={inputConfig}
+					options={dropdownPositionConfig}
+					disabled={this.disabled}
+					zIndex={TIME_PICKER_PORTAL_Z_INDEX}
+					clickOutsideClose={!this.internalDropdownsOpen}
+				>
+					<div class="time-range-content">
+						<div
+							class={{
+								'content-wrapper': true,
+								'content-wrapper--relative': this.timePickerView === ETimePickerView.RelativeTimePicker,
+								'content-wrapper--absolute': this.timePickerView === ETimePickerView.AbsoluteTimePicker,
+								'content-wrapper--full-view': this.timePickerView === ETimePickerView.FullView
+							}}
+						>
 							<div
 								class={{
-									'content-wrapper': true,
-									'content-wrapper--relative': this.timePickerView === ETimePickerView.RelativeTimePicker,
-									'content-wrapper--absolute': this.timePickerView === ETimePickerView.AbsoluteTimePicker,
-									'content-wrapper--full-view': this.timePickerView === ETimePickerView.FullView
+									'relative-range': true,
+									'relative-range--full-view': this.timePickerView === ETimePickerView.FullView
 								}}
 							>
-								<div
-									class={{
-										'relative-range': true,
-										'relative-range--full-view': this.timePickerView === ETimePickerView.FullView
-									}}
-								>
-									<kv-relative-time-picker
-										options={this.relativeTimePickerOptions}
-										timezones={this.timezones}
-										selectedTimezone={this.getSelectedTimezone().name}
-										selectedTimeKey={this.selectedTimeState?.key}
-										customIntervalOptionEnabled={this.displayCustomizeInterval}
-										timezoneSelectionEnabled={this.displayTimezoneDropdown}
-										timezoneContentVisible={this.timezoneSelectionContentVisible}
-										disableTimezoneSelection={this.disableTimezoneSelection}
-										onCustomizeIntervalClicked={this.onClickSeeCustomInterval}
-										onSelectedRelativeTimeChange={this.onSelectedRelativeTimeChange}
-										onTimezoneChange={this.onSelectedTimezoneChange}
-										onTimezoneInputClicked={this.displayInputWrapperContent}
-									/>
-								</div>
-								<div
-									class={{
-										'calendar-range': true,
-										'calendar-range--visible': this.timePickerView === ETimePickerView.AbsoluteTimePicker,
-										'calendar-range--full-view': this.timePickerView === ETimePickerView.FullView
-									}}
-								>
-									<kv-absolute-time-picker
-										headerTitle={this.getFormattedSelectedTime()}
-										selectedRangeDates={this.getAbsoluteRange()}
-										relativeTimeConfig={this.getRelativeTimeInputConfig()}
-										initialDate={this.calendarInitialDate}
-										displayBackButton={this.timePickerView === ETimePickerView.AbsoluteTimePicker}
-										onBackButtonClicked={this.onClickBack}
-										onSelectRangeDatesChange={this.handleAbsoluteDatesChange}
-										onRelativeTimeConfigReset={this.handleRelativeTimeConfigReset}
-										onRelativeTimeConfigChange={this.handleAbsoluteDatesChange}
-										calendarInputMaxDate={this.calendarInputMaxDate}
-										calendarInputMinDate={this.calendarInputMinDate}
-									/>
-								</div>
+								<kv-relative-time-picker
+									options={this.relativeTimePickerOptions}
+									timezones={this.timezones}
+									selectedTimezone={this.getSelectedTimezone().name}
+									selectedTimeKey={this.selectedTimeState?.key}
+									customIntervalOptionEnabled={this.displayCustomizeInterval}
+									timezoneSelectionEnabled={this.displayTimezoneDropdown}
+									timezoneContentVisible={this.timezoneSelectionContentVisible}
+									disableTimezoneSelection={this.disableTimezoneSelection}
+									onCustomizeIntervalClicked={this.onClickSeeCustomInterval}
+									onSelectedRelativeTimeChange={this.onSelectedRelativeTimeChange}
+									onTimezoneChange={this.onSelectedTimezoneChange}
+									onTimezoneInputClicked={this.displayInputWrapperContent}
+									onTimezoneDropdownStateChange={this.onInternalDropdownsStateChange}
+								/>
 							</div>
-							<div class="footer">
-								<div class="toggle-wrapper">
-									{this.timePickerView !== ETimePickerView.AbsoluteTimePicker && (
-										<div class="show-calendar-toggle">
-											<kv-switch-button
-												checked={this.showCalendar}
-												size={EComponentSize.Small}
-												onClick={this.onShowCalendarClick}
-												disabled={this.calendarViewLocked}
-											/>
-											<div class="toggle-text">Show Calendar</div>
-										</div>
-									)}
-								</div>
-								<div class="actions">
-									<kv-action-button-text type={EActionButtonType.Tertiary} size={EComponentSize.Small} text="Cancel" onClickButton={this.onClickCancel} />
-									<kv-tooltip text={this.getApplyButtonTooltipText()} position={ETooltipPosition.TopStart}>
-										<kv-action-button-text
-											type={EActionButtonType.Primary}
-											size={EComponentSize.Small}
-											text="Apply"
-											disabled={this.isApplyButtonDisabled()}
-											onClickButton={this.onClickApply}
-										/>
-									</kv-tooltip>
-								</div>
+							<div
+								class={{
+									'calendar-range': true,
+									'calendar-range--visible': this.timePickerView === ETimePickerView.AbsoluteTimePicker,
+									'calendar-range--full-view': this.timePickerView === ETimePickerView.FullView
+								}}
+							>
+								<kv-absolute-time-picker
+									headerTitle={this.getFormattedSelectedTime()}
+									selectedRangeDates={this.getAbsoluteRange()}
+									relativeTimeConfig={this.getRelativeTimeInputConfig()}
+									initialDate={this.calendarInitialDate}
+									displayBackButton={this.timePickerView === ETimePickerView.AbsoluteTimePicker}
+									onBackButtonClicked={this.onClickBack}
+									onSelectRangeDatesChange={this.handleAbsoluteDatesChange}
+									onRelativeTimeConfigReset={this.handleRelativeTimeConfigReset}
+									onRelativeTimeConfigChange={this.handleAbsoluteDatesChange}
+									calendarInputMaxDate={this.calendarInputMaxDate}
+									calendarInputMinDate={this.calendarInputMinDate}
+								/>
 							</div>
 						</div>
-					</kv-dropdown>
-				</div>
+						<div class="footer">
+							<div class="toggle-wrapper">
+								{this.timePickerView !== ETimePickerView.AbsoluteTimePicker && (
+									<div class="show-calendar-toggle">
+										<kv-switch-button
+											checked={this.showCalendar}
+											size={EComponentSize.Small}
+											onClick={this.onShowCalendarClick}
+											disabled={this.calendarViewLocked}
+										/>
+										<div class="toggle-text">Show Calendar</div>
+									</div>
+								)}
+							</div>
+							<div class="actions">
+								<kv-action-button-text type={EActionButtonType.Tertiary} size={EComponentSize.Small} text="Cancel" onClickButton={this.onClickCancel} />
+								<kv-tooltip text={this.getApplyButtonTooltipText()} position={ETooltipPosition.TopStart}>
+									<kv-action-button-text
+										type={EActionButtonType.Primary}
+										size={EComponentSize.Small}
+										text="Apply"
+										disabled={this.isApplyButtonDisabled()}
+										onClickButton={this.onClickApply}
+									/>
+								</kv-tooltip>
+							</div>
+						</div>
+					</div>
+				</kv-dropdown>
 			</Host>
 		);
 	}

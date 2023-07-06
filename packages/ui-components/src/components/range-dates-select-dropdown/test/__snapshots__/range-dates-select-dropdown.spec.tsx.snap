@@ -2,68 +2,66 @@
 
 exports[`Range Dates Input (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-range-dates-select-dropdown>
-  <mock:shadow-root>
-    <div class="range-dates-select-dropdown">
-      <kv-dropdown-base>
-        <div class="inputs-container" slot="action">
-          <div class="start-single-date-select-dropdown">
-            <kv-text-field icon="kv-calendar" input-mask-regex="" part="start-input" placeholder="Select a start date" readonly="" state="none" type="text" value="">
-              <mock:shadow-root>
-                <kv-tooltip position="top-start" truncate="">
-                  <div class="text-field-container">
-                    <kv-form-label></kv-form-label>
-                    <div class="input-container input-container--size-large">
-                      <input class="has-icon right-slotted" placeholder="Select a start date" readonly="" type="text" value="">
-                      <div class="left-slot-container">
-                        <slot name="left-slot">
-                          <kv-icon exportparts="icon" name="kv-calendar"></kv-icon>
-                        </slot>
-                      </div>
-                      <div class="right-slot-container">
-                        <slot name="right-slot"></slot>
-                      </div>
-                    </div>
-                    <kv-form-help-text state="none"></kv-form-help-text>
-                  </div>
-                </kv-tooltip>
-              </mock:shadow-root>
-              <kv-icon customclass="icon-24" name="kv-arrow-drop-down" slot="right-slot"></kv-icon>
-            </kv-text-field>
-          </div>
-          <div class="end-single-date-select-dropdown">
-            <kv-text-field icon="kv-calendar" input-mask-regex="" part="end-input" placeholder="Select an end date" readonly="" state="none" type="text" value="">
-              <mock:shadow-root>
-                <kv-tooltip position="top-start" truncate="">
-                  <div class="text-field-container">
-                    <kv-form-label></kv-form-label>
-                    <div class="input-container input-container--size-large">
-                      <input class="has-icon right-slotted" placeholder="Select an end date" readonly="" type="text" value="">
-                      <div class="left-slot-container">
-                        <slot name="left-slot">
-                          <kv-icon exportparts="icon" name="kv-calendar"></kv-icon>
-                        </slot>
-                      </div>
-                      <div class="right-slot-container">
-                        <slot name="right-slot"></slot>
-                      </div>
-                    </div>
-                    <kv-form-help-text state="none"></kv-form-help-text>
-                  </div>
-                </kv-tooltip>
-              </mock:shadow-root>
-              <kv-icon customclass="icon-24" name="kv-arrow-drop-down" slot="right-slot"></kv-icon>
-            </kv-text-field>
-          </div>
-        </div>
-        <div class="calendar-container" slot="list">
-          <kv-calendar-range-dates-selector>
+  <div class="range-dates-select-dropdown">
+    <kv-dropdown-base>
+      <div class="inputs-container" slot="action">
+        <div class="start-single-date-select-dropdown">
+          <kv-text-field icon="kv-calendar" input-mask-regex="" placeholder="Select a start date" readonly="" state="none" type="text" value="">
             <mock:shadow-root>
-              <kv-calendar exportparts="calendar-container,month-container,day-container"></kv-calendar>
+              <kv-tooltip position="top-start" truncate="">
+                <div class="text-field-container">
+                  <kv-form-label></kv-form-label>
+                  <div class="input-container input-container--size-large">
+                    <input class="has-icon right-slotted" placeholder="Select a start date" readonly="" type="text" value="">
+                    <div class="left-slot-container">
+                      <slot name="left-slot">
+                        <kv-icon exportparts="icon" name="kv-calendar"></kv-icon>
+                      </slot>
+                    </div>
+                    <div class="right-slot-container">
+                      <slot name="right-slot"></slot>
+                    </div>
+                  </div>
+                  <kv-form-help-text state="none"></kv-form-help-text>
+                </div>
+              </kv-tooltip>
             </mock:shadow-root>
-          </kv-calendar-range-dates-selector>
+            <kv-icon customclass="icon-24" name="kv-arrow-drop-down" slot="right-slot"></kv-icon>
+          </kv-text-field>
         </div>
-      </kv-dropdown-base>
-    </div>
-  </mock:shadow-root>
+        <div class="end-single-date-select-dropdown">
+          <kv-text-field icon="kv-calendar" input-mask-regex="" placeholder="Select an end date" readonly="" state="none" type="text" value="">
+            <mock:shadow-root>
+              <kv-tooltip position="top-start" truncate="">
+                <div class="text-field-container">
+                  <kv-form-label></kv-form-label>
+                  <div class="input-container input-container--size-large">
+                    <input class="has-icon right-slotted" placeholder="Select an end date" readonly="" type="text" value="">
+                    <div class="left-slot-container">
+                      <slot name="left-slot">
+                        <kv-icon exportparts="icon" name="kv-calendar"></kv-icon>
+                      </slot>
+                    </div>
+                    <div class="right-slot-container">
+                      <slot name="right-slot"></slot>
+                    </div>
+                  </div>
+                  <kv-form-help-text state="none"></kv-form-help-text>
+                </div>
+              </kv-tooltip>
+            </mock:shadow-root>
+            <kv-icon customclass="icon-24" name="kv-arrow-drop-down" slot="right-slot"></kv-icon>
+          </kv-text-field>
+        </div>
+      </div>
+      <div class="range-dates-select-dropdown-calendar-container" slot="list">
+        <kv-calendar-range-dates-selector>
+          <mock:shadow-root>
+            <kv-calendar exportparts="calendar-container,month-container,day-container"></kv-calendar>
+          </mock:shadow-root>
+        </kv-calendar-range-dates-selector>
+      </div>
+    </kv-dropdown-base>
+  </div>
 </kv-range-dates-select-dropdown>
 `;

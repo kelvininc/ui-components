@@ -67,14 +67,6 @@ export const KvRangeDatesSelectDropdownExample: React.FC = () => (
 | `selectRangeDates` | Emitted when range dates are selected                  | `CustomEvent<ISelectRangeDates>` |
 
 
-## Shadow Parts
-
-| Part            | Description                      |
-| --------------- | -------------------------------- |
-| `"end-input"`   | The range end input container.   |
-| `"start-input"` | The range start input container. |
-
-
 ## Dependencies
 
 ### Used by
@@ -95,6 +87,7 @@ graph TD;
   kv-range-dates-select-dropdown --> kv-text-field
   kv-range-dates-select-dropdown --> kv-icon
   kv-range-dates-select-dropdown --> kv-calendar-range-dates-selector
+  kv-dropdown-base --> kv-portal
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon

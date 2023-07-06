@@ -21,10 +21,32 @@
 	}
 }
 
-@mixin ellipsis {
+@mixin clickable() {
+	cursor: pointer;
+	user-select: none;
+	pointer-events: all;
+}
+
+@mixin non-clickable() {
+	cursor: not-allowed;
+	user-select: none;
+}
+
+@mixin ellipsis($lines: null) {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+
+	@if $lines {
+		@supports (display: -webkit-box) and (-webkit-line-clamp: $lines) and
+			(-webkit-box-orient: vertical) {
+			white-space: normal;
+			/* stylelint-disable value-no-vendor-prefix */
+			display: -webkit-box;
+			-webkit-line-clamp: $lines;
+			-webkit-box-orient: vertical;
+		}
+	}
 }
 
 @mixin reset-button-style {

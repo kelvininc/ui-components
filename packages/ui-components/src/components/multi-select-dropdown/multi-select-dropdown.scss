@@ -5,14 +5,13 @@
 	 * @prop --dropdown-max-height: Dropdown list maximum height.
 	 */
 	--dropdown-max-height: 400px;
+}
 
-	kv-dropdown {
-		&[disabled] {
-			pointer-events: none;
-		}
-	}
-
-	kv-select-multi-options {
-		--select-list-max-height: var(--dropdown-max-height);
+kv-dropdown {
+	&[disabled] {
+		pointer-events: none;
 	}
 }
+
+
+

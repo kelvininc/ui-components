@@ -32,6 +32,8 @@ export interface IRelativeTimePickerEvents {
 	timezoneChange: EventEmitter<ITimePickerTimezone>;
 	/** Emitted when the input wrapper containing the timezone is clicked */
 	timezoneInputClicked: EventEmitter<boolean>;
+	/** Emitted when the timezone dropdown open state changes */
+	timezoneDropdownStateChange: EventEmitter<boolean>;
 }
 
 export interface IRelativeTimePickerOption {

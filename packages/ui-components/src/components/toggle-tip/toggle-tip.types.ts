@@ -1,13 +1,16 @@
 import { EventEmitter } from '@stencil/core';
-import { ETooltipPosition } from '../../utils/types/components';
+import { ETooltipPosition, ICustomCss } from '../../utils/types/components';
+import { ComputePositionConfig } from '@floating-ui/dom';
 
-export interface IToggleTip {
+export interface IToggleTip extends ICustomCss {
 	/** (optional) Text of toggletip */
 	text?: string;
 	/** (optional) Position of toggletip */
 	position?: ETooltipPosition;
 	/** (optional) Array of allowed positions of toggle tip (if defined the 'position' is ignored) */
 	allowedPositions?: ETooltipPosition[];
+	/** (optional) Object with tooltip position options */
+	options?: Partial<ComputePositionConfig>;
 	/** (optional) Set open state of toggle tip, default false */
 	isOpen?: boolean;
 	/** (optional) if true it will ignore outside clicks to close the toggle tip */
@@ -16,12 +19,6 @@ export interface IToggleTip {
 	withArrow?: boolean;
 	/** (optional) if true it will disable clicks to open toggle tip */
 	disabled?: boolean;
-	/** (optional) html toggle tip opening element ref */
-	openElement?: HTMLElement;
-	/** (optional) html toggle tip container ref */
-	containerElement?: HTMLElement;
-	/** (optional) html arrow element ref */
-	arrowElement?: HTMLElement;
 }
 
 export interface IToggleTipEvents {

@@ -1,6 +1,7 @@
 import { Component, Element, Event, EventEmitter, Fragment, Host, Prop, State, Watch, h } from '@stencil/core';
-import { DEFAULT_DATE_INPUT_CONFIG, DEFAULT_DROPDOWN_POSITION_OPTIONS } from './advanced-date-select-dropdown.config';
+import { ADVANCE_SELECT_PORTAL_Z_INDEX, DEFAULT_DATE_INPUT_CONFIG, DEFAULT_DROPDOWN_POSITION_OPTIONS } from './advanced-date-select-dropdown.config';
 import {
+	CustomCssClass,
 	EActionButtonType,
 	ECalendarAdvanceTimeType,
 	ICalendarAdvanceAbsoluteTimeConfig,
@@ -11,23 +12,17 @@ import {
 	SelectedRange
 } from '../../types';
 import { IAdvancedDateSelectDropdown, IAdvancedDateSelectDropdownEvents, ITimeChange } from './advanced-date-select-dropdown.types';
-import {
-	formatAbsoluteSelectedTime,
-	getRelativeTimeLabel,
-	getTimeRange,
-	isAbsoluteTimeSelected,
-	isRelativeTimeSelected,
-	isTimeSelected
-} from './advanced-date-select-dropdown.helper';
+import { formatAbsoluteSelectedTime, getRelativeTimeLabel, getTimeRange, isAbsoluteTimeSelected, isTimeSelected } from './advanced-date-select-dropdown.helper';
 import { formatTimezoneName, fromDatesRangeKey, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
 import { isEqual, merge } from 'lodash-es';
 
 import { ComputePositionConfig } from '@floating-ui/dom';
+import { getClassMap } from '../../utils/css-class.helper';
 
 @Component({
 	tag: 'kv-advanced-date-select-dropdown',
 	styleUrl: 'advanced-date-select-dropdown.scss',
-	shadow: true
+	shadow: false
 })
 export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown, IAdvancedDateSelectDropdownEvents {
 	/** @inheritdoc */
@@ -48,19 +43,18 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 	@Prop({ reflect: false }) dropdownPositionOptions?: Partial<ComputePositionConfig> = DEFAULT_DROPDOWN_POSITION_OPTIONS;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
 
 	/** @inheritdoc */
 	@Event({ bubbles: false }) dropdownStateChange: EventEmitter<boolean>;
-	/** @inheritdoc */
-	@Event({ bubbles: false }) rangeDropdownStateChange: EventEmitter<boolean>;
-	/** @inheritdoc */
-	@Event({ bubbles: false }) timezoneDropdownStateChange: EventEmitter<boolean>;
 	/** @inheritdoc */
 	@Event() timeApplied: EventEmitter<ITimeChange>;
 
 	@State() internalSelectedTime: ICalendarAdvanceSelectedTime | undefined;
 	@State() internalSelectedTimezone: string;
 	@State() isDropdownOpen: boolean = false;
+	@State() internalDropdownsOpen: boolean = false;
 
 	@Element() element: HTMLKvAdvancedDateSelectDropdownElement;
 
@@ -158,6 +152,10 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 		this.dropdownStateChange.emit(openState);
 	};
 
+	private onInternalDropdownsStateChange = ({ detail: openState }: CustomEvent<boolean>) => {
+		this.internalDropdownsOpen = openState;
+	};
+
 	private closeDropdown = () => {
 		this.isDropdownOpen = false;
 		this.dropdownStateChange.emit(false);
@@ -188,49 +186,51 @@ export class KvAdvancedDateSelectDropdown implements IAdvancedDateSelectDropdown
 
 	render() {
 		return (
-			<Host>
-				<div
-					class={{
-						'advanced-date-select-dropdown': true,
-						'advanced-date-select-dropdown--selected-relative': isRelativeTimeSelected(this.selectedTime),
-						'advanced-date-select-dropdown--selected-absolute': isAbsoluteTimeSelected(this.selectedTime)
-					}}
+			<Host
+				class={{
+					...getClassMap(this.customClass),
+					'advanced-date-select-dropdown': true,
+					'advanced-date-select-dropdown--selected-absolute': isAbsoluteTimeSelected(this.selectedTime)
+				}}
+			>
+				<kv-dropdown
+					isOpen={this.isDropdownOpen}
+					onOpenStateChange={this.onDropdownChange}
+					inputConfig={this.getInputConfig()}
+					options={this.dropdownPositionOptions}
+					disabled={this.disabled}
+					zIndex={ADVANCE_SELECT_PORTAL_Z_INDEX}
+					clickOutsideClose={!this.internalDropdownsOpen}
 				>
-					<kv-dropdown
-						isOpen={this.isDropdownOpen}
-						onOpenStateChange={this.onDropdownChange}
-						inputConfig={this.getInputConfig()}
-						options={this.dropdownPositionOptions}
-						disabled={this.disabled}
-					>
-						<div id="calendar" class="calendar-container">
-							<kv-calendar-advanced-date-selector
-								selectedTime={this.internalSelectedTime}
-								absoluteTimeConfig={this.absoluteTimeConfig}
-								relativeTimeConfig={this.relativeTimeConfig}
-								selectedTimezone={this.internalSelectedTimezone}
-								timezones={this.timezones}
-								onRelativeTimeChange={this.onRelativeTimeChange}
-								onAbsoluteTimeChange={this.onAbsoluteTimeChange}
-								onTimezoneChange={this.onTimezoneChange}
-							/>
-							<div class="footer">
-								<div class="selected-time">
-									{isTimeSelected(this.selectedTime) && (
-										<Fragment>
-											<div class="label">Range in use:</div>
-											<div class="value">{this.getFormattedSelectedTime()}</div>
-										</Fragment>
-									)}
-								</div>
-								<div class="actions">
-									<kv-action-button-text type={EActionButtonType.Tertiary} text="Cancel" onClickButton={this.onClickCancel} />
-									<kv-action-button-text type={EActionButtonType.Primary} text="Apply" disabled={this.isApplyDisabled()} onClickButton={this.onClickApply} />
-								</div>
+					<div id="calendar" class="advanced-date-select-calendar-container">
+						<kv-calendar-advanced-date-selector
+							selectedTime={this.internalSelectedTime}
+							absoluteTimeConfig={this.absoluteTimeConfig}
+							relativeTimeConfig={this.relativeTimeConfig}
+							selectedTimezone={this.internalSelectedTimezone}
+							timezones={this.timezones}
+							onRelativeTimeChange={this.onRelativeTimeChange}
+							onAbsoluteTimeChange={this.onAbsoluteTimeChange}
+							onTimezoneChange={this.onTimezoneChange}
+							onRangeDropdownStateChange={this.onInternalDropdownsStateChange}
+							onTimezoneDropdownStateChange={this.onInternalDropdownsStateChange}
+						/>
+						<div class="footer">
+							<div class="selected-time">
+								{isTimeSelected(this.selectedTime) && (
+									<Fragment>
+										<div class="label">Range in use:</div>
+										<div class="value">{this.getFormattedSelectedTime()}</div>
+									</Fragment>
+								)}
+							</div>
+							<div class="actions">
+								<kv-action-button-text type={EActionButtonType.Tertiary} text="Cancel" onClickButton={this.onClickCancel} />
+								<kv-action-button-text type={EActionButtonType.Primary} text="Apply" disabled={this.isApplyDisabled()} onClickButton={this.onClickApply} />
 							</div>
 						</div>
-					</kv-dropdown>
-				</div>
+					</div>
+				</kv-dropdown>
 			</Host>
 		);
 	}

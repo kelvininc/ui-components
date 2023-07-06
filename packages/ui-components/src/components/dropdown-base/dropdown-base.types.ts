@@ -10,8 +10,10 @@ export interface IDropdownBase {
 	actionElement?: HTMLElement;
 	/** (optional) A reference to the dropdown list element */
 	listElement?: HTMLElement;
-	/** (optional) If `true` clicking outside the dropdown will not trigger state change. Default: false */
-	disabled?: boolean;
+	/** (optional) If `false` clicking outside the dropdown will not trigger state change. Default: true */
+	clickOutsideClose?: boolean;
+	/** (optional) the dropdown list z-index (default: 9004) */
+	zIndex?: number;
 }
 
 export interface IDropdownBaseEvents {

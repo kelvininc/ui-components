@@ -1,6 +1,7 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { EActionButtonType, KvActionButton, ETooltipPosition, KvToggleTip, EIconName, KvIcon } from '../../components';
+import { EActionButtonType, ETooltipPosition, KvToggleTip, EIconName, KvIcon, KvActionButtonText } from '../../components';
+import styles from './Tooltip/style.module.scss';
 
 KvToggleTip.displayName = 'KvToggleTip';
 
@@ -36,9 +37,7 @@ export default {
 const ToggleTipTemplate: ComponentStory<typeof KvToggleTip> = args => (
 	<KvToggleTip {...args}>
 		<KvIcon slot="open-element-slot" name={EIconName.Info} />
-		<KvActionButton slot="content-slot" type={EActionButtonType.Primary}>
-			Learn More
-		</KvActionButton>
+		<KvActionButtonText slot="content-slot" type={EActionButtonType.Primary} text="Learn More"></KvActionButtonText>
 	</KvToggleTip>
 );
 
@@ -85,4 +84,14 @@ WithArrowState.args = {
 	isFixed: false,
 	withArrow: true,
 	disabled: false
+};
+
+export const WithCustomClass = ToggleTipTemplate.bind(this);
+WithCustomClass.args = {
+	text: 'Toggle tip text',
+	position: ETooltipPosition.Left,
+	isFixed: false,
+	withArrow: true,
+	disabled: false,
+	customClass: styles.TooltipCustomClass
 };

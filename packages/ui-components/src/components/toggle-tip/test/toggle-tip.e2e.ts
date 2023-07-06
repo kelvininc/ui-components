@@ -6,39 +6,39 @@ describe('Toggle Tip (end-to-end)', () => {
 	describe('when it renders with text', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-toggle-tip text="toggletip"></kv-toggle-tip>');
+			await page.setContent('<kv-toggle-tip text="toggleTip"></kv-toggle-tip>');
 		});
 
-		it('should render a toggletip with text setted', async () => {
+		it('should render a toggleTip with text setted', async () => {
 			const component = await page.find('kv-toggle-tip');
 			expect(component).toBeTruthy();
 			expect(component.getAttribute('position')).toBe(null);
-			const textComponent = await page.find('kv-toggle-tip >>> .toggle-tip-container >>> .toggle-tip-text');
+			const textComponent = await page.find('kv-portal > kv-tooltip-text >>> .tooltip-text');
 			expect(textComponent).toBeTruthy();
-			expect(textComponent.innerText.toLocaleLowerCase()).toBe('toggletip');
+			expect(textComponent.innerText).toBe('toggleTip');
 		});
 	});
 
 	describe('when it renders with position setted', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-toggle-tip text="toggletip" position="left"></kv-toggle-tip>');
+			await page.setContent('<kv-toggle-tip text="toggleTip" position="left"></kv-toggle-tip>');
 		});
 
 		it('should render a toggle tip with position selected', async () => {
 			const component = await page.find('kv-toggle-tip');
 			expect(component).toBeTruthy();
 			expect(component.getAttribute('position')).toBe('left');
-			const textComponent = await page.find('kv-toggle-tip >>> .toggle-tip-container >>> .toggle-tip-text');
+			const textComponent = await page.find('kv-portal > kv-tooltip-text >>> .tooltip-text');
 			expect(textComponent).toBeTruthy();
-			expect(textComponent.innerText.toLocaleLowerCase()).toBe('toggletip');
+			expect(textComponent.innerText).toBe('toggleTip');
 		});
 	});
 
 	describe('when renders with position and text', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-toggle-tip text="toggletip" position="left"><kv-icon slot="open-element-slot" name="kv-logo-kelvin" ></kv-icon></kv-toggle-tip>');
+			await page.setContent('<kv-toggle-tip text="toggleTip" position="left"><kv-icon slot="open-element-slot" name="kv-logo-kelvin" ></kv-icon></kv-toggle-tip>');
 		});
 
 		describe('and user clicks on the icon to open the toggle tip', () => {
@@ -48,7 +48,7 @@ describe('Toggle Tip (end-to-end)', () => {
 				const toggleTip = await page.find('kv-toggle-tip');
 				spyChangeEvent = await toggleTip.spyOnEvent('openStateChange');
 
-				const iconElement = await page.find('kv-toggle-tip >>> #toggle-tip-open-element-wrapper');
+				const iconElement = await page.find('kv-toggle-tip > .toggle-tip-open-element-container');
 				await iconElement.click();
 			});
 
@@ -62,7 +62,7 @@ describe('Toggle Tip (end-to-end)', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
 			await page.setContent(
-				'<><div><h1>Outside</h1></div><kv-toggle-tip isFixed="true" isOpen="true" text="toggletip" position="left"><kv-icon slot="open-element-slot" name="kv-logo-kelvin" ></kv-icon></kv-toggle-tip></>'
+				'<><div><h1>Outside</h1></div><kv-toggle-tip isFixed="true" isOpen="true" text="toggleTip" position="left"><kv-icon slot="open-element-slot" name="kv-logo-kelvin" ></kv-icon></kv-toggle-tip></>'
 			);
 		});
 
@@ -86,7 +86,7 @@ describe('Toggle Tip (end-to-end)', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
 			await page.setContent(
-				'<kv-toggle-tip disabled="true" isOpen="false" text="toggletip" position="left"><kv-icon slot="open-element-slot" name="kv-logo-kelvin" ></kv-icon></kv-toggle-tip>'
+				'<kv-toggle-tip disabled="true" isOpen="false" text="toggleTip" position="left"><kv-icon slot="open-element-slot" name="kv-logo-kelvin" ></kv-icon></kv-toggle-tip>'
 			);
 		});
 
@@ -97,7 +97,7 @@ describe('Toggle Tip (end-to-end)', () => {
 				const toggleTip = await page.find('kv-toggle-tip');
 				spyChangeEvent = await toggleTip.spyOnEvent('openStateChange');
 
-				const iconElement = await page.find('kv-toggle-tip >>> #toggle-tip-open-element-wrapper');
+				const iconElement = await page.find('kv-toggle-tip > .toggle-tip-open-element-container');
 				await iconElement.click();
 			});
 

@@ -1,8 +1,8 @@
-import { arrow, autoUpdate, computePosition, ComputePositionConfig, offset, shift } from '@floating-ui/dom';
-import { Component, Element, Event, EventEmitter, h, Host, Prop, State } from '@stencil/core';
+import { arrow, autoUpdate, computePosition, ComputePositionConfig, hide, offset, shift } from '@floating-ui/dom';
+import { Component, Element, Event, EventEmitter, h, Host, Prop, State, Watch } from '@stencil/core';
 import { IPortal, IPortalEvents } from './portal.types';
 import { isNil } from 'lodash';
-import { DEFAULT_OFFSET, DEFAULT_SHIFT_CONFIG, getArrowElementPositionConfig, OFFSET_WITH_ARROW, Z_INDEX } from './portal.config';
+import { DEFAULT_OFFSET, DEFAULT_SHIFT_CONFIG, getArrowElementPositionConfig, OFFSET_WITH_ARROW, PORTAL_Z_INDEX } from './portal.config';
 import { mergeComputePositionConfigs } from '../../utils/floating-ui.helper';
 
 @Component({
@@ -18,6 +18,8 @@ export class KvPortal implements IPortal, IPortalEvents {
 	/** @inheritdoc */
 	@Prop() options: ComputePositionConfig;
 	/** @inheritdoc */
+	@Prop() show = false;
+	/** @inheritdoc */
 	@Prop() autoUpdate: boolean = true;
 	/** @inheritdoc */
 	@Prop() animated: boolean = false;
@@ -25,14 +27,32 @@ export class KvPortal implements IPortal, IPortalEvents {
 	@Prop() withArrow: boolean = false;
 	/** @inheritdoc */
 	@Prop() delay?: number = 0;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) zIndex = PORTAL_Z_INDEX.show;
 
 	/** @inheritdoc */
-	@Event() elementAppend: EventEmitter<void>;
+	@Event() elementAppend: EventEmitter<HTMLElement>;
 
 	/** The Host's element reference */
 	@Element() element: HTMLKvPortalElement;
 
 	@State() visible: boolean = false;
+
+	@Watch('show')
+	showWatch(newValue: boolean) {
+		if (newValue) {
+			this.showPortalContent();
+		} else {
+			this.hidePortalContent();
+		}
+	}
+
+	@Watch('reference')
+	referenceWatch() {
+		if (this.show) {
+			this.showPortalContent();
+		}
+	}
 
 	private portal: HTMLElement;
 	private moved: boolean = false;
@@ -42,14 +62,14 @@ export class KvPortal implements IPortal, IPortalEvents {
 	private createPortal() {
 		this.portal = document.createElement('div');
 		this.portal.setAttribute('id', this.portalId);
-		this.portal.style.zIndex = Z_INDEX;
+		this.portal.style.zIndex = `${PORTAL_Z_INDEX.hidden}`;
 		this.portal.style.position = 'absolute';
-		document.body.append(this.portal);
+		document.body.prepend(this.portal);
 	}
 
 	private moveElementToPortal() {
 		this.portal.appendChild(this.element);
-		this.elementAppend.emit();
+		this.elementAppend.emit(this.element);
 	}
 
 	private getPortalArrowElement = (): HTMLElement | null => {
@@ -63,17 +83,24 @@ export class KvPortal implements IPortal, IPortalEvents {
 		const middleware = [offset(offSet), shift(DEFAULT_SHIFT_CONFIG)];
 		if (this.withArrow) middleware.push(arrow({ element: arrowElement, padding: 5 }));
 
+		middleware.push(hide({ padding: 15 }));
 		return middleware;
 	};
 
 	private getOptions = (): Partial<ComputePositionConfig> => {
 		const middleware = this.getMiddlewareConfig();
 
-		return mergeComputePositionConfigs(this.options, { middleware });
+		return mergeComputePositionConfigs({ middleware }, this.options);
 	};
 
 	private updatePosition() {
 		computePosition(this.reference, this.portal, this.getOptions()).then(({ x, y, placement, middlewareData }) => {
+			if (this.autoUpdate) {
+				const { referenceHidden } = middlewareData.hide;
+				this.visible = !referenceHidden;
+				this.portal.style.zIndex = referenceHidden ? `${PORTAL_Z_INDEX.hidden}` : `${this.zIndex}`;
+			}
+
 			Object.assign(this.portal.style, {
 				left: `${x}px`,
 				top: `${y}px`
@@ -89,6 +116,10 @@ export class KvPortal implements IPortal, IPortalEvents {
 	}
 
 	private calculatePosition() {
+		if (!this.reference || !this.portal) {
+			return;
+		}
+
 		if (this.autoUpdate) {
 			this.closeAutoUpdate = autoUpdate(this.reference, this.portal, () => this.updatePosition());
 		} else {
@@ -96,14 +127,11 @@ export class KvPortal implements IPortal, IPortalEvents {
 		}
 	}
 
-	componentWillLoad() {
-		this.createPortal();
-	}
-
-	componentDidLoad() {
-		this.moveElementToPortal();
+	private showPortalContent() {
+		if (!this.portal) return;
 		this.calculatePosition();
 
+		this.portal.style.zIndex = `${this.zIndex}`;
 		if (this.delay) {
 			this.timeoutId = window.setTimeout(() => {
 				this.visible = true;
@@ -113,8 +141,9 @@ export class KvPortal implements IPortal, IPortalEvents {
 		}
 	}
 
-	disconnectedCallback() {
+	private hidePortalContent() {
 		this.visible = false;
+		this.portal.style.zIndex = `${PORTAL_Z_INDEX.hidden}`;
 		if (this.timeoutId) {
 			window.clearTimeout(this.timeoutId);
 			this.timeoutId = undefined;
@@ -122,7 +151,24 @@ export class KvPortal implements IPortal, IPortalEvents {
 		if (!isNil(this.closeAutoUpdate)) {
 			this.closeAutoUpdate();
 		}
-		this.moved ? this.portal.remove() : (this.moved = true);
+	}
+
+	componentWillLoad() {
+		// console.log('componentWillLoad', this.portal);
+		this.createPortal();
+	}
+
+	componentDidLoad() {
+		// console.log('componentDidLoad', this.portal);
+		this.moveElementToPortal();
+
+		if (this.show) {
+			this.showPortalContent();
+		}
+	}
+
+	disconnectedCallback() {
+		this.moved ? this.portal?.remove() : (this.moved = true);
 	}
 
 	render() {

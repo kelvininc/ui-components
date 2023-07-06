@@ -1,14 +1,6 @@
 @import '../../assets/styles/globals';
 
-:host {
-	.dropdown-container {
-		position: relative;
-		user-select: none;
-	}
 
-	.dropdown-list {
-		width: 100%;
-		position: absolute;
-		z-index: 2;
-	}
+.dropdown-base-list {
+	width: 100%;
 }

@@ -2,8 +2,12 @@ import { Placement } from '@floating-ui/dom';
 
 import { Options as CoreDetectOverflowOptions } from '@floating-ui/core/src/detectOverflow';
 import { Options as ShiftOptions } from '@floating-ui/core/src/middleware/shift';
+import { DEFAULT_PORTAL_Z_INDEX } from '../../globals/config';
 
-export const Z_INDEX = '9005';
+export const PORTAL_Z_INDEX = {
+	hidden: -1,
+	show: DEFAULT_PORTAL_Z_INDEX
+};
 export const OFFSET_WITH_ARROW = 10;
 export const STATIC_SIDE_OFFSET = '-5px';
 

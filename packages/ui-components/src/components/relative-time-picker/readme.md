@@ -60,12 +60,13 @@ export const KvRelativeTimePickerExample: React.FC = () => (
 
 ## Events
 
-| Event                        | Description                                                       | Type                                                           |
-| ---------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------- |
-| `customizeIntervalClicked`   | Emitted when customize interval is clicked                        | `CustomEvent<string>`                                          |
-| `selectedRelativeTimeChange` | Emitted when the selected time key changes                        | `CustomEvent<{ key: string; range: SelectedTimestampRange; }>` |
-| `timezoneChange`             | Emitted when selected timezone changes                            | `CustomEvent<{ name: string; offset: number; }>`               |
-| `timezoneInputClicked`       | Emitted when the input wrapper containing the timezone is clicked | `CustomEvent<boolean>`                                         |
+| Event                         | Description                                                       | Type                                                           |
+| ----------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------- |
+| `customizeIntervalClicked`    | Emitted when customize interval is clicked                        | `CustomEvent<string>`                                          |
+| `selectedRelativeTimeChange`  | Emitted when the selected time key changes                        | `CustomEvent<{ key: string; range: SelectedTimestampRange; }>` |
+| `timezoneChange`              | Emitted when selected timezone changes                            | `CustomEvent<{ name: string; offset: number; }>`               |
+| `timezoneDropdownStateChange` | Emitted when the timezone dropdown open state changes             | `CustomEvent<boolean>`                                         |
+| `timezoneInputClicked`        | Emitted when the input wrapper containing the timezone is clicked | `CustomEvent<boolean>`                                         |
 
 
 ## CSS Custom Properties
@@ -105,6 +106,7 @@ graph TD;
   kv-dropdown --> kv-dropdown-base
   kv-dropdown --> kv-text-field
   kv-dropdown --> kv-icon
+  kv-dropdown-base --> kv-portal
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon

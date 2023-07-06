@@ -18,9 +18,11 @@ export interface IPortal {
 	arrowElement?: HTMLElement;
 	/** (optional) Delay to show portal in milliseconds. (default 0) */
 	delay?: number;
+	/** (optional) the portal z-index (default: 9004) */
+	zIndex?: number;
 }
 
 export interface IPortalEvents {
 	/** Emitted when the element it's appended to the DOM */
-	elementAppend: EventEmitter<void>;
+	elementAppend: EventEmitter<HTMLElement>;
 }
