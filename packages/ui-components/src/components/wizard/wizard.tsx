@@ -21,7 +21,7 @@ export class KvWizard implements IWizard, IWizardEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) showStepBar: boolean = true;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) completeBtnLabel: string = 'Submit';
+	@Prop({ reflect: true }) completeBtnLabel?: string;
 
 	/** @inheritdoc */
 	@Event() goToStep: EventEmitter<number>;
@@ -39,44 +39,31 @@ export class KvWizard implements IWizard, IWizardEvents {
 	@Watch('steps')
 	stepsChangeHandler(newValue: IWizardStep[]) {
 		this.currentHeader = buildHeaderConfig(newValue, this.currentStep);
-		this.currentFooter = buildFooterConfig(newValue, this.currentStep, this.currentStepState, this.completeBtnLabel);
+		this.currentFooter = buildFooterConfig(newValue, this.currentStep, this.currentStepState);
 	}
 	/** Watch the `currentStep` property and update internal state accordingly */
 	@Watch('currentStep')
 	currentStepChangeHandler(newValue: number) {
 		this.currentHeader = buildHeaderConfig(this.steps, newValue);
-		this.currentFooter = buildFooterConfig(this.steps, newValue, this.currentStepState, this.completeBtnLabel);
+		this.currentFooter = buildFooterConfig(this.steps, newValue, this.currentStepState);
 	}
 	/** Watch the `currentStepState` property and update internal state accordingly */
 	@Watch('currentStepState')
 	hasErrorStepChangeHandler(newValue: EStepState) {
-		this.currentFooter = buildFooterConfig(this.steps, this.currentStep, newValue, this.completeBtnLabel);
-	}
-	/** Watch the `completeBtnLabel` property and update internal state accordingly */
-	@Watch('completeBtnLabel')
-	completeBtnLabelStepChangeHandler(newValue: string) {
-		this.currentFooter = buildFooterConfig(this.steps, this.currentStep, this.currentStepState, newValue);
+		this.currentFooter = buildFooterConfig(this.steps, this.currentStep, newValue);
 	}
 
 	componentWillLoad() {
 		this.currentHeader = buildHeaderConfig(this.steps, this.currentStep);
-		this.currentFooter = buildFooterConfig(this.steps, this.currentStep, this.currentStepState, this.completeBtnLabel);
+		this.currentFooter = buildFooterConfig(this.steps, this.currentStep, this.currentStepState);
 	}
 
 	onPrevClick = () => {
-		if (this.currentStep === 0) {
-			this.cancelClick.emit();
-		} else {
-			this.goToStep.emit(this.currentStep - 1);
-		}
+		this.goToStep.emit(this.currentStep - 1);
 	};
 
 	onNextClick = () => {
-		if (this.currentStep === this.steps.length - 1) {
-			this.completeClick.emit();
-		} else {
-			this.goToStep.emit(this.currentStep + 1);
-		}
+		this.goToStep.emit(this.currentStep + 1);
 	};
 
 	onStepClick = ({ detail }: CustomEvent<number>) => {
@@ -88,7 +75,7 @@ export class KvWizard implements IWizard, IWizardEvents {
 			<div class="wizard">
 				{this.showHeader && <div class="wizard-header">{this.currentHeader && <kv-wizard-header {...this.currentHeader}></kv-wizard-header>}</div>}
 				<div class={{ 'wizard-content': true, 'has-header': this.showHeader }}>
-					<slot name={`step-content`}></slot>
+					<slot name="step-content"></slot>
 				</div>
 				<div class="wizard-footer">
 					<kv-wizard-footer
@@ -96,8 +83,11 @@ export class KvWizard implements IWizard, IWizardEvents {
 						onNextClick={this.onNextClick}
 						onStepClick={this.onStepClick}
 						showStepBar={this.showStepBar}
+						completeBtnLabel={this.completeBtnLabel}
 						{...this.currentFooter}
-					></kv-wizard-footer>
+					>
+						<slot slot="additional-actions" name="additional-actions" />
+					</kv-wizard-footer>
 				</div>
 			</div>
 		);

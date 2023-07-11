@@ -68,7 +68,7 @@ export const KvWizardExample: React.FC = () => {
 
 | Property                   | Attribute            | Description                                                                         | Type                                     | Default     |
 | -------------------------- | -------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------- | ----------- |
-| `completeBtnLabel`         | `complete-btn-label` | (optional) A label to show on the last step button. Default: 'Submit'               | `string`                                 | `'Submit'`  |
+| `completeBtnLabel`         | `complete-btn-label` | (optional) A label to show on the last step button. Default: 'Submit'               | `string`                                 | `undefined` |
 | `currentStep` _(required)_ | `current-step`       | (required) Defines the current step index                                           | `number`                                 | `undefined` |
 | `currentStepState`         | `current-step-state` | (optional) Defines the current step state. Only the success state allows to proceed | `EStepState.Error \| EStepState.Success` | `undefined` |
 | `showHeader`               | `show-header`        | (optional) Defines if the header should render. Default: true                       | `boolean`                                | `true`      |

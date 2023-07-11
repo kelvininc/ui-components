@@ -1,7 +1,6 @@
 import { Component, Event, EventEmitter, Host, Prop, h } from '@stencil/core';
 import { IWizardFooter, IWizardFooterEvents } from './wizard-footer.types';
 import { EActionButtonType, IStepBarStep } from '../../types';
-import { isEmpty } from 'lodash';
 
 @Component({
 	tag: 'kv-wizard-footer',
@@ -22,20 +21,34 @@ export class KvWizardFooter implements IWizardFooter, IWizardFooterEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) showStepBar?: boolean = true;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) prevBtnLabel?: string;
+	@Prop({ reflect: true }) completeBtnLabel: string = 'Submit';
 	/** @inheritdoc */
-	@Prop({ reflect: true }) nextBtnLabel: string = 'Next';
+	@Prop({ reflect: true }) cancelEnabled: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) prevEnabled: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) nextEnabled: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) completeEnabled: boolean;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) showCancelBtn: boolean;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) showPrevBtn: boolean;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) showNextBtn: boolean;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) showCompleteBtn: boolean;
 
 	/** @inheritdoc */
 	@Event() stepClick: EventEmitter<number>;
 	/** @inheritdoc */
+	@Event() cancelClick: EventEmitter<void>;
+	/** @inheritdoc */
 	@Event() prevClick: EventEmitter<void>;
 	/** @inheritdoc */
 	@Event() nextClick: EventEmitter<void>;
+	/** @inheritdoc */
+	@Event() completeClick: EventEmitter<void>;
 
 	private onPrevClick = () => {
 		this.prevClick.emit();
@@ -43,6 +56,14 @@ export class KvWizardFooter implements IWizardFooter, IWizardFooterEvents {
 
 	private onNextClick = () => {
 		this.nextClick.emit();
+	};
+
+	private onCancelClick = () => {
+		this.cancelClick.emit();
+	};
+
+	private onCompleteClick = () => {
+		this.completeClick.emit();
 	};
 
 	private onStepClick = ({ detail }: CustomEvent<number>) => {
@@ -67,10 +88,21 @@ export class KvWizardFooter implements IWizardFooter, IWizardFooterEvents {
 					</div>
 					<div class="actions-container">
 						<slot name="additional-actions" />
-						{!isEmpty(this.prevBtnLabel) && (
-							<kv-action-button-text type={EActionButtonType.Tertiary} text={this.prevBtnLabel} disabled={!this.prevEnabled} onClickButton={this.onPrevClick} />
+						{this.showCancelBtn && (
+							<kv-action-button-text type={EActionButtonType.Tertiary} text="Cancel" disabled={!this.cancelEnabled} onClickButton={this.onCancelClick} />
 						)}
-						<kv-action-button-text type={EActionButtonType.Primary} text={this.nextBtnLabel} disabled={!this.nextEnabled} onClickButton={this.onNextClick} />
+						{this.showPrevBtn && (
+							<kv-action-button-text type={EActionButtonType.Tertiary} text="Previous" disabled={!this.prevEnabled} onClickButton={this.onPrevClick} />
+						)}
+						{this.showNextBtn && <kv-action-button-text type={EActionButtonType.Primary} text="Next" disabled={!this.nextEnabled} onClickButton={this.onNextClick} />}
+						{this.showCompleteBtn && (
+							<kv-action-button-text
+								type={EActionButtonType.Primary}
+								text={this.completeBtnLabel}
+								disabled={!this.completeEnabled}
+								onClickButton={this.onCompleteClick}
+							/>
+						)}
 					</div>
 				</div>
 			</Host>
