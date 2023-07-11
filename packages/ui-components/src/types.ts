@@ -11,6 +11,7 @@ export * from './components/search/search.types';
 export * from './components/dropdown/dropdown.types';
 export * from './components/dropdown-base/dropdown-base.types';
 export * from './components/select/select.types';
+export * from './components/select-multi-options/select-multi-options.types';
 export * from './components/select-group/select-group.types';
 export * from './components/select-option/select-option.types';
 export * from './components/single-select-dropdown/single-select-dropdown.types';

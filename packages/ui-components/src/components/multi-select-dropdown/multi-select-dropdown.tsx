@@ -1,12 +1,13 @@
 import { Component, Element, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
-import { IMultiSelectDropdown, IMultiSelectDropdownEvents, IMultiSelectDropdownOptions } from './multi-select-dropdown.types';
+import { IMultiSelectDropdown, IMultiSelectDropdownEvents } from './multi-select-dropdown.types';
 
 import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
 import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
 import { CustomCssClass, EComponentSize } from '../../types';
 import { getCssStyle } from '../utils';
+import { ISelectMultiOptions } from '../select-multi-options/select-multi-options.types';
 
 @Component({
 	tag: 'kv-multi-select-dropdown',
@@ -41,11 +42,11 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: true }) noDataAvailableLabel?: string = MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) options?: IMultiSelectDropdownOptions = {};
+	@Prop({ reflect: true }) options?: ISelectMultiOptions = {};
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedOptions?: Record<string, boolean> = {};
 	/** @inheritdoc */
-	@Prop({ reflect: true }) filteredOptions?: IMultiSelectDropdownOptions = {};
+	@Prop({ reflect: true }) filteredOptions?: ISelectMultiOptions = {};
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minHeight?: string;
 	/** @inheritdoc */

@@ -4,17 +4,6 @@ import { EValidationState } from '../text-field/text-field.types';
 import { ISelectMultiOptionsConfig, ISelectMultiOptionsEvents } from '../select-multi-options/select-multi-options.types';
 import { EComponentSize, ICustomCss } from '../../types';
 
-export interface IMultiSelectDropdownOption {
-	label: string;
-	value: string;
-	disabled?: boolean;
-	group?: string;
-}
-
-export interface IMultiSelectDropdownOptions {
-	[key: string]: IMultiSelectDropdownOption;
-}
-
 export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptionsConfig, 'searchValue'> {
 	/** (required) The text to display as the dropdown placeholder */
 	placeholder?: string;
