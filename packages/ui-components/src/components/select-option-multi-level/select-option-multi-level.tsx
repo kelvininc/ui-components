@@ -108,7 +108,7 @@ export class KvSelectOptionMultiLevel implements ISelectOptionMultiLevel, ISelec
 					disabled={this.option.disabled}
 					selected={!this.hasChildren ? this.selectedOptions?.[this.option.value] : this._levelState === ELevelState.Selected}
 					indeterminate={this._levelState === ELevelState.Indeterminate}
-					togglable={true}
+					togglable
 					class={{ level: this.hasChildren }}
 					style={{ '--level-padding-offset': `${LEVEL_OFFSET_PX * this.level}px` }}
 					onItemSelected={this.onItemSelected}

@@ -46,7 +46,6 @@ export const KvSelectGroupExample: React.FC = props => (
 | Name                                   | Description                           |
 | -------------------------------------- | ------------------------------------- |
 | `--select-group-item-background-color` | Dropdown group item background color. |
-| `--select-group-item-height`           | Dropdown group item height.           |
 | `--select-group-item-label-color`      | Dropdown group item label color.      |
 
 
