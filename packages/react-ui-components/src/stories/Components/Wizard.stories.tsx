@@ -62,7 +62,7 @@ const DEFAULT_ARGS = {
 	steps: [
 		{
 			title: 'Info',
-			allowGoBack: true
+			cancelable: true
 		},
 		{
 			title: 'Configuration',

@@ -112,25 +112,32 @@ export const KvWizardFooterExample: React.FC = () => {
 
 | Property                          | Attribute             | Description                                                                                  | Type             | Default     |
 | --------------------------------- | --------------------- | -------------------------------------------------------------------------------------------- | ---------------- | ----------- |
+| `cancelEnabled`                   | `cancel-enabled`      | (optional) Defines if the `cancel` button should be enabled and interactable                 | `boolean`        | `true`      |
+| `completeBtnLabel`                | `complete-btn-label`  |                                                                                              | `string`         | `'Submit'`  |
+| `completeEnabled`                 | `complete-enabled`    | (optional) Defines if the `complete` button should be enabled and interactable               | `boolean`        | `undefined` |
 | `currentStep` _(required)_        | `current-step`        | (required) Defines the current step index                                                    | `number`         | `undefined` |
 | `hasError`                        | `has-error`           | (optional) Defines if the progress bar should be in an error state                           | `boolean`        | `undefined` |
 | `label`                           | `label`               | (optional) Defines the label to display next to the step counter (defaults to: "Progress: ") | `string`         | `undefined` |
-| `nextBtnLabel`                    | `next-btn-label`      | (required) A label to show on the `next` button                                              | `string`         | `'Next'`    |
-| `nextEnabled`                     | `next-enabled`        | (required) Defines if the `next` button should be enabled and interactable                   | `boolean`        | `true`      |
-| `prevBtnLabel`                    | `prev-btn-label`      | (optional) A label to show on the `previous` button                                          | `string`         | `undefined` |
-| `prevEnabled`                     | `prev-enabled`        | (required) Defines if the `previous` button should be enabled and interactable               | `boolean`        | `true`      |
+| `nextEnabled`                     | `next-enabled`        | (optional) Defines if the `next` button should be enabled and interactable                   | `boolean`        | `true`      |
+| `prevEnabled`                     | `prev-enabled`        | (optional) Defines if the `previous` button should be enabled and interactable               | `boolean`        | `true`      |
 | `progressPercentage` _(required)_ | `progress-percentage` | (required) Defines the percentage of steps completed                                         | `number`         | `undefined` |
+| `showCancelBtn`                   | `show-cancel-btn`     | (required) A boolean that determines whether the `cencel` button should be shown             | `boolean`        | `undefined` |
+| `showCompleteBtn`                 | `show-complete-btn`   | (required) A boolean that determines whether the `complete` button should be shown           | `boolean`        | `undefined` |
+| `showNextBtn`                     | `show-next-btn`       | (required) A boolean that determines whether the `next` button should be shown               | `boolean`        | `undefined` |
+| `showPrevBtn`                     | `show-prev-btn`       | (required) A boolean that determines whether the `previous` button should be shown           | `boolean`        | `undefined` |
 | `showStepBar`                     | `show-step-bar`       | (optional) Defines if the step bar should render                                             | `boolean`        | `true`      |
 | `steps` _(required)_              | --                    | (required) Defines the steps array to render                                                 | `IStepBarStep[]` | `undefined` |
 
 
 ## Events
 
-| Event       | Description                                                      | Type                  |
-| ----------- | ---------------------------------------------------------------- | --------------------- |
-| `nextClick` | Fires when the `next` button is clicked                          | `CustomEvent<void>`   |
-| `prevClick` | Fires when the `previous` button is clicked                      | `CustomEvent<void>`   |
-| `stepClick` | Fires when a step on the step bar is clicked and emits the index | `CustomEvent<number>` |
+| Event           | Description                                                      | Type                  |
+| --------------- | ---------------------------------------------------------------- | --------------------- |
+| `cancelClick`   | Fires when the `cancel` button is clicked                        | `CustomEvent<void>`   |
+| `completeClick` | Fires when the `complete` button is clicked                      | `CustomEvent<void>`   |
+| `nextClick`     | Fires when the `next` button is clicked                          | `CustomEvent<void>`   |
+| `prevClick`     | Fires when the `previous` button is clicked                      | `CustomEvent<void>`   |
+| `stepClick`     | Fires when a step on the step bar is clicked and emits the index | `CustomEvent<number>` |
 
 
 ## CSS Custom Properties
