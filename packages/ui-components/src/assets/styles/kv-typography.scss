@@ -187,11 +187,11 @@
 @mixin kv-font-label-xsmall-uppercase-regular() {
 	font-family: $primary-font;
 	font-size: 10px;
-	font-weight: 300;
+	font-weight: 400;
 	font-stretch: normal;
 	font-style: normal;
 	line-height: 15px;
-	letter-spacing: normal;
+	letter-spacing: 1.5px;
 	text-transform: uppercase;
 }
 @mixin kv-font-label-xsmall-uppercase-semibold() {
@@ -201,7 +201,7 @@
 	font-stretch: normal;
 	font-style: normal;
 	line-height: 15px;
-	letter-spacing: normal;
+	letter-spacing: 1.5px;
 	text-transform: uppercase;
 }
 
@@ -233,7 +233,7 @@
 	font-stretch: normal;
 	font-style: normal;
 	line-height: 21px;
-	letter-spacing: normal;
+	letter-spacing: 1.5px;
 	text-transform: uppercase;
 }
 
