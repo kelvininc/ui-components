@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://github.com/kelvininc/ui-components/compare/v0.20.0...v0.21.0) (2023-07-13)
+
+
+* feat(labels-dropdown)!: add component ([aa3c48c](https://github.com/kelvininc/ui-components/commit/aa3c48c901696f2dce6685cd1cc2ac97718bf4a1))
+
+
+### BREAKING CHANGES
+
+* renamed kv-text-field CSS prop `--left-slot-padding-left` to `--left-slot-width`
+
+
+
+
+
 # [0.20.0](https://github.com/kelvininc/ui-components/compare/v0.19.0...v0.20.0) (2023-06-13)
 
 

@@ -3,6 +3,57 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://github.com/kelvininc/ui-components/compare/v0.20.0...v0.21.0) (2023-07-13)
+
+
+### Bug Fixes
+
+* **select-multi-options:** emit only selected options in map ([96c2349](https://github.com/kelvininc/ui-components/commit/96c2349fd06f78b06bc95746a653b352dda6469c))
+
+
+* fix(dropdown)!: update `kv-select-group` component style ([06d0b96](https://github.com/kelvininc/ui-components/commit/06d0b966e3f42aaf02ac081a5419e2e0240a4d9b))
+* feat(labels-dropdown)!: add component ([aa3c48c](https://github.com/kelvininc/ui-components/commit/aa3c48c901696f2dce6685cd1cc2ac97718bf4a1))
+* refactor(toggle-tip, dropdown)!: use portal to show floating content ([644ca7b](https://github.com/kelvininc/ui-components/commit/644ca7bd90c296c13b13588c8fc1faa762c56d90))
+
+
+### Features
+
+* **relative-time-picker:** reorder items in relative time picker default config ([992dbd3](https://github.com/kelvininc/ui-components/commit/992dbd3a3e590e553f32c09dab28479c89eb013c))
+* **schema-form:** add tooltip props to submit button ([6883d6d](https://github.com/kelvininc/ui-components/commit/6883d6df35b5173bb51819df4582e3917a7f3095))
+* **select-option:** add description label on the right ([8b58353](https://github.com/kelvininc/ui-components/commit/8b58353869bec7485a99684bfadc1b5c5ff04f47))
+* **select:** add header actions slot ([f8bd0c3](https://github.com/kelvininc/ui-components/commit/f8bd0c34d004fc1772054de0caec6fb3092fea6f))
+* **wizard:** add a more imperative approach to footer actions ([d11cfae](https://github.com/kelvininc/ui-components/commit/d11cfaef07a213652d7cda6cc01a2f64c0edf27e))
+
+
+### BREAKING CHANGES
+
+* - `IMultiSelectDropdownOptions` was relaced by `ISelectMultiOptions`
+- `IMultiSelectDropdownOption` was relaced by `ISelectMultiOption`
+* renamed kv-text-field CSS prop `--left-slot-padding-left` to `--left-slot-width`
+* kv-tooltip:
+	- part 'container' should be styled through the customClass property in 'tooltip-container' part.
+
+kv-toggle-tip not in Shadow DOM:
+	- part 'toggle-tip-open-element-container' should be accessed through the '.toggle-tip-open-element-container' class
+	- parts 'toggle-tip-container' and 'toggle-tip-slot-content' should be styled through the customClass property in 'tooltip-container' and 'tooltip-slot-content' parts respectively.
+	- CSS variable '--toggletip-z-index' was removed
+	- CSS variables '--toggle-tip-container-width' and '--toggle-tip-container-max-width' should be styled through the customClass property in '--container-width' and '--container-max-width' vars respectively
+
+kv-dropdown not in Shadow DOM:
+	- part 'input' should be accessed through the 'kv-text-field' selector
+
+kv-range-dates-select-dropdown not in Shadow DOM:
+	- parts 'start-input' and 'end-input' should be styled through the '.start-single-date-select-dropdown kv-text-field' and '.end-single-date-select-dropdown kv-text-field' selectors respectively.
+
+kv-single-select-dropdown and kv-multi-select-dropdown not in Shadow DOM:
+	- CSS variable '--dropdown-max-height' still working as before.
+	- part 'option' should be styled through the customClass property with 'kv-select-option' selector.
+	- part 'input' should be accessed through the 'kv-dropdown kv-text-field' selector.
+
+
+
+
+
 # [0.20.0](https://github.com/kelvininc/ui-components/compare/v0.19.0...v0.20.0) (2023-06-13)
 
 
