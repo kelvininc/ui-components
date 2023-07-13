@@ -40,10 +40,6 @@ describe('Search (unit tests)', () => {
 		it('should match the snapshot', () => {
 			expect(page.root).toMatchSnapshot();
 		});
-
-		it('should have value Teste', () => {
-			expect(component._value).toBe('Teste');
-		});
 	});
 
 	describe('when is disabled', () => {

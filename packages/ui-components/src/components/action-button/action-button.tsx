@@ -12,7 +12,7 @@ import { EAnchorTarget, EComponentSize, IAnchor } from '../../utils/types';
 })
 export class KvActionButton implements IButton, IButtonEvents, IAnchor {
 	/** @inheritdoc */
-	@Prop({ reflect: true }) type!: EActionButtonType;
+	@Prop({ reflect: true }) type?: EActionButtonType;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled: boolean = false;
 	/** @inheritdoc */

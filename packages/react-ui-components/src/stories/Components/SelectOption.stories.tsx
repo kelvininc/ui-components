@@ -12,6 +12,9 @@ export default {
 		label: {
 			control: { type: 'text' }
 		},
+		description: {
+			control: { type: 'text' }
+		},
 		value: {
 			control: { type: 'text' }
 		},
@@ -34,6 +37,7 @@ const SelectOptionTemplate: ComponentStory<typeof KvSelectOption> = args => <KvS
 const BottomSlotSelectOptionTemplate: ComponentStory<typeof KvSelectOption> = args => {
 	const cssProps = {
 		'--select-option-height': 'unset',
+		'--select-option-text-flex-direction': 'column',
 		'--select-option-flex-alignment': 'flex-start'
 	} as CSSProperties;
 
@@ -48,6 +52,7 @@ export const Default = SelectOptionTemplate.bind({});
 Default.args = {
 	label: 'Label 1',
 	value: 'label-1',
+	description: '',
 	selected: true,
 	togglable: true,
 	disabled: false

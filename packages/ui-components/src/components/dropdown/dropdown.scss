@@ -1,8 +1,5 @@
 @import '../../assets/styles/globals';
 
-:host {
-	.dropdown-container {
-		position: relative;
-		user-select: none;
-	}
+.dropdown-container {
+	user-select: none;
 }

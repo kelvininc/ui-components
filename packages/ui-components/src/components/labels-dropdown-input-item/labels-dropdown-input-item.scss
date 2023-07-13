@@ -1,0 +1,60 @@
+@import '../../assets/styles/globals';
+
+:host {
+	display: block;
+}
+
+.labels-input-item {
+	height: 16px;
+	padding: $spacing $spacing-3x;
+	background-color: kv-color('neutral-1');
+	display: flex;
+	align-items: center;
+	gap: $spacing-2x;
+	border-radius: 2px;
+
+	.label {
+		@include kv-font-label-small-regular;
+
+		white-space: nowrap;
+		color: kv-color('neutral-7');
+	}
+
+	kv-icon::part(icon) {
+		--icon-color: #{kv-color('neutral-7')};
+
+		@include clickable;
+	}
+
+	&.selected {
+		background-color: kv-color('primary');
+	}
+
+	&:hover {
+		background-color: kv-color('primary', 'dark');
+	}
+
+	&.selected,
+	&:hover {
+		.label {
+			color: kv-color('neutral-0');
+		}
+
+		kv-icon::part(icon) {
+			--icon-color: #{kv-color('neutral-0')};
+		}
+	}
+
+	&.disabled {
+		background-color: kv-color('neutral-5');
+		pointer-events: none;
+
+		.label {
+			color: kv-color('neutral-4');
+		}
+
+		kv-icon::part(icon) {
+			--icon-color: #{kv-color('neutral-4')};
+		}
+	}
+}

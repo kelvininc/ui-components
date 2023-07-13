@@ -36,7 +36,7 @@ export default {
 
 const TextFieldTemplate: ComponentStory<typeof KvTextField> = args => <KvTextField {...args} />;
 const TextFieldLeftSlotTemplate: ComponentStory<typeof KvTextField> = args => (
-	<KvTextField {...args}>
+	<KvTextField {...args} style={{ '--left-slot-width': '24px' }}>
 		<span slot="left-slot">$</span>
 	</KvTextField>
 );

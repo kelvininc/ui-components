@@ -1,15 +1,15 @@
-import { autoUpdate, computePosition, ComputePositionConfig } from '@floating-ui/dom';
+import { ComputePositionConfig } from '@floating-ui/dom';
 import { Component, Host, h, Prop, Event, EventEmitter, Listen, Element } from '@stencil/core';
-import { isNil } from 'lodash-es';
 
 import { DEFAULT_POSITION_CONFIG } from './dropdown-base.config';
-import { didClickOnElement } from './dropdown-base.helper';
 import { IDropdownBase, IDropdownBaseEvents } from './dropdown-base.types';
+import { didClickOnElement } from '../../utils/mouse-event.helper';
+import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
 
 @Component({
 	tag: 'kv-dropdown-base',
 	styleUrl: 'dropdown-base.scss',
-	shadow: true
+	shadow: false
 })
 export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 	/** @inheritdoc */
@@ -21,16 +21,18 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: false }) listElement?: HTMLElement = null;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) disabled?: boolean = false;
+	@Prop({ reflect: true }) clickOutsideClose?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) zIndex?: number = DEFAULT_DROPDOWN_Z_INDEX;
 
 	/** @inheritdoc */
-	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
+	@Event() openStateChange: EventEmitter<boolean>;
 
 	@Element() element: HTMLKvDropdownBaseElement;
 
 	@Listen('click', { target: 'window' })
 	checkForClickOutside(event: MouseEvent) {
-		if (this.disabled) {
+		if (!this.clickOutsideClose) {
 			return;
 		}
 
@@ -44,12 +46,14 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 		}
 	}
 
+	private portal: HTMLElement;
+
 	private getActionElement = (): HTMLElement | null => {
-		return this.actionElement ?? (this.element.shadowRoot.querySelector('#dropdown-action') as HTMLElement | null);
+		return this.actionElement ?? (this.element.querySelector('#dropdown-action') as HTMLElement | null);
 	};
 
 	private getListElement = (): HTMLElement | null => {
-		return this.listElement ?? (this.element.shadowRoot.querySelector('#dropdown-list') as HTMLElement | null);
+		return this.listElement ?? this.portal;
 	};
 
 	private didClickOnDropdownAction = (event: MouseEvent): boolean => {
@@ -64,40 +68,25 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 		return didClickOnElement(dropdownListElement, event);
 	};
 
-	private closePositionAutoUpdate: () => void;
-
-	componentDidRender() {
-		const dropdownAction = this.getActionElement();
-		const dropdownList = this.getListElement();
-
-		if (this.isOpen) {
-			this.closePositionAutoUpdate = autoUpdate(dropdownAction, dropdownList, () => {
-				computePosition(dropdownAction, dropdownList, this.options).then(({ x, y }) => {
-					dropdownList.style.left = `${x}px`;
-					dropdownList.style.top = `${y}px`;
-				});
-			});
-		} else {
-			if (!isNil(this.closePositionAutoUpdate)) {
-				this.closePositionAutoUpdate();
-			}
-		}
+	disconnectedCallback() {
+		// Requires deleting portal from outside KvPortal because KvPortal is moved to global context
+		// and would only be destroyed when the global context is destroyed.
+		this.portal?.remove();
 	}
 
 	render() {
 		return (
 			<Host>
-				<div class="dropdown-container">
-					<div id="dropdown-action" class="dropdown-action">
-						<slot name="action"></slot>
-					</div>
-
-					{this.isOpen && (
-						<div id="dropdown-list" class="dropdown-list">
-							<slot name="list"></slot>
-						</div>
-					)}
+				<div id="dropdown-action">
+					<slot name="action"></slot>
 				</div>
+
+				<kv-portal animated ref={el => (this.portal = el)} show={this.isOpen} reference={this.getActionElement()} options={this.options} zIndex={this.zIndex}>
+					<div class="dropdown-base-list">
+						{/* Shadow Root should be false to slot work here */}
+						<slot name="list"></slot>
+					</div>
+				</kv-portal>
 			</Host>
 		);
 	}

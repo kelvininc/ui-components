@@ -8,6 +8,7 @@ import { isElementCollapsed } from './tooltip.utils';
 import { isEmpty } from 'lodash';
 import { getClassMap } from '../../utils/css-class.helper';
 import { mergeComputePositionConfigs } from '../../utils/floating-ui.helper';
+import { TOOLTIP_Z_INDEX } from '../../globals/config';
 
 /**
  * @part content - The tooltip content.
@@ -93,7 +94,15 @@ export class KvTooltip implements ITooltip {
 					<slot></slot>
 				</div>
 				{this.showTooltip && (
-					<kv-portal delay={this.delay} withArrow={this.withArrow} animated reference={this.getContentElement()} options={this.getOptions()}>
+					<kv-portal
+						zIndex={TOOLTIP_Z_INDEX}
+						show={true}
+						delay={this.delay}
+						withArrow={this.withArrow}
+						animated
+						reference={this.getContentElement()}
+						options={this.getOptions()}
+					>
 						<kv-tooltip-text class={{ ...getClassMap(this.customClass) }} text={this.text} />
 					</kv-portal>
 				)}

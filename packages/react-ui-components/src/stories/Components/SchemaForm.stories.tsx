@@ -1,4 +1,4 @@
-import { EIconName, IMultiSelectDropdownOptions, ISingleSelectDropdownOptions } from '@kelvininc/ui-components';
+import { EIconName, ETooltipPosition, ISelectMultiOptions, ISingleSelectDropdownOptions } from '@kelvininc/ui-components';
 import { IChangeEvent } from '@rjsf/core';
 import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
@@ -185,7 +185,7 @@ WithSubmitButtonOptions.args = {
 	},
 	uiSchema: {
 		'ui:submitButtonOptions': {
-			props: { disabled: false },
+			props: { disabled: false, tooltipText: 'Test to button tooltip', tooltipPosition: ETooltipPosition.Top },
 			norender: false,
 			submitText: 'Save Button'
 		},
@@ -582,7 +582,7 @@ CustomSelectWidgetConfigs.args = {
 	},
 	uiSchema: {
 		alarm_severities: {
-			displayValue(selectedOptions: string[], options: ISingleSelectDropdownOptions | IMultiSelectDropdownOptions) {
+			displayValue(selectedOptions: string[], options: ISingleSelectDropdownOptions | ISelectMultiOptions) {
 				return getDropdownDisplayValue(selectedOptions, options, 'status');
 			}
 		},

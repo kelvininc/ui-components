@@ -1,5 +1,5 @@
-import { IMultiSelectDropdownOptions, ISingleSelectDropdownOptions } from '@kelvininc/ui-components';
+import { ISelectMultiOptions, ISingleSelectDropdownOptions } from '@kelvininc/ui-components';
 
-export type IUIDropdownOptions = ISingleSelectDropdownOptions | IMultiSelectDropdownOptions;
+export type IUIDropdownOptions = ISingleSelectDropdownOptions | ISelectMultiOptions;
 
 export type EnumOptions = string | number | boolean | object | any[] | null;

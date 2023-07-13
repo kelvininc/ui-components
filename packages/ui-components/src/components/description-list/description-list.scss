@@ -16,30 +16,19 @@
 		@include kv-font-paragraph-regular;
 		color: kv-color('neutral-2');
 
-		kv-tooltip {
-			&::part(content) {
-				display: inline;
-			}
-
-			&::part(container) {
-				padding: $spacing-2x;
-			}
+		kv-tooltip::part(content) {
+			display: inline;
 		}
 
-		kv-toggle-tip {
-			&::part(toggle-tip-open-element-container) {
-				display: inline-block;
-				vertical-align: text-top;
-				margin-left: $spacing-2x;
-			}
-
-			&::part(toggle-tip-container) {
-				padding: $spacing-2x;
-			}
-		}
-
-		kv-icon::part(icon) {
-			cursor: pointer;
+		kv-toggle-tip .toggle-tip-open-element-container {
+			@include clickable;
+			display: inline-block;
+			vertical-align: text-top;
+			margin-left: $spacing-2x;
 		}
 	}
+}
+
+.description-list-tooltip-container::part(tooltip-container) {
+	padding: $spacing-2x;
 }

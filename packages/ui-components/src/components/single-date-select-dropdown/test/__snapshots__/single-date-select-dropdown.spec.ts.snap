@@ -2,14 +2,12 @@
 
 exports[`Single Date Input (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-single-date-select-dropdown>
-  <mock:shadow-root>
-    <div class="single-date-select-dropdown">
-      <kv-dropdown>
-        <div class="calendar-container">
-          <kv-calendar-single-date-selector></kv-calendar-single-date-selector>
-        </div>
-      </kv-dropdown>
-    </div>
-  </mock:shadow-root>
+  <div class="single-date-select-dropdown">
+    <kv-dropdown>
+      <div class="single-date-select-calendar-container">
+        <kv-calendar-single-date-selector></kv-calendar-single-date-selector>
+      </div>
+    </kv-dropdown>
+  </div>
 </kv-single-date-select-dropdown>
 `;

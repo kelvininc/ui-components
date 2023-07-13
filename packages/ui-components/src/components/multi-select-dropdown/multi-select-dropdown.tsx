@@ -1,18 +1,18 @@
-import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
-import { IMultiSelectDropdown, IMultiSelectDropdownEvents, IMultiSelectDropdownOption, IMultiSelectDropdownOptions } from './multi-select-dropdown.types';
-import { buildSelectGroups, hasGroups } from '../select-group/select-group.helper';
+import { IMultiSelectDropdown, IMultiSelectDropdownEvents } from './multi-select-dropdown.types';
 
 import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
 import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
-import { isEmpty } from 'lodash-es';
-import { EComponentSize } from '../../types';
+import { CustomCssClass, EComponentSize } from '../../types';
+import { getCssStyle } from '../utils';
+import { ISelectMultiOptions } from '../select-multi-options/select-multi-options.types';
 
 @Component({
 	tag: 'kv-multi-select-dropdown',
 	styleUrl: 'multi-select-dropdown.scss',
-	shadow: true
+	shadow: false
 })
 export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelectDropdownEvents {
 	/** @inheritdoc */
@@ -42,20 +42,22 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: true }) noDataAvailableLabel?: string = MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) options?: IMultiSelectDropdownOptions = {};
+	@Prop({ reflect: true }) options?: ISelectMultiOptions = {};
 	/** @inheritdoc */
-	@Prop({ reflect: true }) selectedOptions?: { [key: string]: boolean } = {};
+	@Prop({ reflect: true }) selectedOptions?: Record<string, boolean> = {};
 	/** @inheritdoc */
-	@Prop({ reflect: true }) filteredOptions?: IMultiSelectDropdownOptions = {};
+	@Prop({ reflect: true }) filteredOptions?: ISelectMultiOptions = {};
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minHeight?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxHeight?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) inputSize?: EComponentSize = EComponentSize.Large;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
 
 	/** @inheritdoc */
-	@Event() optionsSelected: EventEmitter<{ [key: string]: boolean }>;
+	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
 	/** @inheritdoc */
@@ -65,36 +67,34 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 
 	@State() _selectionDisplayValue: string | undefined;
 	@State() _searchValue: string;
-	@State() isOpen: boolean = false;
+	@State() _isOpen: boolean = false;
 
-	private selectOption = (event: CustomEvent<string>) => {
-		const option = event.detail;
-		// triple bang for handling false, true and undefined
-		const newOptions = { ...this.selectedOptions, [option]: !!!this.selectedOptions?.[option] };
+	/** The Host's element reference */
+	@Element() el: HTMLKvMultiSelectDropdownElement;
 
+	private selectOption = ({ detail: newOptions }: CustomEvent<Record<string, boolean>>) => {
 		this.optionsSelected.emit(newOptions);
 	};
 
-	private calculateLabelValue() {
+	private calculateLabelValue = () => {
 		if (this.displayValue?.length) {
 			this._selectionDisplayValue = this.displayValue;
 		} else {
 			this._selectionDisplayValue = getDropdownDisplayValue(this.options, this.selectedOptions);
 		}
-	}
+	};
 
 	private openStateChangeHandler = ({ detail: openState }: CustomEvent<boolean>) => {
-		this.isOpen = openState;
+		this._isOpen = openState;
 
-		if (!this.isOpen) {
+		if (!this._isOpen) {
 			this._searchValue = '';
 			this.searchChange.emit('');
 		}
 	};
 
-	private onSearchChange = (event: CustomEvent<string>) => {
-		this._searchValue = event.detail;
-		this.searchChange.emit(event.detail);
+	private onSearchChange = ({ detail: searchValue }: CustomEvent<string>) => {
+		this.searchChange.emit(searchValue);
 	};
 
 	private onClearSelection = () => {
@@ -103,38 +103,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		this.calculateLabelValue();
 	};
 
-	private renderGroups = (groupNames: string[], groups: Record<string, IMultiSelectDropdownOption[]>) => {
-		return groupNames.map(groupName => (
-			<kv-select-group key={groupName} label={groupName}>
-				{this.renderOptions(groups[groupName])}
-			</kv-select-group>
-		));
-	};
-
-	private renderOptions = (options: IMultiSelectDropdownOption[]) => {
-		return options.map(option => (
-			<kv-select-option
-				label={option.label}
-				value={option.value}
-				disabled={option.disabled}
-				selected={this.selectedOptions?.[option.value]}
-				togglable={true}
-				onItemSelected={this.selectOption}
-			/>
-		));
-	};
-
-	private getCurrentOptions = (): IMultiSelectDropdownOptions | undefined => {
-		if (!isEmpty(this.filteredOptions)) {
-			return this.filteredOptions;
-		}
-
-		return this.options;
-	};
-
 	componentWillLoad() {
 		this._selectionDisplayValue = this.displayValue;
-
 		this.calculateLabelValue();
 	}
 
@@ -153,44 +123,45 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		this.calculateLabelValue();
 	}
 
-	private getInputConfig = (): Partial<ITextField> => ({
-		label: this.label,
-		value: this._selectionDisplayValue,
-		loading: this.loading,
-		icon: this.icon,
-		disabled: this.disabled,
-		required: this.required,
-		placeholder: this.placeholder,
-		state: this.errorState,
-		helpText: this.helpText,
-		size: this.inputSize
-	});
+	private get inputConfig(): Partial<ITextField> {
+		return {
+			label: this.label,
+			value: this._selectionDisplayValue,
+			loading: this.loading,
+			icon: this.icon,
+			disabled: this.disabled,
+			required: this.required,
+			placeholder: this.placeholder,
+			state: this.errorState,
+			helpText: this.helpText,
+			size: this.inputSize
+		};
+	}
+
+	private getMaxHeight() {
+		const maxHeight = getCssStyle(this.el, '--dropdown-max-height');
+		return this.maxHeight ?? maxHeight;
+	}
 
 	render() {
-		const groups = buildSelectGroups(this.getCurrentOptions());
-		const groupNames = Object.keys(groups);
-		const isSelectionClearable = !isEmpty(this.getCurrentOptions()) && this.selectionClearable;
-		const isSelectionClearEnabled = Object.keys(this.selectedOptions ?? {}).length > 0;
-
 		return (
 			<Host>
-				<kv-dropdown inputConfig={this.getInputConfig()} isOpen={this.isOpen} onOpenStateChange={this.openStateChangeHandler} disabled={this.disabled} exportparts="input">
-					<kv-select
+				<kv-dropdown inputConfig={this.inputConfig} isOpen={this._isOpen} onOpenStateChange={this.openStateChangeHandler} disabled={this.disabled}>
+					<kv-select-multi-options
+						options={this.options}
+						filteredOptions={this.filteredOptions}
+						selectedOptions={this.selectedOptions}
+						noDataAvailableLabel={this.noDataAvailableLabel}
 						searchable={this.searchable}
 						searchValue={this._searchValue}
-						selectionClearable={isSelectionClearable}
-						selectionClearEnabled={isSelectionClearEnabled}
+						selectionClearable={this.selectionClearable}
 						clearSelectionLabel={this.clearSelectionLabel}
-						onClearSelection={this.onClearSelection}
-						onSearchChange={this.onSearchChange}
-						maxHeight={this.maxHeight}
+						maxHeight={this.getMaxHeight()}
 						minHeight={this.minHeight}
-					>
-						{isEmpty(this.getCurrentOptions()) && this.noDataAvailableLabel && (
-							<kv-select-option class="no-data" label={this.noDataAvailableLabel} value="no-data-available" />
-						)}
-						{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.getCurrentOptions() ?? {}))}
-					</kv-select>
+						onSearchChange={this.onSearchChange}
+						onSelectionCleared={this.onClearSelection}
+						onOptionsSelected={this.selectOption}
+					/>
 				</kv-dropdown>
 			</Host>
 		);

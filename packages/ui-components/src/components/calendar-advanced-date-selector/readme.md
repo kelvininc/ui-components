@@ -133,6 +133,7 @@ graph TD;
   kv-range-dates-select-dropdown --> kv-text-field
   kv-range-dates-select-dropdown --> kv-icon
   kv-range-dates-select-dropdown --> kv-calendar-range-dates-selector
+  kv-dropdown-base --> kv-portal
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon

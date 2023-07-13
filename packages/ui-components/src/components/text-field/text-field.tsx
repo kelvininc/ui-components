@@ -175,7 +175,11 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	}
 
 	private get hasLeftSlot() {
-		return !isNil(this.el.querySelector('[slot="left-slot"]'));
+		return !isNil(this.el.querySelector('[slot="left-slot"]')) || !!this.icon;
+	}
+
+	private get hasInputContentSlot() {
+		return !isNil(this.el.querySelector('[slot="input-content"]'));
 	}
 
 	private getValue(): string {
@@ -227,14 +231,18 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										onFocus={this.onFocusHandler}
 										class={{
 											'invalid': this.state === EValidationState.Invalid,
-											'has-icon': !isEmpty(this.icon),
 											'left-slotted': this.hasLeftSlot,
 											'right-slotted': this.hasRightSlot,
 											'forced-focus': this.focused || this.highlighted
 										}}
 										readonly={this.readonly}
 									/>
-									{(this.hasLeftSlot || this.icon) && (
+									{this.hasInputContentSlot && (
+										<div class={{ 'input-content-container': true, 'left-slotted': this.hasLeftSlot, 'right-slotted': this.hasRightSlot }}>
+											<slot name="input-content" />
+										</div>
+									)}
+									{this.hasLeftSlot && (
 										<div
 											class={{
 												'left-slot-container': true,

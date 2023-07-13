@@ -2,6 +2,7 @@ import { EventEmitter } from '@stencil/core';
 
 export interface IWizardStep {
 	title: string;
+	cancelable?: boolean;
 	allowGoBack?: boolean;
 }
 
@@ -17,7 +18,7 @@ export interface IWizard {
 	/** (optional) Defines if the step bar should render. Default: true */
 	showStepBar?: boolean;
 	/** (optional) A label to show on the last step button. Default: 'Submit' */
-	completeBtnLabel: string;
+	completeBtnLabel?: string;
 }
 
 export interface IWizardEvents {

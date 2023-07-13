@@ -21,7 +21,7 @@ export const DEFAULT_DROPDOWN_POSITION_OPTIONS: Partial<ComputePositionConfig> =
 	middleware: [
 		offset(2),
 		flip({
-			fallbackPlacements: ['left-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end']
+			fallbackPlacements: ['left-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'top-start', 'top-end']
 		})
 	]
 };

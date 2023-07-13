@@ -179,6 +179,8 @@ graph TD;
   kv-description-list --> kv-icon
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
+  kv-toggle-tip --> kv-portal
+  kv-toggle-tip --> kv-tooltip-text
   style kv-description-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -1,0 +1,20 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --select-list-max-height: Select list maximum height.
+	 */
+	--select-list-max-height: 400px;
+}
+
+.no-data {
+	pointer-events: none;
+}
+
+kv-select-group:not(:last-child)::part(group-container) {
+	margin-bottom: $spacing-2x;
+}
+
+kv-select {
+	--select-max-height: var(--select-list-max-height);
+}

@@ -2,26 +2,32 @@
 
 :host {
 	/**
-	 * @prop --select-group-item-height: Dropdown group item height.
 	 * @prop --select-group-item-background-color: Dropdown group item background color.
 	 * @prop --select-group-item-label-color: Dropdown group item label color.
 	 */
 
-	--select-group-item-height: 32px;
 	--select-group-item-background-color: #{kv-color('neutral-7')};
 	--select-group-item-label-color: #{kv-color('neutral-2')};
 }
 
 .group {
 	.label {
-		@include kv-font-label-small-uppercase-regular;
-		height: var(--select-group-item-height);
-		padding: 0 $spacing-4x;
+		@include kv-font-label-xsmall-uppercase-semibold;
+		padding: 0 $spacing-4x $spacing-2x $spacing-4x;
 		display: flex;
 		align-items: center;
 		user-select: none;
 		cursor: default;
 		background-color: var(--select-group-item-background-color);
 		color: var(--select-group-item-label-color);
+
+		&::after {
+			content: '';
+			display: flex;
+			flex: 1;
+			height: 1px;
+			background: kv-color('neutral-6');
+			margin: 0 $spacing-4x 0 $spacing-2x;
+		}
 	}
 }

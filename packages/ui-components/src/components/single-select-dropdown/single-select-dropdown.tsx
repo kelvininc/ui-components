@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { ISingleSelectDropdown, ISingleSelectDropdownEvents, ISingleSelectDropdownOption, ISingleSelectDropdownOptions } from './single-select-dropdown.types';
@@ -6,15 +6,14 @@ import { buildSelectGroups, hasGroups } from '../select-group/select-group.helpe
 import { isEmpty, isNil } from 'lodash-es';
 
 import { SINGLE_SELECT_CLEAR_SELECTION_LABEL, SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './single-select-dropdown.config';
-import { EComponentSize } from '../../types';
-/**
- * @part option - The select option container.
- */
+import { CustomCssClass, EComponentSize } from '../../types';
+import { getClassMap } from '../../utils/css-class.helper';
+import { getCssStyle } from '../utils';
 
 @Component({
 	tag: 'kv-single-select-dropdown',
 	styleUrl: 'single-select-dropdown.scss',
-	shadow: true
+	shadow: false
 })
 export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSelectDropdownEvents {
 	/** @inheritdoc */
@@ -59,6 +58,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Prop({ reflect: true }) maxHeight?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) inputSize?: EComponentSize = EComponentSize.Large;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
 
 	/** @inheritdoc */
 	@Event() optionSelected: EventEmitter<string>;
@@ -72,6 +73,9 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@State() _selectedOption: string;
 	@State() _selectedOptionLabel: string;
 	@State() _searchValue: string;
+
+	/** The Host's element reference */
+	@Element() el: HTMLKvSingleSelectDropdownElement;
 
 	private selectOption = (event: CustomEvent<string>) => {
 		const selectedOption = event.detail;
@@ -99,6 +103,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 			this._searchValue = '';
 			this.searchChange.emit('');
 		}
+
+		this.openStateChange.emit(this.isOpen);
 	};
 
 	componentWillLoad() {
@@ -157,7 +163,6 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 				disabled={option.disabled}
 				selected={option.value === this._selectedOption}
 				onItemSelected={this.selectOption}
-				part="option"
 			/>
 		));
 	};
@@ -189,6 +194,11 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this.calculateLabelValue();
 	};
 
+	private getMaxHeight() {
+		const maxHeight = getCssStyle(this.el, '--dropdown-max-height');
+		return this.maxHeight ?? maxHeight;
+	}
+
 	render() {
 		const groups = buildSelectGroups(this.getCurrentOptions());
 		const groupNames = Object.keys(groups);
@@ -198,22 +208,24 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 		return (
 			<Host>
-				<kv-dropdown inputConfig={this.getInputConfig()} isOpen={this.isOpen} disabled={this.disabled} onOpenStateChange={this.openStateChangeHandler} exportparts="input">
-					<kv-select
-						searchValue={this._searchValue}
-						searchable={this.searchable}
-						selectionClearable={isSelectionClearable}
-						selectionClearEnabled={isSelectionClearEnabled}
-						clearSelectionLabel={this.clearSelectionLabel}
-						onClearSelection={this.onClearSelection}
-						onSearchChange={this.onSearchChange}
-						searchPlaceholder={this.searchPlaceholder}
-						maxHeight={this.maxHeight}
-						minHeight={this.minHeight}
-					>
-						{isEmpty(this.getCurrentOptions()) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
-						{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.getCurrentOptions()))}
-					</kv-select>
+				<kv-dropdown inputConfig={this.getInputConfig()} isOpen={this.isOpen} disabled={this.disabled} onOpenStateChange={this.openStateChangeHandler}>
+					<div class={{ ...getClassMap(this.customClass), 'single-select-dropdown-slot': true }}>
+						<kv-select
+							searchValue={this._searchValue}
+							searchable={this.searchable}
+							selectionClearable={isSelectionClearable}
+							selectionClearEnabled={isSelectionClearEnabled}
+							clearSelectionLabel={this.clearSelectionLabel}
+							onClearSelection={this.onClearSelection}
+							onSearchChange={this.onSearchChange}
+							searchPlaceholder={this.searchPlaceholder}
+							maxHeight={this.getMaxHeight()}
+							minHeight={this.minHeight}
+						>
+							{isEmpty(this.getCurrentOptions()) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
+							{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.getCurrentOptions()))}
+						</kv-select>
+					</div>
 				</kv-dropdown>
 			</Host>
 		);

@@ -15,11 +15,11 @@ describe('Range Dates Input (end-to-end)', () => {
 				const rangeDatesSelectDropdownElement = await page.find('kv-range-dates-select-dropdown');
 				spyChangeEvent = await rangeDatesSelectDropdownElement.spyOnEvent('openStateChange');
 
-				const textFieldElement = await page.find('kv-range-dates-select-dropdown >>> .start-single-date-select-dropdown kv-text-field');
+				const textFieldElement = await page.find('kv-range-dates-select-dropdown kv-dropdown-base .start-single-date-select-dropdown > kv-text-field');
 				textFieldElement.click();
 
 				await page.waitForChanges();
-				calendarElement = await page.find('kv-range-dates-select-dropdown >>> kv-calendar-range-dates-selector');
+				calendarElement = await page.find('kv-portal kv-calendar-range-dates-selector');
 			});
 
 			it('should emit state change with true and open calendar', () => {

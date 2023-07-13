@@ -24,9 +24,8 @@
 
 	 * @prop --background-color-default: Background color when state is default.
 	 * @prop --background-color-disabled: Background color when state is disabled.
-	 * @prop --right-slot-padding-right: right slot padding.
 	 * @prop --right-slot-width: right slot width
-	 * @prop --left-slot-padding-left: left slot left padding.
+	 * @prop --left-slot-width: left slot width.
 	 * @prop --left-slot-padding-top: left slot top padding.
 	 */
 
@@ -40,9 +39,8 @@
 	--text-color-help-text-error: #{kv-color('error')};
 
 	--border-color-error: #{kv-color('error')};
-	--right-slot-padding-right: #{$spacing-9x};
 	--right-slot-width: 36px;
-	--left-slot-padding-left: #{$spacing-6x};
+	--left-slot-width: 36px;
 	--left-slot-padding-top: 0;
 }
 
@@ -86,20 +84,16 @@ input {
 	color: var(--text-color-input-default);
 	background-color: var(--background-color-default);
 
-	&.has-icon {
-		padding-left: $spacing-9x;
-	}
-
 	&.invalid {
 		border-color: var(--border-color-error);
 	}
 
 	&.left-slotted {
-		padding-left: var(--left-slot-padding-left);
+		padding-left: var(--left-slot-width);
 	}
 
 	&.right-slotted {
-		padding-right: var(--right-slot-padding-right);
+		padding-right: var(--right-slot-width);
 	}
 
 	&::placeholder {
@@ -148,6 +142,24 @@ input {
 
 	&--size-small {
 		height: var(--input-height-small);
+	}
+
+	.input-content-container {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		box-sizing: border-box;
+		overflow: hidden;
+
+		&.left-slotted {
+			padding-left: var(--left-slot-width);
+		}
+
+		&.right-slotted {
+			padding-right: var(--right-slot-width);
+		}
 	}
 
 	.left-slot-container {

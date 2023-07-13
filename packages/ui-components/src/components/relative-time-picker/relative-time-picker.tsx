@@ -75,6 +75,8 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	@Event() timezoneChange: EventEmitter<ITimePickerTimezone>;
 	/** @inheritdoc */
 	@Event() timezoneInputClicked: EventEmitter<boolean>;
+	/** @inheritdoc */
+	@Event({ bubbles: false }) timezoneDropdownStateChange: EventEmitter<boolean>;
 
 	@Watch('options')
 	handleRelativeTimeOptionsChanges() {
@@ -183,6 +185,10 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 		return timezone ? formatTimezoneName(timezone) : '';
 	};
 
+	private onTimezoneChange = ({ detail: openState }: CustomEvent<boolean>) => {
+		this.timezoneDropdownStateChange.emit(openState);
+	};
+
 	render() {
 		return (
 			<Host>
@@ -248,6 +254,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 									selectedOption={this.getSelectedTimezone()}
 									onSearchChange={this.onTimezoneSearchTermChange}
 									onOptionSelected={this.onTimezoneSelected}
+									onOpenStateChange={this.onTimezoneChange}
 								/>
 							</kv-input-wrapper>
 						</div>

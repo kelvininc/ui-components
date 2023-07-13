@@ -41,14 +41,16 @@ export const KvSelectOptionExample: React.FC = () => (
 
 ## Properties
 
-| Property             | Attribute         | Description                                                     | Type      | Default     |
-| -------------------- | ----------------- | --------------------------------------------------------------- | --------- | ----------- |
-| `disabled`           | `disabled`        | (optional) If `true` the item is disabled                       | `boolean` | `false`     |
-| `hasBottomSlot`      | `has-bottom-slot` | (optional) If `true` styles the item to fit content below label | `boolean` | `false`     |
-| `label` _(required)_ | `label`           | (required) The text to display on the item                      | `string`  | `undefined` |
-| `selected`           | `selected`        | (optional) If `true` the item is selected                       | `boolean` | `false`     |
-| `togglable`          | `togglable`       | (optional)  If `true` the item is togglable                     | `boolean` | `false`     |
-| `value` _(required)_ | `value`           | (required) The item value                                       | `string`  | `undefined` |
+| Property             | Attribute         | Description                                                                     | Type      | Default     |
+| -------------------- | ----------------- | ------------------------------------------------------------------------------- | --------- | ----------- |
+| `description`        | `description`     | (optional) Description of the item displayed on the left                        | `string`  | `undefined` |
+| `disabled`           | `disabled`        | (optional) If `true` the item is disabled                                       | `boolean` | `false`     |
+| `hasBottomSlot`      | `has-bottom-slot` | (optional) If `true` styles the item to fit content below label                 | `boolean` | `false`     |
+| `indeterminate`      | `indeterminate`   | (optional) If `true` the item is in an indeterminate state (partially selected) | `boolean` | `false`     |
+| `label` _(required)_ | `label`           | (required) The text to display on the item                                      | `string`  | `undefined` |
+| `selected`           | `selected`        | (optional) If `true` the item is selected                                       | `boolean` | `false`     |
+| `togglable`          | `togglable`       | (optional) If `true` the item is togglable                                      | `boolean` | `false`     |
+| `value` _(required)_ | `value`           | (required) The item value                                                       | `string`  | `undefined` |
 
 
 ## Events
@@ -56,6 +58,15 @@ export const KvSelectOptionExample: React.FC = () => (
 | Event          | Description                              | Type                  |
 | -------------- | ---------------------------------------- | --------------------- |
 | `itemSelected` | Emitted when the user clicks on the item | `CustomEvent<string>` |
+
+
+## Shadow Parts
+
+| Part                 | Description            |
+| -------------------- | ---------------------- |
+| `"checkbox"`         | The option's checkbox  |
+| `"label"`            | The option's label     |
+| `"option-container"` | The option's container |
 
 
 ## CSS Custom Properties
@@ -77,8 +88,9 @@ export const KvSelectOptionExample: React.FC = () => (
 ### Used by
 
  - [kv-calendar-advanced-date-selector](../calendar-advanced-date-selector)
- - [kv-multi-select-dropdown](../multi-select-dropdown)
  - [kv-relative-time-picker](../relative-time-picker)
+ - [kv-select-multi-options](../select-multi-options)
+ - [kv-select-option-multi-level](../select-option-multi-level)
  - [kv-single-select-dropdown](../single-select-dropdown)
 
 ### Depends on
@@ -91,8 +103,9 @@ graph TD;
   kv-select-option --> kv-checkbox
   kv-checkbox --> kv-icon
   kv-calendar-advanced-date-selector --> kv-select-option
-  kv-multi-select-dropdown --> kv-select-option
   kv-relative-time-picker --> kv-select-option
+  kv-select-multi-options --> kv-select-option
+  kv-select-option-multi-level --> kv-select-option
   kv-single-select-dropdown --> kv-select-option
   style kv-select-option fill:#f9f,stroke:#333,stroke-width:4px
 ```

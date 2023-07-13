@@ -34,9 +34,9 @@
 		--select-border-radius: 0;
 	}
 
-	.absolute-date-selector {
-		kv-range-dates-select-dropdown::part(start-input),
-		kv-range-dates-select-dropdown::part(end-input) {
+	.absolute-date-selector .start-single-date-select-dropdown,
+	.absolute-date-selector .end-single-date-select-dropdown {
+		kv-text-field {
 			--text-color-input-default: #{kv-color('neutral-4')};
 			--text-color-input-focused: #{kv-color('neutral-0')};
 			--text-color-placeholder-focused: #{kv-color('neutral-0')};

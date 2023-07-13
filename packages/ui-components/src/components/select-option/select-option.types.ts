@@ -5,11 +5,15 @@ export interface ISelectOption {
 	label: string;
 	/** (required) The item value */
 	value: string;
+	/** (optional) Description of the item displayed on the left */
+	description?: string;
 	/** (optional) If `true` the item is disabled */
 	disabled?: boolean;
 	/** (optional) If `true` the item is selected */
 	selected?: boolean;
-	/** (optional)  If `true` the item is togglable */
+	/** (optional) If `true` the item is in an indeterminate state (partially selected) */
+	indeterminate?: boolean;
+	/** (optional) If `true` the item is togglable */
 	togglable?: boolean;
 	/** (optional) If `true` styles the item to fit content below label */
 	hasBottomSlot?: boolean;

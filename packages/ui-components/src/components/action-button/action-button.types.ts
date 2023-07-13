@@ -10,8 +10,8 @@ export enum EActionButtonType {
 }
 
 export interface IButton {
-	/** (required) Button's type */
-	type: EActionButtonType;
+	/** (optional) Button's type */
+	type?: EActionButtonType;
 	/** (optional) If `true` the button is disabled */
 	disabled: boolean;
 	/** (optional) If `true` the button is active */
