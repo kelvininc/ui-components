@@ -9,6 +9,7 @@ import { SINGLE_SELECT_CLEAR_SELECTION_LABEL, SINGLE_SELECT_DROPDOWN_NO_DATA_AVA
 import { CustomCssClass, EComponentSize } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 import { getCssStyle } from '../utils';
+import { ComputePositionConfig } from '@floating-ui/dom';
 
 @Component({
 	tag: 'kv-single-select-dropdown',
@@ -60,6 +61,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Prop({ reflect: true }) inputSize?: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
+	/** @inheritdoc */
+	@Prop({ reflect: false }) dropdownOptions: Partial<ComputePositionConfig>;
 
 	/** @inheritdoc */
 	@Event() optionSelected: EventEmitter<string>;
@@ -208,7 +211,13 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 		return (
 			<Host>
-				<kv-dropdown inputConfig={this.getInputConfig()} isOpen={this.isOpen} disabled={this.disabled} onOpenStateChange={this.openStateChangeHandler}>
+				<kv-dropdown
+					inputConfig={this.getInputConfig()}
+					isOpen={this.isOpen}
+					disabled={this.disabled}
+					onOpenStateChange={this.openStateChangeHandler}
+					options={this.dropdownOptions}
+				>
 					<div class={{ ...getClassMap(this.customClass), 'single-select-dropdown-slot': true }}>
 						<kv-select
 							searchValue={this._searchValue}

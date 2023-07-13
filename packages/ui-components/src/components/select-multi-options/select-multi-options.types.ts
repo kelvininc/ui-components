@@ -21,6 +21,8 @@ export interface ISelectMultiOptionsConfig {
 	noDataAvailableLabel?: string;
 	/** (optional) If `true` the dropdown is searchable */
 	searchable?: boolean;
+	/** (optional) The list search text field placeholder */
+	searchPlaceholder?: string;
 	/** (optional) The search value to display */
 	searchValue?: string;
 	/** (optional) If `true` dropdown items can be cleared */

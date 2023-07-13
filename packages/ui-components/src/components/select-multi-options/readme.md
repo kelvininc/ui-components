@@ -15,6 +15,7 @@
 | `minHeight`            | `min-height`              | (optional) The dropdown's min-height                                             | `string`                               | `undefined`                       |
 | `noDataAvailableLabel` | `no-data-available-label` | (required) The text to display when there are no options                         | `string`                               | `DEFAULT_NO_DATA_AVAILABLE_LABEL` |
 | `options`              | --                        | (optional) The object with the dropdown options                                  | `{ [x: string]: ISelectMultiOption; }` | `{}`                              |
+| `searchPlaceholder`    | `search-placeholder`      | (optional) The list search text field placeholder                                | `string`                               | `undefined`                       |
 | `searchValue`          | `search-value`            | (optional) The search value to display                                           | `string`                               | `undefined`                       |
 | `searchable`           | `searchable`              | (optional) If `true` the dropdown is searchable                                  | `boolean`                              | `undefined`                       |
 | `selectedOptions`      | --                        | (optional) The object with indexed by the dropdown labels and its selected value | `{ [x: string]: boolean; }`            | `{}`                              |

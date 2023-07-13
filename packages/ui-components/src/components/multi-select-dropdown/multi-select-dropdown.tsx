@@ -8,6 +8,7 @@ import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
 import { CustomCssClass, EComponentSize } from '../../types';
 import { getCssStyle } from '../utils';
 import { ISelectMultiOptions } from '../select-multi-options/select-multi-options.types';
+import { ComputePositionConfig } from '@floating-ui/dom';
 
 @Component({
 	tag: 'kv-multi-select-dropdown',
@@ -23,6 +24,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchable?: boolean;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) searchPlaceholder?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectionClearable?: boolean;
 	/** @inheritdoc */
@@ -55,6 +58,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: true }) inputSize?: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
+	/** @inheritdoc */
+	@Prop({ reflect: false }) dropdownOptions: Partial<ComputePositionConfig>;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
@@ -146,7 +151,13 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	render() {
 		return (
 			<Host>
-				<kv-dropdown inputConfig={this.inputConfig} isOpen={this._isOpen} onOpenStateChange={this.openStateChangeHandler} disabled={this.disabled}>
+				<kv-dropdown
+					inputConfig={this.inputConfig}
+					isOpen={this._isOpen}
+					onOpenStateChange={this.openStateChangeHandler}
+					disabled={this.disabled}
+					options={this.dropdownOptions}
+				>
 					<kv-select-multi-options
 						options={this.options}
 						filteredOptions={this.filteredOptions}
@@ -156,6 +167,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 						searchValue={this._searchValue}
 						selectionClearable={this.selectionClearable}
 						clearSelectionLabel={this.clearSelectionLabel}
+						searchPlaceholder={this.searchPlaceholder}
 						maxHeight={this.getMaxHeight()}
 						minHeight={this.minHeight}
 						onSearchChange={this.onSearchChange}
