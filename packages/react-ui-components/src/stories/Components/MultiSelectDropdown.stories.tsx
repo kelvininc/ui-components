@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { EComponentSize, EIconName, IMultiSelectDropdownOptions, KvMultiSelectDropdown } from '../../components';
+import { EComponentSize, EIconName, ISelectMultiOptions, KvMultiSelectDropdown } from '../../components';
 import { searchDropdownOptions } from './helpers/dropdown.helper';
 
 // Required to have the correct TagName in the code sample
@@ -58,7 +58,7 @@ const MultiSelectDropdownTemplate: ComponentStory<typeof KvMultiSelectDropdown> 
 	selectedOptions,
 	...otherProps
 }: {
-	options?: IMultiSelectDropdownOptions;
+	options?: ISelectMultiOptions;
 	selectedOptions?: Record<string, boolean>;
 }) => {
 	const [searchTerm, setSearchTerm] = useState<string | null>(null);

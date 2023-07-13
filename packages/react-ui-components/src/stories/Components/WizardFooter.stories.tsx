@@ -39,14 +39,14 @@ export default {
 				type: 'boolean'
 			}
 		},
-		prevBtnLabel: {
+		completeBtnLabel: {
 			control: {
 				type: 'text'
 			}
 		},
-		nextBtnLabel: {
+		cancelEnabled: {
 			control: {
-				type: 'text'
+				type: 'boolean'
 			}
 		},
 		prevEnabled: {
@@ -55,6 +55,31 @@ export default {
 			}
 		},
 		nextEnabled: {
+			control: {
+				type: 'boolean'
+			}
+		},
+		completeEnabled: {
+			control: {
+				type: 'boolean'
+			}
+		},
+		showCancelBtn: {
+			control: {
+				type: 'boolean'
+			}
+		},
+		showPrevBtn: {
+			control: {
+				type: 'boolean'
+			}
+		},
+		showNextBtn: {
+			control: {
+				type: 'boolean'
+			}
+		},
+		showCompleteBtn: {
 			control: {
 				type: 'boolean'
 			}
@@ -102,7 +127,7 @@ WithPrevious.args = {
 	steps: STEPS_MOCK_SUCCESS,
 	currentStep: 1,
 	progressPercentage: 50,
-	prevBtnLabel: 'Previous'
+	showPrevBtn: true
 };
 
 const STEPS_MOCK_ERROR: IStepBarStep[] = [

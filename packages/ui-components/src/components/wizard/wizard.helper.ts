@@ -15,7 +15,7 @@ export const buildHeaderConfig = (steps?: IWizardStep[], currentStep?: number): 
 	};
 };
 
-export const buildFooterConfig = (steps?: IWizardStep[], currentStep?: number, currentStepState?: EStepState, completeBtnLabel?: string): IWizardFooter => {
+export const buildFooterConfig = (steps?: IWizardStep[], currentStep?: number, currentStepState?: EStepState): IWizardFooter => {
 	if (isEmpty(steps) || isNil(currentStep) || currentStep < 0 || currentStep > steps.length - 1) {
 		return null;
 	}
@@ -33,10 +33,14 @@ export const buildFooterConfig = (steps?: IWizardStep[], currentStep?: number, c
 		steps: stepsConfig,
 		currentStep,
 		hasError: currentStepState === EStepState.Error,
-		prevBtnLabel: steps[currentStep].allowGoBack ? (currentStep === 0 ? 'Cancel' : 'Back') : undefined,
-		prevEnabled: steps[currentStep].allowGoBack,
-		nextBtnLabel: currentStep === steps.length - 1 ? completeBtnLabel : 'Next',
+		showPrevBtn: steps[currentStep].allowGoBack ?? false,
+		prevEnabled: currentStep > 0,
+		showNextBtn: currentStep < steps.length - 1,
 		nextEnabled: currentStepState === EStepState.Success,
+		showCancelBtn: steps[currentStep].cancelable ?? false,
+		cancelEnabled: true,
+		showCompleteBtn: currentStep === steps.length - 1,
+		completeEnabled: currentStepState === EStepState.Success,
 		progressPercentage: currentStep * (100 / (steps.length - 1))
 	};
 };

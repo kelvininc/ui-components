@@ -127,6 +127,7 @@ Type: `Promise<void>`
 ### Used by
 
  - [kv-advanced-date-select-dropdown](../advanced-date-select-dropdown)
+ - [kv-labels-dropdown](../labels-dropdown)
  - [kv-multi-select-dropdown](../multi-select-dropdown)
  - [kv-single-date-select-dropdown](../single-date-select-dropdown)
  - [kv-single-select-dropdown](../single-select-dropdown)
@@ -153,6 +154,7 @@ graph TD;
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
   kv-advanced-date-select-dropdown --> kv-dropdown
+  kv-labels-dropdown --> kv-dropdown
   kv-multi-select-dropdown --> kv-dropdown
   kv-single-date-select-dropdown --> kv-dropdown
   kv-single-select-dropdown --> kv-dropdown

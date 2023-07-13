@@ -52,10 +52,14 @@ describe('Wizard (unit tests)', () => {
 				],
 				currentStep: 1,
 				hasError: false,
-				prevBtnLabel: 'Back',
+				showPrevBtn: true,
 				prevEnabled: true,
-				nextBtnLabel: 'Next',
+				showNextBtn: true,
 				nextEnabled: false,
+				showCancelBtn: false,
+				cancelEnabled: true,
+				showCompleteBtn: false,
+				completeEnabled: false,
 				progressPercentage: 50
 			});
 		});
@@ -105,10 +109,14 @@ describe('Wizard (unit tests)', () => {
 				],
 				currentStep: 1,
 				hasError: true,
-				prevBtnLabel: 'Back',
+				showPrevBtn: true,
 				prevEnabled: true,
-				nextBtnLabel: 'Next',
+				showNextBtn: true,
 				nextEnabled: false,
+				showCancelBtn: false,
+				cancelEnabled: true,
+				showCompleteBtn: false,
+				completeEnabled: false,
 				progressPercentage: 50
 			});
 		});
@@ -158,10 +166,14 @@ describe('Wizard (unit tests)', () => {
 				],
 				currentStep: 1,
 				hasError: false,
-				prevBtnLabel: 'Back',
+				showPrevBtn: true,
 				prevEnabled: true,
-				nextBtnLabel: 'Next',
+				showNextBtn: true,
 				nextEnabled: true,
+				showCancelBtn: false,
+				cancelEnabled: true,
+				showCompleteBtn: false,
+				completeEnabled: true,
 				progressPercentage: 50
 			});
 		});
@@ -173,6 +185,28 @@ describe('Wizard (unit tests)', () => {
 			});
 
 			it('should emit to goToStep 2', () => {
+				expect(comp.goToStep.emit).toHaveBeenCalledWith(2);
+			});
+		});
+
+		describe('and previous button is clicked', () => {
+			beforeEach(() => {
+				jest.spyOn(comp.goToStep, 'emit');
+				comp.onPrevClick();
+			});
+
+			it('should emit to goToStep 1', () => {
+				expect(comp.goToStep.emit).toHaveBeenCalledWith(0);
+			});
+		});
+
+		describe('and next button is clicked', () => {
+			beforeEach(() => {
+				jest.spyOn(comp.goToStep, 'emit');
+				comp.onNextClick();
+			});
+
+			it('should emit to goToStep 1', () => {
 				expect(comp.goToStep.emit).toHaveBeenCalledWith(2);
 			});
 		});
@@ -222,33 +256,15 @@ describe('Wizard (unit tests)', () => {
 				],
 				currentStep: 0,
 				hasError: false,
-				prevBtnLabel: 'Cancel',
-				prevEnabled: true,
-				nextBtnLabel: 'Next',
+				showPrevBtn: false,
+				prevEnabled: false,
+				showNextBtn: true,
 				nextEnabled: true,
+				showCancelBtn: true,
+				cancelEnabled: true,
+				showCompleteBtn: false,
+				completeEnabled: true,
 				progressPercentage: 0
-			});
-		});
-
-		describe('and previous button is clicked', () => {
-			beforeEach(() => {
-				jest.spyOn(comp.cancelClick, 'emit');
-				comp.onPrevClick();
-			});
-
-			it('should emit to cancelClick', () => {
-				expect(comp.cancelClick.emit).toHaveBeenCalled();
-			});
-		});
-
-		describe('and next button is clicked', () => {
-			beforeEach(() => {
-				jest.spyOn(comp.goToStep, 'emit');
-				comp.onNextClick();
-			});
-
-			it('should emit to goToStep 1', () => {
-				expect(comp.goToStep.emit).toHaveBeenCalledWith(1);
 			});
 		});
 	});
@@ -297,10 +313,14 @@ describe('Wizard (unit tests)', () => {
 				],
 				currentStep: 2,
 				hasError: false,
-				prevBtnLabel: 'Back',
+				showPrevBtn: true,
 				prevEnabled: true,
-				nextBtnLabel: 'Deploy',
+				showNextBtn: false,
 				nextEnabled: true,
+				showCancelBtn: false,
+				cancelEnabled: true,
+				showCompleteBtn: true,
+				completeEnabled: true,
 				progressPercentage: 100
 			});
 		});
@@ -313,17 +333,6 @@ describe('Wizard (unit tests)', () => {
 
 			it('should emit to goToStep 1', () => {
 				expect(comp.goToStep.emit).toHaveBeenCalledWith(1);
-			});
-		});
-
-		describe('and next button is clicked', () => {
-			beforeEach(() => {
-				jest.spyOn(comp.completeClick, 'emit');
-				comp.onNextClick();
-			});
-
-			it('should emit to completeClick', () => {
-				expect(comp.completeClick.emit).toHaveBeenCalled();
 			});
 		});
 	});
