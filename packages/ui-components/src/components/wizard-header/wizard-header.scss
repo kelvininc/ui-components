@@ -36,4 +36,9 @@
 		margin: 0 $spacing-2x;
 		background-color: var(--separator-color);
 	}
+
+	kv-toggle-tip .toggle-tip-open-element-container {
+		@include clickable;
+		margin-left: $spacing-2x;
+	}
 }

@@ -66,7 +66,8 @@ const DEFAULT_ARGS = {
 		},
 		{
 			title: 'Configuration',
-			allowGoBack: true
+			allowGoBack: true,
+			tip: 'Add·your·custom·configurations·here.'
 		},
 		{
 			title: 'Confirmation',

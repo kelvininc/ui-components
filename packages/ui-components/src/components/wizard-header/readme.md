@@ -44,6 +44,7 @@ export const WizardHeaderExamples = () => (
 | -------------------------- | ------------- | --------------------------------------------------------------------- | -------- | ----------- |
 | `description` _(required)_ | `description` | (required) A description of the state (e.g the description of a step) | `string` | `undefined` |
 | `label` _(required)_       | `label`       | (required) A title to describe a state (e.g step)                     | `string` | `undefined` |
+| `tip`                      | `tip`         | (optional) An extra information for the step                          | `string` | `undefined` |
 
 
 ## CSS Custom Properties
@@ -60,9 +61,18 @@ export const WizardHeaderExamples = () => (
 
  - [kv-wizard](../wizard)
 
+### Depends on
+
+- [kv-toggle-tip](../toggle-tip)
+- [kv-icon](../icon)
+
 ### Graph
 ```mermaid
 graph TD;
+  kv-wizard-header --> kv-toggle-tip
+  kv-wizard-header --> kv-icon
+  kv-toggle-tip --> kv-portal
+  kv-toggle-tip --> kv-tooltip-text
   kv-wizard --> kv-wizard-header
   style kv-wizard-header fill:#f9f,stroke:#333,stroke-width:4px
 ```
