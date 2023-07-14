@@ -3,6 +3,7 @@ import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
 import { ISelectMultiOptionsConfig, ISelectMultiOptionsEvents } from '../select-multi-options/select-multi-options.types';
 import { EComponentSize, ICustomCss } from '../../types';
+import { ComputePositionConfig } from '@floating-ui/dom';
 
 export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptionsConfig, 'searchValue'> {
 	/** (required) The text to display as the dropdown placeholder */
@@ -27,6 +28,8 @@ export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptio
 	disabled?: boolean;
 	/** (optional) The size of the input */
 	inputSize?: EComponentSize;
+	/** (optional) The dropdown position config options */
+	dropdownOptions?: Partial<ComputePositionConfig>;
 }
 
 export interface IMultiSelectDropdownEvents extends ISelectMultiOptionsEvents {

@@ -69,7 +69,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
 	/** @inheritdoc */
-	@Event() selectionCleared: EventEmitter<void>;
+	@Event() clearSelection: EventEmitter<void>;
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 
@@ -193,7 +193,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 	private onClearSelection = () => {
 		this._selectedOption = undefined;
-		this.selectionCleared.emit();
+		this.clearSelection.emit();
 		this.calculateLabelValue();
 	};
 
@@ -231,6 +231,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							maxHeight={this.getMaxHeight()}
 							minHeight={this.minHeight}
 						>
+							<slot name="header-actions" slot="header-actions" />
+							<slot name="no-data-available" slot="no-data-available" />
 							{isEmpty(this.getCurrentOptions()) && <kv-select-option class="no-data" label={this.noDataAvailableLabel} value={null} />}
 							{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(this.getCurrentOptions()))}
 						</kv-select>

@@ -32,7 +32,7 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 		const selectedOptions = getSelectedOptions(selectedOptionsMap);
 		onChangeValue(selectedOptions);
 	}, []);
-	const onSelectionCleared = useCallback(() => {
+	const onClearSelection = useCallback(() => {
 		onChangeValue(multiple ? [] : undefined);
 	}, [onChange]);
 	const onChangeValue = useCallback(newValue => {
@@ -58,7 +58,7 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 		minHeight,
 		maxHeight,
 		selectionClearable,
-		onSelectionCleared
+		onClearSelection
 	};
 
 	useEffect(() => {

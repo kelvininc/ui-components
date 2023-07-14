@@ -37,14 +37,38 @@
 	border-bottom: var(--select-border);
 }
 
-.selection-clear {
-	@include kv-font-span-regular;
-	user-select: none;
-	color: kv-color('neutral-2');
-	cursor: pointer;
+.search-footer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 
-	&.disabled {
-		color: kv-color('neutral-5');
-		cursor: not-allowed;
+	.footer-actions {
+		@include kv-font-label-small-regular;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: calc($spacing-4x + 1px);
+		color: kv-color('neutral-4');
+	}
+
+	.action {
+		user-select: none;
+		cursor: pointer;
+		position: relative;
+
+		&--disabled {
+			pointer-events: none;
+			color: kv-color('neutral-5');
+		}
+
+		&:not(:last-of-type)::after {
+			content: '';
+			top: 0;
+			right: calc(-1 * $spacing-2x - 1px);
+			position: absolute;
+			height: 18px;
+			width: 1px;
+			background-color: kv-color('neutral-5');
+		}
 	}
 }

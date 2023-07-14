@@ -4,7 +4,7 @@ import { useArgs } from '@storybook/client-api';
 import { KvLabelsDropdown, KvSelectOption } from '../../components';
 import { ISelectMultiOptions } from '@kelvininc/ui-components/dist/types/components/select-multi-options/select-multi-options.types';
 import { get, isEmpty } from 'lodash';
-import { searchMultiLevelDropdownOptions } from './helpers/dropdown.helper';
+import { searchDropdownOptions } from './helpers/dropdown.helper';
 
 KvLabelsDropdown.displayName = 'KvLabelsDropdown';
 
@@ -44,7 +44,7 @@ export default {
 const LabelsDropdownTemplate: ComponentStory<typeof KvLabelsDropdown> = args => {
 	const [{ options, selectedOptions, searchValue }, updateArgs] = useArgs();
 
-	const filteredOptions = useMemo(() => searchMultiLevelDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
+	const filteredOptions = useMemo(() => searchDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
 
 	const onSelectAll = useCallback(() => {
 		const newSelectedOptions = getAllChildrenValues(options ?? {}).reduce<Record<string, boolean>>((acc, cur) => {
@@ -53,7 +53,7 @@ const LabelsDropdownTemplate: ComponentStory<typeof KvLabelsDropdown> = args => 
 		}, {});
 
 		updateArgs({ selectedOptions: newSelectedOptions });
-	}, [options, getAllChildrenValues]);
+	}, [options]);
 
 	const onClearAll = useCallback(() => {
 		updateArgs({ selectedOptions: {} });
@@ -92,11 +92,12 @@ const LabelsDropdownTemplate: ComponentStory<typeof KvLabelsDropdown> = args => 
 			});
 		}
 	};
+
 	return (
 		<KvLabelsDropdown
 			{...args}
 			onSelectAll={onSelectAll}
-			onSelectionCleared={onClearAll}
+			onClearSelection={onClearAll}
 			onOptionsSelected={onOptionsSelected}
 			onSearchChange={onSearchChange}
 			filteredOptions={filteredOptions}

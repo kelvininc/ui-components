@@ -12,6 +12,8 @@ export interface IWizardFooter extends IStepBar {
 	nextEnabled: boolean;
 	/** (optional) Defines if the `complete` button should be enabled and interactable */
 	completeEnabled: boolean;
+	/** (optional) The `complete` button label */
+	completeBtnLabel?: string;
 	/** (required) A boolean that determines whether the `cencel` button should be shown */
 	showCancelBtn?: boolean;
 	/** (required) A boolean that determines whether the `previous` button should be shown */

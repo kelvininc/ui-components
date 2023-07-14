@@ -18,3 +18,8 @@ kv-select-group:not(:last-child)::part(group-container) {
 kv-select {
 	--select-max-height: var(--select-list-max-height);
 }
+
+.selected-items-label {
+	@include kv-font-label-small-regular;
+	color: kv-color('neutral-4');
+}

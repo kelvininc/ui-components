@@ -1,6 +1,7 @@
 import { ComponentStory } from '@storybook/react';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { EComponentSize, EIconName, ISelectMultiOptions, KvMultiSelectDropdown } from '../../components';
+import React, { useCallback, useMemo } from 'react';
+import { useArgs } from '@storybook/client-api';
+import { EComponentSize, EIconName, KvMultiSelectDropdown } from '../../components';
 import { searchDropdownOptions } from './helpers/dropdown.helper';
 
 // Required to have the correct TagName in the code sample
@@ -53,33 +54,41 @@ export default {
 	}
 };
 
-const MultiSelectDropdownTemplate: ComponentStory<typeof KvMultiSelectDropdown> = ({
-	options,
-	selectedOptions,
-	...otherProps
-}: {
-	options?: ISelectMultiOptions;
-	selectedOptions?: Record<string, boolean>;
-}) => {
-	const [searchTerm, setSearchTerm] = useState<string | null>(null);
-	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => setSearchTerm(searchedLabel), []);
-	const filteredOptions = useMemo(() => searchDropdownOptions(searchTerm ?? '', options ?? {}), [searchTerm, options]);
+const MultiSelectDropdownTemplate: ComponentStory<typeof KvMultiSelectDropdown> = args => {
+	const [{ options, selectedOptions, searchValue }, updateArgs] = useArgs();
 
-	const onOptionsSelected = useCallback(({ detail: options }: CustomEvent<Record<string, boolean>>) => setSelected(options), []);
-	const [selected, setSelected] = useState<Record<string, boolean>>(selectedOptions || {});
+	const filteredOptions = useMemo(() => searchDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
 
-	useEffect(() => {
-		setSelected(selectedOptions || {});
-	}, [selectedOptions]);
+	const onSelectAll = useCallback(() => {
+		const newSelectedOptions = Object.keys(options ?? {}).reduce<Record<string, boolean>>((acc, cur) => {
+			acc[cur] = true;
+			return acc;
+		}, {});
+
+		updateArgs({ selectedOptions: newSelectedOptions });
+	}, [options]);
+
+	const onClearAll = useCallback(() => {
+		updateArgs({ selectedOptions: {} });
+	}, []);
+
+	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => {
+		updateArgs({ searchValue: searchedLabel });
+	}, []);
+
+	const onOptionsSelected = useCallback(({ detail }: CustomEvent<Record<string, boolean>>) => {
+		updateArgs({ selectedOptions: detail });
+	}, []);
 
 	return (
 		<KvMultiSelectDropdown
-			onSearchChange={onSearchChange}
-			selectedOptions={selected}
-			options={options}
-			filteredOptions={filteredOptions}
+			{...args}
+			selectedOptions={selectedOptions}
+			onSelectAll={onSelectAll}
+			onClearSelection={onClearAll}
 			onOptionsSelected={onOptionsSelected}
-			{...otherProps}
+			onSearchChange={onSearchChange}
+			filteredOptions={filteredOptions}
 		/>
 	);
 };
@@ -140,7 +149,9 @@ Default.args = {
 	label: 'Options',
 	icon: EIconName.Layer,
 	searchable: true,
-	selectionClearable: true
+	selectionClearable: true,
+	selectionAll: true,
+	counter: true
 };
 
 export const Groups = MultiSelectDropdownTemplate.bind({});
@@ -182,5 +193,7 @@ Groups.args = {
 	placeholder: 'Select a timezone',
 	icon: EIconName.Time,
 	searchable: true,
-	selectionClearable: true
+	selectionClearable: true,
+	selectionAll: true,
+	counter: true
 };
