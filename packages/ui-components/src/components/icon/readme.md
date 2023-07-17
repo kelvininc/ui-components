@@ -97,6 +97,7 @@ export const SvgIconExample: React.FC = () => (
  - [kv-toaster](../toaster)
  - [kv-toggle-button](../toggle-button)
  - [kv-tree-item](../tree-item)
+ - [kv-wizard-header](../wizard-header)
 
 ### Graph
 ```mermaid
@@ -126,6 +127,7 @@ graph TD;
   kv-toaster --> kv-icon
   kv-toggle-button --> kv-icon
   kv-tree-item --> kv-icon
+  kv-wizard-header --> kv-icon
   style kv-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

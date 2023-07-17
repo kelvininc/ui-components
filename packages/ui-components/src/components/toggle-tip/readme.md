@@ -89,6 +89,7 @@ export const ToggleTipExample: React.FC = () => (
 ### Used by
 
  - [kv-description-list](../description-list)
+ - [kv-wizard-header](../wizard-header)
 
 ### Depends on
 
@@ -101,6 +102,7 @@ graph TD;
   kv-toggle-tip --> kv-portal
   kv-toggle-tip --> kv-tooltip-text
   kv-description-list --> kv-toggle-tip
+  kv-wizard-header --> kv-toggle-tip
   style kv-toggle-tip fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

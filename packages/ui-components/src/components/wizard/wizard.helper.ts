@@ -11,7 +11,8 @@ export const buildHeaderConfig = (steps?: IWizardStep[], currentStep?: number): 
 
 	return {
 		label: `Step ${currentStep + 1}`,
-		description: steps[currentStep].title
+		description: steps[currentStep].title,
+		tip: steps[currentStep].tip
 	};
 };
 
