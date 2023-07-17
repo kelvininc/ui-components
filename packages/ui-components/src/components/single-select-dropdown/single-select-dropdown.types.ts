@@ -2,6 +2,7 @@ import { EventEmitter } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
 import { EComponentSize, ICustomCss } from '../../types';
+import { ComputePositionConfig } from '@floating-ui/dom';
 
 export interface ISingleSelectDropdownOption {
 	label: string;
@@ -57,6 +58,8 @@ export interface ISingleSelectDropdown extends ICustomCss {
 	maxHeight?: string;
 	/** (optional) The size of the input */
 	inputSize?: EComponentSize;
+	/** (optional) The dropdown position config options */
+	dropdownOptions?: Partial<ComputePositionConfig>;
 }
 
 export interface ISingleSelectDropdownEvents {

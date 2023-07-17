@@ -21,6 +21,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchable?: boolean;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) searchPlaceholder?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) searchValue?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectionClearable?: boolean;
@@ -89,6 +91,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 				searchValue={this._searchValue}
 				selectionClearable={isSelectionClearable}
 				selectionClearEnabled={isSelectionClearEnabled}
+				searchPlaceholder={this.searchPlaceholder}
 				clearSelectionLabel={this.clearSelectionLabel}
 				onClearSelection={this.onClearSelection}
 			>
