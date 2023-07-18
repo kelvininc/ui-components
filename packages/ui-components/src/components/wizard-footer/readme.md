@@ -113,7 +113,7 @@ export const KvWizardFooterExample: React.FC = () => {
 | Property                          | Attribute             | Description                                                                                  | Type             | Default     |
 | --------------------------------- | --------------------- | -------------------------------------------------------------------------------------------- | ---------------- | ----------- |
 | `cancelEnabled`                   | `cancel-enabled`      | (optional) Defines if the `cancel` button should be enabled and interactable                 | `boolean`        | `true`      |
-| `completeBtnLabel`                | `complete-btn-label`  |                                                                                              | `string`         | `'Submit'`  |
+| `completeBtnLabel`                | `complete-btn-label`  | (optional) The `complete` button label                                                       | `string`         | `'Submit'`  |
 | `completeEnabled`                 | `complete-enabled`    | (optional) Defines if the `complete` button should be enabled and interactable               | `boolean`        | `undefined` |
 | `currentStep` _(required)_        | `current-step`        | (required) Defines the current step index                                                    | `number`         | `undefined` |
 | `hasError`                        | `has-error`           | (optional) Defines if the progress bar should be in an error state                           | `boolean`        | `undefined` |

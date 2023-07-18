@@ -4,7 +4,7 @@ import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { IMultiSelectDropdown, IMultiSelectDropdownEvents } from './multi-select-dropdown.types';
 
 import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
-import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
+import { getDropdownDisplayValue, getAllOptionsSelected } from './multi-select-dropdown.helper';
 import { CustomCssClass, EComponentSize } from '../../types';
 import { getCssStyle } from '../utils';
 import { ISelectMultiOptions } from '../select-multi-options/select-multi-options.types';
@@ -49,7 +49,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedOptions?: Record<string, boolean> = {};
 	/** @inheritdoc */
-	@Prop({ reflect: true }) filteredOptions?: ISelectMultiOptions = {};
+	@Prop({ reflect: true }) filteredOptions?: ISelectMultiOptions;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minHeight?: string;
 	/** @inheritdoc */
@@ -60,13 +60,21 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
 	/** @inheritdoc */
 	@Prop({ reflect: false }) dropdownOptions: Partial<ComputePositionConfig>;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) selectionAll: boolean;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) selectAllLabel: string;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) counter: boolean;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
 	/** @inheritdoc */
-	@Event() selectionCleared: EventEmitter<void>;
+	@Event() clearSelection: EventEmitter<void>;
+	/** @inheritdoc */
+	@Event() selectAll: EventEmitter<void>;
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 
@@ -102,9 +110,18 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		this.searchChange.emit(searchValue);
 	};
 
-	private onClearSelection = () => {
+	private onClearSelection = (event: CustomEvent<void>) => {
+		event.stopPropagation();
+
 		this.selectedOptions = {};
-		this.selectionCleared.emit();
+		this.clearSelection.emit();
+		this.calculateLabelValue();
+	};
+
+	private onSelectAll = (event: CustomEvent<void>) => {
+		event.stopPropagation();
+		this.selectedOptions = getAllOptionsSelected(this.options);
+		this.selectAll.emit();
 		this.calculateLabelValue();
 	};
 
@@ -167,13 +184,20 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 						searchValue={this._searchValue}
 						selectionClearable={this.selectionClearable}
 						clearSelectionLabel={this.clearSelectionLabel}
+						selectionAll={this.selectionAll}
+						selectAllLabel={this.selectAllLabel}
 						searchPlaceholder={this.searchPlaceholder}
 						maxHeight={this.getMaxHeight()}
 						minHeight={this.minHeight}
+						counter={this.counter}
 						onSearchChange={this.onSearchChange}
-						onSelectionCleared={this.onClearSelection}
+						onClearSelection={this.onClearSelection}
 						onOptionsSelected={this.selectOption}
-					/>
+						onSelectAll={this.onSelectAll}
+					>
+						<slot name="header-actions" slot="header-actions" />
+						<slot name="no-data-available" slot="no-data-available" />
+					</kv-select-multi-options>
 				</kv-dropdown>
 			</Host>
 		);

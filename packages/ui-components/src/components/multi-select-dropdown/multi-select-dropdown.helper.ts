@@ -26,3 +26,10 @@ export const getDropdownDisplayValue = (options: ISelectMultiOptions = {}, selec
 		return `${acc + options[optionKey]?.label + (currentIndex !== selectedOptionsArray.length - 1 ? ', ' : '')}`;
 	}, '');
 };
+
+export const getAllOptionsSelected = (options: ISelectMultiOptions = {}): Record<string, boolean> =>
+	Object.keys(options).reduce((accumulator, optionKey) => {
+		accumulator[optionKey] = true;
+
+		return accumulator;
+	}, {});

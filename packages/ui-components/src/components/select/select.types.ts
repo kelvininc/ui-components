@@ -13,6 +13,12 @@ export interface ISelect {
 	selectionClearEnabled?: boolean;
 	/** (optional) The clear search action text */
 	clearSelectionLabel?: string;
+	/** (optional) If `true` the list has an action to select all items */
+	selectionAll?: boolean;
+	/** (optional) The selection all action text */
+	selectAllLabel?: string;
+	/** (optional) If `true` the selection action is enabled */
+	selectionAllEnabled?: boolean;
 	/** (optional) The dropdown's min-height */
 	minHeight?: string;
 	/** (optional) The dropdown's max-height */
@@ -24,4 +30,6 @@ export interface ISelectEvents {
 	searchChange: EventEmitter<string>;
 	/** Emitted when the user clears the selected items */
 	clearSelection: EventEmitter<void>;
+	/** Emitted when the user clicks on the all items */
+	selectAll: EventEmitter<void>;
 }

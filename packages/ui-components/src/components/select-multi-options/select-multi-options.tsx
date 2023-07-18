@@ -1,8 +1,8 @@
 import { Component, Event, EventEmitter, Prop, State, Watch, h } from '@stencil/core';
 import { ISelectMultiOption, ISelectMultiOptions, ISelectMultiOptionsConfig, ISelectMultiOptionsEvents } from './select-multi-options.types';
-import { isEmpty } from 'lodash';
 import { buildSelectGroups, hasGroups } from '../select-group/select-group.helper';
 import { DEFAULT_NO_DATA_AVAILABLE_LABEL } from './select-multi-options.config';
+import { getFlattenedOptionsMap } from './select-multi-options.helper';
 
 @Component({
 	tag: 'kv-select-multi-options',
@@ -13,7 +13,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	/** @inheritdoc */
 	@Prop({ reflect: true }) options?: ISelectMultiOptions = {};
 	/** @inheritdoc */
-	@Prop({ reflect: true }) filteredOptions?: ISelectMultiOptions = {};
+	@Prop({ reflect: true }) filteredOptions?: ISelectMultiOptions;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedOptions?: Record<string, boolean> = {};
 	/** @inheritdoc */
@@ -32,13 +32,21 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Prop({ reflect: true }) minHeight?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxHeight?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) selectionAll?: boolean;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) selectAllLabel?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) counter?: boolean;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
 	/** @inheritdoc */
-	@Event() selectionCleared: EventEmitter<void>;
+	@Event() clearSelection: EventEmitter<void>;
+	/** @inheritdoc */
+	@Event() selectAll: EventEmitter<void>;
 
 	@State() _searchValue: string = this.searchValue;
 
@@ -49,15 +57,21 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	}
 
 	private get currentOptions(): ISelectMultiOptions | undefined {
-		if (!isEmpty(this.filteredOptions)) {
+		if (this.filteredOptions) {
 			return this.filteredOptions;
 		}
 
 		return this.options;
 	}
 
-	private onClearSelection = () => {
-		this.selectionCleared.emit();
+	private onSelectAll = (event: CustomEvent<void>) => {
+		event.stopPropagation();
+		this.selectAll.emit();
+	};
+
+	private onClearSelection = (event: CustomEvent<void>) => {
+		event.stopPropagation();
+		this.clearSelection.emit();
 	};
 
 	private onSelectedOptionsChange = ({ detail: newOptions }: CustomEvent<Record<string, boolean>>) => {
@@ -77,11 +91,22 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	};
 
 	render() {
-		const currentOptions = this.currentOptions;
+		const options = this.options ?? {};
+		const currentOptions = this.currentOptions ?? {};
+		const selectedOptions = this.selectedOptions ?? {};
+
+		const optionsLength = Object.keys(getFlattenedOptionsMap(options)).length;
+		const currentOptionsLength = Object.keys(getFlattenedOptionsMap(currentOptions)).length;
+		const selectedOptionsLength = Object.keys(selectedOptions).filter(key => selectedOptions[key]).length;
+
 		const groups = buildSelectGroups(currentOptions);
 		const groupNames = Object.keys(groups);
-		const isSelectionClearable = !isEmpty(currentOptions) && this.selectionClearable;
-		const isSelectionClearEnabled = Object.keys(this.selectedOptions ?? {}).length > 0;
+
+		const areOptionsFiltered = currentOptionsLength < optionsLength;
+		const isSelectionClearable = optionsLength > 0 && this.selectionClearable;
+		const isSelectionClearEnabled = !areOptionsFiltered && selectedOptionsLength > 0;
+		const isSelectAllAvailable = optionsLength > 0 && this.selectionAll;
+		const isSelectAllEnabled = !areOptionsFiltered && selectedOptionsLength < optionsLength;
 
 		return (
 			<kv-select
@@ -93,15 +118,22 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 				selectionClearEnabled={isSelectionClearEnabled}
 				searchPlaceholder={this.searchPlaceholder}
 				clearSelectionLabel={this.clearSelectionLabel}
+				selectionAll={isSelectAllAvailable}
+				selectionAllEnabled={isSelectAllEnabled}
+				selectAllLabel={this.selectAllLabel}
+				onSelectAll={this.onSelectAll}
 				onClearSelection={this.onClearSelection}
 			>
 				<slot name="header-actions" slot="select-header-actions" />
-				{isEmpty(currentOptions) && this.noDataAvailableLabel && (
+				<slot name="header-label" slot="select-header-label">
+					{this.counter && <div class="selected-items-label">Selected: {`${selectedOptionsLength}/${optionsLength}`}</div>}
+				</slot>
+				{currentOptionsLength === 0 && this.noDataAvailableLabel && (
 					<slot name="no-data-available">
 						<kv-select-option class="no-data" label={this.noDataAvailableLabel} value="no-data-available" />
 					</slot>
 				)}
-				{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(currentOptions ?? {}))}
+				{hasGroups(groupNames) ? this.renderGroups(groupNames, groups) : this.renderOptions(Object.values(currentOptions))}
 			</kv-select>
 		);
 	}

@@ -1,4 +1,5 @@
 import { EventEmitter } from '@stencil/core';
+import { ISelectEvents } from '../select/select.types';
 
 export interface ISelectMultiOption {
 	label: string;
@@ -27,19 +28,21 @@ export interface ISelectMultiOptionsConfig {
 	searchValue?: string;
 	/** (optional) If `true` dropdown items can be cleared */
 	selectionClearable?: boolean;
-	/** (optional) The clear search action text */
+	/** (optional) The clear selection action text */
 	clearSelectionLabel?: string;
 	/** (optional) The dropdown's min-height */
 	minHeight?: string;
 	/** (optional) The dropdown's max-height */
 	maxHeight?: string;
+	/** (optional) If `true` the list has an action to select all items */
+	selectionAll?: boolean;
+	/** (optional) The selection all action text */
+	selectAllLabel?: string;
+	/** (optional) If `true` a selection counter is displayed */
+	counter?: boolean;
 }
 
-export interface ISelectMultiOptionsEvents {
+export interface ISelectMultiOptionsEvents extends ISelectEvents {
 	/** Emitted when the selected options change */
 	optionsSelected: EventEmitter<Record<string, boolean>>;
-	/** Emitted when the search term changes */
-	searchChange: EventEmitter<string>;
-	/** Emitted when the selection is cleared */
-	selectionCleared: EventEmitter<void>;
 }
