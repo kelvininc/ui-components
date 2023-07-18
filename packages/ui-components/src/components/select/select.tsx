@@ -2,6 +2,7 @@ import { Component, Host, h, Prop, Event, EventEmitter, Element, Fragment } from
 import { isNil, omitBy } from 'lodash-es';
 import { CLEAR_SELECTION_LABEL, SELECT_ALL_LABEL } from './select.config';
 import { ISelect, ISelectEvents } from './select.types';
+import { isElementVisible } from './select.helper';
 
 /**
  * @part select - The select container.
@@ -68,11 +69,11 @@ export class KvSelect implements ISelect, ISelectEvents {
 	}
 
 	private get hasActionsSlot() {
-		return !isNil(this.el.querySelector('[slot="select-header-actions"]'));
+		return isElementVisible(this.el, '[slot="select-header-actions"]');
 	}
 
 	private get hasLabelSlot() {
-		return !isNil(this.el.querySelector('[slot="select-header-label"]'));
+		return isElementVisible(this.el, '[slot="select-header-label"]');
 	}
 
 	render() {

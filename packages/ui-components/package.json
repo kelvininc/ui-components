@@ -83,7 +83,7 @@
 		"lodash": "^4.17.21",
 		"lodash-es": "^4.17.21",
 		"prettier": "^3.0.0",
-		"puppeteer": "^20.9.0",
+		"puppeteer": "^21.0.0",
 		"source-map-explorer": "^2.5.3",
 		"stylelint": "^15.0.0",
 		"stylelint-config-sass-guidelines": "^10.0.0",

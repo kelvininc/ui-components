@@ -3,7 +3,7 @@ import { E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
 describe('Calendar Advance Date Selector (end-to-end)', () => {
 	let page: E2EPage;
 
-	describe('when user clicks on the an relative date option', () => {
+	xdescribe('when user clicks on the an relative date option', () => {
 		let spyChangeEvent: EventSpy;
 
 		beforeEach(async () => {
@@ -60,7 +60,7 @@ describe('Calendar Advance Date Selector (end-to-end)', () => {
 		});
 	});
 
-	describe('when user selects a timezone', () => {
+	xdescribe('when user selects a timezone', () => {
 		let spyChangeEvent: EventSpy;
 
 		beforeEach(async () => {

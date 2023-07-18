@@ -1,5 +1,7 @@
-import { Component, Host, h, Prop, EventEmitter, Event, Listen } from '@stencil/core';
-import { ISelectOption, ISelectOptionEvents } from './select-option.types';
+import { Component, Host, h, Prop, EventEmitter, Event, Element } from '@stencil/core';
+import { EToggleState, ISelectOption, ISelectOptionEvents } from './select-option.types';
+import { isEmpty } from 'lodash';
+import { LEVEL_OFFSET_PX } from './select-option.config';
 
 /**
  * @part option-container - The option's container
@@ -12,6 +14,8 @@ import { ISelectOption, ISelectOptionEvents } from './select-option.types';
 	shadow: true
 })
 export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
+	@Element() el!: HTMLKvSelectOptionElement;
+
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label!: string;
 	/** @inheritdoc */
@@ -23,41 +27,51 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selected?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) indeterminate?: boolean = false;
-	/** @inheritdoc */
 	@Prop({ reflect: true }) togglable?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) hasBottomSlot?: boolean = false;
-
-	/** Listen to custom itemSelected DOM event and stop it's propagation when there are nested  */
-	@Listen('itemSelected')
-	tabSelectionHandler(event: CustomEvent<string>) {
-		event.stopPropagation();
-	}
+	@Prop({ reflect: true }) selectable?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) options?: Record<string, ISelectOption> = {};
+	/** @inheritdoc */
+	@Prop({ reflect: true }) level = 0;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) state?: EToggleState;
 
 	/** @inheritdoc */
 	@Event() itemSelected: EventEmitter<string>;
 
 	private onItemClick = () => {
-		if (!this.disabled) {
-			this.itemSelected.emit(this.value);
+		if (this.disabled) {
+			return;
 		}
+
+		this.itemSelected.emit(this.value);
 	};
 
+	private get hasChildren() {
+		return !isEmpty(this.options);
+	}
+
 	render() {
+		const children = Object.values(this.options);
+
 		return (
 			<Host>
 				<div
 					class={{
 						'select-option': true,
-						'selected': this.selected,
-						'disabled': this.disabled,
-						'has-bottom-slot': this.hasBottomSlot
+						'select-option--selected': this.selected,
+						'select-option--disabled': this.disabled,
+						'select-option--selectable': this.selectable,
+						'select-option--parent': this.hasChildren
 					}}
 					part="option-container"
 					onClick={this.onItemClick}
+					style={{ '--level-padding-offset': `${LEVEL_OFFSET_PX * this.level}px` }}
 				>
-					{this.togglable && <kv-checkbox checked={this.selected} indeterminate={this.indeterminate} part="checkbox" />}
+					{this.selectable && this.togglable && (
+						<kv-checkbox checked={this.state === EToggleState.Selected} indeterminate={this.state === EToggleState.Indeterminate} part="checkbox" />
+					)}
 					<div class="text-container">
 						<div class="item-label" part="label">
 							{this.label}
@@ -66,7 +80,13 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 						<slot></slot>
 					</div>
 				</div>
-				<slot name="host-bottom-slot"></slot>
+				{this.hasChildren && (
+					<div class="children-options">
+						{children.map(childOption => (
+							<kv-select-option {...childOption} level={this.level + 1} />
+						))}
+					</div>
+				)}
 			</Host>
 		);
 	}

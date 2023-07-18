@@ -6,13 +6,13 @@ export const searchDropdownOptions = (term: string, options: ISingleSelectDropdo
 	return Object.keys(options).reduce<ISingleSelectDropdownOptions | ISelectMultiOptions>((accumulator, key) => {
 		const option = options[key];
 
-		if ('children' in option && !isEmpty(option.children)) {
-			const childrenMatches = searchDropdownOptions(term, option.children);
+		if (!isEmpty(option.options)) {
+			const childrenMatches = searchDropdownOptions(term, option.options);
 
 			if (!isEmpty(childrenMatches)) {
 				accumulator[key] = {
 					...option,
-					children: childrenMatches
+					options: childrenMatches
 				};
 			}
 
