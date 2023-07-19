@@ -2,6 +2,7 @@ import { ComputePositionConfig } from '@floating-ui/dom';
 import { ITextField } from '../text-field/text-field.types';
 import { IRelativeTimePickerOption, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
 import { EventEmitter } from '@stencil/core';
+import { ITimezoneOffset } from '../../types';
 
 export interface ITimePicker {
 	/** (optional) Configuration of the dropdown input */
@@ -17,7 +18,7 @@ export interface ITimePicker {
 	/** (optional) Relative time picker options*/
 	relativeTimePickerOptions?: IRelativeTimePickerOption[][];
 	/** (optional) Timezones */
-	timezones?: string[];
+	timezones?: ITimezoneOffset[];
 	/** (optional) Determines if the customize interval otion is visible */
 	displayCustomizeInterval?: boolean;
 	/** (optional) Determines if the timezone dropdown is visible */
