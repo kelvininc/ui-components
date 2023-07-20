@@ -44,7 +44,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	/** @inheritdoc */
 	@Prop({ reflect: false }) selectedTimezone?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) timezones?: string[] = getTimezonesNames();
+	@Prop({ reflect: false }) timezones?: ITimezoneOffset[] = buildTimezoneByOffset(getTimezonesNames());
 	/** @inheritdoc */
 	@Prop({ reflect: false }) customIntervalOptionEnabled?: boolean = true;
 	/** @inheritdoc */
@@ -60,7 +60,6 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	@State() relativeTimeOptions: IRelativeTimeDropdownOption[][] = [];
 	/** Timezone dropdown management states */
 	@State() timezonesSearchTerm: string = '';
-	@State() timezonesByOffset: ITimezoneOffset[];
 	@State() timezoneDropdownOptions: ISingleSelectDropdownOptions;
 	/** State to determine if a scrollbar is needed to display all the options */
 	@State() hasScroll: boolean = false;
@@ -94,14 +93,9 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 		this.hasScroll = isScrollNeeded(this.options, this.customIntervalOptionEnabled, this.timezoneSelectionEnabled);
 	}
 
-	@Watch('timezones')
-	handleTimezonesChanges(timezones: string[]) {
-		this.timezonesByOffset = buildTimezoneByOffset(timezones);
-	}
-
 	@Watch('timezonesSearchTerm')
 	onTimezoneSearch(searchTerm: string) {
-		const searchedTimezones = searchString(searchTerm, this.timezonesByOffset);
+		const searchedTimezones = searchString(searchTerm, this.timezones);
 		this.timezoneDropdownOptions = buildTimezonesDropdownOptions(searchedTimezones);
 	}
 
@@ -118,7 +112,6 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	}
 
 	componentWillLoad() {
-		this.handleTimezonesChanges(this.timezones);
 		this.onTimezoneSearch('');
 		this.handleRelativeTimeOptionsChanges();
 	}
@@ -167,17 +160,12 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 		this.timezoneInputClicked.emit(true);
 	};
 
-	private getSelectedTimezone = (): string | undefined => {
+	private getSelectedTimezone = (): string => {
 		if (this.selectedTimezone !== undefined) {
 			return this.selectedTimezone;
 		}
 
-		const defaultTimezone = getDefaultTimezone();
-		if (this.timezones.includes(defaultTimezone)) {
-			return defaultTimezone;
-		}
-
-		return undefined;
+		return getDefaultTimezone();
 	};
 
 	private getSelectedTimezoneTitle = (): string => {

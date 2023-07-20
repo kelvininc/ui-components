@@ -27,8 +27,8 @@ exports[`KvRelativeTimePicker (unit tests) when the component loads with empty p
         <kv-select-option label="Custom Interval" value="customize-interval"></kv-select-option>
       </div>
       <div class="selectable">
-        <kv-input-wrapper icon="kv-edit" label="">
-          <kv-single-select-dropdown icon="kv-time" inputsize="small" placeholder="Select a timezone" searchable="" searchplaceholder="Search for a timezone"></kv-single-select-dropdown>
+        <kv-input-wrapper icon="kv-edit" label="(+00:00) UTC">
+          <kv-single-select-dropdown icon="kv-time" inputsize="small" placeholder="Select a timezone" searchable="" searchplaceholder="Search for a timezone" selectedoption="UTC"></kv-single-select-dropdown>
         </kv-input-wrapper>
       </div>
     </div>
