@@ -84,6 +84,7 @@ export class KvWizard implements IWizard, IWizardEvents {
 						onStepClick={this.onStepClick}
 						showStepBar={this.showStepBar}
 						completeBtnLabel={this.completeBtnLabel}
+						exportparts="footer-actions-container"
 						{...this.currentFooter}
 					>
 						<slot slot="additional-actions" name="additional-actions" />

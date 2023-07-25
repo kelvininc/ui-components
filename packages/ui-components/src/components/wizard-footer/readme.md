@@ -140,6 +140,13 @@ export const KvWizardFooterExample: React.FC = () => {
 | `stepClick`     | Fires when a step on the step bar is clicked and emits the index | `CustomEvent<number>` |
 
 
+## Shadow Parts
+
+| Part                         | Description                                            |
+| ---------------------------- | ------------------------------------------------------ |
+| `"footer-actions-container"` | the container of footer stepper and additional actions |
+
+
 ## CSS Custom Properties
 
 | Name              | Description                                             |
