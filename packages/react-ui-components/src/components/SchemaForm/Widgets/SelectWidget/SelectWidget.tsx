@@ -35,6 +35,9 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 	const onClearSelection = useCallback(() => {
 		onChangeValue(multiple ? [] : undefined);
 	}, [onChange]);
+	const onSelectAll = useCallback(() => {
+		onChangeValue(Object.keys(defaultDropdownOptions));
+	}, [onChange]);
 	const onChangeValue = useCallback(newValue => {
 		const processedValue = processValue(schema, newValue);
 		onChange(processedValue);
@@ -58,7 +61,8 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 		minHeight,
 		maxHeight,
 		selectionClearable,
-		onClearSelection
+		onClearSelection,
+		onSelectAll
 	};
 
 	useEffect(() => {

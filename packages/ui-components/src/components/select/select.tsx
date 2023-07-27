@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Element } from '@stencil/core';
+import { Component, Host, h, Prop, Event, EventEmitter, Element, Fragment } from '@stencil/core';
 import { isNil, omitBy } from 'lodash-es';
 import { CLEAR_SELECTION_LABEL, SELECT_ALL_LABEL } from './select.config';
 import { ISelect, ISelectEvents } from './select.types';
@@ -71,41 +71,54 @@ export class KvSelect implements ISelect, ISelectEvents {
 		return !isNil(this.el.querySelector('[slot="select-header-actions"]'));
 	}
 
+	private get hasLabelSlot() {
+		return !isNil(this.el.querySelector('[slot="select-header-label"]'));
+	}
+
 	render() {
+		const hasLabels = this.selectionAll || this.selectionClearable || this.hasActionsSlot || this.hasLabelSlot;
+		const hasHeader = this.searchable || hasLabels;
+
 		return (
 			<Host style={this.customStyle}>
 				<div class="select-container" part="select">
-					{(this.searchable || this.selectionClearable || this.hasActionsSlot) && (
+					{hasHeader && (
 						<div class="select-header-container">
 							{this.searchable && <kv-search value={this.searchValue} placeholder={this.searchPlaceholder} onTextChange={this.onSearchChange} />}
-							<div class="search-footer">
-								<div class="footer-actions">
-									{this.selectionAll && (
-										<div
-											class={{
-												'action': true,
-												'action--disabled': !this.selectionAllEnabled
-											}}
-											onClick={this.onSelectAll}
-										>
-											{this.selectAllLabel}
-										</div>
-									)}
-									{this.selectionClearable && (
-										<div
-											class={{
-												'action': true,
-												'action--disabled': !this.selectionClearEnabled
-											}}
-											onClick={this.onClearSelection}
-										>
-											{this.clearSelectionLabel}
-										</div>
-									)}
-									<slot name="select-header-actions" />
+							{hasLabels && (
+								<div class="search-footer">
+									<div class="footer-actions">
+										{this.selectionAll && (
+											<div
+												class={{
+													'action': true,
+													'action--disabled': !this.selectionAllEnabled
+												}}
+												onClick={this.onSelectAll}
+											>
+												{this.selectAllLabel}
+											</div>
+										)}
+										{this.selectionClearable && (
+											<Fragment>
+												{this.selectionAll && <div class="divider" />}
+												<div
+													class={{
+														'action': true,
+														'action--disabled': !this.selectionClearEnabled
+													}}
+													onClick={this.onClearSelection}
+												>
+													{this.clearSelectionLabel}
+												</div>
+												{this.hasActionsSlot && <div class="divider" />}
+											</Fragment>
+										)}
+										<slot name="select-header-actions" />
+									</div>
+									<slot name="select-header-label" />
 								</div>
-								<slot name="select-header-label" />
-							</div>
+							)}
 						</div>
 					)}
 					<div class="select-options-container">

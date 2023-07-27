@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, Prop, State, Watch, h } from '@stencil/core';
+import { Component, Event, EventEmitter, Prop, State, Watch, h, Element } from '@stencil/core';
 import { ISelectMultiOption, ISelectMultiOptions, ISelectMultiOptionsConfig, ISelectMultiOptionsEvents } from './select-multi-options.types';
 import { buildSelectGroups, hasGroups } from '../select-group/select-group.helper';
 import { DEFAULT_NO_DATA_AVAILABLE_LABEL } from './select-multi-options.config';
@@ -38,6 +38,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Prop({ reflect: true }) selectAllLabel?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) counter?: boolean;
+
+	@Element() el: HTMLKvSelectMultiOptionsElement;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
@@ -124,8 +126,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 				onSelectAll={this.onSelectAll}
 				onClearSelection={this.onClearSelection}
 			>
-				<slot name="header-actions" slot="select-header-actions" />
-				<slot name="header-label" slot="select-header-label">
+				<slot name="header-actions" slot="header-actions" />
+				<slot name="header-label" slot="header-label">
 					{this.counter && <div class="selected-items-label">Selected: {`${selectedOptionsLength}/${optionsLength}`}</div>}
 				</slot>
 				{currentOptionsLength === 0 && this.noDataAvailableLabel && (
