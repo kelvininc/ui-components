@@ -1,7 +1,6 @@
 import { Placement } from '@floating-ui/dom';
-
 import { Options as CoreDetectOverflowOptions } from '@floating-ui/core/src/detectOverflow';
-import { Options as ShiftOptions } from '@floating-ui/core/src/middleware/shift';
+import { ShiftOptions } from '@floating-ui/core/src/middleware/shift';
 import { DEFAULT_PORTAL_Z_INDEX } from '../../globals/config';
 
 export const PORTAL_Z_INDEX = {

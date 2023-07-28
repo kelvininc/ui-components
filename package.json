@@ -16,17 +16,11 @@
 		"storybook:deploy": "lerna run --scope @kelvininc/react-ui-components deploy-storybook"
 	},
 	"devDependencies": {
-		"@commitlint/config-conventional": "^16.0.0",
-		"cz-lerna-changelog": "^2.0.3",
-		"lerna": "^4.0.0",
+		"@commitlint/config-conventional": "^17.6.7",
+		"lerna": "^5.0.0",
 		"mockdate": "^3.0.5"
 	},
 	"resolutions": {
 		"libnpmpublish": "4.0.2"
-	},
-	"config": {
-		"commitizen": {
-			"path": "./node_modules/cz-lerna-changelog"
-		}
 	}
 }

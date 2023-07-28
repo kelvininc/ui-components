@@ -65,5 +65,9 @@ export const getDatesRangeFromRelativeOption = (relativeTimeOptionValue: string,
 
 	const { startDate, endDate } = relativeTimeOption;
 
-	return [startDate, endDate].map(date => calculateDate(date?.relativeDate, date?.amount, date?.unit).tz(timezone).format()) as [string, string];
+	return [startDate, endDate].map(date =>
+		calculateDate(date?.relativeDate, date?.amount, date?.unit)
+			.tz(timezone)
+			.format()
+	) as [string, string];
 };

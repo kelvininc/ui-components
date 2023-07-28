@@ -7,6 +7,7 @@ describe('Illustration (end-to-end)', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
 			await page.setContent('<kv-illustration name="kv-es-section-somethingwentwrong" custom-class="illustration-full-size"></kv-illustration>');
+			await page.waitForChanges();
 		});
 
 		it('should render the <kv-es-section-somethingwentwrong> with custom classes', async () => {

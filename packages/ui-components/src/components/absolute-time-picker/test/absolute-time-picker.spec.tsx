@@ -4,7 +4,6 @@ import { h } from '@stencil/core';
 
 describe('Absolute Time Picker (unit tests)', () => {
 	let page: SpecPage;
-	let component: KvAbsoluteTimePicker;
 
 	// This component in testing should always consider an initial date
 	// to prevent snapshots changes
@@ -14,7 +13,6 @@ describe('Absolute Time Picker (unit tests)', () => {
 				components: [KvAbsoluteTimePicker],
 				template: () => <kv-absolute-time-picker initialDate="2023-03-03" />
 			});
-			component = page.rootInstance;
 		});
 
 		it('should match the snapshot', () => {

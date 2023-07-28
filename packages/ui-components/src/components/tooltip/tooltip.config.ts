@@ -1,4 +1,4 @@
-import { Options as AutoPlacementOptions } from '@floating-ui/core/src/middleware/autoPlacement';
+import { AutoPlacementOptions } from '@floating-ui/core/src/middleware/autoPlacement';
 import { Options as CoreDetectOverflowOptions } from '@floating-ui/core/src/detectOverflow';
 import { ComputePositionConfig, offset, shift } from '@floating-ui/dom';
 

@@ -7,10 +7,12 @@
 // kv-color(secondary, contrast) => var(--kv-secondary-contrast)
 // kv-color(primary, base, 0.5) => rgba(var(--kv-primary-rgb, 0, 92, 199), 0.5)
 // --------------------------------------------------------------------------------------------
+@use "sass:map";
+
 @function kv-color($name, $variation: base, $alpha: null, $rgb: false) {
-	$values: map-get($colors, $name);
+	$values: map.get($colors, $name);
 	@if ($values) {
-		$value: map-get($values, $variation);
+		$value: map.get($values, $variation);
 		$variable: --kv-#{$name}-#{$variation};
 
 		@if ($variation == base) {
