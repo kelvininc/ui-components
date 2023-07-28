@@ -1,14 +1,4 @@
 .InputContainer {
 	display: flex;
 	flex-direction: column;
-
-	&.HasErrors {
-		min-height: 59px;
-		justify-content: end;
-	}
-
-	&.HasLabel:not(.HasErrors) {
-		min-height: 81px;
-		justify-content: top;
-	}
 }

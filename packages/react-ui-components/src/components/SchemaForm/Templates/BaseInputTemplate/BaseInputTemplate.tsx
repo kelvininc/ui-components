@@ -1,5 +1,4 @@
 import { EInputFieldType, EValidationState } from '@kelvininc/ui-components';
-import classNames from 'classnames';
 import { get, isArray, isEmpty } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
 import { KvTextField } from '../../../stencil-generated';
@@ -24,7 +23,7 @@ const BaseInputTemplate = ({
 	options,
 	schema,
 	rawErrors = [],
-	uiSchema,
+	uiSchema = {},
 	type
 }: WidgetProps) => {
 	const _onChange = useCallback((value: CustomEvent<string>) => onChange(value?.detail ? value.detail : options.emptyValue), [onChange, options]);
@@ -32,16 +31,12 @@ const BaseInputTemplate = ({
 	const inputType = useMemo(() => type ?? getInputType(schema.type), [type, schema.type]);
 	const examples = useMemo(() => (schema.examples ? (schema.examples as string[]).concat(schema.default ? ([schema.default] as string[]) : []) : undefined), [schema.examples]);
 	const hasErrors = useMemo(() => !isEmpty(rawErrors), [rawErrors]);
-	const hasDescription = useMemo(() => !!get(schema, 'description', false) || !!get(uiSchema, ['ui:description'], false), [uiSchema, schema.description]);
 	const displayedLabel = useMemo(() => get(uiSchema, ['ui:title']) || schema.title || label, [uiSchema, schema.title, label]);
+
+	const { useInputMask, inputMaskRegex, minLength, maxLength, max, min } = uiSchema;
+
 	return (
-		<div
-			className={classNames(styles.InputContainer, {
-				[styles.HasErrors]: hasErrors,
-				[styles.HasLabel]: !!displayedLabel && displayedLabel != ' ',
-				[styles.HasDescription]: hasDescription
-			})}
-		>
+		<div className={styles.InputContainer}>
 			<KvTextField
 				id={id}
 				label={displayedLabel}
@@ -49,10 +44,16 @@ const BaseInputTemplate = ({
 				disabled={disabled || readonly}
 				readonly={readonly}
 				required={required}
+				maxLength={maxLength}
+				minLength={minLength}
+				min={min}
+				max={max}
 				forcedFocus={autofocus}
 				placeholder={placeholder}
 				type={inputType}
 				state={hasErrors ? EValidationState.Invalid : EValidationState.Valid}
+				useInputMask={useInputMask}
+				inputMaskRegex={inputMaskRegex}
 				value={value || value === 0 ? value : ''}
 				onTextChange={_onChange}
 				onTextFieldBlur={_onBlur}

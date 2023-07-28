@@ -51,5 +51,6 @@ WithTextAndPlaceholder.args = {
 export const WithIcon = TextAreaTemplate.bind({});
 WithIcon.args = {
 	...WithTextAndPlaceholder.args,
+	text: '',
 	icon: EIconName.Notes
 };
