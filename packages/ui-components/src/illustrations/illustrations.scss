@@ -1,11 +1,12 @@
+@use "sass:color";
 @import '../assets/styles/globals';
 
 .illustration {
 	--illustration-color: var(--kv-illustrations-color, #{$primary-color});
-	--illustration-color-light-90: var(--kv-illustrations-color-light-90, #{mix(#fff, $primary-color, 89.5%)});
-	--illustration-color-light-80: var(--kv-illustrations-color-light-80, #{mix(#fff, $primary-color, 78.5%)});
-	--illustration-color-dark-55: var(--kv-illustrations-color-dark-55, #{mix(#000, $primary-color, 54.5%)});
-	--illustration-color-dark-35: var(--kv-illustrations-color-dark-35, #{mix(#000, $primary-color, 36%)});
+	--illustration-color-light-90: var(--kv-illustrations-color-light-90, #{color.mix(#fff, $primary-color, 89.5%)});
+	--illustration-color-light-80: var(--kv-illustrations-color-light-80, #{color.mix(#fff, $primary-color, 78.5%)});
+	--illustration-color-dark-55: var(--kv-illustrations-color-dark-55, #{color.mix(#000, $primary-color, 54.5%)});
+	--illustration-color-dark-35: var(--kv-illustrations-color-dark-35, #{color.mix(#000, $primary-color, 36%)});
 	--illustration-success-color: var(--kv-illustrations-success-color, #{$success-color});
 
 	width: var(--illustration-width);

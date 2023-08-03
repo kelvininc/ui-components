@@ -2,7 +2,6 @@ import { E2EElement, E2EPage, newE2EPage } from '@stencil/core/testing';
 
 describe('KvBreadcrumbList (end-to-end)', () => {
 	let page: E2EPage;
-	let listEl: E2EElement;
 	let childrenEl: E2EElement[];
 
 	afterAll(async () => {
@@ -13,7 +12,6 @@ describe('KvBreadcrumbList (end-to-end)', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
 			await page.setContent(`<kv-breadcrumb-list></kv-breadcrumb-list>`);
-			listEl = await page.find('kv-breadcrumb-list');
 			childrenEl = await page.findAll('kv-breadcrumb-item');
 		});
 
@@ -44,7 +42,6 @@ describe('KvBreadcrumbList (end-to-end)', () => {
 						active>
 					</kv-breadcrumb-item>
 				</kv-breadcrumb-list>`);
-			listEl = await page.find('kv-breadcrumb-list');
 			childrenEl = await page.findAll('kv-breadcrumb-item');
 		});
 

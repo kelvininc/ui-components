@@ -22,6 +22,7 @@ export const config: Config = {
 		angular({
 			componentCorePackage: '@kelvininc/ui-components',
 			directivesProxyFile: '../angular-ui-components/src/stencil-generated/component.ts',
+			directivesArrayFile: '../angular-ui-components/src/stencil-generated/index.ts',
 			valueAccessorConfigs: angularValueAccessorBindings
 		}),
 		react({

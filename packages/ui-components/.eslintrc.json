@@ -4,9 +4,9 @@
 	},
 	"env": { "jest": true },
 	"plugins": ["jest", "prettier"],
-	"extends": ["plugin:@stencil/recommended", "plugin:jest/recommended", "prettier"],
+	"extends": ["plugin:@stencil-community/recommended", "plugin:jest/recommended", "plugin:prettier/recommended"],
 	"rules": {
-		"@stencil/required-prefix": ["error", ["kv-"]],
+		"@stencil-community/required-prefix": ["error", ["kv-"]],
 		"jest/no-focused-tests": "error",
 		"jest/no-test-prefixes": "off",
 		"prettier/prettier": "error",

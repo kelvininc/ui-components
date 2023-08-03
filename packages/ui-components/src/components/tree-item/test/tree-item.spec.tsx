@@ -95,7 +95,7 @@ describe('Tree Item (unit tests)', () => {
 
 			beforeEach(() => {
 				onClickSpyEvent = new MouseEvent('click');
-				component.onItemClick(onClickSpyEvent);
+				component['onItemClick'](onClickSpyEvent);
 			});
 
 			it('should prevent event', () => {

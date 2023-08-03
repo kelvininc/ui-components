@@ -4,7 +4,6 @@ import { KvIllustration } from '../illustration';
 
 describe('Illustration (unit tests)', () => {
 	let page: SpecPage;
-	let component: KvIllustration;
 
 	describe('when uses default props', () => {
 		beforeEach(async () => {
@@ -12,7 +11,6 @@ describe('Illustration (unit tests)', () => {
 				components: [KvIllustration],
 				html: `<kv-illustration name="kv-es-section-somethingwentwrong"></kv-illustration>`
 			});
-			component = page.rootInstance;
 		});
 
 		it('should match the snapshot', () => {
@@ -26,7 +24,6 @@ describe('Illustration (unit tests)', () => {
 				components: [KvIllustration],
 				html: `<kv-illustration name="kv-es-section-somethingwentwrong" custom-class="icon-full-size"></kv-illustration>`
 			});
-			component = page.rootInstance;
 		});
 
 		it('should match the snapshot', () => {

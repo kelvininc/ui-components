@@ -98,7 +98,6 @@ describe('Radio (end-to-end)', () => {
 
 	describe('when the checkbox is disabled and the user clicks on the checkbox', () => {
 		let checkboxElement: E2EElement;
-		let iconElement: E2EElement;
 		let spyClickCheckboxEvent: EventSpy;
 
 		beforeEach(async () => {
@@ -106,7 +105,6 @@ describe('Radio (end-to-end)', () => {
 			await page.setContent('<kv-checkbox disabled></kv-checkbox>');
 
 			checkboxElement = await page.find('kv-checkbox');
-			iconElement = await page.find('kv-checkbox >>> kv-icon');
 			spyClickCheckboxEvent = await checkboxElement.spyOnEvent('clickCheckbox');
 
 			await checkboxElement.click();
