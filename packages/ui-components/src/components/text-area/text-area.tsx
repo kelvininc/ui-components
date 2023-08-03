@@ -69,8 +69,11 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	};
 
 	private onTextAreaLeave = () => {
-		this.isEditing = false;
 		this.textChangeBlur.emit(this.inputRef.innerText);
+	};
+
+	private onToggleTextArea = () => {
+		this.isEditing = !this.isEditing;
 	};
 
 	private updateInputRef = (ref: HTMLDivElement) => {
@@ -82,7 +85,7 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 		return (
 			<Host>
 				<div class="text-area-container">
-					{this.icon && <kv-icon name={this.icon} customClass={'icon-20'} class="left-icon" />}
+					{this.icon && <kv-icon name={this.icon} customClass={'icon-20'} class="left-icon" onClick={this.onToggleTextArea} />}
 					<div class="text-area" onClick={this.onTextAreaClick} onFocusout={this.onTextAreaLeave}>
 						<div
 							class={{

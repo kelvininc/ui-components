@@ -1,6 +1,5 @@
 import { EValidationState } from '@kelvininc/ui-components';
 import { WidgetProps } from '@rjsf/utils';
-import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../stencil-generated';
@@ -70,7 +69,7 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 	}, [value]);
 
 	return (
-		<div className={classNames(styles.InputContainer, { [styles.HasErrors]: hasErrors, [styles.HasLabel]: !!displayedLabel })}>
+		<div className={styles.InputContainer}>
 			{!multiple && <KvSingleSelectDropdown selectedOption={stateValue} onOptionSelected={onChangeOptionSelected} {...props} />}
 			{multiple && <KvMultiSelectDropdown selectedOptions={buildSelectedOptions(stateValue)} onOptionsSelected={onChangeOptionsSelected} {...props} />}
 		</div>
