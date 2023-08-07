@@ -58,9 +58,6 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Bootstrap
-              run: npm run bootstrap
-
             - name: Generate Versions (Amend)
               if: env.CURRENT_VERSION != env.LAST_VERSION
               run: |
