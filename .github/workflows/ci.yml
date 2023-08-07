@@ -27,9 +27,6 @@ jobs:
               with:
                   node-version: ${{ matrix.node }}
 
-            - name: 🐉 Bootstrap repository
-              run: npm run bootstrap
-
             - name: 🔍 Run linter
               run: npm run lint
 

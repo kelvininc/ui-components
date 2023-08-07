@@ -31,11 +31,6 @@ jobs:
               env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-            - name: Bootstrap
-              run: npm run bootstrap
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
             - name: Lint
               run: npm run lint
 

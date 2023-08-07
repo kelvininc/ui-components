@@ -23,6 +23,10 @@ runs:
         - name: Install dependencies
           shell: bash
           run: npm install
+
+        - name: Bootstrap packages
+          shell: bash
+          run: npm run bootstrap
           env:
               PUPPETEER_SKIP_DOWNLOAD: true
 
