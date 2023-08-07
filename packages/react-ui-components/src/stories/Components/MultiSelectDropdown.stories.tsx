@@ -252,7 +252,7 @@ SubOptions.args = {
 	selectedOptions: {},
 	label: 'Data Streams',
 	placeholder: 'Select a data stream',
-	icon: EIconName.Metrics,
+	icon: EIconName.Datastreams,
 	searchPlaceholder: 'Search for a data stream',
 	searchable: true,
 	selectionClearable: true,
