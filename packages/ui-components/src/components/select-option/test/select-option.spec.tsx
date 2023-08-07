@@ -42,17 +42,13 @@ describe('KvSelectOption (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvSelectOption],
-				template: () => <kv-select-option label="Option 1" value="option1" hasBottomSlot></kv-select-option>
+				template: () => <kv-select-option label="Option 1" value="option1"></kv-select-option>
 			});
 			component = page.rootInstance;
 		});
 
 		it('should match the snapshot', () => {
 			expect(page.root).toMatchSnapshot();
-		});
-
-		it('should set the component `hasBottomSlot` prop to true', () => {
-			expect(component.hasBottomSlot).toEqual(true);
 		});
 	});
 });

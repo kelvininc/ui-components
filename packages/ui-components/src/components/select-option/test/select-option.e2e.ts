@@ -51,25 +51,57 @@ describe('Select Item (end-to-end)', () => {
 		});
 
 		it('should have the .selected class', () => {
-			expect(itemEl).toHaveClass('selected');
+			expect(itemEl).toHaveClass('select-option--selected');
 		});
 	});
 
-	describe('when the component renders with has-bottom-slot flag', () => {
+	describe('when the component renders with selectable flag with false', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
 			await page.setContent(`
 				<kv-select-option
 					label='Option 1'
 					value='option1'
-					has-bottom-slot>
+					selectable='false'>
+				</kv-select-option>`);
+			selectOptionEl = await page.find('kv-select-option');
+			itemEl = await page.find('kv-select-option >>> .select-option');
+			labelEl = await page.find('kv-select-option >>> .item-label');
+		});
+
+		it('should not have the .selectable class', () => {
+			expect(itemEl).not.toHaveClass('select-option--selectable');
+		});
+
+		describe('and the user clicks on the item', () => {
+			let clickEventSpy: EventSpy;
+
+			beforeEach(async () => {
+				clickEventSpy = await selectOptionEl.spyOnEvent('itemSelected');
+				await labelEl.click();
+			});
+
+			it('should not emit an event with the clicked item', () => {
+				expect(clickEventSpy).not.toHaveReceivedEvent();
+			});
+		});
+	});
+
+	describe('when the component renders with disabled flag', () => {
+		beforeEach(async () => {
+			page = await newE2EPage();
+			await page.setContent(`
+				<kv-select-option
+					label='Option 1'
+					value='option1'
+					disabled>
 				</kv-select-option>`);
 			selectOptionEl = await page.find('kv-select-option');
 			itemEl = await page.find('kv-select-option >>> .select-option');
 		});
 
-		it('should have the .has-bottom-slot class', () => {
-			expect(itemEl).toHaveClass('has-bottom-slot');
+		it('should have the .disabled class', () => {
+			expect(itemEl).toHaveClass('select-option--disabled');
 		});
 	});
 });

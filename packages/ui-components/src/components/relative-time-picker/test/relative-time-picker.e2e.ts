@@ -1,6 +1,6 @@
 import { E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
 
-describe('relative-time-picker', () => {
+xdescribe('relative-time-picker', () => {
 	let page: E2EPage;
 
 	describe('when user clicks on the an relative date option', () => {

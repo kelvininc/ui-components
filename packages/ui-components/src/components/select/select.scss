@@ -60,11 +60,11 @@
 			pointer-events: none;
 			color: kv-color('neutral-5');
 		}
+	}
 
-		.divider {
-			height: 12px;
-			width: 1px;
-			background-color: kv-color('neutral-6');
-		}
+	.divider {
+		height: 12px;
+		width: 1px;
+		background-color: kv-color('neutral-6');
 	}
 }

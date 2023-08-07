@@ -4,7 +4,7 @@ import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { IMultiSelectDropdown, IMultiSelectDropdownEvents } from './multi-select-dropdown.types';
 
 import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
-import { getDropdownDisplayValue, getAllOptionsSelected } from './multi-select-dropdown.helper';
+import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
 import { CustomCssClass, EComponentSize } from '../../types';
 import { getCssStyle } from '../utils';
 import { ISelectMultiOptions } from '../select-multi-options/select-multi-options.types';
@@ -27,7 +27,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchPlaceholder?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) selectionClearable?: boolean;
+	@Prop({ reflect: true }) selectionClearable?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) clearSelectionLabel?: string;
 	/** @inheritdoc */
@@ -61,11 +61,11 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: false }) dropdownOptions: Partial<ComputePositionConfig>;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) selectionAll: boolean;
+	@Prop({ reflect: false }) selectionAll: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) selectAllLabel: string;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) counter: boolean;
+	@Prop({ reflect: false }) counter: boolean = true;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
@@ -113,20 +113,17 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	private onClearSelection = (event: CustomEvent<void>) => {
 		event.stopPropagation();
 
-		this.selectedOptions = {};
 		this.clearSelection.emit();
 		this.calculateLabelValue();
 	};
 
 	private onSelectAll = (event: CustomEvent<void>) => {
 		event.stopPropagation();
-		this.selectedOptions = getAllOptionsSelected(this.options);
 		this.selectAll.emit();
 		this.calculateLabelValue();
 	};
 
 	componentWillLoad() {
-		this._selectionDisplayValue = this.displayValue;
 		this.calculateLabelValue();
 	}
 
@@ -195,7 +192,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 						onOptionsSelected={this.selectOption}
 						onSelectAll={this.onSelectAll}
 					>
-						<slot name="header-actions" slot="header-actions" />
+						<slot name="select-header-actions" slot="select-header-actions" />
+						<slot name="select-header-label" slot="select-header-label" />
 						<slot name="no-data-available" slot="no-data-available" />
 					</kv-select-multi-options>
 				</kv-dropdown>

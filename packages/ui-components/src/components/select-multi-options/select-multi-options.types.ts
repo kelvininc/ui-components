@@ -1,12 +1,8 @@
 import { EventEmitter } from '@stencil/core';
-import { ISelectEvents } from '../select/select.types';
+import { ISelectEvents, ISelectOption } from '../../types';
 
-export interface ISelectMultiOption {
-	label: string;
-	value: string;
-	disabled?: boolean;
-	children?: ISelectMultiOptions;
-	group?: string;
+export interface ISelectMultiOption extends Pick<ISelectOption, 'label' | 'value' | 'disabled' | 'selectable'> {
+	options?: ISelectMultiOptions;
 }
 
 export type ISelectMultiOptions = Record<string, ISelectMultiOption>;
@@ -40,6 +36,8 @@ export interface ISelectMultiOptionsConfig {
 	selectAllLabel?: string;
 	/** (optional) If `true` a selection counter is displayed */
 	counter?: boolean;
+	/** (optional) The minimum amount of options required to display the search. Defaults to `8`. */
+	minSearchOptions?: number;
 }
 
 export interface ISelectMultiOptionsEvents extends ISelectEvents {

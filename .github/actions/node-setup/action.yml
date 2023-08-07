@@ -14,7 +14,7 @@ runs:
           with:
               node-version: ${{ inputs.node-version }}
 
-        - name: Restore cache
+        - name: Restore dependencies cache
           uses: actions/cache@v3
           with:
               path: "**/node_modules"
@@ -23,3 +23,10 @@ runs:
         - name: Install dependencies
           shell: bash
           run: npm install
+          env:
+              PUPPETEER_SKIP_DOWNLOAD: true
+
+        - name: Download chrome binary
+          shell: bash
+          working-directory: "packages/ui-components/node_modules/puppeteer"
+          run: npm run postinstall

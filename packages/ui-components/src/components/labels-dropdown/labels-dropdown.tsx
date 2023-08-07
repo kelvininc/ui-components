@@ -3,7 +3,7 @@ import { ILabelsDropdown } from './labels-dropdown.types';
 import { getTextFieldConfig, setOverflowingLabels } from './labels-dropdown.helper';
 import { isEmpty, isEqual } from 'lodash';
 import { EIconName, ISelectMultiOptions, ISelectMultiOptionsEvents } from '../../types';
-import { getFlattenedOptionsMap } from '../select-multi-options/select-multi-options.helper';
+import { getSelectableOptions, getSelectedSelectableOptions } from '../../utils/select.helper';
 
 @Component({
 	tag: 'kv-labels-dropdown',
@@ -64,7 +64,7 @@ export class KvLabelsDropdown implements ILabelsDropdown, ISelectMultiOptionsEve
 	@Watch('options')
 	optionsWatcher(newValue: Record<string, boolean>, oldValue: Record<string, boolean>) {
 		if (isEqual(newValue, oldValue)) return;
-		this.flattenedOptionsHash = getFlattenedOptionsMap(this.options);
+		this.flattenedOptionsHash = getSelectableOptions(this.options);
 	}
 
 	@Watch('searchValue')
@@ -74,7 +74,7 @@ export class KvLabelsDropdown implements ILabelsDropdown, ISelectMultiOptionsEve
 	}
 
 	private dropdownElRef: HTMLKvDropdownElement;
-	private flattenedOptionsHash = getFlattenedOptionsMap(this.options);
+	private flattenedOptionsHash = getSelectableOptions(this.options);
 
 	private onDropdownMount = (dropdownEl: HTMLKvDropdownElement) => {
 		this.dropdownElRef = dropdownEl;
@@ -121,11 +121,13 @@ export class KvLabelsDropdown implements ILabelsDropdown, ISelectMultiOptionsEve
 	}
 
 	render() {
+		const selectedSelectOptions = getSelectedSelectableOptions(this.options, this.selectedOptions);
+
 		return (
 			<Host>
 				<kv-dropdown
 					isOpen={this._isOpen}
-					inputConfig={getTextFieldConfig(isEmpty(this.selectedOptions))}
+					inputConfig={getTextFieldConfig(isEmpty(selectedSelectOptions))}
 					onOpenStateChange={this.onOpenStateChange}
 					ref={this.onDropdownMount}
 				>
@@ -154,8 +156,9 @@ export class KvLabelsDropdown implements ILabelsDropdown, ISelectMultiOptionsEve
 						onSelectAll={this.onSelectAll}
 						onClearSelection={this.onClearSelection}
 					>
-						<slot name="header-actions" slot="header-actions" />
-						<slot name="no-data-available" slot="no-data-available"></slot>
+						<slot name="select-header-actions" slot="select-header-actions" />
+						<slot name="select-header-label" slot="select-header-label" />
+						<slot name="no-data-available" slot="no-data-available" />
 					</kv-select-multi-options>
 				</kv-dropdown>
 			</Host>

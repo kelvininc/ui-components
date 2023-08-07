@@ -41,16 +41,18 @@ export const KvSelectOptionExample: React.FC = () => (
 
 ## Properties
 
-| Property             | Attribute         | Description                                                                     | Type      | Default     |
-| -------------------- | ----------------- | ------------------------------------------------------------------------------- | --------- | ----------- |
-| `description`        | `description`     | (optional) Description of the item displayed on the left                        | `string`  | `undefined` |
-| `disabled`           | `disabled`        | (optional) If `true` the item is disabled                                       | `boolean` | `false`     |
-| `hasBottomSlot`      | `has-bottom-slot` | (optional) If `true` styles the item to fit content below label                 | `boolean` | `false`     |
-| `indeterminate`      | `indeterminate`   | (optional) If `true` the item is in an indeterminate state (partially selected) | `boolean` | `false`     |
-| `label` _(required)_ | `label`           | (required) The text to display on the item                                      | `string`  | `undefined` |
-| `selected`           | `selected`        | (optional) If `true` the item is selected                                       | `boolean` | `false`     |
-| `togglable`          | `togglable`       | (optional) If `true` the item is togglable                                      | `boolean` | `false`     |
-| `value` _(required)_ | `value`           | (required) The item value                                                       | `string`  | `undefined` |
+| Property             | Attribute     | Description                                                                   | Type                                                                       | Default     |
+| -------------------- | ------------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------- |
+| `description`        | `description` | (optional) Description of the item displayed on the left                      | `string`                                                                   | `undefined` |
+| `disabled`           | `disabled`    | (optional) If `true` the item is disabled                                     | `boolean`                                                                  | `false`     |
+| `label` _(required)_ | `label`       | (required) The text to display on the item                                    | `string`                                                                   | `undefined` |
+| `level`              | `level`       | (optional) The level depth at which the option is rendered                    | `number`                                                                   | `0`         |
+| `options`            | --            | (optional) The children items of this option                                  | `{ [x: string]: ISelectOption; }`                                          | `{}`        |
+| `selectable`         | `selectable`  | (optional) If `false` the item is only for presenting and cannot be selected. | `boolean`                                                                  | `true`      |
+| `selected`           | `selected`    | (optional) If `true` the item is selected                                     | `boolean`                                                                  | `false`     |
+| `state`              | `state`       | (optional) The toggle button state                                            | `EToggleState.Indeterminate \| EToggleState.None \| EToggleState.Selected` | `undefined` |
+| `togglable`          | `togglable`   | (optional) If `true` the item is togglable                                    | `boolean`                                                                  | `false`     |
+| `value` _(required)_ | `value`       | (required) The item value                                                     | `string`                                                                   | `undefined` |
 
 
 ## Events
@@ -90,22 +92,22 @@ export const KvSelectOptionExample: React.FC = () => (
  - [kv-calendar-advanced-date-selector](../calendar-advanced-date-selector)
  - [kv-relative-time-picker](../relative-time-picker)
  - [kv-select-multi-options](../select-multi-options)
- - [kv-select-option-multi-level](../select-option-multi-level)
+ - [kv-select-option](.)
  - [kv-single-select-dropdown](../single-select-dropdown)
 
 ### Depends on
 
 - [kv-checkbox](../checkbox)
+- [kv-select-option](.)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-select-option --> kv-checkbox
+  kv-select-option --> kv-select-option
   kv-checkbox --> kv-icon
   kv-calendar-advanced-date-selector --> kv-select-option
   kv-relative-time-picker --> kv-select-option
   kv-select-multi-options --> kv-select-option
-  kv-select-option-multi-level --> kv-select-option
   kv-single-select-dropdown --> kv-select-option
   style kv-select-option fill:#f9f,stroke:#333,stroke-width:4px
 ```
