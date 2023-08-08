@@ -104,10 +104,16 @@ Default.args = {
 				title: 'A multiple choices list',
 				items: {
 					type: 'string',
-					enum: ['bar', 'fuzz', 'qux']
+					enum: ['bar', 'fuzz', 'qux', 'bar1', 'fuzz1', 'qux1', 'bar2', 'fuzz2', 'qux2']
 				},
 				uniqueItems: true
 			}
+		}
+	},
+	uiSchema: {
+		'multipleChoicesList-example': {
+			searchable: true,
+			selectionClearable: true
 		}
 	}
 };

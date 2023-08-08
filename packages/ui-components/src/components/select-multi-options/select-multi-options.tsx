@@ -5,6 +5,7 @@ import { EToggleState, ISelectOption } from '../select-option/select-option.type
 import { isEmpty } from 'lodash';
 import { buildAllOptionsSelected, getFlattenSelectOptions, getSelectableOptions } from '../../utils/select.helper';
 import { buildSelectOptions } from './select-multi-options.helper';
+import { selectHelper } from '../../utils';
 
 @Component({
 	tag: 'kv-select-multi-options',
@@ -91,11 +92,13 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 	private onSelectAll = (event: CustomEvent<void>) => {
 		event.stopPropagation();
+		this.optionsSelected.emit(selectHelper.buildAllOptionsSelected(selectHelper.getSelectableOptions(this.options)));
 		this.selectAll.emit();
 	};
 
 	private onClearSelection = (event: CustomEvent<void>) => {
 		event.stopPropagation();
+		this.optionsSelected.emit({});
 		this.clearSelection.emit();
 	};
 

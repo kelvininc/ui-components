@@ -1,3 +1,4 @@
+import { CustomCssClass } from '@kelvininc/ui-components';
 import Form, { FormProps } from '@rjsf/core';
 import { RJSFSchema, StrictRJSFSchema, ValidatorType } from '@rjsf/utils';
 
@@ -17,7 +18,7 @@ declare module 'json-schema' {
 export interface SchemaFormProps<T, S extends StrictRJSFSchema = RJSFSchema> extends Partial<FormProps<T, S>> {
 	schema: S; //Required
 	validator?: ValidatorType<T, S>; //Optional
-	customClass?: string;
+	customClass?: CustomCssClass;
 	submittedData?: T;
 	allowDiscardChanges?: boolean;
 	formReference?: React.RefObject<Form<T>>;

@@ -4,6 +4,7 @@ import { getTextFieldConfig, setOverflowingLabels } from './labels-dropdown.help
 import { isEmpty, isEqual } from 'lodash';
 import { EIconName, ISelectMultiOptions, ISelectMultiOptionsEvents } from '../../types';
 import { getSelectableOptions, getSelectedSelectableOptions } from '../../utils/select.helper';
+import { MINIMUM_SEARCHABLE_OPTIONS } from './labels-dropdown.config';
 
 @Component({
 	tag: 'kv-labels-dropdown',
@@ -22,7 +23,7 @@ export class KvLabelsDropdown implements ILabelsDropdown, ISelectMultiOptionsEve
 	/** @inheritdoc */
 	@Prop({ reflect: true }) noDataAvailableLabel?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) searchable?: boolean = true;
+	@Prop({ reflect: true }) searchable?: boolean;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchValue?: string;
 	/** @inheritdoc */
@@ -38,7 +39,9 @@ export class KvLabelsDropdown implements ILabelsDropdown, ISelectMultiOptionsEve
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectAllLabel?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) counter?: boolean = true;
+	@Prop({ reflect: true }) counter: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) minSearchOptions?: number = MINIMUM_SEARCHABLE_OPTIONS;
 
 	@State() _isOpen = this.isOpen;
 	@State() _searchValue = this.searchValue;
@@ -143,6 +146,7 @@ export class KvLabelsDropdown implements ILabelsDropdown, ISelectMultiOptionsEve
 						selectedOptions={this.selectedOptions}
 						noDataAvailableLabel={this.noDataAvailableLabel}
 						searchable={this.searchable}
+						minSearchOptions={this.minSearchOptions}
 						searchValue={this._searchValue}
 						minHeight={this.minHeight}
 						maxHeight={this.maxHeight}

@@ -5,11 +5,11 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../stencil-generated';
 import styles from './SelectWidget.module.scss';
 import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, searchDropdownOptions } from './utils';
+import { DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
 
 const SelectWidget = ({ schema, id, options, label, required, disabled, readonly, value, multiple, onChange, placeholder, rawErrors = [], uiSchema = {} }: WidgetProps) => {
 	const { enumOptions, enumDisabled } = options;
-	const { displayValue, searchable, selectionClearable, minHeight, maxHeight } = uiSchema;
-
+	const { displayValue, searchable, selectionClearable, minHeight, maxHeight, minSearchOptions } = uiSchema;
 	const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
 	const defaultDropdownOptions = useMemo(() => buildDropdownOptions(enumOptions, enumDisabled), [enumOptions, enumDisabled]);
@@ -31,12 +31,6 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 		const selectedOptions = getSelectedOptions(selectedOptionsMap);
 		onChangeValue(selectedOptions);
 	}, []);
-	const onClearSelection = useCallback(() => {
-		onChangeValue(multiple ? [] : undefined);
-	}, [onChange]);
-	const onSelectAll = useCallback(() => {
-		onChangeValue(Object.keys(defaultDropdownOptions));
-	}, [onChange]);
 	const onChangeValue = useCallback(newValue => {
 		const processedValue = processValue(schema, newValue);
 		onChange(processedValue);
@@ -54,14 +48,14 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 		disabled: disabled || readonly,
 		errorState: hasErrors ? EValidationState.Invalid : EValidationState.Valid,
 		displayValue: typeof value === 'undefined' ? emptyValue : displayValue?.(value, defaultDropdownOptions),
-		options: filteredOptions,
+		options: defaultDropdownOptions,
+		filteredOptions,
 		onSearchChange,
 		searchable,
 		minHeight,
 		maxHeight,
 		selectionClearable,
-		onClearSelection,
-		onSelectAll
+		minSearchOptions: minSearchOptions ?? DEFAULT_MINIMUM_SEARCHABLE_OPTIONS
 	};
 
 	useEffect(() => {

@@ -140,6 +140,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this.isOpen = event.detail;
 
 		if (!this.isOpen) {
+			this._searchValue = '';
 			this.searchChange.emit('');
 		}
 
@@ -198,7 +199,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	});
 
 	private onClearSelection = () => {
-		this.selectedOption = undefined;
+		this.optionSelected.emit(undefined);
 		this.clearSelection.emit();
 		this.calculateLabelValue();
 	};

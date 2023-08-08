@@ -3,7 +3,7 @@ import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { IMultiSelectDropdown, IMultiSelectDropdownEvents } from './multi-select-dropdown.types';
 
-import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
+import { MINIMUM_SEARCHABLE_OPTIONS, MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
 import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
 import { CustomCssClass, EComponentSize } from '../../types';
 import { getCssStyle } from '../utils';
@@ -66,6 +66,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: false }) selectAllLabel: string;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) counter: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) minSearchOptions?: number = MINIMUM_SEARCHABLE_OPTIONS;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
@@ -178,6 +180,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 						selectedOptions={this.selectedOptions}
 						noDataAvailableLabel={this.noDataAvailableLabel}
 						searchable={this.searchable}
+						minSearchOptions={this.minSearchOptions}
 						searchValue={this._searchValue}
 						selectionClearable={this.selectionClearable}
 						clearSelectionLabel={this.clearSelectionLabel}
