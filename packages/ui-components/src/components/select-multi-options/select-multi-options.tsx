@@ -159,7 +159,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		const isSelectionClearable = optionsLength > 0 && this.selectionClearable;
 		const isSelectionClearEnabled = selectedOptionsLength > 0 && hasCurrentOptions;
 		const isSelectAllAvailable = optionsLength > 0 && this.selectionAll;
-		const isSelectAllEnabled = hasCurrentOptions;
+		const isSelectAllEnabled = hasCurrentOptions && selectedOptionsLength < optionsLength;
 
 		return (
 			<kv-select
