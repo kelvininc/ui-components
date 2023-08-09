@@ -7,6 +7,7 @@ import { DEFAULT_TEXT_TOOLTIP_CONFIG } from './text-field.config';
 import { ITooltip } from '../tooltip/tooltip.types';
 import { getInputMaskConfig, isInputMaskCompatibleType } from './text-field.utils';
 import Inputmask from 'inputmask';
+import { getUTF8StringLength } from '../../utils/string.helper';
 
 @Component({
 	tag: 'kv-text-field',
@@ -194,6 +195,12 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		return merge({}, DEFAULT_TEXT_TOOLTIP_CONFIG, this.tooltipConfig ?? {});
 	};
 
+	private onKeyPress = (event: KeyboardEvent) => {
+		if (getUTF8StringLength(this.nativeInput.innerText) >= this.maxLength) {
+			event.preventDefault();
+		}
+	};
+
 	render() {
 		const id = this.el.getAttribute('id');
 		const value = this.getValue();
@@ -222,8 +229,8 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										disabled={this.disabled}
 										max={this.max}
 										min={this.min}
-										maxLength={this.maxLength}
 										minLength={this.minLength}
+										onKeyPress={this.onKeyPress}
 										step={this.step}
 										value={value}
 										onInput={this.onInputHandler}
