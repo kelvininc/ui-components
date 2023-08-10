@@ -2,7 +2,6 @@ import React, { useCallback, useMemo } from 'react';
 import { ComponentStory } from '@storybook/react';
 import { useArgs } from '@storybook/client-api';
 import { KvLabelsDropdown, KvSelectOption } from '../../components';
-import { selectHelper } from '@kelvininc/ui-components';
 import { get } from 'lodash';
 import { searchDropdownOptions } from './helpers/dropdown.helper';
 
@@ -31,16 +30,6 @@ const LabelsDropdownTemplate: ComponentStory<typeof KvLabelsDropdown> = args => 
 	const [{ options, selectedOptions, searchValue }, updateArgs] = useArgs();
 
 	const filteredOptions = useMemo(() => searchDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
-
-	const onSelectAll = useCallback(() => {
-		const newSelectedOptions = selectHelper.buildAllOptionsSelected(selectHelper.getSelectableOptions(options ?? {}));
-
-		updateArgs({ selectedOptions: newSelectedOptions });
-	}, [options]);
-
-	const onClearAll = useCallback(() => {
-		updateArgs({ selectedOptions: {} });
-	}, []);
 
 	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => {
 		updateArgs({ searchValue: searchedLabel });
@@ -77,14 +66,7 @@ const LabelsDropdownTemplate: ComponentStory<typeof KvLabelsDropdown> = args => 
 	};
 
 	return (
-		<KvLabelsDropdown
-			{...args}
-			onSelectAll={onSelectAll}
-			onClearSelection={onClearAll}
-			onOptionsSelected={onOptionsSelected}
-			onSearchChange={onSearchChange}
-			filteredOptions={filteredOptions}
-		>
+		<KvLabelsDropdown {...args} onOptionsSelected={onOptionsSelected} onSearchChange={onSearchChange} filteredOptions={filteredOptions}>
 			<div slot="no-data-available">
 				<KvSelectOption
 					label={`${searchValue} (Add new label)`}

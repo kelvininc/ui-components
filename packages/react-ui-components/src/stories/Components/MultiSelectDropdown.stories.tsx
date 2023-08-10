@@ -1,7 +1,7 @@
 import { ComponentStory } from '@storybook/react';
 import React, { useCallback, useMemo } from 'react';
 import { useArgs } from '@storybook/client-api';
-import { EComponentSize, EIconName, KvMultiSelectDropdown, selectHelper } from '../../components';
+import { EComponentSize, EIconName, KvMultiSelectDropdown } from '../../components';
 import { searchDropdownOptions } from './helpers/dropdown.helper';
 
 // Required to have the correct TagName in the code sample
@@ -59,16 +59,6 @@ const MultiSelectDropdownTemplate: ComponentStory<typeof KvMultiSelectDropdown> 
 
 	const filteredOptions = useMemo(() => searchDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
 
-	const onSelectAll = useCallback(() => {
-		const newSelectedOptions = selectHelper.buildAllOptionsSelected(selectHelper.getSelectableOptions(options));
-
-		updateArgs({ selectedOptions: newSelectedOptions });
-	}, [options]);
-
-	const onClearAll = useCallback(() => {
-		updateArgs({ selectedOptions: {} });
-	}, []);
-
 	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => {
 		updateArgs({ searchValue: searchedLabel });
 	}, []);
@@ -81,8 +71,6 @@ const MultiSelectDropdownTemplate: ComponentStory<typeof KvMultiSelectDropdown> 
 		<KvMultiSelectDropdown
 			{...args}
 			selectedOptions={selectedOptions}
-			onSelectAll={onSelectAll}
-			onClearSelection={onClearAll}
 			onOptionsSelected={onOptionsSelected}
 			onSearchChange={onSearchChange}
 			filteredOptions={filteredOptions}

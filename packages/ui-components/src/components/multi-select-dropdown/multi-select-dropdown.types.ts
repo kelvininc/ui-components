@@ -30,12 +30,6 @@ export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptio
 	inputSize?: EComponentSize;
 	/** (optional) The dropdown position config options */
 	dropdownOptions?: Partial<ComputePositionConfig>;
-	/** (optional) If `true` the list has an action to select all items. Defaults to `true`. */
-	selectionAll?: boolean;
-	/** (optional) If `true` a selection counter is displayed. Defaults to `true`. */
-	counter?: boolean;
-	/** (optional) If `true` dropdown items can be cleared. Defaults to `true`. */
-	selectionClearable?: boolean;
 }
 
 export interface IMultiSelectDropdownEvents extends ISelectMultiOptionsEvents {
