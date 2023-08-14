@@ -1,10 +1,10 @@
 import React from 'react';
 import { EInputFieldType } from '@kelvininc/ui-components';
-import { getTemplate, WidgetProps } from '@rjsf/utils';
+import { FormContextType, getTemplate, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 
-export default function DateWidget(props: WidgetProps) {
+export default function DateWidget<T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: WidgetProps<T, S, F>) {
 	const { options, registry } = props;
-	const BaseInputTemplate = getTemplate<'BaseInputTemplate'>('BaseInputTemplate', registry, options);
+	const BaseInputTemplate = getTemplate<'BaseInputTemplate', T, S, F>('BaseInputTemplate', registry, options);
 
 	return <BaseInputTemplate {...props} type={EInputFieldType.Date} />;
 }

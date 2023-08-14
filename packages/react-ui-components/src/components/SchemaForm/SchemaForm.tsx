@@ -6,29 +6,41 @@ import { cloneDeep, isEmpty, isEqualWith } from 'lodash';
 import React, { ComponentProps, ComponentType, ForwardedRef, forwardRef, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
 import { useScroll } from '../../utils';
 import { KvActionButtonText, KvTooltip } from '../stencil-generated';
-import { DEFAULT_VALIDATOR, SCROLL_OFFSET } from './config';
+import { SCROLL_OFFSET } from './config';
 import { useFieldTemplateElement } from './hooks/useFieldTemplateElement';
 import styles from './SchemaForm.module.scss';
-import Theme from './Theme';
-import { SchemaFormProps } from './types';
+import { generateTheme } from './Theme';
+import { EApplyDefaults, SchemaFormContext, SchemaFormProps } from './types';
+import getDefaultValidator, { buildDefaultFormStateBehavior } from './utils';
+
+import { RJSFSchema, StrictRJSFSchema, FormContextType } from '@rjsf/utils';
 
 // Custom Theme
-const ThemedForm = withTheme(Theme);
-const CustomForm = <T,>({ children, ...otherProps }: PropsWithChildren<FormProps<T>>, ref?: ForwardedRef<Form<T>>) => {
+export function generateForm<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(): ComponentType<FormProps<T, S, F>> {
+	return withTheme<T, S, F>(generateTheme<T, S, F>());
+}
+
+export function CustomForm<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(
+	{ children, ...otherProps }: PropsWithChildren<FormProps<T, S, F>>,
+	ref?: ForwardedRef<Form<T, S, F>>
+) {
+	const ThemedForm = useMemo(() => generateForm<T, S, F>(), []);
 	return (
 		<ThemedForm {...otherProps} ref={ref}>
 			{children}
 		</ThemedForm>
 	);
-};
+}
 // Wrapping the component to avoid unnecessary re-rendering and to reduce the number of times the validator will run
 const typedMemo: <K extends ComponentType<any>>(c: K, areEqual?: (prev: ComponentProps<K>, next: ComponentProps<K>) => boolean) => K = React.memo;
 const CustomFormWithRef = typedMemo(
-	forwardRef(CustomForm) as <H>(props: PropsWithChildren<FormProps<H>> & { ref?: ForwardedRef<Form<H>> }) => ReturnType<typeof CustomForm<H>>,
+	forwardRef(CustomForm) as <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(
+		props: PropsWithChildren<FormProps<T, S, F>> & { ref?: ForwardedRef<Form<T, S, F>> }
+	) => ReturnType<typeof CustomForm<T, S, F>>,
 	(previousProps, nextProps) => deepEquals(previousProps, nextProps)
 );
 
-export function KvSchemaForm<T>({
+export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	customClass,
 	liveValidate,
 	formData: formDataProp,
@@ -36,24 +48,28 @@ export function KvSchemaForm<T>({
 	uiSchema = {},
 	allowDiscardChanges,
 	onChange,
-	validator: validatorProp = DEFAULT_VALIDATOR,
+	validator: validatorProp,
 	formReference,
+	applyDefaults = EApplyDefaults.All,
 	...otherProps
-}: SchemaFormProps<T>) {
+}: SchemaFormProps<T, S, SchemaFormContext>) {
 	const [isValid, setValid] = useState(!liveValidate);
 	const [hasChanges, setHasChanges] = useState(!isEqualWith(formDataProp, submittedData));
 	const [formData, setFormData] = useState(formDataProp);
 
-	const formRef = formReference ?? useRef<Form<T>>(null);
+	const formRef = formReference ?? useRef<Form<T, S, SchemaFormContext>>(null);
 	const fieldTemplate = useFieldTemplateElement(formRef);
 	const { scrollTop } = useScroll(fieldTemplate);
 	const isScrolling = useMemo(() => scrollTop - SCROLL_OFFSET > 0, [scrollTop]);
 	const { submitText, norender, props: submitButtonProps } = getSubmitButtonOptions(uiSchema);
 	const hasFooter = useMemo(() => allowDiscardChanges || !norender, [allowDiscardChanges, norender]);
-	const themedProps: FormProps<T> = {
+	const formValidator = useMemo(() => validatorProp ?? getDefaultValidator<T, S, SchemaFormContext>(), [validatorProp]);
+	const experimental_defaultFormStateBehavior = useMemo(() => buildDefaultFormStateBehavior(applyDefaults), [applyDefaults]);
+
+	const themedProps: FormProps<T, S, SchemaFormContext> = {
 		liveValidate,
 		...otherProps,
-		onChange: (data: IChangeEvent<T>, id?: string) => {
+		onChange: (data: IChangeEvent<T, S, SchemaFormContext>, id?: string) => {
 			const { formData: dataFormData = {} as T, errors } = data;
 			const hasNewChanges = !isEqualWith(dataFormData, submittedData);
 			setFormData(dataFormData);
@@ -73,8 +89,10 @@ export function KvSchemaForm<T>({
 			}
 		},
 		formData: formData,
-		validator: validatorProp
+		validator: formValidator,
+		experimental_defaultFormStateBehavior
 	};
+
 	const onSubmitClick = () => {
 		if (formRef?.current) {
 			formRef.current.submit();

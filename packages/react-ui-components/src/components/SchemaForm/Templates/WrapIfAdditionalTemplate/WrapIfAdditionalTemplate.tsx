@@ -1,10 +1,20 @@
 import { EActionButtonType, EComponentSize, EIconName, EInputFieldType } from '@kelvininc/ui-components';
-import { ADDITIONAL_PROPERTY_FLAG, WrapIfAdditionalTemplateProps } from '@rjsf/utils';
+import { ADDITIONAL_PROPERTY_FLAG, FormContextType, RJSFSchema, StrictRJSFSchema, WrapIfAdditionalTemplateProps } from '@rjsf/utils';
 import React from 'react';
 import { KvActionButtonIcon, KvTextField } from '../../../stencil-generated';
 import styles from './WrapIfAdditionalTemplate.module.scss';
 
-const WrapIfAdditionalTemplate = ({ children, disabled, id, label, onDropPropertyClick, onKeyChange, readonly, required, schema }: WrapIfAdditionalTemplateProps): any => {
+const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
+	children,
+	disabled,
+	id,
+	label,
+	onDropPropertyClick,
+	onKeyChange,
+	readonly,
+	required,
+	schema
+}: WrapIfAdditionalTemplateProps<T, S, F>): any => {
 	const keyLabel = `${label} Key`;
 	const additional = schema.hasOwnProperty(ADDITIONAL_PROPERTY_FLAG);
 

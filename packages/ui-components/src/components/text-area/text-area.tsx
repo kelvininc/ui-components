@@ -55,13 +55,10 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 		const pasteData = event.clipboardData.getData('text/plain');
 		const shouldPaste = textLength + getUTF8StringLength(pasteData) <= this.maxCharLength;
 
-		event.preventDefault();
-
 		if (!shouldPaste) {
+			event.preventDefault();
 			return;
 		}
-
-		document.execCommand('inserttext', false, pasteData);
 	};
 
 	private onTextAreaClick = () => {

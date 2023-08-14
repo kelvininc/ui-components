@@ -1,11 +1,11 @@
 import { EValidationState } from '@kelvininc/ui-components';
-import { ErrorListProps, RJSFValidationError } from '@rjsf/utils';
+import { ErrorListProps, FormContextType, RJSFSchema, RJSFValidationError, StrictRJSFSchema } from '@rjsf/utils';
 import { isEmpty } from 'lodash';
 import React from 'react';
 import { KvFormHelpText } from '../../../stencil-generated';
 import styles from './ErrorListTemplate.module.scss';
 
-const ErrorListTemplate = ({ errors }: ErrorListProps) => {
+const ErrorListTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({ errors }: ErrorListProps<T, S, F>) => {
 	const errorsHash: { [prop: string]: string[] } = errors.reduce<Record<string, string[]>>((acc, error: RJSFValidationError) => {
 		if (!error.property) return acc;
 		if (isEmpty(acc[error.property])) {

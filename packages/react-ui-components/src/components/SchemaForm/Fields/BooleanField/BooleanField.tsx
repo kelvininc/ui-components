@@ -1,7 +1,22 @@
-import { FieldProps } from '@rjsf/utils';
+import { FieldProps, FormContextType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import React from 'react';
 
-function BooleanField({ schema, name, uiSchema, idSchema, formData, registry, required, disabled, readonly, autofocus, onChange, onFocus, onBlur, rawErrors }: FieldProps) {
+function BooleanField<T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
+	schema,
+	name,
+	uiSchema,
+	idSchema,
+	formData,
+	registry,
+	required,
+	disabled,
+	readonly,
+	autofocus,
+	onChange,
+	onFocus,
+	onBlur,
+	rawErrors
+}: FieldProps<T, S, F>) {
 	const { title } = schema;
 	const { widgets, formContext, fields } = registry;
 	const { RadioWidget } = widgets;
@@ -18,6 +33,7 @@ function BooleanField({ schema, name, uiSchema, idSchema, formData, registry, re
 
 	return (
 		<RadioWidget
+			name={name}
 			id={idSchema && idSchema.$id}
 			schema={schema}
 			options={{ enumOptions, inline: true }}
