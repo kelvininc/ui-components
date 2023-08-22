@@ -88,6 +88,9 @@ initialize({ symbolsFileName: 'symbols.6e51ea0e37926eff2f3ef11e64be70fa.svg' });
 
 ```
 
+
+> **_NOTE:_**  If you are using `pnpm` as package manager in your project it's necessary to configure the postinstall script into package.json. Add `"postinstall": "CUSTOM_INST=true node ./node_modules/@kelvininc/react-ui-components/.scripts/copy-icons.js"`. This will grant that svg symbols are copied to public directory.
+
 ## Relative paths
 
 By default the `KvIcon` and `KvIllustration` components will expect the `svg-symbols.svg` file to be served at the server root. This could not be your use-case if you're application is being served on a relative path, e.g, `https://dashboard.com/clients/home`. In this case you will need to tell the library the base path to your assets url, which you can achieve by doing the following in your `index.js` or `index.tsx`.
