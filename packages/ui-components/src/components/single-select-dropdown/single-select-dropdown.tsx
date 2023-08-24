@@ -2,9 +2,15 @@ import { Component, Element, Event, EventEmitter, Host, Prop, State, Watch, h } 
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { ISingleSelectDropdown, ISingleSelectDropdownEvents, ISingleSelectDropdownOptions } from './single-select-dropdown.types';
-import { isEmpty, isNil } from 'lodash-es';
+import { isEmpty } from 'lodash-es';
 
-import { MINIMUM_SEARCHABLE_OPTIONS, SINGLE_SELECT_CLEAR_SELECTION_LABEL, SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './single-select-dropdown.config';
+import {
+	EMPTY_STRING,
+	INVALID_VALUE_ERROR,
+	MINIMUM_SEARCHABLE_OPTIONS,
+	SINGLE_SELECT_CLEAR_SELECTION_LABEL,
+	SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE
+} from './single-select-dropdown.config';
 import { CustomCssClass, EComponentSize, ISelectMultiOptions, ISelectOption } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 import { getCssStyle } from '../utils';
@@ -110,15 +116,6 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		return this.filteredOptions ?? this.options;
 	}
 
-	private get selectedOptionLabel(): string | undefined {
-		if (isNil(this.selectedOption)) {
-			this._selectionDisplayValue = undefined;
-			return;
-		}
-
-		return this.selectOptions.flatten[this.selectedOption].label;
-	}
-
 	private selectOption = (event: CustomEvent<string>) => {
 		const { detail: selectedOptionKey } = event;
 		const selectedOption = this.selectOptions.flatten[selectedOptionKey];
@@ -148,6 +145,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	};
 
 	componentWillLoad() {
+		this.validateSelectedOptionValue();
 		this.buildSelectOptions();
 		this.calculateLabelValue();
 	}
@@ -159,6 +157,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 	@Watch('selectedOption')
 	selectedOptionChangeHandler() {
+		this.validateSelectedOptionValue();
 		this.calculateLabelValue();
 	}
 
@@ -168,18 +167,24 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	}
 
 	private calculateLabelValue() {
-		if (isNil(this.selectedOption)) {
-			this._selectionDisplayValue = undefined;
-			return;
-		}
-
 		if (this.displayValue?.length) {
 			this._selectionDisplayValue = this.displayValue;
 			return;
 		}
 
-		this._selectionDisplayValue = this.selectedOptionLabel;
+		if (this.selectedOption && this.selectOptions.flatten[this.selectedOption]) {
+			this._selectionDisplayValue = this.selectOptions.flatten[this.selectedOption].label;
+			return;
+		}
+
+		this._selectionDisplayValue = undefined;
 	}
+
+	private validateSelectedOptionValue = () => {
+		if (this.selectedOption === EMPTY_STRING) {
+			throw new Error(INVALID_VALUE_ERROR);
+		}
+	};
 
 	private renderOptions = () => {
 		return Object.values(this.selectOptions.current).map(option => <kv-select-option key={option.value} {...option} onItemSelected={this.selectOption} />);
