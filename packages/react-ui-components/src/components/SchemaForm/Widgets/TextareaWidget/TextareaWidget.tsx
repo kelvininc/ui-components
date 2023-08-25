@@ -1,9 +1,18 @@
 import React, { useCallback } from 'react';
-import { WidgetProps } from '@rjsf/utils';
+import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 import { get } from 'lodash';
 import { KvFormLabel, KvTextArea } from '../../../stencil-generated';
 
-const TextareaWidget = ({ label, required, schema, id, uiSchema = {}, value, placeholder, onChange }: WidgetProps) => {
+const TextareaWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
+	label,
+	required,
+	schema,
+	id,
+	uiSchema = {},
+	value,
+	placeholder,
+	onChange
+}: WidgetProps<T, S, F>) => {
 	const { maxCharLength, iconName } = uiSchema;
 
 	const onTextChange = useCallback(

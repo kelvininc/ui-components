@@ -1,5 +1,5 @@
 import { EValidationState } from '@kelvininc/ui-components';
-import { WidgetProps } from '@rjsf/utils';
+import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 import { isEmpty } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../stencil-generated';
@@ -7,7 +7,21 @@ import styles from './SelectWidget.module.scss';
 import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, searchDropdownOptions } from './utils';
 import { DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
 
-const SelectWidget = ({ schema, id, options, label, required, disabled, readonly, value, multiple, onChange, placeholder, rawErrors = [], uiSchema = {} }: WidgetProps) => {
+const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
+	schema,
+	id,
+	options,
+	label,
+	required,
+	disabled,
+	readonly,
+	value,
+	multiple,
+	onChange,
+	placeholder,
+	rawErrors = [],
+	uiSchema = {}
+}: WidgetProps<T, S, F>) => {
 	const { enumOptions, enumDisabled } = options;
 	const { displayValue, searchable, selectionClearable, minHeight, maxHeight, minSearchOptions } = uiSchema;
 	const [searchTerm, setSearchTerm] = useState<string | null>(null);

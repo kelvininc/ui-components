@@ -196,8 +196,19 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	};
 
 	private onKeyPress = (event: KeyboardEvent) => {
-		if (getUTF8StringLength(this.nativeInput.innerText) >= this.maxLength) {
+		if (getUTF8StringLength(this.nativeInput.value) >= this.maxLength) {
 			event.preventDefault();
+		}
+	};
+
+	private onClipboardPaste = (event: ClipboardEvent) => {
+		const textLength = getUTF8StringLength(this.nativeInput.value);
+		const pasteData = event.clipboardData.getData('text/plain');
+		const shouldPaste = textLength + getUTF8StringLength(pasteData) <= this.maxLength;
+
+		if (!shouldPaste) {
+			event.preventDefault();
+			return;
 		}
 	};
 
@@ -230,6 +241,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										max={this.max}
 										min={this.min}
 										minLength={this.minLength}
+										onPaste={this.onClipboardPaste}
 										onKeyPress={this.onKeyPress}
 										step={this.step}
 										value={value}
