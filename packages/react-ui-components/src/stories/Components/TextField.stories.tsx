@@ -12,6 +12,7 @@ export default {
 		required: { control: { type: 'boolean' } },
 		loading: { control: { type: 'boolean' } },
 		helpText: { control: { type: 'array' } },
+		value: { control: { type: 'text' } },
 		min: { control: { type: 'number' } },
 		max: { control: { type: 'number' } },
 		state: {
