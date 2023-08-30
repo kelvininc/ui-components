@@ -13,3 +13,8 @@ export interface ITabsNotificationDict {
 	[tabKey: string]: ITabNotification;
 	[tabKey: number]: ITabNotification;
 }
+
+export type ISelectedTabIndicatorConfig = {
+	left: string;
+	width: string;
+};

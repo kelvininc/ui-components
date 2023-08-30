@@ -1,6 +1,7 @@
 import { ComponentStory } from '@storybook/react';
-import React, { useState } from 'react';
+import React from 'react';
 import { KvTabNavigation, EComponentSize } from '../../components';
+import { useArgs } from '@storybook/client-api';
 
 // Required to have the correct TagName in the code sample
 KvTabNavigation.displayName = 'KvTabNavigation';
@@ -23,13 +24,13 @@ export default {
 };
 
 const TabNavigationTemplate: ComponentStory<typeof KvTabNavigation> = args => {
-	const [selectedTab, setTab] = useState(args.selectedTabKey);
+	const [, updateArgs] = useArgs();
 
 	const handleTabChange = (event: CustomEvent<string>) => {
-		setTab(event.detail);
+		updateArgs({ selectedTabKey: event.detail });
 	};
 
-	return <KvTabNavigation tabs={args.tabs} selectedTabKey={selectedTab} onTabChange={handleTabChange} notifications={args.notifications} size={args.size}></KvTabNavigation>;
+	return <KvTabNavigation tabs={args.tabs} selectedTabKey={args.selectedTabKey} notifications={args.notifications} size={args.size} onTabChange={handleTabChange} />;
 };
 
 export const Default = TabNavigationTemplate.bind({});
