@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](https://github.com/kelvininc/ui-components/compare/v0.21.0...v0.22.0) (2023-09-01)
+
+
+### Bug Fixes
+
+* **dropdown:** remove search bottom padding when no actions are provided ([e8e6d87](https://github.com/kelvininc/ui-components/commit/e8e6d87e4ded0826bae5fbee445c592725ee0e16))
+* **react-ui-components:** change copy-icons script to generate svg symbols on the correct path ([1131682](https://github.com/kelvininc/ui-components/commit/1131682d9fa429ad650110d7b64ef3c2a78c81f6))
+* **schema-form:** fix select widget ([bea6ab3](https://github.com/kelvininc/ui-components/commit/bea6ab310c66846888f6c65cc1439a40d7aad66d))
+* **tab-navigation:** calculate selected tab indicator in interval ([b622ef2](https://github.com/kelvininc/ui-components/commit/b622ef218c60ea693ff259f7a8aa03d9a157ea80))
+* **text-field:** fix caret position when using inputmask ([28797a2](https://github.com/kelvininc/ui-components/commit/28797a21b38ab4b4756135d9370303c5e1236171))
+
+
+* feat(multi-select-dropdown)!: add "select all" action and counter label ([586c211](https://github.com/kelvininc/ui-components/commit/586c2112d1ebdf535ec7ebe954a5f908ce4910d4))
+
+
+### Features
+
+* **schema-form:** add additional validation props to text-field widget ([fe17ab2](https://github.com/kelvininc/ui-components/commit/fe17ab264e596b3827c74110911fbd33121985d6))
+* **schema-form:** allow configure the behavior for the default values and a default help text ([bf78842](https://github.com/kelvininc/ui-components/commit/bf78842922dfa63a28102ba65ea57f311d39990e))
+* **wizard:** add a toggle-tip to the wizard header ([b6cf195](https://github.com/kelvininc/ui-components/commit/b6cf195add27f72f47c77c17cb3168c5c3ad2e98))
+
+
+### BREAKING CHANGES
+
+* - `kv-labels-dropdown`: `selectionCleared` event was renamed to `clearSelection` for coherence
+- `kv-multi-select-dropdown`: `selectionCleared` event was renamed to `clearSelection` for coherence
+- `kv-select-multi-options`: `selectionCleared` event was renamed to `clearSelection` for coherence
+- `kv-single-select-dropdown`: `selectionCleared` event was renamed to `clearSelection` for coherence
+
+
+
+
+
 # [0.21.0](https://github.com/kelvininc/ui-components/compare/v0.20.0...v0.21.0) (2023-07-13)
 
 

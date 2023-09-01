@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](https://github.com/kelvininc/ui-components/compare/v0.21.0...v0.22.0) (2023-09-01)
+
+
+### Bug Fixes
+
+* add "description" property to `ISingleSelectDropdownOption` and `ISelectMultiOption` types ([63beaac](https://github.com/kelvininc/ui-components/commit/63beaac47fab284e6183e776a18b7c875f20eb55))
+* **dropdown:** remove search bottom padding when no actions are provided ([e8e6d87](https://github.com/kelvininc/ui-components/commit/e8e6d87e4ded0826bae5fbee445c592725ee0e16))
+* **modal:** add ellipsis to title when width is fixed to prevent overflow ([5d31b6f](https://github.com/kelvininc/ui-components/commit/5d31b6fdec195f76ac0ec9972030399cbdbbe8e7))
+* **multi-select-dropdown:** add search placeholder prop ([2cfcf7e](https://github.com/kelvininc/ui-components/commit/2cfcf7e39b9f811131bae8fb0ffb20c1807dd190))
+* **react-ui-components:** change copy-icons script to generate svg symbols on the correct path ([1131682](https://github.com/kelvininc/ui-components/commit/1131682d9fa429ad650110d7b64ef3c2a78c81f6))
+* run lerna bootstrap before downloading chrome binary ([f464b92](https://github.com/kelvininc/ui-components/commit/f464b9295dcd585759728d1014eda7139a575653))
+* **schema-form:** fix select widget ([bea6ab3](https://github.com/kelvininc/ui-components/commit/bea6ab310c66846888f6c65cc1439a40d7aad66d))
+* **select:** disable "Select All" when all items are selected ([5f3f493](https://github.com/kelvininc/ui-components/commit/5f3f493a7f08a6edb23a8b5c9092ed8c646cf284))
+* **single-select-dropdown:** check for invalid selected option value ([4541fad](https://github.com/kelvininc/ui-components/commit/4541fad4ef80a15368a194239a7cb0e4511b8a9b))
+* **tab-navigation:** calculate selected tab indicator in interval ([b622ef2](https://github.com/kelvininc/ui-components/commit/b622ef218c60ea693ff259f7a8aa03d9a157ea80))
+* **text-field:** fix caret position when using inputmask ([28797a2](https://github.com/kelvininc/ui-components/commit/28797a21b38ab4b4756135d9370303c5e1236171))
+* **text-input:** count string length in UTF-8 instead UTF-16 ([b15dc87](https://github.com/kelvininc/ui-components/commit/b15dc8777aba57444a9b5a39c1bea5d9e0961602))
+
+
+* feat(multi-select-dropdown)!: add "select all" action and counter label ([586c211](https://github.com/kelvininc/ui-components/commit/586c2112d1ebdf535ec7ebe954a5f908ce4910d4))
+
+
+### Features
+
+* **range-input:** allow pass a value formatter to range input ([1dd00df](https://github.com/kelvininc/ui-components/commit/1dd00dfb4fd9a2c9a8ca4ec53cc257fba2cdeee9))
+* **schema-form:** add additional validation props to text-field widget ([fe17ab2](https://github.com/kelvininc/ui-components/commit/fe17ab264e596b3827c74110911fbd33121985d6))
+* **schema-form:** allow configure the behavior for the default values and a default help text ([bf78842](https://github.com/kelvininc/ui-components/commit/bf78842922dfa63a28102ba65ea57f311d39990e))
+* **wizard-footer:** move additional actions slot for added flexibility ([211174f](https://github.com/kelvininc/ui-components/commit/211174f4a20b22fdf8c06732ac4f2462aa8c12d4))
+* **wizard:** add a toggle-tip to the wizard header ([b6cf195](https://github.com/kelvininc/ui-components/commit/b6cf195add27f72f47c77c17cb3168c5c3ad2e98))
+
+
+### BREAKING CHANGES
+
+* - `kv-labels-dropdown`: `selectionCleared` event was renamed to `clearSelection` for coherence
+- `kv-multi-select-dropdown`: `selectionCleared` event was renamed to `clearSelection` for coherence
+- `kv-select-multi-options`: `selectionCleared` event was renamed to `clearSelection` for coherence
+- `kv-single-select-dropdown`: `selectionCleared` event was renamed to `clearSelection` for coherence
+
+
+
+
+
 # [0.21.0](https://github.com/kelvininc/ui-components/compare/v0.20.0...v0.21.0) (2023-07-13)
 
 

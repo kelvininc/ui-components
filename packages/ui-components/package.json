@@ -1,6 +1,6 @@
 {
 	"name": "@kelvininc/ui-components",
-	"version": "0.21.0",
+	"version": "0.22.0",
 	"description": "Kelvin UI Components",
 	"homepage": "https://docs.kelvininc.com",
 	"license": "SEE LICENSE IN LICENSE",
@@ -61,11 +61,11 @@
 		"inputmask": "~5.0.8"
 	},
 	"devDependencies": {
+		"@stencil-community/eslint-plugin": "0.5.0",
 		"@stencil/angular-output-target": "^0.7.1",
 		"@stencil/core": "^4.0.2",
 		"@stencil/react-output-target": "^0.5.3",
 		"@stencil/sass": "^3.0.5",
-		"@stencil-community/eslint-plugin": "0.5.0",
 		"@types/inputmask": "^5.0.3",
 		"@types/jest": "^27.5.2",
 		"@types/lodash-es": "^4.17.5",
