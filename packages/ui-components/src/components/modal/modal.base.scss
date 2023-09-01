@@ -63,6 +63,8 @@
 		box-sizing: border-box;
 
 		.title {
+			@include ellipsis();
+
 			@include kv-font-label-small-uppercase-regular;
 			color: var(--modal-topbar-text-color);
 		}
