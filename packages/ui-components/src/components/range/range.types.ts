@@ -22,4 +22,6 @@ export interface IRange {
 	maxLabel?: string;
 	/** (optional) Range input disabled */
 	disabled?: boolean;
+	/** (optional) Range value formatter */
+	valueFormatter?: (value: number) => string;
 }

@@ -11,8 +11,4 @@
 	.no-data {
 		pointer-events: none;
 	}
-
-	kv-select-group:not(:last-child)::part(group-container) {
-		margin-bottom: $spacing-2x;
-	}
 }

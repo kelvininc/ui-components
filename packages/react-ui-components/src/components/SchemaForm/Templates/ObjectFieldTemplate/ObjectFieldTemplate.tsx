@@ -1,5 +1,5 @@
 import { EActionButtonType, EComponentSize, EIconName } from '@kelvininc/ui-components';
-import { ObjectFieldTemplateProps, canExpand, getTemplate, getUiOptions } from '@rjsf/utils';
+import { FormContextType, ObjectFieldTemplateProps, RJSFSchema, StrictRJSFSchema, canExpand, getTemplate, getUiOptions } from '@rjsf/utils';
 import classNames from 'classnames';
 import { get } from 'lodash';
 import React, { useMemo } from 'react';
@@ -7,7 +7,7 @@ import { KvActionButtonIcon } from '../../../stencil-generated';
 import { INPUT_INLINE_WIDTH } from '../../config';
 import styles from './ObjectFieldTemplate.module.scss';
 
-const ObjectFieldTemplate = ({
+const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	description,
 	title,
 	required,
@@ -20,11 +20,11 @@ const ObjectFieldTemplate = ({
 	disabled,
 	readonly,
 	registry
-}: ObjectFieldTemplateProps) => {
+}: ObjectFieldTemplateProps<T, S, F>) => {
 	const rowWidth = useMemo(() => (get(uiSchema, ['ui:inline'], false) ? get(uiSchema, ['ui:inputWidth']) || INPUT_INLINE_WIDTH : '100%'), [uiSchema]);
 	const uiOptions = getUiOptions(uiSchema);
-	const TitleFieldTemplate = getTemplate<'TitleFieldTemplate'>('TitleFieldTemplate', registry, uiOptions);
-	const DescriptionFieldTemplate = getTemplate<'DescriptionFieldTemplate'>('DescriptionFieldTemplate', registry, uiOptions);
+	const TitleFieldTemplate = getTemplate<'TitleFieldTemplate', T, S, F>('TitleFieldTemplate', registry, uiOptions);
+	const DescriptionFieldTemplate = getTemplate<'DescriptionFieldTemplate', T, S, F>('DescriptionFieldTemplate', registry, uiOptions);
 
 	return (
 		<>

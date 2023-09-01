@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
-import { ITimePickerTime, SelectedTimestampRange } from '../../types';
+import { ITimePickerTime, ITimezoneOffset, SelectedTimestampRange } from '../../types';
 import { newTimezoneDate } from '../../utils/date.helper';
 import { CALENDAR_DATE_TIME_MASK, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
 import { ERelativeTimeInputMode, IRelativeTimeInput } from '../absolute-time-picker/absolute-time-picker.types';
 import { ERelativeTimeComparisonConfig, IRelativeTimePickerOption, ITimePickerRelativeTime } from '../relative-time-picker/relative-time-picker.types';
-import { buildTimezoneByOffset } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.helper';
 import { isEmpty } from 'lodash-es';
 import { CUSTOMIZE_INTERVAL_KEY } from '../relative-time-picker/relative-time-picker.config';
+import { UTC_TIMEZONE_OFFSET } from './time-picker.config';
 
 /**
  * Generates the text displayed in the dropdown when the custom interval option is selected
@@ -27,14 +27,13 @@ export const buildCustomIntervalTimeRange = (range: SelectedTimestampRange, time
  * @param timezones timezones available
  * @returns tooltip text to be displayed
  */
-export const buildTooltipText = (option: ITimePickerTime, timezones: string[]): string => {
+export const buildTooltipText = (option: ITimePickerTime, timezonesByOffset: ITimezoneOffset[]): string => {
 	const [from, to] = option.range;
 	const timezoneName = option.timezone?.name;
 
 	const fromDate = dayjs(from).tz(timezoneName);
 	const toDate = dayjs(to).tz(timezoneName);
-	const timezonesByOffset = buildTimezoneByOffset(timezones);
-	const [timezoneText] = timezonesByOffset.filter(opt => opt.name === timezoneName);
+	const timezoneText = timezonesByOffset.filter(opt => opt.name === timezoneName)[0] ?? UTC_TIMEZONE_OFFSET;
 
 	return `${fromDate.format(DATETIME_INPUT_MASK)} to ${toDate.format(DATETIME_INPUT_MASK)} ${timezoneText.label}`;
 };

@@ -113,7 +113,7 @@ export const KvWizardFooterExample: React.FC = () => {
 | Property                          | Attribute             | Description                                                                                  | Type             | Default     |
 | --------------------------------- | --------------------- | -------------------------------------------------------------------------------------------- | ---------------- | ----------- |
 | `cancelEnabled`                   | `cancel-enabled`      | (optional) Defines if the `cancel` button should be enabled and interactable                 | `boolean`        | `true`      |
-| `completeBtnLabel`                | `complete-btn-label`  |                                                                                              | `string`         | `'Submit'`  |
+| `completeBtnLabel`                | `complete-btn-label`  | (optional) The `complete` button label                                                       | `string`         | `'Submit'`  |
 | `completeEnabled`                 | `complete-enabled`    | (optional) Defines if the `complete` button should be enabled and interactable               | `boolean`        | `undefined` |
 | `currentStep` _(required)_        | `current-step`        | (required) Defines the current step index                                                    | `number`         | `undefined` |
 | `hasError`                        | `has-error`           | (optional) Defines if the progress bar should be in an error state                           | `boolean`        | `undefined` |
@@ -138,6 +138,13 @@ export const KvWizardFooterExample: React.FC = () => {
 | `nextClick`     | Fires when the `next` button is clicked                          | `CustomEvent<void>`   |
 | `prevClick`     | Fires when the `previous` button is clicked                      | `CustomEvent<void>`   |
 | `stepClick`     | Fires when a step on the step bar is clicked and emits the index | `CustomEvent<number>` |
+
+
+## Shadow Parts
+
+| Part                         | Description                                            |
+| ---------------------------- | ------------------------------------------------------ |
+| `"footer-actions-container"` | the container of footer stepper and additional actions |
 
 
 ## CSS Custom Properties

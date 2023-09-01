@@ -4,6 +4,7 @@ export interface IWizardStep {
 	title: string;
 	cancelable?: boolean;
 	allowGoBack?: boolean;
+	tip?: string;
 }
 
 export interface IWizard {

@@ -106,6 +106,10 @@ export const KvWizardExample: React.FC = () => {
 graph TD;
   kv-wizard --> kv-wizard-header
   kv-wizard --> kv-wizard-footer
+  kv-wizard-header --> kv-toggle-tip
+  kv-wizard-header --> kv-icon
+  kv-toggle-tip --> kv-portal
+  kv-toggle-tip --> kv-tooltip-text
   kv-wizard-footer --> kv-step-bar
   kv-wizard-footer --> kv-action-button-text
   kv-step-bar --> kv-step-progress-bar

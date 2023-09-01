@@ -154,12 +154,10 @@ export class KvPortal implements IPortal, IPortalEvents {
 	}
 
 	componentWillLoad() {
-		// console.log('componentWillLoad', this.portal);
 		this.createPortal();
 	}
 
 	componentDidLoad() {
-		// console.log('componentDidLoad', this.portal);
 		this.moveElementToPortal();
 
 		if (this.show) {

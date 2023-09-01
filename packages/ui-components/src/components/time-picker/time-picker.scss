@@ -17,7 +17,7 @@ $full-view-width: 779px;
 		position: relative;
 		display: flex;
 		overflow: hidden;
-		transition: all 0.35s ease-in-out;
+		transition: all 0.3s ease-in-out;
 
 		&--relative {
 			height: $relative-time-picker-height;
@@ -51,7 +51,7 @@ $full-view-width: 779px;
 		position: absolute;
 		right: -$absolute-time-picker-width;
 		z-index: 1;
-		transition: all 0.35s ease-in-out;
+		transition: all 0.3s ease-in-out;
 		background-color: kv-color('neutral-7');
 		border-top-right-radius: 4px;
 		border-top-left-radius: 4px;

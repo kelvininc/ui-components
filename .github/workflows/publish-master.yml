@@ -12,7 +12,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-22.04]
-                node: [14.x]
+                node: [18.x]
 
         name: Publish Master (${{ matrix.os }} / Node.js ${{ matrix.node }})
         runs-on: ${{ matrix.os }}
@@ -43,11 +43,6 @@ jobs:
               uses: ./.github/actions/node-setup
               with:
                   node-version: ${{ matrix.node }}
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-            - name: Bootstrap
-              run: npm run bootstrap
               env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 

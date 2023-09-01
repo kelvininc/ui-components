@@ -26,16 +26,17 @@ export const KvRangeExample: React.FC = () => (
 
 ## Properties
 
-| Property    | Attribute    | Description                     | Type      | Default     |
-| ----------- | ------------ | ------------------------------- | --------- | ----------- |
-| `disabled`  | `disabled`   | (optional) Range input disabled | `boolean` | `false`     |
-| `hideLabel` | `hide-label` | (optional) Hide value label     | `boolean` | `false`     |
-| `max`       | `max`        | (required) Range maximum value  | `number`  | `undefined` |
-| `maxLabel`  | `max-label`  | (optional) Max label            | `string`  | `undefined` |
-| `min`       | `min`        | (required) Range minimum value  | `number`  | `undefined` |
-| `minLabel`  | `min-label`  | (optional) Min label            | `string`  | `undefined` |
-| `step`      | `step`       | (optional) Range value step     | `number`  | `1`         |
-| `value`     | `value`      | (optional) Range value          | `number`  | `0`         |
+| Property         | Attribute    | Description                      | Type                        | Default     |
+| ---------------- | ------------ | -------------------------------- | --------------------------- | ----------- |
+| `disabled`       | `disabled`   | (optional) Range input disabled  | `boolean`                   | `false`     |
+| `hideLabel`      | `hide-label` | (optional) Hide value label      | `boolean`                   | `false`     |
+| `max`            | `max`        | (required) Range maximum value   | `number`                    | `undefined` |
+| `maxLabel`       | `max-label`  | (optional) Max label             | `string`                    | `undefined` |
+| `min`            | `min`        | (required) Range minimum value   | `number`                    | `undefined` |
+| `minLabel`       | `min-label`  | (optional) Min label             | `string`                    | `undefined` |
+| `step`           | `step`       | (optional) Range value step      | `number`                    | `1`         |
+| `value`          | `value`      | (optional) Range value           | `number`                    | `0`         |
+| `valueFormatter` | --           | (optional) Range value formatter | `(value: number) => string` | `identity`  |
 
 
 ## Events

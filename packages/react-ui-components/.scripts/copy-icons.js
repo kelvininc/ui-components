@@ -4,11 +4,20 @@ Copying icons to public folder.
 
 const crypto = require('crypto');
 const fse = require('fs-extra');
+const path = require('path');
 
-const SRC_DIR = './assets';
 const SYMBOLS_FILE_NAME = 'svg-symbols.svg';
-const SYMBOLS_FILE_PATH = `${SRC_DIR}/${SYMBOLS_FILE_NAME}`;
-const PUBLIC_DIR = '../../../public';
+const PWD_REACT_LIB = '/node_modules/@kelvininc/react-ui-components/';
+
+let assetsDirPath = './assets';
+let publicDirPath = '../../../public';
+
+if (process.env.CUSTOM_INST === 'true') {
+	publicDirPath = path.join(process.env.PWD, '/public');
+	assetsDirPath = path.join(process.env.PWD, PWD_REACT_LIB, assetsDirPath);
+}
+
+const symbolFilePath = path.resolve(assetsDirPath, SYMBOLS_FILE_NAME);
 
 function getFileChecksum(path) {
 	return new Promise(function (resolve, reject) {
@@ -27,24 +36,25 @@ function getFileChecksum(path) {
 	});
 }
 
-getFileChecksum(SYMBOLS_FILE_PATH).then(hash => {
-	const file = `symbols.${hash}.svg`;
-	const destination = `${PUBLIC_DIR}/${file}`;
+getFileChecksum(symbolFilePath)
+	.then(hash => {
+		const file = `symbols.${hash}.svg`;
 
-	fse.copySync(SYMBOLS_FILE_PATH, destination, { overwrite: true }, err => {
-		if (err) {
-			console.error(err);
-		} else {
-			console.log(`Copied ${file} in to your project's public folder.`);
-			console.log('You might consider using this for caching purposes.');
-		}
-	});
+		fse.copy(symbolFilePath, `${publicDirPath}/${file}`, { overwrite: true }, err => {
+			if (err) {
+				console.error(err);
+			} else {
+				console.log(`| Copied ${file} in to your project's public folder.`);
+				console.log('| You might consider using this for caching purposes.');
+			}
+		});
 
-	fse.copySync(SYMBOLS_FILE_PATH, `${PUBLIC_DIR}/${SYMBOLS_FILE_NAME}`, { overwrite: true }, err => {
-		if (err) {
-			console.error(err);
-		} else {
-			console.log(`Copied ${file} in to your project's public folder.`);
-		}
-	});
-});
+		fse.copy(symbolFilePath, `${publicDirPath}/${SYMBOLS_FILE_NAME}`, { overwrite: true }, err => {
+			if (err) {
+				console.error(err);
+			} else {
+				console.log(`| Copied ${SYMBOLS_FILE_NAME} in to your project's public folder.`);
+			}
+		});
+	})
+	.catch(() => console.log('| ! svg-symbols file not found'));

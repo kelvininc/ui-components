@@ -2,6 +2,7 @@ import { ComputePositionConfig, offset, size, MiddlewareState } from '@floating-
 import { EIconName } from '../icon/icon.types';
 import { EInputFieldType, EValidationState, ITextField } from '../text-field/text-field.types';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
+import { ITimezoneOffset } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.types';
 
 // It needs to be lower because there are other dropdowns with a portal inside
 export const TIME_PICKER_PORTAL_Z_INDEX = DEFAULT_DROPDOWN_Z_INDEX - 1;
@@ -37,3 +38,9 @@ export enum ETimePickerView {
 }
 export const FULL_RANGE_SIZE = 2;
 export const APPLY_BUTTON_ERROR_TOOLTIP_TEXT = 'Both time inputs must be filled.';
+
+export const UTC_TIMEZONE_OFFSET: ITimezoneOffset = {
+	name: 'utc',
+	offset: 0,
+	label: 'UTC'
+};

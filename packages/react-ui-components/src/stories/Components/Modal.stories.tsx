@@ -31,10 +31,7 @@ const ControlledModalTemplate: ComponentStory<typeof ModalOverlay> = args => {
 export const DefaultState = ControlledModalTemplate.bind(this);
 DefaultState.args = {
 	headerTitle: 'Modal Header',
-	isOpen: false,
-	onClickClose: () => {
-		console.log('close was clicked');
-	}
+	isOpen: false
 };
 
 export const NoCloseButton = ControlledModalTemplate.bind(this);

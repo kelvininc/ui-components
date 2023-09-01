@@ -4,7 +4,6 @@ import { KvIcon } from '../icon';
 
 describe('Icon (unit tests)', () => {
 	let page: SpecPage;
-	let component: KvIcon;
 
 	describe('when uses default props', () => {
 		beforeEach(async () => {
@@ -12,7 +11,6 @@ describe('Icon (unit tests)', () => {
 				components: [KvIcon],
 				html: `<kv-icon name="kv-logo-kelvin"></kv-icon>`
 			});
-			component = page.rootInstance;
 		});
 
 		it('should match the snapshot', () => {
@@ -26,7 +24,6 @@ describe('Icon (unit tests)', () => {
 				components: [KvIcon],
 				html: `<kv-icon name="kv-logo-kelvin" custom-class="icon-full-size rotate-90"></kv-icon>`
 			});
-			component = page.rootInstance;
 		});
 
 		it('should match the snapshot', () => {
@@ -40,7 +37,6 @@ describe('Icon (unit tests)', () => {
 				components: [KvIcon],
 				html: `<kv-icon name="kv-logo-kelvin" custom-color="#05a357"></kv-icon>`
 			});
-			component = page.rootInstance;
 		});
 
 		it('should match the snapshot', () => {

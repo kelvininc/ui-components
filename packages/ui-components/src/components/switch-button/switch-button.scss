@@ -1,3 +1,4 @@
+@use "sass:map";
 @import '../../assets/styles/globals';
 
 // map sizes
@@ -31,13 +32,13 @@ $icon-sizes: (
 }
 
 @mixin button-theme($size) {
-	$btn-height: map-get($btn-heights, $size);
-	$btn-width: map-get($btn-widths, $size);
-	$sqr-size: map-get($sqr-sizes, $size);
-	$sqr-padding-x: map-get($sqr-paddings-x, $size);
-	$sqr-padding-y: map-get($sqr-paddings-y, $size);
-	$sqr-size: map-get($sqr-sizes, $size);
-	$icon-size: map-get($icon-sizes, $size);
+	$btn-height: map.get($btn-heights, $size);
+	$btn-width: map.get($btn-widths, $size);
+	$sqr-size: map.get($sqr-sizes, $size);
+	$sqr-padding-x: map.get($sqr-paddings-x, $size);
+	$sqr-padding-y: map.get($sqr-paddings-y, $size);
+	$sqr-size: map.get($sqr-sizes, $size);
+	$icon-size: map.get($icon-sizes, $size);
 
 	height: $btn-height;
 	width: $btn-width;

@@ -1,6 +1,8 @@
 import { ComponentStory } from '@storybook/react';
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { EComponentSize, EIconName, KvSingleSelectDropdown } from '../../components';
+import { searchDropdownOptions } from './helpers/dropdown.helper';
+import { useArgs } from '@storybook/client-api';
 
 // Required to have the correct TagName in the code sample
 KvSingleSelectDropdown.displayName = 'KvSingleSelectDropdown';
@@ -49,7 +51,18 @@ export default {
 	}
 };
 
-const SingleSelectDropdownTemplate: ComponentStory<typeof KvSingleSelectDropdown> = args => <KvSingleSelectDropdown {...args} />;
+const SingleSelectDropdownTemplate: ComponentStory<typeof KvSingleSelectDropdown> = args => {
+	const [{ options, searchValue }, updateArgs] = useArgs();
+	const filteredOptions = useMemo(() => searchDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
+
+	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => {
+		updateArgs({ searchValue: searchedLabel });
+	}, []);
+
+	const onOptionSelected = useCallback(({ detail }: CustomEvent<string>) => updateArgs({ selectedOption: detail }), []);
+
+	return <KvSingleSelectDropdown {...args} filteredOptions={filteredOptions} onSearchChange={onSearchChange} onOptionSelected={onOptionSelected} />;
+};
 
 export const Default = SingleSelectDropdownTemplate.bind({});
 Default.args = {
@@ -93,38 +106,44 @@ Default.args = {
 	icon: EIconName.Layer
 };
 
-export const Groups = SingleSelectDropdownTemplate.bind({});
-Groups.args = {
+export const SubOptions = SingleSelectDropdownTemplate.bind({});
+SubOptions.args = {
 	options: {
-		'UTC-12': {
-			value: 'UTC-12',
-			label: '(UTC-12) Anywhere on Earth',
-			group: 'System Timezone - Default'
+		'system-timezone': {
+			value: 'system-timezone',
+			label: 'System Timezone - Default',
+			options: {
+				'UTC-12': {
+					value: 'UTC-12',
+					label: '(UTC-12) Anywhere on Earth'
+				}
+			}
 		},
-		'UTC-01': {
-			value: 'UTC-01',
-			label: '(UTC-01) Azores Time',
-			group: 'Other timezones'
-		},
-		'UTC-05': {
-			value: 'UTC-05',
-			label: '(UTC-05) Ecuador Time',
-			group: 'Other timezones'
-		},
-		'UTC-11': {
-			value: 'UTC-11',
-			label: '(UTC-11) Samoa Standard Time',
-			group: 'Other timezones'
-		},
-		'eUTC-10': {
-			value: 'UTC-10',
-			label: '(UTC-10) Cook Islands Standard Time',
-			group: 'Other timezones'
-		},
-		'UTC-09': {
-			value: 'UTC-09',
-			label: '(UTC-09) Hawaii-Aleutian Standarc Time',
-			group: 'Other timezones'
+		'other-timezones': {
+			value: 'other-timezones',
+			label: 'Other timezones',
+			options: {
+				'UTC-01': {
+					value: 'UTC-01',
+					label: '(UTC-01) Azores Time'
+				},
+				'UTC-05': {
+					value: 'UTC-05',
+					label: '(UTC-05) Ecuador Time'
+				},
+				'UTC-11': {
+					value: 'UTC-11',
+					label: '(UTC-11) Samoa Standard Time'
+				},
+				'UTC-10': {
+					value: 'UTC-10',
+					label: '(UTC-10) Cook Islands Standard Time'
+				},
+				'UTC-09': {
+					value: 'UTC-09',
+					label: '(UTC-09) Hawaii-Aleutian Standarc Time'
+				}
+			}
 		}
 	},
 	selectedOption: 'UTC-12',

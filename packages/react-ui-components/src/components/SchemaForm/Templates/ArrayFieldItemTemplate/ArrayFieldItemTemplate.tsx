@@ -1,12 +1,12 @@
 import { EActionButtonType, EComponentSize, EIconName } from '@kelvininc/ui-components';
-import { ArrayFieldTemplateItemType } from '@rjsf/utils';
+import { ArrayFieldTemplateItemType, FormContextType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import classNames from 'classnames';
 import { get } from 'lodash';
 import React from 'react';
 import { KvActionButtonIcon } from '../../../stencil-generated';
 import styles from './ArrayFieldItemTemplate.module.scss';
 
-const ArrayFieldItemTemplate = ({
+const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	children,
 	disabled,
 	hasMoveDown,
@@ -17,7 +17,7 @@ const ArrayFieldItemTemplate = ({
 	onDropIndexClick,
 	onReorderClick,
 	readonly
-}: ArrayFieldTemplateItemType) => {
+}: ArrayFieldTemplateItemType<T, S, F>) => {
 	const fieldset = get(children, ['props', 'uiSchema', 'ui:fieldset'], false);
 	const itemPrefix = get(children, ['props', 'uiSchema', 'ui:itemPrefix']);
 

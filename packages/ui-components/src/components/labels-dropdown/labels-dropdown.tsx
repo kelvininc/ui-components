@@ -1,15 +1,17 @@
 import { Component, Element, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
-import { ILabelsDropdown, ILabelsDropdownEvents } from './labels-dropdown.types';
-import { getFlattenedOptionsMap, getTextFieldConfig, setOverflowingLabels } from './labels-dropdown.helper';
-import { isEmpty, isEqual, isNil } from 'lodash';
-import { EIconName, ISelectMultiOptions } from '../../types';
+import { ILabelsDropdown } from './labels-dropdown.types';
+import { getTextFieldConfig, setOverflowingLabels } from './labels-dropdown.helper';
+import { isEmpty, isEqual } from 'lodash';
+import { EIconName, ISelectMultiOptions, ISelectMultiOptionsEvents } from '../../types';
+import { getSelectableOptions, getSelectedSelectableOptions } from '../../utils/select.helper';
+import { MINIMUM_SEARCHABLE_OPTIONS } from './labels-dropdown.config';
 
 @Component({
 	tag: 'kv-labels-dropdown',
 	styleUrl: 'labels-dropdown.scss',
 	shadow: false
 })
-export class KvLabelsDropdown implements ILabelsDropdown, ILabelsDropdownEvents {
+export class KvLabelsDropdown implements ILabelsDropdown, ISelectMultiOptionsEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) isOpen?: boolean = false;
 	/** @inheritdoc */
@@ -21,13 +23,25 @@ export class KvLabelsDropdown implements ILabelsDropdown, ILabelsDropdownEvents 
 	/** @inheritdoc */
 	@Prop({ reflect: true }) noDataAvailableLabel?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) searchable?: boolean = true;
+	@Prop({ reflect: true }) searchable?: boolean;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchValue?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minHeight?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxHeight?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) selectionClearable?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) clearSelectionLabel?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) selectionAll?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) selectAllLabel?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) counter: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) minSearchOptions?: number = MINIMUM_SEARCHABLE_OPTIONS;
 
 	@State() _isOpen = this.isOpen;
 	@State() _searchValue = this.searchValue;
@@ -44,16 +58,16 @@ export class KvLabelsDropdown implements ILabelsDropdown, ILabelsDropdownEvents 
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
 	/** @inheritdoc */
-	@Event() selectAll: EventEmitter<void>;
+	@Event() clearSelection: EventEmitter<void>;
 	/** @inheritdoc */
-	@Event() selectionCleared: EventEmitter<void>;
+	@Event() selectAll: EventEmitter<void>;
 
 	@Element() el: HTMLKvLabelsDropdownElement;
 
 	@Watch('options')
 	optionsWatcher(newValue: Record<string, boolean>, oldValue: Record<string, boolean>) {
 		if (isEqual(newValue, oldValue)) return;
-		this.flattenedOptionsHash = getFlattenedOptionsMap(this.options);
+		this.flattenedOptionsHash = getSelectableOptions(this.options);
 	}
 
 	@Watch('searchValue')
@@ -63,7 +77,7 @@ export class KvLabelsDropdown implements ILabelsDropdown, ILabelsDropdownEvents 
 	}
 
 	private dropdownElRef: HTMLKvDropdownElement;
-	private flattenedOptionsHash = getFlattenedOptionsMap(this.options);
+	private flattenedOptionsHash = getSelectableOptions(this.options);
 
 	private onDropdownMount = (dropdownEl: HTMLKvDropdownElement) => {
 		this.dropdownElRef = dropdownEl;
@@ -95,16 +109,14 @@ export class KvLabelsDropdown implements ILabelsDropdown, ILabelsDropdownEvents 
 		this.optionsSelected.emit(newOptions);
 	};
 
-	private onSelectAll = () => {
+	private onSelectAll = (event: CustomEvent<void>) => {
+		event.stopPropagation();
 		this.selectAll.emit();
 	};
 
-	private onSelectionClear = () => {
-		this.selectionCleared.emit();
-	};
-
-	private isEmptySearch = () => {
-		return !isNil(this.filteredOptions) && isEmpty(this.filteredOptions);
+	private onClearSelection = (event: CustomEvent<void>) => {
+		event.stopPropagation();
+		this.clearSelection.emit();
 	};
 
 	componentDidRender() {
@@ -112,18 +124,13 @@ export class KvLabelsDropdown implements ILabelsDropdown, ILabelsDropdownEvents 
 	}
 
 	render() {
-		const optionsLength = Object.keys(this.flattenedOptionsHash).length;
-		const selectedOptionsLength = Object.keys(this.selectedOptions).length;
-
-		const selectAllDisabled = this.isEmptySearch() || optionsLength === selectedOptionsLength;
-		const clearAllDisabled = this.isEmptySearch() || selectedOptionsLength === 0;
-		const selectedItemsCounterLabel = `${selectedOptionsLength}/${optionsLength}`;
+		const selectedSelectOptions = getSelectedSelectableOptions(this.options, this.selectedOptions);
 
 		return (
 			<Host>
 				<kv-dropdown
 					isOpen={this._isOpen}
-					inputConfig={getTextFieldConfig(isEmpty(this.selectedOptions))}
+					inputConfig={getTextFieldConfig(isEmpty(selectedSelectOptions))}
 					onOpenStateChange={this.onOpenStateChange}
 					ref={this.onDropdownMount}
 				>
@@ -134,41 +141,28 @@ export class KvLabelsDropdown implements ILabelsDropdown, ILabelsDropdownEvents 
 						{this._overflowingLabelsCounter > 0 && <div class="overflowing-counter">+{this._overflowingLabelsCounter}</div>}
 					</div>
 					<kv-select-multi-options
-						options={this.filteredOptions || this.options}
+						options={this.options}
+						filteredOptions={this.filteredOptions}
 						selectedOptions={this.selectedOptions}
 						noDataAvailableLabel={this.noDataAvailableLabel}
 						searchable={this.searchable}
+						minSearchOptions={this.minSearchOptions}
 						searchValue={this._searchValue}
 						minHeight={this.minHeight}
 						maxHeight={this.maxHeight}
 						onSearchChange={({ detail }) => this.searchChange.emit(detail)}
 						onOptionsSelected={({ detail }) => this.optionsSelected.emit(detail)}
+						selectionAll={this.selectionAll}
+						selectAllLabel={this.selectAllLabel}
+						selectionClearable={this.selectionClearable}
+						clearSelectionLabel={this.clearSelectionLabel}
+						counter={this.counter}
+						onSelectAll={this.onSelectAll}
+						onClearSelection={this.onClearSelection}
 					>
-						<div slot="header-actions" class="header-actions">
-							<div class="actions">
-								<div
-									class={{
-										'action-label': true,
-										'disabled': selectAllDisabled
-									}}
-									onClick={this.onSelectAll}
-								>
-									Select all
-								</div>
-								<div class="action-separator" />
-								<div
-									class={{
-										'action-label': true,
-										'disabled': clearAllDisabled
-									}}
-									onClick={this.onSelectionClear}
-								>
-									Clear all
-								</div>
-							</div>
-							<div class="selected-items-counter">Selected: {selectedItemsCounterLabel}</div>
-						</div>
-						<slot name="no-data-available" slot="no-data-available"></slot>
+						<slot name="select-header-actions" slot="select-header-actions" />
+						<slot name="select-header-label" slot="select-header-label" />
+						<slot name="no-data-available" slot="no-data-available" />
 					</kv-select-multi-options>
 				</kv-dropdown>
 			</Host>

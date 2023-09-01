@@ -52,16 +52,19 @@ export const KvSelectExample: React.FC = () => (
 
 ## Properties
 
-| Property                | Attribute                 | Description                                                       | Type      | Default                        |
-| ----------------------- | ------------------------- | ----------------------------------------------------------------- | --------- | ------------------------------ |
-| `clearSelectionLabel`   | `clear-selection-label`   | (optional) The clear search action text                           | `string`  | `SELECT_CLEAR_SELECTION_LABEL` |
-| `maxHeight`             | `max-height`              | (optional) The dropdown's max-height                              | `string`  | `undefined`                    |
-| `minHeight`             | `min-height`              | (optional) The dropdown's min-height                              | `string`  | `undefined`                    |
-| `searchPlaceholder`     | `search-placeholder`      | (optional) The list search text field placeholder                 | `string`  | `undefined`                    |
-| `searchValue`           | `search-value`            | (optional) The search value on the list                           | `string`  | `undefined`                    |
-| `searchable`            | `searchable`              | (optional) If `true` the list has a search text field             | `boolean` | `false`                        |
-| `selectionClearEnabled` | `selection-clear-enabled` | (optional) If `true` the list can be cleared                      | `boolean` | `undefined`                    |
-| `selectionClearable`    | `selection-clearable`     | (optional) If `true` the list has an action to unselect all items | `boolean` | `false`                        |
+| Property                | Attribute                 | Description                                                       | Type      | Default                 |
+| ----------------------- | ------------------------- | ----------------------------------------------------------------- | --------- | ----------------------- |
+| `clearSelectionLabel`   | `clear-selection-label`   | (optional) The clear search action text                           | `string`  | `CLEAR_SELECTION_LABEL` |
+| `maxHeight`             | `max-height`              | (optional) The dropdown's max-height                              | `string`  | `undefined`             |
+| `minHeight`             | `min-height`              | (optional) The dropdown's min-height                              | `string`  | `undefined`             |
+| `searchPlaceholder`     | `search-placeholder`      | (optional) The list search text field placeholder                 | `string`  | `undefined`             |
+| `searchValue`           | `search-value`            | (optional) The search value on the list                           | `string`  | `undefined`             |
+| `searchable`            | `searchable`              | (optional) If `true` the list has a search text field             | `boolean` | `false`                 |
+| `selectAllLabel`        | `select-all-label`        | (optional) The selection all action text                          | `string`  | `SELECT_ALL_LABEL`      |
+| `selectionAll`          | `selection-all`           | (optional) If `true` the list has an action to select all items   | `boolean` | `false`                 |
+| `selectionAllEnabled`   | `selection-all-enabled`   | (optional) If `true` the selection action is enabled              | `boolean` | `undefined`             |
+| `selectionClearEnabled` | `selection-clear-enabled` | (optional) If `true` the list can be cleared                      | `boolean` | `undefined`             |
+| `selectionClearable`    | `selection-clearable`     | (optional) If `true` the list has an action to unselect all items | `boolean` | `false`                 |
 
 
 ## Events
@@ -70,6 +73,7 @@ export const KvSelectExample: React.FC = () => (
 | ---------------- | ---------------------------------------------------------- | --------------------- |
 | `clearSelection` | Emitted when the user clears the selected items            | `CustomEvent<void>`   |
 | `searchChange`   | Emitted when the user interacts with the search text field | `CustomEvent<string>` |
+| `selectAll`      | Emitted when the user clicks on the all items              | `CustomEvent<void>`   |
 
 
 ## Shadow Parts

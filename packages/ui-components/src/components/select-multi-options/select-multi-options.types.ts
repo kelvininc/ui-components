@@ -1,11 +1,8 @@
 import { EventEmitter } from '@stencil/core';
+import { ISelectEvents, ISelectOption } from '../../types';
 
-export interface ISelectMultiOption {
-	label: string;
-	value: string;
-	disabled?: boolean;
-	children?: ISelectMultiOptions;
-	group?: string;
+export interface ISelectMultiOption extends Pick<ISelectOption, 'label' | 'value' | 'disabled' | 'selectable' | 'description'> {
+	options?: ISelectMultiOptions;
 }
 
 export type ISelectMultiOptions = Record<string, ISelectMultiOption>;
@@ -21,23 +18,29 @@ export interface ISelectMultiOptionsConfig {
 	noDataAvailableLabel?: string;
 	/** (optional) If `true` the dropdown is searchable */
 	searchable?: boolean;
+	/** (optional) The list search text field placeholder */
+	searchPlaceholder?: string;
 	/** (optional) The search value to display */
 	searchValue?: string;
 	/** (optional) If `true` dropdown items can be cleared */
 	selectionClearable?: boolean;
-	/** (optional) The clear search action text */
+	/** (optional) The clear selection action text */
 	clearSelectionLabel?: string;
 	/** (optional) The dropdown's min-height */
 	minHeight?: string;
 	/** (optional) The dropdown's max-height */
 	maxHeight?: string;
+	/** (optional) If `true` the list has an action to select all items */
+	selectionAll?: boolean;
+	/** (optional) The selection all action text */
+	selectAllLabel?: string;
+	/** (optional) If `true` a selection counter is displayed */
+	counter?: boolean;
+	/** (optional) The minimum amount of options required to display the search. Defaults to `8`. */
+	minSearchOptions?: number;
 }
 
-export interface ISelectMultiOptionsEvents {
+export interface ISelectMultiOptionsEvents extends ISelectEvents {
 	/** Emitted when the selected options change */
 	optionsSelected: EventEmitter<Record<string, boolean>>;
-	/** Emitted when the search term changes */
-	searchChange: EventEmitter<string>;
-	/** Emitted when the selection is cleared */
-	selectionCleared: EventEmitter<void>;
 }

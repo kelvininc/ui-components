@@ -2,6 +2,9 @@ import { Component, Event, EventEmitter, Host, Prop, h } from '@stencil/core';
 import { IWizardFooter, IWizardFooterEvents } from './wizard-footer.types';
 import { EActionButtonType, IStepBarStep } from '../../types';
 
+/**
+ * @part footer-actions-container - the container of footer stepper and additional actions
+ */
 @Component({
 	tag: 'kv-wizard-footer',
 	styleUrl: 'wizard-footer.scss',
@@ -74,20 +77,22 @@ export class KvWizardFooter implements IWizardFooter, IWizardFooterEvents {
 		return (
 			<Host>
 				<div class="wizard-footer-container">
-					<div class="wizard-stepper">
+					<div class="actions-container" part="footer-actions-container">
 						{this.showStepBar && (
-							<kv-step-bar
-								label={this.label}
-								steps={this.steps}
-								currentStep={this.currentStep}
-								progressPercentage={this.progressPercentage}
-								hasError={this.hasError}
-								onStepClicked={this.onStepClick}
-							/>
+							<div class="wizard-stepper">
+								<kv-step-bar
+									label={this.label}
+									steps={this.steps}
+									currentStep={this.currentStep}
+									progressPercentage={this.progressPercentage}
+									hasError={this.hasError}
+									onStepClicked={this.onStepClick}
+								/>
+							</div>
 						)}
-					</div>
-					<div class="actions-container">
 						<slot name="additional-actions" />
+					</div>
+					<div class="buttons-container">
 						{this.showCancelBtn && (
 							<kv-action-button-text type={EActionButtonType.Tertiary} text="Cancel" disabled={!this.cancelEnabled} onClickButton={this.onCancelClick} />
 						)}

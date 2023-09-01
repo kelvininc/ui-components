@@ -1,16 +1,29 @@
 import { EValidationState } from '@kelvininc/ui-components';
-import { WidgetProps } from '@rjsf/utils';
-import classNames from 'classnames';
+import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 import { isEmpty } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../stencil-generated';
 import styles from './SelectWidget.module.scss';
 import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, searchDropdownOptions } from './utils';
+import { DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
 
-const SelectWidget = ({ schema, id, options, label, required, disabled, readonly, value, multiple, onChange, placeholder, rawErrors = [], uiSchema = {} }: WidgetProps) => {
+const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
+	schema,
+	id,
+	options,
+	label,
+	required,
+	disabled,
+	readonly,
+	value,
+	multiple,
+	onChange,
+	placeholder,
+	rawErrors = [],
+	uiSchema = {}
+}: WidgetProps<T, S, F>) => {
 	const { enumOptions, enumDisabled } = options;
-	const { displayValue, searchable, selectionClearable, minHeight, maxHeight } = uiSchema;
-
+	const { displayValue, searchable, selectionClearable, minHeight, maxHeight, minSearchOptions } = uiSchema;
 	const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
 	const defaultDropdownOptions = useMemo(() => buildDropdownOptions(enumOptions, enumDisabled), [enumOptions, enumDisabled]);
@@ -32,9 +45,6 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 		const selectedOptions = getSelectedOptions(selectedOptionsMap);
 		onChangeValue(selectedOptions);
 	}, []);
-	const onSelectionCleared = useCallback(() => {
-		onChangeValue(multiple ? [] : undefined);
-	}, [onChange]);
 	const onChangeValue = useCallback(newValue => {
 		const processedValue = processValue(schema, newValue);
 		onChange(processedValue);
@@ -52,13 +62,14 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 		disabled: disabled || readonly,
 		errorState: hasErrors ? EValidationState.Invalid : EValidationState.Valid,
 		displayValue: typeof value === 'undefined' ? emptyValue : displayValue?.(value, defaultDropdownOptions),
-		options: filteredOptions,
+		options: defaultDropdownOptions,
+		filteredOptions,
 		onSearchChange,
 		searchable,
 		minHeight,
 		maxHeight,
 		selectionClearable,
-		onSelectionCleared
+		minSearchOptions: minSearchOptions ?? DEFAULT_MINIMUM_SEARCHABLE_OPTIONS
 	};
 
 	useEffect(() => {
@@ -66,7 +77,7 @@ const SelectWidget = ({ schema, id, options, label, required, disabled, readonly
 	}, [value]);
 
 	return (
-		<div className={classNames(styles.InputContainer, { [styles.HasErrors]: hasErrors, [styles.HasLabel]: !!displayedLabel })}>
+		<div className={styles.InputContainer}>
 			{!multiple && <KvSingleSelectDropdown selectedOption={stateValue} onOptionSelected={onChangeOptionSelected} {...props} />}
 			{multiple && <KvMultiSelectDropdown selectedOptions={buildSelectedOptions(stateValue)} onOptionsSelected={onChangeOptionsSelected} {...props} />}
 		</div>

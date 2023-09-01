@@ -2,25 +2,10 @@ import React, { useCallback, useMemo } from 'react';
 import { ComponentStory } from '@storybook/react';
 import { useArgs } from '@storybook/client-api';
 import { KvLabelsDropdown, KvSelectOption } from '../../components';
-import { ISelectMultiOptions } from '@kelvininc/ui-components/dist/types/components/select-multi-options/select-multi-options.types';
-import { get, isEmpty } from 'lodash';
-import { searchMultiLevelDropdownOptions } from './helpers/dropdown.helper';
+import { get } from 'lodash';
+import { searchDropdownOptions } from './helpers/dropdown.helper';
 
 KvLabelsDropdown.displayName = 'KvLabelsDropdown';
-
-const getAllChildrenValues = (options: ISelectMultiOptions): string[] => {
-	if (!options || Object.values(options).length <= 0) {
-		return [];
-	}
-	return Object.values(options).reduce<string[]>((acc, option) => {
-		if (isEmpty(option.children)) {
-			acc.push(option.value);
-		} else {
-			acc = acc.concat(getAllChildrenValues(option.children));
-		}
-		return acc;
-	}, []);
-};
 
 export default {
 	title: 'Inputs/Dropdown/Labels',
@@ -44,20 +29,7 @@ export default {
 const LabelsDropdownTemplate: ComponentStory<typeof KvLabelsDropdown> = args => {
 	const [{ options, selectedOptions, searchValue }, updateArgs] = useArgs();
 
-	const filteredOptions = useMemo(() => searchMultiLevelDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
-
-	const onSelectAll = useCallback(() => {
-		const newSelectedOptions = getAllChildrenValues(options ?? {}).reduce<Record<string, boolean>>((acc, cur) => {
-			acc[cur] = true;
-			return acc;
-		}, {});
-
-		updateArgs({ selectedOptions: newSelectedOptions });
-	}, [options, getAllChildrenValues]);
-
-	const onClearAll = useCallback(() => {
-		updateArgs({ selectedOptions: {} });
-	}, []);
+	const filteredOptions = useMemo(() => searchDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
 
 	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => {
 		updateArgs({ searchValue: searchedLabel });
@@ -75,12 +47,12 @@ const LabelsDropdownTemplate: ComponentStory<typeof KvLabelsDropdown> = args => 
 					...options,
 					recents: {
 						...options.recents,
-						children: {
+						options: {
 							[detail]: {
 								label: detail,
 								value: detail
 							},
-							...options.recents.children
+							...options.recents.options
 						}
 					}
 				},
@@ -92,15 +64,9 @@ const LabelsDropdownTemplate: ComponentStory<typeof KvLabelsDropdown> = args => 
 			});
 		}
 	};
+
 	return (
-		<KvLabelsDropdown
-			{...args}
-			onSelectAll={onSelectAll}
-			onSelectionCleared={onClearAll}
-			onOptionsSelected={onOptionsSelected}
-			onSearchChange={onSearchChange}
-			filteredOptions={filteredOptions}
-		>
+		<KvLabelsDropdown {...args} onOptionsSelected={onOptionsSelected} onSearchChange={onSearchChange} filteredOptions={filteredOptions}>
 			<div slot="no-data-available">
 				<KvSelectOption
 					label={`${searchValue} (Add new label)`}
@@ -120,7 +86,7 @@ Default.args = {
 		recents: {
 			value: 'recents',
 			label: 'Recents',
-			children: {
+			options: {
 				label_f: {
 					value: 'label_f',
 					label: 'Label F'
@@ -134,7 +100,7 @@ Default.args = {
 		all: {
 			value: 'all',
 			label: 'All Labels',
-			children: {
+			options: {
 				label_a: {
 					value: 'label_a',
 					label: 'Label A'

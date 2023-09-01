@@ -1,3 +1,4 @@
+@use "sass:map";
 @import '../../assets/styles/globals';
 
 $btn-text-colors: (
@@ -122,34 +123,34 @@ $btn-paddings-x: (
 );
 
 @function get-text-color($state, $type) {
-	$values: map-get($btn-text-colors, $state);
+	$values: map.get($btn-text-colors, $state);
 	@if ($values) {
-		@return map-get($values, $type);
+		@return map.get($values, $type);
 	}
 
 	@return null;
 }
 @function get-background-color($state, $type) {
-	$values: map-get($btn-background-colors, $state);
+	$values: map.get($btn-background-colors, $state);
 	@if ($values) {
-		@return map-get($values, $type);
+		@return map.get($values, $type);
 	}
 
 	@return null;
 }
 @function get-border-color($state, $type) {
-	$values: map-get($btn-border-colors, $state);
+	$values: map.get($btn-border-colors, $state);
 	@if ($values) {
-		@return map-get($values, $type);
+		@return map.get($values, $type);
 	}
 
 	@return null;
 }
 @function get-height($size) {
-	@return map-get($btn-heights, $size);
+	@return map.get($btn-heights, $size);
 }
 @function get-horizontal-padding($size) {
-	@return map-get($btn-paddings-x, $size);
+	@return map.get($btn-paddings-x, $size);
 }
 
 @mixin button-text-theme($type) {

@@ -5,38 +5,26 @@ export const searchDropdownOptions = (term: string, options: ISingleSelectDropdo
 	const lowerCaseTerm = term.toLowerCase();
 	return Object.keys(options).reduce<ISingleSelectDropdownOptions | ISelectMultiOptions>((accumulator, key) => {
 		const option = options[key];
-		const lowerCaseLabel = option.label.toLowerCase();
 
+		if (!isEmpty(option.options)) {
+			const childrenMatches = searchDropdownOptions(term, option.options);
+
+			if (!isEmpty(childrenMatches)) {
+				accumulator[key] = {
+					...option,
+					options: childrenMatches
+				};
+			}
+
+			return accumulator;
+		}
+
+		const lowerCaseLabel = option.label.toLowerCase();
 		if (lowerCaseLabel.includes(lowerCaseTerm)) {
 			accumulator[key] = option;
 		}
 
 		return accumulator;
-	}, {});
-};
-
-export const searchMultiLevelDropdownOptions = (term: string, options: ISelectMultiOptions) => {
-	if (isEmpty(term)) {
-		return;
-	}
-
-	return Object.keys(options).reduce<ISelectMultiOptions>((acc, key) => {
-		const option = options[key];
-		if (isEmpty(option.children)) {
-			if (option.label.includes(term)) {
-				acc[key] = option;
-			}
-		} else {
-			const childrenMatches = searchMultiLevelDropdownOptions(term, option.children);
-
-			if (!isEmpty(childrenMatches)) {
-				acc[key] = {
-					...option,
-					children: childrenMatches
-				};
-			}
-		}
-		return acc;
 	}, {});
 };
 

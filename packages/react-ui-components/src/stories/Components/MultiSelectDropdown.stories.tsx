@@ -1,6 +1,7 @@
 import { ComponentStory } from '@storybook/react';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { EComponentSize, EIconName, ISelectMultiOptions, KvMultiSelectDropdown } from '../../components';
+import React, { useCallback, useMemo } from 'react';
+import { useArgs } from '@storybook/client-api';
+import { EComponentSize, EIconName, KvMultiSelectDropdown } from '../../components';
 import { searchDropdownOptions } from './helpers/dropdown.helper';
 
 // Required to have the correct TagName in the code sample
@@ -53,33 +54,26 @@ export default {
 	}
 };
 
-const MultiSelectDropdownTemplate: ComponentStory<typeof KvMultiSelectDropdown> = ({
-	options,
-	selectedOptions,
-	...otherProps
-}: {
-	options?: ISelectMultiOptions;
-	selectedOptions?: Record<string, boolean>;
-}) => {
-	const [searchTerm, setSearchTerm] = useState<string | null>(null);
-	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => setSearchTerm(searchedLabel), []);
-	const filteredOptions = useMemo(() => searchDropdownOptions(searchTerm ?? '', options ?? {}), [searchTerm, options]);
+const MultiSelectDropdownTemplate: ComponentStory<typeof KvMultiSelectDropdown> = args => {
+	const [{ options, selectedOptions, searchValue }, updateArgs] = useArgs();
 
-	const onOptionsSelected = useCallback(({ detail: options }: CustomEvent<Record<string, boolean>>) => setSelected(options), []);
-	const [selected, setSelected] = useState<Record<string, boolean>>(selectedOptions || {});
+	const filteredOptions = useMemo(() => searchDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
 
-	useEffect(() => {
-		setSelected(selectedOptions || {});
-	}, [selectedOptions]);
+	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => {
+		updateArgs({ searchValue: searchedLabel });
+	}, []);
+
+	const onOptionsSelected = useCallback(({ detail }: CustomEvent<Record<string, boolean>>) => {
+		updateArgs({ selectedOptions: detail });
+	}, []);
 
 	return (
 		<KvMultiSelectDropdown
-			onSearchChange={onSearchChange}
-			selectedOptions={selected}
-			options={options}
-			filteredOptions={filteredOptions}
+			{...args}
+			selectedOptions={selectedOptions}
 			onOptionsSelected={onOptionsSelected}
-			{...otherProps}
+			onSearchChange={onSearchChange}
+			filteredOptions={filteredOptions}
 		/>
 	);
 };
@@ -140,47 +134,116 @@ Default.args = {
 	label: 'Options',
 	icon: EIconName.Layer,
 	searchable: true,
-	selectionClearable: true
+	selectionClearable: true,
+	selectionAll: true,
+	counter: true
 };
 
-export const Groups = MultiSelectDropdownTemplate.bind({});
-Groups.args = {
+export const SubOptions = MultiSelectDropdownTemplate.bind({});
+SubOptions.args = {
 	options: {
-		'UTC-12': {
-			value: 'UTC-12',
-			label: '(UTC-12) Anywhere on Earth',
-			group: 'System Timezone - Default'
+		state: {
+			value: 'state',
+			label: 'state',
+			selectable: false,
+			options: {
+				'demo-ogm-bp-status': {
+					value: 'demo-ogm-bp-status',
+					label: 'OGM - BeamPump - Status'
+				},
+				'demo-ogm-bp-status-setpoint': {
+					value: 'demo-ogm-bp-status-setpoint',
+					label: 'OGM - BeamPump - Status SetPoint'
+				},
+				'demo-ogm-cp-status': {
+					value: 'demo-ogm-cp-status',
+					label: 'OGM - C.Pump - Status'
+				},
+				'demo-ogm-cp-status-setpoint': {
+					value: 'demo-ogm-cp-status-setpoint',
+					label: 'OGM - C.Pump - Status SetPoint'
+				}
+			}
 		},
-		'UTC-01': {
-			value: 'UTC-01',
-			label: '(UTC-01) Azores Time',
-			group: 'Other timezones'
+		flow_rate: {
+			value: 'flow_rate',
+			label: 'flow_rate',
+			selectable: false,
+			options: {
+				'demo-ogm-cp-flow-rate': {
+					value: 'demo-ogm-cp-flow-rate',
+					label: 'OGM - Flow Rate'
+				}
+			}
 		},
-		'UTC-05': {
-			value: 'UTC-05',
-			label: '(UTC-05) Ecuador Time',
-			group: 'Other timezones'
+		power: {
+			value: 'power',
+			label: 'power',
+			selectable: false,
+			options: {
+				'demo-ogm-cp-power': {
+					value: 'demo-ogm-cp-power',
+					label: 'OGM - C.Pump - Power'
+				}
+			}
 		},
-		'UTC-11': {
-			value: 'UTC-11',
-			label: '(UTC-11) Samoa Standard Time',
-			group: 'Other timezones'
+		velocity: {
+			value: 'velocity',
+			label: 'velocity',
+			selectable: false,
+			options: {
+				'demo-ogm-cp-speed': {
+					value: 'demo-ogm-cp-speed',
+					label: 'OGM - C.Pump - Speed'
+				},
+				'demo-ogm-cp-speed-setpoint': {
+					value: 'demo-ogm-cp-speed-setpoint',
+					label: 'OGM - C.Pump - Speed SetPoint'
+				}
+			}
 		},
-		'eUTC-10': {
-			value: 'UTC-10',
-			label: '(UTC-10) Cook Islands Standard Time',
-			group: 'Other timezones'
+		temperature: {
+			value: 'temperature',
+			label: 'temperature',
+			selectable: false,
+			options: {
+				'demo-ogm-cp-temperature': {
+					value: 'demo-ogm-cp-temperature',
+					label: 'CH - C.Pump - Temperature'
+				},
+				'demo-ogm-extruder-temperature': {
+					value: 'demo-ogm-extruder-temperature',
+					label: 'OGM Temperature'
+				}
+			}
 		},
-		'UTC-09': {
-			value: 'UTC-09',
-			label: '(UTC-09) Hawaii-Aleutian Standarc Time',
-			group: 'Other timezones'
+		volume: {
+			value: 'volume',
+			label: 'volume',
+			selectable: false,
+			options: {
+				'demo-ogm-gas-tank-level': {
+					value: 'demo-ogm-gas-tank-level',
+					label: 'OGM - Gas Tank - Level'
+				},
+				'demo-ogm-oil-tank-level': {
+					value: 'demo-ogm-oil-tank-level',
+					label: 'OGM - Oil Tank - Level'
+				},
+				'demo-ogm-water-tank-level': {
+					value: 'demo-ogm-water-tank-level',
+					label: 'OGM - Water Tank - Level'
+				}
+			}
 		}
 	},
-	selectedOptions: { 'UTC-12': true, 'UTC-05': true },
-	label: 'Timezone',
-	placeholder: 'Select a timezone',
-	icon: EIconName.Time,
+	selectedOptions: {},
+	label: 'Data Streams',
+	placeholder: 'Select a data stream',
+	icon: EIconName.Datastreams,
+	searchPlaceholder: 'Search for a data stream',
 	searchable: true,
-	selectionClearable: true
+	selectionClearable: true,
+	selectionAll: true,
+	counter: true
 };

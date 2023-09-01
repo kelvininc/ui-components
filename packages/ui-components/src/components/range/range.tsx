@@ -1,6 +1,7 @@
 import { Component, Host, h, Prop, Element, EventEmitter, Event } from '@stencil/core';
 import { IRange, IRangeEvents } from './range.types';
 import { getInputOffset, getInputPercentageFromValue, getValueOffset } from './range.helper';
+import { identity } from 'lodash';
 
 @Component({
 	tag: 'kv-range',
@@ -28,6 +29,8 @@ export class KvRange implements IRange, IRangeEvents {
 	@Prop({ reflect: true }) maxLabel?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled: boolean = false;
+	/** @inheritdoc */
+	@Prop() valueFormatter: (value: number) => string = identity;
 
 	/** @inheritdoc */
 	@Event() valueChange: EventEmitter<number>;
@@ -91,7 +94,7 @@ export class KvRange implements IRange, IRangeEvents {
 					/>
 					{!this.hideLabel && (
 						<span id="select-value" class="select-value">
-							{this.value}
+							{this.valueFormatter(this.value)}
 						</span>
 					)}
 					<div class="range-min-max">

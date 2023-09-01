@@ -1,10 +1,10 @@
 import { EActionButtonType, EComponentSize } from '@kelvininc/ui-components';
-import { getSubmitButtonOptions, SubmitButtonProps } from '@rjsf/utils';
+import { FormContextType, getSubmitButtonOptions, RJSFSchema, StrictRJSFSchema, SubmitButtonProps } from '@rjsf/utils';
 import React from 'react';
 import { KvActionButtonText } from '../../../stencil-generated';
 import styles from './SubmitButton.module.scss';
 
-const SubmitButton: React.ComponentType<SubmitButtonProps> = (props: SubmitButtonProps) => {
+const SubmitButton = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: SubmitButtonProps<T, S, F>) => {
 	const { submitText, norender, props: submitButtonProps } = getSubmitButtonOptions(props.uiSchema);
 
 	if (norender) return null;

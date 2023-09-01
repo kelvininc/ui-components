@@ -1,7 +1,8 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Element } from '@stencil/core';
+import { Component, Host, h, Prop, Event, EventEmitter, Element, Fragment } from '@stencil/core';
 import { isNil, omitBy } from 'lodash-es';
-import { SELECT_CLEAR_SELECTION_LABEL } from './select.config';
+import { CLEAR_SELECTION_LABEL, SELECT_ALL_LABEL } from './select.config';
 import { ISelect, ISelectEvents } from './select.types';
+import { isElementVisible } from './select.helper';
 
 /**
  * @part select - The select container.
@@ -17,13 +18,19 @@ export class KvSelect implements ISelect, ISelectEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchValue?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) selectionClearable?: boolean = false;
-	/** @inheritdoc */
 	@Prop({ reflect: true }) searchPlaceholder?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) selectionClearable?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectionClearEnabled?: boolean;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) clearSelectionLabel?: string = SELECT_CLEAR_SELECTION_LABEL;
+	@Prop({ reflect: true }) clearSelectionLabel?: string = CLEAR_SELECTION_LABEL;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) selectionAll?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) selectionAllEnabled?: boolean;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) selectAllLabel?: string = SELECT_ALL_LABEL;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minHeight?: string;
 	/** @inheritdoc */
@@ -33,6 +40,8 @@ export class KvSelect implements ISelect, ISelectEvents {
 	@Event() searchChange: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event() clearSelection: EventEmitter<void>;
+	/** @inheritdoc */
+	@Event() selectAll: EventEmitter<void>;
 
 	@Element() el: HTMLKvSelectElement;
 
@@ -43,6 +52,10 @@ export class KvSelect implements ISelect, ISelectEvents {
 
 	private onClearSelection = () => {
 		this.clearSelection.emit();
+	};
+
+	private onSelectAll = () => {
+		this.selectAll.emit();
 	};
 
 	private get customStyle() {
@@ -56,28 +69,57 @@ export class KvSelect implements ISelect, ISelectEvents {
 	}
 
 	private get hasActionsSlot() {
-		return !isNil(this.el.querySelector('[slot="select-header-actions"]'));
+		return isElementVisible(this.el, '[slot="select-header-actions"]');
+	}
+
+	private get hasLabelSlot() {
+		return isElementVisible(this.el, '[slot="select-header-label"]');
 	}
 
 	render() {
+		const hasLabels = this.selectionAll || this.selectionClearable || this.hasActionsSlot || this.hasLabelSlot;
+		const hasHeader = this.searchable || hasLabels;
+
 		return (
 			<Host style={this.customStyle}>
 				<div class="select-container" part="select">
-					{(this.searchable || this.selectionClearable || this.hasActionsSlot) && (
+					{hasHeader && (
 						<div class="select-header-container">
 							{this.searchable && <kv-search value={this.searchValue} placeholder={this.searchPlaceholder} onTextChange={this.onSearchChange} />}
-							{this.selectionClearable && (
-								<div
-									class={{
-										'selection-clear': true,
-										'disabled': !this.selectionClearEnabled
-									}}
-									onClick={this.onClearSelection}
-								>
-									{this.clearSelectionLabel}
+							{hasLabels && (
+								<div class="search-footer">
+									<div class="footer-actions">
+										{this.selectionAll && (
+											<div
+												class={{
+													'action': true,
+													'action--disabled': !this.selectionAllEnabled
+												}}
+												onClick={this.onSelectAll}
+											>
+												{this.selectAllLabel}
+											</div>
+										)}
+										{this.selectionClearable && (
+											<Fragment>
+												{this.selectionAll && <div class="divider" />}
+												<div
+													class={{
+														'action': true,
+														'action--disabled': !this.selectionClearEnabled
+													}}
+													onClick={this.onClearSelection}
+												>
+													{this.clearSelectionLabel}
+												</div>
+												{this.hasActionsSlot && <div class="divider" />}
+											</Fragment>
+										)}
+										<slot name="select-header-actions" />
+									</div>
+									<slot name="select-header-label" />
 								</div>
 							)}
-							<slot name="select-header-actions" />
 						</div>
 					)}
 					<div class="select-options-container">

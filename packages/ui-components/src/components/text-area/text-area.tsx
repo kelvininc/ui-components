@@ -1,6 +1,7 @@
 import { Component, Event, EventEmitter, Host, Prop, State, h } from '@stencil/core';
 import { ITextArea, ITextAreaEvents } from './types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { getUTF8StringLength } from '../../utils/string.helper';
 
 @Component({
 	tag: 'kv-text-area',
@@ -24,7 +25,7 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 
 	private inputRef: HTMLDivElement;
 
-	@State() curCharLength = this.text?.length || 0;
+	@State() curCharLength = getUTF8StringLength(this.text);
 	@State() isEditing = this.text?.length > 0;
 	@State() showPlaceholder = !this.text ? true : false;
 
@@ -35,7 +36,7 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 
 		const textValue = this.inputRef.innerText;
 		this.showPlaceholder = textValue.length === 0 ? true : false;
-		this.curCharLength = textValue.length;
+		this.curCharLength = getUTF8StringLength(textValue);
 	}
 
 	private onInput = () => {
@@ -44,23 +45,20 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	};
 
 	private onKeyPress = (event: KeyboardEvent) => {
-		if (this.inputRef.innerText.length >= this.maxCharLength) {
+		if (getUTF8StringLength(this.inputRef.innerText) >= this.maxCharLength) {
 			event.preventDefault();
 		}
 	};
 
 	private onClipboardPaste = (event: ClipboardEvent) => {
-		const textLength = this.inputRef.innerText.length;
+		const textLength = getUTF8StringLength(this.inputRef.innerText);
 		const pasteData = event.clipboardData.getData('text/plain');
-		const shouldPaste = textLength + pasteData.length <= this.maxCharLength;
-
-		event.preventDefault();
+		const shouldPaste = textLength + getUTF8StringLength(pasteData) <= this.maxCharLength;
 
 		if (!shouldPaste) {
+			event.preventDefault();
 			return;
 		}
-
-		document.execCommand('inserttext', false, pasteData);
 	};
 
 	private onTextAreaClick = () => {
@@ -69,8 +67,11 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	};
 
 	private onTextAreaLeave = () => {
-		this.isEditing = false;
 		this.textChangeBlur.emit(this.inputRef.innerText);
+	};
+
+	private onToggleTextArea = () => {
+		this.isEditing = !this.isEditing;
 	};
 
 	private updateInputRef = (ref: HTMLDivElement) => {
@@ -82,7 +83,7 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 		return (
 			<Host>
 				<div class="text-area-container">
-					{this.icon && <kv-icon name={this.icon} customClass={'icon-20'} class="left-icon" />}
+					{this.icon && <kv-icon name={this.icon} customClass={'icon-20'} class="left-icon" onClick={this.onToggleTextArea} />}
 					<div class="text-area" onClick={this.onTextAreaClick} onFocusout={this.onTextAreaLeave}>
 						<div
 							class={{

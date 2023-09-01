@@ -2,7 +2,7 @@ import { EIconName, ETooltipPosition, ISelectMultiOptions, ISingleSelectDropdown
 import { IChangeEvent } from '@rjsf/core';
 import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
-import { KvSchemaForm, SchemaFormProps } from '../../components';
+import { EApplyDefaults, KvSchemaForm, SchemaFormProps } from '../../components';
 import { getDropdownDisplayValue } from './helpers/dropdown.helper';
 import { action } from '@storybook/addon-actions';
 import { FormValidation } from '@rjsf/utils';
@@ -26,6 +26,10 @@ export default {
 		showErrorList: {
 			control: { type: 'inline-radio' },
 			options: Object.values(EShowErrorListType)
+		},
+		applyDefaults: {
+			control: { type: 'inline-radio' },
+			options: Object.values(EApplyDefaults)
 		}
 	},
 	parameters: {
@@ -104,10 +108,16 @@ Default.args = {
 				title: 'A multiple choices list',
 				items: {
 					type: 'string',
-					enum: ['bar', 'fuzz', 'qux']
+					enum: ['bar', 'fuzz', 'qux', 'bar1', 'fuzz1', 'qux1', 'bar2', 'fuzz2', 'qux2']
 				},
 				uniqueItems: true
 			}
+		}
+	},
+	uiSchema: {
+		'multipleChoicesList-example': {
+			searchable: true,
+			selectionClearable: true
 		}
 	}
 };
@@ -916,4 +926,35 @@ InlineForm.args = {
 	},
 	schema: inlineSchema,
 	uiSchema: inlineUiSchema
+};
+
+export const NotApplyDefaultsWidget = FormTemplate.bind({});
+NotApplyDefaultsWidget.args = {
+	applyDefaults: EApplyDefaults.Never,
+	liveValidate: true,
+	formContext: { showDefaultValueHelper: true, defaultValueHelperPrefix: 'Default: ' },
+	schema: {
+		type: 'object',
+		properties: {
+			title: {
+				type: 'string',
+				title: 'Title:',
+				default: 'lorem ipsum'
+			},
+			description: {
+				type: 'string',
+				title: 'Description:',
+				default: 'lorem ipsum lorem ipsum lorem ipsum'
+			}
+		},
+		required: ['title']
+	},
+	uiSchema: {
+		description: {
+			'ui:options': {
+				placeholder: 'Add description',
+				showDefaultValueHelper: false
+			}
+		}
+	}
 };

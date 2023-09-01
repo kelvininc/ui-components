@@ -1,5 +1,6 @@
+import { CustomCssClass } from '@kelvininc/ui-components';
 import Form, { FormProps } from '@rjsf/core';
-import { RJSFSchema, StrictRJSFSchema, ValidatorType } from '@rjsf/utils';
+import { FormContextType, RJSFSchema, StrictRJSFSchema, ValidatorType } from '@rjsf/utils';
 
 // We need this extra because they are not standard keywords in the JSON Schema specification(JSONSchema7) but added by AJV-keywords and used by the AJV Validator.
 // https://ajv.js.org/packages/ajv-formats.html#keywords-to-compare-values-formatmaximum-formatminimum-and-formatexclusivemaximum-formatexclusiveminimum
@@ -14,11 +15,31 @@ declare module 'json-schema' {
 	}
 }
 
-export interface SchemaFormProps<T, S extends StrictRJSFSchema = RJSFSchema> extends Partial<FormProps<T, S>> {
+export enum EApplyDefaults {
+	All = 'all',
+	RequiredOnly = 'requiredOnly',
+	Never = 'never'
+}
+
+export interface SchemaFormContext {
+	showDefaultValueHelper?: boolean;
+	defaultValueHelperPrefix?: string;
+}
+
+export interface SchemaFormProps<T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any> extends Partial<FormProps<T, S, F>> {
 	schema: S; //Required
-	validator?: ValidatorType<T, S>; //Optional
-	customClass?: string;
+	validator?: ValidatorType<T, S, F>; //Optional
+	customClass?: CustomCssClass;
 	submittedData?: T;
 	allowDiscardChanges?: boolean;
-	formReference?: React.RefObject<Form<T>>;
+	formReference?: React.RefObject<Form<T, S, F>>;
+	/** Optional enumerated flag controlling how empty object fields and array fields where `minItems` is set are populated.
+	 * Default: `All`;
+	 * - `All`: Legacy behavior - set default when there is a primitive value, an non-empty object field,
+	 *        or the field itself is required  |
+	 * - `RequiredOnly`: Only sets default when a value is an object and its parent field is required, or it
+	 *        is a primitive value and it is required |
+	 * - `Never`: Does not set defaults                                                                                                      |
+	 */
+	applyDefaults?: EApplyDefaults;
 }

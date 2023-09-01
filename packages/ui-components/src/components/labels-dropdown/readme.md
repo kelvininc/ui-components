@@ -7,27 +7,33 @@
 
 ## Properties
 
-| Property               | Attribute                 | Description                                                                      | Type                                   | Default     |
-| ---------------------- | ------------------------- | -------------------------------------------------------------------------------- | -------------------------------------- | ----------- |
-| `filteredOptions`      | --                        | (optional) The object with the dropdown options filtered                         | `{ [x: string]: ISelectMultiOption; }` | `undefined` |
-| `isOpen`               | `is-open`                 | (Optional) Allows outside implementation to open/close dropdown on demand        | `boolean`                              | `false`     |
-| `maxHeight`            | `max-height`              | (optional) The dropdown's max-height                                             | `string`                               | `undefined` |
-| `minHeight`            | `min-height`              | (optional) The dropdown's min-height                                             | `string`                               | `undefined` |
-| `noDataAvailableLabel` | `no-data-available-label` | (required) The text to display when there are no options                         | `string`                               | `undefined` |
-| `options`              | --                        | (optional) The object with the dropdown options                                  | `{ [x: string]: ISelectMultiOption; }` | `{}`        |
-| `searchValue`          | `search-value`            | (optional) The search value to display                                           | `string`                               | `undefined` |
-| `searchable`           | `searchable`              | (optional) If `true` the dropdown is searchable                                  | `boolean`                              | `true`      |
-| `selectedOptions`      | --                        | (optional) The object with indexed by the dropdown labels and its selected value | `{ [x: string]: boolean; }`            | `{}`        |
+| Property               | Attribute                 | Description                                                                               | Type                                   | Default                      |
+| ---------------------- | ------------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------- | ---------------------------- |
+| `clearSelectionLabel`  | `clear-selection-label`   | (optional) The clear selection action text                                                | `string`                               | `undefined`                  |
+| `counter`              | `counter`                 | (optional) If `true` a selection counter is displayed                                     | `boolean`                              | `true`                       |
+| `filteredOptions`      | --                        | (optional) The object with the dropdown options filtered                                  | `{ [x: string]: ISelectMultiOption; }` | `undefined`                  |
+| `isOpen`               | `is-open`                 | (Optional) Allows outside implementation to open/close dropdown on demand                 | `boolean`                              | `false`                      |
+| `maxHeight`            | `max-height`              | (optional) The dropdown's max-height                                                      | `string`                               | `undefined`                  |
+| `minHeight`            | `min-height`              | (optional) The dropdown's min-height                                                      | `string`                               | `undefined`                  |
+| `minSearchOptions`     | `min-search-options`      | (optional) The minimum amount of options required to display the search. Defaults to `8`. | `number`                               | `MINIMUM_SEARCHABLE_OPTIONS` |
+| `noDataAvailableLabel` | `no-data-available-label` | (required) The text to display when there are no options                                  | `string`                               | `undefined`                  |
+| `options`              | --                        | (optional) The object with the dropdown options                                           | `{ [x: string]: ISelectMultiOption; }` | `{}`                         |
+| `searchValue`          | `search-value`            | (optional) The search value to display                                                    | `string`                               | `undefined`                  |
+| `searchable`           | `searchable`              | (optional) If `true` the dropdown is searchable                                           | `boolean`                              | `undefined`                  |
+| `selectAllLabel`       | `select-all-label`        | (optional) The selection all action text                                                  | `string`                               | `undefined`                  |
+| `selectedOptions`      | --                        | (optional) The object with indexed by the dropdown labels and its selected value          | `{ [x: string]: boolean; }`            | `{}`                         |
+| `selectionAll`         | `selection-all`           | (optional) If `true` the list has an action to select all items                           | `boolean`                              | `true`                       |
+| `selectionClearable`   | `selection-clearable`     | (optional) If `true` dropdown items can be cleared                                        | `boolean`                              | `true`                       |
 
 
 ## Events
 
-| Event              | Description                                                | Type                                     |
-| ------------------ | ---------------------------------------------------------- | ---------------------------------------- |
-| `optionsSelected`  | Emitted when the selected options change                   | `CustomEvent<{ [x: string]: boolean; }>` |
-| `searchChange`     | Emitted when the search term changes                       | `CustomEvent<string>`                    |
-| `selectAll`        | Emits a signal whenever the 'select all' action is clicked | `CustomEvent<void>`                      |
-| `selectionCleared` | Emitted when the selection is cleared                      | `CustomEvent<void>`                      |
+| Event             | Description                                                | Type                                     |
+| ----------------- | ---------------------------------------------------------- | ---------------------------------------- |
+| `clearSelection`  | Emitted when the user clears the selected items            | `CustomEvent<void>`                      |
+| `optionsSelected` | Emitted when the selected options change                   | `CustomEvent<{ [x: string]: boolean; }>` |
+| `searchChange`    | Emitted when the user interacts with the search text field | `CustomEvent<string>`                    |
+| `selectAll`       | Emitted when the user clicks on the all items              | `CustomEvent<void>`                      |
 
 
 ## Dependencies
@@ -56,13 +62,10 @@ graph TD;
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
-  kv-select-multi-options --> kv-select-group
-  kv-select-multi-options --> kv-select-option-multi-level
-  kv-select-multi-options --> kv-select
   kv-select-multi-options --> kv-select-option
-  kv-select-option-multi-level --> kv-select-option
-  kv-select-option-multi-level --> kv-select-option-multi-level
+  kv-select-multi-options --> kv-select
   kv-select-option --> kv-checkbox
+  kv-select-option --> kv-select-option
   kv-checkbox --> kv-icon
   kv-select --> kv-search
   kv-search --> kv-text-field

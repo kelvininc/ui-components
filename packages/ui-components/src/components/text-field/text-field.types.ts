@@ -75,3 +75,7 @@ export interface ITextField {
 	/** (optional) Input mask regex */
 	inputMaskRegex?: string;
 }
+
+export interface IInputMaskInstanceRef extends Inputmask.Instance {
+	shadowRoot: ShadowRoot;
+}

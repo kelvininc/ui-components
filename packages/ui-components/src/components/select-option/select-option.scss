@@ -12,10 +12,10 @@
 	 * @prop --select-option-label-color-selected: Select option label color when selected.
 	 */
 
-	--select-option-width: 100%;
 	--select-option-height: 32px;
 	--select-option-transition-duration: 100ms;
 	--select-option-text-flex-direction: row;
+	--select-option-text-flex-alignment: center;
 	--select-option-flex-alignment: center;
 
 	--select-option-background-color: #{kv-color('neutral-7')};
@@ -23,12 +23,15 @@
 	--select-option-background-color-hover: #{kv-color('neutral-6')};
 
 	--select-option-label-color: #{kv-color('neutral-4')};
-	--select-option-label-color-selected: #{kv-color('neutral-2')};
+	--select-option-label-color-selected: #{kv-color('neutral-1')};
+	--select-option-label-color-hover: #{kv-color('neutral-2')};
+	--select-option-description-color: #{kv-color('neutral-4')};
+	--select-option-description-color-selected: #{kv-color('neutral-4')};
+	--select-option-description-color-hover: #{kv-color('neutral-2')};
 }
 
 .select-option {
 	height: var(--select-option-height);
-	padding: 0 $spacing-4x;
 	display: flex;
 	flex-direction: row;
 	align-items: var(--select-option-flex-alignment);
@@ -36,56 +39,84 @@
 	cursor: pointer;
 	background-color: var(--select-option-background-color);
 	transition: background-color var(--select-option-transition-duration) linear;
+	padding-right: $spacing-4x;
+	padding-left: calc(var(--level-padding-offset) + #{$spacing-4x});
 
 	.text-container {
 		display: flex;
 		min-width: 0;
-		width: var(--select-option-width);
+		flex: 1;
 		justify-content: space-between;
 		flex-direction: var(--select-option-text-flex-direction);
-		align-items: var(--select-option-flex-alignment);
-
-		.item-label {
-			@include ellipsis();
-			@include kv-font-span-regular;
-			transition: font-weight var(--select-option-transition-duration) linear;
-			color: var(--select-option-label-color);
-		}
-
-		.item-description {
-			@include kv-font-label-small-regular;
-			color: kv-color('neutral-4');
-		}
+		align-items: var(--select-option-text-flex-alignment);
 	}
 
-	&.selected {
+	.item-label {
+		@include ellipsis();
+		@include kv-font-span-regular;
+		transition: font-weight var(--select-option-transition-duration) linear;
+		color: var(--select-option-label-color);
+	}
+
+	.item-description {
+		@include kv-font-label-small-regular;
+		color: var(--select-option-description-color);
+	}
+
+	&--selected {
 		background-color: var(--select-option-background-color-selected);
 
 		.item-label {
 			@include kv-font-span-semibold;
 			color: var(--select-option-label-color-selected);
+		}
 
-			.item-description {
-				@include kv-font-label-small-semibold;
-			}
+		.item-description {
+			@include kv-font-label-small-semibold;
+			color: var(--select-option-description-color-selected);
 		}
 	}
 
 	&:hover {
 		background-color: var(--select-option-background-color-hover);
+
+		.item-label {
+			color: var(--select-option-label-color-hover);
+		}
+
+		.item-description {
+			color: var(--select-option-description-color-hover);
+		}
 	}
 
-	&.disabled {
+	&--disabled {
 		opacity: 0.5;
 		pointer-events: none;
 	}
 
-	&.has-bottom-slot {
-		padding: $spacing-2x $spacing-3x;
-		align-items: var(--select-option-flex-alignment);
+	&:not(.select-option--selectable) {
+		pointer-events: none;
+		user-select: none;
+	}
+
+	&--parent {
+		.item-label {
+			@include kv-font-label-xsmall-uppercase-semibold;
+			color: kv-color('neutral-2');
+		}
+
+		&::after {
+			content: '';
+			display: flex;
+			flex: 1;
+			height: 1px;
+			background: kv-color('neutral-6');
+			margin-left: $spacing-2x;
+		}
 	}
 
 	kv-checkbox {
+		--checkbox-icon-size: 12px;
 		margin-right: $spacing-2x;
 	}
 }

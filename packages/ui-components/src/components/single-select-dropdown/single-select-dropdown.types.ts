@@ -1,18 +1,14 @@
 import { EventEmitter } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
-import { EComponentSize, ICustomCss } from '../../types';
+import { EComponentSize, ICustomCss, ISelectOption } from '../../types';
+import { ComputePositionConfig } from '@floating-ui/dom';
 
-export interface ISingleSelectDropdownOption {
-	label: string;
-	value: string;
-	disabled?: boolean;
-	group?: string;
+export interface ISingleSelectDropdownOption extends Pick<ISelectOption, 'label' | 'value' | 'disabled' | 'selectable' | 'description'> {
+	options?: ISingleSelectDropdownOptions;
 }
 
-export interface ISingleSelectDropdownOptions {
-	[key: string]: ISingleSelectDropdownOption;
-}
+export type ISingleSelectDropdownOptions = Record<string, ISingleSelectDropdownOption>;
 
 export interface ISingleSelectDropdown extends ICustomCss {
 	/** (optional) The text to display as the dropdown placeholder */
@@ -57,6 +53,10 @@ export interface ISingleSelectDropdown extends ICustomCss {
 	maxHeight?: string;
 	/** (optional) The size of the input */
 	inputSize?: EComponentSize;
+	/** (optional) The dropdown position config options */
+	dropdownOptions?: Partial<ComputePositionConfig>;
+	/** (optional) The minimum amount of options required to display the search. Defaults to `8`. */
+	minSearchOptions?: number;
 }
 
 export interface ISingleSelectDropdownEvents {
@@ -65,7 +65,7 @@ export interface ISingleSelectDropdownEvents {
 	/** Emitted when the search term changes */
 	searchChange: EventEmitter<string>;
 	/** Emitted when the selection is cleared */
-	selectionCleared: EventEmitter<void>;
+	clearSelection: EventEmitter<void>;
 	/** Emitted when the dropdown open state changes */
 	openStateChange: EventEmitter<boolean>;
 }

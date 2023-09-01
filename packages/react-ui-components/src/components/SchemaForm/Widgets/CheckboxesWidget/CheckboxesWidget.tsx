@@ -1,11 +1,22 @@
-import { WidgetProps } from '@rjsf/utils';
+import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 import { KvFormLabel, KvToggleButtonGroup } from '../../../stencil-generated';
 import React, { useCallback, useMemo } from 'react';
 import { buildToggleButtons, buildSelectedToggleButtons, toggleSelectedOptions, buildDisabledToggleButtons } from './utils';
 import { ICheckboxConfig } from './types';
 import { get, isEmpty } from 'lodash';
 
-const CheckboxesWidget = ({ schema, label, id, options, disabled, value, required, readonly, onChange, uiSchema }: WidgetProps) => {
+const CheckboxesWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
+	schema,
+	label,
+	id,
+	options,
+	disabled,
+	value,
+	required,
+	readonly,
+	onChange,
+	uiSchema
+}: WidgetProps<T, S, F>) => {
 	const { enumOptions, enumDisabled, allButton } = options;
 	const { maxItems, minItems } = schema;
 

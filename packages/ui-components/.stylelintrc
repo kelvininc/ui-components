@@ -1,7 +1,6 @@
 {
 	"extends": "stylelint-config-sass-guidelines",
 	"rules": {
-		"indentation": "tab",
 		"selector-max-compound-selectors": 4,
 		"max-nesting-depth": [
 			4,
@@ -11,7 +10,6 @@
 				]
 			}
 		],
-		"order/properties-alphabetical-order": null,
 		"selector-no-qualifying-type": null
 	},
 	"ignoreFiles": [

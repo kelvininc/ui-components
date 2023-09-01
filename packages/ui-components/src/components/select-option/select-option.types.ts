@@ -1,5 +1,11 @@
 import { EventEmitter } from '@stencil/core';
 
+export enum EToggleState {
+	Selected = 'selected',
+	Indeterminate = 'indeterminate',
+	None = 'none'
+}
+
 export interface ISelectOption {
 	/** (required) The text to display on the item */
 	label: string;
@@ -11,12 +17,16 @@ export interface ISelectOption {
 	disabled?: boolean;
 	/** (optional) If `true` the item is selected */
 	selected?: boolean;
-	/** (optional) If `true` the item is in an indeterminate state (partially selected) */
-	indeterminate?: boolean;
 	/** (optional) If `true` the item is togglable */
 	togglable?: boolean;
-	/** (optional) If `true` styles the item to fit content below label */
-	hasBottomSlot?: boolean;
+	/** (optional) If `false` the item is only for presenting and cannot be selected. */
+	selectable?: boolean;
+	/** (optional) The level depth at which the option is rendered */
+	level?: number;
+	/** (optional) The toggle button state */
+	state?: EToggleState;
+	/** (optional) The children items of this option */
+	options?: Record<string, ISelectOption>;
 }
 
 export interface ISelectOptionEvents {

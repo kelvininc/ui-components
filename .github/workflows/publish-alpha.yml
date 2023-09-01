@@ -17,7 +17,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-22.04]
-                node: [14.x]
+                node: [18.x]
 
         name: Pre-Release Publish (${{ matrix.os }} / Node.js ${{ matrix.node }})
         runs-on: ${{ matrix.os }}
@@ -57,9 +57,6 @@ jobs:
                   git commit -m 'chore(release): publish alpha version [skip ci]'
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-            - name: Bootstrap
-              run: npm run bootstrap
 
             - name: Generate Versions (Amend)
               if: env.CURRENT_VERSION != env.LAST_VERSION

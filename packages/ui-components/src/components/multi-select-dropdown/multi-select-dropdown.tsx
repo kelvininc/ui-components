@@ -3,11 +3,12 @@ import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { IMultiSelectDropdown, IMultiSelectDropdownEvents } from './multi-select-dropdown.types';
 
-import { MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
+import { MINIMUM_SEARCHABLE_OPTIONS, MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
 import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
 import { CustomCssClass, EComponentSize } from '../../types';
 import { getCssStyle } from '../utils';
 import { ISelectMultiOptions } from '../select-multi-options/select-multi-options.types';
+import { ComputePositionConfig } from '@floating-ui/dom';
 
 @Component({
 	tag: 'kv-multi-select-dropdown',
@@ -24,7 +25,9 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchable?: boolean;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) selectionClearable?: boolean;
+	@Prop({ reflect: true }) searchPlaceholder?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) selectionClearable?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) clearSelectionLabel?: string;
 	/** @inheritdoc */
@@ -46,7 +49,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedOptions?: Record<string, boolean> = {};
 	/** @inheritdoc */
-	@Prop({ reflect: true }) filteredOptions?: ISelectMultiOptions = {};
+	@Prop({ reflect: true }) filteredOptions?: ISelectMultiOptions;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minHeight?: string;
 	/** @inheritdoc */
@@ -55,13 +58,25 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: true }) inputSize?: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
+	/** @inheritdoc */
+	@Prop({ reflect: false }) dropdownOptions: Partial<ComputePositionConfig>;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) selectionAll: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) selectAllLabel: string;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) counter: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) minSearchOptions?: number = MINIMUM_SEARCHABLE_OPTIONS;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
 	/** @inheritdoc */
-	@Event() selectionCleared: EventEmitter<void>;
+	@Event() clearSelection: EventEmitter<void>;
+	/** @inheritdoc */
+	@Event() selectAll: EventEmitter<void>;
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 
@@ -97,14 +112,20 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		this.searchChange.emit(searchValue);
 	};
 
-	private onClearSelection = () => {
-		this.selectedOptions = {};
-		this.selectionCleared.emit();
+	private onClearSelection = (event: CustomEvent<void>) => {
+		event.stopPropagation();
+
+		this.clearSelection.emit();
+		this.calculateLabelValue();
+	};
+
+	private onSelectAll = (event: CustomEvent<void>) => {
+		event.stopPropagation();
+		this.selectAll.emit();
 		this.calculateLabelValue();
 	};
 
 	componentWillLoad() {
-		this._selectionDisplayValue = this.displayValue;
 		this.calculateLabelValue();
 	}
 
@@ -146,22 +167,38 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	render() {
 		return (
 			<Host>
-				<kv-dropdown inputConfig={this.inputConfig} isOpen={this._isOpen} onOpenStateChange={this.openStateChangeHandler} disabled={this.disabled}>
+				<kv-dropdown
+					inputConfig={this.inputConfig}
+					isOpen={this._isOpen}
+					onOpenStateChange={this.openStateChangeHandler}
+					disabled={this.disabled}
+					options={this.dropdownOptions}
+				>
 					<kv-select-multi-options
 						options={this.options}
 						filteredOptions={this.filteredOptions}
 						selectedOptions={this.selectedOptions}
 						noDataAvailableLabel={this.noDataAvailableLabel}
 						searchable={this.searchable}
+						minSearchOptions={this.minSearchOptions}
 						searchValue={this._searchValue}
 						selectionClearable={this.selectionClearable}
 						clearSelectionLabel={this.clearSelectionLabel}
+						selectionAll={this.selectionAll}
+						selectAllLabel={this.selectAllLabel}
+						searchPlaceholder={this.searchPlaceholder}
 						maxHeight={this.getMaxHeight()}
 						minHeight={this.minHeight}
+						counter={this.counter}
 						onSearchChange={this.onSearchChange}
-						onSelectionCleared={this.onClearSelection}
+						onClearSelection={this.onClearSelection}
 						onOptionsSelected={this.selectOption}
-					/>
+						onSelectAll={this.onSelectAll}
+					>
+						<slot name="select-header-actions" slot="select-header-actions" />
+						<slot name="select-header-label" slot="select-header-label" />
+						<slot name="no-data-available" slot="no-data-available" />
+					</kv-select-multi-options>
 				</kv-dropdown>
 			</Host>
 		);

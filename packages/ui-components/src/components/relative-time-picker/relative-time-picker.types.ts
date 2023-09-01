@@ -1,5 +1,5 @@
 import { EventEmitter } from '@stencil/core';
-import { DateInput, SelectedTimestampRange } from '../../types';
+import { DateInput, ITimezoneOffset, SelectedTimestampRange } from '../../types';
 import dayjs from 'dayjs';
 
 export interface IRelativeTimePicker {
@@ -10,7 +10,7 @@ export interface IRelativeTimePicker {
 	/** (optional) Currently selected timezone name */
 	selectedTimezone?: string;
 	/** (optional) List of all selectable timezones */
-	timezones?: string[];
+	timezones?: ITimezoneOffset[];
 	/** (optional) Defines if the customize interval select option is available */
 	customIntervalOptionEnabled?: boolean;
 	/** (optional) Defines if the timezone select option is available */

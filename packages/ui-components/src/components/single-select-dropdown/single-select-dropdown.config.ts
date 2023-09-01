@@ -1,3 +1,5 @@
 export const SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE = 'No data available';
-
 export const SINGLE_SELECT_CLEAR_SELECTION_LABEL = 'Clear selected';
+export const MINIMUM_SEARCHABLE_OPTIONS = 6;
+export const INVALID_VALUE_ERROR = `Empty string "" is an invalid value for the dropdown, if you wish to deselect the dropdown please set the value to undefined.`;
+export const EMPTY_STRING = '';
