@@ -1,8 +1,9 @@
 import { Component, Element, Event, EventEmitter, Host, Listen, Prop, State, Watch, h } from '@stencil/core';
-import { ITabNavigationItem, ITabsNotificationDict } from './tab-navigation.types';
-import { gte, isEmpty } from 'lodash-es';
+import { ISelectedTabIndicatorConfig, ITabNavigationItem, ITabsNotificationDict } from './tab-navigation.types';
 
 import { EComponentSize } from '../../utils/types';
+import { findTabElement, getRelativeClientRect } from './tab-navigation.utils';
+import { HTMLStencilElement } from '@stencil/core/internal';
 
 @Component({
 	tag: 'kv-tab-navigation',
@@ -31,36 +32,56 @@ export class KvTabNavigation {
 	/** Watch for tab selection change and react accordingly by updating the internal states */
 	@Watch('selectedTabKey')
 	tabSelectionChangeHandler() {
-		this.calculateSelectionAnimationProperties();
+		this.calculateTabIndicatorPosition();
 	}
 
-	/** The left offset of the tab indicator (in px), updated when the selected tab changes, starts at 24 due to kv-tab-item's margin */
-	@State() selectedTabIndicatorOffset: number = 0;
-	/** The width of the tab indicator, updated when the selected tab changes */
-	@State() selectedTabIndicatorWidth: number = 0;
+	/** The left offset and width of the tab indicator, recalculated when the selected tab changes */
+	@State() selectedTabIndicatorConfig: ISelectedTabIndicatorConfig = {
+		left: '0px',
+		width: '0px'
+	};
 
 	@Element() el: HTMLKvTabNavigationElement;
 
-	componentDidRender() {
-		this.calculateSelectionAnimationProperties();
+	initialRenderIntervalId: number;
+
+	componentDidLoad() {
+		const selectedTabEl = findTabElement(this.el, this.tabs, this.selectedTabKey);
+		this.setIntervalUntilElementIsVisible(selectedTabEl);
 	}
 
-	private calculateSelectionAnimationProperties() {
-		const tabIndex = this.tabs?.findIndex(tab => tab.tabKey === this.selectedTabKey);
+	disconnectedCallback() {
+		window.clearInterval(this.initialRenderIntervalId);
+	}
 
-		if (gte(tabIndex, 0) && !isEmpty(this.tabs) && !isEmpty(this.selectedTabKey)) {
-			const selectedTabEl = this.el.shadowRoot.children[tabIndex] as HTMLKvTabItemElement;
-			this.selectedTabIndicatorOffset = selectedTabEl.offsetLeft;
-			this.selectedTabIndicatorWidth = selectedTabEl.clientWidth;
+	private setIntervalUntilElementIsVisible = (element: HTMLStencilElement, intervalMs: number = 100): void => {
+		this.initialRenderIntervalId = window.setInterval(() => {
+			const rect = getRelativeClientRect(element);
+
+			if (rect && rect.width > 0) {
+				window.clearInterval(this.initialRenderIntervalId);
+				this.updateTabIndicatorConfig(rect);
+				return;
+			}
+		}, intervalMs);
+	};
+
+	private updateTabIndicatorConfig = (rect: DOMRect) => {
+		this.selectedTabIndicatorConfig = {
+			left: `${rect.left}px`,
+			width: `${rect.width}px`
+		};
+	};
+
+	private calculateTabIndicatorPosition() {
+		const selectedTabEl = findTabElement(this.el, this.tabs, this.selectedTabKey);
+
+		if (selectedTabEl) {
+			this.updateTabIndicatorConfig(getRelativeClientRect(selectedTabEl));
 		}
 	}
 
 	render() {
-		const tabIndicatorStyle = {
-			left: this.selectedTabIndicatorOffset + 'px',
-			width: this.selectedTabIndicatorWidth + 'px'
-		};
-
 		return (
 			<Host>
 				{this.tabs.map(item => (
@@ -74,7 +95,7 @@ export class KvTabNavigation {
 						notificationColor={this.notifications[item.tabKey]?.color}
 					></kv-tab-item>
 				))}
-				<div class="selected-tab-indicator" style={tabIndicatorStyle}></div>
+				<div class="selected-tab-indicator" style={this.selectedTabIndicatorConfig}></div>
 			</Host>
 		);
 	}
