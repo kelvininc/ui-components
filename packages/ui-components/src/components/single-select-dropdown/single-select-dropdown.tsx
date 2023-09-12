@@ -1,9 +1,7 @@
-import { Component, Element, Event, EventEmitter, Host, Listen, Prop, State, Watch, h } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
-import { ISingleSelectDropdown, ISingleSelectDropdownEvents, ISingleSelectDropdownOptions } from './single-select-dropdown.types';
-import { isEmpty, size } from 'lodash-es';
-import pluralize from 'pluralize';
+import { ISingleSelectDropdown, ISingleSelectDropdownEvents, ISelectSingleOptions } from './single-select-dropdown.types';
 
 import {
 	EMPTY_STRING,
@@ -16,9 +14,12 @@ import { CustomCssClass, EComponentSize, ISelectOption } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 import { getCssStyle } from '../utils';
 import { ComputePositionConfig } from '@floating-ui/dom';
-import { buildSelectOptions } from './single-select-dropdown.helper';
-import { getFlattenSelectOptions, getNextHightlightableOption, getPreviousHightlightableOption, getSelectableOptions } from '../../utils/select.helper';
+import { buildSingleSelectOptions } from './single-select-dropdown.helper';
+import { getFlattenSelectOptions } from '../../utils/select.helper';
 
+/**
+ * @part select - The select container.
+ */
 @Component({
 	tag: 'kv-single-select-dropdown',
 	styleUrl: 'single-select-dropdown.scss',
@@ -34,14 +35,6 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) searchable?: boolean = false;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) searchPlaceholder?: string;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) selectionClearable?: boolean;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) clearSelectionLabel?: string = SINGLE_SELECT_CLEAR_SELECTION_LABEL;
-	/** @inheritdoc */
 	@Prop({ reflect: true }) required?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
@@ -54,23 +47,41 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) noDataAvailableLabel?: string = SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE;
+	@Prop({ reflect: true }) inputSize?: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) options?: ISingleSelectDropdownOptions = {};
+	@Prop({ reflect: false }) dropdownOptions: Partial<ComputePositionConfig>;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
+	/** @inheritdoc */
+	@Prop({ reflect: true }) clickOutsideClose?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) actionElement?: HTMLElement | null = null;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) options?: ISelectSingleOptions = {};
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedOption?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) filteredOptions?: ISingleSelectDropdownOptions;
+	@Prop({ reflect: true }) filteredOptions?: ISelectSingleOptions;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) noDataAvailableLabel?: string = SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) searchable?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) searchPlaceholder?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) selectionClearable?: boolean;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) clearSelectionLabel?: string = SINGLE_SELECT_CLEAR_SELECTION_LABEL;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minHeight?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxHeight?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) inputSize?: EComponentSize = EComponentSize.Large;
+	@Prop({ reflect: true }) selectionAll?: boolean;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
+	@Prop({ reflect: true }) selectAllLabel?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) dropdownOptions: Partial<ComputePositionConfig>;
+	@Prop({ reflect: true }) counter?: boolean;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minSearchOptions?: number = MINIMUM_SEARCHABLE_OPTIONS;
 	/** @inheritdoc */
@@ -83,6 +94,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Event() clearSelection: EventEmitter<void>;
 	/** @inheritdoc */
+	@Event() dismiss: EventEmitter<void>;
+	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 
 	@State() _searchValue: string;
@@ -93,35 +106,14 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 	@State() selectOptions: {
 		total: Record<string, ISelectOption>;
-		totalSelectable: ISingleSelectDropdownOptions;
-		current: Record<string, ISelectOption>;
-		currentSelectable: ISingleSelectDropdownOptions;
+		filtered: Record<string, ISelectOption>;
 		flatten: Record<string, ISelectOption>;
 	};
 	@State() highlightedOption?: string;
 
 	@Watch('options')
-	@Watch('filteredOptions')
-	@Watch('selectedOption')
-	@Watch('highlightedOption')
-	buildSelectOptions() {
-		const selectOptions = buildSelectOptions(this.options, this.selectedOption, this.highlightedOption);
-		const selectSelectableOptions = getSelectableOptions(this.options);
-		const selectCurrentOptions = buildSelectOptions(this.currentOptions, this.selectedOption, this.highlightedOption);
-		const selectCurrentSelectableOptions = getSelectableOptions(this.currentOptions);
-		const selectFlattenOptions = getFlattenSelectOptions(selectOptions);
-
-		this.selectOptions = {
-			total: selectOptions,
-			totalSelectable: selectSelectableOptions,
-			current: selectCurrentOptions,
-			currentSelectable: selectCurrentSelectableOptions,
-			flatten: selectFlattenOptions
-		};
-	}
-
-	@Watch('options')
 	optionsChangeHandler() {
+		this.buildSelectionOptions();
 		this.calculateLabelValue();
 	}
 
@@ -136,37 +128,29 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this.calculateLabelValue();
 	}
 
-	@Listen('keydown', { target: 'document' })
-	handleKeyDown(event: KeyboardEvent) {
-		if (!this.shortcuts || !this.isOpen) {
-			return;
-		}
-
-		switch (event.key) {
-			case 'Escape':
-				this.onDismiss();
-				break;
-			case 'Enter':
-				this.onEnter();
-				break;
-			case 'ArrowUp':
-				this.onNavigateUp();
-				break;
-			case 'ArrowDown':
-				this.onNavigateDown();
-				break;
-		}
+	@Watch('filteredOptions')
+	filterOptionsChangeHandler() {
+		this.buildSelectionOptions();
 	}
 
 	componentWillLoad() {
 		this.validateSelectedOptionValue();
-		this.buildSelectOptions();
+		this.buildSelectionOptions();
 		this.calculateLabelValue();
 	}
 
-	private onItemSelected = ({ detail: selectedOptionKey }: CustomEvent<string>) => {
+	private selectRef?: HTMLKvSelectMultiOptionsElement | null;
+
+	private onOptionSelected = (event: CustomEvent<string>): void => {
+		event.stopPropagation();
+		const { detail: selectedOptionKey } = event;
 		this.selectOption(selectedOptionKey);
 		this.highlightedOption = selectedOptionKey;
+	};
+
+	private onDismiss = (): void => {
+		this.setOpenState(false);
+		this.dismiss.emit();
 	};
 
 	private onSearchChange = ({ detail: searchTerm }: CustomEvent<string>) => {
@@ -175,26 +159,6 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 	private onOpenStateChange = ({ detail: state }: CustomEvent<boolean>) => {
 		this.setOpenState(state);
-	};
-
-	private onDismiss = (): void => {
-		this.setOpenState(false);
-	};
-
-	private onNavigateDown = (): void => {
-		this.highlightedOption = getNextHightlightableOption(this.selectOptions.currentSelectable, this.highlightedOption);
-	};
-
-	private onNavigateUp = (): void => {
-		this.highlightedOption = getPreviousHightlightableOption(this.selectOptions.currentSelectable, this.highlightedOption);
-	};
-
-	private onEnter = (): void => {
-		if (isEmpty(this.highlightedOption)) {
-			return;
-		}
-
-		this.selectOption(this.highlightedOption);
 	};
 
 	private onClearSelection = (): void => {
@@ -216,11 +180,39 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this.highlightedOption = undefined;
 		this.isOpen = state;
 		this.openStateChange.emit(state);
+		this.clearHighlightedOption();
 	};
 
 	private setSearch = (searchTerm: string): void => {
 		this._searchValue = searchTerm;
 		this.searchChange.emit(searchTerm);
+	};
+
+	private getMaxHeight() {
+		const maxHeight = getCssStyle(this.el, '--dropdown-max-height');
+		return this.maxHeight ?? maxHeight;
+	}
+
+	private getMinHeight() {
+		const minHeight = getCssStyle(this.el, '--dropdown-min-height');
+		return this.minHeight ?? minHeight;
+	}
+
+	private getInputConfig = (): Partial<ITextField> => ({
+		label: this.label,
+		value: this._selectionDisplayValue,
+		loading: this.loading,
+		icon: this.icon,
+		disabled: this.disabled,
+		required: this.required,
+		placeholder: this.placeholder,
+		state: this.errorState,
+		helpText: this.helpText,
+		size: this.inputSize
+	});
+
+	private clearHighlightedOption = (): void => {
+		this.selectRef?.clearHighlightedOption();
 	};
 
 	private calculateLabelValue = (): void => {
@@ -243,78 +235,64 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		}
 	};
 
-	private renderOptions = (): HTMLKvSelectOptionElement[] => {
-		return Object.values(this.selectOptions.current).map(option => <kv-select-option key={option.value} {...option} onItemSelected={this.onItemSelected} />);
+	private buildSelectionOptions = (): void => {
+		const selectOptions = buildSingleSelectOptions(this.options);
+		const filteredSelectOptions = this.filteredOptions ? buildSingleSelectOptions(this.filteredOptions) : undefined;
+		const selectFlattenOptions = getFlattenSelectOptions(selectOptions);
+
+		this.selectOptions = {
+			total: selectOptions,
+			filtered: filteredSelectOptions,
+			flatten: selectFlattenOptions
+		};
 	};
 
-	private getInputConfig = (): Partial<ITextField> => ({
-		label: this.label,
-		value: this._selectionDisplayValue,
-		loading: this.loading,
-		icon: this.icon,
-		disabled: this.disabled,
-		required: this.required,
-		placeholder: this.placeholder,
-		state: this.errorState,
-		helpText: this.helpText,
-		size: this.inputSize
-	});
-
-	private getMaxHeight() {
-		const maxHeight = getCssStyle(this.el, '--dropdown-max-height');
-		return this.maxHeight ?? maxHeight;
-	}
-
-	private get currentOptions(): ISingleSelectDropdownOptions | undefined {
-		return this.filteredOptions ?? this.options;
-	}
-
-	private get isSearchable() {
-		return this.searchable && Object.keys(this.selectOptions.totalSelectable).length >= this.minSearchOptions;
+	private get selectedOptions(): Record<string, boolean> | undefined {
+		return this.selectedOption ? { [this.selectedOption]: true } : undefined;
 	}
 
 	render() {
-		const isSelectionClearable = !isEmpty(this.currentOptions) && this.selectionClearable;
-		const isSelectionClearEnabled = !isEmpty(this.selectedOption);
-
 		return (
 			<Host>
 				<kv-dropdown
 					inputConfig={this.getInputConfig()}
 					isOpen={this.isOpen}
-					disabled={this.disabled}
 					onOpenStateChange={this.onOpenStateChange}
+					disabled={this.disabled}
 					options={this.dropdownOptions}
+					clickOutsideClose={this.clickOutsideClose}
+					actionElement={this.actionElement}
 				>
+					<slot name="dropdown-action" slot="dropdown-action" />
 					<div class={{ ...getClassMap(this.customClass), 'single-select-dropdown-slot': true }}>
-						<kv-select
+						<kv-select-multi-options
+							ref={element => (this.selectRef = element)}
+							options={this.selectOptions.total}
+							filteredOptions={this.selectOptions.filtered}
+							selectedOptions={this.selectedOptions}
+							noDataAvailableLabel={this.noDataAvailableLabel}
+							searchable={this.searchable}
+							minSearchOptions={this.minSearchOptions}
 							searchValue={this._searchValue}
-							searchable={this.isSearchable}
-							selectionClearable={isSelectionClearable}
-							selectionClearEnabled={isSelectionClearEnabled}
+							selectionClearable={this.selectionClearable}
 							clearSelectionLabel={this.clearSelectionLabel}
-							onClearSelection={this.onClearSelection}
-							onSearchChange={this.onSearchChange}
+							selectionAll={this.selectionAll}
+							selectAllLabel={this.selectAllLabel}
 							searchPlaceholder={this.searchPlaceholder}
 							maxHeight={this.getMaxHeight()}
-							minHeight={this.minHeight}
+							minHeight={this.getMinHeight()}
+							counter={this.counter}
+							shortcuts={this.isOpen && this.shortcuts}
+							onSearchChange={this.onSearchChange}
+							onClearSelection={this.onClearSelection}
+							onOptionSelected={this.onOptionSelected}
+							onDismiss={this.onDismiss}
+							exportparts="select"
 						>
 							<slot name="select-header-actions" slot="select-header-actions" />
 							<slot name="select-header-label" slot="select-header-label" />
-							{isEmpty(this.currentOptions) && (
-								<slot name="no-data-available">
-									<kv-select-option class="no-data" label={this.noDataAvailableLabel} value="no-data-available" />
-								</slot>
-							)}
-							{this.renderOptions()}
-							{this.shortcuts && (
-								<kv-select-shortcuts-label slot="select-footer">
-									<div class="counter" slot="right-items">
-										{!isEmpty(this._searchValue) && !isEmpty(this.currentOptions) && <span>{pluralize('result', size(this.currentOptions), true)}</span>}
-									</div>
-								</kv-select-shortcuts-label>
-							)}
-						</kv-select>
+							<slot name="no-data-available" slot="no-data-available" />
+						</kv-select-multi-options>
 					</div>
 				</kv-dropdown>
 			</Host>

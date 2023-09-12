@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
-import React, { useCallback, useMemo } from 'react';
-import { EComponentSize, EIconName, KvSingleSelectDropdown } from '../../components';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { EComponentSize, EIconName, KvSearch, KvSingleSelectDropdown } from '../../components';
 import { searchDropdownOptions } from './helpers/dropdown.helper';
 import { useArgs } from '@storybook/client-api';
 
@@ -46,11 +46,11 @@ export default {
 			options: Object.values(EComponentSize)
 		},
 		counter: {
-			control: { type: 'boolean ' }
+			control: { type: 'boolean' }
 		},
 		shortcuts: {
 			control: { type: 'boolean' }
-		},
+		}
 	},
 	parameters: {
 		notes: require('@ui-notes/single-select-dropdown/readme.md')
@@ -159,4 +159,113 @@ SubOptions.args = {
 	icon: EIconName.Time,
 	searchable: true,
 	shortcuts: true
+};
+
+const ExternalSearchTemplate: ComponentStory<typeof KvSingleSelectDropdown> = args => {
+	const [searchTerm, setSearchTerm] = useState<string | undefined>();
+	const [isOpen, setOpen] = useState<boolean>(false);
+	const searchRef = useRef<HTMLKvSearchElement>(null);
+
+	const [{ options, placeholder }, updateArgs] = useArgs();
+	const dropdownOptions = useMemo(() => options, [options, searchTerm]);
+	const filteredOptions = useMemo(() => searchDropdownOptions(searchTerm ?? '', dropdownOptions ?? {}), [searchTerm, dropdownOptions]);
+
+	const onOptionSelected = useCallback(({ detail }: CustomEvent<string>) => {
+		setSearchTerm(detail);
+		updateArgs({ selectedOption: detail });
+		setOpen(false);
+	}, []);
+
+	useEffect(() => {
+		if (!searchRef.current) {
+			return;
+		}
+
+		const element = searchRef.current;
+		if (isOpen) {
+			element.focus();
+		} else {
+			element.blur();
+		}
+	}, [isOpen]);
+
+	return (
+		<KvSingleSelectDropdown
+			{...args}
+			options={dropdownOptions}
+			actionElement={searchRef.current as HTMLElement | null}
+			filteredOptions={filteredOptions}
+			isOpen={isOpen}
+			onOptionSelected={onOptionSelected}
+			onOpenStateChange={({ detail }) => setOpen(detail)}
+		>
+			<KvSearch
+				ref={searchRef}
+				slot="dropdown-action"
+				value={searchTerm}
+				placeholder={placeholder}
+				onFocus={() => setOpen(true)}
+				onTextChange={({ detail }) => setSearchTerm(detail)}
+				onClickResetButton={() => setSearchTerm(undefined)}
+			/>
+		</KvSingleSelectDropdown>
+	);
+};
+
+export const ExternalSearch = ExternalSearchTemplate.bind({});
+ExternalSearch.args = {
+	shortcuts: true,
+	placeholder: "Write here the asset name you're looking for",
+	options: {
+		bp_01: {
+			label: 'Beam Pump Well #01',
+			value: 'bp_01',
+			description: 'bp_01'
+		},
+		bp_02: {
+			label: 'Beam Pump Well #02',
+			value: 'bp_02',
+			description: 'bp_02'
+		},
+		bp_03: {
+			label: 'Beam Pump Well #03',
+			value: 'bp_03',
+			description: 'bp_03'
+		},
+		bp_04: {
+			label: 'Beam Pump Well #04',
+			value: 'bp_04',
+			description: 'bp_04'
+		},
+		bp_05: {
+			label: 'Beam Pump Well #05',
+			value: 'bp_05',
+			description: 'bp_05'
+		},
+		bp_06: {
+			label: 'Beam Pump Well #06',
+			value: 'bp_06',
+			description: 'bp_06'
+		},
+		bp_07: {
+			label: 'Beam Pump Well #07',
+			value: 'bp_07',
+			description: 'bp_07'
+		},
+		bp_08: {
+			label: 'Beam Pump Well #08',
+			value: 'bp_08',
+			description: 'bp_08'
+		},
+		bp_09: {
+			label: 'Beam Pump Well #09',
+			value: 'bp_09',
+			description: 'bp_09'
+		},
+		bp_10: {
+			label: 'Beam Pump Well #10',
+			value: 'bp_10',
+			description: 'bp_10'
+		}
+	}
 };

@@ -49,11 +49,11 @@ export default {
 			options: Object.values(EComponentSize)
 		},
 		counter: {
-			control: { type: 'boolean ' }
+			control: { type: 'boolean' }
 		},
 		shortcuts: {
 			control: { type: 'boolean' }
-		},
+		}
 	},
 	parameters: {
 		notes: require('@ui-notes/multi-select-dropdown/readme.md')

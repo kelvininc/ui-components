@@ -1,9 +1,9 @@
-import { ISelectMultiOptions, ISingleSelectDropdownOptions } from '@kelvininc/ui-components';
+import { ISelectMultiOptions, ISelectSingleOptions } from '@kelvininc/ui-components';
 import { isEmpty } from 'lodash';
 
-export const searchDropdownOptions = (term: string, options: ISingleSelectDropdownOptions | ISelectMultiOptions) => {
+export const searchDropdownOptions = (term: string, options: ISelectSingleOptions | ISelectMultiOptions) => {
 	const lowerCaseTerm = term.toLowerCase();
-	return Object.keys(options).reduce<ISingleSelectDropdownOptions | ISelectMultiOptions>((accumulator, key) => {
+	return Object.keys(options).reduce<ISelectSingleOptions | ISelectMultiOptions>((accumulator, key) => {
 		const option = options[key];
 
 		if (!isEmpty(option.options)) {
@@ -19,8 +19,9 @@ export const searchDropdownOptions = (term: string, options: ISingleSelectDropdo
 			return accumulator;
 		}
 
+		const lowerCaseValue = option.value.toLowerCase();
 		const lowerCaseLabel = option.label.toLowerCase();
-		if (lowerCaseLabel.includes(lowerCaseTerm)) {
+		if ([lowerCaseLabel, lowerCaseValue].some(term => term.includes(lowerCaseTerm))) {
 			accumulator[key] = option;
 		}
 
@@ -28,7 +29,7 @@ export const searchDropdownOptions = (term: string, options: ISingleSelectDropdo
 	}, {});
 };
 
-export const getDropdownDisplayValue = (selectedOptions: string[], options: ISingleSelectDropdownOptions | ISelectMultiOptions, suffix = 'filtered'): string | undefined => {
+export const getDropdownDisplayValue = (selectedOptions: string[], options: ISelectSingleOptions | ISelectMultiOptions, suffix = 'filtered'): string | undefined => {
 	if (selectedOptions.length === 0) {
 		return undefined;
 	}

@@ -20,8 +20,8 @@ export default {
 		searchValue: { control: { type: 'text' } },
 		minHeight: { control: { type: 'text' } },
 		maxHeight: { control: { type: 'text' } },
-		counter: { control: { type: 'boolean ' } },
-		shortcuts: { control: { type: 'boolean' } },
+		counter: { control: { type: 'boolean' } },
+		shortcuts: { control: { type: 'boolean' } }
 	},
 	parameters: {
 		notes: require('@ui-notes/labels-dropdown/readme.md')
@@ -128,5 +128,6 @@ Default.args = {
 		label_b: true,
 		label_f: true
 	},
-	shortcuts: true
+	shortcuts: true,
+	searchable: true
 };

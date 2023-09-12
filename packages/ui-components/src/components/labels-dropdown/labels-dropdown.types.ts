@@ -5,4 +5,4 @@ export interface ILabelsDropdown extends ISelectMultiOptionsConfig {
 	isOpen?: boolean;
 }
 
-export interface ILabelsDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'dismiss'> {}
+export interface ILabelsDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'dismiss' | 'optionSelected'> {}

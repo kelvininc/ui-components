@@ -1,11 +1,11 @@
 import { capitalize } from 'lodash-es';
 import { calculateDate, formatTimezoneName, getDefaultTimezone, getTimezoneOffset } from '../../utils/date.helper';
 import { SelectedRange } from '../calendar/calendar.types';
-import { ISingleSelectDropdownOption, ISingleSelectDropdownOptions } from '../single-select-dropdown/single-select-dropdown.types';
+import { ISelectSingleOption, ISelectSingleOptions } from '../single-select-dropdown/single-select-dropdown.types';
 import { DEFAULT_TIMEZONE_GROUP_LABEL, DEFAULT_TIMEZONE_GROUP_NAME, OTHER_TIMEZONES_GROUP_LABEL, OTHER_TIMEZONES_GROUP_NAME } from './calendar-advanced-date-selector.config';
 import { ITimezoneOffset, RelativeTimeOption } from './calendar-advanced-date-selector.types';
 
-const buildDropdownOption = (label: string, timezone: string): ISingleSelectDropdownOption => ({
+const buildDropdownOption = (label: string, timezone: string): ISelectSingleOption => ({
 	value: timezone,
 	label
 });
@@ -21,8 +21,8 @@ export const buildTimezoneByOffset = (timezones: string[]): ITimezoneOffset[] =>
 		.sort((name1, name2) => name1.offset - name2.offset);
 };
 
-export const buildTimezonesDropdownOptions = (timezones: ITimezoneOffset[]): ISingleSelectDropdownOptions => {
-	let defaultTimezoneGroup: ISingleSelectDropdownOptions = {};
+export const buildTimezonesDropdownOptions = (timezones: ITimezoneOffset[]): ISelectSingleOptions => {
+	let defaultTimezoneGroup: ISelectSingleOptions = {};
 	const defaultTimezone = getDefaultTimezone();
 	const timezone = timezones.find(({ name }) => name === defaultTimezone);
 	if (timezone) {
@@ -40,13 +40,13 @@ export const buildTimezonesDropdownOptions = (timezones: ITimezoneOffset[]): ISi
 		};
 	}
 
-	let otherTimezoneGroups: ISingleSelectDropdownOptions = {};
+	let otherTimezoneGroups: ISelectSingleOptions = {};
 	if (timezones) {
 		otherTimezoneGroups = {
 			[OTHER_TIMEZONES_GROUP_NAME]: {
 				label: OTHER_TIMEZONES_GROUP_LABEL,
 				value: DEFAULT_TIMEZONE_GROUP_NAME,
-				options: timezones.reduce<ISingleSelectDropdownOptions>((accumulator, { label, name }) => {
+				options: timezones.reduce<ISelectSingleOptions>((accumulator, { label, name }) => {
 					accumulator[name] = accumulator[name] ?? buildDropdownOption(label, name);
 
 					return accumulator;
@@ -55,7 +55,7 @@ export const buildTimezonesDropdownOptions = (timezones: ITimezoneOffset[]): ISi
 		};
 	}
 
-	const options: ISingleSelectDropdownOptions = {
+	const options: ISelectSingleOptions = {
 		...defaultTimezoneGroup,
 		...otherTimezoneGroups
 	};

@@ -149,10 +149,11 @@ graph TD;
   kv-select-option --> kv-checkbox
   kv-select-option --> kv-select-option
   kv-checkbox --> kv-icon
-  kv-single-select-dropdown --> kv-select-option
   kv-single-select-dropdown --> kv-dropdown
-  kv-single-select-dropdown --> kv-select
-  kv-single-select-dropdown --> kv-select-shortcuts-label
+  kv-single-select-dropdown --> kv-select-multi-options
+  kv-select-multi-options --> kv-select-option
+  kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-select-shortcuts-label
   kv-select-shortcuts-label --> kv-icon
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon

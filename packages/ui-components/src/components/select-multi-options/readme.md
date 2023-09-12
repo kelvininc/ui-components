@@ -31,6 +31,7 @@
 | ----------------- | ---------------------------------------------------------- | ---------------------------------------- |
 | `clearSelection`  | Emitted when the user clears the selected items            | `CustomEvent<void>`                      |
 | `dismiss`         | Emitted when the 'esc' key is pressed                      | `CustomEvent<void>`                      |
+| `optionSelected`  | Emitted when an option is selected                         | `CustomEvent<string>`                    |
 | `optionsSelected` | Emitted when the selected options change                   | `CustomEvent<{ [x: string]: boolean; }>` |
 | `searchChange`    | Emitted when the user interacts with the search text field | `CustomEvent<string>`                    |
 | `selectAll`       | Emitted when the user clicks on the all items              | `CustomEvent<void>`                      |
@@ -38,15 +39,22 @@
 
 ## Methods
 
-### `clearHightlightedOption() => Promise<void>`
+### `clearHighlightedOption() => Promise<void>`
 
-Clears the hightlighted option state
+Clears the highlighted option state
 
 #### Returns
 
 Type: `Promise<void>`
 
 
+
+
+## Shadow Parts
+
+| Part       | Description           |
+| ---------- | --------------------- |
+| `"select"` | The select container. |
 
 
 ## CSS Custom Properties
@@ -62,6 +70,7 @@ Type: `Promise<void>`
 
  - [kv-labels-dropdown](../labels-dropdown)
  - [kv-multi-select-dropdown](../multi-select-dropdown)
+ - [kv-single-select-dropdown](../single-select-dropdown)
 
 ### Depends on
 
@@ -91,6 +100,7 @@ graph TD;
   kv-select-shortcuts-label --> kv-icon
   kv-labels-dropdown --> kv-select-multi-options
   kv-multi-select-dropdown --> kv-select-multi-options
+  kv-single-select-dropdown --> kv-select-multi-options
   style kv-select-multi-options fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

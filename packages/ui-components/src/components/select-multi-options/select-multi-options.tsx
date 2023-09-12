@@ -8,6 +8,9 @@ import { buildSelectOptions } from './select-multi-options.helper';
 import { selectHelper } from '../../utils';
 import pluralize from 'pluralize';
 
+/**
+ * @part select - The select container.
+ */
 @Component({
 	tag: 'kv-select-multi-options',
 	styleUrl: 'select-multi-options.scss',
@@ -52,6 +55,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
 	/** @inheritdoc */
+	@Event() optionSelected: EventEmitter<string>;
+	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event() clearSelection: EventEmitter<void>;
@@ -73,7 +78,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Watch('filteredOptions')
 	@Watch('selectedOptions')
 	@Watch('highlightedOption')
-	buildSelectOptions() {
+	buildSelectionOptions() {
 		const selectOptions = buildSelectOptions(this.options, this.options, this.selectedOptions, this.highlightedOption);
 		const selectSelectableOptions = getSelectableOptions(this.options);
 		const selectCurrentOptions = buildSelectOptions(this.currentOptions, this.options, this.selectedOptions, this.highlightedOption);
@@ -111,14 +116,14 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		}
 	}
 
-	/** Clears the hightlighted option state */
+	/** Clears the highlighted option state */
 	@Method()
-	async clearHightlightedOption(): Promise<void> {
+	async clearHighlightedOption(): Promise<void> {
 		this.highlightedOption = undefined;
 	}
 
 	componentWillLoad() {
-		this.buildSelectOptions();
+		this.buildSelectionOptions();
 	}
 
 	private onEnter = (): void => {
@@ -162,6 +167,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 	private selectOption = (selectedOptionKey: string): void => {
 		const selectedOption = this.selectOptions.flatten[selectedOptionKey];
+		this.optionSelected.emit(selectedOptionKey);
 
 		// Check if the selected option does not have any children
 		if (isEmpty(selectedOption.options)) {
@@ -237,6 +243,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 				selectAllLabel={this.selectAllLabel}
 				onSelectAll={this.onSelectAll}
 				onClearSelection={this.onClearSelection}
+				part="select"
 			>
 				<slot name="select-header-actions" slot="select-header-actions" />
 				<slot name="select-header-label" slot="select-header-label" />
@@ -252,11 +259,13 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 				)}
 				{this.renderOptions()}
 				{this.shortcuts && (
-					<kv-select-shortcuts-label slot="select-footer">
-						<div class="counter" slot="right-items">
-							{!isEmpty(this.searchValue) && hasCurrentOptions && <span>{pluralize('result', currentOptionsLength, true)}</span>}
-						</div>
-					</kv-select-shortcuts-label>
+					<slot name="select-footer" slot="select-footer">
+						<kv-select-shortcuts-label>
+							<div class="counter" slot="right-items">
+								{!isEmpty(this.searchValue) && hasCurrentOptions && <span>{pluralize('result', currentOptionsLength, true)}</span>}
+							</div>
+						</kv-select-shortcuts-label>
+					</slot>
 				)}
 			</kv-select>
 		);

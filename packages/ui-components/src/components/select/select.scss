@@ -3,11 +3,13 @@
 :host {
 	/**
 	 * @prop --select-max-height: Select maximum height.
+	 * @prop --select-min-height: Select minimum height.
 	 * @prop --select-background-color: Select background color.
 	 * @prop --select-border: Select border style.
 	 * @prop --select-border-radius: Select border radius.
 	 */
 	--select-max-height: auto;
+	--select-min-height: auto;
 	--select-background-color: #{kv-color('neutral-7')};
 	--select-border: 1px solid #{kv-color('neutral-6')};
 	--select-border-radius: #{$spacing};
@@ -26,6 +28,7 @@
 .select-options-container {
 	padding: $spacing-3x 0;
 	max-height: var(--select-max-height);
+	min-height: var(--select-min-height);
 	overflow-y: auto;
 }
 

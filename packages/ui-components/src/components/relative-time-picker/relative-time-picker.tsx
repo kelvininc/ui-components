@@ -19,7 +19,7 @@ import {
 	TIMEZONES_SEARCH_PLACEHOLDER,
 	TIME_RANGE_UPDATE_INTERVAL
 } from './relative-time-picker.config';
-import { ISingleSelectDropdownOptions } from '../single-select-dropdown/single-select-dropdown.types';
+import { ISelectSingleOptions } from '../single-select-dropdown/single-select-dropdown.types';
 import { ITimezoneOffset } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.types';
 import { EIconName } from '../icon/icon.types';
 import { formatTimezoneName, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
@@ -60,7 +60,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	@State() relativeTimeOptions: IRelativeTimeDropdownOption[][] = [];
 	/** Timezone dropdown management states */
 	@State() timezonesSearchTerm: string = '';
-	@State() timezoneDropdownOptions: ISingleSelectDropdownOptions;
+	@State() timezoneDropdownOptions: ISelectSingleOptions;
 	/** State to determine if a scrollbar is needed to display all the options */
 	@State() hasScroll: boolean = false;
 	/** Selected option range in timestamp */

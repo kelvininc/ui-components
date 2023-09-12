@@ -99,7 +99,7 @@ export class KvLabelsDropdown implements ILabelsDropdown, ILabelsDropdownEvents 
 			this.setSearch('');
 		}
 
-		this.clearHightlightedOption();
+		this.clearHighlightedOption();
 		this._isOpen = state;
 	};
 
@@ -139,8 +139,8 @@ export class KvLabelsDropdown implements ILabelsDropdown, ILabelsDropdownEvents 
 			});
 	};
 
-	private clearHightlightedOption = (): void => {
-		this.selectRef?.clearHightlightedOption();
+	private clearHighlightedOption = (): void => {
+		this.selectRef?.clearHighlightedOption();
 	};
 
 	render() {
@@ -182,6 +182,7 @@ export class KvLabelsDropdown implements ILabelsDropdown, ILabelsDropdownEvents 
 						onSelectAll={this.onSelectAll}
 						onClearSelection={this.onClearSelection}
 						onDismiss={this.onDismiss}
+						exportparts="select"
 					>
 						<slot name="select-header-actions" slot="select-header-actions" />
 						<slot name="select-header-label" slot="select-header-label" />

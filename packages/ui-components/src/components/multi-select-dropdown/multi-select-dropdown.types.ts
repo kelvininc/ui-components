@@ -30,9 +30,13 @@ export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptio
 	inputSize?: EComponentSize;
 	/** (optional) The dropdown position config options */
 	dropdownOptions?: Partial<ComputePositionConfig>;
+	/** (optional) If `false` clicking outside the dropdown will not trigger state change. Default: true */
+	clickOutsideClose?: boolean;
+	/** (optional) A reference to the dropdown action element */
+	actionElement?: HTMLElement;
 }
 
-export interface IMultiSelectDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'dismiss'> {
+export interface IMultiSelectDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'optionSelected'> {
 	/** Emitted when the dropdown open state changes */
 	openStateChange: EventEmitter<boolean>;
 }

@@ -7,7 +7,7 @@ import {
 	ICalendarAdvanceRelativeTimeConfig,
 	RelativeTimeOption,
 	SelectedRange,
-	ISingleSelectDropdownOptions
+	ISelectSingleOptions
 } from '../../types';
 import { fromDatesRangeKey, getDatesRangeKey, getDefaultTimezone, getTimezonesNames } from '../../utils/date.helper';
 import { searchString } from '../../utils/search.helper';
@@ -57,7 +57,7 @@ export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSele
 
 	@State() timezonesSearchTerm: string;
 	@State() timezonesByOffset: ITimezoneOffset[];
-	@State() timezoneDropdownOptions: ISingleSelectDropdownOptions;
+	@State() timezoneDropdownOptions: ISelectSingleOptions;
 
 	/** @inheritdoc */
 	@Event() relativeTimeChange: EventEmitter<ICalendarAdvanceTime>;

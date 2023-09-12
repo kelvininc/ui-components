@@ -1,7 +1,7 @@
 import { EventEmitter } from '@stencil/core';
 import { ISelectEvents, ISelectOption } from '../../types';
 
-export interface ISelectMultiOption extends Pick<ISelectOption, 'label' | 'value' | 'disabled' | 'selectable' | 'description'> {
+export interface ISelectMultiOption extends Pick<ISelectOption, 'label' | 'value' | 'disabled' | 'selectable' | 'description' | 'togglable'> {
 	options?: ISelectMultiOptions;
 }
 
@@ -45,6 +45,8 @@ export interface ISelectMultiOptionsConfig {
 export interface ISelectMultiOptionsEvents extends ISelectEvents {
 	/** Emitted when the selected options change */
 	optionsSelected: EventEmitter<Record<string, boolean>>;
+	/** Emitted when an option is selected */
+	optionSelected: EventEmitter<string>;
 	/** Emitted when the 'esc' key is pressed */
 	dismiss: EventEmitter<void>;
 }

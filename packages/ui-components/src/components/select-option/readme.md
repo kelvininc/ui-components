@@ -94,7 +94,6 @@ export const KvSelectOptionExample: React.FC = () => (
  - [kv-relative-time-picker](../relative-time-picker)
  - [kv-select-multi-options](../select-multi-options)
  - [kv-select-option](.)
- - [kv-single-select-dropdown](../single-select-dropdown)
 
 ### Depends on
 
@@ -109,7 +108,6 @@ graph TD;
   kv-calendar-advanced-date-selector --> kv-select-option
   kv-relative-time-picker --> kv-select-option
   kv-select-multi-options --> kv-select-option
-  kv-single-select-dropdown --> kv-select-option
   style kv-select-option fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

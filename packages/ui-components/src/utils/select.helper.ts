@@ -1,6 +1,20 @@
 import { isEmpty } from 'lodash';
 import { IMultiSelectDropdown, ISelectMultiOptions, ISelectOption } from '../types';
 
+const getHightableFallbackOption = (options: string[]): string => {
+	const [firstOption] = options;
+
+	return firstOption;
+};
+
+const getHightableOptionIndex = (options: string[], highlightedOption?: string): number => {
+	if (!highlightedOption) {
+		return -1;
+	}
+
+	return options.findIndex(name => name === highlightedOption);
+};
+
 export const getSelectableOptions = (options: ISelectMultiOptions = {}): ISelectMultiOptions => {
 	return Object.values(options).reduce<ISelectMultiOptions>((accumulator, option) => {
 		if (isEmpty(option.options)) {
@@ -53,25 +67,19 @@ export const buildAllOptionsSelected = (options: ISelectMultiOptions = {}): Reco
 		return accumulator;
 	}, {});
 
-export const getPreviousHightlightableOption = (options: IMultiSelectDropdown = {}, highlightedOption?: string): string | undefined => {
+export const getPreviousHightlightableOption = (options: IMultiSelectDropdown, highlightedOption?: string): string | undefined => {
 	if (isEmpty(options)) {
 		return;
 	}
 
-	// Add selected option as a fallback if it exists in the current options
 	const optionsKeys = Object.keys(options);
-	const fallbackOption = optionsKeys[0];
-
-	if (!highlightedOption) {
-		return fallbackOption;
-	}
-
-	const highlightedIndex = optionsKeys.findIndex(name => name === highlightedOption);
+	const fallbackOption = getHightableFallbackOption(optionsKeys);
+	const highlightedIndex = getHightableOptionIndex(optionsKeys, highlightedOption);
 	if (highlightedIndex === -1) {
 		return fallbackOption;
 	}
 
-	// Check if hightlighted option is the first
+	// Check if highlighted option is the first
 	if (highlightedIndex === 0) {
 		return highlightedOption;
 	}
@@ -79,25 +87,19 @@ export const getPreviousHightlightableOption = (options: IMultiSelectDropdown = 
 	return optionsKeys[highlightedIndex - 1];
 };
 
-export const getNextHightlightableOption = (options: IMultiSelectDropdown = {}, highlightedOption?: string): string | undefined => {
+export const getNextHightlightableOption = (options: IMultiSelectDropdown, highlightedOption?: string): string | undefined => {
 	if (isEmpty(options)) {
 		return;
 	}
 
-	// Add selected option as a fallback if it exists in the current options
 	const optionsKeys = Object.keys(options);
-	let fallbackOption = optionsKeys[0];
-
-	if (!highlightedOption) {
-		return fallbackOption;
-	}
-
-	const highlightedIndex = optionsKeys.findIndex(name => name === highlightedOption);
+	const fallbackOption = getHightableFallbackOption(optionsKeys);
+	const highlightedIndex = getHightableOptionIndex(optionsKeys, highlightedOption);
 	if (highlightedIndex === -1) {
 		return fallbackOption;
 	}
 
-	// Check if hightlighted option is the last
+	// Check if highlighted option is the last
 	if (highlightedIndex === optionsKeys.length - 1) {
 		return highlightedOption;
 	}
