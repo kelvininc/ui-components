@@ -1,29 +1,28 @@
 # kv-select-multi-options
 
-
-
 <!-- Auto Generated Below -->
 
 
 ## Properties
 
-| Property               | Attribute                 | Description                                                                               | Type                                   | Default                           |
-| ---------------------- | ------------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------- | --------------------------------- |
-| `clearSelectionLabel`  | `clear-selection-label`   | (optional) The clear selection action text                                                | `string`                               | `undefined`                       |
-| `counter`              | `counter`                 | (optional) If `true` a selection counter is displayed                                     | `boolean`                              | `undefined`                       |
-| `filteredOptions`      | --                        | (optional) The object with the dropdown options filtered                                  | `{ [x: string]: ISelectMultiOption; }` | `undefined`                       |
-| `maxHeight`            | `max-height`              | (optional) The dropdown's max-height                                                      | `string`                               | `undefined`                       |
-| `minHeight`            | `min-height`              | (optional) The dropdown's min-height                                                      | `string`                               | `undefined`                       |
-| `minSearchOptions`     | `min-search-options`      | (optional) The minimum amount of options required to display the search. Defaults to `8`. | `number`                               | `MINIMUM_SEARCHABLE_OPTIONS`      |
-| `noDataAvailableLabel` | `no-data-available-label` | (required) The text to display when there are no options                                  | `string`                               | `DEFAULT_NO_DATA_AVAILABLE_LABEL` |
-| `options`              | --                        | (optional) The object with the dropdown options                                           | `{ [x: string]: ISelectMultiOption; }` | `{}`                              |
-| `searchPlaceholder`    | `search-placeholder`      | (optional) The list search text field placeholder                                         | `string`                               | `undefined`                       |
-| `searchValue`          | `search-value`            | (optional) The search value to display                                                    | `string`                               | `undefined`                       |
-| `searchable`           | `searchable`              | (optional) If `true` the dropdown is searchable                                           | `boolean`                              | `undefined`                       |
-| `selectAllLabel`       | `select-all-label`        | (optional) The selection all action text                                                  | `string`                               | `undefined`                       |
-| `selectedOptions`      | --                        | (optional) The object with indexed by the dropdown labels and its selected value          | `{ [x: string]: boolean; }`            | `{}`                              |
-| `selectionAll`         | `selection-all`           | (optional) If `true` the list has an action to select all items                           | `boolean`                              | `undefined`                       |
-| `selectionClearable`   | `selection-clearable`     | (optional) If `true` dropdown items can be cleared                                        | `boolean`                              | `undefined`                       |
+| Property               | Attribute                 | Description                                                                                                       | Type                                   | Default                           |
+| ---------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------- | --------------------------------- |
+| `clearSelectionLabel`  | `clear-selection-label`   | (optional) The clear selection action text                                                                        | `string`                               | `undefined`                       |
+| `counter`              | `counter`                 | (optional) If `true` a selection counter is displayed                                                             | `boolean`                              | `undefined`                       |
+| `filteredOptions`      | --                        | (optional) The object with the dropdown options filtered                                                          | `{ [x: string]: ISelectMultiOption; }` | `undefined`                       |
+| `maxHeight`            | `max-height`              | (optional) The dropdown's max-height                                                                              | `string`                               | `undefined`                       |
+| `minHeight`            | `min-height`              | (optional) The dropdown's min-height                                                                              | `string`                               | `undefined`                       |
+| `minSearchOptions`     | `min-search-options`      | (optional) The minimum amount of options required to display the search. Defaults to `8`.                         | `number`                               | `MINIMUM_SEARCHABLE_OPTIONS`      |
+| `noDataAvailableLabel` | `no-data-available-label` | (required) The text to display when there are no options                                                          | `string`                               | `DEFAULT_NO_DATA_AVAILABLE_LABEL` |
+| `options`              | --                        | (optional) The object with the dropdown options                                                                   | `{ [x: string]: ISelectMultiOption; }` | `{}`                              |
+| `searchPlaceholder`    | `search-placeholder`      | (optional) The list search text field placeholder                                                                 | `string`                               | `undefined`                       |
+| `searchValue`          | `search-value`            | (optional) The search value to display                                                                            | `string`                               | `undefined`                       |
+| `searchable`           | `searchable`              | (optional) If `true` the dropdown is searchable                                                                   | `boolean`                              | `undefined`                       |
+| `selectAllLabel`       | `select-all-label`        | (optional) The selection all action text                                                                          | `string`                               | `undefined`                       |
+| `selectedOptions`      | --                        | (optional) The object with indexed by the dropdown labels and its selected value                                  | `{ [x: string]: boolean; }`            | `{}`                              |
+| `selectionAll`         | `selection-all`           | (optional) If `true` the list has an action to select all items                                                   | `boolean`                              | `undefined`                       |
+| `selectionClearable`   | `selection-clearable`     | (optional) If `true` dropdown items can be cleared                                                                | `boolean`                              | `undefined`                       |
+| `shortcuts`            | `shortcuts`               | (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false` | `boolean`                              | `true`                            |
 
 
 ## Events
@@ -31,9 +30,23 @@
 | Event             | Description                                                | Type                                     |
 | ----------------- | ---------------------------------------------------------- | ---------------------------------------- |
 | `clearSelection`  | Emitted when the user clears the selected items            | `CustomEvent<void>`                      |
+| `dismiss`         | Emitted when the 'esc' key is pressed                      | `CustomEvent<void>`                      |
 | `optionsSelected` | Emitted when the selected options change                   | `CustomEvent<{ [x: string]: boolean; }>` |
 | `searchChange`    | Emitted when the user interacts with the search text field | `CustomEvent<string>`                    |
 | `selectAll`       | Emitted when the user clicks on the all items              | `CustomEvent<void>`                      |
+
+
+## Methods
+
+### `clearHightlightedOption() => Promise<void>`
+
+Clears the hightlighted option state
+
+#### Returns
+
+Type: `Promise<void>`
+
+
 
 
 ## CSS Custom Properties
@@ -54,12 +67,14 @@
 
 - [kv-select-option](../select-option)
 - [kv-select](../select)
+- [kv-select-shortcuts-label](../select-shortcuts)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-select-shortcuts-label
   kv-select-option --> kv-checkbox
   kv-select-option --> kv-select-option
   kv-checkbox --> kv-icon
@@ -73,6 +88,7 @@ graph TD;
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
+  kv-select-shortcuts-label --> kv-icon
   kv-labels-dropdown --> kv-select-multi-options
   kv-multi-select-dropdown --> kv-select-multi-options
   style kv-select-multi-options fill:#f9f,stroke:#333,stroke-width:4px

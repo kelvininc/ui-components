@@ -47,7 +47,13 @@ export default {
 		inputSize: {
 			control: { type: 'radio' },
 			options: Object.values(EComponentSize)
-		}
+		},
+		counter: {
+			control: { type: 'boolean ' }
+		},
+		shortcuts: {
+			control: { type: 'boolean' }
+		},
 	},
 	parameters: {
 		notes: require('@ui-notes/multi-select-dropdown/readme.md')
@@ -136,7 +142,8 @@ Default.args = {
 	searchable: true,
 	selectionClearable: true,
 	selectionAll: true,
-	counter: true
+	counter: true,
+	shortcuts: true
 };
 
 export const SubOptions = MultiSelectDropdownTemplate.bind({});
@@ -245,5 +252,6 @@ SubOptions.args = {
 	searchable: true,
 	selectionClearable: true,
 	selectionAll: true,
-	counter: true
+	counter: true,
+	shortcuts: true
 };

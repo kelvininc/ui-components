@@ -73,6 +73,7 @@ export const KvMultiSelectDropdownExample: React.FC = (props) => (
 | `selectedOptions`      | --                        | (optional) The object with indexed by the dropdown labels and its selected value                                                                                                        | `{ [x: string]: boolean; }`                                                                                                                                                                                                                                                                                                                                                    | `{}`                                      |
 | `selectionAll`         | `selection-all`           | (optional) If `true` the list has an action to select all items                                                                                                                         | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `true`                                    |
 | `selectionClearable`   | `selection-clearable`     | (optional) If `true` dropdown items can be cleared                                                                                                                                      | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `true`                                    |
+| `shortcuts`            | `shortcuts`               | (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false`                                                                       | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `false`                                   |
 
 
 ## Events
@@ -118,12 +119,14 @@ graph TD;
   kv-form-help-text --> kv-icon
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-select-shortcuts-label
   kv-select-option --> kv-checkbox
   kv-select-option --> kv-select-option
   kv-checkbox --> kv-icon
   kv-select --> kv-search
   kv-search --> kv-text-field
   kv-search --> kv-icon
+  kv-select-shortcuts-label --> kv-icon
   style kv-multi-select-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

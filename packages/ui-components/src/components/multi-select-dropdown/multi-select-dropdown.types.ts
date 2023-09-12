@@ -32,7 +32,7 @@ export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptio
 	dropdownOptions?: Partial<ComputePositionConfig>;
 }
 
-export interface IMultiSelectDropdownEvents extends ISelectMultiOptionsEvents {
+export interface IMultiSelectDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'dismiss'> {
 	/** Emitted when the dropdown open state changes */
 	openStateChange: EventEmitter<boolean>;
 }

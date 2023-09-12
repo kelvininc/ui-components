@@ -1,11 +1,12 @@
-import { Component, Event, EventEmitter, Prop, h, Element, State, Watch } from '@stencil/core';
+import { Component, Event, EventEmitter, Prop, h, Element, State, Watch, Listen, Method } from '@stencil/core';
 import { ISelectMultiOptions, ISelectMultiOptionsConfig, ISelectMultiOptionsEvents } from './select-multi-options.types';
 import { DEFAULT_NO_DATA_AVAILABLE_LABEL, MINIMUM_SEARCHABLE_OPTIONS } from './select-multi-options.config';
 import { EToggleState, ISelectOption } from '../select-option/select-option.types';
 import { isEmpty } from 'lodash';
-import { buildAllOptionsSelected, getFlattenSelectOptions, getSelectableOptions } from '../../utils/select.helper';
+import { buildAllOptionsSelected, getFlattenSelectOptions, getNextHightlightableOption, getPreviousHightlightableOption, getSelectableOptions } from '../../utils/select.helper';
 import { buildSelectOptions } from './select-multi-options.helper';
 import { selectHelper } from '../../utils';
+import pluralize from 'pluralize';
 
 @Component({
 	tag: 'kv-select-multi-options',
@@ -43,6 +44,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Prop({ reflect: true }) counter?: boolean;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minSearchOptions?: number = MINIMUM_SEARCHABLE_OPTIONS;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) shortcuts?: boolean = true;
 
 	@Element() el: HTMLKvSelectMultiOptionsElement;
 
@@ -54,6 +57,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Event() clearSelection: EventEmitter<void>;
 	/** @inheritdoc */
 	@Event() selectAll: EventEmitter<void>;
+	/** @inheritdoc */
+	@Event() dismiss: EventEmitter<void>;
 
 	@State() selectOptions: {
 		total: Record<string, ISelectOption>;
@@ -62,14 +67,16 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		totalSelectable: ISelectMultiOptions;
 		currentSelectable: ISelectMultiOptions;
 	};
+	@State() highlightedOption: string;
 
 	@Watch('options')
 	@Watch('filteredOptions')
 	@Watch('selectedOptions')
+	@Watch('highlightedOption')
 	buildSelectOptions() {
-		const selectOptions = buildSelectOptions(this.options, this.options, this.selectedOptions);
+		const selectOptions = buildSelectOptions(this.options, this.options, this.selectedOptions, this.highlightedOption);
 		const selectSelectableOptions = getSelectableOptions(this.options);
-		const selectCurrentOptions = buildSelectOptions(this.currentOptions, this.options, this.selectedOptions);
+		const selectCurrentOptions = buildSelectOptions(this.currentOptions, this.options, this.selectedOptions, this.highlightedOption);
 		const selectCurrentSelectableOptions = getSelectableOptions(this.currentOptions);
 		const selectFlattenOptions = getFlattenSelectOptions(selectOptions);
 
@@ -82,31 +89,78 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		};
 	}
 
+	@Listen('keydown', { target: 'document' })
+	handleKeyDown(event: KeyboardEvent) {
+		if (!this.shortcuts) {
+			return;
+		}
+
+		switch (event.key) {
+			case 'Escape':
+				this.onDismiss();
+				break;
+			case 'Enter':
+				this.onEnter();
+				break;
+			case 'ArrowUp':
+				this.onNavigateUp();
+				break;
+			case 'ArrowDown':
+				this.onNavigateDown();
+				break;
+		}
+	}
+
+	/** Clears the hightlighted option state */
+	@Method()
+	async clearHightlightedOption(): Promise<void> {
+		this.highlightedOption = undefined;
+	}
+
 	componentWillLoad() {
 		this.buildSelectOptions();
 	}
 
-	private get currentOptions(): ISelectMultiOptions | undefined {
-		return this.filteredOptions ?? this.options;
-	}
+	private onEnter = (): void => {
+		if (isEmpty(this.highlightedOption)) {
+			return;
+		}
 
-	private onSelectAll = (event: CustomEvent<void>) => {
+		this.selectOption(this.highlightedOption);
+	};
+
+	private onNavigateDown = (): void => {
+		this.highlightedOption = getNextHightlightableOption(this.selectOptions.currentSelectable, this.highlightedOption);
+	};
+
+	private onNavigateUp = (): void => {
+		this.highlightedOption = getPreviousHightlightableOption(this.selectOptions.currentSelectable, this.highlightedOption);
+	};
+
+	private onDismiss = (): void => {
+		this.highlightedOption = undefined;
+		this.dismiss.emit();
+	};
+
+	private onSelectAll = (event: CustomEvent<void>): void => {
 		event.stopPropagation();
 		this.optionsSelected.emit(selectHelper.buildAllOptionsSelected(selectHelper.getSelectableOptions(this.options)));
 		this.selectAll.emit();
 	};
 
-	private onClearSelection = (event: CustomEvent<void>) => {
+	private onClearSelection = (event: CustomEvent<void>): void => {
 		event.stopPropagation();
 		this.optionsSelected.emit({});
 		this.clearSelection.emit();
 	};
 
-	private onSelectedOptionsChange = (event: CustomEvent<string>) => {
+	private onItemSelected = (event: CustomEvent<string>): void => {
 		event.stopPropagation();
+		this.selectOption(event.detail);
+		this.highlightedOption = event.detail;
+	};
 
-		const { detail: selectedOptionKey } = event;
-
+	private selectOption = (selectedOptionKey: string): void => {
 		const selectedOption = this.selectOptions.flatten[selectedOptionKey];
 
 		// Check if the selected option does not have any children
@@ -143,12 +197,16 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		}
 	};
 
-	private renderOptions = () => {
-		return Object.values(this.selectOptions.current).map(option => <kv-select-option key={option.value} {...option} onItemSelected={this.onSelectedOptionsChange} />);
+	private renderOptions = (): HTMLKvSelectElement[] => {
+		return Object.values(this.selectOptions.current).map(option => <kv-select-option key={option.value} {...option} onItemSelected={this.onItemSelected} />);
 	};
 
 	private get isSearchable() {
 		return this.searchable && Object.keys(this.selectOptions.totalSelectable).length >= this.minSearchOptions;
+	}
+
+	private get currentOptions(): ISelectMultiOptions | undefined {
+		return this.filteredOptions ?? this.options;
 	}
 
 	render() {
@@ -193,6 +251,13 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 					</slot>
 				)}
 				{this.renderOptions()}
+				{this.shortcuts && (
+					<kv-select-shortcuts-label slot="select-footer">
+						<div class="counter" slot="right-items">
+							{!isEmpty(this.searchValue) && hasCurrentOptions && <span>{pluralize('result', currentOptionsLength, true)}</span>}
+						</div>
+					</kv-select-shortcuts-label>
+				)}
 			</kv-select>
 		);
 	}

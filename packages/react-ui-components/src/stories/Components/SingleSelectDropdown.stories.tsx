@@ -44,7 +44,13 @@ export default {
 		inputSize: {
 			control: { type: 'radio' },
 			options: Object.values(EComponentSize)
-		}
+		},
+		counter: {
+			control: { type: 'boolean ' }
+		},
+		shortcuts: {
+			control: { type: 'boolean' }
+		},
 	},
 	parameters: {
 		notes: require('@ui-notes/single-select-dropdown/readme.md')
@@ -103,7 +109,8 @@ Default.args = {
 	selectedOption: 'option2',
 	label: 'Options',
 	placeholder: 'Select an option',
-	icon: EIconName.Layer
+	icon: EIconName.Layer,
+	shortcuts: true
 };
 
 export const SubOptions = SingleSelectDropdownTemplate.bind({});
@@ -150,5 +157,6 @@ SubOptions.args = {
 	label: 'Timezone',
 	placeholder: 'Select a timezone',
 	icon: EIconName.Time,
-	searchable: true
+	searchable: true,
+	shortcuts: true
 };

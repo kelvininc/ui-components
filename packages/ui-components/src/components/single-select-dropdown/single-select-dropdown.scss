@@ -12,3 +12,10 @@
 		pointer-events: none;
 	}
 }
+
+.counter {
+	display: flex;
+	align-items: center;
+	color: kv-color('neutral-4');
+	@include kv-font-label-xsmall-regular;
+}

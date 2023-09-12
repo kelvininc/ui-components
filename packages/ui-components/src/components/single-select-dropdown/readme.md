@@ -67,6 +67,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | `searchable`           | `searchable`              | (optional) If `true` the dropdown is searchable                                                                                                                                         | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `false`                                    |
 | `selectedOption`       | `selected-option`         | (optional) The value of the selected option                                                                                                                                             | `string`                                                                                                                                                                                                                                                                                                                                                                       | `undefined`                                |
 | `selectionClearable`   | `selection-clearable`     | (optional) If `true` dropdown items can be cleared                                                                                                                                      | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `undefined`                                |
+| `shortcuts`            | `shortcuts`               | (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false`                                                                       | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `false`                                    |
 
 
 ## Events
@@ -98,6 +99,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 - [kv-select-option](../select-option)
 - [kv-dropdown](../dropdown)
 - [kv-select](../select)
+- [kv-select-shortcuts-label](../select-shortcuts)
 
 ### Graph
 ```mermaid
@@ -105,6 +107,7 @@ graph TD;
   kv-single-select-dropdown --> kv-select-option
   kv-single-select-dropdown --> kv-dropdown
   kv-single-select-dropdown --> kv-select
+  kv-single-select-dropdown --> kv-select-shortcuts-label
   kv-select-option --> kv-checkbox
   kv-select-option --> kv-select-option
   kv-checkbox --> kv-icon
@@ -122,6 +125,7 @@ graph TD;
   kv-select --> kv-search
   kv-search --> kv-text-field
   kv-search --> kv-icon
+  kv-select-shortcuts-label --> kv-icon
   kv-calendar-advanced-date-selector --> kv-single-select-dropdown
   kv-relative-time-picker --> kv-single-select-dropdown
   style kv-single-select-dropdown fill:#f9f,stroke:#333,stroke-width:4px

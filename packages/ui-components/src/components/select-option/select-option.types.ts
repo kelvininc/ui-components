@@ -17,6 +17,8 @@ export interface ISelectOption {
 	disabled?: boolean;
 	/** (optional) If `true` the item is selected */
 	selected?: boolean;
+	/** (optional) If `true` the item is highlighted */
+	highlighted?: boolean;
 	/** (optional) If `true` the item is togglable */
 	togglable?: boolean;
 	/** (optional) If `false` the item is only for presenting and cannot be selected. */

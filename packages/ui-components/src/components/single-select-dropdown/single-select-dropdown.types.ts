@@ -57,6 +57,8 @@ export interface ISingleSelectDropdown extends ICustomCss {
 	dropdownOptions?: Partial<ComputePositionConfig>;
 	/** (optional) The minimum amount of options required to display the search. Defaults to `8`. */
 	minSearchOptions?: number;
+	/** (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false` */
+	shortcuts?: boolean;
 }
 
 export interface ISingleSelectDropdownEvents {

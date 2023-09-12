@@ -1,8 +1,8 @@
 import { Component, Element, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
-import { ILabelsDropdown } from './labels-dropdown.types';
+import { ILabelsDropdown, ILabelsDropdownEvents } from './labels-dropdown.types';
 import { getTextFieldConfig, setOverflowingLabels } from './labels-dropdown.helper';
 import { isEmpty, isEqual } from 'lodash';
-import { EIconName, ISelectMultiOptions, ISelectMultiOptionsEvents } from '../../types';
+import { EIconName, ISelectMultiOptions } from '../../types';
 import { getSelectableOptions, getSelectedSelectableOptions } from '../../utils/select.helper';
 import { MINIMUM_SEARCHABLE_OPTIONS } from './labels-dropdown.config';
 
@@ -11,7 +11,7 @@ import { MINIMUM_SEARCHABLE_OPTIONS } from './labels-dropdown.config';
 	styleUrl: 'labels-dropdown.scss',
 	shadow: false
 })
-export class KvLabelsDropdown implements ILabelsDropdown, ISelectMultiOptionsEvents {
+export class KvLabelsDropdown implements ILabelsDropdown, ILabelsDropdownEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) isOpen?: boolean = false;
 	/** @inheritdoc */
@@ -42,6 +42,8 @@ export class KvLabelsDropdown implements ILabelsDropdown, ISelectMultiOptionsEve
 	@Prop({ reflect: true }) counter: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minSearchOptions?: number = MINIMUM_SEARCHABLE_OPTIONS;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) shortcuts?: boolean = false;
 
 	@State() _isOpen = this.isOpen;
 	@State() _searchValue = this.searchValue;
@@ -76,20 +78,53 @@ export class KvLabelsDropdown implements ILabelsDropdown, ISelectMultiOptionsEve
 		this._searchValue = newValue;
 	}
 
+	componentDidRender() {
+		this._overflowingLabelsCounter = setOverflowingLabels(this.dropdownElRef);
+	}
+
+	private selectRef?: HTMLKvSelectMultiOptionsElement | null;
 	private dropdownElRef: HTMLKvDropdownElement;
 	private flattenedOptionsHash = getSelectableOptions(this.options);
 
-	private onDropdownMount = (dropdownEl: HTMLKvDropdownElement) => {
+	private onDropdownMount = (dropdownEl: HTMLKvDropdownElement): void => {
 		this.dropdownElRef = dropdownEl;
 	};
 
-	private onOpenStateChange = ({ detail: isOpen }: CustomEvent<boolean>) => {
-		this._isOpen = isOpen;
+	private onOpenStateChange = ({ detail: isOpen }: CustomEvent<boolean>): void => {
+		this.setOpenState(isOpen);
+	};
 
-		if (!this._isOpen) {
-			this._searchValue = '';
-			this.searchChange.emit('');
+	private setOpenState = (state: boolean): void => {
+		if (!state) {
+			this.setSearch('');
 		}
+
+		this.clearHightlightedOption();
+		this._isOpen = state;
+	};
+
+	private onDismiss = (): void => {
+		this.setOpenState(false);
+	};
+
+	private onOptionRemove = ({ detail }: CustomEvent<string>): void => {
+		const { [detail]: unselectedOption, ...newOptions } = this.selectedOptions;
+		this.optionsSelected.emit(newOptions);
+	};
+
+	private onSelectAll = (event: CustomEvent<void>): void => {
+		event.stopPropagation();
+		this.selectAll.emit();
+	};
+
+	private onClearSelection = (event: CustomEvent<void>): void => {
+		event.stopPropagation();
+		this.clearSelection.emit();
+	};
+
+	private setSearch = (searchTerm: string): void => {
+		this._searchValue = searchTerm;
+		this.searchChange.emit(searchTerm);
 	};
 
 	private renderSelectedOptionsLabels = (): HTMLKvLabelsDropdownInputItemElement[] => {
@@ -104,24 +139,9 @@ export class KvLabelsDropdown implements ILabelsDropdown, ISelectMultiOptionsEve
 			});
 	};
 
-	private onOptionRemove = ({ detail }: CustomEvent<string>) => {
-		const { [detail]: unselectedOption, ...newOptions } = this.selectedOptions;
-		this.optionsSelected.emit(newOptions);
+	private clearHightlightedOption = (): void => {
+		this.selectRef?.clearHightlightedOption();
 	};
-
-	private onSelectAll = (event: CustomEvent<void>) => {
-		event.stopPropagation();
-		this.selectAll.emit();
-	};
-
-	private onClearSelection = (event: CustomEvent<void>) => {
-		event.stopPropagation();
-		this.clearSelection.emit();
-	};
-
-	componentDidRender() {
-		this._overflowingLabelsCounter = setOverflowingLabels(this.dropdownElRef);
-	}
 
 	render() {
 		const selectedSelectOptions = getSelectedSelectableOptions(this.options, this.selectedOptions);
@@ -141,6 +161,7 @@ export class KvLabelsDropdown implements ILabelsDropdown, ISelectMultiOptionsEve
 						{this._overflowingLabelsCounter > 0 && <div class="overflowing-counter">+{this._overflowingLabelsCounter}</div>}
 					</div>
 					<kv-select-multi-options
+						ref={element => (this.selectRef = element)}
 						options={this.options}
 						filteredOptions={this.filteredOptions}
 						selectedOptions={this.selectedOptions}
@@ -157,8 +178,10 @@ export class KvLabelsDropdown implements ILabelsDropdown, ISelectMultiOptionsEve
 						selectionClearable={this.selectionClearable}
 						clearSelectionLabel={this.clearSelectionLabel}
 						counter={this.counter}
+						shortcuts={this._isOpen && this.shortcuts}
 						onSelectAll={this.onSelectAll}
 						onClearSelection={this.onClearSelection}
+						onDismiss={this.onDismiss}
 					>
 						<slot name="select-header-actions" slot="select-header-actions" />
 						<slot name="select-header-label" slot="select-header-label" />

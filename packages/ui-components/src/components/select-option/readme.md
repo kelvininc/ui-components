@@ -45,6 +45,7 @@ export const KvSelectOptionExample: React.FC = () => (
 | -------------------- | ------------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------- |
 | `description`        | `description` | (optional) Description of the item displayed on the left                      | `string`                                                                   | `undefined` |
 | `disabled`           | `disabled`    | (optional) If `true` the item is disabled                                     | `boolean`                                                                  | `false`     |
+| `highlighted`        | `highlighted` | (optional) If `true` the item is highlighted                                  | `boolean`                                                                  | `false`     |
 | `label` _(required)_ | `label`       | (required) The text to display on the item                                    | `string`                                                                   | `undefined` |
 | `level`              | `level`       | (optional) The level depth at which the option is rendered                    | `number`                                                                   | `0`         |
 | `options`            | --            | (optional) The children items of this option                                  | `{ [x: string]: ISelectOption; }`                                          | `{}`        |

@@ -180,6 +180,7 @@ export enum EIconName {
 	Upload = 'kv-upload',
 	Uptime = 'kv-uptime',
 	Verified = 'kv-verified',
+	Undo = 'kv-undo',
 	Warning = 'kv-warning',
 	ZoomIn = 'kv-zoom-in',
 	ZoomOut = 'kv-zoom-out',
