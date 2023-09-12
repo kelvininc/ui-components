@@ -10,6 +10,14 @@ describe('Tab Navigation (unit tests)', () => {
 
 	const tabsMock = cloneDeep(TAB_ITEMS);
 	const notificationsMock = cloneDeep(NOTIFICATIONS_MOCK);
+	const mockIntersectionObserver = jest.fn(() => ({
+		observe: () => null,
+		disconnect: () => null
+	}));
+
+	beforeAll(() => {
+		Object.defineProperty(global, 'IntersectionObserver', { value: mockIntersectionObserver });
+	});
 
 	describe('when rendering with required props', () => {
 		beforeEach(async () => {
