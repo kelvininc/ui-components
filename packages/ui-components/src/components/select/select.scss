@@ -16,9 +16,6 @@
 }
 
 .select-container {
-	// TODO: need to change when this component is styled to light mode
-	@include kelvin-night-scrollbar();
-
 	border: var(--select-border);
 	border-radius: var(--select-border-radius);
 	overflow: hidden;
@@ -26,10 +23,13 @@
 }
 
 .select-options-container {
-	padding: $spacing-3x 0;
 	max-height: var(--select-max-height);
 	min-height: var(--select-min-height);
-	overflow-y: auto;
+
+	::slotted(kv-virtualized-list)  {
+		--virtualized-list-max-height: #{calc(var(--select-max-height) - $spacing-3x * 2)};
+		--virtualized-list-min-height: #{var(--select-min-height)};
+	}
 }
 
 .select-header-container {

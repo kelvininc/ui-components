@@ -1,5 +1,7 @@
 import { ISelectMultiOption, ISelectMultiOptions } from './select-multi-options.types';
 import { EToggleState, ISelectOption } from '../../types';
+import { isEmpty } from 'lodash';
+import { SELECT_OPTION_HEIGHT_IN_PX } from './select-multi-options.config';
 
 const buildSelectOption = (
 	optionKey: string,
@@ -55,3 +57,19 @@ export const buildSelectOptions = (
 
 		return accumulator;
 	}, {});
+
+export const getSelectOptionHeight = (option: ISelectOption): number => {
+	let height = SELECT_OPTION_HEIGHT_IN_PX;
+
+	if (!isEmpty(option.options)) {
+		const children = Object.values(option.options);
+
+		height += children.reduce((accumulator, childrenOption) => {
+			accumulator += getSelectOptionHeight(childrenOption);
+
+			return accumulator;
+		}, 0);
+	}
+
+	return height;
+};

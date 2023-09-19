@@ -74,6 +74,7 @@ Type: `Promise<void>`
 
 ### Depends on
 
+- [kv-virtualized-list](../virtualized-list)
 - [kv-select-option](../select-option)
 - [kv-select](../select)
 - [kv-select-shortcuts-label](../select-shortcuts)
@@ -81,6 +82,7 @@ Type: `Promise<void>`
 ### Graph
 ```mermaid
 graph TD;
+  kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select
   kv-select-multi-options --> kv-select-shortcuts-label
