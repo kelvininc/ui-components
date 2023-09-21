@@ -11,6 +11,7 @@ exports[`Alert (unit tests when using required props and defaults should match t
             <div class="title">
               Main Message
             </div>
+            <slot name="description"></slot>
           </div>
         </div>
         <slot name="actions"></slot>
@@ -31,9 +32,11 @@ exports[`Alert (unit tests when using required props and description should matc
             <div class="title">
               Main Message
             </div>
-            <div class="description">
-              Secondary Message
-            </div>
+            <slot name="description">
+              <div class="description">
+                Secondary Message
+              </div>
+            </slot>
           </div>
         </div>
         <slot name="actions"></slot>
@@ -53,6 +56,7 @@ exports[`Alert (unit tests when using required props and showIcon \`false\` shou
             <div class="title">
               Main Message
             </div>
+            <slot name="description"></slot>
           </div>
         </div>
         <slot name="actions"></slot>
