@@ -35,7 +35,7 @@ export class KvAlert implements IAlertConfig {
 							{this.showIcon && <kv-icon name={ALERT_ICON_NAMES[this.type]} class="icon" />}
 							<div class="text-container">
 								<div class="title">{this.label}</div>
-								{this.description && <div class="description">{this.description}</div>}
+								<slot name="description">{this.description && <div class="description">{this.description}</div>}</slot>
 							</div>
 						</div>
 						<slot name="actions"></slot>
