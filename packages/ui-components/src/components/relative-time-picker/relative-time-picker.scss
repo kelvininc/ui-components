@@ -5,6 +5,7 @@
 	 * @prop --background-color: Background color.
 	 */
 	--background-color: #{kv-color('neutral-7')};
+	--min-height: 233px;
 }
 
 .relative-time-container {
@@ -21,7 +22,7 @@
 		flex-direction: column;
 		gap: var(--group-gap);
 		overflow: auto;
-		min-height: 233px;
+		min-height: var(--min-height);
 
 		kv-time-picker-select-option {
 			--time-picker-select-option-height: var(--option-height);

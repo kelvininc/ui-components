@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`KvRelativeTimePicker (unit tests) when the component loads with both customize interval and timezone components hidden should match the snapshot 1`] = `
-<kv-relative-time-picker>
+<kv-relative-time-picker custom-class="">
   <mock:shadow-root>
     <div class="relative-time-container" style="--max-height: 347px; --group-gap: 12px;">
       <div class="relative-time-selector" style="--option-height: 32px; --padding-size: 16px;">
@@ -15,7 +15,7 @@ exports[`KvRelativeTimePicker (unit tests) when the component loads with both cu
 `;
 
 exports[`KvRelativeTimePicker (unit tests) when the component loads with empty props should match the snapshot 1`] = `
-<kv-relative-time-picker>
+<kv-relative-time-picker custom-class="">
   <mock:shadow-root>
     <div class="relative-time-container" style="--max-height: 347px; --group-gap: 12px;">
       <div class="relative-time-selector" style="--option-height: 32px; --padding-size: 16px;">
