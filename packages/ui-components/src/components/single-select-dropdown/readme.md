@@ -121,7 +121,6 @@ graph TD;
   kv-single-select-dropdown --> kv-select-multi-options
   kv-dropdown --> kv-dropdown-base
   kv-dropdown --> kv-text-field
-  kv-dropdown --> kv-icon
   kv-dropdown-base --> kv-portal
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label

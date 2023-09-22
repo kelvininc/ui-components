@@ -2,4 +2,8 @@
 
 .dropdown-container {
 	user-select: none;
+
+	kv-text-field {
+		--action-icon-size: 20px;
+	}
 }

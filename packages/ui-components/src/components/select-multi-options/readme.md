@@ -91,7 +91,6 @@ graph TD;
   kv-checkbox --> kv-icon
   kv-select --> kv-search
   kv-search --> kv-text-field
-  kv-search --> kv-icon
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon

@@ -31,6 +31,8 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) actionIcon?: EIconName | EOtherIconName;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) inputName?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) placeholder?: string = '';
@@ -147,6 +149,13 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	@Event() textChange: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event() textFieldBlur: EventEmitter<string>;
+	/** @inheritdoc */
+	@Event() rightActionClick: EventEmitter<MouseEvent>;
+
+	private onRightActionClick = (event: MouseEvent) => {
+		event.preventDefault();
+		this.rightActionClick.emit();
+	};
 
 	private onInputHandler = ({ target }: InputEvent) => {
 		const input = target as HTMLInputElement | null;
@@ -203,10 +212,6 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	private buildHelpTextMessages(value: string | string[]) {
 		value = value || [];
 		return Array.isArray(value) ? value : [value];
-	}
-
-	private get hasRightSlot() {
-		return !isNil(this.el.querySelector('[slot="right-slot"]'));
 	}
 
 	private get hasLeftSlot() {
@@ -267,13 +272,13 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										class={{
 											'invalid': this.state === EValidationState.Invalid,
 											'left-slotted': this.hasLeftSlot,
-											'right-slotted': this.hasRightSlot,
+											'right-slotted': !isEmpty(this.actionIcon),
 											'forced-focus': this.focused || this.highlighted
 										}}
 										readonly={this.readonly}
 									/>
 									{this.hasInputContentSlot && (
-										<div class={{ 'input-content-container': true, 'left-slotted': this.hasLeftSlot, 'right-slotted': this.hasRightSlot }}>
+										<div class="input-content-container">
 											<slot name="input-content" />
 										</div>
 									)}
@@ -301,15 +306,23 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 											</slot>
 										</div>
 									)}
-									{this.hasRightSlot && (
+									{this.actionIcon && (
 										<div
 											class={{
-												'right-slot-container': true,
+												'right-icon-container': !isEmpty(this.actionIcon),
 												'focus': this.focused || this.highlighted,
 												'disabled': this.disabled
 											}}
 										>
-											<slot name="right-slot"></slot>
+											<kv-icon
+												name={this.actionIcon}
+												onClick={this.onRightActionClick}
+												class={{
+													invalid: this.state === EValidationState.Invalid,
+													disabled: this.disabled,
+													focus: this.focused || this.highlighted
+												}}
+											/>
 										</div>
 									)}
 								</Fragment>

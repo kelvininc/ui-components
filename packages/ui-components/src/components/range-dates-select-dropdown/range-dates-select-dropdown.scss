@@ -1,5 +1,9 @@
 @import '../../assets/styles/globals';
 
+kv-text-field {
+	--action-icon-size: 24px;
+}
+
 .range-dates-select-dropdown {
 	user-select: none;
 }
