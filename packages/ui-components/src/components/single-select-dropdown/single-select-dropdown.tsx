@@ -86,6 +86,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Prop({ reflect: true }) minSearchOptions?: number = MINIMUM_SEARCHABLE_OPTIONS;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) shortcuts?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) zIndex?: number = 9004;
 
 	/** @inheritdoc */
 	@Event() optionSelected: EventEmitter<string>;
@@ -262,6 +264,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 					options={this.dropdownOptions}
 					clickOutsideClose={this.clickOutsideClose}
 					actionElement={this.actionElement}
+					zIndex={this.zIndex}
 				>
 					<slot name="dropdown-action" slot="dropdown-action" />
 					<div class={{ ...getClassMap(this.customClass), 'single-select-dropdown-slot': true }}>

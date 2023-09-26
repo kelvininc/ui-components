@@ -34,6 +34,8 @@ export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptio
 	clickOutsideClose?: boolean;
 	/** (optional) A reference to the dropdown action element */
 	actionElement?: HTMLElement;
+	/** (optional) the dropdown list z-index (default: 9004) */
+	zIndex?: number;
 }
 
 export interface IMultiSelectDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'optionSelected'> {

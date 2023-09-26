@@ -28,7 +28,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) clickOutsideClose?: boolean = true;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) zIndex?: number;
+	@Prop({ reflect: false }) zIndex?: number = 9004;
 
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;

@@ -75,6 +75,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: true }) clickOutsideClose?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) actionElement?: HTMLElement | null = null;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) zIndex?: number = 9004;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
@@ -201,6 +203,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 					options={this.dropdownOptions}
 					clickOutsideClose={this.clickOutsideClose}
 					actionElement={this.actionElement}
+					zIndex={this.zIndex}
 				>
 					<slot name="dropdown-action" slot="dropdown-action" />
 					<div class={getClassMap(this.customClass)}>

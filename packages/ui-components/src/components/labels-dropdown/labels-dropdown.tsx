@@ -44,6 +44,8 @@ export class KvLabelsDropdown implements ILabelsDropdown, ILabelsDropdownEvents 
 	@Prop({ reflect: true }) minSearchOptions?: number = MINIMUM_SEARCHABLE_OPTIONS;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) shortcuts?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) zIndex?: number = 9004;
 
 	@State() _isOpen = this.isOpen;
 	@State() _searchValue = this.searchValue;
@@ -153,6 +155,7 @@ export class KvLabelsDropdown implements ILabelsDropdown, ILabelsDropdownEvents 
 					inputConfig={getTextFieldConfig(isEmpty(selectedSelectOptions))}
 					onOpenStateChange={this.onOpenStateChange}
 					ref={this.onDropdownMount}
+					zIndex={this.zIndex}
 				>
 					<div class="selected-labels-container" slot="input-content">
 						<div class="selected-labels" onClick={e => e.stopPropagation()}>

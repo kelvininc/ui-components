@@ -45,6 +45,8 @@ export interface ISingleSelectDropdown extends Omit<IMultiSelectDropdown, 'selec
 	options?: ISelectSingleOptions;
 	/** (optional) The object with the dropdown options filtered */
 	filteredOptions?: ISelectSingleOptions;
+	/** (optional) the dropdown list z-index (default: 9004) */
+	zIndex?: number;
 }
 
 export interface ISingleSelectDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'optionsSelected' | 'selectAll'> {
