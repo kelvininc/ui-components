@@ -1,16 +1,16 @@
 import { EventEmitter } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
-import { EComponentSize, ICustomCss, ISelectOption } from '../../types';
+import { EComponentSize, ISelectOption, ISelectMultiOptionsEvents, IMultiSelectDropdown } from '../../types';
 import { ComputePositionConfig } from '@floating-ui/dom';
 
-export interface ISingleSelectDropdownOption extends Pick<ISelectOption, 'label' | 'value' | 'disabled' | 'selectable' | 'description'> {
-	options?: ISingleSelectDropdownOptions;
+export interface ISelectSingleOption extends Pick<ISelectOption, 'label' | 'value' | 'disabled' | 'selectable' | 'description'> {
+	options?: ISelectSingleOptions;
 }
 
-export type ISingleSelectDropdownOptions = Record<string, ISingleSelectDropdownOption>;
+export type ISelectSingleOptions = Record<string, ISelectSingleOption>;
 
-export interface ISingleSelectDropdown extends ICustomCss {
+export interface ISingleSelectDropdown extends Omit<IMultiSelectDropdown, 'selectedOptions' | 'options' | 'filteredOptions'> {
 	/** (optional) The text to display as the dropdown placeholder */
 	placeholder: string;
 	/** (optional) If `true` the list is opened */
@@ -19,14 +19,6 @@ export interface ISingleSelectDropdown extends ICustomCss {
 	loading?: boolean;
 	/** (optional) The icon to display on the dropdown */
 	icon?: EIconName | EOtherIconName;
-	/** (optional) If `true` the dropdown is searchable */
-	searchable?: boolean;
-	/** (optional) The list search text field placeholder */
-	searchPlaceholder?: string;
-	/** (optional) If `true` dropdown items can be cleared */
-	selectionClearable?: boolean;
-	/** (optional) The clear search action text */
-	clearSelectionLabel?: string;
 	/** (optional) If `true` dropdown requires a value to be selected */
 	required?: boolean;
 	/** (optional) The text to display on the dropdown label */
@@ -39,33 +31,25 @@ export interface ISingleSelectDropdown extends ICustomCss {
 	helpText?: string | string[];
 	/** (optional) If `true` the dropdown is disabled */
 	disabled?: boolean;
-	/** (required) The text to display when there are no options */
-	noDataAvailableLabel?: string;
-	/** (optional) The object with the dropdown options */
-	options?: ISingleSelectDropdownOptions;
 	/** (optional) The value of the selected option */
 	selectedOption?: string;
-	/** (optional) The object with the dropdown options filtered */
-	filteredOptions?: ISingleSelectDropdownOptions;
-	/** (optional) The dropdown's min-height */
-	minHeight?: string;
-	/** (optional) The dropdown's max-height */
-	maxHeight?: string;
 	/** (optional) The size of the input */
 	inputSize?: EComponentSize;
 	/** (optional) The dropdown position config options */
 	dropdownOptions?: Partial<ComputePositionConfig>;
-	/** (optional) The minimum amount of options required to display the search. Defaults to `8`. */
-	minSearchOptions?: number;
+	/** (optional) If `false` clicking outside the dropdown will not trigger state change. Default: true */
+	clickOutsideClose?: boolean;
+	/** (optional) A reference to the dropdown action element */
+	actionElement?: HTMLElement;
+	/** (optional) The object with the dropdown options */
+	options?: ISelectSingleOptions;
+	/** (optional) The object with the dropdown options filtered */
+	filteredOptions?: ISelectSingleOptions;
+	/** (optional) the dropdown list z-index (default: 9004) */
+	zIndex?: number;
 }
 
-export interface ISingleSelectDropdownEvents {
-	/** Emitted when the selected option change */
-	optionSelected: EventEmitter<string>;
-	/** Emitted when the search term changes */
-	searchChange: EventEmitter<string>;
-	/** Emitted when the selection is cleared */
-	clearSelection: EventEmitter<void>;
+export interface ISingleSelectDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'optionsSelected' | 'selectAll'> {
 	/** Emitted when the dropdown open state changes */
 	openStateChange: EventEmitter<boolean>;
 }

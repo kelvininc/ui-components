@@ -9,6 +9,7 @@
 
 .no-data {
 	pointer-events: none;
+	padding: $spacing-3x 0;
 }
 
 kv-select {
@@ -18,4 +19,11 @@ kv-select {
 .selected-items-label {
 	@include kv-font-label-small-regular;
 	color: kv-color('neutral-4');
+}
+
+.counter {
+	display: flex;
+	align-items: center;
+	color: kv-color('neutral-4');
+	@include kv-font-label-xsmall-regular;
 }

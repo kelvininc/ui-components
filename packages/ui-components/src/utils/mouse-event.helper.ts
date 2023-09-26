@@ -22,4 +22,4 @@ export const didClickOnElement = (element: HTMLElement | null, event: MouseEvent
 	return false;
 };
 
-export const isTargetOnElement = (selectElement: HTMLElement, event: MouseEvent): boolean => event.composedPath().some(element => element === selectElement);
+export const isTargetOnElement = (selectElement: HTMLElement, event: MouseEvent | KeyboardEvent): boolean => event.composedPath().some(element => element === selectElement);

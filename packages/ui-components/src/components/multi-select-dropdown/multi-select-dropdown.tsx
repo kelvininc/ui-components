@@ -8,6 +8,7 @@ import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
 import { CustomCssClass, EComponentSize } from '../../types';
 import { getCssStyle } from '../utils';
 import { ISelectMultiOptions } from '../select-multi-options/select-multi-options.types';
+import { getClassMap } from '../../utils/css-class.helper';
 import { ComputePositionConfig } from '@floating-ui/dom';
 
 @Component({
@@ -68,6 +69,14 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: false }) counter: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minSearchOptions?: number = MINIMUM_SEARCHABLE_OPTIONS;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) shortcuts?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) clickOutsideClose?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) actionElement?: HTMLElement | null = null;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) zIndex?: number = 9004;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
@@ -78,6 +87,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Event() selectAll: EventEmitter<void>;
 	/** @inheritdoc */
+	@Event() dismiss: EventEmitter<void>;
+	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 
 	@State() _selectionDisplayValue: string | undefined;
@@ -87,62 +98,84 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** The Host's element reference */
 	@Element() el: HTMLKvMultiSelectDropdownElement;
 
-	private selectOption = ({ detail: newOptions }: CustomEvent<Record<string, boolean>>) => {
+	@Watch('options')
+	@Watch('selectedOptions')
+	@Watch('displayValue')
+	labelValueHandler() {
+		this.calculateLabelValue();
+	}
+
+	componentWillLoad() {
+		this.calculateLabelValue();
+	}
+
+	private selectRef?: HTMLKvSelectMultiOptionsElement | null;
+
+	private onOptionsSelected = ({ detail: newOptions }: CustomEvent<Record<string, boolean>>): void => {
 		this.optionsSelected.emit(newOptions);
 	};
 
-	private calculateLabelValue = () => {
-		if (this.displayValue?.length) {
-			this._selectionDisplayValue = this.displayValue;
-		} else {
-			this._selectionDisplayValue = getDropdownDisplayValue(this.options, this.selectedOptions);
-		}
+	private onSearchChange = ({ detail: searchValue }: CustomEvent<string>): void => {
+		this.setSearch(searchValue);
 	};
 
-	private openStateChangeHandler = ({ detail: openState }: CustomEvent<boolean>) => {
-		this._isOpen = openState;
-
-		if (!this._isOpen) {
-			this._searchValue = '';
-			this.searchChange.emit('');
-		}
-	};
-
-	private onSearchChange = ({ detail: searchValue }: CustomEvent<string>) => {
-		this.searchChange.emit(searchValue);
-	};
-
-	private onClearSelection = (event: CustomEvent<void>) => {
+	private onClearSelection = (event: CustomEvent<void>): void => {
 		event.stopPropagation();
 
 		this.clearSelection.emit();
 		this.calculateLabelValue();
 	};
 
-	private onSelectAll = (event: CustomEvent<void>) => {
+	private onSelectAll = (event: CustomEvent<void>): void => {
 		event.stopPropagation();
 		this.selectAll.emit();
 		this.calculateLabelValue();
 	};
 
-	componentWillLoad() {
-		this.calculateLabelValue();
+	private onDismiss = (): void => {
+		this.setOpenState(false);
+		this.dismiss.emit();
+	};
+
+	private onOpenStateChange = ({ detail: state }: CustomEvent<boolean>): void => {
+		this.setOpenState(state);
+	};
+
+	private setOpenState = (state: boolean): void => {
+		if (!state) {
+			this.setSearch('');
+		}
+
+		this.clearHighlightedOption();
+		this._isOpen = state;
+	};
+
+	private setSearch = (searchTerm: string): void => {
+		this._searchValue = searchTerm;
+		this.searchChange.emit(searchTerm);
+	};
+
+	private getMaxHeight() {
+		const maxHeight = getCssStyle(this.el, '--dropdown-max-height');
+		return this.maxHeight ?? maxHeight;
 	}
 
-	@Watch('options')
-	optionsChangeHandler() {
-		this.calculateLabelValue();
+	private getMinHeight() {
+		const minHeight = getCssStyle(this.el, '--dropdown-min-height');
+		return this.minHeight ?? minHeight;
 	}
 
-	@Watch('selectedOptions')
-	selectedOptionsChangeHandler() {
-		this.calculateLabelValue();
-	}
+	private clearHighlightedOption = (): void => {
+		this.selectRef?.clearHighlightedOption();
+	};
 
-	@Watch('displayValue')
-	valueChangeHandler() {
-		this.calculateLabelValue();
-	}
+	private calculateLabelValue = (): void => {
+		if (this.displayValue?.length) {
+			this._selectionDisplayValue = this.displayValue;
+		} else {
+			this._selectionDisplayValue = getDropdownDisplayValue(this.options, this.selectedOptions);
+		}
+	};
 
 	private get inputConfig(): Partial<ITextField> {
 		return {
@@ -159,46 +192,51 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		};
 	}
 
-	private getMaxHeight() {
-		const maxHeight = getCssStyle(this.el, '--dropdown-max-height');
-		return this.maxHeight ?? maxHeight;
-	}
-
 	render() {
 		return (
 			<Host>
 				<kv-dropdown
 					inputConfig={this.inputConfig}
 					isOpen={this._isOpen}
-					onOpenStateChange={this.openStateChangeHandler}
+					onOpenStateChange={this.onOpenStateChange}
 					disabled={this.disabled}
 					options={this.dropdownOptions}
+					clickOutsideClose={this.clickOutsideClose}
+					actionElement={this.actionElement}
+					zIndex={this.zIndex}
 				>
-					<kv-select-multi-options
-						options={this.options}
-						filteredOptions={this.filteredOptions}
-						selectedOptions={this.selectedOptions}
-						noDataAvailableLabel={this.noDataAvailableLabel}
-						searchable={this.searchable}
-						minSearchOptions={this.minSearchOptions}
-						searchValue={this._searchValue}
-						selectionClearable={this.selectionClearable}
-						clearSelectionLabel={this.clearSelectionLabel}
-						selectionAll={this.selectionAll}
-						selectAllLabel={this.selectAllLabel}
-						searchPlaceholder={this.searchPlaceholder}
-						maxHeight={this.getMaxHeight()}
-						minHeight={this.minHeight}
-						counter={this.counter}
-						onSearchChange={this.onSearchChange}
-						onClearSelection={this.onClearSelection}
-						onOptionsSelected={this.selectOption}
-						onSelectAll={this.onSelectAll}
-					>
-						<slot name="select-header-actions" slot="select-header-actions" />
-						<slot name="select-header-label" slot="select-header-label" />
-						<slot name="no-data-available" slot="no-data-available" />
-					</kv-select-multi-options>
+					<slot name="dropdown-action" slot="dropdown-action" />
+					<div class={getClassMap(this.customClass)}>
+						<kv-select-multi-options
+							ref={element => (this.selectRef = element)}
+							options={this.options}
+							filteredOptions={this.filteredOptions}
+							selectedOptions={this.selectedOptions}
+							noDataAvailableLabel={this.noDataAvailableLabel}
+							searchable={this.searchable}
+							minSearchOptions={this.minSearchOptions}
+							searchValue={this._searchValue}
+							selectionClearable={this.selectionClearable}
+							clearSelectionLabel={this.clearSelectionLabel}
+							selectionAll={this.selectionAll}
+							selectAllLabel={this.selectAllLabel}
+							searchPlaceholder={this.searchPlaceholder}
+							maxHeight={this.getMaxHeight()}
+							minHeight={this.getMinHeight()}
+							counter={this.counter}
+							shortcuts={this._isOpen && this.shortcuts}
+							onSearchChange={this.onSearchChange}
+							onClearSelection={this.onClearSelection}
+							onOptionsSelected={this.onOptionsSelected}
+							onSelectAll={this.onSelectAll}
+							onDismiss={this.onDismiss}
+							exportparts="select"
+						>
+							<slot name="select-header-actions" slot="select-header-actions" />
+							<slot name="select-header-label" slot="select-header-label" />
+							<slot name="no-data-available" slot="no-data-available" />
+						</kv-select-multi-options>
+					</div>
 				</kv-dropdown>
 			</Host>
 		);

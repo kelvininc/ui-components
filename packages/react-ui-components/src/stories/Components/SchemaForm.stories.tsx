@@ -1,4 +1,4 @@
-import { EIconName, ETooltipPosition, ISelectMultiOptions, ISingleSelectDropdownOptions } from '@kelvininc/ui-components';
+import { EIconName, ETooltipPosition, ISelectMultiOptions, ISelectSingleOptions } from '@kelvininc/ui-components';
 import { IChangeEvent } from '@rjsf/core';
 import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
@@ -592,7 +592,7 @@ CustomSelectWidgetConfigs.args = {
 	},
 	uiSchema: {
 		alarm_severities: {
-			displayValue(selectedOptions: string[], options: ISingleSelectDropdownOptions | ISelectMultiOptions) {
+			displayValue(selectedOptions: string[], options: ISelectSingleOptions | ISelectMultiOptions) {
 				return getDropdownDisplayValue(selectedOptions, options, 'status');
 			}
 		},

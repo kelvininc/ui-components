@@ -19,9 +19,7 @@ exports[`Search (unit tests) when uses default props should match the snapshot 1
 exports[`Search (unit tests) when value is changed should match the snapshot 1`] = `
 <kv-search placeholder="Search" value="Teste">
   <mock:shadow-root>
-    <kv-text-field icon="kv-search" placeholder="Search" size="large" value="Teste">
-      <kv-icon name="kv-close" slot="right-slot"></kv-icon>
-    </kv-text-field>
+    <kv-text-field actionicon="kv-close" icon="kv-search" placeholder="Search" size="large" value="Teste"></kv-text-field>
   </mock:shadow-root>
 </kv-search>
 `;

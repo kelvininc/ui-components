@@ -97,8 +97,10 @@ export class KvPortal implements IPortal, IPortalEvents {
 		computePosition(this.reference, this.portal, this.getOptions()).then(({ x, y, placement, middlewareData }) => {
 			if (this.autoUpdate) {
 				const { referenceHidden } = middlewareData.hide;
-				this.visible = !referenceHidden;
-				this.portal.style.zIndex = referenceHidden ? `${PORTAL_Z_INDEX.hidden}` : `${this.zIndex}`;
+				if (this.show) {
+					this.visible = !referenceHidden;
+					this.portal.style.zIndex = referenceHidden ? `${PORTAL_Z_INDEX.hidden}` : `${this.zIndex}`;
+				}
 			}
 
 			Object.assign(this.portal.style, {

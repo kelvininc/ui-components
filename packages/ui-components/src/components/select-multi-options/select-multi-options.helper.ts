@@ -1,15 +1,24 @@
 import { ISelectMultiOption, ISelectMultiOptions } from './select-multi-options.types';
 import { EToggleState, ISelectOption } from '../../types';
+import { isEmpty } from 'lodash';
+import { SELECT_OPTION_HEIGHT_IN_PX } from './select-multi-options.config';
 
-const buildSelectOption = (optionKey: string, options: ISelectMultiOptions = {}, allOptions: ISelectMultiOptions, selectedOptions: Record<string, boolean> = {}): ISelectOption => {
-	const childrenOptions = buildSelectOptions(options[optionKey].options, allOptions[optionKey].options, selectedOptions);
+const buildSelectOption = (
+	optionKey: string,
+	options: ISelectMultiOptions = {},
+	allOptions: ISelectMultiOptions = {},
+	selectedOptions: Record<string, boolean> = {},
+	highlightedOption?: string
+): ISelectOption => {
+	const childrenOptions = buildSelectOptions(options[optionKey].options, allOptions[optionKey].options, selectedOptions, highlightedOption);
 
 	return {
+		togglable: true,
 		...options[optionKey],
 		options: childrenOptions,
 		selected: selectedOptions[optionKey] === true,
-		togglable: true,
-		state: getOptionToggleState(allOptions[optionKey], selectedOptions)
+		state: getOptionToggleState(allOptions[optionKey], selectedOptions),
+		highlighted: optionKey === highlightedOption
 	};
 };
 
@@ -37,11 +46,30 @@ const getOptionToggleState = (option: ISelectMultiOption, selectedOptions: Recor
 
 export const buildSelectOptions = (
 	options: ISelectMultiOptions = {},
-	allOptions: ISelectMultiOptions,
-	selectedOptions: Record<string, boolean> = {}
+	allOptions: ISelectMultiOptions = {},
+	selectedOptions: Record<string, boolean> = {},
+	highlightedOption?: string
 ): Record<string, ISelectOption> =>
 	Object.keys(options).reduce<Record<string, ISelectOption>>((accumulator, optionKey) => {
-		accumulator[optionKey] = buildSelectOption(optionKey, options, allOptions, selectedOptions);
+		if (allOptions[optionKey]) {
+			accumulator[optionKey] = buildSelectOption(optionKey, options, allOptions, selectedOptions, highlightedOption);
+		}
 
 		return accumulator;
 	}, {});
+
+export const getSelectOptionHeight = (option: ISelectOption): number => {
+	let height = SELECT_OPTION_HEIGHT_IN_PX;
+
+	if (!isEmpty(option.options)) {
+		const children = Object.values(option.options);
+
+		height += children.reduce((accumulator, childrenOption) => {
+			accumulator += getSelectOptionHeight(childrenOption);
+
+			return accumulator;
+		}, 0);
+	}
+
+	return height;
+};

@@ -1,0 +1,31 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --virtualized-list-max-height: Virtualized list maximum height.
+	 * @prop --virtualized-list-min-height: Virtualized list list minimum height.
+	 */
+	--virtualized-list-max-height: auto;
+	--virtualized-list-min-height: auto;
+
+	max-height: var(--virtualized-list-max-height);
+	min-height: var(--virtualized-list-min-height);
+
+	padding: $spacing-3x 0;
+	height: 100%;
+	width: 100%;
+	display: block;
+	overflow-y: auto;
+
+	@include kelvin-night-scrollbar;
+
+	.inner {
+		position: relative;
+		display: block;
+		width: 100%;
+	}
+
+	.item {
+		position: absolute;
+	}
+}

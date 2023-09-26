@@ -1,5 +1,19 @@
 import { isEmpty } from 'lodash';
-import { ISelectMultiOptions, ISelectOption } from '../types';
+import { IMultiSelectDropdown, ISelectMultiOptions, ISelectOption } from '../types';
+
+const getHightableFallbackOption = (options: string[]): string => {
+	const [firstOption] = options;
+
+	return firstOption;
+};
+
+const getHightableOptionIndex = (options: string[], highlightedOption?: string): number => {
+	if (!highlightedOption) {
+		return -1;
+	}
+
+	return options.findIndex(name => name === highlightedOption);
+};
 
 export const getSelectableOptions = (options: ISelectMultiOptions = {}): ISelectMultiOptions => {
 	return Object.values(options).reduce<ISelectMultiOptions>((accumulator, option) => {
@@ -52,3 +66,43 @@ export const buildAllOptionsSelected = (options: ISelectMultiOptions = {}): Reco
 		accumulator[childKey] = true;
 		return accumulator;
 	}, {});
+
+export const getPreviousHightlightableOption = (options: IMultiSelectDropdown, highlightedOption?: string): string | undefined => {
+	if (isEmpty(options)) {
+		return;
+	}
+
+	const optionsKeys = Object.keys(options);
+	const fallbackOption = getHightableFallbackOption(optionsKeys);
+	const highlightedIndex = getHightableOptionIndex(optionsKeys, highlightedOption);
+	if (highlightedIndex === -1) {
+		return fallbackOption;
+	}
+
+	// Check if highlighted option is the first
+	if (highlightedIndex === 0) {
+		return highlightedOption;
+	}
+
+	return optionsKeys[highlightedIndex - 1];
+};
+
+export const getNextHightlightableOption = (options: IMultiSelectDropdown, highlightedOption?: string): string | undefined => {
+	if (isEmpty(options)) {
+		return;
+	}
+
+	const optionsKeys = Object.keys(options);
+	const fallbackOption = getHightableFallbackOption(optionsKeys);
+	const highlightedIndex = getHightableOptionIndex(optionsKeys, highlightedOption);
+	if (highlightedIndex === -1) {
+		return fallbackOption;
+	}
+
+	// Check if highlighted option is the last
+	if (highlightedIndex === optionsKeys.length - 1) {
+		return highlightedOption;
+	}
+
+	return optionsKeys[highlightedIndex + 1];
+};

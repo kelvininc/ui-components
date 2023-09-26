@@ -91,6 +91,7 @@ export const KvSelectExample: React.FC = () => (
 | `--select-border`           | Select border style.     |
 | `--select-border-radius`    | Select border radius.    |
 | `--select-max-height`       | Select maximum height.   |
+| `--select-min-height`       | Select minimum height.   |
 
 
 ## Dependencies
@@ -99,7 +100,6 @@ export const KvSelectExample: React.FC = () => (
 
  - [kv-calendar-advanced-date-selector](../calendar-advanced-date-selector)
  - [kv-select-multi-options](../select-multi-options)
- - [kv-single-select-dropdown](../single-select-dropdown)
 
 ### Depends on
 
@@ -110,7 +110,6 @@ export const KvSelectExample: React.FC = () => (
 graph TD;
   kv-select --> kv-search
   kv-search --> kv-text-field
-  kv-search --> kv-icon
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
@@ -120,7 +119,6 @@ graph TD;
   kv-form-help-text --> kv-icon
   kv-calendar-advanced-date-selector --> kv-select
   kv-select-multi-options --> kv-select
-  kv-single-select-dropdown --> kv-select
   style kv-select fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

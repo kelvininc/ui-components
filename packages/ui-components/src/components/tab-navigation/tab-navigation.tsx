@@ -2,8 +2,8 @@ import { Component, Element, Event, EventEmitter, Host, Listen, Prop, State, Wat
 import { ISelectedTabIndicatorConfig, ITabNavigationItem, ITabsNotificationDict } from './tab-navigation.types';
 
 import { EComponentSize } from '../../utils/types';
-import { findTabElement, getRelativeClientRect } from './tab-navigation.utils';
-import { HTMLStencilElement } from '@stencil/core/internal';
+import { getIntersectionRelativeClientRect } from './tab-navigation.utils';
+import { INTERSECTION_OBSERVER_CONFIG } from './tab-navigation.config';
 
 @Component({
 	tag: 'kv-tab-navigation',
@@ -23,6 +23,8 @@ export class KvTabNavigation {
 	/** When the tab selection changes, emit the requested tab's key */
 	@Event() tabChange: EventEmitter<string>;
 
+	tabEls: Record<number | string, HTMLKvTabItemElement> = {};
+
 	/** Listen to custom DOM event of tab selection */
 	@Listen('tabSelected')
 	tabSelectionHandler(event: CustomEvent<string>) {
@@ -32,7 +34,7 @@ export class KvTabNavigation {
 	/** Watch for tab selection change and react accordingly by updating the internal states */
 	@Watch('selectedTabKey')
 	tabSelectionChangeHandler() {
-		this.calculateTabIndicatorPosition();
+		this.observeTabItemVisibility(this.tabEls[this.selectedTabKey]);
 	}
 
 	/** The left offset and width of the tab indicator, recalculated when the selected tab changes */
@@ -43,49 +45,49 @@ export class KvTabNavigation {
 
 	@Element() el: HTMLKvTabNavigationElement;
 
-	initialRenderIntervalId: number;
+	observer: IntersectionObserver;
+
+	constructor() {
+		this.observer = new IntersectionObserver(this.intersectionHandler, INTERSECTION_OBSERVER_CONFIG);
+	}
 
 	componentDidLoad() {
-		const selectedTabEl = findTabElement(this.el, this.tabs, this.selectedTabKey);
-		this.setIntervalUntilElementIsVisible(selectedTabEl);
+		this.observeTabItemVisibility(this.tabEls[this.selectedTabKey]);
 	}
 
 	disconnectedCallback() {
-		window.clearInterval(this.initialRenderIntervalId);
+		this.observer.disconnect();
 	}
 
-	private setIntervalUntilElementIsVisible = (element: HTMLStencilElement, intervalMs: number = 100): void => {
-		this.initialRenderIntervalId = window.setInterval(() => {
-			const rect = getRelativeClientRect(element);
-
-			if (rect && rect.width > 0) {
-				window.clearInterval(this.initialRenderIntervalId);
-				this.updateTabIndicatorConfig(rect);
-				return;
-			}
-		}, intervalMs);
+	private registerTabElement = (tabKey: number | string, el: HTMLKvTabItemElement) => {
+		if (this.tabEls[tabKey]) return;
+		this.tabEls[tabKey] = el;
 	};
 
-	private updateTabIndicatorConfig = (rect: DOMRect) => {
-		this.selectedTabIndicatorConfig = {
-			left: `${rect.left}px`,
-			width: `${rect.width}px`
-		};
+	private observeTabItemVisibility = (element: HTMLKvTabItemElement) => {
+		this.observer.disconnect();
+		this.observer.observe(element);
 	};
 
-	private calculateTabIndicatorPosition() {
-		const selectedTabEl = findTabElement(this.el, this.tabs, this.selectedTabKey);
+	private intersectionHandler = (entries: IntersectionObserverEntry[]) => {
+		entries.forEach(intersection => {
+			const rect = getIntersectionRelativeClientRect(intersection);
 
-		if (selectedTabEl) {
-			this.updateTabIndicatorConfig(getRelativeClientRect(selectedTabEl));
-		}
-	}
+			this.selectedTabIndicatorConfig = {
+				left: `${rect.left}px`,
+				width: `${rect.width}px`
+			};
+		});
+
+		this.observer.disconnect();
+	};
 
 	render() {
 		return (
 			<Host>
 				{this.tabs.map(item => (
 					<kv-tab-item
+						ref={el => this.registerTabElement(item.tabKey, el)}
 						tabKey={item.tabKey}
 						label={item.label}
 						disabled={item.disabled}
@@ -93,7 +95,7 @@ export class KvTabNavigation {
 						size={this.size}
 						hasNotification={this.notifications[item.tabKey]?.active}
 						notificationColor={this.notifications[item.tabKey]?.color}
-					></kv-tab-item>
+					/>
 				))}
 				<div class="selected-tab-indicator" style={this.selectedTabIndicatorConfig}></div>
 			</Host>

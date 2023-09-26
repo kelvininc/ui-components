@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, EventEmitter, Event, Element } from '@stencil/core';
+import { Component, Host, h, Prop, EventEmitter, Event, Element, Watch } from '@stencil/core';
 import { EToggleState, ISelectOption, ISelectOptionEvents } from './select-option.types';
 import { isEmpty } from 'lodash';
 import { LEVEL_OFFSET_PX } from './select-option.config';
@@ -27,6 +27,8 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selected?: boolean = false;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) highlighted?: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) togglable?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectable?: boolean = true;
@@ -39,6 +41,13 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 
 	/** @inheritdoc */
 	@Event() itemSelected: EventEmitter<string>;
+
+	@Watch('highlighted')
+	highlightedChangeHandler() {
+		if (this.highlighted) {
+			this.el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+		}
+	}
 
 	private onItemClick = () => {
 		if (this.disabled) {
@@ -61,6 +70,7 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 					class={{
 						'select-option': true,
 						'select-option--selected': this.selected,
+						'select-option--highlighted': this.highlighted,
 						'select-option--disabled': this.disabled,
 						'select-option--selectable': this.selectable,
 						'select-option--parent': this.hasChildren

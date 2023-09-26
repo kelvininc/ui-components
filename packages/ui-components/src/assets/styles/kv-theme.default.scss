@@ -12,10 +12,11 @@
 // - dark: 12% darker version of the base color (mix with black) (CSS variable: --kv-[color name]-dark)
 // - light: 80% lighter version of the base color (mix with white) (CSS variable: --kv-[color name]-light)
 $primary-color: #005cc7 !default;
-$secondary-1-color: #b40eaa !default;
-$secondary-2-color: #040646 !default;
+$secondary-1-color: #040646 !default;
+$secondary-2-color: #b40eaa !default;
 $secondary-3-color: #36656d !default;
-$secondary-4-color: linear-gradient(90deg, $secondary-1-color 0%, #0d5cc7 100%) !default;
+$secondary-4-color: linear-gradient(90deg, $secondary-2-color 0%, #0d5cc7 100%) !default;
+$secondary-5-color: #8358fe !default;
 $info-color: #276ef1 !default;
 $success-color: #05a357 !default;
 $warning-color: #ffc043 !default;
@@ -51,14 +52,14 @@ $colors: (
 	'secondary-1': (
 		base: $secondary-1-color,
 		contrast: #fff,
-		dark: #9e0c96,
-		light: #f0cfee
+		dark: #04053e,
+		light: #cdcdda
 	),
 	'secondary-2': (
 		base: $secondary-2-color,
 		contrast: #fff,
-		dark: #04053e,
-		light: #cdcdda
+		dark: #9e0c96,
+		light: #f0cfee
 	),
 	'secondary-3': (
 		base: $secondary-3-color,
@@ -68,6 +69,10 @@ $colors: (
 	),
 	'secondary-4': (
 		base: $secondary-4-color,
+		contrast: #fff
+	),
+	'secondary-5': (
+		base: $secondary-5-color,
 		contrast: #fff
 	),
 	'info': (
@@ -95,8 +100,7 @@ $colors: (
 		light: #f9d1cc
 	),
 	'background': (
-		/* Steps move towards their contrasting color. */
-		'step-0': $neutral-color-9,
+		/* Steps move towards their contrasting color. */ 'step-0': $neutral-color-9,
 		base: $background-color,
 		'step-1': $neutral-color-7,
 		'step-2': $neutral-color-6,
@@ -108,8 +112,7 @@ $colors: (
 		'step-8': $neutral-color-0
 	),
 	'text': (
-		/* Steps move towards their contrasting color. */
-		'step-0': $neutral-color-0,
+		/* Steps move towards their contrasting color. */ 'step-0': $neutral-color-0,
 		base: $text-color,
 		'step-1': $neutral-color-1,
 		'step-2': $neutral-color-2,

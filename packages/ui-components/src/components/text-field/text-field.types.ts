@@ -23,6 +23,8 @@ export interface ITextFieldEvents {
 	textChange: EventEmitter<string>;
 	/** Emitted when text field lost focus */
 	textFieldBlur: EventEmitter<string>;
+	/** Emitted when the right icon is clicked */
+	rightActionClick: EventEmitter<MouseEvent>;
 }
 
 export interface ITextField {
@@ -32,6 +34,8 @@ export interface ITextField {
 	label?: string;
 	/** (optional) Text field's icon symbol name */
 	icon?: EIconName | EOtherIconName;
+	/** (optional) Icon that is added on the right of the input. Its clickable. */
+	actionIcon?: EIconName | EOtherIconName;
 	/** (optional) Text field input name */
 	inputName?: string;
 	/** (optional) Text field example values */

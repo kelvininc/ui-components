@@ -38,8 +38,7 @@
 	text-overflow: ellipsis;
 
 	@if $lines {
-		@supports (display: -webkit-box) and (-webkit-line-clamp: $lines) and
-			(-webkit-box-orient: vertical) {
+		@supports (display: -webkit-box) and (-webkit-line-clamp: $lines) and (-webkit-box-orient: vertical) {
 			white-space: normal;
 			/* stylelint-disable value-no-vendor-prefix */
 			display: -webkit-box;
@@ -81,19 +80,19 @@
 
 @mixin custom-scrollbar($color) {
 	@if (kv-color($color, 'base')) {
-		::-webkit-scrollbar {
+		&::-webkit-scrollbar {
 			width: 15px;
 			height: 15px;
 		}
 
-		::-webkit-scrollbar-thumb {
+		&::-webkit-scrollbar-thumb {
 			border-radius: 10px;
 			background-color: kv-color($color, 'base');
 			border: 4px solid transparent;
 			background-clip: content-box;
 		}
 
-		::-webkit-scrollbar-corner {
+		&::-webkit-scrollbar-corner {
 			background-color: transparent;
 		}
 	}

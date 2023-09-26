@@ -19,15 +19,16 @@ import {
 	TIMEZONES_SEARCH_PLACEHOLDER,
 	TIME_RANGE_UPDATE_INTERVAL
 } from './relative-time-picker.config';
-import { ISingleSelectDropdownOptions } from '../single-select-dropdown/single-select-dropdown.types';
+import { ISelectSingleOptions } from '../single-select-dropdown/single-select-dropdown.types';
 import { ITimezoneOffset } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.types';
 import { EIconName } from '../icon/icon.types';
 import { formatTimezoneName, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
 import { searchString } from '../../utils/search.helper';
 import { buildTimezoneByOffset, buildTimezonesDropdownOptions } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.helper';
 import { buildRelativeTimeSelectOptions, getSelectedKeyRange, hasRangeChanged, isScrollNeeded } from './relative-time-picker.helper';
-import { EComponentSize, SelectedTimestampRange } from '../../types';
+import { CustomCssClass, EComponentSize, SelectedTimestampRange } from '../../types';
 import { isEmpty } from 'lodash-es';
+import { getClassMap } from '../../utils/css-class.helper';
 
 @Component({
 	tag: 'kv-relative-time-picker',
@@ -53,6 +54,8 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	@Prop({ reflect: true }) timezoneContentVisible?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disableTimezoneSelection?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customClass: CustomCssClass = '';
 
 	/** State that keeps the relative options that are constantly updated if the time
 	 * changes
@@ -60,7 +63,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	@State() relativeTimeOptions: IRelativeTimeDropdownOption[][] = [];
 	/** Timezone dropdown management states */
 	@State() timezonesSearchTerm: string = '';
-	@State() timezoneDropdownOptions: ISingleSelectDropdownOptions;
+	@State() timezoneDropdownOptions: ISelectSingleOptions;
 	/** State to determine if a scrollbar is needed to display all the options */
 	@State() hasScroll: boolean = false;
 	/** Selected option range in timestamp */
@@ -181,7 +184,10 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 		return (
 			<Host>
 				<div
-					class="relative-time-container"
+					class={{
+						...getClassMap(this.customClass),
+						'relative-time-container': true
+					}}
 					style={{
 						['--max-height']: `${MAX_HEIGHT}px`,
 						['--group-gap']: `${GROUP_GAP}px`

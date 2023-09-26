@@ -1,0 +1,48 @@
+@import '../../assets/styles/globals';
+
+.shortcuts {
+	background: kv-color('neutral-6');
+	display: flex;
+	justify-content: space-between;
+	padding: $spacing-2x $spacing-4x;
+	user-select: none;
+}
+
+.left-items {
+	display: flex;
+	gap: $spacing-5x;
+}
+
+.group {
+	display: flex;
+	align-items: center;
+	gap: $spacing-2x;
+}
+
+.icons {
+	display: flex;
+	align-items: center;
+	gap: $spacing;
+}
+
+.label {
+	color: kv-color('neutral-4');
+	@include kv-font-label-xsmall-regular;
+}
+
+.icon {
+	border-radius: 4px;
+	background: kv-color('neutral-5');
+	color: kv-color('neutral-2');
+	@include kv-font-label-xsmall-regular;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 20px;
+	width: 20px;
+
+	kv-icon {
+		--icon-color: #{kv-color('neutral-2')};
+	}
+}
