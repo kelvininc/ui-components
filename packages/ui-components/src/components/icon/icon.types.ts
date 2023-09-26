@@ -113,6 +113,7 @@ export enum EIconName {
 	Lock = 'kv-lock',
 	LogoKelvin = 'kv-logo-kelvin',
 	Magictip = 'kv-magictip',
+	ManualControls = 'kv-manual-controls',
 	Maps = 'kv-maps',
 	MapsEditor = 'kv-maps-editor',
 	Memory = 'kv-memory',

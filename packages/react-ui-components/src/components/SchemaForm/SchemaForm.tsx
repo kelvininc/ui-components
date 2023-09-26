@@ -75,10 +75,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 			setFormData(dataFormData);
 			setHasChanges(hasNewChanges);
 			setValid(liveValidate ? hasNewChanges && isEmpty(errors) : true);
-
-			if (onChange != undefined) {
-				onChange(data, id);
-			}
+			onChange?.(data, id);
 		},
 		uiSchema: {
 			...uiSchema,
@@ -103,6 +100,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		setFormData(cloneDeep(submittedData) as T);
 		setValid(!liveValidate);
 		setHasChanges(false);
+		onChange?.({ formData: submittedData } as IChangeEvent<T, S, SchemaFormContext>);
 	};
 
 	useEffect(() => {

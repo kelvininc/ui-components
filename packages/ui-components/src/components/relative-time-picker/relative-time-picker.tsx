@@ -26,8 +26,9 @@ import { formatTimezoneName, getDefaultTimezone, getTimezoneOffset, getTimezones
 import { searchString } from '../../utils/search.helper';
 import { buildTimezoneByOffset, buildTimezonesDropdownOptions } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.helper';
 import { buildRelativeTimeSelectOptions, getSelectedKeyRange, hasRangeChanged, isScrollNeeded } from './relative-time-picker.helper';
-import { EComponentSize, SelectedTimestampRange } from '../../types';
+import { CustomCssClass, EComponentSize, SelectedTimestampRange } from '../../types';
 import { isEmpty } from 'lodash-es';
+import { getClassMap } from '../../utils/css-class.helper';
 
 @Component({
 	tag: 'kv-relative-time-picker',
@@ -53,6 +54,8 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	@Prop({ reflect: true }) timezoneContentVisible?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disableTimezoneSelection?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customClass: CustomCssClass = '';
 
 	/** State that keeps the relative options that are constantly updated if the time
 	 * changes
@@ -181,7 +184,10 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 		return (
 			<Host>
 				<div
-					class="relative-time-container"
+					class={{
+						...getClassMap(this.customClass),
+						'relative-time-container': true
+					}}
 					style={{
 						['--max-height']: `${MAX_HEIGHT}px`,
 						['--group-gap']: `${GROUP_GAP}px`
