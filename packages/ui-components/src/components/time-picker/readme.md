@@ -99,12 +99,16 @@ graph TD;
   kv-select-option --> kv-select-option
   kv-checkbox --> kv-icon
   kv-input-wrapper --> kv-icon
-  kv-single-select-dropdown --> kv-select-option
   kv-single-select-dropdown --> kv-dropdown
-  kv-single-select-dropdown --> kv-select
+  kv-single-select-dropdown --> kv-select-multi-options
+  kv-select-multi-options --> kv-virtualized-list
+  kv-select-multi-options --> kv-select-option
+  kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-select-shortcuts-label
   kv-select --> kv-search
   kv-search --> kv-text-field
   kv-search --> kv-icon
+  kv-select-shortcuts-label --> kv-icon
   kv-absolute-time-picker --> kv-icon
   kv-absolute-time-picker --> kv-date-time-input
   kv-absolute-time-picker --> kv-time-picker-calendar

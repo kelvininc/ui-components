@@ -100,9 +100,8 @@ graph TD;
   kv-select-option --> kv-select-option
   kv-checkbox --> kv-icon
   kv-input-wrapper --> kv-icon
-  kv-single-select-dropdown --> kv-select-option
   kv-single-select-dropdown --> kv-dropdown
-  kv-single-select-dropdown --> kv-select
+  kv-single-select-dropdown --> kv-select-multi-options
   kv-dropdown --> kv-dropdown-base
   kv-dropdown --> kv-text-field
   kv-dropdown --> kv-icon
@@ -114,9 +113,14 @@ graph TD;
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
+  kv-select-multi-options --> kv-virtualized-list
+  kv-select-multi-options --> kv-select-option
+  kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-select-shortcuts-label
   kv-select --> kv-search
   kv-search --> kv-text-field
   kv-search --> kv-icon
+  kv-select-shortcuts-label --> kv-icon
   kv-time-picker --> kv-relative-time-picker
   style kv-relative-time-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```

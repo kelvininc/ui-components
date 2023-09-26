@@ -20,15 +20,15 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: false }) options?: Partial<ComputePositionConfig> = DEFAULT_DROPDOWN_POSITION_CONFIG;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) actionElement?: HTMLElement = null;
+	@Prop({ reflect: false }) actionElement?: HTMLElement | null = null;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) listElement?: HTMLElement = null;
+	@Prop({ reflect: false }) listElement?: HTMLElement | null = null;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) disabled?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) clickOutsideClose?: boolean = true;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) zIndex?: number;
+	@Prop({ reflect: false }) zIndex?: number = 9004;
 
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
@@ -66,12 +66,14 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 						clickOutsideClose={this.clickOutsideClose}
 						zIndex={this.zIndex}
 					>
-						<div slot="action">
-							<kv-text-field {...this.getInputConfig()} id="dropdown-input" forcedFocus={this.isOpen} onClick={this.onToggleOpenState.bind(this)} readonly>
-								<kv-icon slot="right-slot" name={this.isOpen ? EIconName.ArrowDropUp : EIconName.ArrowDropDown} customClass="icon-20" />
-								<slot name="input-content" slot="input-content" />
-							</kv-text-field>
-						</div>
+						<slot name="dropdown-action" slot="action">
+							<div>
+								<kv-text-field {...this.getInputConfig()} id="dropdown-input" forcedFocus={this.isOpen} onClick={this.onToggleOpenState.bind(this)} readonly>
+									<kv-icon slot="right-slot" name={this.isOpen ? EIconName.ArrowDropUp : EIconName.ArrowDropDown} customClass="icon-20" />
+									<slot name="input-content" slot="input-content" />
+								</kv-text-field>
+							</div>
+						</slot>
 						<div slot="list">
 							<div id="select" class="select">
 								<slot />

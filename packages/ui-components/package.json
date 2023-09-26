@@ -58,17 +58,19 @@
 	"dependencies": {
 		"@floating-ui/dom": "^1.2.1",
 		"css-element-queries": "^1.2.3",
-		"inputmask": "~5.0.8"
+		"inputmask": "~5.0.8",
+		"pluralize": "^8.0.0"
 	},
 	"devDependencies": {
+		"@stencil-community/eslint-plugin": "0.5.0",
 		"@stencil/angular-output-target": "^0.7.1",
 		"@stencil/core": "^4.0.2",
 		"@stencil/react-output-target": "^0.5.3",
 		"@stencil/sass": "^3.0.5",
-		"@stencil-community/eslint-plugin": "0.5.0",
 		"@types/inputmask": "^5.0.3",
 		"@types/jest": "^27.5.2",
 		"@types/lodash-es": "^4.17.5",
+		"@types/pluralize": "^0.0.30",
 		"dayjs": "^1.11.9",
 		"eslint": "^8.0.0",
 		"eslint-config-prettier": "^8.4.0",

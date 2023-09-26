@@ -3,20 +3,19 @@
 :host {
 	/**
 	 * @prop --select-max-height: Select maximum height.
+	 * @prop --select-min-height: Select minimum height.
 	 * @prop --select-background-color: Select background color.
 	 * @prop --select-border: Select border style.
 	 * @prop --select-border-radius: Select border radius.
 	 */
 	--select-max-height: auto;
+	--select-min-height: auto;
 	--select-background-color: #{kv-color('neutral-7')};
 	--select-border: 1px solid #{kv-color('neutral-6')};
 	--select-border-radius: #{$spacing};
 }
 
 .select-container {
-	// TODO: need to change when this component is styled to light mode
-	@include kelvin-night-scrollbar();
-
 	border: var(--select-border);
 	border-radius: var(--select-border-radius);
 	overflow: hidden;
@@ -24,9 +23,13 @@
 }
 
 .select-options-container {
-	padding: $spacing-3x 0;
 	max-height: var(--select-max-height);
-	overflow-y: auto;
+	min-height: var(--select-min-height);
+
+	::slotted(kv-virtualized-list)  {
+		--virtualized-list-max-height: #{calc(var(--select-max-height) - $spacing-3x * 2)};
+		--virtualized-list-min-height: #{var(--select-min-height)};
+	}
 }
 
 .select-header-container {

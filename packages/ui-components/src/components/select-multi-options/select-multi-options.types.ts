@@ -1,7 +1,7 @@
 import { EventEmitter } from '@stencil/core';
 import { ISelectEvents, ISelectOption } from '../../types';
 
-export interface ISelectMultiOption extends Pick<ISelectOption, 'label' | 'value' | 'disabled' | 'selectable' | 'description'> {
+export interface ISelectMultiOption extends Pick<ISelectOption, 'label' | 'value' | 'disabled' | 'selectable' | 'description' | 'togglable'> {
 	options?: ISelectMultiOptions;
 }
 
@@ -38,9 +38,15 @@ export interface ISelectMultiOptionsConfig {
 	counter?: boolean;
 	/** (optional) The minimum amount of options required to display the search. Defaults to `8`. */
 	minSearchOptions?: number;
+	/** (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false` */
+	shortcuts?: boolean;
 }
 
 export interface ISelectMultiOptionsEvents extends ISelectEvents {
 	/** Emitted when the selected options change */
 	optionsSelected: EventEmitter<Record<string, boolean>>;
+	/** Emitted when an option is selected */
+	optionSelected: EventEmitter<string>;
+	/** Emitted when the 'esc' key is pressed */
+	dismiss: EventEmitter<void>;
 }

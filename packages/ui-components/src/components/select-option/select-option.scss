@@ -20,13 +20,16 @@
 
 	--select-option-background-color: #{kv-color('neutral-7')};
 	--select-option-background-color-selected: #{kv-color('neutral-6')};
+	--select-option-background-color-highlighted: #{kv-color('neutral-5')};
 	--select-option-background-color-hover: #{kv-color('neutral-6')};
 
 	--select-option-label-color: #{kv-color('neutral-4')};
 	--select-option-label-color-selected: #{kv-color('neutral-1')};
+	--select-option-label-color-highlighted: #{kv-color('neutral-2')};
 	--select-option-label-color-hover: #{kv-color('neutral-2')};
 	--select-option-description-color: #{kv-color('neutral-4')};
 	--select-option-description-color-selected: #{kv-color('neutral-4')};
+	--select-option-description-color-highlighted: #{kv-color('neutral-4')};
 	--select-option-description-color-hover: #{kv-color('neutral-2')};
 }
 
@@ -89,6 +92,20 @@
 		}
 	}
 
+	&--highlighted {
+		background-color: var(--select-option-background-color-highlighted);
+
+		.item-label {
+			@include kv-font-span-semibold;
+			color: var(--select-option-label-color-highlighted);
+		}
+
+		.item-description {
+			@include kv-font-label-small-semibold;
+			color: var(--select-option-description-color-highlighted);
+		}
+	}
+
 	&--disabled {
 		opacity: 0.5;
 		pointer-events: none;
@@ -105,7 +122,7 @@
 			color: kv-color('neutral-2');
 		}
 
-		&::after {
+		.text-container::after {
 			content: '';
 			display: flex;
 			flex: 1;

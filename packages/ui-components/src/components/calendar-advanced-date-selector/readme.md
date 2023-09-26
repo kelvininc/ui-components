@@ -153,12 +153,16 @@ graph TD;
   kv-select-option --> kv-checkbox
   kv-select-option --> kv-select-option
   kv-checkbox --> kv-icon
-  kv-single-select-dropdown --> kv-select-option
   kv-single-select-dropdown --> kv-dropdown
-  kv-single-select-dropdown --> kv-select
+  kv-single-select-dropdown --> kv-select-multi-options
   kv-dropdown --> kv-dropdown-base
   kv-dropdown --> kv-text-field
   kv-dropdown --> kv-icon
+  kv-select-multi-options --> kv-virtualized-list
+  kv-select-multi-options --> kv-select-option
+  kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-select-shortcuts-label
+  kv-select-shortcuts-label --> kv-icon
   kv-advanced-date-select-dropdown --> kv-calendar-advanced-date-selector
   style kv-calendar-advanced-date-selector fill:#f9f,stroke:#333,stroke-width:4px
 ```
