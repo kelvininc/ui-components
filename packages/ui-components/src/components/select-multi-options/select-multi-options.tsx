@@ -1,10 +1,10 @@
 import { Component, Event, EventEmitter, Prop, h, Element, State, Watch, Listen, Method } from '@stencil/core';
 import { ISelectMultiOptions, ISelectMultiOptionsConfig, ISelectMultiOptionsEvents } from './select-multi-options.types';
-import { DEFAULT_NO_DATA_AVAILABLE_LABEL, MINIMUM_SEARCHABLE_OPTIONS } from './select-multi-options.config';
+import { DEFAULT_NO_DATA_AVAILABLE_LABEL, MINIMUM_SEARCHABLE_OPTIONS, SELECT_OPTION_HEIGHT_IN_PX } from './select-multi-options.config';
 import { EToggleState, ISelectOption } from '../select-option/select-option.types';
 import { isEmpty } from 'lodash';
 import { buildAllOptionsSelected, getFlattenSelectOptions, getNextHightlightableOption, getPreviousHightlightableOption, getSelectableOptions } from '../../utils/select.helper';
-import { buildSelectOptions } from './select-multi-options.helper';
+import { buildSelectOptions, getSelectOptionHeight } from './select-multi-options.helper';
 import { selectHelper } from '../../utils';
 import pluralize from 'pluralize';
 
@@ -162,7 +162,9 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	private onItemSelected = (event: CustomEvent<string>): void => {
 		event.stopPropagation();
 		this.selectOption(event.detail);
-		this.highlightedOption = event.detail;
+		if (this.shortcuts) {
+			this.highlightedOption = event.detail;
+		}
 	};
 
 	private selectOption = (selectedOptionKey: string): void => {
@@ -204,7 +206,26 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	};
 
 	private renderOptions = (): HTMLKvSelectElement[] => {
-		return Object.values(this.selectOptions.current).map(option => <kv-select-option key={option.value} {...option} onItemSelected={this.onItemSelected} />);
+		const items = Object.values(this.selectOptions.current);
+
+		return (
+			<kv-virtualized-list
+				itemCount={items.length}
+				getItemHeight={index => getSelectOptionHeight(items[index])}
+				itemHeight={SELECT_OPTION_HEIGHT_IN_PX}
+				getItemKey={index => items[index].value}
+				renderItem={index => (
+					<kv-select-option
+						key={items[index].value}
+						{...items[index]}
+						onItemSelected={this.onItemSelected}
+						style={{
+							'--select-option-height': `${SELECT_OPTION_HEIGHT_IN_PX}px`
+						}}
+					/>
+				)}
+			/>
+		);
 	};
 
 	private get isSearchable() {
@@ -257,7 +278,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 						<kv-select-option class="no-data" label={this.noDataAvailableLabel} value="no-data-available" />
 					</slot>
 				)}
-				{this.renderOptions()}
+				{hasCurrentOptions && this.renderOptions()}
 				{this.shortcuts && (
 					<slot name="select-footer" slot="select-footer">
 						<kv-select-shortcuts-label>
