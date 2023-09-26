@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](https://github.com/kelvininc/ui-components/compare/v0.22.0...v0.23.0) (2023-09-26)
+
+
+### Bug Fixes
+
+* **dropdown:** add action icon ([afc4c64](https://github.com/kelvininc/ui-components/commit/afc4c64b34de70c0618b14bbe430650d3e841288))
+* **relative-time-picker:** allow set the container min-height ([18c90dc](https://github.com/kelvininc/ui-components/commit/18c90dca9f645d8326cc15323f5d52aaea51b8a8))
+* **search:** show reset icon when input starts with one ([c8b2d91](https://github.com/kelvininc/ui-components/commit/c8b2d918e390275084bacaec40d79509e0f5e4b2))
+* **select-option:** set highlighted state default colors to hover state ([604168c](https://github.com/kelvininc/ui-components/commit/604168cb984cc62917c8cdf69efe176391298f09))
+* **tab-navigation:** observe tab visibility for correct calculation of selected indicator width ([99ba8e9](https://github.com/kelvininc/ui-components/commit/99ba8e9b0113ab1ce2c58719e1642eec118056e9))
+
+
+### Features
+
+* add ai icons ([f868389](https://github.com/kelvininc/ui-components/commit/f868389321ef642c43dd8574d3debf14393bad23))
+* add keyboard shortcuts to dropdown components ([87e85a4](https://github.com/kelvininc/ui-components/commit/87e85a488055a2a2a6af3accc0ec8a9bbbf6e3ee))
+* add secondary color '5' ([3c87880](https://github.com/kelvininc/ui-components/commit/3c878804eaf2b3817260d0203ebd5737a3773ba9))
+* **alert:** add slot to description ([dc94455](https://github.com/kelvininc/ui-components/commit/dc94455c68e3fcf1b2abc7b340ec2972024a1ec2))
+* **dropdowns:** add 'zIndex' prop to dropdown components ([2f14381](https://github.com/kelvininc/ui-components/commit/2f14381b5d69e3f730357b4467050634c0b2e527))
+* **dropdowns:** add items virtualization ([65727a5](https://github.com/kelvininc/ui-components/commit/65727a55eb11fb658a8f7327910943a64914f52c))
+
+
+
+
+
 # [0.22.0](https://github.com/kelvininc/ui-components/compare/v0.21.0...v0.22.0) (2023-09-01)
 
 

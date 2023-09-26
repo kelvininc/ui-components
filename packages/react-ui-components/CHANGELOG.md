@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](https://github.com/kelvininc/ui-components/compare/v0.22.0...v0.23.0) (2023-09-26)
+
+
+### Bug Fixes
+
+* **relative-time-picker:** allow set the container min-height ([18c90dc](https://github.com/kelvininc/ui-components/commit/18c90dca9f645d8326cc15323f5d52aaea51b8a8))
+
+
+### Features
+
+* add keyboard shortcuts to dropdown components ([87e85a4](https://github.com/kelvininc/ui-components/commit/87e85a488055a2a2a6af3accc0ec8a9bbbf6e3ee))
+* add secondary color '5' ([3c87880](https://github.com/kelvininc/ui-components/commit/3c878804eaf2b3817260d0203ebd5737a3773ba9))
+* **dropdowns:** add items virtualization ([65727a5](https://github.com/kelvininc/ui-components/commit/65727a55eb11fb658a8f7327910943a64914f52c))
+
+
+
+
+
 # [0.22.0](https://github.com/kelvininc/ui-components/compare/v0.21.0...v0.22.0) (2023-09-01)
 
 
