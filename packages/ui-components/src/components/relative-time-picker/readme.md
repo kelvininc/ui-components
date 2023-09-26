@@ -119,7 +119,6 @@ graph TD;
   kv-select-multi-options --> kv-select-shortcuts-label
   kv-select --> kv-search
   kv-search --> kv-text-field
-  kv-search --> kv-icon
   kv-select-shortcuts-label --> kv-icon
   kv-time-picker --> kv-relative-time-picker
   style kv-relative-time-picker fill:#f9f,stroke:#333,stroke-width:4px
