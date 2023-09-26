@@ -155,7 +155,6 @@ graph TD;
   kv-single-select-dropdown --> kv-select-multi-options
   kv-dropdown --> kv-dropdown-base
   kv-dropdown --> kv-text-field
-  kv-dropdown --> kv-icon
   kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select

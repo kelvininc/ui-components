@@ -106,7 +106,6 @@ graph TD;
   kv-select-multi-options --> kv-select-shortcuts-label
   kv-select --> kv-search
   kv-search --> kv-text-field
-  kv-search --> kv-icon
   kv-select-shortcuts-label --> kv-icon
   kv-absolute-time-picker --> kv-icon
   kv-absolute-time-picker --> kv-date-time-input

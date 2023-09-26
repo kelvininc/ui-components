@@ -138,7 +138,6 @@ graph TD;
   kv-checkbox --> kv-icon
   kv-select --> kv-search
   kv-search --> kv-text-field
-  kv-search --> kv-icon
   kv-select-shortcuts-label --> kv-icon
   kv-calendar-advanced-date-selector --> kv-single-select-dropdown
   kv-relative-time-picker --> kv-single-select-dropdown

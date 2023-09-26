@@ -72,7 +72,6 @@ graph TD;
   kv-checkbox --> kv-icon
   kv-select --> kv-search
   kv-search --> kv-text-field
-  kv-search --> kv-icon
   kv-select-shortcuts-label --> kv-icon
   style kv-labels-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```
