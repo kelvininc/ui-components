@@ -60,6 +60,7 @@ export const SearchExample: React.FC = () => (
 | Event              | Description                              | Type                      |
 | ------------------ | ---------------------------------------- | ------------------------- |
 | `clickResetButton` | Emitted when the reset buccon is clicked | `CustomEvent<MouseEvent>` |
+| `rightActionClick` | Emitted when the right icon is clicked   | `CustomEvent<MouseEvent>` |
 | `textChange`       | Emitted when a keyboard input occurred   | `CustomEvent<string>`     |
 | `textFieldBlur`    | Emitted when text field lost focus       | `CustomEvent<string>`     |
 
@@ -73,13 +74,11 @@ export const SearchExample: React.FC = () => (
 ### Depends on
 
 - [kv-text-field](../text-field)
-- [kv-icon](../icon)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-search --> kv-text-field
-  kv-search --> kv-icon
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon

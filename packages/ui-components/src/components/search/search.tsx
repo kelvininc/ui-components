@@ -16,7 +16,7 @@ export class KvSearch implements ISearchEvents, ITextFieldEvents {
 	@Prop() size?: EComponentSize = EComponentSize.Large;
 	/** (optional) Search disabled */
 	@Prop({ reflect: true }) disabled = false;
-	/** Search value*/
+	/** Search value */
 	@Prop({ reflect: true }) value?: string;
 	/** @inheritdoc */
 	@Event() textChange: EventEmitter<string>;
@@ -24,28 +24,37 @@ export class KvSearch implements ISearchEvents, ITextFieldEvents {
 	@Event() textFieldBlur: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event() clickResetButton: EventEmitter<MouseEvent>;
+	/** @inheritdoc */
+	@Event() rightActionClick: EventEmitter<MouseEvent>;
 
 	/** Icons */
 	private searchIcon = EIconName.Search;
-	private resetIcon = EIconName.Close;
 
 	private onTextChange = (event: CustomEvent<string>) => {
 		event.stopPropagation();
 		this.textChange.emit(event.detail);
 	};
 
-	private onResetClick = (event: MouseEvent) => {
+	private onResetClick = (event: CustomEvent<MouseEvent>) => {
+		event.stopPropagation();
+		this.clickResetButton.emit(event.detail);
 		this.textChange.emit();
-		this.clickResetButton.emit(event);
 	};
 
 	render() {
 		const shouldShowResetIcon = !isEmpty(this.value) && !this.disabled;
 		return (
 			<Host>
-				<kv-text-field placeholder={this.placeholder} size={this.size} value={this.value} disabled={this.disabled} icon={this.searchIcon} onTextChange={this.onTextChange}>
-					{shouldShowResetIcon && <kv-icon slot="right-slot" name={this.resetIcon} onClick={this.onResetClick} />}
-				</kv-text-field>
+				<kv-text-field
+					actionIcon={shouldShowResetIcon ? EIconName.Close : undefined}
+					placeholder={this.placeholder}
+					size={this.size}
+					value={this.value}
+					disabled={this.disabled}
+					icon={this.searchIcon}
+					onTextChange={this.onTextChange}
+					onRightActionClick={this.onResetClick}
+				/>
 			</Host>
 		);
 	}

@@ -122,14 +122,9 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 									value={this.getFormattedSelectedStartDate()}
 									onClick={this.onToggleOpenState}
 									readonly
+									actionIcon={this.isStartSingleDateSelectDropdownFocus() ? EIconName.ArrowDropUp : EIconName.ArrowDropDown}
 									forcedFocus={this.isStartSingleDateSelectDropdownFocus()}
-								>
-									<kv-icon
-										slot="right-slot"
-										name={this.isStartSingleDateSelectDropdownFocus() ? EIconName.ArrowDropUp : EIconName.ArrowDropDown}
-										customClass="icon-24"
-									/>
-								</kv-text-field>
+								/>
 							</div>
 							<div class="end-single-date-select-dropdown">
 								<kv-text-field
@@ -137,14 +132,9 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 									value={this.getFormattedSelectedEndDate()}
 									onClick={this.onToggleOpenState}
 									readonly
+									actionIcon={this.isEndSingleDateSelectDropdownFocus() ? EIconName.ArrowDropUp : EIconName.ArrowDropDown}
 									forcedFocus={this.isEndSingleDateSelectDropdownFocus()}
-								>
-									<kv-icon
-										slot="right-slot"
-										name={this.isEndSingleDateSelectDropdownFocus() ? EIconName.ArrowDropUp : EIconName.ArrowDropDown}
-										customClass="icon-24"
-									/>
-								</kv-text-field>
+								/>
 							</div>
 						</div>
 						<div slot="list" class="range-dates-select-dropdown-calendar-container">

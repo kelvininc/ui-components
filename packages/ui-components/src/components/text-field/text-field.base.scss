@@ -42,6 +42,8 @@
 	--right-slot-width: 36px;
 	--left-slot-width: 36px;
 	--left-slot-padding-top: 0;
+
+	--action-icon-size: 16px;
 }
 
 kv-form-label {
@@ -144,6 +146,14 @@ input {
 		height: var(--input-height-small);
 	}
 
+	.left-slotted .input-content-container {
+		padding-left: var(--left-slot-width);
+	}
+	
+	.right-slotted .input-content-container {
+		padding-right: var(--right-slot-width);
+	}
+
 	.input-content-container {
 		width: 100%;
 		height: 100%;
@@ -152,14 +162,6 @@ input {
 		left: 0;
 		box-sizing: border-box;
 		overflow: hidden;
-
-		&.left-slotted {
-			padding-left: var(--left-slot-width);
-		}
-
-		&.right-slotted {
-			padding-right: var(--right-slot-width);
-		}
 	}
 
 	.left-slot-container {
@@ -205,7 +207,7 @@ input {
 		}
 	}
 
-	.right-slot-container {
+	.right-icon-container {
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -217,9 +219,9 @@ input {
 			cursor: pointer;
 		}
 
-		::slotted(kv-icon) {
-			--icon-width: 16px;
-			--icon-height: 16px;
+		kv-icon {
+			--icon-width: var(--action-icon-size);
+			--icon-height: var(--action-icon-size);;
 			--icon-color: var(--text-color-icon-default);
 
 			width: 100%;
@@ -229,16 +231,12 @@ input {
 			align-items: center;
 		}
 
-		&.disabled {
-			::slotted(kv-icon) {
-				--icon-color: var(--text-color-input-disabled);
-			}
+		&.disabled kv-icon {
+			--icon-color: var(--text-color-input-disabled);
 		}
 
-		&.focus {
-			::slotted(kv-icon) {
-				--icon-color: var(--text-color-input-focused);
-			}
+		&.focus kv-icon {
+			--icon-color: var(--text-color-input-focused);
 		}
 	}
 }

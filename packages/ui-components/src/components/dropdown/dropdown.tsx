@@ -69,7 +69,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 						<slot name="dropdown-action" slot="action">
 							<div>
 								<kv-text-field {...this.getInputConfig()} id="dropdown-input" forcedFocus={this.isOpen} onClick={this.onToggleOpenState.bind(this)} readonly>
-									<kv-icon slot="right-slot" name={this.isOpen ? EIconName.ArrowDropUp : EIconName.ArrowDropDown} customClass="icon-20" />
+									<kv-icon slot="right-slot" name={this.isOpen ? EIconName.ArrowDropUp : EIconName.ArrowDropDown} />
 									<slot name="input-content" slot="input-content" />
 								</kv-text-field>
 							</div>

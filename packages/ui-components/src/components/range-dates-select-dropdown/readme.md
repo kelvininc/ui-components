@@ -77,7 +77,6 @@ export const KvRangeDatesSelectDropdownExample: React.FC = () => (
 
 - [kv-dropdown-base](../dropdown-base)
 - [kv-text-field](../text-field)
-- [kv-icon](../icon)
 - [kv-calendar-range-dates-selector](../calendar-range-dates-selector)
 
 ### Graph
@@ -85,7 +84,6 @@ export const KvRangeDatesSelectDropdownExample: React.FC = () => (
 graph TD;
   kv-range-dates-select-dropdown --> kv-dropdown-base
   kv-range-dates-select-dropdown --> kv-text-field
-  kv-range-dates-select-dropdown --> kv-icon
   kv-range-dates-select-dropdown --> kv-calendar-range-dates-selector
   kv-dropdown-base --> kv-portal
   kv-text-field --> kv-tooltip

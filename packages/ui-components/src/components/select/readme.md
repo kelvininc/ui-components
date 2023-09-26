@@ -110,7 +110,6 @@ export const KvSelectExample: React.FC = () => (
 graph TD;
   kv-select --> kv-search
   kv-search --> kv-text-field
-  kv-search --> kv-icon
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
