@@ -32,6 +32,7 @@ export interface SchemaFormProps<T, S extends StrictRJSFSchema = RJSFSchema, F e
 	customClass?: CustomCssClass;
 	submittedData?: T;
 	allowDiscardChanges?: boolean;
+	allowResetToDefaults?: boolean;
 	formReference?: React.RefObject<Form<T, S, F>>;
 	/** Optional enumerated flag controlling how empty object fields and array fields where `minItems` is set are populated.
 	 * Default: `All`;

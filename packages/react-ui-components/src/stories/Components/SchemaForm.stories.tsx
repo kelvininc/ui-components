@@ -958,3 +958,35 @@ NotApplyDefaultsWidget.args = {
 		}
 	}
 };
+export const AlowResetToDefaultsWidget = FormTemplate.bind({});
+AlowResetToDefaultsWidget.args = {
+	applyDefaults: EApplyDefaults.Never,
+	allowDiscardChanges: true,
+	allowResetToDefaults: true,
+	liveValidate: true,
+	formContext: { showDefaultValueHelper: true, defaultValueHelperPrefix: 'Default: ' },
+	schema: {
+		type: 'object',
+		properties: {
+			title: {
+				type: 'string',
+				title: 'Title:',
+				default: 'lorem ipsum'
+			},
+			description: {
+				type: 'string',
+				title: 'Description:',
+				default: 'lorem ipsum lorem ipsum lorem ipsum'
+			}
+		},
+		required: ['title']
+	},
+	uiSchema: {
+		description: {
+			'ui:options': {
+				placeholder: 'Add description',
+				showDefaultValueHelper: true
+			}
+		}
+	}
+};
