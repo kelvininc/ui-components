@@ -23,7 +23,7 @@ export class KvLabelsDropdown implements ILabelsDropdown, ILabelsDropdownEvents 
 	/** @inheritdoc */
 	@Prop({ reflect: true }) noDataAvailableLabel?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) searchable?: boolean;
+	@Prop({ reflect: true }) searchable?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchValue?: string;
 	/** @inheritdoc */

@@ -16,7 +16,7 @@ export interface ISelectMultiOptionsConfig {
 	selectedOptions?: Record<string, boolean>;
 	/** (required) The text to display when there are no options */
 	noDataAvailableLabel?: string;
-	/** (optional) If `true` the dropdown is searchable */
+	/** (optional) If `false` the dropdown is not searchable. Default `true` */
 	searchable?: boolean;
 	/** (optional) The list search text field placeholder */
 	searchPlaceholder?: string;
