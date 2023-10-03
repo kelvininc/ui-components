@@ -26,7 +26,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	/** @inheritdoc */
 	@Prop({ reflect: true }) noDataAvailableLabel?: string = DEFAULT_NO_DATA_AVAILABLE_LABEL;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) searchable?: boolean;
+	@Prop({ reflect: true }) searchable?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchPlaceholder?: string;
 	/** @inheritdoc */
