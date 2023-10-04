@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.24.0](https://github.com/kelvininc/ui-components/compare/v0.23.0...v0.24.0) (2023-10-04)
+
+
+### Features
+
+* **schema-form:** allow reset to default ([9a5f76b](https://github.com/kelvininc/ui-components/commit/9a5f76b8051b06a44cfb40972f4f784149790eaa))
+
+
+
+
+
 # [0.23.0](https://github.com/kelvininc/ui-components/compare/v0.22.0...v0.23.0) (2023-09-26)
 
 

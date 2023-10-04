@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.24.0](https://github.com/kelvininc/ui-components/compare/v0.23.0...v0.24.0) (2023-10-04)
+
+
+### Features
+
+* **dropdowns:** set dropdowns to be searchable by default ([9bbae2d](https://github.com/kelvininc/ui-components/commit/9bbae2d2e2db4415fd2911cf94e71a179947ed9a))
+* **schema-form:** allow reset to default ([9a5f76b](https://github.com/kelvininc/ui-components/commit/9a5f76b8051b06a44cfb40972f4f784149790eaa))
+* **search:** add missing `kv-text-field` props to `kv-search` ([c3fe223](https://github.com/kelvininc/ui-components/commit/c3fe223ef40b395db4e5c30b7e997cffaf186f14))
+
+
+
+
+
 # [0.23.0](https://github.com/kelvininc/ui-components/compare/v0.22.0...v0.23.0) (2023-09-26)
 
 
