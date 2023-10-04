@@ -1,9 +1,9 @@
 import { EActionButtonType, EComponentSize } from '@kelvininc/ui-components';
 import Form, { FormProps, IChangeEvent, withTheme } from '@rjsf/core';
-import { deepEquals, getSubmitButtonOptions } from '@rjsf/utils';
+import { RJSFSchema, StrictRJSFSchema, FormContextType, createSchemaUtils, deepEquals, getSubmitButtonOptions } from '@rjsf/utils';
 import classNames from 'classnames';
 import { cloneDeep, isEmpty, isEqualWith } from 'lodash';
-import React, { ComponentProps, ComponentType, ForwardedRef, forwardRef, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ComponentProps, ComponentType, ForwardedRef, forwardRef, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useScroll } from '../../utils';
 import { KvActionButtonText, KvTooltip } from '../stencil-generated';
 import { SCROLL_OFFSET } from './config';
@@ -12,8 +12,6 @@ import styles from './SchemaForm.module.scss';
 import { generateTheme } from './Theme';
 import { EApplyDefaults, SchemaFormContext, SchemaFormProps } from './types';
 import getDefaultValidator, { buildDefaultFormStateBehavior } from './utils';
-
-import { RJSFSchema, StrictRJSFSchema, FormContextType } from '@rjsf/utils';
 
 // Custom Theme
 export function generateForm<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(): ComponentType<FormProps<T, S, F>> {
@@ -47,14 +45,16 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	submittedData,
 	uiSchema = {},
 	allowDiscardChanges,
+	allowResetToDefaults,
 	onChange,
 	validator: validatorProp,
 	formReference,
+	disabled,
 	applyDefaults = EApplyDefaults.All,
 	...otherProps
 }: SchemaFormProps<T, S, SchemaFormContext>) {
 	const [isValid, setValid] = useState(!liveValidate);
-	const [hasChanges, setHasChanges] = useState(!isEqualWith(formDataProp, submittedData));
+	const [hasChanges, setHasChanges] = useState(!isEqualWith(formDataProp, submittedData || {}));
 	const [formData, setFormData] = useState(formDataProp);
 
 	const formRef = formReference ?? useRef<Form<T, S, SchemaFormContext>>(null);
@@ -63,13 +63,16 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const isScrolling = useMemo(() => scrollTop - SCROLL_OFFSET > 0, [scrollTop]);
 	const { submitText, norender, props: submitButtonProps } = getSubmitButtonOptions(uiSchema);
 	const hasFooter = useMemo(() => allowDiscardChanges || !norender, [allowDiscardChanges, norender]);
-	const formValidator = useMemo(() => validatorProp ?? getDefaultValidator<T, S, SchemaFormContext>(), [validatorProp]);
 	const experimental_defaultFormStateBehavior = useMemo(() => buildDefaultFormStateBehavior(applyDefaults), [applyDefaults]);
+	const formValidator = useMemo(() => validatorProp ?? getDefaultValidator<T, S, SchemaFormContext>(), [validatorProp]);
+	const defaults = useMemo<T>(() => {
+		const schemaUtils = createSchemaUtils(formValidator, otherProps.schema);
+		return schemaUtils.getDefaultFormState(otherProps.schema) as T;
+	}, [formValidator, otherProps.schema]);
+	const [hasDefaults, setHasDefaults] = useState(!isEmpty(defaults) && !isEqualWith(defaults, formData || {}) && !isEqualWith(defaults, submittedData || {}));
 
-	const themedProps: FormProps<T, S, SchemaFormContext> = {
-		liveValidate,
-		...otherProps,
-		onChange: (data: IChangeEvent<T, S, SchemaFormContext>, id?: string) => {
+	const onFormChange = useCallback(
+		(data: IChangeEvent<T, S, SchemaFormContext>, id?: string) => {
 			const { formData: dataFormData = {} as T, errors } = data;
 			const hasNewChanges = !isEqualWith(dataFormData, submittedData);
 			setFormData(dataFormData);
@@ -77,6 +80,13 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 			setValid(liveValidate ? hasNewChanges && isEmpty(errors) : true);
 			onChange?.(data, id);
 		},
+		[submittedData, onChange, setValid, setHasChanges, setFormData]
+	);
+	const themedProps: FormProps<T, S, SchemaFormContext> = {
+		disabled,
+		liveValidate,
+		...otherProps,
+		onChange: onFormChange,
 		uiSchema: {
 			...uiSchema,
 			'ui:submitButtonOptions': {
@@ -103,11 +113,23 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		onChange?.({ formData: submittedData } as IChangeEvent<T, S, SchemaFormContext>);
 	};
 
+	const resetToDefaults = () => {
+		if (formRef.current) {
+			onFormChange({ ...formRef.current.state, formData: defaults } as IChangeEvent<T, S, SchemaFormContext>);
+		}
+	};
+
 	useEffect(() => {
 		const hasNewChanges = !isEqualWith(formData, submittedData || {});
-		setHasChanges(!isEqualWith(formData, submittedData || {}));
+		setHasChanges(hasNewChanges);
+
 		setValid(liveValidate ? hasNewChanges && isValid : true);
 	}, [submittedData]);
+
+	useEffect(() => {
+		const hasDefaultsToApply = !isEmpty(defaults) && !isEqualWith(defaults, formData || {});
+		setHasDefaults(hasDefaultsToApply);
+	}, [defaults, formData, setHasDefaults]);
 
 	useEffect(() => {
 		setFormData(cloneDeep(formDataProp) as T);
@@ -118,26 +140,39 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 			<CustomFormWithRef ref={formRef} {...themedProps}></CustomFormWithRef>
 			{hasFooter && (
 				<div className={classNames(styles.FormFooter, { [styles.Scrolling]: isScrolling })}>
-					{allowDiscardChanges && (
-						<KvActionButtonText
-							text="Discard Changes"
-							disabled={!hasChanges}
-							size={EComponentSize.Large}
-							type={EActionButtonType.Tertiary}
-							onClickButton={discardChanges}
-						/>
-					)}
-					{!norender && (
-						<KvTooltip text={submitButtonProps?.tooltipText} position={submitButtonProps?.tooltipPosition}>
+					<div className={styles.LeftFooter}>
+						{allowResetToDefaults && (
 							<KvActionButtonText
-								text={submitText || 'Save'}
-								disabled={!isValid || submitButtonProps?.disabled}
+								text="Reset to Default"
+								disabled={disabled || !hasDefaults}
 								size={EComponentSize.Large}
-								type={EActionButtonType.Primary}
-								onClickButton={onSubmitClick}
+								type={EActionButtonType.Ghost}
+								onClickButton={resetToDefaults}
 							/>
-						</KvTooltip>
-					)}
+						)}
+					</div>
+					<div className={styles.RightFooter}>
+						{allowDiscardChanges && (
+							<KvActionButtonText
+								text="Discard Changes"
+								disabled={disabled || !hasChanges}
+								size={EComponentSize.Large}
+								type={EActionButtonType.Tertiary}
+								onClickButton={discardChanges}
+							/>
+						)}
+						{!norender && (
+							<KvTooltip text={submitButtonProps?.tooltipText} position={submitButtonProps?.tooltipPosition}>
+								<KvActionButtonText
+									text={submitText || 'Save'}
+									disabled={disabled || !isValid || submitButtonProps?.disabled}
+									size={EComponentSize.Large}
+									type={EActionButtonType.Primary}
+									onClickButton={onSubmitClick}
+								/>
+							</KvTooltip>
+						)}
+					</div>
 				</div>
 			)}
 		</div>

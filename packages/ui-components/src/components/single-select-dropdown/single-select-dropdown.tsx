@@ -65,7 +65,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) noDataAvailableLabel?: string = SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) searchable?: boolean = false;
+	@Prop({ reflect: true }) searchable?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchPlaceholder?: string;
 	/** @inheritdoc */

@@ -24,7 +24,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) searchable?: boolean;
+	@Prop({ reflect: true }) searchable?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchPlaceholder?: string;
 	/** @inheritdoc */
