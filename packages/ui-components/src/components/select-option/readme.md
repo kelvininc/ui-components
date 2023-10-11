@@ -65,11 +65,12 @@ export const KvSelectOptionExample: React.FC = () => (
 
 ## Shadow Parts
 
-| Part                 | Description            |
-| -------------------- | ---------------------- |
-| `"checkbox"`         | The option's checkbox  |
-| `"label"`            | The option's label     |
-| `"option-container"` | The option's container |
+| Part                      | Description                    |
+| ------------------------- | ------------------------------ |
+| `"checkbox"`              | The option's checkbox          |
+| `"label"`                 | The option's label             |
+| `"option-container"`      | The option's container         |
+| `"select-option-content"` | The option's content container |
 
 
 ## CSS Custom Properties

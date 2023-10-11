@@ -3,13 +3,15 @@
 exports[`KvSelectOption (unit tests) when rendering with bottom slot flag \`true\` should match the snapshot 1`] = `
 <kv-select-option label="Option 1" level="0" selectable="" value="option1">
   <mock:shadow-root>
-    <div class="select-option select-option--selectable" part="option-container" style="--level-padding-offset: 0px;">
-      <div class="text-container">
-        <div class="item-label" part="label">
-          Option 1
+    <div part="select-option-content">
+      <div class="select-option select-option--selectable" part="option-container" style="--level-padding-offset: 0px;">
+        <div class="text-container">
+          <div class="item-label" part="label">
+            Option 1
+          </div>
         </div>
-        <slot></slot>
       </div>
+      <slot></slot>
     </div>
   </mock:shadow-root>
 </kv-select-option>
@@ -18,13 +20,15 @@ exports[`KvSelectOption (unit tests) when rendering with bottom slot flag \`true
 exports[`KvSelectOption (unit tests) when rendering with default props when the component loads should match the snapshot 1`] = `
 <kv-select-option label="Option 1" level="0" selectable="" value="option1">
   <mock:shadow-root>
-    <div class="select-option select-option--selectable" part="option-container" style="--level-padding-offset: 0px;">
-      <div class="text-container">
-        <div class="item-label" part="label">
-          Option 1
+    <div part="select-option-content">
+      <div class="select-option select-option--selectable" part="option-container" style="--level-padding-offset: 0px;">
+        <div class="text-container">
+          <div class="item-label" part="label">
+            Option 1
+          </div>
         </div>
-        <slot></slot>
       </div>
+      <slot></slot>
     </div>
   </mock:shadow-root>
 </kv-select-option>
