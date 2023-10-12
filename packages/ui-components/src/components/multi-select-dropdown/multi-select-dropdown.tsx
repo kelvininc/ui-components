@@ -10,6 +10,7 @@ import { getCssStyle } from '../utils';
 import { ISelectMultiOptions } from '../select-multi-options/select-multi-options.types';
 import { getClassMap } from '../../utils/css-class.helper';
 import { ComputePositionConfig } from '@floating-ui/dom';
+import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
 
 @Component({
 	tag: 'kv-multi-select-dropdown',
@@ -76,7 +77,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: false }) actionElement?: HTMLElement | null = null;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) zIndex?: number = 9004;
+	@Prop({ reflect: false }) zIndex?: number = DEFAULT_DROPDOWN_Z_INDEX;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;

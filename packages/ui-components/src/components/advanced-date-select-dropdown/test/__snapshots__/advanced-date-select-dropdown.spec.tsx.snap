@@ -2,7 +2,7 @@
 
 exports[`Advance Date Select Dropdown (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-advanced-date-select-dropdown class="advanced-date-select-dropdown" custom-class="">
-  <kv-dropdown clickoutsideclose="" zindex="9004">
+  <kv-dropdown clickoutsideclose="" zindex="9003">
     <div class="advanced-date-select-calendar-container" id="calendar">
       <kv-calendar-advanced-date-selector selectedtimezone="Europe/Lisbon"></kv-calendar-advanced-date-selector>
       <div class="footer">
