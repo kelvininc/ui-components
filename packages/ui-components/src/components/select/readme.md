@@ -85,13 +85,14 @@ export const KvSelectExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                        | Description              |
-| --------------------------- | ------------------------ |
-| `--select-background-color` | Select background color. |
-| `--select-border`           | Select border style.     |
-| `--select-border-radius`    | Select border radius.    |
-| `--select-max-height`       | Select maximum height.   |
-| `--select-min-height`       | Select minimum height.   |
+| Name                        | Description                |
+| --------------------------- | -------------------------- |
+| `--select-background-color` | Select background color.   |
+| `--select-border`           | Select border style.       |
+| `--select-border-radius`    | Select border radius.      |
+| `--select-inner-border`     | Select inner border style. |
+| `--select-max-height`       | Select maximum height.     |
+| `--select-min-height`       | Select minimum height.     |
 
 
 ## Dependencies
