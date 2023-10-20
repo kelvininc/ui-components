@@ -19,6 +19,9 @@ export enum EIllustrationName {
 	EsTableEmpty = 'kv-es-table-empty',
 	EsTableSearch = 'kv-es-table-search',
 	EsKelvinLogotype = 'kv-es-kelvin-logotype',
+	Agree = 'kv-agree',
+	SoftAgree = 'kv-soft-agree',
+	Disagree = 'kv-disagree',
 	// -----------------------------------------
 	// --- PEACOCK - NEW THEME ILLUSTRATIONS ---
 	// -----------------------------------------
