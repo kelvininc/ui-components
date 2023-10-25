@@ -63,6 +63,8 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) forcedFocus: boolean = false;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) forcedInputFocus: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) highlighted: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) tooltipConfig?: Partial<ITooltip>;
@@ -107,6 +109,11 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		if (!this.focused) {
 			this.el.blur();
 		}
+	}
+
+	@Watch('forcedInputFocus')
+	forcedInputFocusHandler(isFocused: boolean) {
+		isFocused ? this.nativeInput?.focus() : this.nativeInput?.blur();
 	}
 
 	@Watch('useInputMask')
@@ -254,7 +261,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 								<Fragment>
 									<input
 										id={id}
-										ref={input => (this.nativeInput = input as HTMLInputElement)}
+										ref={input => (this.nativeInput = input)}
 										type={type}
 										list={!isNil(this.examples) ? `examples_${id}` : undefined}
 										name={this.inputName}
@@ -273,7 +280,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 											'invalid': this.state === EValidationState.Invalid,
 											'left-slotted': this.hasLeftSlot,
 											'right-slotted': !isEmpty(this.actionIcon),
-											'forced-focus': this.focused || this.highlighted
+											'forced-focus': this.focused || this.highlighted || this.forcedInputFocus
 										}}
 										readonly={this.readonly}
 									/>
@@ -299,7 +306,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 														class={{
 															invalid: this.state === EValidationState.Invalid,
 															disabled: this.disabled,
-															focus: this.focused || this.highlighted
+															focus: this.focused || this.highlighted || this.forcedInputFocus
 														}}
 													/>
 												)}
@@ -310,7 +317,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										<div
 											class={{
 												'right-icon-container': !isEmpty(this.actionIcon),
-												'focus': this.focused || this.highlighted,
+												'focus': this.focused || this.highlighted || this.forcedInputFocus,
 												'disabled': this.disabled
 											}}
 										>
@@ -320,7 +327,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 												class={{
 													invalid: this.state === EValidationState.Invalid,
 													disabled: this.disabled,
-													focus: this.focused || this.highlighted
+													focus: this.focused || this.highlighted || this.forcedInputFocus
 												}}
 											/>
 										</div>
