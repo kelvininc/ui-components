@@ -5,6 +5,7 @@ import { isEmpty, isEqual } from 'lodash';
 import { EIconName, ISelectMultiOptions } from '../../types';
 import { getSelectableOptions, getSelectedSelectableOptions } from '../../utils/select.helper';
 import { MINIMUM_SEARCHABLE_OPTIONS } from './labels-dropdown.config';
+import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
 
 @Component({
 	tag: 'kv-labels-dropdown',
@@ -45,7 +46,7 @@ export class KvLabelsDropdown implements ILabelsDropdown, ILabelsDropdownEvents 
 	/** @inheritdoc */
 	@Prop({ reflect: true }) shortcuts?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) zIndex?: number = 9004;
+	@Prop({ reflect: false }) zIndex?: number = DEFAULT_DROPDOWN_Z_INDEX;
 
 	@State() _isOpen = this.isOpen;
 	@State() _searchValue = this.searchValue;
