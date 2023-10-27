@@ -146,6 +146,7 @@ export enum EIconName {
 	Save = 'kv-save',
 	Search = 'kv-search',
 	Send = 'kv-send',
+	SendMessage = 'kv-send-message',
 	Settings = 'kv-settings',
 	Share = 'kv-share',
 	ShieldLock = 'kv-shield-lock',
