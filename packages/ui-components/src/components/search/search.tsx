@@ -47,8 +47,6 @@ export class KvSearch implements ISearch, ISearchEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) forcedFocus: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) highlighted: boolean = false;
-	/** @inheritdoc */
 	@Prop({ reflect: true }) tooltipConfig?: Partial<ITooltip>;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) value?: string | number | null = '';
@@ -104,7 +102,6 @@ export class KvSearch implements ISearch, ISearchEvents {
 					readonly={this.readonly}
 					helpText={this.helpText}
 					forcedFocus={this.forcedFocus}
-					highlighted={this.highlighted}
 					tooltipConfig={this.tooltipConfig}
 					value={this.value}
 					useInputMask={this.useInputMask}
