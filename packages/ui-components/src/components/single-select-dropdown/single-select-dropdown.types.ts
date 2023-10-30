@@ -52,4 +52,6 @@ export interface ISingleSelectDropdown extends Omit<IMultiSelectDropdown, 'selec
 export interface ISingleSelectDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'optionsSelected' | 'selectAll'> {
 	/** Emitted when the dropdown open state changes */
 	openStateChange: EventEmitter<boolean>;
+	/** Emitted when there's a click outside the dropdown's bondaries */
+	clickOutside: EventEmitter<void>;
 }

@@ -104,9 +104,10 @@ export class KvDropdownExample {
 
 ## Events
 
-| Event             | Description                                   | Type                   |
-| ----------------- | --------------------------------------------- | ---------------------- |
-| `openStateChange` | Emitted when the dropdown opens state changes | `CustomEvent<boolean>` |
+| Event             | Description                                                   | Type                   |
+| ----------------- | ------------------------------------------------------------- | ---------------------- |
+| `clickOutside`    | Emitted when there's a click outside the dropdown's bondaries | `CustomEvent<void>`    |
+| `openStateChange` | Emitted when the dropdown opens state changes                 | `CustomEvent<boolean>` |
 
 
 ## Methods

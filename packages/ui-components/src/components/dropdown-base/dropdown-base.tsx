@@ -27,23 +27,23 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 
 	/** @inheritdoc */
 	@Event() openStateChange: EventEmitter<boolean>;
+	/** @inheritdoc */
+	@Event() clickOutside: EventEmitter<void>;
 
 	@Element() element: HTMLKvDropdownBaseElement;
 
 	@Listen('click', { target: 'window' })
 	checkForClickOutside(event: MouseEvent) {
-		if (!this.clickOutsideClose) {
-			return;
-		}
-
 		// Check if clicked inside the dropdown
 		if (this.didClickOnDropdownAction(event) || this.didClickOnDropdownList(event)) {
 			return;
 		}
 
-		if (this.isOpen) {
+		if (this.isOpen && this.clickOutsideClose) {
 			this.openStateChange.emit(!this.isOpen);
 		}
+
+		this.clickOutside.emit();
 	}
 
 	private portal: HTMLElement;
