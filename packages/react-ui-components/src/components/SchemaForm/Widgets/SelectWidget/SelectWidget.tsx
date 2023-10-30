@@ -1,11 +1,12 @@
-import { EValidationState } from '@kelvininc/ui-components';
+import { EComponentSize, EValidationState } from '@kelvininc/ui-components';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
-import { isEmpty } from 'lodash';
+import { get, isEmpty, isNumber } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../stencil-generated';
 import styles from './SelectWidget.module.scss';
 import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, searchDropdownOptions } from './utils';
 import { DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
+import { DEFAULT_DROPDOWN_Z_INDEX } from '../../config';
 
 const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	schema,
@@ -20,10 +21,14 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	onChange,
 	placeholder,
 	rawErrors = [],
-	uiSchema = {}
+	uiSchema = {},
+	formContext
 }: WidgetProps<T, S, F>) => {
-	const { enumOptions, enumDisabled } = options;
-	const { displayValue, searchable, selectionClearable, minHeight, maxHeight, minSearchOptions } = uiSchema;
+	const { enumOptions, enumDisabled, placeholder: optionsPlaceholder } = options;
+	const { displayValue, searchable, selectionClearable, minHeight, maxHeight, minSearchOptions, optionZIndex, optionComponentSize } = uiSchema;
+	const componentSize = get(formContext, ['componentSize'], EComponentSize.Large);
+	const defaultZIndex = get(formContext, ['zIndex'], DEFAULT_DROPDOWN_Z_INDEX);
+
 	const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
 	const defaultDropdownOptions = useMemo(() => buildDropdownOptions(enumOptions, enumDisabled), [enumOptions, enumDisabled]);
@@ -34,6 +39,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 
 		return defaultDropdownOptions;
 	}, [searchTerm, defaultDropdownOptions]);
+
 	const [stateValue, setStateValue] = useState(processValue(schema, value));
 	const emptyValue = useMemo(() => (multiple ? [] : undefined), [multiple]);
 
@@ -57,7 +63,8 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	const props = {
 		id,
 		label: displayedLabel,
-		placeholder: placeholder ? placeholder : undefined,
+		placeholder: placeholder ? placeholder : optionsPlaceholder,
+		inputSize: !isEmpty(optionComponentSize) ? optionComponentSize : (componentSize as EComponentSize),
 		required,
 		disabled: disabled || readonly,
 		errorState: hasErrors ? EValidationState.Invalid : EValidationState.Valid,
@@ -66,6 +73,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		filteredOptions,
 		onSearchChange,
 		searchable,
+		zIndex: isNumber(optionZIndex) ? optionZIndex : defaultZIndex,
 		minHeight,
 		maxHeight,
 		selectionClearable,

@@ -22,6 +22,13 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 	registry
 }: ObjectFieldTemplateProps<T, S, F>) => {
 	const rowWidth = useMemo(() => (get(uiSchema, ['ui:inline'], false) ? get(uiSchema, ['ui:inputWidth']) || INPUT_INLINE_WIDTH : '100%'), [uiSchema]);
+	const inputWidthProps = useMemo(
+		() => ({
+			minWidth: get(uiSchema, ['ui:inputMinWidth'], 'unset'),
+			maxWidth: get(uiSchema, ['ui:inputMaxWidth'], 'unset')
+		}),
+		[uiSchema]
+	);
 	const uiOptions = getUiOptions(uiSchema);
 	const TitleFieldTemplate = getTemplate<'TitleFieldTemplate', T, S, F>('TitleFieldTemplate', registry, uiOptions);
 	const DescriptionFieldTemplate = getTemplate<'DescriptionFieldTemplate', T, S, F>('DescriptionFieldTemplate', registry, uiOptions);
@@ -40,7 +47,7 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 			/>
 			<div className={classNames(styles.PropsContainer, { [styles.Inline]: get(uiSchema, ['ui:inline'], false) })}>
 				{properties.map((element, index) => (
-					<div key={index} style={{ width: rowWidth }} className={classNames(styles.PropRow, { [styles.Hidden]: element.hidden })}>
+					<div key={index} style={{ width: rowWidth, ...inputWidthProps }} className={classNames(styles.PropRow, { [styles.Hidden]: element.hidden })}>
 						{element.content}
 					</div>
 				))}
