@@ -25,6 +25,10 @@ export interface ISingleSelectDropdown extends Omit<IMultiSelectDropdown, 'selec
 	label?: string;
 	/** (optional) The text to display on the dropdown  */
 	displayValue?: string;
+	/** (optional) The text to display as a prefix to `displayValue` */
+	displayValuePrefix?: string;
+	/** (optional) Text to display inside a badge on the right side of the displayed value */
+	badge?: string;
 	/** (required) The error state for the dropdown */
 	errorState?: EValidationState;
 	/** (optional) The text to display as help text  */

@@ -14,3 +14,7 @@ kv-dropdown {
 		pointer-events: none;
 	}
 }
+
+.display-value-no-icon::part(container) {
+	padding-left: $spacing-2x;
+}

@@ -99,7 +99,9 @@ graph TD;
   kv-checkbox --> kv-icon
   kv-input-wrapper --> kv-icon
   kv-single-select-dropdown --> kv-dropdown
+  kv-single-select-dropdown --> kv-dropdown-display-value
   kv-single-select-dropdown --> kv-select-multi-options
+  kv-dropdown-display-value --> kv-badge
   kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select

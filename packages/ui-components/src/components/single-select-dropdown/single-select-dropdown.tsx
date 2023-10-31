@@ -17,6 +17,7 @@ import { ComputePositionConfig } from '@floating-ui/dom';
 import { buildSingleSelectOptions } from './single-select-dropdown.helper';
 import { getFlattenSelectOptions } from '../../utils/select.helper';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
+import { isEmpty } from 'lodash';
 
 /**
  * @part select - The select container.
@@ -41,6 +42,10 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) displayValue?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) displayValuePrefix?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) badge?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) errorState?: EValidationState = EValidationState.None;
 	/** @inheritdoc */
@@ -205,12 +210,11 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 	private getInputConfig = (): Partial<ITextField> => ({
 		label: this.label,
-		value: this._selectionDisplayValue,
 		loading: this.loading,
 		icon: this.icon,
 		disabled: this.disabled,
 		required: this.required,
-		placeholder: this.placeholder,
+		placeholder: isEmpty(this.selectedOption) ? this.placeholder : '',
 		state: this.errorState,
 		helpText: this.helpText,
 		size: this.inputSize
@@ -270,6 +274,15 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 					zIndex={this.zIndex}
 				>
 					<slot name="dropdown-action" slot="dropdown-action" />
+					<kv-dropdown-display-value
+						slot="input-content"
+						class={{ 'display-value-no-icon': isEmpty(this.icon) }}
+						visible={!isEmpty(this.selectedOption)}
+						disabled={this.disabled}
+						value={this._selectionDisplayValue}
+						valuePrefix={this.displayValuePrefix}
+						badge={this.badge}
+					/>
 					<div class={{ ...getClassMap(this.customClass), 'single-select-dropdown-slot': true }}>
 						<kv-select-multi-options
 							ref={element => (this.selectRef = element)}

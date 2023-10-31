@@ -21,3 +21,7 @@
 	color: kv-color('neutral-4');
 	@include kv-font-label-xsmall-regular;
 }
+
+.display-value-no-icon::part(container) {
+	padding-left: $spacing-2x;
+}

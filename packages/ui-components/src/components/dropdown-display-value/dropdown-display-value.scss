@@ -1,0 +1,43 @@
+@import '../../assets/styles/globals';
+
+.value-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 100%;
+	cursor: pointer;
+
+	&-small .display-value {
+		line-height: 28px;
+	}
+
+	&-large .display-value {
+		line-height: 36px;
+	}
+
+	.display-value {
+		color: kv-color('neutral-2');
+
+		.prefix,
+		.value {
+			display: inline;
+		}
+
+		.prefix {
+			@include kv-font-span-semibold;
+		}
+
+		.value {
+			@include kv-font-span-regular;
+		}
+
+		@include ellipsis;
+
+		&.disabled {
+			.prefix,
+			.value {
+				color: kv-color('neutral-5');
+			}
+		}
+	}
+}

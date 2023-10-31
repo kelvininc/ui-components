@@ -10,7 +10,8 @@
 
 :host {
 	/**
-	 * @prop --badge-width: Badge's width.
+	 * @prop --badge-min-width: Badge's minimum width.
+	 * @prop --badge-max-width: Badge's maximum width.
 	 * @prop --badge-height: Badge's height.
 	 * @prop --badge-background-color-none: Badge's background color when state is none.
 	 * @prop --badge-background-color-info: Badge's background color when state is info.
@@ -25,7 +26,8 @@
 	 * @prop --badge-text-color-success: Badge's text color when state is success.
 	 */
 
-	--badge-width: 16px;
+	--badge-min-width: 16px;
+	--badge-max-width: fit-content;
 	--badge-height: 16px;
 }
 
@@ -35,11 +37,13 @@
 	align-items: center;
 	justify-content: center;
 
-	width: var(--badge-width);
+	min-width: var(--badge-min-width);
+	max-width: var(--badge-max-width);
 	height: var(--badge-height);
+	padding: 0 $spacing;
 	line-height: var(--badge-height);
 
-	border-radius: 100%;
+	border-radius: $spacing-2x;
 
 	&--state-none {
 		@include badge-state-theme(none);
@@ -47,6 +51,10 @@
 
 	&--state-info {
 		@include badge-state-theme(info);
+	}
+
+	&--state-secondary {
+		@include badge-state-theme(secondary);
 	}
 
 	&--state-warning {

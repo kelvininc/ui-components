@@ -146,14 +146,6 @@ input {
 		height: var(--input-height-small);
 	}
 
-	.left-slotted .input-content-container {
-		padding-left: var(--left-slot-width);
-	}
-	
-	.right-slotted .input-content-container {
-		padding-right: var(--right-slot-width);
-	}
-
 	.input-content-container {
 		width: 100%;
 		height: 100%;
@@ -239,6 +231,14 @@ input {
 			--icon-color: var(--text-color-input-focused);
 		}
 	}
+}
+
+input.left-slotted + .input-content-container {
+	padding-left: var(--left-slot-width);
+}
+
+input.right-slotted + .input-content-container {
+	padding-right: var(--right-slot-width);
 }
 
 .input-container-loading {

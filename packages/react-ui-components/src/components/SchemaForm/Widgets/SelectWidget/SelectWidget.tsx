@@ -23,7 +23,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	uiSchema = {}
 }: WidgetProps<T, S, F>) => {
 	const { enumOptions, enumDisabled } = options;
-	const { displayValue, searchable, selectionClearable, minHeight, maxHeight, minSearchOptions } = uiSchema;
+	const { displayValue, searchable, selectionClearable, minHeight, maxHeight, minSearchOptions, badge, displayValuePrefix } = uiSchema;
 	const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
 	const defaultDropdownOptions = useMemo(() => buildDropdownOptions(enumOptions, enumDisabled), [enumOptions, enumDisabled]);
@@ -62,12 +62,14 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		disabled: disabled || readonly,
 		errorState: hasErrors ? EValidationState.Invalid : EValidationState.Valid,
 		displayValue: typeof value === 'undefined' ? emptyValue : displayValue?.(value, defaultDropdownOptions),
+		displayValuePrefix,
 		options: defaultDropdownOptions,
 		filteredOptions,
 		onSearchChange,
 		searchable,
 		minHeight,
 		maxHeight,
+		badge,
 		selectionClearable,
 		minSearchOptions: minSearchOptions ?? DEFAULT_MINIMUM_SEARCHABLE_OPTIONS
 	};
