@@ -1,26 +1,28 @@
 import { Component, Element, Event, EventEmitter, Host, Listen, Prop, State, Watch, h } from '@stencil/core';
-import { ISelectedTabIndicatorConfig, ITabNavigationItem, ITabsNotificationDict } from './tab-navigation.types';
+import { ISelectedTabIndicatorConfig, ITabNavigationConfig, ITabNavigationEvents, ITabNavigationItem, ITabsNotificationDict } from './tab-navigation.types';
 
 import { EComponentSize } from '../../utils/types';
 import { getIntersectionRelativeClientRect } from './tab-navigation.utils';
-import { INTERSECTION_OBSERVER_CONFIG } from './tab-navigation.config';
+import { DEFAULT_INDICATOR_TIMEOUT_WAIT, INTERSECTION_OBSERVER_CONFIG } from './tab-navigation.config';
 
 @Component({
 	tag: 'kv-tab-navigation',
 	styleUrl: 'tab-navigation.scss',
 	shadow: true
 })
-export class KvTabNavigation {
-	/** (required) The tab items to render in this component */
+export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEvents {
+	/** @inheritdoc */
 	@Prop({ reflect: true }) tabs!: ITabNavigationItem[];
-	/** (optional) The currently selected tab key */
+	/** @inheritdoc */
 	@Prop() selectedTabKey?: number | string;
-	/** (optional) To add a notification dot and its respective color to a specific tab */
+	/** @inheritdoc */
 	@Prop() notifications?: ITabsNotificationDict = {};
-	/** (optional) Sets the items on this tab nav to use small styling configuration */
+	/** @inheritdoc */
 	@Prop() size?: EComponentSize = EComponentSize.Large;
+	/** @inheritdoc */
+	@Prop() indicatorCalculationTimeoutMs?: number = DEFAULT_INDICATOR_TIMEOUT_WAIT;
 
-	/** When the tab selection changes, emit the requested tab's key */
+	/** @inheritdoc */
 	@Event() tabChange: EventEmitter<string>;
 
 	tabEls: Record<number | string, HTMLKvTabItemElement> = {};
@@ -34,7 +36,7 @@ export class KvTabNavigation {
 	/** Watch for tab selection change and react accordingly by updating the internal states */
 	@Watch('selectedTabKey')
 	tabSelectionChangeHandler() {
-		this.observeTabItemVisibility(this.tabEls[this.selectedTabKey]);
+		setTimeout(() => this.observeTabItemVisibility(this.tabEls[this.selectedTabKey]), this.indicatorCalculationTimeoutMs);
 	}
 
 	/** The left offset and width of the tab indicator, recalculated when the selected tab changes */
@@ -52,7 +54,7 @@ export class KvTabNavigation {
 	}
 
 	componentDidLoad() {
-		this.observeTabItemVisibility(this.tabEls[this.selectedTabKey]);
+		setTimeout(() => this.observeTabItemVisibility(this.tabEls[this.selectedTabKey]), this.indicatorCalculationTimeoutMs);
 	}
 
 	disconnectedCallback() {
@@ -71,7 +73,7 @@ export class KvTabNavigation {
 
 	private intersectionHandler = (entries: IntersectionObserverEntry[]) => {
 		entries.forEach(intersection => {
-			const rect = getIntersectionRelativeClientRect(intersection);
+			const rect = getIntersectionRelativeClientRect(intersection, this.el);
 
 			this.selectedTabIndicatorConfig = {
 				left: `${rect.left}px`,
