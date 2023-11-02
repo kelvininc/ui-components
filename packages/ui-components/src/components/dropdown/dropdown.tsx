@@ -33,6 +33,8 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
+	/** @inheritdoc */
+	@Event() clickOutside: EventEmitter<void>;
 
 	@Element() el: HTMLKvDropdownElement;
 

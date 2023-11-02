@@ -19,4 +19,6 @@ export interface IDropdownBase {
 export interface IDropdownBaseEvents {
 	/** Emitted when the dropdown opens state changes */
 	openStateChange: EventEmitter<boolean>;
+	/** Emitted when there's a click outside the dropdown's bondaries */
+	clickOutside: EventEmitter<void>;
 }

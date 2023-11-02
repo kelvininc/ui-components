@@ -99,6 +99,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Event() dismiss: EventEmitter<void>;
 	/** @inheritdoc */
+	@Event() clickOutside: EventEmitter<void>;
+	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 
 	@State() _searchValue: string;

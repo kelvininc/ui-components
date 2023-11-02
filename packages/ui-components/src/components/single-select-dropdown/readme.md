@@ -78,13 +78,14 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 
 ## Events
 
-| Event             | Description                                                | Type                   |
-| ----------------- | ---------------------------------------------------------- | ---------------------- |
-| `clearSelection`  | Emitted when the user clears the selected items            | `CustomEvent<void>`    |
-| `dismiss`         | Emitted when the 'esc' key is pressed                      | `CustomEvent<void>`    |
-| `openStateChange` | Emitted when the dropdown open state changes               | `CustomEvent<boolean>` |
-| `optionSelected`  | Emitted when an option is selected                         | `CustomEvent<string>`  |
-| `searchChange`    | Emitted when the user interacts with the search text field | `CustomEvent<string>`  |
+| Event             | Description                                                   | Type                   |
+| ----------------- | ------------------------------------------------------------- | ---------------------- |
+| `clearSelection`  | Emitted when the user clears the selected items               | `CustomEvent<void>`    |
+| `clickOutside`    | Emitted when there's a click outside the dropdown's bondaries | `CustomEvent<void>`    |
+| `dismiss`         | Emitted when the 'esc' key is pressed                         | `CustomEvent<void>`    |
+| `openStateChange` | Emitted when the dropdown open state changes                  | `CustomEvent<boolean>` |
+| `optionSelected`  | Emitted when an option is selected                            | `CustomEvent<string>`  |
+| `searchChange`    | Emitted when the user interacts with the search text field    | `CustomEvent<string>`  |
 
 
 ## Shadow Parts
