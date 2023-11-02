@@ -58,5 +58,6 @@ Default.args = {
 		components: {
 			active: true
 		}
-	}
+	},
+	size: EComponentSize.Large
 };

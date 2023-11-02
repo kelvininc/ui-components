@@ -31,11 +31,6 @@ export interface ITabNavigationConfig {
 	notifications?: ITabsNotificationDict;
 	/** (optional) Sets the items on this tab nav to use small styling configuration */
 	size?: EComponentSize;
-	/**
-	 * (optional) Sets the time to wait for calculation of the selected tab indicator
-	 * This is a workaround to solve a problem where a container of this component changes width
-	 */
-	indicatorCalculationTimeoutMs?: number;
 }
 
 export interface ITabNavigationEvents {

@@ -8,7 +8,7 @@ exports[`Tab Navigation (unit tests) when rendering with required props and noti
     <kv-tab-item label="Tab 1" size="large" tabkey="tab3"></kv-tab-item>
     <kv-tab-item label="Tab 1" size="large" tabkey="tab4"></kv-tab-item>
     <kv-tab-item label="Tab 1" size="large" tabkey="tab5"></kv-tab-item>
-    <div class="selected-tab-indicator" style="left: 0px; width: 0px;"></div>
+    <div class="selected-tab-indicator" style="left: 0px; width: 62px;"></div>
   </mock:shadow-root>
 </kv-tab-navigation>
 `;
@@ -21,7 +21,7 @@ exports[`Tab Navigation (unit tests) when rendering with required props should m
     <kv-tab-item label="Tab 1" size="large" tabkey="tab3"></kv-tab-item>
     <kv-tab-item label="Tab 1" size="large" tabkey="tab4"></kv-tab-item>
     <kv-tab-item label="Tab 1" size="large" tabkey="tab5"></kv-tab-item>
-    <div class="selected-tab-indicator" style="left: 0px; width: 0px;"></div>
+    <div class="selected-tab-indicator" style="left: 0px; width: 48px;"></div>
   </mock:shadow-root>
 </kv-tab-navigation>
 `;
