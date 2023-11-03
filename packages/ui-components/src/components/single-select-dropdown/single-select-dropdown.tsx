@@ -16,6 +16,7 @@ import { getCssStyle } from '../utils';
 import { ComputePositionConfig } from '@floating-ui/dom';
 import { buildSingleSelectOptions } from './single-select-dropdown.helper';
 import { getFlattenSelectOptions } from '../../utils/select.helper';
+import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
 
 /**
  * @part select - The select container.
@@ -87,7 +88,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) shortcuts?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) zIndex?: number = 9004;
+	@Prop({ reflect: false }) zIndex?: number = DEFAULT_DROPDOWN_Z_INDEX;
 
 	/** @inheritdoc */
 	@Event() optionSelected: EventEmitter<string>;
@@ -97,6 +98,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Event() clearSelection: EventEmitter<void>;
 	/** @inheritdoc */
 	@Event() dismiss: EventEmitter<void>;
+	/** @inheritdoc */
+	@Event() clickOutside: EventEmitter<void>;
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 

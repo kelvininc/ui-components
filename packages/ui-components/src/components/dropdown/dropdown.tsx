@@ -6,6 +6,7 @@ import { DEFAULT_DROPDOWN_POSITION_CONFIG, DEFAULT_INPUT_CONFIG } from './dropdo
 import { EIconName } from '../icon/icon.types';
 import { ITextField } from '../text-field/text-field.types';
 import { merge } from 'lodash-es';
+import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
 
 @Component({
 	tag: 'kv-dropdown',
@@ -28,10 +29,12 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) clickOutsideClose?: boolean = true;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) zIndex?: number = 9004;
+	@Prop({ reflect: false }) zIndex?: number = DEFAULT_DROPDOWN_Z_INDEX;
 
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
+	/** @inheritdoc */
+	@Event() clickOutside: EventEmitter<void>;
 
 	@Element() el: HTMLKvDropdownElement;
 

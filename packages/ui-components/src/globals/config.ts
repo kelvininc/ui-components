@@ -7,7 +7,7 @@ export const DEFAULT_CONFIG: UIComponentsConfig = {
 };
 
 export const DEFAULT_PORTAL_Z_INDEX = 9005;
-export const DEFAULT_DROPDOWN_Z_INDEX = DEFAULT_PORTAL_Z_INDEX;
+export const DEFAULT_DROPDOWN_Z_INDEX = DEFAULT_PORTAL_Z_INDEX - 1;
 // Toggle tip over Dropdown
 export const TOGGLE_TIP_Z_INDEX = DEFAULT_PORTAL_Z_INDEX + 1;
 // Tooltip over Toggle tip and Dropdown

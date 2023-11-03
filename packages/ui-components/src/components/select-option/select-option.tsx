@@ -4,6 +4,7 @@ import { isEmpty } from 'lodash';
 import { LEVEL_OFFSET_PX } from './select-option.config';
 
 /**
+ * @part select-option-content - The option's content container
  * @part option-container - The option's container
  * @part checkbox - The option's checkbox
  * @part label - The option's label
@@ -66,37 +67,39 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 
 		return (
 			<Host>
-				<div
-					class={{
-						'select-option': true,
-						'select-option--selected': this.selected,
-						'select-option--highlighted': this.highlighted,
-						'select-option--disabled': this.disabled,
-						'select-option--selectable': this.selectable,
-						'select-option--parent': this.hasChildren
-					}}
-					part="option-container"
-					onClick={this.onItemClick}
-					style={{ '--level-padding-offset': `${LEVEL_OFFSET_PX * this.level}px` }}
-				>
-					{this.selectable && this.togglable && (
-						<kv-checkbox checked={this.state === EToggleState.Selected} indeterminate={this.state === EToggleState.Indeterminate} part="checkbox" />
-					)}
-					<div class="text-container">
-						<div class="item-label" part="label">
-							{this.label}
+				<div part="select-option-content">
+					<div
+						class={{
+							'select-option': true,
+							'select-option--selected': this.selected,
+							'select-option--highlighted': this.highlighted,
+							'select-option--disabled': this.disabled,
+							'select-option--selectable': this.selectable,
+							'select-option--parent': this.hasChildren
+						}}
+						part="option-container"
+						onClick={this.onItemClick}
+						style={{ '--level-padding-offset': `${LEVEL_OFFSET_PX * this.level}px` }}
+					>
+						{this.selectable && this.togglable && (
+							<kv-checkbox checked={this.state === EToggleState.Selected} indeterminate={this.state === EToggleState.Indeterminate} part="checkbox" />
+						)}
+						<div class="text-container">
+							<div class="item-label" part="label">
+								{this.label}
+							</div>
+							{this.description && <div class="item-description">{this.description}</div>}
 						</div>
-						{this.description && <div class="item-description">{this.description}</div>}
-						<slot></slot>
 					</div>
+					{this.hasChildren && (
+						<div class="children-options">
+							{children.map(childOption => (
+								<kv-select-option {...childOption} level={this.level + 1} />
+							))}
+						</div>
+					)}
+					<slot />
 				</div>
-				{this.hasChildren && (
-					<div class="children-options">
-						{children.map(childOption => (
-							<kv-select-option {...childOption} level={this.level + 1} />
-						))}
-					</div>
-				)}
 			</Host>
 		);
 	}

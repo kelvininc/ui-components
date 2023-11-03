@@ -70,8 +70,6 @@ export interface ITextField {
 	readonly?: boolean;
 	/** (optional) Text field focus state */
 	forcedFocus?: boolean;
-	/** (optional) Similar to forcedFocus but does not emmit events */
-	highlighted?: boolean;
 	/** (optional) Text field tooltip configuration */
 	tooltipConfig?: Partial<ITooltip>;
 	/** (optional) Use a input mask when the text field type is number (default true) */

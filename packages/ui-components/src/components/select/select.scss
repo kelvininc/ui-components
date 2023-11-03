@@ -6,12 +6,14 @@
 	 * @prop --select-min-height: Select minimum height.
 	 * @prop --select-background-color: Select background color.
 	 * @prop --select-border: Select border style.
+	 * @prop --select-inner-border: Select inner border style.
 	 * @prop --select-border-radius: Select border radius.
 	 */
 	--select-max-height: auto;
 	--select-min-height: auto;
 	--select-background-color: #{kv-color('neutral-7')};
 	--select-border: 1px solid #{kv-color('neutral-6')};
+	--select-inner-border: 1px solid #{kv-color('neutral-6')};
 	--select-border-radius: #{$spacing};
 }
 
@@ -37,7 +39,7 @@
 	flex-direction: column;
 	gap: $spacing-3x;
 	padding: $spacing-3x $spacing-4x;
-	border-bottom: var(--select-border);
+	border-bottom: var(--select-inner-border);
 }
 
 .search-footer {
