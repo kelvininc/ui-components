@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.25.0](https://github.com/kelvininc/ui-components/compare/v0.24.0...v0.25.0) (2023-11-03)
+
+
+### Bug Fixes
+
+* **dropdowns:** use default z-index constant ([d1953b5](https://github.com/kelvininc/ui-components/commit/d1953b56ee2ff8730eefee665a022b891b989c59))
+
+
+* feat(text-field)!: focus/blur input on `forcedFocus` change ([0f86798](https://github.com/kelvininc/ui-components/commit/0f86798b7899cf2a5ffcfc0c4a570a255afdaf20))
+
+
+### Features
+
+* add new confidence illustrations ([84bc221](https://github.com/kelvininc/ui-components/commit/84bc22121be25ecde8f36a4dddf0b4c043fa0d03))
+* **dropdowns:** add click outside event emitter ([fb2889a](https://github.com/kelvininc/ui-components/commit/fb2889aba34c7df4b4941186d0d8c33a0f00b442))
+* **icon:** add kv-send-message icon ([0be4c66](https://github.com/kelvininc/ui-components/commit/0be4c66f9b4bc50692e64382a9ea61074324a9b7))
+* **select-option:** move slot location and add part ([a7cbaee](https://github.com/kelvininc/ui-components/commit/a7cbaee5ec1759c8a727f7cd341e15179f351e8e))
+* **select:** isolate inner and outer border styling ([013bf5c](https://github.com/kelvininc/ui-components/commit/013bf5cd45d026e80e61f66f059b4f55bac7c85a))
+
+
+### BREAKING CHANGES
+
+* removed `highlighted` property
+
+
+
+
+
 # [0.24.0](https://github.com/kelvininc/ui-components/compare/v0.23.0...v0.24.0) (2023-10-04)
 
 
