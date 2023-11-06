@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.1](https://github.com/kelvininc/ui-components/compare/v0.25.0...v0.25.1) (2023-11-06)
+
+
+### Bug Fixes
+
+* **tab-navigation:** add timeout to indicator position calculation ([0c52aca](https://github.com/kelvininc/ui-components/commit/0c52aca97f098266a66b25242bf9c68bc05de467))
+
+
+
+
+
 # [0.25.0](https://github.com/kelvininc/ui-components/compare/v0.24.0...v0.25.0) (2023-11-03)
 
 
