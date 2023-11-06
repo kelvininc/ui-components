@@ -1,6 +1,6 @@
-export const getIntersectionRelativeClientRect = (intersectionEntry: IntersectionObserverEntry) => {
+export const getIntersectionRelativeClientRect = (intersectionEntry: IntersectionObserverEntry, parent: HTMLKvTabNavigationElement) => {
 	const rect = intersectionEntry.boundingClientRect;
-	const parentRect = (intersectionEntry.target as HTMLKvTabItemElement).offsetParent.getBoundingClientRect();
+	const parentRect = parent.getBoundingClientRect();
 
 	return {
 		x: rect.x,

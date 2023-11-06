@@ -3,3 +3,5 @@ export const INTERSECTION_OBSERVER_CONFIG: IntersectionObserverInit = {
 	rootMargin: '0px',
 	threshold: 1.0
 };
+
+export const DEFAULT_INDICATOR_TIMEOUT_WAIT = 0;
