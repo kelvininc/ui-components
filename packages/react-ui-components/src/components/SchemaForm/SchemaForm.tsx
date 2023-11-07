@@ -95,6 +95,9 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 				submitText: ''
 			}
 		},
+		formContext: {
+			...uiSchema['ui:options']
+		} as SchemaFormContext,
 		formData: formData,
 		validator: formValidator,
 		experimental_defaultFormStateBehavior

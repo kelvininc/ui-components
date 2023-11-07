@@ -1,4 +1,4 @@
-import { EIconName, ETooltipPosition, ISelectMultiOptions, ISelectSingleOptions } from '@kelvininc/ui-components';
+import { EComponentSize, EIconName, ETooltipPosition, ISelectMultiOptions, ISelectSingleOptions } from '@kelvininc/ui-components';
 import { IChangeEvent } from '@rjsf/core';
 import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
@@ -987,6 +987,85 @@ AlowResetToDefaultsWidget.args = {
 				placeholder: 'Add description',
 				showDefaultValueHelper: true
 			}
+		}
+	}
+};
+
+export const UiSchemaOptions = FormTemplate.bind({});
+UiSchemaOptions.args = {
+	showErrorList: false,
+	liveValidate: true,
+	disabled: false,
+	formData: {
+		'number-example': 2.3,
+		'integer-example': 1,
+		'boolean-example': true,
+		'enum-example': 'foo',
+		'string-example': 'value',
+		'multipleChoicesList-example': ['fuzz', 'qux']
+	},
+	schema: {
+		type: 'object',
+		properties: {
+			'number-example': {
+				title: 'Number',
+				type: 'number',
+				minimum: -10.0,
+				maximum: 10,
+				description: 'Number description'
+			},
+			'integer-example': {
+				title: 'Integer',
+				type: 'integer',
+				minimum: -10,
+				maximum: 10
+			},
+			'boolean-example': {
+				title: 'Boolean',
+				type: 'boolean'
+			},
+			'enum-example': {
+				title: 'Enum',
+				type: 'string',
+				enum: ['foo', 'bar']
+			},
+			'string-example': {
+				title: 'String',
+				type: 'string',
+				minLength: 5,
+				maxLength: 10,
+				pattern: '^[a-zA-Z0-9]*$'
+			},
+			'basic-example': {
+				title: 'Examples',
+				description: 'A input with example values',
+				type: 'string',
+				examples: ['Firefox', 'Chrome', 'Opera', 'Vivaldi', 'Safari']
+			},
+			'multipleChoicesList-example': {
+				type: 'array',
+				title: 'A multiple choices list',
+				items: {
+					type: 'string',
+					enum: ['bar', 'fuzz', 'qux', 'bar1', 'fuzz1', 'qux1', 'bar2', 'fuzz2', 'qux2']
+				},
+				uniqueItems: true
+			}
+		}
+	},
+	/**
+	 *  Here we are passing the ui defaults for the inputs to have a component large size
+	 * However, the values applied to the multipleChoicesList-example will be the values inside the property key.
+	 * Therefore, when we have default values, it is possible to override if needed.
+	 *  */
+	uiSchema: {
+		'ui:componentSize': EComponentSize.Small,
+		'ui:zIndex': 200,
+		'multipleChoicesList-example': {
+			optionZIndex: 10,
+			optionComponentSize: EComponentSize.Large,
+			searchable: true,
+			selectionClearable: true
 		}
 	}
 };

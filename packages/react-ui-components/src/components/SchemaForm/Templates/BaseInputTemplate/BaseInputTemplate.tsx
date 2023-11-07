@@ -1,4 +1,4 @@
-import { EInputFieldType, EValidationState } from '@kelvininc/ui-components';
+import { EComponentSize, EInputFieldType, EValidationState } from '@kelvininc/ui-components';
 import { get, isArray, isEmpty } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
 import { KvTextField } from '../../../stencil-generated';
@@ -24,11 +24,16 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 	schema,
 	rawErrors = [],
 	uiSchema = {},
+	formContext,
 	type
 }: BaseInputTemplateProps<T, S, F>) => {
 	const _onChange = useCallback((value: CustomEvent<string>) => onChange(value?.detail ? value.detail : options.emptyValue), [onChange, options]);
 	const _onBlur = useCallback((value: CustomEvent<string>) => onBlur(id, value.detail), [onBlur, id]);
 	const inputType = useMemo(() => type ?? getInputType(schema.type), [type, schema.type]);
+	const { optionComponentSize } = uiSchema;
+
+	const componentSize = get(formContext, ['componentSize'], EComponentSize.Large);
+
 	const examples = useMemo(
 		() => (schema.examples ? (schema.examples as string[]).concat(schema.default ? ([schema.default] as string[]) : []) : undefined),
 		[schema.examples, schema.default]
@@ -43,6 +48,7 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 			<KvTextField
 				id={id}
 				label={displayedLabel}
+				size={!isEmpty(optionComponentSize) ? optionComponentSize : componentSize}
 				examples={examples}
 				disabled={disabled || readonly}
 				readonly={readonly}
