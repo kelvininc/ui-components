@@ -41,7 +41,7 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 	const hasErrors = useMemo(() => !isEmpty(rawErrors), [rawErrors]);
 	const displayedLabel = useMemo(() => get(uiSchema, ['ui:title']) || schema.title || label, [uiSchema, schema.title, label]);
 
-	const { useInputMask, inputMaskRegex, minLength, maxLength, max, min } = uiSchema;
+	const { useInputMask, inputMaskRegex, minLength, maxLength, max, min, valuePrefix, badge } = uiSchema;
 
 	return (
 		<div className={styles.InputContainer}>
@@ -64,6 +64,8 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 				useInputMask={useInputMask}
 				inputMaskRegex={inputMaskRegex}
 				value={value || value === 0 ? value : ''}
+				valuePrefix={valuePrefix}
+				badge={badge}
 				onTextChange={_onChange}
 				onTextFieldBlur={_onBlur}
 			/>

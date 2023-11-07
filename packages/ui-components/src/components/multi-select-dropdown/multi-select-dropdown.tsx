@@ -4,7 +4,7 @@ import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { IMultiSelectDropdown, IMultiSelectDropdownEvents } from './multi-select-dropdown.types';
 
 import { MINIMUM_SEARCHABLE_OPTIONS, MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
-import { getDropdownDisplayValue } from './multi-select-dropdown.helper';
+import { getBadgeLabelValue, getDropdownDisplayValue } from './multi-select-dropdown.helper';
 import { CustomCssClass, EComponentSize } from '../../types';
 import { getCssStyle } from '../utils';
 import { ISelectMultiOptions } from '../select-multi-options/select-multi-options.types';
@@ -38,6 +38,10 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) displayValue?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) displayPrefix?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) badge?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) errorState?: EValidationState;
 	/** @inheritdoc */
@@ -96,20 +100,28 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 
 	@State() _selectionDisplayValue: string | undefined;
 	@State() _searchValue: string;
+	@State() _badgeLabel: string | undefined = this.badge;
 	@State() _isOpen: boolean = false;
 
 	/** The Host's element reference */
 	@Element() el: HTMLKvMultiSelectDropdownElement;
+
+	@Watch('badge')
+	badgeChangeHandler() {
+		this.calculateBadgeValue();
+	}
 
 	@Watch('options')
 	@Watch('selectedOptions')
 	@Watch('displayValue')
 	labelValueHandler() {
 		this.calculateLabelValue();
+		this.calculateBadgeValue();
 	}
 
 	componentWillLoad() {
 		this.calculateLabelValue();
+		this.calculateBadgeValue();
 	}
 
 	private selectRef?: HTMLKvSelectMultiOptionsElement | null;
@@ -180,10 +192,19 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		}
 	};
 
+	private calculateBadgeValue = (): void => {
+		if (this.badge?.length) {
+			this._badgeLabel = this.badge;
+		} else {
+			this._badgeLabel = getBadgeLabelValue(this.selectedOptions);
+		}
+	};
+
 	private get inputConfig(): Partial<ITextField> {
 		return {
 			label: this.label,
 			value: this._selectionDisplayValue,
+			valuePrefix: this.displayPrefix,
 			loading: this.loading,
 			icon: this.icon,
 			disabled: this.disabled,
@@ -191,7 +212,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 			placeholder: this.placeholder,
 			state: this.errorState,
 			helpText: this.helpText,
-			size: this.inputSize
+			size: this.inputSize,
+			badge: this._badgeLabel
 		};
 	}
 

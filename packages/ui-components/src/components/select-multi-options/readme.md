@@ -68,7 +68,6 @@ Type: `Promise<void>`
 
 ### Used by
 
- - [kv-labels-dropdown](../labels-dropdown)
  - [kv-multi-select-dropdown](../multi-select-dropdown)
  - [kv-single-select-dropdown](../single-select-dropdown)
 
@@ -94,12 +93,12 @@ graph TD;
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
+  kv-text-field --> kv-badge
   kv-text-field --> kv-form-help-text
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
   kv-select-shortcuts-label --> kv-icon
-  kv-labels-dropdown --> kv-select-multi-options
   kv-multi-select-dropdown --> kv-select-multi-options
   kv-single-select-dropdown --> kv-select-multi-options
   style kv-select-multi-options fill:#f9f,stroke:#333,stroke-width:4px

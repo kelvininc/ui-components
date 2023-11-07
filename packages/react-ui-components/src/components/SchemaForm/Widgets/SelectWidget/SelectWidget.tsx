@@ -25,7 +25,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	formContext
 }: WidgetProps<T, S, F>) => {
 	const { enumOptions, enumDisabled, placeholder: optionsPlaceholder } = options;
-	const { displayValue, searchable, selectionClearable, minHeight, maxHeight, minSearchOptions, optionZIndex, optionComponentSize } = uiSchema;
+	const { displayValue, searchable, selectionClearable, minHeight, maxHeight, minSearchOptions, badge, displayPrefix, optionZIndex, optionComponentSize } = uiSchema;
 	const componentSize = get(formContext, ['componentSize'], EComponentSize.Large);
 	const defaultZIndex = get(formContext, ['zIndex'], DEFAULT_DROPDOWN_Z_INDEX);
 
@@ -69,6 +69,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		disabled: disabled || readonly,
 		errorState: hasErrors ? EValidationState.Invalid : EValidationState.Valid,
 		displayValue: typeof value === 'undefined' ? emptyValue : displayValue?.(value, defaultDropdownOptions),
+		displayPrefix,
 		options: defaultDropdownOptions,
 		filteredOptions,
 		onSearchChange,
@@ -76,6 +77,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		zIndex: isNumber(optionZIndex) ? optionZIndex : defaultZIndex,
 		minHeight,
 		maxHeight,
+		badge,
 		selectionClearable,
 		minSearchOptions: minSearchOptions ?? DEFAULT_MINIMUM_SEARCHABLE_OPTIONS
 	};

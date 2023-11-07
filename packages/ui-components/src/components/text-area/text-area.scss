@@ -27,7 +27,7 @@
 		.text-area-wrapper {
 			padding: $spacing-2x $spacing-3x;
 			border: 1px solid kv-color('neutral-7');
-			border-radius: $spacing;
+			border-radius: 4px;
 			height: var(--height-default);
 			overflow: auto;
 			transition: height 0.25s ease-in-out;
