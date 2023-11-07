@@ -1,7 +1,10 @@
-export const INTERSECTION_OBSERVER_CONFIG: IntersectionObserverInit = {
-	root: null,
-	rootMargin: '0px',
-	threshold: 1.0
+import { EComponentSize } from '../../types';
+
+export const FONT_DESCRIPTOR_SIZE_MAP: Record<EComponentSize, string> = {
+	[EComponentSize.Small]: 'normal normal 600 12px proxima-nova',
+	[EComponentSize.Large]: 'normal normal 600 16px proxima-nova'
 };
 
-export const DEFAULT_INDICATOR_TIMEOUT_WAIT = 0;
+export const TAB_ITEM_PADDING_PX = 48;
+export const TAB_ITEM_NOTIFICATION_DOT_WITH_MARGIN = 14;
+export const TAB_ITEM_SMALL_ADDED_MARGIN = 32;
