@@ -12,14 +12,16 @@ exports[`Range Dates Input (unit tests) when uses default props should match the
                 <div class="text-field-container">
                   <kv-form-label></kv-form-label>
                   <div class="input-container input-container--size-large">
-                    <input class="left-slotted right-slotted" placeholder="Select a start date" readonly="" type="text" value="">
                     <div class="left-slot-container">
                       <slot name="left-slot">
                         <kv-icon exportparts="icon" name="kv-calendar"></kv-icon>
                       </slot>
                     </div>
-                    <div class="right-icon-container">
-                      <kv-icon name="kv-arrow-drop-down"></kv-icon>
+                    <input placeholder="Select a start date" readonly="" type="text" value="">
+                    <div class="right-slot-container">
+                      <slot name="right-slot">
+                        <kv-icon name="kv-arrow-drop-down"></kv-icon>
+                      </slot>
                     </div>
                   </div>
                   <kv-form-help-text state="none"></kv-form-help-text>
@@ -35,14 +37,16 @@ exports[`Range Dates Input (unit tests) when uses default props should match the
                 <div class="text-field-container">
                   <kv-form-label></kv-form-label>
                   <div class="input-container input-container--size-large">
-                    <input class="left-slotted right-slotted" placeholder="Select an end date" readonly="" type="text" value="">
                     <div class="left-slot-container">
                       <slot name="left-slot">
                         <kv-icon exportparts="icon" name="kv-calendar"></kv-icon>
                       </slot>
                     </div>
-                    <div class="right-icon-container">
-                      <kv-icon name="kv-arrow-drop-down"></kv-icon>
+                    <input placeholder="Select an end date" readonly="" type="text" value="">
+                    <div class="right-slot-container">
+                      <slot name="right-slot">
+                        <kv-icon name="kv-arrow-drop-down"></kv-icon>
+                      </slot>
                     </div>
                   </div>
                   <kv-form-help-text state="none"></kv-form-help-text>

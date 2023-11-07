@@ -114,6 +114,7 @@ graph TD;
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
+  kv-text-field --> kv-badge
   kv-text-field --> kv-form-help-text
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text

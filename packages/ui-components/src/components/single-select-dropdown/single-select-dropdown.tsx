@@ -42,6 +42,10 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) displayValue?: string;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) displayPrefix?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) badge?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) errorState?: EValidationState = EValidationState.None;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) helpText?: string | string[] = [];
@@ -206,6 +210,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	private getInputConfig = (): Partial<ITextField> => ({
 		label: this.label,
 		value: this._selectionDisplayValue,
+		valuePrefix: this.displayPrefix,
 		loading: this.loading,
 		icon: this.icon,
 		disabled: this.disabled,
@@ -213,7 +218,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		placeholder: this.placeholder,
 		state: this.errorState,
 		helpText: this.helpText,
-		size: this.inputSize
+		size: this.inputSize,
+		badge: this.badge
 	});
 
 	private clearHighlightedOption = (): void => {
