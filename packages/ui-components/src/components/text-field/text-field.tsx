@@ -273,28 +273,31 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 												}}
 											/>
 										)}
-										{this.valuePrefix && <div class="value-prefix">{this.valuePrefix}</div>}
+										{value && this.valuePrefix && <div class="value-prefix">{this.valuePrefix}</div>}
 									</slot>
 								</div>
-								<input
-									ref={input => (this.nativeInput = input as HTMLInputElement)}
-									type={type}
-									list={!isNil(this.examples) ? `examples_${id}` : undefined}
-									name={this.inputName}
-									placeholder={this.placeholder}
-									disabled={this.disabled}
-									max={this.max}
-									min={this.min}
-									minLength={this.minLength}
-									step={this.step}
-									value={value}
-									onInput={this.onInputHandler}
-									onBlur={this.onBlurHandler}
-									onFocus={this.onFocusHandler}
-									onPaste={this.onPasteHandler}
-									class={{ 'forced-focus': this.focused }}
-									readonly={this.readonly}
-								/>
+								<div class="resize-container">
+									<span class="resize-text">{value || this.placeholder}</span>
+									<input
+										ref={input => (this.nativeInput = input as HTMLInputElement)}
+										type={type}
+										list={!isNil(this.examples) ? `examples_${id}` : undefined}
+										name={this.inputName}
+										placeholder={this.placeholder}
+										disabled={this.disabled}
+										max={this.max}
+										min={this.min}
+										minLength={this.minLength}
+										step={this.step}
+										value={value}
+										onInput={this.onInputHandler}
+										onBlur={this.onBlurHandler}
+										onFocus={this.onFocusHandler}
+										onPaste={this.onPasteHandler}
+										class={{ 'resize-input': true, 'forced-focus': this.focused }}
+										readonly={this.readonly}
+									/>
+								</div>
 								<div
 									class={{
 										'right-slot-container': true,

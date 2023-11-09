@@ -3,8 +3,14 @@
 :host {
 	/**
 	 * @prop --select-list-max-height: Select list maximum height.
+	 * @prop --select-list-min-height: Select list minimum height.
+	 * @prop --select-list-max-width: Select list maximum width.
+	 * @prop --select-list-min-width: Select list minimum width.
 	 */
 	--select-list-max-height: 400px;
+	--select-list-min-height: auto;
+	--select-list-max-width: auto;
+	--select-list-min-width: auto;
 }
 
 .no-data {
@@ -14,6 +20,9 @@
 
 kv-select {
 	--select-max-height: var(--select-list-max-height);
+	--select-min-height: var(--select-list-min-height);
+	--select-max-width: var(--select-list-max-width);
+	--select-min-width: var(--select-list-min-width);
 }
 
 .selected-items-label {

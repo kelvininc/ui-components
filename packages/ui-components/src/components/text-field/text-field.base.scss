@@ -5,6 +5,8 @@
 	 * @prop --input-height-large: Text Field's large height.
 	 * @prop --input-height-small: Text Field's small height.
 	 * @prop --input-width: Text Field's width.
+	 * @prop --input-min-width: Text Field's min width.
+	 * @prop --input-max-width: Text Field's max width.
 
 	 * @prop --text-color-label: Label Text color.
 	 * @prop --text-color-icon-default: Icon color when state is default.
@@ -24,14 +26,13 @@
 
 	 * @prop --background-color-default: Background color when state is default.
 	 * @prop --background-color-disabled: Background color when state is disabled.
-	 * @prop --right-slot-width: right slot width
-	 * @prop --left-slot-width: left slot width.
-	 * @prop --left-slot-padding-top: left slot top padding.
 	 */
 
 	--input-height-large: 36px;
 	--input-height-small: 28px;
 	--input-width: auto;
+	--input-min-width: 140px;
+	--input-max-width: 100%;
 
 	--text-color-icon-default: #{kv-color('neutral-4')};
 	--text-color-input-disabled: #{kv-color('neutral-5')};
@@ -39,9 +40,6 @@
 	--text-color-help-text-error: #{kv-color('error')};
 
 	--border-color-error: #{kv-color('error')};
-	--right-slot-width: 36px;
-	--left-slot-width: 36px;
-	--left-slot-padding-top: 0;
 
 	--action-icon-size: 16px;
 }
@@ -64,18 +62,42 @@ kv-tooltip::part(content) {
 	width: 100%;
 }
 
-input {
+.resize-container {
+	display: inline-block;
+	position: relative;
+	flex: 1;
+	overflow: hidden;
+}
+
+.resize-input,
+.resize-text {
 	@include kv-font-span-regular;
 	flex: 1;
 	appearance: textfield;
 	border: 0;
-	width: 100%;
 	height: 100%;
 	outline: 0;
 	box-sizing: border-box;
 	color: var(--text-color-input-default);
 	background-color: transparent;
+}
 
+.resize-text {
+	padding: 0 $spacing;
+	display: inline-block;
+	visibility: hidden;
+	white-space: pre;
+}
+
+.resize-input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+input {
 	@include ellipsis;
 
 	&::placeholder {
@@ -112,12 +134,15 @@ input {
 .input-container {
 	display: flex;
 	width: var(--input-width);
+	min-width: var(--input-min-width);
+	max-width: var(--input-max-width);
 	padding: 0 $spacing-2x;
 	border: solid 1px var(--border-color-default);
 	border-radius: 4px;
 	position: relative;
 	overflow: hidden;
 	background-color: var(--background-color-default);
+	box-sizing: border-box;
 
 	&.invalid {
 		border-color: var(--border-color-error);
@@ -178,7 +203,7 @@ input {
 		.value-prefix {
 			white-space: nowrap;
 			margin-right: calc(#{$spacing} / 2);
-			
+
 			@include kv-font-span-semibold;
 		}
 	}

@@ -17,7 +17,12 @@ exports[`Range Dates Input (unit tests) when uses default props should match the
                         <kv-icon exportparts="icon" name="kv-calendar"></kv-icon>
                       </slot>
                     </div>
-                    <input placeholder="Select a start date" readonly="" type="text" value="">
+                    <div class="resize-container">
+                      <span class="resize-text">
+                        Select a start date
+                      </span>
+                      <input class="resize-input" placeholder="Select a start date" readonly="" type="text" value="">
+                    </div>
                     <div class="right-slot-container">
                       <slot name="right-slot">
                         <kv-icon name="kv-arrow-drop-down"></kv-icon>
@@ -42,7 +47,12 @@ exports[`Range Dates Input (unit tests) when uses default props should match the
                         <kv-icon exportparts="icon" name="kv-calendar"></kv-icon>
                       </slot>
                     </div>
-                    <input placeholder="Select an end date" readonly="" type="text" value="">
+                    <div class="resize-container">
+                      <span class="resize-text">
+                        Select an end date
+                      </span>
+                      <input class="resize-input" placeholder="Select an end date" readonly="" type="text" value="">
+                    </div>
                     <div class="right-slot-container">
                       <slot name="right-slot">
                         <kv-icon name="kv-arrow-drop-down"></kv-icon>

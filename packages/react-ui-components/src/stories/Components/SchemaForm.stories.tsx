@@ -857,15 +857,20 @@ const inlineSchema: SchemaFormProps<any>['schema'] = {
 };
 
 const inlineUiSchema: SchemaFormProps<any>['uiSchema'] = {
-	shift_info: {
-		'ui:inline': true,
-		'ui:inputWidth': '240px'
+	'ui:inputConfig': {
+		width: 'fit-content',
+		minWidth: '132px',
+		maxWidth: 'unset'
 	},
-	production_info: {
+	'shift_info': {
 		'ui:inline': true,
-		'ui:inputWidth': '240px'
+		'ui:inputWidth': 'fit-content'
 	},
-	team_info: {
+	'production_info': {
+		'ui:inline': true,
+		'ui:inputWidth': '200px'
+	},
+	'team_info': {
 		'ui:itemPrefix': 'Collaborator',
 		'ui:options': {
 			addable: true,
@@ -876,19 +881,21 @@ const inlineUiSchema: SchemaFormProps<any>['uiSchema'] = {
 			'ui:title': '',
 			'ui:itemPrefix': 'Collaborator',
 			'ui:inline': true,
-			'ui:inputWidth': '240px',
+			'ui:inputWidth': 'fit-content',
 			'responsible_for': {
-				searchable: true
+				'searchable': true,
+				'ui:placeholder': ''
 			}
 		}
 	},
-	assets_oee: {
+	'assets_oee': {
 		'ui:title': '',
 		'ui:options': {
 			addable: false,
 			orderable: false,
 			removable: false
 		},
+		'ui:inputWidth': 'fit-content',
 		'items': {
 			'ui:title': '',
 			'ui:fieldset': true,
@@ -901,11 +908,11 @@ const inlineUiSchema: SchemaFormProps<any>['uiSchema'] = {
 			},
 			'oee_thresholds': {
 				'ui:inline': true,
-				'ui:inputWidth': '240px'
+				'ui:inputWidth': 'fit-content'
 			},
 			'oee_calculation': {
 				'ui:inline': true,
-				'ui:inputWidth': '240px'
+				'ui:inputWidth': '400px'
 			}
 		}
 	}
@@ -1060,10 +1067,12 @@ UiSchemaOptions.args = {
 	 *  */
 	uiSchema: {
 		'ui:componentSize': EComponentSize.Small,
-		'ui:zIndex': 200,
+		'ui:dropdownConfig': {
+			zIndex: 200
+		},
 		'multipleChoicesList-example': {
-			optionZIndex: 10,
-			optionComponentSize: EComponentSize.Large,
+			zIndex: 10,
+			componentSize: EComponentSize.Large,
 			searchable: true,
 			selectionClearable: true
 		}
