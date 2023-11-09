@@ -9,8 +9,10 @@
 	 * @prop --select-inner-border: Select inner border style.
 	 * @prop --select-border-radius: Select border radius.
 	 */
-	--select-max-height: auto;
+	--select-max-height: 400px;
 	--select-min-height: auto;
+	--select-max-width: auto;
+	--select-min-width: auto;
 	--select-background-color: #{kv-color('neutral-7')};
 	--select-border: 1px solid #{kv-color('neutral-6')};
 	--select-inner-border: 1px solid #{kv-color('neutral-6')};
@@ -18,6 +20,8 @@
 }
 
 .select-container {
+	max-width: var(--select-max-width);
+	min-width: var(--select-min-width);
 	border: var(--select-border);
 	border-radius: var(--select-border-radius);
 	overflow: hidden;
@@ -46,6 +50,7 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	gap: $spacing-3x;
 
 	.footer-actions {
 		@include kv-font-label-small-regular;

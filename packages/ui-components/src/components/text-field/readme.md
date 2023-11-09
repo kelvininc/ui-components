@@ -123,10 +123,9 @@ export class TextFieldExample {
 | `--border-color-focused`            | Border color when state is focused.            |
 | `--input-height-large`              | Text Field's large height.                     |
 | `--input-height-small`              | Text Field's small height.                     |
+| `--input-max-width`                 | Text Field's max width.                        |
+| `--input-min-width`                 | Text Field's min width.                        |
 | `--input-width`                     | Text Field's width.                            |
-| `--left-slot-padding-top`           | left slot top padding.                         |
-| `--left-slot-width`                 | left slot width.                               |
-| `--right-slot-width`                | right slot width                               |
 | `--text-color-help-text-default`    | Help Text color when state is default.         |
 | `--text-color-help-text-error`      | Help Text color when state is invalid.         |
 | `--text-color-icon-default`         | Icon color when state is default.              |

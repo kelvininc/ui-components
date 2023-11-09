@@ -30,9 +30,8 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 	const _onChange = useCallback((value: CustomEvent<string>) => onChange(value?.detail ? value.detail : options.emptyValue), [onChange, options]);
 	const _onBlur = useCallback((value: CustomEvent<string>) => onBlur(id, value.detail), [onBlur, id]);
 	const inputType = useMemo(() => type ?? getInputType(schema.type), [type, schema.type]);
-	const { optionComponentSize } = uiSchema;
-
-	const componentSize = get(formContext, ['componentSize'], EComponentSize.Large);
+	const { componentSize: optionComponentSize, useInputMask, inputMaskRegex, minLength, maxLength, max, min, valuePrefix, badge } = uiSchema;
+	const { componentSize = EComponentSize.Large } = formContext as F;
 
 	const examples = useMemo(
 		() => (schema.examples ? (schema.examples as string[]).concat(schema.default ? ([schema.default] as string[]) : []) : undefined),
@@ -41,14 +40,12 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 	const hasErrors = useMemo(() => !isEmpty(rawErrors), [rawErrors]);
 	const displayedLabel = useMemo(() => get(uiSchema, ['ui:title']) || schema.title || label, [uiSchema, schema.title, label]);
 
-	const { useInputMask, inputMaskRegex, minLength, maxLength, max, min, valuePrefix, badge } = uiSchema;
-
 	return (
 		<div className={styles.InputContainer}>
 			<KvTextField
 				id={id}
 				label={displayedLabel}
-				size={!isEmpty(optionComponentSize) ? optionComponentSize : componentSize}
+				size={optionComponentSize ?? componentSize}
 				examples={examples}
 				disabled={disabled || readonly}
 				readonly={readonly}

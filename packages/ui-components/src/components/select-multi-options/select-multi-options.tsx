@@ -40,6 +40,10 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxHeight?: string;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) minWidth?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) maxWidth?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) selectionAll?: boolean;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectAllLabel?: string;
@@ -253,6 +257,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 			<kv-select
 				maxHeight={this.maxHeight}
 				minHeight={this.minHeight}
+				maxWidth={this.maxWidth}
+				minWidth={this.minWidth}
 				searchable={this.isSearchable}
 				searchValue={this.searchValue}
 				selectionClearable={isSelectionClearable}

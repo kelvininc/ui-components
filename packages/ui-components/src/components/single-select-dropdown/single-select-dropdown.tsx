@@ -82,6 +82,10 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxHeight?: string;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) minWidth?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) maxWidth?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) selectionAll?: boolean;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectAllLabel?: string;
@@ -207,6 +211,16 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		return this.minHeight ?? minHeight;
 	}
 
+	private getMaxWidth() {
+		const maxWidth = getCssStyle(this.el, '--dropdown-max-width');
+		return this.maxWidth ?? maxWidth;
+	}
+
+	private getMinWidth() {
+		const minWidth = getCssStyle(this.el, '--dropdown-min-width');
+		return this.minWidth ?? minWidth;
+	}
+
 	private getInputConfig = (): Partial<ITextField> => ({
 		label: this.label,
 		value: this._selectionDisplayValue,
@@ -293,6 +307,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							searchPlaceholder={this.searchPlaceholder}
 							maxHeight={this.getMaxHeight()}
 							minHeight={this.getMinHeight()}
+							maxWidth={this.getMaxWidth()}
+							minWidth={this.getMinWidth()}
 							counter={this.counter}
 							shortcuts={this.isOpen && this.shortcuts}
 							onSearchChange={this.onSearchChange}

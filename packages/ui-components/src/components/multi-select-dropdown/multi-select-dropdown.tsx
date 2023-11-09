@@ -61,6 +61,10 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxHeight?: string;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) minWidth?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) maxWidth?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) inputSize?: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
@@ -180,6 +184,16 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		return this.minHeight ?? minHeight;
 	}
 
+	private getMaxWidth() {
+		const maxWidth = getCssStyle(this.el, '--dropdown-max-width');
+		return this.maxWidth ?? maxWidth;
+	}
+
+	private getMinWidth() {
+		const minWidth = getCssStyle(this.el, '--dropdown-min-width');
+		return this.minWidth ?? minWidth;
+	}
+
 	private clearHighlightedOption = (): void => {
 		this.selectRef?.clearHighlightedOption();
 	};
@@ -248,6 +262,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 							searchPlaceholder={this.searchPlaceholder}
 							maxHeight={this.getMaxHeight()}
 							minHeight={this.getMinHeight()}
+							maxWidth={this.getMaxWidth()}
+							minWidth={this.getMinWidth()}
 							counter={this.counter}
 							shortcuts={this._isOpen && this.shortcuts}
 							onSearchChange={this.onSearchChange}
