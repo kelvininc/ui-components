@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.26.0](https://github.com/kelvininc/ui-components/compare/v0.25.1...v0.26.0) (2023-11-10)
+
+
+### Bug Fixes
+
+* **schema-form:** add placeholder on multi select dropdowns ([b07b700](https://github.com/kelvininc/ui-components/commit/b07b700aefeae9f10bc2fcf29261501945292515))
+* **tab-navigation:** implement deterministic tab width calculation ([84bda2c](https://github.com/kelvininc/ui-components/commit/84bda2c67bbeb6db8f70da737aca3c0df99d8164))
+
+
+### Features
+
+* **text-field-input:** allow input width fit to content ([6a31cef](https://github.com/kelvininc/ui-components/commit/6a31cef1728e84c191d07276b2f5cbc04ed05a9a))
+* **text-field:** add click event handler ([4fbd392](https://github.com/kelvininc/ui-components/commit/4fbd392b94f1a0039920490701123322e69f47bb))
+* **text-field:** add value prefix and badge ([44eacef](https://github.com/kelvininc/ui-components/commit/44eacefcaaf6701993c5c85cad9cd755010bb635))
+
+
+
+
+
 ## [0.25.1](https://github.com/kelvininc/ui-components/compare/v0.25.0...v0.25.1) (2023-11-06)
 
 
