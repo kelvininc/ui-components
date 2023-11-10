@@ -158,6 +158,14 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	@Event() textFieldBlur: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event() rightActionClick: EventEmitter<MouseEvent>;
+	/** @inheritdoc */
+	@Event() fieldClick: EventEmitter<MouseEvent>;
+
+	private onHostClick = (event: MouseEvent) => {
+		if (this.disabled) return;
+		event.preventDefault();
+		this.fieldClick.emit();
+	};
 
 	private onRightActionClick = (event: MouseEvent) => {
 		event.preventDefault();
@@ -239,7 +247,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		const type = this.getType();
 
 		return (
-			<Host>
+			<Host onClick={this.onHostClick}>
 				<kv-tooltip {...this.getTooltipConfig()}>
 					<div class="text-field-container">
 						<kv-form-label label={this.label} required={this.required}></kv-form-label>

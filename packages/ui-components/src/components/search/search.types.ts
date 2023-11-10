@@ -4,6 +4,6 @@ import { ITextField, ITextFieldEvents } from '../text-field/text-field.types';
 export interface ISearch extends Omit<ITextField, 'icon' | 'actionIcon'> {}
 
 export interface ISearchEvents extends ITextFieldEvents {
-	/** Emitted when the reset buccon is clicked */
+	/** Emitted when the reset button is clicked */
 	clickResetButton: EventEmitter<MouseEvent>;
 }

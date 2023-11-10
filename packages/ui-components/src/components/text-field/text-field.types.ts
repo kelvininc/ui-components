@@ -25,6 +25,8 @@ export interface ITextFieldEvents {
 	textFieldBlur: EventEmitter<string>;
 	/** Emitted when the right icon is clicked */
 	rightActionClick: EventEmitter<MouseEvent>;
+	/** Emmited when there's a click on this element */
+	fieldClick: EventEmitter<MouseEvent>;
 }
 
 export interface ITextField {

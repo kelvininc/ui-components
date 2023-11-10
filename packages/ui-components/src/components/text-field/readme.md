@@ -105,11 +105,12 @@ export class TextFieldExample {
 
 ## Events
 
-| Event              | Description                            | Type                      |
-| ------------------ | -------------------------------------- | ------------------------- |
-| `rightActionClick` | Emitted when the right icon is clicked | `CustomEvent<MouseEvent>` |
-| `textChange`       | Emitted when a keyboard input occurred | `CustomEvent<string>`     |
-| `textFieldBlur`    | Emitted when text field lost focus     | `CustomEvent<string>`     |
+| Event              | Description                                  | Type                      |
+| ------------------ | -------------------------------------------- | ------------------------- |
+| `fieldClick`       | Emmited when there's a click on this element | `CustomEvent<MouseEvent>` |
+| `rightActionClick` | Emitted when the right icon is clicked       | `CustomEvent<MouseEvent>` |
+| `textChange`       | Emitted when a keyboard input occurred       | `CustomEvent<string>`     |
+| `textFieldBlur`    | Emitted when text field lost focus           | `CustomEvent<string>`     |
 
 
 ## CSS Custom Properties
