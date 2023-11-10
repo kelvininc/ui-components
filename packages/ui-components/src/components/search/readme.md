@@ -75,12 +75,13 @@ export const SearchExample: React.FC = () => (
 
 ## Events
 
-| Event              | Description                              | Type                      |
-| ------------------ | ---------------------------------------- | ------------------------- |
-| `clickResetButton` | Emitted when the reset buccon is clicked | `CustomEvent<MouseEvent>` |
-| `rightActionClick` | Emitted when the right icon is clicked   | `CustomEvent<MouseEvent>` |
-| `textChange`       | Emitted when a keyboard input occurred   | `CustomEvent<string>`     |
-| `textFieldBlur`    | Emitted when text field lost focus       | `CustomEvent<string>`     |
+| Event              | Description                                  | Type                      |
+| ------------------ | -------------------------------------------- | ------------------------- |
+| `clickResetButton` | Emitted when the reset button is clicked     | `CustomEvent<MouseEvent>` |
+| `fieldClick`       | Emmited when there's a click on this element | `CustomEvent<MouseEvent>` |
+| `rightActionClick` | Emitted when the right icon is clicked       | `CustomEvent<MouseEvent>` |
+| `textChange`       | Emitted when a keyboard input occurred       | `CustomEvent<string>`     |
+| `textFieldBlur`    | Emitted when text field lost focus           | `CustomEvent<string>`     |
 
 
 ## Dependencies
@@ -100,6 +101,7 @@ graph TD;
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
+  kv-text-field --> kv-badge
   kv-text-field --> kv-form-help-text
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text

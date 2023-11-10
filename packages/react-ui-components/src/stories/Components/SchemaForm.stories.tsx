@@ -1,4 +1,4 @@
-import { EIconName, ETooltipPosition, ISelectMultiOptions, ISelectSingleOptions } from '@kelvininc/ui-components';
+import { EComponentSize, EIconName, ETooltipPosition, ISelectMultiOptions, ISelectSingleOptions } from '@kelvininc/ui-components';
 import { IChangeEvent } from '@rjsf/core';
 import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
@@ -857,15 +857,20 @@ const inlineSchema: SchemaFormProps<any>['schema'] = {
 };
 
 const inlineUiSchema: SchemaFormProps<any>['uiSchema'] = {
-	shift_info: {
-		'ui:inline': true,
-		'ui:inputWidth': '240px'
+	'ui:inputConfig': {
+		width: 'fit-content',
+		minWidth: '132px',
+		maxWidth: 'unset'
 	},
-	production_info: {
+	'shift_info': {
 		'ui:inline': true,
-		'ui:inputWidth': '240px'
+		'ui:inputWidth': 'fit-content'
 	},
-	team_info: {
+	'production_info': {
+		'ui:inline': true,
+		'ui:inputWidth': '200px'
+	},
+	'team_info': {
 		'ui:itemPrefix': 'Collaborator',
 		'ui:options': {
 			addable: true,
@@ -876,19 +881,21 @@ const inlineUiSchema: SchemaFormProps<any>['uiSchema'] = {
 			'ui:title': '',
 			'ui:itemPrefix': 'Collaborator',
 			'ui:inline': true,
-			'ui:inputWidth': '240px',
+			'ui:inputWidth': 'fit-content',
 			'responsible_for': {
-				searchable: true
+				'searchable': true,
+				'ui:placeholder': ''
 			}
 		}
 	},
-	assets_oee: {
+	'assets_oee': {
 		'ui:title': '',
 		'ui:options': {
 			addable: false,
 			orderable: false,
 			removable: false
 		},
+		'ui:inputWidth': 'fit-content',
 		'items': {
 			'ui:title': '',
 			'ui:fieldset': true,
@@ -901,11 +908,11 @@ const inlineUiSchema: SchemaFormProps<any>['uiSchema'] = {
 			},
 			'oee_thresholds': {
 				'ui:inline': true,
-				'ui:inputWidth': '240px'
+				'ui:inputWidth': 'fit-content'
 			},
 			'oee_calculation': {
 				'ui:inline': true,
-				'ui:inputWidth': '240px'
+				'ui:inputWidth': '400px'
 			}
 		}
 	}
@@ -987,6 +994,87 @@ AlowResetToDefaultsWidget.args = {
 				placeholder: 'Add description',
 				showDefaultValueHelper: true
 			}
+		}
+	}
+};
+
+export const UiSchemaOptions = FormTemplate.bind({});
+UiSchemaOptions.args = {
+	showErrorList: false,
+	liveValidate: true,
+	disabled: false,
+	formData: {
+		'number-example': 2.3,
+		'integer-example': 1,
+		'boolean-example': true,
+		'enum-example': 'foo',
+		'string-example': 'value',
+		'multipleChoicesList-example': ['fuzz', 'qux']
+	},
+	schema: {
+		type: 'object',
+		properties: {
+			'number-example': {
+				title: 'Number',
+				type: 'number',
+				minimum: -10.0,
+				maximum: 10,
+				description: 'Number description'
+			},
+			'integer-example': {
+				title: 'Integer',
+				type: 'integer',
+				minimum: -10,
+				maximum: 10
+			},
+			'boolean-example': {
+				title: 'Boolean',
+				type: 'boolean'
+			},
+			'enum-example': {
+				title: 'Enum',
+				type: 'string',
+				enum: ['foo', 'bar']
+			},
+			'string-example': {
+				title: 'String',
+				type: 'string',
+				minLength: 5,
+				maxLength: 10,
+				pattern: '^[a-zA-Z0-9]*$'
+			},
+			'basic-example': {
+				title: 'Examples',
+				description: 'A input with example values',
+				type: 'string',
+				examples: ['Firefox', 'Chrome', 'Opera', 'Vivaldi', 'Safari']
+			},
+			'multipleChoicesList-example': {
+				type: 'array',
+				title: 'A multiple choices list',
+				items: {
+					type: 'string',
+					enum: ['bar', 'fuzz', 'qux', 'bar1', 'fuzz1', 'qux1', 'bar2', 'fuzz2', 'qux2']
+				},
+				uniqueItems: true
+			}
+		}
+	},
+	/**
+	 *  Here we are passing the ui defaults for the inputs to have a component large size
+	 * However, the values applied to the multipleChoicesList-example will be the values inside the property key.
+	 * Therefore, when we have default values, it is possible to override if needed.
+	 *  */
+	uiSchema: {
+		'ui:componentSize': EComponentSize.Small,
+		'ui:dropdownConfig': {
+			zIndex: 200
+		},
+		'multipleChoicesList-example': {
+			zIndex: 10,
+			componentSize: EComponentSize.Large,
+			searchable: true,
+			selectionClearable: true
 		}
 	}
 };

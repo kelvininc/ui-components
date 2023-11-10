@@ -35,6 +35,10 @@ export class KvSelect implements ISelect, ISelectEvents {
 	@Prop({ reflect: true }) minHeight?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxHeight?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) minWidth?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) maxWidth?: string;
 
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
@@ -62,7 +66,9 @@ export class KvSelect implements ISelect, ISelectEvents {
 		return omitBy(
 			{
 				'--select-max-height': this.maxHeight,
-				'--select-min-height': this.minHeight
+				'--select-min-height': this.minHeight,
+				'--select-max-width': this.maxWidth,
+				'--select-min-width': this.minWidth
 			},
 			isNil
 		);

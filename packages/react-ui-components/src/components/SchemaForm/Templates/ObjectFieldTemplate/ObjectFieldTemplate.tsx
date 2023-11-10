@@ -4,8 +4,8 @@ import classNames from 'classnames';
 import { get } from 'lodash';
 import React, { useMemo } from 'react';
 import { KvActionButtonIcon } from '../../../stencil-generated';
-import { INPUT_INLINE_WIDTH } from '../../config';
 import styles from './ObjectFieldTemplate.module.scss';
+import { DEFAULT_INPUT_CONFIG, DEFAULT_INPUT_INLINE_CONFIG } from './config';
 
 const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	description,
@@ -19,9 +19,22 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 	onAddClick,
 	disabled,
 	readonly,
-	registry
+	registry,
+	formContext
 }: ObjectFieldTemplateProps<T, S, F>) => {
-	const rowWidth = useMemo(() => (get(uiSchema, ['ui:inline'], false) ? get(uiSchema, ['ui:inputWidth']) || INPUT_INLINE_WIDTH : '100%'), [uiSchema]);
+	const { inputConfig = get(uiSchema, ['ui:inline'], false) ? DEFAULT_INPUT_INLINE_CONFIG : DEFAULT_INPUT_CONFIG } = formContext as F;
+	const rowWidth = useMemo(() => get(uiSchema, ['ui:inputWidth']) ?? inputConfig.width, [uiSchema, inputConfig]);
+	const rowMinWidth = useMemo(() => get(uiSchema, ['ui:inputMinWidth']) ?? inputConfig.minWidth, [uiSchema, inputConfig]);
+	const rowMaxWidth = useMemo(() => get(uiSchema, ['ui:inputMaxWidth']) ?? inputConfig.maxWidth, [uiSchema, inputConfig]);
+
+	const inputWidthProps = useMemo(
+		() => ({
+			width: rowWidth,
+			minWidth: rowMinWidth,
+			maxWidth: rowMaxWidth
+		}),
+		[rowWidth, rowMinWidth, rowMaxWidth]
+	);
 	const uiOptions = getUiOptions(uiSchema);
 	const TitleFieldTemplate = getTemplate<'TitleFieldTemplate', T, S, F>('TitleFieldTemplate', registry, uiOptions);
 	const DescriptionFieldTemplate = getTemplate<'DescriptionFieldTemplate', T, S, F>('DescriptionFieldTemplate', registry, uiOptions);
@@ -40,7 +53,7 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 			/>
 			<div className={classNames(styles.PropsContainer, { [styles.Inline]: get(uiSchema, ['ui:inline'], false) })}>
 				{properties.map((element, index) => (
-					<div key={index} style={{ width: rowWidth }} className={classNames(styles.PropRow, { [styles.Hidden]: element.hidden })}>
+					<div key={index} style={{ ...inputWidthProps }} className={classNames(styles.PropRow, { [styles.Hidden]: element.hidden })}>
 						{element.content}
 					</div>
 				))}

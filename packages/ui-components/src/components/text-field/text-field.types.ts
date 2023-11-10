@@ -25,6 +25,8 @@ export interface ITextFieldEvents {
 	textFieldBlur: EventEmitter<string>;
 	/** Emitted when the right icon is clicked */
 	rightActionClick: EventEmitter<MouseEvent>;
+	/** Emmited when there's a click on this element */
+	fieldClick: EventEmitter<MouseEvent>;
 }
 
 export interface ITextField {
@@ -66,6 +68,10 @@ export interface ITextField {
 	helpText?: string | string[];
 	/** (optional) Text field value */
 	value?: string | number | null;
+	/** (optional) Defines the prefix that adds context to displayed values */
+	valuePrefix?: string;
+	/** (optional) Text to display inside a badge on the right side of the displayed value */
+	badge?: string;
 	/** (optional) Text field is readonly */
 	readonly?: boolean;
 	/** (optional) Text field focus state */

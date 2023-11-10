@@ -23,6 +23,10 @@ export interface ISelect {
 	minHeight?: string;
 	/** (optional) The dropdown's max-height */
 	maxHeight?: string;
+	/** (optional) The dropdown's min-width */
+	minWidth?: string;
+	/** (optional) The dropdown's max-width */
+	maxWidth?: string;
 }
 
 export interface ISelectEvents {
