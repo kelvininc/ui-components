@@ -4,9 +4,13 @@
 	/**
 	 * @prop --dropdown-max-height: Dropdown list maximum height.
 	 * @prop --dropdown-min-height: Dropdown list minimum height.
+	 * @prop --dropdown-max-width: Dropdown list maximum width.
+	 * @prop --dropdown-min-width: Dropdown list minimum width.
 	 */
 	--dropdown-max-height: 400px;
 	--dropdown-min-height: auto;
+	--dropdown-max-width: auto;
+	--dropdown-min-width: auto;
 }
 
 kv-dropdown {

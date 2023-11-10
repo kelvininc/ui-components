@@ -78,13 +78,14 @@ export const BadgeExample: React.FC = () => (
 | `--badge-background-color-success` | Badge's background color when state is success. |
 | `--badge-background-color-warning` | Badge's background color when state is warning. |
 | `--badge-height`                   | Badge's height.                                 |
+| `--badge-max-width`                | Badge's maximum width.                          |
+| `--badge-min-width`                | Badge's minimum width.                          |
 | `--badge-text-color-error`         | Badge's text color when state is error.         |
 | `--badge-text-color-info`          | Badge's text color when state is info.          |
 | `--badge-text-color-none`          | Badge's text color when state is none.          |
 | `--badge-text-color-success`       | Badge's text color when state is success.       |
 | `--badge-text-color-warning`       | Badge's text color when state is warning.       |
 | `--badge-warning-text-color`       | Badge's text color when state is warning.       |
-| `--badge-width`                    | Badge's width.                                  |
 
 
 ## Dependencies
@@ -92,12 +93,14 @@ export const BadgeExample: React.FC = () => (
 ### Used by
 
  - [kv-action-button-icon](../action-button-icon)
+ - [kv-text-field](../text-field)
  - [kv-tree-item](../tree-item)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-action-button-icon --> kv-badge
+  kv-text-field --> kv-badge
   kv-tree-item --> kv-badge
   style kv-badge fill:#f9f,stroke:#333,stroke-width:4px
 ```

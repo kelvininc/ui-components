@@ -1,12 +1,11 @@
 import { EComponentSize, EValidationState } from '@kelvininc/ui-components';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
-import { get, isEmpty, isNumber } from 'lodash';
+import { isEmpty } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../stencil-generated';
 import styles from './SelectWidget.module.scss';
 import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, searchDropdownOptions } from './utils';
-import { DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
-import { DEFAULT_DROPDOWN_Z_INDEX } from '../../config';
+import { DEFAULT_DROPDOWN_CONFIG, DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
 
 const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	schema,
@@ -25,10 +24,21 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	formContext
 }: WidgetProps<T, S, F>) => {
 	const { enumOptions, enumDisabled, placeholder: optionsPlaceholder } = options;
-	const { displayValue, searchable, selectionClearable, minHeight, maxHeight, minSearchOptions, optionZIndex, optionComponentSize } = uiSchema;
-	const componentSize = get(formContext, ['componentSize'], EComponentSize.Large);
-	const defaultZIndex = get(formContext, ['zIndex'], DEFAULT_DROPDOWN_Z_INDEX);
-
+	const {
+		displayValue,
+		searchable,
+		selectionClearable,
+		minHeight,
+		maxHeight,
+		minWidth,
+		maxWidth,
+		minSearchOptions,
+		badge,
+		valuePrefix: displayPrefix,
+		zIndex: optionZIndex,
+		componentSize: optionComponentSize
+	} = uiSchema;
+	const { componentSize = EComponentSize.Large, dropdownConfig = DEFAULT_DROPDOWN_CONFIG } = formContext as F;
 	const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
 	const defaultDropdownOptions = useMemo(() => buildDropdownOptions(enumOptions, enumDisabled), [enumOptions, enumDisabled]);
@@ -69,13 +79,17 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		disabled: disabled || readonly,
 		errorState: hasErrors ? EValidationState.Invalid : EValidationState.Valid,
 		displayValue: typeof value === 'undefined' ? emptyValue : displayValue?.(value, defaultDropdownOptions),
+		displayPrefix,
 		options: defaultDropdownOptions,
 		filteredOptions,
 		onSearchChange,
 		searchable,
-		zIndex: isNumber(optionZIndex) ? optionZIndex : defaultZIndex,
-		minHeight,
-		maxHeight,
+		zIndex: optionZIndex ?? dropdownConfig.zIndex,
+		minHeight: minHeight ?? dropdownConfig.minHeight,
+		maxHeight: maxHeight ?? dropdownConfig.maxHeight,
+		minWidth: minWidth ?? dropdownConfig.minWidth,
+		maxWidth: maxWidth ?? dropdownConfig.maxWidth,
+		badge,
 		selectionClearable,
 		minSearchOptions: minSearchOptions ?? DEFAULT_MINIMUM_SEARCHABLE_OPTIONS
 	};

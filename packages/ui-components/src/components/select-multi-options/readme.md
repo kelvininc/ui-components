@@ -11,8 +11,10 @@
 | `counter`              | `counter`                 | (optional) If `true` a selection counter is displayed                                                             | `boolean`                              | `undefined`                       |
 | `filteredOptions`      | --                        | (optional) The object with the dropdown options filtered                                                          | `{ [x: string]: ISelectMultiOption; }` | `undefined`                       |
 | `maxHeight`            | `max-height`              | (optional) The dropdown's max-height                                                                              | `string`                               | `undefined`                       |
+| `maxWidth`             | `max-width`               | (optional) The dropdown's max-width                                                                               | `string`                               | `undefined`                       |
 | `minHeight`            | `min-height`              | (optional) The dropdown's min-height                                                                              | `string`                               | `undefined`                       |
 | `minSearchOptions`     | `min-search-options`      | (optional) The minimum amount of options required to display the search. Defaults to `8`.                         | `number`                               | `MINIMUM_SEARCHABLE_OPTIONS`      |
+| `minWidth`             | `min-width`               | (optional) The dropdown's min-width                                                                               | `string`                               | `undefined`                       |
 | `noDataAvailableLabel` | `no-data-available-label` | (required) The text to display when there are no options                                                          | `string`                               | `DEFAULT_NO_DATA_AVAILABLE_LABEL` |
 | `options`              | --                        | (optional) The object with the dropdown options                                                                   | `{ [x: string]: ISelectMultiOption; }` | `{}`                              |
 | `searchPlaceholder`    | `search-placeholder`      | (optional) The list search text field placeholder                                                                 | `string`                               | `undefined`                       |
@@ -62,13 +64,15 @@ Type: `Promise<void>`
 | Name                       | Description                 |
 | -------------------------- | --------------------------- |
 | `--select-list-max-height` | Select list maximum height. |
+| `--select-list-max-width`  | Select list maximum width.  |
+| `--select-list-min-height` | Select list minimum height. |
+| `--select-list-min-width`  | Select list minimum width.  |
 
 
 ## Dependencies
 
 ### Used by
 
- - [kv-labels-dropdown](../labels-dropdown)
  - [kv-multi-select-dropdown](../multi-select-dropdown)
  - [kv-single-select-dropdown](../single-select-dropdown)
 
@@ -94,12 +98,12 @@ graph TD;
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
+  kv-text-field --> kv-badge
   kv-text-field --> kv-form-help-text
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
   kv-select-shortcuts-label --> kv-icon
-  kv-labels-dropdown --> kv-select-multi-options
   kv-multi-select-dropdown --> kv-select-multi-options
   kv-single-select-dropdown --> kv-select-multi-options
   style kv-select-multi-options fill:#f9f,stroke:#333,stroke-width:4px

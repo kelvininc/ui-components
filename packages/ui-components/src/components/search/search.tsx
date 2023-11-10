@@ -63,6 +63,8 @@ export class KvSearch implements ISearch, ISearchEvents {
 	@Event() clickResetButton: EventEmitter<MouseEvent>;
 	/** @inheritdoc */
 	@Event() rightActionClick: EventEmitter<MouseEvent>;
+	/** @inheritdoc */
+	@Event() fieldClick: EventEmitter<MouseEvent>;
 
 	private onTextChange = (event: CustomEvent<string>) => {
 		event.stopPropagation();

@@ -62,7 +62,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const { scrollTop } = useScroll(fieldTemplate);
 	const isScrolling = useMemo(() => scrollTop - SCROLL_OFFSET > 0, [scrollTop]);
 	const { submitText, norender, props: submitButtonProps } = getSubmitButtonOptions(uiSchema);
-	const hasFooter = useMemo(() => allowDiscardChanges || !norender, [allowDiscardChanges, norender]);
+	const hasFooter = useMemo(() => allowDiscardChanges || allowResetToDefaults || !norender, [allowDiscardChanges, norender]);
 	const experimental_defaultFormStateBehavior = useMemo(() => buildDefaultFormStateBehavior(applyDefaults), [applyDefaults]);
 	const formValidator = useMemo(() => validatorProp ?? getDefaultValidator<T, S, SchemaFormContext>(), [validatorProp]);
 	const defaults = useMemo<T>(() => {
@@ -140,7 +140,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 
 	return (
 		<div className={classNames(styles.FormContainer, customClass)}>
-			<CustomFormWithRef ref={formRef} {...themedProps}></CustomFormWithRef>
+			<CustomFormWithRef<T, S, SchemaFormContext> ref={formRef} {...themedProps} />
 			{hasFooter && (
 				<div className={classNames(styles.FormFooter, { [styles.Scrolling]: isScrolling })}>
 					<div className={styles.LeftFooter}>

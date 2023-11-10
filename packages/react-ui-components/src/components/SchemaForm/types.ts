@@ -1,4 +1,4 @@
-import { CustomCssClass } from '@kelvininc/ui-components';
+import { CustomCssClass, EComponentSize } from '@kelvininc/ui-components';
 import Form, { FormProps } from '@rjsf/core';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, ValidatorType } from '@rjsf/utils';
 
@@ -24,6 +24,19 @@ export enum EApplyDefaults {
 export interface SchemaFormContext {
 	showDefaultValueHelper?: boolean;
 	defaultValueHelperPrefix?: string;
+	componentSize?: EComponentSize;
+	dropdownConfig?: {
+		zIndex?: number;
+		minHeight?: string;
+		maxHeight?: string;
+		minWidth?: string;
+		maxWidth?: string;
+	};
+	inputConfig?: {
+		width?: string;
+		minWidth?: string;
+		maxWidth?: string;
+	};
 }
 
 export interface SchemaFormProps<T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any> extends Partial<FormProps<T, S, F>> {

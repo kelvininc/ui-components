@@ -24,4 +24,5 @@ input {
 
 .input-container-loading {
 	@include ghost-animation('neutral-7');
+	transition: none;
 }

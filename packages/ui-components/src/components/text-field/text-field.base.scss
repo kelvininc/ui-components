@@ -5,6 +5,8 @@
 	 * @prop --input-height-large: Text Field's large height.
 	 * @prop --input-height-small: Text Field's small height.
 	 * @prop --input-width: Text Field's width.
+	 * @prop --input-min-width: Text Field's min width.
+	 * @prop --input-max-width: Text Field's max width.
 
 	 * @prop --text-color-label: Label Text color.
 	 * @prop --text-color-icon-default: Icon color when state is default.
@@ -24,14 +26,13 @@
 
 	 * @prop --background-color-default: Background color when state is default.
 	 * @prop --background-color-disabled: Background color when state is disabled.
-	 * @prop --right-slot-width: right slot width
-	 * @prop --left-slot-width: left slot width.
-	 * @prop --left-slot-padding-top: left slot top padding.
 	 */
 
 	--input-height-large: 36px;
 	--input-height-small: 28px;
 	--input-width: auto;
+	--input-min-width: 140px;
+	--input-max-width: 100%;
 
 	--text-color-icon-default: #{kv-color('neutral-4')};
 	--text-color-input-disabled: #{kv-color('neutral-5')};
@@ -39,9 +40,6 @@
 	--text-color-help-text-error: #{kv-color('error')};
 
 	--border-color-error: #{kv-color('error')};
-	--right-slot-width: 36px;
-	--left-slot-width: 36px;
-	--left-slot-padding-top: 0;
 
 	--action-icon-size: 16px;
 }
@@ -60,50 +58,53 @@ kv-tooltip::part(container) {
 	color: kv-color('neutral-2');
 }
 
-.flex-align-center {
-	display: flex;
-	align-content: center;
-}
-
 kv-tooltip::part(content) {
 	width: 100%;
 }
 
-input {
-	@include kv-font-span-regular;
+.resize-container {
+	display: inline-block;
+	position: relative;
+	flex: 1;
+	overflow: hidden;
+}
 
+.resize-input,
+.resize-text {
+	@include kv-font-span-regular;
+	flex: 1;
 	appearance: textfield;
-	width: 100%;
+	border: 0;
 	height: 100%;
-	padding-left: $spacing-2x;
-	padding-right: $spacing-2x;
-	padding-top: 0;
-	padding-bottom: 0;
 	outline: 0;
 	box-sizing: border-box;
-	border-radius: 4px;
-	border: solid 1px var(--border-color-default);
 	color: var(--text-color-input-default);
-	background-color: var(--background-color-default);
+	background-color: transparent;
+}
 
-	&.invalid {
-		border-color: var(--border-color-error);
-	}
+.resize-text {
+	padding: 0 $spacing;
+	display: inline-block;
+	visibility: hidden;
+	white-space: pre;
+}
 
-	&.left-slotted {
-		padding-left: var(--left-slot-width);
-	}
+.resize-input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
 
-	&.right-slotted {
-		padding-right: var(--right-slot-width);
-	}
+input {
+	@include ellipsis;
 
 	&::placeholder {
 		color: var(--text-color-placeholder-default);
 	}
 
 	&:disabled {
-		background-color: var(--background-color-disabled);
 		color: var(--text-color-input-disabled);
 
 		&::placeholder {
@@ -118,10 +119,6 @@ input {
 		&::placeholder {
 			color: var(--text-color-placeholder-focused);
 		}
-
-		&:not(.invalid) {
-			border-color: var(--border-color-focused);
-		}
 	}
 
 	&:read-only:not(:disabled) {
@@ -135,46 +132,50 @@ input {
 }
 
 .input-container {
-	position: relative;
+	display: flex;
 	width: var(--input-width);
+	min-width: var(--input-min-width);
+	max-width: var(--input-max-width);
+	padding: 0 $spacing-2x;
+	border: solid 1px var(--border-color-default);
+	border-radius: 4px;
+	position: relative;
+	overflow: hidden;
+	background-color: var(--background-color-default);
+	box-sizing: border-box;
 
-	&--size-large {
-		height: var(--input-height-large);
+	&.invalid {
+		border-color: var(--border-color-error);
 	}
 
-	&--size-small {
-		height: var(--input-height-small);
+	&.disabled {
+		background-color: var(--background-color-disabled);
 	}
 
-	.left-slotted .input-content-container {
-		padding-left: var(--left-slot-width);
-	}
-	
-	.right-slotted .input-content-container {
-		padding-right: var(--right-slot-width);
+	&.focused {
+		&:not(.invalid) {
+			border-color: var(--border-color-focused);
+		}
 	}
 
-	.input-content-container {
-		width: 100%;
+	kv-icon {
+		--icon-color: var(--text-color-icon-default);
+
+		&.disabled {
+			--icon-color: var(--text-color-icon-disabled);
+		}
+
+		&.focus:not(.invalid) {
+			--icon-color: var(--text-color-input-focused);
+		}
+	}
+
+	.left-slot-container,
+	.right-slot-container {
 		height: 100%;
-		position: absolute;
-		top: 0;
-		left: 0;
-		box-sizing: border-box;
-		overflow: hidden;
-	}
-
-	.left-slot-container {
-		position: absolute;
-		top: 0;
-		left: 0;
 		display: flex;
 		align-items: center;
-		height: 100%;
-		user-select: none;
-		padding-left: $spacing-3x;
-		padding-top: var(--left-slot-padding-top);
-		color: var(--text-color-input-default);
+		gap: $spacing;
 
 		&.invalid {
 			color: var(--text-color-help-text-error);
@@ -189,31 +190,26 @@ input {
 		}
 	}
 
-	kv-icon {
-		--icon-width: 20px;
-		--icon-height: 20px;
-		--icon-color: var(--text-color-icon-default);
+	.left-slot-container {
+		color: var(--text-color-input-default);
+		overflow: hidden;
+		user-select: none;
 
-		&.invalid {
-			--icon-color: var(--text-color-help-text-error);
+		kv-icon {
+			--icon-width: 24px;
+			--icon-height: 24px;
 		}
 
-		&.disabled {
-			--icon-color: var(--text-color-icon-disabled);
-		}
+		.value-prefix {
+			white-space: nowrap;
+			margin-right: calc(#{$spacing} / 2);
 
-		&.focus:not(.invalid) {
-			--icon-color: var(--text-color-input-focused);
+			@include kv-font-span-semibold;
 		}
 	}
 
-	.right-icon-container {
-		position: absolute;
-		top: 0;
-		right: 0;
-		height: 100%;
-		width: var(--right-slot-width);
-		overflow: hidden;
+	.right-slot-container {
+		justify-content: center;
 
 		&:not(.disabled) {
 			cursor: pointer;
@@ -221,29 +217,35 @@ input {
 
 		kv-icon {
 			--icon-width: var(--action-icon-size);
-			--icon-height: var(--action-icon-size);;
-			--icon-color: var(--text-color-icon-default);
-
-			width: 100%;
-			height: 100%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
+			--icon-height: var(--action-icon-size);
+			margin-left: $spacing;
 		}
+	}
 
-		&.disabled kv-icon {
-			--icon-color: var(--text-color-input-disabled);
-		}
+	&--size-large {
+		height: var(--input-height-large);
+	}
 
-		&.focus kv-icon {
-			--icon-color: var(--text-color-input-focused);
+	&--size-small {
+		height: var(--input-height-small);
+
+		.left-slot-container kv-icon {
+			--icon-width: 16px;
+			--icon-height: 16px;
 		}
 	}
 }
 
 .input-container-loading {
-	height: 100%;
 	width: 100%;
 	display: flex;
 	margin-top: $spacing;
+
+	&--size-large {
+		height: var(--input-height-large);
+	}
+
+	&--size-small {
+		height: var(--input-height-small);
+	}
 }

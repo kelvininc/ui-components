@@ -30,6 +30,10 @@ export interface ISelectMultiOptionsConfig {
 	minHeight?: string;
 	/** (optional) The dropdown's max-height */
 	maxHeight?: string;
+	/** (optional) The dropdown's min-width */
+	minWidth?: string;
+	/** (optional) The dropdown's max-width */
+	maxWidth?: string;
 	/** (optional) If `true` the list has an action to select all items */
 	selectionAll?: boolean;
 	/** (optional) The selection all action text */
