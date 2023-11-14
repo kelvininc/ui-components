@@ -96,6 +96,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 			}
 		},
 		formContext: {
+			...otherProps.formContext,
 			...uiSchema['ui:options']
 		} as SchemaFormContext,
 		formData: formData,
