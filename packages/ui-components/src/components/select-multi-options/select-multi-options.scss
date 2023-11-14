@@ -28,6 +28,7 @@ kv-select {
 .selected-items-label {
 	@include kv-font-label-small-regular;
 	color: kv-color('neutral-4');
+	text-wrap: nowrap;
 }
 
 .counter {

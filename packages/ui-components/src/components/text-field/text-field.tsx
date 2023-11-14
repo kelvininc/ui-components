@@ -75,6 +75,8 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	@Prop({ reflect: true }) useInputMask?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) inputMaskRegex?: string = '';
+	/** @inheritdoc */
+	@Prop({ reflect: true }) fitContent?: boolean = true;
 
 	/** Watch `value` property for changes and update native input element accordingly */
 	@Watch('value')
@@ -285,7 +287,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 									</slot>
 								</div>
 								<div class="resize-container">
-									<span class="resize-text">{value || this.placeholder}</span>
+									{this.fitContent && <span class="resize-text">{value || this.placeholder}</span>}
 									<input
 										ref={input => (this.nativeInput = input as HTMLInputElement)}
 										type={type}
