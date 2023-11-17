@@ -6,7 +6,7 @@ exports[`Range Dates Input (unit tests) when uses default props should match the
     <kv-dropdown-base>
       <div class="inputs-container" slot="action">
         <div class="start-single-date-select-dropdown">
-          <kv-text-field action-icon="kv-arrow-drop-down" icon="kv-calendar" input-mask-regex="" placeholder="Select a start date" readonly="" state="none" type="text" value="">
+          <kv-text-field action-icon="kv-arrow-drop-down" fit-content="" icon="kv-calendar" input-mask-regex="" placeholder="Select a start date" readonly="" state="none" type="text" value="">
             <mock:shadow-root>
               <kv-tooltip position="top-start" truncate="">
                 <div class="text-field-container">
@@ -36,7 +36,7 @@ exports[`Range Dates Input (unit tests) when uses default props should match the
           </kv-text-field>
         </div>
         <div class="end-single-date-select-dropdown">
-          <kv-text-field action-icon="kv-arrow-drop-down" icon="kv-calendar" input-mask-regex="" placeholder="Select an end date" readonly="" state="none" type="text" value="">
+          <kv-text-field action-icon="kv-arrow-drop-down" fit-content="" icon="kv-calendar" input-mask-regex="" placeholder="Select an end date" readonly="" state="none" type="text" value="">
             <mock:shadow-root>
               <kv-tooltip position="top-start" truncate="">
                 <div class="text-field-container">

@@ -123,8 +123,3 @@ export type ITimePickerTimezone = {
 	name: string;
 	offset: number;
 };
-
-export type SelectedRangeDetail = {
-	range: SelectedTimestampRange;
-	description: string;
-};

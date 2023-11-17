@@ -82,6 +82,8 @@ export interface ITextField {
 	useInputMask?: boolean;
 	/** (optional) Input mask regex */
 	inputMaskRegex?: string;
+	/** (optional) Enable/disable the resize of input (default: true) */
+	fitContent?: boolean;
 }
 
 export interface IInputMaskInstanceRef extends Inputmask.Instance {

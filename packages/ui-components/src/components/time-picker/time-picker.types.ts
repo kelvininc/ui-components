@@ -29,6 +29,8 @@ export interface ITimePicker {
 	calendarInputMinDate?: string;
 	/** (optional) calendar maximum date to be navigated */
 	calendarInputMaxDate?: string;
+	/** (optional) The time picker's z-index (default: 9003) */
+	zIndex?: number;
 }
 
 export interface ITimePickerEvents {
