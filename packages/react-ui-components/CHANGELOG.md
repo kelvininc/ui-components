@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.27.0](https://github.com/kelvininc/ui-components/compare/v0.26.0...v0.27.0) (2023-11-17)
+
+
+### Bug Fixes
+
+* **schema-form:** spread formContext prop to pass default values ([1ba1bc9](https://github.com/kelvininc/ui-components/commit/1ba1bc956a4c487edf1d80cd843f437da3b4d5c2))
+* **search:** disable the auto resize input ([b28535e](https://github.com/kelvininc/ui-components/commit/b28535eb016dd9eefa458cc299a5a722d76afd90))
+
+
+
+
+
 # [0.26.0](https://github.com/kelvininc/ui-components/compare/v0.25.1...v0.26.0) (2023-11-10)
 
 

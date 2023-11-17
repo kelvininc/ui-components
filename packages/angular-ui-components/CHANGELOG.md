@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.27.0](https://github.com/kelvininc/ui-components/compare/v0.26.0...v0.27.0) (2023-11-17)
+
+**Note:** Version bump only for package @kelvininc/angular-ui-components
+
+
+
+
+
 # [0.26.0](https://github.com/kelvininc/ui-components/compare/v0.25.1...v0.26.0) (2023-11-10)
 
 **Note:** Version bump only for package @kelvininc/angular-ui-components

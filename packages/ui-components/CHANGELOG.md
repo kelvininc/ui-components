@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.27.0](https://github.com/kelvininc/ui-components/compare/v0.26.0...v0.27.0) (2023-11-17)
+
+
+### Bug Fixes
+
+* **search:** disable the auto resize input ([b28535e](https://github.com/kelvininc/ui-components/commit/b28535eb016dd9eefa458cc299a5a722d76afd90))
+
+
+### Features
+
+* **icons:** add support documentation orchestration and assets management icons ([5fcd760](https://github.com/kelvininc/ui-components/commit/5fcd760ddd43cb9497782a40c5629a770594635c))
+* **time-picker:** expose z-index property ([3f78790](https://github.com/kelvininc/ui-components/commit/3f78790d65d9bf44804054212a1ee62b9009564c))
+
+
+
+
+
 # [0.26.0](https://github.com/kelvininc/ui-components/compare/v0.25.1...v0.26.0) (2023-11-10)
 
 
