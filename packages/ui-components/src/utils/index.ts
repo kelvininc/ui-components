@@ -7,4 +7,5 @@ export * as searchHelper from './search.helper';
 export * as stringHelper from './string.helper';
 export * as floatingUIHelper from './floating-ui.helper';
 export * as mouseEventHelper from './mouse-event.helper';
+export * as relativeTimeHelper from './relative-time.helper';
 export * as selectHelper from './select.helper';
