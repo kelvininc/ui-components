@@ -108,6 +108,7 @@ export class KvSearch implements ISearch, ISearchEvents {
 					value={this.value}
 					useInputMask={this.useInputMask}
 					inputMaskRegex={this.inputMaskRegex}
+					fitContent={false}
 				/>
 			</Host>
 		);

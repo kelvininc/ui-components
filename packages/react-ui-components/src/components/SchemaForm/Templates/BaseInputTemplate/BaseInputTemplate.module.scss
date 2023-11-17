@@ -1,4 +1,10 @@
 .InputContainer {
 	display: flex;
 	flex-direction: column;
+
+	kv-text-field {
+		--input-width: auto;
+		--input-min-width: auto;
+		--input-max-width: auto;
+	}
 }

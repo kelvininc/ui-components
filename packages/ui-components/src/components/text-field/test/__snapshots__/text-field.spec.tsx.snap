@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Text Field (unit tests) when has a label should match the snapshot 1`] = `
-<kv-text-field input-mask-regex="" label="Text Field" placeholder="" state="none" type="text" value="">
+<kv-text-field fit-content="" input-mask-regex="" label="Text Field" placeholder="" state="none" type="text" value="">
   <mock:shadow-root>
     <kv-tooltip position="top-start" truncate="">
       <div class="text-field-container">
@@ -26,7 +26,7 @@ exports[`Text Field (unit tests) when has a label should match the snapshot 1`] 
 `;
 
 exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] = `
-<kv-text-field disabled="" input-mask-regex="" placeholder="" state="none" type="text" value="">
+<kv-text-field disabled="" fit-content="" input-mask-regex="" placeholder="" state="none" type="text" value="">
   <mock:shadow-root>
     <kv-tooltip position="top-start" truncate="">
       <div class="text-field-container">
@@ -51,7 +51,7 @@ exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] 
 `;
 
 exports[`Text Field (unit tests) when uses default props should match the snapshot 1`] = `
-<kv-text-field input-mask-regex="" placeholder="" state="none" type="text" value="">
+<kv-text-field fit-content="" input-mask-regex="" placeholder="" state="none" type="text" value="">
   <mock:shadow-root>
     <kv-tooltip position="top-start" truncate="">
       <div class="text-field-container">

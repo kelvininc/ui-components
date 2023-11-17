@@ -65,6 +65,7 @@
 		user-select: none;
 		cursor: pointer;
 		position: relative;
+		text-wrap: nowrap;
 
 		&--disabled {
 			pointer-events: none;
