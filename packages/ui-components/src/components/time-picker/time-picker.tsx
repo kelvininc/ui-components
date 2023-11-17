@@ -63,6 +63,8 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	@Prop({ reflect: false }) calendarInputMinDate?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) calendarInputMaxDate?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) zIndex?: number = TIME_PICKER_PORTAL_Z_INDEX;
 
 	// Defines what content is being displayed
 	@State() timePickerView: ETimePickerView = ETimePickerView.RelativeTimePicker;
@@ -372,7 +374,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 					inputConfig={inputConfig}
 					options={dropdownPositionConfig}
 					disabled={this.disabled}
-					zIndex={TIME_PICKER_PORTAL_Z_INDEX}
+					zIndex={this.zIndex}
 					clickOutsideClose={!this.internalDropdownsOpen}
 				>
 					<div class="time-range-content">
