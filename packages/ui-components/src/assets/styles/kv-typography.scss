@@ -259,6 +259,23 @@
 	text-transform: none;
 }
 
+@mixin kv-font-secondary-medium() {
+	font-family: $secondary-font;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 24px;
+}
+
+@mixin kv-font-secondary-regular() {
+	font-family: $secondary-font;
+	font-family: Actor;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 21px;
+}
+
 /** CODE/CONSOLE **/
 @mixin kv-font-code() {
 	font-family: $console-font, monospace, Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono';
