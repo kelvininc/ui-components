@@ -1078,3 +1078,31 @@ UiSchemaOptions.args = {
 		}
 	}
 };
+
+export const SelectBooleanField = FormTemplate.bind({});
+SelectBooleanField.args = {
+	schema: {
+		type: 'object',
+		properties: {
+			value: {
+				type: 'boolean',
+				oneOf: [
+					{
+						title: 'Truthy',
+						const: true
+					},
+					{
+						title: 'Falsy',
+						const: false
+					}
+				]
+			}
+		},
+		required: 'value'
+	},
+	uiSchema: {
+		value: {
+			'ui:widget': 'select'
+		}
+	}
+};
