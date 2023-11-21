@@ -4,5 +4,5 @@ export const DEFAULT_DROPDOWN_CONFIG = {
 	maxHeight: '400px',
 	minHeight: 'auto',
 	maxWidth: 'auto',
-	minWidth: 'auto'
+	minWidth: 'max-content'
 };
