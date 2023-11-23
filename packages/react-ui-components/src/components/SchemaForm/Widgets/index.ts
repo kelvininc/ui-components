@@ -6,6 +6,8 @@ import EmailWidget from './EmailWidget';
 import DateTimeWidget from './DateTimeWidget';
 import DateWidget from './DateWidget';
 import TextareaWidget from './TextareaWidget';
+import FileWidget from './FileWidget';
+
 import { StrictRJSFSchema, RJSFSchema, FormContextType, RegistryWidgetsType } from '@rjsf/utils';
 
 export function generateWidgets<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(): RegistryWidgetsType<T, S, F> {
@@ -18,7 +20,8 @@ export function generateWidgets<T = any, S extends StrictRJSFSchema = RJSFSchema
 		EmailWidget,
 		DateTimeWidget,
 		DateWidget,
-		TextareaWidget
+		TextareaWidget,
+		FileWidget
 	};
 }
 export default generateWidgets();

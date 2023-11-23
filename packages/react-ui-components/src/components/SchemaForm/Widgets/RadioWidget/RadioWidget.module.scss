@@ -1,4 +1,4 @@
-@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
 
 .RadioListContainer {
 	display: flex;
@@ -9,5 +9,26 @@
 
 	&.Inline {
 		flex-direction: row;
+		column-gap: $spacing-2x;
+	}
+
+	.RadioOption {
+		flex: 1;
+		background-color: kv-color('neutral-7');
+		border-radius: 4px;
+		padding: 0 $spacing-4x;
+		cursor: pointer;
+
+		&.Checked {
+			border: 1px solid kv-color('neutral-0');
+		}
+
+		&.Disabled {
+			pointer-events: none;
+
+			&.Checked {
+				border-color: kv-color('neutral-6');
+			}
+		}
 	}
 }

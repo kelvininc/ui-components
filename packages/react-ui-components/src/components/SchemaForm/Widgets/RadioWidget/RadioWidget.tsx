@@ -30,16 +30,16 @@ const RadioWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormC
 					enumOptions.map((option, i: number) => {
 						const itemDisabled = Array.isArray(enumDisabled) && enumDisabled.indexOf(option.value) !== -1;
 						const checked = option.value == value;
+						const isDisabled = disabled || itemDisabled || readonly;
 
 						return (
-							<KvRadio
-								id={option.label}
+							<div
 								key={i}
-								label={option.label}
-								disabled={disabled || itemDisabled || readonly}
-								checked={checked}
-								onCheckedChange={_ => onChange(option.value)}
-							/>
+								className={classNames(styles.RadioOption, { [styles.Checked]: checked, [styles.Disabled]: isDisabled })}
+								onClick={_ => onChange(option.value)}
+							>
+								<KvRadio id={option.label} label={option.label} disabled={isDisabled} checked={checked} />
+							</div>
 						);
 					})}
 			</div>

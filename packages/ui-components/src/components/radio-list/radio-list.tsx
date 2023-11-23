@@ -39,7 +39,7 @@ export class KvRadioList implements IRadioList, IRadioListEvents {
 								{...item}
 								key={item.optionId}
 								checked={this.selectedOption === item.optionId}
-								disabled={this.disabledOptions?.[item.optionId]}
+								disabled={item.disabled || this.disabledOptions?.[item.optionId]}
 								class="radio-list-item"
 								onOptionClick={this.onOptionClick}
 							/>

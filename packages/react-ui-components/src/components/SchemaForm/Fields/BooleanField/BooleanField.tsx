@@ -15,8 +15,7 @@ function BooleanField<T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	autofocus,
 	onChange,
 	onFocus,
-	onBlur,
-	rawErrors
+	onBlur
 }: FieldProps<T, S, F>) {
 	const { title } = schema;
 	const { widgets, formContext, fields, globalUiOptions } = registry;
@@ -44,7 +43,6 @@ function BooleanField<T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 			registry={registry}
 			formContext={formContext}
 			autofocus={autofocus}
-			rawErrors={rawErrors}
 			multiple={false}
 			placeholder=""
 			DescriptionField={fields.DescriptionField}
