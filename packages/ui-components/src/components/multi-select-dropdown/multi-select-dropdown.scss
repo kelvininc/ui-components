@@ -14,7 +14,7 @@
 }
 
 kv-dropdown {
-	&[disabled] {
+	&[disabled=true] {
 		pointer-events: none;
 	}
 }
