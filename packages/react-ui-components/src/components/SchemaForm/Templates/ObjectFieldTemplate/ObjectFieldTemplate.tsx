@@ -10,7 +10,6 @@ import { DEFAULT_INPUT_CONFIG, DEFAULT_INPUT_INLINE_CONFIG } from './config';
 const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	description,
 	title,
-	required,
 	properties,
 	uiSchema,
 	idSchema,
@@ -42,7 +41,7 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 	return (
 		<>
 			{(get(uiSchema, ['ui:title']) || title) && (
-				<TitleFieldTemplate id={`${idSchema.$id}-title`} title={uiOptions.title || title} required={required} schema={schema} uiSchema={uiSchema} registry={registry} />
+				<TitleFieldTemplate id={`${idSchema.$id}-title`} title={uiOptions.title || title} schema={schema} uiSchema={uiSchema} registry={registry} />
 			)}
 			<DescriptionFieldTemplate
 				id={`${idSchema.$id}-description`}

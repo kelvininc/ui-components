@@ -122,6 +122,38 @@ Default.args = {
 	}
 };
 
+export const FilesUpload = FormTemplate.bind(this);
+FilesUpload.args = {
+	showErrorList: false,
+	liveValidate: true,
+	disabled: false,
+	formData: {},
+	schema: {
+		type: 'object',
+		properties: {
+			multiple_files: {
+				type: 'array',
+				maxItems: 2,
+				items: {
+					type: 'string',
+					format: 'data-url'
+				}
+			},
+			single_file: {
+				title: 'Single File (with download)',
+				type: 'string',
+				format: 'data-url'
+			}
+		},
+		required: ['single_file', 'multiple_files']
+	},
+	uiSchema: {
+		single_file: {
+			'ui:filePreview': true
+		}
+	}
+};
+
 export const IfThenElseForm = FormTemplate.bind(this);
 IfThenElseForm.args = {
 	showErrorList: false,
