@@ -3,6 +3,7 @@ import { isNil, omitBy } from 'lodash-es';
 import { CLEAR_SELECTION_LABEL, SELECT_ALL_LABEL } from './select.config';
 import { ISelect, ISelectEvents } from './select.types';
 import { isElementVisible } from './select.helper';
+import { EComponentSize } from '../../types';
 
 /**
  * @part select - The select container.
@@ -91,7 +92,9 @@ export class KvSelect implements ISelect, ISelectEvents {
 				<div class="select-container" part="select">
 					{hasHeader && (
 						<div class="select-header-container">
-							{this.searchable && <kv-search value={this.searchValue} placeholder={this.searchPlaceholder} onTextChange={this.onSearchChange} />}
+							{this.searchable && (
+								<kv-search size={EComponentSize.Small} value={this.searchValue} placeholder={this.searchPlaceholder} onTextChange={this.onSearchChange} />
+							)}
 							{hasLabels && (
 								<div class="search-footer">
 									<div class="footer-actions">
