@@ -11,7 +11,7 @@ import { useFieldTemplateElement } from './hooks/useFieldTemplateElement';
 import styles from './SchemaForm.module.scss';
 import { generateTheme } from './Theme';
 import { EApplyDefaults, SchemaFormContext, SchemaFormProps } from './types';
-import getDefaultValidator, { buildDefaultFormStateBehavior } from './utils';
+import getDefaultValidator, { buildDefaultFormStateBehavior, getInitialFormData } from './utils';
 
 // Custom Theme
 export function generateForm<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(): ComponentType<FormProps<T, S, F>> {
@@ -51,11 +51,14 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	formReference,
 	disabled,
 	applyDefaults = EApplyDefaults.All,
+	schema,
 	...otherProps
 }: SchemaFormProps<T, S, SchemaFormContext>) {
 	const [isValid, setValid] = useState(!liveValidate);
-	const [hasChanges, setHasChanges] = useState(!isEqualWith(formDataProp, submittedData || {}));
-	const [formData, setFormData] = useState(formDataProp);
+	const experimental_defaultFormStateBehavior = useMemo(() => buildDefaultFormStateBehavior(applyDefaults), [applyDefaults]);
+	const formValidator = useMemo(() => validatorProp ?? getDefaultValidator<T, S, SchemaFormContext>(), [validatorProp]);
+	const [formData, setFormData] = useState(getInitialFormData(formValidator, schema, formDataProp, experimental_defaultFormStateBehavior));
+	const [hasChanges, setHasChanges] = useState(!isEqualWith(formData, submittedData || {}));
 
 	const formRef = formReference ?? useRef<Form<T, S, SchemaFormContext>>(null);
 	const fieldTemplate = useFieldTemplateElement(formRef);
@@ -63,12 +66,10 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const isScrolling = useMemo(() => scrollTop - SCROLL_OFFSET > 0, [scrollTop]);
 	const { submitText, norender, props: submitButtonProps } = getSubmitButtonOptions(uiSchema);
 	const hasFooter = useMemo(() => allowDiscardChanges || allowResetToDefaults || !norender, [allowDiscardChanges, norender]);
-	const experimental_defaultFormStateBehavior = useMemo(() => buildDefaultFormStateBehavior(applyDefaults), [applyDefaults]);
-	const formValidator = useMemo(() => validatorProp ?? getDefaultValidator<T, S, SchemaFormContext>(), [validatorProp]);
 	const defaults = useMemo<T>(() => {
-		const schemaUtils = createSchemaUtils(formValidator, otherProps.schema);
-		return schemaUtils.getDefaultFormState(otherProps.schema) as T;
-	}, [formValidator, otherProps.schema]);
+		const schemaUtils = createSchemaUtils(formValidator, schema);
+		return schemaUtils.getDefaultFormState(schema) as T;
+	}, [formValidator, schema]);
 	const [hasDefaults, setHasDefaults] = useState(!isEmpty(defaults) && !isEqualWith(defaults, formData || {}) && !isEqualWith(defaults, submittedData || {}));
 
 	const onFormChange = useCallback(
@@ -85,6 +86,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const themedProps: FormProps<T, S, SchemaFormContext> = {
 		disabled,
 		liveValidate,
+		schema,
 		...otherProps,
 		onChange: onFormChange,
 		uiSchema: {
@@ -136,8 +138,8 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	}, [defaults, formData, setHasDefaults]);
 
 	useEffect(() => {
-		setFormData(cloneDeep(formDataProp) as T);
-	}, [formDataProp]);
+		setFormData(cloneDeep(getInitialFormData(formValidator, schema, formDataProp, experimental_defaultFormStateBehavior)) as T);
+	}, [formValidator, schema, formDataProp, experimental_defaultFormStateBehavior]);
 
 	return (
 		<div className={classNames(styles.FormContainer, customClass)}>
