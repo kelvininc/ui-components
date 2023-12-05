@@ -26,5 +26,14 @@ export enum EIllustrationName {
 	// --- PEACOCK - NEW THEME ILLUSTRATIONS ---
 	// -----------------------------------------
 	BoxBuild = 'kv-box-build',
-	TableBuild = 'kv-table-build' // TODO: Missing the gradients
+	TableBuild = 'kv-table-build', // TODO: Missing the gradients
+	// -----------------------------------------
+	// --- NEW EMPTY STATES ---
+	// -----------------------------------------
+	ErrorState = 'kv-error-state',
+	NoContentHere = 'kv-no-content-here',
+	NoDataAvailable = 'kv-no-data-available',
+	NoMatchingResults = 'kv-no-matching-results',
+	NoResultsFoundDark = 'kv-no-results-found-dark',
+	NoResultsFoundLight = 'kv-no-results-found-light'
 }
