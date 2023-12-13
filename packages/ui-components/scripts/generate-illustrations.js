@@ -2,11 +2,12 @@ const path = require('path');
 const fg = require('fast-glob');
 const fs = require('fs-extra');
 const SVGO = require('svgo');
-const { camelCase, upperFirst, groupBy, map, find } = require('lodash');
+const { camelCase, upperFirst, groupBy, map, find, isEmpty } = require('lodash');
 const Handlebars = require('handlebars');
 
 const { parse } = require('svg-parser');
 const toHTML = require('hast-util-to-html');
+const { stdout } = require('process');
 
 const SVGO_CONFIG = {
 	plugins: [{ removeViewBox: false }, { removeXMLNS: true }]
@@ -59,14 +60,42 @@ async function main() {
 		const className = upperFirst(camelCase(key));
 		const parsedData = parse(defaultItem.data);
 
+		let htmlContent = toHTML(getRoot(parsedData), { allowDangerousHtml: true });
+	
+		const styleMatches = htmlContent.match(/style="[^"]+"/g) || [];
+		for (const key in styleMatches) {
+			const match = styleMatches[key];
+			htmlContent = htmlContent.replace(match, getStyleObjectFromMatch(match));
+		}
+
 		return {
 			key,
 			tagName,
 			className,
-			illustration: toHTML(getRoot(parsedData)),
+			illustration: htmlContent,
 			viewBox: getViewBox(parsedData)
 		};
 	});
+
+	function getStyleObjectFromMatch(match) {
+		const cleanedMatch = match.split(';');
+		const extractedStyles = cleanedMatch.reduce((acc, item) => {
+			if (item.search(':') > 0) {
+				const cleanedItem = item.replace('style=', '').replace(/"/g, '');
+				const splittedItem = cleanedItem.split(':');
+				const styleId = splittedItem[0];
+				const styleValue = splittedItem[1];
+
+				const objStr = `"${styleId}":"${styleValue}"`;
+				const separator = acc !== '' ? ',' : '';
+				return acc + separator + objStr;
+			}
+				
+			return acc;
+		}, '')
+
+		return `style={{ ${extractedStyles} }}`
+	}
 
 	function getViewBox(tree) {
 		return tree.children[0].properties.viewBox || '0 0 24 24';
