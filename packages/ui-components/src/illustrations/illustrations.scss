@@ -11,7 +11,8 @@
 
 	width: var(--illustration-width);
 	height: var(--illustration-height);
-
+	display: flex;
+	
 	&-full-size {
 		width: 100%;
 		height: 100%;
