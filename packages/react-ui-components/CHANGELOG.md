@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.28.0](https://github.com/kelvininc/ui-components/compare/v0.27.0...v0.28.0) (2023-12-20)
+
+
+### Bug Fixes
+
+* **dropdowns:** change dropdown search input size to small ([a6615ea](https://github.com/kelvininc/ui-components/commit/a6615ea39caeac4513d38f9a40286aeddb57f9c8))
+* **schema-form:** prevent 'onChange' event when using array properties ([ef1251a](https://github.com/kelvininc/ui-components/commit/ef1251af5aba366d15ac951031f6abf164832326))
+* **select:** set 'min-width' to 'max-content' to avoid overflow ([ea4bf1f](https://github.com/kelvininc/ui-components/commit/ea4bf1fe0bffcb1e6548e49a1f3505eb67c8a1c7))
+
+
+### Features
+
+* **schema-form:** add 'select' widget to boolean fields ([5e7849d](https://github.com/kelvininc/ui-components/commit/5e7849d091f38cfac5cb87df5e0533614c614267))
+* **schema-form:** add file widget ([bbe20c3](https://github.com/kelvininc/ui-components/commit/bbe20c31db3f545e8d0e11c6d0f4188fbb92ab31))
+
+
+
+
+
 # [0.27.0](https://github.com/kelvininc/ui-components/compare/v0.26.0...v0.27.0) (2023-11-17)
 
 

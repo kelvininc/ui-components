@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.28.0](https://github.com/kelvininc/ui-components/compare/v0.27.0...v0.28.0) (2023-12-20)
+
+
+### Bug Fixes
+
+* **dropdowns:** change dropdown search input size to small ([a6615ea](https://github.com/kelvininc/ui-components/commit/a6615ea39caeac4513d38f9a40286aeddb57f9c8))
+* **illustrations:** remove added height from illustrations ([fe73acf](https://github.com/kelvininc/ui-components/commit/fe73acf6e5ef5d016f78d4b6f9a6d34f26f6a7e1))
+* **multi-select-dropdown:** fix 'disabled' styling selector to check for true value ([db93ac2](https://github.com/kelvininc/ui-components/commit/db93ac26efb03c7d1ab03d3e4c8a2ba97c3e7fec))
+* **select:** set 'min-width' to 'max-content' to avoid overflow ([ea4bf1f](https://github.com/kelvininc/ui-components/commit/ea4bf1fe0bffcb1e6548e49a1f3505eb67c8a1c7))
+* **single-select-dropdown:** set correct fallback 'selectOption' value ([9a6b08a](https://github.com/kelvininc/ui-components/commit/9a6b08a9bde8a708d20417fc6f402e1b26f8355d))
+* **text-field:** add min and max values when the type is number ([13e13a7](https://github.com/kelvininc/ui-components/commit/13e13a7296286c52ca0979f6b0a996d221ac17f4))
+
+
+### Features
+
+* **illustrations:** add new illustrations ([bcafea3](https://github.com/kelvininc/ui-components/commit/bcafea3bb2c3d41a6e982bdc1f5daa92ef918c46))
+* **schema-form:** add file widget ([bbe20c3](https://github.com/kelvininc/ui-components/commit/bbe20c31db3f545e8d0e11c6d0f4188fbb92ab31))
+
+
+
+
+
 # [0.27.0](https://github.com/kelvininc/ui-components/compare/v0.26.0...v0.27.0) (2023-11-17)
 
 
