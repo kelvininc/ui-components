@@ -1,0 +1,82 @@
+@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
+
+.FileWidgetContainer {
+	display: flex;
+	justify-content: space-between;
+	gap: $spacing-3x;
+	align-items: center;
+
+	.FilesInfo {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.ActionsContainer {
+		display: flex;
+		gap: $spacing-2x;
+		align-items: center;
+	}
+
+	.FileInfoContainer {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: $spacing-3x;
+
+		.FileInfo {
+			display: flex;
+			border-radius: $spacing;
+			background-color: kv-color('neutral-7');
+			padding: $spacing-3x;
+			gap: $spacing-2x;
+			justify-content: space-between;
+
+			.LeftContent {
+				display: flex;
+				flex: 1;
+				min-width: 0;
+				gap: $spacing-2x;
+			}
+
+			kv-icon {
+				--icon-color: #{kv-color('neutral-5')};
+				--icon-height: 40px;
+				--icon-width: 40px;
+			}
+
+			.FileDetails {
+				display: flex;
+				flex-direction: column;
+				flex: 1;
+				min-width: 0;
+
+				.Label {
+					@include ellipsis();
+					@include kv-font-label-small-uppercase-semibold;
+
+					color: kv-color('neutral-2');
+				}
+
+				.FileName {
+					@include ellipsis();
+					@include kv-font-span-semibold;
+
+					color: kv-color('neutral-5');
+				}
+			}
+
+			&.HasValue {
+				kv-icon {
+					--icon-color: #{kv-color('neutral-2')};
+				}
+				.FileDetails .FileName {
+					color: kv-color('neutral-4');
+				}
+			}
+
+			&.HasError {
+				border: 1px solid kv-color('error');
+			}
+		}
+	}
+}

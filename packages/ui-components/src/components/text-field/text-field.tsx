@@ -72,7 +72,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) badge?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) useInputMask?: boolean = false;
+	@Prop({ reflect: true }) useInputMask?: boolean;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) inputMaskRegex?: string = '';
 	/** @inheritdoc */
@@ -119,14 +119,14 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	}
 
 	@Watch('useInputMask')
-	handleUseInputMask(newValue: boolean) {
+	handleUseInputMask(newValue: boolean = this.type === EInputFieldType.Number) {
 		if (newValue && isInputMaskCompatibleType(this.type) && !this.maskInstance) {
 			this.maskInstance = buildInputMask(
 				this.nativeInput,
 				this.type,
 				{
-					min: this.min,
-					max: this.max,
+					min: this.getMinValue(),
+					max: this.getMaxValue(),
 					regex: this.inputMaskRegex
 				},
 				this.maxLength
@@ -147,7 +147,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	}
 
 	componentDidLoad() {
-		this.handleUseInputMask(this.useInputMask);
+		this.handleUseInputMask(this.getUseInputMask());
 		this.updateAndEmitValue(this.getValue());
 	}
 
@@ -236,11 +236,35 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	}
 
 	private getType(): string {
-		return this.useInputMask ? EInputFieldType.Text : this.type;
+		return this.getUseInputMask() ? EInputFieldType.Text : this.type;
 	}
 
 	private getTooltipConfig = (): Partial<ITooltip> => {
 		return merge({}, DEFAULT_TEXT_TOOLTIP_CONFIG, this.tooltipConfig ?? {});
+	};
+
+	private getMinValue = (): number | string | undefined => {
+		if (this.min !== undefined) {
+			return this.min;
+		}
+
+		if (this.type === EInputFieldType.Number) {
+			return Number.MIN_SAFE_INTEGER;
+		}
+	};
+
+	private getMaxValue = (): number | string | undefined => {
+		if (this.max !== undefined) {
+			return this.max;
+		}
+
+		if (this.type === EInputFieldType.Number) {
+			return Number.MAX_SAFE_INTEGER;
+		}
+	};
+
+	private getUseInputMask = (): boolean => {
+		return this.useInputMask ?? this.type === EInputFieldType.Number;
 	};
 
 	render() {
@@ -295,8 +319,8 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										name={this.inputName}
 										placeholder={this.placeholder}
 										disabled={this.disabled}
-										max={this.max}
-										min={this.min}
+										max={this.getMaxValue()}
+										min={this.getMinValue()}
 										minLength={this.minLength}
 										step={this.step}
 										value={value}

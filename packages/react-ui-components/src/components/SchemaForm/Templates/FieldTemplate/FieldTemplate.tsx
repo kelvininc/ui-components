@@ -10,7 +10,6 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 	const {
 		id,
 		children,
-		displayLabel,
 		rawErrors = [],
 		rawHelp,
 		rawDescription,
@@ -47,7 +46,7 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 		>
 			<div className={styles.FieldWrapper}>
 				{children}
-				{(!isEmpty(rawErrors) || (displayLabel && rawDescription)) && (
+				{(!isEmpty(rawErrors) || rawDescription) && (
 					<KvFormHelpText
 						helpText={isEmpty(rawErrors) ? rawDescription : rawErrors}
 						state={isEmpty(rawErrors) ? EValidationState.None : EValidationState.Invalid}

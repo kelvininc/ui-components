@@ -10,11 +10,11 @@
 	--dropdown-max-height: 400px;
 	--dropdown-min-height: auto;
 	--dropdown-max-width: auto;
-	--dropdown-min-width: auto;
+	--dropdown-min-width: max-content;
 }
 
 kv-dropdown {
-	&[disabled] {
+	&[disabled=true] {
 		pointer-events: none;
 	}
 }

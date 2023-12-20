@@ -1,5 +1,5 @@
-import { Experimental_DefaultFormStateBehavior, FormContextType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
-import { EApplyDefaults } from './types';
+import { Experimental_DefaultFormStateBehavior, FormContextType, RJSFSchema, StrictRJSFSchema, ValidatorType, getDefaultFormState } from '@rjsf/utils';
+import { EApplyDefaults, SchemaFormContext } from './types';
 import { CustomValidatorOptionsType, customizeValidator } from '@rjsf/validator-ajv8';
 
 type ExperimentalEmptyObjectFields = 'populateAllDefaults' | 'populateRequiredDefaults' | 'skipDefaults';
@@ -40,3 +40,20 @@ export default function getDefaultValidator<T, S extends StrictRJSFSchema = RJSF
 
 	return customizeValidator<T, S, F>({ ajvOptionsOverrides, ajvFormatOptions });
 }
+
+/**
+ * There's an issue in the "react-jsonschema-form" package where the form will always trigger
+ * an `onChange` event on mount when the schema contains array type properties with not default values.
+ *
+ * To overcome this issue we need set the form initial value to the default values.
+ *
+ * For more information: https://github.com/rjsf-team/react-jsonschema-form/issues/3697
+ */
+export const getInitialFormData = <T, S extends StrictRJSFSchema = RJSFSchema>(
+	validator: ValidatorType<T, S, SchemaFormContext>,
+	schema: S,
+	formDataProp: T | undefined,
+	defaultFormStateBehavior: Experimental_DefaultFormStateBehavior
+): any => {
+	return getDefaultFormState<T, S, SchemaFormContext>(validator, schema, formDataProp, schema, undefined, defaultFormStateBehavior);
+};

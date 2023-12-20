@@ -273,7 +273,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	};
 
 	private get selectedOptions(): Record<string, boolean> | undefined {
-		return this.selectedOption ? { [this.selectedOption]: true } : undefined;
+		return this.selectedOption ? { [this.selectedOption]: true } : {};
 	}
 
 	render() {

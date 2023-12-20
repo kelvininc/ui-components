@@ -40,7 +40,7 @@ export interface ISelectMultiOptionsConfig {
 	selectAllLabel?: string;
 	/** (optional) If `true` a selection counter is displayed */
 	counter?: boolean;
-	/** (optional) The minimum amount of options required to display the search. Defaults to `8`. */
+	/** (optional) The minimum amount of options required to display the search. Defaults to `15`. */
 	minSearchOptions?: number;
 	/** (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false` */
 	shortcuts?: boolean;

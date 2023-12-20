@@ -1,0 +1,23 @@
+<svg id="kv-no-matching-results" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 100 87">
+  <circle cx="57.422" cy="43.63" r="40" fill="#2A2A2A"/>
+  <mask id="a" width="81" height="81" x="17" y="3" maskUnits="userSpaceOnUse" style="mask-type:alpha">
+    <circle cx="57.422" cy="43.63" r="40" fill="#2A2A2A"/>
+  </mask>
+  <g mask="url(#a)">
+    <path fill="#3F3F3F" d="M111.422 43.63h-103v13h103v-13Z"/>
+    <path fill="#3F3F3F" d="M77.422 42.63h-23v15h23v-15Z"/>
+    <rect width="3" height="17" x="53.422" y="41.63" fill="#202020" rx="1.5"/>
+    <rect width="3" height="17" x="75.422" y="41.63" fill="#202020" rx="1.5"/>
+    <path fill="#202020" d="m67.319 41.133 9.504-9.503-1.415-1.414-9.503 9.503 1.414 1.414Z"/>
+    <path fill="#202020" d="m64.525 41.133-9.503-9.503 1.414-1.414 9.503 9.503-1.414 1.414Z"/>
+    <path fill="#202020" d="M67.422 40.63v-9h-3v9h3Z"/>
+    <path fill="#202020" d="M70.422 39.63h-9v3h9v-3Z"/>
+    <rect width="29" height="4" x="51.422" y="29.63" fill="#707070" rx="2"/>
+  </g>
+  <rect width="14" height="6" x="15.59" y="77.63" fill="#DDD" rx="3"/>
+  <path fill="#BEBEBE" d="M15.59 80.63h14a3 3 0 0 1-3 3h-8a3 3 0 0 1-3-3Z"/>
+  <rect width="28" height="6" x="8.59" y="65.63" fill="#8358FE" rx="3"/>
+  <path fill="#714ED3" d="M8.59 68.63h28a3 3 0 0 1-3 3h-22a3 3 0 0 1-3-3Z"/>
+  <rect width="40" height="6" x="2.59" y="53.63" fill="#DDD" rx="3"/>
+  <path fill="#BEBEBE" d="M2.59 56.63h40a3 3 0 0 1-3 3h-34a3 3 0 0 1-3-3Z"/>
+</svg>

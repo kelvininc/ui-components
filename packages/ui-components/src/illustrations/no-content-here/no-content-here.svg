@@ -1,0 +1,25 @@
+<svg id="kv-no-content-here" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 100 87">
+  <circle cx="56.5" cy="43.63" r="40" fill="#2A2A2A"/>
+  <mask id="a" width="81" height="81" x="16" y="3" maskUnits="userSpaceOnUse" style="mask-type:alpha">
+    <circle cx="56.5" cy="43.63" r="40" fill="#2A2A2A"/>
+  </mask>
+  <g mask="url(#a)">
+    <path fill="#3F3F3F" d="M86.5 33.63h-60v54h60v-54Z"/>
+    <path fill="#707070" d="M87.5 33.63h-62v3h62v-3Z"/>
+    <path fill="#3F3F3F" d="M38.5 36.63h-6v48h6v-48Z"/>
+    <path fill="#707070" d="M35.5 33.63h-5v3h5v-3Z"/>
+    <path fill="#202020" d="M81.5 60.63v-2h-10v2h10Z"/>
+    <path fill="#202020" d="M72.451 33.555h-1.95v58.15h1.95v-58.15ZM82.5 33.555h-1.95v58.15h1.95v-58.15Z"/>
+    <path fill="#202020" d="M81.5 74.63v-2h-10v2h10ZM81.5 67.63v-2h-10v2h10ZM81.5 53.63v-2h-10v2h10ZM81.5 46.63v-2h-10v2h10ZM81.5 39.63v-2h-10v2h10Z"/>
+    <path fill="#707070" d="M48.782 58.912c1.427-4.817 7.104-13.546 7.463-13.546s6.046 8.729 7.463 13.546c1.473 4.979-3.09 9.267-7.463 9.267-4.374 0-8.936-4.288-7.463-9.267Z"/>
+    <path fill="#3F3F3F" d="M63.5 31.63h-13v2h13v-2Z"/>
+    <path fill="#707070" d="M65.5 30.63h-17v1h17v-1Z"/>
+  </g>
+  <path fill="#8358FE" d="M13.402 58.43v25.2h5.4v-25.2z"/>
+  <path fill="#714ED3" d="M13.402 62.21v17.64h2.7V62.21z"/>
+  <path fill="#8358FE" d="M24.201 58.43v25.2h5.4v-25.2z"/>
+  <path fill="#714ED3" d="M24.201 62.21v17.64h2.7V62.21z"/>
+  <path fill="#BEBEBE" d="M39.5 58.05h-36v5.685h36z"/>
+  <path fill="#DDD" d="M36.658 58.05H5.395v2.843h31.263z"/>
+  <path fill="#DDD" fill-rule="evenodd" d="M6.2 83.63a2.7 2.7 0 0 1-2.7-2.7v-30.6a2.7 2.7 0 0 1 2.7-2.7h30.6a2.7 2.7 0 0 1 2.7 2.7v30.6a2.7 2.7 0 0 1-2.7 2.7H6.2Zm29.51-3.79V51.42H7.29v28.42h28.42Z" clip-rule="evenodd"/>
+</svg>
