@@ -7,7 +7,6 @@ const Handlebars = require('handlebars');
 
 const { parse } = require('svg-parser');
 const toHTML = require('hast-util-to-html');
-const { stdout } = require('process');
 
 const SVGO_CONFIG = {
 	plugins: [{ removeViewBox: false }, { removeXMLNS: true }]
