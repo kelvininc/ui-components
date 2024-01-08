@@ -32,6 +32,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		maxHeight,
 		minWidth,
 		maxWidth,
+		icon,
 		minSearchOptions,
 		badge,
 		valuePrefix: displayPrefix,
@@ -89,6 +90,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		maxHeight: maxHeight ?? dropdownConfig.maxHeight,
 		minWidth: minWidth ?? dropdownConfig.minWidth,
 		maxWidth: maxWidth ?? dropdownConfig.maxWidth,
+		icon: icon ?? dropdownConfig.icon,
 		badge,
 		selectionClearable,
 		minSearchOptions: minSearchOptions ?? DEFAULT_MINIMUM_SEARCHABLE_OPTIONS
