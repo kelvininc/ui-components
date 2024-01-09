@@ -355,7 +355,8 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	 * @returns formated dates to the absolute time picker component
 	 */
 	private getAbsoluteRange = (): string[] => {
-		return getAbsoluteTimePickerRangeDates(this.selectedTimeState);
+		const defaultTimezone = this.getSelectedTimezone();
+		return getAbsoluteTimePickerRangeDates(this.selectedTimeState, defaultTimezone);
 	};
 
 	private onInternalDropdownsStateChange = ({ detail: openState }: CustomEvent<boolean>) => {

@@ -3,7 +3,7 @@ import { ITimePickerTime, ITimezoneOffset, SelectedTimestampRange } from '../../
 import { newTimezoneDate } from '../../utils/date.helper';
 import { CALENDAR_DATE_TIME_MASK, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
 import { ERelativeTimeInputMode, IRelativeTimeInput } from '../absolute-time-picker/absolute-time-picker.types';
-import { ERelativeTimeComparisonConfig, IRelativeTimePickerOption, ITimePickerRelativeTime } from '../relative-time-picker/relative-time-picker.types';
+import { ERelativeTimeComparisonConfig, IRelativeTimePickerOption, ITimePickerRelativeTime, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
 import { isEmpty } from 'lodash-es';
 import { CUSTOMIZE_INTERVAL_KEY } from '../relative-time-picker/relative-time-picker.config';
 import { UTC_TIMEZONE_OFFSET } from './time-picker.config';
@@ -51,10 +51,10 @@ export const createTimestampInTimezoneFromFormattedDate = (date: string, timezon
  * @param selectedOption selected ranges and timezone
  * @returns range in the calendar date time format
  */
-export const getAbsoluteTimePickerRangeDates = (selectedOption: ITimePickerTime): string[] => {
+export const getAbsoluteTimePickerRangeDates = (selectedOption: ITimePickerTime, defaultTimezone: ITimePickerTimezone): string[] => {
 	const [from, to] = selectedOption.range;
-	const timezoneOffset = selectedOption.timezone.offset;
-	const timezoneName = selectedOption.timezone.name;
+	const timezoneOffset = selectedOption.timezone?.offset ?? defaultTimezone.offset;
+	const timezoneName = selectedOption.timezone?.name ?? defaultTimezone.name;
 
 	if (!from && !to) {
 		return [];
