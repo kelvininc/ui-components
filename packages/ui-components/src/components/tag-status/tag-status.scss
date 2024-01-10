@@ -1,5 +1,4 @@
 @import '../../assets/styles/globals';
-@import '../../assets/styles/globals';
 
 :host {
 	/**
@@ -20,15 +19,15 @@
 
 	--tag-status-label-color: #{kv-color('neutral-2')};
 	--tag-status-icon-size: 16px;
-	--tag-status-icon-success-color: #{kv-color('success')};
+	--tag-status-icon-success-color: #{kv-color('success', 'dark')};
 	--tag-status-icon-success-background-color: #{kv-color('neutral-0')};
-	--tag-status-icon-error-color: #{kv-color('error')};
+	--tag-status-icon-error-color: #{kv-color('error', 'dark')};
 	--tag-status-icon-error-background-color: #{kv-color('neutral-0')};
-	--tag-status-icon-unknown-color: #{kv-color('neutral-4')};
+	--tag-status-icon-unknown-color: #{kv-color('neutral-5')};
 	--tag-status-icon-unknown-background-color: transparent;
-	--tag-status-icon-warning-color: #{kv-color('warning')};
+	--tag-status-icon-warning-color: #{kv-color('warning', 'dark')};
 	--tag-status-icon-warning-background-color: transparent;
-	--tag-status-icon-info-color: #{kv-color('info')};
+	--tag-status-icon-info-color: #{kv-color('info', 'dark')};
 	--tag-status-icon-info-background-color: #{kv-color('neutral-0')};
 	--tag-status-gap: #{$spacing-2x};
 }
