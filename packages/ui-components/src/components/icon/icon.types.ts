@@ -163,6 +163,7 @@ export enum EIconName {
 	Status = 'kv-status',
 	Star = 'kv-star',
 	Success = 'kv-success',
+	SuccessStar = 'kv-success-star',
 	SupervisedUser = 'kv-supervised-user',
 	Support = 'kv-support',
 	SystemSource = 'kv-system-source',
