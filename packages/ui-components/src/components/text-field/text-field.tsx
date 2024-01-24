@@ -48,7 +48,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) step?: string | number;
 	/** @inheritdoc */
-	@Prop() size: EComponentSize = EComponentSize.Large;
+	@Prop() size?: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled: boolean = false;
 	/** @inheritdoc */
@@ -149,6 +149,13 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	componentDidLoad() {
 		this.handleUseInputMask(this.getUseInputMask());
 		this.updateAndEmitValue(this.getValue());
+		if (!this.focused) {
+			this.el.blur();
+			this.nativeInput?.blur();
+		} else {
+			this.el.focus();
+			this.nativeInput?.focus();
+		}
 	}
 
 	/** Text field focus state */
@@ -202,11 +209,12 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	};
 
 	private onBlurHandler = ({ target }: FocusEvent) => {
+		this.textFieldBlur.emit((target as HTMLInputElement).value);
+
 		if (this.forcedFocus) {
 			return;
 		}
 
-		this.textFieldBlur.emit((target as HTMLInputElement).value);
 		this.focused = false;
 	};
 
@@ -279,6 +287,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 						<kv-form-label label={this.label} required={this.required}></kv-form-label>
 						{!this.loading ? (
 							<div
+								part="input-container"
 								class={{
 									'input-container': true,
 									[`input-container--size-${this.size}`]: true,
