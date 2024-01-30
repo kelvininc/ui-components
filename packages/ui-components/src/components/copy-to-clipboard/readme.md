@@ -51,10 +51,12 @@ export const KvCopyToClipboardExample: React.FC = () => (
 
 ## Properties
 
-| Property        | Attribute        | Description                                                        | Type     | Default     |
-| --------------- | ---------------- | ------------------------------------------------------------------ | -------- | ----------- |
-| `copiableText`  | `copiable-text`  | (required) The text to copy to the clipboard when clicking         | `string` | `undefined` |
-| `tooltipSuffix` | `tooltip-suffix` | (optional) The suffix to show on the `Copy` tooltip before copying | `string` | `undefined` |
+| Property        | Attribute        | Description                                                        | Type                                                                                                                                                                                                                                                                                                                                                                           | Default                  |
+| --------------- | ---------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------ |
+| `copiableText`  | `copiable-text`  | (required) The text to copy to the clipboard when clicking         | `string`                                                                                                                                                                                                                                                                                                                                                                       | `undefined`              |
+| `tooltipConfig` | --               | (optional) Object with tooltip position options                    | `{ placement?: Placement; strategy?: Strategy; middleware?: (false \| { name: string; options?: any; fn: (state: { x: number; y: number; initialPlacement: Placement; platform: Platform; placement: Placement; strategy: Strategy; middlewareData: MiddlewareData; rects: ElementRects; elements: Elements; }) => Promisable<MiddlewareReturn>; })[]; platform?: Platform; }` | `DEFAULT_TOOLTIP_CONFIG` |
+| `tooltipDelay`  | `tooltip-delay`  | (optional) Delay to show tooltip in milliseconds.                  | `number`                                                                                                                                                                                                                                                                                                                                                                       | `DEFAULT_TOOLTIP_DELAY`  |
+| `tooltipSuffix` | `tooltip-suffix` | (optional) The suffix to show on the `Copy` tooltip before copying | `string`                                                                                                                                                                                                                                                                                                                                                                       | `undefined`              |
 
 
 ## Shadow Parts
@@ -62,16 +64,22 @@ export const KvCopyToClipboardExample: React.FC = () => (
 | Part        | Description                   |
 | ----------- | ----------------------------- |
 | `"content"` | The container for the content |
+| `"icon"`    | The copy icon                 |
 
 
 ## CSS Custom Properties
 
-| Name                   | Description            |
-| ---------------------- | ---------------------- |
-| `--container-width`    | Width of the container |
-| `--icon-color-default` | Start icon color       |
-| `--icon-color-success` | Success icon color     |
-| `--icon-start-opacity` | Start icon opacity     |
+| Name                                 | Description                                  |
+| ------------------------------------ | -------------------------------------------- |
+| `--container-gap`                    | The gap between the container's elements     |
+| `--container-hover-background-color` | The container's hover state background color |
+| `--container-padding`                | The container's padding                      |
+| `--container-width`                  | Width of the container                       |
+| `--icon-background-color-success`    | Success icon background color                |
+| `--icon-color-default`               | Start icon color                             |
+| `--icon-color-success`               | Success icon color                           |
+| `--icon-size`                        | The copy icon size                           |
+| `--icon-start-opacity`               | Start icon opacity                           |
 
 
 ## Dependencies
