@@ -11,7 +11,7 @@ exports[`Range Dates Input (unit tests) when uses default props should match the
               <kv-tooltip position="top-start" truncate="">
                 <div class="text-field-container">
                   <kv-form-label></kv-form-label>
-                  <div class="input-container input-container--size-large">
+                  <div class="input-container input-container--size-large" part="input-container">
                     <div class="left-slot-container">
                       <slot name="left-slot">
                         <kv-icon exportparts="icon" name="kv-calendar"></kv-icon>
@@ -41,7 +41,7 @@ exports[`Range Dates Input (unit tests) when uses default props should match the
               <kv-tooltip position="top-start" truncate="">
                 <div class="text-field-container">
                   <kv-form-label></kv-form-label>
-                  <div class="input-container input-container--size-large">
+                  <div class="input-container input-container--size-large" part="input-container">
                     <div class="left-slot-container">
                       <slot name="left-slot">
                         <kv-icon exportparts="icon" name="kv-calendar"></kv-icon>
