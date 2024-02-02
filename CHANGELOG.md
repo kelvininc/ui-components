@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.29.0](https://github.com/kelvininc/ui-components/compare/v0.28.0...v0.29.0) (2024-02-02)
+
+
+### Bug Fixes
+
+* **relative-time-picker:** keep timezone search input visible when user searches for values ([511e969](https://github.com/kelvininc/ui-components/commit/511e969d1b56b4cb98b8a23984c4f08d85a98c35))
+* **tag-status:** change 'unknown' state color ([4260830](https://github.com/kelvininc/ui-components/commit/4260830163f72e9e6521cb3e780c08272d3f1180))
+* **text-field:** fix blur behavior ([fa69a11](https://github.com/kelvininc/ui-components/commit/fa69a1109d359a50535c8367c434ba3ca1679138))
+* **timepicker:** add default timezone as fallback ([8e1e209](https://github.com/kelvininc/ui-components/commit/8e1e20957d2498df86aba0a68e1e3ce4fbc0c2bf))
+
+
+### Features
+
+* change kv-tag-status icon colors ([f5e25e2](https://github.com/kelvininc/ui-components/commit/f5e25e252b0af5f2ac27230b40fe87c89612aafc))
+* **copy-to-clipboard:** add tooltip config props ([949180e](https://github.com/kelvininc/ui-components/commit/949180e31a25223125797fcef2a111a9b30ee378))
+* **icons:** add new status icon success-star ([2326d39](https://github.com/kelvininc/ui-components/commit/2326d390801cb149dc83b55d1c08f81ff67e48f3))
+* **modal:** add transitions to width and height ([ffb9ebb](https://github.com/kelvininc/ui-components/commit/ffb9ebb3c18bce977e25aa97ac1f6d8495f42480))
+* **schema-form:** add description to dropdown options and icon to dropdown input ([0e6c961](https://github.com/kelvininc/ui-components/commit/0e6c961b2b0918078b95e83916cc8dd9bdd8ff61))
+
+
+
+
+
 # [0.28.0](https://github.com/kelvininc/ui-components/compare/v0.27.0...v0.28.0) (2023-12-20)
 
 

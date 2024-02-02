@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.29.0](https://github.com/kelvininc/ui-components/compare/v0.28.0...v0.29.0) (2024-02-02)
+
+
+### Features
+
+* **schema-form:** add description to dropdown options and icon to dropdown input ([0e6c961](https://github.com/kelvininc/ui-components/commit/0e6c961b2b0918078b95e83916cc8dd9bdd8ff61))
+
+
+
+
+
 # [0.28.0](https://github.com/kelvininc/ui-components/compare/v0.27.0...v0.28.0) (2023-12-20)
 
 
