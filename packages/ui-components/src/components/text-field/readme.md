@@ -114,6 +114,13 @@ export class TextFieldExample {
 | `textFieldBlur`    | Emitted when text field lost focus           | `CustomEvent<string>`     |
 
 
+## Shadow Parts
+
+| Part                | Description |
+| ------------------- | ----------- |
+| `"input-container"` |             |
+
+
 ## CSS Custom Properties
 
 | Name                                | Description                                    |

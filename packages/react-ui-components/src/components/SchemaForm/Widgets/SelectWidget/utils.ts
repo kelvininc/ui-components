@@ -46,9 +46,10 @@ export const buildSelectedOptions = (selectedOptions: string[]): Record<string, 
 
 export const buildDropdownOptions = (options?: EnumOptions, disabledOptions?: EnumOptions): IUIDropdownOptions =>
 	Array.isArray(options)
-		? options.reduce((acc, { value, label }) => {
+		? options.reduce((acc, { label, value, schema }) => {
+				const description = schema?.description;
 				const disabled = Array.isArray(disabledOptions) && disabledOptions.indexOf(value) != -1;
-				acc[value] = { value, label, disabled };
+				acc[value] = { value, label, description, disabled };
 				return acc;
 		  }, {})
 		: [];

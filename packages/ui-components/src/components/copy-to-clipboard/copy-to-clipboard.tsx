@@ -1,11 +1,13 @@
 import { Component, Host, Prop, State, h } from '@stencil/core';
 import { ECopyToClipboardState, ICopyToClipboard } from './copy-to-clipboard.types';
-import { ICON_CONFIGS, STATE_TRANSITION_DURATION_MS, TOOLTIP_CONFIG, TOOLTIP_DELAY, UNABLE_TO_COPY_ERROR } from './copy-to-clipboard.config';
+import { ICON_CONFIGS, STATE_TRANSITION_DURATION_MS, DEFAULT_TOOLTIP_CONFIG, DEFAULT_TOOLTIP_DELAY, UNABLE_TO_COPY_ERROR } from './copy-to-clipboard.config';
 import { copyTextToClipboard } from '../../utils/clipboard.helper';
 import { getTooltipText } from './copy-to-clipboard.utils';
+import { ComputePositionConfig } from '@floating-ui/dom';
 
 /**
  * @part content - The container for the content
+ * @part icon - The copy icon
  */
 @Component({
 	tag: 'kv-copy-to-clipboard',
@@ -17,6 +19,10 @@ export class KvCopyToClipboard implements ICopyToClipboard {
 	@Prop({ reflect: true }) copiableText: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) tooltipSuffix?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) tooltipDelay?: number = DEFAULT_TOOLTIP_DELAY;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) tooltipConfig?: Partial<ComputePositionConfig> = DEFAULT_TOOLTIP_CONFIG;
 
 	@State() copyState: ECopyToClipboardState = ECopyToClipboardState.ReadyToCopy;
 
@@ -41,7 +47,7 @@ export class KvCopyToClipboard implements ICopyToClipboard {
 	render() {
 		return (
 			<Host>
-				<kv-tooltip text={this.tooltipText} options={TOOLTIP_CONFIG} delay={TOOLTIP_DELAY} onClick={this.onTextCopy}>
+				<kv-tooltip text={this.tooltipText} options={this.tooltipConfig} delay={this.tooltipDelay} onClick={this.onTextCopy}>
 					<div part="content" class="copy-to-clipboard-container">
 						<slot></slot>
 						<div
@@ -50,7 +56,7 @@ export class KvCopyToClipboard implements ICopyToClipboard {
 								'state-icon--success': this.copyState === ECopyToClipboardState.Copied
 							}}
 						>
-							<kv-icon name={ICON_CONFIGS[this.copyState]} />
+							<kv-icon name={ICON_CONFIGS[this.copyState]} part="icon" />
 						</div>
 					</div>
 				</kv-tooltip>

@@ -131,15 +131,16 @@ export class KvPortal implements IPortal, IPortalEvents {
 
 	private showPortalContent() {
 		if (!this.portal) return;
-		this.calculatePosition();
 
 		this.portal.style.zIndex = `${this.zIndex}`;
 		if (this.delay) {
 			this.timeoutId = window.setTimeout(() => {
 				this.visible = true;
+				this.calculatePosition();
 			}, this.delay);
 		} else {
 			this.visible = true;
+			this.calculatePosition();
 		}
 	}
 

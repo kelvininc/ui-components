@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Copy To Clipboard (unit tests) when rendering should match the snapshot 1`] = `
-<kv-copy-to-clipboard copiable-text="https://kelvin.ai" tooltip-suffix="Link">
+<kv-copy-to-clipboard copiable-text="https://kelvin.ai" tooltip-delay="500" tooltip-suffix="Link">
   <mock:shadow-root>
     <kv-tooltip delay="500" text="Copy Link">
       <div class="copy-to-clipboard-container" part="content">
         <slot></slot>
         <div class="state-icon">
-          <kv-icon name="kv-copy-clipboard"></kv-icon>
+          <kv-icon name="kv-copy-clipboard" part="icon"></kv-icon>
         </div>
       </div>
     </kv-tooltip>

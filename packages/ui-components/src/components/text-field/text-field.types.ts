@@ -55,7 +55,7 @@ export interface ITextField {
 	/** (optional) Text field interval between legal numbers */
 	step?: string | number;
 	/** (optional) Sets this tab item to a different styling configuration */
-	size: EComponentSize;
+	size?: EComponentSize;
 	/** (optional) Text field disabled */
 	disabled?: boolean;
 	/** (optional) Text field required */

@@ -30,6 +30,7 @@ export enum EIllustrationName {
 	// -----------------------------------------
 	// --- NEW EMPTY STATES ---
 	// -----------------------------------------
+	ErrorState404 = 'kv-error-state-404',
 	ErrorState = 'kv-error-state',
 	NoContentHere = 'kv-no-content-here',
 	NoDataAvailable = 'kv-no-data-available',

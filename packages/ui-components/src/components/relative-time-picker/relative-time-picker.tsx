@@ -64,6 +64,8 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	/** Timezone dropdown management states */
 	@State() timezonesSearchTerm: string = '';
 	@State() timezoneDropdownOptions: ISelectSingleOptions;
+	@State() timezoneFilteredDropdownOptions: ISelectSingleOptions;
+
 	/** State to determine if a scrollbar is needed to display all the options */
 	@State() hasScroll: boolean = false;
 	/** Selected option range in timestamp */
@@ -96,10 +98,15 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 		this.hasScroll = isScrollNeeded(this.options, this.customIntervalOptionEnabled, this.timezoneSelectionEnabled);
 	}
 
+	@Watch('timezones')
+	onTimezonesChange(timezones?: ITimezoneOffset[]) {
+		this.timezoneDropdownOptions = buildTimezonesDropdownOptions(timezones);
+	}
+
 	@Watch('timezonesSearchTerm')
 	onTimezoneSearch(searchTerm: string) {
 		const searchedTimezones = searchString(searchTerm, this.timezones);
-		this.timezoneDropdownOptions = buildTimezonesDropdownOptions(searchedTimezones);
+		this.timezoneFilteredDropdownOptions = buildTimezonesDropdownOptions(searchedTimezones);
 	}
 
 	@Watch('selectedTimeKey')
@@ -115,11 +122,12 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	}
 
 	componentWillLoad() {
-		this.onTimezoneSearch('');
 		this.handleRelativeTimeOptionsChanges();
 	}
 
 	connectedCallback() {
+		this.timezoneDropdownOptions = buildTimezonesDropdownOptions(this.timezones);
+
 		this.intervalID = window.setInterval(() => {
 			this.handleRelativeTimeOptionsChanges();
 		}, TIME_RANGE_UPDATE_INTERVAL);
@@ -245,6 +253,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 									inputSize={EComponentSize.Small}
 									searchPlaceholder={TIMEZONES_SEARCH_PLACEHOLDER}
 									options={this.timezoneDropdownOptions}
+									filteredOptions={this.timezoneFilteredDropdownOptions}
 									selectedOption={this.getSelectedTimezone()}
 									onSearchChange={this.onTimezoneSearchTermChange}
 									onOptionSelected={this.onTimezoneSelected}
