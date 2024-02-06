@@ -1,5 +1,6 @@
 import { Component, Host, Prop, Event, EventEmitter, h } from '@stencil/core';
 import { IStepIndicator, IStepIndicatorEvents } from './step-indicator.types';
+import { EIconName } from '../icon/icon.types';
 
 @Component({
 	tag: 'kv-step-indicator',
@@ -13,6 +14,8 @@ export class KvStepIndicator implements IStepIndicator, IStepIndicatorEvents {
 	@Prop({ reflect: true }) active?: boolean;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) hasError?: boolean;
+	/** (optional) Defines if the step is the current step */
+	@Prop() isCurrent?: boolean;
 
 	/** @inheritdoc */
 	@Event() indicatorClicked: EventEmitter<void>;
@@ -34,7 +37,9 @@ export class KvStepIndicator implements IStepIndicator, IStepIndicatorEvents {
 						'indicator--state-error': this.hasError
 					}}
 					onClick={this.onIndicatorClick}
-				></div>
+				>
+					{!this.isCurrent && this.active && <kv-icon name={this.hasError ? EIconName.Error : EIconName.Success}></kv-icon>}
+				</div>
 			</Host>
 		);
 	}

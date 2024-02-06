@@ -26,4 +26,13 @@
 
 .progress-bar-container {
 	margin-top: $spacing;
+
+	kv-step-progress-bar {
+		--progress-bar-height: 2px;
+		--progress-height: 14px;
+	}
+
+	kv-step-indicator {
+		--indicator-radius: 14px;
+	}
 }
