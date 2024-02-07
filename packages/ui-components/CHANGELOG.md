@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.29.1](https://github.com/kelvininc/ui-components/compare/v0.29.0...v0.29.1) (2024-02-07)
+
+
+### Bug Fixes
+
+* **form-hel-text:** text wrapping under the icon ([d828eea](https://github.com/kelvininc/ui-components/commit/d828eea4bd7bfdb633f66a77c3f1ac1aa5f2c3d3))
+
+
+
+
+
 # [0.29.0](https://github.com/kelvininc/ui-components/compare/v0.28.0...v0.29.0) (2024-02-02)
 
 
