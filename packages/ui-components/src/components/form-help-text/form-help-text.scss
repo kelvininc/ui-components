@@ -12,8 +12,6 @@
 
 .help-text-container {
 	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
 	overflow: hidden;
 	margin: $spacing 0 0 $spacing-2x;
 	color: var(--help-text-default-color);
@@ -35,6 +33,8 @@
 
 		align-items: center;
 		margin-right: $spacing-2x;
+		float: left;
+		margin-top: 2px;
 	}
 
 	&.invalid {
