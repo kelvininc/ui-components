@@ -13,7 +13,10 @@ export const DEFAULT_TIME_RANGE_PICKER_INPUT_CONFIG: Partial<ITextField> = {
 	placeholder: 'Select a date',
 	type: EInputFieldType.Text,
 	icon: EIconName.Calendar,
-	state: EValidationState.None
+	state: EValidationState.None,
+	tooltipConfig: {
+		truncate: false
+	}
 };
 
 export const DEFAULT_TIME_RANGE_DROPDOWN_POSITION_OPTIONS: Partial<ComputePositionConfig> = {

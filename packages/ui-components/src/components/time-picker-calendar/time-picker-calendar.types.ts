@@ -1,6 +1,9 @@
 import { EventEmitter } from '@stencil/core';
+import { EAbsoluteTimePickerMode } from '../../types';
 
 export interface ITimePickerCalendar {
+	/** (optional) Defines if the calendar is in single date or range mode */
+	mode?: EAbsoluteTimePickerMode;
 	/** (optional) The currently selected dates */
 	selectedDates?: string[];
 	/** (optional) Initial date */
@@ -9,9 +12,9 @@ export interface ITimePickerCalendar {
 	hoveredDate?: string;
 	/** (options) The disabled dates array */
 	disabledDates?: string[];
-	/** (optional) Minimum accepted date */
+	/** (optional) Minimum accepted date. Format: YYYY-MM-DD */
 	minDate?: string;
-	/** (optional) Maximum accepted date */
+	/** (optional) Maximum accepted date. Format: YYYY-MM-DD */
 	maxDate?: string;
 	/** (optional) Enables the previous month click icon */
 	displayPreviousMonthArrow?: boolean;

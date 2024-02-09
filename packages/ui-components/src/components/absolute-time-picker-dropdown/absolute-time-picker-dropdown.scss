@@ -1,0 +1,24 @@
+@import '../../assets/styles/globals';
+
+:host {
+	display: block;
+}
+
+.absolute-time-content {
+	background-color: kv-color('neutral-7');
+	border: 1px solid kv-color('neutral-6');
+	border-radius: 4px;
+	width: max-content;
+
+	.footer {
+		display: flex;
+		justify-content: flex-end;
+		padding: $spacing-4x;
+		border-top: 1px solid kv-color('neutral-6');
+	
+		.actions {
+			display: flex;
+			gap: $spacing-2x;
+		}
+	}	
+}

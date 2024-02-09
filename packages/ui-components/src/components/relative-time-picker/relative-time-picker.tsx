@@ -26,7 +26,7 @@ import { formatTimezoneName, getDefaultTimezone, getTimezoneOffset, getTimezones
 import { searchString } from '../../utils/search.helper';
 import { buildTimezoneByOffset, buildTimezonesDropdownOptions } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.helper';
 import { buildRelativeTimeSelectOptions, getSelectedKeyRange, hasRangeChanged, isScrollNeeded } from './relative-time-picker.helper';
-import { CustomCssClass, EComponentSize, SelectedTimestampRange } from '../../types';
+import { CustomCssClass, EComponentSize, SelectedTimestamp } from '../../types';
 import { isEmpty } from 'lodash-es';
 import { getClassMap } from '../../utils/css-class.helper';
 
@@ -69,7 +69,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	/** State to determine if a scrollbar is needed to display all the options */
 	@State() hasScroll: boolean = false;
 	/** Selected option range in timestamp */
-	@State() selectedOptionRange: SelectedTimestampRange;
+	@State() selectedOptionRange: SelectedTimestamp;
 
 	/** @inheritdoc */
 	@Event() selectedRelativeTimeChange: EventEmitter<ITimePickerRelativeTime>;
@@ -148,11 +148,11 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 		});
 	};
 
-	private onSelectRelativeOption = ({ detail: newOption }: CustomEvent<string>, range: SelectedTimestampRange): void => {
+	private onSelectRelativeOption = ({ detail: newOption }: CustomEvent<string>, range: SelectedTimestamp): void => {
 		this.hasSelectedKeyRangeChanged(range, newOption);
 	};
 
-	private hasSelectedKeyRangeChanged = (newRange: SelectedTimestampRange, optionSelected: string): void => {
+	private hasSelectedKeyRangeChanged = (newRange: SelectedTimestamp, optionSelected: string): void => {
 		if (hasRangeChanged(this.selectedOptionRange, newRange) || optionSelected !== this.selectedTimeKey) {
 			this.selectedOptionRange = newRange;
 			this.selectedRelativeTimeChange.emit({

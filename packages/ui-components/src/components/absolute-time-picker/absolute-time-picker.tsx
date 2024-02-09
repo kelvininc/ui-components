@@ -3,7 +3,6 @@ import { EComponentSize, EIconName, EInputSource } from '../../types';
 import dayjs from 'dayjs';
 import {
 	CALENDAR_DATE_TIME_MASK,
-	CALENDAR_INPUT_MAX_DATE,
 	CALENDAR_INPUT_MIN_DATE,
 	CALENDAR_MASK,
 	DATETIME_INPUT_MASK,
@@ -13,9 +12,17 @@ import {
 } from './absolute-time-picker.config';
 import { fromDateInput, fromISO, isDateBefore, isDateSame, newDate } from '../../utils/date.helper';
 import { isEmpty } from 'lodash';
-import { ERelativeTimeInputMode, IAbsoluteTimePicker, IAbsoluteTimePickerEvents, IRelativeTimeInput, IAbsoluteSelectedRangeDates } from './absolute-time-picker.types';
-import { buildSelectedDatesEventPayload, isEndDateAtStartOfDay, isInputDateInLimit } from './absolute-time-picker.helper';
+import {
+	ERelativeTimeInputMode,
+	EAbsoluteTimePickerMode,
+	IAbsoluteTimePicker,
+	IAbsoluteTimePickerEvents,
+	IRelativeTimeInput,
+	IAbsoluteSelectedRangeDates
+} from './absolute-time-picker.types';
+import { buildSelectedDatesEventPayload, getFirstCalendarInitialDate, getSecondCalendarInitialDate, isEndDateAtStartOfDay } from './absolute-time-picker.helper';
 import { IClickDateEvent } from '../time-picker-calendar/time-picker-calendar.types';
+import { DATE_FORMAT } from '../time-picker-calendar/time-picker-calendar.config';
 
 @Component({
 	tag: 'kv-absolute-time-picker',
@@ -28,7 +35,9 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 	/** @inheritdoc */
 	@Prop({ reflect: false }) displayBackButton?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) selectedRangeDates?: string[] = [];
+	@Prop({ reflect: false }) mode?: EAbsoluteTimePickerMode = EAbsoluteTimePickerMode.Range;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) selectedDates?: string[] = [];
 	/** @inheritdoc */
 	@Prop({ reflect: false }) initialDate?: string;
 	/** @inheritdoc */
@@ -38,10 +47,10 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 	/** @inheritdoc */
 	@Prop({ reflect: false }) calendarInputMinDate?: string = CALENDAR_INPUT_MIN_DATE;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) calendarInputMaxDate?: string = CALENDAR_INPUT_MAX_DATE;
+	@Prop({ reflect: false }) calendarInputMaxDate?: string;
 
 	/** @inheritdoc */
-	@Event() selectRangeDatesChange: EventEmitter<IAbsoluteSelectedRangeDates>;
+	@Event() selectedDatesChange: EventEmitter<IAbsoluteSelectedRangeDates>;
 	/** @inheritdoc */
 	@Event() backButtonClicked: EventEmitter<MouseEvent>;
 	/** @inheritdoc */
@@ -49,12 +58,13 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 	/** @inheritdoc */
 	@Event() relativeTimeConfigChange: EventEmitter<IAbsoluteSelectedRangeDates>;
 
-	/** From and to input values inserted by the user on the input */
+	/** Input values inserted by the user on the date and time input */
 	@State() fromInputValue: string = '';
 	@State() toInputValue: string = '';
-	/** Shared hovered date between calendars */
+	@State() singleInputValue: string = '';
+	/** Shared hovered date between calendars for range mode */
 	@State() hoveredDate: string = '';
-	/**  First calendar displayed month (Second calendar is displayedMonth + 1) */
+	/** First calendar displayed month (Second calendar is displayedMonth + 1) */
 	@State() displayedMonth: dayjs.Dayjs = fromDateInput(this.initialDate) ?? fromDateInput(new Date());
 	/** Used to force focus the from and to input */
 	@State() fromInputFocused: boolean = true;
@@ -68,7 +78,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 	@State() maxDate: string = '';
 	@State() minDate: string = '';
 
-	@Watch('selectedRangeDates')
+	@Watch('selectedDates')
 	handleSelectedRangeDatesChange(value: string[] = []) {
 		if (value.length === 0) {
 			this.resetInputValues();
@@ -76,13 +86,19 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 			return;
 		}
 
-		if (isEmpty(this.fromInputValue) && isEmpty(this.toInputValue) && isEmpty(this.relativeTimeConfig)) {
-			const [from, to] = value;
+		if (this.mode === EAbsoluteTimePickerMode.Range) {
+			if (isEmpty(this.relativeTimeConfig)) {
+				const [from, to] = value;
 
-			const parsedFromDate = dayjs(from, CALENDAR_DATE_TIME_MASK).format(DATETIME_INPUT_MASK);
-			const parsedToDate = dayjs(to, CALENDAR_DATE_TIME_MASK).format(DATETIME_INPUT_MASK);
+				const parsedFromDate = dayjs(from, CALENDAR_DATE_TIME_MASK).format(DATETIME_INPUT_MASK);
+				const parsedToDate = dayjs(to, CALENDAR_DATE_TIME_MASK).format(DATETIME_INPUT_MASK);
 
-			this.setInputValues(parsedFromDate, parsedToDate);
+				this.setInputValues(parsedFromDate, parsedToDate);
+			}
+		} else {
+			const [date] = value;
+			const parsedDate = dayjs(date, CALENDAR_DATE_TIME_MASK).format(DATETIME_INPUT_MASK);
+			this.singleInputValue = parsedDate;
 		}
 	}
 
@@ -90,7 +106,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 	handleRelativeTimeConfigInput(newValue: IRelativeTimeInput) {
 		if (isEmpty(newValue)) {
 			this.inputMode = ERelativeTimeInputMode.Date;
-			if (this.selectedRangeDates.length === 0) {
+			if (this.selectedDates.length === 0) {
 				this.setInputValues('', '');
 				this.displayedMonth = fromDateInput(new Date());
 			}
@@ -99,7 +115,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 
 		this.inputMode = newValue.mode;
 		this.setInputValues(newValue.from, newValue.to);
-		const [from] = this.selectedRangeDates;
+		const [from] = this.selectedDates;
 		const date = newDate(from);
 		if (date.isValid()) {
 			this.displayedMonth = date;
@@ -119,6 +135,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 	private resetInputValues = () => {
 		this.fromInputValue = '';
 		this.toInputValue = '';
+		this.singleInputValue = '';
 	};
 
 	private resetDateLimits = () => {
@@ -128,7 +145,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 
 	private emitSelectRangeDatesChangeEvent = (dateA?: dayjs.Dayjs, dateB?: dayjs.Dayjs): void => {
 		const range = buildSelectedDatesEventPayload(dateA, dateB);
-		this.selectRangeDatesChange.emit({
+		this.selectedDatesChange.emit({
 			range
 		});
 	};
@@ -141,76 +158,76 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		const date = detail.date;
 		const clickedDate = fromISO(date).startOf('day');
 		const inputDate = newDate(date);
-		const [selectedStartDate, selectedEndDate] = this.selectedRangeDates;
 
-		if (!selectedStartDate) {
-			this.displayedMonth = clickedDate;
-			this.setInputValues(inputDate.startOf('day').format(DATETIME_INPUT_MASK), '');
-			this.setDateLimits(clickedDate.format(CALENDAR_MASK), '');
-			this.emitSelectRangeDatesChangeEvent(clickedDate.startOf('day'));
-			return;
-		}
+		if (this.mode === EAbsoluteTimePickerMode.Range) {
+			const [selectedStartDate, selectedEndDate] = this.selectedDates;
 
-		if (isDateSame(clickedDate, selectedStartDate)) {
-			if (!selectedEndDate) {
-				this.setInputValues(inputDate.startOf('day').format(DATETIME_INPUT_MASK), inputDate.endOf('day').format(DATETIME_INPUT_MASK));
-				this.resetDateLimits();
-				this.emitSelectRangeDatesChangeEvent(clickedDate.startOf('day'), clickedDate.endOf('day'));
-
+			if (!selectedStartDate) {
+				this.displayedMonth = clickedDate;
+				this.setInputValues(inputDate.startOf('day').format(DATETIME_INPUT_MASK), '');
+				this.setDateLimits(clickedDate.format(CALENDAR_MASK), '');
+				this.emitSelectRangeDatesChangeEvent(clickedDate.startOf('day'));
 				return;
 			}
 
-			this.resetInputValues();
-			this.resetDateLimits();
-			this.emitSelectRangeDatesChangeEvent();
-			return;
-		}
+			if (isDateSame(clickedDate, selectedStartDate)) {
+				if (!selectedEndDate) {
+					this.setInputValues(inputDate.startOf('day').format(DATETIME_INPUT_MASK), inputDate.endOf('day').format(DATETIME_INPUT_MASK));
+					this.resetDateLimits();
+					this.emitSelectRangeDatesChangeEvent(clickedDate.startOf('day'), clickedDate.endOf('day'));
 
-		if (selectedEndDate !== undefined) {
-			if (!isInputDateInLimit(inputDate)) {
-				this.displayedMonth = inputDate;
+					return;
+				}
+
+				this.resetInputValues();
+				this.resetDateLimits();
+				this.emitSelectRangeDatesChangeEvent();
+				return;
 			}
 
-			this.setInputValues(inputDate.startOf('day').format(DATETIME_INPUT_MASK), '');
-			this.setDateLimits(inputDate.format(CALENDAR_MASK), '');
-			this.emitSelectRangeDatesChangeEvent(clickedDate.startOf('day'));
-			return;
-		}
+			if (selectedEndDate !== undefined) {
+				this.displayedMonth = inputDate;
+				this.setInputValues(inputDate.startOf('day').format(DATETIME_INPUT_MASK), '');
+				this.setDateLimits(inputDate.format(CALENDAR_MASK), '');
+				this.emitSelectRangeDatesChangeEvent(clickedDate.startOf('day'));
+				return;
+			}
 
-		if (isDateBefore(clickedDate, selectedStartDate)) {
+			if (isDateBefore(clickedDate, selectedStartDate)) {
+				this.displayedMonth = clickedDate;
+				this.setInputValues(inputDate.startOf('day').format(DATETIME_INPUT_MASK), '');
+				this.setDateLimits(clickedDate.format(CALENDAR_MASK), '');
+				this.emitSelectRangeDatesChangeEvent(clickedDate.startOf('day'));
+				return;
+			}
+
+			this.setInputValues(newDate(selectedStartDate).format(DATETIME_INPUT_MASK), inputDate.endOf('day').format(DATETIME_INPUT_MASK));
+			this.resetDateLimits();
+			this.emitSelectRangeDatesChangeEvent(fromISO(selectedStartDate).startOf('day'), clickedDate.endOf('day'));
+			return;
+		} else {
 			this.displayedMonth = clickedDate;
-			this.setInputValues(inputDate.startOf('day').format(DATETIME_INPUT_MASK), '');
-			this.setDateLimits(clickedDate.format(CALENDAR_MASK), '');
-			this.emitSelectRangeDatesChangeEvent(clickedDate.startOf('day'));
-			return;
+			this.singleInputValue = inputDate.startOf('day').format(DATETIME_INPUT_MASK);
+			this.emitSelectRangeDatesChangeEvent(inputDate.startOf('day'));
 		}
-
-		this.setInputValues(newDate(selectedStartDate).format(DATETIME_INPUT_MASK), inputDate.endOf('day').format(DATETIME_INPUT_MASK));
-		this.resetDateLimits();
-		this.emitSelectRangeDatesChangeEvent(fromISO(selectedStartDate).startOf('day'), clickedDate.endOf('day'));
-		return;
 	};
 
 	private handleClickBackMonth = () => {
 		this.displayedMonth = this.displayedMonth.subtract(1, 'month');
+		if (!isEmpty(this.relativeTimeConfig)) {
+			this.relativeTimeConfigReset.emit();
+		}
 	};
 
 	private handleClickForwardMonth = () => {
 		this.displayedMonth = this.displayedMonth.add(1, 'month');
+		if (!isEmpty(this.relativeTimeConfig)) {
+			this.relativeTimeConfigReset.emit();
+		}
 	};
 
 	private handleHoveredDateChange = (event: CustomEvent<string>) => {
-		this.hoveredDate = event.detail;
-	};
-
-	private getFirstCalendarInitialDate = (): string => {
-		const initialDate = this.displayedMonth;
-		return initialDate.format(CALENDAR_MASK);
-	};
-
-	private getSecondCalendarInitialDate = (): string => {
-		const initialDate = this.displayedMonth;
-		return initialDate.add(1, 'month').format(CALENDAR_MASK);
+		if (this.mode === EAbsoluteTimePickerMode.Range) this.hoveredDate = event.detail;
 	};
 
 	private handleInputReset = () => {
@@ -219,23 +236,25 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		this.relativeTimeConfigReset.emit();
 	};
 
+	/** User date-time-input I/O event handlers */
 	private handleOnFocusFromInput = () => {
 		this.toInputFocused = false;
 		this.fromInputFocused = true;
-		const parsedDate = dayjs(this.fromInputValue, DATETIME_INPUT_MASK);
+		const parsedFromInputDate = dayjs(this.fromInputValue, DATETIME_INPUT_MASK);
+		const parsedToInputDate = dayjs(this.toInputValue, DATETIME_INPUT_MASK);
 
 		if (this.relativeTimeConfig) {
 			if (this.relativeTimeConfig.mode === ERelativeTimeInputMode.Text) {
 				this.handleInputReset();
 			} else {
 				if (!isEmpty(this.fromInputValue)) {
-					this.displayedMonth = parsedDate;
+					this.displayedMonth = parsedFromInputDate;
 				}
 				this.emitSelectRangeDatesChangeEvent(dayjs(this.fromInputValue, DATETIME_INPUT_MASK), dayjs(this.toInputValue, DATETIME_INPUT_MASK));
 			}
 		} else {
-			if (!isEmpty(this.fromInputValue)) {
-				this.displayedMonth = parsedDate;
+			if (!isEmpty(this.fromInputValue) && parsedToInputDate.diff(parsedFromInputDate, 'month') > 0) {
+				this.displayedMonth = parsedFromInputDate;
 			}
 		}
 	};
@@ -243,74 +262,99 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 	private handleOnFocusToInput = () => {
 		this.toInputFocused = true;
 		this.fromInputFocused = false;
-		const parsedDate = dayjs(this.toInputValue, DATETIME_INPUT_MASK).subtract(1, 'month');
+		const parsedToInputDate = dayjs(this.toInputValue, DATETIME_INPUT_MASK);
+		const parsedFromInputDate = dayjs(this.fromInputValue, DATETIME_INPUT_MASK);
 
 		if (this.relativeTimeConfig) {
 			if (this.relativeTimeConfig.mode === ERelativeTimeInputMode.Text) {
 				this.handleInputReset();
 			} else {
-				if (!isEmpty(this.toInputValue)) {
-					this.displayedMonth = parsedDate;
+				if (!isEmpty(this.toInputValue) && parsedFromInputDate.diff(parsedToInputDate, 'month') > 0) {
+					this.displayedMonth = parsedToInputDate.subtract(1, 'month');
 				}
 				this.emitSelectRangeDatesChangeEvent(dayjs(this.fromInputValue, DATETIME_INPUT_MASK), dayjs(this.toInputValue, DATETIME_INPUT_MASK));
 			}
 		} else {
-			if (!isEmpty(this.toInputValue)) {
-				this.displayedMonth = parsedDate;
+			if (!isEmpty(this.toInputValue) && parsedToInputDate.diff(parsedFromInputDate, 'month') > 0) {
+				this.displayedMonth = parsedToInputDate.subtract(1, 'month');
 			}
 		}
 	};
 
-	public handleDateChange = (event: CustomEvent<string>, inputSource: EInputSource) => {
+	private handleDateChange = (event: CustomEvent<string>, inputSource: EInputSource) => {
 		const date = event.detail;
 		const parsedDate = dayjs(date, DATE_INPUT_MASK);
 		const parsedDateTime = dayjs(date, DATETIME_INPUT_MASK);
 
-		if (parsedDate.isValid() && parsedDateTime.isValid()) {
-			if (inputSource === EInputSource.From) {
-				this.fromInputValue = parsedDateTime.format(DATETIME_INPUT_MASK);
+		if (inputSource === EInputSource.Single) {
+			if (parsedDate.isValid() && parsedDateTime.isValid()) {
+				this.singleInputValue = parsedDateTime.format(DATETIME_INPUT_MASK);
 				this.displayedMonth = parsedDate;
-				if (!isEmpty(this.toInputValue)) {
-					this.emitSelectRangeDatesChangeEvent(parsedDateTime, dayjs(this.toInputValue, DATETIME_INPUT_MASK));
-					this.resetDateLimits();
-				} else {
-					this.emitSelectRangeDatesChangeEvent(parsedDateTime);
-					this.toInputFocused = true;
-					this.minDate = parsedDate.format(CALENDAR_MASK);
-				}
-			} else {
-				this.toInputValue = parsedDateTime.format(DATETIME_INPUT_MASK);
-				this.displayedMonth = parsedDate.subtract(1, 'month');
-				if (!isEmpty(this.fromInputValue)) {
-					this.emitSelectRangeDatesChangeEvent(dayjs(this.fromInputValue, DATETIME_INPUT_MASK), parsedDateTime);
-					this.resetDateLimits();
-				} else {
-					this.maxDate = parsedDate.format(CALENDAR_MASK);
-					this.emitSelectRangeDatesChangeEvent(parsedDateTime);
-					this.fromInputFocused = true;
-				}
+				this.emitSelectRangeDatesChangeEvent(parsedDateTime);
 			}
 		} else {
-			if (isEmpty(this.fromInputValue)) {
-				this.minDate = '';
-			}
+			if (parsedDateTime.isValid()) {
+				if (inputSource === EInputSource.From) {
+					this.handleFromInputDateChange(parsedDate, parsedDateTime);
+				} else {
+					this.handleToInputDateChange(parsedDate, parsedDateTime);
+				}
+			} else {
+				if (isEmpty(this.fromInputValue)) {
+					this.minDate = '';
+				}
 
-			if (isEmpty(this.toInputValue)) {
-				this.maxDate = '';
+				if (isEmpty(this.toInputValue)) {
+					this.maxDate = '';
+				}
 			}
 		}
 	};
 
-	public handleEndDateLostFocus = (event: CustomEvent<string>) => {
+	private handleFromInputDateChange = (parsedDate: dayjs.Dayjs, parsedDateTime: dayjs.Dayjs) => {
+		this.fromInputValue = parsedDateTime.format(DATETIME_INPUT_MASK);
+		this.displayedMonth = parsedDate;
+		if (!isEmpty(this.toInputValue)) {
+			if (parsedDateTime.isSame(dayjs(this.toInputValue, DATETIME_INPUT_MASK))) {
+				this.emitSelectRangeDatesChangeEvent(parsedDateTime.subtract(1, 'second'), dayjs(this.toInputValue, DATETIME_INPUT_MASK));
+			} else {
+				this.emitSelectRangeDatesChangeEvent(parsedDateTime, dayjs(this.toInputValue, DATETIME_INPUT_MASK));
+			}
+			this.resetDateLimits();
+		} else {
+			this.emitSelectRangeDatesChangeEvent(parsedDateTime);
+			this.toInputFocused = true;
+			this.minDate = parsedDate.format(CALENDAR_MASK);
+		}
+	};
+
+	private handleToInputDateChange = (parsedDate: dayjs.Dayjs, parsedDateTime: dayjs.Dayjs) => {
+		this.toInputValue = parsedDateTime.format(DATETIME_INPUT_MASK);
+		this.displayedMonth = parsedDate.subtract(1, 'month');
+		if (!isEmpty(this.fromInputValue)) {
+			if (parsedDateTime.isSame(dayjs(this.fromInputValue, DATETIME_INPUT_MASK))) {
+				this.emitSelectRangeDatesChangeEvent(dayjs(this.fromInputValue, DATETIME_INPUT_MASK), parsedDateTime.add(1, 'second'));
+			} else {
+				this.emitSelectRangeDatesChangeEvent(dayjs(this.fromInputValue, DATETIME_INPUT_MASK), parsedDateTime);
+			}
+			this.resetDateLimits();
+		} else {
+			this.maxDate = parsedDate.format(CALENDAR_MASK);
+			this.emitSelectRangeDatesChangeEvent(parsedDateTime);
+			this.fromInputFocused = true;
+		}
+	};
+
+	private handleEndDateLostFocus = (event: CustomEvent<string>) => {
 		const date = event.detail;
 		const parsedDate = dayjs(date, DATE_INPUT_MASK);
 		const parsedDateTime = dayjs(date, DATETIME_INPUT_MASK);
 
-		if (parsedDate.isValid() && isEndDateAtStartOfDay(parsedDateTime)) {
+		if (parsedDate.isValid() && !isEmpty(this.fromInputValue) && isEndDateAtStartOfDay(parsedDateTime)) {
 			const parsedDateFormated = parsedDate.endOf('day').format(DATETIME_INPUT_MASK);
 			this.toInputValue = parsedDateFormated;
 			this.displayedMonth = parsedDate.subtract(1, 'month');
-			if (!isEmpty(this.fromInputValue)) {
+			if (!isEmpty(this.fromInputValue) && isEndDateAtStartOfDay(parsedDateTime)) {
 				this.emitSelectRangeDatesChangeEvent(dayjs(this.fromInputValue, DATETIME_INPUT_MASK), parsedDate.endOf('day'));
 			} else {
 				this.emitSelectRangeDatesChangeEvent(parsedDate.endOf('day'));
@@ -324,22 +368,22 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		return this.inputMode === ERelativeTimeInputMode.Date;
 	};
 
-	private getInputDateLimits = (source: EInputSource) => {
+	private getDateTimeInputLimits = (source: EInputSource) => {
 		if (source === EInputSource.From) {
 			const parsedToDateTime = dayjs(this.toInputValue, DATETIME_INPUT_MASK);
 
-			if (this.toInputValue && parsedToDateTime.isValid()) {
+			if (!isEmpty(this.toInputValue) && parsedToDateTime.isValid()) {
 				return {
 					min: this.calendarInputMinDate,
-					max: this.toInputValue
+					max: parsedToDateTime.subtract(1, 'second').format(DATETIME_INPUT_MASK)
 				};
 			}
-		} else {
+		} else if (source === EInputSource.To) {
 			const parsedFromDateTime = dayjs(this.fromInputValue, DATETIME_INPUT_MASK);
 
-			if (this.fromInputValue && parsedFromDateTime.isValid()) {
+			if (!isEmpty(this.fromInputValue) && parsedFromDateTime.isValid()) {
 				return {
-					min: this.fromInputValue,
+					min: parsedFromDateTime.add(1, 'second').format(DATETIME_INPUT_MASK),
 					max: this.calendarInputMaxDate
 				};
 			}
@@ -351,7 +395,17 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		};
 	};
 
+	private getCalendarLimits = () => {
+		return {
+			minDate: !isEmpty(this.calendarInputMinDate) ? dayjs(this.calendarInputMinDate, DATETIME_INPUT_MASK).format(DATE_FORMAT) : undefined,
+			maxDate: !isEmpty(this.calendarInputMaxDate) ? dayjs(this.calendarInputMaxDate, DATETIME_INPUT_MASK).format(DATE_FORMAT) : undefined
+		};
+	};
+
 	render() {
+		const fromCalendarInitialDate = getFirstCalendarInitialDate(this.displayedMonth);
+		const toCalendarInitialDate = getSecondCalendarInitialDate(this.displayedMonth);
+
 		return (
 			<Host>
 				<div class="absolute-time-picker-container">
@@ -364,57 +418,72 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 					<div class="header">
 						<div class="title">{this.headerTitle}</div>
 					</div>
-					<div class="absolute-input">
-						<kv-date-time-input
-							useInputMask={this.useInputMask()}
-							label="From"
-							value={this.fromInputValue}
-							size={EComponentSize.Small}
-							placeholder={DATE_INPUT_PLACEHOLDER}
-							highlighted={isEmpty(this.fromInputValue) && !this.toInputFocused}
-							onTextChange={ev => this.handleDateChange(ev, EInputSource.From)}
-							onInputFocus={this.handleOnFocusFromInput}
-							{...this.getInputDateLimits(EInputSource.From)}
-						/>
-						<kv-date-time-input
-							useInputMask={this.useInputMask()}
-							label="To"
-							value={this.toInputValue}
-							size={EComponentSize.Small}
-							placeholder={DATE_INPUT_PLACEHOLDER}
-							highlighted={isEmpty(this.toInputValue) && !isEmpty(this.fromInputValue)}
-							onTextChange={ev => this.handleDateChange(ev, EInputSource.To)}
-							onDateTimeBlur={this.handleEndDateLostFocus}
-							onInputFocus={this.handleOnFocusToInput}
-							{...this.getInputDateLimits(EInputSource.To)}
-						/>
-					</div>
+					{this.mode === EAbsoluteTimePickerMode.Range ? (
+						<div class="absolute-range-input">
+							<kv-date-time-input
+								useInputMask={this.useInputMask()}
+								label="From"
+								value={this.fromInputValue}
+								size={EComponentSize.Small}
+								placeholder={DATE_INPUT_PLACEHOLDER}
+								highlighted={isEmpty(this.fromInputValue) && !this.toInputFocused}
+								onTextChange={ev => this.handleDateChange(ev, EInputSource.From)}
+								onInputFocus={this.handleOnFocusFromInput}
+								{...this.getDateTimeInputLimits(EInputSource.From)}
+							/>
+							<kv-date-time-input
+								useInputMask={this.useInputMask()}
+								label="To"
+								value={this.toInputValue}
+								size={EComponentSize.Small}
+								placeholder={DATE_INPUT_PLACEHOLDER}
+								highlighted={isEmpty(this.toInputValue) && !isEmpty(this.fromInputValue)}
+								onTextChange={ev => this.handleDateChange(ev, EInputSource.To)}
+								onDateTimeBlur={this.handleEndDateLostFocus}
+								onInputFocus={this.handleOnFocusToInput}
+								{...this.getDateTimeInputLimits(EInputSource.To)}
+							/>
+						</div>
+					) : (
+						<div class="absolute-point-input">
+							<kv-date-time-input
+								id="single-date-input"
+								useInputMask
+								label="Day & Hour"
+								value={this.singleInputValue}
+								size={EComponentSize.Small}
+								placeholder={DATE_INPUT_PLACEHOLDER}
+								onTextChange={ev => this.handleDateChange(ev, EInputSource.Single)}
+								{...this.getDateTimeInputLimits(EInputSource.Single)}
+							/>
+						</div>
+					)}
 					<div class="calendars">
 						<kv-time-picker-calendar
+							mode={this.mode}
 							displayNextMonthArrow={false}
 							displayPreviousMonthArrow
-							selectedDates={this.selectedRangeDates}
+							selectedDates={this.selectedDates}
 							hoveredDate={this.hoveredDate}
-							initialDate={this.getFirstCalendarInitialDate()}
+							initialDate={fromCalendarInitialDate}
 							disabledDates={this.disabledDates}
 							onClickDate={this.onClickDate}
 							onChangeMonth={this.handleClickBackMonth}
 							onHoveredDateChange={this.handleHoveredDateChange}
-							maxDate={this.maxDate}
-							minDate={this.minDate}
+							{...this.getCalendarLimits()}
 						/>
 						<kv-time-picker-calendar
+							mode={this.mode}
 							displayNextMonthArrow
 							displayPreviousMonthArrow={false}
-							selectedDates={this.selectedRangeDates}
+							selectedDates={this.selectedDates}
 							hoveredDate={this.hoveredDate}
-							initialDate={this.getSecondCalendarInitialDate()}
+							initialDate={toCalendarInitialDate}
 							disabledDates={this.disabledDates}
 							onClickDate={this.onClickDate}
 							onChangeMonth={this.handleClickForwardMonth}
 							onHoveredDateChange={this.handleHoveredDateChange}
-							maxDate={this.maxDate}
-							minDate={this.minDate}
+							{...this.getCalendarLimits()}
 						/>
 					</div>
 				</div>

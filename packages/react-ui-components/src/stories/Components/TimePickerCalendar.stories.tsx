@@ -6,7 +6,7 @@ import { KvTimePickerCalendar } from '../../components';
 KvTimePickerCalendar.displayName = 'KvTimePickerCalendar';
 
 export default {
-	title: 'Time Picker/Time Picker Calendar',
+	title: 'Time Picker/Components/Time Picker Calendar',
 	component: 'kv-time-picker-calendar',
 	argTypes: {
 		selectedDates: {

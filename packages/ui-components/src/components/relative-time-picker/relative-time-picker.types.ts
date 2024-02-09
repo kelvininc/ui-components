@@ -1,5 +1,5 @@
 import { EventEmitter } from '@stencil/core';
-import { DateInput, ICustomCss, ITimezoneOffset, SelectedTimestampRange } from '../../types';
+import { DateInput, ICustomCss, ITimezoneOffset, SelectedTimestamp } from '../../types';
 import dayjs from 'dayjs';
 
 export interface IRelativeTimePicker extends ICustomCss {
@@ -111,12 +111,12 @@ export interface IRelativeTimeDropdownOption {
 	label: string;
 	value: string;
 	description?: string;
-	range: SelectedTimestampRange;
+	range: SelectedTimestamp;
 }
 
 export type ITimePickerRelativeTime = {
 	key: string;
-	range: SelectedTimestampRange;
+	range: SelectedTimestamp;
 };
 
 export type ITimePickerTimezone = {

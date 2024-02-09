@@ -264,7 +264,6 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		const selectOptions = buildSingleSelectOptions(this.options);
 		const filteredSelectOptions = this.filteredOptions ? buildSingleSelectOptions(this.filteredOptions) : undefined;
 		const selectFlattenOptions = getFlattenSelectOptions(selectOptions);
-
 		this.selectOptions = {
 			total: selectOptions,
 			filtered: filteredSelectOptions,
