@@ -22,6 +22,7 @@ import { EIconName } from '../icon/icon.types';
 import { getCalendarEndDisabledDays, getCalendarStartDisabledDays, getHooveredDate, getSelectedRange } from './time-picker-calendar.helper';
 import { CALENDAR_DEFAULT_MAX_DATE, CALENDAR_DEFAULT_MIN_DATE, DATE_FORMAT } from './time-picker-calendar.config';
 import dayjs from 'dayjs';
+import { EAbsoluteTimePickerMode } from '../../types';
 
 @Component({
 	tag: 'kv-time-picker-calendar',
@@ -45,6 +46,8 @@ export class KvTimePickerCalendar implements ITimePickerCalendar, ITimePickerCal
 	@Prop({ reflect: false }) displayPreviousMonthArrow?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) displayNextMonthArrow?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) mode?: EAbsoluteTimePickerMode = EAbsoluteTimePickerMode.Range;
 
 	/** @inheritdoc */
 	@Event() changeMonth: EventEmitter<IChangeMonthEvent>;
@@ -170,7 +173,7 @@ export class KvTimePickerCalendar implements ITimePickerCalendar, ITimePickerCal
 	public isDayInRange = (day: number): boolean => {
 		const [selectedStartDate, selectedEndDate] = this.getSelectedRange();
 
-		if (this.isDayDisabled(day) || selectedStartDate === undefined || selectedEndDate !== undefined) {
+		if (this.isDayDisabled(day) || selectedStartDate === undefined || selectedEndDate !== undefined || this.mode === EAbsoluteTimePickerMode.Point) {
 			return false;
 		}
 

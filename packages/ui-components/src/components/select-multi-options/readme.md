@@ -59,16 +59,6 @@ Type: `Promise<void>`
 | `"select"` | The select container. |
 
 
-## CSS Custom Properties
-
-| Name                       | Description                 |
-| -------------------------- | --------------------------- |
-| `--select-list-max-height` | Select list maximum height. |
-| `--select-list-max-width`  | Select list maximum width.  |
-| `--select-list-min-height` | Select list minimum height. |
-| `--select-list-min-width`  | Select list minimum width.  |
-
-
 ## Dependencies
 
 ### Used by

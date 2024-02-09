@@ -1,4 +1,4 @@
-import { capitalize } from 'lodash-es';
+import { capitalize, isEmpty } from 'lodash-es';
 import { calculateDate, formatTimezoneName, getDefaultTimezone, getTimezoneOffset } from '../../utils/date.helper';
 import { SelectedRange } from '../calendar/calendar.types';
 import { ISelectSingleOption, ISelectSingleOptions } from '../single-select-dropdown/single-select-dropdown.types';
@@ -41,11 +41,11 @@ export const buildTimezonesDropdownOptions = (timezones: ITimezoneOffset[]): ISe
 	}
 
 	let otherTimezoneGroups: ISelectSingleOptions = {};
-	if (timezones) {
+	if (!isEmpty(timezones)) {
 		otherTimezoneGroups = {
 			[OTHER_TIMEZONES_GROUP_NAME]: {
 				label: OTHER_TIMEZONES_GROUP_LABEL,
-				value: DEFAULT_TIMEZONE_GROUP_NAME,
+				value: OTHER_TIMEZONES_GROUP_NAME,
 				options: timezones.reduce<ISelectSingleOptions>((accumulator, { label, name }) => {
 					accumulator[name] = accumulator[name] ?? buildDropdownOption(label, name);
 
@@ -59,13 +59,6 @@ export const buildTimezonesDropdownOptions = (timezones: ITimezoneOffset[]): ISe
 		...defaultTimezoneGroup,
 		...otherTimezoneGroups
 	};
-
-	// Check if there's only one group
-	if (Object.keys(options).length === 1) {
-		const [groupKey] = Object.keys(options);
-
-		return options[groupKey].options;
-	}
 
 	return options;
 };

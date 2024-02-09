@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
-import { ITimePickerTime, ITimezoneOffset, SelectedTimestampRange } from '../../types';
+import { ITimePickerTime, ITimezoneOffset, SelectedTimestamp } from '../../types';
 import { newTimezoneDate } from '../../utils/date.helper';
 import { CALENDAR_DATE_TIME_MASK, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
 import { ERelativeTimeInputMode, IRelativeTimeInput } from '../absolute-time-picker/absolute-time-picker.types';
 import { ERelativeTimeComparisonConfig, IRelativeTimePickerOption, ITimePickerRelativeTime, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
-import { isEmpty } from 'lodash-es';
+import { isEmpty, isNil, isNumber } from 'lodash-es';
 import { CUSTOMIZE_INTERVAL_KEY } from '../relative-time-picker/relative-time-picker.config';
 import { UTC_TIMEZONE_OFFSET } from './time-picker.config';
 
@@ -14,28 +14,37 @@ import { UTC_TIMEZONE_OFFSET } from './time-picker.config';
  * @param timezone timezone applied to the timestamp
  * @returns label to be displayed in the dropdown
  */
-export const buildCustomIntervalTimeRange = (range: SelectedTimestampRange, timezone: string): string => {
-	const [from, to] = range;
-	const timeZoneFromDate = createFormattedDateFromTimestampInTimezone(from, timezone);
-	const timeZoneToDate = createFormattedDateFromTimestampInTimezone(to, timezone);
-	return `${timeZoneFromDate} to ${timeZoneToDate}`;
+export const buildCustomIntervalTimeRange = (range: SelectedTimestamp, timezone: string): string => {
+	if (!isEmpty(range)) {
+		const [from, to] = range;
+		const timeZoneFromDate = createFormattedDateFromTimestampInTimezone(from, timezone);
+		const timeZoneToDate = createFormattedDateFromTimestampInTimezone(to, timezone);
+		return isNil(to) ? timeZoneFromDate : `${timeZoneFromDate} to ${timeZoneToDate}`;
+	}
+
+	return '';
 };
 
 /**
  * Generates the text to be displayed by the tooltip when the dropdown input is hovered
- * @param option selectd time option
+ * @param range selectd range
  * @param timezones timezones available
  * @returns tooltip text to be displayed
  */
-export const buildTooltipText = (option: ITimePickerTime, timezonesByOffset: ITimezoneOffset[]): string => {
-	const [from, to] = option.range;
-	const timezoneName = option.timezone?.name;
+export const buildTooltipText = (range: SelectedTimestamp, selectdTimezone: ITimePickerTimezone, timezonesByOffset: ITimezoneOffset[]): string => {
+	const [from, to] = range;
+	const timezoneName = selectdTimezone.name;
 
 	const fromDate = dayjs(from).tz(timezoneName);
-	const toDate = dayjs(to).tz(timezoneName);
 	const timezoneText = timezonesByOffset.filter(opt => opt.name === timezoneName)[0] ?? UTC_TIMEZONE_OFFSET;
 
-	return `${fromDate.format(DATETIME_INPUT_MASK)} to ${toDate.format(DATETIME_INPUT_MASK)} ${timezoneText.label}`;
+	if (isNumber(to)) {
+		const toDate = dayjs(to).tz(timezoneName);
+
+		return `${fromDate.format(DATETIME_INPUT_MASK)} to ${toDate.format(DATETIME_INPUT_MASK)} ${timezoneText.label}`;
+	}
+
+	return `${fromDate.format(DATETIME_INPUT_MASK)} ${timezoneText.label}`;
 };
 
 const createFormattedDateFromTimestampInTimezone = (date: number, timezone: string): string => {
@@ -75,7 +84,7 @@ export const getAbsoluteTimePickerRangeDates = (selectedOption: ITimePickerTime,
 	return [dayjs(from).utcOffset(timezoneOffset).format(CALENDAR_DATE_TIME_MASK), dayjs(to).utcOffset(timezoneOffset).format(CALENDAR_DATE_TIME_MASK)];
 };
 
-export const getLast24HoursRange = (): SelectedTimestampRange => {
+export const getLast24HoursRange = (): SelectedTimestamp => {
 	const nowTimestamp = dayjs().utc();
 	return [nowTimestamp.subtract(24, 'hours').valueOf(), nowTimestamp.valueOf()];
 };
@@ -104,7 +113,7 @@ export const getRelativeTimeInputText = (options: IRelativeTimePickerOption[][],
 export const getRelativeTimeLabel = (relativeTimeValue: string | undefined, relativeTimeOptions: IRelativeTimePickerOption[][]): string | undefined =>
 	relativeTimeOptions.flat().find(option => option.value === relativeTimeValue)?.label ?? relativeTimeValue;
 
-export const getTimestampFromDateRange = (range: SelectedTimestampRange, previousTimezone: string, newTimezone: string): SelectedTimestampRange => {
+export const getTimestampFromDateRange = (range: SelectedTimestamp, previousTimezone: string, newTimezone: string): SelectedTimestamp => {
 	const [from, to] = range;
 	// Load date in the previous timezone
 	const parsedFromDate = createFormattedDateFromTimestampInTimezone(from, previousTimezone);
@@ -117,21 +126,21 @@ export const getTimestampFromDateRange = (range: SelectedTimestampRange, previou
 	return [fromDate, toDate];
 };
 
-export const hasRangeChanged = (currentRange: SelectedTimestampRange, newRange?: SelectedTimestampRange): boolean => {
-	if (!newRange) {
+export const hasRangeChanged = (componentRangeState: SelectedTimestamp, propRangeState: SelectedTimestamp): boolean => {
+	if (isEmpty(propRangeState) && !isEmpty(componentRangeState)) {
 		return true;
 	}
 
-	if ((newRange && newRange.length === 0) || (currentRange && currentRange.length === 0)) {
+	if (componentRangeState?.length !== propRangeState?.length) {
 		return true;
 	}
 
-	const [newRangeFrom, newRangeTo] = newRange;
-	const [currentRangeFrom, currentRangeTo] = currentRange;
+	const [newRangeFrom, newRangeTo] = propRangeState;
+	const [currentRangeFrom, currentRangeTo] = componentRangeState;
 	return newRangeFrom !== currentRangeFrom || newRangeTo !== currentRangeTo;
 };
 
-export const validateNewRange = (range: SelectedTimestampRange): boolean => {
+export const validateNewRange = (range: SelectedTimestamp): boolean => {
 	const [from, to] = range;
 	return dayjs(from).isValid() && dayjs(to).isValid();
 };
