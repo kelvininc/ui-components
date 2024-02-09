@@ -3,7 +3,7 @@ import { getDefaultTimezone } from '../../utils/date.helper';
 import dayjs from 'dayjs';
 import { isEmpty } from 'lodash-es';
 import { BOTTOM_OPTIONS_HEIGHT, GROUP_GAP, MAX_HEIGHT, PADDING_SIZE, SELECT_OPTION_HEIGHT } from './relative-time-picker.config';
-import { DayjsTimeRange, SelectedTimestampRange } from '../../types';
+import { DayjsTimeRange, SelectedTimestamp } from '../../types';
 import { buildOptionRange, buildTimestampRange } from '../../utils/relative-time.helper';
 
 export const buildRelativeTimeSelectOptions = (options: IRelativeTimePickerOption[][], timeZone: string = getDefaultTimezone()): IRelativeTimeDropdownOption[][] => {
@@ -38,12 +38,12 @@ export const buildDateRangeDescription = ([startDate, endDate]: DayjsTimeRange, 
 	return `${startDateDescription}${separator}${endDateDescription}`;
 };
 
-export const getSelectedKeyRange = (options: IRelativeTimeDropdownOption[][], key: string): SelectedTimestampRange => {
+export const getSelectedKeyRange = (options: IRelativeTimeDropdownOption[][], key: string): SelectedTimestamp => {
 	const selectedItem = options.flat().find(item => item.key === key);
 	return selectedItem.range;
 };
 
-export const hasRangeChanged = (selectedRange: SelectedTimestampRange, currentRange: SelectedTimestampRange): boolean => {
+export const hasRangeChanged = (selectedRange: SelectedTimestamp, currentRange: SelectedTimestamp): boolean => {
 	if (isEmpty(selectedRange)) return true;
 
 	const currentRangeStartDate = getDateTimeWithResetedSeconds(currentRange[0]);
