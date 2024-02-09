@@ -1,13 +1,20 @@
 import { EventEmitter } from '@stencil/core';
 import { SelectedRange } from '../../types';
 
+export enum EAbsoluteTimePickerMode {
+	Point = 'point',
+	Range = 'range'
+}
+
 export interface IAbsoluteTimePicker {
+	/** (optional) Defines if the calendar is in single date or range mode */
+	mode?: EAbsoluteTimePickerMode;
 	/** (optional) Title disaplayed on top of the component */
 	headerTitle?: string;
 	/** (optional) Enables the back button displayed on top */
 	displayBackButton?: boolean;
 	/** (optional) Selected dates */
-	selectedRangeDates?: string[];
+	selectedDates?: string[];
 	/** (optional) Initial Date */
 	initialDate?: string;
 	/** (optional) Disabled dates */
@@ -21,8 +28,8 @@ export interface IAbsoluteTimePicker {
 }
 
 export interface IAbsoluteTimePickerEvents {
-	/** Selected range dates change */
-	selectRangeDatesChange: EventEmitter<IAbsoluteSelectedRangeDates>;
+	/** Selected dates change */
+	selectedDatesChange: EventEmitter<IAbsoluteSelectedRangeDates>;
 	/** Emitted when the back button is clicked */
 	backButtonClicked: EventEmitter<MouseEvent>;
 	/** Emitted when the input is clicked and it were displaying custom text */
@@ -48,5 +55,6 @@ export enum ERelativeTimeInputMode {
 
 export enum EInputSource {
 	From = 'from',
-	To = 'to'
+	To = 'to',
+	Single = 'single'
 }

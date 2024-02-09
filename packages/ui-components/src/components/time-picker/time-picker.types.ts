@@ -46,8 +46,8 @@ export interface ITimePickerEvents {
 
 export interface ITimePickerTime {
 	key: string;
-	range: SelectedTimestampRange;
+	range: SelectedTimestamp;
 	timezone?: ITimePickerTimezone;
 }
 
-export type SelectedTimestampRange = [] | [number] | [number, number];
+export type SelectedTimestamp = [] | [number] | [number, number];
