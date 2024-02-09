@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Absolute Time Picker Dropdown (unit tests) when a selectedDate is provided should match the snapshot, the initial date on the calendar should be inherited from the selected date ("2023-04-12") 1`] = `
+<kv-absolute-time-picker-dropdown>
+  <kv-dropdown>
+    <div class="absolute-time-content">
+      <kv-absolute-time-picker headertitle="" initialdate="2023-04-12" mode="single"></kv-absolute-time-picker>
+      <div class="footer">
+        <div class="actions">
+          <kv-action-button-text size="small" text="Cancel" type="tertiary"></kv-action-button-text>
+          <kv-action-button-text disabled="" size="small" text="Apply" type="primary"></kv-action-button-text>
+        </div>
+      </div>
+    </div>
+  </kv-dropdown>
+</kv-absolute-time-picker-dropdown>
+`;
+
+exports[`Absolute Time Picker Dropdown (unit tests) when default props and initial date are used should match the snapshot 1`] = `
+<kv-absolute-time-picker-dropdown>
+  <kv-dropdown>
+    <div class="absolute-time-content">
+      <kv-absolute-time-picker headertitle="" initialdate="2023-03-03" mode="single"></kv-absolute-time-picker>
+      <div class="footer">
+        <div class="actions">
+          <kv-action-button-text size="small" text="Cancel" type="tertiary"></kv-action-button-text>
+          <kv-action-button-text disabled="" size="small" text="Apply" type="primary"></kv-action-button-text>
+        </div>
+      </div>
+    </div>
+  </kv-dropdown>
+</kv-absolute-time-picker-dropdown>
+`;

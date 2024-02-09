@@ -101,6 +101,7 @@ export const SwitchButtonExample: React.FC = () => (
 
 ### Used by
 
+ - [kv-absolute-time-picker-dropdown](../absolute-time-picker-dropdown)
  - [kv-action-button-split](../action-button-split)
  - [kv-advanced-date-select-dropdown](../advanced-date-select-dropdown)
  - [kv-time-picker](../time-picker)
@@ -116,6 +117,7 @@ export const SwitchButtonExample: React.FC = () => (
 graph TD;
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon
+  kv-absolute-time-picker-dropdown --> kv-action-button-text
   kv-action-button-split --> kv-action-button-text
   kv-advanced-date-select-dropdown --> kv-action-button-text
   kv-time-picker --> kv-action-button-text
