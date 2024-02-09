@@ -11,13 +11,13 @@ describe('Absolute Time Picker (end to end)', () => {
 			await page.setContent('<kv-absolute-time-picker></kv-absolute-time-picker>');
 
 			const absoluteTimePickerElement = await page.find('kv-absolute-time-picker');
-			spyChangeEvent = await absoluteTimePickerElement.spyOnEvent('selectRangeDatesChange');
+			spyChangeEvent = await absoluteTimePickerElement.spyOnEvent('selectedDatesChange');
 
 			const buttonElement = await page.find('kv-time-picker-calendar >>> kv-time-picker-calendar-day[day="15"] >>> .time-picker-calendar-day');
 			await buttonElement.click();
 		});
 
-		it('should emit the a `selectRangeDatesChange`', () => {
+		it('should emit the a `selectedDatesChange`', () => {
 			expect(spyChangeEvent).toHaveReceivedEvent();
 		});
 	});

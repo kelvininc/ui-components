@@ -33,9 +33,13 @@
 		}
 	}
 
-	.absolute-input {
+	.absolute-range-input {
 		display: flex;
 		gap: $spacing-6x;
+	}
+
+	.absolute-point-input {
+		width: 100%;
 	}
 
 	.calendars {

@@ -116,9 +116,9 @@ export class TextFieldExample {
 
 ## Shadow Parts
 
-| Part                | Description |
-| ------------------- | ----------- |
-| `"input-container"` |             |
+| Part                | Description                                            |
+| ------------------- | ------------------------------------------------------ |
+| `"input-container"` | container that includes the input, right and left slot |
 
 
 ## CSS Custom Properties

@@ -1,6 +1,9 @@
 import { EventEmitter } from '@stencil/core';
+import { EAbsoluteTimePickerMode } from '../../types';
 
 export interface ITimePickerCalendar {
+	/** (optional) Defines if the calendar is in single date or range mode */
+	mode?: EAbsoluteTimePickerMode;
 	/** (optional) The currently selected dates */
 	selectedDates?: string[];
 	/** (optional) Initial date */
