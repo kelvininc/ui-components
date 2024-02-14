@@ -47,6 +47,7 @@ export enum EIconName {
 	Collapse = 'kv-collapse',
 	Connection = 'kv-connection',
 	Connections = 'kv-connections',
+	ControlChange = 'kv-control-change',
 	Copy = 'kv-copy',
 	CopyClipboard = 'kv-copy-clipboard',
 	Column = 'kv-column',
