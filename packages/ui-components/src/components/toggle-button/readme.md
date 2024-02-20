@@ -56,18 +56,19 @@ export const ToggleButtonExample: React.FC = () => (
 
 ## Properties
 
-| Property             | Attribute         | Description                                                                                                     | Type                                                                                                | Default     |
-| -------------------- | ----------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------- |
-| `checked`            | `checked`         | (optional) Sets the button as checked                                                                           | `boolean`                                                                                           | `false`     |
-| `disabled`           | `disabled`        | (optional) Sets the button's styling to be disabled and disables click events                                   | `boolean`                                                                                           | `false`     |
-| `download`           | `download`        | (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename | `string`                                                                                            | `undefined` |
-| `href`               | `href`            | (optional) The anchor's link to open when clicking                                                              | `string`                                                                                            | `undefined` |
-| `icon`               | `icon`            | (optional) The button's icon. Only valid for toggle button icon                                                 | `EIconName \| EOtherIconName`                                                                       | `undefined` |
-| `label`              | `label`           | (optional) The button's label. Only valid for toggle button text                                                | `string`                                                                                            | `undefined` |
-| `preventDefault`     | `prevent-default` | (optional) Defines if the item click event should prevent default behaviour.                                    | `boolean`                                                                                           | `false`     |
-| `target`             | `target`          | (optional) The anchor's target                                                                                  | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top` | `undefined` |
-| `value` _(required)_ | `value`           | (required) The value to be emitted upon click events                                                            | `string`                                                                                            | `undefined` |
-| `withRadio`          | `with-radio`      | (optional) Sets if the button is a radio button                                                                 | `boolean`                                                                                           | `false`     |
+| Property             | Attribute         | Description                                                                                                     | Type                                                                                                | Default                |
+| -------------------- | ----------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ---------------------- |
+| `checked`            | `checked`         | (optional) Sets the button as checked                                                                           | `boolean`                                                                                           | `false`                |
+| `disabled`           | `disabled`        | (optional) Sets the button's styling to be disabled and disables click events                                   | `boolean`                                                                                           | `false`                |
+| `download`           | `download`        | (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename | `string`                                                                                            | `undefined`            |
+| `href`               | `href`            | (optional) The anchor's link to open when clicking                                                              | `string`                                                                                            | `undefined`            |
+| `icon`               | `icon`            | (optional) The button's icon. Only valid for toggle button icon                                                 | `EIconName \| EOtherIconName`                                                                       | `undefined`            |
+| `label`              | `label`           | (optional) The button's label. Only valid for toggle button text                                                | `string`                                                                                            | `undefined`            |
+| `preventDefault`     | `prevent-default` | (optional) Defines if the item click event should prevent default behaviour.                                    | `boolean`                                                                                           | `false`                |
+| `size`               | `size`            | (optional) Button's size                                                                                        | `EComponentSize.Large \| EComponentSize.Small`                                                      | `EComponentSize.Large` |
+| `target`             | `target`          | (optional) The anchor's target                                                                                  | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top` | `undefined`            |
+| `value` _(required)_ | `value`           | (required) The value to be emitted upon click events                                                            | `string`                                                                                            | `undefined`            |
+| `withRadio`          | `with-radio`      | (optional) Sets if the button is a radio button                                                                 | `boolean`                                                                                           | `false`                |
 
 
 ## Events
@@ -89,22 +90,25 @@ export const ToggleButtonExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                          | Description                                          |
-| ----------------------------- | ---------------------------------------------------- |
-| `--background-color-active`   | toggle button component's background color active.   |
-| `--background-color-default`  | toggle button component's background color default.  |
-| `--background-color-disabled` | toggle button component's background color disabled. |
-| `--border-color-active`       | toggle button component's border color active.       |
-| `--border-color-default`      | toggle button component's border color default.      |
-| `--border-color-disabled`     | toggle button component's border color disabled.     |
-| `--button-height`             | toggle button component's height.                    |
-| `--button-icon-height`        | toggle button component's icon height.               |
-| `--button-icon-width`         | toggle button component's icon width.                |
-| `--button-padding`            | toggle button component's padding.                   |
-| `--button-width`              | toggle button component's width.                     |
-| `--text-color-active`         | toggle button component's text color active.         |
-| `--text-color-default`        | toggle button component's text color default.        |
-| `--text-color-disabled`       | toggle button component's text color disabled.       |
+| Name                          | Description                                               |
+| ----------------------------- | --------------------------------------------------------- |
+| `--background-color-active`   | toggle button component's background color active.        |
+| `--background-color-default`  | toggle button component's background color default.       |
+| `--background-color-disabled` | toggle button component's background color disabled.      |
+| `--border-color-active`       | toggle button component's border color active.            |
+| `--border-color-default`      | toggle button component's border color default.           |
+| `--border-color-disabled`     | toggle button component's border color disabled.          |
+| `--button-height-large`       | toggle button component's height when size is large.      |
+| `--button-height-small`       | toggle button component's height when size is small.      |
+| `--button-icon-height-large`  | toggle button component's icon height when size is large. |
+| `--button-icon-height-small`  | toggle button component's icon height when size is small. |
+| `--button-icon-width-large`   | toggle button component's icon width when size is large.  |
+| `--button-icon-width-small`   | toggle button component's icon width when size is small.  |
+| `--button-padding-large`      | toggle button component's padding when size is large.     |
+| `--button-padding-small`      | toggle button component's padding when size is small.     |
+| `--text-color-active`         | toggle button component's text color active.              |
+| `--text-color-default`        | toggle button component's text color default.             |
+| `--text-color-disabled`       | toggle button component's text color disabled.            |
 
 
 ## Dependencies

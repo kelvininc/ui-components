@@ -1,4 +1,5 @@
 export enum EIconName {
+	Activity = 'kv-activity',
 	Add = 'kv-add',
 	AddCrossCircle = 'kv-add-cross-circle',
 	AlarmClass = 'kv-alarm-class',
