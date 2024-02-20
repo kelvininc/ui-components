@@ -2,11 +2,14 @@
 
 :host {
 	/**
-	 * @prop --button-width: toggle button component's width.
-	 * @prop --button-height: toggle button component's height.
-	 * @prop --button-icon-width: toggle button component's icon width.
-	 * @prop --button-icon-height: toggle button component's icon height.
-	 * @prop --button-padding: toggle button component's padding.
+	 * @prop --button-height-small: toggle button component's height when size is small.
+	 * @prop --button-height-large: toggle button component's height when size is large.
+	 * @prop --button-padding-small: toggle button component's padding when size is small.
+	 * @prop --button-padding-large: toggle button component's padding when size is large.
+	 * @prop --button-icon-width-small: toggle button component's icon width when size is small.
+	 * @prop --button-icon-width-large: toggle button component's icon width when size is large.
+	 * @prop --button-icon-height-small: toggle button component's icon height when size is small.
+	 * @prop --button-icon-height-large: toggle button component's icon height when size is large.
 	 * @prop --text-color-default: toggle button component's text color default.
 	 * @prop --text-color-active: toggle button component's text color active.
 	 * @prop --text-color-disabled: toggle button component's text color disabled.
@@ -17,6 +20,15 @@
 	 * @prop --border-color-active: toggle button component's border color active.
 	 * @prop --border-color-disabled: toggle button component's border color disabled.
 	 */
+
+	--button-height-large: 36px;
+	--button-height-small: 28px;
+	--button-padding-large: #{$spacing-2x $spacing-4x};
+	--button-padding-small: #{$spacing $spacing-3x};
+	--button-icon-height-large: 24px;
+	--button-icon-height-small: 16px;
+	--button-icon-width-large: 24px;
+	--button-icon-width-small: 16px;
 
 	--text-color-default: #{kv-color('neutral-2')};
 	--text-color-active: #{kv-color('neutral-0')};
@@ -30,43 +42,36 @@
 }
 
 .toggle-button {
-	@include kv-font-label-small-regular;
-
-	text-decoration: none;
+	@include kv-font-span-regular;
 
 	position: relative;
 	user-select: none;
+	text-decoration: none;
 	cursor: pointer;
 	box-sizing: border-box;
 
 	display: inline-flex;
 	align-items: center;
-	justify-content: center;
 	gap: $spacing-2x;
-
 	border-radius: 2px;
-
 	border: 1px solid var(--border-color-default);
-	color: var(--text-color-default);
 	background: var(--background-color-default);
+	color: var(--text-color-default);
+	height: var(--button-height-large);
+	padding: var(--button-padding-large);
 
-	width: var(--button-width, initial);
-	height: var(--button-height, 36px);
-	padding: var(--button-padding, 0 $spacing-3x);
-
-	.toggle-button-icon,
-	.toggle-button-icon kv-icon,
-	.toggle-button-label {
-		display: flex;
-		align-items: center;
+	.toggle-button-icon kv-icon {
+		--icon-color: var(--text-color-default);
+		--icon-width: 16px;
+		--icon-height: 16px;
+		width: 16px;
+		height: 16px;
 	}
 
 	&--checked {
-		@include kv-font-label-small-semibold;
-
-		border-color: var(--border-color-active);
-		color: var(--text-color-active);
+		border: 1px solid var(--border-color-active);
 		background: var(--background-color-active);
+		color: var(--text-color-active);
 
 		.toggle-button-icon kv-icon {
 			--icon-color: var(--text-color-active);
@@ -74,29 +79,39 @@
 	}
 
 	&--disabled {
-		border-color: var(--border-color-disabled);
-		color: var(--text-color-disabled);
-		background: var(--background-color-disabled);
-
 		cursor: not-allowed;
 		pointer-events: none;
+
+		border: 1px solid var(--border-color-disabled);
+		background: var(--background-color-disabled);
+		color: var(--text-color-disabled);
 
 		.toggle-button-icon kv-icon {
 			--icon-color: var(--text-color-disabled);
 		}
 	}
 
-	&--only-icon {
-		width: var(--button-width, 28px);
-		height: var(--button-height, 28px);
-		padding: var(--button-padding, $spacing);
+	&--size-small {
+		@include kv-font-label-small-regular;
+		padding: var(--button-padding-small);
+		height: var(--button-height-small);
 
-		kv-icon {
-			--icon-color: var(--text-color-default);
-			--icon-width: var(--button-icon-width, 20px);
-			--icon-height: var(--button-icon-height, 20px);
-			width: var(--button-icon-width, 20px);
-			height: var(--button-icon-height, 20px);
+		&.toggle-button--only-icon .toggle-button-icon kv-icon {
+			--icon-width: var(--button-icon-width-small);
+			--icon-height: var(--button-icon-height-small);
+			width: var(--button-icon-width-small);
+			height: var(--button-icon-height-small);
+		}
+	}
+
+	&--only-icon {
+		padding: $spacing;
+
+		.toggle-button-icon kv-icon {
+			--icon-width: var(--button-icon-width-large);
+			--icon-height: var(--button-icon-height-large);
+			width: var(--button-icon-width-large);
+			height: var(--button-icon-height-large);
 		}
 	}
 }

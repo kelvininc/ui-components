@@ -1,4 +1,5 @@
 export enum EIconName {
+	Activity = 'kv-activity',
 	Add = 'kv-add',
 	AddCrossCircle = 'kv-add-cross-circle',
 	AlarmClass = 'kv-alarm-class',
@@ -50,6 +51,7 @@ export enum EIconName {
 	Copy = 'kv-copy',
 	CopyClipboard = 'kv-copy-clipboard',
 	Column = 'kv-column',
+	ControlChange = 'kv-control-change',
 	Cpu = 'kv-cpu',
 	Dashboard = 'kv-dashboard',
 	DashboardCustom = 'kv-dashboard-custom',

@@ -49,6 +49,16 @@
 	letter-spacing: normal;
 	text-transform: none;
 }
+@mixin kv-font-h4-uppercase-semibold() {
+	font-family: $primary-font;
+	font-size: 16px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 24px;
+	letter-spacing: normal;
+	text-transform: uppercase;
+}
 @mixin kv-font-h5-semibold() {
 	font-family: $primary-font;
 	font-size: 14px;
