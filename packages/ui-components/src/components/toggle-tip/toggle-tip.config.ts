@@ -1,7 +1,7 @@
 import { ComputePositionConfig } from '@floating-ui/dom';
 
-import { AutoPlacementOptions } from '@floating-ui/core/src/middleware/autoPlacement';
-import { Options as CoreDetectOverflowOptions } from '@floating-ui/core/src/detectOverflow';
+import { AutoPlacementOptions } from '@floating-ui/dom';
+import { DetectOverflowOptions as CoreDetectOverflowOptions } from '@floating-ui/dom';
 
 export const DEFAULT_TOOLTIP_CONFIG: Partial<ComputePositionConfig> = {
 	strategy: 'fixed'

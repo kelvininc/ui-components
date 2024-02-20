@@ -64,7 +64,7 @@ exports[`Toggle Button (unit tests) when the component loads with label should m
 `;
 
 exports[`Toggle Button (unit tests) when the component loads with preventDefault prop should match the snapshot 1`] = `
-<kv-toggle-button label="Option 1" prevent-default="" value="opt1">
+<kv-toggle-button label="Option 1" prevent-default="true" value="opt1">
   <mock:shadow-root>
     <a class="toggle-button" part="toggle-button">
       <div class="toggle-button-label" part="toggle-label">
