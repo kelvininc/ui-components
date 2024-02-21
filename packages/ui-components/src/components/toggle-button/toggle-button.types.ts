@@ -1,5 +1,5 @@
 import { EventEmitter } from '@stencil/core';
-import { IAnchor } from '../../types';
+import { EComponentSize, IAnchor } from '../../types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 
 export interface IToggleButton extends IAnchor {
@@ -17,6 +17,8 @@ export interface IToggleButton extends IAnchor {
 	preventDefault?: boolean;
 	/** (optional) Sets if the button is a radio button */
 	withRadio?: boolean;
+	/** (optional) Button's size */
+	size?: EComponentSize;
 }
 
 export interface IToggleButtonEvents {

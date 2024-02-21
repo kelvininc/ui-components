@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Toggle Button Group (unit tests) when rendering with default props should match the snapshot 1`] = `
-<kv-toggle-button-group>
+<kv-toggle-button-group size="large">
   <mock:shadow-root>
-    <kv-toggle-button exportparts="toggle-button" label="Option 1" value="opt1"></kv-toggle-button>
-    <kv-toggle-button exportparts="toggle-button" label="Option 2" value="opt2"></kv-toggle-button>
-    <kv-toggle-button exportparts="toggle-button" label="Option 3" value="opt3"></kv-toggle-button>
-    <kv-toggle-button exportparts="toggle-button" label="Option 4" value="opt4"></kv-toggle-button>
+    <kv-toggle-button exportparts="toggle-button" label="Option 1" size="large" value="opt1"></kv-toggle-button>
+    <kv-toggle-button exportparts="toggle-button" label="Option 2" size="large" value="opt2"></kv-toggle-button>
+    <kv-toggle-button exportparts="toggle-button" label="Option 3" size="large" value="opt3"></kv-toggle-button>
+    <kv-toggle-button checked="" exportparts="toggle-button" label="Option 4" size="large" value="opt4"></kv-toggle-button>
   </mock:shadow-root>
 </kv-toggle-button-group>
 `;
