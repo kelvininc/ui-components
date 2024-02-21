@@ -23,7 +23,7 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
+	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Small;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
