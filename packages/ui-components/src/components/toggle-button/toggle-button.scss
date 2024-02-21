@@ -96,16 +96,21 @@
 		padding: var(--button-padding-small);
 		height: var(--button-height-small);
 
-		&.toggle-button--only-icon .toggle-button-icon kv-icon {
-			--icon-width: var(--button-icon-width-small);
-			--icon-height: var(--button-icon-height-small);
-			width: var(--button-icon-width-small);
-			height: var(--button-icon-height-small);
+		&.toggle-button--only-icon {
+			width: var(--button-height-small);
+
+			.toggle-button-icon kv-icon {
+				--icon-width: var(--button-icon-width-small);
+				--icon-height: var(--button-icon-height-small);
+				width: var(--button-icon-width-small);
+				height: var(--button-icon-height-small);
+			}
 		}
 	}
 
 	&--only-icon {
 		padding: $spacing;
+		width: var(--button-height-large);
 
 		.toggle-button-icon kv-icon {
 			--icon-width: var(--button-icon-width-large);
