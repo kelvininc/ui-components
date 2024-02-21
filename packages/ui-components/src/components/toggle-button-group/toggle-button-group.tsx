@@ -16,7 +16,7 @@ export class KvToggleButtonGroup implements IToggleButtonGroup, IToggleButtonGro
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
+	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Small;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedButtons?: Record<string, boolean> = {};
 	/** @inheritdoc */
