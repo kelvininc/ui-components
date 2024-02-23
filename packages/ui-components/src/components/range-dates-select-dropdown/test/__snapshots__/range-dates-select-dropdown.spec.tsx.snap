@@ -21,7 +21,9 @@ exports[`Range Dates Input (unit tests) when uses default props should match the
                       <span class="resize-text">
                         Select a start date
                       </span>
-                      <input class="resize-input" placeholder="Select a start date" readonly="" type="text" value="">
+                      <slot name="input">
+                        <input class="resize-input" placeholder="Select a start date" readonly="" type="text" value="">
+                      </slot>
                     </div>
                     <div class="right-slot-container">
                       <slot name="right-slot">
@@ -51,7 +53,9 @@ exports[`Range Dates Input (unit tests) when uses default props should match the
                       <span class="resize-text">
                         Select an end date
                       </span>
-                      <input class="resize-input" placeholder="Select an end date" readonly="" type="text" value="">
+                      <slot name="input">
+                        <input class="resize-input" placeholder="Select an end date" readonly="" type="text" value="">
+                      </slot>
                     </div>
                     <div class="right-slot-container">
                       <slot name="right-slot">

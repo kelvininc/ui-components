@@ -1,21 +1,18 @@
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
-import { KvFormLabel, KvToggleButtonGroup } from '../../../stencil-generated';
+import { KvToggleButtonGroup } from '../../../stencil-generated';
 import React, { useCallback, useMemo } from 'react';
 import { buildToggleButtons, buildSelectedToggleButtons, toggleSelectedOptions, buildDisabledToggleButtons } from './utils';
 import { ICheckboxConfig } from './types';
-import { get, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 
 const CheckboxesWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	schema,
-	label,
-	id,
 	options,
 	disabled,
 	value,
 	required,
 	readonly,
-	onChange,
-	uiSchema
+	onChange
 }: WidgetProps<T, S, F>) => {
 	const { enumOptions, enumDisabled, allButton } = options;
 	const { maxItems, minItems } = schema;
@@ -50,14 +47,7 @@ const CheckboxesWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends 
 		[selectedOptions, allOptions, config]
 	);
 
-	return (
-		<>
-			{(get(uiSchema, ['ui:title']) || schema.title || label) && (
-				<KvFormLabel id={`${id}-title`} label={get(uiSchema, ['ui:title']) || schema.title || label} required={required} />
-			)}
-			<KvToggleButtonGroup buttons={buttons} selectedButtons={selectedButtons} onCheckedChange={onCheckedChange} disabled={disabled} disabledButtons={disabledButtons} />
-		</>
-	);
+	return <KvToggleButtonGroup buttons={buttons} selectedButtons={selectedButtons} onCheckedChange={onCheckedChange} disabled={disabled} disabledButtons={disabledButtons} />;
 };
 
 export default CheckboxesWidget;

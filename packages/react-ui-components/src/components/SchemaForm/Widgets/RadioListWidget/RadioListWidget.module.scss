@@ -1,0 +1,18 @@
+@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
+
+.RadioListContainer {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-2x;
+	flex-wrap: wrap;
+	margin-left: $spacing;
+
+	&.Inline {
+		flex-direction: row;
+	}
+
+	kv-radio-list-item {
+		display: flex;
+		flex: 1;
+	}
+}

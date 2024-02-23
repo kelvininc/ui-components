@@ -12,7 +12,9 @@ exports[`Text Field (unit tests) when has a label should match the snapshot 1`] 
           </div>
           <div class="resize-container">
             <span class="resize-text"></span>
-            <input class="resize-input" placeholder="" type="text" value="">
+            <slot name="input">
+              <input class="resize-input" placeholder="" type="text" value="">
+            </slot>
           </div>
           <div class="right-slot-container">
             <slot name="right-slot"></slot>
@@ -37,7 +39,9 @@ exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] 
           </div>
           <div class="resize-container">
             <span class="resize-text"></span>
-            <input class="resize-input" disabled="" placeholder="" type="text" value="">
+            <slot name="input">
+              <input class="resize-input" disabled="" placeholder="" type="text" value="">
+            </slot>
           </div>
           <div class="disabled right-slot-container">
             <slot name="right-slot"></slot>
@@ -62,7 +66,9 @@ exports[`Text Field (unit tests) when uses default props should match the snapsh
           </div>
           <div class="resize-container">
             <span class="resize-text"></span>
-            <input class="resize-input" placeholder="" type="text" value="">
+            <slot name="input">
+              <input class="resize-input" placeholder="" type="text" value="">
+            </slot>
           </div>
           <div class="right-slot-container">
             <slot name="right-slot"></slot>

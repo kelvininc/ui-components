@@ -327,25 +327,27 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 								</div>
 								<div class="resize-container">
 									{this.fitContent && <span class="resize-text">{value || this.placeholder}</span>}
-									<input
-										ref={input => (this.nativeInput = input as HTMLInputElement)}
-										type={type}
-										list={!isNil(this.examples) ? `examples_${id}` : undefined}
-										name={this.inputName}
-										placeholder={this.placeholder}
-										disabled={this.disabled}
-										max={this.getMaxValue()}
-										min={this.getMinValue()}
-										minLength={this.minLength}
-										step={this.step}
-										value={value}
-										onInput={this.onInputHandler}
-										onBlur={this.onBlurHandler}
-										onFocus={this.onFocusHandler}
-										onPaste={this.onPasteHandler}
-										class={{ 'resize-input': true, 'forced-focus': this.focused }}
-										readonly={this.readonly}
-									/>
+									<slot name="input">
+										<input
+											ref={input => (this.nativeInput = input as HTMLInputElement)}
+											type={type}
+											list={!isNil(this.examples) ? `examples_${id}` : undefined}
+											name={this.inputName}
+											placeholder={this.placeholder}
+											disabled={this.disabled}
+											max={this.getMaxValue()}
+											min={this.getMinValue()}
+											minLength={this.minLength}
+											step={this.step}
+											value={value}
+											onInput={this.onInputHandler}
+											onBlur={this.onBlurHandler}
+											onFocus={this.onFocusHandler}
+											onPaste={this.onPasteHandler}
+											class={{ 'resize-input': true, 'forced-focus': this.focused }}
+											readonly={this.readonly}
+										/>
+									</slot>
 								</div>
 								<div
 									class={{

@@ -1,19 +1,20 @@
 import { EValidationState } from '@kelvininc/ui-components';
 import { FieldTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema, getTemplate, getUiOptions } from '@rjsf/utils';
-import { isEmpty, merge } from 'lodash';
+import { get, isEmpty, merge } from 'lodash';
 import React, { useMemo } from 'react';
 import { KvFormHelpText } from '../../../stencil-generated';
 import styles from './FieldTemplate.module.scss';
 import buildDefaultHelperText from './utils';
+import { EDescriptionPosition } from '../../types';
+import classNames from 'classnames';
 
 const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: FieldTemplateProps<T, S, F>) => {
 	const {
 		id,
 		children,
 		rawErrors = [],
-		rawHelp,
 		rawDescription,
-		classNames,
+		classNames: customClasses,
 		disabled,
 		label,
 		onDropPropertyClick,
@@ -26,13 +27,17 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 		formContext
 	} = props;
 	const uiOptions = getUiOptions<T, S, F>(uiSchema);
+	const TitleFieldTemplate = getTemplate<'TitleFieldTemplate', T, S, F>('TitleFieldTemplate', registry, uiOptions);
 	const WrapIfAdditionalTemplate = getTemplate<'WrapIfAdditionalTemplate', T, S, F>('WrapIfAdditionalTemplate', registry, uiOptions);
 	const defaultHelperOptions = useMemo(() => merge(formContext, uiOptions), [formContext, uiOptions]);
-	const displayedHelper = useMemo(() => rawHelp ?? buildDefaultHelperText(defaultHelperOptions, schema.default), [defaultHelperOptions, schema.default, rawHelp]);
-
+	const displayedHelper = useMemo(() => buildDefaultHelperText(defaultHelperOptions, schema.default), [defaultHelperOptions, schema.default]);
+	const descriptionPosition = useMemo(
+		() => (uiOptions.descriptionPosition as EDescriptionPosition) ?? (schema.type === 'object' ? EDescriptionPosition.Top : EDescriptionPosition.Bottom),
+		[]
+	);
 	return (
 		<WrapIfAdditionalTemplate
-			classNames={classNames}
+			classNames={customClasses}
 			disabled={disabled}
 			id={id}
 			label={label}
@@ -45,13 +50,26 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 			registry={registry}
 		>
 			<div className={styles.FieldWrapper}>
-				{children}
-				{(!isEmpty(rawErrors) || rawDescription) && (
-					<KvFormHelpText
-						helpText={isEmpty(rawErrors) ? rawDescription : rawErrors}
-						state={isEmpty(rawErrors) ? EValidationState.None : EValidationState.Invalid}
-					></KvFormHelpText>
+				{(get(uiSchema, ['ui:title']) || schema.title) && (
+					<TitleFieldTemplate
+						id={`${id}-title`}
+						title={get(uiSchema, ['ui:title']) || schema.title || ''}
+						schema={schema}
+						uiSchema={uiSchema}
+						registry={registry}
+						required={required && schema.type !== 'object'}
+					/>
 				)}
+				{descriptionPosition === EDescriptionPosition.Bottom && children}
+				{(!isEmpty(rawErrors) || rawDescription) && (
+					<div className={classNames({ [styles.TopDescription]: descriptionPosition === EDescriptionPosition.Top })}>
+						<KvFormHelpText
+							helpText={isEmpty(rawErrors) ? rawDescription : rawErrors}
+							state={isEmpty(rawErrors) ? EValidationState.None : EValidationState.Invalid}
+						></KvFormHelpText>
+					</div>
+				)}
+				{descriptionPosition === EDescriptionPosition.Top && <div className={styles.WithTopDescription}>{children}</div>}
 				{isEmpty(rawErrors) && displayedHelper && <KvFormHelpText helpText={displayedHelper}></KvFormHelpText>}
 			</div>
 		</WrapIfAdditionalTemplate>
