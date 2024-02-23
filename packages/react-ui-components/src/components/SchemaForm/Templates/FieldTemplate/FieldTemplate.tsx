@@ -13,7 +13,6 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 		id,
 		children,
 		rawErrors = [],
-		rawHelp,
 		rawDescription,
 		classNames: customClasses,
 		disabled,
@@ -31,7 +30,7 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 	const TitleFieldTemplate = getTemplate<'TitleFieldTemplate', T, S, F>('TitleFieldTemplate', registry, uiOptions);
 	const WrapIfAdditionalTemplate = getTemplate<'WrapIfAdditionalTemplate', T, S, F>('WrapIfAdditionalTemplate', registry, uiOptions);
 	const defaultHelperOptions = useMemo(() => merge(formContext, uiOptions), [formContext, uiOptions]);
-	const displayedHelper = useMemo(() => rawHelp ?? buildDefaultHelperText(defaultHelperOptions, schema.default), [defaultHelperOptions, schema.default, rawHelp]);
+	const displayedHelper = useMemo(() => buildDefaultHelperText(defaultHelperOptions, schema.default), [defaultHelperOptions, schema.default]);
 	const descriptionPosition = useMemo(
 		() => (uiOptions.descriptionPosition as EDescriptionPosition) ?? (schema.type === 'object' ? EDescriptionPosition.Top : EDescriptionPosition.Bottom),
 		[]
