@@ -13,9 +13,10 @@
 .help-text-container {
 	width: 100%;
 	overflow: hidden;
-	margin: $spacing 0 0 $spacing-2x;
+	padding: $spacing 0 0 $spacing-2x;
 	color: var(--help-text-default-color);
-
+	box-sizing: border-box;
+	
 	.help-text {
 		@include kv-font-label-small-regular;
 
