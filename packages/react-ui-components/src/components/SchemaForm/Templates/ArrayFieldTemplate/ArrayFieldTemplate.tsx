@@ -7,25 +7,20 @@ const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 	idSchema,
 	uiSchema,
 	schema,
-	title,
 	disabled,
 	readonly,
-	required,
 	items,
 	canAdd,
 	registry,
 	onAddClick
 }: ArrayFieldTemplateProps<T, S, F>) => {
 	const uiOptions = getUiOptions(uiSchema);
-	const ArrayFieldTitleTemplate = getTemplate<'ArrayFieldTitleTemplate', T, S, F>('ArrayFieldTitleTemplate', registry, uiOptions);
 	const ArrayFieldDescriptionTemplate = getTemplate<'ArrayFieldDescriptionTemplate', T, S, F>('ArrayFieldDescriptionTemplate', registry, uiOptions);
 	const ArrayFieldItemTemplate = getTemplate<'ArrayFieldItemTemplate', T, S, F>('ArrayFieldItemTemplate', registry, uiOptions);
 
 	return (
 		<div className={styles.ArrayFieldTemplate}>
 			<div className={styles.ArrayFieldContainer}>
-				<ArrayFieldTitleTemplate idSchema={idSchema} title={title} schema={schema} uiSchema={uiSchema} required={required} registry={registry} />
-
 				<ArrayFieldDescriptionTemplate
 					idSchema={idSchema}
 					description={uiOptions.description || schema.description}

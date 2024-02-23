@@ -4,4 +4,8 @@
 	width: 100%;
 	display: flex;
 	flex-direction: column;
+
+	.TopDescription {
+		padding-bottom: $spacing-4x;
+	}
 }
