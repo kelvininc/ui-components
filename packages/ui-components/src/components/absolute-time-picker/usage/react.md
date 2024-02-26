@@ -9,7 +9,7 @@ export const KvAbsoluteTimePicker: React.FC = () => (
 		<KvAbsoluteTimePicker />
 
 		{/*-- With selected date --*/}
-		<KvAbsoluteTimePicker selectedDateRange={['2022-08-04', '2022-09-01']} />
+		<KvAbsoluteTimePicker selectedDates={['2022-08-04', '2022-09-01']} />
 
 		{/*-- With initial date --*/}
 		<KvAbsoluteTimePicker initialDate="2021-12-03" />

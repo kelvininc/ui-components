@@ -3,9 +3,10 @@
 .absolute-time-picker-container {
 	display: flex;
 	flex-direction: column;
+	gap: $spacing-3x;
 	background-color: kv-color('neutral-7');
 	padding: $spacing-4x;
-	gap: $spacing-3x;
+	border-radius: 4px;
 	width: fit-content;
 
 	.navigate-back {
@@ -33,9 +34,13 @@
 		}
 	}
 
-	.absolute-input {
+	.absolute-range-input {
 		display: flex;
 		gap: $spacing-6x;
+	}
+
+	.absolute-point-input {
+		width: 100%;
 	}
 
 	.calendars {

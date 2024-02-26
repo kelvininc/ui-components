@@ -2,7 +2,7 @@ import { ComputePositionConfig } from '@floating-ui/dom';
 import { ITextField } from '../text-field/text-field.types';
 import { IRelativeTimePickerOption, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
 import { EventEmitter } from '@stencil/core';
-import { ITimezoneOffset } from '../../types';
+import { ETooltipPosition, ITimezoneOffset } from '../../types';
 
 export interface ITimePicker {
 	/** (optional) Configuration of the dropdown input */
@@ -31,6 +31,8 @@ export interface ITimePicker {
 	calendarInputMaxDate?: string;
 	/** (optional) The time picker's z-index (default: 9003) */
 	zIndex?: number;
+	/** (optional) Positioning of the tooltip */
+	tooltipPosition?: ETooltipPosition;
 }
 
 export interface ITimePickerEvents {
@@ -46,8 +48,8 @@ export interface ITimePickerEvents {
 
 export interface ITimePickerTime {
 	key: string;
-	range: SelectedTimestampRange;
+	range: SelectedTimestamp;
 	timezone?: ITimePickerTimezone;
 }
 
-export type SelectedTimestampRange = [] | [number] | [number, number];
+export type SelectedTimestamp = [] | [number] | [number, number];

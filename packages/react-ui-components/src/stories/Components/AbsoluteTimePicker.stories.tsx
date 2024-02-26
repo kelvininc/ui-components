@@ -1,16 +1,16 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { ERelativeTimeInputMode, KvAbsoluteTimePicker } from '../../components';
+import { EAbsoluteTimePickerMode, ERelativeTimeInputMode, KvAbsoluteTimePicker } from '../../components';
 
 // Required to have the correct TagName in the code sample
 KvAbsoluteTimePicker.displayName = 'KvAbsoluteTimePicker';
 
 export default {
-	title: 'Time Picker/Absolute Time Picker',
+	title: 'Time Picker/Components/Absolute Time Picker',
 	component: 'kv-absolute-time-picker',
 	argTypes: {
-		onSelectRangeDatesChange: {
-			action: 'selectRangeDatesChange'
+		onSelectedDatesChange: {
+			action: 'selectedDatesChange'
 		},
 		onBackButtonClicked: {
 			action: 'backButtonClicked'
@@ -32,13 +32,20 @@ const CalendarMonthTem: ComponentStory<typeof KvAbsoluteTimePicker> = args => <K
 export const DefaultState = CalendarMonthTem.bind({});
 export const RangeSelected = CalendarMonthTem.bind({});
 RangeSelected.args = {
-	selectedRangeDates: ['2023-12-23 00:00:00', '2023-12-25 23:59:59'],
+	selectedDates: ['2023-12-23 00:00:00', '2023-12-25 23:59:59'],
 	initialDate: '2023-12-23'
+};
+
+export const SingleDateSelected = CalendarMonthTem.bind({});
+SingleDateSelected.args = {
+	selectedDates: ['2023-12-23 00:00:00'],
+	initialDate: '2023-12-23',
+	mode: EAbsoluteTimePickerMode.Single
 };
 
 export const RelativeConfig = CalendarMonthTem.bind({});
 RelativeConfig.args = {
-	selectedRangeDates: ['2023-12-23 00:00:00', '2023-12-23 23:59:59'],
+	selectedDates: ['2023-12-23 00:00:00', '2023-12-23 23:59:59'],
 	relativeTimeConfig: {
 		mode: ERelativeTimeInputMode.Text,
 		from: '23 december - 24 hours',

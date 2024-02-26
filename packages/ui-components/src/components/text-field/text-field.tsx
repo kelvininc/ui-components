@@ -10,6 +10,9 @@ import Inputmask from 'inputmask';
 import { getUTF8StringLength } from '../../utils/string.helper';
 import { EBadgeState } from '../../types';
 
+/**
+ * @part input-container - container that includes the input, right and left slot
+ */
 @Component({
 	tag: 'kv-text-field',
 	styleUrls: {

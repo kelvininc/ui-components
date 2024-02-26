@@ -12,7 +12,7 @@
 | `disabledButtons` | --           | (optional) A record with the button's label/value and the if the respective button is disabled       | `{ [x: string]: boolean; }`                    | `{}`                   |
 | `radioButtons`    | --           | (optional) A record with the button's label/value and the if the respective button is a radio button | `{ [x: string]: boolean; }`                    | `{}`                   |
 | `selectedButtons` | --           | (optional) A record with the button's label/value and with if the selected value                     | `{ [x: string]: boolean; }`                    | `{}`                   |
-| `size`            | `size`       | (optional) Sets the size for all toggle buttons                                                      | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
+| `size`            | `size`       | (optional) Sets the size for all toggle buttons                                                      | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Small` |
 | `withRadio`       | `with-radio` | (optional) If `true` all toggle buttons will have a radio button                                     | `boolean`                                      | `false`                |
 
 

@@ -12,7 +12,7 @@ import {
 	TIME_PICKER_PORTAL_Z_INDEX
 } from './time-picker.config';
 import { ComputePositionConfig } from '@floating-ui/dom';
-import { EComponentSize, ETooltipPosition, ITimezoneOffset, SelectedRange } from '../../types';
+import { EAbsoluteTimePickerMode, EComponentSize, ETooltipPosition, ITimezoneOffset, SelectedRange } from '../../types';
 import { IRelativeTimePickerOption, ITimePickerRelativeTime, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
 import { CUSTOMIZE_INTERVAL_KEY, DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS } from '../relative-time-picker/relative-time-picker.config';
 import { getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
@@ -65,6 +65,8 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	@Prop({ reflect: false }) calendarInputMaxDate?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) zIndex?: number = TIME_PICKER_PORTAL_Z_INDEX;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) tooltipPosition?: ETooltipPosition = ETooltipPosition.TopStart;
 
 	// Defines what content is being displayed
 	@State() timePickerView: ETimePickerView = ETimePickerView.RelativeTimePicker;
@@ -108,9 +110,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 		if (isEmpty(this.selectedTimeOption)) {
 			this.resetDefaultSelectedTimeState();
 		} else {
-			if (isEmpty(this.selectedTimeState)) {
-				this.syncTimeStateWithTimeOption();
-			}
+			this.syncTimeStateWithTimeOption();
 		}
 		this.syncShowCalendarViewState(this.showCalendar);
 	}
@@ -150,9 +150,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 		this.dropdownOpen = isDropdownOpen;
 		this.dropdownStateChange.emit(isDropdownOpen);
 		if (!this.isApplyButtonDisabled() && !isDropdownOpen) {
-			if (!isEmpty(this.selectedTimeOption)) {
-				this.syncTimeStateWithTimeOption();
-			} else {
+			if (isEmpty(this.selectedTimeOption)) {
 				this.resetDefaultSelectedTimeState();
 			}
 
@@ -191,7 +189,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	private onSelectedTimezoneChange = ({ detail: timezone }: CustomEvent<ITimePickerTimezone>) => {
 		const previousTimezone = this.getSelectedTimezone().name;
 		const range =
-			this.selectedTimeState.key === CUSTOMIZE_INTERVAL_KEY
+			this.selectedTimeState.key === CUSTOMIZE_INTERVAL_KEY && this.selectedTimeState?.range?.length > 0
 				? getTimestampFromDateRange(this.selectedTimeState.range, previousTimezone, timezone.name)
 				: this.selectedTimeState.range;
 
@@ -289,15 +287,24 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 
 	// Components config methods
 	private isApplyButtonDisabled() {
-		if (
-			this.selectedTimeState.range.length === FULL_RANGE_SIZE &&
-			hasRangeChanged(this.selectedTimeState.range, this.selectedTimeOption?.range) &&
-			validateNewRange(this.selectedTimeState.range)
-		) {
+		if (!this.selectedTimeState) {
+			return true;
+		}
+
+		if (!this.selectedTimeOption) {
 			return false;
 		}
 
-		if (this.selectedTimeState && this.selectedTimeOption && this.selectedTimeState.timezone?.name !== this.selectedTimeOption.timezone?.name) {
+		if (this.selectedTimeState?.range?.length > 0 && this.selectedTimeOption?.range?.length > 0) {
+			const { range: currentRange } = this.selectedTimeState;
+			const { range: newRange } = this.selectedTimeOption;
+
+			if (currentRange.length === FULL_RANGE_SIZE && hasRangeChanged(currentRange, newRange) && validateNewRange(newRange)) {
+				return false;
+			}
+		}
+
+		if (this.selectedTimeState.timezone?.name !== this.selectedTimeOption.timezone?.name) {
 			return false;
 		}
 
@@ -323,7 +330,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 
 	private getTextFieldTooltip = (): string | undefined => {
 		if (this.selectedTimeState?.key === CUSTOMIZE_INTERVAL_KEY) {
-			return buildTooltipText(this.selectedTimeState, this.timezones);
+			return buildTooltipText(this.selectedTimeState.range, this.getSelectedTimezone(), this.timezones);
 		}
 	};
 
@@ -338,7 +345,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	private getInputConfig = (): Partial<ITextField> => {
 		return merge({}, DEFAULT_TIME_RANGE_PICKER_INPUT_CONFIG, this.inputConfig, {
 			value: this.getDropdownInputValue(),
-			tooltipConfig: { text: this.getTextFieldTooltip() }
+			tooltipConfig: { text: this.getTextFieldTooltip(), position: this.tooltipPosition }
 		});
 	};
 
@@ -417,13 +424,14 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 								}}
 							>
 								<kv-absolute-time-picker
+									mode={EAbsoluteTimePickerMode.Range}
 									headerTitle={this.getFormattedSelectedTime()}
-									selectedRangeDates={this.getAbsoluteRange()}
+									selectedDates={this.getAbsoluteRange()}
 									relativeTimeConfig={this.getRelativeTimeInputConfig()}
 									initialDate={this.calendarInitialDate}
 									displayBackButton={this.timePickerView === ETimePickerView.AbsoluteTimePicker}
 									onBackButtonClicked={this.onClickBack}
-									onSelectRangeDatesChange={this.handleAbsoluteDatesChange}
+									onSelectedDatesChange={this.handleAbsoluteDatesChange}
 									onRelativeTimeConfigReset={this.handleRelativeTimeConfigReset}
 									onRelativeTimeConfigChange={this.handleAbsoluteDatesChange}
 									calendarInputMaxDate={this.calendarInputMaxDate}

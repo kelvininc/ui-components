@@ -40,16 +40,17 @@ export const KvTimePickerCalendarExample: React.FC = () => (
 
 ## Properties
 
-| Property                    | Attribute                      | Description                                      | Type       | Default     |
-| --------------------------- | ------------------------------ | ------------------------------------------------ | ---------- | ----------- |
-| `disabledDates`             | --                             | (options) The disabled dates array               | `string[]` | `[]`        |
-| `displayNextMonthArrow`     | `display-next-month-arrow`     | (optional) Enables the next month click icon     | `boolean`  | `true`      |
-| `displayPreviousMonthArrow` | `display-previous-month-arrow` | (optional) Enables the previous month click icon | `boolean`  | `true`      |
-| `hoveredDate`               | `hovered-date`                 | (optional) Defines if a date is hovered          | `string`   | `undefined` |
-| `initialDate`               | `initial-date`                 | (optional) Initial date                          | `string`   | `undefined` |
-| `maxDate`                   | `max-date`                     | (optional) Maximum accepted date                 | `string`   | `undefined` |
-| `minDate`                   | `min-date`                     | (optional) Minimum accepted date                 | `string`   | `undefined` |
-| `selectedDates`             | --                             | (optional) The currently selected dates          | `string[]` | `[]`        |
+| Property                    | Attribute                      | Description                                                        | Type                                                              | Default                         |
+| --------------------------- | ------------------------------ | ------------------------------------------------------------------ | ----------------------------------------------------------------- | ------------------------------- |
+| `disabledDates`             | --                             | (options) The disabled dates array                                 | `string[]`                                                        | `[]`                            |
+| `displayNextMonthArrow`     | `display-next-month-arrow`     | (optional) Enables the next month click icon                       | `boolean`                                                         | `true`                          |
+| `displayPreviousMonthArrow` | `display-previous-month-arrow` | (optional) Enables the previous month click icon                   | `boolean`                                                         | `true`                          |
+| `hoveredDate`               | `hovered-date`                 | (optional) Defines if a date is hovered                            | `string`                                                          | `undefined`                     |
+| `initialDate`               | `initial-date`                 | (optional) Initial date                                            | `string`                                                          | `undefined`                     |
+| `maxDate`                   | `max-date`                     | (optional) Maximum accepted date. Format: YYYY-MM-DD               | `string`                                                          | `undefined`                     |
+| `minDate`                   | `min-date`                     | (optional) Minimum accepted date. Format: YYYY-MM-DD               | `string`                                                          | `undefined`                     |
+| `mode`                      | `mode`                         | (optional) Defines if the calendar is in single date or range mode | `EAbsoluteTimePickerMode.Range \| EAbsoluteTimePickerMode.Single` | `EAbsoluteTimePickerMode.Range` |
+| `selectedDates`             | --                             | (optional) The currently selected dates                            | `string[]`                                                        | `[]`                            |
 
 
 ## Events
