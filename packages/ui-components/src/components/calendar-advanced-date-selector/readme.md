@@ -150,6 +150,7 @@ graph TD;
   kv-select --> kv-search
   kv-search --> kv-text-field
   kv-select-option --> kv-checkbox
+  kv-select-option --> kv-icon
   kv-select-option --> kv-select-option
   kv-checkbox --> kv-icon
   kv-single-select-dropdown --> kv-dropdown

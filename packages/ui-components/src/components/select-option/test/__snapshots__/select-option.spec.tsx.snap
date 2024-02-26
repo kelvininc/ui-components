@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`KvSelectOption (unit tests) when rendering with bottom slot flag \`true\` should match the snapshot 1`] = `
-<kv-select-option label="Option 1" level="0" selectable="" value="option1">
+<kv-select-option custom-class="" label="Option 1" level="0" selectable="" value="option1">
   <mock:shadow-root>
     <div part="select-option-content">
       <div class="select-option select-option--selectable" part="option-container" style="--level-padding-offset: 0px;">
@@ -18,7 +18,7 @@ exports[`KvSelectOption (unit tests) when rendering with bottom slot flag \`true
 `;
 
 exports[`KvSelectOption (unit tests) when rendering with default props when the component loads should match the snapshot 1`] = `
-<kv-select-option label="Option 1" level="0" selectable="" value="option1">
+<kv-select-option custom-class="" label="Option 1" level="0" selectable="" value="option1">
   <mock:shadow-root>
     <div part="select-option-content">
       <div class="select-option select-option--selectable" part="option-container" style="--level-padding-offset: 0px;">
