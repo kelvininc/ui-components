@@ -30,6 +30,7 @@ export enum EIconName {
 	AssetType = 'kv-asset-type',
 	Assistant = 'kv-assistant',
 	Auditlogs = 'kv-auditlogs',
+	Avatar = 'kv-avatar',
 	Back = 'kv-back',
 	BubbleChart = 'kv-bubble-chart',
 	Building = 'kv-building',

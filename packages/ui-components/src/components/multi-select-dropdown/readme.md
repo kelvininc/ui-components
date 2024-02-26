@@ -134,6 +134,7 @@ graph TD;
   kv-select-multi-options --> kv-select
   kv-select-multi-options --> kv-select-shortcuts-label
   kv-select-option --> kv-checkbox
+  kv-select-option --> kv-icon
   kv-select-option --> kv-select-option
   kv-checkbox --> kv-icon
   kv-select --> kv-search

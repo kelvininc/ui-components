@@ -255,3 +255,56 @@ SubOptions.args = {
 	counter: true,
 	shortcuts: true
 };
+
+export const IconOptions = MultiSelectDropdownTemplate.bind({});
+IconOptions.args = {
+	options: {
+		option1: {
+			value: 'low-temperature',
+			label: 'Low Temperature',
+			icon: EIconName.Square,
+			customStyle: {
+				'--select-option-icon-color': 'rgba(17, 241, 255, 1)'
+			}
+		},
+		option2: {
+			value: 'high-temperature',
+			label: 'High Temperature',
+			icon: EIconName.Square,
+			customStyle: {
+				'--select-option-icon-color': 'rgba(195, 86, 99, 1)'
+			}
+		},
+		option3: {
+			value: 'pressure-drop',
+			label: 'Pressure Drop',
+			icon: EIconName.Square,
+			customStyle: {
+				'--select-option-icon-color': 'rgba(240, 36, 159, 1)'
+			}
+		},
+		option4: {
+			value: 'maintenance',
+			label: 'Maintenance',
+			icon: EIconName.Square,
+			customStyle: {
+				'--select-option-icon-color': 'rgba(0, 119, 205, 1)'
+			}
+		},
+		option5: {
+			value: 'temperature',
+			label: 'Temperature',
+			icon: EIconName.Square,
+			customStyle: {
+				'--select-option-icon-color': 'rgba(213, 166, 0, 1)'
+			}
+		}
+	},
+	selectedOptions: { 'low-temperature': true },
+	label: 'Tags',
+	searchable: true,
+	selectionClearable: true,
+	selectionAll: true,
+	counter: true,
+	shortcuts: true
+};

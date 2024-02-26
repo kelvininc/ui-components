@@ -98,6 +98,7 @@ graph TD;
   kv-relative-time-picker --> kv-input-wrapper
   kv-relative-time-picker --> kv-single-select-dropdown
   kv-select-option --> kv-checkbox
+  kv-select-option --> kv-icon
   kv-select-option --> kv-select-option
   kv-checkbox --> kv-icon
   kv-input-wrapper --> kv-icon
