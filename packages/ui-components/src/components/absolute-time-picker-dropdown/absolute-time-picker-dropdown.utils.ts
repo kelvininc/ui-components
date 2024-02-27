@@ -21,7 +21,7 @@ export const getSelectedTimestampDates = (range: SelectedRange, mode: EAbsoluteT
 };
 
 export const getFormattedSelectedDates = (range: SelectedTimestamp, mode: EAbsoluteTimePickerMode, timezoneName: string): SelectedRange => {
-	if (range?.length === 0) return [];
+	if (isEmpty(range)) return [];
 
 	if (mode === EAbsoluteTimePickerMode.Single) {
 		const [date] = range;
