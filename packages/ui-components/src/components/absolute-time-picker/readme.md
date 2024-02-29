@@ -60,7 +60,7 @@ export const KvAbsoluteTimePicker: React.FC = () => (
 
 | Property               | Attribute                 | Description                                                                  | Type                                                              | Default                         |
 | ---------------------- | ------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------- |
-| `calendarInputMaxDate` | `calendar-input-max-date` | (optional) calendar maximum date to be navigated format: DD-MM-YYYY HH:mm:ss | `string`                                                          | `undefined`                     |
+| `calendarInputMaxDate` | `calendar-input-max-date` | (optional) calendar maximum date to be navigated format: DD-MM-YYYY HH:mm:ss | `string`                                                          | `CALENDAR_INPUT_MAX_DATE`       |
 | `calendarInputMinDate` | `calendar-input-min-date` | (optional) calendar minimum date to be navigated format: DD-MM-YYYY HH:mm:ss | `string`                                                          | `CALENDAR_INPUT_MIN_DATE`       |
 | `disabledDates`        | --                        | (optional) Disabled dates                                                    | `string[]`                                                        | `[]`                            |
 | `displayBackButton`    | `display-back-button`     | (optional) Enables the back button displayed on top                          | `boolean`                                                         | `false`                         |

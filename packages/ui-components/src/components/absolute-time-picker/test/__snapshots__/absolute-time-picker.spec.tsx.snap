@@ -9,12 +9,12 @@ exports[`Absolute Time Picker (unit tests) when default props and initial date a
       </div>
     </div>
     <div class="absolute-range-input">
-      <kv-date-time-input highlighted="" label="From" min="01-01-2018 00:00:00" placeholder="dd-mm-yyyy 00:00:00" size="small" useinputmask="" value=""></kv-date-time-input>
-      <kv-date-time-input label="To" min="01-01-2018 00:00:00" placeholder="dd-mm-yyyy 00:00:00" size="small" useinputmask="" value=""></kv-date-time-input>
+      <kv-date-time-input highlighted="" inputname="from-input" label="From" max="31-12-3000 23:59:59" min="01-01-2018 00:00:00" placeholder="dd-mm-yyyy 00:00:00" size="small" useinputmask="" value=""></kv-date-time-input>
+      <kv-date-time-input inputname="to-input" label="To" max="31-12-3000 23:59:59" min="01-01-2018 00:00:00" placeholder="dd-mm-yyyy 00:00:00" size="small" useinputmask="" value=""></kv-date-time-input>
     </div>
     <div class="calendars">
-      <kv-time-picker-calendar displaypreviousmontharrow="" hovereddate="" initialdate="2023-03-03" mindate="2018-01-01" mode="range"></kv-time-picker-calendar>
-      <kv-time-picker-calendar displaynextmontharrow="" hovereddate="" initialdate="2023-04-03" mindate="2018-01-01" mode="range"></kv-time-picker-calendar>
+      <kv-time-picker-calendar displaypreviousmontharrow="" hovereddate="" initialdate="2023-03-03" maxdate="3000-12-31" mindate="2018-01-01" mode="range"></kv-time-picker-calendar>
+      <kv-time-picker-calendar displaynextmontharrow="" hovereddate="" initialdate="2023-04-03" maxdate="3000-12-31" mindate="2018-01-01" mode="range"></kv-time-picker-calendar>
     </div>
   </div>
 </kv-absolute-time-picker>

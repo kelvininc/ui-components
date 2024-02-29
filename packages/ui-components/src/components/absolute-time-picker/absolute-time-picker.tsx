@@ -3,6 +3,7 @@ import { EComponentSize, EIconName, EInputSource } from '../../types';
 import dayjs from 'dayjs';
 import {
 	CALENDAR_DATE_TIME_MASK,
+	CALENDAR_INPUT_MAX_DATE,
 	CALENDAR_INPUT_MIN_DATE,
 	CALENDAR_MASK,
 	DATETIME_INPUT_MASK,
@@ -47,7 +48,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 	/** @inheritdoc */
 	@Prop({ reflect: false }) calendarInputMinDate?: string = CALENDAR_INPUT_MIN_DATE;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) calendarInputMaxDate?: string;
+	@Prop({ reflect: false }) calendarInputMaxDate?: string = CALENDAR_INPUT_MAX_DATE;
 
 	/** @inheritdoc */
 	@Event() selectedDatesChange: EventEmitter<IAbsoluteSelectedRangeDates>;
@@ -75,8 +76,8 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 	 */
 	@State() inputMode: ERelativeTimeInputMode = ERelativeTimeInputMode.Date;
 	/** Calendars max and minimum dates */
-	@State() maxDate: string = '';
 	@State() minDate: string = '';
+	@State() maxDate: string = '';
 
 	@Watch('selectedDates')
 	handleSelectedRangeDatesChange(value: string[] = []) {
@@ -350,11 +351,11 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		const parsedDate = dayjs(date, DATE_INPUT_MASK);
 		const parsedDateTime = dayjs(date, DATETIME_INPUT_MASK);
 
-		if (parsedDate.isValid() && !isEmpty(this.fromInputValue) && isEndDateAtStartOfDay(parsedDateTime)) {
+		if (parsedDate.isValid() && isEndDateAtStartOfDay(parsedDateTime)) {
 			const parsedDateFormated = parsedDate.endOf('day').format(DATETIME_INPUT_MASK);
 			this.toInputValue = parsedDateFormated;
 			this.displayedMonth = parsedDate.subtract(1, 'month');
-			if (!isEmpty(this.fromInputValue) && isEndDateAtStartOfDay(parsedDateTime)) {
+			if (!isEmpty(this.fromInputValue)) {
 				this.emitSelectRangeDatesChangeEvent(dayjs(this.fromInputValue, DATETIME_INPUT_MASK), parsedDate.endOf('day'));
 			} else {
 				this.emitSelectRangeDatesChangeEvent(parsedDate.endOf('day'));
@@ -368,25 +369,13 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		return this.inputMode === ERelativeTimeInputMode.Date;
 	};
 
-	private getDateTimeInputLimits = (source: EInputSource) => {
-		if (source === EInputSource.From) {
-			const parsedToDateTime = dayjs(this.toInputValue, DATETIME_INPUT_MASK);
-
-			if (!isEmpty(this.toInputValue) && parsedToDateTime.isValid()) {
-				return {
-					min: this.calendarInputMinDate,
-					max: parsedToDateTime.subtract(1, 'second').format(DATETIME_INPUT_MASK)
-				};
-			}
-		} else if (source === EInputSource.To) {
-			const parsedFromDateTime = dayjs(this.fromInputValue, DATETIME_INPUT_MASK);
-
-			if (!isEmpty(this.fromInputValue) && parsedFromDateTime.isValid()) {
-				return {
-					min: parsedFromDateTime.add(1, 'second').format(DATETIME_INPUT_MASK),
-					max: this.calendarInputMaxDate
-				};
-			}
+	private getFromInputDateTimeLimits = () => {
+		const parsedToDateTime = dayjs(this.toInputValue, DATETIME_INPUT_MASK);
+		if (!isEmpty(this.toInputValue) && parsedToDateTime.isValid()) {
+			return {
+				min: this.calendarInputMinDate,
+				max: parsedToDateTime.format(DATETIME_INPUT_MASK)
+			};
 		}
 
 		return {
@@ -395,12 +384,25 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		};
 	};
 
-	private getCalendarLimits = () => {
+	private getToInputDateTimeLimits = () => {
+		const parsedFromDateTime = dayjs(this.fromInputValue, DATETIME_INPUT_MASK);
+		if (!isEmpty(this.fromInputValue) && parsedFromDateTime.isValid()) {
+			return {
+				min: parsedFromDateTime.format(DATETIME_INPUT_MASK),
+				max: this.calendarInputMaxDate
+			};
+		}
+
 		return {
-			minDate: !isEmpty(this.calendarInputMinDate) ? dayjs(this.calendarInputMinDate, DATETIME_INPUT_MASK).format(DATE_FORMAT) : undefined,
-			maxDate: !isEmpty(this.calendarInputMaxDate) ? dayjs(this.calendarInputMaxDate, DATETIME_INPUT_MASK).format(DATE_FORMAT) : undefined
+			min: this.calendarInputMinDate,
+			max: this.calendarInputMaxDate
 		};
 	};
+
+	private getCalendarLimits = () => ({
+		minDate: !isEmpty(this.minDate) ? this.minDate : dayjs(this.calendarInputMinDate, DATETIME_INPUT_MASK).format(DATE_FORMAT),
+		maxDate: !isEmpty(this.maxDate) ? this.maxDate : dayjs(this.calendarInputMaxDate, DATETIME_INPUT_MASK).format(DATE_FORMAT)
+	});
 
 	render() {
 		const fromCalendarInitialDate = getFirstCalendarInitialDate(this.displayedMonth);
@@ -421,6 +423,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 					{this.mode === EAbsoluteTimePickerMode.Range ? (
 						<div class="absolute-range-input">
 							<kv-date-time-input
+								inputName="from-input"
 								useInputMask={this.useInputMask()}
 								label="From"
 								value={this.fromInputValue}
@@ -429,9 +432,10 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 								highlighted={isEmpty(this.fromInputValue) && !this.toInputFocused}
 								onTextChange={ev => this.handleDateChange(ev, EInputSource.From)}
 								onInputFocus={this.handleOnFocusFromInput}
-								{...this.getDateTimeInputLimits(EInputSource.From)}
+								{...this.getFromInputDateTimeLimits()}
 							/>
 							<kv-date-time-input
+								inputName="to-input"
 								useInputMask={this.useInputMask()}
 								label="To"
 								value={this.toInputValue}
@@ -441,7 +445,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 								onTextChange={ev => this.handleDateChange(ev, EInputSource.To)}
 								onDateTimeBlur={this.handleEndDateLostFocus}
 								onInputFocus={this.handleOnFocusToInput}
-								{...this.getDateTimeInputLimits(EInputSource.To)}
+								{...this.getToInputDateTimeLimits()}
 							/>
 						</div>
 					) : (
@@ -454,7 +458,8 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 								size={EComponentSize.Small}
 								placeholder={DATE_INPUT_PLACEHOLDER}
 								onTextChange={ev => this.handleDateChange(ev, EInputSource.Single)}
-								{...this.getDateTimeInputLimits(EInputSource.Single)}
+								min={this.calendarInputMinDate}
+								max={this.calendarInputMaxDate}
 							/>
 						</div>
 					)}

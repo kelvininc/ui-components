@@ -304,7 +304,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 			}
 		}
 
-		if (this.selectedTimeState.timezone?.name !== this.selectedTimeOption.timezone?.name) {
+		if (this.selectedTimeState.timezone?.name !== this.selectedTimeOption.timezone?.name && this.selectedTimeState?.range?.length > 0) {
 			return false;
 		}
 
@@ -324,8 +324,11 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 			return buildCustomIntervalTimeRange(this.selectedTimeOption.range, this.selectedTimeOption.timezone.name);
 		}
 
-		const key = isEmpty(this.selectedTimeOption) ? DEFAULT_SELECTED_TIME_KEY : this.selectedTimeOption?.key;
-		return getRelativeTimeLabel(key, this.relativeTimePickerOptions);
+		if (!isEmpty(this.selectedTimeOption)) {
+			return getRelativeTimeLabel(this.selectedTimeOption?.key, this.relativeTimePickerOptions);
+		}
+
+		return '';
 	};
 
 	private getTextFieldTooltip = (): string | undefined => {
