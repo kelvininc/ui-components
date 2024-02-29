@@ -1,4 +1,7 @@
 import { EventEmitter } from '@stencil/core';
+import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { ICustomCss } from '../../types';
+import { HostAttributes } from '@stencil/core/internal';
 
 export enum EToggleState {
 	Selected = 'selected',
@@ -6,12 +9,14 @@ export enum EToggleState {
 	None = 'none'
 }
 
-export interface ISelectOption {
+export interface ISelectOption extends ICustomCss {
 	/** (required) The text to display on the item */
 	label: string;
 	/** (required) The item value */
 	value: string;
-	/** (optional) Description of the item displayed on the left */
+	/** (optional) Icon of the item displayed on the left */
+	icon?: EIconName | EOtherIconName;
+	/** (optional) Description of the item displayed on the right */
 	description?: string;
 	/** (optional) If `true` the item is disabled */
 	disabled?: boolean;
@@ -29,6 +34,8 @@ export interface ISelectOption {
 	state?: EToggleState;
 	/** (optional) The children items of this option */
 	options?: Record<string, ISelectOption>;
+	/** (optional) Additional style to apply for custom CSS. */
+	customStyle?: HostAttributes['style'];
 }
 
 export interface ISelectOptionEvents {
