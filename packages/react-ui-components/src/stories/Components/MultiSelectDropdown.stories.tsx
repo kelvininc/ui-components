@@ -2,7 +2,7 @@ import { ComponentStory } from '@storybook/react';
 import React, { useCallback, useMemo } from 'react';
 import { useArgs } from '@storybook/client-api';
 import { EComponentSize, EIconName, KvMultiSelectDropdown } from '../../components';
-import { searchDropdownOptions } from './helpers/dropdown.helper';
+import { selectHelper } from '@kelvininc/ui-components';
 
 // Required to have the correct TagName in the code sample
 KvMultiSelectDropdown.displayName = 'KvMultiSelectDropdown';
@@ -63,7 +63,7 @@ export default {
 const MultiSelectDropdownTemplate: ComponentStory<typeof KvMultiSelectDropdown> = args => {
 	const [{ options, selectedOptions, searchValue }, updateArgs] = useArgs();
 
-	const filteredOptions = useMemo(() => searchDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
+	const filteredOptions = useMemo(() => selectHelper.searchDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
 
 	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => {
 		updateArgs({ searchValue: searchedLabel });

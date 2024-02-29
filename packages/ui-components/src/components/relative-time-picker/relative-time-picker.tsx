@@ -23,12 +23,12 @@ import { ISelectSingleOptions } from '../single-select-dropdown/single-select-dr
 import { ITimezoneOffset } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.types';
 import { EIconName } from '../icon/icon.types';
 import { formatTimezoneName, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
-import { searchString } from '../../utils/search.helper';
 import { buildTimezoneByOffset, buildTimezonesDropdownOptions } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.helper';
 import { buildRelativeTimeSelectOptions, getSelectedKeyRange, hasRangeChanged, isScrollNeeded } from './relative-time-picker.helper';
 import { CustomCssClass, EComponentSize, SelectedTimestamp } from '../../types';
 import { isEmpty } from 'lodash-es';
 import { getClassMap } from '../../utils/css-class.helper';
+import { searchDropdownOptions } from '../../utils/select.helper';
 
 @Component({
 	tag: 'kv-relative-time-picker',
@@ -105,8 +105,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 
 	@Watch('timezonesSearchTerm')
 	onTimezoneSearch(searchTerm: string) {
-		const searchedTimezones = searchString(searchTerm, this.timezones);
-		this.timezoneFilteredDropdownOptions = buildTimezonesDropdownOptions(searchedTimezones);
+		this.timezoneFilteredDropdownOptions = searchDropdownOptions(searchTerm, this.timezoneDropdownOptions);
 	}
 
 	@Watch('selectedTimeKey')
