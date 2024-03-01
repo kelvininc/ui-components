@@ -20,8 +20,8 @@ export const getCalendarEndDisabledDays = (filledDays: number): number[] => {
 	return getArrayOfIndexes(CALENDAR_FILLED_ROWS_NUMBER_OF_DAYS - filledDays).map(item => item + 1);
 };
 
-export const getSelectedRange = (selectedDates: string[]): SelectedRange => {
-	if (selectedDates && selectedDates.length > 0) {
+export const getSelectedRange = (selectedDates: string[] = []): SelectedRange => {
+	if (selectedDates.length > 0) {
 		const [startDate] = selectedDates;
 
 		if (selectedDates.length === 1) {

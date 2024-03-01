@@ -2,16 +2,17 @@
 
 :host {
 	/**
-	* @prop --height-default: The height of the text area when there's no text
-	* @prop --height-active: The height of the text area when there's text
+	* @prop --height-default: The height of the text area when is not focused.
+	* @prop --height-active: The height of the text are when is focused.
 	*/
-	--height-default: 21px;
-	--height-active: 84px;
+	--height-default: 36px;
+	--height-active: 100px;
 }
 
 .text-area-container {
 	display: flex;
 	gap: $spacing-2x;
+	align-items: flex-start;
 
 	.left-icon {
 		margin-top: $spacing-2x;
@@ -23,6 +24,7 @@
 		display: flex;
 		flex-direction: column;
 		flex: 1;
+		gap: $spacing-2x;
 
 		.text-area-wrapper {
 			padding: $spacing-2x $spacing-3x;
@@ -45,28 +47,35 @@
 			}
 
 			&:hover,
-			&.editing {
-				border: 1px solid kv-color('neutral-6');
-			}
-
-			&.editing,
+			&:has(.input:focus),
 			&.has-text {
-				height: var(--height-active);
+				border: 1px solid kv-color('neutral-6');
 
 				.input {
 					color: kv-color('neutral-2');
 				}
 			}
 
-			&:hover:not(.editing) {
+			&:has(.input:focus),
+			&.has-text {
+				height: var(--height-active);
+			}
+
+			&:hover:not(:has(.input:focus)) {
 				cursor: pointer;
 			}
+		}
+
+
+		&:has(.input:focus) .character-counter {
+			display: block;
 		}
 
 		.character-counter {
 			@include kv-font-label-small-regular;
 			color: kv-color('neutral-4');
-			margin: $spacing $spacing 0 $spacing-4x;
+			margin-left: $spacing-3x;
+			display: none;
 		}
 	}
 }

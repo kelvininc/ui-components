@@ -1,5 +1,24 @@
 import { isEmpty } from 'lodash';
-import { ISelectMultiOption, ISelectSingleOptions } from '../../types';
+import { EIconName, EOtherIconName, ISelectMultiOption, ISelectOption, ISelectSingleOptions } from '../../types';
+import { HostAttributes } from '@stencil/core/internal';
+
+export const getDropdownDisplayIcon = (selectedOption?: string, flattenOptions: Record<string, ISelectOption> = {}): EIconName | EOtherIconName | undefined => {
+	if (!selectedOption || !flattenOptions[selectedOption]) {
+		return;
+	}
+
+	const option = flattenOptions[selectedOption];
+	return option.icon;
+};
+
+export const getDropdownCustomCss = (selectedOption?: string, flattenOptions: Record<string, ISelectOption> = {}): HostAttributes['style'] | undefined => {
+	if (!selectedOption || !flattenOptions[selectedOption]) {
+		return;
+	}
+
+	const option = flattenOptions[selectedOption];
+	return option.customStyle;
+};
 
 export const buildSingleSelectOptions = (options: ISelectSingleOptions = {}): Record<string, ISelectMultiOption> =>
 	Object.values(options).reduce<Record<string, ISelectMultiOption>>((accumulator, option) => {
