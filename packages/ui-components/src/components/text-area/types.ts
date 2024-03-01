@@ -8,13 +8,13 @@ export interface ITextArea {
 	text?: string;
 	/** (optional) The placeholder to show in the text area */
 	placeholder?: string;
-	/** (required) The maximum number of characters allowed */
-	maxCharLength: number;
+	/** (optional) The maximum number of characters allowed */
+	maxCharLength?: number;
+	/** (optional) If `true` the chars counter is displayed. Default: true */
+	counter?: boolean;
 }
 
 export interface ITextAreaEvents {
 	/** Emits the current text when there's a change */
 	textChange: EventEmitter<string>;
-	/** Emits the current text when the text area loses focus */
-	textChangeBlur: EventEmitter<string>;
 }

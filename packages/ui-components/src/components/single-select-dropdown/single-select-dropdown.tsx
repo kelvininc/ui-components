@@ -14,7 +14,7 @@ import { CustomCssClass, EComponentSize, ISelectOption } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 import { getCssStyle } from '../utils';
 import { ComputePositionConfig } from '@floating-ui/dom';
-import { buildSingleSelectOptions } from './single-select-dropdown.helper';
+import { buildSingleSelectOptions, getDropdownCustomCss, getDropdownDisplayIcon } from './single-select-dropdown.helper';
 import { getFlattenSelectOptions } from '../../utils/select.helper';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
 
@@ -226,14 +226,15 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		value: this._selectionDisplayValue,
 		valuePrefix: this.displayPrefix,
 		loading: this.loading,
-		icon: this.icon,
+		icon: getDropdownDisplayIcon(this.selectedOption, this.selectOptions.flatten) ?? this.icon,
 		disabled: this.disabled,
 		required: this.required,
 		placeholder: this.placeholder,
 		state: this.errorState,
 		helpText: this.helpText,
 		size: this.inputSize,
-		badge: this.badge
+		badge: this.badge,
+		customStyle: getDropdownCustomCss(this.selectedOption, this.selectOptions.flatten)
 	});
 
 	private clearHighlightedOption = (): void => {

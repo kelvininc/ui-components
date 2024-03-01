@@ -7,7 +7,7 @@
 	 */
 
 	--help-text-default-color: #{kv-color('neutral-4')};
-	--help-text-error-color: #{kv-color('error')};
+	--help-text-error-color: #{kv-color('error', 'light')};
 }
 
 .help-text-container {

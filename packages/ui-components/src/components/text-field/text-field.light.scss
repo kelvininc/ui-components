@@ -3,8 +3,11 @@
 
 :host {
 	--text-color-label: #{kv-color('neutral-5')};
+	--text-color-icon-default: #{kv-color('neutral-4')};
 	--text-color-icon-disabled: #{kv-color('neutral-4')};
+	--text-color-icon-focused: #{kv-color('primary')};
 	--text-color-input-default: #{kv-color('neutral-8')};
+	--text-color-input-disabled: #{kv-color('neutral-5')};
 	--text-color-input-focused: #{kv-color('primary')};
 
 	--text-color-placeholder-default: #{kv-color('neutral-5')};

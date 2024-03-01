@@ -109,6 +109,10 @@ export const getNextHightlightableOption = (options: IMultiSelectDropdown, highl
 };
 
 export const searchDropdownOptions = (term: string, options: ISelectSingleOptions | ISelectMultiOptions = {}): ISelectSingleOptions | ISelectMultiOptions => {
+	if (isEmpty(term)) {
+		return options;
+	}
+
 	return Object.keys(options).reduce<ISelectSingleOptions | ISelectMultiOptions>((accumulator, key) => {
 		const option = options[key];
 

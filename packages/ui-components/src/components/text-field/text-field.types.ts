@@ -1,6 +1,7 @@
 import { EventEmitter } from '@stencil/core';
 import { EComponentSize, ITooltip } from '../../types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { HostAttributes } from '@stencil/core/internal';
 
 export enum EInputFieldType {
 	Text = 'text',
@@ -84,6 +85,8 @@ export interface ITextField {
 	inputMaskRegex?: string;
 	/** (optional) Enable/disable the resize of input (default: true) */
 	fitContent?: boolean;
+	/** (optional) Additional style to apply for custom CSS. */
+	customStyle?: HostAttributes['style'];
 }
 
 export interface IInputMaskInstanceRef extends Inputmask.Instance {

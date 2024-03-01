@@ -107,7 +107,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 	handleRelativeTimeConfigInput(newValue: IRelativeTimeInput) {
 		if (isEmpty(newValue)) {
 			this.inputMode = ERelativeTimeInputMode.Date;
-			if (this.selectedDates.length === 0) {
+			if (!this.selectedDates || this.selectedDates.length === 0) {
 				this.setInputValues('', '');
 				this.displayedMonth = fromDateInput(new Date());
 			}
@@ -116,7 +116,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 
 		this.inputMode = newValue.mode;
 		this.setInputValues(newValue.from, newValue.to);
-		const [from] = this.selectedDates;
+		const [from] = this.selectedDates ?? [];
 		const date = newDate(from);
 		if (date.isValid()) {
 			this.displayedMonth = date;
@@ -161,7 +161,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		const inputDate = newDate(date);
 
 		if (this.mode === EAbsoluteTimePickerMode.Range) {
-			const [selectedStartDate, selectedEndDate] = this.selectedDates;
+			const [selectedStartDate, selectedEndDate] = this.selectedDates ?? [];
 
 			if (!selectedStartDate) {
 				this.displayedMonth = clickedDate;

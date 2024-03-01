@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, Host, Prop, State, h } from '@stencil/core';
+import { Component, Event, EventEmitter, Host, Listen, Prop, State, h } from '@stencil/core';
 import { ITextArea, ITextAreaEvents } from './types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { getUTF8StringLength } from '../../utils/string.helper';
@@ -16,17 +16,25 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) placeholder?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) maxCharLength!: number;
+	@Prop({ reflect: true }) maxCharLength?: number;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) counter?: boolean = true;
 
 	/** @inheritdoc */
 	@Event() textChange: EventEmitter<string>;
-	/** @inheritdoc */
-	@Event() textChangeBlur: EventEmitter<string>;
+
+	@Listen('keydown', {
+		passive: true
+	})
+	handleKeyDown(ev: KeyboardEvent) {
+		if (ev.code === 'Escape') {
+			this.blurTextArea();
+		}
+	}
 
 	private inputRef: HTMLDivElement;
 
 	@State() curCharLength = getUTF8StringLength(this.text);
-	@State() isEditing = this.text?.length > 0;
 	@State() showPlaceholder = !this.text ? true : false;
 
 	syncTextValues(text?: string) {
@@ -39,21 +47,26 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 		this.curCharLength = getUTF8StringLength(textValue);
 	}
 
+	private getTextLength = () => {
+		return getUTF8StringLength(this.inputRef.innerText);
+	};
+
 	private onInput = () => {
 		this.syncTextValues();
 		this.textChange.emit(this.inputRef.innerText);
 	};
 
 	private onKeyPress = (event: KeyboardEvent) => {
-		if (getUTF8StringLength(this.inputRef.innerText) >= this.maxCharLength) {
+		const textLength = this.getTextLength();
+		if (this.maxCharLength && this.maxCharLength <= textLength) {
 			event.preventDefault();
 		}
 	};
 
 	private onClipboardPaste = (event: ClipboardEvent) => {
-		const textLength = getUTF8StringLength(this.inputRef.innerText);
+		const textLength = this.getTextLength();
 		const pasteData = event.clipboardData.getData('text/plain');
-		const shouldPaste = textLength + getUTF8StringLength(pasteData) <= this.maxCharLength;
+		const shouldPaste = this.maxCharLength && textLength + getUTF8StringLength(pasteData) <= this.maxCharLength;
 
 		if (!shouldPaste) {
 			event.preventDefault();
@@ -61,17 +74,12 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 		}
 	};
 
-	private onTextAreaClick = () => {
-		this.isEditing = true;
+	private focusTextArea = () => {
 		this.inputRef.focus();
 	};
 
-	private onTextAreaLeave = () => {
-		this.textChangeBlur.emit(this.inputRef.innerText);
-	};
-
-	private onToggleTextArea = () => {
-		this.isEditing = !this.isEditing;
+	private blurTextArea = () => {
+		this.inputRef.blur();
 	};
 
 	private updateInputRef = (ref: HTMLDivElement) => {
@@ -83,12 +91,11 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 		return (
 			<Host>
 				<div class="text-area-container">
-					{this.icon && <kv-icon name={this.icon} customClass={'icon-20'} class="left-icon" onClick={this.onToggleTextArea} />}
-					<div class="text-area" onClick={this.onTextAreaClick} onFocusout={this.onTextAreaLeave}>
+					{this.icon && <kv-icon name={this.icon} customClass="icon-20" class="left-icon" />}
+					<div class="text-area" onClick={this.focusTextArea}>
 						<div
 							class={{
 								'text-area-wrapper': true,
-								'editing': this.isEditing,
 								'has-text': this.inputRef?.innerText.length > 0
 							}}
 						>
@@ -105,9 +112,11 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 								contentEditable
 							/>
 						</div>
-						<div class="character-counter">
-							Max. character: {this.curCharLength}/{this.maxCharLength}
-						</div>
+						{this.counter && this.maxCharLength && (
+							<div class="character-counter">
+								Max. character: {this.curCharLength}/{this.maxCharLength}
+							</div>
+						)}
 					</div>
 				</div>
 			</Host>
