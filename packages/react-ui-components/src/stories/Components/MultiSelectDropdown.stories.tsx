@@ -266,8 +266,7 @@ IconOptions.args = {
 			customStyle: {
 				'--select-option-icon-color': 'rgba(17, 241, 255, 1)',
 				'--text-color-icon-default': 'rgba(17, 241, 255, 1)',
-				'--text-color-disabled-default': 'rgba(17, 241, 255, 1)',
-				'--text-color-disabled-focused': 'rgba(17, 241, 255, 1)'
+				'--text-color-icon-focused': 'rgba(17, 241, 255, 1)'
 			}
 		},
 		option2: {
@@ -277,8 +276,7 @@ IconOptions.args = {
 			customStyle: {
 				'--select-option-icon-color': 'rgba(195, 86, 99, 1)',
 				'--text-color-icon-default': 'rgba(195, 86, 99, 1)',
-				'--text-color-disabled-default': 'rgba(195, 86, 99, 1)',
-				'--text-color-disabled-focused': 'rgba(195, 86, 99, 1)'
+				'--text-color-icon-focused': 'rgba(195, 86, 99, 1)'
 			}
 		},
 		option3: {
@@ -288,8 +286,7 @@ IconOptions.args = {
 			customStyle: {
 				'--select-option-icon-color': 'rgba(240, 36, 159, 1)',
 				'--text-color-icon-default': 'rgba(240, 36, 159, 1)',
-				'--text-color-disabled-default': 'rgba(240, 36, 159, 1)',
-				'--text-color-disabled-focused': 'rgba(240, 36, 159, 1)'
+				'--text-color-icon-focused': 'rgba(240, 36, 159, 1)'
 			}
 		},
 		option4: {
@@ -299,8 +296,7 @@ IconOptions.args = {
 			customStyle: {
 				'--select-option-icon-color': 'rgba(0, 119, 205, 1)',
 				'--text-color-icon-default': 'rgba(0, 119, 205, 1)',
-				'--text-color-disabled-default': 'rgba(0, 119, 205, 1)',
-				'--text-color-disabled-focused': 'rgba(0, 119, 205, 1)'
+				'--text-color-icon-focused': 'rgba(0, 119, 205, 1)'
 			}
 		},
 		option5: {
@@ -310,8 +306,7 @@ IconOptions.args = {
 			customStyle: {
 				'--select-option-icon-color': 'rgba(213, 166, 0, 1)',
 				'--text-color-icon-default': 'rgba(213, 166, 0, 1)',
-				'--text-color-disabled-default': 'rgba(213, 166, 0, 1)',
-				'--text-color-disabled-focused': 'rgba(213, 166, 0, 1)'
+				'--text-color-icon-focused': 'rgba(213, 166, 0, 1)'
 			}
 		}
 	},

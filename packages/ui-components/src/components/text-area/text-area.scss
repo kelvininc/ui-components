@@ -78,4 +78,20 @@
 			display: none;
 		}
 	}
+
+	&.disabled {
+		.text-area {
+			.text-area-wrapper {
+				border-color: kv-color('neutral-5');
+
+				.input {
+					color: kv-color('neutral-5');
+				}
+
+				&:hover:not(:has(.input:focus)) {
+					cursor: not-allowed;
+				}
+			}
+		}
+	}
 }

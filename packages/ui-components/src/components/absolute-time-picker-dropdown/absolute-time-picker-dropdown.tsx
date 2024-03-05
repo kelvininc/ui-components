@@ -45,6 +45,8 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 	@Prop({ reflect: false }) tooltipPosition?: ETooltipPosition = ETooltipPosition.BottomStart;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) headerTitle?: string = '';
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled: boolean = false;
 
 	// Defines the calendar initial date if needed
 	@State() calendarInitialDate: string = this.initialDate;
@@ -153,7 +155,13 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 
 		return (
 			<Host>
-				<kv-dropdown isOpen={this.dropdownOpen} onOpenStateChange={this.onDropdownChange} inputConfig={inputConfig} options={dropdownPositionConfig}>
+				<kv-dropdown
+					isOpen={this.dropdownOpen}
+					onOpenStateChange={this.onDropdownChange}
+					inputConfig={inputConfig}
+					options={dropdownPositionConfig}
+					disabled={this.disabled}
+				>
 					<div class="absolute-time-content">
 						<kv-absolute-time-picker
 							mode={this.mode}

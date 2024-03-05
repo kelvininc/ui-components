@@ -19,6 +19,8 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	@Prop({ reflect: true }) maxCharLength?: number;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) counter?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled: boolean = false;
 
 	/** @inheritdoc */
 	@Event() textChange: EventEmitter<string>;
@@ -90,7 +92,7 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	render() {
 		return (
 			<Host>
-				<div class="text-area-container">
+				<div class={{ 'text-area-container': true, 'disabled': this.disabled }}>
 					{this.icon && <kv-icon name={this.icon} customClass="icon-20" class="left-icon" />}
 					<div class="text-area" onClick={this.focusTextArea}>
 						<div
@@ -109,7 +111,7 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 								onPaste={this.onClipboardPaste}
 								onKeyPress={this.onKeyPress}
 								onInput={this.onInput}
-								contentEditable
+								contentEditable={!this.disabled}
 							/>
 						</div>
 						{this.counter && this.maxCharLength && (

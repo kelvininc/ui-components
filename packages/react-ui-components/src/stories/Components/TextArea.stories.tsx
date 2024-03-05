@@ -53,3 +53,8 @@ WithIcon.args = {
 	text: '',
 	icon: EIconName.Notes
 };
+
+export const Disabled = TextAreaTemplate.bind({});
+Disabled.args = {
+	disabled: true
+};
