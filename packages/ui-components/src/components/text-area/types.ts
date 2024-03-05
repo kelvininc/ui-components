@@ -10,8 +10,10 @@ export interface ITextArea {
 	placeholder?: string;
 	/** (optional) The maximum number of characters allowed */
 	maxCharLength?: number;
-	/** (optional) If `true` the chars counter is displayed. Default: true */
+	/** (optional) If `true` the chars counter is displayed. Default: `true` */
 	counter?: boolean;
+	/** (optional) If `true` the text area is disabled. Default: `false`. */
+	disabled?: boolean;
 }
 
 export interface ITextAreaEvents {

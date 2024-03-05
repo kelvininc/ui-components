@@ -30,6 +30,8 @@ export interface IAbsoluteTimePickerDropdown {
 	timezones?: ITimezoneOffset[];
 	/** (optional) Title displayed on top of the component */
 	headerTitle?: string;
+	/** (optional) If `true` the dropdown is disabled. Default: `false`. */
+	disabled?: boolean;
 }
 
 export interface IAbsoluteTimePickerDropdownEvents {
