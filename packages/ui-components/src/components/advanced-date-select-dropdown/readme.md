@@ -153,7 +153,10 @@ graph TD;
   kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-select-create-option
   kv-select-multi-options --> kv-select-shortcuts-label
+  kv-select-create-option --> kv-text-field
+  kv-select-create-option --> kv-action-button-icon
   kv-select-shortcuts-label --> kv-icon
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon

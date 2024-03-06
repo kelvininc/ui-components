@@ -12,6 +12,9 @@
 	 * @prop --text-color-icon-default: Icon color when state is default.
 	 * @prop --text-color-icon-disabled: Icon color when state is disabled.
 	 * @prop --text-color-icon-focused: Icon color when state is focused.
+	 * @prop --text-color-action-icon-default: Action icon color when state is default.
+	 * @prop --text-color-action-icon-disabled: Action icon color when state is disabled.
+	 * @prop --text-color-action-icon-focused: Action icon color when state is focused.
 	 * @prop --text-color-input-default: Input text color when state is default.
 	 * @prop --text-color-input-disabled: Input text color when state is disabled.
 	 * @prop --text-color-input-focused: Input Text color when state is focused.
@@ -158,15 +161,31 @@ input {
 		}
 	}
 
-	kv-icon {
-		--icon-color: var(--text-color-icon-default);
+	.left-slot-container {
+		kv-icon {
+			--icon-color: var(--text-color-icon-default);
 
-		&.disabled {
-			--icon-color: var(--text-color-icon-disabled);
+			&.disabled {
+				--icon-color: var(--text-color-icon-disabled);
+			}
+
+			&.focus:not(.invalid) {
+				--icon-color: var(--text-color-icon-focused);
+			}
 		}
+	}
 
-		&.focus:not(.invalid) {
-			--icon-color: var(--text-color-icon-focused);
+	.right-slot-container {
+		kv-icon {
+			--icon-color: var(--text-color-action-icon-default);
+
+			&.disabled {
+				--icon-color: var(--text-color-action-icon-disabled);
+			}
+
+			&.focus:not(.invalid) {
+				--icon-color: var(--text-color-action-icon-focused);
+			}
 		}
 	}
 
