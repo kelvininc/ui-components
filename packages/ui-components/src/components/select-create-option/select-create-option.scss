@@ -1,0 +1,17 @@
+@import '../../assets/styles/globals';
+
+.select-create-option {
+	display: flex;
+	align-items: flex-start;
+	gap: $spacing-3x;
+}
+
+.form {
+	flex: 1;
+}
+
+.actions {
+	display: flex;
+	align-items: center;
+	gap: $spacing;
+}

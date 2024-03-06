@@ -37,3 +37,33 @@ kv-select {
 	color: kv-color('neutral-4');
 	@include kv-font-label-xsmall-regular;
 }
+
+.create-new-option-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-radius: 4px;
+	border: 1px solid kv-color('neutral-6');
+	width: calc(100% - 2px);
+	height: calc(100% - 2px);
+	background: kv-color('neutral-7', 'base', 0.8);
+	z-index: 1;
+
+	&.has-shortcuts .create-new-option-form {
+		bottom: 36px;
+		border-bottom: 1px solid kv-color('neutral-6');
+	}
+}
+
+.form-container {
+	background: kv-color('neutral-7');
+	padding: $spacing-3x $spacing-4x;
+}
+
+.create-new-option-form {
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	border-top: 1px solid kv-color('neutral-6');
+}
