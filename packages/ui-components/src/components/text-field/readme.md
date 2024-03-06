@@ -115,6 +115,19 @@ export class TextFieldExample {
 | `textFieldBlur`    | Emitted when text field lost focus           | `CustomEvent<string>`     |
 
 
+## Methods
+
+### `focusInput() => Promise<void>`
+
+Focuses the input
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+
 ## Shadow Parts
 
 | Part                | Description                                            |
@@ -136,6 +149,9 @@ export class TextFieldExample {
 | `--input-max-width`                 | Text Field's max width.                        |
 | `--input-min-width`                 | Text Field's min width.                        |
 | `--input-width`                     | Text Field's width.                            |
+| `--text-color-action-icon-default`  | Action icon color when state is default.       |
+| `--text-color-action-icon-disabled` | Action icon color when state is disabled.      |
+| `--text-color-action-icon-focused`  | Action icon color when state is focused.       |
 | `--text-color-help-text-default`    | Help Text color when state is default.         |
 | `--text-color-help-text-error`      | Help Text color when state is invalid.         |
 | `--text-color-icon-default`         | Icon color when state is default.              |
@@ -157,6 +173,7 @@ export class TextFieldExample {
  - [kv-dropdown](../dropdown)
  - [kv-range-dates-select-dropdown](../range-dates-select-dropdown)
  - [kv-search](../search)
+ - [kv-select-create-option](../select-create-option)
 
 ### Depends on
 
@@ -180,6 +197,7 @@ graph TD;
   kv-dropdown --> kv-text-field
   kv-range-dates-select-dropdown --> kv-text-field
   kv-search --> kv-text-field
+  kv-select-create-option --> kv-text-field
   style kv-text-field fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
