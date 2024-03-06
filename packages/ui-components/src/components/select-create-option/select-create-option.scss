@@ -1,0 +1,19 @@
+@import '../../assets/styles/globals';
+
+.select-create-option {
+	display: flex;
+	align-items: center;
+	gap: $spacing-3x;
+	background: kv-color('neutral-7');
+	padding: $spacing-3x $spacing-4x;
+}
+
+.form {
+	flex: 1;
+}
+
+.actions {
+	display: flex;
+	align-items: center;
+	gap: $spacing;
+}
