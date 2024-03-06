@@ -160,7 +160,10 @@ graph TD;
   kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-select-create-option
   kv-select-multi-options --> kv-select-shortcuts-label
+  kv-select-create-option --> kv-text-field
+  kv-select-create-option --> kv-action-button-icon
   kv-select-shortcuts-label --> kv-icon
   kv-advanced-date-select-dropdown --> kv-calendar-advanced-date-selector
   style kv-calendar-advanced-date-selector fill:#f9f,stroke:#333,stroke-width:4px
