@@ -182,7 +182,9 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 	private selectOption = (selectedOption: string) => {
 		this.optionSelected.emit(selectedOption);
-		this.setOpenState(false);
+		if (!this.selectOptions.flatten[selectedOption].stub) {
+			this.setOpenState(false);
+		}
 	};
 
 	private setOpenState = (state: boolean) => {
@@ -317,6 +319,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							onDismiss={this.onDismiss}
 							exportparts="select"
 						>
+							<slot />
 							<slot name="select-header-actions" slot="select-header-actions" />
 							<slot name="select-header-label" slot="select-header-label" />
 							<slot name="no-data-available" slot="no-data-available" />

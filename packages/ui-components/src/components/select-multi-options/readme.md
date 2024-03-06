@@ -24,7 +24,7 @@
 | `selectedOptions`      | --                        | (optional) The object with indexed by the dropdown labels and its selected value                                  | `{ [x: string]: boolean; }`            | `{}`                              |
 | `selectionAll`         | `selection-all`           | (optional) If `true` the list has an action to select all items                                                   | `boolean`                              | `undefined`                       |
 | `selectionClearable`   | `selection-clearable`     | (optional) If `true` dropdown items can be cleared                                                                | `boolean`                              | `undefined`                       |
-| `shortcuts`            | `shortcuts`               | (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false` | `boolean`                              | `true`                            |
+| `shortcuts`            | `shortcuts`               | (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false` | `boolean`                              | `false`                           |
 
 
 ## Events

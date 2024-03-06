@@ -32,6 +32,8 @@ export interface ISelectOption extends ICustomCss {
 	level?: number;
 	/** (optional) The toggle button state */
 	state?: EToggleState;
+	/** (optional) If `true` the item is stub */
+	stub?: boolean;
 	/** (optional) The children items of this option */
 	options?: Record<string, ISelectOption>;
 	/** (optional) Additional style to apply for custom CSS. */

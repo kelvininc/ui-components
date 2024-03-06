@@ -52,7 +52,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minSearchOptions?: number = MINIMUM_SEARCHABLE_OPTIONS;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) shortcuts?: boolean = true;
+	@Prop({ reflect: true }) shortcuts?: boolean = false;
 
 	@Element() el: HTMLKvSelectMultiOptionsElement;
 
@@ -285,6 +285,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 					</slot>
 				)}
 				{hasCurrentOptions && this.renderOptions()}
+				<slot />
 				{this.shortcuts && (
 					<slot name="select-footer" slot="select-footer">
 						<kv-select-shortcuts-label>

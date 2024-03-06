@@ -4,7 +4,7 @@ import { EValidationState } from '../text-field/text-field.types';
 import { EComponentSize, ISelectOption, ISelectMultiOptionsEvents, IMultiSelectDropdown } from '../../types';
 import { ComputePositionConfig } from '@floating-ui/dom';
 
-export interface ISelectSingleOption extends Pick<ISelectOption, 'label' | 'value' | 'icon' | 'disabled' | 'selectable' | 'description' | 'customClass' | 'customStyle'> {
+export interface ISelectSingleOption extends Pick<ISelectOption, 'label' | 'value' | 'icon' | 'disabled' | 'selectable' | 'description' | 'stub' | 'customClass' | 'customStyle'> {
 	options?: ISelectSingleOptions;
 }
 

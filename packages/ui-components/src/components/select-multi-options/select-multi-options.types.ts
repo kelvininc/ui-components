@@ -2,7 +2,7 @@ import { EventEmitter } from '@stencil/core';
 import { ISelectEvents, ISelectOption } from '../../types';
 
 export interface ISelectMultiOption
-	extends Pick<ISelectOption, 'label' | 'value' | 'icon' | 'disabled' | 'selectable' | 'description' | 'togglable' | 'customClass' | 'customStyle'> {
+	extends Pick<ISelectOption, 'label' | 'value' | 'icon' | 'disabled' | 'selectable' | 'description' | 'togglable' | 'stub' | 'customClass' | 'customStyle'> {
 	options?: ISelectMultiOptions;
 }
 
