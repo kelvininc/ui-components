@@ -273,6 +273,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 							onDismiss={this.onDismiss}
 							exportparts="select"
 						>
+							<slot />
 							<slot name="select-header-actions" slot="select-header-actions" />
 							<slot name="select-header-label" slot="select-header-label" />
 							<slot name="no-data-available" slot="no-data-available" />

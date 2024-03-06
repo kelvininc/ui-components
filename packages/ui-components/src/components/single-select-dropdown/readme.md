@@ -45,6 +45,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | ---------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ |
 | `actionElement`        | --                        | (optional) A reference to the dropdown action element                                                                                                                                   | `HTMLElement`                                                                                                                                                                                                                                                                                                                                                                  | `null`                                     |
 | `badge`                | `badge`                   | (optional) Text to display inside a badge on the right side of the displayed value                                                                                                      | `string`                                                                                                                                                                                                                                                                                                                                                                       | `undefined`                                |
+| `canAddItems`          | `can-add-items`           | (optional) If `true` an add option will appear at the bottom of options list. Default: `false`                                                                                          | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `false`                                    |
 | `clearSelectionLabel`  | `clear-selection-label`   | (optional) The clear selection action text                                                                                                                                              | `string`                                                                                                                                                                                                                                                                                                                                                                       | `SINGLE_SELECT_CLEAR_SELECTION_LABEL`      |
 | `clickOutsideClose`    | `click-outside-close`     | (optional) If `false` clicking outside the dropdown will not trigger state change. Default: true                                                                                        | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `true`                                     |
 | `counter`              | `counter`                 | (optional) If `true` a selection counter is displayed                                                                                                                                   | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `undefined`                                |
@@ -88,6 +89,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | `clickOutside`    | Emitted when there's a click outside the dropdown's bondaries | `CustomEvent<void>`    |
 | `dismiss`         | Emitted when the 'esc' key is pressed                         | `CustomEvent<void>`    |
 | `openStateChange` | Emitted when the dropdown open state changes                  | `CustomEvent<boolean>` |
+| `optionCreated`   | Emitted when a new option is created                          | `CustomEvent<string>`  |
 | `optionSelected`  | Emitted when an option is selected                            | `CustomEvent<string>`  |
 | `searchChange`    | Emitted when the user interacts with the search text field    | `CustomEvent<string>`  |
 
@@ -140,6 +142,7 @@ graph TD;
   kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-select-create-option
   kv-select-multi-options --> kv-select-shortcuts-label
   kv-select-option --> kv-checkbox
   kv-select-option --> kv-icon
@@ -147,6 +150,11 @@ graph TD;
   kv-checkbox --> kv-icon
   kv-select --> kv-search
   kv-search --> kv-text-field
+  kv-select-create-option --> kv-text-field
+  kv-select-create-option --> kv-action-button-icon
+  kv-action-button-icon --> kv-action-button
+  kv-action-button-icon --> kv-icon
+  kv-action-button-icon --> kv-badge
   kv-select-shortcuts-label --> kv-icon
   kv-calendar-advanced-date-selector --> kv-single-select-dropdown
   kv-relative-time-picker --> kv-single-select-dropdown

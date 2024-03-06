@@ -7,6 +7,7 @@
 
 | Property               | Attribute                 | Description                                                                                                       | Type                                   | Default                           |
 | ---------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------- | --------------------------------- |
+| `canAddItems`          | `can-add-items`           | (optional) If `true` an add option will appear at the bottom of options list. Default: `false`                    | `boolean`                              | `false`                           |
 | `clearSelectionLabel`  | `clear-selection-label`   | (optional) The clear selection action text                                                                        | `string`                               | `undefined`                       |
 | `counter`              | `counter`                 | (optional) If `true` a selection counter is displayed                                                             | `boolean`                              | `undefined`                       |
 | `filteredOptions`      | --                        | (optional) The object with the dropdown options filtered                                                          | `{ [x: string]: ISelectMultiOption; }` | `undefined`                       |
@@ -24,7 +25,7 @@
 | `selectedOptions`      | --                        | (optional) The object with indexed by the dropdown labels and its selected value                                  | `{ [x: string]: boolean; }`            | `{}`                              |
 | `selectionAll`         | `selection-all`           | (optional) If `true` the list has an action to select all items                                                   | `boolean`                              | `undefined`                       |
 | `selectionClearable`   | `selection-clearable`     | (optional) If `true` dropdown items can be cleared                                                                | `boolean`                              | `undefined`                       |
-| `shortcuts`            | `shortcuts`               | (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false` | `boolean`                              | `true`                            |
+| `shortcuts`            | `shortcuts`               | (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false` | `boolean`                              | `false`                           |
 
 
 ## Events
@@ -33,6 +34,7 @@
 | ----------------- | ---------------------------------------------------------- | ---------------------------------------- |
 | `clearSelection`  | Emitted when the user clears the selected items            | `CustomEvent<void>`                      |
 | `dismiss`         | Emitted when the 'esc' key is pressed                      | `CustomEvent<void>`                      |
+| `optionCreated`   | Emitted when a new option is created                       | `CustomEvent<string>`                    |
 | `optionSelected`  | Emitted when an option is selected                         | `CustomEvent<string>`                    |
 | `optionsSelected` | Emitted when the selected options change                   | `CustomEvent<{ [x: string]: boolean; }>` |
 | `searchChange`    | Emitted when the user interacts with the search text field | `CustomEvent<string>`                    |
@@ -81,7 +83,8 @@ Type: `Promise<void>`
 - [kv-virtualized-list](../virtualized-list)
 - [kv-select-option](../select-option)
 - [kv-select](../select)
-- [kv-select-shortcuts-label](../select-shortcuts)
+- [kv-select-create-option](../select-create-option)
+- [kv-select-shortcuts-label](../select-shortcuts-label)
 
 ### Graph
 ```mermaid
@@ -89,6 +92,7 @@ graph TD;
   kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-select-create-option
   kv-select-multi-options --> kv-select-shortcuts-label
   kv-select-option --> kv-checkbox
   kv-select-option --> kv-icon
@@ -104,6 +108,11 @@ graph TD;
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
+  kv-select-create-option --> kv-text-field
+  kv-select-create-option --> kv-action-button-icon
+  kv-action-button-icon --> kv-action-button
+  kv-action-button-icon --> kv-icon
+  kv-action-button-icon --> kv-badge
   kv-select-shortcuts-label --> kv-icon
   kv-multi-select-dropdown --> kv-select-multi-options
   kv-single-select-dropdown --> kv-select-multi-options

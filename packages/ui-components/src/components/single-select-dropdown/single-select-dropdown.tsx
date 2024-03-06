@@ -97,6 +97,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Prop({ reflect: true }) shortcuts?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) zIndex?: number = DEFAULT_DROPDOWN_Z_INDEX;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) canAddItems?: boolean = false;
 
 	/** @inheritdoc */
 	@Event() optionSelected: EventEmitter<string>;
@@ -108,6 +110,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Event() dismiss: EventEmitter<void>;
 	/** @inheritdoc */
 	@Event() clickOutside: EventEmitter<void>;
+	/** @inheritdoc */
+	@Event() optionCreated: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 
@@ -178,6 +182,10 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this.optionSelected.emit(undefined);
 		this.clearSelection.emit();
 		this.calculateLabelValue();
+	};
+
+	private onOptionCreated = ({ detail: newOptionKey }: CustomEvent<string>): void => {
+		this.optionCreated.emit(newOptionKey);
 	};
 
 	private selectOption = (selectedOption: string) => {
@@ -314,9 +322,12 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							onSearchChange={this.onSearchChange}
 							onClearSelection={this.onClearSelection}
 							onOptionSelected={this.onOptionSelected}
+							onOptionCreated={this.onOptionCreated}
 							onDismiss={this.onDismiss}
+							canAddItems={this.canAddItems}
 							exportparts="select"
 						>
+							<slot name="create-new-option" slot="create-new-option" />
 							<slot name="select-header-actions" slot="select-header-actions" />
 							<slot name="select-header-label" slot="select-header-label" />
 							<slot name="no-data-available" slot="no-data-available" />

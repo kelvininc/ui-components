@@ -51,6 +51,8 @@ export interface ISingleSelectDropdown extends Omit<IMultiSelectDropdown, 'selec
 	filteredOptions?: ISelectSingleOptions;
 	/** (optional) the dropdown list z-index (default: 9004) */
 	zIndex?: number;
+	/** (optional) If `true` an add option will appear at the bottom of options list. Default: `false` */
+	canAddItems?: boolean;
 }
 
 export interface ISingleSelectDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'optionsSelected' | 'selectAll'> {

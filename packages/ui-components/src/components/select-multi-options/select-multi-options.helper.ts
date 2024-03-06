@@ -1,7 +1,15 @@
 import { ISelectMultiOption, ISelectMultiOptions } from './select-multi-options.types';
 import { EToggleState, ISelectOption } from '../../types';
 import { isEmpty } from 'lodash';
-import { SELECT_OPTION_HEIGHT_IN_PX } from './select-multi-options.config';
+import { ADD_OPTION, SELECT_OPTION_HEIGHT_IN_PX } from './select-multi-options.config';
+
+const buildNewOption = (highlightedOption?: string): ISelectOption => ({
+	...ADD_OPTION,
+	togglable: false,
+	selected: false,
+	state: EToggleState.None,
+	highlighted: ADD_OPTION.value === highlightedOption
+});
 
 const buildSelectOption = (
 	optionKey: string,
@@ -48,15 +56,23 @@ export const buildSelectOptions = (
 	options: ISelectMultiOptions = {},
 	allOptions: ISelectMultiOptions = {},
 	selectedOptions: Record<string, boolean> = {},
-	highlightedOption?: string
-): Record<string, ISelectOption> =>
-	Object.keys(options).reduce<Record<string, ISelectOption>>((accumulator, optionKey) => {
+	highlightedOption?: string,
+	hasAddItem: boolean = false
+): Record<string, ISelectOption> => {
+	const selectOptions = Object.keys(options).reduce<Record<string, ISelectOption>>((accumulator, optionKey) => {
 		if (allOptions[optionKey]) {
 			accumulator[optionKey] = buildSelectOption(optionKey, options, allOptions, selectedOptions, highlightedOption);
 		}
 
 		return accumulator;
 	}, {});
+
+	if (hasAddItem) {
+		selectOptions[ADD_OPTION.value] = buildNewOption(highlightedOption);
+	}
+
+	return selectOptions;
+};
 
 export const getSelectOptionHeight = (option: ISelectOption): number => {
 	let height = SELECT_OPTION_HEIGHT_IN_PX;
