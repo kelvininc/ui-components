@@ -1,10 +1,10 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EAbsoluteTimePickerMode, IAbsoluteSelectedRangeDates } from '../absolute-time-picker/absolute-time-picker.types';
 import { getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
-import { CALENDAR_MASK } from '../absolute-time-picker/absolute-time-picker.config';
+import { CALENDAR_MASK, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
 import { buildCustomIntervalTimeRange, buildTooltipText, hasRangeChanged } from '../time-picker/time-picker.helper';
 import { SelectedTimestamp } from '../time-picker/time-picker.types';
-import { isEmpty, merge } from 'lodash';
+import { isEmpty, isNumber, merge } from 'lodash';
 import { ITextField } from '../text-field/text-field.types';
 import { DEFAULT_TIME_RANGE_DROPDOWN_POSITION_OPTIONS, DEFAULT_TIME_RANGE_PICKER_INPUT_CONFIG } from '../time-picker/time-picker.config';
 import { ComputePositionConfig } from '@floating-ui/dom';
@@ -36,9 +36,9 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 	/** @inheritdoc */
 	@Prop({ reflect: false }) initialDate?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) calendarInputMinDate?: string;
+	@Prop({ reflect: false }) calendarInputMinDate?: number;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) calendarInputMaxDate?: string;
+	@Prop({ reflect: false }) calendarInputMaxDate?: number;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) mode?: EAbsoluteTimePickerMode = EAbsoluteTimePickerMode.Single;
 	/** @inheritdoc */
@@ -99,6 +99,13 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 		return getFormattedSelectedDates(this.selectedDateState, this.mode, timezoneName);
 	};
 
+	private getCalendarLimitDatesFormatted = (date: number): string | undefined => {
+		if (!isNumber(date)) return;
+
+		const selectedTimezone = this.getSelectedTimezone();
+		return dayjs(date).tz(selectedTimezone.name).format(DATETIME_INPUT_MASK);
+	}
+
 	private onDropdownChange = ({ detail: isDropdownOpen }: CustomEvent<boolean>) => {
 		this.dropdownOpen = isDropdownOpen;
 		this.dropdownStateChange.emit(isDropdownOpen);
@@ -146,13 +153,23 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 	private isApplyButtonDisabled() {
 		if (isEmpty(this.selectedDateState)) return true;
 
-		return !hasRangeChanged(this.selectedDateState, this.selectedDates);
+		if (
+			(this.mode === EAbsoluteTimePickerMode.Range && this.selectedDateState.length === 2) ||
+			(this.mode === EAbsoluteTimePickerMode.Single && this.selectedDateState.length === 1)
+		) {
+			return !hasRangeChanged(this.selectedDateState, this.selectedDates);
+		}
+
+		return true;
 	}
 
 	render() {
 		const dropdownPositionConfig = this.dropdownPositionOptions;
 		const inputConfig = this.getInputConfig();
-
+		console.log('limits in dropdown', {
+			from: this.getCalendarLimitDatesFormatted(this.calendarInputMinDate),
+			to: this.getCalendarLimitDatesFormatted(this.calendarInputMaxDate)
+		})
 		return (
 			<Host>
 				<kv-dropdown
@@ -170,8 +187,8 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 							disabledDates={this.disabledDates}
 							initialDate={this.calendarInitialDate}
 							onSelectedDatesChange={this.handleAbsoluteDatesChange}
-							calendarInputMaxDate={this.calendarInputMaxDate}
-							calendarInputMinDate={this.calendarInputMinDate}
+							calendarInputMinDate={this.getCalendarLimitDatesFormatted(this.calendarInputMinDate)}
+							calendarInputMaxDate={this.getCalendarLimitDatesFormatted(this.calendarInputMaxDate)}
 						/>
 						<div class="footer">
 							<div class="actions">
