@@ -16,7 +16,7 @@ import { EAbsoluteTimePickerMode, EComponentSize, ETooltipPosition, ITimezoneOff
 import { IRelativeTimePickerOption, ITimePickerRelativeTime, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
 import { CUSTOMIZE_INTERVAL_KEY, DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS } from '../relative-time-picker/relative-time-picker.config';
 import { getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
-import { ITimePicker, ITimePickerEvents, ITimePickerTime } from './time-picker.types';
+import { ITimePicker, ITimePickerEvents, ITimePickerTimeState, ITimePickerTime } from './time-picker.types';
 import {
 	buildCustomIntervalTimeRange,
 	buildTooltipText,
@@ -25,6 +25,7 @@ import {
 	getLast24HoursRange,
 	getRelativeTimeInputText,
 	getRelativeTimeLabel,
+	getTimePickerEventPayload,
 	getTimestampFromDateRange,
 	hasRangeChanged,
 	validateNewRange
@@ -48,7 +49,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) showCalendar?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) selectedTimeOption?: ITimePickerTime;
+	@Prop({ reflect: true }) selectedTimeOption?: ITimePickerTimeState | ITimePickerTime;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) relativeTimePickerOptions?: IRelativeTimePickerOption[][] = DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS;
 	/** @inheritdoc */
@@ -71,7 +72,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	// Defines what content is being displayed
 	@State() timePickerView: ETimePickerView = ETimePickerView.RelativeTimePicker;
 	// Current selected option
-	@State() selectedTimeState: ITimePickerTime;
+	@State() selectedTimeState: ITimePickerTimeState;
 	// Dropdown open state
 	@State() dropdownOpen: boolean = false;
 	// Defines the calendar initial date if needed
@@ -94,10 +95,10 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	@Event() showCalendarStateChange: EventEmitter<boolean>;
 
 	@Watch('selectedTimeOption')
-	handleSelectTimeStateChange(timeState: ITimePickerTime) {
+	handleSelectTimeStateChange(timeState: ITimePickerTimeState | ITimePickerTime) {
 		this.selectedTimeState = {
 			...timeState,
-			timezone: timeState.timezone ?? this.getSelectedTimezone()
+			timezone: timeState?.timezone ?? this.getSelectedTimezone()
 		};
 	}
 
@@ -201,7 +202,8 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	};
 
 	private onClickApply = () => {
-		this.timeRangeChange.emit(this.selectedTimeState);
+		const eventPayload = getTimePickerEventPayload(this.selectedTimeState, this.getSelectedTimezone());
+		this.timeRangeChange.emit(eventPayload);
 		this.dropdownStateChange.emit(false);
 		this.dropdownOpen = false;
 		this.timezoneSelectionContentVisible = false;

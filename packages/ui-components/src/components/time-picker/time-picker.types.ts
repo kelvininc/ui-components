@@ -14,7 +14,7 @@ export interface ITimePicker {
 	/** (optional) Determines if the show calendar toggle is enabled */
 	showCalendar?: boolean;
 	/** (optional) Selected time key */
-	selectedTimeOption?: ITimePickerTime;
+	selectedTimeOption?: ITimePickerTimeState | ITimePickerTime;
 	/** (optional) Relative time picker options*/
 	relativeTimePickerOptions?: IRelativeTimePickerOption[][];
 	/** (optional) Timezones */
@@ -46,10 +46,16 @@ export interface ITimePickerEvents {
 	showCalendarStateChange: EventEmitter<boolean>;
 }
 
-export interface ITimePickerTime {
+export interface ITimePickerTimeState {
 	key: string;
 	range: SelectedTimestamp;
 	timezone?: ITimePickerTimezone;
+}
+
+export interface ITimePickerTime {
+	key: string;
+	range: [number] | [number, number];
+	timezone: ITimePickerTimezone;
 }
 
 export type SelectedTimestamp = [] | [number] | [number, number];
