@@ -1,9 +1,6 @@
 # absolute-time-picker-dropdown
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Usage
 
@@ -25,7 +22,6 @@
 <!-- With min and max date -->
 <kv-absolute-time-picker-dropdown minDate="2021-12-04" maxDate="2023-02-12"></kv-absolute-time-picker-dropdown>
 ```
-
 
 ### React
 
@@ -54,14 +50,12 @@ export const KvAbsoluteTimePicker: React.FC = () => (
 );
 ```
 
-
-
 ## Properties
 
 | Property                  | Attribute                 | Description                                                        | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Default                                        |
 | ------------------------- | ------------------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| `calendarInputMaxDate`    | `calendar-input-max-date` | (optional) calendar maximum date to be navigated                   | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | `undefined`                                    |
-| `calendarInputMinDate`    | `calendar-input-min-date` | (optional) calendar minimum date to be navigated                   | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | `undefined`                                    |
+| `calendarInputMaxDate`    | `calendar-input-max-date` | (optional) calendar maximum date to be navigated in timestamp      | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | `undefined`                                    |
+| `calendarInputMinDate`    | `calendar-input-min-date` | (optional) calendar minimum date to be navigated in timestamp      | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | `undefined`                                    |
 | `disabled`                | `disabled`                | (optional) If `true` the dropdown is disabled. Default: `false`.   | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | `false`                                        |
 | `disabledDates`           | --                        | (optional) Disabled dates                                          | `string[]`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | `[]`                                           |
 | `dropdownPositionOptions` | --                        | (optional) Dropdown positioning config                             | `{ placement?: Placement; strategy?: Strategy; middleware?: (false \| { name: string; options?: any; fn: (state: { x: number; y: number; initialPlacement: Placement; platform: Platform; placement: Placement; strategy: Strategy; middlewareData: MiddlewareData; rects: ElementRects; elements: Elements; }) => Promisable<MiddlewareReturn>; })[]; platform?: Platform; }`                                                                                                                                                                                                                                                                                                                                        | `DEFAULT_TIME_RANGE_DROPDOWN_POSITION_OPTIONS` |
@@ -74,25 +68,24 @@ export const KvAbsoluteTimePicker: React.FC = () => (
 | `timezones`               | --                        | (optional) Available Timezones                                     | `ITimezoneOffset[]`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | `buildTimezoneByOffset(getTimezonesNames())`   |
 | `tooltipPosition`         | `tooltip-position`        | (optional) Positioning of the tooltip                              | `ETooltipPosition.Bottom \| ETooltipPosition.BottomEnd \| ETooltipPosition.BottomStart \| ETooltipPosition.Left \| ETooltipPosition.LeftEnd \| ETooltipPosition.LeftStart \| ETooltipPosition.Right \| ETooltipPosition.RightEnd \| ETooltipPosition.RightStart \| ETooltipPosition.Top \| ETooltipPosition.TopEnd \| ETooltipPosition.TopStart`                                                                                                                                                                                                                                                                                                                                                                      | `ETooltipPosition.BottomStart`                 |
 
-
 ## Events
 
-| Event                 | Description                | Type                                              |
-| --------------------- | -------------------------- | ------------------------------------------------- |
-| `cancelClicked`       | Cancel button clicked      | `CustomEvent<CustomEvent<MouseEvent>>`            |
-| `dropdownStateChange` | Dropdown open state change | `CustomEvent<boolean>`                            |
-| `selectedDatesChange` | Selected dates change      | `CustomEvent<[] \| [number, number] \| [number]>` |
-
+| Event                 | Description                | Type                                        |
+| --------------------- | -------------------------- | ------------------------------------------- |
+| `cancelClicked`       | Cancel button clicked      | `CustomEvent<CustomEvent<MouseEvent>>`      |
+| `dropdownStateChange` | Dropdown open state change | `CustomEvent<boolean>`                      |
+| `selectedDatesChange` | Selected dates change      | `CustomEvent<[number, number] \| [number]>` |
 
 ## Dependencies
 
 ### Depends on
 
-- [kv-dropdown](../dropdown)
-- [kv-absolute-time-picker](../absolute-time-picker)
-- [kv-action-button-text](../action-button-text)
+-   [kv-dropdown](../dropdown)
+-   [kv-absolute-time-picker](../absolute-time-picker)
+-   [kv-action-button-text](../action-button-text)
 
 ### Graph
+
 ```mermaid
 graph TD;
   kv-absolute-time-picker-dropdown --> kv-dropdown
@@ -120,6 +113,4 @@ graph TD;
   style kv-absolute-time-picker-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
-
-
+---

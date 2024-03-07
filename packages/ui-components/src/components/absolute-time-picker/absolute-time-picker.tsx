@@ -21,7 +21,14 @@ import {
 	IRelativeTimeInput,
 	IAbsoluteSelectedRangeDates
 } from './absolute-time-picker.types';
-import { buildSelectedDatesEventPayload, getFirstCalendarInitialDate, getSecondCalendarInitialDate, isEndDateAtStartOfDay } from './absolute-time-picker.helper';
+import {
+	buildSelectedDatesEventPayload,
+	getFirstCalendarInitialDate,
+	getMaximumDateFromDayClick,
+	getMinimumDateFromDayClick,
+	getSecondCalendarInitialDate,
+	isEndDateAtStartOfDay
+} from './absolute-time-picker.helper';
 import { IClickDateEvent } from '../time-picker-calendar/time-picker-calendar.types';
 import { DATE_FORMAT } from '../time-picker-calendar/time-picker-calendar.config';
 
@@ -157,25 +164,28 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 
 	private onClickDate = ({ detail }: CustomEvent<IClickDateEvent>): void => {
 		const date = detail.date;
-		const clickedDate = fromISO(date).startOf('day');
+		const clickedDate = fromISO(date);
 		const inputDate = newDate(date);
+
+		const fromDate = getMinimumDateFromDayClick(clickedDate, this.calendarInputMinDate);
+		const toDate = getMaximumDateFromDayClick(clickedDate, this.calendarInputMaxDate);
 
 		if (this.mode === EAbsoluteTimePickerMode.Range) {
 			const [selectedStartDate, selectedEndDate] = this.selectedDates ?? [];
 
 			if (!selectedStartDate) {
-				this.displayedMonth = clickedDate;
-				this.setInputValues(inputDate.startOf('day').format(DATETIME_INPUT_MASK), '');
+				this.displayedMonth = clickedDate.startOf('day');
+				this.setInputValues(fromDate.format(DATETIME_INPUT_MASK), '');
 				this.setDateLimits(clickedDate.format(CALENDAR_MASK), '');
-				this.emitSelectRangeDatesChangeEvent(clickedDate.startOf('day'));
+				this.emitSelectRangeDatesChangeEvent(fromDate);
 				return;
 			}
 
 			if (isDateSame(clickedDate, selectedStartDate)) {
 				if (!selectedEndDate) {
-					this.setInputValues(inputDate.startOf('day').format(DATETIME_INPUT_MASK), inputDate.endOf('day').format(DATETIME_INPUT_MASK));
+					this.setInputValues(fromDate.format(DATETIME_INPUT_MASK), toDate.format(DATETIME_INPUT_MASK));
 					this.resetDateLimits();
-					this.emitSelectRangeDatesChangeEvent(clickedDate.startOf('day'), clickedDate.endOf('day'));
+					this.emitSelectRangeDatesChangeEvent(fromDate, toDate);
 
 					return;
 				}
@@ -188,28 +198,28 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 
 			if (selectedEndDate !== undefined) {
 				this.displayedMonth = inputDate;
-				this.setInputValues(inputDate.startOf('day').format(DATETIME_INPUT_MASK), '');
+				this.setInputValues(fromDate.format(DATETIME_INPUT_MASK), '');
 				this.setDateLimits(inputDate.format(CALENDAR_MASK), '');
-				this.emitSelectRangeDatesChangeEvent(clickedDate.startOf('day'));
+				this.emitSelectRangeDatesChangeEvent(fromDate);
 				return;
 			}
 
 			if (isDateBefore(clickedDate, selectedStartDate)) {
 				this.displayedMonth = clickedDate;
-				this.setInputValues(inputDate.startOf('day').format(DATETIME_INPUT_MASK), '');
-				this.setDateLimits(clickedDate.format(CALENDAR_MASK), '');
-				this.emitSelectRangeDatesChangeEvent(clickedDate.startOf('day'));
+				this.setInputValues(fromDate.format(DATETIME_INPUT_MASK), '');
+				this.setDateLimits(fromDate.format(CALENDAR_MASK), '');
+				this.emitSelectRangeDatesChangeEvent(fromDate);
 				return;
 			}
 
-			this.setInputValues(newDate(selectedStartDate).format(DATETIME_INPUT_MASK), inputDate.endOf('day').format(DATETIME_INPUT_MASK));
+			this.setInputValues(newDate(selectedStartDate).format(DATETIME_INPUT_MASK), toDate.format(DATETIME_INPUT_MASK));
 			this.resetDateLimits();
-			this.emitSelectRangeDatesChangeEvent(fromISO(selectedStartDate).startOf('day'), clickedDate.endOf('day'));
+			this.emitSelectRangeDatesChangeEvent(fromISO(selectedStartDate), toDate);
 			return;
 		} else {
 			this.displayedMonth = clickedDate;
-			this.singleInputValue = inputDate.startOf('day').format(DATETIME_INPUT_MASK);
-			this.emitSelectRangeDatesChangeEvent(inputDate.startOf('day'));
+			this.singleInputValue = fromDate.format(DATETIME_INPUT_MASK);
+			this.emitSelectRangeDatesChangeEvent(fromDate);
 		}
 	};
 
