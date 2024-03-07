@@ -1,5 +1,5 @@
 import { EComponentSize, EInputFieldType, EValidationState } from '@kelvininc/ui-components';
-import { get, isArray, isEmpty } from 'lodash';
+import { isArray, isEmpty } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
 import { KvTextField } from '../../../stencil-generated';
 import styles from './BaseInputTemplate.module.scss';
@@ -12,10 +12,8 @@ const getInputType = (type?: JSONSchema7TypeName | JSONSchema7TypeName[]) => (ty
 const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
 	placeholder,
-	required,
 	readonly,
 	disabled,
-	label,
 	value,
 	onChange,
 	onBlur,
@@ -38,18 +36,15 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 		[schema.examples, schema.default]
 	);
 	const hasErrors = useMemo(() => !isEmpty(rawErrors), [rawErrors]);
-	const displayedLabel = useMemo(() => get(uiSchema, ['ui:title']) || schema.title || label, [uiSchema, schema.title, label]);
 
 	return (
 		<div className={styles.InputContainer}>
 			<KvTextField
 				id={id}
-				label={displayedLabel}
 				size={optionComponentSize ?? componentSize}
 				examples={examples}
 				disabled={disabled || readonly}
 				readonly={readonly}
-				required={required}
 				maxLength={schema.maxLength ?? maxLength}
 				minLength={schema.minLength ?? minLength}
 				min={min}
