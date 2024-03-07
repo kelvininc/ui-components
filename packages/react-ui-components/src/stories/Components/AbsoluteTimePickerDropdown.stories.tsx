@@ -69,7 +69,46 @@ const WithTimezoneTemplate: ComponentStory<typeof KvAbsoluteTimePickerDropdown> 
 	return <KvAbsoluteTimePickerDropdown {...args} timezone={timezone} mode={EAbsoluteTimePickerMode.Single} selectedDates={date} onSelectedDatesChange={onSelectedDatesChange} />;
 };
 
+const SingleDateWithMinimumDateTemplate: ComponentStory<typeof KvAbsoluteTimePickerDropdown> = args => {
+	const [date, setSelectedDate] = useState<SelectedTimestamp>([1681319856833]); // Date: 12-04-2023 18:17:36
+
+	const onSelectedDateChange = ({ detail: newDates }: CustomEvent<SelectedTimestamp>) => {
+		setSelectedDate(newDates);
+	};
+
+	return (
+		<KvAbsoluteTimePickerDropdown
+			{...args}
+			mode={EAbsoluteTimePickerMode.Single}
+			calendarInputMinDate={1681319856833}
+			selectedDates={date}
+			onSelectedDatesChange={onSelectedDateChange}
+		/>
+	);
+};
+
+const RangeTemplateWithMinimumAndMaxDatesTemplate: ComponentStory<typeof KvAbsoluteTimePickerDropdown> = args => {
+	const [selectedDates, setSelectedDates] = useState<SelectedTimestamp>([1681319856833, 1681406272018]);
+
+	const onSelectedDatesChange = ({ detail: newDates }: CustomEvent<SelectedTimestamp>) => {
+		setSelectedDates(newDates);
+	};
+
+	return (
+		<KvAbsoluteTimePickerDropdown
+			{...args}
+			mode={EAbsoluteTimePickerMode.Range}
+			calendarInputMinDate={1681319856833}
+			calendarInputMaxDate={1681406272018}
+			selectedDates={selectedDates}
+			onSelectedDatesChange={onSelectedDatesChange}
+		/>
+	);
+};
+
 export const DefaultState = DefaultAbsoluteTimePickerDropdownTemplate.bind({});
 export const SingleDateState = SingleDateTemplate.bind({});
+export const SingleDateWithMinimumDate = SingleDateWithMinimumDateTemplate.bind({});
 export const RangeState = RangeTemplate.bind({});
+export const RangeTemplateWithMinimumAndMaxDates = RangeTemplateWithMinimumAndMaxDatesTemplate.bind({});
 export const WithTimezone = WithTimezoneTemplate.bind({});
