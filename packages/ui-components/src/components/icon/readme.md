@@ -85,7 +85,7 @@ export const SvgIconExample: React.FC = () => (
  - [kv-input-wrapper](../input-wrapper)
  - [kv-modal](../modal)
  - [kv-select-option](../select-option)
- - [kv-select-shortcuts-label](../select-shortcuts)
+ - [kv-select-shortcuts-label](../select-shortcuts-label)
  - [kv-switch-button](../switch-button)
  - [kv-tag-alarm](../tag-alarm)
  - [kv-tag-status](../tag-status)

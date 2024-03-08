@@ -9,7 +9,7 @@ import { buildInputMask, getValueAsString, isInputMaskCompatibleType } from './t
 import Inputmask from 'inputmask';
 import { getUTF8StringLength } from '../../utils/string.helper';
 import { EBadgeState } from '../../types';
-import { HostAttributes } from '@stencil/core/internal';
+import { HostAttributes, Method } from '@stencil/core/internal';
 
 /**
  * @part input-container - container that includes the input, right and left slot
@@ -83,6 +83,12 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	@Prop({ reflect: true }) fitContent?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customStyle?: HostAttributes['style'];
+
+	/** Focuses the input */
+	@Method()
+	async focusInput() {
+		this.nativeInput.focus();
+	}
 
 	/** Watch `value` property for changes and update native input element accordingly */
 	@Watch('value')

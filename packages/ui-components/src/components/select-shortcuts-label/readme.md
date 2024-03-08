@@ -1,4 +1,4 @@
-# _<kv-select-shortcuts>_
+# _<kv-select-shortcuts-label>_
 
 <!-- Auto Generated Below -->
 

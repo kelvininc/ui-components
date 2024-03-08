@@ -107,9 +107,15 @@ graph TD;
   kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-select-create-option
   kv-select-multi-options --> kv-select-shortcuts-label
   kv-select --> kv-search
   kv-search --> kv-text-field
+  kv-select-create-option --> kv-text-field
+  kv-select-create-option --> kv-action-button-icon
+  kv-action-button-icon --> kv-action-button
+  kv-action-button-icon --> kv-icon
+  kv-action-button-icon --> kv-badge
   kv-select-shortcuts-label --> kv-icon
   kv-absolute-time-picker --> kv-icon
   kv-absolute-time-picker --> kv-date-time-input

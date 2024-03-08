@@ -45,6 +45,12 @@ export interface ISelectMultiOptionsConfig {
 	minSearchOptions?: number;
 	/** (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false` */
 	shortcuts?: boolean;
+	/** (optional) If `true` an add option will appear at the bottom of options list. Default: `false` */
+	canAddItems?: boolean;
+	/** (optional) The create new option placeholder. Default: `Add a new option`*/
+	createOptionPlaceholder?: string;
+	/** (optional) The create form input placeholder  */
+	createInputPlaceholder?: string;
 }
 
 export interface ISelectMultiOptionsEvents extends ISelectEvents {
@@ -54,4 +60,6 @@ export interface ISelectMultiOptionsEvents extends ISelectEvents {
 	optionSelected: EventEmitter<string>;
 	/** Emitted when the 'esc' key is pressed */
 	dismiss: EventEmitter<void>;
+	/** Emitted when a new option is created */
+	optionCreated: EventEmitter<string>;
 }

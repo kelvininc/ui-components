@@ -1,6 +1,6 @@
 import { Component, Event, EventEmitter, Prop, h, Element, State, Watch, Listen, Method } from '@stencil/core';
 import { ISelectMultiOptions, ISelectMultiOptionsConfig, ISelectMultiOptionsEvents } from './select-multi-options.types';
-import { DEFAULT_NO_DATA_AVAILABLE_LABEL, MINIMUM_SEARCHABLE_OPTIONS, SELECT_OPTION_HEIGHT_IN_PX } from './select-multi-options.config';
+import { ADD_OPTION, DEFAULT_ADD_OPTION_PLACEHOLDER, DEFAULT_NO_DATA_AVAILABLE_LABEL, MINIMUM_SEARCHABLE_OPTIONS, SELECT_OPTION_HEIGHT_IN_PX } from './select-multi-options.config';
 import { EToggleState, ISelectOption } from '../select-option/select-option.types';
 import { isEmpty } from 'lodash';
 import { buildAllOptionsSelected, getFlattenSelectOptions, getNextHightlightableOption, getPreviousHightlightableOption, getSelectableOptions } from '../../utils/select.helper';
@@ -52,7 +52,13 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	/** @inheritdoc */
 	@Prop({ reflect: true }) minSearchOptions?: number = MINIMUM_SEARCHABLE_OPTIONS;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) shortcuts?: boolean = true;
+	@Prop({ reflect: true }) shortcuts?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) canAddItems?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) createInputPlaceholder?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) createOptionPlaceholder?: string = DEFAULT_ADD_OPTION_PLACEHOLDER;
 
 	@Element() el: HTMLKvSelectMultiOptionsElement;
 
@@ -68,6 +74,19 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Event() selectAll: EventEmitter<void>;
 	/** @inheritdoc */
 	@Event() dismiss: EventEmitter<void>;
+	/** @inheritdoc */
+	@Event() optionCreated: EventEmitter<string>;
+
+	@Listen('create')
+	createOptionHandler({ detail: newOption }: CustomEvent<string>) {
+		this.optionCreated.emit(newOption);
+		this.optionSelected.emit(newOption);
+		this.isCreating = false;
+	}
+	@Listen('cancel')
+	cancelCreateOptionHandler() {
+		this.isCreating = false;
+	}
 
 	@State() selectOptions: {
 		total: Record<string, ISelectOption>;
@@ -77,15 +96,23 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		currentSelectable: ISelectMultiOptions;
 	};
 	@State() highlightedOption: string;
+	@State() isCreating: boolean = false;
 
 	@Watch('options')
 	@Watch('filteredOptions')
 	@Watch('selectedOptions')
 	@Watch('highlightedOption')
 	buildSelectionOptions() {
-		const selectOptions = buildSelectOptions(this.options, this.options, this.selectedOptions, this.highlightedOption);
+		const selectOptions = buildSelectOptions(this.options, this.options, this.selectedOptions, this.highlightedOption, this.canAddItems, this.createOptionPlaceholder);
 		const selectSelectableOptions = getSelectableOptions(this.options);
-		const selectCurrentOptions = buildSelectOptions(this.currentOptions, this.options, this.selectedOptions, this.highlightedOption);
+		const selectCurrentOptions = buildSelectOptions(
+			this.currentOptions,
+			this.options,
+			this.selectedOptions,
+			this.highlightedOption,
+			this.canAddItems,
+			this.createOptionPlaceholder
+		);
 		const selectCurrentSelectableOptions = getSelectableOptions(this.currentOptions);
 		const selectFlattenOptions = getFlattenSelectOptions(selectOptions);
 
@@ -172,6 +199,11 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	};
 
 	private selectOption = (selectedOptionKey: string): void => {
+		if (selectedOptionKey === ADD_OPTION.value) {
+			this.isCreating = true;
+			return;
+		}
+
 		const selectedOption = this.selectOptions.flatten[selectedOptionKey];
 		this.optionSelected.emit(selectedOptionKey);
 
@@ -285,6 +317,22 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 					</slot>
 				)}
 				{hasCurrentOptions && this.renderOptions()}
+				{this.isCreating && (
+					<div
+						class={{
+							'create-new-option-container': true,
+							'has-shortcuts': this.shortcuts
+						}}
+					>
+						<div class="create-new-option-form">
+							<slot name="create-new-option">
+								<div class="form-container">
+									<kv-select-create-option inputConfig={{ placeholder: this.createInputPlaceholder }} />
+								</div>
+							</slot>
+						</div>
+					</div>
+				)}
 				{this.shortcuts && (
 					<slot name="select-footer" slot="select-footer">
 						<kv-select-shortcuts-label>
