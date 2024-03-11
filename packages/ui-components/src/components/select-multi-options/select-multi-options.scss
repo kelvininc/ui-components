@@ -13,11 +13,6 @@
 	--select-list-min-width: max-content;
 }
 
-.no-data {
-	pointer-events: none;
-	padding: $spacing-3x 0;
-}
-
 kv-select {
 	--select-max-height: var(--select-list-max-height);
 	--select-min-height: var(--select-list-min-height);
@@ -66,4 +61,21 @@ kv-select {
 	bottom: 0;
 	left: 0;
 	border-top: 1px solid kv-color('neutral-6');
+}
+
+.create-new-option-button {
+	border-top: 1px solid kv-color('neutral-6');
+	padding: $spacing-3x 0;
+}
+
+.no-results-found,
+.no-data-available {
+	display: flex;
+	flex-direction: column;
+
+	.illustration-message {
+		max-width: 292px;
+		padding: $spacing-8x $spacing-6x;
+		align-self: center;
+	}
 }
