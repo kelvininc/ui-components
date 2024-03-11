@@ -1,0 +1,41 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --image-width: The illustration image width.
+	 * @prop --image-height: The illustration image height.
+	 * @prop --header-color: The illustration header text color.
+	 * @prop --description-color: The illustration description text color.
+	 */
+	--image-width: 60px;
+	--image-height: auto;
+	--header-color: #{kv-color('neutral-2')};
+	--description-color: #{kv-color('neutral-4')};
+}
+
+.illustration-message {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.image {
+	margin-bottom: $spacing-3x;
+	--illustration-width: var(--image-width);
+	--illustration-height: var(--image-height);
+}
+
+.header {
+	color: var(--header-color);
+	text-align: center;
+	@include kv-font-h5-semibold;
+}
+
+.description {
+	color: var(--description-color);
+	text-align: center;
+	@include kv-font-label-small-regular;
+	white-space: break-spaces;
+	margin-top: $spacing;
+}

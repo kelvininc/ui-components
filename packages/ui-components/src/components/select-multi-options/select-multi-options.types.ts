@@ -1,5 +1,5 @@
 import { EventEmitter } from '@stencil/core';
-import { ISelectEvents, ISelectOption } from '../../types';
+import { IIllustrationMessage, ISelectEvents, ISelectOption } from '../../types';
 
 export interface ISelectMultiOption
 	extends Pick<ISelectOption, 'label' | 'value' | 'icon' | 'disabled' | 'selectable' | 'description' | 'togglable' | 'customClass' | 'customStyle'> {
@@ -15,8 +15,10 @@ export interface ISelectMultiOptionsConfig {
 	filteredOptions?: ISelectMultiOptions;
 	/** (optional) The object with indexed by the dropdown labels and its selected value */
 	selectedOptions?: Record<string, boolean>;
-	/** (required) The text to display when there are no options */
-	noDataAvailableLabel?: string;
+	/** (optional) The configuration for the "no data available" empty state illustration */
+	noDataAvailableConfig?: IIllustrationMessage;
+	/** (optional) The configuration for the "no results found" empty state illustration */
+	noResultsFoundConfig?: IIllustrationMessage;
 	/** (optional) If `false` the dropdown is not searchable. Default `true` */
 	searchable?: boolean;
 	/** (optional) The list search text field placeholder */

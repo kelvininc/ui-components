@@ -3,9 +3,9 @@ import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { IMultiSelectDropdown, IMultiSelectDropdownEvents } from './multi-select-dropdown.types';
 
-import { MINIMUM_SEARCHABLE_OPTIONS, MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE } from './multi-select-dropdown.config';
+import { MINIMUM_SEARCHABLE_OPTIONS } from './multi-select-dropdown.config';
 import { getBadgeLabelValue, getDropdownDisplayValue } from './multi-select-dropdown.helper';
-import { CustomCssClass, EComponentSize } from '../../types';
+import { CustomCssClass, EComponentSize, IIllustrationMessage } from '../../types';
 import { getCssStyle } from '../utils';
 import { ISelectMultiOptions } from '../select-multi-options/select-multi-options.types';
 import { getClassMap } from '../../utils/css-class.helper';
@@ -49,7 +49,9 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) noDataAvailableLabel?: string = MULTI_SELECT_DROPDOWN_NO_DATA_AVAILABLE;
+	@Prop({ reflect: true }) noDataAvailableConfig?: IIllustrationMessage;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) noResultsFoundConfig?: IIllustrationMessage;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) options?: ISelectMultiOptions = {};
 	/** @inheritdoc */
@@ -251,7 +253,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 							options={this.options}
 							filteredOptions={this.filteredOptions}
 							selectedOptions={this.selectedOptions}
-							noDataAvailableLabel={this.noDataAvailableLabel}
+							noDataAvailableConfig={this.noDataAvailableConfig}
+							noResultsFoundConfig={this.noResultsFoundConfig}
 							searchable={this.searchable}
 							minSearchOptions={this.minSearchOptions}
 							searchValue={this._searchValue}
@@ -276,6 +279,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 							<slot name="select-header-actions" slot="select-header-actions" />
 							<slot name="select-header-label" slot="select-header-label" />
 							<slot name="no-data-available" slot="no-data-available" />
+							<slot name="no-results-found" slot="no-results-found" />
 						</kv-select-multi-options>
 					</div>
 				</kv-dropdown>
