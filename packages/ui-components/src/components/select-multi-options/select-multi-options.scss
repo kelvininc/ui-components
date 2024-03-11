@@ -67,3 +67,13 @@ kv-select {
 	left: 0;
 	border-top: 1px solid kv-color('neutral-6');
 }
+
+.empty-state {
+	padding: $spacing-8x 0;
+	display: block;
+}
+
+.create-new-option-button {
+	border-top: 1px solid kv-color('neutral-6');
+	padding: $spacing-3x 0;
+}
