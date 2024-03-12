@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.30.0](https://github.com/kelvininc/ui-components/compare/v0.29.1...v0.30.0) (2024-03-12)
+
+
+### Bug Fixes
+
+* **calendar-advanced-date-selector:** separate total timezone options from filtered ([b4a1714](https://github.com/kelvininc/ui-components/commit/b4a1714ef0de0eb5a3f579121da5ed5b6483f6c3))
+* **time-picker:** remove empty group option from timezone list and prevent identical initial and end date ([a617a2d](https://github.com/kelvininc/ui-components/commit/a617a2dbaf3d73fbb4e91593da89a34db03b2b19))
+* **toggle-button-group:** change default size to small ([fdffb13](https://github.com/kelvininc/ui-components/commit/fdffb130e4013464e6635c3654b1228e2ce5000a))
+* **toggle-button:** change default size to small ([253a9fc](https://github.com/kelvininc/ui-components/commit/253a9fc3be7e6484945402d14af025f519067251))
+* **toggle-button:** set icon size to be a square ([98b3e17](https://github.com/kelvininc/ui-components/commit/98b3e17ca28d8d5d9c346375bdce090277077fbc))
+
+
+* feat!(select): update 'no data available' and 'no results found' states ([75d8e84](https://github.com/kelvininc/ui-components/commit/75d8e840102704405f00638eb9b90383c8aa92a4))
+
+
+### Features
+
+* add 'disabled' prop 'kv-text-area' and 'absolute-time-picker-dropdown' ([33f69da](https://github.com/kelvininc/ui-components/commit/33f69da9fa97bd16f3cfdfa6fe306dba95fe2c42))
+* **icon:** add kv-task-checkmark icon ([f164cab](https://github.com/kelvininc/ui-components/commit/f164cab992f54f727e98746f4ed0818e9b6b3c4b))
+* improve styling of text-field, text-area and select components ([fe9d930](https://github.com/kelvininc/ui-components/commit/fe9d9305a74b495940c3d6b0db3c0bd81815a471))
+* **schema-form:** add the radio list widget ([71a79a6](https://github.com/kelvininc/ui-components/commit/71a79a66bbb1f4792adb9efa786fbb0fd03a273b))
+* **select-option:** add custom style prop to enable option custom styling ([d9a6477](https://github.com/kelvininc/ui-components/commit/d9a64772fddc0591592ebcaccd9967d330e47679))
+* **select:** add create new option ([2410c67](https://github.com/kelvininc/ui-components/commit/2410c67a1b6d050cc3c34d890a39b8e640107f63))
+* **toggle-button:** update toggle button styling ([5e7cb64](https://github.com/kelvininc/ui-components/commit/5e7cb649301509e27fdcd26b3b1fda8d83307226))
+
+
+### BREAKING CHANGES
+
+* - 'noDataAvailableLabel' prop was replaced by 'noDataAvailableConfig'
+
+
+
+
+
 ## [0.29.1](https://github.com/kelvininc/ui-components/compare/v0.29.0...v0.29.1) (2024-02-07)
 
 

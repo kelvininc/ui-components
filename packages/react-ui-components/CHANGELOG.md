@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.30.0](https://github.com/kelvininc/ui-components/compare/v0.29.1...v0.30.0) (2024-03-12)
+
+
+### Bug Fixes
+
+* **calendar-advanced-date-selector:** separate total timezone options from filtered ([b4a1714](https://github.com/kelvininc/ui-components/commit/b4a1714ef0de0eb5a3f579121da5ed5b6483f6c3))
+
+
+### Features
+
+* add 'disabled' prop 'kv-text-area' and 'absolute-time-picker-dropdown' ([33f69da](https://github.com/kelvininc/ui-components/commit/33f69da9fa97bd16f3cfdfa6fe306dba95fe2c42))
+* improve styling of text-field, text-area and select components ([fe9d930](https://github.com/kelvininc/ui-components/commit/fe9d9305a74b495940c3d6b0db3c0bd81815a471))
+* **schema-form:** add the radio list widget ([71a79a6](https://github.com/kelvininc/ui-components/commit/71a79a66bbb1f4792adb9efa786fbb0fd03a273b))
+* **select-option:** add custom style prop to enable option custom styling ([d9a6477](https://github.com/kelvininc/ui-components/commit/d9a64772fddc0591592ebcaccd9967d330e47679))
+* **select:** add create new option ([2410c67](https://github.com/kelvininc/ui-components/commit/2410c67a1b6d050cc3c34d890a39b8e640107f63))
+* **toggle-button:** update toggle button styling ([5e7cb64](https://github.com/kelvininc/ui-components/commit/5e7cb649301509e27fdcd26b3b1fda8d83307226))
+
+
+
+
+
 ## [0.29.1](https://github.com/kelvininc/ui-components/compare/v0.29.0...v0.29.1) (2024-02-07)
 
 **Note:** Version bump only for package @kelvininc/react-ui-components
