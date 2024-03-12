@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { ITimePickerTime, ITimezoneOffset, SelectedTimestamp } from '../../types';
+import { ITimePickerTimeState, ITimePickerTime, ITimezoneOffset, SelectedTimestamp } from '../../types';
 import { newTimezoneDate } from '../../utils/date.helper';
 import { CALENDAR_DATE_TIME_MASK, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
 import { ERelativeTimeInputMode, IRelativeTimeInput } from '../absolute-time-picker/absolute-time-picker.types';
@@ -60,7 +60,7 @@ export const createTimestampInTimezoneFromFormattedDate = (date: string, timezon
  * @param selectedOption selected ranges and timezone
  * @returns range in the calendar date time format
  */
-export const getAbsoluteTimePickerRangeDates = (selectedOption: ITimePickerTime, defaultTimezone: ITimePickerTimezone): string[] => {
+export const getAbsoluteTimePickerRangeDates = (selectedOption: ITimePickerTimeState, defaultTimezone: ITimePickerTimezone): string[] => {
 	const [from, to] = selectedOption.range;
 	const timezoneOffset = selectedOption.timezone?.offset ?? defaultTimezone.offset;
 	const timezoneName = selectedOption.timezone?.name ?? defaultTimezone.name;
@@ -143,4 +143,19 @@ export const hasRangeChanged = (componentRangeState: SelectedTimestamp, propRang
 export const validateNewRange = (range: SelectedTimestamp): boolean => {
 	const [from, to] = range;
 	return dayjs(from).isValid() && dayjs(to).isValid();
+};
+
+export const getTimePickerEventPayload = (timeState: ITimePickerTimeState, timezone: ITimePickerTimezone): ITimePickerTime => {
+	const { key, range } = timeState;
+	const timezoneOffset = timezone.offset;
+	const timezoneName = timezone.name;
+
+	return {
+		key,
+		range: range as [number] | [number, number],
+		timezone: {
+			offset: timezoneOffset,
+			name: timezoneName
+		}
+	};
 };

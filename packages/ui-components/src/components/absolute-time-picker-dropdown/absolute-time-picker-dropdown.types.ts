@@ -14,10 +14,10 @@ export interface IAbsoluteTimePickerDropdown {
 	initialDate?: string;
 	/** (optional) Disabled dates */
 	disabledDates?: string[];
-	/** (optional) calendar minimum date to be navigated */
-	calendarInputMinDate?: string;
-	/** (optional) calendar maximum date to be navigated */
-	calendarInputMaxDate?: string;
+	/** (optional) calendar minimum date to be navigated in timestamp */
+	calendarInputMinDate?: number;
+	/** (optional) calendar maximum date to be navigated in timestamp */
+	calendarInputMaxDate?: number;
 	/** (optional) dropdown input config */
 	inputConfig?: Partial<ITextField>;
 	/** (optional) Dropdown positioning config */
