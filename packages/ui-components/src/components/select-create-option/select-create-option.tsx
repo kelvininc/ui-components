@@ -26,9 +26,9 @@ export class KvSelectCreateOption implements ISelectCreateOption, ISelectCreateO
 	@Prop({ reflect: false }) inputConfig?: Partial<ITextField> = {};
 
 	/** @inheritdoc */
-	@Event() create: EventEmitter<string>;
+	@Event() clickCreate: EventEmitter<string>;
 	/** @inheritdoc */
-	@Event() cancel: EventEmitter<void>;
+	@Event() clickCancel: EventEmitter<void>;
 	/** @inheritdoc */
 	@Event() valueChanged: EventEmitter<string>;
 
@@ -58,13 +58,13 @@ export class KvSelectCreateOption implements ISelectCreateOption, ISelectCreateO
 			return;
 		}
 
-		this.create.emit(this.value);
-		this.value = '';
+		this.clickCreate.emit(this.value);
+		this.onChangeValue('');
 	};
 
 	private onCancel = () => {
-		this.cancel.emit();
-		this.value = '';
+		this.clickCancel.emit();
+		this.onChangeValue('');
 	};
 
 	private get canSubmit() {

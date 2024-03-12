@@ -12,9 +12,9 @@ export interface ISelectCreateOption {
 
 export interface ISelectCreateOptionEvents {
 	/** Emitted when the create button is pressed */
-	create: EventEmitter<string>;
+	clickCreate: EventEmitter<string>;
 	/** Emitted when the cancel button is pressed */
-	cancel: EventEmitter<void>;
+	clickCancel: EventEmitter<void>;
 	/** Emitted when the value changes */
 	valueChanged: EventEmitter<string>;
 }
