@@ -2,7 +2,7 @@ import { ComponentStory } from '@storybook/react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { selectHelper } from '@kelvininc/ui-components';
 import { useArgs } from '@storybook/client-api';
-import { EComponentSize, EIconName, KvSearch, KvSingleSelectDropdown } from '../../components';
+import { EComponentSize, EIconName, KvSearch, KvSelectCreateOption, KvSingleSelectDropdown } from '../../components';
 import { LARGE_SET_DROPDOWN_OPTIONS_MOCK, SMALL_SET_DROPDOWN_OPTIONS_MOCK, TAGS_DROPDOWN_OPTIONS_MOCK, TIMEZONES_DROPDOWN_OPTIONS_MOCK } from './mocks/dropdown.mock';
 
 // Required to have the correct TagName in the code sample

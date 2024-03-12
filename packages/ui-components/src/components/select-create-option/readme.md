@@ -16,8 +16,8 @@
 
 | Event          | Description                               | Type                  |
 | -------------- | ----------------------------------------- | --------------------- |
-| `cancel`       | Emitted when the cancel button is pressed | `CustomEvent<void>`   |
-| `create`       | Emitted when the create button is pressed | `CustomEvent<string>` |
+| `clickCancel`  | Emitted when the cancel button is pressed | `CustomEvent<void>`   |
+| `clickCreate`  | Emitted when the create button is pressed | `CustomEvent<string>` |
 | `valueChanged` | Emitted when the value changes            | `CustomEvent<string>` |
 
 
