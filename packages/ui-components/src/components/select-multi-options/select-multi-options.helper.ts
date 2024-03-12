@@ -3,7 +3,7 @@ import { EToggleState, ISelectOption } from '../../types';
 import { isEmpty } from 'lodash';
 import { ADD_OPTION, SELECT_OPTION_HEIGHT_IN_PX } from './select-multi-options.config';
 
-const buildNewOption = (highlightedOption?: string, createInputPlaceholder?: string): ISelectOption => ({
+export const buildNewOption = (highlightedOption?: string, createInputPlaceholder?: string): ISelectOption => ({
 	...ADD_OPTION,
 	label: createInputPlaceholder ?? ADD_OPTION.label,
 	togglable: false,

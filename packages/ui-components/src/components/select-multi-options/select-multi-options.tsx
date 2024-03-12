@@ -1,12 +1,20 @@
 import { Component, Event, EventEmitter, Prop, h, Element, State, Watch, Listen, Method } from '@stencil/core';
 import { ISelectMultiOptions, ISelectMultiOptionsConfig, ISelectMultiOptionsEvents } from './select-multi-options.types';
-import { ADD_OPTION, DEFAULT_ADD_OPTION_PLACEHOLDER, DEFAULT_NO_DATA_AVAILABLE_LABEL, MINIMUM_SEARCHABLE_OPTIONS, SELECT_OPTION_HEIGHT_IN_PX } from './select-multi-options.config';
+import {
+	ADD_OPTION,
+	DEFAULT_ADD_OPTION_PLACEHOLDER,
+	MINIMUM_SEARCHABLE_OPTIONS,
+	DEFAULT_NO_DATA_AVAILABLE_ILLUSTRATION_CONFIG,
+	SELECT_OPTION_HEIGHT_IN_PX,
+	DEFAULT_NO_RESULTS_FOUND_ILLUSTRATION_CONFIG
+} from './select-multi-options.config';
 import { EToggleState, ISelectOption } from '../select-option/select-option.types';
 import { isEmpty } from 'lodash';
 import { buildAllOptionsSelected, getFlattenSelectOptions, getNextHightlightableOption, getPreviousHightlightableOption, getSelectableOptions } from '../../utils/select.helper';
-import { buildSelectOptions, getSelectOptionHeight } from './select-multi-options.helper';
+import { buildNewOption, buildSelectOptions, getSelectOptionHeight } from './select-multi-options.helper';
 import { selectHelper } from '../../utils';
 import pluralize from 'pluralize';
+import { IIllustrationMessage } from '../illustration-message/illustration-message.types';
 
 /**
  * @part select - The select container.
@@ -24,7 +32,9 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedOptions?: Record<string, boolean> = {};
 	/** @inheritdoc */
-	@Prop({ reflect: true }) noDataAvailableLabel?: string = DEFAULT_NO_DATA_AVAILABLE_LABEL;
+	@Prop({ reflect: true }) noDataAvailableConfig?: IIllustrationMessage = DEFAULT_NO_DATA_AVAILABLE_ILLUSTRATION_CONFIG;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) noResultsFoundConfig?: IIllustrationMessage = DEFAULT_NO_RESULTS_FOUND_ILLUSTRATION_CONFIG;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchable?: boolean = true;
 	/** @inheritdoc */
@@ -279,11 +289,16 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		const currentOptionsLength = Object.keys(this.selectOptions.currentSelectable).length;
 		const selectedOptionsLength = Object.keys(selectedOptions).filter(key => selectedOptions[key]).length;
 
+		const hasOptions = optionsLength > 0;
 		const hasCurrentOptions = currentOptionsLength > 0;
-		const isSelectionClearable = optionsLength > 0 && this.selectionClearable;
-		const isSelectionClearEnabled = selectedOptionsLength > 0 && hasCurrentOptions;
-		const isSelectAllAvailable = optionsLength > 0 && this.selectionAll;
+		const hasSelectedOptions = selectedOptionsLength > 0;
+		const isSelectionClearable = hasOptions && this.selectionClearable;
+		const isSelectionClearEnabled = hasSelectedOptions && hasCurrentOptions;
+		const isSelectAllAvailable = hasOptions && this.selectionAll;
 		const isSelectAllEnabled = hasCurrentOptions && selectedOptionsLength < optionsLength;
+
+		const hasNoDataAvailable = !hasOptions && !hasCurrentOptions;
+		const hasNoResultsFound = hasOptions && !hasCurrentOptions;
 
 		return (
 			<kv-select
@@ -311,9 +326,33 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 						<div class="selected-items-label">Selected: {`${selectedOptionsLength}/${optionsLength}`}</div>
 					</div>
 				)}
-				{!hasCurrentOptions && this.noDataAvailableLabel && (
+				{hasNoDataAvailable && (
 					<slot name="no-data-available">
-						<kv-select-option class="no-data" label={this.noDataAvailableLabel} value="no-data-available" />
+						<div class="no-data-available">
+							<div class="illustration-message">
+								<kv-illustration-message {...this.noDataAvailableConfig} />
+							</div>
+						</div>
+					</slot>
+				)}
+				{hasNoResultsFound && (
+					<slot name="no-results-found">
+						<div class="no-results-found">
+							<div class="illustration-message">
+								<kv-illustration-message {...this.noResultsFoundConfig} />
+							</div>
+							{this.canAddItems && (
+								<div class="create-new-option-button">
+									<kv-select-option
+										{...buildNewOption(this.highlightedOption, this.createOptionPlaceholder)}
+										onItemSelected={this.onItemSelected}
+										style={{
+											'--select-option-height': `${SELECT_OPTION_HEIGHT_IN_PX}px`
+										}}
+									/>
+								</div>
+							)}
+						</div>
 					</slot>
 				)}
 				{hasCurrentOptions && this.renderOptions()}
