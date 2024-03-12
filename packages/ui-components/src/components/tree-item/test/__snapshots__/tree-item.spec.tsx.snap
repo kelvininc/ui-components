@@ -55,7 +55,7 @@ exports[`Tree Item (unit tests) when initialized with disabled attribute should 
 `;
 
 exports[`Tree Item (unit tests) when initialized with preventDefault prop should match the snapshot 1`] = `
-<kv-tree-item expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small" prevent-default="">
+<kv-tree-item expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small" prevent-default="true">
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper">

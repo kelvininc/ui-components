@@ -21,6 +21,12 @@ export enum EApplyDefaults {
 	Never = 'never'
 }
 
+export enum EDescriptionPosition {
+	Top = 'top',
+	Bottom = 'bottom',
+	None = 'none'
+}
+
 export interface SchemaFormContext {
 	showDefaultValueHelper?: boolean;
 	defaultValueHelperPrefix?: string;
@@ -37,6 +43,8 @@ export interface SchemaFormContext {
 		minWidth?: string;
 		maxWidth?: string;
 	};
+	booleanLabels?: Record<string, string>;
+	descriptionPosition?: EDescriptionPosition;
 }
 
 export interface SchemaFormProps<T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any> extends Partial<FormProps<T, S, F>> {

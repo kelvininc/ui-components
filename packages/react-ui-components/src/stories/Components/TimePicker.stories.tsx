@@ -90,8 +90,8 @@ const TimePickerSettedTimeTemplate: ComponentStory<typeof KvTimePicker> = args =
 const TimePickerSettedRelativeTimeTemplate: ComponentStory<typeof KvTimePicker> = args => {
 	const [showCalendar, setShowCalendar] = useState<boolean>(false);
 	const [selectedTime, setSelectedTime] = useState<ITimePickerTime>({
-		key: 'last-24-h',
-		range: [],
+		key: 'last-72-h',
+		range: [1707844501238, 1708103701238],
 		timezone: {
 			name: 'Europe/Lisbon',
 			offset: 60
@@ -123,10 +123,7 @@ const TimePickerSettedRelativeTimeTemplate: ComponentStory<typeof KvTimePicker> 
 
 const TimePickerWithoutTimezoneTemplate: ComponentStory<typeof KvTimePicker> = args => {
 	const [showCalendar, setShowCalendar] = useState<boolean>(false);
-	const [selectedTime, setSelectedTime] = useState<ITimePickerTime>({
-		key: 'last-72-h',
-		range: []
-	});
+	const [selectedTime, setSelectedTime] = useState<ITimePickerTime>();
 	const onShowCalendarStateChange = useCallback(({ detail }: KvTimePickerCustomEvent<boolean>) => {
 		setShowCalendar(detail);
 	}, []);

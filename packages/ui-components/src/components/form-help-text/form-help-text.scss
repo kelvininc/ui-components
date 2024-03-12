@@ -7,15 +7,16 @@
 	 */
 
 	--help-text-default-color: #{kv-color('neutral-4')};
-	--help-text-error-color: #{kv-color('error')};
+	--help-text-error-color: #{kv-color('error', 'light')};
 }
 
 .help-text-container {
-	width: 100%;
+	width: calc(100% - $spacing-2x);
 	overflow: hidden;
-	margin: $spacing 0 0 $spacing-2x;
+	padding: $spacing 0 0 $spacing-2x;
 	color: var(--help-text-default-color);
-
+	box-sizing: border-box;
+	
 	.help-text {
 		@include kv-font-label-small-regular;
 

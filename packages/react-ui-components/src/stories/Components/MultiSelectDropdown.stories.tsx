@@ -2,7 +2,7 @@ import { ComponentStory } from '@storybook/react';
 import React, { useCallback, useMemo } from 'react';
 import { useArgs } from '@storybook/client-api';
 import { EComponentSize, EIconName, KvMultiSelectDropdown } from '../../components';
-import { searchDropdownOptions } from './helpers/dropdown.helper';
+import { selectHelper } from '@kelvininc/ui-components';
 
 // Required to have the correct TagName in the code sample
 KvMultiSelectDropdown.displayName = 'KvMultiSelectDropdown';
@@ -63,7 +63,7 @@ export default {
 const MultiSelectDropdownTemplate: ComponentStory<typeof KvMultiSelectDropdown> = args => {
 	const [{ options, selectedOptions, searchValue }, updateArgs] = useArgs();
 
-	const filteredOptions = useMemo(() => searchDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
+	const filteredOptions = useMemo(() => selectHelper.searchDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
 
 	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => {
 		updateArgs({ searchValue: searchedLabel });
@@ -249,6 +249,69 @@ SubOptions.args = {
 	placeholder: 'Select a data stream',
 	icon: EIconName.Datastreams,
 	searchPlaceholder: 'Search for a data stream',
+	searchable: true,
+	selectionClearable: true,
+	selectionAll: true,
+	counter: true,
+	shortcuts: true
+};
+
+export const IconOptions = MultiSelectDropdownTemplate.bind({});
+IconOptions.args = {
+	options: {
+		option1: {
+			value: 'low-temperature',
+			label: 'Low Temperature',
+			icon: EIconName.Square,
+			customStyle: {
+				'--select-option-icon-color': 'rgba(17, 241, 255, 1)',
+				'--text-color-icon-default': 'rgba(17, 241, 255, 1)',
+				'--text-color-icon-focused': 'rgba(17, 241, 255, 1)'
+			}
+		},
+		option2: {
+			value: 'high-temperature',
+			label: 'High Temperature',
+			icon: EIconName.Square,
+			customStyle: {
+				'--select-option-icon-color': 'rgba(195, 86, 99, 1)',
+				'--text-color-icon-default': 'rgba(195, 86, 99, 1)',
+				'--text-color-icon-focused': 'rgba(195, 86, 99, 1)'
+			}
+		},
+		option3: {
+			value: 'pressure-drop',
+			label: 'Pressure Drop',
+			icon: EIconName.Square,
+			customStyle: {
+				'--select-option-icon-color': 'rgba(240, 36, 159, 1)',
+				'--text-color-icon-default': 'rgba(240, 36, 159, 1)',
+				'--text-color-icon-focused': 'rgba(240, 36, 159, 1)'
+			}
+		},
+		option4: {
+			value: 'maintenance',
+			label: 'Maintenance',
+			icon: EIconName.Square,
+			customStyle: {
+				'--select-option-icon-color': 'rgba(0, 119, 205, 1)',
+				'--text-color-icon-default': 'rgba(0, 119, 205, 1)',
+				'--text-color-icon-focused': 'rgba(0, 119, 205, 1)'
+			}
+		},
+		option5: {
+			value: 'temperature',
+			label: 'Temperature',
+			icon: EIconName.Square,
+			customStyle: {
+				'--select-option-icon-color': 'rgba(213, 166, 0, 1)',
+				'--text-color-icon-default': 'rgba(213, 166, 0, 1)',
+				'--text-color-icon-focused': 'rgba(213, 166, 0, 1)'
+			}
+		}
+	},
+	selectedOptions: { 'low-temperature': true },
+	label: 'Tags',
 	searchable: true,
 	selectionClearable: true,
 	selectionAll: true,

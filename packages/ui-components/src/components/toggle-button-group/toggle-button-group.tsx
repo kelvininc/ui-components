@@ -1,6 +1,7 @@
 import { Component, h, Prop, Host, Event, EventEmitter } from '@stencil/core';
 import { IToggleButton } from '../toggle-button/toggle-button.types';
 import { IToggleButtonGroup, IToggleButtonGroupEvents } from './toggle-button-group.types';
+import { EComponentSize } from '../../types';
 
 @Component({
 	tag: 'kv-toggle-button-group',
@@ -14,6 +15,8 @@ export class KvToggleButtonGroup implements IToggleButtonGroup, IToggleButtonGro
 	@Prop({ reflect: true }) withRadio?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Small;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedButtons?: Record<string, boolean> = {};
 	/** @inheritdoc */
@@ -36,9 +39,10 @@ export class KvToggleButtonGroup implements IToggleButtonGroup, IToggleButtonGro
 						href={button.href}
 						target={button.target}
 						preventDefault={button.preventDefault}
-						disabled={this.disabled || this.disabledButtons[button.value] || button.disabled}
-						checked={this.selectedButtons[button.value]}
-						withRadio={this.withRadio || this.radioButtons[button.value]}
+						size={this.size ?? button.size}
+						disabled={this.disabled ?? this.disabledButtons[button.value] ?? button.disabled}
+						checked={this.selectedButtons[button.value] ?? button.checked}
+						withRadio={this.withRadio ?? this.radioButtons[button.value] ?? button.withRadio}
 					/>
 				))}
 			</Host>

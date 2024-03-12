@@ -65,6 +65,19 @@ export const SvgIconExample: React.FC = () => (
 | `--illustration-width`          | Width of illustration                              |
 
 
+## Dependencies
+
+### Used by
+
+ - [kv-illustration-message](../illustration-message)
+
+### Graph
+```mermaid
+graph TD;
+  kv-illustration-message --> kv-illustration
+  style kv-illustration fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 

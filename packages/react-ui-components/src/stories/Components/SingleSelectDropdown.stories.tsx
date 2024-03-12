@@ -1,9 +1,9 @@
 import { ComponentStory } from '@storybook/react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { EComponentSize, EIconName, KvSearch, KvSingleSelectDropdown } from '../../components';
-import { searchDropdownOptions } from './helpers/dropdown.helper';
+import { selectHelper } from '@kelvininc/ui-components';
 import { useArgs } from '@storybook/client-api';
-import { LARGE_SET_DROPDOWN_OPTIONS_MOCK, SMALL_SET_DROPDOWN_OPTIONS_MOCK, TIMEZONES_DROPDOWN_OPTIONS_MOCK } from './mocks/dropdown.mock';
+import { EComponentSize, EIconName, KvSearch, KvSingleSelectDropdown } from '../../components';
+import { LARGE_SET_DROPDOWN_OPTIONS_MOCK, SMALL_SET_DROPDOWN_OPTIONS_MOCK, TAGS_DROPDOWN_OPTIONS_MOCK, TIMEZONES_DROPDOWN_OPTIONS_MOCK } from './mocks/dropdown.mock';
 
 // Required to have the correct TagName in the code sample
 KvSingleSelectDropdown.displayName = 'KvSingleSelectDropdown';
@@ -60,7 +60,7 @@ export default {
 
 const SingleSelectDropdownTemplate: ComponentStory<typeof KvSingleSelectDropdown> = args => {
 	const [{ options, searchValue }, updateArgs] = useArgs();
-	const filteredOptions = useMemo(() => searchDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
+	const filteredOptions = useMemo(() => selectHelper.searchDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
 
 	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => {
 		updateArgs({ searchValue: searchedLabel });
@@ -109,7 +109,7 @@ const ExternalSearchTemplate: ComponentStory<typeof KvSingleSelectDropdown> = ar
 
 	const [{ options, placeholder }, updateArgs] = useArgs();
 	const dropdownOptions = useMemo(() => options, [options, searchTerm]);
-	const filteredOptions = useMemo(() => searchDropdownOptions(searchTerm ?? '', dropdownOptions ?? {}), [searchTerm, dropdownOptions]);
+	const filteredOptions = useMemo(() => selectHelper.searchDropdownOptions(searchTerm ?? '', dropdownOptions ?? {}), [searchTerm, dropdownOptions]);
 
 	const onOptionSelected = useCallback(({ detail }: CustomEvent<string>) => {
 		setSearchTerm(detail);
@@ -158,4 +158,36 @@ ExternalSearch.args = {
 	shortcuts: true,
 	placeholder: "Write here the option name you're looking for",
 	options: SMALL_SET_DROPDOWN_OPTIONS_MOCK
+};
+
+const AddOptionTemplate: ComponentStory<typeof KvSingleSelectDropdown> = args => {
+	const [{ options, searchValue }, updateArgs] = useArgs();
+	const filteredOptions = useMemo(() => selectHelper.searchDropdownOptions(searchValue ?? '', options ?? {}), [searchValue, options]);
+
+	const addNewOption = (newOption: string) => {
+		updateArgs({
+			options: { ...options, [newOption]: { label: newOption, value: newOption } }
+		});
+	};
+
+	return (
+		<KvSingleSelectDropdown
+			{...args}
+			options={options}
+			filteredOptions={filteredOptions}
+			onSearchChange={({ detail: newSearchTerm }) => updateArgs({ searchValue: newSearchTerm })}
+			onOptionSelected={({ detail: newOption }) => updateArgs({ selectedOption: newOption })}
+			onOptionCreated={({ detail: newOption }) => addNewOption(newOption)}
+			canAddItems
+		/>
+	);
+};
+
+export const AddOption = AddOptionTemplate.bind({});
+AddOption.args = {
+	placeholder: 'Please select a tag',
+	searchPlaceholder: 'Search for Tags',
+	options: TAGS_DROPDOWN_OPTIONS_MOCK,
+	label: 'Tags',
+	shortcuts: false
 };

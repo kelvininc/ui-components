@@ -1,3 +1,4 @@
+import { EIconName } from '@kelvininc/ui-components';
 import { IUIDropdownOptions } from '../../../components/SchemaForm/Widgets/SelectWidget/types';
 
 export const SMALL_SET_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
@@ -277,6 +278,64 @@ export const TIMEZONES_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
 				value: 'UTC-09',
 				label: '(UTC-09) Hawaii-Aleutian Standarc Time'
 			}
+		}
+	}
+};
+
+export const TAGS_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
+	'low-temperature': {
+		value: 'low-temperature',
+		label: 'Low Temperature',
+		icon: EIconName.Square,
+		customStyle: {
+			'--select-option-icon-color': 'rgba(17, 241, 255, 1)',
+			'--text-color-icon-default': 'rgba(17, 241, 255, 1)',
+			'--text-color-icon-disabled': 'rgba(17, 241, 255, 1, 0.5)',
+			'--text-color-icon-focused': 'rgba(17, 241, 255, 1)'
+		}
+	},
+	'high-temperature': {
+		value: 'high-temperature',
+		label: 'High Temperature',
+		icon: EIconName.Square,
+		customStyle: {
+			'--select-option-icon-color': 'rgba(195, 86, 99, 1)',
+			'--text-color-icon-default': 'rgba(195, 86, 99, 1)',
+			'--text-color-icon-disabled': 'rgba(195, 86, 99, 1, 0.5)',
+			'--text-color-icon-focused': 'rgba(195, 86, 99, 1)'
+		}
+	},
+	'pressure-drop': {
+		value: 'pressure-drop',
+		label: 'Pressure Drop',
+		icon: EIconName.Square,
+		customStyle: {
+			'--select-option-icon-color': 'rgba(240, 36, 159, 1)',
+			'--text-color-icon-default': 'rgba(240, 36, 159, 1)',
+			'--text-color-icon-disabled': 'rgba(240, 36, 159, 1, 0.5)',
+			'--text-color-icon-focused': 'rgba(240, 36, 159, 1)'
+		}
+	},
+	'maintenance': {
+		value: 'maintenance',
+		label: 'Maintenance',
+		icon: EIconName.Square,
+		customStyle: {
+			'--select-option-icon-color': 'rgba(0, 119, 205, 1)',
+			'--text-color-icon-default': 'rgba(0, 119, 205, 1)',
+			'--text-color-icon-disabled': 'rgba(0, 119, 205, 1, 0.5)',
+			'--text-color-icon-focused': 'rgba(0, 119, 205, 1)'
+		}
+	},
+	'temperature': {
+		value: 'temperature',
+		label: 'Temperature',
+		icon: EIconName.Square,
+		customStyle: {
+			'--select-option-icon-color': 'rgba(213, 166, 0, 1)',
+			'--text-color-icon-default': 'rgba(213, 166, 0, 1)',
+			'--text-color-icon-disabled': 'rgba(213, 166, 0, 1, 0.5)',
+			'--text-color-icon-focused': 'rgba(213, 166, 0, 1)'
 		}
 	}
 };

@@ -3,18 +3,12 @@ import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { ISingleSelectDropdown, ISingleSelectDropdownEvents, ISelectSingleOptions } from './single-select-dropdown.types';
 
-import {
-	EMPTY_STRING,
-	INVALID_VALUE_ERROR,
-	MINIMUM_SEARCHABLE_OPTIONS,
-	SINGLE_SELECT_CLEAR_SELECTION_LABEL,
-	SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE
-} from './single-select-dropdown.config';
-import { CustomCssClass, EComponentSize, ISelectOption } from '../../types';
+import { EMPTY_STRING, INVALID_VALUE_ERROR, MINIMUM_SEARCHABLE_OPTIONS, SINGLE_SELECT_CLEAR_SELECTION_LABEL } from './single-select-dropdown.config';
+import { CustomCssClass, EComponentSize, IIllustrationMessage, ISelectOption } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 import { getCssStyle } from '../utils';
 import { ComputePositionConfig } from '@floating-ui/dom';
-import { buildSingleSelectOptions } from './single-select-dropdown.helper';
+import { buildSingleSelectOptions, getDropdownCustomCss, getDropdownDisplayIcon } from './single-select-dropdown.helper';
 import { getFlattenSelectOptions } from '../../utils/select.helper';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
 
@@ -68,7 +62,9 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) filteredOptions?: ISelectSingleOptions;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) noDataAvailableLabel?: string = SINGLE_SELECT_DROPDOWN_NO_DATA_AVAILABLE;
+	@Prop({ reflect: true }) noDataAvailableConfig?: IIllustrationMessage;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) noResultsFoundConfig?: IIllustrationMessage;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchable?: boolean = true;
 	/** @inheritdoc */
@@ -97,6 +93,12 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Prop({ reflect: true }) shortcuts?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) zIndex?: number = DEFAULT_DROPDOWN_Z_INDEX;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) canAddItems?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) createInputPlaceholder?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) createOptionPlaceholder?: string;
 
 	/** @inheritdoc */
 	@Event() optionSelected: EventEmitter<string>;
@@ -108,6 +110,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Event() dismiss: EventEmitter<void>;
 	/** @inheritdoc */
 	@Event() clickOutside: EventEmitter<void>;
+	/** @inheritdoc */
+	@Event() optionCreated: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 
@@ -180,6 +184,10 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this.calculateLabelValue();
 	};
 
+	private onOptionCreated = ({ detail: newOptionKey }: CustomEvent<string>): void => {
+		this.optionCreated.emit(newOptionKey);
+	};
+
 	private selectOption = (selectedOption: string) => {
 		this.optionSelected.emit(selectedOption);
 		this.setOpenState(false);
@@ -226,14 +234,15 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		value: this._selectionDisplayValue,
 		valuePrefix: this.displayPrefix,
 		loading: this.loading,
-		icon: this.icon,
+		icon: getDropdownDisplayIcon(this.selectedOption, this.selectOptions.flatten) ?? this.icon,
 		disabled: this.disabled,
 		required: this.required,
 		placeholder: this.placeholder,
 		state: this.errorState,
 		helpText: this.helpText,
 		size: this.inputSize,
-		badge: this.badge
+		badge: this.badge,
+		customStyle: getDropdownCustomCss(this.selectedOption, this.selectOptions.flatten)
 	});
 
 	private clearHighlightedOption = (): void => {
@@ -264,7 +273,6 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		const selectOptions = buildSingleSelectOptions(this.options);
 		const filteredSelectOptions = this.filteredOptions ? buildSingleSelectOptions(this.filteredOptions) : undefined;
 		const selectFlattenOptions = getFlattenSelectOptions(selectOptions);
-
 		this.selectOptions = {
 			total: selectOptions,
 			filtered: filteredSelectOptions,
@@ -296,7 +304,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							options={this.selectOptions.total}
 							filteredOptions={this.selectOptions.filtered}
 							selectedOptions={this.selectedOptions}
-							noDataAvailableLabel={this.noDataAvailableLabel}
+							noDataAvailableConfig={this.noDataAvailableConfig}
+							noResultsFoundConfig={this.noResultsFoundConfig}
 							searchable={this.searchable}
 							minSearchOptions={this.minSearchOptions}
 							searchValue={this._searchValue}
@@ -305,6 +314,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							selectionAll={this.selectionAll}
 							selectAllLabel={this.selectAllLabel}
 							searchPlaceholder={this.searchPlaceholder}
+							createInputPlaceholder={this.createInputPlaceholder}
+							createOptionPlaceholder={this.createOptionPlaceholder}
 							maxHeight={this.getMaxHeight()}
 							minHeight={this.getMinHeight()}
 							maxWidth={this.getMaxWidth()}
@@ -314,12 +325,16 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							onSearchChange={this.onSearchChange}
 							onClearSelection={this.onClearSelection}
 							onOptionSelected={this.onOptionSelected}
+							onOptionCreated={this.onOptionCreated}
 							onDismiss={this.onDismiss}
+							canAddItems={this.canAddItems}
 							exportparts="select"
 						>
+							<slot name="create-new-option" slot="create-new-option" />
 							<slot name="select-header-actions" slot="select-header-actions" />
 							<slot name="select-header-label" slot="select-header-label" />
 							<slot name="no-data-available" slot="no-data-available" />
+							<slot name="no-results-found" slot="no-results-found" />
 						</kv-select-multi-options>
 					</div>
 				</kv-dropdown>

@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { isEmpty, throttle } from 'lodash-es';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
-import { EAnchorTarget, EIconName, EOtherIconName } from '../../types';
+import { EAnchorTarget, EComponentSize, EIconName, EOtherIconName } from '../../types';
 import { IToggleButton, IToggleButtonEvents } from './toggle-button.types';
 
 /**
@@ -22,6 +22,8 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Small;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
@@ -70,7 +72,8 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 						'toggle-button': true,
 						'toggle-button--checked': this.checked,
 						'toggle-button--disabled': this.disabled,
-						'toggle-button--only-icon': hasIcon && !hasLabel
+						'toggle-button--only-icon': hasIcon && !hasLabel,
+						[`toggle-button--size-${this.size}`]: true
 					}}
 					part="toggle-button"
 					onClick={this.onClick}

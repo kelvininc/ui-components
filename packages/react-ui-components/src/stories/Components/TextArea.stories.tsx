@@ -26,8 +26,7 @@ const TextAreaTemplate: ComponentStory<typeof KvTextArea> = args => <KvTextArea 
 export const Default = TextAreaTemplate.bind({});
 Default.args = {
 	maxCharLength: 200,
-	onTextChange: ({ detail }: CustomEvent<string>) => action('onTextChange')(detail),
-	onTextChangeBlur: ({ detail }: CustomEvent<string>) => action('onTextChangeBlur')(detail)
+	onTextChange: ({ detail }: CustomEvent<string>) => action('onTextChange')(detail)
 };
 
 export const WithText = TextAreaTemplate.bind({});
@@ -53,4 +52,9 @@ WithIcon.args = {
 	...WithTextAndPlaceholder.args,
 	text: '',
 	icon: EIconName.Notes
+};
+
+export const Disabled = TextAreaTemplate.bind({});
+Disabled.args = {
+	disabled: true
 };

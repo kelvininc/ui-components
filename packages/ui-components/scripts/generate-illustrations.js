@@ -1,19 +1,23 @@
 const path = require('path');
 const fg = require('fast-glob');
 const fs = require('fs-extra');
-const SVGO = require('svgo');
-const { camelCase, upperFirst, groupBy, map, find, isEmpty } = require('lodash');
+const { optimize } = require('svgo');
+const { camelCase, upperFirst, groupBy, map, find } = require('lodash');
 const Handlebars = require('handlebars');
 
 const { parse } = require('svg-parser');
 const toHTML = require('hast-util-to-html');
-const { stdout } = require('process');
 
 const SVGO_CONFIG = {
-	plugins: [{ removeViewBox: false }, { removeXMLNS: true }]
+	plugins: [{
+		name: 'preset-default',
+		params: {
+			overrides: {
+				removeViewBox: false
+			},
+		},
+	}, 'removeXMLNS']
 };
-
-const svgo = new SVGO(SVGO_CONFIG);
 
 const INPUT_GLOB = './src/illustrations/**/*.svg';
 const OUTPUT_PATH = './src/components/illustrations';
@@ -30,7 +34,7 @@ async function main() {
 	const files = await Promise.all(
 		entries.map(async filepath => {
 			const file = await fs.readFile(filepath, { encoding: 'utf-8' });
-			const item = await svgo.optimize(file);
+			const item = await optimize(file, SVGO_CONFIG);
 
 			const state = path.basename(filepath, EXT);
 			const cleanPath = path.dirname(filepath).replace(INPUT_GLOB.replace('**/*.svg', ''), '');

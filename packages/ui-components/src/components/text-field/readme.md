@@ -77,6 +77,7 @@ export class TextFieldExample {
 | ---------------- | ------------------ | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
 | `actionIcon`     | `action-icon`      | (optional) Icon that is added on the right of the input. Its clickable.            | `EIconName \| EOtherIconName`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | `undefined`             |
 | `badge`          | `badge`            | (optional) Text to display inside a badge on the right side of the displayed value | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `undefined`             |
+| `customStyle`    | --                 | (optional) Additional style to apply for custom CSS.                               | `{ [key: string]: string; }`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | `undefined`             |
 | `disabled`       | `disabled`         | (optional) Text field disabled                                                     | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | `false`                 |
 | `examples`       | --                 | (optional) Text field example values                                               | `string[]`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | `undefined`             |
 | `fitContent`     | `fit-content`      | (optional) Enable/disable the resize of input (default: true)                      | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | `true`                  |
@@ -114,11 +115,24 @@ export class TextFieldExample {
 | `textFieldBlur`    | Emitted when text field lost focus           | `CustomEvent<string>`     |
 
 
+## Methods
+
+### `focusInput() => Promise<void>`
+
+Focuses the input
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+
 ## Shadow Parts
 
-| Part                | Description |
-| ------------------- | ----------- |
-| `"input-container"` |             |
+| Part                | Description                                            |
+| ------------------- | ------------------------------------------------------ |
+| `"input-container"` | container that includes the input, right and left slot |
 
 
 ## CSS Custom Properties
@@ -135,10 +149,14 @@ export class TextFieldExample {
 | `--input-max-width`                 | Text Field's max width.                        |
 | `--input-min-width`                 | Text Field's min width.                        |
 | `--input-width`                     | Text Field's width.                            |
+| `--text-color-action-icon-default`  | Action icon color when state is default.       |
+| `--text-color-action-icon-disabled` | Action icon color when state is disabled.      |
+| `--text-color-action-icon-focused`  | Action icon color when state is focused.       |
 | `--text-color-help-text-default`    | Help Text color when state is default.         |
 | `--text-color-help-text-error`      | Help Text color when state is invalid.         |
 | `--text-color-icon-default`         | Icon color when state is default.              |
 | `--text-color-icon-disabled`        | Icon color when state is disabled.             |
+| `--text-color-icon-focused`         | Icon color when state is focused.              |
 | `--text-color-input-default`        | Input text color when state is default.        |
 | `--text-color-input-disabled`       | Input text color when state is disabled.       |
 | `--text-color-input-focused`        | Input Text color when state is focused.        |
@@ -155,6 +173,7 @@ export class TextFieldExample {
  - [kv-dropdown](../dropdown)
  - [kv-range-dates-select-dropdown](../range-dates-select-dropdown)
  - [kv-search](../search)
+ - [kv-select-create-option](../select-create-option)
 
 ### Depends on
 
@@ -178,6 +197,7 @@ graph TD;
   kv-dropdown --> kv-text-field
   kv-range-dates-select-dropdown --> kv-text-field
   kv-search --> kv-text-field
+  kv-select-create-option --> kv-text-field
   style kv-text-field fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

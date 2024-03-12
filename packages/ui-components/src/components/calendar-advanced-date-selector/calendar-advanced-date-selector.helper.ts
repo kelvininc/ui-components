@@ -1,4 +1,4 @@
-import { capitalize } from 'lodash-es';
+import { capitalize, isEmpty } from 'lodash-es';
 import { calculateDate, formatTimezoneName, getDefaultTimezone, getTimezoneOffset } from '../../utils/date.helper';
 import { SelectedRange } from '../calendar/calendar.types';
 import { ISelectSingleOption, ISelectSingleOptions } from '../single-select-dropdown/single-select-dropdown.types';
@@ -21,32 +21,42 @@ export const buildTimezoneByOffset = (timezones: string[]): ITimezoneOffset[] =>
 		.sort((name1, name2) => name1.offset - name2.offset);
 };
 
+export const filterDefaultTimezone = (timezones: ITimezoneOffset[], defaultTimezone: string): ITimezoneOffset[] => {
+	if (isEmpty(defaultTimezone)) return timezones;
+
+	return timezones.filter(item => item.name !== defaultTimezone);
+};
+
 export const buildTimezonesDropdownOptions = (timezones: ITimezoneOffset[]): ISelectSingleOptions => {
 	let defaultTimezoneGroup: ISelectSingleOptions = {};
 	const defaultTimezone = getDefaultTimezone();
-	const timezone = timezones.find(({ name }) => name === defaultTimezone);
-	if (timezone) {
+	let otherTimezones = [...timezones];
+
+	const defaultTimezoneIndex = otherTimezones.findIndex(({ name }) => name === defaultTimezone);
+	if (defaultTimezoneIndex !== -1) {
+		const timezone = otherTimezones[defaultTimezoneIndex];
+		otherTimezones.splice(defaultTimezoneIndex, 1);
 		defaultTimezoneGroup = {
 			[DEFAULT_TIMEZONE_GROUP_NAME]: {
 				label: DEFAULT_TIMEZONE_GROUP_LABEL,
 				value: DEFAULT_TIMEZONE_GROUP_NAME,
 				options: {
 					[timezone.name]: {
-						value: timezone.label,
-						label: timezone.name
+						value: timezone.name,
+						label: timezone.label
 					}
 				}
 			}
 		};
 	}
 
-	let otherTimezoneGroups: ISelectSingleOptions = {};
-	if (timezones) {
-		otherTimezoneGroups = {
+	let otherTimezoneGroup: ISelectSingleOptions = {};
+	if (!isEmpty(otherTimezones)) {
+		otherTimezoneGroup = {
 			[OTHER_TIMEZONES_GROUP_NAME]: {
 				label: OTHER_TIMEZONES_GROUP_LABEL,
-				value: DEFAULT_TIMEZONE_GROUP_NAME,
-				options: timezones.reduce<ISelectSingleOptions>((accumulator, { label, name }) => {
+				value: OTHER_TIMEZONES_GROUP_NAME,
+				options: otherTimezones.reduce<ISelectSingleOptions>((accumulator, { label, name }) => {
 					accumulator[name] = accumulator[name] ?? buildDropdownOption(label, name);
 
 					return accumulator;
@@ -57,7 +67,7 @@ export const buildTimezonesDropdownOptions = (timezones: ITimezoneOffset[]): ISe
 
 	const options: ISelectSingleOptions = {
 		...defaultTimezoneGroup,
-		...otherTimezoneGroups
+		...otherTimezoneGroup
 	};
 
 	// Check if there's only one group

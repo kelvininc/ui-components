@@ -2,12 +2,17 @@ import { Component, Host, h, Prop, EventEmitter, Event, Element, Watch } from '@
 import { EToggleState, ISelectOption, ISelectOptionEvents } from './select-option.types';
 import { isEmpty } from 'lodash';
 import { LEVEL_OFFSET_PX } from './select-option.config';
+import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { CustomCssClass } from '../../types';
+import { getClassMap } from '../../utils/css-class.helper';
+import { HostAttributes } from '@stencil/core/internal';
 
 /**
  * @part select-option-content - The option's content container
  * @part option-container - The option's container
  * @part checkbox - The option's checkbox
  * @part label - The option's label
+ * @part icon - The option's icon
  */
 @Component({
 	tag: 'kv-select-option',
@@ -21,6 +26,8 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	@Prop({ reflect: true }) label!: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) value!: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) description?: string;
 	/** @inheritdoc */
@@ -39,7 +46,10 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	@Prop({ reflect: true }) level = 0;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) state?: EToggleState;
-
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customStyle?: HostAttributes['style'];
 	/** @inheritdoc */
 	@Event() itemSelected: EventEmitter<string>;
 
@@ -66,7 +76,7 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 		const children = Object.values(this.options);
 
 		return (
-			<Host>
+			<Host class={getClassMap(this.customClass)} style={{ ...this.customStyle }}>
 				<div part="select-option-content">
 					<div
 						class={{
@@ -83,6 +93,11 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 					>
 						{this.selectable && this.togglable && (
 							<kv-checkbox checked={this.state === EToggleState.Selected} indeterminate={this.state === EToggleState.Indeterminate} part="checkbox" />
+						)}
+						{this.icon && (
+							<div class="icon-container" part="icon">
+								<kv-icon name={this.icon} />
+							</div>
 						)}
 						<div class="text-container">
 							<div class="item-label" part="label">

@@ -9,7 +9,11 @@ import { buildInputMask, getValueAsString, isInputMaskCompatibleType } from './t
 import Inputmask from 'inputmask';
 import { getUTF8StringLength } from '../../utils/string.helper';
 import { EBadgeState } from '../../types';
+import { HostAttributes, Method } from '@stencil/core/internal';
 
+/**
+ * @part input-container - container that includes the input, right and left slot
+ */
 @Component({
 	tag: 'kv-text-field',
 	styleUrls: {
@@ -77,6 +81,14 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	@Prop({ reflect: true }) inputMaskRegex?: string = '';
 	/** @inheritdoc */
 	@Prop({ reflect: true }) fitContent?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customStyle?: HostAttributes['style'];
+
+	/** Focuses the input */
+	@Method()
+	async focusInput() {
+		this.nativeInput.focus();
+	}
 
 	/** Watch `value` property for changes and update native input element accordingly */
 	@Watch('value')
@@ -281,7 +293,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		const type = this.getType();
 
 		return (
-			<Host onClick={this.onHostClick}>
+			<Host onClick={this.onHostClick} style={{ ...this.customStyle }}>
 				<kv-tooltip {...this.getTooltipConfig()}>
 					<div class="text-field-container">
 						<kv-form-label label={this.label} required={this.required}></kv-form-label>
@@ -321,25 +333,27 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 								</div>
 								<div class="resize-container">
 									{this.fitContent && <span class="resize-text">{value || this.placeholder}</span>}
-									<input
-										ref={input => (this.nativeInput = input as HTMLInputElement)}
-										type={type}
-										list={!isNil(this.examples) ? `examples_${id}` : undefined}
-										name={this.inputName}
-										placeholder={this.placeholder}
-										disabled={this.disabled}
-										max={this.getMaxValue()}
-										min={this.getMinValue()}
-										minLength={this.minLength}
-										step={this.step}
-										value={value}
-										onInput={this.onInputHandler}
-										onBlur={this.onBlurHandler}
-										onFocus={this.onFocusHandler}
-										onPaste={this.onPasteHandler}
-										class={{ 'resize-input': true, 'forced-focus': this.focused }}
-										readonly={this.readonly}
-									/>
+									<slot name="input">
+										<input
+											ref={input => (this.nativeInput = input as HTMLInputElement)}
+											type={type}
+											list={!isNil(this.examples) ? `examples_${id}` : undefined}
+											name={this.inputName}
+											placeholder={this.placeholder}
+											disabled={this.disabled}
+											max={this.getMaxValue()}
+											min={this.getMinValue()}
+											minLength={this.minLength}
+											step={this.step}
+											value={value}
+											onInput={this.onInputHandler}
+											onBlur={this.onBlurHandler}
+											onFocus={this.onFocusHandler}
+											onPaste={this.onPasteHandler}
+											class={{ 'resize-input': true, 'forced-focus': this.focused }}
+											readonly={this.readonly}
+										/>
+									</slot>
 								</div>
 								<div
 									class={{

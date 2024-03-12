@@ -20,8 +20,10 @@ import {
 import { getArrayOfIndexes } from '../../utils/arrays.helper';
 import { EIconName } from '../icon/icon.types';
 import { getCalendarEndDisabledDays, getCalendarStartDisabledDays, getHooveredDate, getSelectedRange } from './time-picker-calendar.helper';
-import { CALENDAR_DEFAULT_MAX_DATE, CALENDAR_DEFAULT_MIN_DATE, DATE_FORMAT } from './time-picker-calendar.config';
+import { CALENDAR_DEFAULT_MIN_DATE, DATE_FORMAT } from './time-picker-calendar.config';
 import dayjs from 'dayjs';
+import { EAbsoluteTimePickerMode } from '../../types';
+import { isEmpty } from 'lodash';
 
 @Component({
 	tag: 'kv-time-picker-calendar',
@@ -45,6 +47,8 @@ export class KvTimePickerCalendar implements ITimePickerCalendar, ITimePickerCal
 	@Prop({ reflect: false }) displayPreviousMonthArrow?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) displayNextMonthArrow?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) mode?: EAbsoluteTimePickerMode = EAbsoluteTimePickerMode.Range;
 
 	/** @inheritdoc */
 	@Event() changeMonth: EventEmitter<IChangeMonthEvent>;
@@ -130,11 +134,11 @@ export class KvTimePickerCalendar implements ITimePickerCalendar, ITimePickerCal
 			return true;
 		}
 
-		if (this.minDate && isDateBefore(dayMoment, this.minDate)) {
+		if (this.minDate && isDateBefore(dayMoment, dayjs(this.minDate, DATE_FORMAT))) {
 			return true;
 		}
 
-		if (this.maxDate && isDateAfter(dayMoment, this.maxDate)) {
+		if (this.maxDate && isDateAfter(dayMoment, dayjs(this.maxDate, DATE_FORMAT))) {
 			return true;
 		}
 
@@ -170,7 +174,7 @@ export class KvTimePickerCalendar implements ITimePickerCalendar, ITimePickerCal
 	public isDayInRange = (day: number): boolean => {
 		const [selectedStartDate, selectedEndDate] = this.getSelectedRange();
 
-		if (this.isDayDisabled(day) || selectedStartDate === undefined || selectedEndDate !== undefined) {
+		if (this.isDayDisabled(day) || selectedStartDate === undefined || selectedEndDate !== undefined || this.mode === EAbsoluteTimePickerMode.Single) {
 			return false;
 		}
 
@@ -228,10 +232,10 @@ export class KvTimePickerCalendar implements ITimePickerCalendar, ITimePickerCal
 	};
 
 	private isNextNavigationDisabled = (): boolean => {
-		const calendarMaxDate = this.maxDate ? this.maxDate : CALENDAR_DEFAULT_MAX_DATE;
+		if (isEmpty(this.maxDate)) return false;
 
 		const dayDate = fromDateFields(1, this.month, this.year);
-		const maxDateFormated = dayjs(calendarMaxDate, DATE_FORMAT);
+		const maxDateFormated = dayjs(this.maxDate, DATE_FORMAT);
 
 		return dayDate.month() === maxDateFormated.month() && dayDate.year() === maxDateFormated.year();
 	};

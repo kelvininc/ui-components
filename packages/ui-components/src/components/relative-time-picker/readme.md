@@ -61,13 +61,13 @@ export const KvRelativeTimePickerExample: React.FC = () => (
 
 ## Events
 
-| Event                         | Description                                                       | Type                                                           |
-| ----------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------- |
-| `customizeIntervalClicked`    | Emitted when customize interval is clicked                        | `CustomEvent<string>`                                          |
-| `selectedRelativeTimeChange`  | Emitted when the selected time key changes                        | `CustomEvent<{ key: string; range: SelectedTimestampRange; }>` |
-| `timezoneChange`              | Emitted when selected timezone changes                            | `CustomEvent<{ name: string; offset: number; }>`               |
-| `timezoneDropdownStateChange` | Emitted when the timezone dropdown open state changes             | `CustomEvent<boolean>`                                         |
-| `timezoneInputClicked`        | Emitted when the input wrapper containing the timezone is clicked | `CustomEvent<boolean>`                                         |
+| Event                         | Description                                                       | Type                                                      |
+| ----------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------- |
+| `customizeIntervalClicked`    | Emitted when customize interval is clicked                        | `CustomEvent<string>`                                     |
+| `selectedRelativeTimeChange`  | Emitted when the selected time key changes                        | `CustomEvent<{ key: string; range: SelectedTimestamp; }>` |
+| `timezoneChange`              | Emitted when selected timezone changes                            | `CustomEvent<{ name: string; offset: number; }>`          |
+| `timezoneDropdownStateChange` | Emitted when the timezone dropdown open state changes             | `CustomEvent<boolean>`                                    |
+| `timezoneInputClicked`        | Emitted when the input wrapper containing the timezone is clicked | `CustomEvent<boolean>`                                    |
 
 
 ## CSS Custom Properties
@@ -98,6 +98,7 @@ graph TD;
   kv-relative-time-picker --> kv-input-wrapper
   kv-relative-time-picker --> kv-single-select-dropdown
   kv-select-option --> kv-checkbox
+  kv-select-option --> kv-icon
   kv-select-option --> kv-select-option
   kv-checkbox --> kv-icon
   kv-input-wrapper --> kv-icon
@@ -117,9 +118,17 @@ graph TD;
   kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-illustration-message
+  kv-select-multi-options --> kv-select-create-option
   kv-select-multi-options --> kv-select-shortcuts-label
   kv-select --> kv-search
   kv-search --> kv-text-field
+  kv-illustration-message --> kv-illustration
+  kv-select-create-option --> kv-text-field
+  kv-select-create-option --> kv-action-button-icon
+  kv-action-button-icon --> kv-action-button
+  kv-action-button-icon --> kv-icon
+  kv-action-button-icon --> kv-badge
   kv-select-shortcuts-label --> kv-icon
   kv-time-picker --> kv-relative-time-picker
   style kv-relative-time-picker fill:#f9f,stroke:#333,stroke-width:4px

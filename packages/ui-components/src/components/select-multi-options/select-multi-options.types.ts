@@ -1,7 +1,8 @@
 import { EventEmitter } from '@stencil/core';
-import { ISelectEvents, ISelectOption } from '../../types';
+import { IIllustrationMessage, ISelectEvents, ISelectOption } from '../../types';
 
-export interface ISelectMultiOption extends Pick<ISelectOption, 'label' | 'value' | 'disabled' | 'selectable' | 'description' | 'togglable'> {
+export interface ISelectMultiOption
+	extends Pick<ISelectOption, 'label' | 'value' | 'icon' | 'disabled' | 'selectable' | 'description' | 'togglable' | 'customClass' | 'customStyle'> {
 	options?: ISelectMultiOptions;
 }
 
@@ -14,8 +15,10 @@ export interface ISelectMultiOptionsConfig {
 	filteredOptions?: ISelectMultiOptions;
 	/** (optional) The object with indexed by the dropdown labels and its selected value */
 	selectedOptions?: Record<string, boolean>;
-	/** (required) The text to display when there are no options */
-	noDataAvailableLabel?: string;
+	/** (optional) The configuration for the "no data available" empty state illustration */
+	noDataAvailableConfig?: IIllustrationMessage;
+	/** (optional) The configuration for the "no results found" empty state illustration */
+	noResultsFoundConfig?: IIllustrationMessage;
 	/** (optional) If `false` the dropdown is not searchable. Default `true` */
 	searchable?: boolean;
 	/** (optional) The list search text field placeholder */
@@ -44,6 +47,12 @@ export interface ISelectMultiOptionsConfig {
 	minSearchOptions?: number;
 	/** (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false` */
 	shortcuts?: boolean;
+	/** (optional) If `true` an add option will appear at the bottom of options list. Default: `false` */
+	canAddItems?: boolean;
+	/** (optional) The create new option placeholder. Default: `Add a new option`*/
+	createOptionPlaceholder?: string;
+	/** (optional) The create form input placeholder  */
+	createInputPlaceholder?: string;
 }
 
 export interface ISelectMultiOptionsEvents extends ISelectEvents {
@@ -53,4 +62,6 @@ export interface ISelectMultiOptionsEvents extends ISelectEvents {
 	optionSelected: EventEmitter<string>;
 	/** Emitted when the 'esc' key is pressed */
 	dismiss: EventEmitter<void>;
+	/** Emitted when a new option is created */
+	optionCreated: EventEmitter<string>;
 }

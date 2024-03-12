@@ -40,7 +40,7 @@ input {
 
 .input-container {
 	position: relative;
-	width: 196px;
+	min-width: 196px;
 
 	&--size-large {
 		height: 36px;

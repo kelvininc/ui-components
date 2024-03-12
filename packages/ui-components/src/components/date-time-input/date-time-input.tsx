@@ -5,6 +5,7 @@ import { isNil } from 'lodash';
 import { DATE_TIME_INPUTMASK_CONFIG } from './date-time-input.config';
 import { IDateTimeInput, IDateTimeInputEvents } from './date-time-input.types';
 import Inputmask from 'inputmask';
+import { getDateLimitsInputmaskConfig } from './date-time-input.utils';
 
 @Component({
 	tag: 'kv-date-time-input',
@@ -84,14 +85,8 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	}
 
 	@Watch('min')
-	handleMinValueChange() {
-		if (this.useInputMask) {
-			this.createInputMaskInstance();
-		}
-	}
-
 	@Watch('max')
-	handleMaxValueChange() {
+	handleDateLimitsValueChange() {
 		if (this.useInputMask) {
 			this.createInputMaskInstance();
 		}
@@ -108,8 +103,7 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	private createInputMaskInstance = () => {
 		Inputmask({
 			...DATE_TIME_INPUTMASK_CONFIG,
-			min: this.min,
-			max: this.max
+			...getDateLimitsInputmaskConfig(this.min, this.max)
 		}).mask(this.nativeInput);
 	};
 

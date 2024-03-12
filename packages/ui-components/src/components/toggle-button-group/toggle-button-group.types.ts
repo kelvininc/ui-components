@@ -1,10 +1,10 @@
 import { EventEmitter } from '@stencil/core';
-import { IToggleButton } from '../../types';
+import { EComponentSize, IToggleButton } from '../../types';
 
 export interface IToggleButtonGroup {
 	/** (optional) List of toggle buttons */
 	buttons: IToggleButton[];
-	/** (optional) Sets  */
+	/** (optional) If `true` all toggle buttons will have a radio button */
 	withRadio?: boolean;
 	/** (optional) Sets styling to be disabled and disables click events for all buttons */
 	disabled?: boolean;
@@ -14,6 +14,8 @@ export interface IToggleButtonGroup {
 	disabledButtons?: Record<string, boolean>;
 	/** (optional) A record with the button's label/value and the if the respective button is a radio button */
 	radioButtons?: Record<string, boolean>;
+	/** (optional) Sets the size for all toggle buttons */
+	size?: EComponentSize;
 }
 
 export interface IToggleButtonGroupEvents {

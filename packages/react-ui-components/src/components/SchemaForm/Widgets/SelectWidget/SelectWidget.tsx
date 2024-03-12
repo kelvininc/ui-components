@@ -11,8 +11,6 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	schema,
 	id,
 	options,
-	label,
-	required,
 	disabled,
 	readonly,
 	value,
@@ -69,14 +67,11 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	}, []);
 
 	const hasErrors = useMemo(() => !isEmpty(rawErrors), [rawErrors]);
-	const displayedLabel = useMemo(() => schema.title || label, [schema.title, label]);
 
 	const props = {
 		id,
-		label: displayedLabel,
 		placeholder: placeholder ? placeholder : optionsPlaceholder,
 		inputSize: !isEmpty(optionComponentSize) ? optionComponentSize : (componentSize as EComponentSize),
-		required,
 		disabled: disabled || readonly,
 		errorState: hasErrors ? EValidationState.Invalid : EValidationState.Valid,
 		displayValue: typeof value === 'undefined' ? emptyValue : displayValue?.(value, defaultDropdownOptions),

@@ -1,5 +1,6 @@
 import { isEmpty } from 'lodash';
-import { IMultiSelectDropdown, ISelectMultiOptions, ISelectOption } from '../types';
+import { IMultiSelectDropdown, ISelectMultiOptions, ISelectOption, ISelectSingleOptions } from '../types';
+import { isSubString } from './string.helper';
 
 const getHightableFallbackOption = (options: string[]): string => {
 	const [firstOption] = options;
@@ -105,4 +106,33 @@ export const getNextHightlightableOption = (options: IMultiSelectDropdown, highl
 	}
 
 	return optionsKeys[highlightedIndex + 1];
+};
+
+export const searchDropdownOptions = (term: string, options: ISelectSingleOptions | ISelectMultiOptions = {}): ISelectSingleOptions | ISelectMultiOptions => {
+	if (isEmpty(term)) {
+		return options;
+	}
+
+	return Object.keys(options).reduce<ISelectSingleOptions | ISelectMultiOptions>((accumulator, key) => {
+		const option = options[key];
+
+		if (!isEmpty(option.options)) {
+			const childrenMatches = searchDropdownOptions(term, option.options);
+
+			if (!isEmpty(childrenMatches)) {
+				accumulator[key] = {
+					...option,
+					options: childrenMatches
+				};
+			}
+
+			return accumulator;
+		}
+
+		if (isSubString(term, option.label) || isSubString(term, option.value)) {
+			accumulator[key] = option;
+		}
+
+		return accumulator;
+	}, {});
 };

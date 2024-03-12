@@ -10,7 +10,6 @@ import {
 	ISelectSingleOptions
 } from '../../types';
 import { fromDatesRangeKey, getDatesRangeKey, getDefaultTimezone, getTimezonesNames } from '../../utils/date.helper';
-import { searchString } from '../../utils/search.helper';
 import { EIconName } from '../icon/icon.types';
 import {
 	DEFAULT_END_DATE_INPUT_CONFIG,
@@ -31,9 +30,9 @@ import {
 	ICalendarAdvancedDateSelectorEvents,
 	ICalendarAdvanceSelectedTime,
 	ICalendarAdvanceTime,
-	IInputConfig,
-	ITimezoneOffset
+	IInputConfig
 } from './calendar-advanced-date-selector.types';
+import { searchDropdownOptions } from '../../utils/select.helper';
 
 /**
  * @part calendar - The calendar container.
@@ -56,8 +55,8 @@ export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSele
 	@Prop({ reflect: false }) timezones?: string[] = getTimezonesNames();
 
 	@State() timezonesSearchTerm: string;
-	@State() timezonesByOffset: ITimezoneOffset[];
 	@State() timezoneDropdownOptions: ISelectSingleOptions;
+	@State() timezoneFilteredDropdownOptions: ISelectSingleOptions;
 
 	/** @inheritdoc */
 	@Event() relativeTimeChange: EventEmitter<ICalendarAdvanceTime>;
@@ -72,13 +71,12 @@ export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSele
 
 	@Watch('timezones')
 	handleTimezonesChanges(timezones: string[]) {
-		this.timezonesByOffset = buildTimezoneByOffset(timezones);
+		this.timezoneDropdownOptions = buildTimezonesDropdownOptions(buildTimezoneByOffset(timezones));
 	}
 
 	@Watch('timezonesSearchTerm')
 	onTimezoneSearch(searchTerm: string) {
-		const searchedTimezones = searchString(searchTerm, this.timezonesByOffset);
-		this.timezoneDropdownOptions = buildTimezonesDropdownOptions(searchedTimezones);
+		this.timezoneFilteredDropdownOptions = searchDropdownOptions(searchTerm, this.timezoneDropdownOptions);
 	}
 
 	componentWillLoad() {
@@ -230,6 +228,7 @@ export class KvCalendarAdvancedDateSelector implements ICalendarAdvancedDateSele
 								placeholder={TIMEZONES_PLACEHOLDER}
 								searchPlaceholder={TIMEZONES_SEARCH_PLACEHOLDER}
 								options={this.timezoneDropdownOptions}
+								filteredOptions={this.timezoneFilteredDropdownOptions}
 								selectedOption={this.getSelectedTimezone()}
 								onSearchChange={this.onTimezoneSearchTermChange}
 								onOptionSelected={this.onTimezoneSelected}
