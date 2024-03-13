@@ -87,13 +87,13 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	/** @inheritdoc */
 	@Event() optionCreated: EventEmitter<string>;
 
-	@Listen('create')
-	createOptionHandler({ detail: newOption }: CustomEvent<string>) {
+	@Listen('clickCreate')
+	clickCreateOptionHandler({ detail: newOption }: CustomEvent<string>) {
 		this.optionCreated.emit(newOption);
 		this.optionSelected.emit(newOption);
 		this.isCreating = false;
 	}
-	@Listen('cancel')
+	@Listen('clickCancel')
 	cancelCreateOptionHandler() {
 		this.isCreating = false;
 	}
