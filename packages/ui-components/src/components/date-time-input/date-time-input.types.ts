@@ -10,6 +10,11 @@ export interface IDateTimeInputEvents {
 	inputFocus: EventEmitter<FocusEvent>;
 }
 
+export interface IDateTimeInputLimits {
+	min: string;
+	max: string;
+}
+
 export interface IDateTimeInput {
 	/** (optional) Date time input label */
 	label?: string;
@@ -17,10 +22,8 @@ export interface IDateTimeInput {
 	inputName?: string;
 	/** (optional) Date time place holder */
 	placeholder?: string;
-	/** (optional) Date time maximum value */
-	max?: string;
-	/** (optional) Date time minimum value */
-	min?: string;
+	/** (optional) Date time minimum and maximum value */
+	limits?: IDateTimeInputLimits;
 	/** (optional) Sets this tab item to a different styling configuration */
 	size: EComponentSize;
 	/** (optional) Date time value */
