@@ -88,7 +88,7 @@ const SingleDateWithMinimumDateTemplate: ComponentStory<typeof KvAbsoluteTimePic
 };
 
 const RangeTemplateWithMinimumAndMaxDatesTemplate: ComponentStory<typeof KvAbsoluteTimePickerDropdown> = args => {
-	const [selectedDates, setSelectedDates] = useState<SelectedTimestamp>([1681319856833, 1681406272018]);
+	const [selectedDates, setSelectedDates] = useState<SelectedTimestamp>([1706031899999.75, 1709961299999.25]);
 
 	const onSelectedDatesChange = ({ detail: newDates }: CustomEvent<SelectedTimestamp>) => {
 		setSelectedDates(newDates);
@@ -98,8 +98,8 @@ const RangeTemplateWithMinimumAndMaxDatesTemplate: ComponentStory<typeof KvAbsol
 		<KvAbsoluteTimePickerDropdown
 			{...args}
 			mode={EAbsoluteTimePickerMode.Range}
-			calendarInputMinDate={1681319856833}
-			calendarInputMaxDate={1681406272018}
+			calendarInputMinDate={1704067200000}
+			calendarInputMaxDate={1711925999998}
 			selectedDates={selectedDates}
 			onSelectedDatesChange={onSelectedDatesChange}
 		/>

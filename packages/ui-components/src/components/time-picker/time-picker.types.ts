@@ -26,9 +26,9 @@ export interface ITimePicker {
 	/** (optional) Lets the timezone visible but doens't let the user change it */
 	disableTimezoneSelection?: boolean;
 	/** (optional) calendar minimum date to be navigated */
-	calendarInputMinDate?: string;
+	calendarInputMinDate?: number;
 	/** (optional) calendar maximum date to be navigated */
-	calendarInputMaxDate?: string;
+	calendarInputMaxDate?: number;
 	/** (optional) The time picker's z-index (default: 9003) */
 	zIndex?: number;
 	/** (optional) Positioning of the tooltip */
