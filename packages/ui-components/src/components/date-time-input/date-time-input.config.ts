@@ -5,5 +5,6 @@ export const DATE_TIME_INPUTMASK_CONFIG: Inputmask.Options = {
 	placeholder: 'dd-mm-yyyy 00:00:00',
 	prefillYear: false,
 	showMaskOnHover: false,
-	clearMaskOnLostFocus: false
+	clearMaskOnLostFocus: false,
+	allowMinus: false
 };

@@ -153,7 +153,10 @@ export class KvTimePickerCalendar implements ITimePickerCalendar, ITimePickerCal
 	public isDayActive = (day: number): boolean => {
 		const date = fromDateFields(day, this.month, this.year);
 
-		return isDateInArray(date, this.selectedDates);
+		return isDateInArray(
+			date,
+			this.selectedDates.filter(date => date !== undefined)
+		);
 	};
 
 	public onMouseEnter = (day: number): void => {
@@ -228,7 +231,7 @@ export class KvTimePickerCalendar implements ITimePickerCalendar, ITimePickerCal
 		const dayDate = fromDateFields(1, this.month, this.year);
 		const minDateFormated = dayjs(calendarMinDate, DATE_FORMAT);
 
-		return dayDate.month() === minDateFormated.month() && dayDate.year() === minDateFormated.year();
+		return dayDate.isBefore(minDateFormated) || dayDate.isSame(minDateFormated);
 	};
 
 	private isNextNavigationDisabled = (): boolean => {
@@ -237,7 +240,7 @@ export class KvTimePickerCalendar implements ITimePickerCalendar, ITimePickerCal
 		const dayDate = fromDateFields(1, this.month, this.year);
 		const maxDateFormated = dayjs(this.maxDate, DATE_FORMAT);
 
-		return dayDate.month() === maxDateFormated.month() && dayDate.year() === maxDateFormated.year();
+		return dayDate.isAfter(maxDateFormated);
 	};
 
 	render() {
