@@ -87,10 +87,14 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	/** @inheritdoc */
 	@Event() optionCreated: EventEmitter<string>;
 
+	@Listen('valueChanged')
+	valueChangedOptionHandler({ detail: newValue }: CustomEvent<string>) {
+		this.createdOptionValue = newValue;
+	}
 	@Listen('clickCreate')
-	clickCreateOptionHandler({ detail: newOption }: CustomEvent<string>) {
-		this.optionCreated.emit(newOption);
-		this.optionSelected.emit(newOption);
+	clickCreateOptionHandler() {
+		this.optionCreated.emit(this.createdOptionValue);
+		this.optionSelected.emit(this.createdOptionValue);
 		this.isCreating = false;
 	}
 	@Listen('clickCancel')
@@ -107,6 +111,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	};
 	@State() highlightedOption: string;
 	@State() isCreating: boolean = false;
+	@State() createdOptionValue: string = '';
 
 	@Watch('options')
 	@Watch('filteredOptions')
@@ -211,6 +216,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	private selectOption = (selectedOptionKey: string): void => {
 		if (selectedOptionKey === ADD_OPTION.value) {
 			this.isCreating = true;
+			this.createdOptionValue = this.searchValue;
 			return;
 		}
 
@@ -366,7 +372,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 						<div class="create-new-option-form">
 							<slot name="create-new-option">
 								<div class="form-container">
-									<kv-select-create-option inputConfig={{ placeholder: this.createInputPlaceholder }} />
+									<kv-select-create-option value={this.createdOptionValue} inputConfig={{ placeholder: this.createInputPlaceholder }} />
 								</div>
 							</slot>
 						</div>
