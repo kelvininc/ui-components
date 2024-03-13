@@ -10,6 +10,7 @@
 | `disabled`    | `disabled` | (optional) If `true` the input and actions will be disabled. Default: `false`. | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | `false`                |
 | `inputConfig` | --         | (optional) The text field custom config.                                       | `{ type?: EInputFieldType; label?: string; icon?: EIconName \| EOtherIconName; actionIcon?: EIconName \| EOtherIconName; inputName?: string; examples?: string[]; placeholder?: string; maxLength?: number; minLength?: number; max?: string \| number; min?: string \| number; step?: string \| number; size?: EComponentSize; disabled?: boolean; required?: boolean; loading?: boolean; state?: EValidationState; helpText?: string \| string[]; value?: string \| number; valuePrefix?: string; badge?: string; readonly?: boolean; forcedFocus?: boolean; tooltipConfig?: Partial<ITooltip>; useInputMask?: boolean; inputMaskRegex?: string; fitContent?: boolean; customStyle?: { [key: string]: string; }; }` | `{}`                   |
 | `size`        | `size`     | (optional) The input and actions size. Default: `small´                        | `EComponentSize.Large \| EComponentSize.Small`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | `EComponentSize.Small` |
+| `value`       | `value`    | (optional) The new option value.                                               | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | `''`                   |
 
 
 ## Events
@@ -17,15 +18,25 @@
 | Event          | Description                               | Type                  |
 | -------------- | ----------------------------------------- | --------------------- |
 | `clickCancel`  | Emitted when the cancel button is pressed | `CustomEvent<void>`   |
-| `clickCreate`  | Emitted when the create button is pressed | `CustomEvent<string>` |
+| `clickCreate`  | Emitted when the create button is pressed | `CustomEvent<void>`   |
 | `valueChanged` | Emitted when the value changes            | `CustomEvent<string>` |
 
 
 ## Methods
 
+### `blurInput() => Promise<void>`
+
+Blur the input
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 ### `focusInput() => Promise<void>`
 
-Focuses the input
+Focus the input
 
 #### Returns
 
