@@ -47,8 +47,7 @@ export const DateTimeInputExample: React.FC = () => (
 | `highlighted`  | `highlighted`    | (optional) Similar to forcedFocus but does not emmit events                      | `boolean`                                      | `false`                |
 | `inputName`    | `input-name`     | (optional) Date time input name                                                  | `string`                                       | `undefined`            |
 | `label`        | `label`          | (optional) Date time input label                                                 | `string`                                       | `undefined`            |
-| `max`          | `max`            | (optional) Date time maximum value                                               | `string`                                       | `undefined`            |
-| `min`          | `min`            | (optional) Date time minimum value                                               | `string`                                       | `undefined`            |
+| `limits`       | --               | (optional) Date time minimum and maximum value                                   | `IDateTimeInputLimits`                         | `undefined`            |
 | `placeholder`  | `placeholder`    | (optional) Date time place holder                                                | `string`                                       | `''`                   |
 | `required`     | `required`       | (optional) Date time input required                                              | `boolean`                                      | `false`                |
 | `size`         | `size`           | (optional) Sets this tab item to a different styling configuration               | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |

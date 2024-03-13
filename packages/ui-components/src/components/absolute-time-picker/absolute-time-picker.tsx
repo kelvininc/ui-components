@@ -468,8 +468,10 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 								size={EComponentSize.Small}
 								placeholder={DATE_INPUT_PLACEHOLDER}
 								onTextChange={ev => this.handleDateChange(ev, EInputSource.Single)}
-								min={this.calendarInputMinDate}
-								max={this.calendarInputMaxDate}
+								limits={{
+									min: this.calendarInputMinDate,
+									max: this.calendarInputMaxDate
+								}}
 							/>
 						</div>
 					)}
