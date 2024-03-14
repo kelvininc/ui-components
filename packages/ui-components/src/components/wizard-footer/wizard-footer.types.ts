@@ -14,13 +14,13 @@ export interface IWizardFooter extends IStepBar {
 	completeEnabled: boolean;
 	/** (optional) The `complete` button label */
 	completeBtnLabel?: string;
-	/** (required) A boolean that determines whether the `cencel` button should be shown */
+	/** (optional) A boolean that determines whether the `cancel` button should be shown */
 	showCancelBtn?: boolean;
-	/** (required) A boolean that determines whether the `previous` button should be shown */
+	/** (optional) A boolean that determines whether the `previous` button should be shown */
 	showPrevBtn?: boolean;
-	/** (required) A boolean that determines whether the `next` button should be shown */
+	/** (optional) A boolean that determines whether the `next` button should be shown */
 	showNextBtn?: boolean;
-	/** (required) A boolean that determines whether the `complete` button should be shown */
+	/** (optional) A boolean that determines whether the `complete` button should be shown */
 	showCompleteBtn?: boolean;
 }
 
