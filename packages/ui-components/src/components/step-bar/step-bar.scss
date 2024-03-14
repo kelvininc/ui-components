@@ -4,6 +4,7 @@
 * @prop --step-label-color: The color of the label.
 * @prop --step-counter-color: The color of the step counter.
 */
+$progress-bar-height: 2px;
 
 :host {
 	--step-label-color: #{kv-color('neutral-0')};
@@ -26,4 +27,29 @@
 
 .progress-bar-container {
 	margin-top: $spacing;
+
+	kv-step-progress-bar {
+		--progress-bar-height: #{$progress-bar-height};
+		--progress-height: 14px;
+	}
+
+	kv-step-indicator {
+		--indicator-radius: 14px;
+	}
+
+	.step-indicator-container {
+		display: flex;
+		align-items: center;
+
+		.error-bar-filler {
+			position: absolute;
+			height: $progress-bar-height;
+			background-color: kv-color('error');
+			z-index: 1;
+		}
+
+		.step-indicator {
+			z-index: 2;
+		}
+	}
 }

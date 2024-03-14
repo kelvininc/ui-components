@@ -114,6 +114,7 @@ graph TD;
   kv-wizard-footer --> kv-action-button-text
   kv-step-bar --> kv-step-progress-bar
   kv-step-bar --> kv-step-indicator
+  kv-step-indicator --> kv-icon
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon
   style kv-wizard fill:#f9f,stroke:#333,stroke-width:4px

@@ -26,14 +26,14 @@ export const buildFooterConfig = (steps?: IWizardStep[], currentStep?: number, c
 			stepKey: step.title,
 			enabled: (index === currentStep + 1 && currentStepState === EStepState.Success) || (index < currentStep && steps[index + 1].allowGoBack),
 			active: index === currentStep ? !!currentStepState : index < currentStep,
-			hasError: index <= currentStep && currentStepState === EStepState.Error
+			hasError: index === currentStep && currentStepState === EStepState.Error
 		};
 	});
 
 	return {
 		steps: stepsConfig,
 		currentStep,
-		hasError: currentStepState === EStepState.Error,
+		hasError: false,
 		showPrevBtn: steps[currentStep].allowGoBack ?? false,
 		prevEnabled: currentStep > 0,
 		showNextBtn: currentStep < steps.length - 1,

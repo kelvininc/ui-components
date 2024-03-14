@@ -9,8 +9,8 @@
 	* @prop --indicator-active-border-color: The border color to show when the indicator is active
 	* @prop --indicator-error-border-color: The color to show on the border that highlights the indicator when there's an error
 	*/
-	--indicator-radius: 12px;
-	--indicator-default-color: #{kv-color('neutral-3')};
+	--indicator-radius: 14px;
+	--indicator-default-color: #{kv-color('neutral-6')};
 	--indicator-default-border-color: #{kv-color('neutral-6')};
 	--indicator-active-color: #{kv-color('neutral-3')};
 	--indicator-active-border-color: #{kv-color('success')};
@@ -18,6 +18,9 @@
 }
 
 .indicator {
+	display: flex;
+    justify-content: center;
+    align-items: center;
 	box-sizing: border-box;
 	width: var(--indicator-radius);
 	height: var(--indicator-radius);
@@ -33,9 +36,22 @@
 	&--state-active {
 		background-color: var(--indicator-active-color);
 		border-color: var(--indicator-active-border-color);
+
+		kv-icon {
+			--icon-color: var(--indicator-active-border-color);
+		}
 	}
 
 	&--state-error {
 		border-color: var(--indicator-error-border-color);
+
+		kv-icon {
+			--icon-color: var(--indicator-error-border-color);
+		}
+	}
+
+	kv-icon {
+		--icon-width: var(--indicator-radius);
+		--icon-height: var(--indicator-radius);
 	}
 }
