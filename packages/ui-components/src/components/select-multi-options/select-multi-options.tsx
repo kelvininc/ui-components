@@ -339,6 +339,17 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 								<kv-illustration-message {...this.noDataAvailableConfig} />
 							</div>
 						</div>
+						{this.canAddItems && (
+							<div class="create-new-option-button">
+								<kv-select-option
+									{...buildNewOption(this.highlightedOption, this.createOptionPlaceholder)}
+									onItemSelected={this.onItemSelected}
+									style={{
+										'--select-option-height': `${SELECT_OPTION_HEIGHT_IN_PX}px`
+									}}
+								/>
+							</div>
+						)}
 					</slot>
 				)}
 				{hasNoResultsFound && (
