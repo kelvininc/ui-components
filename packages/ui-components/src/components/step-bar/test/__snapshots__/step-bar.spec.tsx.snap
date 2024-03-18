@@ -13,9 +13,16 @@ exports[`KvStepBar (unit tests) when rendering with required props and \`hasErro
     </div>
     <div class="progress-bar-container">
       <kv-step-progress-bar progresspercentage="50">
-        <kv-step-indicator active="" enabled="" haserror=""></kv-step-indicator>
-        <kv-step-indicator active="" enabled="" haserror=""></kv-step-indicator>
-        <kv-step-indicator></kv-step-indicator>
+        <div class="step-indicator-container">
+          <kv-step-indicator active="" class="step-indicator" enabled="" haserror=""></kv-step-indicator>
+        </div>
+        <div class="step-indicator-container">
+          <div class="error-bar-filler" style="left: 0%; width: 50%;"></div>
+          <kv-step-indicator active="" class="step-indicator" enabled="" haserror="" iscurrent=""></kv-step-indicator>
+        </div>
+        <div class="step-indicator-container">
+          <kv-step-indicator class="step-indicator"></kv-step-indicator>
+        </div>
       </kv-step-progress-bar>
     </div>
   </mock:shadow-root>
@@ -35,9 +42,15 @@ exports[`KvStepBar (unit tests) when rendering with required props should match 
     </div>
     <div class="progress-bar-container">
       <kv-step-progress-bar progresspercentage="50">
-        <kv-step-indicator active="" enabled=""></kv-step-indicator>
-        <kv-step-indicator active="" enabled=""></kv-step-indicator>
-        <kv-step-indicator></kv-step-indicator>
+        <div class="step-indicator-container">
+          <kv-step-indicator active="" class="step-indicator" enabled=""></kv-step-indicator>
+        </div>
+        <div class="step-indicator-container">
+          <kv-step-indicator active="" class="step-indicator" enabled="" iscurrent=""></kv-step-indicator>
+        </div>
+        <div class="step-indicator-container">
+          <kv-step-indicator class="step-indicator"></kv-step-indicator>
+        </div>
       </kv-step-progress-bar>
     </div>
   </mock:shadow-root>

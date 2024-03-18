@@ -3,7 +3,7 @@ import { EInputFieldType } from '../text-field/text-field.types';
 import { EComponentSize } from '../../types';
 import { isNil } from 'lodash';
 import { DATE_TIME_INPUTMASK_CONFIG } from './date-time-input.config';
-import { IDateTimeInput, IDateTimeInputEvents } from './date-time-input.types';
+import { IDateTimeInput, IDateTimeInputEvents, IDateTimeInputLimits } from './date-time-input.types';
 import Inputmask from 'inputmask';
 import { getDateLimitsInputmaskConfig } from './date-time-input.utils';
 
@@ -26,9 +26,7 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) useInputMask?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) min?: string;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) max?: string;
+	@Prop({ reflect: true }) limits?: IDateTimeInputLimits;
 	/** @inheritdoc */
 	@Prop() size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
@@ -84,8 +82,7 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 		}
 	}
 
-	@Watch('min')
-	@Watch('max')
+	@Watch('limits')
 	handleDateLimitsValueChange() {
 		if (this.useInputMask) {
 			this.createInputMaskInstance();
@@ -103,7 +100,7 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	private createInputMaskInstance = () => {
 		Inputmask({
 			...DATE_TIME_INPUTMASK_CONFIG,
-			...getDateLimitsInputmaskConfig(this.min, this.max)
+			...getDateLimitsInputmaskConfig(this.limits)
 		}).mask(this.nativeInput);
 	};
 

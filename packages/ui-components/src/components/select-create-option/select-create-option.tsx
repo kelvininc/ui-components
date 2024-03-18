@@ -1,4 +1,4 @@
-import { Component, Event, Method, Prop, State, h } from '@stencil/core';
+import { Component, Event, Method, Prop, h } from '@stencil/core';
 import { EventEmitter } from '@stencil/core';
 import { EIconName } from '../icon/icon.types';
 import { EActionButtonType } from '../action-button/action-button.types';
@@ -19,6 +19,8 @@ import { isEmpty } from 'lodash-es';
 })
 export class KvSelectCreateOption implements ISelectCreateOption, ISelectCreateOptionEvents {
 	/** @inheritdoc */
+	@Prop({ reflect: true }) value?: string = '';
+	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) size?: EComponentSize = EComponentSize.Small;
@@ -26,18 +28,22 @@ export class KvSelectCreateOption implements ISelectCreateOption, ISelectCreateO
 	@Prop({ reflect: false }) inputConfig?: Partial<ITextField> = {};
 
 	/** @inheritdoc */
-	@Event() create: EventEmitter<string>;
+	@Event() clickCreate: EventEmitter<void>;
 	/** @inheritdoc */
-	@Event() cancel: EventEmitter<void>;
+	@Event() clickCancel: EventEmitter<void>;
 	/** @inheritdoc */
 	@Event() valueChanged: EventEmitter<string>;
 
-	@State() value: string = '';
-
-	/** Focuses the input */
+	/** Focus the input */
 	@Method()
 	async focusInput() {
 		this.input.focus();
+	}
+
+	/** Blur the input */
+	@Method()
+	async blurInput() {
+		this.input.blur();
 	}
 
 	private input?: HTMLKvTextFieldElement;
@@ -48,23 +54,16 @@ export class KvSelectCreateOption implements ISelectCreateOption, ISelectCreateO
 		}
 	};
 
-	private onChangeValue = (newValue: string) => {
-		this.value = newValue;
-		this.valueChanged.emit(newValue);
-	};
-
 	private onCreate = () => {
 		if (!this.canSubmit) {
 			return;
 		}
 
-		this.create.emit(this.value);
-		this.value = '';
+		this.clickCreate.emit();
 	};
 
 	private onCancel = () => {
-		this.cancel.emit();
-		this.value = '';
+		this.clickCancel.emit();
 	};
 
 	private get canSubmit() {
@@ -86,7 +85,7 @@ export class KvSelectCreateOption implements ISelectCreateOption, ISelectCreateO
 						value={this.value}
 						{...this.inputConfig}
 						onKeyPress={this.onKeyPress}
-						onTextChange={({ detail: newValue }) => this.onChangeValue(newValue)}
+						onTextChange={({ detail: newValue }) => this.valueChanged.emit(newValue)}
 						part="text-field"
 					/>
 				</div>

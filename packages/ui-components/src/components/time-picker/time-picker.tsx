@@ -1,6 +1,6 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EActionButtonType } from '../action-button/action-button.types';
-import { isEmpty, merge } from 'lodash-es';
+import { isEmpty, isNumber, merge } from 'lodash-es';
 import { ITextField } from '../text-field/text-field.types';
 import {
 	APPLY_BUTTON_ERROR_TOOLTIP_TEXT,
@@ -30,9 +30,10 @@ import {
 	hasRangeChanged,
 	validateNewRange
 } from './time-picker.helper';
-import { CALENDAR_DATE_TIME_MASK, DEFAULT_HEADER_TITLE } from '../absolute-time-picker/absolute-time-picker.config';
+import { CALENDAR_DATE_TIME_MASK, DATETIME_INPUT_MASK, DEFAULT_HEADER_TITLE } from '../absolute-time-picker/absolute-time-picker.config';
 import { IRelativeTimeInput, IAbsoluteSelectedRangeDates } from '../absolute-time-picker/absolute-time-picker.types';
 import { buildTimezoneByOffset } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.helper';
+import dayjs from 'dayjs';
 
 @Component({
 	tag: 'kv-time-picker',
@@ -61,9 +62,9 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) displayTimezoneDropdown?: boolean = true;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) calendarInputMinDate?: string;
+	@Prop({ reflect: false }) calendarInputMinDate?: number;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) calendarInputMaxDate?: string;
+	@Prop({ reflect: false }) calendarInputMaxDate?: number;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) zIndex?: number = TIME_PICKER_PORTAL_Z_INDEX;
 	/** @inheritdoc */
@@ -287,6 +288,13 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 		this.timezoneSelectionContentVisible = true;
 	};
 
+	private getCalendarLimitDatesFormatted = (date: number): string | undefined => {
+		if (!isNumber(date)) return;
+
+		const selectedTimezone = this.getSelectedTimezone();
+		return dayjs(date).tz(selectedTimezone.name).format(DATETIME_INPUT_MASK);
+	};
+
 	// Components config methods
 	private isApplyButtonDisabled() {
 		if (!this.selectedTimeState) {
@@ -439,8 +447,8 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 									onSelectedDatesChange={this.handleAbsoluteDatesChange}
 									onRelativeTimeConfigReset={this.handleRelativeTimeConfigReset}
 									onRelativeTimeConfigChange={this.handleAbsoluteDatesChange}
-									calendarInputMaxDate={this.calendarInputMaxDate}
-									calendarInputMinDate={this.calendarInputMinDate}
+									calendarInputMinDate={this.getCalendarLimitDatesFormatted(this.calendarInputMinDate)}
+									calendarInputMaxDate={this.getCalendarLimitDatesFormatted(this.calendarInputMaxDate)}
 								/>
 							</div>
 						</div>
