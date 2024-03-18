@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.31.0](https://github.com/kelvininc/ui-components/compare/v0.30.0...v0.31.0) (2024-03-18)
+
+
+### Bug Fixes
+
+* **dropdown:** change cancel create option event name due to native event conflict ([3cb5766](https://github.com/kelvininc/ui-components/commit/3cb576637afb9956014099eb3713a332a6d4ca53))
+
+
+### Features
+
+* **dropdown:** add 'create' option to 'no data available' state ([49a04a3](https://github.com/kelvininc/ui-components/commit/49a04a3facd9d005e1e1616fe4995a2f38ac4d47))
+* **dropdown:** add search term as initial create option value ([6816ff8](https://github.com/kelvininc/ui-components/commit/6816ff8fd97f5a2b7f5b8255cb444a3e85a8ee86))
+
+
+
+
+
 # [0.30.0](https://github.com/kelvininc/ui-components/compare/v0.29.1...v0.30.0) (2024-03-12)
 
 
