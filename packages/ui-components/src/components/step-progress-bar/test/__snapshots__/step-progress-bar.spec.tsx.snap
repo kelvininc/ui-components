@@ -3,7 +3,8 @@
 exports[`StepProgressBar (unit tests) when rendering with required props and error state when the component loads should match the snapshot 1`] = `
 <kv-step-progress-bar has-error="" progress-percentage="50">
   <mock:shadow-root>
-    <div class="progress-wrapper">
+    <div class="step-progress-bar-container">
+      <div class="progress-bar"></div>
       <div class="error progress-bar-filler" style="width: 50%;"></div>
       <div class="steps-container">
         <slot></slot>
@@ -21,7 +22,8 @@ exports[`StepProgressBar (unit tests) when rendering with required props and err
 exports[`StepProgressBar (unit tests) when rendering with required props when the component loads should match the snapshot 1`] = `
 <kv-step-progress-bar progress-percentage="50">
   <mock:shadow-root>
-    <div class="progress-wrapper">
+    <div class="step-progress-bar-container">
+      <div class="progress-bar"></div>
       <div class="progress-bar-filler" style="width: 50%;"></div>
       <div class="steps-container">
         <slot></slot>

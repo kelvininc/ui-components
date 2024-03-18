@@ -110,6 +110,7 @@ export const StepBarExample: React.FC = () => {
 graph TD;
   kv-step-bar --> kv-step-progress-bar
   kv-step-bar --> kv-step-indicator
+  kv-step-indicator --> kv-icon
   kv-wizard-footer --> kv-step-bar
   style kv-step-bar fill:#f9f,stroke:#333,stroke-width:4px
 ```

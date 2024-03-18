@@ -121,10 +121,10 @@ export const KvWizardFooterExample: React.FC = () => {
 | `nextEnabled`                     | `next-enabled`        | (optional) Defines if the `next` button should be enabled and interactable                   | `boolean`        | `true`      |
 | `prevEnabled`                     | `prev-enabled`        | (optional) Defines if the `previous` button should be enabled and interactable               | `boolean`        | `true`      |
 | `progressPercentage` _(required)_ | `progress-percentage` | (required) Defines the percentage of steps completed                                         | `number`         | `undefined` |
-| `showCancelBtn`                   | `show-cancel-btn`     | (required) A boolean that determines whether the `cencel` button should be shown             | `boolean`        | `undefined` |
-| `showCompleteBtn`                 | `show-complete-btn`   | (required) A boolean that determines whether the `complete` button should be shown           | `boolean`        | `undefined` |
-| `showNextBtn`                     | `show-next-btn`       | (required) A boolean that determines whether the `next` button should be shown               | `boolean`        | `undefined` |
-| `showPrevBtn`                     | `show-prev-btn`       | (required) A boolean that determines whether the `previous` button should be shown           | `boolean`        | `undefined` |
+| `showCancelBtn`                   | `show-cancel-btn`     | (optional) A boolean that determines whether the `cancel` button should be shown             | `boolean`        | `undefined` |
+| `showCompleteBtn`                 | `show-complete-btn`   | (optional) A boolean that determines whether the `complete` button should be shown           | `boolean`        | `undefined` |
+| `showNextBtn`                     | `show-next-btn`       | (optional) A boolean that determines whether the `next` button should be shown               | `boolean`        | `undefined` |
+| `showPrevBtn`                     | `show-prev-btn`       | (optional) A boolean that determines whether the `previous` button should be shown           | `boolean`        | `undefined` |
 | `showStepBar`                     | `show-step-bar`       | (optional) Defines if the step bar should render                                             | `boolean`        | `true`      |
 | `steps` _(required)_              | --                    | (required) Defines the steps array to render                                                 | `IStepBarStep[]` | `undefined` |
 
@@ -172,6 +172,7 @@ graph TD;
   kv-wizard-footer --> kv-action-button-text
   kv-step-bar --> kv-step-progress-bar
   kv-step-bar --> kv-step-indicator
+  kv-step-indicator --> kv-icon
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon
   kv-wizard --> kv-wizard-footer

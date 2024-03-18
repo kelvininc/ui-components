@@ -40,7 +40,7 @@ describe('Wizard (unit tests)', () => {
 					{
 						stepKey: 'Configuration',
 						enabled: false,
-						active: false,
+						active: true,
 						hasError: false
 					},
 					{
@@ -92,7 +92,7 @@ describe('Wizard (unit tests)', () => {
 						stepKey: 'Info',
 						enabled: true,
 						active: true,
-						hasError: true
+						hasError: false
 					},
 					{
 						stepKey: 'Configuration',
@@ -108,7 +108,7 @@ describe('Wizard (unit tests)', () => {
 					}
 				],
 				currentStep: 1,
-				hasError: true,
+				hasError: false,
 				showPrevBtn: true,
 				prevEnabled: true,
 				showNextBtn: true,
