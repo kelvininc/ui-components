@@ -40,16 +40,5 @@ $progress-bar-height: 2px;
 	.step-indicator-container {
 		display: flex;
 		align-items: center;
-
-		.error-bar-filler {
-			position: absolute;
-			height: $progress-bar-height;
-			background-color: kv-color('error');
-			z-index: 1;
-		}
-
-		.step-indicator {
-			z-index: 2;
-		}
 	}
 }

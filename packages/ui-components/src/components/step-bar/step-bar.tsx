@@ -31,7 +31,6 @@ export class KvStepBar implements IStepBar, IStepBarEvents {
 			return;
 		}
 
-		const stepWidth = 100 / (this.steps.length - 1);
 		return (
 			<Host>
 				<div class="label-container">
@@ -44,7 +43,6 @@ export class KvStepBar implements IStepBar, IStepBarEvents {
 					<kv-step-progress-bar progressPercentage={this.progressPercentage}>
 						{this.steps.map(({ active, enabled, hasError, stepKey }, idx) => (
 							<div class="step-indicator-container">
-								{idx > 0 && hasError && active && <div class="error-bar-filler" style={{ left: stepWidth * (idx - 1) + '%', width: stepWidth + '%' }} />}
 								<kv-step-indicator
 									class="step-indicator"
 									key={stepKey}
