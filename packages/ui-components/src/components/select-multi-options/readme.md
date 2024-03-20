@@ -56,6 +56,16 @@ Type: `Promise<void>`
 
 
 
+### `closeCreatePopup() => Promise<void>`
+
+Close create popup
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 
 ## Shadow Parts
 
