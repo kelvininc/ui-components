@@ -17,7 +17,6 @@ exports[`KvStepBar (unit tests) when rendering with required props and \`hasErro
           <kv-step-indicator active="" class="step-indicator" enabled="" haserror=""></kv-step-indicator>
         </div>
         <div class="step-indicator-container">
-          <div class="error-bar-filler" style="left: 0%; width: 50%;"></div>
           <kv-step-indicator active="" class="step-indicator" enabled="" haserror="" iscurrent=""></kv-step-indicator>
         </div>
         <div class="step-indicator-container">

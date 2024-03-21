@@ -168,6 +168,12 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		this.highlightedOption = undefined;
 	}
 
+	/** Close create popup */
+	@Method()
+	async closeCreatePopup(): Promise<void> {
+		this.isCreating = false;
+	}
+
 	componentWillLoad() {
 		this.buildSelectionOptions();
 	}
