@@ -142,7 +142,7 @@ export const hasRangeChanged = (componentRangeState: SelectedTimestamp, propRang
 
 export const validateNewRange = (range: SelectedTimestamp): boolean => {
 	const [from, to] = range;
-	return dayjs(from).isValid() && dayjs(to).isValid();
+	return dayjs(from).isValid() && dayjs(to).isValid() && dayjs(from).isBefore(to);
 };
 
 export const getTimePickerEventPayload = (timeState: ITimePickerTimeState, timezone: ITimePickerTimezone): ITimePickerTime => {

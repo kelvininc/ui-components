@@ -47,5 +47,5 @@ export const areDatesValidByRange = (range: SelectedTimestamp, mode: EAbsoluteTi
 
 	const [from, to] = range;
 
-	return isNumber(from) && isNumber(to);
+	return isNumber(from) && isNumber(to) && dayjs(from).isBefore(to);
 };
