@@ -83,8 +83,9 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	}
 
 	@Watch('limits')
-	handleDateLimitsValueChange() {
-		if (this.useInputMask) {
+	handleDateLimitsValueChange(newLimits: IDateTimeInputLimits) {
+		if (this.useInputMask && JSON.stringify(newLimits) !== JSON.stringify(this.limits)) {
+			this.limits = newLimits;
 			this.createInputMaskInstance();
 		}
 	}
@@ -106,7 +107,7 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 
 	private onInputHandler = ({ target }: InputEvent) => {
 		const input = target as HTMLInputElement | null;
-		if (!isNil(input)) {
+		if (!isNil(input)  && input?.value !== this.value) {
 			this.value = input.value || '';
 		}
 		this.textChange.emit(this.getValue());
