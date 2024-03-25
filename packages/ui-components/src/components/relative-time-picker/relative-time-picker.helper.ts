@@ -40,7 +40,7 @@ export const buildDateRangeDescription = ([startDate, endDate]: DayjsTimeRange, 
 
 export const getSelectedKeyRange = (options: IRelativeTimeDropdownOption[][], key: string): SelectedTimestamp => {
 	const selectedItem = options.flat().find(item => item.key === key);
-	return selectedItem.range;
+	return selectedItem?.range ?? [];
 };
 
 export const hasRangeChanged = (selectedRange: SelectedTimestamp, currentRange: SelectedTimestamp): boolean => {

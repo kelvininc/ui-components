@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, Fragment, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EInputFieldType } from '../text-field/text-field.types';
 import { EComponentSize } from '../../types';
-import { isNil } from 'lodash';
+import { isEqual, isNil } from 'lodash';
 import { DATE_TIME_INPUTMASK_CONFIG } from './date-time-input.config';
 import { IDateTimeInput, IDateTimeInputEvents, IDateTimeInputLimits } from './date-time-input.types';
 import Inputmask from 'inputmask';
@@ -22,7 +22,7 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) placeholder?: string = '';
 	/** @inheritdoc */
-	@Prop({ reflect: true, mutable: true }) value?: string | null = '';
+	@Prop({ reflect: true }) value?: string | null = '';
 	/** @inheritdoc */
 	@Prop({ reflect: true }) useInputMask?: boolean = false;
 	/** @inheritdoc */
@@ -49,18 +49,6 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	/** @inheritdoc */
 	@Event() inputFocus: EventEmitter<FocusEvent>;
 
-	@Watch('value')
-	valueChangeHandler(newValue: string | null) {
-		this.value = newValue;
-
-		const nativeInput = this.nativeInput;
-		const value = this.getValue();
-
-		if (nativeInput && nativeInput.value !== value) {
-			nativeInput.value = value;
-		}
-	}
-
 	@Watch('forcedFocus')
 	forcedFocusChangeHandler(newValue: boolean) {
 		this.focused = newValue;
@@ -71,20 +59,18 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	}
 
 	@Watch('useInputMask')
-	handleUseInputMask(newValue: boolean) {
-		if (newValue) {
+	handleUseInputMask(useInputMaskValue: boolean) {
+		if (useInputMaskValue) {
 			this.createInputMaskInstance();
-		} else {
-			if (this.nativeInput) {
-				Inputmask.remove(this.nativeInput);
-				this.valueChangeHandler(this.value);
-			}
+		} else if (this.nativeInput) {
+			Inputmask.remove(this.nativeInput);
 		}
 	}
 
 	@Watch('limits')
-	handleDateLimitsValueChange() {
-		if (this.useInputMask) {
+	handleDateLimitsValueChange(newLimits: IDateTimeInputLimits) {
+		if (this.useInputMask && !isEqual(newLimits, this.limits)) {
+			this.limits = newLimits;
 			this.createInputMaskInstance();
 		}
 	}
@@ -106,10 +92,9 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 
 	private onInputHandler = ({ target }: InputEvent) => {
 		const input = target as HTMLInputElement | null;
-		if (!isNil(input)) {
-			this.value = input.value || '';
+		if (!isNil(input) && input?.value !== this.value) {
+			this.textChange.emit(input.value || '');
 		}
-		this.textChange.emit(this.getValue());
 	};
 
 	private onBlurHandler = ({ target }: FocusEvent) => {
