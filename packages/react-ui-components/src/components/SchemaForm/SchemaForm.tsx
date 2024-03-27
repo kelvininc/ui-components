@@ -1,9 +1,9 @@
-import { EActionButtonType, EComponentSize } from '@kelvininc/ui-components';
+import { EActionButtonType, EComponentSize, KvActionButtonTextCustomEvent } from '@kelvininc/ui-components';
 import Form, { FormProps, IChangeEvent, withTheme } from '@rjsf/core';
 import { RJSFSchema, StrictRJSFSchema, FormContextType, createSchemaUtils, deepEquals, getSubmitButtonOptions } from '@rjsf/utils';
 import classNames from 'classnames';
 import { cloneDeep, isEmpty, isEqualWith } from 'lodash';
-import React, { ComponentProps, ComponentType, ForwardedRef, forwardRef, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ComponentProps, ComponentType, FormEvent, ForwardedRef, forwardRef, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useScroll } from '../../utils';
 import { KvActionButtonText, KvTooltip } from '../stencil-generated';
 import { SCROLL_OFFSET } from './config';
@@ -106,9 +106,9 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		experimental_defaultFormStateBehavior
 	};
 
-	const onSubmitClick = () => {
+	const onSubmitClick = (event: KvActionButtonTextCustomEvent<MouseEvent>) => {
 		if (formRef?.current) {
-			formRef.current.submit();
+			otherProps.onSubmit?.(formRef.current.state, event as unknown as FormEvent<any>);
 		}
 	};
 

@@ -23,6 +23,9 @@ export default {
 		onError: {
 			action: 'error'
 		},
+		onSubmit: {
+			action: 'submit'
+		},
 		showErrorList: {
 			control: { type: 'inline-radio' },
 			options: Object.values(EShowErrorListType)
