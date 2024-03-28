@@ -96,7 +96,7 @@ export const getRelativeTimeInputText = (options: IRelativeTimePickerOption[][],
 		if (option.comparisonConfig === ERelativeTimeComparisonConfig.RelativeAmountOfUnits) {
 			return {
 				mode: ERelativeTimeInputMode.Text,
-				from: `Now - ${Math.abs(option.startDate.amount)} ${option.startDate.unit}`,
+				from: `Now - ${Math.abs(option.startDate.amount) === 0 ? 'start of' : Math.abs(option.startDate.amount)} ${option.startDate.unit}`,
 				to: 'Now'
 			};
 		} else {
@@ -142,7 +142,7 @@ export const hasRangeChanged = (componentRangeState: SelectedTimestamp, propRang
 
 export const validateNewRange = (range: SelectedTimestamp): boolean => {
 	const [from, to] = range;
-	return dayjs(from).isValid() && dayjs(to).isValid();
+	return dayjs(from).isValid() && dayjs(to).isValid() && dayjs(from).isBefore(to);
 };
 
 export const getTimePickerEventPayload = (timeState: ITimePickerTimeState, timezone: ITimePickerTimezone): ITimePickerTime => {
