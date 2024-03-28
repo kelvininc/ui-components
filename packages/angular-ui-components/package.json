@@ -1,6 +1,6 @@
 {
 	"name": "@kelvininc/angular-ui-components",
-	"version": "0.31.0",
+	"version": "0.31.1",
 	"description": "Kelvin UI Components for Angular applications",
 	"homepage": "https://docs.kelvininc.com",
 	"license": "SEE LICENSE IN LICENSE",
@@ -38,7 +38,7 @@
 		"rxjs": ">=6.6.0"
 	},
 	"dependencies": {
-		"@kelvininc/ui-components": "0.31.0",
+		"@kelvininc/ui-components": "0.31.1",
 		"tslib": "^2.3.0"
 	},
 	"devDependencies": {

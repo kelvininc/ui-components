@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.31.1](https://github.com/kelvininc/ui-components/compare/v0.31.0...v0.31.1) (2024-03-28)
+
+
+### Bug Fixes
+
+* **absolute-time-picker:** handle quarter dates limits in range ([6494c73](https://github.com/kelvininc/ui-components/commit/6494c7333f24f341114780bf282ee00d0edbbce7))
+* **schema-form:** fix untrusted submit event ([345139c](https://github.com/kelvininc/ui-components/commit/345139ce6fc3ebc01e9ce2eec3317f6eeb07b912))
+
+
+
+
+
 # [0.31.0](https://github.com/kelvininc/ui-components/compare/v0.30.0...v0.31.0) (2024-03-18)
 
 **Note:** Version bump only for package @kelvininc/react-ui-components
