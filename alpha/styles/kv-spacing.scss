@@ -1,0 +1,19 @@
+//*****************************
+//*** PEACOCK SPACING SIZES ***
+//*****************************
+
+// Peacock uses a 4-point grid system for sizing, spacing, and laying out components
+$grid-system-point: 4px;
+
+$spacing: var(--kv-spacing, $grid-system-point); //4px
+$spacing-2x: var(--kv-spacing-2x, 2 * $grid-system-point); //8px
+$spacing-3x: var(--kv-spacing-3x, 3 * $grid-system-point); //12px
+$spacing-4x: var(--kv-spacing-4x, 4 * $grid-system-point); //16px
+$spacing-5x: var(--kv-spacing-5x, 5 * $grid-system-point); //20px
+$spacing-6x: var(--kv-spacing-6x, 6 * $grid-system-point); //24px
+$spacing-7x: var(--kv-spacing-7x, 7 * $grid-system-point); //28px
+$spacing-8x: var(--kv-spacing-8x, 8 * $grid-system-point); //32px
+$spacing-9x: var(--kv-spacing-9x, 9 * $grid-system-point); //36px
+$spacing-10x: var(--kv-spacing-10x, 10 * $grid-system-point); //40px
+$spacing-12x: var(--kv-spacing-12x, 12 * $grid-system-point); //48px
+$spacing-16x: var(--kv-spacing-16x, 16 * $grid-system-point); //64px
