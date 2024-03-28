@@ -196,6 +196,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	private setOpenState = (state: boolean) => {
 		if (!state) {
 			this.setSearch('');
+			this.closeCreatePopup();
 		}
 
 		this.highlightedOption = undefined;
@@ -247,6 +248,10 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 	private clearHighlightedOption = (): void => {
 		this.selectRef?.clearHighlightedOption();
+	};
+
+	private closeCreatePopup = (): void => {
+		this.selectRef?.closeCreatePopup();
 	};
 
 	private calculateLabelValue = (): void => {

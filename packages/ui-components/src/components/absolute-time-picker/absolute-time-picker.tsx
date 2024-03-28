@@ -264,7 +264,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 				this.emitSelectRangeDatesChangeEvent(dayjs(this.fromInputValue, DATETIME_INPUT_MASK), dayjs(this.toInputValue, DATETIME_INPUT_MASK));
 			}
 		} else {
-			if (!isEmpty(this.fromInputValue) && parsedToInputDate.diff(parsedFromInputDate, 'month') > 0) {
+			if (!isEmpty(this.fromInputValue) && (parsedToInputDate.diff(parsedFromInputDate, 'month') > 0 || this.displayedMonth.diff(parsedFromInputDate, 'month') > 0)) {
 				this.displayedMonth = parsedFromInputDate;
 			}
 		}
@@ -286,7 +286,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 				this.emitSelectRangeDatesChangeEvent(dayjs(this.fromInputValue, DATETIME_INPUT_MASK), dayjs(this.toInputValue, DATETIME_INPUT_MASK));
 			}
 		} else {
-			if (!isEmpty(this.toInputValue) && parsedToInputDate.diff(parsedFromInputDate, 'month') > 0) {
+			if (!isEmpty(this.toInputValue) && (parsedToInputDate.diff(parsedFromInputDate, 'month') > 0 || this.displayedMonth.diff(parsedToInputDate, 'month') > 0)) {
 				this.displayedMonth = parsedToInputDate.subtract(1, 'month');
 			}
 		}
@@ -384,7 +384,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		if (!isEmpty(this.toInputValue) && parsedToDateTime.isValid()) {
 			return {
 				min: this.calendarInputMinDate,
-				max: parsedToDateTime.format(DATETIME_INPUT_MASK)
+				max: parsedToDateTime.subtract(1, 'second').format(DATETIME_INPUT_MASK)
 			};
 		}
 
@@ -398,7 +398,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		const parsedFromDateTime = dayjs(this.fromInputValue, DATETIME_INPUT_MASK);
 		if (!isEmpty(this.fromInputValue) && parsedFromDateTime.isValid()) {
 			return {
-				min: parsedFromDateTime.format(DATETIME_INPUT_MASK),
+				min: parsedFromDateTime.add(1, 'second').format(DATETIME_INPUT_MASK),
 				max: this.calendarInputMaxDate
 			};
 		}
@@ -442,7 +442,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 								highlighted={isEmpty(this.fromInputValue) && !this.toInputFocused}
 								onTextChange={ev => this.handleDateChange(ev, EInputSource.From)}
 								onInputFocus={this.handleOnFocusFromInput}
-								{...this.getFromInputDateTimeLimits()}
+								limits={this.getFromInputDateTimeLimits()}
 							/>
 							<kv-date-time-input
 								inputName="to-input"
@@ -455,7 +455,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 								onTextChange={ev => this.handleDateChange(ev, EInputSource.To)}
 								onDateTimeBlur={this.handleEndDateLostFocus}
 								onInputFocus={this.handleOnFocusToInput}
-								{...this.getToInputDateTimeLimits()}
+								limits={this.getToInputDateTimeLimits()}
 							/>
 						</div>
 					) : (

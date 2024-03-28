@@ -76,8 +76,6 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	@State() selectedTimeState: ITimePickerTimeState;
 	// Dropdown open state
 	@State() dropdownOpen: boolean = false;
-	// Defines the calendar initial date if needed
-	@State() calendarInitialDate: string;
 	// Apply button tooltip text
 	@State() applyButtontooltipText: string = '';
 	// Defines if calendar is locked when the user is in full view and clicked customize interval
@@ -306,15 +304,19 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 		}
 
 		if (this.selectedTimeState?.range?.length > 0 && this.selectedTimeOption?.range?.length > 0) {
-			const { range: currentRange } = this.selectedTimeState;
-			const { range: newRange } = this.selectedTimeOption;
+			const { range: stateRange } = this.selectedTimeState;
+			const { range: propRange } = this.selectedTimeOption;
 
-			if (currentRange.length === FULL_RANGE_SIZE && hasRangeChanged(currentRange, newRange) && validateNewRange(newRange)) {
+			if (stateRange.length === FULL_RANGE_SIZE && hasRangeChanged(stateRange, propRange) && validateNewRange(stateRange)) {
 				return false;
 			}
 		}
 
-		if (this.selectedTimeState.timezone?.name !== this.selectedTimeOption.timezone?.name && this.selectedTimeState?.range?.length > 0) {
+		if (
+			this.selectedTimeState.timezone?.name !== this.selectedTimeOption.timezone?.name &&
+			this.selectedTimeState?.range?.length > 0 &&
+			validateNewRange(this.selectedTimeState.range)
+		) {
 			return false;
 		}
 
@@ -441,7 +443,6 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 									headerTitle={this.getFormattedSelectedTime()}
 									selectedDates={this.getAbsoluteRange()}
 									relativeTimeConfig={this.getRelativeTimeInputConfig()}
-									initialDate={this.calendarInitialDate}
 									displayBackButton={this.timePickerView === ETimePickerView.AbsoluteTimePicker}
 									onBackButtonClicked={this.onClickBack}
 									onSelectedDatesChange={this.handleAbsoluteDatesChange}

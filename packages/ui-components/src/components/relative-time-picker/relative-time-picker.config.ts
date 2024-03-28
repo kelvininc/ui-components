@@ -15,7 +15,7 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
 				amount: 0,
-				unit: 'days',
+				unit: 'day',
 				unitReference: EUnitReference.StartOfUnit
 			},
 			labelRangeFormatter: {
@@ -41,20 +41,44 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM'
 			}
+		}
+	],
+	[
+		{
+			label: 'Last 24 hours',
+			value: 'last-24-h',
+			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
+			startDate: {
+				amount: -24,
+				unit: 'hours'
+			},
+			labelRangeFormatter: {
+				startDateFormatter: 'D MMM HH:mm',
+				separator: 'to',
+				endDateFormatter: 'D MMM HH:mm'
+			}
 		},
 		{
-			label: 'This week',
-			value: 'this-week',
-			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
+			label: 'Last 48 hours',
+			value: 'last-48-h',
+			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
-				amount: 0,
-				unit: 'week',
-				unitReference: EUnitReference.StartOfUnit
+				amount: -48,
+				unit: 'hours'
 			},
-			endDate: {
-				amount: 0,
-				unit: 'week',
-				unitReference: EUnitReference.EndOfUnit
+			labelRangeFormatter: {
+				startDateFormatter: 'D MMM HH:mm',
+				separator: 'to',
+				endDateFormatter: 'D MMM HH:mm'
+			}
+		},
+		{
+			label: 'Last 7 days',
+			value: 'last-7-d',
+			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
+			startDate: {
+				amount: -7,
+				unit: 'days'
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM',
@@ -63,18 +87,12 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			}
 		},
 		{
-			label: 'This month',
-			value: 'this-month',
-			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
+			label: 'Last 30 days',
+			value: 'last-30-d',
+			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
-				amount: 0,
-				unit: 'month',
-				unitReference: EUnitReference.StartOfUnit
-			},
-			endDate: {
-				amount: 0,
-				unit: 'month',
-				unitReference: EUnitReference.EndOfUnit
+				amount: -30,
+				unit: 'days'
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM',
@@ -83,43 +101,31 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			}
 		},
 		{
-			label: 'This quarter',
-			value: 'this-quarter',
-			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
+			label: 'Last 90 days',
+			value: 'last-90-d',
+			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
-				amount: 0,
-				unit: 'quarter',
-				unitReference: EUnitReference.StartOfUnit
-			},
-			endDate: {
-				amount: 0,
-				unit: 'quarter',
-				unitReference: EUnitReference.EndOfUnit
+				amount: -90,
+				unit: 'days'
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM',
 				separator: 'to',
-				endDateFormatter: 'D MMM YYYY'
+				endDateFormatter: 'D MMM'
 			}
 		},
 		{
-			label: 'This year',
-			value: 'this-year',
-			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
+			label: 'Last 6 months',
+			value: 'last-6-m',
+			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
-				amount: 0,
-				unit: 'year',
-				unitReference: EUnitReference.StartOfUnit
-			},
-			endDate: {
-				amount: 0,
-				unit: 'year',
-				unitReference: EUnitReference.EndOfUnit
+				amount: -6,
+				unit: 'months'
 			},
 			labelRangeFormatter: {
 				startDateFormatter: 'D MMM',
 				separator: 'to',
-				endDateFormatter: 'D MMM YYYY'
+				endDateFormatter: 'D MMM'
 			}
 		}
 	],
@@ -181,11 +187,11 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			}
 		},
 		{
-			label: 'Last 2 hours',
-			value: 'last-2-h',
+			label: 'Last 3 hours',
+			value: 'last-3-h',
 			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
-				amount: -2,
+				amount: -3,
 				unit: 'hours'
 			},
 			labelRangeFormatter: {
@@ -221,156 +227,6 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 				separator: 'to',
 				endDateFormatter: 'HH:mm'
 			}
-		},
-		{
-			label: 'Last 24 hours',
-			value: 'last-24-h',
-			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
-			startDate: {
-				amount: -24,
-				unit: 'hours'
-			},
-			labelRangeFormatter: {
-				startDateFormatter: 'D MMM HH:mm',
-				separator: 'to',
-				endDateFormatter: 'D MMM HH:mm'
-			}
-		},
-		{
-			label: 'Last 48 hours',
-			value: 'last-48-h',
-			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
-			startDate: {
-				amount: -48,
-				unit: 'hours'
-			},
-			labelRangeFormatter: {
-				startDateFormatter: 'D MMM HH:mm',
-				separator: 'to',
-				endDateFormatter: 'D MMM HH:mm'
-			}
-		},
-		{
-			label: 'Last 72 hours',
-			value: 'last-72-h',
-			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
-			startDate: {
-				amount: -72,
-				unit: 'hours'
-			},
-			labelRangeFormatter: {
-				startDateFormatter: 'D MMM HH:mm',
-				separator: 'to',
-				endDateFormatter: 'D MMM HH:mm'
-			}
-		}
-	],
-	[
-		{
-			label: 'Last 7 days',
-			value: 'last-7-d',
-			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
-			startDate: {
-				amount: -7,
-				unit: 'days'
-			},
-			labelRangeFormatter: {
-				startDateFormatter: 'D MMM',
-				separator: 'to',
-				endDateFormatter: 'D MMM'
-			}
-		},
-		{
-			label: 'Last week',
-			value: 'last-1-w',
-			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
-			startDate: {
-				amount: -1,
-				unit: 'week',
-				unitReference: EUnitReference.StartOfUnit
-			},
-			endDate: {
-				amount: -1,
-				unit: 'week',
-				unitReference: EUnitReference.EndOfUnit
-			},
-			labelRangeFormatter: {
-				startDateFormatter: 'D MMM',
-				separator: 'to',
-				endDateFormatter: 'D MMM'
-			}
-		}
-	],
-	[
-		{
-			label: 'Last 30 days',
-			value: 'last-30-d',
-			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
-			startDate: {
-				amount: -30,
-				unit: 'days'
-			},
-			labelRangeFormatter: {
-				startDateFormatter: 'D MMM',
-				separator: 'to',
-				endDateFormatter: 'D MMM'
-			}
-		},
-		{
-			label: 'Last month',
-			value: 'last-1-m',
-			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
-			startDate: {
-				amount: -1,
-				unit: 'month',
-				unitReference: EUnitReference.StartOfUnit
-			},
-			endDate: {
-				amount: -1,
-				unit: 'month',
-				unitReference: EUnitReference.EndOfUnit
-			},
-			labelRangeFormatter: {
-				startDateFormatter: 'D MMM',
-				separator: 'to',
-				endDateFormatter: 'D MMM'
-			}
-		}
-	],
-	[
-		{
-			label: 'Last 90 days',
-			value: 'last-90-d',
-			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
-			startDate: {
-				amount: -90,
-				unit: 'days'
-			},
-			labelRangeFormatter: {
-				startDateFormatter: 'D MMM YYYY',
-				separator: 'to',
-				endDateFormatter: 'D MMM YYYY'
-			}
-		},
-		{
-			label: 'Last quarter',
-			value: 'last-1-q',
-			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
-			startDate: {
-				amount: -1,
-				unit: 'quarter',
-				unitReference: EUnitReference.StartOfUnit
-			},
-			endDate: {
-				amount: -1,
-				unit: 'quarter',
-				unitReference: EUnitReference.EndOfUnit
-			},
-			labelRangeFormatter: {
-				startDateFormatter: 'D MMM',
-				separator: 'to',
-				endDateFormatter: 'D MMM YYYY'
-			}
 		}
 	],
 	[
@@ -389,21 +245,15 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 			}
 		},
 		{
-			label: 'Last year',
-			value: 'last-1-y',
-			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
+			label: 'Last 2 years',
+			value: 'last-2-y',
+			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
-				amount: -1,
-				unit: 'year',
-				unitReference: EUnitReference.StartOfUnit
-			},
-			endDate: {
-				amount: -1,
-				unit: 'year',
-				unitReference: EUnitReference.EndOfUnit
+				amount: -2,
+				unit: 'years'
 			},
 			labelRangeFormatter: {
-				startDateFormatter: 'D MMM',
+				startDateFormatter: 'D MMM YYYY',
 				separator: 'to',
 				endDateFormatter: 'D MMM YYYY'
 			}
@@ -411,53 +261,63 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 	],
 	[
 		{
-			label: 'Last 731 days',
-			value: 'last-731-d',
+			label: 'This week so far',
+			value: 'this-week-so-far',
 			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
-				amount: -731,
-				unit: 'days'
+				amount: 0,
+				unit: 'week',
+				unitReference: EUnitReference.StartOfUnit
 			},
 			labelRangeFormatter: {
-				startDateFormatter: 'D MMM YYYY',
+				startDateFormatter: 'D MMM HH:mm',
 				separator: 'to',
-				endDateFormatter: 'D MMM YYYY'
+				endDateFormatter: 'D MMM HH:mm'
 			}
 		},
 		{
-			label: 'Last 2 years',
-			value: 'last-2-y',
-			comparisonConfig: ERelativeTimeComparisonConfig.AbsoluteAmountOfUnits,
+			label: 'This month so far',
+			value: 'this-month-so-far',
+			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
-				amount: -2,
+				amount: 0,
+				unit: 'month',
+				unitReference: EUnitReference.StartOfUnit
+			},
+			labelRangeFormatter: {
+				startDateFormatter: 'D MMM HH:mm',
+				separator: 'to',
+				endDateFormatter: 'D MMM HH:mm'
+			}
+		},
+		{
+			label: 'This quarter so far',
+			value: 'this-quarter-so-far',
+			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
+			startDate: {
+				amount: 0,
+				unit: 'quarter',
+				unitReference: EUnitReference.StartOfUnit
+			},
+			labelRangeFormatter: {
+				startDateFormatter: 'D MMM HH:mm',
+				separator: 'to',
+				endDateFormatter: 'D MMM HH:mm'
+			}
+		},
+		{
+			label: 'This year so far',
+			value: 'this-year-so-far',
+			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
+			startDate: {
+				amount: 0,
 				unit: 'year',
 				unitReference: EUnitReference.StartOfUnit
 			},
-			endDate: {
-				amount: -1,
-				unit: 'year',
-				unitReference: EUnitReference.EndOfUnit
-			},
 			labelRangeFormatter: {
-				startDateFormatter: 'D MMM YYYY',
+				startDateFormatter: 'D MMM HH:mm',
 				separator: 'to',
-				endDateFormatter: 'D MMM YYYY'
-			}
-		}
-	],
-	[
-		{
-			label: 'All time',
-			value: 'all-time',
-			comparisonConfig: ERelativeTimeComparisonConfig.StartDate,
-			startDate: {
-				date: '2018-01-01',
-				dateFormat: 'YYYY-MM-DD'
-			},
-			labelRangeFormatter: {
-				startDateFormatter: 'D MMM YYYY',
-				separator: 'to',
-				endDateFormatter: 'D MMM YYYY'
+				endDateFormatter: 'D MMM HH:mm'
 			}
 		}
 	]
