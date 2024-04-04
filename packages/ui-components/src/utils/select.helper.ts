@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-import { IMultiSelectDropdown, ISelectMultiOptions, ISelectOption, ISelectSingleOptions } from '../types';
+import { IMultiSelectDropdown, ISelectMultiOptions, ISelectOptionsWithChildren, ISelectSingleOptions } from '../types';
 import { isSubString } from './string.helper';
 
 const getHightableFallbackOption = (options: string[]): string => {
@@ -16,8 +16,8 @@ const getHightableOptionIndex = (options: string[], highlightedOption?: string):
 	return options.findIndex(name => name === highlightedOption);
 };
 
-export const getSelectableOptions = (options: ISelectMultiOptions = {}): ISelectMultiOptions => {
-	return Object.values(options).reduce<ISelectMultiOptions>((accumulator, option) => {
+export const getSelectableOptions = (options: ISelectOptionsWithChildren = {}): ISelectOptionsWithChildren => {
+	return Object.values(options).reduce<ISelectOptionsWithChildren>((accumulator, option) => {
 		if (isEmpty(option.options)) {
 			accumulator[option.value] = option;
 		} else {
@@ -46,8 +46,8 @@ export const getSelectedSelectableOptions = (options: ISelectMultiOptions = {}, 
 	}, {});
 };
 
-export const getFlattenSelectOptions = (selectOptions: Record<string, ISelectOption> = {}): Record<string, ISelectOption> =>
-	Object.values(selectOptions).reduce<Record<string, ISelectOption>>((accumulator, selectOption) => {
+export const getFlattenSelectOptions = (selectOptions: ISelectOptionsWithChildren = {}): ISelectOptionsWithChildren =>
+	Object.values(selectOptions).reduce<ISelectOptionsWithChildren>((accumulator, selectOption) => {
 		accumulator[selectOption.value] = selectOption;
 
 		const childrenOpts = getFlattenSelectOptions(selectOption.options);

@@ -47,11 +47,11 @@ export const KvSelectOptionExample: React.FC = () => (
 | `customStyle`        | --             | (optional) Additional style to apply for custom CSS.                                                                                                                                    | `{ [key: string]: string; }`                                               | `undefined` |
 | `description`        | `description`  | (optional) Description of the item displayed on the right                                                                                                                               | `string`                                                                   | `undefined` |
 | `disabled`           | `disabled`     | (optional) If `true` the item is disabled                                                                                                                                               | `boolean`                                                                  | `false`     |
+| `heading`            | `heading`      | (optional) If `true` the item is presented as a list heading. Default: `false`                                                                                                          | `boolean`                                                                  | `false`     |
 | `highlighted`        | `highlighted`  | (optional) If `true` the item is highlighted                                                                                                                                            | `boolean`                                                                  | `false`     |
 | `icon`               | `icon`         | (optional) Icon of the item displayed on the left                                                                                                                                       | `EIconName \| EOtherIconName`                                              | `undefined` |
 | `label` _(required)_ | `label`        | (required) The text to display on the item                                                                                                                                              | `string`                                                                   | `undefined` |
 | `level`              | `level`        | (optional) The level depth at which the option is rendered                                                                                                                              | `number`                                                                   | `0`         |
-| `options`            | --             | (optional) The children items of this option                                                                                                                                            | `{ [x: string]: ISelectOption; }`                                          | `{}`        |
 | `selectable`         | `selectable`   | (optional) If `false` the item is only for presenting and cannot be selected.                                                                                                           | `boolean`                                                                  | `true`      |
 | `selected`           | `selected`     | (optional) If `true` the item is selected                                                                                                                                               | `boolean`                                                                  | `false`     |
 | `state`              | `state`        | (optional) The toggle button state                                                                                                                                                      | `EToggleState.Indeterminate \| EToggleState.None \| EToggleState.Selected` | `undefined` |
@@ -108,18 +108,17 @@ export const KvSelectOptionExample: React.FC = () => (
  - [kv-calendar-advanced-date-selector](../calendar-advanced-date-selector)
  - [kv-relative-time-picker](../relative-time-picker)
  - [kv-select-multi-options](../select-multi-options)
- - [kv-select-option](.)
 
 ### Depends on
 
 - [kv-checkbox](../checkbox)
 - [kv-icon](../icon)
-- [kv-select-option](.)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-select-option --> kv-select-option
+  kv-select-option --> kv-checkbox
+  kv-select-option --> kv-icon
   kv-checkbox --> kv-icon
   kv-calendar-advanced-date-selector --> kv-select-option
   kv-relative-time-picker --> kv-select-option

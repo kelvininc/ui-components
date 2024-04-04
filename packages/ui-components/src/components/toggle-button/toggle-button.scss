@@ -98,6 +98,7 @@
 
 		&.toggle-button--only-icon {
 			width: var(--button-height-small);
+			justify-content: center;
 
 			.toggle-button-icon kv-icon {
 				--icon-width: var(--button-icon-width-small);

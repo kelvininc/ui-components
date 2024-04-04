@@ -5,13 +5,13 @@
 
 ## Properties
 
-| Property        | Attribute     | Description                                                                                          | Type                                                                                                                | Default     |
-| --------------- | ------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ----------- |
-| `getItemHeight` | --            | (optional) Defines the dynamic height of the list. It's usefull when the items have diferent heights | `(index: number) => number`                                                                                         | `undefined` |
-| `getItemKey`    | --            | (required) Defines the given item key                                                                | `(index: number) => string`                                                                                         | `undefined` |
-| `itemCount`     | `item-count`  | (required) Defines the total number of items rendered in the list                                    | `number`                                                                                                            | `undefined` |
-| `itemHeight`    | `item-height` | (required) Defines the estimated height of an item                                                   | `number`                                                                                                            | `undefined` |
-| `renderItem`    | --            | (required) Defines the item render function                                                          | `(index: number) => ChildType \| Promise<ChildType> \| ChildType[] \| Promise<ChildType[]> \| Promise<ChildType>[]` | `undefined` |
+| Property        | Attribute        | Description                                                                         | Type                                                                                                                | Default     |
+| --------------- | ---------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `getItemKey`    | --               | (required) Defines the given item key                                               | `(index: number) => string`                                                                                         | `undefined` |
+| `itemCount`     | `item-count`     | (required) Defines the total number of items rendered in the list                   | `number`                                                                                                            | `undefined` |
+| `itemHeight`    | `item-height`    | (required) Defines the estimated height in pixels of an item                        | `number`                                                                                                            | `undefined` |
+| `overscanCount` | `overscan-count` | (optional) The number of items outside the viewport that are rendered. Default: `5` | `number`                                                                                                            | `5`         |
+| `renderItem`    | --               | (required) Defines the item render function                                         | `(index: number) => ChildType \| Promise<ChildType> \| ChildType[] \| Promise<ChildType[]> \| Promise<ChildType>[]` | `undefined` |
 
 
 ## CSS Custom Properties
