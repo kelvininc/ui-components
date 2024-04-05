@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { CALENDAR_DATE_TIME_MASK, CALENDAR_MASK, DATETIME_INPUT_MASK } from './absolute-time-picker.config';
-import { SelectedRange } from '../../types';
+import { DateInputState, EAbsoluteTimeError, EValidationState, IAbsoluteTimeLimits, SelectedRange } from '../../types';
 
 export const buildSelectedDatesEventPayload = (dateA?: dayjs.Dayjs, dateB?: dayjs.Dayjs): SelectedRange => {
 	if (!dateA && !dateB) {
@@ -44,4 +44,67 @@ export const getMaximumDateFromDayClick = (clickedDate: dayjs.Dayjs, maximumDate
 	}
 
 	return clickedDate.endOf('day');
+};
+
+export const getFromDateInputState = (error: EAbsoluteTimeError | undefined, { minDate }: IAbsoluteTimeLimits): DateInputState | undefined => {
+	if (!error) {
+		return;
+	}
+
+	if (error === EAbsoluteTimeError.StartDateBeforeMinimumDate && minDate) {
+		const min = dayjs(minDate).format(DATETIME_INPUT_MASK);
+		return {
+			state: EValidationState.Invalid,
+			helpText: `The 'FROM' date must be after ${min}`
+		};
+	}
+
+	return;
+};
+
+export const getToDateTimeInputState = (error: EAbsoluteTimeError | undefined, { maxDate }: IAbsoluteTimeLimits): DateInputState | undefined => {
+	if (!error) {
+		return;
+	}
+
+	if (error === EAbsoluteTimeError.EndDateAfterMaximumDate && maxDate) {
+		const max = dayjs(maxDate).format(DATETIME_INPUT_MASK);
+		return {
+			state: EValidationState.Invalid,
+			helpText: `The 'TO' date must be before ${max}`
+		};
+	}
+
+	if (error === EAbsoluteTimeError.EndDateBeforeStartDate) {
+		return {
+			state: EValidationState.Invalid,
+			helpText: `The 'TO' date must be after 'FROM' date`
+		};
+	}
+
+	return;
+};
+
+export const getSingleDateTimeInputState = (error: EAbsoluteTimeError | undefined, { minDate, maxDate }: IAbsoluteTimeLimits): DateInputState | undefined => {
+	if (!error) {
+		return;
+	}
+
+	if (error === EAbsoluteTimeError.StartDateBeforeMinimumDate && minDate) {
+		const min = dayjs(minDate).format(DATETIME_INPUT_MASK);
+		return {
+			state: EValidationState.Invalid,
+			helpText: `The date must be after ${min}`
+		};
+	}
+
+	if (error === EAbsoluteTimeError.EndDateAfterMaximumDate && maxDate) {
+		const max = dayjs(maxDate).format(DATETIME_INPUT_MASK);
+		return {
+			state: EValidationState.Invalid,
+			helpText: `The date must be before ${max}`
+		};
+	}
+
+	return;
 };

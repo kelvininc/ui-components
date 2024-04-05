@@ -64,6 +64,7 @@ export const FormHelpTextExample: React.FC = () => (
 
 ### Used by
 
+ - [kv-date-time-input](../date-time-input)
  - [kv-text-field](../text-field)
 
 ### Depends on
@@ -74,6 +75,7 @@ export const FormHelpTextExample: React.FC = () => (
 ```mermaid
 graph TD;
   kv-form-help-text --> kv-icon
+  kv-date-time-input --> kv-form-help-text
   kv-text-field --> kv-form-help-text
   style kv-form-help-text fill:#f9f,stroke:#333,stroke-width:4px
 ```

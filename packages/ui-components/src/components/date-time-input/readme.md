@@ -40,19 +40,20 @@ export const DateTimeInputExample: React.FC = () => (
 
 ## Properties
 
-| Property       | Attribute        | Description                                                                      | Type                                           | Default                |
-| -------------- | ---------------- | -------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
-| `disabled`     | `disabled`       | (optional) Date time input disabled                                              | `boolean`                                      | `false`                |
-| `forcedFocus`  | `forced-focus`   | (optional) Date time focus state                                                 | `boolean`                                      | `false`                |
-| `highlighted`  | `highlighted`    | (optional) Similar to forcedFocus but does not emmit events                      | `boolean`                                      | `false`                |
-| `inputName`    | `input-name`     | (optional) Date time input name                                                  | `string`                                       | `undefined`            |
-| `label`        | `label`          | (optional) Date time input label                                                 | `string`                                       | `undefined`            |
-| `limits`       | --               | (optional) Date time minimum and maximum value                                   | `IDateTimeInputLimits`                         | `undefined`            |
-| `placeholder`  | `placeholder`    | (optional) Date time place holder                                                | `string`                                       | `''`                   |
-| `required`     | `required`       | (optional) Date time input required                                              | `boolean`                                      | `false`                |
-| `size`         | `size`           | (optional) Sets this tab item to a different styling configuration               | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
-| `useInputMask` | `use-input-mask` | (optional) Use a input mask when the Date time type is a Datetime (default true) | `boolean`                                      | `false`                |
-| `value`        | `value`          | (optional) Date time value                                                       | `string`                                       | `''`                   |
+| Property       | Attribute        | Description                                                                      | Type                                                                          | Default                 |
+| -------------- | ---------------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------- |
+| `disabled`     | `disabled`       | (optional) Date time input disabled                                              | `boolean`                                                                     | `false`                 |
+| `forcedFocus`  | `forced-focus`   | (optional) Date time focus state                                                 | `boolean`                                                                     | `false`                 |
+| `helpText`     | `help-text`      | (optional) Date time input help text                                             | `string \| string[]`                                                          | `[]`                    |
+| `highlighted`  | `highlighted`    | (optional) Similar to forcedFocus but does not emmit events                      | `boolean`                                                                     | `false`                 |
+| `inputName`    | `input-name`     | (optional) Date time input name                                                  | `string`                                                                      | `undefined`             |
+| `label`        | `label`          | (optional) Date time input label                                                 | `string`                                                                      | `undefined`             |
+| `placeholder`  | `placeholder`    | (optional) Date time place holder                                                | `string`                                                                      | `''`                    |
+| `required`     | `required`       | (optional) Date time input required                                              | `boolean`                                                                     | `false`                 |
+| `size`         | `size`           | (optional) Sets this tab item to a different styling configuration               | `EComponentSize.Large \| EComponentSize.Small`                                | `EComponentSize.Large`  |
+| `state`        | `state`          | (optional) Date time input state                                                 | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid` | `EValidationState.None` |
+| `useInputMask` | `use-input-mask` | (optional) Use a input mask when the Date time type is a Datetime (default true) | `boolean`                                                                     | `false`                 |
+| `value`        | `value`          | (optional) Date time value                                                       | `string`                                                                      | `''`                    |
 
 
 ## Events
@@ -73,11 +74,14 @@ export const DateTimeInputExample: React.FC = () => (
 ### Depends on
 
 - [kv-form-label](../form-label)
+- [kv-form-help-text](../form-help-text)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-date-time-input --> kv-form-label
+  kv-date-time-input --> kv-form-help-text
+  kv-form-help-text --> kv-icon
   kv-absolute-time-picker --> kv-date-time-input
   style kv-date-time-input fill:#f9f,stroke:#333,stroke-width:4px
 ```

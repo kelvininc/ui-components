@@ -58,17 +58,18 @@ export const KvAbsoluteTimePicker: React.FC = () => (
 
 ## Properties
 
-| Property               | Attribute                 | Description                                                                  | Type                                                              | Default                         |
-| ---------------------- | ------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------- |
-| `calendarInputMaxDate` | `calendar-input-max-date` | (optional) calendar maximum date to be navigated format: DD-MM-YYYY HH:mm:ss | `string`                                                          | `CALENDAR_INPUT_MAX_DATE`       |
-| `calendarInputMinDate` | `calendar-input-min-date` | (optional) calendar minimum date to be navigated format: DD-MM-YYYY HH:mm:ss | `string`                                                          | `CALENDAR_INPUT_MIN_DATE`       |
-| `disabledDates`        | --                        | (optional) Disabled dates                                                    | `string[]`                                                        | `[]`                            |
-| `displayBackButton`    | `display-back-button`     | (optional) Enables the back button displayed on top                          | `boolean`                                                         | `false`                         |
-| `headerTitle`          | `header-title`            | (optional) Title disaplayed on top of the component                          | `string`                                                          | `DEFAULT_HEADER_TITLE`          |
-| `initialDate`          | `initial-date`            | (optional) Initial Date                                                      | `string`                                                          | `undefined`                     |
-| `mode`                 | `mode`                    | (optional) Defines if the calendar is in single date or range mode           | `EAbsoluteTimePickerMode.Range \| EAbsoluteTimePickerMode.Single` | `EAbsoluteTimePickerMode.Range` |
-| `relativeTimeConfig`   | --                        | (optional) use to determine if the chart inputs have custom strings          | `IRelativeTimeInput`                                              | `undefined`                     |
-| `selectedDates`        | --                        | (optional) Selected dates                                                    | `string[]`                                                        | `[]`                            |
+| Property               | Attribute                 | Description                                                                    | Type                                                                                                                                       | Default                         |
+| ---------------------- | ------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------- |
+| `calendarInputMaxDate` | `calendar-input-max-date` | (optional) calendar maximum date to be navigated format: DD-MM-YYYY HH:mm:ss   | `string`                                                                                                                                   | `CALENDAR_INPUT_MAX_DATE`       |
+| `calendarInputMinDate` | `calendar-input-min-date` | (optional) calendar minimum date to be navigated format: DD-MM-YYYY HH:mm:ss   | `string`                                                                                                                                   | `CALENDAR_INPUT_MIN_DATE`       |
+| `disabledDates`        | --                        | (optional) Disabled dates                                                      | `string[]`                                                                                                                                 | `[]`                            |
+| `displayBackButton`    | `display-back-button`     | (optional) Enables the back button displayed on top                            | `boolean`                                                                                                                                  | `false`                         |
+| `error`                | `error`                   | (optional) It is used to determine if the time picker as date time input error | `EAbsoluteTimeError.EndDateAfterMaximumDate \| EAbsoluteTimeError.EndDateBeforeStartDate \| EAbsoluteTimeError.StartDateBeforeMinimumDate` | `undefined`                     |
+| `headerTitle`          | `header-title`            | (optional) Title disaplayed on top of the component                            | `string`                                                                                                                                   | `DEFAULT_HEADER_TITLE`          |
+| `initialDate`          | `initial-date`            | (optional) Initial Date                                                        | `string`                                                                                                                                   | `undefined`                     |
+| `mode`                 | `mode`                    | (optional) Defines if the calendar is in single date or range mode             | `EAbsoluteTimePickerMode.Range \| EAbsoluteTimePickerMode.Single`                                                                          | `EAbsoluteTimePickerMode.Range` |
+| `relativeTimeConfig`   | --                        | (optional) use to determine if the chart inputs have custom strings            | `IRelativeTimeInput`                                                                                                                       | `undefined`                     |
+| `selectedDates`        | --                        | (optional) Selected dates                                                      | `string[]`                                                                                                                                 | `[]`                            |
 
 
 ## Events
@@ -101,6 +102,8 @@ graph TD;
   kv-absolute-time-picker --> kv-date-time-input
   kv-absolute-time-picker --> kv-time-picker-calendar
   kv-date-time-input --> kv-form-label
+  kv-date-time-input --> kv-form-help-text
+  kv-form-help-text --> kv-icon
   kv-time-picker-calendar --> kv-icon
   kv-time-picker-calendar --> kv-time-picker-calendar-day
   kv-absolute-time-picker-dropdown --> kv-absolute-time-picker
