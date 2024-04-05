@@ -27,6 +27,7 @@ export class KvVirtualizedList implements IVirtualizedList {
 	private resizeObserver = new ResizeObserver(() => this.debounceResize());
 
 	@Watch('itemHeight')
+	@Watch('itemCount')
 	updateTotalHeight() {
 		this.totalHeight = this.itemHeight * this.itemCount;
 	}
