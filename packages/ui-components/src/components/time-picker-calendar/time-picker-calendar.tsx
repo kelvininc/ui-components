@@ -229,18 +229,18 @@ export class KvTimePickerCalendar implements ITimePickerCalendar, ITimePickerCal
 		const calendarMinDate = this.minDate ? this.minDate : CALENDAR_DEFAULT_MIN_DATE;
 
 		const dayDate = fromDateFields(1, this.month, this.year);
-		const minDateFormated = dayjs(calendarMinDate, DATE_FORMAT);
+		const minDateFormatted = dayjs(calendarMinDate, DATE_FORMAT);
 
-		return dayDate.isBefore(minDateFormated) || dayDate.isSame(minDateFormated);
+		return dayDate.isBefore(minDateFormatted) || dayDate.isSame(minDateFormatted);
 	};
 
 	private isNextNavigationDisabled = (): boolean => {
 		if (isEmpty(this.maxDate)) return false;
 
 		const dayDate = fromDateFields(1, this.month, this.year);
-		const maxDateFormated = dayjs(this.maxDate, DATE_FORMAT);
+		const maxDateFormatted = dayjs(this.maxDate, DATE_FORMAT);
 
-		return dayDate.isAfter(maxDateFormated);
+		return dayDate.isAfter(maxDateFormatted);
 	};
 
 	render() {

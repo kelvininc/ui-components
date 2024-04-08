@@ -1,5 +1,5 @@
 import { isEmpty, isNil, isNumber } from 'lodash';
-import { EAbsoluteTimePickerMode, SelectedRange, SelectedTimestamp } from '../../types';
+import { EAbsoluteTimeError, EAbsoluteTimePickerMode, IAbsoluteTimeLimits, SelectedRange, SelectedTimestamp } from '../../types';
 import { CALENDAR_DATE_TIME_MASK } from '../absolute-time-picker/absolute-time-picker.config';
 import { createTimestampInTimezoneFromFormattedDate } from '../time-picker/time-picker.helper';
 import dayjs from 'dayjs';
@@ -36,7 +36,43 @@ export const getFormattedSelectedDates = (range: SelectedTimestamp, mode: EAbsol
 	return [dateFrom, dateTo];
 };
 
-export const areDatesValidByRange = (range: SelectedTimestamp, mode: EAbsoluteTimePickerMode): boolean => {
+export const getAbsoluteTimePickerError = (range: SelectedTimestamp, mode: EAbsoluteTimePickerMode, limits: IAbsoluteTimeLimits): EAbsoluteTimeError | undefined => {
+	if (!isAbsoluteTimePickerFilled(range, mode)) {
+		return;
+	}
+
+	if (mode === EAbsoluteTimePickerMode.Single) {
+		const [date] = range;
+
+		if (limits.minDate && dayjs(date).isBefore(limits.minDate)) {
+			return EAbsoluteTimeError.StartDateBeforeMinimumDate;
+		}
+
+		if (limits.maxDate && dayjs(date).isAfter(limits.maxDate)) {
+			return EAbsoluteTimeError.EndDateAfterMaximumDate;
+		}
+
+		return;
+	}
+
+	const [startDate, endDate] = range;
+
+	if (!dayjs(endDate).isAfter(startDate)) {
+		return EAbsoluteTimeError.EndDateBeforeStartDate;
+	}
+
+	if (limits.minDate && dayjs(startDate).isBefore(limits.minDate)) {
+		return EAbsoluteTimeError.StartDateBeforeMinimumDate;
+	}
+
+	if (limits.maxDate && dayjs(endDate).isAfter(limits.maxDate)) {
+		return EAbsoluteTimeError.EndDateAfterMaximumDate;
+	}
+
+	return;
+};
+
+export const isAbsoluteTimePickerFilled = (range: SelectedTimestamp, mode: EAbsoluteTimePickerMode): boolean => {
 	if (isEmpty(range)) return false;
 
 	if (mode === EAbsoluteTimePickerMode.Single) {
@@ -47,5 +83,5 @@ export const areDatesValidByRange = (range: SelectedTimestamp, mode: EAbsoluteTi
 
 	const [from, to] = range;
 
-	return isNumber(from) && isNumber(to) && dayjs(from).isBefore(to);
+	return isNumber(from) && isNumber(to);
 };

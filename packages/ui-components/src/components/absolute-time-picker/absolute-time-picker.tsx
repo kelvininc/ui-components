@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
-import { EComponentSize, EIconName, EInputSource } from '../../types';
+import { EAbsoluteTimeError, EComponentSize, EIconName, EInputSource } from '../../types';
 import dayjs from 'dayjs';
 import {
 	CALENDAR_DATE_TIME_MASK,
@@ -24,9 +24,12 @@ import {
 import {
 	buildSelectedDatesEventPayload,
 	getFirstCalendarInitialDate,
+	getFromDateInputState,
 	getMaximumDateFromDayClick,
 	getMinimumDateFromDayClick,
 	getSecondCalendarInitialDate,
+	getSingleDateTimeInputState,
+	getToDateTimeInputState,
 	isEndDateAtStartOfDay
 } from './absolute-time-picker.helper';
 import { IClickDateEvent } from '../time-picker-calendar/time-picker-calendar.types';
@@ -56,6 +59,8 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 	@Prop({ reflect: false }) calendarInputMinDate?: string = CALENDAR_INPUT_MIN_DATE;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) calendarInputMaxDate?: string = CALENDAR_INPUT_MAX_DATE;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) error?: EAbsoluteTimeError;
 
 	/** @inheritdoc */
 	@Event() selectedDatesChange: EventEmitter<IAbsoluteSelectedRangeDates>;
@@ -326,11 +331,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		this.fromInputValue = parsedDateTime.format(DATETIME_INPUT_MASK);
 		this.displayedMonth = parsedDate;
 		if (!isEmpty(this.toInputValue)) {
-			if (parsedDateTime.isSame(dayjs(this.toInputValue, DATETIME_INPUT_MASK))) {
-				this.emitSelectRangeDatesChangeEvent(parsedDateTime.subtract(1, 'second'), dayjs(this.toInputValue, DATETIME_INPUT_MASK));
-			} else {
-				this.emitSelectRangeDatesChangeEvent(parsedDateTime, dayjs(this.toInputValue, DATETIME_INPUT_MASK));
-			}
+			this.emitSelectRangeDatesChangeEvent(parsedDateTime, dayjs(this.toInputValue, DATETIME_INPUT_MASK));
 			this.resetDateLimits();
 		} else {
 			this.emitSelectRangeDatesChangeEvent(parsedDateTime);
@@ -343,11 +344,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		this.toInputValue = parsedDateTime.format(DATETIME_INPUT_MASK);
 		this.displayedMonth = parsedDate.subtract(1, 'month');
 		if (!isEmpty(this.fromInputValue)) {
-			if (parsedDateTime.isSame(dayjs(this.fromInputValue, DATETIME_INPUT_MASK))) {
-				this.emitSelectRangeDatesChangeEvent(dayjs(this.fromInputValue, DATETIME_INPUT_MASK), parsedDateTime.add(1, 'second'));
-			} else {
-				this.emitSelectRangeDatesChangeEvent(dayjs(this.fromInputValue, DATETIME_INPUT_MASK), parsedDateTime);
-			}
+			this.emitSelectRangeDatesChangeEvent(dayjs(this.fromInputValue, DATETIME_INPUT_MASK), parsedDateTime);
 			this.resetDateLimits();
 		} else {
 			this.maxDate = parsedDate.format(CALENDAR_MASK);
@@ -362,8 +359,8 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		const parsedDateTime = dayjs(date, DATETIME_INPUT_MASK);
 
 		if (parsedDate.isValid() && isEndDateAtStartOfDay(parsedDateTime)) {
-			const parsedDateFormated = parsedDate.endOf('day').format(DATETIME_INPUT_MASK);
-			this.toInputValue = parsedDateFormated;
+			const parsedDateFormatted = parsedDate.endOf('day').format(DATETIME_INPUT_MASK);
+			this.toInputValue = parsedDateFormatted;
 			this.displayedMonth = parsedDate.subtract(1, 'month');
 			if (!isEmpty(this.fromInputValue)) {
 				this.emitSelectRangeDatesChangeEvent(dayjs(this.fromInputValue, DATETIME_INPUT_MASK), parsedDate.endOf('day'));
@@ -379,39 +376,14 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		return this.inputMode === ERelativeTimeInputMode.Date;
 	};
 
-	private getFromInputDateTimeLimits = () => {
-		const parsedToDateTime = dayjs(this.toInputValue, DATETIME_INPUT_MASK);
-		if (!isEmpty(this.toInputValue) && parsedToDateTime.isValid()) {
-			return {
-				min: this.calendarInputMinDate,
-				max: parsedToDateTime.subtract(1, 'second').format(DATETIME_INPUT_MASK)
-			};
-		}
-
-		return {
-			min: this.calendarInputMinDate,
-			max: this.calendarInputMaxDate
-		};
-	};
-
-	private getToInputDateTimeLimits = () => {
-		const parsedFromDateTime = dayjs(this.fromInputValue, DATETIME_INPUT_MASK);
-		if (!isEmpty(this.fromInputValue) && parsedFromDateTime.isValid()) {
-			return {
-				min: parsedFromDateTime.add(1, 'second').format(DATETIME_INPUT_MASK),
-				max: this.calendarInputMaxDate
-			};
-		}
-
-		return {
-			min: this.calendarInputMinDate,
-			max: this.calendarInputMaxDate
-		};
-	};
-
-	private getCalendarLimits = () => ({
+	private getCalendarStringLimits = () => ({
 		minDate: !isEmpty(this.minDate) ? this.minDate : dayjs(this.calendarInputMinDate, DATETIME_INPUT_MASK).format(DATE_FORMAT),
 		maxDate: !isEmpty(this.maxDate) ? this.maxDate : dayjs(this.calendarInputMaxDate, DATETIME_INPUT_MASK).format(DATE_FORMAT)
+	});
+
+	private getCalendarTimestampLimits = () => ({
+		minDate: !isEmpty(this.minDate) ? undefined : dayjs(this.calendarInputMinDate, DATETIME_INPUT_MASK).valueOf(),
+		maxDate: !isEmpty(this.maxDate) ? undefined : dayjs(this.calendarInputMaxDate, DATETIME_INPUT_MASK).valueOf()
 	});
 
 	render() {
@@ -442,7 +414,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 								highlighted={isEmpty(this.fromInputValue) && !this.toInputFocused}
 								onTextChange={ev => this.handleDateChange(ev, EInputSource.From)}
 								onInputFocus={this.handleOnFocusFromInput}
-								limits={this.getFromInputDateTimeLimits()}
+								{...getFromDateInputState(this.error, this.getCalendarTimestampLimits())}
 							/>
 							<kv-date-time-input
 								inputName="to-input"
@@ -455,7 +427,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 								onTextChange={ev => this.handleDateChange(ev, EInputSource.To)}
 								onDateTimeBlur={this.handleEndDateLostFocus}
 								onInputFocus={this.handleOnFocusToInput}
-								limits={this.getToInputDateTimeLimits()}
+								{...getToDateTimeInputState(this.error, this.getCalendarTimestampLimits())}
 							/>
 						</div>
 					) : (
@@ -468,10 +440,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 								size={EComponentSize.Small}
 								placeholder={DATE_INPUT_PLACEHOLDER}
 								onTextChange={ev => this.handleDateChange(ev, EInputSource.Single)}
-								limits={{
-									min: this.calendarInputMinDate,
-									max: this.calendarInputMaxDate
-								}}
+								{...getSingleDateTimeInputState(this.error, this.getCalendarTimestampLimits())}
 							/>
 						</div>
 					)}
@@ -487,7 +456,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 							onClickDate={this.onClickDate}
 							onChangeMonth={this.handleClickBackMonth}
 							onHoveredDateChange={this.handleHoveredDateChange}
-							{...this.getCalendarLimits()}
+							{...this.getCalendarStringLimits()}
 						/>
 						<kv-time-picker-calendar
 							mode={this.mode}
@@ -500,7 +469,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 							onClickDate={this.onClickDate}
 							onChangeMonth={this.handleClickForwardMonth}
 							onHoveredDateChange={this.handleHoveredDateChange}
-							{...this.getCalendarLimits()}
+							{...this.getCalendarStringLimits()}
 						/>
 					</div>
 				</div>

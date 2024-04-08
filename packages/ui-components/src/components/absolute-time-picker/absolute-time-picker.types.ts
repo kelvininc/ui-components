@@ -1,5 +1,5 @@
 import { EventEmitter } from '@stencil/core';
-import { SelectedRange } from '../../types';
+import { EAbsoluteTimeError, EValidationState, SelectedRange } from '../../types';
 
 export enum EAbsoluteTimePickerMode {
 	Single = 'single',
@@ -25,6 +25,8 @@ export interface IAbsoluteTimePicker {
 	calendarInputMinDate?: string;
 	/** (optional) calendar maximum date to be navigated format: DD-MM-YYYY HH:mm:ss */
 	calendarInputMaxDate?: string;
+	/** (optional) It is used to determine if the time picker as date time input error */
+	error?: EAbsoluteTimeError;
 }
 
 export interface IAbsoluteTimePickerEvents {
@@ -57,4 +59,9 @@ export enum EInputSource {
 	From = 'from',
 	To = 'to',
 	Single = 'single'
+}
+
+export interface DateInputState {
+	state: EValidationState;
+	helpText: string;
 }
