@@ -32,8 +32,8 @@ import {
 	getToDateTimeInputState,
 	isEndDateAtStartOfDay
 } from './absolute-time-picker.helper';
-import { IClickDateEvent } from '../time-picker-calendar/time-picker-calendar.types';
-import { DATE_FORMAT } from '../time-picker-calendar/time-picker-calendar.config';
+import { IClickDateEvent } from '../calendar/calendar.types';
+import { DATE_FORMAT } from '../calendar/calendar.config';
 
 @Component({
 	tag: 'kv-absolute-time-picker',
@@ -445,7 +445,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 						</div>
 					)}
 					<div class="calendars">
-						<kv-time-picker-calendar
+						<kv-calendar
 							mode={this.mode}
 							displayNextMonthArrow={false}
 							displayPreviousMonthArrow
@@ -458,7 +458,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 							onHoveredDateChange={this.handleHoveredDateChange}
 							{...this.getCalendarStringLimits()}
 						/>
-						<kv-time-picker-calendar
+						<kv-calendar
 							mode={this.mode}
 							displayNextMonthArrow
 							displayPreviousMonthArrow={false}

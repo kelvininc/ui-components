@@ -13,7 +13,7 @@ describe('Absolute Time Picker (end to end)', () => {
 			const absoluteTimePickerElement = await page.find('kv-absolute-time-picker');
 			spyChangeEvent = await absoluteTimePickerElement.spyOnEvent('selectedDatesChange');
 
-			const buttonElement = await page.find('kv-time-picker-calendar >>> kv-time-picker-calendar-day[day="15"] >>> .time-picker-calendar-day');
+			const buttonElement = await page.find('kv-calendar >>> kv-calendar-day[day="15"] >>> .calendar-day');
 			await buttonElement.click();
 		});
 
