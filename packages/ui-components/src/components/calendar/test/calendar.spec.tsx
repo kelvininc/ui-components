@@ -1,16 +1,16 @@
 import { SpecPage, h } from '@stencil/core/internal';
-import { KvTimePickerCalendar } from '../time-picker-calendar';
+import { KvCalendar } from '../calendar';
 import { newSpecPage } from '@stencil/core/testing';
 
-describe('Time Picker Calendar (unit tests)', () => {
+describe('Calendar (unit tests)', () => {
 	let page: SpecPage;
-	let component: KvTimePickerCalendar;
+	let component: KvCalendar;
 
 	describe('when uses default props', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvTimePickerCalendar],
-				template: () => <kv-time-picker-calendar initialDate="2022-08-01"></kv-time-picker-calendar>
+				components: [KvCalendar],
+				template: () => <kv-calendar initialDate="2022-08-01"></kv-calendar>
 			});
 			component = page.rootInstance;
 		});
@@ -32,8 +32,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 		describe('and all dates are valid', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06', '2022-08-07']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06', '2022-08-07']}></kv-calendar>
 				});
 				component = page.rootInstance;
 			});
@@ -47,8 +47,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 			it('should throw a validation error', async () => {
 				await expect(
 					newSpecPage({
-						components: [KvTimePickerCalendar],
-						template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', 'invalid-date', '2022-08-07']}></kv-time-picker-calendar>
+						components: [KvCalendar],
+						template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', 'invalid-date', '2022-08-07']}></kv-calendar>
 					})
 				).rejects.toThrow('Selected date should be an array with valid dates');
 			});
@@ -59,8 +59,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 		describe('and is a valid date', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					html: '<kv-time-picker-calendar initial-date="2022-08-01"></kv-time-picker-calendar>'
+					components: [KvCalendar],
+					html: '<kv-calendar initial-date="2022-08-01"></kv-calendar>'
 				});
 				component = page.rootInstance;
 			});
@@ -82,8 +82,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 			it('should throw a validation error', async () => {
 				await expect(
 					newSpecPage({
-						components: [KvTimePickerCalendar],
-						html: '<kv-time-picker-calendar initial-date="not-a-valid-initial-date"></kv-time-picker-calendar>'
+						components: [KvCalendar],
+						html: '<kv-calendar initial-date="not-a-valid-initial-date"></kv-calendar>'
 					})
 				).rejects.toThrow('Initial date should be a valid date');
 			});
@@ -94,8 +94,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 		describe('and all dates are valid', () => {
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" disabledDates={['2022-08-05', '2022-08-06', '2022-08-07']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" disabledDates={['2022-08-05', '2022-08-06', '2022-08-07']}></kv-calendar>
 				});
 				component = page.rootInstance;
 			});
@@ -109,8 +109,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 			it('should throw a validation error', async () => {
 				await expect(
 					newSpecPage({
-						components: [KvTimePickerCalendar],
-						template: () => <kv-time-picker-calendar initialDate="2022-08-01" disabledDates={['2022-08-05', 'invalid-date', '2022-08-07']}></kv-time-picker-calendar>
+						components: [KvCalendar],
+						template: () => <kv-calendar initialDate="2022-08-01" disabledDates={['2022-08-05', 'invalid-date', '2022-08-07']}></kv-calendar>
 					})
 				).rejects.toThrow('Disabled dates should be an array with valid dates');
 			});
@@ -123,8 +123,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" disabledDates={['2022-08-05']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" disabledDates={['2022-08-05']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayDisabled(5);
@@ -140,8 +140,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" minDate="2022-08-05"></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" minDate="2022-08-05"></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayDisabled(4);
@@ -157,8 +157,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" maxDate="2022-08-05"></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" maxDate="2022-08-05"></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayDisabled(6);
@@ -174,10 +174,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => (
-						<kv-time-picker-calendar initialDate="2022-08-01" minDate="2022-08-04" disabledDates={['2022-08-05']} maxDate="2022-08-07"></kv-time-picker-calendar>
-					)
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" minDate="2022-08-04" disabledDates={['2022-08-05']} maxDate="2022-08-07"></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayDisabled(6);
@@ -195,8 +193,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayActive(5);
@@ -212,8 +210,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-06']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-06']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayActive(5);
@@ -228,8 +226,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 	describe('when `onMouseEnter` is called', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvTimePickerCalendar],
-				template: () => <kv-time-picker-calendar initialDate="2022-08-01"></kv-time-picker-calendar>
+				components: [KvCalendar],
+				template: () => <kv-calendar initialDate="2022-08-01"></kv-calendar>
 			});
 			component = page.rootInstance;
 			component.onMouseEnter(5);
@@ -243,8 +241,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 	describe('when `onMouseLeave` is called', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvTimePickerCalendar],
-				template: () => <kv-time-picker-calendar initialDate="2022-08-01"></kv-time-picker-calendar>
+				components: [KvCalendar],
+				template: () => <kv-calendar initialDate="2022-08-01"></kv-calendar>
 			});
 			component = page.rootInstance;
 			component.onMouseEnter(5);
@@ -262,8 +260,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={[]}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={[]}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.getSelectedRange();
@@ -279,8 +277,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.getSelectedRange();
@@ -296,8 +294,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06', '2022-08-07']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06', '2022-08-07']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.getSelectedRange();
@@ -315,8 +313,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" disabledDates={['2022-08-05']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" disabledDates={['2022-08-05']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayInRange(5);
@@ -332,8 +330,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01"></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01"></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayInRange(5);
@@ -349,8 +347,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isDayInRange(5);
@@ -366,8 +364,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06', '2022-08-07']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06', '2022-08-07']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				component.hoveredDay = 9;
@@ -384,8 +382,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				component.hoveredDay = 9;
@@ -402,8 +400,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				component.hoveredDay = 9;
@@ -422,8 +420,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01"></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01"></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isSelectedStartDay(5);
@@ -439,8 +437,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isSelectedStartDay(6);
@@ -456,8 +454,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isSelectedStartDay(5);
@@ -475,8 +473,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01"></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01"></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isSelectedEndDay(5);
@@ -493,8 +491,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 				beforeEach(async () => {
 					page = await newSpecPage({
-						components: [KvTimePickerCalendar],
-						template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-time-picker-calendar>
+						components: [KvCalendar],
+						template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-calendar>
 					});
 					component = page.rootInstance;
 					result = component.isSelectedEndDay(6);
@@ -510,8 +508,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 				beforeEach(async () => {
 					page = await newSpecPage({
-						components: [KvTimePickerCalendar],
-						template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-time-picker-calendar>
+						components: [KvCalendar],
+						template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05']}></kv-calendar>
 					});
 					component = page.rootInstance;
 					result = component.isSelectedEndDay(5);
@@ -528,8 +526,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isSelectedEndDay(5);
@@ -545,8 +543,8 @@ describe('Time Picker Calendar (unit tests)', () => {
 
 			beforeEach(async () => {
 				page = await newSpecPage({
-					components: [KvTimePickerCalendar],
-					template: () => <kv-time-picker-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06']}></kv-time-picker-calendar>
+					components: [KvCalendar],
+					template: () => <kv-calendar initialDate="2022-08-01" selectedDates={['2022-08-05', '2022-08-06']}></kv-calendar>
 				});
 				component = page.rootInstance;
 				result = component.isSelectedEndDay(6);

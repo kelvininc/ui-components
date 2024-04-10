@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { SelectedRange, DateInput, ITimePickerTimezone, ITimezoneOffset } from '../types';
+import { SelectedRange, ITimePickerTimezone, ITimezoneOffset } from '../types';
 
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -10,6 +10,7 @@ import isBetween from 'dayjs/plugin/isBetween';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import utc from 'dayjs/plugin/utc';
 import { TIMEZONES } from './date.config';
+import { DateInput } from './types/dates';
 
 dayjs.extend(quarterOfYear);
 dayjs.extend(advancedFormat);
