@@ -15,7 +15,7 @@ export const KvCalendarDayExample: React.FC = () => (
 		<KvCalendarDay day={12} disabled={true} />
 
 		{/*-- In Range --*/}
-		<KvCalendarDay day={12} inRange={true} />
+		<KvCalendarDay day={12} inHoverRange={true} />
 	</>
 );
 ```

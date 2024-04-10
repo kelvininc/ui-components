@@ -1,16 +1,16 @@
 import { SpecPage } from '@stencil/core/internal';
-import { KvTimePickerCalendarDay } from '../time-picker-calendar-day';
+import { KvCalendarDay } from '../calendar-day';
 import { newSpecPage } from '@stencil/core/testing';
 
-describe('Time Picker Calendar Day (unit tests)', () => {
+describe('Calendar Day (unit tests)', () => {
 	let page: SpecPage;
-	let component: KvTimePickerCalendarDay;
+	let component: KvCalendarDay;
 
 	describe('when uses default props', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvTimePickerCalendarDay],
-				html: '<kv-time-picker-calendar-day day="12"></kv-time-picker-calendar-day>'
+				components: [KvCalendarDay],
+				html: '<kv-calendar-day day="12"></kv-calendar-day>'
 			});
 			component = page.rootInstance;
 		});
@@ -27,16 +27,12 @@ describe('Time Picker Calendar Day (unit tests)', () => {
 			expect(component.active).toBe(false);
 		});
 
-		it('should initialize `inRange` with false', () => {
-			expect(component.inRange).toBe(false);
+		it('should initialize `inHoverRange` with false', () => {
+			expect(component.inHoverRange).toBe(false);
 		});
 
-		it('should initialize `inRangeStartDate` with false', () => {
-			expect(component.isRangeStartDate).toBe(false);
-		});
-
-		it('should initialize `inRangeEndDate` with false', () => {
-			expect(component.isRangeEndDate).toBe(false);
+		it('should initialize `isEdge` with false', () => {
+			expect(component.isEdge).toBe(false);
 		});
 
 		it('should initialize `isToday` with false', () => {

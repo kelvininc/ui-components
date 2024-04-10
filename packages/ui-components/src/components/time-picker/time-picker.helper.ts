@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { ITimePickerTimeState, ITimePickerTime, ITimezoneOffset, SelectedTimestamp } from '../../types';
-import { newTimezoneDate } from '../../utils/date.helper';
+import { formatTimezoneName, getTimezoneOffset, newTimezoneDate } from '../../utils/date.helper';
 import { CALENDAR_DATE_TIME_MASK, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
 import { ERelativeTimeInputMode, IRelativeTimeInput } from '../absolute-time-picker/absolute-time-picker.types';
 import { ERelativeTimeComparisonConfig, IRelativeTimePickerOption, ITimePickerRelativeTime, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
@@ -158,4 +158,15 @@ export const getTimePickerEventPayload = (timeState: ITimePickerTimeState, timez
 			name: timezoneName
 		}
 	};
+};
+
+export const buildTimezoneByOffset = (timezones: string[]): ITimezoneOffset[] => {
+	return timezones
+		.map(name => {
+			const offset = getTimezoneOffset(name);
+			const label = formatTimezoneName(name);
+
+			return { offset, name, label };
+		})
+		.sort((name1, name2) => name1.offset - name2.offset);
 };

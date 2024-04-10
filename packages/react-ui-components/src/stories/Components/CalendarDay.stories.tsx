@@ -6,7 +6,7 @@ import { KvCalendarDay } from '../../components';
 KvCalendarDay.displayName = 'KvCalendarDay';
 
 export default {
-	title: 'Calendar/Base/CalendarDay',
+	title: 'Time Picker/Components/Calendar Day',
 	component: 'kv-calendar-day',
 	argTypes: {
 		onClickDay: {
@@ -24,26 +24,26 @@ export default {
 	}
 };
 
-const CalendarDayTemplate: ComponentStory<typeof KvCalendarDay> = args => <KvCalendarDay {...args} />;
+const TimePickerCalendarDayTemplate: ComponentStory<typeof KvCalendarDay> = args => <KvCalendarDay {...args} />;
 
-export const DefaultState = CalendarDayTemplate.bind({});
+export const DefaultState = TimePickerCalendarDayTemplate.bind({});
 DefaultState.args = {
 	day: 12
 };
 
-export const DisabledState = CalendarDayTemplate.bind({});
+export const DisabledState = TimePickerCalendarDayTemplate.bind({});
 DisabledState.args = {
 	day: 12,
 	disabled: true
 };
 
-export const ActiveState = CalendarDayTemplate.bind({});
+export const ActiveState = TimePickerCalendarDayTemplate.bind({});
 ActiveState.args = {
 	day: 12,
 	active: true
 };
 
-export const InRangeState = CalendarDayTemplate.bind({});
+export const InRangeState = TimePickerCalendarDayTemplate.bind({});
 InRangeState.args = {
 	day: 12,
 	inRange: true

@@ -3,16 +3,20 @@
 exports[`Calendar (unit tests) when disabled dates is passed and all dates are valid should match the snapshot 1`] = `
 <kv-calendar>
   <mock:shadow-root>
-    <div class="calendar" part="calendar-container">
+    <div class="calendar">
       <div class="calendar__header">
-        <kv-action-button-icon icon="kv-arrow-left" type="tertiary"></kv-action-button-icon>
+        <div class="navigator">
+          <kv-icon name="kv-nav-close"></kv-icon>
+        </div>
         <div class="month">
           August 2022
         </div>
-        <kv-action-button-icon icon="kv-arrow-right" type="tertiary"></kv-action-button-icon>
+        <div class="navigator">
+          <kv-icon name="kv-nav-open"></kv-icon>
+        </div>
       </div>
       <div class="calendar__body">
-        <div class="calendar-month" part="month-container">
+        <div class="calendar-month">
           <div class="calendar-month__weekdays">
             <div class="weekday">
               Su
@@ -37,38 +41,48 @@ exports[`Calendar (unit tests) when disabled dates is passed and all dates are v
             </div>
           </div>
           <div class="calendar-month__days">
-            <div class="day day--blank"></div>
-            <kv-calendar-day day="1" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="2" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="3" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="4" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="5" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="6" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="7" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="8" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="9" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="10" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="11" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="12" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="13" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="14" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="15" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="16" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="17" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="18" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="19" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="20" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="21" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="22" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="23" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="24" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="25" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="26" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="27" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="28" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="29" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="30" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="31" exportparts="day-container"></kv-calendar-day>
+            <kv-calendar-day day="31" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="1"></kv-calendar-day>
+            <kv-calendar-day day="2"></kv-calendar-day>
+            <kv-calendar-day day="3"></kv-calendar-day>
+            <kv-calendar-day day="4"></kv-calendar-day>
+            <kv-calendar-day day="5" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="6" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="7" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="8"></kv-calendar-day>
+            <kv-calendar-day day="9"></kv-calendar-day>
+            <kv-calendar-day day="10"></kv-calendar-day>
+            <kv-calendar-day day="11"></kv-calendar-day>
+            <kv-calendar-day day="12"></kv-calendar-day>
+            <kv-calendar-day day="13"></kv-calendar-day>
+            <kv-calendar-day day="14"></kv-calendar-day>
+            <kv-calendar-day day="15"></kv-calendar-day>
+            <kv-calendar-day day="16"></kv-calendar-day>
+            <kv-calendar-day day="17"></kv-calendar-day>
+            <kv-calendar-day day="18"></kv-calendar-day>
+            <kv-calendar-day day="19"></kv-calendar-day>
+            <kv-calendar-day day="20"></kv-calendar-day>
+            <kv-calendar-day day="21"></kv-calendar-day>
+            <kv-calendar-day day="22"></kv-calendar-day>
+            <kv-calendar-day day="23"></kv-calendar-day>
+            <kv-calendar-day day="24"></kv-calendar-day>
+            <kv-calendar-day day="25"></kv-calendar-day>
+            <kv-calendar-day day="26"></kv-calendar-day>
+            <kv-calendar-day day="27"></kv-calendar-day>
+            <kv-calendar-day day="28"></kv-calendar-day>
+            <kv-calendar-day day="29"></kv-calendar-day>
+            <kv-calendar-day day="30"></kv-calendar-day>
+            <kv-calendar-day day="31"></kv-calendar-day>
+            <kv-calendar-day day="1" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="2" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="3" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="4" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="5" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="6" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="7" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="8" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="9" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="10" disabled=""></kv-calendar-day>
           </div>
         </div>
       </div>
@@ -80,16 +94,20 @@ exports[`Calendar (unit tests) when disabled dates is passed and all dates are v
 exports[`Calendar (unit tests) when initial date is passed and is a valid date should match the snapshot 1`] = `
 <kv-calendar initial-date="2022-08-01">
   <mock:shadow-root>
-    <div class="calendar" part="calendar-container">
+    <div class="calendar">
       <div class="calendar__header">
-        <kv-action-button-icon icon="kv-arrow-left" type="tertiary"></kv-action-button-icon>
+        <div class="navigator">
+          <kv-icon name="kv-nav-close"></kv-icon>
+        </div>
         <div class="month">
           August 2022
         </div>
-        <kv-action-button-icon icon="kv-arrow-right" type="tertiary"></kv-action-button-icon>
+        <div class="navigator">
+          <kv-icon name="kv-nav-open"></kv-icon>
+        </div>
       </div>
       <div class="calendar__body">
-        <div class="calendar-month" part="month-container">
+        <div class="calendar-month">
           <div class="calendar-month__weekdays">
             <div class="weekday">
               Su
@@ -114,192 +132,48 @@ exports[`Calendar (unit tests) when initial date is passed and is a valid date s
             </div>
           </div>
           <div class="calendar-month__days">
-            <div class="day day--blank"></div>
-            <kv-calendar-day day="1" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="2" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="3" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="4" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="5" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="6" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="7" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="8" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="9" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="10" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="11" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="12" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="13" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="14" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="15" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="16" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="17" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="18" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="19" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="20" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="21" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="22" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="23" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="24" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="25" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="26" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="27" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="28" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="29" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="30" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="31" exportparts="day-container"></kv-calendar-day>
-          </div>
-        </div>
-      </div>
-    </div>
-  </mock:shadow-root>
-</kv-calendar>
-`;
-
-exports[`Calendar (unit tests) when max date is passed and is a valid date should match the snapshot 1`] = `
-<kv-calendar initial-date="2022-08-01" max-date="2022-04-01">
-  <mock:shadow-root>
-    <div class="calendar" part="calendar-container">
-      <div class="calendar__header">
-        <kv-action-button-icon icon="kv-arrow-left" type="tertiary"></kv-action-button-icon>
-        <div class="month">
-          August 2022
-        </div>
-        <kv-action-button-icon icon="kv-arrow-right" type="tertiary"></kv-action-button-icon>
-      </div>
-      <div class="calendar__body">
-        <div class="calendar-month" part="month-container">
-          <div class="calendar-month__weekdays">
-            <div class="weekday">
-              Su
-            </div>
-            <div class="weekday">
-              Mo
-            </div>
-            <div class="weekday">
-              Tu
-            </div>
-            <div class="weekday">
-              We
-            </div>
-            <div class="weekday">
-              Th
-            </div>
-            <div class="weekday">
-              Fr
-            </div>
-            <div class="weekday">
-              Sa
-            </div>
-          </div>
-          <div class="calendar-month__days">
-            <div class="day day--blank"></div>
-            <kv-calendar-day day="1" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="2" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="3" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="4" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="5" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="6" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="7" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="8" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="9" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="10" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="11" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="12" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="13" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="14" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="15" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="16" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="17" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="18" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="19" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="20" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="21" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="22" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="23" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="24" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="25" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="26" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="27" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="28" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="29" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="30" disabled="" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="31" disabled="" exportparts="day-container"></kv-calendar-day>
-          </div>
-        </div>
-      </div>
-    </div>
-  </mock:shadow-root>
-</kv-calendar>
-`;
-
-exports[`Calendar (unit tests) when min date is passed and is a valid date should match the snapshot 1`] = `
-<kv-calendar initial-date="2022-08-1" min-date="2022-04-01">
-  <mock:shadow-root>
-    <div class="calendar" part="calendar-container">
-      <div class="calendar__header">
-        <kv-action-button-icon icon="kv-arrow-left" type="tertiary"></kv-action-button-icon>
-        <div class="month">
-          August 2022
-        </div>
-        <kv-action-button-icon icon="kv-arrow-right" type="tertiary"></kv-action-button-icon>
-      </div>
-      <div class="calendar__body">
-        <div class="calendar-month" part="month-container">
-          <div class="calendar-month__weekdays">
-            <div class="weekday">
-              Su
-            </div>
-            <div class="weekday">
-              Mo
-            </div>
-            <div class="weekday">
-              Tu
-            </div>
-            <div class="weekday">
-              We
-            </div>
-            <div class="weekday">
-              Th
-            </div>
-            <div class="weekday">
-              Fr
-            </div>
-            <div class="weekday">
-              Sa
-            </div>
-          </div>
-          <div class="calendar-month__days">
-            <div class="day day--blank"></div>
-            <kv-calendar-day day="1" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="2" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="3" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="4" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="5" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="6" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="7" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="8" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="9" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="10" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="11" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="12" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="13" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="14" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="15" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="16" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="17" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="18" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="19" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="20" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="21" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="22" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="23" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="24" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="25" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="26" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="27" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="28" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="29" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="30" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="31" exportparts="day-container"></kv-calendar-day>
+            <kv-calendar-day day="31" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="1"></kv-calendar-day>
+            <kv-calendar-day day="2"></kv-calendar-day>
+            <kv-calendar-day day="3"></kv-calendar-day>
+            <kv-calendar-day day="4"></kv-calendar-day>
+            <kv-calendar-day day="5"></kv-calendar-day>
+            <kv-calendar-day day="6"></kv-calendar-day>
+            <kv-calendar-day day="7"></kv-calendar-day>
+            <kv-calendar-day day="8"></kv-calendar-day>
+            <kv-calendar-day day="9"></kv-calendar-day>
+            <kv-calendar-day day="10"></kv-calendar-day>
+            <kv-calendar-day day="11"></kv-calendar-day>
+            <kv-calendar-day day="12"></kv-calendar-day>
+            <kv-calendar-day day="13"></kv-calendar-day>
+            <kv-calendar-day day="14"></kv-calendar-day>
+            <kv-calendar-day day="15"></kv-calendar-day>
+            <kv-calendar-day day="16"></kv-calendar-day>
+            <kv-calendar-day day="17"></kv-calendar-day>
+            <kv-calendar-day day="18"></kv-calendar-day>
+            <kv-calendar-day day="19"></kv-calendar-day>
+            <kv-calendar-day day="20"></kv-calendar-day>
+            <kv-calendar-day day="21"></kv-calendar-day>
+            <kv-calendar-day day="22"></kv-calendar-day>
+            <kv-calendar-day day="23"></kv-calendar-day>
+            <kv-calendar-day day="24"></kv-calendar-day>
+            <kv-calendar-day day="25"></kv-calendar-day>
+            <kv-calendar-day day="26"></kv-calendar-day>
+            <kv-calendar-day day="27"></kv-calendar-day>
+            <kv-calendar-day day="28"></kv-calendar-day>
+            <kv-calendar-day day="29"></kv-calendar-day>
+            <kv-calendar-day day="30"></kv-calendar-day>
+            <kv-calendar-day day="31"></kv-calendar-day>
+            <kv-calendar-day day="1" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="2" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="3" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="4" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="5" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="6" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="7" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="8" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="9" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="10" disabled=""></kv-calendar-day>
           </div>
         </div>
       </div>
@@ -311,16 +185,20 @@ exports[`Calendar (unit tests) when min date is passed and is a valid date shoul
 exports[`Calendar (unit tests) when selected dates is passed and all dates are valid should match the snapshot 1`] = `
 <kv-calendar>
   <mock:shadow-root>
-    <div class="calendar" part="calendar-container">
+    <div class="calendar">
       <div class="calendar__header">
-        <kv-action-button-icon icon="kv-arrow-left" type="tertiary"></kv-action-button-icon>
+        <div class="navigator">
+          <kv-icon name="kv-nav-close"></kv-icon>
+        </div>
         <div class="month">
           August 2022
         </div>
-        <kv-action-button-icon icon="kv-arrow-right" type="tertiary"></kv-action-button-icon>
+        <div class="navigator">
+          <kv-icon name="kv-nav-open"></kv-icon>
+        </div>
       </div>
       <div class="calendar__body">
-        <div class="calendar-month" part="month-container">
+        <div class="calendar-month">
           <div class="calendar-month__weekdays">
             <div class="weekday">
               Su
@@ -345,38 +223,48 @@ exports[`Calendar (unit tests) when selected dates is passed and all dates are v
             </div>
           </div>
           <div class="calendar-month__days">
-            <div class="day day--blank"></div>
-            <kv-calendar-day day="1" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="2" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="3" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="4" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day active="" day="5" exportparts="day-container" leftrounded=""></kv-calendar-day>
-            <kv-calendar-day active="" day="6" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day active="" day="7" exportparts="day-container" rightrounded=""></kv-calendar-day>
-            <kv-calendar-day day="8" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="9" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="10" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="11" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="12" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="13" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="14" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="15" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="16" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="17" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="18" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="19" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="20" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="21" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="22" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="23" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="24" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="25" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="26" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="27" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="28" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="29" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="30" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="31" exportparts="day-container"></kv-calendar-day>
+            <kv-calendar-day day="31" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="1"></kv-calendar-day>
+            <kv-calendar-day day="2"></kv-calendar-day>
+            <kv-calendar-day day="3"></kv-calendar-day>
+            <kv-calendar-day day="4"></kv-calendar-day>
+            <kv-calendar-day active="" day="5" isedge=""></kv-calendar-day>
+            <kv-calendar-day active="" day="6" isbetweenselecteddates=""></kv-calendar-day>
+            <kv-calendar-day active="" day="7" isedge=""></kv-calendar-day>
+            <kv-calendar-day day="8"></kv-calendar-day>
+            <kv-calendar-day day="9"></kv-calendar-day>
+            <kv-calendar-day day="10"></kv-calendar-day>
+            <kv-calendar-day day="11"></kv-calendar-day>
+            <kv-calendar-day day="12"></kv-calendar-day>
+            <kv-calendar-day day="13"></kv-calendar-day>
+            <kv-calendar-day day="14"></kv-calendar-day>
+            <kv-calendar-day day="15"></kv-calendar-day>
+            <kv-calendar-day day="16"></kv-calendar-day>
+            <kv-calendar-day day="17"></kv-calendar-day>
+            <kv-calendar-day day="18"></kv-calendar-day>
+            <kv-calendar-day day="19"></kv-calendar-day>
+            <kv-calendar-day day="20"></kv-calendar-day>
+            <kv-calendar-day day="21"></kv-calendar-day>
+            <kv-calendar-day day="22"></kv-calendar-day>
+            <kv-calendar-day day="23"></kv-calendar-day>
+            <kv-calendar-day day="24"></kv-calendar-day>
+            <kv-calendar-day day="25"></kv-calendar-day>
+            <kv-calendar-day day="26"></kv-calendar-day>
+            <kv-calendar-day day="27"></kv-calendar-day>
+            <kv-calendar-day day="28"></kv-calendar-day>
+            <kv-calendar-day day="29"></kv-calendar-day>
+            <kv-calendar-day day="30"></kv-calendar-day>
+            <kv-calendar-day day="31"></kv-calendar-day>
+            <kv-calendar-day day="1" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="2" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="3" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="4" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="5" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="6" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="7" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="8" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="9" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="10" disabled=""></kv-calendar-day>
           </div>
         </div>
       </div>
@@ -388,16 +276,20 @@ exports[`Calendar (unit tests) when selected dates is passed and all dates are v
 exports[`Calendar (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-calendar>
   <mock:shadow-root>
-    <div class="calendar" part="calendar-container">
+    <div class="calendar">
       <div class="calendar__header">
-        <kv-action-button-icon icon="kv-arrow-left" type="tertiary"></kv-action-button-icon>
+        <div class="navigator">
+          <kv-icon name="kv-nav-close"></kv-icon>
+        </div>
         <div class="month">
           August 2022
         </div>
-        <kv-action-button-icon icon="kv-arrow-right" type="tertiary"></kv-action-button-icon>
+        <div class="navigator">
+          <kv-icon name="kv-nav-open"></kv-icon>
+        </div>
       </div>
       <div class="calendar__body">
-        <div class="calendar-month" part="month-container">
+        <div class="calendar-month">
           <div class="calendar-month__weekdays">
             <div class="weekday">
               Su
@@ -422,38 +314,48 @@ exports[`Calendar (unit tests) when uses default props should match the snapshot
             </div>
           </div>
           <div class="calendar-month__days">
-            <div class="day day--blank"></div>
-            <kv-calendar-day day="1" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="2" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="3" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="4" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="5" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="6" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="7" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="8" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="9" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="10" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="11" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="12" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="13" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="14" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="15" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="16" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="17" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="18" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="19" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="20" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="21" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="22" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="23" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="24" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="25" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="26" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="27" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="28" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="29" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="30" exportparts="day-container"></kv-calendar-day>
-            <kv-calendar-day day="31" exportparts="day-container"></kv-calendar-day>
+            <kv-calendar-day day="31" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="1"></kv-calendar-day>
+            <kv-calendar-day day="2"></kv-calendar-day>
+            <kv-calendar-day day="3"></kv-calendar-day>
+            <kv-calendar-day day="4"></kv-calendar-day>
+            <kv-calendar-day day="5"></kv-calendar-day>
+            <kv-calendar-day day="6"></kv-calendar-day>
+            <kv-calendar-day day="7"></kv-calendar-day>
+            <kv-calendar-day day="8"></kv-calendar-day>
+            <kv-calendar-day day="9"></kv-calendar-day>
+            <kv-calendar-day day="10"></kv-calendar-day>
+            <kv-calendar-day day="11"></kv-calendar-day>
+            <kv-calendar-day day="12"></kv-calendar-day>
+            <kv-calendar-day day="13"></kv-calendar-day>
+            <kv-calendar-day day="14"></kv-calendar-day>
+            <kv-calendar-day day="15"></kv-calendar-day>
+            <kv-calendar-day day="16"></kv-calendar-day>
+            <kv-calendar-day day="17"></kv-calendar-day>
+            <kv-calendar-day day="18"></kv-calendar-day>
+            <kv-calendar-day day="19"></kv-calendar-day>
+            <kv-calendar-day day="20"></kv-calendar-day>
+            <kv-calendar-day day="21"></kv-calendar-day>
+            <kv-calendar-day day="22"></kv-calendar-day>
+            <kv-calendar-day day="23"></kv-calendar-day>
+            <kv-calendar-day day="24"></kv-calendar-day>
+            <kv-calendar-day day="25"></kv-calendar-day>
+            <kv-calendar-day day="26"></kv-calendar-day>
+            <kv-calendar-day day="27"></kv-calendar-day>
+            <kv-calendar-day day="28"></kv-calendar-day>
+            <kv-calendar-day day="29"></kv-calendar-day>
+            <kv-calendar-day day="30"></kv-calendar-day>
+            <kv-calendar-day day="31"></kv-calendar-day>
+            <kv-calendar-day day="1" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="2" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="3" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="4" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="5" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="6" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="7" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="8" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="9" disabled=""></kv-calendar-day>
+            <kv-calendar-day day="10" disabled=""></kv-calendar-day>
           </div>
         </div>
       </div>

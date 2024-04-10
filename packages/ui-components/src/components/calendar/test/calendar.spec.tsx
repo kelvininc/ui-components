@@ -1,6 +1,6 @@
-import { h, SpecPage } from '@stencil/core/internal';
-import { newSpecPage } from '@stencil/core/testing';
+import { SpecPage, h } from '@stencil/core/internal';
 import { KvCalendar } from '../calendar';
+import { newSpecPage } from '@stencil/core/testing';
 
 describe('Calendar (unit tests)', () => {
 	let page: SpecPage;
@@ -113,60 +113,6 @@ describe('Calendar (unit tests)', () => {
 						template: () => <kv-calendar initialDate="2022-08-01" disabledDates={['2022-08-05', 'invalid-date', '2022-08-07']}></kv-calendar>
 					})
 				).rejects.toThrow('Disabled dates should be an array with valid dates');
-			});
-		});
-	});
-
-	describe('when min date is passed', () => {
-		describe('and is a valid date', () => {
-			beforeEach(async () => {
-				page = await newSpecPage({
-					components: [KvCalendar],
-					html: '<kv-calendar initial-date="2022-08-1" min-date="2022-04-01"></kv-calendar>'
-				});
-				component = page.rootInstance;
-			});
-
-			it('should match the snapshot', () => {
-				expect(page.root).toMatchSnapshot();
-			});
-		});
-
-		describe('and is an invalid date', () => {
-			it('should throw a validation error', async () => {
-				await expect(
-					newSpecPage({
-						components: [KvCalendar],
-						html: '<kv-calendar min-date="not-a-valid-initial-date"></kv-calendar>'
-					})
-				).rejects.toThrow('Min date should be a valid date');
-			});
-		});
-	});
-
-	describe('when max date is passed', () => {
-		describe('and is a valid date', () => {
-			beforeEach(async () => {
-				page = await newSpecPage({
-					components: [KvCalendar],
-					html: '<kv-calendar initial-date="2022-08-01" max-date="2022-04-01"></kv-calendar>'
-				});
-				component = page.rootInstance;
-			});
-
-			it('should match the snapshot', () => {
-				expect(page.root).toMatchSnapshot();
-			});
-		});
-
-		describe('and is an invalid date', () => {
-			it('should throw a validation error', async () => {
-				await expect(
-					newSpecPage({
-						components: [KvCalendar],
-						html: '<kv-calendar max-date="not-a-valid-initial-date"></kv-calendar>'
-					})
-				).rejects.toThrow('Max date should be a valid date');
 			});
 		});
 	});

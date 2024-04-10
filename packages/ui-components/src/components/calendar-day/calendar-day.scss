@@ -5,7 +5,7 @@
 	--day-height: 28px;
 }
 
-.time-picker-calendar-day {
+.calendar-day {
 	@include kv-font-label-small-regular;
 	width: var(--day-width);
 	height: var(--day-height);
@@ -20,21 +20,21 @@
 	user-select: none;
 	cursor: pointer;
 
-	&:hover:not(.time-picker-calendar-day--disabled):not(.time-picker-calendar-day--active) {
+	&:hover:not(.calendar-day--disabled):not(.calendar-day--active) {
 		background-color: kv-color('info', 'base', 0.16);
 	}
 
-	&--today:not(.time-picker-calendar-day--disabled) {
+	&--today:not(.calendar-day--disabled) {
 		border: 1px solid kv-color('neutral-5');
 		width: calc(var(--day-width) - 2px);
 		height: calc(var(--day-height) - 2px);
 	}
 
-	&--in-range:not(.time-picker-calendar-day--disabled) {
+	&--in-hover-range:not(.calendar-day--disabled) {
 		background-color: kv-color('info', 'base', 0.16);
 	}
 
-	&--active:not(.time-picker-calendar-day--disabled) {
+	&--active:not(.calendar-day--disabled) {
 		background-color: kv-color('primary', 'dark');
 		color: kv-color('neutral-2');
 
@@ -44,17 +44,12 @@
 		}
 	}
 
-	&--range-start:not(.time-picker-calendar-day--disabled) {
+	&--edge:not(.calendar-day--disabled) {
 		background-color: kv-color('primary', 'dark');
 		color: kv-color('neutral-2');
 	}
 
-	&--range-end:not(.time-picker-calendar-day--disabled) {
-		background-color: kv-color('primary', 'dark');
-		color: kv-color('neutral-2');
-	}
-
-	&--between-dates:not(.time-picker-calendar-day--disabled) {
+	&--between-dates:not(.calendar-day--disabled) {
 		background-color: kv-color('info', 'base', 0.16);
 		color: kv-color('neutral-4');
 	}

@@ -9,5 +9,5 @@
 <kv-calendar-day [day]="12" [disabled]="true"></kv-calendar-day>
 
 <!-- In Range -->
-<kv-calendar-day [day]="12" [inRange]="true"></kv-calendar-day>
+<kv-calendar-day [day]="12" [inHoverRange]="true"></kv-calendar-day>
 ```

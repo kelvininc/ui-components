@@ -1,16 +1,25 @@
 import { EventEmitter } from '@stencil/core';
+import { EAbsoluteTimePickerMode } from '../../types';
 
 export interface ICalendar {
+	/** (optional) Defines if the calendar is in single date or range mode */
+	mode?: EAbsoluteTimePickerMode;
 	/** (optional) The currently selected dates */
 	selectedDates?: string[];
 	/** (optional) Initial date */
 	initialDate?: string;
+	/** (optional) Defines if a date is hovered */
+	hoveredDate?: string;
 	/** (options) The disabled dates array */
 	disabledDates?: string[];
-	/** (optional) Minimum accepted date */
+	/** (optional) Minimum accepted date. Format: YYYY-MM-DD */
 	minDate?: string;
-	/** (optional) Maximum accepted date */
+	/** (optional) Maximum accepted date. Format: YYYY-MM-DD */
 	maxDate?: string;
+	/** (optional) Enables the previous month click icon */
+	displayPreviousMonthArrow?: boolean;
+	/** (optional) Enables the next month click icon */
+	displayNextMonthArrow?: boolean;
 }
 
 export interface ICalendarEvents {
@@ -20,21 +29,18 @@ export interface ICalendarEvents {
 	changeYear: EventEmitter<IChangeYearEvent>;
 	/** Emitted when a date is clicked */
 	clickDate: EventEmitter<IClickDateEvent>;
+	/** Emitted when the hovered date changes */
+	hoveredDateChange: EventEmitter<string>;
 }
 
 export interface IClickDateEvent {
-	event: MouseEvent;
-	payload: string;
+	date: string;
 }
 
 export interface IChangeMonthEvent {
-	event: MouseEvent;
-	payload: number;
+	month: number;
 }
 
 export interface IChangeYearEvent {
-	event: MouseEvent;
-	payload: number;
+	year: number;
 }
-
-export type SelectedRange = [] | [string] | [string, string];

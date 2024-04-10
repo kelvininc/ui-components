@@ -120,11 +120,11 @@ graph TD;
   kv-select-shortcuts-label --> kv-icon
   kv-absolute-time-picker --> kv-icon
   kv-absolute-time-picker --> kv-date-time-input
-  kv-absolute-time-picker --> kv-time-picker-calendar
+  kv-absolute-time-picker --> kv-calendar
   kv-date-time-input --> kv-form-label
   kv-date-time-input --> kv-form-help-text
-  kv-time-picker-calendar --> kv-icon
-  kv-time-picker-calendar --> kv-time-picker-calendar-day
+  kv-calendar --> kv-icon
+  kv-calendar --> kv-calendar-day
   kv-switch-button --> kv-icon
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon
