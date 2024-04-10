@@ -6,7 +6,7 @@ import { KvCalendar } from '../../components';
 KvCalendar.displayName = 'KvCalendar';
 
 export default {
-	title: 'Calendar/Base/Calendar',
+	title: 'Time Picker/Components/Calendar',
 	component: 'kv-calendar',
 	argTypes: {
 		selectedDates: {
@@ -31,5 +31,5 @@ const CalendarMonthTem: ComponentStory<typeof KvCalendar> = args => <KvCalendar 
 
 export const DefaultState = CalendarMonthTem.bind({});
 DefaultState.args = {
-	initialDate: new Date('2022-09-01').toISOString()
+	initialDate: new Date('2023-01-01').toISOString()
 };

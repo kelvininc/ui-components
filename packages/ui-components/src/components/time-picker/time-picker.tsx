@@ -19,6 +19,7 @@ import { getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../
 import { ITimePicker, ITimePickerEvents, ITimePickerTimeState, ITimePickerTime } from './time-picker.types';
 import {
 	buildCustomIntervalTimeRange,
+	buildTimezoneByOffset,
 	buildTooltipText,
 	createTimestampInTimezoneFromFormattedDate,
 	getAbsoluteTimePickerRangeDates,
@@ -32,7 +33,6 @@ import {
 } from './time-picker.helper';
 import { CALENDAR_DATE_TIME_MASK, DATETIME_INPUT_MASK, DEFAULT_HEADER_TITLE } from '../absolute-time-picker/absolute-time-picker.config';
 import { IRelativeTimeInput, IAbsoluteSelectedRangeDates } from '../absolute-time-picker/absolute-time-picker.types';
-import { buildTimezoneByOffset } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.helper';
 import dayjs from 'dayjs';
 
 @Component({

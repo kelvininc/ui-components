@@ -5,36 +5,25 @@ export interface ICalendarDay {
 	day: Number;
 	/** (optional) If `true`, the day is disabled */
 	disabled?: boolean;
-	/** (optional) If `true`, the day is with active style */
+	/** (optional) If `true`, the day is with active */
 	active?: boolean;
-	/** (optional) If `true`, the day is with 'in-range' style */
+	/** (optional) If `true`, the day is in range from a start date to the current hovered day */
 	inRange?: boolean;
-	/** (optional) If `true`, the day is left rounded style */
-	leftRounded?: boolean;
-	/** (optional) If `true`, the day is right rounded style */
-	rightRounded?: boolean;
+	/** (optional) If `true` the day is the start of the range */
+	isRangeStartDate?: boolean;
+	/** (optional) If `true` the day is the end of the range */
+	isRangeEndDate?: boolean;
+	/** (optional) If `true`, the day is the day of `today`date */
+	isToday?: boolean;
+	/** (optional) If `true`, the day is between to selected dates */
+	isBetweenSelectedDates?: boolean;
 }
 
 export interface ICalendarDayEvents {
 	/** Emitted when day button is clicked */
-	clickDay: EventEmitter<IClickDayEvent>;
+	clickDay: EventEmitter<number>;
 	/** Emitted when day button is mouse enter */
-	mouseEnterDay: EventEmitter<IMouseEnterEvent>;
+	mouseEnterDay: EventEmitter<number>;
 	/** Emitted when day button is mouse leave */
-	mouseLeaveDay: EventEmitter<IMouseLeaveEvent>;
-}
-
-export interface IClickDayEvent {
-	event: MouseEvent;
-	payload: number;
-}
-
-export interface IMouseEnterEvent {
-	event: MouseEvent;
-	payload: number;
-}
-
-export interface IMouseLeaveEvent {
-	event: MouseEvent;
-	payload: number;
+	mouseLeaveDay: EventEmitter<number>;
 }

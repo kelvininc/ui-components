@@ -2,7 +2,7 @@ import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@st
 import { EAbsoluteTimePickerMode, IAbsoluteSelectedRangeDates } from '../absolute-time-picker/absolute-time-picker.types';
 import { getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
 import { CALENDAR_MASK, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
-import { buildCustomIntervalTimeRange, buildTooltipText, hasRangeChanged } from '../time-picker/time-picker.helper';
+import { buildCustomIntervalTimeRange, buildTimezoneByOffset, buildTooltipText, hasRangeChanged } from '../time-picker/time-picker.helper';
 import { SelectedTimestamp } from '../time-picker/time-picker.types';
 import { isEmpty, isNumber, merge } from 'lodash';
 import { ITextField } from '../text-field/text-field.types';
@@ -12,7 +12,6 @@ import dayjs from 'dayjs';
 import { EActionButtonType } from '../action-button/action-button.types';
 import { EComponentSize, ETooltipPosition, ITimePickerTimezone, ITimezoneOffset } from '../../types';
 import { IAbsoluteTimePickerDropdown, IAbsoluteTimePickerDropdownEvents } from './absolute-time-picker-dropdown.types';
-import { buildTimezoneByOffset } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.helper';
 import { getSelectedTimestampDates, getFormattedSelectedDates, isAbsoluteTimePickerFilled, getAbsoluteTimePickerError } from './absolute-time-picker-dropdown.utils';
 
 @Component({

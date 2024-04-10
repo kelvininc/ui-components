@@ -142,7 +142,6 @@ Type: `Promise<void>`
 ### Used by
 
  - [kv-dropdown](../dropdown)
- - [kv-range-dates-select-dropdown](../range-dates-select-dropdown)
  - [kv-search](../search)
  - [kv-select-create-option](../select-create-option)
 
@@ -166,7 +165,6 @@ graph TD;
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
   kv-dropdown --> kv-text-field
-  kv-range-dates-select-dropdown --> kv-text-field
   kv-search --> kv-text-field
   kv-select-create-option --> kv-text-field
   style kv-text-field fill:#f9f,stroke:#333,stroke-width:4px

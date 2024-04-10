@@ -19,14 +19,7 @@ describe('Calendar Day (end-to-end)', () => {
 			});
 
 			it('should emit `ClickDay` event', () => {
-				const expectedEventDetail = {
-					event: {
-						isTrusted: true
-					},
-					payload: 12
-				};
-
-				expect(spyChangeEvent).toHaveReceivedEventDetail(expectedEventDetail);
+				expect(spyChangeEvent).toHaveReceivedEventDetail(12);
 			});
 		});
 

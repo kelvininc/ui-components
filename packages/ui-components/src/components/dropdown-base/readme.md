@@ -31,7 +31,6 @@
 
  - [kv-absolute-time-picker-dropdown-input](../absolute-time-picker-dropdown-input)
  - [kv-dropdown](../dropdown)
- - [kv-range-dates-select-dropdown](../range-dates-select-dropdown)
 
 ### Depends on
 
@@ -43,7 +42,6 @@ graph TD;
   kv-dropdown-base --> kv-portal
   kv-absolute-time-picker-dropdown-input --> kv-dropdown-base
   kv-dropdown --> kv-dropdown-base
-  kv-range-dates-select-dropdown --> kv-dropdown-base
   style kv-dropdown-base fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
