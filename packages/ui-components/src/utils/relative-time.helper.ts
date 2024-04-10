@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import { ERelativeTimeComparisonConfig, EUnitReference, IRelativeTimePickerOption } from '../types';
 import { calculateDate, isDateTimeBefore, newTimezoneDate, newTimezoneDateFromFormat } from './date.helper';
-import { DayjsTimeRange, TimestampRange } from './types';
 import { DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS } from '../components/relative-time-picker/relative-time-picker.config';
+import { DayjsTimeRange, TimestampRange } from './types';
 
 /** Date range builders */
 export const buildOptionRange = (option: IRelativeTimePickerOption, timeZone: string): DayjsTimeRange => {

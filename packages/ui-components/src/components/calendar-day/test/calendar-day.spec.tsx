@@ -1,16 +1,16 @@
 import { SpecPage } from '@stencil/core/internal';
-import { KvTimePickerCalendarDay } from '../time-picker-calendar-day';
+import { KvCalendarDay } from '../calendar-day';
 import { newSpecPage } from '@stencil/core/testing';
 
-describe('Time Picker Calendar Day (unit tests)', () => {
+describe('Calendar Day (unit tests)', () => {
 	let page: SpecPage;
-	let component: KvTimePickerCalendarDay;
+	let component: KvCalendarDay;
 
 	describe('when uses default props', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvTimePickerCalendarDay],
-				html: '<kv-time-picker-calendar-day day="12"></kv-time-picker-calendar-day>'
+				components: [KvCalendarDay],
+				html: '<kv-calendar-day day="12"></kv-calendar-day>'
 			});
 			component = page.rootInstance;
 		});

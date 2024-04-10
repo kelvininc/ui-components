@@ -13,7 +13,7 @@ import {
 import dayjs from 'dayjs';
 import { fromISO, getDefaultTimezoneSettings } from '../../utils/date.helper';
 import { getFirstCalendarInitialDate, getSecondCalendarInitialDate } from '../absolute-time-picker/absolute-time-picker.helper';
-import { IClickDateEvent } from '../time-picker-calendar/time-picker-calendar.types';
+import { IClickDateEvent } from '../calendar/calendar.types';
 import { IAbsoluteTimePickerDropdownInput, IAbsoluteTimePickerDropdownInputEvents, SelectedTime, SelectedTimeState, TimeRange } from './absolute-time-picker-dropdown-input.types';
 import { isEmpty, isNumber } from 'lodash-es';
 import { getRangeCalendarDates, getRangeInputValues, getSingleCalendarDate, getSingleInputDate } from './absolute-time-picker-dropdown-input.utils';
@@ -301,7 +301,7 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 					</slot>
 					<div slot="list">
 						<div class="calendar-container">
-							<kv-time-picker-calendar
+							<kv-calendar
 								mode={this.mode}
 								displayNextMonthArrow={false}
 								displayPreviousMonthArrow
@@ -314,7 +314,7 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 								onClickDate={this.onClickDate}
 								minDate={minimumCalendarDate}
 							/>
-							<kv-time-picker-calendar
+							<kv-calendar
 								mode={this.mode}
 								displayNextMonthArrow
 								displayPreviousMonthArrow={false}

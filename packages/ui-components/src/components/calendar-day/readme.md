@@ -1,4 +1,4 @@
-# kv-time-picker-calendar-day
+# kv-calendar-day
 
 
 
@@ -12,21 +12,21 @@
 ```tsx
 import React from 'react';
 
-import { KvTimePickerCalendarDay } from '@kelvininc/react-ui-components';
+import { KvCalendarDay } from '@kelvininc/react-ui-components';
 
-export const KvTimePickerCalendarDayExample: React.FC = () => (
+export const KvCalendarDayExample: React.FC = () => (
 	<>
 		{/*-- Default --*/}
-		<KvTimePickerCalendarDay day={12} />
+		<KvCalendarDay day={12} />
 
 		{/*-- Active --*/}
-		<KvTimePickerCalendarDay day={12} active={true} />
+		<KvCalendarDay day={12} active={true} />
 
 		{/*-- Disabled --*/}
-		<KvTimePickerCalendarDay day={12} disabled={true} />
+		<KvCalendarDay day={12} disabled={true} />
 
 		{/*-- In Range --*/}
-		<KvTimePickerCalendarDay day={12} inRange={true} />
+		<KvCalendarDay day={12} inHoverRange={true} />
 	</>
 );
 ```
@@ -67,13 +67,13 @@ export const KvTimePickerCalendarDayExample: React.FC = () => (
 
 ### Used by
 
- - [kv-time-picker-calendar](../time-picker-calendar)
+ - [kv-calendar](../calendar)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-time-picker-calendar --> kv-time-picker-calendar-day
-  style kv-time-picker-calendar-day fill:#f9f,stroke:#333,stroke-width:4px
+  kv-calendar --> kv-calendar-day
+  style kv-calendar-day fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

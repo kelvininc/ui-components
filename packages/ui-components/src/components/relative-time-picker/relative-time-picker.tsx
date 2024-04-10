@@ -23,10 +23,11 @@ import { ISelectSingleOptions } from '../single-select-dropdown/single-select-dr
 import { EIconName } from '../icon/icon.types';
 import { buildTimezoneByOffset, formatTimezoneName, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
 import { buildRelativeTimeSelectOptions, buildTimezonesDropdownOptions, getSelectedKeyRange, hasRangeChanged, isScrollNeeded } from './relative-time-picker.helper';
-import { CustomCssClass, EComponentSize, ITimezoneOffset, SelectedTimestamp } from '../../types';
+import { CustomCssClass, EComponentSize } from '../../types';
 import { isEmpty } from 'lodash-es';
 import { getClassMap } from '../../utils/css-class.helper';
 import { searchDropdownOptions } from '../../utils/select.helper';
+import { ITimezoneOffset, SelectedTimestamp } from '../time-picker/time-picker.types';
 
 @Component({
 	tag: 'kv-relative-time-picker',
