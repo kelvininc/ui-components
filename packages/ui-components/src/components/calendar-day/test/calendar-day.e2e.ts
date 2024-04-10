@@ -1,6 +1,6 @@
 import { E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
 
-describe('Time Picker Calendar Day (end-to-end)', () => {
+describe('Calendar Day (end-to-end)', () => {
 	let page: E2EPage;
 
 	describe('when user clicks on the day button', () => {
@@ -9,12 +9,12 @@ describe('Time Picker Calendar Day (end-to-end)', () => {
 
 			beforeEach(async () => {
 				page = await newE2EPage();
-				await page.setContent('<kv-time-picker-calendar-day day="12"></kv-time-picker-calendar-day>');
+				await page.setContent('<kv-calendar-day day="12"></kv-calendar-day>');
 
-				const dayButtonIconElement = await page.find('kv-time-picker-calendar-day');
+				const dayButtonIconElement = await page.find('kv-calendar-day');
 				spyChangeEvent = await dayButtonIconElement.spyOnEvent('clickDay');
 
-				const buttonElement = await page.find('kv-time-picker-calendar-day >>> .time-picker-calendar-day');
+				const buttonElement = await page.find('kv-calendar-day >>> .calendar-day');
 				await buttonElement.click();
 			});
 
@@ -28,12 +28,12 @@ describe('Time Picker Calendar Day (end-to-end)', () => {
 
 			beforeEach(async () => {
 				page = await newE2EPage();
-				await page.setContent('<kv-time-picker-calendar-day day="12" disabled></kv-time-picker-calendar-day>');
+				await page.setContent('<kv-calendar-day day="12" disabled></kv-calendar-day>');
 
-				const dayButtonIconElement = await page.find('kv-time-picker-calendar-day');
+				const dayButtonIconElement = await page.find('kv-calendar-day');
 				spyChangeEvent = await dayButtonIconElement.spyOnEvent('clickDay');
 
-				const buttonElement = await page.find('kv-time-picker-calendar-day >>> .time-picker-calendar-day');
+				const buttonElement = await page.find('kv-calendar-day >>> .calendar-day');
 				await buttonElement.click();
 			});
 

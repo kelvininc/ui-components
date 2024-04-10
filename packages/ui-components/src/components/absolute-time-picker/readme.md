@@ -73,20 +73,20 @@ export const KvAbsoluteTimePicker: React.FC = () => (
 
 - [kv-icon](../icon)
 - [kv-date-time-input](../date-time-input)
-- [kv-time-picker-calendar](../time-picker-calendar)
+- [kv-calendar](../calendar)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-absolute-time-picker --> kv-icon
   kv-absolute-time-picker --> kv-date-time-input
-  kv-absolute-time-picker --> kv-time-picker-calendar
+  kv-absolute-time-picker --> kv-calendar
   kv-date-time-input --> kv-form-label
   kv-date-time-input --> kv-icon
   kv-date-time-input --> kv-form-help-text
   kv-form-help-text --> kv-icon
-  kv-time-picker-calendar --> kv-icon
-  kv-time-picker-calendar --> kv-time-picker-calendar-day
+  kv-calendar --> kv-icon
+  kv-calendar --> kv-calendar-day
   kv-absolute-time-picker-dropdown --> kv-absolute-time-picker
   kv-time-picker --> kv-absolute-time-picker
   style kv-absolute-time-picker fill:#f9f,stroke:#333,stroke-width:4px

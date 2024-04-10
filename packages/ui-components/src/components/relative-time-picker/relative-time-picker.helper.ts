@@ -1,5 +1,4 @@
 import { IDateTimeRangeFormatter, IRelativeTimeDropdownOption, IRelativeTimePickerOption } from './relative-time-picker.types';
-import { getDefaultTimezone } from '../../utils/date.helper';
 import dayjs from 'dayjs';
 import { isEmpty } from 'lodash-es';
 import {
@@ -15,6 +14,7 @@ import {
 } from './relative-time-picker.config';
 import { DayjsTimeRange, ISelectSingleOptions, ITimezoneOffset, SelectedTimestamp } from '../../types';
 import { buildOptionRange, buildTimestampRange } from '../../utils/relative-time.helper';
+import { getDefaultTimezone } from '../../utils/date.helper';
 
 export const buildRelativeTimeSelectOptions = (options: IRelativeTimePickerOption[][], timeZone: string = getDefaultTimezone()): IRelativeTimeDropdownOption[][] => {
 	return options.map<IRelativeTimeDropdownOption[]>(group => buildRelativeTimeGroupOptions(group, timeZone));
