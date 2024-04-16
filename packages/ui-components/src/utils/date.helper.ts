@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { SelectedRange, DateInput } from '../types';
+import { SelectedRange, DateInput, ITimePickerTimezone } from '../types';
 
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -122,3 +122,11 @@ export const fromDatesRangeKey = (datesKey: string): SelectedRange => {
 	return [startDate, endDate].filter(isDateValid) as SelectedRange;
 };
 export const getMonthAndYearTitle = (month: number, year: number): string => `${getMonthName(month)} ${year}`;
+export const getDefaultTimezoneSettings = (timezone?: string): ITimePickerTimezone => {
+	const defaultTimezone = timezone ?? getDefaultTimezone();
+
+	return {
+		name: defaultTimezone,
+		offset: getTimezoneOffset(defaultTimezone)
+	};
+};

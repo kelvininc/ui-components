@@ -1,0 +1,25 @@
+@import '../../assets/styles/globals';
+
+.time-range-input-container {
+	display: flex;
+	border-radius: 4px;
+	width: 100%;
+	align-items: flex-end;
+
+	kv-date-time-input {
+		width: calc(100% / 2);
+	}
+}
+
+.single-input-container {
+	border-radius: 4px;
+}
+
+.calendar-container {
+	display: flex;
+	gap: $spacing-5x;
+	border-radius: 4px;
+	border: 1px solid kv-color('neutral-6');
+	background: kv-color('neutral-7');
+	padding: $spacing-5x;
+}

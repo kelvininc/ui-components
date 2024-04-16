@@ -33,3 +33,12 @@ DateTimeInputMask.args = {
 	useInputMask: true,
 	size: EComponentSize.Large
 };
+
+export const DateTimeWithoutMask = DateTimeInputTemplate.bind({});
+DateTimeWithoutMask.args = {
+	label: 'Date time input mask',
+	useInputMask: false,
+	placeholder: 'Drop date & time here',
+	size: EComponentSize.Large,
+	forcedFocus: true
+};

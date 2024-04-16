@@ -157,7 +157,7 @@ export enum EIconName {
 	Save = 'kv-save',
 	Search = 'kv-search',
 	Send = 'kv-send',
-	Shedule = 'kv-schedule',
+	Schedule = 'kv-schedule',
 	SendMessage = 'kv-send-message',
 	Settings = 'kv-settings',
 	Share = 'kv-share',
