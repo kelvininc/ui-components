@@ -73,12 +73,11 @@ export class KvToggleTip implements IToggleTip, IToggleTipEvents {
 		return mergeComputePositionConfigs({ placement, middleware }, this.options);
 	};
 
-	private onButtonClick = (ev: MouseEvent) => {
-		ev.stopPropagation();
-
+	private onButtonClick = () => {
 		if (this.disabled) {
 			return;
 		}
+
 		this.isOpen = !this.isOpen;
 		this.openStateChange.emit(this.isOpen);
 	};
