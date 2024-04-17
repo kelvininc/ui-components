@@ -35,6 +35,8 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 		() => (uiOptions.descriptionPosition as EDescriptionPosition) ?? (schema.type === 'object' ? EDescriptionPosition.Top : EDescriptionPosition.Bottom),
 		[]
 	);
+	const title = get(uiSchema, ['ui:title']) || schema.title || label;
+
 	return (
 		<WrapIfAdditionalTemplate
 			classNames={customClasses}
@@ -50,15 +52,8 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 			registry={registry}
 		>
 			<div className={styles.FieldWrapper}>
-				{(get(uiSchema, ['ui:title']) || schema.title) && (
-					<TitleFieldTemplate
-						id={`${id}-title`}
-						title={get(uiSchema, ['ui:title']) || schema.title || ''}
-						schema={schema}
-						uiSchema={uiSchema}
-						registry={registry}
-						required={required && schema.type !== 'object'}
-					/>
+				{title && (
+					<TitleFieldTemplate id={`${id}-title`} title={title} schema={schema} uiSchema={uiSchema} registry={registry} required={required && schema.type !== 'object'} />
 				)}
 				{descriptionPosition === EDescriptionPosition.Bottom && children}
 				{(!isEmpty(rawErrors) || rawDescription) && (
