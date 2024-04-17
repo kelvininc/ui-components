@@ -28,12 +28,12 @@ export interface ISelectOption extends ICustomCss {
 	togglable?: boolean;
 	/** (optional) If `false` the item is only for presenting and cannot be selected. */
 	selectable?: boolean;
+	/** (optional) If `true` the item is presented as a list heading. Default: `false`*/
+	heading?: boolean;
 	/** (optional) The level depth at which the option is rendered */
 	level?: number;
 	/** (optional) The toggle button state */
 	state?: EToggleState;
-	/** (optional) The children items of this option */
-	options?: Record<string, ISelectOption>;
 	/** (optional) Additional style to apply for custom CSS. */
 	customStyle?: HostAttributes['style'];
 }

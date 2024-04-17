@@ -1,8 +1,13 @@
 import { EventEmitter } from '@stencil/core';
 import { IIllustrationMessage, ISelectEvents, ISelectOption } from '../../types';
 
-export interface ISelectMultiOption
-	extends Pick<ISelectOption, 'label' | 'value' | 'icon' | 'disabled' | 'selectable' | 'description' | 'togglable' | 'customClass' | 'customStyle'> {
+export interface ISelectOptionWithChildren extends ISelectOption {
+	options?: ISelectOptionsWithChildren;
+}
+
+export type ISelectOptionsWithChildren = Record<string, ISelectOptionWithChildren>;
+
+export interface ISelectMultiOption extends Omit<ISelectOption, 'selected' | 'heading' | 'state' | 'level' | 'highlighted'> {
 	options?: ISelectMultiOptions;
 }
 

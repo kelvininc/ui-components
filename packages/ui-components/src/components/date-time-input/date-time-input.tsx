@@ -1,11 +1,10 @@
 import { Component, Element, Event, EventEmitter, Fragment, Host, Prop, State, Watch, h } from '@stencil/core';
-import { EInputFieldType } from '../text-field/text-field.types';
+import { EInputFieldType, EValidationState } from '../text-field/text-field.types';
 import { EComponentSize } from '../../types';
-import { isEqual, isNil } from 'lodash';
+import { isNil } from 'lodash';
 import { DATE_TIME_INPUTMASK_CONFIG } from './date-time-input.config';
-import { IDateTimeInput, IDateTimeInputEvents, IDateTimeInputLimits } from './date-time-input.types';
+import { IDateTimeInput, IDateTimeInputEvents } from './date-time-input.types';
 import Inputmask from 'inputmask';
-import { getDateLimitsInputmaskConfig } from './date-time-input.utils';
 
 @Component({
 	tag: 'kv-date-time-input',
@@ -26,8 +25,6 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) useInputMask?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) limits?: IDateTimeInputLimits;
-	/** @inheritdoc */
 	@Prop() size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) forcedFocus: boolean = false;
@@ -37,6 +34,10 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	@Prop({ reflect: true }) disabled: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) required: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) state: EValidationState = EValidationState.None;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) helpText: string | string[] = [];
 
 	@State() focused = false;
 
@@ -67,14 +68,6 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 		}
 	}
 
-	@Watch('limits')
-	handleDateLimitsValueChange(newLimits: IDateTimeInputLimits) {
-		if (this.useInputMask && !isEqual(newLimits, this.limits)) {
-			this.limits = newLimits;
-			this.createInputMaskInstance();
-		}
-	}
-
 	componentWillLoad() {
 		this.focused = this.forcedFocus;
 	}
@@ -84,10 +77,7 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	}
 
 	private createInputMaskInstance = () => {
-		Inputmask({
-			...DATE_TIME_INPUTMASK_CONFIG,
-			...getDateLimitsInputmaskConfig(this.limits)
-		}).mask(this.nativeInput);
+		Inputmask(DATE_TIME_INPUTMASK_CONFIG).mask(this.nativeInput);
 	};
 
 	private onInputHandler = ({ target }: InputEvent) => {
@@ -138,11 +128,13 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 								onBlur={this.onBlurHandler}
 								onFocus={this.onFocusHandler}
 								class={{
-									'forced-focus': (this.focused || this.highlighted) && !this.disabled
+									'forced-focus': (this.focused || this.highlighted) && !this.disabled,
+									'invalid': this.state === EValidationState.Invalid
 								}}
 							/>
 						</Fragment>
 					</div>
+					<kv-form-help-text helpText={this.helpText} state={this.state} />
 				</div>
 			</Host>
 		);

@@ -1,5 +1,5 @@
 import { EventEmitter } from '@stencil/core';
-import { EComponentSize } from '../../types';
+import { EComponentSize, EValidationState } from '../../types';
 
 export interface IDateTimeInputEvents {
 	/** Emitted when a keyboard input occurred */
@@ -10,11 +10,6 @@ export interface IDateTimeInputEvents {
 	inputFocus: EventEmitter<FocusEvent>;
 }
 
-export interface IDateTimeInputLimits {
-	min: string;
-	max: string;
-}
-
 export interface IDateTimeInput {
 	/** (optional) Date time input label */
 	label?: string;
@@ -22,8 +17,6 @@ export interface IDateTimeInput {
 	inputName?: string;
 	/** (optional) Date time place holder */
 	placeholder?: string;
-	/** (optional) Date time minimum and maximum value */
-	limits?: IDateTimeInputLimits;
 	/** (optional) Sets this tab item to a different styling configuration */
 	size: EComponentSize;
 	/** (optional) Date time value */
@@ -38,4 +31,8 @@ export interface IDateTimeInput {
 	disabled?: boolean;
 	/** (optional) Date time input required */
 	required?: boolean;
+	/** (optional) Date time input state */
+	state?: EValidationState;
+	/** (optional) Date time input help text */
+	helpText?: string | string[];
 }

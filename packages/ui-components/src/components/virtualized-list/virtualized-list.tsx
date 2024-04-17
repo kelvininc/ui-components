@@ -17,9 +17,9 @@ export class KvVirtualizedList implements IVirtualizedList {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) getItemKey: (index: number) => string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) getItemHeight?: (index: number) => number;
-	/** @inheritdoc */
 	@Prop({ reflect: true }) renderItem: RenderItemFunc;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) overscanCount: number = 5;
 
 	@Element() element: HTMLKvVirtualizedListElement;
 
@@ -27,14 +27,9 @@ export class KvVirtualizedList implements IVirtualizedList {
 	private resizeObserver = new ResizeObserver(() => this.debounceResize());
 
 	@Watch('itemHeight')
-	@Watch('getItemHeight')
+	@Watch('itemCount')
 	updateTotalHeight() {
-		let totalHeight = 0;
-		for (let index = 0; index < this.itemCount; index++) {
-			totalHeight += this.getHeight(index);
-		}
-
-		this.totalHeight = totalHeight;
+		this.totalHeight = this.itemHeight * this.itemCount;
 	}
 
 	@Watch('renderItem')
@@ -77,30 +72,29 @@ export class KvVirtualizedList implements IVirtualizedList {
 		this.elements = this.getVisibleElements();
 	};
 
-	private getHeight = (index: number): number => this.getItemHeight?.(index) ?? this.itemHeight;
-
 	private getVisibleElements = (): VNode[] => {
 		const containerHeight = this.element.clientHeight ?? 0;
 
 		const elements: VNode[] = [];
 		let accumulator = 0;
+		const overscanHeight = this.overscanCount * this.itemHeight;
+
 		for (let index = 0; index < this.itemCount; index++) {
-			let itemHeight = this.getHeight(index);
 			let itemkey = this.getItemKey(index);
 
 			// Check if the item is above the viewport
-			if (this.scrollTop > accumulator + itemHeight) {
-				accumulator += itemHeight;
+			if (this.scrollTop - overscanHeight > accumulator + this.itemHeight) {
+				accumulator += this.itemHeight;
 				continue;
 			}
 
 			// Check if the item is below the viewport
-			if (this.scrollTop + containerHeight < accumulator) {
+			if (this.scrollTop + containerHeight + overscanHeight < accumulator) {
 				break;
 			}
 
-			elements.push(buildElement(index, itemkey, itemHeight, accumulator, this.renderItem));
-			accumulator += itemHeight;
+			elements.push(buildElement(index, itemkey, this.itemHeight, accumulator, this.renderItem));
+			accumulator += this.itemHeight;
 		}
 
 		return elements;

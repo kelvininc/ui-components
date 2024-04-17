@@ -37,6 +37,10 @@
 	.absolute-range-input {
 		display: flex;
 		gap: $spacing-6x;
+
+		kv-date-time-input {
+			width: 196px;
+		}
 	}
 
 	.absolute-point-input {

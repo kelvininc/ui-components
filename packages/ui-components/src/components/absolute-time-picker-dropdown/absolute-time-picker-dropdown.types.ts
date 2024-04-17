@@ -42,3 +42,14 @@ export interface IAbsoluteTimePickerDropdownEvents {
 	/** Dropdown open state change */
 	dropdownStateChange: EventEmitter<boolean>;
 }
+
+export interface IAbsoluteTimeLimits {
+	minDate?: number;
+	maxDate?: number;
+}
+
+export enum EAbsoluteTimeError {
+	EndDateBeforeStartDate = 'end-date-before-start-date',
+	StartDateBeforeMinimumDate = 'start-date-before-minimum-date',
+	EndDateAfterMaximumDate = 'end-date-after-maximum-date'
+}

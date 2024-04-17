@@ -13,7 +13,7 @@ import { EActionButtonType } from '../action-button/action-button.types';
 import { EComponentSize, ETooltipPosition, ITimePickerTimezone, ITimezoneOffset } from '../../types';
 import { IAbsoluteTimePickerDropdown, IAbsoluteTimePickerDropdownEvents } from './absolute-time-picker-dropdown.types';
 import { buildTimezoneByOffset } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.helper';
-import { getSelectedTimestampDates, getFormattedSelectedDates, areDatesValidByRange } from './absolute-time-picker-dropdown.utils';
+import { getSelectedTimestampDates, getFormattedSelectedDates, isAbsoluteTimePickerFilled, getAbsoluteTimePickerError } from './absolute-time-picker-dropdown.utils';
 
 @Component({
 	tag: 'kv-absolute-time-picker-dropdown',
@@ -150,19 +150,16 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 		}
 	};
 
-	private isApplyButtonDisabled() {
-		if (isEmpty(this.selectedDateState)) return true;
-
-		if (areDatesValidByRange(this.selectedDateState, this.mode)) {
-			return !hasRangeChanged(this.selectedDateState, this.selectedDates);
-		}
-
-		return true;
-	}
-
 	render() {
 		const dropdownPositionConfig = this.dropdownPositionOptions;
 		const inputConfig = this.getInputConfig();
+		const error = getAbsoluteTimePickerError(this.selectedDateState, this.mode, { minDate: this.calendarInputMinDate, maxDate: this.calendarInputMaxDate });
+
+		const isFilled = isAbsoluteTimePickerFilled(this.selectedDateState, this.mode);
+		const isDirty = hasRangeChanged(this.selectedDateState, this.selectedDates);
+		const hasError = error !== undefined;
+
+		const isApplyDisabled = !isFilled || hasError || !isDirty;
 
 		return (
 			<Host>
@@ -183,6 +180,7 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 							onSelectedDatesChange={this.handleAbsoluteDatesChange}
 							calendarInputMinDate={this.getCalendarLimitDatesFormatted(this.calendarInputMinDate)}
 							calendarInputMaxDate={this.getCalendarLimitDatesFormatted(this.calendarInputMaxDate)}
+							error={error}
 						/>
 						<div class="footer">
 							<div class="actions">
@@ -191,7 +189,7 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 									type={EActionButtonType.Primary}
 									size={EComponentSize.Small}
 									text="Apply"
-									disabled={this.isApplyButtonDisabled()}
+									disabled={isApplyDisabled}
 									onClickButton={this.onClickApply}
 								/>
 							</div>

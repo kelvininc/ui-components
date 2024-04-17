@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, Prop, h, Element, State, Watch, Listen, Method } from '@stencil/core';
-import { ISelectMultiOptions, ISelectMultiOptionsConfig, ISelectMultiOptionsEvents } from './select-multi-options.types';
+import { ISelectMultiOptions, ISelectMultiOptionsConfig, ISelectMultiOptionsEvents, ISelectOptionsWithChildren } from './select-multi-options.types';
 import {
 	ADD_OPTION,
 	DEFAULT_ADD_OPTION_PLACEHOLDER,
@@ -8,10 +8,10 @@ import {
 	SELECT_OPTION_HEIGHT_IN_PX,
 	DEFAULT_NO_RESULTS_FOUND_ILLUSTRATION_CONFIG
 } from './select-multi-options.config';
-import { EToggleState, ISelectOption } from '../select-option/select-option.types';
+import { EToggleState } from '../select-option/select-option.types';
 import { isEmpty } from 'lodash';
 import { buildAllOptionsSelected, getFlattenSelectOptions, getNextHightlightableOption, getPreviousHightlightableOption, getSelectableOptions } from '../../utils/select.helper';
-import { buildNewOption, buildSelectOptions, getSelectOptionHeight } from './select-multi-options.helper';
+import { buildNewOption, buildSelectOptions } from './select-multi-options.helper';
 import { selectHelper } from '../../utils';
 import pluralize from 'pluralize';
 import { IIllustrationMessage } from '../illustration-message/illustration-message.types';
@@ -103,11 +103,10 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	}
 
 	@State() selectOptions: {
-		total: Record<string, ISelectOption>;
-		current: Record<string, ISelectOption>;
-		flatten: Record<string, ISelectOption>;
-		totalSelectable: ISelectMultiOptions;
-		currentSelectable: ISelectMultiOptions;
+		totalFlatten: ISelectOptionsWithChildren;
+		currentFlatten: ISelectOptionsWithChildren;
+		totalSelectable: ISelectOptionsWithChildren;
+		currentSelectable: ISelectOptionsWithChildren;
 	};
 	@State() highlightedOption: string;
 	@State() isCreating: boolean = false;
@@ -118,23 +117,30 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Watch('selectedOptions')
 	@Watch('highlightedOption')
 	buildSelectionOptions() {
-		const selectOptions = buildSelectOptions(this.options, this.options, this.selectedOptions, this.highlightedOption, this.canAddItems, this.createOptionPlaceholder);
-		const selectSelectableOptions = getSelectableOptions(this.options);
-		const selectCurrentOptions = buildSelectOptions(
-			this.currentOptions,
-			this.options,
-			this.selectedOptions,
-			this.highlightedOption,
-			this.canAddItems,
-			this.createOptionPlaceholder
-		);
-		const selectCurrentSelectableOptions = getSelectableOptions(this.currentOptions);
+		const selectOptions = buildSelectOptions({
+			options: this.options,
+			allOptions: this.options,
+			selectedOptions: this.selectedOptions,
+			highlightedOption: this.highlightedOption,
+			hasAddItem: this.canAddItems,
+			createInputPlaceholder: this.createOptionPlaceholder
+		});
+		const selectCurrentOptions = buildSelectOptions({
+			options: this.currentOptions,
+			allOptions: this.options,
+			selectedOptions: this.selectedOptions,
+			highlightedOption: this.highlightedOption,
+			hasAddItem: this.canAddItems,
+			createInputPlaceholder: this.createOptionPlaceholder
+		});
+		const selectSelectableOptions = getSelectableOptions(selectOptions);
+		const selectCurrentSelectableOptions = getSelectableOptions(selectCurrentOptions);
 		const selectFlattenOptions = getFlattenSelectOptions(selectOptions);
+		const selectCurrentFlattenOptions = getFlattenSelectOptions(selectCurrentOptions);
 
 		this.selectOptions = {
-			total: selectOptions,
-			current: selectCurrentOptions,
-			flatten: selectFlattenOptions,
+			totalFlatten: selectFlattenOptions,
+			currentFlatten: selectCurrentFlattenOptions,
 			totalSelectable: selectSelectableOptions,
 			currentSelectable: selectCurrentSelectableOptions
 		};
@@ -226,7 +232,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 			return;
 		}
 
-		const selectedOption = this.selectOptions.flatten[selectedOptionKey];
+		const selectedOption = this.selectOptions.totalFlatten[selectedOptionKey];
 		this.optionSelected.emit(selectedOptionKey);
 
 		// Check if the selected option does not have any children
@@ -263,13 +269,12 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		}
 	};
 
-	private renderOptions = (): HTMLKvSelectElement[] => {
-		const items = Object.values(this.selectOptions.current);
+	private renderOptions = (): HTMLKvVirtualizedListElement => {
+		const items = Object.values(this.selectOptions.currentFlatten);
 
 		return (
 			<kv-virtualized-list
 				itemCount={items.length}
-				getItemHeight={index => getSelectOptionHeight(items[index])}
 				itemHeight={SELECT_OPTION_HEIGHT_IN_PX}
 				getItemKey={index => items[index].value}
 				renderItem={index => (

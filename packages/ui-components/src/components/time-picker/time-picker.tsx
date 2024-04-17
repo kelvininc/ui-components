@@ -374,7 +374,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 
 	/**
 	 * Transforms the timestamp into absolute-time-picker dates in the format: YYYY/MM/DD HH:mm:ss
-	 * @returns formated dates to the absolute time picker component
+	 * @returns formatted dates to the absolute time picker component
 	 */
 	private getAbsoluteRange = (): string[] => {
 		const defaultTimezone = this.getSelectedTimezone();

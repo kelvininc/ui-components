@@ -99,7 +99,6 @@ graph TD;
   kv-relative-time-picker --> kv-single-select-dropdown
   kv-select-option --> kv-checkbox
   kv-select-option --> kv-icon
-  kv-select-option --> kv-select-option
   kv-checkbox --> kv-icon
   kv-input-wrapper --> kv-icon
   kv-single-select-dropdown --> kv-dropdown
@@ -123,6 +122,7 @@ graph TD;
   kv-absolute-time-picker --> kv-date-time-input
   kv-absolute-time-picker --> kv-time-picker-calendar
   kv-date-time-input --> kv-form-label
+  kv-date-time-input --> kv-form-help-text
   kv-time-picker-calendar --> kv-icon
   kv-time-picker-calendar --> kv-time-picker-calendar-day
   kv-switch-button --> kv-icon

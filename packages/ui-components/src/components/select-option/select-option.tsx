@@ -1,11 +1,10 @@
 import { Component, Host, h, Prop, EventEmitter, Event, Element, Watch } from '@stencil/core';
+import { HostAttributes } from '@stencil/core/internal';
 import { EToggleState, ISelectOption, ISelectOptionEvents } from './select-option.types';
-import { isEmpty } from 'lodash';
 import { LEVEL_OFFSET_PX } from './select-option.config';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { CustomCssClass } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
-import { HostAttributes } from '@stencil/core/internal';
 
 /**
  * @part select-option-content - The option's content container
@@ -41,7 +40,7 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectable?: boolean = true;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) options?: Record<string, ISelectOption> = {};
+	@Prop({ reflect: true }) heading?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) level = 0;
 	/** @inheritdoc */
@@ -68,13 +67,7 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 		this.itemSelected.emit(this.value);
 	};
 
-	private get hasChildren() {
-		return !isEmpty(this.options);
-	}
-
 	render() {
-		const children = Object.values(this.options);
-
 		return (
 			<Host class={getClassMap(this.customClass)} style={{ ...this.customStyle }}>
 				<div part="select-option-content">
@@ -85,7 +78,7 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 							'select-option--highlighted': this.highlighted,
 							'select-option--disabled': this.disabled,
 							'select-option--selectable': this.selectable,
-							'select-option--parent': this.hasChildren
+							'select-option--heading': this.heading
 						}}
 						part="option-container"
 						onClick={this.onItemClick}
@@ -106,13 +99,6 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 							{this.description && <div class="item-description">{this.description}</div>}
 						</div>
 					</div>
-					{this.hasChildren && (
-						<div class="children-options">
-							{children.map(childOption => (
-								<kv-select-option {...childOption} level={this.level + 1} />
-							))}
-						</div>
-					)}
 					<slot />
 				</div>
 			</Host>

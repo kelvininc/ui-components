@@ -138,7 +138,7 @@
 		user-select: none;
 	}
 
-	&--parent {
+	&--heading {
 		.item-label {
 			@include kv-font-label-xsmall-uppercase-semibold;
 			color: kv-color('neutral-2');
