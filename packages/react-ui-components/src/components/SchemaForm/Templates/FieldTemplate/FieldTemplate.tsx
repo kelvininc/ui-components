@@ -35,7 +35,7 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 		() => (uiOptions.descriptionPosition as EDescriptionPosition) ?? (schema.type === 'object' ? EDescriptionPosition.Top : EDescriptionPosition.Bottom),
 		[]
 	);
-	const title = get(uiSchema, ['ui:title']) || schema.title || label;
+	const title = get(uiSchema, ['ui:title'], schema.title ?? label);
 
 	return (
 		<WrapIfAdditionalTemplate
