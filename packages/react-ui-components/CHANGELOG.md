@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.32.0](https://github.com/kelvininc/ui-components/compare/v0.31.1...v0.32.0) (2024-04-17)
+
+
+### Bug Fixes
+
+* **schema-form:** add title fallback to field label ([19c3b4d](https://github.com/kelvininc/ui-components/commit/19c3b4d0dd602f5d06c8e0369855ea971e6884a6))
+
+
+### Features
+
+* **absolute-time-picker:** remove date input limits inplace validation ([2a84e12](https://github.com/kelvininc/ui-components/commit/2a84e1212e8f377cb05c05df4b957e8dc68b047e))
+
+
+
+
+
 ## [0.31.1](https://github.com/kelvininc/ui-components/compare/v0.31.0...v0.31.1) (2024-03-28)
 
 

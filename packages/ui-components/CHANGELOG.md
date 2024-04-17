@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.32.0](https://github.com/kelvininc/ui-components/compare/v0.31.1...v0.32.0) (2024-04-17)
+
+
+### Bug Fixes
+
+* **toggle-tip:** allow toggle tip close when another toggle tip is opened ([e2c1f24](https://github.com/kelvininc/ui-components/commit/e2c1f243d9d2a335a8e58f7f93e08d113e6fdbcb))
+* **virtualized-list:** update total height on change items count ([61355c0](https://github.com/kelvininc/ui-components/commit/61355c0bbf9bb7b88c2267e138bebb8459a7b862))
+
+
+### Features
+
+* **absolute-time-picker:** remove date input limits inplace validation ([2a84e12](https://github.com/kelvininc/ui-components/commit/2a84e1212e8f377cb05c05df4b957e8dc68b047e))
+* **icons:** add new schedule send icon ([9d61384](https://github.com/kelvininc/ui-components/commit/9d61384f2e1fe51fb3964a702676300cef6904f4))
+
+
+
+
+
 ## [0.31.1](https://github.com/kelvininc/ui-components/compare/v0.31.0...v0.31.1) (2024-03-28)
 
 
