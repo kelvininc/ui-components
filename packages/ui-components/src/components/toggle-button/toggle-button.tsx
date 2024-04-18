@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { isEmpty, throttle } from 'lodash-es';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
-import { EAnchorTarget, EComponentSize, EIconName, EOtherIconName } from '../../types';
+import { EComponentSize, EIconName, EOtherIconName } from '../../types';
 import { IToggleButton, IToggleButtonEvents } from './toggle-button.types';
 
 /**
@@ -28,12 +28,6 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) checked?: boolean = false;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) href?: string;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) target?: EAnchorTarget;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) download?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) preventDefault? = false;
 	/** @inheritdoc */
@@ -67,7 +61,7 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 
 		return (
 			<Host>
-				<a
+				<div
 					class={{
 						'toggle-button': true,
 						'toggle-button--checked': this.checked,
@@ -77,9 +71,6 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 					}}
 					part="toggle-button"
 					onClick={this.onClick}
-					download={this.download}
-					href={this.href}
-					target={this.target}
 				>
 					{this.withRadio && <kv-radio checked={this.checked} />}
 					{hasIcon && (
@@ -92,7 +83,7 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 							{this.label}
 						</div>
 					)}
-				</a>
+				</div>
 			</Host>
 		);
 	}

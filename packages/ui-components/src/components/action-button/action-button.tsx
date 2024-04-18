@@ -1,6 +1,6 @@
 import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { EActionButtonType, IButton, IButtonEvents } from './action-button.types';
-import { EAnchorTarget, EComponentSize, IAnchor } from '../../utils/types';
+import { EComponentSize } from '../../utils/types';
 
 /**
  * @part button - The action button.
@@ -10,7 +10,7 @@ import { EAnchorTarget, EComponentSize, IAnchor } from '../../utils/types';
 	styleUrl: 'action-button.scss',
 	shadow: true
 })
-export class KvActionButton implements IButton, IButtonEvents, IAnchor {
+export class KvActionButton implements IButton, IButtonEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) type?: EActionButtonType;
 	/** @inheritdoc */
@@ -21,12 +21,6 @@ export class KvActionButton implements IButton, IButtonEvents, IAnchor {
 	@Prop({ reflect: true }) loading: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) href?: string;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) target?: EAnchorTarget;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) download?: string;
 
 	/** @inheritdoc */
 	@Event() clickButton: EventEmitter<MouseEvent>;
@@ -52,7 +46,7 @@ export class KvActionButton implements IButton, IButtonEvents, IAnchor {
 	render() {
 		return (
 			<Host aria-disabled={this.disabled} onClick={this.onClickButton}>
-				<a
+				<div
 					class={{
 						'action-button': true,
 						'action-button--disabled': this.disabled,
@@ -63,14 +57,11 @@ export class KvActionButton implements IButton, IButtonEvents, IAnchor {
 					}}
 					tabIndex={this.disabled ? -1 : 0}
 					part="button"
-					download={this.download}
-					href={this.href}
-					target={this.target}
 					onFocus={this.onFocusButton}
 					onBlur={this.onBlurButton}
 				>
 					<slot />
-				</a>
+				</div>
 			</Host>
 		);
 	}

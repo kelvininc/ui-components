@@ -1,24 +1,12 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
-import { throttle } from 'lodash-es';
-import { DEFAULT_THROTTLE_WAIT } from '../../config';
-import { EAnchorTarget } from '../../utils/types';
 import { IBreadcrumbItem, IBreadcrumbItemEvents } from './breadcrumb-item.types';
 
-/**
- * @part anchor - The anchor element.
- */
 @Component({
 	tag: 'kv-breadcrumb-item',
 	styleUrl: 'breadcrumb-item.scss',
 	shadow: true
 })
 export class KvBreadcrumbItem implements IBreadcrumbItem, IBreadcrumbItemEvents {
-	/** @inheritdoc */
-	@Prop({ reflect: true }) href?: string;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) target?: EAnchorTarget;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) download?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label!: string;
 	/** @inheritdoc */
@@ -27,16 +15,9 @@ export class KvBreadcrumbItem implements IBreadcrumbItem, IBreadcrumbItemEvents 
 	/** @inheritdoc */
 	@Event() breadcrumbItemClick: EventEmitter<IBreadcrumbItem>;
 
-	connectedCallback() {
-		this.clickThrottler = throttle(() => this.onItemClick(), DEFAULT_THROTTLE_WAIT);
-	}
-
-	private clickThrottler: () => void;
 	private onItemClick = () => {
 		this.breadcrumbItemClick.emit({
 			label: this.label,
-			href: this.href,
-			target: this.target,
 			active: this.active
 		});
 	};
@@ -49,10 +30,9 @@ export class KvBreadcrumbItem implements IBreadcrumbItem, IBreadcrumbItemEvents 
 						'breadcrumb-item': true,
 						'breadcrumb-item--active': this.active
 					}}
+					onClick={this.onItemClick}
 				>
-					<a href={this.href} target={this.target} onClick={this.clickThrottler} part="anchor">
-						<slot>{this.label}</slot>
-					</a>
+					<slot>{this.label}</slot>
 				</div>
 			</Host>
 		);

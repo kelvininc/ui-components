@@ -1,5 +1,4 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
-import { EAnchorTarget } from '../../../utils/types';
 
 describe('KvBreadcrumbItem (end-to-end)', () => {
 	let page: E2EPage;
@@ -16,26 +15,13 @@ describe('KvBreadcrumbItem (end-to-end)', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
 			await page.setContent(`
-				<kv-breadcrumb-item
-					label='Awesome Label'
-					href='https://kelvin.ai'
-					target='_blank'>
-					Awesome Label
-				</kv-breadcrumb-item>`);
+				<kv-breadcrumb-item label='Awesome Label'></kv-breadcrumb-item>`);
 			itemElement = await page.find('kv-breadcrumb-item');
-			labelElement = await page.find('kv-breadcrumb-item >>> a');
+			labelElement = await page.find('kv-breadcrumb-item >>> div');
 		});
 
 		it('should render label', () => {
 			expect(labelElement.innerText).toContain('Awesome Label');
-		});
-
-		it('should set the href attribute', () => {
-			expect(labelElement.getAttribute('href')).toEqual('https://kelvin.ai');
-		});
-
-		it('should set the target attribute', () => {
-			expect(labelElement.getAttribute('target')).toEqual(EAnchorTarget.NewTab);
 		});
 
 		describe('and the user clicks on the item', () => {
@@ -46,9 +32,7 @@ describe('KvBreadcrumbItem (end-to-end)', () => {
 
 			it('should emit an event with the clicked item', () => {
 				expect(clickEventSpy).toHaveReceivedEventDetail({
-					label: 'Awesome Label',
-					href: 'https://kelvin.ai',
-					target: EAnchorTarget.NewTab
+					label: 'Awesome Label'
 				});
 			});
 		});

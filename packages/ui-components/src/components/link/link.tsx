@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
-import { EAnchorTarget, IAnchor } from '../../utils/types';
+import { ILink } from './link.types';
+import { EAnchorTarget } from '../../types';
 
 /**
  * @part container - The link's container
@@ -9,7 +10,7 @@ import { EAnchorTarget, IAnchor } from '../../utils/types';
 	styleUrl: 'link.scss',
 	shadow: true
 })
-export class KvLink implements IAnchor {
+export class KvLink implements ILink {
 	/** (required) Main component label */
 	@Prop({ reflect: true }) label!: string;
 	/** (optional) Description for the label */

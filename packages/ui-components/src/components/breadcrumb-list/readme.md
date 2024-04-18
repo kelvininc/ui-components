@@ -1,6 +1,4 @@
-# *<kv-breadcrumb-list>*
-
-
+# _<kv-breadcrumb-list>_
 
 <!-- Auto Generated Below -->
 
@@ -11,18 +9,9 @@
 
 ```html
 <kv-breadcrumb-list>
-	<kv-breadcrumb-item
-		label="First item"
-		href="https://your-link.here"
-		[target]="EBreadcrumbItemTarget.NewTab">
-	</kv-breadcrumb-item>
+	<kv-breadcrumb-item label="First item"> </kv-breadcrumb-item>
 	...
-	<kv-breadcrumb-item
-		label="Last item"
-		href="https://your-link.here"
-		[target]="EBreadcrumbItemTarget.NewTab"
-		active>
-	</kv-breadcrumb-item>
+	<kv-breadcrumb-item label="Last item" active> </kv-breadcrumb-item>
 </kv-breadcrumb-list>
 ```
 
@@ -34,16 +23,11 @@ import React from 'react';
 import { KvBreadcrumbList } from '@kelvininc/react-ui-components';
 
 export const KvBreadcrumbListExample: React.FC = () => (
-  <>
-    <KvBreadcrumbList>
-		<KvBreadcrumbItem
-			label="Your label here"
-			href="https://your-link.here"
-			target={EBreadcrumbItemTarget.NewTab}
-			active>
-		</KvBreadcrumbItem>
-	</KvBreadcrumbList>
-  </>
+	<>
+		<KvBreadcrumbList>
+			<KvBreadcrumbItem label="Your label here" active></KvBreadcrumbItem>
+		</KvBreadcrumbList>
+	</>
 );
 ```
 

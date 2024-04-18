@@ -44,6 +44,13 @@ export const KvBreadcrumbExample: React.FC = (props) => (
 | `breadcrumbItemClick` | Emitted when the user clicks on the breadcrumb | `CustomEvent<IBreadcrumbItem>` |
 
 
+## Shadow Parts
+
+| Part     | Description          |
+| -------- | -------------------- |
+| `"item"` | The breadcrumb item. |
+
+
 ## Dependencies
 
 ### Depends on

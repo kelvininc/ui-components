@@ -1,6 +1,4 @@
-# *<kv-action-button>*
-
-
+# _<kv-action-button>_
 
 <!-- Auto Generated Below -->
 
@@ -21,9 +19,6 @@
 
 <!-- Disabled -->
 <kv-action-button disabled [type]="EActionButtonType.Primary">Disabled Button</kv-action-button>
-
-<!-- Anchor -->
-<kv-action-button href="/link-to-url" target="_blank" [type]="EActionButtonType.Primary">Link Button</kv-action-button>
 ```
 
 
@@ -52,11 +47,6 @@ export const SwitchButtonExample: React.FC = () => (
 		<KvActionButton disabled type={EActionButtonType.Primary}>
 			Disabled Button
 		</KvActionButton>
-
-		{/*-- Anchor --*/}
-		<KvActionButton href="/link-to-url" target="_blank" type={EActionButtonType.Primary}>
-			Anchor Button
-		</KvActionButton>
 	</>
 );
 ```
@@ -65,16 +55,13 @@ export const SwitchButtonExample: React.FC = () => (
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                                                     | Type                                                                                                                                            | Default                |
-| ---------- | ---------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `active`   | `active`   | (optional) If `true` the button is active                                                                       | `boolean`                                                                                                                                       | `false`                |
-| `disabled` | `disabled` | (optional) If `true` the button is disabled                                                                     | `boolean`                                                                                                                                       | `false`                |
-| `download` | `download` | (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename | `string`                                                                                                                                        | `undefined`            |
-| `href`     | `href`     | (optional) The anchor's link to open when clicking                                                              | `string`                                                                                                                                        | `undefined`            |
-| `loading`  | `loading`  | (optional) If `true` the button is of type loading                                                              | `boolean`                                                                                                                                       | `false`                |
-| `size`     | `size`     | (optional) Button's size                                                                                        | `EComponentSize.Large \| EComponentSize.Small`                                                                                                  | `EComponentSize.Large` |
-| `target`   | `target`   | (optional) The anchor's target                                                                                  | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top`                                             | `undefined`            |
-| `type`     | `type`     | (optional) Button's type                                                                                        | `EActionButtonType.Danger \| EActionButtonType.Ghost \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
+| Property   | Attribute  | Description                                        | Type                                                                                                                                            | Default                |
+| ---------- | ---------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `active`   | `active`   | (optional) If `true` the button is active          | `boolean`                                                                                                                                       | `false`                |
+| `disabled` | `disabled` | (optional) If `true` the button is disabled        | `boolean`                                                                                                                                       | `false`                |
+| `loading`  | `loading`  | (optional) If `true` the button is of type loading | `boolean`                                                                                                                                       | `false`                |
+| `size`     | `size`     | (optional) Button's size                           | `EComponentSize.Large \| EComponentSize.Small`                                                                                                  | `EComponentSize.Large` |
+| `type`     | `type`     | (optional) Button's type                           | `EActionButtonType.Danger \| EActionButtonType.Ghost \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
 
 
 ## Events
