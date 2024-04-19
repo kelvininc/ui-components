@@ -1,6 +1,6 @@
 import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { EActionButtonType } from '../action-button/action-button.types';
-import { EComponentSize, EAnchorTarget } from '../../utils/types';
+import { EComponentSize } from '../../utils/types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { IActionButtonSplitConfig } from './action-button-split.types';
 
@@ -26,22 +26,6 @@ export class KvActionButtonSplit implements IActionButtonSplitConfig {
 	@Prop({ reflect: true }) loading: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) leftHref?: string;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) leftTarget?: EAnchorTarget;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) leftDownload?: string;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) rightHref?: string;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) rightTarget?: EAnchorTarget;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) rightDownload?: string;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) target?: EAnchorTarget;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) download?: string;
 
 	/** @inheritdoc */
 	@Event() clickLeftButton: EventEmitter<MouseEvent>;
@@ -85,10 +69,7 @@ export class KvActionButtonSplit implements IActionButtonSplitConfig {
 						icon={this.icon}
 						disabled={this.disabled}
 						size={this.size}
-						download={this.leftDownload}
-						href={this.leftHref}
 						loading={this.loading}
-						target={this.leftTarget}
 						onClickButton={this.onClickLeftButton}
 						onFocusButton={this.onFocusLeftButton}
 						onBlurButton={this.onBlurLeftButton}
@@ -98,10 +79,7 @@ export class KvActionButtonSplit implements IActionButtonSplitConfig {
 						type={this.type}
 						disabled={this.disabled}
 						size={this.size}
-						download={this.rightDownload}
-						href={this.rightHref}
 						loading={this.loading}
-						target={this.rightTarget}
 						onClickButton={this.onClickRightButton}
 						onFocusButton={this.onFocusRightButton}
 						onBlurButton={this.onBlurRightButton}

@@ -1,6 +1,6 @@
 import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { EActionButtonType } from '../action-button/action-button.types';
-import { EAnchorTarget, EComponentSize } from '../../utils/types';
+import { EComponentSize } from '../../utils/types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { IActionButtonTextConfig } from './action-button-text.types';
 
@@ -27,12 +27,6 @@ export class KvActionButtonText implements IActionButtonTextConfig {
 	@Prop({ reflect: true }) loading: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) href?: string;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) target?: EAnchorTarget;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) download?: string;
 
 	/** @inheritdoc */
 	@Event() clickButton: EventEmitter<MouseEvent>;
@@ -44,17 +38,7 @@ export class KvActionButtonText implements IActionButtonTextConfig {
 	render() {
 		return (
 			<Host>
-				<kv-action-button
-					active={this.active}
-					loading={this.loading}
-					type={this.type}
-					disabled={this.disabled}
-					size={this.size}
-					download={this.download}
-					href={this.href}
-					target={this.target}
-					exportparts="button"
-				>
+				<kv-action-button active={this.active} loading={this.loading} type={this.type} disabled={this.disabled} size={this.size} exportparts="button">
 					{this.icon && <kv-icon name={this.icon} exportparts="icon" />}
 					<span class="action-button-text" part="button-text">
 						{this.text}

@@ -5,7 +5,7 @@ exports[`Tree Item (unit tests) when initialized with counter attribute should m
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper">
-        <a class="node-content-wrapper">
+        <div class="node-content-wrapper">
           <div class="labels labels-small">
             <kv-tooltip disabled="" text="Node Title" truncate="">
               <div class="title title-small">
@@ -20,7 +20,7 @@ exports[`Tree Item (unit tests) when initialized with counter attribute should m
               </kv-badge>
             </div>
           </div>
-        </a>
+        </div>
       </div>
       <div class="children" part="children" style="display: none;">
         <slot name="child-slot"></slot>
@@ -35,7 +35,7 @@ exports[`Tree Item (unit tests) when initialized with disabled attribute should 
   <mock:shadow-root>
     <div class="node-container">
       <div class="disabled node-wrapper">
-        <a class="disabled node-content-wrapper">
+        <div class="disabled node-content-wrapper">
           <div class="labels labels-small">
             <kv-tooltip disabled="" text="Node Title" truncate="">
               <div class="title title-small">
@@ -44,7 +44,7 @@ exports[`Tree Item (unit tests) when initialized with disabled attribute should 
             </kv-tooltip>
           </div>
           <div class="right-indicators"></div>
-        </a>
+        </div>
       </div>
       <div class="children" part="children" style="display: none;">
         <slot name="child-slot"></slot>
@@ -59,7 +59,7 @@ exports[`Tree Item (unit tests) when initialized with preventDefault prop should
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper">
-        <a class="node-content-wrapper">
+        <div class="node-content-wrapper">
           <div class="labels labels-small">
             <kv-tooltip disabled="" text="Node Title" truncate="">
               <div class="title title-small">
@@ -68,7 +68,7 @@ exports[`Tree Item (unit tests) when initialized with preventDefault prop should
             </kv-tooltip>
           </div>
           <div class="right-indicators"></div>
-        </a>
+        </div>
       </div>
       <div class="children" part="children" style="display: none;">
         <slot name="child-slot"></slot>
@@ -83,7 +83,7 @@ exports[`Tree Item (unit tests) when initialized with required props should matc
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper">
-        <a class="node-content-wrapper">
+        <div class="node-content-wrapper">
           <div class="labels labels-small">
             <kv-tooltip disabled="" text="Node Title" truncate="">
               <div class="title title-small">
@@ -92,7 +92,7 @@ exports[`Tree Item (unit tests) when initialized with required props should matc
             </kv-tooltip>
           </div>
           <div class="right-indicators"></div>
-        </a>
+        </div>
       </div>
       <div class="children" part="children" style="display: none;">
         <slot name="child-slot"></slot>
@@ -107,7 +107,7 @@ exports[`Tree Item (unit tests) when initialized with selected attribute should 
   <mock:shadow-root>
     <div class="node-container">
       <div class="node-wrapper selected">
-        <a class="node-content-wrapper selected">
+        <div class="node-content-wrapper selected">
           <div class="labels labels-small">
             <kv-tooltip disabled="" text="Node Title" truncate="">
               <div class="title title-small">
@@ -116,7 +116,7 @@ exports[`Tree Item (unit tests) when initialized with selected attribute should 
             </kv-tooltip>
           </div>
           <div class="right-indicators"></div>
-        </a>
+        </div>
       </div>
       <div class="children" part="children" style="display: none;">
         <slot name="child-slot"></slot>

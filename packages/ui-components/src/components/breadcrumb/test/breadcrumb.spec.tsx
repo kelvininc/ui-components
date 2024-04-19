@@ -3,7 +3,6 @@ import { h } from '@stencil/core';
 import { cloneDeep } from 'lodash-es';
 import { KvBreadcrumb } from '../breadcrumb';
 import { BREADCRUMBS_MOCK } from './breadcrumb.mock';
-import { EAnchorTarget } from '../../../utils/types';
 
 describe('KvBreadcrumb (unit tests)', () => {
 	let page: SpecPage;
@@ -27,19 +26,13 @@ describe('KvBreadcrumb (unit tests)', () => {
 		it('should set the correct component items', () => {
 			expect(component.items).toEqual([
 				{
-					label: 'Homepage',
-					href: 'https://kelvin.ai',
-					target: EAnchorTarget.NewTab
+					label: 'Homepage'
 				},
 				{
-					label: 'Product',
-					href: 'https://kelvin.ai/product/',
-					target: EAnchorTarget.NewTab
+					label: 'Product'
 				},
 				{
-					label: 'Contact Form',
-					href: 'https://kelvin.ai/product#form',
-					target: EAnchorTarget.NewTab
+					label: 'Contact Form'
 				}
 			]);
 		});

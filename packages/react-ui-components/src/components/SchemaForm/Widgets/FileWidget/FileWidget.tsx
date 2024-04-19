@@ -17,7 +17,11 @@ function FileActions({ fileInfo, onDelete, preview = false }: { fileInfo: FileIn
 
 	return (
 		<div className={styles.ActionsContainer}>
-			{preview && <KvActionButtonIcon icon={EIconName.Download} download={`${name}`} href={dataURL} type={EActionButtonType.Tertiary} size={EComponentSize.Small} />}
+			{preview && (
+				<a href={dataURL} download={`${name}`} target="_blank" rel="noreferrer">
+					<KvActionButtonIcon icon={EIconName.Download} type={EActionButtonType.Tertiary} size={EComponentSize.Small} />
+				</a>
+			)}
 			<KvActionButtonIcon icon={EIconName.Delete} type={EActionButtonType.Tertiary} size={EComponentSize.Small} onClickButton={() => onDelete(name)} />
 		</div>
 	);

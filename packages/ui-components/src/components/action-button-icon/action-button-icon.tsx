@@ -1,6 +1,6 @@
 import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { EActionButtonType } from '../action-button/action-button.types';
-import { EAnchorTarget, EComponentSize } from '../../utils/types';
+import { EComponentSize } from '../../utils/types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EBadgeState } from '../badge/badge.types';
 import { isEmpty } from 'lodash-es';
@@ -25,12 +25,6 @@ export class KvActionButtonIcon implements IActionButtonIconConfig {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Small;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) href?: string;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) target?: EAnchorTarget;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) download?: string;
-	/** @inheritdoc */
 	@Prop({ reflect: true }) badgeLabel?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) badgeState?: EBadgeState;
@@ -51,17 +45,7 @@ export class KvActionButtonIcon implements IActionButtonIconConfig {
 						[`action-button-icon--size-${this.size}`]: true
 					}}
 				>
-					<kv-action-button
-						type={this.type}
-						active={this.active}
-						loading={this.loading}
-						size={this.size}
-						disabled={this.disabled}
-						download={this.download}
-						href={this.href}
-						target={this.target}
-						exportparts="button"
-					>
+					<kv-action-button type={this.type} active={this.active} loading={this.loading} size={this.size} disabled={this.disabled} exportparts="button">
 						<kv-icon name={this.icon} exportparts="icon" />
 						{!isEmpty(this.badgeLabel) && (
 							<div class="button-badge" exportparts="badge">

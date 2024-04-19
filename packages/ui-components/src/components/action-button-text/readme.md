@@ -19,9 +19,6 @@
 
 <!-- Disabled -->
 <kv-action-button-text text="Disabled Button" [icon]="EIconName.Add" [type]="EActionButtonType.Primary" disabled></kv-action-button-text>
-
-<!-- Anchor -->
-<kv-action-button-text text="Link Button" [icon]="EIconName.Add" [type]="EActionButtonType.Primary" href="/link-to-url" target="_blank"></kv-action-button-text>
 ```
 
 
@@ -48,9 +45,6 @@ export const SwitchButtonExample: React.FC = () => (
 
 		{/*-- Disabled --*/}
 		<KvActionButtonText disabled text="Disabled Button" icon={EIconName.Add} type={EActionButtonType.Primary}></KvActionButtonText>
-
-		{/*-- Anchor --*/}
-		<KvActionButton href="/link-to-url" target="_blank" type={EActionButtonType.Primary} text="Anchor Button" icon={EIconName.Add}></KvActionButton>
 	</>
 );
 ```
@@ -59,18 +53,15 @@ export const SwitchButtonExample: React.FC = () => (
 
 ## Properties
 
-| Property            | Attribute  | Description                                                                                                     | Type                                                                                                                                            | Default                |
-| ------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `active`            | `active`   | (optional) If `true` the button is active                                                                       | `boolean`                                                                                                                                       | `false`                |
-| `disabled`          | `disabled` | (optional) If `true` the button is disabled                                                                     | `boolean`                                                                                                                                       | `false`                |
-| `download`          | `download` | (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename | `string`                                                                                                                                        | `undefined`            |
-| `href`              | `href`     | (optional) The anchor's link to open when clicking                                                              | `string`                                                                                                                                        | `undefined`            |
-| `icon`              | `icon`     | (optional) Button's left icon symbol name                                                                       | `EIconName \| EOtherIconName`                                                                                                                   | `undefined`            |
-| `loading`           | `loading`  | (optional) If `true` the button is of type loading                                                              | `boolean`                                                                                                                                       | `false`                |
-| `size`              | `size`     | (optional) Button's size                                                                                        | `EComponentSize.Large \| EComponentSize.Small`                                                                                                  | `EComponentSize.Large` |
-| `target`            | `target`   | (optional) The anchor's target                                                                                  | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top`                                             | `undefined`            |
-| `text` _(required)_ | `text`     | (required) (required) Button's text                                                                             | `string`                                                                                                                                        | `undefined`            |
-| `type` _(required)_ | `type`     | (optional) Button's type                                                                                        | `EActionButtonType.Danger \| EActionButtonType.Ghost \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
+| Property            | Attribute  | Description                                        | Type                                                                                                                                            | Default                |
+| ------------------- | ---------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `active`            | `active`   | (optional) If `true` the button is active          | `boolean`                                                                                                                                       | `false`                |
+| `disabled`          | `disabled` | (optional) If `true` the button is disabled        | `boolean`                                                                                                                                       | `false`                |
+| `icon`              | `icon`     | (optional) Button's left icon symbol name          | `EIconName \| EOtherIconName`                                                                                                                   | `undefined`            |
+| `loading`           | `loading`  | (optional) If `true` the button is of type loading | `boolean`                                                                                                                                       | `false`                |
+| `size`              | `size`     | (optional) Button's size                           | `EComponentSize.Large \| EComponentSize.Small`                                                                                                  | `EComponentSize.Large` |
+| `text` _(required)_ | `text`     | (required) (required) Button's text                | `string`                                                                                                                                        | `undefined`            |
+| `type` _(required)_ | `type`     | (optional) Button's type                           | `EActionButtonType.Danger \| EActionButtonType.Ghost \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
 
 
 ## Events

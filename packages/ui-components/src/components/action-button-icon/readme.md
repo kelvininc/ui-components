@@ -23,9 +23,6 @@
 <!-- Disabled -->
 <kv-action-button-icon [icon]="EIconName.Add" [type]="EActionButtonType.Primary" disabled></kv-action-button-icon>
 
-<!-- Anchor -->
-<kv-action-button-icon [icon]="EIconName.Add" href="/link-to-url" target="_blank" [type]="EActionButtonType.Primary"></kv-action-button>
-
 <!-- Badge -->
 <kv-action-button-icon [icon]="EIconName.Add" [type]="EActionButtonType.Primary" badge="12"></kv-action-button>
 ```
@@ -58,9 +55,6 @@ export const SwitchButtonExample: React.FC = () => (
 		{/*-- Disabled --*/}
 		<KvActionButtonIcon disabled icon={EIconName.Add} type={EActionButtonType.Primary}></KvActionButtonIcon>
 
-		{/*-- Anchor --*/}
-		<KvActionButtonIcon icon={EIconName.Add} type={EActionButtonType.Primary} href="/link-to-url" target="_blank"></KvActionButtonIcon>
-
 		{/*-- Badge --*/}
 		<KvActionButtonIcon icon={EIconName.Customize} type={EActionButtonType.Primary} badge="12"></kv-action-button>
 	</>
@@ -71,19 +65,16 @@ export const SwitchButtonExample: React.FC = () => (
 
 ## Properties
 
-| Property            | Attribute     | Description                                                                                                     | Type                                                                                                                                            | Default                |
-| ------------------- | ------------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `active`            | `active`      | (optional) If `true` the button is active                                                                       | `boolean`                                                                                                                                       | `false`                |
-| `badgeLabel`        | `badge-label` | (optional) Defines button's badge label. If set, an badge will be displayed in the end of action icon button.   | `string`                                                                                                                                        | `undefined`            |
-| `badgeState`        | `badge-state` | (optional) Defines button's badge type.                                                                         | `EBadgeState.Error \| EBadgeState.Info \| EBadgeState.None \| EBadgeState.Success \| EBadgeState.Warning`                                       | `undefined`            |
-| `disabled`          | `disabled`    | (optional) If `true` the button is disabled                                                                     | `boolean`                                                                                                                                       | `false`                |
-| `download`          | `download`    | (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename | `string`                                                                                                                                        | `undefined`            |
-| `href`              | `href`        | (optional) The anchor's link to open when clicking                                                              | `string`                                                                                                                                        | `undefined`            |
-| `icon` _(required)_ | `icon`        | (required) Button's icon symbol name                                                                            | `EIconName \| EOtherIconName`                                                                                                                   | `undefined`            |
-| `loading`           | `loading`     | (optional) If `true` the button is of type loading                                                              | `boolean`                                                                                                                                       | `false`                |
-| `size`              | `size`        | (optional) Button's size                                                                                        | `EComponentSize.Large \| EComponentSize.Small`                                                                                                  | `EComponentSize.Small` |
-| `target`            | `target`      | (optional) The anchor's target                                                                                  | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top`                                             | `undefined`            |
-| `type` _(required)_ | `type`        | (required) Button's type                                                                                        | `EActionButtonType.Danger \| EActionButtonType.Ghost \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
+| Property            | Attribute     | Description                                                                                                   | Type                                                                                                                                            | Default                |
+| ------------------- | ------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `active`            | `active`      | (optional) If `true` the button is active                                                                     | `boolean`                                                                                                                                       | `false`                |
+| `badgeLabel`        | `badge-label` | (optional) Defines button's badge label. If set, an badge will be displayed in the end of action icon button. | `string`                                                                                                                                        | `undefined`            |
+| `badgeState`        | `badge-state` | (optional) Defines button's badge type.                                                                       | `EBadgeState.Error \| EBadgeState.Info \| EBadgeState.None \| EBadgeState.Success \| EBadgeState.Warning`                                       | `undefined`            |
+| `disabled`          | `disabled`    | (optional) If `true` the button is disabled                                                                   | `boolean`                                                                                                                                       | `false`                |
+| `icon` _(required)_ | `icon`        | (required) Button's icon symbol name                                                                          | `EIconName \| EOtherIconName`                                                                                                                   | `undefined`            |
+| `loading`           | `loading`     | (optional) If `true` the button is of type loading                                                            | `boolean`                                                                                                                                       | `false`                |
+| `size`              | `size`        | (optional) Button's size                                                                                      | `EComponentSize.Large \| EComponentSize.Small`                                                                                                  | `EComponentSize.Small` |
+| `type` _(required)_ | `type`        | (required) Button's type                                                                                      | `EActionButtonType.Danger \| EActionButtonType.Ghost \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
 
 
 ## Events

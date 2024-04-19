@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { EAnchorTarget, KvBreadcrumbList, KvBreadcrumbItem } from '../../components';
+import { KvBreadcrumbList, KvBreadcrumbItem } from '../../components';
 
 export default {
 	title: 'Navigation/Breadcrumbs/Breadcrumb List',
@@ -14,9 +14,9 @@ KvBreadcrumbList.displayName = 'KvBreadcrumbList';
 
 const BreadcrumbListTemplate: ComponentStory<typeof KvBreadcrumbList> = args => (
 	<KvBreadcrumbList {...args}>
-		<KvBreadcrumbItem label="First label here" href="https://your-link.here" target={EAnchorTarget.NewTab}></KvBreadcrumbItem>
-		<KvBreadcrumbItem label="Second label here" href="https://your-link.here" target={EAnchorTarget.NewTab}></KvBreadcrumbItem>
-		<KvBreadcrumbItem label="Last label here" href="https://your-link.here" target={EAnchorTarget.NewTab} active></KvBreadcrumbItem>
+		<KvBreadcrumbItem label="First label here"></KvBreadcrumbItem>
+		<KvBreadcrumbItem label="Second label here"></KvBreadcrumbItem>
+		<KvBreadcrumbItem label="Last label here" active></KvBreadcrumbItem>
 	</KvBreadcrumbList>
 );
 

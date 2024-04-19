@@ -23,9 +23,6 @@ export const SwitchButtonExample: React.FC = () => (
 		{/*-- Disabled --*/}
 		<KvActionButtonIcon disabled icon={EIconName.Add} type={EActionButtonType.Primary}></KvActionButtonIcon>
 
-		{/*-- Anchor --*/}
-		<KvActionButtonIcon icon={EIconName.Add} type={EActionButtonType.Primary} href="/link-to-url" target="_blank"></KvActionButtonIcon>
-
 		{/*-- Badge --*/}
 		<KvActionButtonIcon icon={EIconName.Customize} type={EActionButtonType.Primary} badge="12"></kv-action-button>
 	</>

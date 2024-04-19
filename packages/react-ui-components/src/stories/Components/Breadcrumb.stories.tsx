@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { EAnchorTarget, KvBreadcrumb } from '../../components';
+import { KvBreadcrumb } from '../../components';
 
 export default {
 	title: 'Navigation/Breadcrumbs/Breadcrumb',
@@ -18,19 +18,13 @@ export const Primary = BreadcrumbTemplate.bind({});
 Primary.args = {
 	items: [
 		{
-			label: 'Homepage',
-			href: 'https://kelvin.ai',
-			target: EAnchorTarget.NewTab
+			label: 'Homepage'
 		},
 		{
-			label: 'Product',
-			href: 'https://kelvin.ai/product/',
-			target: EAnchorTarget.NewTab
+			label: 'Product'
 		},
 		{
-			label: 'Contact Form',
-			href: 'https://kelvin.ai/product#form',
-			target: EAnchorTarget.NewTab
+			label: 'Contact Form'
 		}
 	]
 };

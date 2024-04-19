@@ -1,6 +1,5 @@
 import { newSpecPage, SpecPage } from '@stencil/core/testing';
 import { KvBreadcrumbItem } from '../breadcrumb-item';
-import { EAnchorTarget } from '../../../utils/types';
 import { h } from '@stencil/core';
 
 describe('KvBreadcrumbItem (unit tests)', () => {
@@ -10,7 +9,7 @@ describe('KvBreadcrumbItem (unit tests)', () => {
 	beforeEach(async () => {
 		page = await newSpecPage({
 			components: [KvBreadcrumbItem],
-			template: () => <kv-breadcrumb-item label="Awesome Label" href="https://kelvin.ai" target={EAnchorTarget.NewTab} active></kv-breadcrumb-item>
+			template: () => <kv-breadcrumb-item label="Awesome Label" active></kv-breadcrumb-item>
 		});
 		component = page.rootInstance;
 	});
@@ -22,14 +21,6 @@ describe('KvBreadcrumbItem (unit tests)', () => {
 
 		it('should set the correct label', () => {
 			expect(component.label).toEqual('Awesome Label');
-		});
-
-		it('should set the correct link', () => {
-			expect(component.href).toEqual('https://kelvin.ai');
-		});
-
-		it('should set the correct target', () => {
-			expect(component.target).toEqual(EAnchorTarget.NewTab);
 		});
 
 		it('should set the correct active status', () => {

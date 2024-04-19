@@ -1,5 +1,4 @@
 import { Component, Element, Event, EventEmitter, Fragment, Host, Listen, Prop, h } from '@stencil/core';
-import { EAnchorTarget, IAnchor } from '../../utils/types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { ETreeItemLabelSize, ETreeItemState } from './tree-item.types';
 import { isEmpty, isNumber, throttle } from 'lodash-es';
@@ -20,7 +19,7 @@ import { STATE_ICONS } from './tree-item.config';
 	},
 	shadow: true
 })
-export class KvTreeItem implements IAnchor {
+export class KvTreeItem {
 	/** (optional) Defines the title of the tree item.*/
 	@Prop({ reflect: true }) label?: string;
 	/** (optional) Defines the sub-title of the tree item, displayed under the title.*/
@@ -63,12 +62,6 @@ export class KvTreeItem implements IAnchor {
 	@Prop({ reflect: true }) preventDefault? = false;
 	/** (optional) Defines if icon to use for expanding, should be and arrow like icon pointing up. */
 	@Prop({ reflect: true }) expandIcon? = EIconName.ArrowDropUp;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) href?: string;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) target?: EAnchorTarget;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) download?: string;
 
 	/** Emitted when the expand toggle is clicked */
 	@Event() toggleExpand: EventEmitter<MouseEvent>;
@@ -143,16 +136,13 @@ export class KvTreeItem implements IAnchor {
 									</div>
 								)}
 
-								<a
+								<div
 									class={{
 										'node-content-wrapper': true,
 										'disabled': this.disabled,
 										'selected': this.selected,
 										'no-filled': isEmpty(this.label) && !isEmpty(this.placeholder)
 									}}
-									download={this.download}
-									href={this.href}
-									target={this.target}
 									onClick={!this.disabled && this.onItemClick.bind(this)}
 								>
 									{this.icon && (
@@ -180,7 +170,7 @@ export class KvTreeItem implements IAnchor {
 											</div>
 										)}
 									</div>
-								</a>
+								</div>
 							</Fragment>
 						)}
 						{this.loading && <div class="node-loading"></div>}
