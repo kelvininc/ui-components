@@ -37,6 +37,8 @@ export enum EIconName {
 	Bullet = 'kv-bullet',
 	Calendar = 'kv-calendar',
 	CalendarUpdate = 'kv-calendar-update',
+	CalendarToday = 'kv-calendar-today',
+	CalendarRange = 'kv-calendar-range',
 	Card = 'kv-card',
 	Chat = 'kv-chat',
 	Circle = 'kv-circle',
