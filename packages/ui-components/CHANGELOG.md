@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.33.0](https://github.com/kelvininc/ui-components/compare/v0.32.0...v0.33.0) (2024-05-06)
+
+
+### Features
+
+* add new input absolute time picker ([4f51396](https://github.com/kelvininc/ui-components/commit/4f51396cc0392e6c07a0f09f360605ded0958dec))
+* **icons:** add calendar today and range icons ([e2f3856](https://github.com/kelvininc/ui-components/commit/e2f3856c6382053be693778439d4aa32da3ac05a))
+
+
+
+
+
 # [0.32.0](https://github.com/kelvininc/ui-components/compare/v0.31.1...v0.32.0) (2024-04-17)
 
 
