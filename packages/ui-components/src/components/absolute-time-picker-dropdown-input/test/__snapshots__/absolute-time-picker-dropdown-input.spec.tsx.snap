@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Absolute Time Picker Dropdown Input (unit tests) when default props and initial date are used should match the snapshot 1`] = `
+<kv-absolute-time-picker-dropdown-input>
+  <!---->
+  <kv-dropdown-base>
+    <slot-fb name="dropdown-action" slot="action">
+      <div class="time-range-input-container">
+        <kv-date-time-input dateformat="dd-mm-yyyy HH:MM" inputstyletype="merged-left" label="Change On" lefticon="kv-calendar" placeholder="Pick date &amp; time" required="" size="large" state="none" value=""></kv-date-time-input>
+        <kv-date-time-input dateformat="dd-mm-yyyy HH:MM" inputstyletype="merged-right" label="Revert On" placeholder="Pick date &amp; time" required="" righticon="kv-arrow-drop-down" size="large" state="none" value=""></kv-date-time-input>
+      </div>
+    </slot-fb>
+    <div slot="list">
+      <div class="calendar-container">
+        <kv-time-picker-calendar disablehoveringstyling="" displaypreviousmontharrow="" hovereddate="" initialdate="2023-04-12" mode="range"></kv-time-picker-calendar>
+        <kv-time-picker-calendar disablehoveringstyling="" displaynextmontharrow="" hovereddate="" initialdate="2023-05-12" mode="range"></kv-time-picker-calendar>
+      </div>
+    </div>
+  </kv-dropdown-base>
+</kv-absolute-time-picker-dropdown-input>
+`;

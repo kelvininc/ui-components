@@ -8,6 +8,8 @@ export interface ITimePickerCalendar {
 	selectedDates?: string[];
 	/** (optional) Initial date */
 	initialDate?: string;
+	/** (optional) Disables the hovering styling when the dates are being selected, and when start or end date is not defined */
+	disableHoveringStyling?: boolean;
 	/** (optional) Defines if a date is hovered */
 	hoveredDate?: string;
 	/** (options) The disabled dates array */
