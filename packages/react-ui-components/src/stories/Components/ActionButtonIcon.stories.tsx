@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { EIconName, EOtherIconName, EActionButtonType, KvActionButtonIcon, EComponentSize, EAnchorTarget, EBadgeState } from '../../components';
+import { EIconName, EOtherIconName, EActionButtonType, KvActionButtonIcon, EComponentSize, EBadgeState } from '../../components';
 
 // Required to have the correct TagName in the code sample
 KvActionButtonIcon.displayName = 'KvActionButtonIcon';
@@ -103,9 +103,7 @@ AnchorState.args = {
 	type: EActionButtonType.Primary,
 	size: EComponentSize.Small,
 	disabled: false,
-	active: false,
-	href: 'https://kelvin.ai/',
-	target: EAnchorTarget.NewTab
+	active: false
 };
 
 export const BadgeState = ActionButtonIconTemplate.bind({});

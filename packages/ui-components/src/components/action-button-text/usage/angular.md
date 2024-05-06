@@ -10,7 +10,4 @@
 
 <!-- Disabled -->
 <kv-action-button-text text="Disabled Button" [icon]="EIconName.Add" [type]="EActionButtonType.Primary" disabled></kv-action-button-text>
-
-<!-- Anchor -->
-<kv-action-button-text text="Link Button" [icon]="EIconName.Add" [type]="EActionButtonType.Primary" href="/link-to-url" target="_blank"></kv-action-button-text>
 ```

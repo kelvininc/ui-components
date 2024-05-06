@@ -40,17 +40,18 @@ export const KvTimePickerCalendarExample: React.FC = () => (
 
 ## Properties
 
-| Property                    | Attribute                      | Description                                                        | Type                                                              | Default                         |
-| --------------------------- | ------------------------------ | ------------------------------------------------------------------ | ----------------------------------------------------------------- | ------------------------------- |
-| `disabledDates`             | --                             | (options) The disabled dates array                                 | `string[]`                                                        | `[]`                            |
-| `displayNextMonthArrow`     | `display-next-month-arrow`     | (optional) Enables the next month click icon                       | `boolean`                                                         | `true`                          |
-| `displayPreviousMonthArrow` | `display-previous-month-arrow` | (optional) Enables the previous month click icon                   | `boolean`                                                         | `true`                          |
-| `hoveredDate`               | `hovered-date`                 | (optional) Defines if a date is hovered                            | `string`                                                          | `undefined`                     |
-| `initialDate`               | `initial-date`                 | (optional) Initial date                                            | `string`                                                          | `undefined`                     |
-| `maxDate`                   | `max-date`                     | (optional) Maximum accepted date. Format: YYYY-MM-DD               | `string`                                                          | `undefined`                     |
-| `minDate`                   | `min-date`                     | (optional) Minimum accepted date. Format: YYYY-MM-DD               | `string`                                                          | `undefined`                     |
-| `mode`                      | `mode`                         | (optional) Defines if the calendar is in single date or range mode | `EAbsoluteTimePickerMode.Range \| EAbsoluteTimePickerMode.Single` | `EAbsoluteTimePickerMode.Range` |
-| `selectedDates`             | --                             | (optional) The currently selected dates                            | `string[]`                                                        | `[]`                            |
+| Property                    | Attribute                      | Description                                                                                                           | Type                                                              | Default                         |
+| --------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------- |
+| `disableHoveringStyling`    | `disable-hovering-styling`     | (optional) Disables the hovering styling when the dates are being selected, and when start or end date is not defined | `boolean`                                                         | `false`                         |
+| `disabledDates`             | --                             | (options) The disabled dates array                                                                                    | `string[]`                                                        | `[]`                            |
+| `displayNextMonthArrow`     | `display-next-month-arrow`     | (optional) Enables the next month click icon                                                                          | `boolean`                                                         | `true`                          |
+| `displayPreviousMonthArrow` | `display-previous-month-arrow` | (optional) Enables the previous month click icon                                                                      | `boolean`                                                         | `true`                          |
+| `hoveredDate`               | `hovered-date`                 | (optional) Defines if a date is hovered                                                                               | `string`                                                          | `undefined`                     |
+| `initialDate`               | `initial-date`                 | (optional) Initial date                                                                                               | `string`                                                          | `undefined`                     |
+| `maxDate`                   | `max-date`                     | (optional) Maximum accepted date. Format: YYYY-MM-DD                                                                  | `string`                                                          | `undefined`                     |
+| `minDate`                   | `min-date`                     | (optional) Minimum accepted date. Format: YYYY-MM-DD                                                                  | `string`                                                          | `undefined`                     |
+| `mode`                      | `mode`                         | (optional) Defines if the calendar is in single date or range mode                                                    | `EAbsoluteTimePickerMode.Range \| EAbsoluteTimePickerMode.Single` | `EAbsoluteTimePickerMode.Range` |
+| `selectedDates`             | --                             | (optional) The currently selected dates                                                                               | `string[]`                                                        | `[]`                            |
 
 
 ## Events
@@ -80,6 +81,7 @@ export const KvTimePickerCalendarExample: React.FC = () => (
 ### Used by
 
  - [kv-absolute-time-picker](../absolute-time-picker)
+ - [kv-absolute-time-picker-dropdown-input](../absolute-time-picker-dropdown-input)
 
 ### Depends on
 
@@ -92,6 +94,7 @@ graph TD;
   kv-time-picker-calendar --> kv-icon
   kv-time-picker-calendar --> kv-time-picker-calendar-day
   kv-absolute-time-picker --> kv-time-picker-calendar
+  kv-absolute-time-picker-dropdown-input --> kv-time-picker-calendar
   style kv-time-picker-calendar fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

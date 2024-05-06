@@ -5,45 +5,22 @@ kv-form-label {
 }
 
 input {
+	@include ellipsis;
 	@include kv-font-span-regular;
+
 	color-scheme: dark;
-
 	appearance: textfield;
-	width: 100%;
-	height: 100%;
-	padding-left: $spacing-2x;
-	padding-right: $spacing-2x;
-	padding-top: 0;
-	padding-bottom: 0;
 	outline: 0;
-	box-sizing: border-box;
-	border-radius: 4px;
-	border: solid 1px kv-color('neutral-6');
-	color: kv-color('neutral-2');
-	background-color: kv-color('neutral-6');
-
-	&:focus,
-	&.forced-focus {
-		color: kv-color('neutral-2');
-		border-color: kv-color('neutral-0');
-
-		&::placeholder {
-			color: kv-color('neutral-4');
-		}
-	}
-
-	&:disabled {
-		background-color: kv-color('neutral-7');
-		color: kv-color('neutral-5');
-	}
-
-	&.invalid {
-		border-color: kv-color('error');
-	}
+	background: kv-color('neutral-6');
+	border: transparent;
+	padding: 0 $spacing-2x;
+	width: 100%;
 }
 
-.input-container {
-	position: relative;
+.input-container-wrapper {
+	display: flex;
+	align-items: center;
+	background-color: kv-color('neutral-6');
 	min-width: 196px;
 
 	&--size-large {
@@ -52,5 +29,96 @@ input {
 
 	&--size-small {
 		height: 28px;
+	}
+
+	&--style-merged-left {
+		border-top-left-radius: 4px;
+		border-bottom-left-radius: 4px;
+	}
+
+	&--style-merged-right {
+		border-top-right-radius: 4px;
+		border-bottom-right-radius: 4px;
+	}
+
+	&--style-separated {
+		border-radius: 4px;
+	}
+
+	.input-separator {
+		width: 1px;
+		height: 20px;
+		background-color: kv-color('neutral-5');
+	}
+}
+
+.input-container {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 100%;
+	width: 100%;
+	border-radius: 4px;
+	border: solid 1px kv-color('neutral-6');
+	color: kv-color('neutral-2');
+	overflow: hidden;
+	box-sizing: border-box;
+
+	kv-icon {
+		--icon-color: #{kv-color('neutral-4')};
+	}
+
+	&.focus,
+	&.forced-focus {
+		color: kv-color('neutral-2');
+		border-color: kv-color('neutral-0');
+
+
+	kv-icon {
+		--icon-color: #{kv-color('neutral-2')};
+	}
+
+		&::placeholder {
+			color: kv-color('neutral-4');
+		}
+	}
+
+	&.disabled {
+		background-color: kv-color('neutral-7');
+		color: kv-color('neutral-5');
+
+		kv-icon {
+			--icon-color: #{kv-color('neutral-5')};
+		}
+	}
+
+	&.invalid {
+		border-color: kv-color('error');
+	}
+
+	.left-container {
+		display: flex;
+		align-items: center;
+		width: 100%;
+
+		.left-icon {
+			padding-left: $spacing-2x;
+
+			kv-icon {
+				--icon-height: 20px;
+				--icon-width: 20px;
+			}
+		}
+	}
+
+	.right-icon {
+		padding-right: $spacing-2x;
+		cursor: pointer;
+
+		kv-icon {
+			--icon-height: 20px;
+			--icon-width: 20px;
+		}
 	}
 }

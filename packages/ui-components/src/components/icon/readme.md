@@ -79,6 +79,7 @@ export const SvgIconExample: React.FC = () => (
  - [kv-alert](../alert)
  - [kv-checkbox](../checkbox)
  - [kv-copy-to-clipboard](../copy-to-clipboard)
+ - [kv-date-time-input](../date-time-input)
  - [kv-description-list](../description-list)
  - [kv-form-help-text](../form-help-text)
  - [kv-info-label](../info-label)
@@ -108,6 +109,7 @@ graph TD;
   kv-alert --> kv-icon
   kv-checkbox --> kv-icon
   kv-copy-to-clipboard --> kv-icon
+  kv-date-time-input --> kv-icon
   kv-description-list --> kv-icon
   kv-form-help-text --> kv-icon
   kv-info-label --> kv-icon

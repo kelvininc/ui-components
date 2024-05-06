@@ -10,7 +10,4 @@
 
 <!-- Disabled -->
 <kv-action-button-split text="Disabled Button" [icon]="EIconName.Add" [split-icon]="EIconNameArrowDropDown" [type]="EActionButtonType.Primary" disabled></kv-action-button-split>
-
-<!-- Anchor -->
-<kv-action-button-split text="Link Button" [icon]="EIconName.Add" [split-icon]="EIconNameArrowDropDown" [type]="EActionButtonType.Primary" href="/link-to-url" target="_blank">Link Button</kv-action-button>
 ```

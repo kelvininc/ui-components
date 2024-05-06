@@ -1,8 +1,8 @@
 import { EventEmitter } from '@stencil/core';
-import { EComponentSize, IAnchor } from '../../types';
+import { EComponentSize } from '../../types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 
-export interface IToggleButton extends IAnchor {
+export interface IToggleButton {
 	/** (required) The value to be emitted upon click events */
 	value: string;
 	/** (optional) The button's icon. Only valid for toggle button icon */

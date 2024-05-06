@@ -1,6 +1,4 @@
-# *<kv-breadcrumb-item>*
-
-
+# _<kv-breadcrumb-item>_
 
 <!-- Auto Generated Below -->
 
@@ -11,12 +9,7 @@
 
 ```html
 <!-- With all properties (only label is mandatory) -->
-<kv-breadcrumb-item
-	label="Your label here"
-	href="https://your-link.here"
-	[target]="EBreadcrumbItemTarget.NewTab"
-	active>
-</kv-breadcrumb-item>
+<kv-breadcrumb-item label="Your label here" active> </kv-breadcrumb-item>
 ```
 
 
@@ -26,15 +19,10 @@
 import React from 'react';
 import { KvBreadcrumbItem } from '@kelvininc/react-ui-components';
 export const KvBreadcrumbItemExample: React.FC = () => (
-  <>
-    {/*-- With all properties (only label is mandatory) --*/}
-	<KvBreadcrumbItem
-		label="Your label here"
-		href="https://your-link.here"
-		target={EBreadcrumbItemTarget.NewTab}
-		active>
-	</KvBreadcrumbItem>
-  </>
+	<>
+		{/*-- With all properties (only label is mandatory) --*/}
+		<KvBreadcrumbItem label="Your label here" active></KvBreadcrumbItem>
+	</>
 );
 ```
 
@@ -42,13 +30,10 @@ export const KvBreadcrumbItemExample: React.FC = () => (
 
 ## Properties
 
-| Property             | Attribute  | Description                                                                                                     | Type                                                                                                | Default     |
-| -------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------- |
-| `active`             | `active`   | (optional) Sets this breadcrumb styling to be the active one (usually the last one)                             | `boolean`                                                                                           | `undefined` |
-| `download`           | `download` | (optional) Specifies that the target will be downloaded when a user clicks on. The value should be the filename | `string`                                                                                            | `undefined` |
-| `href`               | `href`     | (optional) The anchor's link to open when clicking                                                              | `string`                                                                                            | `undefined` |
-| `label` _(required)_ | `label`    | (required) The text to display on the breadcrumb                                                                | `string`                                                                                            | `undefined` |
-| `target`             | `target`   | (optional) The anchor's target                                                                                  | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top` | `undefined` |
+| Property             | Attribute | Description                                                                         | Type      | Default     |
+| -------------------- | --------- | ----------------------------------------------------------------------------------- | --------- | ----------- |
+| `active`             | `active`  | (optional) Sets this breadcrumb styling to be the active one (usually the last one) | `boolean` | `undefined` |
+| `label` _(required)_ | `label`   | (required) The text to display on the breadcrumb                                    | `string`  | `undefined` |
 
 
 ## Events
@@ -56,13 +41,6 @@ export const KvBreadcrumbItemExample: React.FC = () => (
 | Event                 | Description                                    | Type                           |
 | --------------------- | ---------------------------------------------- | ------------------------------ |
 | `breadcrumbItemClick` | Emitted when the user clicks on the breadcrumb | `CustomEvent<IBreadcrumbItem>` |
-
-
-## Shadow Parts
-
-| Part       | Description         |
-| ---------- | ------------------- |
-| `"anchor"` | The anchor element. |
 
 
 ## CSS Custom Properties

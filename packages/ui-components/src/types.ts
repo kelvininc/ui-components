@@ -50,5 +50,6 @@ export * from './components/radio-list-item/radio-list-item.types';
 export * from './components/radio-list/radio-list.types';
 export * from './components/absolute-time-picker/absolute-time-picker.types';
 export * from './components/absolute-time-picker-dropdown/absolute-time-picker-dropdown.types';
+export * from './components/absolute-time-picker-dropdown-input/absolute-time-picker-dropdown-input.types';
 export * from './components/select-multi-options/select-multi-options.types';
 export * from './components/illustration-message/illustration-message.types';

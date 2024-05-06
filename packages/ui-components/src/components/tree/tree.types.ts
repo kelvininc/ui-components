@@ -1,9 +1,8 @@
-import { IAnchor } from '../../types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { ETreeItemState } from '../tree-item/tree-item.types';
 import { EBadgeState } from '../badge/badge.types';
 
-export interface ITreeNodeItem extends IAnchor {
+export interface ITreeNodeItem {
 	id: string; // Should be unique
 	label?: string;
 	additionalLabel?: string;

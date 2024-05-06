@@ -18,15 +18,11 @@
 	user-select: none;
 
 	color: var(--breadcrumb-item-default-color);
+	text-decoration: none;
 
-	a {
-		color: unset;
-		text-decoration: none;
-
-		&:hover {
-			text-decoration: underline;
-			color: var(--breadcrumb-item-hover-color);
-		}
+	&:hover {
+		text-decoration: underline;
+		color: var(--breadcrumb-item-hover-color);
 	}
 
 	&--active {

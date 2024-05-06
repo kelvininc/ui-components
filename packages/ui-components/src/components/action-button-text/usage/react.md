@@ -19,9 +19,6 @@ export const SwitchButtonExample: React.FC = () => (
 
 		{/*-- Disabled --*/}
 		<KvActionButtonText disabled text="Disabled Button" icon={EIconName.Add} type={EActionButtonType.Primary}></KvActionButtonText>
-
-		{/*-- Anchor --*/}
-		<KvActionButton href="/link-to-url" target="_blank" type={EActionButtonType.Primary} text="Anchor Button" icon={EIconName.Add}></KvActionButton>
 	</>
 );
 ```

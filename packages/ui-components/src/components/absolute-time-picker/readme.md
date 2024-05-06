@@ -102,6 +102,7 @@ graph TD;
   kv-absolute-time-picker --> kv-date-time-input
   kv-absolute-time-picker --> kv-time-picker-calendar
   kv-date-time-input --> kv-form-label
+  kv-date-time-input --> kv-icon
   kv-date-time-input --> kv-form-help-text
   kv-form-help-text --> kv-icon
   kv-time-picker-calendar --> kv-icon

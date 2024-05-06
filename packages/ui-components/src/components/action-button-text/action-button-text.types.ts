@@ -1,6 +1,6 @@
-import { EIconName, EOtherIconName, IAnchor, IButton, IButtonEvents } from '../../types';
+import { EIconName, EOtherIconName, IButton, IButtonEvents } from '../../types';
 
-export interface IActionButtonTextConfig extends IButton, IButtonEvents, IAnchor {
+export interface IActionButtonTextConfig extends IButton, IButtonEvents {
 	/** (required) (required) Button's text */
 	text: string;
 	/** (optional) Button's left icon symbol name */

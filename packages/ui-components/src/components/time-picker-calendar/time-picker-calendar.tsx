@@ -36,6 +36,8 @@ export class KvTimePickerCalendar implements ITimePickerCalendar, ITimePickerCal
 	/** @inheritdoc */
 	@Prop({ reflect: false }) initialDate?: string;
 	/** @inheritdoc */
+	@Prop({ reflect: false }) disableHoveringStyling?: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: false }) hoveredDate?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) disabledDates?: string[] = [];
@@ -177,7 +179,13 @@ export class KvTimePickerCalendar implements ITimePickerCalendar, ITimePickerCal
 	public isDayInRange = (day: number): boolean => {
 		const [selectedStartDate, selectedEndDate] = this.getSelectedRange();
 
-		if (this.isDayDisabled(day) || selectedStartDate === undefined || selectedEndDate !== undefined || this.mode === EAbsoluteTimePickerMode.Single) {
+		if (
+			this.disableHoveringStyling ||
+			this.mode === EAbsoluteTimePickerMode.Single ||
+			this.isDayDisabled(day) ||
+			selectedStartDate === undefined ||
+			selectedEndDate !== undefined
+		) {
 			return false;
 		}
 

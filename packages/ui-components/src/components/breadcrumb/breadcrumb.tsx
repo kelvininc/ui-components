@@ -1,6 +1,9 @@
 import { Component, h, Prop, Host, Event, EventEmitter } from '@stencil/core';
 import { IBreadcrumbItem, IBreadcrumbItemEvents } from '../breadcrumb-item/breadcrumb-item.types';
 
+/**
+ * @part item - The breadcrumb item.
+ */
 @Component({
 	tag: 'kv-breadcrumb',
 	shadow: true
@@ -16,10 +19,8 @@ export class KvBreadcrumb implements IBreadcrumbItemEvents {
 		return (
 			<Host>
 				<kv-breadcrumb-list>
-					{this.items.map(({ active, customLabel, ...otherProps }, index, array) => (
-						<kv-breadcrumb-item active={active ?? index === array.length - 1} exportparts="anchor" {...otherProps}>
-							{customLabel}
-						</kv-breadcrumb-item>
+					{this.items.map(({ active, ...otherProps }, index, array) => (
+						<kv-breadcrumb-item active={active ?? index === array.length - 1} part="item" {...otherProps} />
 					))}
 				</kv-breadcrumb-list>
 			</Host>

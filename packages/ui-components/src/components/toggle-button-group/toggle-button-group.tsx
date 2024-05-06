@@ -35,9 +35,6 @@ export class KvToggleButtonGroup implements IToggleButtonGroup, IToggleButtonGro
 						value={button.value}
 						label={button.label}
 						icon={button.icon}
-						download={button.download}
-						href={button.href}
-						target={button.target}
 						preventDefault={button.preventDefault}
 						size={this.size ?? button.size}
 						disabled={this.disabled ?? this.disabledButtons[button.value] ?? button.disabled}
