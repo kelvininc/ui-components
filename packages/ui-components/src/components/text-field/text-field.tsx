@@ -54,7 +54,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop() size?: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) disabled: boolean = false;
+	@Prop({ reflect: false }) disabled: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) required: boolean = false;
 	/** @inheritdoc */
@@ -62,7 +62,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) state: EValidationState = EValidationState.None;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) readonly: boolean = false;
+	@Prop({ reflect: false }) readonly: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) helpText: string | string[] = [];
 	/** @inheritdoc */
