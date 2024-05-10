@@ -21,7 +21,7 @@ export const getRangeInputValues = (selectedTime: SelectedTimeState, timezoneNam
 
 	const [from, to] = selectedTime;
 	return {
-		from: dayjs(from).tz(timezoneName).format(DATE_FORMAT),
+		from: isNumber(from) ? dayjs(from).tz(timezoneName).format(DATE_FORMAT) : '',
 		to: isNumber(to) ? dayjs(to).tz(timezoneName).format(DATE_FORMAT) : ''
 	};
 };

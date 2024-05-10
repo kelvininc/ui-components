@@ -109,20 +109,39 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 		}
 	};
 
+	private handleEmptyTextChange = () => {
+		if (this.mode === EAbsoluteTimePickerMode.Single) {
+			this.singleTimeInputValue = '';
+		} else {
+			if (this.focusedInput === EInputSource.From) {
+				this.rangeInputValues = { ...this.rangeInputValues, from: '' };
+			} else {
+				this.rangeInputValues = { ...this.rangeInputValues, to: '' };
+			}
+		}
+	};
+
 	private hanleOnTextChange = (event: CustomEvent<string>) => {
 		const parsedDateTime = dayjs(event.detail, DATE_FORMAT);
+
+		if (isEmpty(event.detail)) {
+			this.handleEmptyTextChange();
+			return;
+		}
 
 		if (parsedDateTime.isValid()) {
 			if (this.mode === EAbsoluteTimePickerMode.Single) {
 				this.singleTimeInputValue = parsedDateTime.format(DATE_FORMAT);
+				this.displayedMonth = parsedDateTime;
 				return;
 			}
 
 			if (this.focusedInput === EInputSource.From) {
-				this.rangeInputValues = { from: parsedDateTime.format(DATE_FORMAT), ...this.rangeInputValues };
+				this.rangeInputValues = { ...this.rangeInputValues, from: parsedDateTime.format(DATE_FORMAT) };
 			} else {
-				this.rangeInputValues = { to: parsedDateTime.format(DATE_FORMAT), ...this.rangeInputValues };
+				this.rangeInputValues = { ...this.rangeInputValues, to: parsedDateTime.format(DATE_FORMAT) };
 			}
+			this.displayedMonth = parsedDateTime;
 		}
 	};
 
@@ -138,18 +157,24 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 		if (this.mode === EAbsoluteTimePickerMode.Range) this.hoveredDate = event.detail;
 	};
 
-	private handleOutsideClick = () => {
+	private handleCloseDropdown = () => {
 		this.isDropdownOpen = false;
 		this.focusedInput = null;
 		if (this.mode === EAbsoluteTimePickerMode.Single) {
-			!isEmpty(this.singleTimeInputValue) && this.selectedTimeChange.emit([dayjs(this.singleTimeInputValue, DATE_FORMAT).tz(this.timezone.name, true).valueOf()]);
+			if (isEmpty(this.singleTimeInputValue)) {
+				this.syncSelectedTimeState(this.selectedTime);
+			} else {
+				this.selectedTimeChange.emit([dayjs(this.singleTimeInputValue, DATE_FORMAT).tz(this.timezone.name, true).valueOf()]);
+			}
 		} else {
-			!isEmpty(this.rangeInputValues?.from) &&
-				!isEmpty(this.rangeInputValues?.to) &&
+			if (isEmpty(this.rangeInputValues?.from) || isEmpty(this.rangeInputValues?.to)) {
+				this.syncSelectedTimeState(this.selectedTime);
+			} else {
 				this.selectedTimeChange.emit([
 					dayjs(this.rangeInputValues.from, DATE_FORMAT).tz(this.timezone.name, true).valueOf(),
 					dayjs(this.rangeInputValues.to, DATE_FORMAT).tz(this.timezone.name, true).valueOf()
 				]);
+			}
 		}
 		this.dropdownStateChange.emit(this.isDropdownOpen);
 	};
@@ -159,7 +184,7 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 
 		// Dropdown was open, we need to handle the time state update and close the dropdown
 		if (previousDropdownState) {
-			this.handleOutsideClick();
+			this.handleCloseDropdown();
 		} else {
 			this.isDropdownOpen = true;
 			this.focusedInput = this.mode === EAbsoluteTimePickerMode.Single ? EInputSource.Single : EInputSource.To;
@@ -167,26 +192,43 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 		}
 	};
 
+	private isHoveringStylingActive = () => {
+		return (!isEmpty(this.rangeInputValues?.from) && this.focusedInput === EInputSource.To) || (!isEmpty(this.rangeInputValues?.to) && this.focusedInput === EInputSource.From);
+	};
+
+	private getMinimumCalendarDate = () => {
+		return this.mode === EAbsoluteTimePickerMode.Single
+			? isNumber(this.minimumSingleInputDate) && dayjs(this.minimumSingleInputDate).format(CALENDAR_DATE_FORMAT)
+			: isNumber(this.minimumFromInputDate) && dayjs(this.minimumFromInputDate).format(CALENDAR_DATE_FORMAT);
+	};
+
 	private getSelectedCalendarDates = () => {
-		return this.mode === EAbsoluteTimePickerMode.Single ? getSingleCalendarDate(this.singleTimeInputValue) : getRangeCalendarDates(this.rangeInputValues);
+		const inputDate = this.mode === EAbsoluteTimePickerMode.Single ? getSingleCalendarDate(this.singleTimeInputValue) : getRangeCalendarDates(this.rangeInputValues);
+
+		if (inputDate) return inputDate;
+
+		if (this.selectedTime) {
+			return this.mode === EAbsoluteTimePickerMode.Single
+				? getSingleCalendarDate(getSingleInputDate(this.selectedTime, this.timezone.name))
+				: getRangeCalendarDates(getRangeInputValues(this.selectedTime, this.timezone.name));
+		}
+
+		return [];
 	};
 
 	render() {
 		const fromCalendarInitialDate = getFirstCalendarInitialDate(this.displayedMonth);
 		const toCalendarInitialDate = getSecondCalendarInitialDate(this.displayedMonth);
 		const selectedDates = this.getSelectedCalendarDates();
-		const useFromInputInputMask = !isEmpty(this.rangeInputValues?.from) || this.focusedInput === EInputSource.From;
-		const useToInputInputMask = !isEmpty(this.rangeInputValues?.to) || this.focusedInput === EInputSource.To;
-		const hoveringStyleEnabled =
-			(!isEmpty(this.rangeInputValues?.from) && this.focusedInput === EInputSource.To) || (!isEmpty(this.rangeInputValues?.to) && this.focusedInput === EInputSource.From);
-		const minimumCalendarDate =
-			this.mode === EAbsoluteTimePickerMode.Single
-				? isNumber(this.minimumSingleInputDate) && dayjs(this.minimumSingleInputDate).format(CALENDAR_DATE_FORMAT)
-				: isNumber(this.minimumFromInputDate) && dayjs(this.minimumFromInputDate).format(CALENDAR_DATE_FORMAT);
+		const useFromInputInputMask = this.focusedInput === EInputSource.From;
+		const useToInputInputMask = this.focusedInput === EInputSource.To;
+		const useSingleInputInputMask = this.focusedInput === EInputSource.Single;
+		const isHoveringStyleEnabled = this.isHoveringStylingActive();
+		const minimumCalendarDate = this.getMinimumCalendarDate();
 
 		return (
 			<Host>
-				<kv-dropdown-base isOpen={this.isDropdownOpen} onClickOutside={this.handleOutsideClick}>
+				<kv-dropdown-base isOpen={this.isDropdownOpen} onClickOutside={this.handleCloseDropdown}>
 					<slot name="dropdown-action" slot="action">
 						{this.mode === EAbsoluteTimePickerMode.Range ? (
 							<div class="time-range-input-container">
@@ -223,7 +265,8 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 									disabled={this.disabled}
 									value={this.singleTimeInputValue}
 									dateFormat={DATE_TIME_INPUT_DATE_FORMAT}
-									placeholder={useFromInputInputMask ? INPUT_MASK_PLACEHOLDER : EMPTY_INPUT_PLACEHOLDER}
+									placeholder={useSingleInputInputMask ? INPUT_MASK_PLACEHOLDER : EMPTY_INPUT_PLACEHOLDER}
+									useInputMask={useSingleInputInputMask}
 									forcedFocus={this.focusedInput === EInputSource.Single && this.isDropdownOpen}
 									onInputFocus={() => this.handleInputFocus(EInputSource.Single)}
 									inputStyleType={EDateTimeInputTypeStyle.Separated}
@@ -244,7 +287,7 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 								selectedDates={selectedDates}
 								hoveredDate={this.hoveredDate}
 								onHoveredDateChange={this.handleHoveredDateChange}
-								disableHoveringStyling={!hoveringStyleEnabled}
+								disableHoveringStyling={!isHoveringStyleEnabled}
 								initialDate={fromCalendarInitialDate}
 								onChangeMonth={this.handleClickBackMonth}
 								onClickDate={this.onClickDate}
@@ -257,7 +300,7 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 								selectedDates={selectedDates}
 								hoveredDate={this.hoveredDate}
 								onHoveredDateChange={this.handleHoveredDateChange}
-								disableHoveringStyling={!hoveringStyleEnabled}
+								disableHoveringStyling={!isHoveringStyleEnabled}
 								initialDate={toCalendarInitialDate}
 								onChangeMonth={this.handleClickForwardMonth}
 								onClickDate={this.onClickDate}
