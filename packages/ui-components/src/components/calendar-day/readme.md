@@ -81,18 +81,32 @@ export const KvCalendarDayExample: React.FC = () => (
 | Name                                           | Description                                                   |
 | ---------------------------------------------- | ------------------------------------------------------------- |
 | `--calendar-day-background-color-active`       | Background color when state is active.                        |
+| `--calendar-day-background-color-active`       | Background color when state is active.                        |
+| `--calendar-day-background-color-active-hover` | Background color when state is active and cursor is on hover. |
 | `--calendar-day-background-color-active-hover` | Background color when state is active and cursor is on hover. |
 | `--calendar-day-background-color-default`      | Background color when state is default.                       |
+| `--calendar-day-background-color-default`      | Background color when state is default.                       |
+| `--calendar-day-background-color-disabled`     | Background color when state is disabled.                      |
 | `--calendar-day-background-color-disabled`     | Background color when state is disabled.                      |
 | `--calendar-day-background-color-hover`        | Background color when state is hover.                         |
+| `--calendar-day-background-color-hover`        | Background color when state is hover.                         |
+| `--calendar-day-background-color-in-range`     | Background color when state is in range.                      |
 | `--calendar-day-background-color-in-range`     | Background color when state is in range.                      |
 | `--calendar-day-height`                        | The calendar container height.                                |
+| `--calendar-day-height`                        | The calendar container height.                                |
+| `--calendar-day-text-color-active`             | Text color when state is active.                              |
 | `--calendar-day-text-color-active`             | Text color when state is active.                              |
 | `--calendar-day-text-color-active-hover`       | Text color when state is active and cursor is on hover.       |
+| `--calendar-day-text-color-active-hover`       | Text color when state is active and cursor is on hover.       |
+| `--calendar-day-text-color-default`            | Text color when state is default.                             |
 | `--calendar-day-text-color-default`            | Text color when state is default.                             |
 | `--calendar-day-text-color-disabled`           | Text color when state is disabled.                            |
+| `--calendar-day-text-color-disabled`           | Text color when state is disabled.                            |
+| `--calendar-day-text-color-hover`              | Text color when state is hover.                               |
 | `--calendar-day-text-color-hover`              | Text color when state is hover.                               |
 | `--calendar-day-text-color-in-range`           | Text color when state is in-range.                            |
+| `--calendar-day-text-color-in-range`           | Text color when state is in-range.                            |
+| `--calendar-day-width`                         | The calendar container width.                                 |
 | `--calendar-day-width`                         | The calendar container width.                                 |
 
 

@@ -43,8 +43,8 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 				id={id}
 				size={optionComponentSize ?? componentSize}
 				examples={examples}
-				disabled={disabled || readonly}
-				readonly={readonly}
+				inputDisabled={disabled || readonly}
+				inputReadonly={readonly}
 				maxLength={schema.maxLength ?? maxLength}
 				minLength={schema.minLength ?? minLength}
 				min={min}

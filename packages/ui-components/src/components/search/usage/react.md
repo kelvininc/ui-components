@@ -12,8 +12,7 @@ export const SearchExample: React.FC = () => (
 		<KvSearch placeholder="New Search Placeholder" />
 
 		{/*-- Disabled --*/}
-		<KvSearch disabled />
+		<KvSearch inputDisabled />
 	</>
 );
-
 ```

@@ -80,7 +80,7 @@ export class KvSelectCreateOption implements ISelectCreateOption, ISelectCreateO
 				<div class="form">
 					<kv-text-field
 						ref={element => (this.input = element)}
-						disabled={this.disabled}
+						inputDisabled={this.disabled}
 						size={this.size}
 						value={this.value}
 						{...this.inputConfig}
