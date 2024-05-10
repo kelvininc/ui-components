@@ -50,7 +50,7 @@ Default.args = {
 	inputConfig: {
 		label: 'Options',
 		icon: EIconName.Layer,
-		required: true,
+		inputRequired: true,
 		placeholder: 'Select an option',
 		helpText: 'You can select several options',
 		size: EComponentSize.Large
@@ -63,7 +63,7 @@ Disabled.args = {
 	inputConfig: {
 		label: 'Options',
 		icon: EIconName.Layer,
-		required: true,
+		inputRequired: true,
 		placeholder: 'Select an option',
 		helpText: 'You can select several options',
 		size: EComponentSize.Large

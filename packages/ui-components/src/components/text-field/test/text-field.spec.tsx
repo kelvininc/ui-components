@@ -35,7 +35,7 @@ describe('Text Field (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvTextField],
-				html: `<kv-text-field disabled></kv-text-field>`
+				html: `<kv-text-field input-disabled></kv-text-field>`
 			});
 		});
 

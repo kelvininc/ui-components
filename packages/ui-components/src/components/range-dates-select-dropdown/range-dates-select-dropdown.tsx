@@ -121,7 +121,7 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 									{...this.getStartInputConfig()}
 									value={this.getFormattedSelectedStartDate()}
 									onFieldClick={this.onToggleOpenState}
-									readonly
+									inputReadonly
 									actionIcon={this.isStartSingleDateSelectDropdownFocus() ? EIconName.ArrowDropUp : EIconName.ArrowDropDown}
 									forcedFocus={this.isStartSingleDateSelectDropdownFocus()}
 								/>
@@ -131,7 +131,7 @@ export class KvRangeDatesSelectDropdown implements IRangeDatesSelectDropdown, IR
 									{...this.getEndInputConfig()}
 									value={this.getFormattedSelectedEndDate()}
 									onFieldClick={this.onToggleOpenState}
-									readonly
+									inputReadonly
 									actionIcon={this.isEndSingleDateSelectDropdownFocus() ? EIconName.ArrowDropUp : EIconName.ArrowDropDown}
 									forcedFocus={this.isEndSingleDateSelectDropdownFocus()}
 								/>

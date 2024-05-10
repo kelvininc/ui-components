@@ -19,8 +19,8 @@ describe('Search (unit tests)', () => {
 			expect(page.root).toMatchSnapshot();
 		});
 
-		it('should initialize `disabled` with false', () => {
-			expect(component.disabled).toBe(false);
+		it('should initialize `inputDisabled` with false', () => {
+			expect(component.inputDisabled).toBe(false);
 		});
 
 		it('should initialize `size` with large', () => {
@@ -46,7 +46,7 @@ describe('Search (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvSearch],
-				html: `<kv-search disabled></kv-search>`
+				html: `<kv-search input-disabled></kv-search>`
 			});
 			component = page.rootInstance;
 		});
@@ -55,8 +55,8 @@ describe('Search (unit tests)', () => {
 			expect(page.root).toMatchSnapshot();
 		});
 
-		it('should initialize `disabled` with true', () => {
-			expect(component.disabled).toBe(true);
+		it('should initialize `inputDisabled` with true', () => {
+			expect(component.inputDisabled).toBe(true);
 		});
 	});
 });

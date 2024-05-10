@@ -28,7 +28,7 @@ exports[`Text Field (unit tests) when has a label should match the snapshot 1`] 
 `;
 
 exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] = `
-<kv-text-field disabled="" fit-content="" input-mask-regex="" placeholder="" state="none" type="text" value="">
+<kv-text-field fit-content="" input-disabled="" input-mask-regex="" placeholder="" state="none" type="text" value="">
   <mock:shadow-root>
     <kv-tooltip position="top-start" truncate="">
       <div class="text-field-container">

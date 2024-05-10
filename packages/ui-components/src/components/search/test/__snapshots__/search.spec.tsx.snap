@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Search (unit tests) when is disabled should match the snapshot 1`] = `
-<kv-search disabled="" input-mask-regex="" placeholder="Search" state="none" type="text" value="">
+<kv-search input-disabled="" input-mask-regex="" placeholder="Search" state="none" type="text" value="">
   <mock:shadow-root>
-    <kv-text-field disabled="" icon="kv-search" inputmaskregex="" placeholder="Search" size="large" state="none" type="text" value=""></kv-text-field>
+    <kv-text-field icon="kv-search" inputdisabled="" inputmaskregex="" placeholder="Search" size="large" state="none" type="text" value=""></kv-text-field>
   </mock:shadow-root>
 </kv-search>
 `;

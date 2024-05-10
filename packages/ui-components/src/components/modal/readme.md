@@ -61,15 +61,26 @@ export const ModalOverlayExample: React.FC = (args: ModalOverlayProps) => {
 | Name                          | Description                       |
 | ----------------------------- | --------------------------------- |
 | `--modal-background-color`    | The modal's background color.     |
+| `--modal-background-color`    | The modal's background color.     |
+| `--modal-close-button-height` | The modal's close button height   |
 | `--modal-close-button-height` | The modal's close button height   |
 | `--modal-close-button-width`  | The modal's close button width    |
+| `--modal-close-button-width`  | The modal's close button width    |
+| `--modal-height`              | The modal's height in px.         |
 | `--modal-height`              | The modal's height in px.         |
 | `--modal-min-height`          | The modal's minimum height in px. |
+| `--modal-min-height`          | The modal's minimum height in px. |
+| `--modal-min-width`           | The modal's minimum width in px.  |
 | `--modal-min-width`           | The modal's minimum width in px.  |
 | `--modal-overlay-color`       | The modal's overlay color.        |
+| `--modal-overlay-color`       | The modal's overlay color.        |
+| `--modal-topbar-height`       | The modal's topbar height in px.  |
 | `--modal-topbar-height`       | The modal's topbar height in px.  |
 | `--modal-topbar-text-color`   | The modal's text topbar color.    |
+| `--modal-topbar-text-color`   | The modal's text topbar color.    |
 | `--modal-width`               | The modal's width in px.          |
+| `--modal-width`               | The modal's width in px.          |
+| `--modal-z-index`             | The modal's z-index               |
 | `--modal-z-index`             | The modal's z-index               |
 
 

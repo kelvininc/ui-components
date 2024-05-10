@@ -76,7 +76,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 									id="dropdown-input"
 									forcedFocus={this.isOpen}
 									onFieldClick={this.onToggleOpenState.bind(this)}
-									readonly
+									inputReadonly
 									actionIcon={this.isOpen ? EIconName.ArrowDropUp : EIconName.ArrowDropDown}
 								>
 									<slot name="right-slot" slot="right-slot" />
