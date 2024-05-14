@@ -47,7 +47,7 @@ const nodes: ITreeNodeItem[] = [
 	{
 		id: '1',
 		label: 'Business Units A',
-		icon: EIconName.EntityArea,
+		icon: EIconName.Asset,
 		children: [
 			{
 				id: '1-houston',
@@ -74,7 +74,7 @@ const nodes: ITreeNodeItem[] = [
 	{
 		id: '2',
 		label: 'Business Units B',
-		icon: EIconName.EntityArea,
+		icon: EIconName.Asset,
 		children: [
 			{
 				id: '2-houston',
@@ -91,17 +91,17 @@ const nodes: ITreeNodeItem[] = [
 	{
 		id: '3',
 		label: 'Site D',
-		icon: EIconName.EntityArea
+		icon: EIconName.Asset
 	},
 	{
 		id: '4',
 		label: 'Process Map ABC',
-		icon: EIconName.EntityProdLine
+		icon: EIconName.Asset
 	},
 	{
 		id: '5',
 		label: 'Enterprise Process Map 01 (Production)',
-		icon: EIconName.EntityProdLine
+		icon: EIconName.Asset
 	}
 ];
 
@@ -109,7 +109,7 @@ const tree: ITreeNodeItem[] = [
 	{
 		id: '1',
 		label: 'Business Units A',
-		icon: EIconName.EntityArea,
+		icon: EIconName.Asset,
 		children: [
 			{
 				id: '1-houston',
@@ -119,12 +119,12 @@ const tree: ITreeNodeItem[] = [
 					{
 						id: '1-houston-1',
 						label: 'Process Map ABC',
-						icon: EIconName.EntityProdLine
+						icon: EIconName.Asset
 					},
 					{
 						id: '1-houston-2',
 						label: 'Production Line K',
-						icon: EIconName.EntityProdLine
+						icon: EIconName.Asset
 					}
 				]
 			},
@@ -148,7 +148,7 @@ const tree: ITreeNodeItem[] = [
 	{
 		id: '2',
 		label: 'Business Units B',
-		icon: EIconName.EntityArea,
+		icon: EIconName.Asset,
 		children: [
 			{
 				id: '2-houston',
@@ -165,17 +165,17 @@ const tree: ITreeNodeItem[] = [
 	{
 		id: '3',
 		label: 'Site D',
-		icon: EIconName.EntityArea
+		icon: EIconName.Asset
 	},
 	{
 		id: '4',
 		label: 'Process Map ABC',
-		icon: EIconName.EntityProdLine
+		icon: EIconName.Asset
 	},
 	{
 		id: '5',
 		label: 'Enterprise Process Map 01 (Production)',
-		icon: EIconName.EntityProdLine
+		icon: EIconName.Asset
 	}
 ];
 

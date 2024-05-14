@@ -23,6 +23,13 @@
 | `checkedChange` | When the toggle button selection changes, emit the requested tab's key | `CustomEvent<string>` |
 
 
+## Shadow Parts
+
+| Part                        | Description |
+| --------------------------- | ----------- |
+| `"toggle-button-container"` |             |
+
+
 ## Dependencies
 
 ### Depends on
