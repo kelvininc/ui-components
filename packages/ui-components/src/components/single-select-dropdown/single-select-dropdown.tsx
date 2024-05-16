@@ -260,7 +260,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 			return;
 		}
 
-		if (this.selectedOption && this.selectOptions.flatten[this.selectedOption]) {
+		if (this.selectedOption && this.selectOptions?.flatten[this.selectedOption]) {
 			this._selectionDisplayValue = this.selectOptions.flatten[this.selectedOption].label;
 			return;
 		}
