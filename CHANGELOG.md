@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.33.1](https://github.com/kelvininc/ui-components/compare/v0.33.0...v0.33.1) (2024-05-16)
+
+
+### Bug Fixes
+
+* **absolute-time-picker-input:** reset input text when user closes dropdown with empty input ([3fd0ac4](https://github.com/kelvininc/ui-components/commit/3fd0ac4f2069d060bd5271fea56a2958bcbd7a43))
+* **select-multi-options:** prevent potential undefined error in selectOptions access ([a818d26](https://github.com/kelvininc/ui-components/commit/a818d2626f543197a1af4913926fecc4535e06d1))
+* **text-field:** remove reflect on some props to avoid unwanted propagation bug ([d30e6e7](https://github.com/kelvininc/ui-components/commit/d30e6e721c51c7f86aa252fa735d77461d9b43f7))
+
+
+
+
+
 # [0.33.0](https://github.com/kelvininc/ui-components/compare/v0.32.0...v0.33.0) (2024-05-06)
 
 
