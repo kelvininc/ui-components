@@ -12,8 +12,7 @@ export const TextFieldExample: React.FC = () => (
 		<KvTextField label="Text Field" />
 
 		{/*-- Disabled --*/}
-		<KvTextField disabled />
+		<KvTextField inputDisabled />
 	</>
 );
-
 ```

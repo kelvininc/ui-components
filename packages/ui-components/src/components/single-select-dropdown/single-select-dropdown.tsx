@@ -236,8 +236,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		valuePrefix: this.displayPrefix,
 		loading: this.loading,
 		icon: getDropdownDisplayIcon(this.selectedOption, this.selectOptions.flatten) ?? this.icon,
-		disabled: this.disabled,
-		required: this.required,
+		inputDisabled: this.disabled,
+		inputRequired: this.required,
 		placeholder: this.placeholder,
 		state: this.errorState,
 		helpText: this.helpText,
@@ -260,7 +260,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 			return;
 		}
 
-		if (this.selectedOption && this.selectOptions.flatten[this.selectedOption]) {
+		if (this.selectedOption && this.selectOptions?.flatten[this.selectedOption]) {
 			this._selectionDisplayValue = this.selectOptions.flatten[this.selectedOption].label;
 			return;
 		}

@@ -31,6 +31,7 @@ export class KvToggleButtonGroup implements IToggleButtonGroup, IToggleButtonGro
 			<Host>
 				{this.buttons.map(button => (
 					<kv-toggle-button
+						part="toggle-button-container"
 						exportparts="toggle-button"
 						value={button.value}
 						label={button.label}

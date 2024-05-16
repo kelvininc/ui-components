@@ -6,5 +6,5 @@
 <kv-search placeholder="New Search Placeholder"></kv-search>
 
 <!-- Disabled -->
-<kv-search disabled></kv-search>
+<kv-search input-disabled></kv-search>
 ```

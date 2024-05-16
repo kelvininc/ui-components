@@ -30,8 +30,8 @@ const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F 
 				<KvTextField
 					id={`${id}-key`}
 					label={keyLabel}
-					disabled={disabled || readonly}
-					required={required}
+					inputDisabled={disabled || readonly}
+					inputRequired={required}
 					type={EInputFieldType.Text}
 					value={label}
 					onTextFieldBlur={!readonly ? handleBlur : undefined}

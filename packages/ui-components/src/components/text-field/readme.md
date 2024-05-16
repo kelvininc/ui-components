@@ -5,7 +5,7 @@
 
 ## Usage
 
-### Angular / javascript
+### Angular
 
 ```html
 <!-- Default -->
@@ -15,7 +15,7 @@
 <kv-text-field label="Text Field"></kv-text-field>
 
 <!-- Disabled -->
-<kv-text-field disabled></kv-text-field>
+<kv-text-field input-disabled></kv-text-field>
 ```
 
 
@@ -35,38 +35,9 @@ export const TextFieldExample: React.FC = () => (
 		<KvTextField label="Text Field" />
 
 		{/*-- Disabled --*/}
-		<KvTextField disabled />
+		<KvTextField inputDisabled />
 	</>
 );
-
-```
-
-
-### Stencil
-
-```tsx
-import { Component, h } from '@stencil/core';
-
-@Component({
-	tag: 'text-field-example',
-	styleUrl: 'text-field-example.css',
-	shadow: true,
-})
-export class TextFieldExample {
-	render() {
-		return [
-			// Default
-			<kv-text-field></kv-text-field>
-
-			// Labeled
-			<kv-text-field label="Text Field"></kv-text-field>
-
-			// Disabled
-			<kv-text-field disabled></kv-text-field>
-		];
-	}
-}
-
 ```
 
 
@@ -78,14 +49,16 @@ export class TextFieldExample {
 | `actionIcon`     | `action-icon`      | (optional) Icon that is added on the right of the input. Its clickable.            | `EIconName \| EOtherIconName`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | `undefined`             |
 | `badge`          | `badge`            | (optional) Text to display inside a badge on the right side of the displayed value | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `undefined`             |
 | `customStyle`    | --                 | (optional) Additional style to apply for custom CSS.                               | `{ [key: string]: string; }`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | `undefined`             |
-| `disabled`       | `disabled`         | (optional) Text field disabled                                                     | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | `false`                 |
 | `examples`       | --                 | (optional) Text field example values                                               | `string[]`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | `undefined`             |
 | `fitContent`     | `fit-content`      | (optional) Enable/disable the resize of input (default: true)                      | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | `true`                  |
 | `forcedFocus`    | `forced-focus`     | (optional) Text field focus state                                                  | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | `false`                 |
 | `helpText`       | `help-text`        | (optional) Text field help text                                                    | `string \| string[]`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | `[]`                    |
 | `icon`           | `icon`             | (optional) Text field's icon symbol name                                           | `EIconName \| EOtherIconName`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | `undefined`             |
+| `inputDisabled`  | `input-disabled`   | (optional) Text field disabled                                                     | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | `false`                 |
 | `inputMaskRegex` | `input-mask-regex` | (optional) Input mask regex                                                        | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `''`                    |
 | `inputName`      | `input-name`       | (optional) Text field input name                                                   | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `undefined`             |
+| `inputReadonly`  | `input-readonly`   | (optional) Text field is readonly                                                  | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | `false`                 |
+| `inputRequired`  | `input-required`   | (optional) Text field required                                                     | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | `false`                 |
 | `label`          | `label`            | (optional) Text field label                                                        | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `undefined`             |
 | `loading`        | `loading`          | (optional) Text field loading state                                                | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | `false`                 |
 | `max`            | `max`              | (optional) Text field maximum value                                                | `number \| string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | `undefined`             |
@@ -93,8 +66,6 @@ export class TextFieldExample {
 | `min`            | `min`              | (optional) Text field minimum value                                                | `number \| string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | `undefined`             |
 | `minLength`      | `min-length`       | (optional) Text field minimum number of characters required                        | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `undefined`             |
 | `placeholder`    | `placeholder`      | (optional) Text field place holder                                                 | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `''`                    |
-| `readonly`       | `readonly`         | (optional) Text field is readonly                                                  | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | `false`                 |
-| `required`       | `required`         | (optional) Text field required                                                     | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | `false`                 |
 | `size`           | `size`             | (optional) Sets this tab item to a different styling configuration                 | `EComponentSize.Large \| EComponentSize.Small`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | `EComponentSize.Large`  |
 | `state`          | `state`            | (optional) Text field state                                                        | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | `EValidationState.None` |
 | `step`           | `step`             | (optional) Text field interval between legal numbers                               | `number \| string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | `undefined`             |
@@ -140,29 +111,54 @@ Type: `Promise<void>`
 | Name                                | Description                                    |
 | ----------------------------------- | ---------------------------------------------- |
 | `--background-color-default`        | Background color when state is default.        |
+| `--background-color-default`        | Background color when state is default.        |
+| `--background-color-disabled`       | Background color when state is disabled.       |
 | `--background-color-disabled`       | Background color when state is disabled.       |
 | `--border-color-default`            | Border color when state is default.            |
+| `--border-color-default`            | Border color when state is default.            |
+| `--border-color-error`              | Border color when state is invalid.            |
 | `--border-color-error`              | Border color when state is invalid.            |
 | `--border-color-focused`            | Border color when state is focused.            |
+| `--border-color-focused`            | Border color when state is focused.            |
+| `--input-height-large`              | Text Field's large height.                     |
 | `--input-height-large`              | Text Field's large height.                     |
 | `--input-height-small`              | Text Field's small height.                     |
+| `--input-height-small`              | Text Field's small height.                     |
+| `--input-max-width`                 | Text Field's max width.                        |
 | `--input-max-width`                 | Text Field's max width.                        |
 | `--input-min-width`                 | Text Field's min width.                        |
+| `--input-min-width`                 | Text Field's min width.                        |
+| `--input-width`                     | Text Field's width.                            |
 | `--input-width`                     | Text Field's width.                            |
 | `--text-color-action-icon-default`  | Action icon color when state is default.       |
+| `--text-color-action-icon-default`  | Action icon color when state is default.       |
+| `--text-color-action-icon-disabled` | Action icon color when state is disabled.      |
 | `--text-color-action-icon-disabled` | Action icon color when state is disabled.      |
 | `--text-color-action-icon-focused`  | Action icon color when state is focused.       |
+| `--text-color-action-icon-focused`  | Action icon color when state is focused.       |
+| `--text-color-help-text-default`    | Help Text color when state is default.         |
 | `--text-color-help-text-default`    | Help Text color when state is default.         |
 | `--text-color-help-text-error`      | Help Text color when state is invalid.         |
+| `--text-color-help-text-error`      | Help Text color when state is invalid.         |
+| `--text-color-icon-default`         | Icon color when state is default.              |
 | `--text-color-icon-default`         | Icon color when state is default.              |
 | `--text-color-icon-disabled`        | Icon color when state is disabled.             |
+| `--text-color-icon-disabled`        | Icon color when state is disabled.             |
+| `--text-color-icon-focused`         | Icon color when state is focused.              |
 | `--text-color-icon-focused`         | Icon color when state is focused.              |
 | `--text-color-input-default`        | Input text color when state is default.        |
+| `--text-color-input-default`        | Input text color when state is default.        |
+| `--text-color-input-disabled`       | Input text color when state is disabled.       |
 | `--text-color-input-disabled`       | Input text color when state is disabled.       |
 | `--text-color-input-focused`        | Input Text color when state is focused.        |
+| `--text-color-input-focused`        | Input Text color when state is focused.        |
+| `--text-color-label`                | Label Text color.                              |
 | `--text-color-label`                | Label Text color.                              |
 | `--text-color-placeholder-default`  | Placeholder text color when state is default.  |
+| `--text-color-placeholder-default`  | Placeholder text color when state is default.  |
 | `--text-color-placeholder-disabled` | Placeholder text color when state is disabled. |
+| `--text-color-placeholder-disabled` | Placeholder text color when state is disabled. |
+| `--text-color-placeholder-focused`  | Placeholder text color when state is focused.  |
 | `--text-color-placeholder-focused`  | Placeholder text color when state is focused.  |
 
 

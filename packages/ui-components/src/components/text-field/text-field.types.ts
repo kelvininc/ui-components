@@ -58,9 +58,9 @@ export interface ITextField {
 	/** (optional) Sets this tab item to a different styling configuration */
 	size?: EComponentSize;
 	/** (optional) Text field disabled */
-	disabled?: boolean;
+	inputDisabled?: boolean;
 	/** (optional) Text field required */
-	required?: boolean;
+	inputRequired?: boolean;
 	/** (optional) Text field loading state */
 	loading?: boolean;
 	/** (optional) Text field state */
@@ -74,7 +74,7 @@ export interface ITextField {
 	/** (optional) Text to display inside a badge on the right side of the displayed value */
 	badge?: string;
 	/** (optional) Text field is readonly */
-	readonly?: boolean;
+	inputReadonly?: boolean;
 	/** (optional) Text field focus state */
 	forcedFocus?: boolean;
 	/** (optional) Text field tooltip configuration */

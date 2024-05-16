@@ -8,7 +8,7 @@ export default {
 	title: 'Inputs/Search',
 	component: 'kv-search',
 	argTypes: {
-		disabled: { control: { type: 'boolean' } },
+		inputDisabled: { control: { type: 'boolean' } },
 		size: {
 			control: 'radio',
 			options: Object.values(EComponentSize)
@@ -40,7 +40,7 @@ const SearchTemplate: ComponentStory<typeof KvSearch> = args => {
 export const Default = SearchTemplate.bind({});
 Default.args = {
 	value: '',
-	disabled: false,
+	inputDisabled: false,
 	placeholder: 'Placeholder Here',
 	size: EComponentSize.Large
 };
@@ -50,7 +50,7 @@ Disabled.args = {
 	...Default.args,
 	value: '',
 	placeholder: 'Search disabled',
-	disabled: true,
+	inputDisabled: true,
 	size: EComponentSize.Large
 };
 

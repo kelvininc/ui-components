@@ -54,15 +54,15 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop() size?: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) disabled: boolean = false;
+	@Prop({ reflect: false }) inputDisabled: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) required: boolean = false;
+	@Prop({ reflect: true }) inputRequired: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) loading: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) state: EValidationState = EValidationState.None;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) readonly: boolean = false;
+	@Prop({ reflect: false }) inputReadonly: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) helpText: string | string[] = [];
 	/** @inheritdoc */
@@ -183,7 +183,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	@Event() fieldClick: EventEmitter<MouseEvent>;
 
 	private onHostClick = (event: MouseEvent) => {
-		if (this.disabled) return;
+		if (this.inputDisabled) return;
 		event.preventDefault();
 		this.fieldClick.emit();
 	};
@@ -296,7 +296,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 			<Host onClick={this.onHostClick} style={{ ...this.customStyle }}>
 				<kv-tooltip {...this.getTooltipConfig()}>
 					<div class="text-field-container">
-						<kv-form-label label={this.label} required={this.required}></kv-form-label>
+						<kv-form-label label={this.label} required={this.inputRequired}></kv-form-label>
 						{!this.loading ? (
 							<div
 								part="input-container"
@@ -305,7 +305,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 									[`input-container--size-${this.size}`]: true,
 									'invalid': this.state === EValidationState.Invalid,
 									'focused': this.focused,
-									'disabled': this.disabled
+									'disabled': this.inputDisabled
 								}}
 							>
 								<div
@@ -313,7 +313,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										'left-slot-container': true,
 										'focus': this.focused,
 										'invalid': this.state === EValidationState.Invalid,
-										'disabled': this.disabled
+										'disabled': this.inputDisabled
 									}}
 								>
 									<slot name="left-slot">
@@ -323,7 +323,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 												exportparts="icon"
 												class={{
 													invalid: this.state === EValidationState.Invalid,
-													disabled: this.disabled,
+													disabled: this.inputDisabled,
 													focus: this.focused
 												}}
 											/>
@@ -340,7 +340,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 											list={!isNil(this.examples) ? `examples_${id}` : undefined}
 											name={this.inputName}
 											placeholder={this.placeholder}
-											disabled={this.disabled}
+											disabled={this.inputDisabled}
 											max={this.getMaxValue()}
 											min={this.getMinValue()}
 											minLength={this.minLength}
@@ -351,7 +351,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 											onFocus={this.onFocusHandler}
 											onPaste={this.onPasteHandler}
 											class={{ 'resize-input': true, 'forced-focus': this.focused }}
-											readonly={this.readonly}
+											readonly={this.inputReadonly}
 										/>
 									</slot>
 								</div>
@@ -359,7 +359,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 									class={{
 										'right-slot-container': true,
 										'focus': this.focused,
-										'disabled': this.disabled
+										'disabled': this.inputDisabled
 									}}
 								>
 									<slot name="right-slot">
@@ -370,7 +370,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 												onClick={this.onRightActionClick}
 												class={{
 													invalid: this.state === EValidationState.Invalid,
-													disabled: this.disabled,
+													disabled: this.inputDisabled,
 													focus: this.focused
 												}}
 											/>

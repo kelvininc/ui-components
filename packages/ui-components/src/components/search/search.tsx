@@ -33,15 +33,15 @@ export class KvSearch implements ISearch, ISearchEvents {
 	/** @inheritdoc */
 	@Prop() size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) disabled: boolean = false;
+	@Prop({ reflect: true }) inputDisabled: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) required: boolean = false;
+	@Prop({ reflect: true }) inputRequired: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) loading: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) state: EValidationState = EValidationState.None;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) readonly: boolean = false;
+	@Prop({ reflect: true }) inputReadonly: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) helpText: string | string[] = [];
 	/** @inheritdoc */
@@ -78,7 +78,7 @@ export class KvSearch implements ISearch, ISearchEvents {
 	};
 
 	render() {
-		const shouldShowResetIcon = !isEmpty(this.value) && !this.disabled;
+		const shouldShowResetIcon = !isEmpty(this.value) && !this.inputDisabled;
 		return (
 			<Host>
 				<kv-text-field
@@ -97,11 +97,11 @@ export class KvSearch implements ISearch, ISearchEvents {
 					min={this.min}
 					step={this.step}
 					size={this.size}
-					disabled={this.disabled}
-					required={this.required}
+					inputDisabled={this.inputDisabled}
+					inputRequired={this.inputRequired}
 					loading={this.loading}
 					state={this.state}
-					readonly={this.readonly}
+					inputReadonly={this.inputReadonly}
 					helpText={this.helpText}
 					forcedFocus={this.forcedFocus}
 					tooltipConfig={this.tooltipConfig}

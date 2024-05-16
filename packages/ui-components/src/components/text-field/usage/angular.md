@@ -6,5 +6,5 @@
 <kv-text-field label="Text Field"></kv-text-field>
 
 <!-- Disabled -->
-<kv-text-field disabled></kv-text-field>
+<kv-text-field input-disabled></kv-text-field>
 ```

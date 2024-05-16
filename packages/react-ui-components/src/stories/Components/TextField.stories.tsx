@@ -8,8 +8,8 @@ export default {
 	title: 'Inputs/Text Field',
 	component: 'kv-text-field',
 	argTypes: {
-		disabled: { control: { type: 'boolean' } },
-		required: { control: { type: 'boolean' } },
+		inputDisabled: { control: { type: 'boolean' } },
+		inputRequired: { control: { type: 'boolean' } },
 		loading: { control: { type: 'boolean' } },
 		helpText: { control: { type: 'array' } },
 		value: { control: { type: 'text' } },
@@ -45,8 +45,8 @@ const TextFieldLeftSlotTemplate: ComponentStory<typeof KvTextField> = args => (
 export const Default = TextFieldTemplate.bind({});
 Default.args = {
 	label: 'Default Text Field',
-	disabled: false,
-	required: false,
+	inputDisabled: false,
+	inputRequired: false,
 	loading: false,
 	placeholder: 'text here',
 	state: EValidationState.None,
@@ -56,8 +56,8 @@ Default.args = {
 export const WithTextInputMask = TextFieldTemplate.bind({});
 WithTextInputMask.args = {
 	label: 'Text Field with text input mask',
-	disabled: false,
-	required: false,
+	inputDisabled: false,
+	inputRequired: false,
 	loading: false,
 	value: 'Possible Text Here',
 	inputMaskRegex: '[a-zA-Z s]+',
@@ -71,8 +71,8 @@ WithTextInputMask.args = {
 export const WithNumericInputMask = TextFieldTemplate.bind({});
 WithNumericInputMask.args = {
 	label: 'Text Field with numeric input mask',
-	disabled: false,
-	required: false,
+	inputDisabled: false,
+	inputRequired: false,
 	loading: false,
 	value: 0,
 	min: -100,
@@ -95,7 +95,7 @@ Disabled.args = {
 	...Default.args,
 	label: 'Disabled Text Field',
 	value: 'text value',
-	disabled: true,
+	inputDisabled: true,
 	state: EValidationState.None,
 	size: EComponentSize.Large
 };
@@ -104,7 +104,7 @@ export const Required = TextFieldTemplate.bind({});
 Required.args = {
 	...Default.args,
 	label: 'Required Text Field',
-	required: true,
+	inputRequired: true,
 	state: EValidationState.None,
 	size: EComponentSize.Large
 };
@@ -113,7 +113,7 @@ export const MaxMinLength = TextFieldTemplate.bind({});
 MaxMinLength.args = {
 	...Default.args,
 	label: 'Required Text Field',
-	required: true,
+	inputRequired: true,
 	minLength: 5,
 	maxLength: 10
 };
@@ -123,7 +123,7 @@ MaxMinValue.args = {
 	...Default.args,
 	type: EInputFieldType.Number,
 	label: 'Required Text Field',
-	required: true,
+	inputRequired: true,
 	min: 0,
 	max: 10
 };
@@ -133,7 +133,7 @@ Step.args = {
 	...Default.args,
 	type: EInputFieldType.Number,
 	label: 'Required Text Field',
-	required: true,
+	inputRequired: true,
 	step: 0.1
 };
 
@@ -185,8 +185,8 @@ SlimIcon.args = {
 export const WithLeftSlot = TextFieldLeftSlotTemplate.bind({});
 WithLeftSlot.args = {
 	label: 'Left Slot Text Field',
-	disabled: false,
-	required: false,
+	inputDisabled: false,
+	inputRequired: false,
 	loading: false,
 	placeholder: 'text here',
 	state: EValidationState.None,
@@ -196,8 +196,8 @@ WithLeftSlot.args = {
 export const DateTimeInputMask = TextFieldTemplate.bind({});
 DateTimeInputMask.args = {
 	label: 'Date time input mask',
-	disabled: false,
-	required: false,
+	inputDisabled: false,
+	inputRequired: false,
 	loading: false,
 	useInputMask: true,
 	type: EInputFieldType.DateTime,
