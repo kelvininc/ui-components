@@ -141,14 +141,9 @@ export const TreeExample: React.FC = () => (
 | Name                           | Description                             |
 | ------------------------------ | --------------------------------------- |
 | `--tree-children-offset`       | Offset of the child nodes in px.        |
-| `--tree-children-offset`       | Offset of the child nodes in px.        |
-| `--tree-children-padding-left` | Left padding for the child nodes in px. |
 | `--tree-children-padding-left` | Left padding for the child nodes in px. |
 | `--tree-node-gap`              | Gap between child nodes in px.          |
-| `--tree-node-gap`              | Gap between child nodes in px.          |
 | `--tree-node-height`           | Tree Node height.                       |
-| `--tree-node-height`           | Tree Node height.                       |
-| `--tree-node-width`            | Tree Node height.                       |
 | `--tree-node-width`            | Tree Node height.                       |
 
 
