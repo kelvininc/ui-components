@@ -111,54 +111,29 @@ Type: `Promise<void>`
 | Name                                | Description                                    |
 | ----------------------------------- | ---------------------------------------------- |
 | `--background-color-default`        | Background color when state is default.        |
-| `--background-color-default`        | Background color when state is default.        |
-| `--background-color-disabled`       | Background color when state is disabled.       |
 | `--background-color-disabled`       | Background color when state is disabled.       |
 | `--border-color-default`            | Border color when state is default.            |
-| `--border-color-default`            | Border color when state is default.            |
-| `--border-color-error`              | Border color when state is invalid.            |
 | `--border-color-error`              | Border color when state is invalid.            |
 | `--border-color-focused`            | Border color when state is focused.            |
-| `--border-color-focused`            | Border color when state is focused.            |
-| `--input-height-large`              | Text Field's large height.                     |
 | `--input-height-large`              | Text Field's large height.                     |
 | `--input-height-small`              | Text Field's small height.                     |
-| `--input-height-small`              | Text Field's small height.                     |
-| `--input-max-width`                 | Text Field's max width.                        |
 | `--input-max-width`                 | Text Field's max width.                        |
 | `--input-min-width`                 | Text Field's min width.                        |
-| `--input-min-width`                 | Text Field's min width.                        |
-| `--input-width`                     | Text Field's width.                            |
 | `--input-width`                     | Text Field's width.                            |
 | `--text-color-action-icon-default`  | Action icon color when state is default.       |
-| `--text-color-action-icon-default`  | Action icon color when state is default.       |
-| `--text-color-action-icon-disabled` | Action icon color when state is disabled.      |
 | `--text-color-action-icon-disabled` | Action icon color when state is disabled.      |
 | `--text-color-action-icon-focused`  | Action icon color when state is focused.       |
-| `--text-color-action-icon-focused`  | Action icon color when state is focused.       |
-| `--text-color-help-text-default`    | Help Text color when state is default.         |
 | `--text-color-help-text-default`    | Help Text color when state is default.         |
 | `--text-color-help-text-error`      | Help Text color when state is invalid.         |
-| `--text-color-help-text-error`      | Help Text color when state is invalid.         |
-| `--text-color-icon-default`         | Icon color when state is default.              |
 | `--text-color-icon-default`         | Icon color when state is default.              |
 | `--text-color-icon-disabled`        | Icon color when state is disabled.             |
-| `--text-color-icon-disabled`        | Icon color when state is disabled.             |
-| `--text-color-icon-focused`         | Icon color when state is focused.              |
 | `--text-color-icon-focused`         | Icon color when state is focused.              |
 | `--text-color-input-default`        | Input text color when state is default.        |
-| `--text-color-input-default`        | Input text color when state is default.        |
-| `--text-color-input-disabled`       | Input text color when state is disabled.       |
 | `--text-color-input-disabled`       | Input text color when state is disabled.       |
 | `--text-color-input-focused`        | Input Text color when state is focused.        |
-| `--text-color-input-focused`        | Input Text color when state is focused.        |
-| `--text-color-label`                | Label Text color.                              |
 | `--text-color-label`                | Label Text color.                              |
 | `--text-color-placeholder-default`  | Placeholder text color when state is default.  |
-| `--text-color-placeholder-default`  | Placeholder text color when state is default.  |
 | `--text-color-placeholder-disabled` | Placeholder text color when state is disabled. |
-| `--text-color-placeholder-disabled` | Placeholder text color when state is disabled. |
-| `--text-color-placeholder-focused`  | Placeholder text color when state is focused.  |
 | `--text-color-placeholder-focused`  | Placeholder text color when state is focused.  |
 
 

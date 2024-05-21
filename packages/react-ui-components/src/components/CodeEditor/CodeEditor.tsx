@@ -1,12 +1,10 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import Editor, { useMonaco } from '@monaco-editor/react';
+import React, { useCallback, useMemo } from 'react';
+import Editor from '@monaco-editor/react';
 import { DEFAULT_CODE_EDITOR_LANGUAGE, DEFAULT_CODE_EDITOR_THEME, KELVIN_CODE_EDITOR_THEME } from './config';
-import { ECodeEditorTheme, ICodeEditorProps, OnCodeEditorChange } from './types';
-import { KvLoader } from '../stencil-generated';
-import { getEditorOptions, getFontOptions } from './utils';
-import { useFontsApi } from '../../utils';
-
-const CodeEditorLoader = () => <KvLoader isLoading />;
+import { ICodeEditorProps, OnCodeEditorChange } from './types';
+import { getEditorOptions } from './utils';
+import { CodeEditorLoader } from './CodeEditorLoader';
+import { useLoadMonacoEditorStyle } from './hooks';
 
 export const KvCodeEditor = ({
 	code,
@@ -17,23 +15,10 @@ export const KvCodeEditor = ({
 	LoadingComponent = CodeEditorLoader,
 	onChange
 }: ICodeEditorProps) => {
-	const monaco = useMonaco();
 	const options = useMemo(() => getEditorOptions(customOptions), [customOptions]);
-	const { isFontLoaded, loadFont } = useFontsApi(getFontOptions(options));
-
-	const hasLoaded = useMemo(() => monaco && isFontLoaded, [monaco, isFontLoaded]);
-
-	const defineCustomTheme = useCallback(() => {
-		if (!monaco || !customTheme) return;
-		monaco.editor.defineTheme(ECodeEditorTheme.Custom, customTheme);
-	}, [customTheme, monaco]);
+	const hasLoaded = useLoadMonacoEditorStyle(options, customTheme);
 
 	const onTextChange: OnCodeEditorChange = useCallback(value => onChange?.(value), [onChange]);
-
-	useEffect(() => {
-		loadFont();
-		defineCustomTheme();
-	}, [loadFont, defineCustomTheme]);
 
 	if (!hasLoaded) {
 		return <LoadingComponent />;
@@ -41,5 +26,3 @@ export const KvCodeEditor = ({
 
 	return <Editor language={language} theme={theme} options={options} loading={<LoadingComponent />} value={code} onChange={onTextChange} />;
 };
-
-export default KvCodeEditor;

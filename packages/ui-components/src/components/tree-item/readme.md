@@ -137,64 +137,34 @@ export const TreeItemExample: React.FC = () => (
 | Name                             | Description                                         |
 | -------------------------------- | --------------------------------------------------- |
 | `--background-color-default`     | Background color when state is default.             |
-| `--background-color-default`     | Background color when state is default.             |
-| `--background-color-disabled`    | Background color when state is disabled.            |
 | `--background-color-disabled`    | Background color when state is disabled.            |
 | `--background-color-focused`     | Background color when state is focused.             |
-| `--background-color-focused`     | Background color when state is focused.             |
-| `--background-color-highlighted` | Background color when state is highlighted.         |
 | `--background-color-highlighted` | Background color when state is highlighted.         |
 | `--border-color-default`         | Border color when state is default.                 |
-| `--border-color-default`         | Border color when state is default.                 |
-| `--border-color-disabled`        | Border color when state is disabled.                |
 | `--border-color-disabled`        | Border color when state is disabled.                |
 | `--border-color-highlighted`     | Border color when state is highlighted.             |
-| `--border-color-highlighted`     | Border color when state is highlighted.             |
-| `--border-color-selected`        | Border color when state is selected.                |
 | `--border-color-selected`        | Border color when state is selected.                |
 | `--children-margin-left`         | Margin left of the children in px.                  |
-| `--children-margin-left`         | Margin left of the children in px.                  |
-| `--children-margin-top`          | Margin top of children in px.                       |
 | `--children-margin-top`          | Margin top of children in px.                       |
 | `--children-offset`              | Offset of the child nodes in px.                    |
-| `--children-offset`              | Offset of the child nodes in px.                    |
-| `--children-padding-left`        | Padding left of the children in px.                 |
 | `--children-padding-left`        | Padding left of the children in px.                 |
 | `--connector-lines-color`        | Line color of children's connectors.                |
-| `--connector-lines-color`        | Line color of children's connectors.                |
-| `--icon-color-default`           | Node icon color when node state is default.         |
 | `--icon-color-default`           | Node icon color when node state is default.         |
 | `--icon-color-disabled`          | Node icon color when node state is disabled.        |
-| `--icon-color-disabled`          | Node icon color when node state is disabled.        |
-| `--icon-color-no-filled`         | Node icon color when node state is no-filled.       |
 | `--icon-color-no-filled`         | Node icon color when node state is no-filled.       |
 | `--icon-color-selected`          | Node icon color when node state is selected.        |
-| `--icon-color-selected`          | Node icon color when node state is selected.        |
-| `--node-gap`                     | Gap between child nodes in px.                      |
 | `--node-gap`                     | Gap between child nodes in px.                      |
 | `--node-height`                  | Tree Node height.                                   |
-| `--node-height`                  | Tree Node height.                                   |
-| `--node-icon-height`             | Node icon height in px.                             |
 | `--node-icon-height`             | Node icon height in px.                             |
 | `--node-icon-width`              | Node icon width in px.                              |
-| `--node-icon-width`              | Node icon width in px.                              |
-| `--node-width`                   | Tree Node height.                                   |
 | `--node-width`                   | Tree Node height.                                   |
 | `--sub-title-color-default`      | Node sub-title color when node state is default.    |
-| `--sub-title-color-default`      | Node sub-title color when node state is default.    |
-| `--sub-title-color-disabled`     | Node sub-title color when node state is disabled.   |
 | `--sub-title-color-disabled`     | Node sub-title color when node state is disabled.   |
 | `--sub-title-color-no-filled`    | Node sub-title color when node state is not filled. |
-| `--sub-title-color-no-filled`    | Node sub-title color when node state is not filled. |
-| `--title-color-default`          | Node title color when node state is default.        |
 | `--title-color-default`          | Node title color when node state is default.        |
 | `--title-color-disabled`         | Node title color when node state is disabled.       |
-| `--title-color-disabled`         | Node title color when node state is disabled.       |
-| `--title-color-no-filled`        | Node title color when node state is not filled.     |
 | `--title-color-no-filled`        | Node title color when node state is not filled.     |
 | `--title-color-selected`         | Node title color when node state is selected.       |
-| `--title-color-selected`         | Node title color when node state is selected.       |
-| `--vertical-lines-height`        | Line height of children's connectors.               |
 | `--vertical-lines-height`        | Line height of children's connectors.               |
 
 
