@@ -50,7 +50,7 @@
 		}
 
 		.item-description {
-			@include kv-font-span-semibold;
+			@include kv-font-label-small-semibold;
 			transition: font-weight 100ms linear;
 			color: kv-color('neutral-2');
 		}
