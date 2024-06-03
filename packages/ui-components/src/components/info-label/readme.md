@@ -87,15 +87,19 @@ export const InfoLabelExample: React.FC = () => (
 | `labelTitle`               | `label-title`                | (optional) Info label title                     | `string` | `undefined`                          |
 
 
+## Shadow Parts
+
+| Part      | Description |
+| --------- | ----------- |
+| `"title"` |             |
+
+
 ## CSS Custom Properties
 
 | Name                       | Description                     |
 | -------------------------- | ------------------------------- |
 | `--expanded-buttom-color`  | Expandded buttom's color.       |
-| `--expanded-buttom-color`  | Expandded buttom's color.       |
 | `--text-color-description` | Info label's description color. |
-| `--text-color-description` | Info label's description color. |
-| `--text-color-title`       | Info label's title color.       |
 | `--text-color-title`       | Info label's title color.       |
 
 

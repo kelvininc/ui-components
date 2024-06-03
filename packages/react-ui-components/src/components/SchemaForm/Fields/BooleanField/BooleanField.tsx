@@ -22,7 +22,7 @@ function BooleanField<T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	const { widgets, formContext, fields, globalUiOptions } = registry;
 	let Widget = getWidget(uiSchema, widgets);
 
-	const { title: uiTitle, label: displayLabel = true, booleanLabels = DEFAULT_BOOLEAN_LABELS, ...options } = getUiOptions<T, S, F>(uiSchema, globalUiOptions);
+	const { title: uiTitle, label: displayLabel = true, inline: uiInline, booleanLabels = DEFAULT_BOOLEAN_LABELS, ...options } = getUiOptions<T, S, F>(uiSchema, globalUiOptions);
 	let enumOptions = getEnumOptions(schema, booleanLabels as Record<string, string>);
 	const label = uiTitle ?? title ?? name;
 
@@ -31,7 +31,7 @@ function BooleanField<T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 			name={name}
 			id={idSchema && idSchema.$id}
 			schema={schema}
-			options={{ ...options, enumOptions, inline: true }}
+			options={{ ...options, enumOptions, inline: uiInline === undefined ? true : uiInline }}
 			value={formData}
 			required={required}
 			disabled={disabled}

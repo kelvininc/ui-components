@@ -5,7 +5,7 @@ import styles from './RadioListWidget.module.scss';
 import classNames from 'classnames';
 import { get } from 'lodash';
 
-const RadioWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({ options, value, disabled, readonly, onChange }: WidgetProps<T, S, F>) => {
+const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({ options, value, disabled, readonly, onChange }: WidgetProps<T, S, F>) => {
 	const { enumOptions, enumDisabled, inline } = options;
 	const inlineMemo = useMemo(() => Boolean(inline), [inline]);
 
@@ -34,4 +34,4 @@ const RadioWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormC
 	);
 };
 
-export default RadioWidget;
+export default RadioListWidget;
