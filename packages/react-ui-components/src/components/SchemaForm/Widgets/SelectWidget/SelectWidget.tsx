@@ -1,7 +1,7 @@
 import { EComponentSize, EValidationState } from '@kelvininc/ui-components';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 import { isEmpty } from 'lodash';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../stencil-generated';
 import styles from './SelectWidget.module.scss';
 import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, searchDropdownOptions } from './utils';
@@ -49,7 +49,6 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		return defaultDropdownOptions;
 	}, [searchTerm, defaultDropdownOptions]);
 
-	const [stateValue, setStateValue] = useState(processValue(schema, value));
 	const emptyValue = useMemo(() => (multiple ? [] : undefined), [multiple]);
 
 	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => setSearchTerm(searchedLabel), []);
@@ -63,7 +62,6 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	const onChangeValue = useCallback(newValue => {
 		const processedValue = processValue(schema, newValue);
 		onChange(processedValue);
-		setStateValue(processedValue);
 	}, []);
 
 	const hasErrors = useMemo(() => !isEmpty(rawErrors), [rawErrors]);
@@ -74,7 +72,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		inputSize: !isEmpty(optionComponentSize) ? optionComponentSize : (componentSize as EComponentSize),
 		disabled: disabled || readonly,
 		errorState: hasErrors ? EValidationState.Invalid : EValidationState.Valid,
-		displayValue: typeof value === 'undefined' ? emptyValue : displayValue?.(value, defaultDropdownOptions),
+		displayValue: typeof processValue === 'undefined' ? emptyValue : displayValue?.(processValue, defaultDropdownOptions),
 		displayPrefix,
 		options: defaultDropdownOptions,
 		filteredOptions,
@@ -91,14 +89,12 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		minSearchOptions: minSearchOptions ?? DEFAULT_MINIMUM_SEARCHABLE_OPTIONS
 	};
 
-	useEffect(() => {
-		setStateValue(processValue(schema, value));
-	}, [value]);
+	const processedValue = processValue(schema, value);
 
 	return (
 		<div className={styles.InputContainer}>
-			{!multiple && <KvSingleSelectDropdown selectedOption={stateValue} onOptionSelected={onChangeOptionSelected} {...props} />}
-			{multiple && <KvMultiSelectDropdown selectedOptions={buildSelectedOptions(stateValue)} onOptionsSelected={onChangeOptionsSelected} {...props} />}
+			{!multiple && <KvSingleSelectDropdown selectedOption={processedValue} onOptionSelected={onChangeOptionSelected} {...props} />}
+			{multiple && <KvMultiSelectDropdown selectedOptions={buildSelectedOptions(processedValue)} onOptionsSelected={onChangeOptionsSelected} {...props} />}
 		</div>
 	);
 };
