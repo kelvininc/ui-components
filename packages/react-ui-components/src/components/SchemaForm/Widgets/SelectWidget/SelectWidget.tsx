@@ -50,6 +50,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	}, [searchTerm, defaultDropdownOptions]);
 
 	const emptyValue = useMemo(() => (multiple ? [] : undefined), [multiple]);
+	const processedValue = processValue(schema, value);
 
 	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => setSearchTerm(searchedLabel), []);
 	const onChangeOptionSelected = useCallback(({ detail: selectedOption }: CustomEvent<string>) => {
@@ -72,7 +73,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		inputSize: !isEmpty(optionComponentSize) ? optionComponentSize : (componentSize as EComponentSize),
 		disabled: disabled || readonly,
 		errorState: hasErrors ? EValidationState.Invalid : EValidationState.Valid,
-		displayValue: typeof processValue === 'undefined' ? emptyValue : displayValue?.(processValue, defaultDropdownOptions),
+		displayValue: typeof processedValue === 'undefined' ? emptyValue : displayValue?.(processedValue, defaultDropdownOptions),
 		displayPrefix,
 		options: defaultDropdownOptions,
 		filteredOptions,
@@ -88,8 +89,6 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		selectionClearable,
 		minSearchOptions: minSearchOptions ?? DEFAULT_MINIMUM_SEARCHABLE_OPTIONS
 	};
-
-	const processedValue = processValue(schema, value);
 
 	return (
 		<div className={styles.InputContainer}>
