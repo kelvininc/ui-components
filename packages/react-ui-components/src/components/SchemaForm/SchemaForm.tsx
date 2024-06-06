@@ -57,7 +57,10 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const [isValid, setValid] = useState(!liveValidate);
 	const experimental_defaultFormStateBehavior = useMemo(() => buildDefaultFormStateBehavior(applyDefaults), [applyDefaults]);
 	const formValidator = useMemo(() => validatorProp ?? getDefaultValidator<T, S, SchemaFormContext>(), [validatorProp]);
-	const [formData, setFormData] = useState(getInitialFormData(formValidator, schema, formDataProp, experimental_defaultFormStateBehavior));
+	const formData = useMemo(
+		() => cloneDeep(getInitialFormData(formValidator, schema, formDataProp, experimental_defaultFormStateBehavior)),
+		[formValidator, schema, formDataProp, experimental_defaultFormStateBehavior]
+	);
 	const [hasChanges, setHasChanges] = useState(!isEqualWith(formData, submittedData || {}));
 
 	const formRef = formReference ?? useRef<Form<T, S, SchemaFormContext>>(null);
@@ -76,12 +79,11 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		(data: IChangeEvent<T, S, SchemaFormContext>, id?: string) => {
 			const { formData: dataFormData = {} as T, errors } = data;
 			const hasNewChanges = !isEqualWith(dataFormData, submittedData);
-			setFormData(dataFormData);
 			setHasChanges(hasNewChanges);
 			setValid(liveValidate ? hasNewChanges && isEmpty(errors) : true);
 			onChange?.(data, id);
 		},
-		[submittedData, onChange, setValid, setHasChanges, setFormData]
+		[submittedData, onChange, setValid, setHasChanges]
 	);
 	const themedProps: FormProps<T, S, SchemaFormContext> = {
 		disabled,
@@ -113,7 +115,6 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	};
 
 	const discardChanges = () => {
-		setFormData(cloneDeep(submittedData) as T);
 		setValid(!liveValidate);
 		setHasChanges(false);
 		onChange?.({ formData: submittedData } as IChangeEvent<T, S, SchemaFormContext>);
@@ -136,10 +137,6 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		const hasDefaultsToApply = !isEmpty(defaults) && !isEqualWith(defaults, formData || {});
 		setHasDefaults(hasDefaultsToApply);
 	}, [defaults, formData, setHasDefaults]);
-
-	useEffect(() => {
-		setFormData(cloneDeep(getInitialFormData(formValidator, schema, formDataProp, experimental_defaultFormStateBehavior)) as T);
-	}, [formValidator, schema, formDataProp, experimental_defaultFormStateBehavior]);
 
 	return (
 		<div className={classNames(styles.FormContainer, customClass)}>

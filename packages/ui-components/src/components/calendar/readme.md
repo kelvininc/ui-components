@@ -69,10 +69,16 @@ export const KvCalendarExample: React.FC = () => (
 | Name                                  | Description                                |
 | ------------------------------------- | ------------------------------------------ |
 | `--calendar-background-color`         | The calendar background color.             |
+| `--calendar-background-color`         | The calendar background color.             |
+| `--calendar-horizontal-padding`       | The calendar container horizontal padding. |
 | `--calendar-horizontal-padding`       | The calendar container horizontal padding. |
 | `--calendar-month-title-text-color`   | The calendar month text color.             |
+| `--calendar-month-title-text-color`   | The calendar month text color.             |
+| `--calendar-month-weekday-text-color` | The calendar week day text color.          |
 | `--calendar-month-weekday-text-color` | The calendar week day text color.          |
 | `--calendar-vertical-padding`         | The calendar container vertical padding.   |
+| `--calendar-vertical-padding`         | The calendar container vertical padding.   |
+| `--calendar-width`                    | The calendar container width.              |
 | `--calendar-width`                    | The calendar container width.              |
 
 
