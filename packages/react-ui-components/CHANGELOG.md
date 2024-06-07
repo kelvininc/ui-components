@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.34.0](https://github.com/kelvininc/ui-components/compare/v0.33.1...v0.34.0) (2024-06-07)
+
+
+### Bug Fixes
+
+* **schema-form:** change incorrect reference to value in select widget ([293a42b](https://github.com/kelvininc/ui-components/commit/293a42b62a8da8e9ddad79638cc092621fb9aff0))
+* **schema-form:** remove internal value states ([4e4ac3a](https://github.com/kelvininc/ui-components/commit/4e4ac3a077f3ce1115e282aaf4c9dee1705e712e))
+
+
+### Features
+
+* **schema-form:** allow customize field title and use a custom widget in boolean fields ([ee22a72](https://github.com/kelvininc/ui-components/commit/ee22a72aba158deec58ee67d06d6ba8ee83ada2a))
+
+
+
+
+
 ## [0.33.1](https://github.com/kelvininc/ui-components/compare/v0.33.0...v0.33.1) (2024-05-16)
 
 **Note:** Version bump only for package @kelvininc/react-ui-components
