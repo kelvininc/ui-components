@@ -9,11 +9,15 @@ export const getWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends 
 	const { RadioWidget, SelectWidget } = widgets;
 	const { ['ui:widget']: widgetName = 'radio' } = uiSchema;
 
-	if (widgetName === 'select') {
+	if (widgetName === 'radio') {
+		return RadioWidget;
+	} else if (widgetName === 'select') {
 		return SelectWidget;
+	} else if (typeof widgetName === 'string') {
+		return widgets[widgetName] ?? RadioWidget;
 	}
 
-	return RadioWidget;
+	return typeof widgetName === 'string' ? widgets[widgetName] : widgetName;
 };
 
 export const isJsonSchema = (value: JSONSchema7Definition): value is JSONSchema7 => isObject(value);

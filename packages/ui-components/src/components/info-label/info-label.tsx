@@ -99,7 +99,11 @@ export class KvInfoLabel {
 		return (
 			<Host>
 				<div class="info-label">
-					{this.labelTitle && <div class={{ 'title': true, 'no-description': isEmpty(this.description) }}>{this.labelTitle}</div>}
+					{this.labelTitle && (
+						<div part="title" class={{ 'title': true, 'no-description': isEmpty(this.description) }}>
+							{this.labelTitle}
+						</div>
+					)}
 					{this.description && (
 						<div style={{ height: `${this.currentDescriptionHeight}px` }} class="description-wrapper">
 							<div class="description">

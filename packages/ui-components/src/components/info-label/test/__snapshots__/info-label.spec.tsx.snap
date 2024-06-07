@@ -4,7 +4,7 @@ exports[`Info Label (unit tests) when renders with a component should match the 
 <kv-info-label description-collapsed-text="Read more" description-opened-text="Read less" label-title="DESCRIPTION">
   <mock:shadow-root>
     <div class="info-label">
-      <div class="no-description title">
+      <div class="no-description title" part="title">
         DESCRIPTION
       </div>
     </div>
@@ -30,7 +30,7 @@ exports[`Info Label (unit tests) when renders with copy values props should matc
 <kv-info-label copy-value="data-model" description="data-model" description-collapsed-text="Read more" description-opened-text="Read less" label-title="TYPE">
   <mock:shadow-root>
     <div class="info-label">
-      <div class="title">
+      <div class="title" part="title">
         TYPE
       </div>
       <div class="description-wrapper" style="height: nullpx;">
@@ -53,7 +53,7 @@ exports[`Info Label (unit tests) when renders with description and read more stu
 <kv-info-label description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." description-collapsed-text="Read more" description-height="34" description-opened-text="Read less" label-title="DESCRIPTION">
   <mock:shadow-root>
     <div class="info-label">
-      <div class="title">
+      <div class="title" part="title">
         DESCRIPTION
       </div>
       <div class="description-wrapper" style="height: nullpx;">
