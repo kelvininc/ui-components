@@ -1,13 +1,18 @@
 import { ComponentStory } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
-import { KvCodeEditor, ECodeEditorTheme } from '../../components';
+import { KvCodeDiffEditor, ECodeEditorTheme } from '../../components';
 
 export default {
-	title: 'Inputs/CodeEditor',
-	component: 'KvCodeEditor',
+	title: 'Inputs/CodeDiffEditor',
+	component: 'KvCodeDiffEditor',
 	argTypes: {
-		code: {
+		originalCode: {
+			control: {
+				type: 'text'
+			}
+		},
+		modifiedCode: {
 			control: {
 				type: 'text'
 			}
@@ -35,13 +40,13 @@ export default {
 		}
 	},
 	parameters: {
-		notes: require('@react-ui-notes/CodeEditor/readme/CodeEditor/readme.md')
+		notes: require('@react-ui-notes/CodeEditor/readme/CodeDiffEditor/readme.md')
 	}
 };
 
 const onChangeAction = action('Data Changed');
 
-const code = `{
+const originalCode = `{
 	"name": "Name",
 	"props": {
 		"title": "Title",
@@ -49,12 +54,21 @@ const code = `{
 	}
 }`;
 
-const DefaultCodeEditorTemplate: ComponentStory<typeof KvCodeEditor> = args => {
+const modifiedCode = `{
+	"name": "Changes Name",
+	"props": {
+		"title": "Title",
+		"owner": 2,
+		"isAdmin": true
+	}
+}`;
+
+const DefaultCodeEditorTemplate: ComponentStory<typeof KvCodeDiffEditor> = args => {
 	const wrapperStyle = { width: '640px', height: '480px' };
 
 	return (
 		<div style={wrapperStyle}>
-			<KvCodeEditor {...args} onChange={onChangeAction} />
+			<KvCodeDiffEditor {...args} onChange={onChangeAction} />
 		</div>
 	);
 };
@@ -62,20 +76,14 @@ const DefaultCodeEditorTemplate: ComponentStory<typeof KvCodeEditor> = args => {
 export const Default = DefaultCodeEditorTemplate.bind(this);
 Default.args = {
 	language: 'json',
-	code
+	originalCode,
+	modifiedCode
 };
 
-export const CustomTheme = DefaultCodeEditorTemplate.bind(this);
-CustomTheme.args = {
-	...Default.args,
-	customTheme: {
-		base: 'vs-dark',
-		inherit: true,
-		rules: [],
-		colors: {
-			'editor.foreground': '#ffffff',
-			'editor.background': '#3f3f3f',
-			'editor.lineHighlightBorder': '#3f3f3f'
-		}
-	}
+export const SingleEditorDiff = DefaultCodeEditorTemplate.bind(this);
+SingleEditorDiff.args = {
+	language: 'json',
+	originalCode,
+	modifiedCode,
+	customOptions: { renderSideBySide: false }
 };

@@ -3,6 +3,8 @@ import { FunctionComponent } from 'react';
 
 export type OnCodeEditorChange = (value: string | undefined) => void;
 export type CodeEditorOptions = editor.IGlobalEditorOptions & editor.IEditorOptions;
+export type CodeDiffEditorOptions = editor.IGlobalEditorOptions & editor.IDiffEditorOptions;
+
 export type CodeEditorTheme = editor.IStandaloneThemeData;
 
 export enum ECodeEditorTheme {
@@ -26,4 +28,13 @@ export interface ICodeEditorProps {
 	LoadingComponent?: FunctionComponent;
 	/** Use this property to pass a callback function for when the value (`code`) changes. */
 	onChange?: OnCodeEditorChange;
+}
+
+export interface ICodeDiffEditorProps extends Omit<ICodeEditorProps, 'code' | 'customOptions'> {
+	/** Use this property to pass the original code value to the editor. */
+	originalCode?: string;
+	/** Use this property to pass the modified code value to the editor. */
+	modifiedCode?: string;
+	/** Use this property to define options on the editor */
+	customOptions?: CodeDiffEditorOptions;
 }

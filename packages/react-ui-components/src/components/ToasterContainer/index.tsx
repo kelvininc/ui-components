@@ -12,19 +12,20 @@ export type ToasterContainerProps = {
 
 export interface IToasterController {
 	isOpen: boolean;
-	openToaster: (newConfig?: Partial<IToaster>) => void;
-	closeToaster: () => void;
 	config: IToaster;
+	openToaster: (newConfig: IToaster) => void;
+	closeToaster: () => void;
 }
 
 export function useToaster(initialConfig: IToaster, initialState = false): IToasterController {
-	const [config, setConfig] = useState(initialConfig);
+	const [config, setConfig] = useState<IToaster>(initialConfig);
 	const [isOpen, setOpen] = useState(initialState);
 
-	const openToaster = useCallback((newConfig?: Partial<IToaster>) => {
+	const openToaster = useCallback((newConfig: IToaster) => {
 		setOpen(true);
-		setConfig(previousConfig => ({ ...previousConfig, ...newConfig }));
+		setConfig(newConfig);
 	}, []);
+
 	const closeToaster = useCallback(() => {
 		setOpen(false);
 		setConfig(initialConfig);

@@ -1,8 +1,8 @@
 import { IFontOptions } from '../../utils/useFontsApi';
 import { MONACO_FONT_FAMILY, MONACO_FONT_SIZE } from './config';
-import { CodeEditorOptions } from './types';
+import { CodeDiffEditorOptions, CodeEditorOptions } from './types';
 
-export const getEditorOptions = (customOptions?: CodeEditorOptions): CodeEditorOptions => ({
+export const getEditorOptions = (customOptions?: CodeEditorOptions | CodeDiffEditorOptions): CodeEditorOptions | CodeDiffEditorOptions => ({
 	fontFamily: 'Inconsolata',
 	fontSize: 14,
 	wordWrap: 'on',
