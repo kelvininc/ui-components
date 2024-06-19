@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.35.0](https://github.com/kelvininc/ui-components/compare/v0.34.0...v0.35.0) (2024-06-19)
+
+
+### Bug Fixes
+
+* **react-ui-components:** prevent toaster to open with previous state ([c45bd34](https://github.com/kelvininc/ui-components/commit/c45bd3446ba0132125fdf0011571d417d02831f2))
+
+
+### Features
+
+* **code-editor:** add diff view mode ([7319444](https://github.com/kelvininc/ui-components/commit/73194449cdc2988a1b2b0c34c1d01f6becb4e5e0))
+
+
+
+
+
 # [0.34.0](https://github.com/kelvininc/ui-components/compare/v0.33.1...v0.34.0) (2024-06-07)
 
 
