@@ -51,12 +51,20 @@ export const KvRangeExample: React.FC = () => (
 | Name                         | Description                        |
 | ---------------------------- | ---------------------------------- |
 | `--range-height`             | Height of the range slider         |
+| `--range-height`             | Height of the range slider         |
+| `--range-label-color`        | range labels color                 |
 | `--range-label-color`        | range labels color                 |
 | `--range-selector-radius`    | Radius of the range thumb          |
+| `--range-selector-radius`    | Radius of the range thumb          |
+| `--range-width`              | Width of the range slider          |
 | `--range-width`              | Width of the range slider          |
 | `--select-label-color`       | select labels color                |
+| `--select-label-color`       | select labels color                |
+| `--slider-background-empty`  | color of the slider when its empty |
 | `--slider-background-empty`  | color of the slider when its empty |
 | `--slider-background-filled` | color of the slider when its full  |
+| `--slider-background-filled` | color of the slider when its full  |
+| `--thumb-border-color`       | thumb border color                 |
 | `--thumb-border-color`       | thumb border color                 |
 
 

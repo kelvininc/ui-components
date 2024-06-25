@@ -12,7 +12,7 @@ import { calculateTabWidths } from './tab-navigation.utils';
 })
 export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEvents {
 	/** @inheritdoc */
-	@Prop({ reflect: true }) tabs!: ITabNavigationItem[];
+	@Prop({ reflect: true }) tabs: ITabNavigationItem[] = [];
 	/** @inheritdoc */
 	@Prop() selectedTabKey?: number | string;
 	/** @inheritdoc */

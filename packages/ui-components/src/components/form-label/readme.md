@@ -56,6 +56,7 @@ export const FormLabelExample: React.FC = () => (
 | Name            | Description       |
 | --------------- | ----------------- |
 | `--label-color` | Label Text color. |
+| `--label-color` | Label Text color. |
 
 
 ## Dependencies
