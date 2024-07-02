@@ -25,9 +25,9 @@
 
 ## Shadow Parts
 
-| Part                        | Description |
-| --------------------------- | ----------- |
-| `"toggle-button-container"` |             |
+| Part                        | Description                 |
+| --------------------------- | --------------------------- |
+| `"toggle-button-container"` | Container of toggle button. |
 
 
 ## Dependencies

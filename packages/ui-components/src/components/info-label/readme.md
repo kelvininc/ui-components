@@ -89,9 +89,9 @@ export const InfoLabelExample: React.FC = () => (
 
 ## Shadow Parts
 
-| Part      | Description |
-| --------- | ----------- |
-| `"title"` |             |
+| Part      | Description  |
+| --------- | ------------ |
+| `"title"` | Label title. |
 
 
 ## CSS Custom Properties

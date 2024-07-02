@@ -3,6 +3,9 @@ import { IToggleButton } from '../toggle-button/toggle-button.types';
 import { IToggleButtonGroup, IToggleButtonGroupEvents } from './toggle-button-group.types';
 import { EComponentSize } from '../../types';
 
+/**
+ * @part toggle-button-container - Container of toggle button.
+ */
 @Component({
 	tag: 'kv-toggle-button-group',
 	styleUrl: 'toggle-button-group.scss',
