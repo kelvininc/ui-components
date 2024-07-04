@@ -12,7 +12,7 @@ import { calculateTabWidths } from './tab-navigation.utils';
 })
 export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEvents {
 	/** @inheritdoc */
-	@Prop({ reflect: true }) tabs!: ITabNavigationItem[];
+	@Prop({ reflect: true }) tabs: ITabNavigationItem[] = [];
 	/** @inheritdoc */
 	@Prop() selectedTabKey?: number | string;
 	/** @inheritdoc */
@@ -23,7 +23,7 @@ export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEven
 	/** @inheritdoc */
 	@Event() tabChange: EventEmitter<string>;
 
-	tabsIndicatorConfig: Record<string, ISelectedTabIndicatorConfig> = {};
+	private tabsIndicatorConfig: Record<string, ISelectedTabIndicatorConfig> = {};
 
 	/** Listen to custom DOM event of tab selection */
 	@Listen('tabSelected')
@@ -62,7 +62,7 @@ export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEven
 	}
 
 	private applySelectedTabStyling() {
-		if (isEmpty(this.selectedTabKey)) return;
+		if (isEmpty(this.selectedTabKey) || isEmpty(this.tabsIndicatorConfig[this.selectedTabKey])) return;
 
 		const { left, width } = this.tabsIndicatorConfig[this.selectedTabKey];
 

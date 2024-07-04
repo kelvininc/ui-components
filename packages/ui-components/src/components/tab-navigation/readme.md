@@ -43,12 +43,12 @@ export const TabNavigationExample: React.FC = () => (
 
 ## Properties
 
-| Property            | Attribute          | Description                                                                     | Type                                           | Default                |
-| ------------------- | ------------------ | ------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
-| `notifications`     | --                 | (optional) To add a notification dot and its respective color to a specific tab | `ITabsNotificationDict`                        | `{}`                   |
-| `selectedTabKey`    | `selected-tab-key` | (optional) The currently selected tab key                                       | `number \| string`                             | `undefined`            |
-| `size`              | `size`             | (optional) Sets the items on this tab nav to use small styling configuration    | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
-| `tabs` _(required)_ | --                 | (required) The tab items to render in this component                            | `ITabNavigationItem[]`                         | `undefined`            |
+| Property         | Attribute          | Description                                                                     | Type                                           | Default                |
+| ---------------- | ------------------ | ------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
+| `notifications`  | --                 | (optional) To add a notification dot and its respective color to a specific tab | `ITabsNotificationDict`                        | `{}`                   |
+| `selectedTabKey` | `selected-tab-key` | (optional) The currently selected tab key                                       | `number \| string`                             | `undefined`            |
+| `size`           | `size`             | (optional) Sets the items on this tab nav to use small styling configuration    | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
+| `tabs`           | --                 | (required) The tab items to render in this component                            | `ITabNavigationItem[]`                         | `[]`                   |
 
 
 ## Events
