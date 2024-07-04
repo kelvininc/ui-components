@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.36.0](https://github.com/kelvininc/ui-components/compare/v0.35.0...v0.36.0) (2024-07-04)
+
+
+### Bug Fixes
+
+* **tab-navigation:** add fallback to empty array when tabs are not provided ([9890c01](https://github.com/kelvininc/ui-components/commit/9890c0183adb1f1ede341339c73a59eec6b08f49))
+
+
+
+
+
 # [0.35.0](https://github.com/kelvininc/ui-components/compare/v0.34.0...v0.35.0) (2024-06-19)
 
 
