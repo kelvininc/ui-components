@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.36.1](https://github.com/kelvininc/ui-components/compare/v0.36.0...v0.36.1) (2024-07-05)
+
+
+### Bug Fixes
+
+* **toaster:** watch ttl changes to clear and start new timeout ([e3435d2](https://github.com/kelvininc/ui-components/commit/e3435d23891060956ddbdfeceed5bd8091a450e6))
+
+
+
+
+
 # [0.36.0](https://github.com/kelvininc/ui-components/compare/v0.35.0...v0.36.0) (2024-07-04)
 
 
