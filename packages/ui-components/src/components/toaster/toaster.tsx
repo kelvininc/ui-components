@@ -35,10 +35,17 @@ export class KvToaster implements IToaster, IToasterEvents {
 	@State() fadeOutActive: boolean = false;
 	/** Icon of the toaster */
 	@State() iconType: EToasterIconTypeClass = TYPE_ICONS[this.type];
+
 	/** Case the type changes, the toaster updates the icon displayed */
 	@Watch('type')
 	updateIconType(value: string) {
 		this.iconType = TYPE_ICONS[value];
+	}
+	/** Case the ttl changes, the toaster should clear the current setTimeout */
+	@Watch('ttl')
+	handleTimeout() {
+		this.clearTTL();
+		this.createTTL();
 	}
 
 	private clearTTL = () => {
