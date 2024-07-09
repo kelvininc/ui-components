@@ -140,6 +140,13 @@ export const AlertExample: React.FC<IAlertConfig> = () => (
 | `type` _(required)_  | `type`        | (required) Defines the type of alert to show, possible values are defined in `EAlertType` | `EAlertType.Error \| EAlertType.Info \| EAlertType.Success \| EAlertType.Warning` | `undefined`            |
 
 
+## Shadow Parts
+
+| Part          | Description          |
+| ------------- | -------------------- |
+| `"container"` | The alert container. |
+
+
 ## Dependencies
 
 ### Depends on

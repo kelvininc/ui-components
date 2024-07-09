@@ -4,7 +4,7 @@ exports[`Alert (unit tests when using required props and defaults should match t
 <kv-alert label="Main Message" show-icon="" size="large" type="info">
   <mock:shadow-root>
     <div class="alert-container">
-      <div class="alert alert--type-info">
+      <div class="alert alert--type-info" part="container">
         <div class="information">
           <kv-icon class="icon" name="kv-error"></kv-icon>
           <div class="text-container">
@@ -25,7 +25,7 @@ exports[`Alert (unit tests when using required props and description should matc
 <kv-alert description="Secondary Message" label="Main Message" show-icon="" size="large" type="info">
   <mock:shadow-root>
     <div class="alert-container">
-      <div class="alert alert--type-info">
+      <div class="alert alert--type-info" part="container">
         <div class="information">
           <kv-icon class="icon" name="kv-error"></kv-icon>
           <div class="text-container">
@@ -50,7 +50,7 @@ exports[`Alert (unit tests when using required props and showIcon \`false\` shou
 <kv-alert label="Main Message" show-icon="false" size="large" type="info">
   <mock:shadow-root>
     <div class="alert-container">
-      <div class="alert alert--type-info">
+      <div class="alert alert--type-info" part="container">
         <div class="information">
           <div class="text-container">
             <div class="title">
