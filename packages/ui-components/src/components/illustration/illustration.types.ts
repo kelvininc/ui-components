@@ -36,5 +36,8 @@ export enum EIllustrationName {
 	NoDataAvailable = 'kv-no-data-available',
 	NoMatchingResults = 'kv-no-matching-results',
 	NoResultsFoundDark = 'kv-no-results-found-dark',
-	NoResultsFoundLight = 'kv-no-results-found-light'
+	NoResultsFoundLight = 'kv-no-results-found-light',
+	TakeActions = 'kv-take-actions',
+	Import = 'kv-import',
+	Impact = 'kv-impact'
 }

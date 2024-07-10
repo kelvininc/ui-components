@@ -67,6 +67,7 @@ export enum EIconName {
 	DensityLow = 'kv-density-low',
 	DensityMedium = 'kv-density-medium',
 	DensityHigh = 'kv-density-high',
+	Deployment = 'kv-deployment',
 	Device = 'kv-device',
 	DeviceType = 'kv-device-type',
 	Diamond = 'kv-diamond',
