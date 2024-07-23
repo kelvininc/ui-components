@@ -167,6 +167,7 @@ export enum EIconName {
 	Support = 'kv-support',
 	SystemSource = 'kv-system-source',
 	SyncCircle = 'kv-sync-circle',
+	Swagger = 'kv-swagger',
 	TagControlChange = 'kv-tag-control-change',
 	TagAlarm = 'kv-tag-alarm',
 	TaskCheckmark = 'kv-task-checkmark',
