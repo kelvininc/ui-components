@@ -1,6 +1,8 @@
 @import '../../assets/styles/globals';
 
 kv-form-label {
+	user-select: none;
+
 	--label-color: #{kv-color('neutral-4')};
 }
 

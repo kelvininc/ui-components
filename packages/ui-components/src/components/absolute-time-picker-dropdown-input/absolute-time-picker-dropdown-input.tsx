@@ -82,6 +82,30 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 		}
 	};
 
+	private getValidSelectedRangeFromUserClick = (parsedDate: dayjs.Dayjs): TimeRange => {
+		if (this.focusedInput === EInputSource.From) {
+			if (isNumber(this.minimumFromInputDate) && parsedDate.isBefore(this.minimumFromInputDate)) {
+				return { ...this.rangeInputValues, from: dayjs(this.minimumFromInputDate).format(DATE_FORMAT) };
+			}
+
+			if (!isEmpty(this.rangeInputValues?.to) && dayjs(this.rangeInputValues?.to, DATE_FORMAT).isBefore(parsedDate)) {
+				return { from: parsedDate.format(DATE_FORMAT), to: parsedDate.format(DATE_FORMAT) };
+			}
+
+			return { ...this.rangeInputValues, from: parsedDate.format(DATE_FORMAT) };
+		} else {
+			if (isNumber(this.minimumToInputDate) && parsedDate.isBefore(this.minimumToInputDate)) {
+				return { ...this.rangeInputValues, to: dayjs(this.minimumToInputDate).format(DATE_FORMAT) };
+			}
+
+			if (!isEmpty(this.rangeInputValues?.from) && dayjs(this.rangeInputValues?.from, DATE_FORMAT).isAfter(parsedDate)) {
+				return { from: parsedDate.format(DATE_FORMAT), to: parsedDate.format(DATE_FORMAT) };
+			}
+
+			return { ...this.rangeInputValues, to: parsedDate.format(DATE_FORMAT) };
+		}
+	};
+
 	private onClickDate = ({ detail }: CustomEvent<IClickDateEvent>): void => {
 		let clickedDate = fromISO(detail.date);
 
@@ -94,18 +118,15 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 			return;
 		}
 
-		if (this.focusedInput === EInputSource.From) {
-			if (isNumber(this.minimumFromInputDate) && dayjs(clickedDate).isBefore(this.minimumFromInputDate)) {
-				clickedDate = dayjs(this.minimumFromInputDate);
-			}
+		const validSelectedRange = this.getValidSelectedRangeFromUserClick(clickedDate);
+		this.rangeInputValues = validSelectedRange;
 
-			this.rangeInputValues = { ...this.rangeInputValues, from: clickedDate.format(DATE_FORMAT) };
-		} else {
-			if (isNumber(this.minimumToInputDate) && dayjs(clickedDate).isBefore(this.minimumToInputDate)) {
-				clickedDate = dayjs(this.minimumToInputDate);
-			}
+		if (this.focusedInput === EInputSource.From && isEmpty(this.rangeInputValues?.to)) {
+			this.focusedInput = EInputSource.To;
+		}
 
-			this.rangeInputValues = { ...this.rangeInputValues, to: clickedDate.format(DATE_FORMAT) };
+		if (this.focusedInput === EInputSource.To && isEmpty(this.rangeInputValues?.from)) {
+			this.focusedInput = EInputSource.From;
 		}
 	};
 
