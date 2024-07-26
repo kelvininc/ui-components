@@ -3,6 +3,9 @@ import { EAlertType, IAlertConfig } from './alert.types';
 import { ALERT_ICON_NAMES } from './alert.config';
 import { EComponentSize } from '../../types';
 
+/**
+ * @part container - The alert container.
+ */
 @Component({
 	tag: 'kv-alert',
 	styleUrl: 'alert.scss',
@@ -25,6 +28,7 @@ export class KvAlert implements IAlertConfig {
 			<Host>
 				<div class="alert-container">
 					<div
+						part="container"
 						class={{
 							'alert': true,
 							[`alert--type-${this.type}`]: true,

@@ -6,6 +6,9 @@ import { EIconName } from '../icon/icon.types';
 import { DEFAULT_DESCRIPTION_COLLAPSED_TEXT, DEFAULT_DESCRIPTION_OPENED_TEXT } from './info-label.config';
 import { COPY_TOOLTIP } from './info-label.types';
 
+/**
+ * @part title - Label title.
+ */
 @Component({
 	tag: 'kv-info-label',
 	styleUrls: {

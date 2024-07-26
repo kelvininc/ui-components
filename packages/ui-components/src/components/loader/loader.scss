@@ -12,6 +12,8 @@
 	--loader-overlay-opacity: 0.4;
 	--loader-background-color: #{kv-color('neutral-1')};
 	--loader-spinner-color: #{kv-color('primary')};
+	--loader-padding: #{15px};
+	--loader-border-size: #{6px};
 	--loader-z-index: 1;
 }
 
@@ -33,8 +35,8 @@
 	.loader {
 		height: 0;
 		width: 0;
-		padding: 15px;
-		border: 6px solid var(--loader-background-color);
+		padding: var(--loader-padding);
+		border: var(--loader-border-size) solid var(--loader-background-color);
 		border-right-color: var(--loader-spinner-color);
 		border-radius: 50%;
 		animation: loadrotate 1s infinite linear;

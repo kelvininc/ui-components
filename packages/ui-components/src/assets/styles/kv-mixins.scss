@@ -105,3 +105,42 @@
 @mixin kelvin-night-scrollbar {
 	@include custom-scrollbar('neutral-6');
 }
+
+@mixin rotate-border-animation($border-radius: $spacing-2x, $border-width: 2px, $inset: 0) {
+	position: relative;
+	
+	&::before {
+		--rotation: 0deg;
+
+		content: ' ';
+		position: absolute;
+		inset: $inset;
+		z-index: 99;
+		border: $border-width solid transparent;
+		border-radius: $border-radius;
+		background-image: conic-gradient(
+			from var(--rotation),
+			kv-color('secondary-5'),
+			kv-color('secondary-2'),
+			kv-color('secondary-5')
+		);
+		background-origin: border-box;
+		mask: linear-gradient(#000, #000), linear-gradient(#000, #000);
+		mask-clip: content-box, border-box;
+		mask-composite: exclude;
+		animation: rotate-border 1.5s infinite linear;
+	}
+}
+
+@property --rotation {
+	syntax: '<angle>';
+	initial-value: 0deg;
+	inherits: false;
+}
+
+
+@keyframes rotate-border {
+	to {
+		--rotation: 360deg;
+	}
+}
