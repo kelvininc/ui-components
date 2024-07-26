@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.37.0](https://github.com/kelvininc/ui-components/compare/v0.36.1...v0.37.0) (2024-07-26)
+
+
+### Bug Fixes
+
+* **absolute-time-picker-input:** change input focus when user selects a date ([1ff2f1e](https://github.com/kelvininc/ui-components/commit/1ff2f1e3b4933eca3bc2d2a26b5075253f1e0846))
+* **dropdown:** replace click event listener by mousedown ([a404a49](https://github.com/kelvininc/ui-components/commit/a404a49866411c76fed10e2fdc3ba750fc12ab77))
+
+
+### Features
+
+* add border animation mixin ([c9fe530](https://github.com/kelvininc/ui-components/commit/c9fe530ee342144cc85bf9a6b7861e3b0251b279))
+* add illustrations ([d7a46ab](https://github.com/kelvininc/ui-components/commit/d7a46abbdcd123414576bb540b65c3097bf7cddc))
+* **alert:** add alert container part ([20e5d67](https://github.com/kelvininc/ui-components/commit/20e5d672b712e968ffa9e89b4878c0ea44c47f97))
+* **icons:** add swagger icon ([74cca14](https://github.com/kelvininc/ui-components/commit/74cca14e4db4ba7a5a065d27d3739a160aba5735))
+* **loader:** add scss custom props ([3d40609](https://github.com/kelvininc/ui-components/commit/3d40609522d86f22cb55d76621a08b19557b4d15))
+
+
+
+
+
 ## [0.36.1](https://github.com/kelvininc/ui-components/compare/v0.36.0...v0.36.1) (2024-07-05)
 
 
