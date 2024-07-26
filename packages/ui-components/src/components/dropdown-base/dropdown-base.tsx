@@ -32,7 +32,7 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 
 	@Element() element: HTMLKvDropdownBaseElement;
 
-	@Listen('click', { target: 'window' })
+	@Listen('mousedown', { target: 'window' })
 	checkForClickOutside(event: MouseEvent) {
 		// Check if clicked inside the dropdown
 		if (this.didClickOnDropdownAction(event) || this.didClickOnDropdownList(event)) {
