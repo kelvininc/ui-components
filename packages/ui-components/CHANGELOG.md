@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.38.0](https://github.com/kelvininc/ui-components/compare/v0.37.0...v0.38.0) (2024-08-23)
+
+
+### Features
+
+* **icons:** add new navigation sidebar items ([6aa00f0](https://github.com/kelvininc/ui-components/commit/6aa00f085cc24d2fb07643c110fd2a40279162e3))
+* **kv-inline-editable-field:** adds component ([f2d2eea](https://github.com/kelvininc/ui-components/commit/f2d2eeace9c0fdd409239adfd208b523fe0329d9))
+
+
+
+
+
 # [0.37.0](https://github.com/kelvininc/ui-components/compare/v0.36.1...v0.37.0) (2024-07-26)
 
 
