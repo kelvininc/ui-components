@@ -1,0 +1,64 @@
+@import '../../assets/styles/globals';
+
+.inline-editable-field-container {
+	display: inline-flex;
+	align-items: center;
+	width: 100%;
+
+	/**
+	* @prop --margin-top-bottom: Margin top and bottom of the editable container.
+	* @prop --margin-left-right: Margin left and right of the editable container.
+	*/
+	--margin-top-bottom: #{$spacing};
+	--margin-left-right: #{$spacing-2x};
+
+	&__hover .inline-editable-field-slot {
+		border-radius: 4px;
+		background: kv-color('neutral-8');
+	}
+}
+
+.inline-editable-field-slot {
+	&[contenteditable] {
+		padding: var(--margin-top-bottom) var(--margin-left-right);
+		margin: calc(var(--margin-top-bottom) * -1) calc(var(--margin-left-right) * -1);
+		white-space: nowrap;
+		overflow: hidden;
+		outline: 1px solid transparent;
+		transition: all 0.25s ease-in-out;
+
+		&:hover,
+		&:focus {
+			border-radius: 4px;
+			background: kv-color('neutral-8');
+		}
+
+		&:focus {
+			outline-color: kv-color('neutral-2');
+			text-overflow: unset;
+		}
+	}
+
+	br {
+		display: none;
+	}
+
+	* {
+		display: inline;
+		white-space: nowrap;
+	}
+}
+
+.inline-editable-field-actions {
+	display: inline-flex;
+	gap: $spacing;
+	flex: 0;
+	margin-left: calc(var(--margin-left-right) + $spacing-2x);
+	width: 30px;
+
+	&__focus {
+		width: 64px;
+		align-self: flex-end;
+		margin-bottom: calc(var(--margin-left-right) * -1);
+	}
+}
