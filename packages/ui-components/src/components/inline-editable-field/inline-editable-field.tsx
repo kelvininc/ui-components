@@ -81,10 +81,6 @@ export class KvInlineEditableField {
 		}
 	}
 
-	private openEditableMode = () => {
-		this.slotEl.focus();
-	};
-
 	private discardContent = () => {
 		this.slotEl.innerText = this.value;
 	};
@@ -178,7 +174,6 @@ export class KvInlineEditableField {
 						'inline-editable-field-actions__focus': this.isEditing
 					}}
 				>
-					{!this.isEditing && this.isHovering && <kv-action-button-icon type={EActionButtonType.Ghost} icon={EIconName.Edit} onClickButton={this.openEditableMode} />}
 					{this.isEditing && (
 						<Fragment>
 							<kv-action-button-icon type={EActionButtonType.Ghost} icon={EIconName.Close} onClickButton={this.discardContent} />
