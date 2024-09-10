@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.39.0](https://github.com/kelvininc/ui-components/compare/v0.38.0...v0.39.0) (2024-09-10)
+
+
+### Bug Fixes
+
+* **inline-editable-field:** remove reserved width for edit icon button ([d7e6916](https://github.com/kelvininc/ui-components/commit/d7e6916f38439aeee52b5a01ed6d12581e2b21b3))
+
+
+### Features
+
+* **inline-editable-field:** remove edit icon ([1b4b9ab](https://github.com/kelvininc/ui-components/commit/1b4b9abb9ff9dfc17f325be3592c3d6c4e35beaf))
+
+
+
+
+
 # [0.38.0](https://github.com/kelvininc/ui-components/compare/v0.37.0...v0.38.0) (2024-08-23)
 
 
