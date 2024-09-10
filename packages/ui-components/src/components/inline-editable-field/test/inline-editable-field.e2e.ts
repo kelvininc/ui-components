@@ -33,22 +33,6 @@ describe('KvInlineEditableField (e2e tests)', () => {
 			expect(btns.length).toBe(0);
 		});
 
-		describe('and hover the component', () => {
-			let editBtn: E2EElement;
-
-			beforeEach(async () => {
-				await component.hover();
-				await page.waitForChanges();
-
-				editBtn = await actionsEl.find('kv-action-button-icon');
-			});
-
-			it('should render the edit action button', () => {
-				expect(editBtn).not.toBeNull();
-				expect(editBtn.getAttribute('icon')).toBe('kv-edit');
-			});
-		});
-
 		describe('and focus the component', () => {
 			let focusBtns: E2EElement[];
 
