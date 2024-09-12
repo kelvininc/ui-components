@@ -13,12 +13,17 @@ runs:
           uses: actions/setup-node@v3
           with:
               node-version: ${{ inputs.node-version }}
+              cache: "npm"
 
-        - name: Restore dependencies cache
+        - name: Setup dependencies cache
           uses: actions/cache@v3
           with:
-              path: "**/node_modules"
-              key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+              path: |
+                  **/node_modules
+                  node_modules
+              key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/packages/*/package.json') }}
+              restore-keys: |
+                  ${{ runner.os }}-node-
 
         - name: Install dependencies
           shell: bash
@@ -30,7 +35,13 @@ runs:
           env:
               PUPPETEER_SKIP_DOWNLOAD: true
 
+        - name: Setup chrome binary cache
+          uses: actions/cache@v3
+          with:
+              path: ~/.cache/puppeteer/
+              key: ${{ runner.os }}-chrome-${{ hashFiles('packages/ui-components/node_modules/puppeteer-core/src/revisions.ts') }}-${{ hashFiles('packages/ui-components/node_modules/puppeteer/src/node/install.ts') }}
+
         - name: Download chrome binary
           shell: bash
-          working-directory: "packages/ui-components/node_modules/puppeteer"
+          working-directory: packages/ui-components/node_modules/puppeteer
           run: npm run postinstall
