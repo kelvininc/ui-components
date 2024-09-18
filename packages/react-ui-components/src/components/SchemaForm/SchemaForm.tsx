@@ -88,6 +88,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const themedProps: FormProps<T, S, SchemaFormContext> = {
 		disabled,
 		liveValidate,
+		noValidate: true,
 		schema,
 		...otherProps,
 		onChange: onFormChange,
