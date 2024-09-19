@@ -9,6 +9,7 @@ import { useLoadMonacoEditorStyle } from './hooks';
 const Component = ({
 	forwardedRef,
 	code,
+	className,
 	language = DEFAULT_CODE_EDITOR_LANGUAGE,
 	theme = DEFAULT_CODE_EDITOR_THEME,
 	customTheme = KELVIN_CODE_EDITOR_THEME,
@@ -33,7 +34,18 @@ const Component = ({
 		return <LoadingComponent />;
 	}
 
-	return <Editor language={language} theme={theme} options={options} loading={<LoadingComponent />} value={code} onChange={onTextChange} onMount={handleEditorDidMount} />;
+	return (
+		<Editor
+			className={className}
+			language={language}
+			theme={theme}
+			options={options}
+			loading={<LoadingComponent />}
+			value={code}
+			onChange={onTextChange}
+			onMount={handleEditorDidMount}
+		/>
+	);
 };
 
 export const KvCodeEditor = forwardRef(function CodeEditorWithRef(props: ICodeEditorProps, ref: ForwardedRef<CodeEditor>) {

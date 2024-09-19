@@ -17,6 +17,8 @@ export enum ECodeEditorTheme {
 export interface ICodeEditorProps {
 	/** Use this property to pass a starting value to the editor. */
 	code?: string;
+	/** code editor custom clases */
+	className?: string;
 	/** Use this property to define the language mode of the editor. */
 	language?: string;
 	/** Use this property to define the theme of the editor. */
