@@ -316,6 +316,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 		const hasNoDataAvailable = !hasOptions && !hasCurrentOptions;
 		const hasNoResultsFound = hasOptions && !hasCurrentOptions;
+		const selectedItemsCountText = `Selected: ${selectedOptionsLength}/${optionsLength}`
 
 		return (
 			<kv-select
@@ -340,7 +341,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 				<slot name="select-header-label" slot="select-header-label" />
 				{this.counter && (
 					<div slot="select-header-label">
-						<div class="selected-items-label">Selected: {`${selectedOptionsLength}/${optionsLength}`}</div>
+						<kv-tooltip text={selectedItemsCountText}><div class="selected-items-label">{selectedItemsCountText}</div></kv-tooltip>
 					</div>
 				)}
 				{hasNoDataAvailable && (

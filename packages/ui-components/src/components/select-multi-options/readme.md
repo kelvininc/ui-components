@@ -96,6 +96,7 @@ Type: `Promise<void>`
 - [kv-virtualized-list](../virtualized-list)
 - [kv-select-option](../select-option)
 - [kv-select](../select)
+- [kv-tooltip](../tooltip)
 - [kv-illustration-message](../illustration-message)
 - [kv-select-create-option](../select-create-option)
 - [kv-select-shortcuts-label](../select-shortcuts-label)
@@ -106,6 +107,7 @@ graph TD;
   kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-tooltip
   kv-select-multi-options --> kv-illustration-message
   kv-select-multi-options --> kv-select-create-option
   kv-select-multi-options --> kv-select-shortcuts-label

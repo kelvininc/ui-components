@@ -84,6 +84,7 @@ export const TooltipExample: React.FC = () => (
  - [kv-copy-to-clipboard](../copy-to-clipboard)
  - [kv-description-list](../description-list)
  - [kv-info-label](../info-label)
+ - [kv-select-multi-options](../select-multi-options)
  - [kv-text-field](../text-field)
  - [kv-time-picker](../time-picker)
  - [kv-tree-item](../tree-item)
@@ -101,6 +102,7 @@ graph TD;
   kv-copy-to-clipboard --> kv-tooltip
   kv-description-list --> kv-tooltip
   kv-info-label --> kv-tooltip
+  kv-select-multi-options --> kv-tooltip
   kv-text-field --> kv-tooltip
   kv-time-picker --> kv-tooltip
   kv-tree-item --> kv-tooltip
