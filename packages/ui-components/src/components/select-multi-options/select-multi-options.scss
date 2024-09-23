@@ -21,7 +21,9 @@ kv-select {
 }
 
 .selected-items-label {
+	@include ellipsis;
 	@include kv-font-label-small-regular;
+	max-width: 90px;
 	color: kv-color('neutral-4');
 	text-wrap: nowrap;
 }
