@@ -20,7 +20,13 @@ kv-select {
 	--select-min-width: var(--select-list-min-width);
 }
 
+.select-header-label {
+	overflow: hidden;
+	max-width: 110px;
+}
+
 .selected-items-label {
+	@include ellipsis;
 	@include kv-font-label-small-regular;
 	color: kv-color('neutral-4');
 	text-wrap: nowrap;
