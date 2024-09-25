@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Calendar Single Date Selector (unit tests) when uses default props should match the snapshot 1`] = `
-<kv-calendar-single-date-selector>
-  <mock:shadow-root>
-    <kv-calendar exportparts="calendar-container,month-container,day-container"></kv-calendar>
-  </mock:shadow-root>
-</kv-calendar-single-date-selector>
-`;

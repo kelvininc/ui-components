@@ -2,8 +2,18 @@ import { IDateTimeRangeFormatter, IRelativeTimeDropdownOption, IRelativeTimePick
 import { getDefaultTimezone } from '../../utils/date.helper';
 import dayjs from 'dayjs';
 import { isEmpty } from 'lodash-es';
-import { BOTTOM_OPTIONS_HEIGHT, GROUP_GAP, MAX_HEIGHT, PADDING_SIZE, SELECT_OPTION_HEIGHT } from './relative-time-picker.config';
-import { DayjsTimeRange, SelectedTimestamp } from '../../types';
+import {
+	BOTTOM_OPTIONS_HEIGHT,
+	DEFAULT_TIMEZONE_GROUP_LABEL,
+	DEFAULT_TIMEZONE_GROUP_NAME,
+	GROUP_GAP,
+	MAX_HEIGHT,
+	OTHER_TIMEZONES_GROUP_LABEL,
+	OTHER_TIMEZONES_GROUP_NAME,
+	PADDING_SIZE,
+	SELECT_OPTION_HEIGHT
+} from './relative-time-picker.config';
+import { DayjsTimeRange, ISelectSingleOptions, ITimezoneOffset, SelectedTimestamp } from '../../types';
 import { buildOptionRange, buildTimestampRange } from '../../utils/relative-time.helper';
 
 export const buildRelativeTimeSelectOptions = (options: IRelativeTimePickerOption[][], timeZone: string = getDefaultTimezone()): IRelativeTimeDropdownOption[][] => {
@@ -71,4 +81,60 @@ export const isScrollNeeded = (options: IRelativeTimePickerOption[][], displayin
 	const customizeOptionHeight = displayingCustomizeOption ? BOTTOM_OPTIONS_HEIGHT : 0;
 	const dropdownOptionHeight = displayingTimezoneDropdown ? BOTTOM_OPTIONS_HEIGHT : 0;
 	return optionsListHeight > MAX_HEIGHT - customizeOptionHeight - dropdownOptionHeight - 2 * PADDING_SIZE;
+};
+
+export const buildTimezonesDropdownOptions = (timezones: ITimezoneOffset[]): ISelectSingleOptions => {
+	let defaultTimezoneGroup: ISelectSingleOptions = {};
+	const defaultTimezone = getDefaultTimezone();
+	let otherTimezones = [...timezones];
+
+	const defaultTimezoneIndex = otherTimezones.findIndex(({ name }) => name === defaultTimezone);
+	if (defaultTimezoneIndex !== -1) {
+		const timezone = otherTimezones[defaultTimezoneIndex];
+		otherTimezones.splice(defaultTimezoneIndex, 1);
+		defaultTimezoneGroup = {
+			[DEFAULT_TIMEZONE_GROUP_NAME]: {
+				label: DEFAULT_TIMEZONE_GROUP_LABEL,
+				value: DEFAULT_TIMEZONE_GROUP_NAME,
+				options: {
+					[timezone.name]: {
+						value: timezone.name,
+						label: timezone.label
+					}
+				}
+			}
+		};
+	}
+
+	let otherTimezoneGroup: ISelectSingleOptions = {};
+	if (!isEmpty(otherTimezones)) {
+		otherTimezoneGroup = {
+			[OTHER_TIMEZONES_GROUP_NAME]: {
+				label: OTHER_TIMEZONES_GROUP_LABEL,
+				value: OTHER_TIMEZONES_GROUP_NAME,
+				options: otherTimezones.reduce<ISelectSingleOptions>((accumulator, { label, name }) => {
+					accumulator[name] = accumulator[name] ?? {
+						value: name,
+						label
+					};
+
+					return accumulator;
+				}, {})
+			}
+		};
+	}
+
+	const options: ISelectSingleOptions = {
+		...defaultTimezoneGroup,
+		...otherTimezoneGroup
+	};
+
+	// Check if there's only one group
+	if (Object.keys(options).length === 1) {
+		const [groupKey] = Object.keys(options);
+
+		return options[groupKey].options;
+	}
+
+	return options;
 };
