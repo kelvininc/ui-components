@@ -20,12 +20,10 @@ import {
 	TIME_RANGE_UPDATE_INTERVAL
 } from './relative-time-picker.config';
 import { ISelectSingleOptions } from '../single-select-dropdown/single-select-dropdown.types';
-import { ITimezoneOffset } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.types';
 import { EIconName } from '../icon/icon.types';
-import { formatTimezoneName, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
-import { buildTimezoneByOffset, buildTimezonesDropdownOptions } from '../calendar-advanced-date-selector/calendar-advanced-date-selector.helper';
-import { buildRelativeTimeSelectOptions, getSelectedKeyRange, hasRangeChanged, isScrollNeeded } from './relative-time-picker.helper';
-import { CustomCssClass, EComponentSize, SelectedTimestamp } from '../../types';
+import { buildTimezoneByOffset, formatTimezoneName, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
+import { buildRelativeTimeSelectOptions, buildTimezonesDropdownOptions, getSelectedKeyRange, hasRangeChanged, isScrollNeeded } from './relative-time-picker.helper';
+import { CustomCssClass, EComponentSize, ITimezoneOffset, SelectedTimestamp } from '../../types';
 import { isEmpty } from 'lodash-es';
 import { getClassMap } from '../../utils/css-class.helper';
 import { searchDropdownOptions } from '../../utils/select.helper';

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { SelectedRange, DateInput, ITimePickerTimezone } from '../types';
+import { SelectedRange, DateInput, ITimePickerTimezone, ITimezoneOffset } from '../types';
 
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -129,4 +129,15 @@ export const getDefaultTimezoneSettings = (timezone?: string): ITimePickerTimezo
 		name: defaultTimezone,
 		offset: getTimezoneOffset(defaultTimezone)
 	};
+};
+
+export const buildTimezoneByOffset = (timezones: string[]): ITimezoneOffset[] => {
+	return timezones
+		.map(name => {
+			const offset = getTimezoneOffset(name);
+			const label = formatTimezoneName(name);
+
+			return { offset, name, label };
+		})
+		.sort((name1, name2) => name1.offset - name2.offset);
 };

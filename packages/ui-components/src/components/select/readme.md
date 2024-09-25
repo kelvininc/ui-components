@@ -101,7 +101,6 @@ export const KvSelectExample: React.FC = () => (
 
 ### Used by
 
- - [kv-calendar-advanced-date-selector](../calendar-advanced-date-selector)
  - [kv-select-multi-options](../select-multi-options)
 
 ### Depends on
@@ -121,7 +120,6 @@ graph TD;
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
-  kv-calendar-advanced-date-selector --> kv-select
   kv-select-multi-options --> kv-select
   style kv-select fill:#f9f,stroke:#333,stroke-width:4px
 ```
