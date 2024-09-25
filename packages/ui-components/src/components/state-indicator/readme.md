@@ -7,7 +7,7 @@
 
 ## Usage
 
-### Angular / javascript
+### Javascript
 
 ```html
 <!-- Default -->

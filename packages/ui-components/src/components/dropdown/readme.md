@@ -5,7 +5,7 @@
 
 ## Usage
 
-### Angular / javascript
+### Javascript
 
 ```html
 <kv-dropdown label="Options" icon="kv-layer" required=true>

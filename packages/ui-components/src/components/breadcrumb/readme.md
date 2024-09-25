@@ -7,13 +7,6 @@
 
 ## Usage
 
-### Angular
-
-```html
-<kv-breadcrumb [items]="breadcrumbItems"></kv-breadcrumb>
-```
-
-
 ### React
 
 ```tsx
