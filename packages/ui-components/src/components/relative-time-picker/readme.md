@@ -103,6 +103,7 @@ graph TD;
   kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-tooltip
   kv-select-multi-options --> kv-illustration-message
   kv-select-multi-options --> kv-select-create-option
   kv-select-multi-options --> kv-select-shortcuts-label
