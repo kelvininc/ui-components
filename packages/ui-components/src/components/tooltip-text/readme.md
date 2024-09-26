@@ -5,14 +5,6 @@
 
 ## Usage
 
-### Angular
-
-```html
-<!-- Default -->
-<kv-tooltip-text text="Tooltip" />
-```
-
-
 ### React
 
 ```tsx

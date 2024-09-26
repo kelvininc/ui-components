@@ -7,14 +7,6 @@
 
 ## Usage
 
-### Angular
-
-```html
-<!-- Default -->
-<kv-tag label="Tag label" />
-```
-
-
 ### React
 
 ```tsx

@@ -5,14 +5,6 @@
 
 ## Usage
 
-### Angular
-
-```html
-<!-- Default -->
-<kv-illustration-message />
-```
-
-
 ### React
 
 ```tsx
