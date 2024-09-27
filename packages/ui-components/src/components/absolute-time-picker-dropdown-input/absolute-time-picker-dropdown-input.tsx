@@ -15,7 +15,7 @@ import { fromISO, getDefaultTimezoneSettings } from '../../utils/date.helper';
 import { getFirstCalendarInitialDate, getSecondCalendarInitialDate } from '../absolute-time-picker/absolute-time-picker.helper';
 import { IClickDateEvent } from '../time-picker-calendar/time-picker-calendar.types';
 import { IAbsoluteTimePickerDropdownInput, IAbsoluteTimePickerDropdownInputEvents, SelectedTime, SelectedTimeState, TimeRange } from './absolute-time-picker-dropdown-input.types';
-import { isEmpty, isNumber } from 'lodash';
+import { isEmpty, isNumber } from 'lodash-es';
 import { getRangeCalendarDates, getRangeInputValues, getSingleCalendarDate, getSingleInputDate } from './absolute-time-picker-dropdown-input.utils';
 
 @Component({

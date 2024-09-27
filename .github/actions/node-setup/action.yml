@@ -9,11 +9,16 @@ inputs:
 runs:
     using: "composite"
     steps:
+        - name: Install pnpm
+          uses: pnpm/action-setup@v4
+          with:
+              version: 8.15.9
+
         - name: Setup Node.js
-          uses: actions/setup-node@v3
+          uses: actions/setup-node@v4
           with:
               node-version: ${{ inputs.node-version }}
-              cache: "npm"
+              cache: "pnpm"
 
         - name: Setup dependencies cache
           uses: actions/cache@v3
@@ -21,17 +26,13 @@ runs:
               path: |
                   **/node_modules
                   node_modules
-              key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/packages/*/package.json') }}
+              key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.json') }}-${{ hashFiles('**/packages/*/package.json') }}
               restore-keys: |
                   ${{ runner.os }}-node-
 
         - name: Install dependencies
           shell: bash
-          run: npm install
-
-        - name: Bootstrap packages
-          shell: bash
-          run: npm run bootstrap
+          run: pnpm install
           env:
               PUPPETEER_SKIP_DOWNLOAD: true
 
@@ -44,4 +45,4 @@ runs:
         - name: Download chrome binary
           shell: bash
           working-directory: packages/ui-components/node_modules/puppeteer
-          run: npm run postinstall
+          run: pnpm postinstall

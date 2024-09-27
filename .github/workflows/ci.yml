@@ -28,13 +28,13 @@ jobs:
                   node-version: ${{ matrix.node }}
 
             - name: 🔍 Run linter
-              run: npm run lint
+              run: pnpm lint
 
             - name: 🧪 Run tests
-              run: npm run test
+              run: pnpm test
 
             - name: 🏗️ Build all packages
-              run: npm run build:packages
+              run: pnpm build:packages
 
             - name: 💅 Build storybook
-              run: npm run storybook:build
+              run: pnpm storybook:build

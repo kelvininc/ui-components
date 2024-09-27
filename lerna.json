@@ -1,4 +1,5 @@
 {
+	"$schema": "node_modules/lerna/schemas/lerna-schema.json",
 	"packages": [
 		"packages/*"
 	],
@@ -16,9 +17,10 @@
 		"**/__tests__/**",
 		"**/*.md",
 		"**/package.json",
-		"**/package-lock.json",
-		"**/tsconfig.json",
-		"**/tslint.json"
+		"pnpm-lock.yaml",
+		"**/tsconfig.json"
 	],
+	"useWorkspaces": true,
+	"npmClient": "pnpm",
 	"version": "0.0.0"
 }

@@ -1,4 +1,4 @@
-import { isEmpty, isNil, isNumber } from 'lodash';
+import { isEmpty, isNil, isNumber } from 'lodash-es';
 import { EAbsoluteTimeError, EAbsoluteTimePickerMode, IAbsoluteTimeLimits, SelectedRange, SelectedTimestamp } from '../../types';
 import { CALENDAR_DATE_TIME_MASK } from '../absolute-time-picker/absolute-time-picker.config';
 import { createTimestampInTimezoneFromFormattedDate } from '../time-picker/time-picker.helper';

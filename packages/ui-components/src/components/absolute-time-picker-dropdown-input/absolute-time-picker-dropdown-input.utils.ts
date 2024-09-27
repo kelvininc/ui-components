@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { SelectedTimeState, TimeRange } from './absolute-time-picker-dropdown-input.types';
 import { CALENDAR_DATE_FORMAT, DATE_FORMAT } from './absolute-time-picker-dropdown-input.config';
-import { isEmpty, isNumber } from 'lodash';
+import { isEmpty, isNumber } from 'lodash-es';
 
 export const getSingleInputDate = (selectedTime: SelectedTimeState, timezoneName: string): string => {
 	if (isEmpty(selectedTime)) {

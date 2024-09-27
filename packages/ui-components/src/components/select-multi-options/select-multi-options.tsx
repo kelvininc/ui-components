@@ -9,7 +9,7 @@ import {
 	DEFAULT_NO_RESULTS_FOUND_ILLUSTRATION_CONFIG
 } from './select-multi-options.config';
 import { EToggleState } from '../select-option/select-option.types';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { buildAllOptionsSelected, getFlattenSelectOptions, getNextHightlightableOption, getPreviousHightlightableOption, getSelectableOptions } from '../../utils/select.helper';
 import { buildNewOption, buildSelectOptions } from './select-multi-options.helper';
 import { selectHelper } from '../../utils';

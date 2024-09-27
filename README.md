@@ -27,17 +27,11 @@ cd ui-components
 1. Install the dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
-2. Bootstrap the packages:
+2. Build the packages:
 
 ```bash
-npm run bootstrap
-```
-
-3. Build the packages:
-
-```bash
-npm run build:packages
+pnpm build:packages
 ```

@@ -1,4 +1,4 @@
-import { isEmpty, isNil } from 'lodash';
+import { isEmpty, isNil } from 'lodash-es';
 import { IStepBarStep } from '../step-bar/step-bar.types';
 import { IWizardFooter } from '../wizard-footer/wizard-footer.types';
 import { IWizardHeader } from '../wizard-header/wizard-header.types';

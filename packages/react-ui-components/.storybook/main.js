@@ -5,7 +5,12 @@ module.exports = {
 	addons: [
 		'@storybook/addon-links',
 		'@storybook/addon-essentials',
-		'@storybook/preset-create-react-app',
+		{
+			name: '@storybook/preset-create-react-app',
+			options: {
+				scriptsPackageName: 'react-scripts'
+			}
+		},
 		'storybook-addon-themes',
 		'@pxtrn/storybook-addon-docs-stencil',
 		'@storybook/addon-notes/register'
@@ -27,7 +32,7 @@ module.exports = {
 		config.resolve.alias = {
 			...config.resolve?.alias,
 			'@ui-notes': path.resolve(__dirname, '../../ui-components/src/components'),
-			'@react-ui-notes': path.resolve(__dirname, '../src/components'),
+			'@react-ui-notes': path.resolve(__dirname, '../src/components')
 		};
 
 		return config;

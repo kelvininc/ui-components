@@ -1,4 +1,4 @@
-import { isNil } from 'lodash';
+import { isNil } from 'lodash-es';
 
 export const isElementVisible = (element: HTMLElement, selector: string): boolean => {
 	const foundElement = element.querySelector(selector);

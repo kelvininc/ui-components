@@ -30,3 +30,6 @@ docs
 
 # Produced build files
 components.d.ts
+
+# Optional eslint cache
+.eslintcache
