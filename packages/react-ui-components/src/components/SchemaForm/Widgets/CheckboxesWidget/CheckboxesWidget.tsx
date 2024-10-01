@@ -1,5 +1,5 @@
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
-import { KvToggleButtonGroup } from '../../../stencil-generated';
+import { KvToggleButtonGroup } from '../../../../stencil-generated';
 import React, { useCallback, useMemo } from 'react';
 import { buildToggleButtons, buildSelectedToggleButtons, toggleSelectedOptions, buildDisabledToggleButtons, getComponentSize } from './utils';
 import { ICheckboxConfig } from './types';

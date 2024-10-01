@@ -2,12 +2,12 @@
 
 exports[`KvBreadcrumbItem (unit tests) when the component loads should match the snapshot 1`] = `
 <kv-breadcrumb-item active="" label="Awesome Label">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="breadcrumb-item breadcrumb-item--active">
       <slot>
         Awesome Label
       </slot>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-breadcrumb-item>
 `;

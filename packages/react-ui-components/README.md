@@ -19,7 +19,7 @@ pnpm install @kelvininc/react-ui-components --save
 Include the fonts in `index.js` or `index.tsx`.
 
 ```tsx
-import '@kelvininc/react-ui-components/assets/fonts/font-proxima-nova.css';
+import '@kelvininc/react-ui-components/dist/assets/fonts/font-proxima-nova.css';
 ```
 
 Now you are ready to use all available _Kelvin UI Components_. For example:
@@ -41,7 +41,7 @@ import { EActionButtonType, KvActionButton } from '@kelvininc/react-ui-component
 Including the global style file you can access our foundation design system definitions like [colors](https://kelvininc.github.io/ui-components/?path=/story/foundation-colors--page), [spacings](https://kelvininc.github.io/ui-components/?path=/docs/foundation-spatial-system--page) and [typography](https://kelvininc.github.io/ui-components/?path=/docs/foundation-typography--page)
 
 ```css
-@import '@kelvininc/react-ui-components/assets/styles/globals.scss';
+@import '@kelvininc/react-ui-components/dist/assets/styles/globals.scss';
 ```
 
 ## Themes

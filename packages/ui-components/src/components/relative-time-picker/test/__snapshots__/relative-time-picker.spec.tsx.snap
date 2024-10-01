@@ -2,7 +2,7 @@
 
 exports[`KvRelativeTimePicker (unit tests) when the component loads with both customize interval and timezone components hidden should match the snapshot 1`] = `
 <kv-relative-time-picker custom-class="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="relative-time-container" style="--max-height: 347px; --group-gap: 12px;">
       <div class="relative-time-selector" style="--option-height: 32px; --padding-size: 16px;">
         <div class="relative-time-group">
@@ -10,13 +10,13 @@ exports[`KvRelativeTimePicker (unit tests) when the component loads with both cu
         </div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-relative-time-picker>
 `;
 
 exports[`KvRelativeTimePicker (unit tests) when the component loads with empty props should match the snapshot 1`] = `
 <kv-relative-time-picker custom-class="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="relative-time-container" style="--max-height: 347px; --group-gap: 12px;">
       <div class="relative-time-selector" style="--option-height: 32px; --padding-size: 16px;">
         <div class="relative-time-group">
@@ -32,6 +32,6 @@ exports[`KvRelativeTimePicker (unit tests) when the component loads with empty p
         </kv-input-wrapper>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-relative-time-picker>
 `;

@@ -2,7 +2,7 @@
 
 exports[`Text Area (unit tests) when initialized with icon should match the snapshot 1`] = `
 <kv-text-area counter="" icon="kv-notes" max-char-length="100">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="text-area-container">
       <kv-icon class="left-icon" customclass="icon-20" name="kv-notes"></kv-icon>
       <div class="text-area">
@@ -14,13 +14,13 @@ exports[`Text Area (unit tests) when initialized with icon should match the snap
         </div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-text-area>
 `;
 
 exports[`Text Area (unit tests) when initialized with required props should match the snapshot 1`] = `
 <kv-text-area counter="" max-char-length="100">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="text-area-container">
       <div class="text-area">
         <div class="text-area-wrapper">
@@ -31,13 +31,13 @@ exports[`Text Area (unit tests) when initialized with required props should matc
         </div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-text-area>
 `;
 
 exports[`Text Area (unit tests) when initialized with text and placeholder should match the snapshot 1`] = `
 <kv-text-area counter="" max-char-length="100" placeholder="Add Description" text="Hello World">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="text-area-container">
       <div class="text-area">
         <div class="text-area-wrapper">
@@ -50,13 +50,13 @@ exports[`Text Area (unit tests) when initialized with text and placeholder shoul
         </div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-text-area>
 `;
 
 exports[`Text Area (unit tests) when initialized with text should match the snapshot 1`] = `
 <kv-text-area counter="" max-char-length="100" text="Hello World">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="text-area-container">
       <div class="text-area">
         <div class="text-area-wrapper">
@@ -69,6 +69,6 @@ exports[`Text Area (unit tests) when initialized with text should match the snap
         </div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-text-area>
 `;

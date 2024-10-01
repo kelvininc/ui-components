@@ -2,7 +2,7 @@
 
 exports[`Tag Letter (unit tests) when has a tag letter should match the snapshot 1`] = `
 <kv-tag-letter label="Tag Letter" tag-letter="T">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="tag-letter-container">
       <div class="letter-avatar">
         <div class="avatar">
@@ -13,13 +13,13 @@ exports[`Tag Letter (unit tests) when has a tag letter should match the snapshot
         Tag Letter
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tag-letter>
 `;
 
 exports[`Tag Letter (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-tag-letter label="Tag Letter Default">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="tag-letter-container">
       <div class="letter-avatar">
         <div class="avatar"></div>
@@ -28,6 +28,6 @@ exports[`Tag Letter (unit tests) when uses default props should match the snapsh
         Tag Letter Default
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tag-letter>
 `;

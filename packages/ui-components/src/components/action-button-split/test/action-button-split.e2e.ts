@@ -17,9 +17,10 @@ describe('Action Button Split (end-to-end)', () => {
 		});
 
 		it('should render right action button', async () => {
-			const rightButtonElement = await page.find('kv-action-button-split >>> kv-action-button');
-			expect(rightButtonElement).toBeTruthy();
-			expect(rightButtonElement.getAttribute('type')).toEqual(EActionButtonType.Primary);
+			const actionButtons = await page.findAll('kv-action-button-split >>> kv-action-button');
+			const rightActionButtonElement = actionButtons[actionButtons.length - 1];
+			expect(rightActionButtonElement).toBeTruthy();
+			expect(rightActionButtonElement.getAttribute('type')).toEqual(EActionButtonType.Primary);
 		});
 
 		describe('and user clicks on the left button', () => {
@@ -42,11 +43,12 @@ describe('Action Button Split (end-to-end)', () => {
 			let spyChangeEvent: EventSpy;
 
 			beforeEach(async () => {
-				const rightctionButtonIconElement = await page.find('kv-action-button-split');
-				spyChangeEvent = await rightctionButtonIconElement.spyOnEvent('clickRightButton');
+				const rightActionButtonIconElement = await page.find('kv-action-button-split');
+				spyChangeEvent = await rightActionButtonIconElement.spyOnEvent('clickRightButton');
 
-				const rightctionButtonElement = await page.find('kv-action-button-split >>> kv-action-button');
-				await rightctionButtonElement.click();
+				const actionButtons = await page.findAll('kv-action-button-split >>> kv-action-button');
+				const rightActionButtonElement = actionButtons[actionButtons.length - 1];
+				await rightActionButtonElement.click();
 			});
 
 			it('should emit clickRightButton event', () => {
@@ -94,11 +96,12 @@ describe('Action Button Split (end-to-end)', () => {
 			let spyChangeEvent: EventSpy;
 
 			beforeEach(async () => {
-				const rightctionButtonIconElement = await page.find('kv-action-button-split');
-				spyChangeEvent = await rightctionButtonIconElement.spyOnEvent('clickRightButton');
+				const rightActionButtonIconElement = await page.find('kv-action-button-split');
+				spyChangeEvent = await rightActionButtonIconElement.spyOnEvent('clickRightButton');
 
-				const rightctionButtonElement = await page.find('kv-action-button-split >>> kv-action-button');
-				await rightctionButtonElement.click();
+				const actionButtons = await page.findAll('kv-action-button-split >>> kv-action-button');
+				const rightActionButtonElement = actionButtons[actionButtons.length - 1];
+				await rightActionButtonElement.click();
 			});
 
 			it('should not emit clickRightButton event', () => {

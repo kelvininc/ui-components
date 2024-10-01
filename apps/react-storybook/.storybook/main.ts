@@ -85,7 +85,7 @@ const config: StorybookConfig = {
 			to: "/"
 		},
 		{
-			from: "../node_modules/@kelvininc/react-ui-components/assets",
+			from: "../node_modules/@kelvininc/react-ui-components/dist/assets",
 			to: "/"
 		},
 		{

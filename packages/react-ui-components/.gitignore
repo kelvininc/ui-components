@@ -61,5 +61,4 @@ typings/
 # Produced build files
 dist
 dist-transpiled
-assets
 stencil-generated

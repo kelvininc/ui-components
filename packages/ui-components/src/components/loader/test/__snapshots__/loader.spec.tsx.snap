@@ -9,16 +9,16 @@ exports[`Loader (unit tests) when has overlay should match the snapshot 1`] = `
 
 exports[`Loader (unit tests) when is loading should match the snapshot 1`] = `
 <kv-loader is-loading="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="loader-container">
       <div class="loader"></div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-loader>
 `;
 
 exports[`Loader (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-loader>
-  <mock:shadow-root></mock:shadow-root>
+  <template shadowrootmode="open"></template>
 </kv-loader>
 `;

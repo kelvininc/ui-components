@@ -2,6 +2,7 @@
 dist
 docs
 loader
+components
 node_modules
 unit-coverage
 www

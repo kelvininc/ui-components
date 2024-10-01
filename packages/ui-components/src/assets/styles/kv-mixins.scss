@@ -108,7 +108,7 @@
 
 @mixin rotate-border-animation($border-radius: $spacing-2x, $border-width: 2px, $inset: 0) {
 	position: relative;
-	
+
 	&::before {
 		--rotation: 0deg;
 
