@@ -1,7 +1,7 @@
 import { EActionButtonType, EComponentSize, EIconName, EInputFieldType } from '@kelvininc/ui-components';
 import { ADDITIONAL_PROPERTY_FLAG, FormContextType, RJSFSchema, StrictRJSFSchema, WrapIfAdditionalTemplateProps } from '@rjsf/utils';
 import React from 'react';
-import { KvActionButtonIcon, KvTextField } from '../../../stencil-generated';
+import { KvActionButtonIcon, KvTextField } from '../../../../stencil-generated/components';
 import styles from './WrapIfAdditionalTemplate.module.scss';
 
 const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({

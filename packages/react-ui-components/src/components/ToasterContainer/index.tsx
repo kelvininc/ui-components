@@ -2,7 +2,7 @@ import React, { PropsWithChildren, useCallback, useState } from 'react';
 import ReactDOM from 'react-dom';
 import type { IToaster, JSX } from '@kelvininc/ui-components';
 
-import { KvToaster } from '../stencil-generated';
+import { KvToaster } from '../../stencil-generated/components';
 import { DEFAULT_ROOT_ID, TOASTER_CONFIG } from './config';
 
 export type ToasterContainerProps = {

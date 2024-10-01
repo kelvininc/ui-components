@@ -2,7 +2,7 @@
 
 exports[`Wizard Footer (unit tests) when using required props and steps dont have errors should match the snapshot 1`] = `
 <kv-wizard-footer cancel-enabled="" complete-btn-label="Submit" current-step="1" next-enabled="" prev-enabled="" progress-percentage="50" show-step-bar="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="wizard-footer-container">
       <div class="actions-container" part="footer-actions-container">
         <div class="wizard-stepper">
@@ -12,13 +12,13 @@ exports[`Wizard Footer (unit tests) when using required props and steps dont hav
       </div>
       <div class="buttons-container"></div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-wizard-footer>
 `;
 
 exports[`Wizard Footer (unit tests) when using required props and steps have errors should match the snapshot 1`] = `
 <kv-wizard-footer cancel-enabled="" complete-btn-label="Submit" current-step="1" has-error="" next-enabled="" prev-enabled="" progress-percentage="50" show-step-bar="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="wizard-footer-container">
       <div class="actions-container" part="footer-actions-container">
         <div class="wizard-stepper">
@@ -28,6 +28,6 @@ exports[`Wizard Footer (unit tests) when using required props and steps have err
       </div>
       <div class="buttons-container"></div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-wizard-footer>
 `;

@@ -2,7 +2,7 @@
 
 exports[`Wizard (unit tests) when current step don't have state should match the snapshot 1`] = `
 <kv-wizard current-step="1" show-header="" show-step-bar="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="wizard">
       <div class="wizard-header">
         <kv-wizard-header description="Configuration" label="Step 2"></kv-wizard-header>
@@ -16,13 +16,13 @@ exports[`Wizard (unit tests) when current step don't have state should match the
         </kv-wizard-footer>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-wizard>
 `;
 
 exports[`Wizard (unit tests) when current step have errors should match the snapshot 1`] = `
 <kv-wizard current-step="1" current-step-state="error" show-header="" show-step-bar="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="wizard">
       <div class="wizard-header">
         <kv-wizard-header description="Configuration" label="Step 2"></kv-wizard-header>
@@ -36,13 +36,13 @@ exports[`Wizard (unit tests) when current step have errors should match the snap
         </kv-wizard-footer>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-wizard>
 `;
 
 exports[`Wizard (unit tests) when current step have success state should match the snapshot 1`] = `
 <kv-wizard current-step="1" current-step-state="success" show-header="" show-step-bar="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="wizard">
       <div class="wizard-header">
         <kv-wizard-header description="Configuration" label="Step 2"></kv-wizard-header>
@@ -56,13 +56,13 @@ exports[`Wizard (unit tests) when current step have success state should match t
         </kv-wizard-footer>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-wizard>
 `;
 
 exports[`Wizard (unit tests) when current step is the first one should match the snapshot 1`] = `
 <kv-wizard current-step="0" current-step-state="success" show-header="" show-step-bar="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="wizard">
       <div class="wizard-header">
         <kv-wizard-header description="Info" label="Step 1"></kv-wizard-header>
@@ -76,13 +76,13 @@ exports[`Wizard (unit tests) when current step is the first one should match the
         </kv-wizard-footer>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-wizard>
 `;
 
 exports[`Wizard (unit tests) when current step is the last one should match the snapshot 1`] = `
 <kv-wizard complete-btn-label="Deploy" current-step="2" current-step-state="success" show-header="" show-step-bar="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="wizard">
       <div class="wizard-header">
         <kv-wizard-header description="Confirmation" label="Step 3"></kv-wizard-header>
@@ -96,13 +96,13 @@ exports[`Wizard (unit tests) when current step is the last one should match the 
         </kv-wizard-footer>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-wizard>
 `;
 
 exports[`Wizard (unit tests) when showHeader is false should match the snapshot 1`] = `
 <kv-wizard current-step="1" show-step-bar="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="wizard">
       <div class="wizard-content">
         <slot name="step-content"></slot>
@@ -113,13 +113,13 @@ exports[`Wizard (unit tests) when showHeader is false should match the snapshot 
         </kv-wizard-footer>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-wizard>
 `;
 
 exports[`Wizard (unit tests) when showStepBar is false should match the snapshot 1`] = `
 <kv-wizard current-step="1" show-header="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="wizard">
       <div class="wizard-header">
         <kv-wizard-header description="Configuration" label="Step 2"></kv-wizard-header>
@@ -133,6 +133,6 @@ exports[`Wizard (unit tests) when showStepBar is false should match the snapshot
         </kv-wizard-footer>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-wizard>
 `;

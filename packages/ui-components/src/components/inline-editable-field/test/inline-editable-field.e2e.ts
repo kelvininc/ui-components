@@ -11,7 +11,7 @@ describe('KvInlineEditableField (e2e tests)', () => {
 			page = await newE2EPage({ failOnConsoleError: true });
 			await page.setContent(`
 				<kv-inline-editable-field>
-					<div>title<div>
+					<div>title</div>
 				</kv-inline-editable-field>`);
 			await page.waitForChanges();
 

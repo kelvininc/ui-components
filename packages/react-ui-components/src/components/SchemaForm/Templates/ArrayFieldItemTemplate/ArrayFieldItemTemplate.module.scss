@@ -1,6 +1,6 @@
-@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+@import 'node_modules/@kelvininc/ui-components/dist/assets/globals.scss';
 
-.ArrayItemContainer [class*="ArrayFieldTemplate_ArrayFieldTemplate"] {
+.ArrayItemContainer [class*='ArrayFieldTemplate_ArrayFieldTemplate'] {
 	border: 1px solid kv-color('neutral-6');
 	border-width: 0 1px;
 	padding: 0 $spacing-5x;
@@ -34,7 +34,7 @@
 
 body {
 	&[mode='light'] {
-		.ArrayItemContainer [class*="ArrayFieldTemplate_ArrayFieldTemplate"] {
+		.ArrayItemContainer [class*='ArrayFieldTemplate_ArrayFieldTemplate'] {
 			border-color: kv-color('neutral-2');
 		}
 
@@ -44,7 +44,7 @@ body {
 	}
 
 	&[mode='night'] {
-		.ArrayItemContainer [class*="ArrayFieldTemplate_ArrayFieldTemplate"] {
+		.ArrayItemContainer [class*='ArrayFieldTemplate_ArrayFieldTemplate'] {
 			border-color: kv-color('neutral-6');
 		}
 

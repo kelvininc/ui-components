@@ -25,7 +25,7 @@ describe('Tab Item (end-to-end)', () => {
 				const tabContainerEl = await page.find('kv-tab-item >>> .tab-item-container');
 				await tabContainerEl.click();
 
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it(`should emit the tab's key (tabKey)`, () => {
@@ -51,7 +51,7 @@ describe('Tab Item (end-to-end)', () => {
 				const tabContainerEl = await page.find('kv-tab-item >>> .tab-item-container');
 				await tabContainerEl.click();
 
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it(`should not emit the tab's key (tabKey)`, () => {

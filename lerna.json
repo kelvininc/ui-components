@@ -14,8 +14,8 @@
 		"**/__tests__/**",
 		"**/*.md",
 		"**/package.json",
-		"pnpm-lock.yaml",
-		"**/tsconfig.json"
+		"**/tsconfig.json",
+		"pnpm-lock.yaml"
 	],
 	"npmClient": "pnpm",
 	"version": "0.0.0"

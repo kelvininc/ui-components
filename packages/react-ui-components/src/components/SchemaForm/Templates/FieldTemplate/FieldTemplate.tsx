@@ -2,7 +2,7 @@ import { EValidationState } from '@kelvininc/ui-components';
 import { FieldTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema, getTemplate, getUiOptions } from '@rjsf/utils';
 import { get, isEmpty, merge } from 'lodash';
 import React, { useMemo } from 'react';
-import { KvFormHelpText } from '../../../stencil-generated';
+import { KvFormHelpText } from '../../../../stencil-generated/components';
 import styles from './FieldTemplate.module.scss';
 import buildDefaultHelperText from './utils';
 import { EDescriptionPosition } from '../../types';

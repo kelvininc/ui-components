@@ -1,6 +1,6 @@
 import React from 'react';
 import { DescriptionFieldProps, FormContextType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
-import { KvInfoLabel } from '../../../stencil-generated';
+import { KvInfoLabel } from '../../../../stencil-generated/components';
 import styles from './DescriptionFieldTemplate.module.scss';
 import { isString } from 'lodash';
 import { stringHelper } from '@kelvininc/ui-components';

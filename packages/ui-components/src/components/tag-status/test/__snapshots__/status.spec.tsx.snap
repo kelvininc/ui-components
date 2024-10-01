@@ -2,7 +2,7 @@
 
 exports[`Status Tag (unit tests) when uses state error and icon error should match the snapshot 1`] = `
 <kv-tag-status icon="kv-error" label="Error" state="error">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="tag-status">
       <div class="icon icon--state-error">
         <kv-icon exportparts="icon" name="kv-error"></kv-icon>
@@ -11,6 +11,6 @@ exports[`Status Tag (unit tests) when uses state error and icon error should mat
         Error
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tag-status>
 `;

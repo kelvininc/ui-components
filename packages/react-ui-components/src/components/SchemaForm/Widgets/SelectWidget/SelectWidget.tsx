@@ -2,7 +2,7 @@ import { EComponentSize, EValidationState } from '@kelvininc/ui-components';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 import { isEmpty } from 'lodash';
 import React, { useCallback, useMemo, useState } from 'react';
-import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../stencil-generated';
+import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../../stencil-generated/components';
 import styles from './SelectWidget.module.scss';
 import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, searchDropdownOptions } from './utils';
 import { DEFAULT_DROPDOWN_CONFIG, DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
@@ -60,7 +60,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		const selectedOptions = getSelectedOptions(selectedOptionsMap);
 		onChangeValue(selectedOptions);
 	}, []);
-	const onChangeValue = useCallback(newValue => {
+	const onChangeValue = useCallback((newValue: string | string[]) => {
 		const processedValue = processValue(schema, newValue);
 		onChange(processedValue);
 	}, []);

@@ -5,7 +5,7 @@ import { JSX } from '@kelvininc/ui-components';
 import { IModalController } from './types';
 import { DEFAULT_MODAL_ROOT_ID } from './config';
 
-import { KvModal } from '../stencil-generated';
+import { KvModal } from '../../stencil-generated/components';
 
 export type ModalOverlayProps = {
 	rootId?: string;

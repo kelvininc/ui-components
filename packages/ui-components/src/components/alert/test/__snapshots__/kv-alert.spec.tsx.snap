@@ -2,7 +2,7 @@
 
 exports[`Alert (unit tests when using required props and defaults should match the snapshot 1`] = `
 <kv-alert label="Main Message" show-icon="" size="large" type="info">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="alert-container">
       <div class="alert alert--type-info" part="container">
         <div class="information">
@@ -17,13 +17,13 @@ exports[`Alert (unit tests when using required props and defaults should match t
         <slot name="actions"></slot>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-alert>
 `;
 
 exports[`Alert (unit tests when using required props and description should match the snapshot 1`] = `
 <kv-alert description="Secondary Message" label="Main Message" show-icon="" size="large" type="info">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="alert-container">
       <div class="alert alert--type-info" part="container">
         <div class="information">
@@ -42,13 +42,13 @@ exports[`Alert (unit tests when using required props and description should matc
         <slot name="actions"></slot>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-alert>
 `;
 
 exports[`Alert (unit tests when using required props and showIcon \`false\` should match the snapshot 1`] = `
 <kv-alert label="Main Message" show-icon="false" size="large" type="info">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="alert-container">
       <div class="alert alert--type-info" part="container">
         <div class="information">
@@ -62,6 +62,6 @@ exports[`Alert (unit tests when using required props and showIcon \`false\` shou
         <slot name="actions"></slot>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-alert>
 `;

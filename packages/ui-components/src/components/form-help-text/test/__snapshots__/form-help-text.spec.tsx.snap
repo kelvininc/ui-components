@@ -2,25 +2,25 @@
 
 exports[`Form Help Text (unit tests) when has a help text and state is invalid should match the snapshot 1`] = `
 <kv-form-help-text help-text="Help Text" state="invalid">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="help-text-container invalid">
       <kv-icon customclass="icon-16" name="kv-error"></kv-icon>
       <span class="help-text">
         Help Text
       </span>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-form-help-text>
 `;
 
 exports[`Form Help Text (unit tests) when has a help text should match the snapshot 1`] = `
 <kv-form-help-text helptext="Text Field" state="none">
-  <mock:shadow-root></mock:shadow-root>
+  <template shadowrootmode="open"></template>
 </kv-form-help-text>
 `;
 
 exports[`Form Help Text (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-form-help-text state="none">
-  <mock:shadow-root></mock:shadow-root>
+  <template shadowrootmode="open"></template>
 </kv-form-help-text>
 `;

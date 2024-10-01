@@ -2,30 +2,30 @@
 
 exports[`Icon (unit tests) when has custom classes should match the snapshot 1`] = `
 <kv-icon custom-class="icon-full-size rotate-90" custom-color="" name="kv-logo-kelvin">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <svg class="icon icon-full-size rotate-90" part="icon" xmlns="http://www.w3.org/2000/svg">
       <use href="/svg-symbols.svg#kv-logo-kelvin"></use>
     </svg>
-  </mock:shadow-root>
+  </template>
 </kv-icon>
 `;
 
 exports[`Icon (unit tests) when has custom color should match the snapshot 1`] = `
 <kv-icon custom-class="" custom-color="#05a357" name="kv-logo-kelvin">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <svg class="icon" part="icon" xmlns="http://www.w3.org/2000/svg" style="fill: #05a357;">
       <use href="/svg-symbols.svg#kv-logo-kelvin"></use>
     </svg>
-  </mock:shadow-root>
+  </template>
 </kv-icon>
 `;
 
 exports[`Icon (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-icon custom-class="" custom-color="" name="kv-logo-kelvin">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <svg class="icon" part="icon" xmlns="http://www.w3.org/2000/svg">
       <use href="/svg-symbols.svg#kv-logo-kelvin"></use>
     </svg>
-  </mock:shadow-root>
+  </template>
 </kv-icon>
 `;

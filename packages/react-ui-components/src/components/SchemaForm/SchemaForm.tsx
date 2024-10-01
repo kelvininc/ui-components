@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { cloneDeep, isEmpty, isEqualWith } from 'lodash';
 import React, { ComponentProps, ComponentType, FormEvent, ForwardedRef, forwardRef, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useScroll } from '../../hooks';
-import { KvActionButtonText, KvTooltip } from '../stencil-generated';
+import { KvActionButtonText, KvTooltip } from '../../stencil-generated/components';
 import { SCROLL_OFFSET } from './config';
 import { useFieldTemplateElement } from './hooks/useFieldTemplateElement';
 import styles from './SchemaForm.module.scss';
@@ -181,5 +181,3 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		</div>
 	);
 }
-
-export default KvSchemaForm;

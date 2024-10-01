@@ -2,10 +2,10 @@
 
 exports[`KvBreadcrumbItem (unit tests) when the component loads and doesnt have a separator should match the snapshot 1`] = `
 <kv-breadcrumb-list>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="breadcrumb-list" part="breadcrumb-list">
       <slot></slot>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-breadcrumb-list>
 `;

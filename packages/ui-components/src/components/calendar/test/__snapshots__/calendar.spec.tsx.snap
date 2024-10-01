@@ -2,7 +2,7 @@
 
 exports[`Calendar (unit tests) when disabled dates is passed and all dates are valid should match the snapshot 1`] = `
 <kv-calendar>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="calendar">
       <div class="calendar__header">
         <div class="navigator">
@@ -87,13 +87,13 @@ exports[`Calendar (unit tests) when disabled dates is passed and all dates are v
         </div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-calendar>
 `;
 
 exports[`Calendar (unit tests) when initial date is passed and is a valid date should match the snapshot 1`] = `
 <kv-calendar initial-date="2022-08-01">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="calendar">
       <div class="calendar__header">
         <div class="navigator">
@@ -178,13 +178,13 @@ exports[`Calendar (unit tests) when initial date is passed and is a valid date s
         </div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-calendar>
 `;
 
 exports[`Calendar (unit tests) when selected dates is passed and all dates are valid should match the snapshot 1`] = `
 <kv-calendar>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="calendar">
       <div class="calendar__header">
         <div class="navigator">
@@ -269,13 +269,13 @@ exports[`Calendar (unit tests) when selected dates is passed and all dates are v
         </div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-calendar>
 `;
 
 exports[`Calendar (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-calendar>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="calendar">
       <div class="calendar__header">
         <div class="navigator">
@@ -360,6 +360,6 @@ exports[`Calendar (unit tests) when uses default props should match the snapshot
         </div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-calendar>
 `;

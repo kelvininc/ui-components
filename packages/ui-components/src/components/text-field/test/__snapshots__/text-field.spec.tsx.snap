@@ -2,7 +2,7 @@
 
 exports[`Text Field (unit tests) when has a label should match the snapshot 1`] = `
 <kv-text-field fit-content="" input-mask-regex="" label="Text Field" placeholder="" state="none" type="text" value="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <kv-tooltip position="top-start" truncate="">
       <div class="text-field-container">
         <kv-form-label label="Text Field"></kv-form-label>
@@ -23,13 +23,13 @@ exports[`Text Field (unit tests) when has a label should match the snapshot 1`] 
         <kv-form-help-text state="none"></kv-form-help-text>
       </div>
     </kv-tooltip>
-  </mock:shadow-root>
+  </template>
 </kv-text-field>
 `;
 
 exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] = `
 <kv-text-field fit-content="" input-disabled="" input-mask-regex="" placeholder="" state="none" type="text" value="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <kv-tooltip position="top-start" truncate="">
       <div class="text-field-container">
         <kv-form-label></kv-form-label>
@@ -50,13 +50,13 @@ exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] 
         <kv-form-help-text state="none"></kv-form-help-text>
       </div>
     </kv-tooltip>
-  </mock:shadow-root>
+  </template>
 </kv-text-field>
 `;
 
 exports[`Text Field (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-text-field fit-content="" input-mask-regex="" placeholder="" state="none" type="text" value="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <kv-tooltip position="top-start" truncate="">
       <div class="text-field-container">
         <kv-form-label></kv-form-label>
@@ -77,6 +77,6 @@ exports[`Text Field (unit tests) when uses default props should match the snapsh
         <kv-form-help-text state="none"></kv-form-help-text>
       </div>
     </kv-tooltip>
-  </mock:shadow-root>
+  </template>
 </kv-text-field>
 `;

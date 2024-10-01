@@ -1,17 +1,16 @@
 import { Config } from '@stencil/core';
-import { reactOutputTarget as react } from '@stencil/react-output-target';
+import { reactOutputTarget } from '@stencil/react-output-target';
 import { sass } from '@stencil/sass';
 
-const SOURCE_MAP = process.env.SOURCE_MAP ?? false;
+const SOURCE_MAP = process.env.SOURCE_MAP === 'true';
 
 export const config: Config = {
 	namespace: 'Peacock-UI',
 	globalScript: 'src/globals/globals.ts',
 	outputTargets: [
-		react({
-			componentCorePackage: '@kelvininc/ui-components',
-			proxiesFile: '../react-ui-components/src/components/stencil-generated/index.ts',
-			includeDefineCustomElements: true
+		reactOutputTarget({
+			outDir: '../react-ui-components/src/stencil-generated/',
+			hydrateModule: '@kelvininc/ui-components/hydrate'
 		}),
 		{
 			type: 'dist',
@@ -19,7 +18,9 @@ export const config: Config = {
 			copy: [{ src: 'assets', dest: '../assets', warn: true }]
 		},
 		{
-			type: 'dist-custom-elements'
+			type: 'dist-custom-elements',
+			customElementsExportBehavior: 'auto-define-custom-elements',
+			externalRuntime: false
 		},
 		{
 			type: 'docs-readme',
@@ -34,29 +35,25 @@ export const config: Config = {
 		{
 			type: 'www',
 			serviceWorker: null, // disable service workers
-			copy: [{ src: 'assets/svg-symbols.svg', dest: 'svg-symbols.svg' }]
+			copy: [{ src: 'assets/svg-symbols.svg' }]
+		},
+		{
+			type: 'dist-hydrate-script',
+			dir: './hydrate'
 		}
 	],
 	plugins: [sass()],
 	sourceMap: SOURCE_MAP,
 	testing: {
+		browserHeadless: 'new',
 		moduleNameMapper: {
 			'^lodash-es$': 'lodash'
 		},
-		testRegex: '(.(test|spec|e2e)).(tsx?|jsx?)$',
+		testRegex: ['(.(test|spec|e2e)).(tsx?|jsx?)$'],
 		collectCoverage: true,
 		moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'jsx', 'd.ts'],
 		coverageDirectory: 'unit-coverage',
 		coveragePathIgnorePatterns: ['/node_modules/', '.types.tsx', '.mock.ts', '.config.tsx'],
-		coverageReporters: ['html', 'json'],
-		verbose: true
-		// coverageThreshold: {
-		// 	global: {
-		// 		branches: 60,
-		// 		functions: 65,
-		// 		lines: 70,
-		// 		statements: 70,
-		// 	},
-		// }
+		coverageReporters: ['html', 'json']
 	}
 };

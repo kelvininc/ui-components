@@ -1,7 +1,7 @@
 import { EComponentSize, EActionButtonType, EIconName } from '@kelvininc/ui-components';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 
-import { KvActionButtonIcon, KvActionButtonText, KvIcon } from '../../../stencil-generated';
+import { KvActionButtonIcon, KvActionButtonText, KvIcon } from '../../../../stencil-generated/components';
 import React, { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import styles from './FileWidget.module.scss';
 import { get, isEmpty } from 'lodash';

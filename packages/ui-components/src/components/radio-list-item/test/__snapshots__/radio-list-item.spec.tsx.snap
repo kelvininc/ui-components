@@ -2,7 +2,7 @@
 
 exports[`Radio List Item (unit tests) when passing required props and \`checked\` true should match the snapshot 1`] = `
 <kv-radio-list-item checked="" label="K3S" option-id="k3s">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="radio-list-item-container radio-list-item-container--checked">
       <kv-radio checked=""></kv-radio>
       <div class="info">
@@ -11,13 +11,13 @@ exports[`Radio List Item (unit tests) when passing required props and \`checked\
         </div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-radio-list-item>
 `;
 
 exports[`Radio List Item (unit tests) when passing required props and \`disabled\` true should match the snapshot 1`] = `
 <kv-radio-list-item disabled="" label="K3S" option-id="k3s">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="radio-list-item-container radio-list-item-container--disabled">
       <kv-radio disabled=""></kv-radio>
       <div class="info">
@@ -26,13 +26,13 @@ exports[`Radio List Item (unit tests) when passing required props and \`disabled
         </div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-radio-list-item>
 `;
 
 exports[`Radio List Item (unit tests) when passing required props and a description should match the snapshot 1`] = `
 <kv-radio-list-item description="Check the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="K3S" option-id="k3s">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="radio-list-item-container">
       <kv-radio></kv-radio>
       <div class="info">
@@ -46,13 +46,13 @@ exports[`Radio List Item (unit tests) when passing required props and a descript
         </div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-radio-list-item>
 `;
 
 exports[`Radio List Item (unit tests) when passing required props should match the snapshot 1`] = `
 <kv-radio-list-item label="K3S" option-id="k3s">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="radio-list-item-container">
       <kv-radio></kv-radio>
       <div class="info">
@@ -61,6 +61,6 @@ exports[`Radio List Item (unit tests) when passing required props should match t
         </div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-radio-list-item>
 `;

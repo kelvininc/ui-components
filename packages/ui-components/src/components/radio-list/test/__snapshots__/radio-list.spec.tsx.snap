@@ -2,45 +2,45 @@
 
 exports[`Radio List (unit tests) when passing required props and \`disabledOptions\` should match the snapshot 1`] = `
 <kv-radio-list>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="radio-list-items" part="items-container">
       <kv-radio-list-item class="radio-list-item" description="To create an edge cluster, use the Kelvin installation script for K3S. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." disabled="" label="K3S" optionid="k3s"></kv-radio-list-item>
       <kv-radio-list-item class="radio-list-item" description="To use, either choose an already existing cloud hosted or a generic Kubernetes cluster. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="Kubernetes" optionid="kubernetes"></kv-radio-list-item>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-radio-list>
 `;
 
 exports[`Radio List (unit tests) when passing required props and \`selectedOption\` should match the snapshot 1`] = `
 <kv-radio-list selected-option="k3s">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="radio-list-items" part="items-container">
       <kv-radio-list-item checked="" class="radio-list-item" description="To create an edge cluster, use the Kelvin installation script for K3S. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="K3S" optionid="k3s"></kv-radio-list-item>
       <kv-radio-list-item class="radio-list-item" description="To use, either choose an already existing cloud hosted or a generic Kubernetes cluster. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="Kubernetes" optionid="kubernetes"></kv-radio-list-item>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-radio-list>
 `;
 
 exports[`Radio List (unit tests) when passing required props and form label should match the snapshot 1`] = `
 <kv-radio-list label="Choose an option" required="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <kv-form-label label="Choose an option" required=""></kv-form-label>
     <div class="radio-list-items" part="items-container">
       <kv-radio-list-item class="radio-list-item" description="To create an edge cluster, use the Kelvin installation script for K3S. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="K3S" optionid="k3s"></kv-radio-list-item>
       <kv-radio-list-item class="radio-list-item" description="To use, either choose an already existing cloud hosted or a generic Kubernetes cluster. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="Kubernetes" optionid="kubernetes"></kv-radio-list-item>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-radio-list>
 `;
 
 exports[`Radio List (unit tests) when passing required props should match the snapshot 1`] = `
 <kv-radio-list>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="radio-list-items" part="items-container">
       <kv-radio-list-item class="radio-list-item" description="To create an edge cluster, use the Kelvin installation script for K3S. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="K3S" optionid="k3s"></kv-radio-list-item>
       <kv-radio-list-item class="radio-list-item" description="To use, either choose an already existing cloud hosted or a generic Kubernetes cluster. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="Kubernetes" optionid="kubernetes"></kv-radio-list-item>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-radio-list>
 `;

@@ -2,7 +2,7 @@
 
 exports[`Modal (unit tests) when using a title should match the snapshot 1`] = `
 <kv-modal custom-class="" header-title="Hello World">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="modal-overlay"></div>
     <div class="modal-container">
       <div class="topbar" part="topbar">
@@ -22,13 +22,13 @@ exports[`Modal (unit tests) when using a title should match the snapshot 1`] = `
         <slot name="footer"></slot>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-modal>
 `;
 
 exports[`Modal (unit tests) when using default props should match the snapshot 1`] = `
 <kv-modal custom-class="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="modal-overlay"></div>
     <div class="modal-container">
       <div class="topbar" part="topbar">
@@ -46,6 +46,6 @@ exports[`Modal (unit tests) when using default props should match the snapshot 1
         <slot name="footer"></slot>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-modal>
 `;
