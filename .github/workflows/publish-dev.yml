@@ -41,17 +41,3 @@ jobs:
               run: pnpm build:packages
               env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-            - name: Publish Alpha & Master Storybook to GitHub Pages
-              run: |
-                  git switch -f master
-                  pnpm install
-                  pnpm build:packages
-                  pnpm storybook:deploy -- -- -- --out='./gp' --dry-run
-                  git switch -f dev
-                  pnpm install
-                  pnpm build:packages
-                  pnpm storybook:deploy -- -- -- --out='./gp/alpha' --dry-run
-                  pnpm storybook:deploy -- -- -- --existing-output-dir='./gp'
-              env:
-                  GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}

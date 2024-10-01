@@ -70,14 +70,3 @@ jobs:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-            - name: Publish Alpha & Master Storybook to GitHub Pages
-              run: |
-                  pnpm storybook:deploy -- -- -- --out='./gp' --dry-run
-                  git switch -f dev
-                  pnpm install
-                  pnpm build:packages
-                  pnpm storybook:deploy -- -- -- --out='./gp/alpha' --dry-run
-                  pnpm storybook:deploy -- -- -- --existing-output-dir='./gp'
-              env:
-                  GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}

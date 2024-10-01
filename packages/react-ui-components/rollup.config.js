@@ -12,7 +12,7 @@ const getPlugins = (lodashImportOpts = {}, otherPlugins = []) => {
 		peerDepsExternal(),
 		resolve(),
 		optimizeLodashImports({ ...lodashImportOpts }),
-		typescript({ tsconfig: './tsconfig.lib.json' }),
+		typescript({ tsconfig: './tsconfig.json' }),
 		postcss(),
 		...otherPlugins
 	];
