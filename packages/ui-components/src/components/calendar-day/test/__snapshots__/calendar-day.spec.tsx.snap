@@ -2,10 +2,10 @@
 
 exports[`Calendar Day (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-calendar-day day="12">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="calendar-day" part="day-container">
       12
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-calendar-day>
 `;

@@ -25,7 +25,7 @@ describe('kv-toaster', () => {
 				spyResetEvent = await toasterComponent.spyOnEvent('clickCloseButton');
 
 				// waiting for css animation to end
-				await page.waitForTimeout(600);
+				await new Promise(r => setTimeout(r, 600));
 
 				const resetIcon = await page.find('kv-toaster >>> .toaster-close-icon');
 				await resetIcon.click();

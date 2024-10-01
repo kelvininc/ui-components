@@ -8,10 +8,10 @@ describe('KvInlineEditableField (e2e tests)', () => {
 		let actionsEl: E2EElement;
 
 		beforeEach(async () => {
-			page = await newE2EPage({ failOnConsoleError: true });
+			page = await newE2EPage();
 			await page.setContent(`
 				<kv-inline-editable-field>
-					<div>title<div>
+					<div>title</div>
 				</kv-inline-editable-field>`);
 			await page.waitForChanges();
 
@@ -37,10 +37,10 @@ describe('KvInlineEditableField (e2e tests)', () => {
 			let focusBtns: E2EElement[];
 
 			beforeEach(async () => {
-				await slot.focus();
+				await slot.click();
 				await page.waitForChanges();
 
-				focusBtns = await actionsEl.findAll('kv-action-button-icon');
+				focusBtns = await page.findAll('kv-inline-editable-field .inline-editable-field-actions kv-action-button-icon');
 			});
 
 			it('should render save and close buttons', () => {

@@ -112,7 +112,7 @@ export class KvInlineEditableField {
 		}, DELAYED_BLUR_MS);
 	};
 
-	private handleFocus = () => {
+	public handleFocus = () => {
 		clearTimeout(this.timeoutID);
 
 		this.isEditing = true;

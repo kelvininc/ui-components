@@ -103,7 +103,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) inputConfig?: Partial<ITextField>;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) autoFocus?: boolean = true;
+	@Prop({ reflect: true }) autoFocus?: boolean = true; // eslint-disable-line @stencil-community/reserved-member-names
 
 	/** @inheritdoc */
 	@Event() optionSelected: EventEmitter<string>;

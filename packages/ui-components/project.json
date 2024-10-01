@@ -10,8 +10,9 @@
 				"{projectRoot}/dist",
 				"{projectRoot}/www",
 				"{projectRoot}/docs",
+				"{projectRoot}/hydrate",
 				"{projectRoot}/loader",
-				"{workspaceRoot}/packages/react-ui-components/src/components/stencil-generated"
+				"{workspaceRoot}/packages/react-ui-components/src/stencil-generated"
 			]
 		}
 	}

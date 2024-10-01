@@ -2,25 +2,25 @@
 
 exports[`Action Button Text (unit tests) when has a icon should match the snapshot 1`] = `
 <kv-action-button-text icon="kv-add" size="large" text="Primary Button" type="primary">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <kv-action-button exportparts="button" size="large" type="primary">
       <kv-icon exportparts="icon" name="kv-add"></kv-icon>
       <span class="action-button-text" part="button-text">
         Primary Button
       </span>
     </kv-action-button>
-  </mock:shadow-root>
+  </template>
 </kv-action-button-text>
 `;
 
 exports[`Action Button Text (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-action-button-text size="large" text="Primary Button" type="primary">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <kv-action-button exportparts="button" size="large" type="primary">
       <span class="action-button-text" part="button-text">
         Primary Button
       </span>
     </kv-action-button>
-  </mock:shadow-root>
+  </template>
 </kv-action-button-text>
 `;

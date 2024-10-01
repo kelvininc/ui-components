@@ -20,7 +20,7 @@ describe('Text Field (end-to-end)', () => {
 				const textFieldElement = await page.find('kv-text-field >>> input');
 				await textFieldElement.type('Teste');
 
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it('should emit change event', () => {
@@ -118,7 +118,7 @@ describe('Text Field (end-to-end)', () => {
 				const textFieldElement = await page.find('kv-text-field >>> input');
 				await textFieldElement.type('1');
 
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it('should emit change event', () => {
@@ -137,7 +137,7 @@ describe('Text Field (end-to-end)', () => {
 				const textFieldElement = await page.find('kv-text-field >>> input');
 				await textFieldElement.type('9');
 
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it('should not emit change event', () => {
@@ -156,7 +156,7 @@ describe('Text Field (end-to-end)', () => {
 				const textFieldElement = await page.find('kv-text-field >>> input');
 				await textFieldElement.type('a');
 
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it('should not emit change event', () => {
@@ -182,7 +182,7 @@ describe('Text Field (end-to-end)', () => {
 				const textFieldElement = await page.find('kv-text-field >>> input');
 				await textFieldElement.type('a');
 
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it('should emit change event', () => {
@@ -201,7 +201,7 @@ describe('Text Field (end-to-end)', () => {
 				const textFieldElement = await page.find('kv-text-field >>> input');
 				await textFieldElement.type('1');
 
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it('should not emit change event', () => {

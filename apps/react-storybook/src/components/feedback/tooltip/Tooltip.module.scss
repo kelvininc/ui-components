@@ -1,10 +1,10 @@
-@import "~@kelvininc/react-ui-components/assets/styles/globals";
+@use "@kelvininc/react-ui-components/assets/styles/globals";
 
 .TooltipCustomClass {
 	--container-white-space: pre-line;
 	--container-max-width: 480px;
 
 	&::part(tooltip-container) {
-		padding: $spacing-5x;
+		padding: globals.$spacing-5x;
 	}
 }
