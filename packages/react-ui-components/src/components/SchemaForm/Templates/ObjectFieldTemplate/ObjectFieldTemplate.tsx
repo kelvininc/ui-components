@@ -3,7 +3,7 @@ import { FormContextType, ObjectFieldTemplateProps, RJSFSchema, StrictRJSFSchema
 import classNames from 'classnames';
 import { get } from 'lodash';
 import React, { useMemo } from 'react';
-import { KvActionButtonIcon } from '../../../stencil-generated';
+import { KvActionButtonIcon } from '../../../../stencil-generated/components';
 import styles from './ObjectFieldTemplate.module.scss';
 import { DEFAULT_INPUT_CONFIG, DEFAULT_INPUT_INLINE_CONFIG } from './config';
 

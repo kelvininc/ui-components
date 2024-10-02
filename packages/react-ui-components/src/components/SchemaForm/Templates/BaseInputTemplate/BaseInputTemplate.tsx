@@ -1,7 +1,7 @@
 import { EComponentSize, EInputFieldType, EValidationState } from '@kelvininc/ui-components';
 import { isArray, isEmpty } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
-import { KvTextField } from '../../../stencil-generated';
+import { KvTextField } from '../../../../stencil-generated/components';
 import styles from './BaseInputTemplate.module.scss';
 import { BaseInputTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import { INPUT_TYPES } from './BaseInputTemplate.config';

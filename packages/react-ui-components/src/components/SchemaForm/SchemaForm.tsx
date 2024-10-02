@@ -5,13 +5,13 @@ import classNames from 'classnames';
 import { cloneDeep, isEmpty, isEqualWith } from 'lodash';
 import React, { ComponentProps, ComponentType, FormEvent, ForwardedRef, forwardRef, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useScroll } from '../../utils';
-import { KvActionButtonText, KvTooltip } from '../stencil-generated';
+import { KvActionButtonText, KvTooltip } from '../../stencil-generated/components';
 import { SCROLL_OFFSET } from './config';
 import { useFieldTemplateElement } from './hooks/useFieldTemplateElement';
 import styles from './SchemaForm.module.scss';
 import { generateTheme } from './Theme';
 import { EApplyDefaults, SchemaFormContext, SchemaFormProps } from './types';
-import getDefaultValidator, { buildDefaultFormStateBehavior, getInitialFormData } from './utils';
+import { getDefaultValidator, buildDefaultFormStateBehavior, getInitialFormData } from './utils';
 
 // Custom Theme
 export function generateForm<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(): ComponentType<FormProps<T, S, F>> {
@@ -181,5 +181,3 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		</div>
 	);
 }
-
-export default KvSchemaForm;

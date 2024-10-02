@@ -2,7 +2,7 @@
 
 exports[`KvTimePickerSelectOption (unit tests) when rendering with default props when the component loads should match the snapshot 1`] = `
 <kv-time-picker-select-option label="Option 1" value="option1">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="select-option">
       <div class="text-container">
         <div class="item-label">
@@ -11,6 +11,6 @@ exports[`KvTimePickerSelectOption (unit tests) when rendering with default props
         <div class="item-description"></div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-time-picker-select-option>
 `;

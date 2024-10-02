@@ -2,7 +2,7 @@
 
 exports[`Switch Button (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-switch-button>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <slot name="left-slot"></slot>
     <div class="switch-button switch-button--large" part="button">
       <div class="icon-square" part="icon-square">
@@ -10,6 +10,6 @@ exports[`Switch Button (unit tests) when uses default props should match the sna
       </div>
     </div>
     <slot name="right-slot"></slot>
-  </mock:shadow-root>
+  </template>
 </kv-switch-button>
 `;

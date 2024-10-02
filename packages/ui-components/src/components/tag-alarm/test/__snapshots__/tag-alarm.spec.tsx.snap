@@ -2,7 +2,7 @@
 
 exports[`tag-alarm (unit tests) when custom label and size are provided should match the snapshot 1`] = `
 <kv-tag-alarm label="Test" severity="1" size="large">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="alarm-tag alarm-tag--severity-1">
       <kv-tag>
         <div class="alarm-tag-container" slot="left-slot">
@@ -15,13 +15,13 @@ exports[`tag-alarm (unit tests) when custom label and size are provided should m
         </div>
       </kv-tag>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tag-alarm>
 `;
 
 exports[`tag-alarm (unit tests) when label is hidden should match the snapshot 1`] = `
 <kv-tag-alarm hide-label="" label="" severity="1" size="normal">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="alarm-tag alarm-tag--severity-1">
       <kv-tag>
         <div class="alarm-tag-container" slot="left-slot">
@@ -31,13 +31,13 @@ exports[`tag-alarm (unit tests) when label is hidden should match the snapshot 1
         </div>
       </kv-tag>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tag-alarm>
 `;
 
 exports[`tag-alarm (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-tag-alarm label="" severity="1" size="normal">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="alarm-tag alarm-tag--severity-1">
       <kv-tag>
         <div class="alarm-tag-container" slot="left-slot">
@@ -50,6 +50,6 @@ exports[`tag-alarm (unit tests) when uses default props should match the snapsho
         </div>
       </kv-tag>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tag-alarm>
 `;

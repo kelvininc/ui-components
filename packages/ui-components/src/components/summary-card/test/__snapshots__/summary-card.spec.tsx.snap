@@ -2,7 +2,7 @@
 
 exports[`KvSummaryCard (unit tests) when initialized with description should match the snapshot 1`] = `
 <kv-summary-card>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="summary-card-container">
       <div class="label">
         - -
@@ -12,13 +12,13 @@ exports[`KvSummaryCard (unit tests) when initialized with description should mat
         Gas Flow
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-summary-card>
 `;
 
 exports[`KvSummaryCard (unit tests) when initialized with label should match the snapshot 1`] = `
 <kv-summary-card>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="summary-card-container">
       <div class="label">
         Kelvin
@@ -26,25 +26,25 @@ exports[`KvSummaryCard (unit tests) when initialized with label should match the
       <div class="subtitle"></div>
       <div class="description"></div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-summary-card>
 `;
 
 exports[`KvSummaryCard (unit tests) when initialized with loading flag should match the snapshot 1`] = `
 <kv-summary-card>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="loading summary-card-container">
       <div class="label"></div>
       <div class="subtitle"></div>
       <div class="description"></div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-summary-card>
 `;
 
 exports[`KvSummaryCard (unit tests) when initialized with required props should match the snapshot 1`] = `
 <kv-summary-card>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="summary-card-container">
       <div class="label">
         - -
@@ -52,13 +52,13 @@ exports[`KvSummaryCard (unit tests) when initialized with required props should 
       <div class="subtitle"></div>
       <div class="description"></div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-summary-card>
 `;
 
 exports[`KvSummaryCard (unit tests) when initialized with subtitle should match the snapshot 1`] = `
 <kv-summary-card>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="summary-card-container">
       <div class="label">
         - -
@@ -68,6 +68,6 @@ exports[`KvSummaryCard (unit tests) when initialized with subtitle should match 
       </div>
       <div class="description"></div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-summary-card>
 `;

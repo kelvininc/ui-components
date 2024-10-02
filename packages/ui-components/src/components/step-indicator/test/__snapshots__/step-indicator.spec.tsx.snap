@@ -2,26 +2,26 @@
 
 exports[`StepIndicator (unit tests) when rendering with \`active\` when the component loads should match the snapshot 1`] = `
 <kv-step-indicator active="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="indicator indicator--state-active">
       <kv-icon name="kv-success"></kv-icon>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-step-indicator>
 `;
 
 exports[`StepIndicator (unit tests) when rendering with \`hasError\` when the component loads should match the snapshot 1`] = `
 <kv-step-indicator has-error="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="indicator indicator--state-error"></div>
-  </mock:shadow-root>
+  </template>
 </kv-step-indicator>
 `;
 
 exports[`StepIndicator (unit tests) when rendering with default props when the component loads should match the snapshot 1`] = `
 <kv-step-indicator>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="indicator"></div>
-  </mock:shadow-root>
+  </template>
 </kv-step-indicator>
 `;

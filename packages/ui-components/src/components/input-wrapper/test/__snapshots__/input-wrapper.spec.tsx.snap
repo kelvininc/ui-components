@@ -2,7 +2,7 @@
 
 exports[`KvInputWrapper (unit tests) when the component loads should match the snapshot 1`] = `
 <kv-input-wrapper>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="input-container input-container--content-hidden">
       <div class="label-container">
         <div class="label">
@@ -11,6 +11,6 @@ exports[`KvInputWrapper (unit tests) when the component loads should match the s
         <kv-icon name="kv-edit"></kv-icon>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-input-wrapper>
 `;

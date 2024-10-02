@@ -2,7 +2,7 @@ import { EValidationState } from '@kelvininc/ui-components';
 import { ErrorListProps, FormContextType, RJSFSchema, RJSFValidationError, StrictRJSFSchema } from '@rjsf/utils';
 import { isEmpty } from 'lodash';
 import React from 'react';
-import { KvFormHelpText } from '../../../stencil-generated';
+import { KvFormHelpText } from '../../../../stencil-generated/components';
 import styles from './ErrorListTemplate.module.scss';
 
 const ErrorListTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({ errors }: ErrorListProps<T, S, F>) => {

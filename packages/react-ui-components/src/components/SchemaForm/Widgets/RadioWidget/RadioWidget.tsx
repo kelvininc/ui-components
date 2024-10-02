@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
-import { KvRadio } from '../../../stencil-generated';
+import { KvRadio } from '../../../../stencil-generated/components';
 import styles from './RadioWidget.module.scss';
 import classNames from 'classnames';
 

@@ -3,7 +3,7 @@ import { ArrayFieldTemplateItemType, FormContextType, RJSFSchema, StrictRJSFSche
 import classNames from 'classnames';
 import { get } from 'lodash';
 import React from 'react';
-import { KvActionButtonIcon } from '../../../stencil-generated';
+import { KvActionButtonIcon } from '../../../../stencil-generated/components';
 import styles from './ArrayFieldItemTemplate.module.scss';
 
 const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({

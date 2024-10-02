@@ -2,7 +2,7 @@
 
 exports[`KvLink (unit tests) when label and subtitle is provided should match the snapshot 1`] = `
 <kv-link label="Hello" subtitle="World">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="link-container" part="container">
       <a class="label">
         Hello
@@ -11,18 +11,18 @@ exports[`KvLink (unit tests) when label and subtitle is provided should match th
         World
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-link>
 `;
 
 exports[`KvLink (unit tests) when only label is provided should match the snapshot 1`] = `
 <kv-link label="Hello">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="link-container" part="container">
       <a class="label">
         Hello
       </a>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-link>
 `;

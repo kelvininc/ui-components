@@ -2,48 +2,48 @@
 
 exports[`Tab Item (unit tests) when initialized with disabled attribute should match the snapshot 1`] = `
 <kv-tab-item disabled="" label="Dashboard" tab-key="dashboard">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="disabled tab-item-container">
       <div class="label">
         Dashboard
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tab-item>
 `;
 
 exports[`Tab Item (unit tests) when initialized with notification-color attribute should match the snapshot 1`] = `
 <kv-tab-item label="Dashboard" notification-color="#EFEFEF" tab-key="dashboard">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="tab-item-container">
       <div class="label">
         Dashboard
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tab-item>
 `;
 
 exports[`Tab Item (unit tests) when initialized with required props should match the snapshot 1`] = `
 <kv-tab-item label="Dashboard" tab-key="dashboard">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="tab-item-container">
       <div class="label">
         Dashboard
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tab-item>
 `;
 
 exports[`Tab Item (unit tests) when initialized with selected attribute should match the snapshot 1`] = `
 <kv-tab-item label="Dashboard" selected="" tab-key="dashboard">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="selected tab-item-container">
       <div class="label">
         Dashboard
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tab-item>
 `;

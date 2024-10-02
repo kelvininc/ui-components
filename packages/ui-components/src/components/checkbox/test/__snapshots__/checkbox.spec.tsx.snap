@@ -2,8 +2,8 @@
 
 exports[`Radio Button (unit tests) when rendering with default props should match the snapshot 1`] = `
 <kv-checkbox>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <kv-icon name="icon-uncheck-state" part="icon"></kv-icon>
-  </mock:shadow-root>
+  </template>
 </kv-checkbox>
 `;

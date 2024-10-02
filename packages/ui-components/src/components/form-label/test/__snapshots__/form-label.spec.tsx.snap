@@ -2,7 +2,7 @@
 
 exports[`Form Label (unit tests) when has a label should match the snapshot 1`] = `
 <kv-form-label label="Text Field">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="form-field-container">
       <div class="label-container">
         <span class="label">
@@ -10,13 +10,13 @@ exports[`Form Label (unit tests) when has a label should match the snapshot 1`] 
         </span>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-form-label>
 `;
 
 exports[`Form Label (unit tests) when is labeled and required should match the snapshot 1`] = `
 <kv-form-label label="Text Field" required="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="form-field-container">
       <div class="label-container">
         <span class="required">
@@ -27,14 +27,14 @@ exports[`Form Label (unit tests) when is labeled and required should match the s
         </span>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-form-label>
 `;
 
 exports[`Form Label (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-form-label>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="form-field-container"></div>
-  </mock:shadow-root>
+  </template>
 </kv-form-label>
 `;

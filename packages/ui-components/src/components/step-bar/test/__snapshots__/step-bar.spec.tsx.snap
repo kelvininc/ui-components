@@ -2,7 +2,7 @@
 
 exports[`KvStepBar (unit tests) when rendering with required props and \`hasError\` true should match the snapshot 1`] = `
 <kv-step-bar current-step="1" label="Progress:" progress-percentage="50">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="label-container">
       <span class="label">
         Progress:
@@ -24,13 +24,13 @@ exports[`KvStepBar (unit tests) when rendering with required props and \`hasErro
         </div>
       </kv-step-progress-bar>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-step-bar>
 `;
 
 exports[`KvStepBar (unit tests) when rendering with required props should match the snapshot 1`] = `
 <kv-step-bar current-step="1" label="Progress:" progress-percentage="50">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="label-container">
       <span class="label">
         Progress:
@@ -52,6 +52,6 @@ exports[`KvStepBar (unit tests) when rendering with required props should match 
         </div>
       </kv-step-progress-bar>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-step-bar>
 `;

@@ -1,7 +1,7 @@
 import { EActionButtonType, EComponentSize, EIconName } from '@kelvininc/ui-components';
 import { ArrayFieldTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import React from 'react';
-import { KvActionButtonIcon, KvActionButtonText } from '../../../stencil-generated';
+import { KvActionButtonIcon, KvActionButtonText } from '../../../../stencil-generated/components';
 import styles from './AddButton.module.scss';
 
 const AddButton = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({

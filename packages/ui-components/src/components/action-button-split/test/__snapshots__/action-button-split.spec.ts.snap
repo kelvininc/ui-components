@@ -2,26 +2,26 @@
 
 exports[`Action Button Split (unit tests) when has a icon should match the snapshot 1`] = `
 <kv-action-button-split icon="kv-add" size="large" split-button="kv-arrow-drop-down" text="Split Button" type="primary">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="action-button-split">
       <kv-action-button-text exportparts="button" icon="kv-add" size="large" text="Split Button" type="primary"></kv-action-button-text>
       <kv-action-button exportparts="button" size="large" type="primary">
         <kv-icon exportparts="icon"></kv-icon>
       </kv-action-button>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-action-button-split>
 `;
 
 exports[`Action Button Split (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-action-button-split size="large" split-button="kv-arrow-drop-down" text="Split Button" type="primary">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="action-button-split">
       <kv-action-button-text exportparts="button" size="large" text="Split Button" type="primary"></kv-action-button-text>
       <kv-action-button exportparts="button" size="large" type="primary">
         <kv-icon exportparts="icon"></kv-icon>
       </kv-action-button>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-action-button-split>
 `;

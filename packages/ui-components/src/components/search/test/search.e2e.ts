@@ -10,7 +10,7 @@ describe('Search (end-to-end)', () => {
 			await page.setContent('<kv-search></kv-search>');
 		});
 
-		describe('when blur event is emitted', () => {
+		describe('and blur event is emitted', () => {
 			let spyBlurEvent: EventSpy;
 			let searchComponent: E2EElement;
 
@@ -35,13 +35,15 @@ describe('Search (end-to-end)', () => {
 			await page.setContent('<kv-search value="Test to ixon"></kv-search>');
 		});
 
-		describe('when tries to press button', () => {
-			beforeEach(async () => {
-				const resetIcon = await page.find('kv-search >>> kv-text-field >>> .right-icon-container >>> kv-icon');
+		describe('and tries to press button', () => {
+			let resetIcon: E2EElement;
 
-				it('should find button', () => {
-					expect(resetIcon).not.toBeNull();
-				});
+			beforeEach(async () => {
+				resetIcon = await page.find('kv-search >>> kv-text-field >>> .right-slot-container >>> kv-icon');
+			});
+
+			it('should find button', () => {
+				expect(resetIcon).not.toBeNull();
 			});
 		});
 	});
@@ -53,12 +55,14 @@ describe('Search (end-to-end)', () => {
 		});
 
 		describe('when tries to press button', () => {
-			beforeEach(async () => {
-				const resetIcon = await page.find('kv-search >>> kv-text-field >>> .right-icon-container >>> kv-icon');
+			let resetIcon: E2EElement;
 
-				it('should not find button', () => {
-					expect(resetIcon).toBeNull();
-				});
+			beforeEach(async () => {
+				resetIcon = await page.find('kv-search >>> kv-text-field >>> .right-icon-container >>> kv-icon');
+			});
+
+			it('should not find button', () => {
+				expect(resetIcon).toBeNull();
 			});
 		});
 	});
@@ -70,12 +74,14 @@ describe('Search (end-to-end)', () => {
 		});
 
 		describe('when tries to press button', () => {
-			beforeEach(async () => {
-				const resetIcon = await page.find('kv-search >>> kv-text-field >>> .right-icon-container >>> kv-icon');
+			let resetIcon: E2EElement;
 
-				it('should not find button', () => {
-					expect(resetIcon).toBeNull();
-				});
+			beforeEach(async () => {
+				resetIcon = await page.find('kv-search >>> kv-text-field >>> .right-icon-container >>> kv-icon');
+			});
+
+			it('should not find button', () => {
+				expect(resetIcon).toBeNull();
 			});
 		});
 	});

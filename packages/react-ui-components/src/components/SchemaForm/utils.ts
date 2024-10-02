@@ -29,7 +29,7 @@ export const buildDefaultFormStateBehavior = (applyDefaults: EApplyDefaults): Ex
 	};
 };
 
-export default function getDefaultValidator<T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>() {
+export const getDefaultValidator = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>() => {
 	// Custom validator
 	const ajvOptionsOverrides: CustomValidatorOptionsType['ajvOptionsOverrides'] = {
 		$data: true //Mandatory for use $data reference (https://ajv.js.org/guide/combining-schemas.html#data-reference)
@@ -39,7 +39,7 @@ export default function getDefaultValidator<T, S extends StrictRJSFSchema = RJSF
 	};
 
 	return customizeValidator<T, S, F>({ ajvOptionsOverrides, ajvFormatOptions });
-}
+};
 
 /**
  * There's an issue in the "react-jsonschema-form" package where the form will always trigger

@@ -24,7 +24,7 @@ describe('Radio (end-to-end)', () => {
 
 				const radioBtn = await page.find('kv-radio >>> .radio-container');
 				await radioBtn.click();
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it('should emit state change with value `true`', () => {
@@ -62,7 +62,7 @@ describe('Radio (end-to-end)', () => {
 
 				const radio = await page.find('kv-radio >>> .radio-container');
 				await radio.click();
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it('should not emit `true` state', () => {

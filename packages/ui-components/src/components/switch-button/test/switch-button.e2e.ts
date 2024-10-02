@@ -11,10 +11,9 @@ describe('Switch Button (end-to-end)', () => {
 
 		describe('and user clicks on the button', () => {
 			let spyChangeEvent: EventSpy;
-			let switchButtonElement: E2EElement;
 
 			beforeEach(async () => {
-				switchButtonElement = await page.find('kv-switch-button');
+				const switchButtonElement = await page.find('kv-switch-button');
 				spyChangeEvent = await switchButtonElement.spyOnEvent('switchChange');
 
 				const buttonElement = await page.find('kv-switch-button >>> .switch-button');
@@ -24,7 +23,7 @@ describe('Switch Button (end-to-end)', () => {
 			});
 
 			it('should change `checked` to true', async () => {
-				expect(switchButtonElement).toHaveAttribute('checked');
+				expect(await page.find('kv-switch-button')).toHaveAttribute('checked');
 			});
 
 			it('should emit switchChange event with true', () => {
@@ -71,10 +70,9 @@ describe('Switch Button (end-to-end)', () => {
 
 		describe('and user clicks on the switch', () => {
 			let spyChangeEvent: EventSpy;
-			let switchButtonElement: E2EElement;
 
 			beforeEach(async () => {
-				switchButtonElement = await page.find('kv-switch-button');
+				const switchButtonElement = await page.find('kv-switch-button');
 				spyChangeEvent = await switchButtonElement.spyOnEvent('switchChange');
 
 				const buttonElement = await page.find('kv-switch-button >>> .switch-button');
@@ -84,6 +82,7 @@ describe('Switch Button (end-to-end)', () => {
 			});
 
 			it('should change `checked` to false', async () => {
+				const switchButtonElement = await page.find('kv-switch-button');
 				expect(switchButtonElement).not.toHaveAttribute('checked');
 			});
 

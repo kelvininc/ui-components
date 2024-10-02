@@ -28,6 +28,7 @@ export class KvSwitchButton implements ISwitchButton, ISwitchButtonEvents {
 
 	private onSwitchClick: () => void;
 	private onStateChange() {
+		console.log('onStateChange');
 		if (this.disabled) {
 			return;
 		}

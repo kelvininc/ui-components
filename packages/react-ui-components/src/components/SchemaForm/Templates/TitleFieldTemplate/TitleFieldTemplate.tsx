@@ -1,7 +1,7 @@
 import { FormContextType, RJSFSchema, StrictRJSFSchema, TitleFieldProps, getUiOptions } from '@rjsf/utils';
 import { get } from 'lodash';
 import React from 'react';
-import { KvIcon, KvInfoLabel, KvToggleTip } from '../../../stencil-generated';
+import { KvIcon, KvInfoLabel, KvToggleTip } from '../../../../stencil-generated/components';
 import { EIconName, ETooltipPosition, stringHelper } from '@kelvininc/ui-components';
 import styles from './TitleFieldTemplate.module.scss';
 import classNames from 'classnames';

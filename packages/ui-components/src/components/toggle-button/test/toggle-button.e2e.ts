@@ -25,7 +25,7 @@ describe('Toggle Button (end-to-end)', () => {
 
 				const toggleBtn = await page.find('kv-toggle-button >>> .toggle-button');
 				await toggleBtn.click();
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it('should emit state change with value `opt1`', () => {
@@ -55,7 +55,7 @@ describe('Toggle Button (end-to-end)', () => {
 
 				const toggleBtn = await page.find('kv-toggle-button >>> .toggle-button');
 				await toggleBtn.click();
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it('should emit state change with value `opt1`', () => {
@@ -91,7 +91,7 @@ describe('Toggle Button (end-to-end)', () => {
 
 				const toggleBtn = await page.find('kv-toggle-button >>> .toggle-button');
 				await toggleBtn.click();
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it('should emit state change with value `opt1`', () => {
@@ -116,7 +116,7 @@ describe('Toggle Button (end-to-end)', () => {
 
 				const toggle = await page.find('kv-toggle-button >>> .toggle-button');
 				await toggle.click();
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it('should not emit event', () => {

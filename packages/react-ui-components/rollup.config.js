@@ -5,15 +5,17 @@ import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
 import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin';
 
-const input = 'src/components/index.ts';
+const input = 'src/index.ts';
 
 const getPlugins = (lodashImportOpts = {}, otherPlugins = []) => {
 	return [
 		peerDepsExternal(),
-		resolve(),
+		resolve({}),
 		optimizeLodashImports({ ...lodashImportOpts }),
-		typescript({ tsconfig: './tsconfig.json' }),
-		postcss(),
+		typescript(),
+		postcss({
+			modules: true
+		}),
 		...otherPlugins
 	];
 };
@@ -26,18 +28,27 @@ export default [
 			entryFileNames: '[name].esm.js',
 			chunkFileNames: '[name]-[hash].esm.js',
 			format: 'es',
-			sourcemap: true
+			sourcemap: true,
+			banner: "'use client';"
 		},
 		external: id => !/^(\.|\/)/.test(id),
-		plugins: getPlugins({ useLodashEs: true })
+		plugins: getPlugins({ useLodashEs: true }),
+		onwarn(warning, warn) {
+			if (warning.code !== 'MODULE_LEVEL_DIRECTIVE') {
+				warn(warning);
+			}
+		}
 	},
 	{
 		input,
 		output: {
 			dir: 'dist/',
 			format: 'commonjs',
-			preferConst: true,
-			sourcemap: true
+			sourcemap: true,
+			generatedCode: {
+				constBindings: true
+			},
+			banner: "'use client';"
 		},
 		external: id => !/^(\.|\/)/.test(id),
 		plugins: getPlugins({}, [
@@ -49,6 +60,11 @@ export default [
 					}
 				]
 			})
-		])
+		]),
+		onwarn(warning, warn) {
+			if (warning.code !== 'MODULE_LEVEL_DIRECTIVE') {
+				warn(warning);
+			}
+		}
 	}
 ];

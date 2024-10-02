@@ -2,12 +2,12 @@
 
 exports[`KvBreadcrumb (unit tests) when the component renders should match the snapshot 1`] = `
 <kv-breadcrumb>
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <kv-breadcrumb-list>
       <kv-breadcrumb-item label="Homepage" part="item"></kv-breadcrumb-item>
       <kv-breadcrumb-item label="Product" part="item"></kv-breadcrumb-item>
       <kv-breadcrumb-item active="" label="Contact Form" part="item"></kv-breadcrumb-item>
     </kv-breadcrumb-list>
-  </mock:shadow-root>
+  </template>
 </kv-breadcrumb>
 `;
