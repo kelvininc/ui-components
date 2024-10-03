@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, Fragment, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EInputFieldType, EValidationState } from '../text-field/text-field.types';
 import { EComponentSize, EIconName, EOtherIconName } from '../../types';
-import { isNil, merge } from 'lodash';
+import { isNil, merge } from 'lodash-es';
 import { DATE_TIME_INPUTMASK_CONFIG, DEFAULT_DATE_FORMAT, DEFAULT_PLACEHOLDER } from './date-time-input.config';
 import { EDateTimeInputTypeStyle, IDateTimeInput, IDateTimeInputEvents } from './date-time-input.types';
 import Inputmask from 'inputmask';

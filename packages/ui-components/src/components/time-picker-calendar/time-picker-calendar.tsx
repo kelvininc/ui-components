@@ -23,7 +23,7 @@ import { getCalendarEndDisabledDays, getCalendarStartDisabledDays, getHooveredDa
 import { CALENDAR_DEFAULT_MIN_DATE, DATE_FORMAT } from './time-picker-calendar.config';
 import dayjs from 'dayjs';
 import { EAbsoluteTimePickerMode } from '../../types';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 
 @Component({
 	tag: 'kv-time-picker-calendar',

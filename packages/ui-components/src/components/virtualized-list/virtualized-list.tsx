@@ -1,6 +1,6 @@
 import { Component, Host, Prop, State, h, Element } from '@stencil/core';
 import { VNode, Watch } from '@stencil/core/internal';
-import { debounce, throttle } from 'lodash';
+import { debounce, throttle } from 'lodash-es';
 import { buildElement } from './virtualized-list.helper';
 import { IVirtualizedList, RenderItemFunc } from './virtualized-list.types';
 

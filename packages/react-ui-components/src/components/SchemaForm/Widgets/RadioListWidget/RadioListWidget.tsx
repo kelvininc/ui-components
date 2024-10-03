@@ -26,7 +26,7 @@ const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends F
 							disabled={isDisabled}
 							checked={checked}
 							description={description}
-							onOptionClick={_ => onChange(option.value)}
+							onOptionClick={(_value: unknown) => onChange(option.value)}
 						/>
 					);
 				})}

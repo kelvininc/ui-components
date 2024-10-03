@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { IMultiSelectDropdown, ISelectMultiOptions, ISelectOptionsWithChildren, ISelectSingleOptions } from '../types';
 import { isSubString } from './string.helper';
 

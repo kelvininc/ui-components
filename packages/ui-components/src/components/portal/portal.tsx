@@ -1,7 +1,7 @@
 import { arrow, autoUpdate, computePosition, ComputePositionConfig, hide, offset, shift } from '@floating-ui/dom';
 import { Component, Element, Event, EventEmitter, h, Host, Prop, State, Watch } from '@stencil/core';
 import { IPortal, IPortalEvents } from './portal.types';
-import { isNil } from 'lodash';
+import { isNil } from 'lodash-es';
 import { DEFAULT_OFFSET, DEFAULT_SHIFT_CONFIG, getArrowElementPositionConfig, OFFSET_WITH_ARROW, PORTAL_Z_INDEX } from './portal.config';
 import { mergeComputePositionConfigs } from '../../utils/floating-ui.helper';
 

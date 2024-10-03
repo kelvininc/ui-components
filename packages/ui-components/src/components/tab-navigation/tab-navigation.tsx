@@ -2,7 +2,7 @@ import { Component, Event, EventEmitter, Host, Listen, Prop, State, Watch, h } f
 import { ISelectedTabIndicatorConfig, ITabNavigationConfig, ITabNavigationEvents, ITabNavigationItem, ITabsNotificationDict } from './tab-navigation.types';
 
 import { EComponentSize } from '../../utils/types';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { calculateTabWidths } from './tab-navigation.utils';
 
 @Component({

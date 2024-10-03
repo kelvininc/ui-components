@@ -5,15 +5,15 @@
 		"url": "git@github.com:kelvininc/ui-components.git"
 	},
 	"scripts": {
-		"bootstrap": "lerna bootstrap",
+		"clean": "pnpm clean:packages && rm -rf node_modules",
+		"clean:packages": "lerna run clean --stream --scope '{@kelvininc/ui-components,@kelvininc/react-ui-components}'",
+		"build": "lerna run build --stream",
 		"build:packages": "lerna run build --stream --scope '{@kelvininc/ui-components,@kelvininc/react-ui-components}'",
-		"clean": "rm -f -r node_modules && npm cache verify",
-		"clean:all": "lerna run clean",
 		"lint": "lerna run lint --stream --scope '{@kelvininc/ui-components,@kelvininc/react-ui-components}'",
-		"test": "lerna run --stream --scope @kelvininc/ui-components test",
-		"storybook": "lerna run --scope @kelvininc/react-ui-components storybook",
-		"storybook:build": "lerna run --scope @kelvininc/react-ui-components build-storybook",
-		"storybook:deploy": "lerna run --scope @kelvininc/react-ui-components deploy-storybook"
+		"lint:fix": "lerna run lint:fix --stream --scope '{@kelvininc/ui-components,@kelvininc/react-ui-components}'",
+		"test": "lerna run test --stream --scope @kelvininc/ui-components",
+		"storybook:build": "lerna run storybook:build --scope @kelvininc/react-ui-components",
+		"storybook:deploy": "lerna run storybook:deploy --scope @kelvininc/react-ui-components"
 	},
 	"devDependencies": {
 		"@commitlint/config-conventional": "^17.6.7",
@@ -22,7 +22,9 @@
 	"resolutions": {
 		"libnpmpublish": "4.0.2"
 	},
+	"packageManager": "pnpm@8.15.9",
 	"engines": {
-		"node": ">=22"
+		"node": ">=22",
+		"pnpm": "8"
 	}
 }

@@ -11,7 +11,7 @@ Our Storybook is publicly available [here](https://kelvininc.github.io/ui-compon
 From the command prompt go to your app's root folder and execute:
 
 ```
-npm install @kelvininc/react-ui-components --save
+pnpm install @kelvininc/react-ui-components --save
 ```
 
 ## Getting Started

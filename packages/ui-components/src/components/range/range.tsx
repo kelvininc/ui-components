@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, Element, EventEmitter, Event } from '@stencil/core';
 import { IRange, IRangeEvents } from './range.types';
 import { getInputOffset, getInputPercentageFromValue, getValueOffset } from './range.helper';
-import { identity } from 'lodash';
+import { identity } from 'lodash-es';
 
 @Component({
 	tag: 'kv-range',

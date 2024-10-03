@@ -5,7 +5,7 @@ import { DEFAULT_AUTO_PLACEMENT_CONFIG, DEFAULT_DELAY_CONFIG, DEFAULT_POSITION_C
 import { CustomCssClass, ETooltipPosition } from '../../types';
 import { ITooltip } from './tooltip.types';
 import { isElementCollapsed } from './tooltip.utils';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { getClassMap } from '../../utils/css-class.helper';
 import { mergeComputePositionConfigs } from '../../utils/floating-ui.helper';
 import { TOOLTIP_Z_INDEX } from '../../globals/config';

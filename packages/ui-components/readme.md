@@ -18,7 +18,7 @@ Our Storybook is publicly available [here](https://kelvininc.github.io/ui-compon
 To start a Stencil development server, run:
 
 ```bash
-npm run start
+pnpm start
 ```
 
 ### Production
@@ -26,13 +26,13 @@ npm run start
 To build the component for production, run:
 
 ```bash
-npm run build
+pnpm build
 ```
 
 To run the tests for the components, run:
 
 ```bash
-npm test # or test:watch to watch for changes
+pnpm test # or test:watch to watch for changes
 ```
 
 ## Contributing
@@ -45,6 +45,6 @@ When creating new components, always use `kv` as the tag prefix for your compone
 
 1. Create a branch using `dev` as your source branch
 2. Develop the component and write tests for it
-3. Check if your code has any linting issues using `npm run lint`
-4. Run the tests using `npm run test`
+3. Check if your code has any linting issues using `pnpm lint`
+4. Run the tests using `pnpm test`
 5. Create a pull request pointing to `dev`

@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { EIconName, EOtherIconName, ISelectMultiOption, ISelectOption, ISelectSingleOptions } from '../../types';
 import { HostAttributes } from '@stencil/core/internal';
 

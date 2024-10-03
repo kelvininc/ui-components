@@ -35,7 +35,7 @@ jobs:
               run: |
                   echo "registry=http://registry.npmjs.org/" > .npmrc
                   echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-                  npm whoami
+                  pnpm whoami
               env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -47,25 +47,25 @@ jobs:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: Lint
-              run: npm run lint
+              run: pnpm lint
 
             - name: Test
-              run: npm run test
+              run: pnpm test
 
             - name: Generate Versions
-              run: npx lerna version --yes --conventional-commits --no-changelog --no-git-tag-version --no-push --force-publish=*
+              run: pnpm lerna version --yes --conventional-commits --no-changelog --no-git-tag-version --no-push --force-publish=*
               env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: Build
-              run: npm run build:packages
+              run: pnpm build:packages
               env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: Publish to NPM JS
               run: |
                   git reset --hard
-                  npx lerna publish --no-verify-access --yes --force-publish=*
+                  pnpm lerna publish --no-verify-access --yes --force-publish=*
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -73,11 +73,11 @@ jobs:
 
             - name: Publish Alpha & Master Storybook to GitHub Pages
               run: |
-                  npm run storybook:deploy -- -- -- --out='./gp' --dry-run
+                  pnpm storybook:deploy -- -- -- --out='./gp' --dry-run
                   git switch -f dev
-                  npm run bootstrap
-                  npm run build:packages
-                  npm run storybook:deploy -- -- -- --out='./gp/alpha' --dry-run
-                  npm run storybook:deploy -- -- -- --existing-output-dir='./gp'
+                  pnpm install
+                  pnpm build:packages
+                  pnpm storybook:deploy -- -- -- --out='./gp/alpha' --dry-run
+                  pnpm storybook:deploy -- -- -- --existing-output-dir='./gp'
               env:
                   GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}

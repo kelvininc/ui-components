@@ -4,7 +4,7 @@ import { buildTimezoneByOffset, getDefaultTimezone, getTimezoneOffset, getTimezo
 import { CALENDAR_MASK, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
 import { buildCustomIntervalTimeRange, buildTooltipText, hasRangeChanged } from '../time-picker/time-picker.helper';
 import { SelectedTimestamp } from '../time-picker/time-picker.types';
-import { isEmpty, isNumber, merge } from 'lodash';
+import { isEmpty, isNumber, merge } from 'lodash-es';
 import { ITextField } from '../text-field/text-field.types';
 import { DEFAULT_TIME_RANGE_DROPDOWN_POSITION_OPTIONS, DEFAULT_TIME_RANGE_PICKER_INPUT_CONFIG } from '../time-picker/time-picker.config';
 import { ComputePositionConfig } from '@floating-ui/dom';
