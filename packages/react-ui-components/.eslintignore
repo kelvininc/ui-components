@@ -2,4 +2,4 @@ assets
 dist
 node_modules
 storybook-static
-src/components/stencil-generated
+stencil-generated

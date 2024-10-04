@@ -1,8 +1,5 @@
 {
 	"$schema": "node_modules/lerna/schemas/lerna-schema.json",
-	"packages": [
-		"packages/*"
-	],
 	"command": {
 		"version": {
 			"exact": true
@@ -20,7 +17,6 @@
 		"pnpm-lock.yaml",
 		"**/tsconfig.json"
 	],
-	"useWorkspaces": true,
 	"npmClient": "pnpm",
 	"version": "0.0.0"
 }
