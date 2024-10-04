@@ -63,3 +63,4 @@ dist
 dist-transpiled
 storybook-static
 assets
+stencil-generated
