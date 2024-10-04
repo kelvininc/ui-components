@@ -1,12 +1,13 @@
 import dayjs from 'dayjs';
-import { ITimePickerTimeState, ITimePickerTime, ITimezoneOffset, SelectedTimestamp } from '../../types';
-import { newTimezoneDate } from '../../utils/date.helper';
+import { ITimezoneOffset } from '../../types';
 import { CALENDAR_DATE_TIME_MASK, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
 import { ERelativeTimeInputMode, IRelativeTimeInput } from '../absolute-time-picker/absolute-time-picker.types';
 import { ERelativeTimeComparisonConfig, IRelativeTimePickerOption, ITimePickerRelativeTime, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
 import { isEmpty, isNil, isNumber } from 'lodash-es';
 import { CUSTOMIZE_INTERVAL_KEY } from '../relative-time-picker/relative-time-picker.config';
 import { UTC_TIMEZONE_OFFSET } from './time-picker.config';
+import { ITimePickerTime, ITimePickerTimeState, SelectedTimestamp } from './time-picker.types';
+import { newTimezoneDate } from '../../utils/date.helper';
 
 /**
  * Generates the text displayed in the dropdown when the custom interval option is selected
@@ -127,6 +128,10 @@ export const getTimestampFromDateRange = (range: SelectedTimestamp, previousTime
 };
 
 export const hasRangeChanged = (componentRangeState: SelectedTimestamp, propRangeState: SelectedTimestamp): boolean => {
+	if (isEmpty(componentRangeState) && isEmpty(propRangeState)) {
+		return false;
+	}
+
 	if (isEmpty(propRangeState) && !isEmpty(componentRangeState)) {
 		return true;
 	}

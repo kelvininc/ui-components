@@ -12,8 +12,8 @@ exports[`Absolute Time Picker Dropdown Input (unit tests) when default props and
     </slot-fb>
     <div slot="list">
       <div class="calendar-container">
-        <kv-time-picker-calendar disablehoveringstyling="" displaypreviousmontharrow="" hovereddate="" initialdate="2023-04-12" mode="range"></kv-time-picker-calendar>
-        <kv-time-picker-calendar disablehoveringstyling="" displaynextmontharrow="" hovereddate="" initialdate="2023-05-12" mode="range"></kv-time-picker-calendar>
+        <kv-calendar disablehoveringstyling="" displaypreviousmontharrow="" hovereddate="" initialdate="2023-04-12" mode="range"></kv-calendar>
+        <kv-calendar disablehoveringstyling="" displaynextmontharrow="" hovereddate="" initialdate="2023-05-12" mode="range"></kv-calendar>
       </div>
     </div>
   </kv-dropdown-base>
