@@ -5,25 +5,6 @@
 
 ## Usage
 
-### Angular
-
-```html
-<kv-select searchable=true selectionClearable=true>
-	<kv-select-option
-		label="Option 1"
-		value="option1"
-		togglable=true>
-	</kv-select-option>
-	...
-	<kv-select-option
-		label="Option 3"
-		value="option3"
-		togglable=true>
-	</kv-select-option>
-</kv-select>
-```
-
-
 ### React
 
 ```tsx
@@ -101,7 +82,6 @@ export const KvSelectExample: React.FC = () => (
 
 ### Used by
 
- - [kv-calendar-advanced-date-selector](../calendar-advanced-date-selector)
  - [kv-select-multi-options](../select-multi-options)
 
 ### Depends on
@@ -121,7 +101,6 @@ graph TD;
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
-  kv-calendar-advanced-date-selector --> kv-select
   kv-select-multi-options --> kv-select
   style kv-select fill:#f9f,stroke:#333,stroke-width:4px
 ```

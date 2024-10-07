@@ -7,6 +7,11 @@ export const CUSTOMIZE_INTERVAL_LABEL = 'Custom Interval';
 export const TIMEZONES_PLACEHOLDER = 'Select a timezone';
 export const TIMEZONES_SEARCH_PLACEHOLDER = 'Search for a timezone';
 
+export const DEFAULT_TIMEZONE_GROUP_NAME = 'system-timezone';
+export const DEFAULT_TIMEZONE_GROUP_LABEL = 'System Timezone - Default';
+export const OTHER_TIMEZONES_GROUP_NAME = 'other-timezones';
+export const OTHER_TIMEZONES_GROUP_LABEL = 'Other Timezones';
+
 export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][] = [
 	[
 		{

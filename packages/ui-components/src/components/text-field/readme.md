@@ -5,20 +5,6 @@
 
 ## Usage
 
-### Angular
-
-```html
-<!-- Default -->
-<kv-text-field></kv-text-field>
-
-<!-- Labeled -->
-<kv-text-field label="Text Field"></kv-text-field>
-
-<!-- Disabled -->
-<kv-text-field input-disabled></kv-text-field>
-```
-
-
 ### React
 
 ```tsx
@@ -69,7 +55,7 @@ export const TextFieldExample: React.FC = () => (
 | `size`           | `size`             | (optional) Sets this tab item to a different styling configuration                 | `EComponentSize.Large \| EComponentSize.Small`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | `EComponentSize.Large`  |
 | `state`          | `state`            | (optional) Text field state                                                        | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | `EValidationState.None` |
 | `step`           | `step`             | (optional) Text field interval between legal numbers                               | `number \| string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | `undefined`             |
-| `tooltipConfig`  | --                 | (optional) Text field tooltip configuration                                        | `{ text?: string; position?: ETooltipPosition; allowedPositions?: ETooltipPosition[]; options?: Partial<{ placement?: Placement; strategy?: Strategy; middleware?: (false \| { name: string; options?: any; fn: (state: { x: number; y: number; initialPlacement: Placement; platform: Platform; placement: Placement; strategy: Strategy; middlewareData: MiddlewareData; rects: ElementRects; elements: Elements; }) => Promisable<MiddlewareReturn>; })[]; platform?: Platform; }>; disabled?: boolean; contentElement?: HTMLElement; truncate?: boolean; delay?: number; withArrow?: boolean; customClass?: CustomCssClass; }` | `undefined`             |
+| `tooltipConfig`  | --                 | (optional) Text field tooltip configuration                                        | `{ text?: string; position?: ETooltipPosition; allowedPositions?: ETooltipPosition[]; options?: Partial<{ strategy?: Strategy; placement?: Placement; middleware?: (false \| { name: string; options?: any; fn: (state: { x: number; y: number; initialPlacement: Placement; strategy: Strategy; platform: Platform; placement: Placement; middlewareData: MiddlewareData; rects: ElementRects; elements: Elements; }) => Promisable<MiddlewareReturn>; })[]; platform?: Platform; }>; disabled?: boolean; contentElement?: HTMLElement; truncate?: boolean; delay?: number; withArrow?: boolean; customClass?: CustomCssClass; }` | `undefined`             |
 | `type`           | `type`             | (optional) Text field type                                                         | `EInputFieldType.Date \| EInputFieldType.DateTime \| EInputFieldType.Email \| EInputFieldType.Number \| EInputFieldType.Password \| EInputFieldType.Radio \| EInputFieldType.Text`                                                                                                                                                                                                                                                                                                                                                                                                                                                 | `EInputFieldType.Text`  |
 | `useInputMask`   | `use-input-mask`   | (optional) Use a input mask when the text field type is number (default true)      | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | `undefined`             |
 | `value`          | `value`            | (optional) Text field value                                                        | `number \| string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | `''`                    |
@@ -142,7 +128,6 @@ Type: `Promise<void>`
 ### Used by
 
  - [kv-dropdown](../dropdown)
- - [kv-range-dates-select-dropdown](../range-dates-select-dropdown)
  - [kv-search](../search)
  - [kv-select-create-option](../select-create-option)
 
@@ -166,7 +151,6 @@ graph TD;
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
   kv-dropdown --> kv-text-field
-  kv-range-dates-select-dropdown --> kv-text-field
   kv-search --> kv-text-field
   kv-select-create-option --> kv-text-field
   style kv-text-field fill:#f9f,stroke:#333,stroke-width:4px

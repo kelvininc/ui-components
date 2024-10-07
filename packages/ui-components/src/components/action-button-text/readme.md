@@ -5,23 +5,6 @@
 
 ## Usage
 
-### Angular
-
-```html
-<!-- Primary -->
-<kv-action-button-text text="Primary Button" [icon]="EIconName.Add" [type]="EActionButtonType.Primary"></kv-action-button-text>
-
-<!-- Secondary -->
-<kv-action-button-text text="Secondary Button" [icon]="EIconName.Add" [type]="EActionButtonType.Secondary"></kv-action-button-text>
-
-<!-- Tertiary -->
-<kv-action-button-text text="Tertiary Button" [icon]="EIconName.Add" [type]="EActionButtonType.Tertiary"></kv-action-button-text>
-
-<!-- Disabled -->
-<kv-action-button-text text="Disabled Button" [icon]="EIconName.Add" [type]="EActionButtonType.Primary" disabled></kv-action-button-text>
-```
-
-
 ### React
 
 ```tsx
@@ -94,7 +77,6 @@ export const SwitchButtonExample: React.FC = () => (
 
  - [kv-absolute-time-picker-dropdown](../absolute-time-picker-dropdown)
  - [kv-action-button-split](../action-button-split)
- - [kv-advanced-date-select-dropdown](../advanced-date-select-dropdown)
  - [kv-time-picker](../time-picker)
  - [kv-wizard-footer](../wizard-footer)
 
@@ -110,7 +92,6 @@ graph TD;
   kv-action-button-text --> kv-icon
   kv-absolute-time-picker-dropdown --> kv-action-button-text
   kv-action-button-split --> kv-action-button-text
-  kv-advanced-date-select-dropdown --> kv-action-button-text
   kv-time-picker --> kv-action-button-text
   kv-wizard-footer --> kv-action-button-text
   style kv-action-button-text fill:#f9f,stroke:#333,stroke-width:4px

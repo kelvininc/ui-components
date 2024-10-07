@@ -17,7 +17,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-22.04]
-                node: [18.x]
+                node: [22.x]
 
         name: Pre-Release Publish (${{ matrix.os }} / Node.js ${{ matrix.node }})
         runs-on: ${{ matrix.os }}
@@ -61,7 +61,7 @@ jobs:
             - name: Generate Versions (Amend)
               if: env.CURRENT_VERSION != env.LAST_VERSION
               run: |
-                  npx lerna version prerelease --yes --conventional-commits --conventional-prerelease --no-changelog --amend --force-publish=*
+                  pnpm lerna version prerelease --yes --conventional-commits --conventional-prerelease --no-changelog --amend --force-publish=*
                   git push origin alpha --force
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -69,25 +69,25 @@ jobs:
             - name: Generate Versions
               if: env.CURRENT_VERSION == env.LAST_VERSION
               run: |
-                  npx lerna version prerelease --yes --conventional-commits --conventional-prerelease --no-changelog --force-publish=*
+                  pnpm lerna version prerelease --yes --conventional-commits --conventional-prerelease --no-changelog --force-publish=*
                   git push origin alpha --force
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Build packages
-              run: npm run build:packages
+              run: pnpm build:packages
 
             - name: Setting NPM
               run: |
-                  npm set registry=https://nexus.kelvininc.com/repository/npm-internal
-                  npm set "//nexus.kelvininc.com/:_auth=$USER_AUTH"
+                  pnpm set registry=https://nexus.kelvininc.com/repository/npm-internal
+                  pnpm set "//nexus.kelvininc.com/:_auth=$USER_AUTH"
               env:
                   USER_AUTH: ${{ secrets.NEXUS_AUTH }}
 
             - name: Publish to Nexus
               run: |
                   git reset --hard
-                  npx lerna publish from-git --yes --canary --force-publish=*
+                  pnpm lerna publish from-git --yes --canary --force-publish=*
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

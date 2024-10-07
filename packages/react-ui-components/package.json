@@ -27,18 +27,23 @@
 	},
 	"sideEffects": false,
 	"scripts": {
-		"clean": "rm -rf dist assets node_modules storybook-static",
-		"prebuild": "rm -rf dist assets",
-		"build": "npm run prebuild && npm run rollup",
+		"clean": "pnpm clean:build && pnpm clean:cache && pnpm clean:modules",
+		"clean:build": "rm -rf dist assets storybook-static",
+		"clean:cache": "rm -rf .eslintcache",
+		"clean:modules": "rm -rf node_modules",
+		"prebuild": "pnpm clean:build",
+		"build": "pnpm prebuild && pnpm rollup",
 		"postinstall": "node -e \"try{require('./.scripts/copy-icons.js')}catch(e){}\"",
 		"rollup": "rollup -c",
 		"rollup:watch": "rollup -w -c",
-		"lint": "npm run lint:ts",
-		"lint:ts": "eslint src --ext .ts,.tsx",
-		"lint:ts:fix": "eslint src --fix --ext .ts,.tsx",
+		"lint": "pnpm lint:check",
+		"lint:check": "pnpm eslint:check",
+		"lint:fix": "pnpm eslint:lint",
+		"eslint:check": "eslint src --ext .js,.jsx,.ts,.tsx --quiet --cache",
+		"eslint:lint": "eslint src --ext .js,.jsx,.ts,.tsx --quiet --cache --fix",
 		"storybook": "start-storybook -p 6006",
-		"build-storybook": "build-storybook",
-		"deploy-storybook": "storybook-to-ghpages --ci"
+		"storybook:build": "build-storybook",
+		"storybook:deploy": "storybook-to-ghpages --ci"
 	},
 	"main": "dist/index.js",
 	"module": "dist/index.esm.js",
@@ -49,7 +54,7 @@
 		".scripts/"
 	],
 	"dependencies": {
-		"@kelvininc/ui-components": "0.39.0",
+		"@kelvininc/ui-components": "workspace:*",
 		"@monaco-editor/react": "^4.4.6",
 		"@rjsf/core": "5.18.1",
 		"@rjsf/utils": "5.18.1",
@@ -68,13 +73,14 @@
 		"@storybook/addon-links": "^6.5.9",
 		"@storybook/addon-notes": "5.3.21",
 		"@storybook/builder-webpack5": "^6.5.9",
+		"@storybook/client-api": "6.5.10",
 		"@storybook/manager-webpack5": "^6.5.9",
 		"@storybook/preset-create-react-app": "^4.1.2",
 		"@storybook/react": "^6.5.9",
 		"@storybook/storybook-deployer": "^2.8.11",
-		"@types/jest": "23.3.9",
-		"@types/lodash-es": "^4.17.5",
-		"@types/node": "^14.0.0",
+		"@types/json-schema": "^7.0.12",
+		"@types/lodash": "^4.17.5",
+		"@types/node": "^22.7.2",
 		"@types/react": "^17.0.34",
 		"@types/react-dom": "^17.0.11",
 		"@typescript-eslint/parser": "^5.12.1",
@@ -84,11 +90,10 @@
 		"eslint-plugin-prettier": "^4.0.0",
 		"eslint-plugin-react": "^7.28.0",
 		"eslint-plugin-storybook": "^0.6.1",
-		"jest": "^23.0.0",
-		"jest-dom": "^3.0.2",
 		"lodash": "^4.17.21",
 		"prettier": "^2.5.1",
 		"react": "^17.0.2",
+		"react-docgen-typescript-plugin": "^1.0.8",
 		"react-dom": "^17.0.2",
 		"react-scripts": "5.0.1",
 		"rollup": "^2.67.2",
@@ -97,20 +102,13 @@
 		"rollup-plugin-postcss": "^4.0.2",
 		"sass": "^1.53.0",
 		"storybook-addon-themes": "^6.1.0",
-		"typescript": "^4.5.5",
+		"tslib": "^2.7.0",
+		"typescript": "^5.6.2",
 		"webpack": "^5.73.0"
 	},
 	"peerDependencies": {
 		"dayjs": "^1.11.10",
 		"react": ">=17.0.2",
 		"react-dom": ">=17.0.2"
-	},
-	"jest": {
-		"preset": "ts-jest",
-		"setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",
-		"testPathIgnorePatterns": [
-			"node_modules",
-			"dist"
-		]
 	}
 }

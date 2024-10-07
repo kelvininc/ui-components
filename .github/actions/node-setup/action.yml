@@ -9,28 +9,40 @@ inputs:
 runs:
     using: "composite"
     steps:
+        - name: Install pnpm
+          uses: pnpm/action-setup@v4
+          with:
+              version: 8.15.9
+
         - name: Setup Node.js
-          uses: actions/setup-node@v3
+          uses: actions/setup-node@v4
           with:
               node-version: ${{ inputs.node-version }}
+              cache: "pnpm"
 
-        - name: Restore dependencies cache
+        - name: Setup dependencies cache
           uses: actions/cache@v3
           with:
-              path: "**/node_modules"
-              key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+              path: |
+                  **/node_modules
+                  node_modules
+              key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.json') }}-${{ hashFiles('**/packages/*/package.json') }}
+              restore-keys: |
+                  ${{ runner.os }}-node-
 
         - name: Install dependencies
           shell: bash
-          run: npm install
-
-        - name: Bootstrap packages
-          shell: bash
-          run: npm run bootstrap
+          run: pnpm install
           env:
               PUPPETEER_SKIP_DOWNLOAD: true
 
+        - name: Setup chrome binary cache
+          uses: actions/cache@v3
+          with:
+              path: ~/.cache/puppeteer/
+              key: ${{ runner.os }}-chrome-${{ hashFiles('packages/ui-components/node_modules/puppeteer-core/src/revisions.ts') }}-${{ hashFiles('packages/ui-components/node_modules/puppeteer/src/node/install.ts') }}
+
         - name: Download chrome binary
           shell: bash
-          working-directory: "packages/ui-components/node_modules/puppeteer"
-          run: npm run postinstall
+          working-directory: packages/ui-components/node_modules/puppeteer
+          run: pnpm postinstall

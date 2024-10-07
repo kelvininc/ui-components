@@ -2,7 +2,5 @@
 dist
 docs
 loader
-node_modules
-unit-coverage
 www
 src/components/illustrations

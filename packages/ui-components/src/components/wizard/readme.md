@@ -7,23 +7,6 @@
 
 ## Usage
 
-### Angular
-
-```html
-<kv-wizard-footer
-	[steps]="steps"
-	[currentStep]="currentStep"
-	[hasError]="hasError"
-	[showStepBar]="true"
-	[showHeader]="true"
-	[completeBtnLabel]="Deploy"
-	(onGoToStep)="onGoToStep($event)"
-	(onCompleteClick)="onComplete($event)"
-	(onCancelClick)="onCancel()"
-/>
-```
-
-
 ### React
 
 ```tsx

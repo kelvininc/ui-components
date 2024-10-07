@@ -1,4 +1,4 @@
-@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
 
 .FormContainer {
 	/**
@@ -29,7 +29,7 @@
 		justify-content: space-between;
 	}
 
-	form > div[class^="FieldTemplate"] {
+	form > div[class^='FieldTemplate'] {
 		height: 100%;
 		overflow-y: auto;
 		overflow-x: hidden;
@@ -62,7 +62,7 @@ body {
 		}
 
 		.FormFooter.Scrolling {
-			border-color: kv-color('neutral-3')
+			border-color: kv-color('neutral-3');
 		}
 	}
 
@@ -71,7 +71,7 @@ body {
 			@include kelvin-night-scrollbar();
 		}
 		.FormFooter.Scrolling {
-			border-color: kv-color('neutral-6')
+			border-color: kv-color('neutral-6');
 		}
 	}
 }

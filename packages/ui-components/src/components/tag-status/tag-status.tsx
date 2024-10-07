@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop } from '@stencil/core';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { ETagState, ITagStatus } from './tag-status.types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 

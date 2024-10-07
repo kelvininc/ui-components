@@ -5,7 +5,7 @@
 
 ## Usage
 
-### Angular / javascript
+### Javascript
 
 ```html
 <kv-dropdown label="Options" icon="kv-layer" required=true>
@@ -98,7 +98,7 @@ export class KvDropdownExample {
 | `inputConfig`       | --                    | (optional) The text field options                                                                | `{ type?: EInputFieldType; label?: string; icon?: EIconName \| EOtherIconName; actionIcon?: EIconName \| EOtherIconName; inputName?: string; examples?: string[]; placeholder?: string; maxLength?: number; minLength?: number; max?: string \| number; min?: string \| number; step?: string \| number; size?: EComponentSize; inputDisabled?: boolean; inputRequired?: boolean; loading?: boolean; state?: EValidationState; helpText?: string \| string[]; value?: string \| number; valuePrefix?: string; badge?: string; inputReadonly?: boolean; forcedFocus?: boolean; tooltipConfig?: Partial<ITooltip>; useInputMask?: boolean; inputMaskRegex?: string; fitContent?: boolean; customStyle?: { [key: string]: string; }; }` | `{}`                               |
 | `isOpen`            | `is-open`             | (optional) If `true` the list is opened                                                          | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | `false`                            |
 | `listElement`       | --                    | (optional) A reference to the dropdown list element                                              | `HTMLElement`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | `null`                             |
-| `options`           | --                    | (optional) The dropdown position config options                                                  | `{ placement?: Placement; strategy?: Strategy; middleware?: (false \| { name: string; options?: any; fn: (state: { x: number; y: number; initialPlacement: Placement; platform: Platform; placement: Placement; strategy: Strategy; middlewareData: MiddlewareData; rects: ElementRects; elements: Elements; }) => Promisable<MiddlewareReturn>; })[]; platform?: Platform; }`                                                                                                                                                                                                                                                                                                                                                       | `DEFAULT_DROPDOWN_POSITION_CONFIG` |
+| `options`           | --                    | (optional) The dropdown position config options                                                  | `{ strategy?: Strategy; placement?: Placement; middleware?: (false \| { name: string; options?: any; fn: (state: { x: number; y: number; initialPlacement: Placement; strategy: Strategy; platform: Platform; placement: Placement; middlewareData: MiddlewareData; rects: ElementRects; elements: Elements; }) => Promisable<MiddlewareReturn>; })[]; platform?: Platform; }`                                                                                                                                                                                                                                                                                                                                                       | `DEFAULT_DROPDOWN_POSITION_CONFIG` |
 | `zIndex`            | `z-index`             | (optional) the dropdown list z-index (default: 9004)                                             | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | `DEFAULT_DROPDOWN_Z_INDEX`         |
 
 
@@ -128,9 +128,7 @@ Type: `Promise<void>`
 ### Used by
 
  - [kv-absolute-time-picker-dropdown](../absolute-time-picker-dropdown)
- - [kv-advanced-date-select-dropdown](../advanced-date-select-dropdown)
  - [kv-multi-select-dropdown](../multi-select-dropdown)
- - [kv-single-date-select-dropdown](../single-date-select-dropdown)
  - [kv-single-select-dropdown](../single-select-dropdown)
  - [kv-time-picker](../time-picker)
 
@@ -154,9 +152,7 @@ graph TD;
   kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
   kv-absolute-time-picker-dropdown --> kv-dropdown
-  kv-advanced-date-select-dropdown --> kv-dropdown
   kv-multi-select-dropdown --> kv-dropdown
-  kv-single-date-select-dropdown --> kv-dropdown
   kv-single-select-dropdown --> kv-dropdown
   kv-time-picker --> kv-dropdown
   style kv-dropdown fill:#f9f,stroke:#333,stroke-width:4px

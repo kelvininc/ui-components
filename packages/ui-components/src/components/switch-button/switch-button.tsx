@@ -1,6 +1,6 @@
 import { Component, Event, EventEmitter, Host, Prop, h } from '@stencil/core';
 import { EComponentSize } from '../../utils/types';
-import throttle from 'lodash/throttle';
+import { throttle } from 'lodash-es';
 import { EIconName } from '../icon/icon.types';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { ISwitchButton, ISwitchButtonEvents } from './switch-button.types';

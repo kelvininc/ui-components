@@ -1,6 +1,6 @@
 # Kelvin React UI Components
 
-Kelvin UI Components provides a set of reusable, high quality framework-agnostic UI components, this means you can use them with the current most popular Front-End Development Frameworks like React, Angular or if you prefer, the components are also available as W3C compliant WebComponents.
+Kelvin UI Components provides a set of reusable, high quality framework-agnostic UI components, this means you can use with React or if you prefer, the components are also available as W3C compliant WebComponents.
 
 This is not just a library of UI components as it's also a style guide where you can see how the component looks and behaves by interacting with it, to showcase this we use [Storybook](https://storybook.js.org/), a free open-source tool.
 
@@ -11,7 +11,7 @@ Our Storybook is publicly available [here](https://kelvininc.github.io/ui-compon
 From the command prompt go to your app's root folder and execute:
 
 ```
-npm install @kelvininc/react-ui-components --save
+pnpm install @kelvininc/react-ui-components --save
 ```
 
 ## Getting Started
@@ -22,7 +22,7 @@ Include the fonts in `index.js` or `index.tsx`.
 import '@kelvininc/react-ui-components/assets/fonts/font-proxima-nova.css';
 ```
 
-Now you are ready to use all available *Kelvin UI Components*. For example:
+Now you are ready to use all available _Kelvin UI Components_. For example:
 
 ```tsx
 import { EActionButtonType, KvActionButton } from '@kelvininc/react-ui-components';
@@ -61,7 +61,7 @@ initialize({styleMode: StyleMode.Light});
 <br />
 In addition, you can customize the theme by changing some CSS properties.
 
-***Example***: Setting the *Primary Color*
+**_Example_**: Setting the _Primary Color_
 
 ```css
 :root {
@@ -88,8 +88,7 @@ initialize({ symbolsFileName: 'symbols.6e51ea0e37926eff2f3ef11e64be70fa.svg' });
 
 ```
 
-
-> **_NOTE:_**  If you are using `pnpm` as package manager in your project it's necessary to configure the postinstall script into package.json. Add `"postinstall": "CUSTOM_INST=true node ./node_modules/@kelvininc/react-ui-components/.scripts/copy-icons.js"`. This will grant that svg symbols are copied to public directory.
+> **_NOTE:_** If you are using `pnpm` as package manager in your project it's necessary to configure the postinstall script into package.json. Add `"postinstall": "CUSTOM_INST=true node ./node_modules/@kelvininc/react-ui-components/.scripts/copy-icons.js"`. This will grant that svg symbols are copied to public directory.
 
 ## Relative paths
 

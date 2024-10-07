@@ -1,8 +1,14 @@
 {
+	"$schema": "http://json.schemastore.org/eslintrc",
 	"parser": "@typescript-eslint/parser",
 	"plugins": ["prettier"],
 	"extends": ["plugin:react/recommended", "prettier"],
 	"rules": {
 		"prettier/prettier": "error"
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
 	}
 }

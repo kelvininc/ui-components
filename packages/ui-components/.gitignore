@@ -29,4 +29,8 @@ coverage
 docs
 
 # Produced build files
-components.d.ts
+src/components.d.ts
+src/components/illustrations
+
+# Optional eslint cache
+.eslintcache

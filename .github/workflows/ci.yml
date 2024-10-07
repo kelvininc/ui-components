@@ -11,7 +11,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-22.04]
-                node: [18.x]
+                node: [22.x]
 
         name: Continuous Integration (${{ matrix.os }} / Node.js ${{ matrix.node }})
         runs-on: ${{ matrix.os }}
@@ -28,13 +28,13 @@ jobs:
                   node-version: ${{ matrix.node }}
 
             - name: 🔍 Run linter
-              run: npm run lint
+              run: pnpm lint
 
             - name: 🧪 Run tests
-              run: npm run test
+              run: pnpm test
 
             - name: 🏗️ Build all packages
-              run: npm run build:packages
+              run: pnpm build:packages
 
             - name: 💅 Build storybook
-              run: npm run storybook:build
+              run: pnpm storybook:build

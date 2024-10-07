@@ -7,74 +7,6 @@
 
 ## Usage
 
-### Angular
-
-```html
-
-<!-- Default -->
-const defaultConfig: IDescriptionListItem[] = [
-	{
-		title: 'Name ID',
-		description: 'cluster-a-brownie',
-		popoverInfo: {
-			text: `This name cannot be changed`,
-			icon: EIconName.Info
-		}
-	},
-	{
-		title: 'Kubernetes Version',
-		description: '1.20.5'
-	},
-	{
-		title: 'Kelvin Version',
-		description: '4.2.4'
-	}
-];
-<kv-description-list items=[defaultConfig] />
-
-<!-- With text tooltip -->
-const withTextTooltip: IDescriptionListItem[] = [
-	{
-		title: 'Name ID',
-		description: 'cluster-a-brownie',
-		popoverInfo: {
-			text: `This name cannot be changed`
-		}
-	},
-	{
-		title: 'Kubernetes Version',
-		description: '1.20.5'
-	},
-	{
-		title: 'Kelvin Version',
-		description: '4.2.4'
-	}
-];
-<kv-description-list items=[withTextTooltip] />
-
-<!-- With icon tooltip -->
-const withIconTooltip: IDescriptionListItem[] = [
-	{
-		title: 'Name ID',
-		description: 'cluster-a-brownie',
-		popoverInfo: {
-			text: `This name cannot be changed`,
-			icon: EIconName.Info
-		}
-	},
-	{
-		title: 'Kubernetes Version',
-		description: '1.20.5'
-	},
-	{
-		title: 'Kelvin Version',
-		description: '4.2.4'
-	}
-];
-<kv-description-list items=[withIconTooltip] />
-```
-
-
 ### React
 
 ```tsx
@@ -158,7 +90,7 @@ export const KvDescriptionListExample: React.FC = () => (
 
 | Property                   | Attribute | Description                                                              | Type                                                                                                                                                                                                                                                                                                                                                                           | Default                         |
 | -------------------------- | --------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------- |
-| `descriptionTooltipConfig` | --        | (optional) The config to use on the tooltip that shows hovering the text | `{ placement?: Placement; strategy?: Strategy; middleware?: (false \| { name: string; options?: any; fn: (state: { x: number; y: number; initialPlacement: Placement; platform: Platform; placement: Placement; strategy: Strategy; middlewareData: MiddlewareData; rects: ElementRects; elements: Elements; }) => Promisable<MiddlewareReturn>; })[]; platform?: Platform; }` | `DEFAULT_TEXT_TOOLTIP_CONFIG`   |
+| `descriptionTooltipConfig` | --        | (optional) The config to use on the tooltip that shows hovering the text | `{ strategy?: Strategy; placement?: Placement; middleware?: (false \| { name: string; options?: any; fn: (state: { x: number; y: number; initialPlacement: Placement; strategy: Strategy; platform: Platform; placement: Placement; middlewareData: MiddlewareData; rects: ElementRects; elements: Elements; }) => Promisable<MiddlewareReturn>; })[]; platform?: Platform; }` | `DEFAULT_TEXT_TOOLTIP_CONFIG`   |
 | `iconToggletipConfig`      | --        | (optional) The config to use on the icon toggletip                       | `IDescriptionListItemToggletipConfig`                                                                                                                                                                                                                                                                                                                                          | `DEFAULT_ICON_TOGGLETIP_CONFIG` |
 | `items` _(required)_       | --        | (required) The array of items to display in the list                     | `IDescriptionListItem[]`                                                                                                                                                                                                                                                                                                                                                       | `undefined`                     |
 

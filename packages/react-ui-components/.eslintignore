@@ -1,3 +1,5 @@
+assets
 dist
-dist-transpilled
+node_modules
+storybook-static
 stencil-generated

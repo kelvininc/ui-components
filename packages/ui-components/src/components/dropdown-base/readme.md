@@ -13,7 +13,7 @@
 | `clickOutsideClose` | `click-outside-close` | (optional) If `false` clicking outside the dropdown will not trigger state change. Default: true | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `true`                     |
 | `isOpen`            | `is-open`             | (optional) If `true` the list is opened                                                          | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `false`                    |
 | `listElement`       | --                    | (optional) A reference to the dropdown list element                                              | `HTMLElement`                                                                                                                                                                                                                                                                                                                                                                  | `null`                     |
-| `options`           | --                    | (optional) The dropdown position config options                                                  | `{ placement?: Placement; strategy?: Strategy; middleware?: (false \| { name: string; options?: any; fn: (state: { x: number; y: number; initialPlacement: Placement; platform: Platform; placement: Placement; strategy: Strategy; middlewareData: MiddlewareData; rects: ElementRects; elements: Elements; }) => Promisable<MiddlewareReturn>; })[]; platform?: Platform; }` | `DEFAULT_POSITION_CONFIG`  |
+| `options`           | --                    | (optional) The dropdown position config options                                                  | `{ strategy?: Strategy; placement?: Placement; middleware?: (false \| { name: string; options?: any; fn: (state: { x: number; y: number; initialPlacement: Placement; strategy: Strategy; platform: Platform; placement: Placement; middlewareData: MiddlewareData; rects: ElementRects; elements: Elements; }) => Promisable<MiddlewareReturn>; })[]; platform?: Platform; }` | `DEFAULT_POSITION_CONFIG`  |
 | `zIndex`            | `z-index`             | (optional) the dropdown list z-index (default: 9004)                                             | `number`                                                                                                                                                                                                                                                                                                                                                                       | `DEFAULT_DROPDOWN_Z_INDEX` |
 
 
@@ -31,7 +31,6 @@
 
  - [kv-absolute-time-picker-dropdown-input](../absolute-time-picker-dropdown-input)
  - [kv-dropdown](../dropdown)
- - [kv-range-dates-select-dropdown](../range-dates-select-dropdown)
 
 ### Depends on
 
@@ -43,7 +42,6 @@ graph TD;
   kv-dropdown-base --> kv-portal
   kv-absolute-time-picker-dropdown-input --> kv-dropdown-base
   kv-dropdown --> kv-dropdown-base
-  kv-range-dates-select-dropdown --> kv-dropdown-base
   style kv-dropdown-base fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

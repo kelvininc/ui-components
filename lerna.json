@@ -1,7 +1,5 @@
 {
-	"packages": [
-		"packages/*"
-	],
+	"$schema": "node_modules/lerna/schemas/lerna-schema.json",
 	"command": {
 		"version": {
 			"exact": true
@@ -16,9 +14,9 @@
 		"**/__tests__/**",
 		"**/*.md",
 		"**/package.json",
-		"**/package-lock.json",
-		"**/tsconfig.json",
-		"**/tslint.json"
+		"pnpm-lock.yaml",
+		"**/tsconfig.json"
 	],
+	"npmClient": "pnpm",
 	"version": "0.39.0"
 }

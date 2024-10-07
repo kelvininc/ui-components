@@ -5,19 +5,6 @@
 
 ## Usage
 
-### Angular
-
-```html
-<kv-single-select-dropdown
-	placeholder="Select an option"
-	label="Options"
-	[icon]="EIconName.Layer"
-	[options]="options"
-	[selectedOption]="selectedOption">
-</kv-single-select-dropdown>
-```
-
-
 ### React
 
 ```tsx
@@ -55,7 +42,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | `disabled`                | `disabled`                  | (optional) If `true` the dropdown is disabled                                                                                                                                           | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `false`                               |
 | `displayPrefix`           | `display-prefix`            | (optional) The text to display as a prefix to `displayValue`                                                                                                                            | `string`                                                                                                                                                                                                                                                                                                                                                                       | `undefined`                           |
 | `displayValue`            | `display-value`             | (optional) The text to display on the dropdown                                                                                                                                          | `string`                                                                                                                                                                                                                                                                                                                                                                       | `undefined`                           |
-| `dropdownOptions`         | --                          | (optional) The dropdown position config options                                                                                                                                         | `{ placement?: Placement; strategy?: Strategy; middleware?: (false \| { name: string; options?: any; fn: (state: { x: number; y: number; initialPlacement: Placement; platform: Platform; placement: Placement; strategy: Strategy; middlewareData: MiddlewareData; rects: ElementRects; elements: Elements; }) => Promisable<MiddlewareReturn>; })[]; platform?: Platform; }` | `undefined`                           |
+| `dropdownOptions`         | --                          | (optional) The dropdown position config options                                                                                                                                         | `{ strategy?: Strategy; placement?: Placement; middleware?: (false \| { name: string; options?: any; fn: (state: { x: number; y: number; initialPlacement: Placement; strategy: Strategy; platform: Platform; placement: Placement; middlewareData: MiddlewareData; rects: ElementRects; elements: Elements; }) => Promisable<MiddlewareReturn>; })[]; platform?: Platform; }` | `undefined`                           |
 | `errorState`              | `error-state`               | (required) The error state for the dropdown                                                                                                                                             | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid`                                                                                                                                                                                                                                                                                                  | `EValidationState.None`               |
 | `filteredOptions`         | --                          | (optional) The object with the dropdown options filtered                                                                                                                                | `{ [x: string]: ISelectSingleOption; }`                                                                                                                                                                                                                                                                                                                                        | `undefined`                           |
 | `helpText`                | `help-text`                 | (optional) The text to display as help text                                                                                                                                             | `string \| string[]`                                                                                                                                                                                                                                                                                                                                                           | `[]`                                  |
@@ -118,7 +105,6 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 
 ### Used by
 
- - [kv-calendar-advanced-date-selector](../calendar-advanced-date-selector)
  - [kv-relative-time-picker](../relative-time-picker)
 
 ### Depends on
@@ -145,6 +131,7 @@ graph TD;
   kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select
+  kv-select-multi-options --> kv-tooltip
   kv-select-multi-options --> kv-illustration-message
   kv-select-multi-options --> kv-select-create-option
   kv-select-multi-options --> kv-select-shortcuts-label
@@ -160,7 +147,6 @@ graph TD;
   kv-action-button-icon --> kv-icon
   kv-action-button-icon --> kv-badge
   kv-select-shortcuts-label --> kv-icon
-  kv-calendar-advanced-date-selector --> kv-single-select-dropdown
   kv-relative-time-picker --> kv-single-select-dropdown
   style kv-single-select-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```

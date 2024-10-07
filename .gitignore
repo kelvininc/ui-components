@@ -1,14 +1,7 @@
 node_modules
 .vscode/*
-npm-debug.log
 .DS_Store
 lerna-debug.log
 packages/**/dist
 .envrc
 tryouts/*
-
-# Illustrations Components
-packages/ui-components/src/components/illustrations
-
-# Produced build files
-**/stencil-generated

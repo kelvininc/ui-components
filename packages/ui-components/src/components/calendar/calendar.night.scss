@@ -1,7 +1,0 @@
-@import './calendar.base';
-
-:host {
-	--calendar-background-color: #{kv-color('neutral-7')};
-	--calendar-month-title-text-color: #{kv-color('neutral-2')};
-	--calendar-month-weekday-text-color: #{kv-color('neutral-5')};
-}

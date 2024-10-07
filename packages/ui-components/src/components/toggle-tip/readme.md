@@ -7,29 +7,6 @@
 
 ## Usage
 
-### Angular
-
-```html
-<!-- Default -->
-<kv-toggle-tip text="Toggle tip">
-	<kv-icon slot="open-element-slot" name={EIconName.Info}/>
-	<kv-action-button [type]="EActionButtonType.Primary" slot="content-slot">Learn More</kv-action-button>
-</kv-toggle-tip>
-
-<!-- With Fixed Position -->
-<kv-toggle-tip text="Toggle tip" [position]="ETooltipPosition.Left">
-	<kv-icon slot="open-element-slot" name={EIconName.Info}/>
-	<kv-action-button [type]="EActionButtonType.Primary" slot="content-slot">Learn More</kv-action-button>
-</kv-toggle-tip>
-
-<!-- With Allowed Position -->
-<kv-toggle-tip text="Toggle tip" [allowedPositions]="[ETooltipPosition.Top, ETooltipPosition.Bottom]">
-	<kv-icon slot="open-element-slot" name={EIconName.Info}/>
-	<kv-action-button [type]="EActionButtonType.Primary" slot="content-slot">Learn More</kv-action-button>
-</kv-toggle-tip>
-```
-
-
 ### React
 
 ```tsx
@@ -71,7 +48,7 @@ export const ToggleTipExample: React.FC = () => (
 | `disabled`         | `disabled`     | (optional) if true it will disable clicks to open toggle tip                                                                                                                            | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `false`                  |
 | `isFixed`          | `is-fixed`     | (optional) if true it will ignore outside clicks to close the toggle tip                                                                                                                | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `false`                  |
 | `isOpen`           | `is-open`      | (optional) Set open state of toggle tip, default false                                                                                                                                  | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `false`                  |
-| `options`          | --             | (optional) Object with tooltip position options                                                                                                                                         | `{ placement?: Placement; strategy?: Strategy; middleware?: (false \| { name: string; options?: any; fn: (state: { x: number; y: number; initialPlacement: Placement; platform: Platform; placement: Placement; strategy: Strategy; middlewareData: MiddlewareData; rects: ElementRects; elements: Elements; }) => Promisable<MiddlewareReturn>; })[]; platform?: Platform; }` | `DEFAULT_TOOLTIP_CONFIG` |
+| `options`          | --             | (optional) Object with tooltip position options                                                                                                                                         | `{ strategy?: Strategy; placement?: Placement; middleware?: (false \| { name: string; options?: any; fn: (state: { x: number; y: number; initialPlacement: Placement; strategy: Strategy; platform: Platform; placement: Placement; middlewareData: MiddlewareData; rects: ElementRects; elements: Elements; }) => Promisable<MiddlewareReturn>; })[]; platform?: Platform; }` | `DEFAULT_TOOLTIP_CONFIG` |
 | `position`         | `position`     | (optional) Position of toggletip                                                                                                                                                        | `ETooltipPosition.Bottom \| ETooltipPosition.BottomEnd \| ETooltipPosition.BottomStart \| ETooltipPosition.Left \| ETooltipPosition.LeftEnd \| ETooltipPosition.LeftStart \| ETooltipPosition.Right \| ETooltipPosition.RightEnd \| ETooltipPosition.RightStart \| ETooltipPosition.Top \| ETooltipPosition.TopEnd \| ETooltipPosition.TopStart`                               | `undefined`              |
 | `text`             | `text`         | (optional) Text of toggletip                                                                                                                                                            | `string`                                                                                                                                                                                                                                                                                                                                                                       | `undefined`              |
 | `withArrow`        | `with-arrow`   | (optional) if true it will render an arrow pointing to the opening element                                                                                                              | `boolean`                                                                                                                                                                                                                                                                                                                                                                      | `false`                  |
