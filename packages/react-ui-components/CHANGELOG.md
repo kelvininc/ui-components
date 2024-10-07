@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.40.0](https://github.com/kelvininc/ui-components/compare/v0.39.0...v0.40.0) (2024-10-07)
+
+
+* refactor!: remove legacy calendar components ([2033f19](https://github.com/kelvininc/ui-components/commit/2033f19be3dca99ac249241b28dc63d5a563201c))
+
+
+### BREAKING CHANGES
+
+* The following components were removed from the codebase:
+- kv-advanced-date-select-dropdown
+- kv-calendar-advanced-date-selector
+- kv-calendar-day
+- kv-calendar-range-dates-selector
+- kv-calendar-single-date-selector
+- kv-calendar
+- kv-range-dates-select-dropdown
+- kv-single-date-select-dropdown
+
+
+
+
+
 # [0.39.0](https://github.com/kelvininc/ui-components/compare/v0.38.0...v0.39.0) (2024-09-10)
 
 **Note:** Version bump only for package @kelvininc/react-ui-components
