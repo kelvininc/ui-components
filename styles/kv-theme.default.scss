@@ -1,0 +1,156 @@
+@import './kv-functions.color';
+
+//*****************************
+//*** PEACOCK COLOR PALETTE ***
+//*****************************
+
+// Default Peacock Colors
+// -------------------------------------------------------------------------------------------
+// Color map should provide
+// - base: main color to be used. (CSS variable: --kv-[color name], --kv-[color name]-rgb (used to calculate alpha derivation if necessary))
+// - contrast: Color that will provide readable text against the base color (CSS variable: --kv-[color name]-contrast)
+// - dark: 12% darker version of the base color (mix with black) (CSS variable: --kv-[color name]-dark)
+// - light: 80% lighter version of the base color (mix with white) (CSS variable: --kv-[color name]-light)
+$primary-color: #005cc7 !default;
+$secondary-1-color: #040646 !default;
+$secondary-2-color: #b40eaa !default;
+$secondary-3-color: #36656d !default;
+$secondary-4-color: linear-gradient(90deg, $secondary-2-color 0%, #0d5cc7 100%) !default;
+$secondary-5-color: #8358fe !default;
+$info-color: #276ef1 !default;
+$success-color: #05a357 !default;
+$warning-color: #ffc043 !default;
+$error-color: #e11900 !default;
+
+// Default Text and Background Colors
+$background-color: #202020 !default;
+$text-color: #fff !default;
+
+// Default Neutral Colors
+// -------------------------------------------------------------------------------------------
+// Neutral Color are used to provide variations in white and black colors of elements.
+// Should be $neutral-color-0 stepping towards $neutral-color-9.
+// `-rgb` prop is used to apply transparencies with RGBA
+$neutral-color-0: #fff;
+$neutral-color-1: #f2f2f6;
+$neutral-color-2: #e5e5e5;
+$neutral-color-3: #ddd;
+$neutral-color-4: #bebebe;
+$neutral-color-5: #707070;
+$neutral-color-6: #3f3f3f;
+$neutral-color-7: #2a2a2a;
+$neutral-color-8: #202020;
+$neutral-color-9: #121212;
+
+$colors: (
+	'primary': (
+		base: $primary-color,
+		contrast: #fff,
+		dark: #103d73,
+		light: #f2f7fc
+	),
+	'secondary-1': (
+		base: $secondary-1-color,
+		contrast: #fff,
+		dark: #04053e,
+		light: #cdcdda
+	),
+	'secondary-2': (
+		base: $secondary-2-color,
+		contrast: #fff,
+		dark: #9e0c96,
+		light: #f0cfee
+	),
+	'secondary-3': (
+		base: $secondary-3-color,
+		contrast: #fff,
+		dark: #305960,
+		light: #d7e0e2
+	),
+	'secondary-4': (
+		base: $secondary-4-color,
+		contrast: #fff
+	),
+	'secondary-5': (
+		base: $secondary-5-color,
+		contrast: #fff
+	),
+	'info': (
+		base: $info-color,
+		contrast: #fff,
+		dark: #2261d4,
+		light: #c6daff
+	),
+	'success': (
+		base: $success-color,
+		contrast: #fff,
+		dark: #048f4d,
+		light: #dff7e6
+	),
+	'warning': (
+		base: $warning-color,
+		contrast: #fff,
+		dark: #e0a93b,
+		light: #ffe3ac
+	),
+	'error': (
+		base: $error-color,
+		contrast: #fff,
+		dark: #c61600,
+		light: #f9d1cc
+	),
+	'background': (
+		/* Steps move towards their contrasting color. */ 'step-0': $neutral-color-9,
+		base: $background-color,
+		'step-1': $neutral-color-7,
+		'step-2': $neutral-color-6,
+		'step-3': $neutral-color-5,
+		'step-4': $neutral-color-4,
+		'step-5': $neutral-color-3,
+		'step-6': $neutral-color-2,
+		'step-7': $neutral-color-1,
+		'step-8': $neutral-color-0
+	),
+	'text': (
+		/* Steps move towards their contrasting color. */ 'step-0': $neutral-color-0,
+		base: $text-color,
+		'step-1': $neutral-color-1,
+		'step-2': $neutral-color-2,
+		'step-3': $neutral-color-3,
+		'step-4': $neutral-color-4,
+		'step-5': $neutral-color-5,
+		'step-6': $neutral-color-6,
+		'step-7': $neutral-color-7,
+		'step-8': $neutral-color-8
+	),
+	'neutral-0': (
+		base: $neutral-color-0
+	),
+	'neutral-1': (
+		base: $neutral-color-1
+	),
+	'neutral-2': (
+		base: $neutral-color-2
+	),
+	'neutral-3': (
+		base: $neutral-color-3
+	),
+	'neutral-4': (
+		base: $neutral-color-4
+	),
+	'neutral-5': (
+		base: $neutral-color-5
+	),
+	'neutral-6': (
+		base: $neutral-color-6
+	),
+	'neutral-7': (
+		base: $neutral-color-7
+	),
+	'neutral-8': (
+		base: $neutral-color-8
+	),
+	'neutral-9': (
+		base: $neutral-color-9
+	)
+);
