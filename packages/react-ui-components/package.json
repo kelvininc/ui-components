@@ -32,7 +32,7 @@
 		"clean:cache": "rm -rf .eslintcache",
 		"clean:modules": "rm -rf node_modules",
 		"prebuild": "pnpm clean:build",
-		"build": "pnpm prebuild && pnpm rollup",
+		"build": "pnpm rollup",
 		"postinstall": "node -e \"try{require('./.scripts/copy-icons.js')}catch(e){}\"",
 		"rollup": "rollup -c",
 		"rollup:watch": "rollup -w -c",
