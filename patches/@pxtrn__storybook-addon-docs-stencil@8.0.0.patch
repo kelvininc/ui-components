@@ -1,0 +1,20 @@
+diff --git a/preset.js b/preset.js
+deleted file mode 100644
+index bd943542e5a369195c0e5d0d11e671b599ec2ca3..0000000000000000000000000000000000000000
+--- a/preset.js
++++ /dev/null
+@@ -1,4 +0,0 @@
+-// this file is slightly misleading. It needs to be CJS, and thus in this "type": "module" package it should be named preset.cjs
+-// but Storybook won't pick that filename up so we have to name it preset.js instead
+-
+-module.exports = require('./dist/preset.cjs');
+diff --git a/preset.cjs b/preset.cjs
+new file mode 100644
+index 0000000000000000000000000000000000000000..bd943542e5a369195c0e5d0d11e671b599ec2ca3
+--- /dev/null
++++ b/preset.cjs
+@@ -0,0 +1,4 @@
++// this file is slightly misleading. It needs to be CJS, and thus in this "type": "module" package it should be named preset.cjs
++// but Storybook won't pick that filename up so we have to name it preset.js instead
++
++module.exports = require('./dist/preset.cjs');

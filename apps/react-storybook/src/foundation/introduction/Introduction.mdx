@@ -1,0 +1,183 @@
+import { Meta } from "@storybook/blocks";
+import pkg from "../../../package.json";
+import "./Introduction.scss";
+
+<Meta
+	parameters={{
+		viewMode: "docs",
+		options: { isToolshown: false }
+	}}
+	title="Foundation/Introduction"
+/>
+
+<div className="version">
+	<span>V{pkg.version}</span>
+</div>
+<div className="intro-header">
+	<div className="intro-logo">
+		<img alt="Kelvin UI Components" height="100" src="/kelvin-hero.svg" />
+		<div className="label">
+			<span>UI Components</span>
+		</div>
+	</div>
+</div>
+<div className="references">
+	<a href="https://npm.im/@kelvininc/ui-components" target="_blank">
+		<img src="https://img.shields.io/npm/v/@kelvininc/ui-components.svg" />
+	</a>
+	&nbsp;&nbsp;
+	<a href="https://npm.im/@kelvininc/ui-components" target="_blank">
+		<img src="https://badgen.net/npm/dw/@kelvininc/ui-components" />
+	</a>
+	&nbsp;&nbsp;
+	<a href="https://github.com/kelvininc/ui-components" target="_blank">
+		<img
+			alt="GitHub stars"
+			src="https://img.shields.io/github/stars/kelvininc/ui-components?style=social"
+		/>
+	</a>
+</div>
+
+**Kelvin UI Components** provides a set of reusable, high quality framework-agnostic UI components, this means you can use them with React or if you prefer, the components are also available as W3C compliant WebComponents.
+
+This is not just a library of UI components as it's also a style guide where you can see how the component looks and behaves by interacting with it.
+
+<br />
+
+# How to use
+
+<br />
+
+## React
+
+<br />
+
+### Installation
+
+From the command prompt go to your app's root folder and execute:
+
+```
+pnpm install @kelvininc/react-ui-components --save
+```
+
+### Getting Started
+
+Include the fonts in `index.js` or `index.tsx`.
+
+```tsx
+import "@kelvininc/react-ui-components/assets/fonts/font-proxima-nova.css";
+```
+
+Now you are ready to use all available _Kelvin UI Components_. For example:
+
+```tsx
+import { EActionButtonType, KvActionButtonText } from '@kelvininc/react-ui-components';
+
+(...)
+
+<KvActionButtonText
+	type={EActionButtonType.Primary}
+	text="My Button"
+	size={EComponentSize.Small}
+	onClickButton={this.onButtonClick}>
+</KvActionButtonText>
+```
+
+Including the global style file you can access our foundation design system definitions like [colors](/story/foundation-colors--page), [spacings](?path=/docs/foundation-spatial-system--page) and [typography](/docs/foundation-typography--page)
+
+```css
+@import "@kelvininc/react-ui-components/assets/styles/globals.scss";
+```
+
+## Themes
+
+Kelvin UI Components have two predefined themes `StyleMode.Night` and `StyleMode.Light` (`StyleMode.Night` is applied by default) that can be applied on library startup. For that you need pass the desired theme to the library configuration in your `index.js` (_React_).
+
+```tsx
+import { initialize, StyleMode } from '@kelvininc/react-ui-components';
+
+(...)
+
+initialize({styleMode: StyleMode.Light});
+
+```
+
+<br />
+
+In addition, you can customize the theme by changing some CSS properties.
+
+**_Example_**: Setting the _Primary Color_
+
+```css
+:root {
+	--kv-primary: #005cc7;
+	--kv-primary-rgb: 0, 92, 199;
+	--kv-primary-contrast: #fff;
+	--kv-primary-contrast-rgb: 255, 255, 255;
+	--kv-primary-dark: #0051af;
+	--kv-primary-light: #ccdef4;
+}
+```
+
+## Relative paths
+
+By default the `KvIcon` and `KvIllustration` components will expect the `svg-symbols.svg` file to be served at the server root. This could not be your use-case if you're application is being served on a relative path, e.g, `https://dashboard.com/clients/home`. In this case you will need to tell the library the base path to your assets url, which you can achieve by doing the following in your `index.js` (_React_).
+
+```tsx
+import { initialize, StyleMode } from '@kelvininc/react-ui-components';
+
+(...)
+
+initialize({ baseAssetsUrl: '/clients/' });
+
+```
+
+## Aditional Information
+
+When using components with props that can assume the value `undefined`, if no default value is defined, Stencil will consider the `undefined` value after the first render.
+
+Considering the following example where, `tooltipDelay` prop can be `undefined`:
+
+```tsx
+const ComponentWrapper({
+	text,
+	tooltipText,
+	tooltipDelay,
+	onButtonClick
+}) {
+	return (
+		<KvTooltip text={tooltipText} delay={tooltipDelay}>
+			<KvActionButtonText
+				type={EActionButtonType.Primary}
+				text={text}
+				size={EComponentSize.Small}
+				onClickButton={this.onButtonClick}>
+			</KvActionButtonText>
+		</KvTooltip>
+	);
+}
+```
+
+At first render, the `KvTooltip` will assume its prop default value of 1 second. However, when the `ComponentWrapper` re-renders, this prop value will be set to `undefined` overwriting the previous value of 1 second. This happens because the `KvTooltip` doesn't fall back to the default value when a prop is `undefined`, it simply uses that value when the component is mounted.
+
+If you want to work around this behaviour please consider setting your drilled prop to a default value as it's shown in the example below:
+
+```tsx
+const ComponentWrapper({
+	text,
+	tooltipText,
+	tooltipDelay = 1000,
+	onButtonClick
+}) {
+	return (
+		<KvTooltip text={tooltipText} delay={tooltipDelay}>
+			<KvActionButtonText
+				type={EActionButtonType.Primary}
+				text={text}
+				size={EComponentSize.Small}
+				onClickButton={this.onButtonClick}>
+			</KvActionButtonText>
+		</KvTooltip>
+	);
+}
+```
