@@ -5,28 +5,6 @@
 <!-- Auto Generated Below -->
 
 
-## Usage
-
-### React
-
-```tsx
-import React from 'react';
-
-import { KvTimePickerCalendar } from '@kelvininc/react-ui-components';
-
-export const KvTimePickerCalendarExample: React.FC = () => (
-	<>
-		{/*-- Default --*/}
-		<KvTimePickerCalendar />
-
-		{/*-- With initial date --*/}
-		<KvTimePickerCalendar initialDate="2022-08-04" />
-	</>
-);
-```
-
-
-
 ## Properties
 
 | Property                    | Attribute                      | Description                                                                                                           | Type                                                              | Default                         |
@@ -75,16 +53,16 @@ export const KvTimePickerCalendarExample: React.FC = () => (
 ### Depends on
 
 - [kv-icon](../icon)
-- [kv-time-picker-calendar-day](../time-picker-calendar-day)
+- [kv-calendar-day](../calendar-day)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-time-picker-calendar --> kv-icon
-  kv-time-picker-calendar --> kv-time-picker-calendar-day
-  kv-absolute-time-picker --> kv-time-picker-calendar
-  kv-absolute-time-picker-dropdown-input --> kv-time-picker-calendar
-  style kv-time-picker-calendar fill:#f9f,stroke:#333,stroke-width:4px
+  kv-calendar --> kv-icon
+  kv-calendar --> kv-calendar-day
+  kv-absolute-time-picker --> kv-calendar
+  kv-absolute-time-picker-dropdown-input --> kv-calendar
+  style kv-calendar fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

@@ -12,6 +12,7 @@
 		"lint": "lerna run lint --stream --scope '{@kelvininc/ui-components,@kelvininc/react-ui-components}'",
 		"lint:fix": "lerna run lint:fix --stream --scope '{@kelvininc/ui-components,@kelvininc/react-ui-components}'",
 		"test": "lerna run test --stream --scope @kelvininc/ui-components",
+		"storybook": "lerna run storybook --stream --scope @kelvininc/react-ui-components",
 		"storybook:build": "lerna run storybook:build --scope @kelvininc/react-ui-components",
 		"storybook:deploy": "lerna run storybook:deploy --scope @kelvininc/react-ui-components"
 	},
