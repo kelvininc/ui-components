@@ -1,0 +1,65 @@
+import { Meta } from "@storybook/blocks";
+import styles from "./SpatialSystem.module.scss";
+
+export const REGEX = /\,(.*)\)/i;
+
+export const SPACINGS = Object.keys(styles).reduce((acc, sp) => {
+	const match = styles[sp].match(REGEX);
+	 if (match) {
+        acc[sp] = match[1];
+    }
+
+    return acc;
+
+}, {});
+
+<Meta
+	parameters={{
+		viewMode: "docs",
+		options: { isToolshown: false }
+	}}
+	title="Foundation/Spatial System"
+/>
+
+# Spatial System
+
+_Space is everywhere. The organization of space is key to every great design, providing **consistent rhythm** to all our products._
+
+Our spatial system uses a 4-point grid system for sizing, spacing, and laying out components relative to one another. This means that anything is always a multiple of 4 pixels: a margin or padding, a button height, a space between input forms, etc.
+This makes it easy to compose all our components neatly and consistently, with no space for inconsistency.
+
+<div className={styles.SpacingContainer}>
+	{Object.keys(SPACINGS).map((sp) => (
+		<div key={sp} className={styles.SpacingWrapper}>
+			<div className={styles.BoxWrapper}>
+				<div
+					className={styles.Box}
+					style={{ width: SPACINGS[sp], height: SPACINGS[sp] }}
+				></div>
+			</div>
+			<div className={styles.Description}>
+				<span className={styles.Code}>${sp}</span>
+				<span className={styles.Value}>{SPACINGS[sp]}</span>
+			</div>
+		</div>
+	))}
+</div>
+
+**Note**: All spacings can be replaced by setting the respective _CSS Variable_
+
+> **_Example_**: Setting the spacing to `rem` unit
+
+```css
+--kv-spacing: 0.25rem;
+--kv-spacing-2x: 0.5rem;
+--kv-spacing-3x: 0.75rem;
+--kv-spacing-4x: 1rem;
+--kv-spacing-5x: 1.25rem;
+--kv-spacing-6x: 1.5rem;
+--kv-spacing-7x: 1.75rem;
+--kv-spacing-8x: 2rem;
+--kv-spacing-9x: 2.25rem;
+--kv-spacing-10x: 2.5rem;
+--kv-spacing-12x: 3rem;
+--kv-spacing-16x: 4rem;
+```

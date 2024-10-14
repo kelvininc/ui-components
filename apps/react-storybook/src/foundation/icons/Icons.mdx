@@ -1,0 +1,67 @@
+import { Meta } from "@storybook/blocks";
+import "./Icons.scss";
+import {
+	EIllustrationName,
+	EIconName,
+	EOtherIconName
+} from "@kelvininc/react-ui-components";
+
+<Meta
+	parameters={{
+		viewMode: "docs",
+		options: { isToolshown: false }
+	}}
+	title="Foundation/Icons & Illustrations"
+/>
+
+# Spatial System
+
+All our icons and illustrations are build with [Scalable Vector Graphics (SVGs)](https://www.w3.org/TR/SVG/intro.html), crafted to a variety of devices, screen sizes, and display resolutions keeping quality scalability and responsiveness.
+
+## Icons pack
+
+<div className="svgs-container">
+	{Object.values(EIconName).map((icn) => (
+		<div key={icn} className="icon-wrapper">
+			<div className="box-wrapper">
+				<kv-icon name={icn} custom-class="icon-24"></kv-icon>
+			</div>
+			<div className="description">
+				<span className="code">{icn}</span>
+			</div>
+		</div>
+	))}
+</div>
+
+### Other Icons
+
+<div className="svgs-container">
+	{Object.values(EOtherIconName).map((icon) => (
+		<div key={icon} className="icon-wrapper">
+			<div className="box-wrapper">
+				<kv-icon name={icon} custom-class="icon-24"></kv-icon>
+			</div>
+			<div className="description">
+				<span className="code">{icon}</span>
+			</div>
+		</div>
+	))}
+</div>
+
+## Illustrations pack
+
+<div className="svgs-container">
+	{Object.values(EIllustrationName).map((illustration) => (
+		<div key={illustration} className="ilus-wrapper">
+			<div className="box-wrapper">
+				<kv-illustration
+					name={illustration}
+					custom-class="illustration-full-size"
+				></kv-illustration>
+			</div>
+			<div className="description">
+				<span className="code">{illustration}</span>
+			</div>
+		</div>
+	))}
+</div>
