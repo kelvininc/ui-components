@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.40.2](https://github.com/kelvininc/ui-components/compare/v0.40.1...v0.40.2) (2024-10-24)
+
+
+### Bug Fixes
+
+* **dropdown:** force re-render after action element reference is set ([47981bb](https://github.com/kelvininc/ui-components/commit/47981bb1f5a01177b5634db4e8da348dcac9f7cb))
+
+
+
+
+
 ## [0.40.1](https://github.com/kelvininc/ui-components/compare/v0.40.0...v0.40.1) (2024-10-08)
 
 **Note:** Version bump only for package @kelvininc/ui-components-repo
