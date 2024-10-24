@@ -1,5 +1,5 @@
 import { ComputePositionConfig } from '@floating-ui/dom';
-import { Component, Host, h, Prop, Event, EventEmitter, Listen, Element } from '@stencil/core';
+import { Component, Host, h, Prop, Event, EventEmitter, Listen, Element, State } from '@stencil/core';
 
 import { DEFAULT_POSITION_CONFIG } from './dropdown-base.config';
 import { IDropdownBase, IDropdownBaseEvents } from './dropdown-base.types';
@@ -47,9 +47,10 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 	}
 
 	private portal: HTMLElement;
+	@State() action: HTMLDivElement;
 
 	private getActionElement = (): HTMLElement | null => {
-		return this.actionElement ?? (this.element.querySelector('#dropdown-action') as HTMLElement | null);
+		return this.actionElement ?? this.action;
 	};
 
 	private getListElement = (): HTMLElement | null => {
@@ -77,7 +78,7 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 	render() {
 		return (
 			<Host>
-				<div id="dropdown-action">
+				<div id="dropdown-action" ref={el => (this.action = el)}>
 					<slot name="action"></slot>
 				</div>
 
