@@ -1,13 +1,13 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { KvTimePickerCalendar } from '../../components';
+import { KvCalendar } from '../../components';
 
 // Required to have the correct TagName in the code sample
-KvTimePickerCalendar.displayName = 'KvTimePickerCalendar';
+KvCalendar.displayName = 'KvCalendar';
 
 export default {
-	title: 'Time Picker/Components/Time Picker Calendar',
-	component: 'kv-time-picker-calendar',
+	title: 'Time Picker/Components/Calendar',
+	component: 'kv-calendar',
 	argTypes: {
 		selectedDates: {
 			type: 'object'
@@ -23,11 +23,11 @@ export default {
 		}
 	},
 	parameters: {
-		notes: require('@ui-notes/time-picker-calendar/readme.md')
+		notes: require('@ui-notes/calendar/readme.md')
 	}
 };
 
-const CalendarMonthTem: ComponentStory<typeof KvTimePickerCalendar> = args => <KvTimePickerCalendar {...args} />;
+const CalendarMonthTem: ComponentStory<typeof KvCalendar> = args => <KvCalendar {...args} />;
 
 export const DefaultState = CalendarMonthTem.bind({});
 DefaultState.args = {

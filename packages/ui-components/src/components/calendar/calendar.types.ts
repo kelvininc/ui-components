@@ -1,7 +1,7 @@
 import { EventEmitter } from '@stencil/core';
 import { EAbsoluteTimePickerMode } from '../../types';
 
-export interface ITimePickerCalendar {
+export interface ICalendar {
 	/** (optional) Defines if the calendar is in single date or range mode */
 	mode?: EAbsoluteTimePickerMode;
 	/** (optional) The currently selected dates */
@@ -24,7 +24,7 @@ export interface ITimePickerCalendar {
 	displayNextMonthArrow?: boolean;
 }
 
-export interface ITimePickerCalendarEvents {
+export interface ICalendarEvents {
 	/** Emitted when a month changes */
 	changeMonth: EventEmitter<IChangeMonthEvent>;
 	/** Emitted when a year changes */

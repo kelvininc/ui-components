@@ -1,6 +1,6 @@
 import { E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
 
-describe('Time Picker Calendar (end-to-end)', () => {
+describe('Calendar (end-to-end)', () => {
 	let page: E2EPage;
 
 	describe('when component renders', () => {
@@ -8,8 +8,8 @@ describe('Time Picker Calendar (end-to-end)', () => {
 
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-time-picker-calendar initial-date="2020-01-23"></kv-time-picker-calendar>');
-			actualTitle = (await page.find('kv-time-picker-calendar >>> .calendar__header .month')).innerText;
+			await page.setContent('<kv-calendar initial-date="2020-01-23"></kv-calendar>');
+			actualTitle = (await page.find('kv-calendar >>> .calendar__header .month')).innerText;
 		});
 
 		it('should render the correct title', async () => {
@@ -25,13 +25,13 @@ describe('Time Picker Calendar (end-to-end)', () => {
 
 			beforeEach(async () => {
 				page = await newE2EPage();
-				await page.setContent('<kv-time-picker-calendar initial-date="2020-01-23"></kv-time-picker-calendar>');
+				await page.setContent('<kv-calendar initial-date="2020-01-23"></kv-calendar>');
 
-				const calendarElement = await page.find('kv-time-picker-calendar');
+				const calendarElement = await page.find('kv-calendar');
 				spyChangeMonthEvent = await calendarElement.spyOnEvent('changeMonth');
 				spyChangeYearEvent = await calendarElement.spyOnEvent('changeYear');
 
-				const prevButtonElement = await page.find('kv-time-picker-calendar >>> .calendar__header .navigator:first-child');
+				const prevButtonElement = await page.find('kv-calendar >>> .calendar__header .navigator:first-child');
 				await prevButtonElement.click();
 			});
 
@@ -55,12 +55,12 @@ describe('Time Picker Calendar (end-to-end)', () => {
 
 			beforeEach(async () => {
 				page = await newE2EPage();
-				await page.setContent('<kv-time-picker-calendar initial-date="2020-03-11"></kv-time-picker-calendar>');
+				await page.setContent('<kv-calendar initial-date="2020-03-11"></kv-calendar>');
 
-				const calendarElement = await page.find('kv-time-picker-calendar');
+				const calendarElement = await page.find('kv-calendar');
 				spyChangeMonthEvent = await calendarElement.spyOnEvent('changeMonth');
 
-				const prevButtonElement = await page.find('kv-time-picker-calendar >>> .calendar__header .navigator:first-child');
+				const prevButtonElement = await page.find('kv-calendar >>> .calendar__header .navigator:first-child');
 				await prevButtonElement.click();
 			});
 
@@ -80,13 +80,13 @@ describe('Time Picker Calendar (end-to-end)', () => {
 
 			beforeEach(async () => {
 				page = await newE2EPage();
-				await page.setContent('<kv-time-picker-calendar initial-date="2020-12-07"></kv-time-picker-calendar>');
+				await page.setContent('<kv-calendar initial-date="2020-12-07"></kv-calendar>');
 
-				const calendarElement = await page.find('kv-time-picker-calendar');
+				const calendarElement = await page.find('kv-calendar');
 				spyChangeMonthEvent = await calendarElement.spyOnEvent('changeMonth');
 				spyChangeYearEvent = await calendarElement.spyOnEvent('changeYear');
 
-				const nextButtonElement = await page.find('kv-time-picker-calendar >>> .calendar__header .navigator:last-child');
+				const nextButtonElement = await page.find('kv-calendar >>> .calendar__header .navigator:last-child');
 				await nextButtonElement.click();
 			});
 
@@ -110,12 +110,12 @@ describe('Time Picker Calendar (end-to-end)', () => {
 
 			beforeEach(async () => {
 				page = await newE2EPage();
-				await page.setContent('<kv-time-picker-calendar initial-date="2020-07-07"></kv-time-picker-calendar>');
+				await page.setContent('<kv-calendar initial-date="2020-07-07"></kv-calendar>');
 
-				const calendarElement = await page.find('kv-time-picker-calendar');
+				const calendarElement = await page.find('kv-calendar');
 				spyChangeMonthEvent = await calendarElement.spyOnEvent('changeMonth');
 
-				const nextButtonElement = await page.find('kv-time-picker-calendar >>> .calendar__header .navigator:last-child');
+				const nextButtonElement = await page.find('kv-calendar >>> .calendar__header .navigator:last-child');
 				await nextButtonElement.click();
 			});
 

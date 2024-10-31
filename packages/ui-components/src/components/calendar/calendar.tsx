@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
-import { IChangeMonthEvent, IChangeYearEvent, IClickDateEvent, ITimePickerCalendar, ITimePickerCalendarEvents } from './time-picker-calendar.types';
+import { IChangeMonthEvent, IChangeYearEvent, IClickDateEvent, ICalendar, ICalendarEvents } from './calendar.types';
 import {
 	areDatesValid,
 	formatDate,
@@ -19,18 +19,18 @@ import {
 } from '../../utils/date.helper';
 import { getArrayOfIndexes } from '../../utils/arrays.helper';
 import { EIconName } from '../icon/icon.types';
-import { getCalendarEndDisabledDays, getCalendarStartDisabledDays, getHooveredDate, getSelectedRange } from './time-picker-calendar.helper';
-import { CALENDAR_DEFAULT_MIN_DATE, DATE_FORMAT } from './time-picker-calendar.config';
+import { getCalendarEndDisabledDays, getCalendarStartDisabledDays, getHooveredDate, getSelectedRange } from './calendar.helper';
+import { CALENDAR_DEFAULT_MIN_DATE, DATE_FORMAT } from './calendar.config';
 import dayjs from 'dayjs';
 import { EAbsoluteTimePickerMode } from '../../types';
 import { isEmpty } from 'lodash-es';
 
 @Component({
-	tag: 'kv-time-picker-calendar',
-	styleUrl: 'time-picker-calendar.scss',
+	tag: 'kv-calendar',
+	styleUrl: 'calendar.scss',
 	shadow: true
 })
-export class KvTimePickerCalendar implements ITimePickerCalendar, ITimePickerCalendarEvents {
+export class KvCalendar implements ICalendar, ICalendarEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: false }) selectedDates?: string[] = [];
 	/** @inheritdoc */
@@ -279,10 +279,10 @@ export class KvTimePickerCalendar implements ITimePickerCalendar, ITimePickerCal
 							</div>
 							<div class="calendar-month__days">
 								{previousMonthLastDays.map(id => (
-									<kv-time-picker-calendar-day key={`previous-${this.year}-${this.month}-${id + 1}`} day={id} disabled={true} />
+									<kv-calendar-day key={`previous-${this.year}-${this.month}-${id + 1}`} day={id} disabled={true} />
 								))}
 								{currentMonthDays.map(index => (
-									<kv-time-picker-calendar-day
+									<kv-calendar-day
 										key={`${this.year}-${this.month}-${index + 1}`}
 										day={index + 1}
 										onClickDay={this.onClickDay.bind(this, index + 1)}
@@ -298,7 +298,7 @@ export class KvTimePickerCalendar implements ITimePickerCalendar, ITimePickerCal
 									/>
 								))}
 								{nextMonthStartDays.map(id => (
-									<kv-time-picker-calendar-day key={`after-${this.year}-${this.month}-${id + 1}`} day={id} disabled={true} />
+									<kv-calendar-day key={`after-${this.year}-${this.month}-${id + 1}`} day={id} disabled={true} />
 								))}
 							</div>
 						</div>

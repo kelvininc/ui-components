@@ -1,13 +1,13 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { KvTimePickerCalendarDay } from '../../components';
+import { KvCalendarDay } from '../../components';
 
 // Required to have the correct TagName in the code sample
-KvTimePickerCalendarDay.displayName = 'KvTimePickerCalendarDay';
+KvCalendarDay.displayName = 'KvCalendarDay';
 
 export default {
-	title: 'Time Picker/Components/Time Picker Calendar Day',
-	component: 'kv-time-picker-calendar-day',
+	title: 'Time Picker/Components/Calendar Day',
+	component: 'kv-calendar-day',
 	argTypes: {
 		onClickDay: {
 			action: 'clickDay'
@@ -20,11 +20,11 @@ export default {
 		}
 	},
 	parameters: {
-		notes: require('@ui-notes/time-picker-calendar-day/readme.md')
+		notes: require('@ui-notes/calendar-day/readme.md')
 	}
 };
 
-const TimePickerCalendarDayTemplate: ComponentStory<typeof KvTimePickerCalendarDay> = args => <KvTimePickerCalendarDay {...args} />;
+const TimePickerCalendarDayTemplate: ComponentStory<typeof KvCalendarDay> = args => <KvCalendarDay {...args} />;
 
 export const DefaultState = TimePickerCalendarDayTemplate.bind({});
 DefaultState.args = {

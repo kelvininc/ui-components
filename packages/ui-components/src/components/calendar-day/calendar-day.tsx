@@ -1,15 +1,15 @@
 import { Component, Event, EventEmitter, Host, Prop, h } from '@stencil/core';
-import { ITimePickerCalendarDay, ITimePickerCalendarDayEvents } from './time-picker-calendar-day.types';
+import { ICalendarDay, ICalendarDayEvents } from './calendar-day.types';
 
 /**
  * @part day-container - The day button container.
  */
 @Component({
-	tag: 'kv-time-picker-calendar-day',
-	styleUrl: 'time-picker-calendar-day.scss',
+	tag: 'kv-calendar-day',
+	styleUrl: 'calendar-day.scss',
 	shadow: true
 })
-export class KvTimePickerCalendarDay implements ITimePickerCalendarDay, ITimePickerCalendarDayEvents {
+export class KvCalendarDay implements ICalendarDay, ICalendarDayEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) day!: number;
 	/** @inheritdoc */
@@ -56,14 +56,14 @@ export class KvTimePickerCalendarDay implements ITimePickerCalendarDay, ITimePic
 				<div
 					onClick={this.onClickDay}
 					class={{
-						'time-picker-calendar-day': true,
-						'time-picker-calendar-day--disabled': this.disabled,
-						'time-picker-calendar-day--active': this.active,
-						'time-picker-calendar-day--in-range': this.inRange,
-						'time-picker-calendar-day--today': this.isToday,
-						'time-picker-calendar-day--range-start': this.isRangeStartDate,
-						'time-picker-calendar-day--range-end': this.isRangeEndDate,
-						'time-picker-calendar-day--between-dates': this.isBetweenSelectedDates
+						'calendar-day': true,
+						'calendar-day--disabled': this.disabled,
+						'calendar-day--active': this.active,
+						'calendar-day--in-range': this.inRange,
+						'calendar-day--today': this.isToday,
+						'calendar-day--range-start': this.isRangeStartDate,
+						'calendar-day--range-end': this.isRangeEndDate,
+						'calendar-day--between-dates': this.isBetweenSelectedDates
 					}}
 					onMouseEnter={this.onMouseEnterDay}
 					onMouseLeave={this.onMouseLeaveDay}

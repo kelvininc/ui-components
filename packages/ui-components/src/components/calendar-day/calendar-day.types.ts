@@ -1,6 +1,6 @@
 import { EventEmitter } from '@stencil/core';
 
-export interface ITimePickerCalendarDay {
+export interface ICalendarDay {
 	/** (required) Calendar day */
 	day: Number;
 	/** (optional) If `true`, the day is disabled */
@@ -19,7 +19,7 @@ export interface ITimePickerCalendarDay {
 	isBetweenSelectedDates?: boolean;
 }
 
-export interface ITimePickerCalendarDayEvents {
+export interface ICalendarDayEvents {
 	/** Emitted when day button is clicked */
 	clickDay: EventEmitter<number>;
 	/** Emitted when day button is mouse enter */

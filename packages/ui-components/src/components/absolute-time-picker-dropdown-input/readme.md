@@ -59,21 +59,21 @@ export const KvAbsoluteTimePickerDropdownInput: React.FC = () => (
 
 - [kv-dropdown-base](../dropdown-base)
 - [kv-date-time-input](../date-time-input)
-- [kv-time-picker-calendar](../time-picker-calendar)
+- [kv-calendar](../calendar)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-absolute-time-picker-dropdown-input --> kv-dropdown-base
   kv-absolute-time-picker-dropdown-input --> kv-date-time-input
-  kv-absolute-time-picker-dropdown-input --> kv-time-picker-calendar
+  kv-absolute-time-picker-dropdown-input --> kv-calendar
   kv-dropdown-base --> kv-portal
   kv-date-time-input --> kv-form-label
   kv-date-time-input --> kv-icon
   kv-date-time-input --> kv-form-help-text
   kv-form-help-text --> kv-icon
-  kv-time-picker-calendar --> kv-icon
-  kv-time-picker-calendar --> kv-time-picker-calendar-day
+  kv-calendar --> kv-icon
+  kv-calendar --> kv-calendar-day
   style kv-absolute-time-picker-dropdown-input fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
