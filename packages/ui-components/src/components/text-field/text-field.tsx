@@ -13,6 +13,7 @@ import { HostAttributes, Method } from '@stencil/core/internal';
 
 /**
  * @part input-container - container that includes the input, right and left slot
+ * @part badge - badge rendered at the right of the text field
  */
 @Component({
 	tag: 'kv-text-field',
@@ -75,6 +76,8 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	@Prop({ reflect: true }) valuePrefix?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) badge?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) isDirty?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) useInputMask?: boolean;
 	/** @inheritdoc */
@@ -316,20 +319,19 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										'disabled': this.inputDisabled
 									}}
 								>
-									<slot name="left-slot">
-										{this.icon && (
-											<kv-icon
-												name={this.icon}
-												exportparts="icon"
-												class={{
-													invalid: this.state === EValidationState.Invalid,
-													disabled: this.inputDisabled,
-													focus: this.focused
-												}}
-											/>
-										)}
-										{value && this.valuePrefix && <div class="value-prefix">{this.valuePrefix}</div>}
-									</slot>
+									<slot name="left-slot" />
+									{this.icon && (
+										<kv-icon
+											name={this.icon}
+											exportparts="icon"
+											class={{
+												invalid: this.state === EValidationState.Invalid,
+												disabled: this.inputDisabled,
+												focus: this.focused
+											}}
+										/>
+									)}
+									{value && this.valuePrefix && <div class="value-prefix">{this.valuePrefix}</div>}
 								</div>
 								<div class="resize-container">
 									{this.fitContent && <span class="resize-text">{value || this.placeholder}</span>}
@@ -362,20 +364,24 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										'disabled': this.inputDisabled
 									}}
 								>
-									<slot name="right-slot">
-										{this.badge && <kv-badge state={EBadgeState.Info}>{this.badge}</kv-badge>}
-										{this.actionIcon && (
-											<kv-icon
-												name={this.actionIcon}
-												onClick={this.onRightActionClick}
-												class={{
-													invalid: this.state === EValidationState.Invalid,
-													disabled: this.inputDisabled,
-													focus: this.focused
-												}}
-											/>
-										)}
-									</slot>
+									<slot name="right-slot" />
+									{this.isDirty && <kv-dirty-dot />}
+									{this.badge && (
+										<kv-badge state={EBadgeState.Info} exportparts="badge">
+											{this.badge}
+										</kv-badge>
+									)}
+									{this.actionIcon && (
+										<kv-icon
+											name={this.actionIcon}
+											onClick={this.onRightActionClick}
+											class={{
+												invalid: this.state === EValidationState.Invalid,
+												disabled: this.inputDisabled,
+												focus: this.focused
+											}}
+										/>
+									)}
 								</div>
 							</div>
 						) : (

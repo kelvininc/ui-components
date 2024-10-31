@@ -110,10 +110,12 @@ graph TD;
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
+  kv-text-field --> kv-dirty-dot
   kv-text-field --> kv-badge
   kv-text-field --> kv-form-help-text
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
+  kv-dirty-dot --> kv-icon
   kv-form-help-text --> kv-icon
   kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option
@@ -124,6 +126,7 @@ graph TD;
   kv-select-multi-options --> kv-select-shortcuts-label
   kv-select-option --> kv-checkbox
   kv-select-option --> kv-icon
+  kv-select-option --> kv-dirty-dot
   kv-checkbox --> kv-icon
   kv-select --> kv-search
   kv-search --> kv-text-field

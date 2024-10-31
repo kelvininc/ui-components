@@ -46,6 +46,8 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) state?: EToggleState;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) isDirty?: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customStyle?: HostAttributes['style'];
@@ -94,6 +96,7 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 						)}
 						<div class="text-container">
 							<div class="item-label" part="label">
+								{this.isDirty && <kv-dirty-dot />}
 								{this.label}
 							</div>
 							{this.description && <div class="item-description">{this.description}</div>}

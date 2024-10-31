@@ -29,6 +29,9 @@ export default {
 		},
 		selectable: {
 			control: { type: 'boolean' }
+		},
+		isDirty: {
+			control: { type: 'boolean' }
 		}
 	},
 	parameters: {

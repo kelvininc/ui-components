@@ -1,7 +1,8 @@
 import { EventEmitter } from '@stencil/core';
 import { ISelectOption, ISelectMultiOptionsEvents, IMultiSelectDropdown } from '../../types';
 
-export interface ISelectSingleOption extends Pick<ISelectOption, 'label' | 'value' | 'icon' | 'disabled' | 'selectable' | 'description' | 'customClass' | 'customStyle'> {
+export interface ISelectSingleOption
+	extends Pick<ISelectOption, 'label' | 'value' | 'icon' | 'disabled' | 'selectable' | 'isDirty' | 'description' | 'customClass' | 'customStyle'> {
 	options?: ISelectSingleOptions;
 }
 

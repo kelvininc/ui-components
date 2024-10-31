@@ -302,6 +302,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 					actionElement={this.actionElement}
 					zIndex={this.zIndex}
 				>
+					<slot name="right-slot" slot="right-slot" />
+					<slot name="left-slot" slot="left-slot" />
 					<slot name="dropdown-action" slot="dropdown-action" />
 					<div class={{ ...getClassMap(this.customClass), 'single-select-dropdown-slot': true }}>
 						<kv-select-multi-options

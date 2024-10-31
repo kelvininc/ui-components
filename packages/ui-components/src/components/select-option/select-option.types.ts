@@ -36,6 +36,8 @@ export interface ISelectOption extends ICustomCss {
 	state?: EToggleState;
 	/** (optional) Additional style to apply for custom CSS. */
 	customStyle?: HostAttributes['style'];
+	/** (optional) If true, a dirty dot indicator will be added to left side of the option's text. */
+	isDirty?: boolean;
 }
 
 export interface ISelectOptionEvents {
