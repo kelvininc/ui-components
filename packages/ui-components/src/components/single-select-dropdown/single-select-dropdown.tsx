@@ -11,6 +11,7 @@ import { ComputePositionConfig } from '@floating-ui/dom';
 import { buildSingleSelectOptions, getDropdownCustomCss, getDropdownDisplayIcon } from './single-select-dropdown.helper';
 import { getFlattenSelectOptions } from '../../utils/select.helper';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
+import { merge } from 'lodash-es';
 
 /**
  * @part select - The select container.
@@ -99,6 +100,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Prop({ reflect: true }) createInputPlaceholder?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) createOptionPlaceholder?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) inputConfig?: Partial<ITextField>;
 
 	/** @inheritdoc */
 	@Event() optionSelected: EventEmitter<string>;
@@ -230,21 +233,24 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		return this.minWidth ?? minWidth;
 	}
 
-	private getInputConfig = (): Partial<ITextField> => ({
-		label: this.label,
-		value: this._selectionDisplayValue,
-		valuePrefix: this.displayPrefix,
-		loading: this.loading,
-		icon: getDropdownDisplayIcon(this.selectedOption, this.selectOptions.flatten) ?? this.icon,
-		inputDisabled: this.disabled,
-		inputRequired: this.required,
-		placeholder: this.placeholder,
-		state: this.errorState,
-		helpText: this.helpText,
-		size: this.inputSize,
-		badge: this.badge,
-		customStyle: getDropdownCustomCss(this.selectedOption, this.selectOptions.flatten)
-	});
+	private getInputConfig = (): Partial<ITextField> => {
+		return merge({}, this.inputConfig, {
+			label: this.label,
+			value: this._selectionDisplayValue,
+			valuePrefix: this.displayPrefix,
+			loading: this.loading,
+			inputDisabled: this.disabled,
+			inputRequired: this.required,
+			placeholder: this.placeholder,
+			state: this.errorState,
+			helpText: this.helpText,
+			size: this.inputSize,
+			badge: this.badge,
+			isDirty: this.selectedOption && this.options && this.options[this.selectedOption]?.isDirty,
+			icon: getDropdownDisplayIcon(this.selectedOption, this.selectOptions.flatten) ?? this.icon,
+			customStyle: getDropdownCustomCss(this.selectedOption, this.selectOptions.flatten)
+		});
+	};
 
 	private clearHighlightedOption = (): void => {
 		this.selectRef?.clearHighlightedOption();
@@ -343,6 +349,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							<slot name="no-data-available" slot="no-data-available" />
 							<slot name="no-results-found" slot="no-results-found" />
 						</kv-select-multi-options>
+						<slot />
 					</div>
 				</kv-dropdown>
 			</Host>

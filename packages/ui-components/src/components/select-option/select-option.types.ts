@@ -1,12 +1,21 @@
 import { EventEmitter } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
-import { ICustomCss } from '../../types';
+import { CustomCssClass, ICustomCss } from '../../types';
 import { HostAttributes } from '@stencil/core/internal';
 
 export enum EToggleState {
 	Selected = 'selected',
 	Indeterminate = 'indeterminate',
 	None = 'none'
+}
+
+export interface ISelectOptionAction {
+	/** (required) The callback to call when the action is clicked */
+	onClick: () => void;
+	/** (required) The icon of the action */
+	icon: EIconName | EOtherIconName;
+	/**  (optional) If `true` the action is active */
+	active?: boolean;
 }
 
 export interface ISelectOption extends ICustomCss {
@@ -36,8 +45,12 @@ export interface ISelectOption extends ICustomCss {
 	state?: EToggleState;
 	/** (optional) Additional style to apply for custom CSS. */
 	customStyle?: HostAttributes['style'];
+	/** (optional) Custom class to apply for custom styling. */
+	customClass?: CustomCssClass;
 	/** (optional) If true, a dirty dot indicator will be added to left side of the option's text. */
 	isDirty?: boolean;
+	/** (optional) Action to display on the right side of the item */
+	action?: ISelectOptionAction;
 }
 
 export interface ISelectOptionEvents {

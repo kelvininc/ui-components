@@ -11,6 +11,7 @@ import { ISelectMultiOptions } from '../select-multi-options/select-multi-option
 import { getClassMap } from '../../utils/css-class.helper';
 import { ComputePositionConfig } from '@floating-ui/dom';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
+import { merge } from 'lodash-es';
 
 @Component({
 	tag: 'kv-multi-select-dropdown',
@@ -88,6 +89,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: false }) actionElement?: HTMLElement | null = null;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) zIndex?: number = DEFAULT_DROPDOWN_Z_INDEX;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) inputConfig?: Partial<ITextField>;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
@@ -216,8 +219,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		}
 	};
 
-	private get inputConfig(): Partial<ITextField> {
-		return {
+	private getInputConfig(): Partial<ITextField> {
+		return merge({}, this.inputConfig, {
 			label: this.label,
 			value: this._selectionDisplayValue,
 			valuePrefix: this.displayPrefix,
@@ -230,14 +233,14 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 			helpText: this.helpText,
 			size: this.inputSize,
 			badge: this._badgeLabel
-		};
+		});
 	}
 
 	render() {
 		return (
 			<Host>
 				<kv-dropdown
-					inputConfig={this.inputConfig}
+					inputConfig={this.getInputConfig()}
 					isOpen={this._isOpen}
 					onOpenStateChange={this.onOpenStateChange}
 					disabled={this.disabled}
