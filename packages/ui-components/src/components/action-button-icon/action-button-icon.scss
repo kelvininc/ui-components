@@ -6,8 +6,12 @@
 	 * @prop --button-icon-small-width: Button's icon small width.
 	 * @prop --button-icon-large-height: Button's icon large height.
 	 * @prop --button-icon-small-height: Button's icon small height.
+	 * @prop --button-size-large: Button's height and width size when size is large.
+	 * @prop --button-size-small: Button's height and width size when size is small.
 	 */
 
+	--button-size-large: 36px;
+	--button-size-small: 28px;
 	--button-icon-large-width: 24px;
 	--button-icon-large-height: 24px;
 	--button-icon-small-height: 20px;
@@ -17,8 +21,8 @@
 }
 
 .action-button-icon--size-large {
-	kv-action-button {
-		--button-padding-x-large: 2px;
+	kv-action-button::part(button) {
+		width: var(--button-size-large);
 	}
 
 	kv-icon {
@@ -28,8 +32,8 @@
 }
 
 .action-button-icon--size-small {
-	kv-action-button {
-		--button-padding-x-small: 0;
+	kv-action-button::part(button) {
+		width: var(--button-size-small);
 	}
 
 	kv-icon {
@@ -42,12 +46,15 @@ kv-action-button {
 	--background-color-active-tertiary: #{kv-color('neutral-5')};
 	--border-color-active-tertiary: #{kv-color('neutral-4')};
 	--text-color-active-tertiary: #{kv-color('neutral-4')};
+	--button-padding-x-small: 0;
+	--button-height-large: var(--button-size-large);
+	--button-height-small: var(--button-size-small);
 
 	display: flex;
-}
 
-kv-icon {
-	padding: $spacing;
+	&::part(button) {
+		justify-content: center;
+	}
 }
 
 .button-badge {

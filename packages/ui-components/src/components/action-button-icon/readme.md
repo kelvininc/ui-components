@@ -65,12 +65,14 @@ export const SwitchButtonExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                         | Description                 |
-| ---------------------------- | --------------------------- |
-| `--button-icon-large-height` | Button's icon large height. |
-| `--button-icon-large-width`  | Button's icon large width.  |
-| `--button-icon-small-height` | Button's icon small height. |
-| `--button-icon-small-width`  | Button's icon small width.  |
+| Name                         | Description                                        |
+| ---------------------------- | -------------------------------------------------- |
+| `--button-icon-large-height` | Button's icon large height.                        |
+| `--button-icon-large-width`  | Button's icon large width.                         |
+| `--button-icon-small-height` | Button's icon small height.                        |
+| `--button-icon-small-width`  | Button's icon small width.                         |
+| `--button-size-large`        | Button's height and width size when size is large. |
+| `--button-size-small`        | Button's height and width size when size is small. |
 
 
 ## Dependencies
