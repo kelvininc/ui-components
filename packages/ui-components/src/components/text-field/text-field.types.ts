@@ -87,6 +87,8 @@ export interface ITextField {
 	fitContent?: boolean;
 	/** (optional) Additional style to apply for custom CSS. */
 	customStyle?: HostAttributes['style'];
+	/** (optional) If true, a dirty dot indicator will be added to right side of the displayed value. */
+	isDirty?: boolean;
 }
 
 export interface IInputMaskInstanceRef extends Inputmask.Instance {

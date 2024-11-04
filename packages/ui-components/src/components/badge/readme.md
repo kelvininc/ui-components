@@ -66,6 +66,7 @@ export const BadgeExample: React.FC = () => (
 | `--badge-text-color-success`       | Badge's text color when state is success.       |
 | `--badge-text-color-warning`       | Badge's text color when state is warning.       |
 | `--badge-warning-text-color`       | Badge's text color when state is warning.       |
+| `--badge-width`                    | Badge's width.                                  |
 
 
 ## Dependencies

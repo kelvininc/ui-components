@@ -81,6 +81,9 @@
 		@include kv-font-span-regular;
 		transition: font-weight var(--select-option-transition-duration) linear;
 		color: var(--select-option-label-color);
+		display: flex;
+		align-items: center;
+		gap: $spacing;
 	}
 
 	.item-description {

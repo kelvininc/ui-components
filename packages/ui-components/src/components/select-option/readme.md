@@ -37,6 +37,7 @@ export const KvSelectOptionExample: React.FC = () => (
 | `heading`            | `heading`      | (optional) If `true` the item is presented as a list heading. Default: `false`                                                                                                          | `boolean`                                                                  | `false`     |
 | `highlighted`        | `highlighted`  | (optional) If `true` the item is highlighted                                                                                                                                            | `boolean`                                                                  | `false`     |
 | `icon`               | `icon`         | (optional) Icon of the item displayed on the left                                                                                                                                       | `EIconName \| EOtherIconName`                                              | `undefined` |
+| `isDirty`            | `is-dirty`     | (optional) If true, a dirty dot indicator will be added to left side of the option's text.                                                                                              | `boolean`                                                                  | `false`     |
 | `label` _(required)_ | `label`        | (required) The text to display on the item                                                                                                                                              | `string`                                                                   | `undefined` |
 | `level`              | `level`        | (optional) The level depth at which the option is rendered                                                                                                                              | `number`                                                                   | `0`         |
 | `selectable`         | `selectable`   | (optional) If `false` the item is only for presenting and cannot be selected.                                                                                                           | `boolean`                                                                  | `true`      |
@@ -99,13 +100,16 @@ export const KvSelectOptionExample: React.FC = () => (
 
 - [kv-checkbox](../checkbox)
 - [kv-icon](../icon)
+- [kv-dirty-dot](../dirty-dot)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-select-option --> kv-checkbox
   kv-select-option --> kv-icon
+  kv-select-option --> kv-dirty-dot
   kv-checkbox --> kv-icon
+  kv-dirty-dot --> kv-icon
   kv-relative-time-picker --> kv-select-option
   kv-select-multi-options --> kv-select-option
   style kv-select-option fill:#f9f,stroke:#333,stroke-width:4px

@@ -85,7 +85,9 @@ graph TD;
   kv-relative-time-picker --> kv-single-select-dropdown
   kv-select-option --> kv-checkbox
   kv-select-option --> kv-icon
+  kv-select-option --> kv-dirty-dot
   kv-checkbox --> kv-icon
+  kv-dirty-dot --> kv-icon
   kv-input-wrapper --> kv-icon
   kv-single-select-dropdown --> kv-dropdown
   kv-single-select-dropdown --> kv-select-multi-options
@@ -95,6 +97,7 @@ graph TD;
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
   kv-text-field --> kv-icon
+  kv-text-field --> kv-dirty-dot
   kv-text-field --> kv-badge
   kv-text-field --> kv-form-help-text
   kv-tooltip --> kv-portal
