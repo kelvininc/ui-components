@@ -1,0 +1,17 @@
+{
+	"$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
+	"name": "ui-components",
+	"targets": {
+		"build": {
+			"inputs": [
+				"{projectRoot}/src"
+			],
+			"outputs": [
+				"{projectRoot}/dist",
+				"{projectRoot}/www",
+				"{projectRoot}/docs",
+				"{projectRoot}/loader"
+			]
+		}
+	}
+}
