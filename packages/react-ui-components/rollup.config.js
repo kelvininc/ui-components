@@ -5,17 +5,10 @@ import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
 import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin';
 
-const input = 'src/components/index.ts';
+const input = 'src/index.ts';
 
 const getPlugins = (lodashImportOpts = {}, otherPlugins = []) => {
-	return [
-		peerDepsExternal(),
-		resolve(),
-		optimizeLodashImports({ ...lodashImportOpts }),
-		typescript({ tsconfig: './tsconfig.lib.json' }),
-		postcss(),
-		...otherPlugins
-	];
+	return [peerDepsExternal(), resolve(), optimizeLodashImports({ ...lodashImportOpts }), typescript({ tsconfig: './tsconfig.lib.json' }), postcss(), ...otherPlugins];
 };
 
 export default [
