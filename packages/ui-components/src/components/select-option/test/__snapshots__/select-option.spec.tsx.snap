@@ -6,9 +6,12 @@ exports[`KvSelectOption (unit tests) when rendering with bottom slot flag \`true
     <div part="select-option-content">
       <div class="select-option select-option--selectable" part="option-container" style="--level-padding-offset: 0px;">
         <div class="text-container">
-          <div class="item-label" part="label">
-            Option 1
+          <div class="left-content">
+            <div class="item-label" part="label">
+              Option 1
+            </div>
           </div>
+          <div class="right-content"></div>
         </div>
       </div>
       <slot></slot>
@@ -23,9 +26,12 @@ exports[`KvSelectOption (unit tests) when rendering with default props when the 
     <div part="select-option-content">
       <div class="select-option select-option--selectable" part="option-container" style="--level-padding-offset: 0px;">
         <div class="text-container">
-          <div class="item-label" part="label">
-            Option 1
+          <div class="left-content">
+            <div class="item-label" part="label">
+              Option 1
+            </div>
           </div>
+          <div class="right-content"></div>
         </div>
       </div>
       <slot></slot>

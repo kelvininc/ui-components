@@ -3,7 +3,13 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { selectHelper } from '@kelvininc/ui-components';
 import { useArgs } from '@storybook/client-api';
 import { EComponentSize, EIconName, KvSearch, KvSingleSelectDropdown } from '../../components';
-import { LARGE_SET_DROPDOWN_OPTIONS_MOCK, SMALL_SET_DROPDOWN_OPTIONS_MOCK, TAGS_DROPDOWN_OPTIONS_MOCK, TIMEZONES_DROPDOWN_OPTIONS_MOCK } from './mocks/dropdown.mock';
+import {
+	LARGE_SET_DROPDOWN_OPTIONS_MOCK,
+	SMALL_SET_DROPDOWN_OPTIONS_MOCK,
+	TAGS_DROPDOWN_OPTIONS_MOCK,
+	TIMEZONES_DROPDOWN_OPTIONS_MOCK,
+	VIEWS_DROPDOWN_OPTIONS_MOCK
+} from './mocks/dropdown.mock';
 
 // Required to have the correct TagName in the code sample
 KvSingleSelectDropdown.displayName = 'KvSingleSelectDropdown';
@@ -190,4 +196,11 @@ AddOption.args = {
 	options: TAGS_DROPDOWN_OPTIONS_MOCK,
 	label: 'Tags',
 	shortcuts: false
+};
+
+export const ActionOptions = SingleSelectDropdownTemplate.bind({});
+ActionOptions.args = {
+	placeholder: 'Please select a view',
+	searchPlaceholder: 'Search for views',
+	options: VIEWS_DROPDOWN_OPTIONS_MOCK
 };

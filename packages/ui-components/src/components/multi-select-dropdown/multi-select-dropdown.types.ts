@@ -1,6 +1,6 @@
 import { EventEmitter } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
-import { EValidationState } from '../text-field/text-field.types';
+import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { ISelectMultiOptionsConfig, ISelectMultiOptionsEvents } from '../select-multi-options/select-multi-options.types';
 import { EComponentSize, ICustomCss } from '../../types';
 import { ComputePositionConfig } from '@floating-ui/dom';
@@ -40,6 +40,8 @@ export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptio
 	actionElement?: HTMLElement;
 	/** (optional) the dropdown list z-index (default: 9004) */
 	zIndex?: number;
+	/** (optional) The text field options */
+	inputConfig?: Partial<ITextField>;
 }
 
 export interface IMultiSelectDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'optionSelected' | 'optionCreated'> {
