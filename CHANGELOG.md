@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.41.0](https://github.com/kelvininc/ui-components/compare/v0.40.2...v0.41.0) (2024-11-08)
+
+
+### Bug Fixes
+
+* **action-button-icon:** set correct button sizing ([f694973](https://github.com/kelvininc/ui-components/commit/f6949737485c781f8c9141139141a980e2adde80))
+* set project packages dependencies ([9029f86](https://github.com/kelvininc/ui-components/commit/9029f866ee139ca05a57d8a259aff1f95f8a5803))
+
+
+### Features
+
+* **ci:** remove redudant dependency cache step ([cb7337e](https://github.com/kelvininc/ui-components/commit/cb7337eb17a019e6fcda2cf0c07279cc07a8c7fe))
+* create 'kv-dirty-dot' component ([297baa5](https://github.com/kelvininc/ui-components/commit/297baa5161ff890997be924aad7110a1b9e6ebcd))
+* **dropdown:** add action button to select option ([bda63bf](https://github.com/kelvininc/ui-components/commit/bda63bfe4be4060ec215d39ac21535920f7c91b1))
+* **icon:** adds kv-calendar-time ([0b2aff4](https://github.com/kelvininc/ui-components/commit/0b2aff4d832ae313ffd62b5feb62931b066d53f7))
+
+
+
+
+
 ## [0.40.2](https://github.com/kelvininc/ui-components/compare/v0.40.1...v0.40.2) (2024-10-24)
 
 
