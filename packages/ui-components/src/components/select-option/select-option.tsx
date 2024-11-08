@@ -1,9 +1,9 @@
 import { Component, Host, h, Prop, EventEmitter, Event, Element, Watch } from '@stencil/core';
 import { HostAttributes } from '@stencil/core/internal';
-import { EToggleState, ISelectOption, ISelectOptionEvents } from './select-option.types';
+import { EToggleState, ISelectOption, ISelectOptionAction, ISelectOptionEvents } from './select-option.types';
 import { LEVEL_OFFSET_PX } from './select-option.config';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
-import { CustomCssClass } from '../../types';
+import { CustomCssClass, EActionButtonType } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 
 /**
@@ -46,9 +46,14 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) state?: EToggleState;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) isDirty?: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customStyle?: HostAttributes['style'];
+	/** @inheritdoc */
+	@Prop({ reflect: true }) action?: ISelectOptionAction;
+
 	/** @inheritdoc */
 	@Event() itemSelected: EventEmitter<string>;
 
@@ -93,10 +98,26 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 							</div>
 						)}
 						<div class="text-container">
-							<div class="item-label" part="label">
-								{this.label}
+							<div class="left-content">
+								{this.isDirty && <kv-dirty-dot />}
+								<div class="item-label" part="label">
+									{this.label}
+								</div>
 							</div>
-							{this.description && <div class="item-description">{this.description}</div>}
+							<div class="right-content">
+								{this.description && <div class="item-description">{this.description}</div>}
+								{this.action && (
+									<div class="action-container">
+										<kv-action-button-icon
+											type={EActionButtonType.Ghost}
+											icon={this.action.icon}
+											onClickButton={this.action.onClick}
+											active={this.action.active}
+											onClick={event => event.stopPropagation()}
+										/>
+									</div>
+								)}
+							</div>
 						</div>
 					</div>
 					<slot />

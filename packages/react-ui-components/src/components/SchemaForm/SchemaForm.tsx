@@ -4,14 +4,14 @@ import { RJSFSchema, StrictRJSFSchema, FormContextType, createSchemaUtils, deepE
 import classNames from 'classnames';
 import { cloneDeep, isEmpty, isEqualWith } from 'lodash';
 import React, { ComponentProps, ComponentType, FormEvent, ForwardedRef, forwardRef, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useScroll } from '../../utils';
+import { useScroll } from '../../hooks';
 import { KvActionButtonText, KvTooltip } from '../stencil-generated';
 import { SCROLL_OFFSET } from './config';
 import { useFieldTemplateElement } from './hooks/useFieldTemplateElement';
 import styles from './SchemaForm.module.scss';
 import { generateTheme } from './Theme';
 import { EApplyDefaults, SchemaFormContext, SchemaFormProps } from './types';
-import getDefaultValidator, { buildDefaultFormStateBehavior, getInitialFormData } from './utils';
+import { buildDefaultFormStateBehavior, getDefaultValidator, getInitialFormData } from '../../utils';
 
 // Custom Theme
 export function generateForm<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(): ComponentType<FormProps<T, S, F>> {
@@ -58,7 +58,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const experimental_defaultFormStateBehavior = useMemo(() => buildDefaultFormStateBehavior(applyDefaults), [applyDefaults]);
 	const formValidator = useMemo(() => validatorProp ?? getDefaultValidator<T, S, SchemaFormContext>(), [validatorProp]);
 	const formData = useMemo(
-		() => cloneDeep(getInitialFormData(formValidator, schema, formDataProp, experimental_defaultFormStateBehavior)),
+		() => cloneDeep(getInitialFormData(schema, formDataProp, formValidator, experimental_defaultFormStateBehavior)),
 		[formValidator, schema, formDataProp, experimental_defaultFormStateBehavior]
 	);
 	const [hasChanges, setHasChanges] = useState(!isEqualWith(formData, submittedData || {}));

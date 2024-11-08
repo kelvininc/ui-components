@@ -65,12 +65,14 @@ export const SwitchButtonExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                         | Description                 |
-| ---------------------------- | --------------------------- |
-| `--button-icon-large-height` | Button's icon large height. |
-| `--button-icon-large-width`  | Button's icon large width.  |
-| `--button-icon-small-height` | Button's icon small height. |
-| `--button-icon-small-width`  | Button's icon small width.  |
+| Name                         | Description                                        |
+| ---------------------------- | -------------------------------------------------- |
+| `--button-icon-large-height` | Button's icon large height.                        |
+| `--button-icon-large-width`  | Button's icon large width.                         |
+| `--button-icon-small-height` | Button's icon small height.                        |
+| `--button-icon-small-width`  | Button's icon small width.                         |
+| `--button-size-large`        | Button's height and width size when size is large. |
+| `--button-size-small`        | Button's height and width size when size is small. |
 
 
 ## Dependencies
@@ -79,6 +81,7 @@ export const SwitchButtonExample: React.FC = () => (
 
  - [kv-inline-editable-field](../inline-editable-field)
  - [kv-select-create-option](../select-create-option)
+ - [kv-select-option](../select-option)
 
 ### Depends on
 
@@ -94,6 +97,7 @@ graph TD;
   kv-action-button-icon --> kv-badge
   kv-inline-editable-field --> kv-action-button-icon
   kv-select-create-option --> kv-action-button-icon
+  kv-select-option --> kv-action-button-icon
   style kv-action-button-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -1,4 +1,4 @@
-import { IFontOptions } from '../../utils/useFontsApi';
+import { IFontOptions } from '../../hooks/useFontsApi';
 import { MONACO_FONT_FAMILY, MONACO_FONT_SIZE } from './config';
 import { CodeDiffEditorOptions, CodeEditorOptions } from './types';
 

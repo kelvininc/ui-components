@@ -351,3 +351,32 @@ export const TAGS_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
 		}
 	}
 };
+
+export const VIEWS_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
+	'recommendations': {
+		value: 'recommendations',
+		label: 'Recommendations',
+		description: 'System'
+	},
+	'control-changes': {
+		value: 'control-changes',
+		label: 'Control Changes',
+		description: 'System'
+	},
+	'recommendations-custom': {
+		value: 'recommendations-custom',
+		label: 'Recommendations Custom',
+		action: {
+			icon: EIconName.More,
+			onClick: () => console.log('Clicked')
+		}
+	},
+	'control-changes-custom': {
+		value: 'control-changes-custom',
+		label: 'Control Changes Custom',
+		action: {
+			icon: EIconName.More,
+			onClick: () => console.log('Clicked')
+		}
+	}
+};

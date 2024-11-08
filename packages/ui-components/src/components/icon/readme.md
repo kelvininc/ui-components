@@ -63,10 +63,12 @@ export const SvgIconExample: React.FC = () => (
  - [kv-action-button-split](../action-button-split)
  - [kv-action-button-text](../action-button-text)
  - [kv-alert](../alert)
+ - [kv-calendar](../calendar)
  - [kv-checkbox](../checkbox)
  - [kv-copy-to-clipboard](../copy-to-clipboard)
  - [kv-date-time-input](../date-time-input)
  - [kv-description-list](../description-list)
+ - [kv-dirty-dot](../dirty-dot)
  - [kv-form-help-text](../form-help-text)
  - [kv-info-label](../info-label)
  - [kv-input-wrapper](../input-wrapper)
@@ -79,7 +81,6 @@ export const SvgIconExample: React.FC = () => (
  - [kv-tag-status](../tag-status)
  - [kv-text-area](../text-area)
  - [kv-text-field](../text-field)
- - [kv-time-picker-calendar](../time-picker-calendar)
  - [kv-toaster](../toaster)
  - [kv-toggle-button](../toggle-button)
  - [kv-tree-item](../tree-item)
@@ -93,10 +94,12 @@ graph TD;
   kv-action-button-split --> kv-icon
   kv-action-button-text --> kv-icon
   kv-alert --> kv-icon
+  kv-calendar --> kv-icon
   kv-checkbox --> kv-icon
   kv-copy-to-clipboard --> kv-icon
   kv-date-time-input --> kv-icon
   kv-description-list --> kv-icon
+  kv-dirty-dot --> kv-icon
   kv-form-help-text --> kv-icon
   kv-info-label --> kv-icon
   kv-input-wrapper --> kv-icon
@@ -109,7 +112,6 @@ graph TD;
   kv-tag-status --> kv-icon
   kv-text-area --> kv-icon
   kv-text-field --> kv-icon
-  kv-time-picker-calendar --> kv-icon
   kv-toaster --> kv-icon
   kv-toggle-button --> kv-icon
   kv-tree-item --> kv-icon

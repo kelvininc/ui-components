@@ -204,3 +204,15 @@ DateTimeInputMask.args = {
 	state: EValidationState.None,
 	size: EComponentSize.Large
 };
+
+export const DirtyDot = TextFieldTemplate.bind({});
+DirtyDot.args = {
+	label: 'Default Text Field',
+	inputDisabled: false,
+	inputRequired: false,
+	loading: false,
+	placeholder: 'text here',
+	state: EValidationState.None,
+	size: EComponentSize.Large,
+	isDirty: true
+};

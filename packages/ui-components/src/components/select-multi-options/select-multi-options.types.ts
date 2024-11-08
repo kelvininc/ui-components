@@ -7,7 +7,7 @@ export interface ISelectOptionWithChildren extends ISelectOption {
 
 export type ISelectOptionsWithChildren = Record<string, ISelectOptionWithChildren>;
 
-export interface ISelectMultiOption extends Omit<ISelectOption, 'selected' | 'heading' | 'state' | 'level' | 'highlighted'> {
+export interface ISelectMultiOption extends Omit<ISelectOption, 'selected' | 'heading' | 'state' | 'level' | 'highlighted' | 'isDirty' | 'action'> {
 	options?: ISelectMultiOptions;
 }
 

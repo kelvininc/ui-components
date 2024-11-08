@@ -13,6 +13,7 @@
 	 * @prop --badge-min-width: Badge's minimum width.
 	 * @prop --badge-max-width: Badge's maximum width.
 	 * @prop --badge-height: Badge's height.
+	 * @prop --badge-width: Badge's width.
 	 * @prop --badge-background-color-none: Badge's background color when state is none.
 	 * @prop --badge-background-color-info: Badge's background color when state is info.
 	 * @prop --badge-background-color-warning: Badge's background color when state is warning.
@@ -29,6 +30,7 @@
 	--badge-min-width: 16px;
 	--badge-max-width: fit-content;
 	--badge-height: 16px;
+	--badge-width: unset;
 }
 
 .badge {
@@ -40,6 +42,7 @@
 	min-width: var(--badge-min-width);
 	max-width: var(--badge-max-width);
 	height: var(--badge-height);
+	width: var(--badge-width);
 	padding: 0 $spacing;
 	line-height: var(--badge-height);
 

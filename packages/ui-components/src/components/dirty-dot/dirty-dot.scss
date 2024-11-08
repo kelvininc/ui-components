@@ -1,0 +1,19 @@
+@import '../../assets/styles/globals';
+
+:host {
+	/**
+	 * @prop --dot-background-color: DirtyDot's background color.
+	 * @prop --dot-height: DirtyDot's height.
+	 * @prop --dot-width: DirtyDot's width.
+	 */
+
+	--dot-color: #{kv-color('secondary-5')};
+	--dot-height: 6px;
+	--dot-width: 6px;
+}
+
+.dot {
+	--icon-color: var(--dot-color);
+	--icon-height: var(--dot-height);
+	--icon-width: var(--dot-width);
+}

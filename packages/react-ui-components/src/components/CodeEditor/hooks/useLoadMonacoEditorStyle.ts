@@ -1,7 +1,7 @@
 import { useMonaco } from '@monaco-editor/react';
 import { CodeDiffEditorOptions, CodeEditorOptions, ECodeEditorTheme } from '../types';
 import { getFontOptions } from '../utils';
-import { useFontsApi } from '../../../utils';
+import { useFontsApi } from '../../../hooks';
 import { useCallback, useEffect, useMemo } from 'react';
 import { editor } from 'monaco-editor';
 

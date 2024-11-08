@@ -4,9 +4,6 @@
 	/**
 	 * @prop --select-option-height: Select option height.
 	 * @prop --select-option-transition-duration: Select option transition time.
-	 * @prop --select-option-text-flex-direction: Sets how flex items are placed in the text flex box within the component's container.
-	 * @prop --select-option-text-flex-alignment: Sets how flex items are aligned in the text flex box within the component's container.
-	 * @prop --select-option-flex-alignment: The alignment of items within the component's container.
 	 * @prop --select-option-background-color: Select option background color.
 	 * @prop --select-option-background-color-selected: Select option background color when selected.
 	 * @prop --select-option-background-color-highlighted: Select option background color when highlighted.
@@ -24,9 +21,6 @@
 
 	--select-option-height: 32px;
 	--select-option-transition-duration: 100ms;
-	--select-option-text-flex-direction: row;
-	--select-option-text-flex-alignment: center;
-	--select-option-flex-alignment: center;
 
 	--select-option-background-color: #{kv-color('neutral-7')};
 	--select-option-background-color-selected: #{kv-color('neutral-6')};
@@ -49,7 +43,7 @@
 	height: var(--select-option-height);
 	display: flex;
 	flex-direction: row;
-	align-items: var(--select-option-flex-alignment);
+	align-items: center;
 	user-select: none;
 	cursor: pointer;
 	background-color: var(--select-option-background-color);
@@ -58,12 +52,25 @@
 	padding-left: calc(var(--level-padding-offset) + #{$spacing-4x});
 
 	.text-container {
-		display: flex;
-		min-width: 0;
 		flex: 1;
-		justify-content: space-between;
-		flex-direction: var(--select-option-text-flex-direction);
-		align-items: var(--select-option-text-flex-alignment);
+		min-width: 0;
+		display: flex;
+		align-items: center;
+		gap: $spacing-2x;
+	}
+
+	.left-content {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		align-items: center;
+		gap: $spacing;
+	}
+
+	.right-content {
+		display: flex;
+		align-items: center;
+		gap: $spacing-2x;
 	}
 
 	.icon-container {
