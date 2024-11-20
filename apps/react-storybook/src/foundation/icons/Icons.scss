@@ -1,0 +1,67 @@
+@import "node_modules/@kelvininc/react-ui-components/assets/styles/globals.scss";
+
+.svgs-container {
+	display: flex;
+	flex-wrap: wrap;
+	padding: $spacing-7x 0;
+}
+
+.icon-wrapper {
+	padding: $spacing-3x;
+	width: 100px;
+	height: 120px;
+
+	.box-wrapper {
+		display: flex;
+		width: 100px;
+		height: 100px;
+		align-items: center;
+		justify-content: center;
+		background: kv-color("neutral-7");
+		border-radius: 4px;
+
+		kv-icon::part(icon) {
+			fill: kv-color("primary");
+		}
+	}
+
+	.description {
+		display: flex;
+		justify-content: space-between;
+		padding: 0 $spacing;
+
+		.code {
+			color: kv-color("neutral-5");
+			@include kv-font-label-small-regular;
+		}
+	}
+}
+
+.ilus-wrapper {
+	display: flex;
+	flex-direction: column;
+	padding: $spacing-2x;
+
+	.box-wrapper {
+		display: flex;
+		width: 299px;
+		height: 150px;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid #f2f2f2;
+		border-radius: 4px;
+		padding: $spacing-2x;
+	}
+
+	.description {
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+		padding: 0 $spacing;
+
+		.code {
+			color: kv-color("neutral-5");
+			@include kv-font-label-small-regular;
+		}
+	}
+}

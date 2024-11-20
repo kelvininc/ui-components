@@ -28,7 +28,7 @@
 	"sideEffects": false,
 	"scripts": {
 		"clean": "pnpm clean:build && pnpm clean:cache && pnpm clean:modules",
-		"clean:build": "rm -rf dist assets storybook-static",
+		"clean:build": "rm -rf dist assets",
 		"clean:cache": "rm -rf .eslintcache",
 		"clean:modules": "rm -rf node_modules",
 		"prebuild": "pnpm clean:build",
@@ -40,10 +40,7 @@
 		"lint:check": "pnpm eslint:check",
 		"lint:fix": "pnpm eslint:lint",
 		"eslint:check": "eslint src --ext .js,.jsx,.ts,.tsx --quiet --cache",
-		"eslint:lint": "eslint src --ext .js,.jsx,.ts,.tsx --quiet --cache --fix",
-		"storybook": "start-storybook -p 6006",
-		"storybook:build": "build-storybook",
-		"storybook:deploy": "storybook-to-ghpages --ci"
+		"eslint:lint": "eslint src --ext .js,.jsx,.ts,.tsx --quiet --cache --fix"
 	},
 	"main": "dist/index.js",
 	"module": "dist/index.esm.js",
@@ -65,19 +62,8 @@
 	},
 	"devDependencies": {
 		"@optimize-lodash/rollup-plugin": "^4.0.1",
-		"@pxtrn/storybook-addon-docs-stencil": "^6.4.1",
 		"@rollup/plugin-node-resolve": "^13.1.3",
 		"@rollup/plugin-typescript": "8.3.3",
-		"@storybook/addon-actions": "^6.5.9",
-		"@storybook/addon-essentials": "^6.5.9",
-		"@storybook/addon-links": "^6.5.9",
-		"@storybook/addon-notes": "5.3.21",
-		"@storybook/builder-webpack5": "^6.5.9",
-		"@storybook/client-api": "6.5.10",
-		"@storybook/manager-webpack5": "^6.5.9",
-		"@storybook/preset-create-react-app": "^4.1.2",
-		"@storybook/react": "^6.5.9",
-		"@storybook/storybook-deployer": "^2.8.11",
 		"@types/json-schema": "^7.0.12",
 		"@types/lodash": "^4.17.5",
 		"@types/node": "^22.7.2",
@@ -89,25 +75,22 @@
 		"eslint-config-prettier": "^8.4.0",
 		"eslint-plugin-prettier": "^4.0.0",
 		"eslint-plugin-react": "^7.28.0",
-		"eslint-plugin-storybook": "^0.6.1",
 		"lodash": "^4.17.21",
 		"prettier": "^2.5.1",
 		"react": "^17.0.2",
 		"react-docgen-typescript-plugin": "^1.0.8",
 		"react-dom": "^17.0.2",
-		"react-scripts": "5.0.1",
 		"rollup": "^2.67.2",
 		"rollup-plugin-copy": "^3.4.0",
 		"rollup-plugin-peer-deps-external": "^2.2.4",
 		"rollup-plugin-postcss": "^4.0.2",
 		"sass": "^1.53.0",
-		"storybook-addon-themes": "^6.1.0",
 		"tslib": "^2.7.0",
-		"typescript": "^5.6.2",
-		"webpack": "^5.73.0"
+		"typescript": "^5.6.2"
 	},
 	"peerDependencies": {
 		"dayjs": "^1.11.10",
+		"lodash-es": "^4.17.21",
 		"react": ">=17.0.2",
 		"react-dom": ">=17.0.2"
 	}

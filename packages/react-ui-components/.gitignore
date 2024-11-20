@@ -61,6 +61,5 @@ typings/
 # Produced build files
 dist
 dist-transpiled
-storybook-static
 assets
 stencil-generated

@@ -1,0 +1,97 @@
+import { Meta } from "@storybook/blocks";
+import "./Typography.scss";
+
+export const HEADINGS = [
+	"kv-font-h1-semibold",
+	"kv-font-h2-semibold",
+	"kv-font-h2-regular",
+	"kv-font-h3-semibold",
+	"kv-font-h4-semibold",
+	"kv-font-h4-uppercase-semibold",
+	"kv-font-h5-semibold"
+];
+
+export const LABELS = [
+	"kv-font-label-large-regular",
+	"kv-font-label-medium-regular",
+	"kv-font-label-small-uppercase-bold",
+	"kv-font-label-small-uppercase-semibold",
+	"kv-font-label-small-uppercase-regular",
+	"kv-font-label-small-bold",
+	"kv-font-label-small-semibold",
+	"kv-font-label-small-regular",
+	"kv-font-label-xsmall-uppercase-regular",
+	"kv-font-label-xsmall-uppercase-semibold",
+	"kv-font-label-xsmall-bold",
+	"kv-font-label-xsmall-semibold",
+	"kv-font-label-xsmall-regular",
+	"kv-font-label-xsmall-light"
+];
+
+export const SPANS = [
+	"kv-font-span-semibold",
+	"kv-font-span-regular",
+	"kv-font-span-uppercase-semibold"
+];
+
+export const PARAGRAPHS = [
+	"kv-font-paragraph-regular",
+	"kv-font-paragraph-light"
+];
+
+<Meta
+	parameters={{
+		viewMode: "docs",
+		options: { isToolshown: false }
+	}}
+	title="Foundation/Typography"
+/>
+
+# Typography
+
+_Kelvin's_ primary typeface is Proxima Nova. **Proxima Nova** was designed to combine modern proportions with a geometric appearance. It allows you to build interfaces with a look and feel that combines a touch of user-friendly, contemporary, fresh, and timeless design.
+We will use the typeface at various weights, primarily _Light [300]_, _Regular [400]_, _Semibold [600]_, and _Bold [700]_.
+
+**Note**: Each variation has a `@mixin` available for use. In order to use those _mixins_, you'll need to import the `kv-typography.scss` file.
+
+## Headings
+
+<ul className="typography-container">
+	{HEADINGS.map((typosKey) => (
+		<li key={typosKey} className="typography">
+			<span className={typosKey}>{typosKey}</span>
+		</li>
+	))}
+</ul>
+
+## Content
+
+### Labels
+
+<ul className="typography-container">
+	{LABELS.map((typosKey) => (
+		<li key={typosKey} className="typography">
+			<span className={typosKey}>{typosKey}</span>
+		</li>
+	))}
+</ul>
+
+### Spans
+
+<ul className="typography-container">
+	{SPANS.map((typosKey) => (
+		<li key={typosKey} className="typography">
+			<span className={typosKey}>{typosKey}</span>
+		</li>
+	))}
+</ul>
+
+### Paragraphs
+
+<ul className="typography-container">
+	{PARAGRAPHS.map((typosKey) => (
+		<li key={typosKey} className="typography">
+			<span className={typosKey}>{typosKey}</span>
+		</li>
+	))}
+</ul>

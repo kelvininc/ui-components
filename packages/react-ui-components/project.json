@@ -1,13 +1,18 @@
 {
 	"$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
-	"name": "react-ui-components",
-	"dependencies": [
-		"ui-components"
-	],
+	"name": "@kelvininc/react-ui-components",
 	"targets": {
 		"build": {
 			"outputs": [
 				"{projectRoot}/dist"
+			],
+			"dependsOn": [
+				{
+					"target": "build",
+					"projects": [
+						"@kelvininc/ui-components"
+					]
+				}
 			]
 		}
 	}

@@ -1,0 +1,94 @@
+@import "node_modules/@kelvininc/react-ui-components/assets/styles/globals.scss";
+
+.typography {
+	padding: 16px 0;
+
+	/** HEADINGS **/
+	.kv-font-h1-semibold {
+		@include kv-font-h1-semibold;
+	}
+	.kv-font-h2-regular {
+		@include kv-font-h2-regular;
+	}
+	.kv-font-h2-semibold {
+		@include kv-font-h2-semibold;
+	}
+	.kv-font-h3-semibold {
+		@include kv-font-h3-semibold;
+	}
+	.kv-font-h4-semibold {
+		@include kv-font-h4-semibold;
+	}
+	.kv-font-h4-uppercase-semibold {
+		@include kv-font-h4-uppercase-semibold;
+	}
+	.kv-font-h5-semibold {
+		@include kv-font-h5-semibold;
+	}
+
+	/** LABELS **/
+	.kv-font-label-large-regular {
+		@include kv-font-label-large-regular;
+	}
+	.kv-font-label-medium-regular {
+		@include kv-font-label-medium-regular;
+	}
+	.kv-font-label-small-regular {
+		@include kv-font-label-small-regular;
+	}
+	.kv-font-label-small-semibold {
+		@include kv-font-label-small-semibold;
+	}
+	.kv-font-label-small-bold {
+		@include kv-font-label-small-bold;
+	}
+	.kv-font-label-small-uppercase-regular {
+		@include kv-font-label-small-uppercase-regular;
+	}
+	.kv-font-label-small-uppercase-semibold {
+		@include kv-font-label-small-uppercase-semibold;
+	}
+	.kv-font-label-small-uppercase-bold {
+		@include kv-font-label-small-uppercase-bold;
+	}
+	.kv-font-label-xsmall-light {
+		@include kv-font-label-xsmall-light;
+	}
+	.kv-font-label-xsmall-regular {
+		@include kv-font-label-xsmall-regular;
+	}
+	.kv-font-label-xsmall-semibold {
+		@include kv-font-label-xsmall-semibold;
+	}
+	.kv-font-label-xsmall-bold {
+		@include kv-font-label-xsmall-bold;
+	}
+	.kv-font-label-xsmall-uppercase-regular {
+		@include kv-font-label-xsmall-uppercase-regular;
+	}
+	.kv-font-label-xsmall-uppercase-semibold {
+		@include kv-font-label-xsmall-uppercase-semibold;
+	}
+	.kv-font-label-xsmall-bold {
+		@include kv-font-label-xsmall-bold;
+	}
+
+	/** SPANS **/
+	.kv-font-span-regular {
+		@include kv-font-span-regular;
+	}
+	.kv-font-span-semibold {
+		@include kv-font-span-semibold;
+	}
+	.kv-font-span-uppercase-semibold {
+		@include kv-font-span-uppercase-semibold;
+	}
+
+	/** PARAGRAPHS **/
+	.kv-font-paragraph-regular {
+		@include kv-font-paragraph-regular;
+	}
+	.kv-font-paragraph-light {
+		@include kv-font-paragraph-light;
+	}
+}

@@ -8,7 +8,7 @@ import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin';
 const input = 'src/index.ts';
 
 const getPlugins = (lodashImportOpts = {}, otherPlugins = []) => {
-	return [peerDepsExternal(), resolve(), optimizeLodashImports({ ...lodashImportOpts }), typescript({ tsconfig: './tsconfig.lib.json' }), postcss(), ...otherPlugins];
+	return [peerDepsExternal(), resolve(), optimizeLodashImports({ ...lodashImportOpts }), typescript(), postcss(), ...otherPlugins];
 };
 
 export default [

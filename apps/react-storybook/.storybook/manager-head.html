@@ -1,0 +1,55 @@
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="icon" type="image/png" href="/kelvin-icon.png" sizes="192x192">
+<style>
+	:root {
+		color-scheme: dark;
+	}
+
+	.sidebar-header div a:focus {
+		border: none
+	}
+
+	.sidebar-header div a::after {
+		content: 'UI Components';
+		display: flex;
+		justify-content: flex-end;
+		color: grey;
+		font-family: var(--kv-primary-font, 'proxima-nova', sans-serif, 'Arial');
+		font-size: 14px;
+		font-weight: 300;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+	}
+
+	.addon-notes-container p code {
+		line-height: 1;
+		padding: 3px 5px !important;
+		border: 1px solid #444444 !important;
+		color: rgba(255, 255, 255, 0.7) !important;
+		background-color: rgba(0, 0, 0, .1) !important;
+	}
+
+	.addon-notes-container table {
+		display: block;
+		overflow-x: auto;
+	}
+
+	.addon-notes-container table td code {
+		white-space: pre-wrap;
+		word-wrap: break-word;
+		padding: 3px 5px !important;
+		border: 1px solid #444444 !important;
+		color: rgba(255, 255, 255, 0.7) !important;
+		background-color: rgba(0, 0, 0, .1) !important;
+	}
+
+	.addon-notes-container table tr {
+		background-color: transparent !important;
+	}
+
+	.addon-notes-container table tr:nth-of-type(2n) {
+		background-color: transparent !important;
+	}
+</style>

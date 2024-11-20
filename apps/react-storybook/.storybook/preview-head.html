@@ -1,0 +1,70 @@
+<!-- FONTS -->
+<link rel="stylesheet" type="text/css" href="fonts/font-nonito.css">
+<link rel="stylesheet" type="text/css" href="fonts/font-proxima-nova.css">
+<link rel="stylesheet" type="text/css" href="fonts/font-incosolata.css">
+
+<!-- DEFAULT STYLE for all stories -->
+<style>
+	:root {
+		color-scheme: dark;
+	}
+
+	body {
+		margin: 0;
+		box-sizing: border-box;
+		padding: 10px;
+		background-color: var(--kv-background);
+	}
+
+	.light-theme {
+		/* FONTS */
+		--kv-primary-font: 'proxima-nova';
+		--kv-console-font: 'Inconsolata';
+
+		/* Text and Background Colors */
+		/* Steps move towards their contrasting color. */
+
+		--kv-text-step-0: #121212;
+		/* (base) */
+		--kv-text: #202020;
+		--kv-text-rgb: 32, 32, 32;
+		/* (base) */
+		--kv-text-step-1: #2a2a2a;
+		--kv-text-step-2: #3f3f3f;
+		--kv-text-step-3: #707070;
+		--kv-text-step-4: #bebebe;
+		--kv-text-step-5: #ddd;
+		--kv-text-step-6: #e5e5e5;
+		--kv-text-step-7: #f2f2f6;
+		--kv-text-step-8: #fff;
+
+		--kv-background-step-0: #fff;
+		/* (base) */
+		--kv-background: #fff;
+		--kv-background-rgb: 255, 255, 255;
+		/* (base) */
+		--kv-background-step-1: #fff;
+		--kv-background-step-2: #fff;
+		--kv-background-step-3: #fff;
+		--kv-background-step-4: #fff;
+		--kv-background-step-5: #fff;
+		--kv-background-step-6: #fff;
+		--kv-background-step-7: #fff;
+		--kv-background-step-8: #fff;
+	}
+
+	.night-theme {
+		--kv-primary-font: 'proxima-nova';
+
+		/* Default Text and Background Colors */
+		--kv-text: #fff;
+		--kv-text-rgb: 255, 255, 255;
+
+		--kv-background: #202020;
+		--kv-background-rgb: 32, 32, 32;
+	}
+
+	.docs-story {
+		background-color: var(--kv-background);
+	}
+</style>
