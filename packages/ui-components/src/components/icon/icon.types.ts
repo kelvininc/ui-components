@@ -116,6 +116,7 @@ export enum EIconName {
 	LinkOff = 'kv-link-off',
 	List = 'kv-list',
 	Load = 'kv-load',
+	Location = 'kv-location',
 	Lock = 'kv-lock',
 	LogoKelvin = 'kv-logo-kelvin',
 	Magictip = 'kv-magictip',
@@ -206,7 +207,8 @@ export enum EIconName {
 	SettingsSuggest = 'kv-settings-suggest',
 	PushPin = 'kv-push-pin',
 	Telemetry = 'kv-telemetry',
-	Log = 'kv-log'
+	Log = 'kv-log',
+	World = 'kv-world'
 }
 
 export enum EOtherIconName {
