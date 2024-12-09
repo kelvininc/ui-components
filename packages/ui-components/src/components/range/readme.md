@@ -20,17 +20,18 @@ export const KvRangeExample: React.FC = () => (
 
 ## Properties
 
-| Property         | Attribute    | Description                      | Type                        | Default     |
-| ---------------- | ------------ | -------------------------------- | --------------------------- | ----------- |
-| `disabled`       | `disabled`   | (optional) Range input disabled  | `boolean`                   | `false`     |
-| `hideLabel`      | `hide-label` | (optional) Hide value label      | `boolean`                   | `false`     |
-| `max`            | `max`        | (required) Range maximum value   | `number`                    | `undefined` |
-| `maxLabel`       | `max-label`  | (optional) Max label             | `string`                    | `undefined` |
-| `min`            | `min`        | (required) Range minimum value   | `number`                    | `undefined` |
-| `minLabel`       | `min-label`  | (optional) Min label             | `string`                    | `undefined` |
-| `step`           | `step`       | (optional) Range value step      | `number`                    | `1`         |
-| `value`          | `value`      | (optional) Range value           | `number`                    | `0`         |
-| `valueFormatter` | --           | (optional) Range value formatter | `(value: number) => string` | `identity`  |
+| Property          | Attribute            | Description                      | Type                        | Default     |
+| ----------------- | -------------------- | -------------------------------- | --------------------------- | ----------- |
+| `disabled`        | `disabled`           | (optional) Range input disabled  | `boolean`                   | `false`     |
+| `hideLabel`       | `hide-label`         | (optional) Hide value label      | `boolean`                   | `false`     |
+| `hideMinMaxLabel` | `hide-min-max-label` |                                  | `boolean`                   | `false`     |
+| `max`             | `max`                | (required) Range maximum value   | `number`                    | `undefined` |
+| `maxLabel`        | `max-label`          | (optional) Max label             | `string`                    | `undefined` |
+| `min`             | `min`                | (required) Range minimum value   | `number`                    | `undefined` |
+| `minLabel`        | `min-label`          | (optional) Min label             | `string`                    | `undefined` |
+| `step`            | `step`               | (optional) Range value step      | `number`                    | `1`         |
+| `value`           | `value`              | (optional) Range value           | `number`                    | `0`         |
+| `valueFormatter`  | --                   | (optional) Range value formatter | `(value: number) => string` | `identity`  |
 
 
 ## Events
@@ -51,6 +52,7 @@ export const KvRangeExample: React.FC = () => (
 | `--select-label-color`       | select labels color                |
 | `--slider-background-empty`  | color of the slider when its empty |
 | `--slider-background-filled` | color of the slider when its full  |
+| `--thumb-background-color`   | thumb background color             |
 | `--thumb-border-color`       | thumb border color                 |
 
 
