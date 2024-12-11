@@ -8,15 +8,19 @@ $label-height: 49px;
 	 * @prop --range-height: Height of the range slider
 	 * @prop --range-selector-radius: Radius of the range thumb
 	 * @prop --slider-background-filled: color of the slider when its full
+	 * @prop --slider-background-filled-disabled: color of the slider when its disabled and full
 	 * @prop --slider-background-empty: color of the slider when its empty
 	 * @prop --thumb-border-color: thumb border color
 	 * @prop --range-label-color: range labels color
 	 * @prop --select-label-color: select labels color
+	 * @prop --select-label-disabled-color: disabled select labels color
 	*/
 
 	--range-width: 100%;
 	--range-height: 10px;
 	--range-selector-radius: 20px;
+	--select-label-disabled-color: #{kv-color('neutral-5')};
+	--slider-background-filled-disabled: #{kv-color('neutral-5')};
 }
 
 .range-container {
@@ -72,6 +76,7 @@ $label-height: 49px;
 	&:disabled::-webkit-slider-thumb {
 		cursor: not-allowed;
 		user-select: none;
+		background: var(--slider-background-filled-disabled);
 	}
 }
 
@@ -83,6 +88,10 @@ $label-height: 49px;
 	background-color: transparent;
 	text-align: center;
 	color: var(--select-label-color);
+
+	&.disabled {
+		color: var(--select-label-disabled-color);
+	}
 }
 
 input {
