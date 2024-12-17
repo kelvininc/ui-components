@@ -28,6 +28,8 @@ export class KvRange implements IRange, IRangeEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxLabel?: string;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) hideMinMaxLabel?: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled: boolean = false;
 	/** @inheritdoc */
 	@Prop() valueFormatter: (value: number) => string = identity;
@@ -69,7 +71,9 @@ export class KvRange implements IRange, IRangeEvents {
 			selector.style.marginLeft = valueOffset + 'px';
 		}
 
-		rangeInputValue.style.background = `linear-gradient(90deg, var(--slider-background-filled) calc(${percentage}% + ${inputOffSet}px), var(--slider-background-empty) calc(${percentage}% + ${inputOffSet}px))`;
+		rangeInputValue.style.background = `linear-gradient(90deg, var(--slider-background-filled${
+			this.disabled ? '-disabled' : ''
+		}) calc(${percentage}% + ${inputOffSet}px), var(--slider-background-empty) calc(${percentage}% + ${inputOffSet}px))`;
 	};
 
 	private onInputChange = () => {
@@ -93,14 +97,16 @@ export class KvRange implements IRange, IRangeEvents {
 						onInput={this.onInputChange}
 					/>
 					{!this.hideLabel && (
-						<span id="select-value" class="select-value">
+						<span id="select-value" class={{ 'select-value': true, 'disabled': this.disabled }}>
 							{this.valueFormatter(this.value)}
 						</span>
 					)}
-					<div class="range-min-max">
-						<span>{this.displayMinLabel}</span>
-						<span>{this.displayMaxLabel}</span>
-					</div>
+					{!this.hideMinMaxLabel && (
+						<div class="range-min-max">
+							<span>{this.displayMinLabel}</span>
+							<span>{this.displayMaxLabel}</span>
+						</div>
+					)}
 				</div>
 			</Host>
 		);
