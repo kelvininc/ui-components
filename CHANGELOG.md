@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.42.0](https://github.com/kelvininc/ui-components/compare/v0.41.0...v0.42.0) (2024-12-17)
+
+
+### Bug Fixes
+
+* **range:** fix range disabled style ([e132b3d](https://github.com/kelvininc/ui-components/commit/e132b3da7403eec6ff541867f50fdd4bd970d5cb))
+
+
+### Features
+
+* **range:** adds more range input customization ([da7d200](https://github.com/kelvininc/ui-components/commit/da7d200dc080faab5f2e8b9ed01962c1f17a02e9))
+
+
+
+
+
 # [0.41.0](https://github.com/kelvininc/ui-components/compare/v0.40.2...v0.41.0) (2024-11-08)
 
 
