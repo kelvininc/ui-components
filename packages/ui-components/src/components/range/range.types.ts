@@ -20,6 +20,8 @@ export interface IRange {
 	minLabel?: string;
 	/** (optional) Max label */
 	maxLabel?: string;
+	/** (optional) Hide min and max labels */
+	hideMinMaxLabel?: boolean;
 	/** (optional) Range input disabled */
 	disabled?: boolean;
 	/** (optional) Range value formatter */

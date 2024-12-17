@@ -28,6 +28,8 @@ export class KvRange implements IRange, IRangeEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxLabel?: string;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) hideMinMaxLabel?: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled: boolean = false;
 	/** @inheritdoc */
 	@Prop() valueFormatter: (value: number) => string = identity;
@@ -97,10 +99,12 @@ export class KvRange implements IRange, IRangeEvents {
 							{this.valueFormatter(this.value)}
 						</span>
 					)}
-					<div class="range-min-max">
-						<span>{this.displayMinLabel}</span>
-						<span>{this.displayMaxLabel}</span>
-					</div>
+					{!this.hideMinMaxLabel && (
+						<div class="range-min-max">
+							<span>{this.displayMinLabel}</span>
+							<span>{this.displayMaxLabel}</span>
+						</div>
+					)}
 				</div>
 			</Host>
 		);
