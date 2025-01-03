@@ -43,19 +43,21 @@ export const KvRangeExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                             | Description                        |
-| -------------------------------- | ---------------------------------- |
-| `--range-height`                 | Height of the range slider         |
-| `--range-label-color`            | range labels color                 |
-| `--range-margin-top`             | Margin top of the range slider     |
-| `--range-selector-border-radius` | Border radius of the range thumb   |
-| `--range-selector-radius`        | Radius of the range thumb          |
-| `--range-width`                  | Width of the range slider          |
-| `--select-label-color`           | select labels color                |
-| `--slider-background-empty`      | color of the slider when its empty |
-| `--slider-background-filled`     | color of the slider when its full  |
-| `--thumb-background-color`       | thumb background color             |
-| `--thumb-border-color`           | thumb border color                 |
+| Name                                  | Description                                    |
+| ------------------------------------- | ---------------------------------------------- |
+| `--range-height`                      | Height of the range slider                     |
+| `--range-label-color`                 | range labels color                             |
+| `--range-margin-top`                  | Margin top of the range slider                 |
+| `--range-selector-border-radius`      | Border radius of the range thumb               |
+| `--range-selector-radius`             | Radius of the range thumb                      |
+| `--range-width`                       | Width of the range slider                      |
+| `--select-label-color`                | select labels color                            |
+| `--select-label-disabled-color`       | disabled select labels color                   |
+| `--slider-background-empty`           | color of the slider when its empty             |
+| `--slider-background-filled`          | color of the slider when its full              |
+| `--slider-background-filled-disabled` | color of the slider when its disabled and full |
+| `--thumb-background-color`            | thumb background color                         |
+| `--thumb-border-color`                | thumb border color                             |
 
 
 ----------------------------------------------

@@ -2,7 +2,11 @@ import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { throttle } from 'lodash-es';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { EComponentSize } from '../../utils/types';
+import { EIconName, EOtherIconName } from '../icon/icon.types';
 
+/**
+ * @part icon - The tab's item icon.
+ */
 @Component({
 	tag: 'kv-tab-item',
 	styleUrl: 'tab-item.scss',
@@ -21,6 +25,8 @@ export class KvTabItem {
 	@Prop() hasNotification: boolean = false;
 	/** (optional) The tab's notification color (hex value, rgb or css var format) */
 	@Prop() notificationColor?: string = '';
+	/** (optional) The tab's icon */
+	@Prop() icon?: EIconName | EOtherIconName = '';
 	/** (optional) Sets this tab item to a different styling configuration */
 	@Prop() size?: EComponentSize = EComponentSize.Large;
 	/** Emitted when the tab is selected */
@@ -54,6 +60,11 @@ export class KvTabItem {
 					onClick={this.tabClickThrottler}
 				>
 					<div class="label">{this.label}</div>
+					{this.icon && (
+						<div class="icon">
+							<kv-icon name={this.icon} part="icon" />
+						</div>
+					)}
 					{this.hasNotification && <div class="notification-dot" style={customStyles}></div>}
 				</div>
 			</Host>

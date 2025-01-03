@@ -40,6 +40,10 @@ $tab-dot-error-size: 6px;
 			}
 		}
 
+		.icon {
+			margin-left: $spacing;
+		}
+
 		.notification-dot {
 			width: $tab-dot-error-size;
 			height: $tab-dot-error-size;
