@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.43.0](https://github.com/kelvininc/ui-components/compare/v0.42.0...v0.43.0) (2025-01-08)
+
+
+### Bug Fixes
+
+* **time-picker:** updates disabled behaviour on time-picker input ([3ef444e](https://github.com/kelvininc/ui-components/commit/3ef444e6be829250b32a367e494fd12bdf0aba91))
+
+
+### Features
+
+* **tab-navigation:** add icon to  component ([df41d48](https://github.com/kelvininc/ui-components/commit/df41d48f4400cecce54dc64fb890396935559f46))
+
+
+
+
+
 # [0.42.0](https://github.com/kelvininc/ui-components/compare/v0.41.0...v0.42.0) (2024-12-17)
 
 
