@@ -85,6 +85,8 @@ export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEven
 						size={this.size}
 						hasNotification={this.notifications[item.tabKey]?.active}
 						notificationColor={this.notifications[item.tabKey]?.color}
+						icon={item.icon}
+						exportparts="icon"
 					/>
 				))}
 				<div class="selected-tab-indicator" style={this.selectedTabIndicatorConfig} />

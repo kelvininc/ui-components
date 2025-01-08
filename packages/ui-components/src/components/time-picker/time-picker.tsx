@@ -359,7 +359,8 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	private getInputConfig = (): Partial<ITextField> => {
 		return merge({}, DEFAULT_TIME_RANGE_PICKER_INPUT_CONFIG, this.inputConfig, {
 			value: this.getDropdownInputValue(),
-			tooltipConfig: { text: this.getTextFieldTooltip(), position: this.tooltipPosition }
+			tooltipConfig: { text: this.getTextFieldTooltip(), position: this.tooltipPosition },
+			inputDisabled: this.disabled
 		});
 	};
 

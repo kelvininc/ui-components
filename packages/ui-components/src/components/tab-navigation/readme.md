@@ -66,6 +66,7 @@ export const TabNavigationExample: React.FC = () => (
 ```mermaid
 graph TD;
   kv-tab-navigation --> kv-tab-item
+  kv-tab-item --> kv-icon
   style kv-tab-navigation fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

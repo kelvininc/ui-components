@@ -41,6 +41,7 @@ export const TabItemExample: React.FC = () => (
 | --------------------- | -------------------- | -------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
 | `disabled`            | `disabled`           | (optional) To disable this tab                                             | `boolean`                                      | `false`                |
 | `hasNotification`     | `has-notification`   | (optional) To show/hide notification icon or not                           | `boolean`                                      | `false`                |
+| `icon`                | `icon`               | (optional) The tab's icon                                                  | `EIconName \| EOtherIconName`                  | `''`                   |
 | `label` _(required)_  | `label`              | (required) Name to show in UI for this tab                                 | `string`                                       | `undefined`            |
 | `notificationColor`   | `notification-color` | (optional) The tab's notification color (hex value, rgb or css var format) | `string`                                       | `''`                   |
 | `selected`            | `selected`           | (optional) To set this tab as the selected one                             | `boolean`                                      | `false`                |
@@ -55,15 +56,27 @@ export const TabItemExample: React.FC = () => (
 | `tabSelected` | Emitted when the tab is selected | `CustomEvent<number \| string>` |
 
 
+## Shadow Parts
+
+| Part     | Description          |
+| -------- | -------------------- |
+| `"icon"` | The tab's item icon. |
+
+
 ## Dependencies
 
 ### Used by
 
  - [kv-tab-navigation](../tab-navigation)
 
+### Depends on
+
+- [kv-icon](../icon)
+
 ### Graph
 ```mermaid
 graph TD;
+  kv-tab-item --> kv-icon
   kv-tab-navigation --> kv-tab-item
   style kv-tab-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
