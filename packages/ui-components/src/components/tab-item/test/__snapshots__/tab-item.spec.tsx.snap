@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Tab Item (unit tests) when initialized with disabled attribute should match the snapshot 1`] = `
-<kv-tab-item disabled="" label="Dashboard" tab-key="dashboard">
+<kv-tab-item custom-class="" disabled="" label="Dashboard" tab-key="dashboard">
   <mock:shadow-root>
     <div class="disabled tab-item-container">
       <div class="label">
@@ -13,7 +13,7 @@ exports[`Tab Item (unit tests) when initialized with disabled attribute should m
 `;
 
 exports[`Tab Item (unit tests) when initialized with notification-color attribute should match the snapshot 1`] = `
-<kv-tab-item label="Dashboard" notification-color="#EFEFEF" tab-key="dashboard">
+<kv-tab-item custom-class="" label="Dashboard" notification-color="#EFEFEF" tab-key="dashboard">
   <mock:shadow-root>
     <div class="tab-item-container">
       <div class="label">
@@ -25,7 +25,7 @@ exports[`Tab Item (unit tests) when initialized with notification-color attribut
 `;
 
 exports[`Tab Item (unit tests) when initialized with required props should match the snapshot 1`] = `
-<kv-tab-item label="Dashboard" tab-key="dashboard">
+<kv-tab-item custom-class="" label="Dashboard" tab-key="dashboard">
   <mock:shadow-root>
     <div class="tab-item-container">
       <div class="label">
@@ -37,7 +37,7 @@ exports[`Tab Item (unit tests) when initialized with required props should match
 `;
 
 exports[`Tab Item (unit tests) when initialized with selected attribute should match the snapshot 1`] = `
-<kv-tab-item label="Dashboard" selected="" tab-key="dashboard">
+<kv-tab-item custom-class="" label="Dashboard" selected="" tab-key="dashboard">
   <mock:shadow-root>
     <div class="selected tab-item-container">
       <div class="label">

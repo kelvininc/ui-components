@@ -3,6 +3,11 @@
 $tab-dot-error-size: 6px;
 
 :host {
+	/**
+	 * @prop --tab-item-icon-size: The size of tab navigation icon;
+	 * @prop --tab-item-icon-color: The color of tab navigation icon;
+	 */
+
 	height: inherit;
 
 	.tab-item-container {
@@ -42,6 +47,12 @@ $tab-dot-error-size: 6px;
 
 		.icon {
 			margin-left: $spacing;
+
+			kv-icon {
+				--icon-width: #{var(--tab-item-icon-size, 16px)};
+				--icon-height: #{var(--tab-item-icon-size, 16px)};
+				--icon-color: #{var(--tab-item-icon-color, kv-color('text'))};
+			}
 		}
 
 		.notification-dot {
