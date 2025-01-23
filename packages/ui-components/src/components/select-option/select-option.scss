@@ -151,7 +151,7 @@
 			color: kv-color('neutral-2');
 		}
 
-		.text-container::after {
+		.text-container .left-content::after {
 			content: '';
 			display: flex;
 			flex: 1;
