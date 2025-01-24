@@ -1,7 +1,5 @@
 # kv-tag
 
-
-
 <!-- Auto Generated Below -->
 
 
@@ -37,9 +35,10 @@ export const TagExample: React.FC = () => (
 | Name                     | Description                |
 | ------------------------ | -------------------------- |
 | `--tag-background-color` | Tag Background Color.      |
+| `--tag-border-color`     | Tag Border Color.          |
 | `--tag-content-gap`      | Gap between text and slot. |
 | `--tag-content-padding`  | Padding insise content     |
-| `--tag-label-color`      | Tag text Color.            |
+| `--tag-label-color`      | Tag Text Color.            |
 
 
 ## Dependencies
