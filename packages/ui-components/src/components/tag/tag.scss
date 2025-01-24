@@ -3,12 +3,14 @@
 :host {
 	/**
 	 * @prop --tag-background-color: Tag Background Color.
-	 * @prop --tag-label-color: Tag text Color.
+	 * @prop --tag-border-color: Tag Border Color.
+	 * @prop --tag-label-color: Tag Text Color.
 	 * @prop --tag-content-gap: Gap between text and slot.
 	 * @prop --tag-content-padding: Padding insise content
 	 */
 
 	--tag-background-color: #{kv-color('neutral-6')};
+	--tag-border-color: #{kv-color('neutral-6')};
 	--tag-label-color: #{kv-color('neutral-2')};
 	--tag-content-gap: #{$spacing};
 	--tag-content-padding: #{2px $spacing};
@@ -22,6 +24,7 @@
 	width: fit-content;
 	border-radius: 4px;
 	padding: var(--tag-content-padding);
+	border: 1px solid var(--tag-border-color);
 	background-color: var(--tag-background-color);
 
 	.tag-label {
