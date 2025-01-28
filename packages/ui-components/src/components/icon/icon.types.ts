@@ -96,6 +96,7 @@ export enum EIconName {
 	FileAdd = 'kv-file-add',
 	FileCheck = 'kv-file-check',
 	Filter = 'kv-filter',
+	FitContent = 'kv-fit-content',
 	Five = 'kv-five',
 	Fixed = 'kv-fixed',
 	Folder = 'kv-folder',
