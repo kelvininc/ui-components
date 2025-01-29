@@ -1,0 +1,38 @@
+@import '../../assets/styles/globals';
+
+.toggle-switch-container {
+	display: flex;
+
+	> :last-child {
+		--border-radius-top-right: 4px;
+		--border-radius-bottom-right: 4px;
+	}
+
+	> :first-child {
+		--border-radius-top-left: 4px;
+		--border-radius-bottom-left: 4px;
+	}
+
+	kv-toggle-button {
+		--border-radius-top-right: 0;
+		--border-radius-bottom-right: 0;
+		--border-radius-top-left: 0;
+		--border-radius-bottom-left: 0;
+
+		--button-padding-small: #{$spacing-2x $spacing-3x};
+		--button-padding-large: #{$spacing-3x $spacing-4x};
+		--text-color-default: #{kv-color('neutral-4')};
+		--text-color-active: #{kv-color('neutral-2')};
+		--text-color-disabled: #{kv-color('neutral-4')};
+		--background-color-default: #{kv-color('neutral-8')};
+		--background-color-active: #{kv-color('neutral-6')};
+		--background-color-disabled: #{kv-color('neutral-8')};
+		--border-color-default: #{kv-color('neutral-6')};
+		--border-color-active: #{kv-color('neutral-2')};
+		--border-color-disabled: #{kv-color('neutral-6')};
+
+		&::part(toggle-label) {
+			@include kv-font-label-small-regular();
+		}
+	}
+}
