@@ -93,6 +93,7 @@ export const ToggleButtonExample: React.FC = () => (
 ### Used by
 
  - [kv-toggle-button-group](../toggle-button-group)
+ - [kv-toggle-switch](../toggle-switch)
 
 ### Depends on
 
@@ -105,6 +106,7 @@ graph TD;
   kv-toggle-button --> kv-radio
   kv-toggle-button --> kv-icon
   kv-toggle-button-group --> kv-toggle-button
+  kv-toggle-switch --> kv-toggle-button
   style kv-toggle-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
