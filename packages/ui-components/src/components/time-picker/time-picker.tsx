@@ -294,29 +294,20 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 
 	// Components config methods
 	private isApplyButtonDisabled() {
-		if (!this.selectedTimeState) {
-			return true;
-		}
+		const { range: stateRange, timezone: selectedTimezone } = this.selectedTimeState;
 
-		if (!this.selectedTimeOption) {
-			return false;
-		}
+		if (stateRange.length > 0 && validateNewRange(stateRange)) {
+			if (this.selectedTimeOption?.range?.length > 0) {
+				const { range: propRange } = this.selectedTimeOption;
 
-		if (this.selectedTimeState?.range?.length > 0 && this.selectedTimeOption?.range?.length > 0) {
-			const { range: stateRange } = this.selectedTimeState;
-			const { range: propRange } = this.selectedTimeOption;
+				if (stateRange.length === FULL_RANGE_SIZE && hasRangeChanged(stateRange, propRange)) {
+					return false;
+				}
+			}
 
-			if (stateRange.length === FULL_RANGE_SIZE && hasRangeChanged(stateRange, propRange) && validateNewRange(stateRange)) {
+			if (this.selectedTimeOption?.timezone?.name !== selectedTimezone?.name) {
 				return false;
 			}
-		}
-
-		if (
-			this.selectedTimeState.timezone?.name !== this.selectedTimeOption.timezone?.name &&
-			this.selectedTimeState?.range?.length > 0 &&
-			validateNewRange(this.selectedTimeState.range)
-		) {
-			return false;
 		}
 
 		return true;
