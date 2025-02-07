@@ -3,6 +3,8 @@ import { IDescriptionList, IDescriptionListItem, IDescriptionListItemToggletipCo
 import { DEFAULT_ICON_TOGGLETIP_CONFIG, DEFAULT_TEXT_TOOLTIP_CONFIG } from './description-list.config';
 import { getTooltipText } from './description-list.helper';
 import { ComputePositionConfig } from '@floating-ui/dom';
+import { CustomCssClass } from '../../types';
+import { getClassMap } from '../../utils/css-class.helper';
 
 @Component({
 	tag: 'kv-description-list',
@@ -16,11 +18,18 @@ export class KvDescriptionList implements IDescriptionList {
 	@Prop({ reflect: true }) descriptionTooltipConfig?: Partial<ComputePositionConfig> = DEFAULT_TEXT_TOOLTIP_CONFIG;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) iconToggletipConfig?: IDescriptionListItemToggletipConfig = DEFAULT_ICON_TOGGLETIP_CONFIG;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
 
 	render() {
 		return (
 			<Host>
-				<div class="description-list-container">
+				<div
+					class={{
+						'description-list-container': true,
+						...getClassMap(this.customClass)
+					}}
+				>
 					{this.items?.map(({ title, description, popoverInfo }) => (
 						<Fragment>
 							<div class="title">{title}</div>

@@ -39,6 +39,10 @@
 	--border-color-default: #{kv-color('neutral-6')};
 	--border-color-active: #{kv-color('neutral-0')};
 	--border-color-disabled: #{kv-color('neutral-6')};
+	--border-radius-top-left: 2px;
+	--border-radius-bottom-left: 2px;
+	--border-radius-top-right: 2px;
+	--border-radius-bottom-right: 2px;
 }
 
 .toggle-button {
@@ -53,7 +57,10 @@
 	display: inline-flex;
 	align-items: center;
 	gap: $spacing-2x;
-	border-radius: 2px;
+	border-top-left-radius: var(--border-radius-top-left);
+	border-bottom-left-radius: var(--border-radius-bottom-left);
+	border-top-right-radius: var(--border-radius-top-right);
+	border-bottom-right-radius: var(--border-radius-bottom-right);
 	border: 1px solid var(--border-color-default);
 	background: var(--background-color-default);
 	color: var(--text-color-default);

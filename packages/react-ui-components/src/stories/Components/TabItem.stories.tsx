@@ -1,6 +1,6 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
-import { KvTabItem, EComponentSize } from '../../components';
+import { KvTabItem, EComponentSize, EIconName } from '../../components';
 
 // Required to have the correct TagName in the code sample
 KvTabItem.displayName = 'KvTabItem';
@@ -46,6 +46,12 @@ export const WithNotification = TabItemTemplate.bind(this);
 WithNotification.args = {
 	...Default.args,
 	hasNotification: true
+};
+
+export const WithIcon = TabItemTemplate.bind(this);
+WithNotification.args = {
+	...Default.args,
+	icon: EIconName.Warning
 };
 
 export const SelectedWithNotification = TabItemTemplate.bind(this);

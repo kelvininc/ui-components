@@ -1,8 +1,11 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
+import { HostAttributes } from '@stencil/core/internal';
 import { throttle } from 'lodash-es';
+
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
-import { EComponentSize } from '../../utils/types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { EComponentSize, CustomCssClass, ICustomCss } from '../../types';
+import { getClassMap } from '../../utils/css-class.helper';
 
 /**
  * @part icon - The tab's item icon.
@@ -12,7 +15,7 @@ import { EIconName, EOtherIconName } from '../icon/icon.types';
 	styleUrl: 'tab-item.scss',
 	shadow: true
 })
-export class KvTabItem {
+export class KvTabItem implements ICustomCss {
 	/** (required) A unique identifier for this tab */
 	@Prop() tabKey!: number | string;
 	/** (required) Name to show in UI for this tab */
@@ -26,11 +29,15 @@ export class KvTabItem {
 	/** (optional) The tab's notification color (hex value, rgb or css var format) */
 	@Prop() notificationColor?: string = '';
 	/** (optional) The tab's icon */
-	@Prop() icon?: EIconName | EOtherIconName = '';
+	@Prop() icon?: EIconName | EOtherIconName;
 	/** (optional) Sets this tab item to a different styling configuration */
 	@Prop() size?: EComponentSize = EComponentSize.Large;
 	/** Emitted when the tab is selected */
 	@Event() tabSelected: EventEmitter<number | string>;
+	/** (optional) Additional style to apply for custom CSS. */
+	@Prop({ reflect: true }) customStyle?: HostAttributes['style'];
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
 
 	private tabClickThrottler: () => void;
 
@@ -55,9 +62,11 @@ export class KvTabItem {
 						'selected': this.selected,
 						'disabled': this.disabled,
 						'has-notification': this.hasNotification,
-						'small': this.size === EComponentSize.Small
+						'small': this.size === EComponentSize.Small,
+						...getClassMap(this.customClass)
 					}}
 					onClick={this.tabClickThrottler}
+					style={this.customStyle}
 				>
 					<div class="label">{this.label}</div>
 					{this.icon && (
