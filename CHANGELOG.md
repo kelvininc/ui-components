@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.44.0](https://github.com/kelvininc/ui-components/compare/v0.43.0...v0.44.0) (2025-02-07)
+
+
+### Bug Fixes
+
+* **select-option:** correct heading option line separator style ([382dd2e](https://github.com/kelvininc/ui-components/commit/382dd2e29b217db349b8f447d0f6d04b44e649f0))
+* **time-picker:** disable apply button during custom date selection ([9b7dbf9](https://github.com/kelvininc/ui-components/commit/9b7dbf910d7eaeab1a156456c4140d4eff134351))
+
+
+### Features
+
+* **icon:** adds kv-fit-content icon ([98989e1](https://github.com/kelvininc/ui-components/commit/98989e1580ea4b97d96fb5d3a930b0e693ae38a3))
+* **icon:** adds kv-sync-error and kv-status-mixed ([#511](https://github.com/kelvininc/ui-components/issues/511)) ([fc2491b](https://github.com/kelvininc/ui-components/commit/fc2491b1d50b1a7e2618e6f481a32791dfd0c834))
+* **kv-description-list:** allows more customization ([2aee8af](https://github.com/kelvininc/ui-components/commit/2aee8af30f35b8cdaf794db2472378e52850b398))
+* **tab-item:** enable icon style customization ([92ee165](https://github.com/kelvininc/ui-components/commit/92ee165c5802539cf8b684bab62ab7d8670da4b7))
+* **tag:** enable tag border customization ([1d4b8bf](https://github.com/kelvininc/ui-components/commit/1d4b8bf059050436e768d59ed186db5b472cec16))
+* **toggle-switch:** add component ([73cb0e2](https://github.com/kelvininc/ui-components/commit/73cb0e287a83fa101fdf0aa81bd683cc0e8e1eec))
+
+
+
+
+
 # [0.43.0](https://github.com/kelvininc/ui-components/compare/v0.42.0...v0.43.0) (2025-01-08)
 
 

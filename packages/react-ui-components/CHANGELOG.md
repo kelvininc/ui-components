@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.44.0](https://github.com/kelvininc/ui-components/compare/v0.43.0...v0.44.0) (2025-02-07)
+
+
+### Features
+
+* **tab-item:** enable icon style customization ([92ee165](https://github.com/kelvininc/ui-components/commit/92ee165c5802539cf8b684bab62ab7d8670da4b7))
+* **toggle-switch:** add component ([73cb0e2](https://github.com/kelvininc/ui-components/commit/73cb0e287a83fa101fdf0aa81bd683cc0e8e1eec))
+
+
+
+
+
 # [0.43.0](https://github.com/kelvininc/ui-components/compare/v0.42.0...v0.43.0) (2025-01-08)
 
 **Note:** Version bump only for package @kelvininc/react-ui-components
