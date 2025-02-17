@@ -2,10 +2,6 @@ import { Monaco } from '@monaco-editor/react';
 import type { editor } from 'monaco-editor';
 import { ForwardedRef, FunctionComponent } from 'react';
 
-export type CodeRef = {
-	editor?: CodeEditor;
-	instance?: CodeInstance;
-};
 export type CodeEditor = editor.IStandaloneCodeEditor;
 export type CodeInstance = Monaco;
 export type OnCodeEditorChange = (value: string | undefined) => void;
@@ -34,7 +30,9 @@ export interface ICodeEditorProps {
 	/** Use this property to define a placeholder component to display when the editor is loading. */
 	LoadingComponent?: FunctionComponent;
 	/** Use this property to pass a ref to the editor. */
-	forwardedRef?: ForwardedRef<CodeRef>;
+	forwardedRef?: ForwardedRef<CodeEditor>;
+	/** Use this property to pass a ref to the editor instance. */
+	instanceRef?: ForwardedRef<CodeInstance>;
 	/** Use this property to pass a callback function for when the value (`code`) changes. */
 	onChange?: OnCodeEditorChange;
 }
