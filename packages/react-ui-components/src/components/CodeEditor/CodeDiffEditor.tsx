@@ -1,7 +1,7 @@
 import React, { ForwardedRef, forwardRef, useCallback, useMemo } from 'react';
 import { DiffEditor } from '@monaco-editor/react';
 import { DEFAULT_CODE_EDITOR_LANGUAGE, DEFAULT_CODE_EDITOR_THEME, KELVIN_CODE_EDITOR_THEME } from './config';
-import { CodeEditor, CodeInstance, ICodeDiffEditorProps, OnCodeEditorChange } from './types';
+import { CodeEditor, CodeInstance, CodeRef, ICodeDiffEditorProps, OnCodeEditorChange } from './types';
 import { getEditorOptions } from './utils';
 import { editor } from 'monaco-editor';
 import { CodeEditorLoader } from './CodeEditorLoader';
@@ -9,7 +9,6 @@ import { useLoadMonacoEditorStyle } from './hooks';
 
 export const Component = ({
 	forwardedRef,
-	instanceRef,
 	originalCode,
 	modifiedCode,
 	language = DEFAULT_CODE_EDITOR_LANGUAGE,
@@ -36,15 +35,12 @@ export const Component = ({
 			onTextChange(modifiedEditor.getValue());
 		});
 		if (typeof forwardedRef === 'function') {
-			forwardedRef(modifiedEditor);
+			forwardedRef({ editor: modifiedEditor, instance });
 		} else if (forwardedRef) {
-			forwardedRef.current = modifiedEditor;
-		}
-
-		if (typeof instanceRef === 'function') {
-			instanceRef(instance);
-		} else if (instanceRef) {
-			instanceRef.current = instance;
+			forwardedRef.current = {
+				editor: modifiedEditor,
+				instance
+			};
 		}
 	}, []);
 
@@ -65,6 +61,6 @@ export const Component = ({
 	);
 };
 
-export const KvCodeDiffEditor = forwardRef(function CodeEditorWithRef(props: ICodeDiffEditorProps, ref: ForwardedRef<CodeEditor>) {
+export const KvCodeDiffEditor = forwardRef(function CodeEditorWithRef(props: ICodeDiffEditorProps, ref: ForwardedRef<CodeRef>) {
 	return <Component {...props} forwardedRef={ref} />;
 });
