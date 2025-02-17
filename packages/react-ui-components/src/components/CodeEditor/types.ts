@@ -3,8 +3,8 @@ import type { editor } from 'monaco-editor';
 import { ForwardedRef, FunctionComponent } from 'react';
 
 export type CodeRef = {
-	editor: CodeEditor;
-	instance: CodeInstance;
+	editor?: CodeEditor;
+	instance?: CodeInstance;
 };
 export type CodeEditor = editor.IStandaloneCodeEditor;
 export type CodeInstance = Monaco;
