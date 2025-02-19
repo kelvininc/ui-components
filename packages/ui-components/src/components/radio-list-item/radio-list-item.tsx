@@ -50,6 +50,7 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 					<div class="info">
 						<div class="label">{this.label}</div>
 						{this.description && <div class="description">{this.parsedDescription}</div>}
+						<slot name="additional-info" />
 					</div>
 				</div>
 			</Host>
