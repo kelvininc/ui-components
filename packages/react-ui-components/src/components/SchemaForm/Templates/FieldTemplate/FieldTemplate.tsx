@@ -65,7 +65,7 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 					</div>
 				)}
 				{descriptionPosition === EDescriptionPosition.Top && <div className={styles.WithTopDescription}>{children}</div>}
-				{isEmpty(rawErrors) && displayedHelper && <KvFormHelpText helpText={displayedHelper}></KvFormHelpText>}
+				{displayedHelper && <KvFormHelpText helpText={displayedHelper}></KvFormHelpText>}
 			</div>
 		</WrapIfAdditionalTemplate>
 	);
