@@ -49,6 +49,7 @@ const WizardTemplate: ComponentStory<typeof KvWizard> = args => {
 	return (
 		<div style={{ height: '500px' }}>
 			<KvWizard style={{ '--wizard-stepper-width': '160px' }} {...args} currentStep={currentStep} onGoToStep={handleGoToStep}>
+				<div slot="additional-header-actions">Additional Header Action</div>
 				<div slot="step-content" style={{ height: '100%', overflow: 'scroll' }}>
 					{currentStep === 0 && <div style={{ backgroundColor: 'gray', ...styles }}>Step 1 Content</div>}
 					{currentStep === 1 && <div style={{ backgroundColor: 'black', ...styles }}>Step 2 Content</div>}
