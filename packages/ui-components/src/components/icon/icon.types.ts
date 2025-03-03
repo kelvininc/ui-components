@@ -33,6 +33,7 @@ export enum EIconName {
 	Auditlogs = 'kv-auditlogs',
 	Avatar = 'kv-avatar',
 	Back = 'kv-back',
+	Bookmark = 'kv-bookmark',
 	BubbleChart = 'kv-bubble-chart',
 	Building = 'kv-building',
 	Bullet = 'kv-bullet',
