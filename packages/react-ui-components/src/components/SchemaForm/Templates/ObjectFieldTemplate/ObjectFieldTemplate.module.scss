@@ -3,7 +3,8 @@
 .PropsContainer {
 	display: flex;
 	flex-direction: column;
-	width: var(--schema-form-max-width);
+	width: 100%;
+	max-width: var(--schema-form-max-width);
 	gap: var(--schema-form-fields-y-gap) var(--schema-form-fields-x-gap);
 
 	&.Inline {
