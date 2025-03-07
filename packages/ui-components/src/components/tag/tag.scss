@@ -22,6 +22,7 @@
 	align-items: center;
 	gap: var(--tag-content-gap);
 	width: fit-content;
+	max-height: 24px;
 	border-radius: 4px;
 	padding: var(--tag-content-padding);
 	border: 1px solid var(--tag-border-color);
@@ -31,5 +32,13 @@
 		@include kv-font-label-small-uppercase-regular;
 
 		color: var(--tag-label-color);
+	}
+
+	&--size-small {
+		max-height: 20px;
+		
+		.tag-label {
+			@include kv-font-label-xsmall-uppercase-regular;
+		}
 	}
 }
