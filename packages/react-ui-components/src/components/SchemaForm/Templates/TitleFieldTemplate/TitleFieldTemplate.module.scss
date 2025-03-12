@@ -1,8 +1,17 @@
-@import "node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss";
+@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
 
 .TitleContainer {
 	margin-bottom: $spacing;
 	display: flex;
+
+	&.GroupTitle {
+		kv-info-label::part(title) {
+			@include kv-font-span-semibold;
+			
+			color: kv-color('neutral-2');
+			padding-bottom: $spacing-3x;
+		}
+	}
 
 	.Required {
 		@include kv-font-label-small-uppercase-semibold;
