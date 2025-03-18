@@ -18,7 +18,7 @@ export interface IToggleSwitch {
 	/** (optional) Toggle switch selected option key */
 	selectedOption?: string;
 	/** (optional) A record with the button's key and its individual disabled state */
-	disabledOptions?: Record<string, boolean>;
+	disabledButtons?: Record<string, boolean>;
 	/** (optional) Sets the size for all toggle buttons */
 	size?: EComponentSize;
 }

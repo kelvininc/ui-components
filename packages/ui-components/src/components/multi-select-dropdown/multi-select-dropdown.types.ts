@@ -42,6 +42,8 @@ export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptio
 	zIndex?: number;
 	/** (optional) The text field options */
 	inputConfig?: Partial<ITextField>;
+	/** (optional) If `false` the search text field is not auto-focused. Default `true`. */
+	autoFocus?: boolean;
 }
 
 export interface IMultiSelectDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'optionSelected' | 'optionCreated'> {

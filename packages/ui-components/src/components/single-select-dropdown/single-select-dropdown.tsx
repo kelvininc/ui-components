@@ -102,6 +102,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Prop({ reflect: true }) createOptionPlaceholder?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) inputConfig?: Partial<ITextField>;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) autoSize?: boolean = true;
 
 	/** @inheritdoc */
 	@Event() optionSelected: EventEmitter<string>;
@@ -197,7 +199,11 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	};
 
 	private setOpenState = (state: boolean) => {
-		if (!state) {
+		if (state) {
+			if (this.autoSize) {
+				setTimeout(() => this.selectRef?.focusSearch());
+			}
+		} else {
 			this.setSearch('');
 			this.closeCreatePopup();
 		}

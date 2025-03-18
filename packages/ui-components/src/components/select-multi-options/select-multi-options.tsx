@@ -180,9 +180,17 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		this.isCreating = false;
 	}
 
+	/** Focuses the search text field */
+	@Method()
+	async focusSearch() {
+		this.selectRef?.focusSearch();
+	}
+
 	componentWillLoad() {
 		this.buildSelectionOptions();
 	}
+
+	private selectRef?: HTMLKvSelectElement | null;
 
 	private onEnter = (): void => {
 		if (isEmpty(this.highlightedOption)) {
@@ -320,6 +328,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 		return (
 			<kv-select
+				ref={element => (this.selectRef = element)}
 				maxHeight={this.maxHeight}
 				minHeight={this.minHeight}
 				maxWidth={this.maxWidth}

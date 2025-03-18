@@ -15,6 +15,8 @@ export interface ISingleSelectDropdown extends Omit<IMultiSelectDropdown, 'selec
 	options?: ISelectSingleOptions;
 	/** (optional) The object with the dropdown options filtered */
 	filteredOptions?: ISelectSingleOptions;
+	/** (optional) If `false` the search text field is not auto-focused. Default `true`. */
+	autoFocus?: boolean;
 }
 
 export interface ISingleSelectDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'optionsSelected' | 'selectAll'> {

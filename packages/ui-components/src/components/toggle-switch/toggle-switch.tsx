@@ -3,7 +3,7 @@ import { IToggleSwitch, IToggleSwitchEvents, IToggleSwitchOption } from './toggl
 import { EComponentSize } from '../../types';
 
 /**
- * @part toggle-options-container - Container of toggle options.
+ * @part toggle-switch-option-container - Container of toggle options.
  */
 @Component({
 	tag: 'kv-toggle-switch',

@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Element, Fragment } from '@stencil/core';
+import { Component, Host, h, Prop, Event, EventEmitter, Element, Fragment, Method } from '@stencil/core';
 import { isNil, omitBy } from 'lodash-es';
 import { CLEAR_SELECTION_LABEL, SELECT_ALL_LABEL } from './select.config';
 import { ISelect, ISelectEvents } from './select.types';
@@ -50,6 +50,14 @@ export class KvSelect implements ISelect, ISelectEvents {
 
 	@Element() el: HTMLKvSelectElement;
 
+	private searchRef?: HTMLKvSearchElement | null;
+
+	/** Focuses the search text field */
+	@Method()
+	async focusSearch() {
+		this.searchRef?.focusInput();
+	}
+
 	private onSearchChange = (event: CustomEvent<string>) => {
 		event.stopPropagation();
 		this.searchChange.emit(event.detail);
@@ -93,7 +101,13 @@ export class KvSelect implements ISelect, ISelectEvents {
 					{hasHeader && (
 						<div class="select-header-container">
 							{this.searchable && (
-								<kv-search size={EComponentSize.Small} value={this.searchValue} placeholder={this.searchPlaceholder} onTextChange={this.onSearchChange} />
+								<kv-search
+									ref={element => (this.searchRef = element)}
+									size={EComponentSize.Small}
+									value={this.searchValue}
+									placeholder={this.searchPlaceholder}
+									onTextChange={this.onSearchChange}
+								/>
 							)}
 							{hasLabels && (
 								<div class="search-footer">
