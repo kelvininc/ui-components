@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Toggle Switch (unit tests) when rendering with default props should match the snapshot 1`] = `
+<kv-toggle-switch selected-option="" size="small">
+  <mock:shadow-root>
+    <div class="toggle-switch-container">
+      <kv-toggle-button exportparts="toggle-button" label="Option 1" part="toggle-switch-option-container" size="small" value="opt1"></kv-toggle-button>
+      <kv-toggle-button exportparts="toggle-button" label="Option 2" part="toggle-switch-option-container" size="small" value="opt2"></kv-toggle-button>
+      <kv-toggle-button exportparts="toggle-button" label="Option 3" part="toggle-switch-option-container" size="small" value="opt3"></kv-toggle-button>
+      <kv-toggle-button exportparts="toggle-button" label="Option 4" part="toggle-switch-option-container" size="small" value="opt4"></kv-toggle-button>
+    </div>
+  </mock:shadow-root>
+</kv-toggle-switch>
+`;
