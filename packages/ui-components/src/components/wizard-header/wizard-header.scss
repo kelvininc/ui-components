@@ -12,33 +12,39 @@
 
 .wizard-header-container {
 	display: flex;
-	align-items: center;
 	padding: $spacing-4x;
+	justify-content: space-between;
 
-	.label,
-	.description {
-		color: var(--text-color);
-	}
+	.left-container {
+		display: flex;
+		align-items: center;
+		flex: 1;
+		
+		.label,
+		.description {
+			color: var(--text-color);
+		}
 
-	.label {
-		@include kv-font-label-small-uppercase-semibold;
-	}
+		.label {
+			@include kv-font-label-small-uppercase-semibold;
+		}
 
-	.description {
-		@include ellipsis;
-		@include kv-font-paragraph-light;
-	}
+		.description {
+			@include ellipsis;
+			@include kv-font-paragraph-light;
+		}
 
-	.separator {
-		width: 4px;
-		height: 4px;
-		border-radius: 50%;
-		margin: 0 $spacing-2x;
-		background-color: var(--separator-color);
-	}
+		.separator {
+			width: 4px;
+			height: 4px;
+			border-radius: 50%;
+			margin: 0 $spacing-2x;
+			background-color: var(--separator-color);
+		}
 
-	kv-toggle-tip .toggle-tip-open-element-container {
-		@include clickable;
-		margin-left: $spacing-2x;
+		kv-toggle-tip .toggle-tip-open-element-container {
+			@include clickable;
+			margin-left: $spacing-2x;
+		}
 	}
 }
