@@ -57,10 +57,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const [isValid, setValid] = useState(!liveValidate);
 	const experimental_defaultFormStateBehavior = useMemo(() => buildDefaultFormStateBehavior(applyDefaults), [applyDefaults]);
 	const formValidator = useMemo(() => validatorProp ?? getDefaultValidator<T, S, SchemaFormContext>(), [validatorProp]);
-	const formData = useMemo(
-		() => cloneDeep(getInitialFormData(schema, formDataProp, formValidator, experimental_defaultFormStateBehavior)),
-		[formValidator, schema, formDataProp, experimental_defaultFormStateBehavior]
-	);
+	const formData = useMemo(() => cloneDeep(getInitialFormData(schema, formDataProp, formValidator, applyDefaults)), [formValidator, schema, formDataProp, applyDefaults]);
 	const [hasChanges, setHasChanges] = useState(!isEqualWith(formData, submittedData || {}));
 
 	const formRef = formReference ?? useRef<Form<T, S, SchemaFormContext>>(null);
