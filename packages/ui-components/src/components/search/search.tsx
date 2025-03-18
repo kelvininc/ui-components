@@ -1,4 +1,4 @@
-import { Component, h, Event, EventEmitter, Prop, Host } from '@stencil/core';
+import { Component, h, Event, EventEmitter, Prop, Host, Method } from '@stencil/core';
 import { isEmpty } from 'lodash-es';
 import { EComponentSize, ITooltip } from '../../types';
 import { EIconName } from '../icon/icon.types';
@@ -66,6 +66,14 @@ export class KvSearch implements ISearch, ISearchEvents {
 	/** @inheritdoc */
 	@Event() fieldClick: EventEmitter<MouseEvent>;
 
+	/** Focus input */
+	@Method()
+	async focusInput() {
+		this.inputRef.focusInput();
+	}
+
+	private inputRef?: HTMLKvTextFieldElement | null;
+
 	private onTextChange = (event: CustomEvent<string>) => {
 		event.stopPropagation();
 		this.textChange.emit(event.detail);
@@ -82,6 +90,7 @@ export class KvSearch implements ISearch, ISearchEvents {
 		return (
 			<Host>
 				<kv-text-field
+					ref={el => (this.inputRef = el)}
 					actionIcon={shouldShowResetIcon ? EIconName.Close : undefined}
 					onTextChange={this.onTextChange}
 					onRightActionClick={this.onResetClick}
