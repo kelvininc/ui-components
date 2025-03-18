@@ -91,6 +91,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: false }) zIndex?: number = DEFAULT_DROPDOWN_Z_INDEX;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) inputConfig?: Partial<ITextField>;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) autoFocus?: boolean = true;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
@@ -166,7 +168,11 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	};
 
 	private setOpenState = (state: boolean): void => {
-		if (!state) {
+		if (state) {
+			if (this.autoFocus) {
+				setTimeout(() => this.selectRef?.focusSearch());
+			}
+		} else {
 			this.setSearch('');
 		}
 
