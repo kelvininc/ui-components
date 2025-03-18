@@ -4,11 +4,13 @@
 	/**
 	* @prop --schema-form-x-padding: horizontal form padding
 	* @prop --schema-form-y-padding: vertical form padding
+	* @prop --schema-form-max-width: max field width
 	* @prop --schema-form-fields-x-gap: horizontal gap between fields
 	* @prop --schema-form-fields-y-gap: vertical gap between fields
 	*/
 	--schema-form-x-padding: 0px;
 	--schema-form-y-padding: 0px;
+	--schema-form-max-width: 100%;
 	--schema-form-fields-x-gap: #{$spacing-5x};
 	--schema-form-fields-y-gap: #{$spacing-5x};
 

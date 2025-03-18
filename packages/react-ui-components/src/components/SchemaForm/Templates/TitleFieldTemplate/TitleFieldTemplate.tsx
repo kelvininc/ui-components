@@ -6,14 +6,14 @@ import { EIconName, ETooltipPosition, stringHelper } from '@kelvininc/ui-compone
 import styles from './TitleFieldTemplate.module.scss';
 import classNames from 'classnames';
 
-const TitleFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({ title, uiSchema, required }: TitleFieldProps<T, S, F>): any => {
+const TitleFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({ title, uiSchema, required, schema }: TitleFieldProps<T, S, F>): any => {
 	const uiOptions = getUiOptions<T, S, F>(uiSchema);
 	const titleToShow = get(uiSchema, ['ui:title'], title);
 	const titleCustomClass = get(uiSchema, ['ui:titleCustomClass']);
-
+	const isGroupTitle = schema.type === 'object';
 	return (
 		stringHelper.isValidLabel(titleToShow) && (
-			<div className={classNames(styles.TitleContainer, titleCustomClass)}>
+			<div className={classNames(styles.TitleContainer, titleCustomClass, { [styles.GroupTitle]: isGroupTitle })}>
 				{required && <span className={styles.Required}>*</span>}
 				<KvInfoLabel labelTitle={titleToShow || ''} />
 				{uiOptions.help && (
