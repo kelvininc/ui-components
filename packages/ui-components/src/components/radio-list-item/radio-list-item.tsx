@@ -48,8 +48,11 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 				>
 					<kv-radio checked={this.checked} disabled={this.disabled} />
 					<div class="info">
-						<div class="label">{this.label}</div>
+						<slot name="label">
+							<div class="label">{this.label}</div>
+						</slot>
 						{this.description && <div class="description">{this.parsedDescription}</div>}
+						<slot name="additional-info"></slot>
 					</div>
 				</div>
 			</Host>

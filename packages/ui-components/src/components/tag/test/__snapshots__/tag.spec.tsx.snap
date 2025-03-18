@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Tag (unit tests) when uses default props should match the snapshot 1`] = `
-<kv-tag label="Tag Default">
+<kv-tag label="Tag Default" size="large">
   <mock:shadow-root>
-    <div class="tag-container">
+    <div class="tag-container tag-container--size-large">
       <slot name="left-slot"></slot>
       <div class="tag-label">
         Tag Default
