@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.45.0](https://github.com/kelvininc/ui-components/compare/v0.44.0...v0.45.0) (2025-03-19)
+
+
+### Bug Fixes
+
+* **schema-form:** fix the getInitialFormData and small improves ([18ea046](https://github.com/kelvininc/ui-components/commit/18ea046d09d06cd3f66ac63f3bc93470ff4c7458))
+
+
+### Features
+
+* adds more options to Select & Checkbox widget, new icons & minor improvments ([cccb21c](https://github.com/kelvininc/ui-components/commit/cccb21c04b5afabbce3129ad5168c603f3ece75a))
+* **code-editor:** export the instance monaco editor reference ([9c1d736](https://github.com/kelvininc/ui-components/commit/9c1d736caac08d6b73cb151d67138bbb322a2829))
+* **wizard-header:** add additional actions slot ([9fc311c](https://github.com/kelvininc/ui-components/commit/9fc311c2004e876c199c12b8d103171f9b1ad407))
+
+
+
+
+
 # [0.44.0](https://github.com/kelvininc/ui-components/compare/v0.43.0...v0.44.0) (2025-02-07)
 
 

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.45.0](https://github.com/kelvininc/ui-components/compare/v0.44.0...v0.45.0) (2025-03-19)
+
+
+### Features
+
+* add new icons ([2fda6ef](https://github.com/kelvininc/ui-components/commit/2fda6ef2a3ca8c1c1e1d07d5ffe03654eea5dec2))
+* adds more options to Select & Checkbox widget, new icons & minor improvments ([cccb21c](https://github.com/kelvininc/ui-components/commit/cccb21c04b5afabbce3129ad5168c603f3ece75a))
+* **dropdowns:** autofocus search input on open dropdown ([5c78e3a](https://github.com/kelvininc/ui-components/commit/5c78e3afb5a454500b358aae068e89f68de8b474))
+* **radio-list-item:** add slot to label ([f464d08](https://github.com/kelvininc/ui-components/commit/f464d08876db1fb00e2389a7d57c5606cdde7157))
+* **tag:** add size prop ([150fa71](https://github.com/kelvininc/ui-components/commit/150fa713eb4b3749d184fa29af42c7d8ffe79d46))
+* **wizard-header:** add additional actions slot ([9fc311c](https://github.com/kelvininc/ui-components/commit/9fc311c2004e876c199c12b8d103171f9b1ad407))
+
+
+
+
+
 # [0.44.0](https://github.com/kelvininc/ui-components/compare/v0.43.0...v0.44.0) (2025-02-07)
 
 
