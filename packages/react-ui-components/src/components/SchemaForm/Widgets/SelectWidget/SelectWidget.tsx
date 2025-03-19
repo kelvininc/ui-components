@@ -35,12 +35,13 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		badge,
 		valuePrefix: displayPrefix,
 		zIndex: optionZIndex,
-		componentSize: optionComponentSize
+		componentSize: optionComponentSize,
+		multiSubOptions
 	} = uiSchema;
 	const { componentSize = EComponentSize.Large, dropdownConfig = DEFAULT_DROPDOWN_CONFIG } = formContext as F;
 	const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
-	const defaultDropdownOptions = useMemo(() => buildDropdownOptions(enumOptions, enumDisabled), [enumOptions, enumDisabled]);
+	const defaultDropdownOptions = useMemo(() => buildDropdownOptions(enumOptions, enumDisabled, multiSubOptions), [enumOptions, enumDisabled, multiSubOptions]);
 	const filteredOptions = useMemo(() => {
 		if (searchTerm !== null && searchTerm.length > 0) {
 			return searchDropdownOptions(searchTerm, defaultDropdownOptions);

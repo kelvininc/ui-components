@@ -66,6 +66,16 @@ Type: `Promise<void>`
 
 
 
+### `focusSearch() => Promise<void>`
+
+Focuses the search text field
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 
 ## Shadow Parts
 

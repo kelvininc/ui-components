@@ -1,4 +1,4 @@
-import { IToggleButton } from '@kelvininc/ui-components';
+import { EComponentSize, IToggleButton } from '@kelvininc/ui-components';
 import { ALL_BUTTON_VALUE } from './config';
 import { CheckboxOption, ICheckboxConfig } from './types';
 
@@ -114,4 +114,8 @@ export const toggleSelectedOptions = <T extends CheckboxOption>(
 	}
 
 	return [...selectedOptions, selectedOptionValue];
+};
+
+export const getComponentSize = (size: unknown): EComponentSize => {
+	return Object.values(EComponentSize).includes(size as EComponentSize) ? (size as EComponentSize) : EComponentSize.Small;
 };

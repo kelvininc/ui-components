@@ -59,6 +59,19 @@ export const KvSelectExample: React.FC = () => (
 | `selectAll`      | Emitted when the user clicks on the all items              | `CustomEvent<void>`   |
 
 
+## Methods
+
+### `focusSearch() => Promise<void>`
+
+Focuses the search text field
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+
 ## Shadow Parts
 
 | Part       | Description           |

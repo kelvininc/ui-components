@@ -5,13 +5,13 @@
 
 ## Properties
 
-| Property          | Attribute         | Description                                              | Type                                           | Default                |
-| ----------------- | ----------------- | -------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
-| `disabled`        | `disabled`        | (optional) If `true` all toggle buttons will be disabled | `boolean`                                      | `false`                |
-| `disabledButtons` | --                |                                                          | `{ [x: string]: boolean; }`                    | `{}`                   |
-| `options`         | --                | (optional) List of toggle switch options                 | `IToggleSwitchOption[]`                        | `[]`                   |
-| `selectedOption`  | `selected-option` | (optional) Toggle switch selected option key             | `string`                                       | `''`                   |
-| `size`            | `size`            | (optional) Sets the size for all toggle buttons          | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Small` |
+| Property          | Attribute         | Description                                                                 | Type                                           | Default                |
+| ----------------- | ----------------- | --------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
+| `disabled`        | `disabled`        | (optional) If `true` all toggle buttons will be disabled                    | `boolean`                                      | `false`                |
+| `disabledButtons` | --                | (optional) A record with the button's key and its individual disabled state | `{ [x: string]: boolean; }`                    | `{}`                   |
+| `options`         | --                | (optional) List of toggle switch options                                    | `IToggleSwitchOption[]`                        | `[]`                   |
+| `selectedOption`  | `selected-option` | (optional) Toggle switch selected option key                                | `string`                                       | `''`                   |
+| `size`            | `size`            | (optional) Sets the size for all toggle buttons                             | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Small` |
 
 
 ## Events
@@ -25,8 +25,7 @@
 
 | Part                               | Description                  |
 | ---------------------------------- | ---------------------------- |
-| `"toggle-options-container"`       | Container of toggle options. |
-| `"toggle-switch-option-container"` |                              |
+| `"toggle-switch-option-container"` | Container of toggle options. |
 
 
 ## Dependencies
