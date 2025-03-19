@@ -4,13 +4,16 @@ exports[`WizardHeader (unit tests) when rendering with defaults should match the
 <kv-wizard-header description="Choose an application" label="Step 1">
   <mock:shadow-root>
     <div class="wizard-header-container">
-      <span class="label">
-        Step 1
-      </span>
-      <span class="separator"></span>
-      <span class="description">
-        Choose an application
-      </span>
+      <div class="left-container">
+        <span class="label">
+          Step 1
+        </span>
+        <span class="separator"></span>
+        <span class="description">
+          Choose an application
+        </span>
+      </div>
+      <slot name="additional-header-actions"></slot>
     </div>
   </mock:shadow-root>
 </kv-wizard-header>

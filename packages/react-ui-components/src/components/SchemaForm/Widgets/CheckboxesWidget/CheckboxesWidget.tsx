@@ -1,7 +1,7 @@
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 import { KvToggleButtonGroup } from '../../../stencil-generated';
 import React, { useCallback, useMemo } from 'react';
-import { buildToggleButtons, buildSelectedToggleButtons, toggleSelectedOptions, buildDisabledToggleButtons } from './utils';
+import { buildToggleButtons, buildSelectedToggleButtons, toggleSelectedOptions, buildDisabledToggleButtons, getComponentSize } from './utils';
 import { ICheckboxConfig } from './types';
 import { isEmpty } from 'lodash';
 
@@ -14,7 +14,7 @@ const CheckboxesWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends 
 	readonly,
 	onChange
 }: WidgetProps<T, S, F>) => {
-	const { enumOptions, enumDisabled, allButton } = options;
+	const { enumOptions, enumDisabled, allButton, componentSize, withRadio } = options;
 	const { maxItems, minItems } = schema;
 
 	const selectedOptions = useMemo(() => (Array.isArray(value) ? value : []), [value]);
@@ -47,7 +47,17 @@ const CheckboxesWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends 
 		[selectedOptions, allOptions, config]
 	);
 
-	return <KvToggleButtonGroup buttons={buttons} selectedButtons={selectedButtons} onCheckedChange={onCheckedChange} disabled={disabled} disabledButtons={disabledButtons} />;
+	return (
+		<KvToggleButtonGroup
+			buttons={buttons}
+			disabled={disabled}
+			size={getComponentSize(componentSize)}
+			withRadio={withRadio === true}
+			disabledButtons={disabledButtons}
+			selectedButtons={selectedButtons}
+			onCheckedChange={onCheckedChange}
+		/>
+	);
 };
 
 export default CheckboxesWidget;

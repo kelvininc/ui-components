@@ -67,6 +67,19 @@ export const SearchExample: React.FC = () => (
 | `textFieldBlur`    | Emitted when text field lost focus           | `CustomEvent<string>`     |
 
 
+## Methods
+
+### `focusInput() => Promise<void>`
+
+Focus input
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+
 ## Dependencies
 
 ### Used by

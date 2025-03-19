@@ -5,7 +5,9 @@ exports[`Wizard (unit tests) when current step don't have state should match the
   <mock:shadow-root>
     <div class="wizard">
       <div class="wizard-header">
-        <kv-wizard-header description="Configuration" label="Step 2"></kv-wizard-header>
+        <kv-wizard-header description="Configuration" label="Step 2">
+          <slot name="additional-header-actions" slot="additional-header-actions"></slot>
+        </kv-wizard-header>
       </div>
       <div class="has-header wizard-content">
         <slot name="step-content"></slot>
@@ -25,7 +27,9 @@ exports[`Wizard (unit tests) when current step have errors should match the snap
   <mock:shadow-root>
     <div class="wizard">
       <div class="wizard-header">
-        <kv-wizard-header description="Configuration" label="Step 2"></kv-wizard-header>
+        <kv-wizard-header description="Configuration" label="Step 2">
+          <slot name="additional-header-actions" slot="additional-header-actions"></slot>
+        </kv-wizard-header>
       </div>
       <div class="has-header wizard-content">
         <slot name="step-content"></slot>
@@ -45,7 +49,9 @@ exports[`Wizard (unit tests) when current step have success state should match t
   <mock:shadow-root>
     <div class="wizard">
       <div class="wizard-header">
-        <kv-wizard-header description="Configuration" label="Step 2"></kv-wizard-header>
+        <kv-wizard-header description="Configuration" label="Step 2">
+          <slot name="additional-header-actions" slot="additional-header-actions"></slot>
+        </kv-wizard-header>
       </div>
       <div class="has-header wizard-content">
         <slot name="step-content"></slot>
@@ -65,7 +71,9 @@ exports[`Wizard (unit tests) when current step is the first one should match the
   <mock:shadow-root>
     <div class="wizard">
       <div class="wizard-header">
-        <kv-wizard-header description="Info" label="Step 1"></kv-wizard-header>
+        <kv-wizard-header description="Info" label="Step 1">
+          <slot name="additional-header-actions" slot="additional-header-actions"></slot>
+        </kv-wizard-header>
       </div>
       <div class="has-header wizard-content">
         <slot name="step-content"></slot>
@@ -85,7 +93,9 @@ exports[`Wizard (unit tests) when current step is the last one should match the 
   <mock:shadow-root>
     <div class="wizard">
       <div class="wizard-header">
-        <kv-wizard-header description="Confirmation" label="Step 3"></kv-wizard-header>
+        <kv-wizard-header description="Confirmation" label="Step 3">
+          <slot name="additional-header-actions" slot="additional-header-actions"></slot>
+        </kv-wizard-header>
       </div>
       <div class="has-header wizard-content">
         <slot name="step-content"></slot>
@@ -122,7 +132,9 @@ exports[`Wizard (unit tests) when showStepBar is false should match the snapshot
   <mock:shadow-root>
     <div class="wizard">
       <div class="wizard-header">
-        <kv-wizard-header description="Configuration" label="Step 2"></kv-wizard-header>
+        <kv-wizard-header description="Configuration" label="Step 2">
+          <slot name="additional-header-actions" slot="additional-header-actions"></slot>
+        </kv-wizard-header>
       </div>
       <div class="has-header wizard-content">
         <slot name="step-content"></slot>

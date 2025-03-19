@@ -73,7 +73,15 @@ export class KvWizard implements IWizard, IWizardEvents {
 	render() {
 		return (
 			<div class="wizard">
-				{this.showHeader && <div class="wizard-header">{this.currentHeader && <kv-wizard-header {...this.currentHeader}></kv-wizard-header>}</div>}
+				{this.showHeader && (
+					<div class="wizard-header">
+						{this.currentHeader && (
+							<kv-wizard-header {...this.currentHeader}>
+								<slot slot="additional-header-actions" name="additional-header-actions" />
+							</kv-wizard-header>
+						)}
+					</div>
+				)}
 				<div class={{ 'wizard-content': true, 'has-header': this.showHeader }}>
 					<slot name="step-content"></slot>
 				</div>

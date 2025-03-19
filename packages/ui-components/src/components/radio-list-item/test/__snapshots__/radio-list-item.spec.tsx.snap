@@ -6,9 +6,12 @@ exports[`Radio List Item (unit tests) when passing required props and \`checked\
     <div class="radio-list-item-container radio-list-item-container--checked">
       <kv-radio checked=""></kv-radio>
       <div class="info">
-        <div class="label">
-          K3S
-        </div>
+        <slot name="label">
+          <div class="label">
+            K3S
+          </div>
+        </slot>
+        <slot name="additional-info"></slot>
       </div>
     </div>
   </mock:shadow-root>
@@ -21,9 +24,12 @@ exports[`Radio List Item (unit tests) when passing required props and \`disabled
     <div class="radio-list-item-container radio-list-item-container--disabled">
       <kv-radio disabled=""></kv-radio>
       <div class="info">
-        <div class="label">
-          K3S
-        </div>
+        <slot name="label">
+          <div class="label">
+            K3S
+          </div>
+        </slot>
+        <slot name="additional-info"></slot>
       </div>
     </div>
   </mock:shadow-root>
@@ -36,14 +42,17 @@ exports[`Radio List Item (unit tests) when passing required props and a descript
     <div class="radio-list-item-container">
       <kv-radio></kv-radio>
       <div class="info">
-        <div class="label">
-          K3S
-        </div>
+        <slot name="label">
+          <div class="label">
+            K3S
+          </div>
+        </slot>
         <div class="description">
           Check the
           <kv-link href="https://docs.kelvininc.com/4.10.2/" label="documentation" target="_blank"></kv-link>
           here.
         </div>
+        <slot name="additional-info"></slot>
       </div>
     </div>
   </mock:shadow-root>
@@ -56,9 +65,12 @@ exports[`Radio List Item (unit tests) when passing required props should match t
     <div class="radio-list-item-container">
       <kv-radio></kv-radio>
       <div class="info">
-        <div class="label">
-          K3S
-        </div>
+        <slot name="label">
+          <div class="label">
+            K3S
+          </div>
+        </slot>
+        <slot name="additional-info"></slot>
       </div>
     </div>
   </mock:shadow-root>

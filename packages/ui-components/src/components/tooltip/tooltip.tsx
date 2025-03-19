@@ -93,7 +93,7 @@ export class KvTooltip implements ITooltip {
 				>
 					<slot></slot>
 				</div>
-				{this.showTooltip && (
+				{this.showTooltip && !isEmpty(this.text) && (
 					<kv-portal
 						zIndex={TOOLTIP_Z_INDEX}
 						show={true}

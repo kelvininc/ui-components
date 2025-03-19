@@ -25,9 +25,10 @@ export const TagExample: React.FC = () => (
 
 ## Properties
 
-| Property | Attribute | Description          | Type     | Default     |
-| -------- | --------- | -------------------- | -------- | ----------- |
-| `label`  | `label`   | (optional) Tag label | `string` | `undefined` |
+| Property | Attribute | Description                     | Type                                           | Default                |
+| -------- | --------- | ------------------------------- | ---------------------------------------------- | ---------------------- |
+| `label`  | `label`   | (optional) Tag label            | `string`                                       | `undefined`            |
+| `size`   | `size`    | (optional) Sets the size of tag | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
 
 
 ## CSS Custom Properties
