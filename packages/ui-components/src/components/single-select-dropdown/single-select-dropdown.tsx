@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, Host, Method, Prop, State, Watch, h } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { ISingleSelectDropdown, ISingleSelectDropdownEvents, ISelectSingleOptions } from './single-select-dropdown.types';
@@ -155,6 +155,12 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this.buildSelectionOptions();
 	}
 
+	/** Focuses the search text field */
+	@Method()
+	async focusSearch() {
+		this.selectRef?.focusSearch();
+	}
+
 	componentWillLoad() {
 		this.validateSelectedOptionValue();
 		this.buildSelectionOptions();
@@ -198,10 +204,14 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this.setOpenState(false);
 	};
 
+	private focusSearchInput = () => {
+		setTimeout(() => this.selectRef?.focusSearch());
+	};
+
 	private setOpenState = (state: boolean) => {
 		if (state) {
 			if (this.autoFocus) {
-				setTimeout(() => this.selectRef?.focusSearch());
+				this.focusSearchInput();
 			}
 		} else {
 			this.setSearch('');
@@ -299,6 +309,12 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 	private get selectedOptions(): Record<string, boolean> | undefined {
 		return this.selectedOption ? { [this.selectedOption]: true } : {};
+	}
+
+	connectedCallback() {
+		if (this.autoFocus) {
+			this.focusSearchInput();
+		}
 	}
 
 	render() {

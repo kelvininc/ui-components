@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, Host, Method, Prop, State, Watch, h } from '@stencil/core';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { IMultiSelectDropdown, IMultiSelectDropdownEvents } from './multi-select-dropdown.types';
@@ -130,6 +130,12 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		this.calculateBadgeValue();
 	}
 
+	/** Focuses the search text field */
+	@Method()
+	async focusSearch() {
+		this.selectRef?.focusSearch();
+	}
+
 	componentWillLoad() {
 		this.calculateLabelValue();
 		this.calculateBadgeValue();
@@ -170,7 +176,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	private setOpenState = (state: boolean): void => {
 		if (state) {
 			if (this.autoFocus) {
-				setTimeout(() => this.selectRef?.focusSearch());
+				this.focusSearchInput();
 			}
 		} else {
 			this.setSearch('');
@@ -240,6 +246,16 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 			size: this.inputSize,
 			badge: this._badgeLabel
 		});
+	}
+
+	private focusSearchInput = () => {
+		setTimeout(() => this.selectRef?.focusSearch());
+	};
+
+	connectedCallback() {
+		if (this.autoFocus) {
+			this.focusSearchInput();
+		}
 	}
 
 	render() {
