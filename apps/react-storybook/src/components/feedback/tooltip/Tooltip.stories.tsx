@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { EActionButtonType, ETooltipPosition, KvActionButton, KvActionButtonText, KvTooltip } from '@kelvininc/react-ui-components';
 
-import styles from './Tooltip.module.scss';
+import * as styles from './Tooltip.module.scss';
 
 const meta = {
 	title: 'Feedback/Tooltip',

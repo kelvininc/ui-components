@@ -3,7 +3,9 @@ import "./Icons.scss";
 import {
 	EIllustrationName,
 	EIconName,
-	EOtherIconName
+	EOtherIconName,
+	KvIcon,
+	KvIllustration
 } from "@kelvininc/react-ui-components";
 
 <Meta
@@ -24,7 +26,7 @@ All our icons and illustrations are build with [Scalable Vector Graphics (SVGs)]
 	{Object.values(EIconName).map((icn) => (
 		<div key={icn} className="icon-wrapper">
 			<div className="box-wrapper">
-				<kv-icon name={icn} custom-class="icon-24"></kv-icon>
+				<KvIcon name={icn} custom-class="icon-24" />
 			</div>
 			<div className="description">
 				<span className="code">{icn}</span>
@@ -39,7 +41,7 @@ All our icons and illustrations are build with [Scalable Vector Graphics (SVGs)]
 	{Object.values(EOtherIconName).map((icon) => (
 		<div key={icon} className="icon-wrapper">
 			<div className="box-wrapper">
-				<kv-icon name={icon} custom-class="icon-24"></kv-icon>
+				<KvIcon name={icon} custom-class="icon-24" />
 			</div>
 			<div className="description">
 				<span className="code">{icon}</span>
@@ -54,10 +56,10 @@ All our icons and illustrations are build with [Scalable Vector Graphics (SVGs)]
 	{Object.values(EIllustrationName).map((illustration) => (
 		<div key={illustration} className="ilus-wrapper">
 			<div className="box-wrapper">
-				<kv-illustration
+				<KvIllustration
 					name={illustration}
 					custom-class="illustration-full-size"
-				></kv-illustration>
+				/>
 			</div>
 			<div className="description">
 				<span className="code">{illustration}</span>
