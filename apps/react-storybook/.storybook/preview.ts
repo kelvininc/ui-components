@@ -3,9 +3,9 @@ import { withThemeByClassName } from "@storybook/addon-themes";
 import {
 	extractArgTypes,
 	extractComponentDescription,
-	setStencilDocJson,
-	extractArgTypesFactory
+	setStencilDocJson
 } from "@pxtrn/storybook-addon-docs-stencil";
+import { initialize, StyleMode } from "@kelvininc/ui-components";
 import docJson from "@kelvininc/ui-components/docs/docs.json";
 
 import theme from "./themes/kelvin-theme";
@@ -16,6 +16,11 @@ if (docJson) {
 		docJson as unknown as Parameters<typeof setStencilDocJson>[0]
 	);
 }
+
+initialize({
+	styleMode: StyleMode.Night,
+	baseAssetsUrl: ""
+});
 
 const preview: Preview = {
 	globalTypes: {

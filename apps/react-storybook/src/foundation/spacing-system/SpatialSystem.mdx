@@ -1,16 +1,20 @@
 import { Meta } from "@storybook/blocks";
-import styles from "./SpatialSystem.module.scss";
+import * as styles from "./SpatialSystem.module.scss";
+import { sortSpacings } from "./utils";
 
 export const REGEX = /\,(.*)\)/i;
 
 export const SPACINGS = Object.keys(styles).reduce((acc, sp) => {
+	if (!styles[sp]) {
+		return acc;
+	}
+
 	const match = styles[sp].match(REGEX);
 	 if (match) {
         acc[sp] = match[1];
     }
 
     return acc;
-
 }, {});
 
 <Meta
@@ -29,7 +33,7 @@ Our spatial system uses a 4-point grid system for sizing, spacing, and laying ou
 This makes it easy to compose all our components neatly and consistently, with no space for inconsistency.
 
 <div className={styles.SpacingContainer}>
-	{Object.keys(SPACINGS).map((sp) => (
+	{sortSpacings(Object.keys(SPACINGS)).map((sp) => (
 		<div key={sp} className={styles.SpacingWrapper}>
 			<div className={styles.BoxWrapper}>
 				<div

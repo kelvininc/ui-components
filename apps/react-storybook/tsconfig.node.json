@@ -17,6 +17,5 @@
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true
-	},
-	"include": ["svg.d.ts"]
+	}
 }

@@ -1,5 +1,8 @@
-import type { StorybookConfig } from "@storybook/react-vite";
-import { join, dirname } from "path";
+import type { StorybookConfig } from "@storybook/react-webpack5";
+import path, { join, dirname } from "path";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+
+const devMode = process.env.NODE_ENV !== "production";
 
 /**
  * This function is used to resolve the absolute path of a package.
@@ -16,11 +19,65 @@ const config: StorybookConfig = {
 		getAbsolutePath("@storybook/addon-essentials"),
 		getAbsolutePath("@storybook/addon-interactions"),
 		getAbsolutePath("@storybook/addon-themes"),
+		{
+			name: "@storybook/addon-styling-webpack",
+			options: {
+				rules: [
+					{
+						test: /\.scss$/i,
+						exclude: /\.module\.scss$/i,
+						use: [
+							devMode
+								? "style-loader"
+								: MiniCssExtractPlugin.loader,
+							{
+								loader: "css-loader",
+								options: {
+									importLoaders: 1,
+									modules: {
+										mode: "icss"
+									}
+								}
+							},
+							{
+								loader: "sass-loader"
+							}
+						]
+					},
+					{
+						test: /\.module\.scss$/i,
+						use: [
+							devMode
+								? "style-loader"
+								: MiniCssExtractPlugin.loader,
+							{
+								loader: "css-loader",
+								options: {
+									importLoaders: 1,
+									modules: {
+										mode: "local"
+									}
+								}
+							},
+							{
+								loader: "sass-loader"
+							}
+						]
+					}
+				],
+				plugins: [...(devMode ? [] : [new MiniCssExtractPlugin()])]
+			}
+		},
+		getAbsolutePath("@storybook/addon-webpack5-compiler-swc"),
 		getAbsolutePath("@pxtrn/storybook-addon-docs-stencil")
 	],
 	framework: {
-		name: getAbsolutePath("@storybook/react-vite"),
-		options: {}
+		name: getAbsolutePath("@storybook/react-webpack5"),
+		options: {
+			builder: {
+				useSWC: true,
+			},
+		}
 	},
 	staticDirs: [
 		{
@@ -29,6 +86,10 @@ const config: StorybookConfig = {
 		},
 		{
 			from: "../node_modules/@kelvininc/react-ui-components/assets",
+			to: "/"
+		},
+		{
+			from: "../public",
 			to: "/"
 		}
 	],

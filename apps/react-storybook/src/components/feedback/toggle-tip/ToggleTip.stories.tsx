@@ -2,7 +2,7 @@ import type { Meta, StoryObj, StoryFn } from '@storybook/react';
 import { EActionButtonType, ETooltipPosition, KvToggleTip, EIconName, KvIcon, KvActionButtonText } from '@kelvininc/react-ui-components';
 import { ComponentProps } from 'react';
 
-import styles from './ToggleTip.module.scss';
+import * as styles from './ToggleTip.module.scss';
 
 const ToggleTipTemplate: StoryFn<ComponentProps<typeof KvToggleTip>> = args => (
 	<KvToggleTip {...args}>
