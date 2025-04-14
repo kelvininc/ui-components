@@ -1,13 +1,30 @@
-import React, { useMemo } from 'react';
-import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
+import React, { useCallback, useMemo } from 'react';
+import { EnumOptionsType, FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 import { KvRadioListItem } from '../../../stencil-generated';
 import styles from './RadioListWidget.module.scss';
 import classNames from 'classnames';
 import { get } from 'lodash';
+import { useCurrentDirtyFieldsContext } from '../../contexts/CurrentDirtyFieldsContext';
 
-const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({ options, value, disabled, readonly, onChange }: WidgetProps<T, S, F>) => {
+const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
+	id,
+	options,
+	value,
+	disabled,
+	readonly,
+	onChange
+}: WidgetProps<T, S, F>) => {
 	const { enumOptions, enumDisabled, inline } = options;
 	const inlineMemo = useMemo(() => Boolean(inline), [inline]);
+	const { setDirty } = useCurrentDirtyFieldsContext();
+
+	const onOptionClick = useCallback(
+		(option: EnumOptionsType<S>) => {
+			onChange(option.value);
+			setDirty(id);
+		},
+		[id, onChange, setDirty]
+	);
 
 	return (
 		<div className={classNames(styles.RadioListContainer, { [styles.Inline]: inlineMemo })}>
@@ -26,7 +43,7 @@ const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends F
 							disabled={isDisabled}
 							checked={checked}
 							description={description}
-							onOptionClick={(_value: unknown) => onChange(option.value)}
+							onOptionClick={(_value: unknown) => onOptionClick(option)}
 						/>
 					);
 				})}

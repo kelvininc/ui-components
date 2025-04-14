@@ -6,6 +6,7 @@ import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../stencil-
 import styles from './SelectWidget.module.scss';
 import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, searchDropdownOptions } from './utils';
 import { DEFAULT_DROPDOWN_CONFIG, DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
+import { useCurrentDirtyFieldsContext } from '../../contexts/CurrentDirtyFieldsContext';
 
 const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	schema,
@@ -38,6 +39,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		componentSize: optionComponentSize,
 		multiSubOptions
 	} = uiSchema;
+	const { isDirty, setDirty } = useCurrentDirtyFieldsContext();
 	const { componentSize = EComponentSize.Large, dropdownConfig = DEFAULT_DROPDOWN_CONFIG } = formContext as F;
 	const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
@@ -54,19 +56,30 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	const processedValue = processValue(schema, value);
 
 	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => setSearchTerm(searchedLabel), []);
-	const onChangeOptionSelected = useCallback(({ detail: selectedOption }: CustomEvent<string>) => {
-		onChangeValue(selectedOption);
-	}, []);
-	const onChangeOptionsSelected = useCallback(({ detail: selectedOptionsMap }: CustomEvent<{ [key: string]: boolean }>) => {
-		const selectedOptions = getSelectedOptions(selectedOptionsMap);
-		onChangeValue(selectedOptions);
-	}, []);
-	const onChangeValue = useCallback(newValue => {
-		const processedValue = processValue(schema, newValue);
-		onChange(processedValue);
-	}, []);
+	const onChangeValue = useCallback(
+		newValue => {
+			const processedValue = processValue(schema, newValue);
+			onChange(processedValue);
+			setDirty(id);
+		},
+		[onChange, setDirty, id, schema]
+	);
 
-	const hasErrors = useMemo(() => !isEmpty(rawErrors), [rawErrors]);
+	const onChangeOptionSelected = useCallback(
+		({ detail: selectedOption }: CustomEvent<string>) => {
+			onChangeValue(selectedOption);
+		},
+		[onChangeValue]
+	);
+	const onChangeOptionsSelected = useCallback(
+		({ detail: selectedOptionsMap }: CustomEvent<{ [key: string]: boolean }>) => {
+			const selectedOptions = getSelectedOptions(selectedOptionsMap);
+			onChangeValue(selectedOptions);
+		},
+		[onChangeValue]
+	);
+
+	const hasErrors = useMemo(() => isDirty(id) && !isEmpty(rawErrors), [id, rawErrors]);
 
 	const props = {
 		id,

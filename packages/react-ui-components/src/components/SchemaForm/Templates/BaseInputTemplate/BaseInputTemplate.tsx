@@ -6,6 +6,7 @@ import styles from './BaseInputTemplate.module.scss';
 import { BaseInputTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import { INPUT_TYPES } from './BaseInputTemplate.config';
 import { JSONSchema7TypeName } from 'json-schema';
+import { useCurrentDirtyFieldsContext } from '../../contexts/CurrentDirtyFieldsContext';
 
 const getInputType = (type?: JSONSchema7TypeName | JSONSchema7TypeName[]) => (type && !isArray(type) ? INPUT_TYPES[type] ?? EInputFieldType.Text : EInputFieldType.Text);
 
@@ -25,7 +26,14 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 	formContext,
 	type
 }: BaseInputTemplateProps<T, S, F>) => {
-	const _onChange = useCallback((value: CustomEvent<string>) => onChange(value?.detail ? value.detail : options.emptyValue), [onChange, options]);
+	const { isDirty, setDirty } = useCurrentDirtyFieldsContext();
+	const _onChange = useCallback(
+		(value: CustomEvent<string>) => {
+			setDirty(id);
+			onChange(value?.detail ? value.detail : options.emptyValue);
+		},
+		[onChange, setDirty, options, formContext, id]
+	);
 	const _onBlur = useCallback((value: CustomEvent<string>) => onBlur(id, value.detail), [onBlur, id]);
 	const inputType = useMemo(() => type ?? getInputType(schema.type), [type, schema.type]);
 	const { componentSize: optionComponentSize, useInputMask, inputMaskRegex, minLength, maxLength, max, min, valuePrefix, badge } = uiSchema;
@@ -52,7 +60,7 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 				forcedFocus={autofocus}
 				placeholder={placeholder}
 				type={inputType}
-				state={hasErrors ? EValidationState.Invalid : EValidationState.Valid}
+				state={isDirty(id) && hasErrors ? EValidationState.Invalid : EValidationState.Valid}
 				useInputMask={useInputMask}
 				inputMaskRegex={inputMaskRegex}
 				value={value || value === 0 ? value : ''}

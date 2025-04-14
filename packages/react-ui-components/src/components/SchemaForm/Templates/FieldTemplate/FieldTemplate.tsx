@@ -7,6 +7,7 @@ import styles from './FieldTemplate.module.scss';
 import buildDefaultHelperText from './utils';
 import { EDescriptionPosition } from '../../types';
 import classNames from 'classnames';
+import { useCurrentDirtyFieldsContext } from '../../contexts/CurrentDirtyFieldsContext';
 
 const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: FieldTemplateProps<T, S, F>) => {
 	const {
@@ -36,6 +37,7 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 		[]
 	);
 	const title = get(uiSchema, ['ui:title'], schema.title ?? label);
+	const { isDirty } = useCurrentDirtyFieldsContext();
 
 	return (
 		<WrapIfAdditionalTemplate
@@ -56,11 +58,11 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 					<TitleFieldTemplate id={`${id}-title`} title={title} schema={schema} uiSchema={uiSchema} registry={registry} required={required && schema.type !== 'object'} />
 				)}
 				{descriptionPosition === EDescriptionPosition.Bottom && children}
-				{(!isEmpty(rawErrors) || rawDescription) && (
+				{((isDirty(id) && !isEmpty(rawErrors)) || rawDescription) && (
 					<div className={classNames({ [styles.TopDescription]: descriptionPosition === EDescriptionPosition.Top })}>
 						<KvFormHelpText
-							helpText={isEmpty(rawErrors) ? rawDescription : rawErrors}
-							state={isEmpty(rawErrors) ? EValidationState.None : EValidationState.Invalid}
+							helpText={isDirty(id) && !isEmpty(rawErrors) ? rawErrors : rawDescription}
+							state={isDirty(id) && !isEmpty(rawErrors) ? EValidationState.Invalid : EValidationState.None}
 						></KvFormHelpText>
 					</div>
 				)}

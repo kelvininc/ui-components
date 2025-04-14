@@ -8,6 +8,7 @@ import { get, isEmpty } from 'lodash';
 import classNames from 'classnames';
 import { FileInfoType } from './types';
 import { extractFileInfo, processFiles } from './utils';
+import { useCurrentDirtyFieldsContext } from '../../contexts/CurrentDirtyFieldsContext';
 
 function FileActions({ fileInfo, onDelete, preview = false }: { fileInfo: FileInfoType; onDelete: (filename: string) => void; preview?: boolean }) {
 	const { dataURL, name } = fileInfo;
@@ -77,12 +78,12 @@ function FilesInfo({
  *  It is typically used with a string property with data-url format.
  */
 function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: WidgetProps<T, S, F>) {
-	const { disabled, readonly, required, multiple, onChange, value, options, uiSchema, schema, label, name, rawErrors = [] } = props;
+	const { id, disabled, readonly, required, multiple, onChange, value, options, uiSchema, schema, label, name, rawErrors = [] } = props;
 
 	const [filesInfo, setFilesInfo] = useState<FileInfoType[]>(extractFileInfo(value));
 
 	const displayedLabel = useMemo(() => get(uiSchema, ['ui:title']) || schema.title || label, [uiSchema, schema.title, label]);
-
+	const { isDirty, setDirty } = useCurrentDirtyFieldsContext();
 	const removeFile = useCallback(
 		(filename: string) => {
 			const newValue = filesInfo.filter(fileInfo => fileInfo.name !== filename);
@@ -111,19 +112,20 @@ function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends 
 					setFilesInfo(filesInfoEvent);
 					onChange(newValue[0]);
 				}
+				setDirty(id);
 			});
 		},
-		[multiple, value, filesInfo, onChange]
+		[id, multiple, value, filesInfo, onChange, setDirty]
 	);
 
 	return (
 		<div className={styles.FileWidgetContainer}>
 			<div className={styles.FilesInfo}>
-				<FilesInfo filesInfo={filesInfo} displayLabel={displayedLabel} preview={options.filePreview} hasError={!isEmpty(rawErrors)} onDelete={removeFile} />
+				<FilesInfo filesInfo={filesInfo} displayLabel={displayedLabel} preview={options.filePreview} hasError={isDirty(id) && !isEmpty(rawErrors)} onDelete={removeFile} />
 			</div>
 			<div className={styles.BrowseFilesButton}>
 				<label htmlFor={`file_${name}`}>
-					<KvActionButtonText type={EActionButtonType.Tertiary} size={EComponentSize.Small} text="Browse File" disabled={disabled}></KvActionButtonText>
+					<KvActionButtonText type={EActionButtonType.Tertiary} size={EComponentSize.Small} text="Browse File" disabled={disabled} />
 				</label>
 				<input
 					id={`file_${name}`}
