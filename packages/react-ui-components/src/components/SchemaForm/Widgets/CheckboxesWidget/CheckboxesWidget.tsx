@@ -4,8 +4,10 @@ import React, { useCallback, useMemo } from 'react';
 import { buildToggleButtons, buildSelectedToggleButtons, toggleSelectedOptions, buildDisabledToggleButtons, getComponentSize } from './utils';
 import { ICheckboxConfig } from './types';
 import { isEmpty } from 'lodash';
+import { useCurrentDirtyFieldsContext } from '../../contexts/CurrentDirtyFieldsContext';
 
 const CheckboxesWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
+	id,
 	schema,
 	options,
 	disabled,
@@ -14,6 +16,7 @@ const CheckboxesWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends 
 	readonly,
 	onChange
 }: WidgetProps<T, S, F>) => {
+	const { setDirty } = useCurrentDirtyFieldsContext();
 	const { enumOptions, enumDisabled, allButton, componentSize, withRadio } = options;
 	const { maxItems, minItems } = schema;
 
@@ -42,9 +45,10 @@ const CheckboxesWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends 
 	const onCheckedChange = useCallback(
 		({ detail: selectedOptionValue }: CustomEvent<string>) => {
 			const newValue = toggleSelectedOptions(selectedOptionValue, selectedOptions, allOptions, config);
+			setDirty(id);
 			onChange(isEmpty(newValue) ? undefined : newValue);
 		},
-		[selectedOptions, allOptions, config]
+		[id, selectedOptions, allOptions, config, setDirty, onChange]
 	);
 
 	return (

@@ -12,6 +12,7 @@ import styles from './SchemaForm.module.scss';
 import { generateTheme } from './Theme';
 import { EApplyDefaults, SchemaFormContext, SchemaFormProps } from './types';
 import { buildDefaultFormStateBehavior, getDefaultValidator, getInitialFormData } from '../../utils';
+import { CurrentDirtyFieldsContextProvider } from './contexts/CurrentDirtyFieldsContext';
 
 // Custom Theme
 export function generateForm<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(): ComponentType<FormProps<T, S, F>> {
@@ -38,7 +39,7 @@ const CustomFormWithRef = typedMemo(
 	(previousProps, nextProps) => deepEquals(previousProps, nextProps)
 );
 
-export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
+function Component<T, S extends StrictRJSFSchema = RJSFSchema>({
 	customClass,
 	liveValidate,
 	formData: formDataProp,
@@ -179,4 +180,10 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	);
 }
 
-export default KvSchemaForm;
+export const KvSchemaForm = function KvSchemaFormWrapper<T, S extends StrictRJSFSchema = RJSFSchema>(props: SchemaFormProps<T, S, SchemaFormContext>) {
+	return (
+		<CurrentDirtyFieldsContextProvider initialDirtyFields={props.formContext?.dirtyFields}>
+			<Component {...props} />
+		</CurrentDirtyFieldsContextProvider>
+	);
+};
