@@ -1,4 +1,4 @@
-import { Component, Host, Element, h, Event, State, Fragment, Listen, EventEmitter, Method, Prop } from '@stencil/core';
+import { Component, Host, Element, h, Event, State, Fragment, Listen, EventEmitter, Method, Prop, Watch } from '@stencil/core';
 import { EActionButtonType } from '../action-button/action-button.types';
 import { EIconName } from '../icon/icon.types';
 import { DEFAULT_MAX_LENGTH, DELAYED_BLUR_MS } from './inline-editable-field.config';
@@ -81,6 +81,15 @@ export class KvInlineEditableField {
 		}
 	}
 
+	@Watch('disabled')
+	handleDisableChange(state) {
+		if (state) {
+			this.destroyEditableContent();
+		} else {
+			this.initializeEditableContent();
+		}
+	}
+
 	private discardContent = () => {
 		this.slotEl.innerText = this.value;
 	};
@@ -138,6 +147,16 @@ export class KvInlineEditableField {
 		this.slotEl.addEventListener('input', this.checkSaveBtnDisabled);
 	}
 
+	private destroyEditableContent() {
+		if (!this.slotEl) return;
+
+		this.slotEl.classList.remove('inline-editable-field-slot');
+		this.slotEl.removeAttribute('contenteditable');
+		this.slotEl.removeEventListener('blur', this.handleBlur);
+		this.slotEl.removeEventListener('focus', this.handleFocus);
+		this.slotEl.removeEventListener('input', this.checkSaveBtnDisabled);
+	}
+
 	connectedCallback() {
 		if (this.disabled) {
 			return;
@@ -149,6 +168,10 @@ export class KvInlineEditableField {
 
 		this.slotEl = this.el.children[0] as HTMLElement;
 		this.initializeEditableContent();
+	}
+
+	disconnectedCallback() {
+		this.destroyEditableContent();
 	}
 
 	render() {
