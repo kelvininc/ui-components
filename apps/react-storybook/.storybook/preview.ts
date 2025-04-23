@@ -77,7 +77,7 @@ const preview: Preview = {
 			theme,
 			extractComponentDescription: (component) => {
 				const displayName =
-					component.displayName || component.render.displayName;
+					component?.displayName || component?.render?.displayName;
 
 				if (!displayName) {
 					return null;
@@ -89,7 +89,7 @@ const preview: Preview = {
 			},
 			extractArgTypes: (component) => {
 				const displayName =
-					component.displayName || component.render.displayName;
+					component?.displayName || component?.render?.displayName;
 
 				if (!displayName) {
 					return null;
