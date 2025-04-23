@@ -9,7 +9,7 @@ import path from 'path';
 const SYMBOLS_FILE_NAME = 'svg-symbols.svg';
 const PWD_REACT_LIB = '/node_modules/@kelvininc/react-ui-components/';
 
-let assetsDirPath = './assets';
+let assetsDirPath = './dist/assets';
 let publicDirPath = '../../../public';
 
 if (process.env.CUSTOM_INST === 'true') {
