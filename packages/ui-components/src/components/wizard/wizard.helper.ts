@@ -16,7 +16,7 @@ export const buildHeaderConfig = (steps?: IWizardStep[], currentStep?: number): 
 	};
 };
 
-export const buildFooterConfig = (steps?: IWizardStep[], currentStep?: number, currentStepState?: EStepState): IWizardFooter => {
+export const buildFooterConfig = (steps?: IWizardStep[], currentStep?: number, currentStepState?: EStepState, disabled = false): IWizardFooter => {
 	if (isEmpty(steps) || isNil(currentStep) || currentStep < 0 || currentStep > steps.length - 1) {
 		return null;
 	}
@@ -24,7 +24,7 @@ export const buildFooterConfig = (steps?: IWizardStep[], currentStep?: number, c
 	const stepsConfig: IStepBarStep[] = steps.map((step, index) => {
 		return {
 			stepKey: step.title,
-			enabled: (index === currentStep + 1 && currentStepState === EStepState.Success) || (index < currentStep && steps[index + 1].allowGoBack),
+			enabled: !disabled && ((index === currentStep + 1 && currentStepState === EStepState.Success) || (index < currentStep && steps[index + 1].allowGoBack)),
 			active: index <= currentStep,
 			hasError: index === currentStep && currentStepState === EStepState.Error
 		};
@@ -35,13 +35,13 @@ export const buildFooterConfig = (steps?: IWizardStep[], currentStep?: number, c
 		currentStep,
 		hasError: false,
 		showPrevBtn: steps[currentStep].allowGoBack ?? false,
-		prevEnabled: currentStep > 0,
+		prevEnabled: !disabled && currentStep > 0,
 		showNextBtn: currentStep < steps.length - 1,
-		nextEnabled: currentStepState === EStepState.Success,
+		nextEnabled: !disabled && currentStepState === EStepState.Success,
 		showCancelBtn: steps[currentStep].cancelable ?? false,
 		cancelEnabled: true,
 		showCompleteBtn: currentStep === steps.length - 1,
-		completeEnabled: currentStepState === EStepState.Success,
+		completeEnabled: !disabled && currentStepState === EStepState.Success,
 		progressPercentage: currentStep * (100 / (steps.length - 1))
 	};
 };
