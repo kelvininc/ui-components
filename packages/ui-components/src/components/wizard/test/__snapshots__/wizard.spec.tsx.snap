@@ -23,7 +23,7 @@ exports[`Wizard (unit tests) when current step don't have state should match the
 `;
 
 exports[`Wizard (unit tests) when current step have errors should match the snapshot 1`] = `
-<kv-wizard current-step="1" current-step-state="error" show-header="" show-step-bar="">
+<kv-wizard current-step="1" show-header="" show-step-bar="">
   <template shadowrootmode="open">
     <div class="wizard">
       <div class="wizard-header">
@@ -35,7 +35,7 @@ exports[`Wizard (unit tests) when current step have errors should match the snap
         <slot name="step-content"></slot>
       </div>
       <div class="wizard-footer">
-        <kv-wizard-footer cancelenabled="" currentstep="1" exportparts="footer-actions-container" prevenabled="" progresspercentage="50" shownextbtn="" showprevbtn="" showstepbar="">
+        <kv-wizard-footer cancelenabled="" completetooltip="Unable to proceed to the next step" currentstep="1" exportparts="footer-actions-container" nexttooltip="Unable to proceed to the next step" prevenabled="" progresspercentage="50" shownextbtn="" showprevbtn="" showstepbar="">
           <slot name="additional-actions" slot="additional-actions"></slot>
         </kv-wizard-footer>
       </div>
@@ -45,7 +45,7 @@ exports[`Wizard (unit tests) when current step have errors should match the snap
 `;
 
 exports[`Wizard (unit tests) when current step have success state should match the snapshot 1`] = `
-<kv-wizard current-step="1" current-step-state="success" show-header="" show-step-bar="">
+<kv-wizard current-step="1" show-header="" show-step-bar="">
   <template shadowrootmode="open">
     <div class="wizard">
       <div class="wizard-header">
@@ -67,7 +67,7 @@ exports[`Wizard (unit tests) when current step have success state should match t
 `;
 
 exports[`Wizard (unit tests) when current step is the first one should match the snapshot 1`] = `
-<kv-wizard current-step="0" current-step-state="success" show-header="" show-step-bar="">
+<kv-wizard current-step="0" show-header="" show-step-bar="">
   <template shadowrootmode="open">
     <div class="wizard">
       <div class="wizard-header">
@@ -89,7 +89,7 @@ exports[`Wizard (unit tests) when current step is the first one should match the
 `;
 
 exports[`Wizard (unit tests) when current step is the last one should match the snapshot 1`] = `
-<kv-wizard complete-btn-label="Deploy" current-step="2" current-step-state="success" show-header="" show-step-bar="">
+<kv-wizard complete-btn-label="Deploy" current-step="2" show-header="" show-step-bar="">
   <template shadowrootmode="open">
     <div class="wizard">
       <div class="wizard-header">
