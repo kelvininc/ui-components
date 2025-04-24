@@ -1,4 +1,4 @@
-import { Component, Host, Prop, h } from "@stencil/core";
+import { Component, Host, Prop, h } from '@stencil/core';
 
 @Component({
 	tag: 'kv-loader',
@@ -14,10 +14,12 @@ export class KvLoader {
 	render() {
 		return (
 			<Host>
-				{ this.isLoading && <div class="loader-container">
-						{ this.hasOverlay && <div class="overlay"></div> }
+				{this.isLoading && (
+					<div class="loader-container">
+						{this.hasOverlay && <div class="overlay"></div>}
 						<div class="loader"></div>
-				</div> }
+					</div>
+				)}
 			</Host>
 		);
 	}

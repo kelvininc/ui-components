@@ -2,7 +2,7 @@ import { Component, Event, EventEmitter, Prop, h, State, Watch } from '@stencil/
 import { IWizardFooter } from '../wizard-footer/wizard-footer.types';
 import { IWizardHeader } from '../wizard-header/wizard-header.types';
 import { buildFooterConfig, buildHeaderConfig } from './wizard.helper';
-import { EStepState, IWizard, IWizardEvents, IWizardStep } from './wizard.types';
+import { IWizard, IWizardEvents, IWizardStep, StepState } from './wizard.types';
 
 @Component({
 	tag: 'kv-wizard',
@@ -15,7 +15,7 @@ export class KvWizard implements IWizard, IWizardEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) currentStep!: number;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) currentStepState?: EStepState;
+	@Prop({ reflect: true }) currentStepState?: StepState;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) showHeader: boolean = true;
 	/** @inheritdoc */
@@ -51,7 +51,7 @@ export class KvWizard implements IWizard, IWizardEvents {
 	}
 	/** Watch the `currentStepState` property and update internal state accordingly */
 	@Watch('currentStepState')
-	hasErrorStepChangeHandler(newValue: EStepState) {
+	hasErrorStepChangeHandler(newValue: StepState) {
 		this.currentFooter = buildFooterConfig(this.steps, this.currentStep, newValue, this.disabled);
 	}
 

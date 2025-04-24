@@ -1,6 +1,7 @@
 import { Component, Event, EventEmitter, Host, Prop, h } from '@stencil/core';
 import { IWizardFooter, IWizardFooterEvents } from './wizard-footer.types';
-import { EActionButtonType, IStepBarStep } from '../../types';
+import { EActionButtonType, ETooltipPosition, IStepBarStep } from '../../types';
+import { TOOLTIP_CUSTOM_STYLE } from './wizard-footer.config';
 
 /**
  * @part footer-actions-container - the container of footer stepper and additional actions
@@ -32,7 +33,11 @@ export class KvWizardFooter implements IWizardFooter, IWizardFooterEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) nextEnabled: boolean = true;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) nextTooltip?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) completeEnabled: boolean;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) completeTooltip?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) showCancelBtn: boolean;
 	/** @inheritdoc */
@@ -99,14 +104,20 @@ export class KvWizardFooter implements IWizardFooter, IWizardFooterEvents {
 						{this.showPrevBtn && (
 							<kv-action-button-text type={EActionButtonType.Tertiary} text="Previous" disabled={!this.prevEnabled} onClickButton={this.onPrevClick} />
 						)}
-						{this.showNextBtn && <kv-action-button-text type={EActionButtonType.Primary} text="Next" disabled={!this.nextEnabled} onClickButton={this.onNextClick} />}
+						{this.showNextBtn && (
+							<kv-tooltip position={ETooltipPosition.TopEnd} text={this.nextTooltip} customStyle={TOOLTIP_CUSTOM_STYLE}>
+								<kv-action-button-text type={EActionButtonType.Primary} text="Next" disabled={!this.nextEnabled} onClickButton={this.onNextClick} />
+							</kv-tooltip>
+						)}
 						{this.showCompleteBtn && (
-							<kv-action-button-text
-								type={EActionButtonType.Primary}
-								text={this.completeBtnLabel}
-								disabled={!this.completeEnabled}
-								onClickButton={this.onCompleteClick}
-							/>
+							<kv-tooltip position={ETooltipPosition.TopEnd} text={this.completeTooltip} customStyle={TOOLTIP_CUSTOM_STYLE}>
+								<kv-action-button-text
+									type={EActionButtonType.Primary}
+									text={this.completeBtnLabel}
+									disabled={!this.completeEnabled}
+									onClickButton={this.onCompleteClick}
+								/>
+							</kv-tooltip>
 						)}
 					</div>
 				</div>
