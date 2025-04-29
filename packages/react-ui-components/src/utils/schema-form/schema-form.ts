@@ -2,7 +2,12 @@ import { Experimental_DefaultFormStateBehavior, FormContextType, getDefaultFormS
 import { SchemaFormContext } from '../../components';
 import { customizeValidator, CustomValidatorOptionsType } from '@rjsf/validator-ajv8';
 import { EApplyDefaults } from '../../components/SchemaForm/types';
-import { APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_ARRAY, APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_OBJECT } from './config';
+import {
+	APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_ALL_OFF,
+	APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_ARRAY,
+	APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_CONST_AS_DEFAULT,
+	APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_OBJECT
+} from './config';
 
 export const getInitialFormData = <T, S extends StrictRJSFSchema = RJSFSchema>(
 	schema: S,
@@ -29,11 +34,16 @@ export const getDefaultValidator = <T, S extends StrictRJSFSchema = RJSFSchema, 
 export const buildDefaultFormStateBehavior = (applyDefaults: EApplyDefaults): Experimental_DefaultFormStateBehavior => {
 	const emptyObjectFields = APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_OBJECT[applyDefaults];
 	const populate = APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_ARRAY[applyDefaults];
+	const constAsDefaults = APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_CONST_AS_DEFAULT[applyDefaults];
+	const allOf = APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_ALL_OFF[applyDefaults];
 
 	return {
 		arrayMinItems: {
 			populate
 		},
-		emptyObjectFields
+		emptyObjectFields,
+		allOf,
+		mergeDefaultsIntoFormData: 'useFormDataIfPresent',
+		constAsDefaults
 	};
 };
