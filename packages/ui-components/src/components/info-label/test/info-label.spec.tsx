@@ -29,6 +29,7 @@ describe('Info Label (unit tests)', () => {
 							description-height="34"
 							description-collapsed-text="Read more"
 							description-opened-text="Read less"
+							show-text-shadow="true"
 						/>`
 			});
 		});
