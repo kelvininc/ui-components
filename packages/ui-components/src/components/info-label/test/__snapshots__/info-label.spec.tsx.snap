@@ -7,6 +7,11 @@ exports[`Info Label (unit tests) when renders with a component should match the 
       <div class="no-description title" part="title">
         DESCRIPTION
       </div>
+      <div class="description-wrapper" style="height: nullpx;">
+        <div class="description">
+          <slot></slot>
+        </div>
+      </div>
     </div>
   </template>
   <kv-tag-letter label="Test" tag-letter="T">
@@ -35,13 +40,14 @@ exports[`Info Label (unit tests) when renders with copy values props should matc
       </div>
       <div class="description-wrapper" style="height: nullpx;">
         <div class="description">
-          <div class="text">
-            data-model
-          </div>
-          <kv-tooltip position="top" text="Copy">
-            <kv-icon class="copy-icon" name="kv-copy"></kv-icon>
-          </kv-tooltip>
-          <slot></slot>
+          <slot>
+            <div class="text">
+              data-model
+            </div>
+            <kv-tooltip position="top" text="Copy">
+              <kv-icon class="copy-icon" name="kv-copy"></kv-icon>
+            </kv-tooltip>
+          </slot>
         </div>
       </div>
     </div>
@@ -50,7 +56,7 @@ exports[`Info Label (unit tests) when renders with copy values props should matc
 `;
 
 exports[`Info Label (unit tests) when renders with description and read more stuffs should match the snapshot 1`] = `
-<kv-info-label description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." description-collapsed-text="Read more" description-height="34" description-opened-text="Read less" label-title="DESCRIPTION">
+<kv-info-label description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." description-collapsed-text="Read more" description-height="34" description-opened-text="Read less" label-title="DESCRIPTION" show-text-shadow="true">
   <template shadowrootmode="open">
     <div class="info-label">
       <div class="title" part="title">
@@ -58,10 +64,11 @@ exports[`Info Label (unit tests) when renders with description and read more stu
       </div>
       <div class="description-wrapper" style="height: nullpx;">
         <div class="description">
-          <div class="text">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-          </div>
-          <slot></slot>
+          <slot>
+            <div class="text">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            </div>
+          </slot>
         </div>
       </div>
     </div>
@@ -72,7 +79,13 @@ exports[`Info Label (unit tests) when renders with description and read more stu
 exports[`Info Label (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-info-label description-collapsed-text="Read more" description-opened-text="Read less" label-text="Default">
   <template shadowrootmode="open">
-    <div class="info-label"></div>
+    <div class="info-label">
+      <div class="description-wrapper" style="height: nullpx;">
+        <div class="description">
+          <slot></slot>
+        </div>
+      </div>
+    </div>
   </template>
 </kv-info-label>
 `;
