@@ -18,6 +18,8 @@ export interface IWizard {
 	showHeader?: boolean;
 	/** (optional) Defines if the step bar should render. Default: true */
 	showStepBar?: boolean;
+	/** (optional) Defines if the wizard navigation is disabled. Default: false */
+	disabled?: boolean;
 	/** (optional) A label to show on the last step button. Default: 'Submit' */
 	completeBtnLabel?: string;
 }
