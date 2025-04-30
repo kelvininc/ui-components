@@ -2,9 +2,9 @@ import { EventEmitter } from '@stencil/core';
 import { EComponentSize } from '../../types';
 import { EIconName, EOtherIconName } from '../icon/icon.types';
 
-export interface IToggleButton {
+export interface IToggleButton<T = string | number> {
 	/** (required) The value to be emitted upon click events */
-	value: string;
+	value: T;
 	/** (optional) The button's icon. Only valid for toggle button icon */
 	icon?: EIconName | EOtherIconName;
 	/** (optional) The button's label. Only valid for toggle button text */
@@ -21,7 +21,7 @@ export interface IToggleButton {
 	size?: EComponentSize;
 }
 
-export interface IToggleButtonEvents {
+export interface IToggleButtonEvents<T = string | number> {
 	/** Emits when a button is clicked */
-	checkedChange: EventEmitter<string>;
+	checkedChange: EventEmitter<T>;
 }
