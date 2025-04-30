@@ -1,6 +1,6 @@
 import { asNumber, guessType } from '@rjsf/utils';
 import { JSONSchema7 } from 'json-schema';
-import { get, isEmpty, isString } from 'lodash';
+import { get, isEmpty, isNil, isString } from 'lodash';
 import { EnumOptions, IUIDropdownOptions } from './types';
 
 const numericTypes = ['number', 'integer'];
@@ -13,12 +13,12 @@ export const processValue = (schema: JSONSchema7, value: any) => {
 	// "enum" is a reserved word, so only "type" and "items" can be destructured
 	const { type, items } = schema;
 	const itemsType = get(items, 'type');
-	if (value === '') {
+	if (value === '' || isNil(value)) {
 		return undefined;
 	} else if (type === 'array' && items && isString(itemsType) && numericTypes.includes(itemsType)) {
 		return value.map(asNumber);
 	} else if (type === 'boolean') {
-		return value === 'true';
+		return value === true || value === 'true';
 	} else if (type === 'number') {
 		return asNumber(value);
 	}

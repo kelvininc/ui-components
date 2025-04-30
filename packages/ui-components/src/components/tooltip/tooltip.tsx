@@ -9,6 +9,7 @@ import { isEmpty } from 'lodash-es';
 import { getClassMap } from '../../utils/css-class.helper';
 import { mergeComputePositionConfigs } from '../../utils/floating-ui.helper';
 import { TOOLTIP_Z_INDEX } from '../../globals/config';
+import { HostAttributes } from '@stencil/core/internal';
 
 /**
  * @part content - The tooltip content.
@@ -38,6 +39,8 @@ export class KvTooltip implements ITooltip {
 	@Prop({ reflect: true }) withArrow: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customStyle?: HostAttributes['style'];
 
 	/** The Host's element reference */
 	@Element() el: HTMLKvTooltipElement;
@@ -103,7 +106,7 @@ export class KvTooltip implements ITooltip {
 						reference={this.getContentElement()}
 						options={this.getOptions()}
 					>
-						<kv-tooltip-text class={{ ...getClassMap(this.customClass) }} text={this.text} />
+						<kv-tooltip-text class={{ ...getClassMap(this.customClass) }} text={this.text} style={this.customStyle} />
 					</kv-portal>
 				)}
 			</Host>

@@ -69,7 +69,7 @@ describe('Wizard (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvWizard],
-				template: () => <kv-wizard steps={MOCK_STEPS} currentStep={1} currentStepState={EStepState.Error} />
+				template: () => <kv-wizard steps={MOCK_STEPS} currentStep={1} currentStepState={{ state: EStepState.Error, error: 'Unable to proceed to the next step' }} />
 			});
 			comp = page.rootInstance;
 		});
@@ -113,10 +113,12 @@ describe('Wizard (unit tests)', () => {
 				prevEnabled: true,
 				showNextBtn: true,
 				nextEnabled: false,
+				nextTooltip: 'Unable to proceed to the next step',
 				showCancelBtn: false,
 				cancelEnabled: true,
 				showCompleteBtn: false,
 				completeEnabled: false,
+				completeTooltip: 'Unable to proceed to the next step',
 				progressPercentage: 50
 			});
 		});
@@ -126,7 +128,7 @@ describe('Wizard (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvWizard],
-				template: () => <kv-wizard steps={MOCK_STEPS} currentStep={1} currentStepState={EStepState.Success} />
+				template: () => <kv-wizard steps={MOCK_STEPS} currentStep={1} currentStepState={{ state: EStepState.Success }} />
 			});
 			comp = page.rootInstance;
 		});
@@ -216,7 +218,7 @@ describe('Wizard (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvWizard],
-				template: () => <kv-wizard steps={MOCK_STEPS} currentStep={0} currentStepState={EStepState.Success} />
+				template: () => <kv-wizard steps={MOCK_STEPS} currentStep={0} currentStepState={{ state: EStepState.Success }} />
 			});
 			comp = page.rootInstance;
 		});
@@ -273,7 +275,7 @@ describe('Wizard (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvWizard],
-				template: () => <kv-wizard steps={MOCK_STEPS} currentStep={2} currentStepState={EStepState.Success} completeBtnLabel="Deploy" />
+				template: () => <kv-wizard steps={MOCK_STEPS} currentStep={2} currentStepState={{ state: EStepState.Success }} completeBtnLabel="Deploy" />
 			});
 			comp = page.rootInstance;
 		});

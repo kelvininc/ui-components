@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { KvWizard, EStepState } from '@kelvininc/react-ui-components';
 import { action } from '@storybook/addon-actions';
-import { useState } from 'react';
+import { ComponentProps, useState } from 'react';
 
 const meta = {
 	title: 'Navigation/Wizard',
@@ -54,7 +54,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const DEFAULT_ARGS = {
+const DEFAULT_ARGS: ComponentProps<typeof KvWizard> = {
 	steps: [
 		{
 			title: 'Info',
@@ -73,7 +73,7 @@ const DEFAULT_ARGS = {
 	currentStep: 1,
 	showStepBar: true,
 	completeBtnLabel: 'Deploy',
-	currentStepState: EStepState.Success
+	currentStepState: { state: EStepState.Success }
 };
 
 export const SuccessState: Story = {
@@ -85,7 +85,8 @@ export const SuccessState: Story = {
 export const ErrorState: Story = {
 	args: {
 		...DEFAULT_ARGS,
-		currentStepState: EStepState.Error
+		// currentStepState: { state: EStepState.Error, error: 'Unable to proceed to the next step' }
+		currentStepState: { state: EStepState.Error, error: 'The selected app version is missing some app settings required so you are able to add assets. Select other app version in order to proceed.' }
 	}
 }
 
