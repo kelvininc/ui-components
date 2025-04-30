@@ -17,7 +17,7 @@ import { IToggleButton, IToggleButtonEvents } from './toggle-button.types';
 })
 export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	/** @inheritdoc */
-	@Prop({ reflect: true }) value!: string;
+	@Prop({ reflect: true }) value!: string | number;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
@@ -34,7 +34,7 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	@Prop({ reflect: true }) withRadio?: boolean = false;
 
 	/** @inheritdoc */
-	@Event() checkedChange: EventEmitter<string>;
+	@Event() checkedChange: EventEmitter<string | number>;
 
 	private clickThrottler: (e: MouseEvent) => void;
 	private onCheck = () => {
