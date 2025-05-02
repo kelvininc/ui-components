@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.46.0](https://github.com/kelvininc/ui-components/compare/v0.45.0...v0.46.0) (2025-05-02)
+
+
+### Bug Fixes
+
+* **schema-form:** fix apply defaults ([e62205d](https://github.com/kelvininc/ui-components/commit/e62205da41410a51123c2aa1c84af6f7ccf4bb3a))
+* **SchemaForm:** select widget for boolean types pre-select falsy value always ([a7fc32d](https://github.com/kelvininc/ui-components/commit/a7fc32dbdf4eb346cd1058e10aa1a1522d7f6d15))
+* update assets location folder in copy-icons script ([2d7b3e4](https://github.com/kelvininc/ui-components/commit/2d7b3e4f949816ca4cb0a29c68883a24ca34b77f))
+
+
+### Features
+
+* upgrade stencil version ([69f9552](https://github.com/kelvininc/ui-components/commit/69f9552785fa71aca23dc2a47115698460d36fa3))
+
+
+
+
+
 # [0.45.0](https://github.com/kelvininc/ui-components/compare/v0.44.0...v0.45.0) (2025-03-19)
 
 

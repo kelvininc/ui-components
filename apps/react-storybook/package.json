@@ -1,7 +1,7 @@
 {
 	"name": "@kelvininc/react-storybook",
 	"private": true,
-	"version": "0.0.0",
+	"version": "0.46.0",
 	"type": "module",
 	"scripts": {
 		"clean": "pnpm clean:modules",

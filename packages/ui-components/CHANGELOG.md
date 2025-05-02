@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.46.0](https://github.com/kelvininc/ui-components/compare/v0.45.0...v0.46.0) (2025-05-02)
+
+
+### Bug Fixes
+
+* adds bookmark icon ([47b0a04](https://github.com/kelvininc/ui-components/commit/47b0a04a9009e1f6bb717d19b8c3307097fb1d0d))
+* **editable-inline:** watchs disable state to destroy previous state ([0ba3a7f](https://github.com/kelvininc/ui-components/commit/0ba3a7f3bf0e6c0893b0c8db4c6d82bd408cbc6b))
+* **toggle-switch:** shows the right text color on disabled ([a11ba7f](https://github.com/kelvininc/ui-components/commit/a11ba7f16819de768c0debecb6cef0b41061528e))
+
+
+### Features
+
+* **dropdowns:** add focusSearch method and improve autofocus behavior ([5d9e870](https://github.com/kelvininc/ui-components/commit/5d9e87026ae90906917691ced1463acfa1329431))
+* **icons:** add smart and docker app icons ([cf1a497](https://github.com/kelvininc/ui-components/commit/cf1a497bd74aaa4592299e69dfc817beb292c996))
+* **radio-list-item:** add header slot ([57f86bf](https://github.com/kelvininc/ui-components/commit/57f86bf792f52bd0aa848ffed26714f2c778a640))
+* upgrade stencil version ([69f9552](https://github.com/kelvininc/ui-components/commit/69f9552785fa71aca23dc2a47115698460d36fa3))
+* **wizard:** allow disable navigation ([e9e0588](https://github.com/kelvininc/ui-components/commit/e9e058828ce9358b332852b032d74749522a1f7f))
+
+
+
+
+
 # [0.45.0](https://github.com/kelvininc/ui-components/compare/v0.44.0...v0.45.0) (2025-03-19)
 
 
