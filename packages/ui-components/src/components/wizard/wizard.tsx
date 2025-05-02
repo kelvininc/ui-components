@@ -2,7 +2,7 @@ import { Component, Event, EventEmitter, Prop, h, State, Watch } from '@stencil/
 import { IWizardFooter } from '../wizard-footer/wizard-footer.types';
 import { IWizardHeader } from '../wizard-header/wizard-header.types';
 import { buildFooterConfig, buildHeaderConfig } from './wizard.helper';
-import { EStepState, IWizard, IWizardEvents, IWizardStep } from './wizard.types';
+import { IWizard, IWizardEvents, IWizardStep, StepState } from './wizard.types';
 
 @Component({
 	tag: 'kv-wizard',
@@ -15,11 +15,13 @@ export class KvWizard implements IWizard, IWizardEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) currentStep!: number;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) currentStepState?: EStepState;
+	@Prop({ reflect: true }) currentStepState?: StepState;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) showHeader: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) showStepBar: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) completeBtnLabel?: string;
 
@@ -39,23 +41,23 @@ export class KvWizard implements IWizard, IWizardEvents {
 	@Watch('steps')
 	stepsChangeHandler(newValue: IWizardStep[]) {
 		this.currentHeader = buildHeaderConfig(newValue, this.currentStep);
-		this.currentFooter = buildFooterConfig(newValue, this.currentStep, this.currentStepState);
+		this.currentFooter = buildFooterConfig(newValue, this.currentStep, this.currentStepState, this.disabled);
 	}
 	/** Watch the `currentStep` property and update internal state accordingly */
 	@Watch('currentStep')
 	currentStepChangeHandler(newValue: number) {
 		this.currentHeader = buildHeaderConfig(this.steps, newValue);
-		this.currentFooter = buildFooterConfig(this.steps, newValue, this.currentStepState);
+		this.currentFooter = buildFooterConfig(this.steps, newValue, this.currentStepState, this.disabled);
 	}
 	/** Watch the `currentStepState` property and update internal state accordingly */
 	@Watch('currentStepState')
-	hasErrorStepChangeHandler(newValue: EStepState) {
-		this.currentFooter = buildFooterConfig(this.steps, this.currentStep, newValue);
+	hasErrorStepChangeHandler(newValue: StepState) {
+		this.currentFooter = buildFooterConfig(this.steps, this.currentStep, newValue, this.disabled);
 	}
 
 	componentWillLoad() {
 		this.currentHeader = buildHeaderConfig(this.steps, this.currentStep);
-		this.currentFooter = buildFooterConfig(this.steps, this.currentStep, this.currentStepState);
+		this.currentFooter = buildFooterConfig(this.steps, this.currentStep, this.currentStepState, this.disabled);
 	}
 
 	onPrevClick = () => {

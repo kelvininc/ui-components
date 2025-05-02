@@ -2,7 +2,7 @@
 
 exports[`Copy To Clipboard (unit tests) when rendering should match the snapshot 1`] = `
 <kv-copy-to-clipboard copiable-text="https://kelvin.ai" tooltip-delay="500" tooltip-suffix="Link">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <kv-tooltip delay="500" text="Copy Link">
       <div class="copy-to-clipboard-container" part="content">
         <slot></slot>
@@ -11,7 +11,7 @@ exports[`Copy To Clipboard (unit tests) when rendering should match the snapshot
         </div>
       </div>
     </kv-tooltip>
-  </mock:shadow-root>
+  </template>
   <span>
     Click me to copy the link
   </span>

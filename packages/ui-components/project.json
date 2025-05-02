@@ -1,6 +1,6 @@
 {
 	"$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
-	"name": "ui-components",
+	"name": "@kelvininc/ui-components",
 	"targets": {
 		"build": {
 			"inputs": [
@@ -10,8 +10,9 @@
 				"{projectRoot}/dist",
 				"{projectRoot}/www",
 				"{projectRoot}/docs",
+				"{projectRoot}/hydrate",
 				"{projectRoot}/loader",
-				"{workspaceRoot}/packages/react-ui-components/src/components/stencil-generated"
+				"{workspaceRoot}/packages/react-ui-components/src/stencil-generated"
 			]
 		}
 	}

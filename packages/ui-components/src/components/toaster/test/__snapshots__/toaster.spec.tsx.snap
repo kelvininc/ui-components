@@ -2,7 +2,7 @@
 
 exports[`Toaster (unit tests) when uses default props and error type should match the snapshot 1`] = `
 <kv-toaster closable="" header="Main Message" type="error">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="animate-fade-in toaster-container toaster-type--error">
       <div class="toaster-icon">
         <kv-icon name="kv-error"></kv-icon>
@@ -17,6 +17,6 @@ exports[`Toaster (unit tests) when uses default props and error type should matc
         <kv-icon customclass="icon-16" name="kv-close"></kv-icon>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-toaster>
 `;

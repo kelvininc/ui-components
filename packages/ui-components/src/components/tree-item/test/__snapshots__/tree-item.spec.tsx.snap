@@ -2,7 +2,7 @@
 
 exports[`Tree Item (unit tests) when initialized with counter attribute should match the snapshot 1`] = `
 <kv-tree-item counter="32" expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="node-container">
       <div class="node-wrapper">
         <div class="node-content-wrapper">
@@ -26,13 +26,13 @@ exports[`Tree Item (unit tests) when initialized with counter attribute should m
         <slot name="child-slot"></slot>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tree-item>
 `;
 
 exports[`Tree Item (unit tests) when initialized with disabled attribute should match the snapshot 1`] = `
 <kv-tree-item disabled="" expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="node-container">
       <div class="disabled node-wrapper">
         <div class="disabled node-content-wrapper">
@@ -50,13 +50,13 @@ exports[`Tree Item (unit tests) when initialized with disabled attribute should 
         <slot name="child-slot"></slot>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tree-item>
 `;
 
 exports[`Tree Item (unit tests) when initialized with preventDefault prop should match the snapshot 1`] = `
 <kv-tree-item expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small" prevent-default="true">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="node-container">
       <div class="node-wrapper">
         <div class="node-content-wrapper">
@@ -74,13 +74,13 @@ exports[`Tree Item (unit tests) when initialized with preventDefault prop should
         <slot name="child-slot"></slot>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tree-item>
 `;
 
 exports[`Tree Item (unit tests) when initialized with required props should match the snapshot 1`] = `
 <kv-tree-item expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="node-container">
       <div class="node-wrapper">
         <div class="node-content-wrapper">
@@ -98,13 +98,13 @@ exports[`Tree Item (unit tests) when initialized with required props should matc
         <slot name="child-slot"></slot>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tree-item>
 `;
 
 exports[`Tree Item (unit tests) when initialized with selected attribute should match the snapshot 1`] = `
 <kv-tree-item expand-icon="kv-arrow-drop-up" label="Node Title" labels-size="small" selected="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="node-container">
       <div class="node-wrapper selected">
         <div class="node-content-wrapper selected">
@@ -122,6 +122,6 @@ exports[`Tree Item (unit tests) when initialized with selected attribute should 
         <slot name="child-slot"></slot>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tree-item>
 `;

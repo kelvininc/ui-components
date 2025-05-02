@@ -2,7 +2,7 @@
 
 exports[`Radio Button (unit tests) when the component loads with a label should match the snapshot 1`] = `
 <kv-radio label="Accepted">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="radio-container radio-container--size-large">
       <div class="circle" tabindex="0">
         <div class="checked-icon"></div>
@@ -11,42 +11,42 @@ exports[`Radio Button (unit tests) when the component loads with a label should 
         Accepted
       </span>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-radio>
 `;
 
 exports[`Radio Button (unit tests) when the component loads with checked prop should match the snapshot 1`] = `
 <kv-radio checked="" label="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="checked radio-container radio-container--size-large">
       <div class="circle" tabindex="-1">
         <div class="checked-icon"></div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-radio>
 `;
 
 exports[`Radio Button (unit tests) when the component loads with default props should match the snapshot 1`] = `
 <kv-radio label="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="radio-container radio-container--size-large">
       <div class="circle" tabindex="0">
         <div class="checked-icon"></div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-radio>
 `;
 
 exports[`Radio Button (unit tests) when the component loads with disabled prop should match the snapshot 1`] = `
 <kv-radio disabled="" label="">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="disabled radio-container radio-container--size-large">
       <div class="circle" tabindex="-1">
         <div class="checked-icon"></div>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-radio>
 `;

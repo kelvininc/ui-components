@@ -1,12 +1,11 @@
-const path = require('path');
-const fg = require('fast-glob');
-const fs = require('fs-extra');
-const { optimize } = require('svgo');
-const { camelCase, upperFirst, groupBy, map, find } = require('lodash');
-const Handlebars = require('handlebars');
-
-const { parse } = require('svg-parser');
-const toHTML = require('hast-util-to-html');
+import path from 'path';
+import fg from 'fast-glob';
+import fs from 'fs-extra';
+import { optimize } from 'svgo';
+import { camelCase, upperFirst, groupBy, map, find } from 'lodash-es';
+import Handlebars from 'handlebars';
+import { parse } from 'svg-parser';
+import toHTML from 'hast-util-to-html';
 
 const SVGO_CONFIG = {
 	plugins: [{
@@ -65,7 +64,7 @@ async function main() {
 		const parsedData = parse(defaultItem.data);
 
 		let htmlContent = toHTML(getRoot(parsedData), { allowDangerousHtml: true });
-	
+
 		const styleMatches = htmlContent.match(/style="[^"]+"/g) || [];
 		for (const key in styleMatches) {
 			const match = styleMatches[key];
@@ -94,7 +93,7 @@ async function main() {
 				const separator = acc !== '' ? ',' : '';
 				return acc + separator + objStr;
 			}
-				
+
 			return acc;
 		}, '')
 

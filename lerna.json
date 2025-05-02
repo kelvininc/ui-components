@@ -1,22 +1,22 @@
 {
-  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
-  "command": {
-    "version": {
-      "exact": true
-    },
-    "publish": {
-      "message": "chore(release): publish %s [skip ci]",
-      "conventionalCommits": true
-    }
-  },
-  "ignoreChanges": [
-    "**/__fixtures__/**",
-    "**/__tests__/**",
-    "**/*.md",
-    "**/package.json",
-    "pnpm-lock.yaml",
-    "**/tsconfig.json"
-  ],
-  "npmClient": "pnpm",
-  "version": "0.45.0"
+	"$schema": "node_modules/lerna/schemas/lerna-schema.json",
+	"command": {
+		"version": {
+			"exact": true
+		},
+		"publish": {
+			"message": "chore(release): publish %s [skip ci]",
+			"conventionalCommits": true
+		}
+	},
+	"ignoreChanges": [
+		"**/__fixtures__/**",
+		"**/__tests__/**",
+		"**/*.md",
+		"**/package.json",
+		"**/tsconfig.json",
+		"pnpm-lock.yaml"
+	],
+	"npmClient": "pnpm",
+	"version": "0.0.0"
 }

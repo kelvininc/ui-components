@@ -24,30 +24,62 @@
 	"publishConfig": {
 		"access": "public"
 	},
+	"type": "module",
 	"main": "dist/index.cjs.js",
 	"module": "dist/index.js",
 	"types": "dist/types/index.d.ts",
 	"collection": "dist/collection/collection-manifest.json",
 	"collection:main": "dist/collection/index.js",
-	"unpkg": "dist/components/components.esm.js",
+	"exports": {
+		".": {
+			"types": "./dist/types/index.d.ts",
+			"import": "./dist/esm/index.js",
+			"require": "./dist/cjs/index.cjs.js",
+			"default": "./dist/esm/index.js"
+		},
+		"./loader": {
+			"types": "./loader/index.d.ts",
+			"import": "./loader/index.js",
+			"require": "./loader/index.cjs.js",
+			"default": "./loader/index.js"
+		},
+		"./components/*.js": {
+			"types": "./dist/types/components/*.d.ts",
+			"import": "./components/*.js"
+		},
+		"./components": {
+			"types": "./dist/types/components.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs.js",
+			"default": "./dist/index.js"
+		},
+		"./docs.json": {
+			"import": "./docs/docs.json"
+		},
+		"./docs/*.md?raw": "./docs/components/*/readme.md",
+		"./assets/*": "./dist/assets/*"
+	},
 	"files": [
+		"components/",
 		"dist/",
+		"docs/",
 		"loader/"
 	],
 	"scripts": {
 		"prebuild": "pnpm clean:build && pnpm generate:illustrations",
 		"build": "stencil build --docs",
+		"postbuild": "node scripts/prepend_use_client_directive.js",
 		"build:analyze": "SOURCE_MAP=true stencil build --docs && source-map-explorer dist/components/*.js",
 		"build:watch": "stencil build --watch",
 		"start": "stencil build --dev --watch --serve",
 		"clean": "pnpm clean:modules && pnpm clean:build && pnpm clean:cache",
-		"clean:build": "rm -rf dist loader hydrate unit-coverage www docs ../react-ui-components/src/components/stencil-generated packages/ui-components/src/components/illustrations",
+		"clean:build": "rm -rf dist loader components unit-coverage www docs ../react-ui-components/src/stencil-generated packages/ui-components/src/components/illustrations",
 		"clean:cache": "rm -rf .stencil .eslintcache",
 		"clean:modules": "rm -rf node_modules",
 		"test": "pnpm test:spec && pnpm test:e2e",
-		"test:watch": "TZ=UTC stencil test --spec --e2e --watchAll",
+		"test:watch": "TZ=UTC stencil test --spec --e2e --no-cache --runInBand --watchAll --max-workers=0",
 		"test:spec": "TZ=UTC stencil test --spec --no-cache",
-		"test:e2e": "TZ=UTC stencil test --e2e --no-cache",
+		"test:e2e": "TZ=UTC stencil test --e2e --no-cache --runInBand",
 		"generate": "stencil generate",
 		"generate:illustrations": "node scripts/generate-illustrations",
 		"lint": "pnpm lint:check",
@@ -63,36 +95,36 @@
 		"@floating-ui/dom": "^1.5.4",
 		"css-element-queries": "^1.2.3",
 		"inputmask": "~5.0.8",
+		"lodash-es": "^4.17.21",
 		"pluralize": "^8.0.0"
 	},
 	"devDependencies": {
-		"@stencil-community/eslint-plugin": "0.5.0",
-		"@stencil/core": "4.10.0",
+		"@stencil-community/eslint-plugin": "0.8.0",
+		"@stencil/core": "^4.29.2",
 		"@stencil/react-output-target": "^0.5.3",
-		"@stencil/sass": "^3.0.8",
+		"@stencil/sass": "^3.2.1",
 		"@types/inputmask": "^5.0.3",
-		"@types/jest": "^27.5.2",
-		"@types/lodash-es": "^4.17.5",
+		"@types/jest": "^29.5.13",
+		"@types/lodash-es": "^4.17.12",
 		"@types/node": "^22.7.2",
-		"@types/pluralize": "^0.0.30",
+		"@types/pluralize": "^0.0.33",
 		"@typescript-eslint/eslint-plugin": "<6 && ^5.0.0",
 		"@typescript-eslint/parser": "<6 && ^5.0.0",
-		"dayjs": "^1.11.10",
-		"eslint": "^8.0.0",
-		"eslint-config-prettier": "^8.4.0",
-		"eslint-plugin-jest": "^27.2.3",
+		"dayjs": "^1.11.13",
+		"eslint": "^8.57.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-jest": "^28.8.3",
 		"eslint-plugin-prettier": "^5.0.0",
 		"fast-glob": "^3.2.4",
 		"fs-extra": "^9.0.1",
 		"handlebars": "^4.7.6",
 		"hast-util-to-html": "^7.1.1",
-		"jest": "^27.5.1",
-		"jest-cli": "^27.5.1",
+		"jest": "^29.7.0",
+		"jest-cli": "^29.7.0",
 		"lodash": "^4.17.21",
-		"lodash-es": "^4.17.21",
 		"mockdate": "^3.0.5",
 		"prettier": "^3.0.0",
-		"puppeteer": "^21.0.0",
+		"puppeteer": "^24.3.0",
 		"source-map-explorer": "^2.5.3",
 		"stylelint": "^15.0.0",
 		"stylelint-config-sass-guidelines": "^10.0.0",
@@ -101,6 +133,6 @@
 		"typescript": "^5.6.2"
 	},
 	"peerDependencies": {
-		"dayjs": "^1.11.10"
+		"dayjs": "^1.11.13"
 	}
 }

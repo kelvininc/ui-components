@@ -25,7 +25,7 @@ describe('Tree Item (end-to-end)', () => {
 				const nodeContainerEl = await page.find('kv-tree-item >>> .node-content-wrapper');
 				await nodeContainerEl.click();
 
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it(`should emit the event`, () => {
@@ -44,7 +44,7 @@ describe('Tree Item (end-to-end)', () => {
 				const arrowContainerEl = await page.find('kv-tree-item >>> .expander-arrow');
 				await arrowContainerEl.click();
 
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it(`should emit the event`, () => {
@@ -70,7 +70,7 @@ describe('Tree Item (end-to-end)', () => {
 				const nodeContainerEl = await page.find('kv-tree-item >>> .node-content-wrapper');
 				await nodeContainerEl.click();
 
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it(`shouldn't emit the event`, () => {
@@ -89,7 +89,7 @@ describe('Tree Item (end-to-end)', () => {
 				const arrowContainerEl = await page.find('kv-tree-item >>> .expander-arrow');
 				await arrowContainerEl.click();
 
-				await page.waitForTimeout(300);
+				await new Promise(r => setTimeout(r, 300));
 			});
 
 			it(`should emit the event`, () => {

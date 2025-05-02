@@ -2,5 +2,8 @@
 dist
 docs
 loader
+/components
+unit-coverage
 www
 src/components/illustrations
+node_modules

@@ -25,7 +25,7 @@ export class KvInfoLabel {
 	/** Define if the show more button needed to be visible */
 	@State() enableShowMoreButton = false;
 	/** Define if the label content is completely visible */
-	@State() showMore = false;
+	@State() isExpanded = false;
 	/** Store the current div content height */
 	@State() currentDescriptionHeight: number = null;
 
@@ -41,12 +41,14 @@ export class KvInfoLabel {
 	@Prop({ reflect: true }) descriptionOpenedText = DEFAULT_DESCRIPTION_OPENED_TEXT;
 	/** (optional) Info label copy value */
 	@Prop({ reflect: true }) copyValue?: string;
+	/** (optional) Show text with a shadow  */
+	@Prop({ reflect: true }) showTextShadow = false;
 
 	/** The Host's element reference */
 	@Element() el: HTMLKvInfoLabelElement;
 
 	get showMoreButtonLabel() {
-		return this.showMore ? this.descriptionOpenedText : this.descriptionCollapsedText;
+		return this.isExpanded ? this.descriptionOpenedText : this.descriptionCollapsedText;
 	}
 
 	private loadDescriptionHeight() {
@@ -56,14 +58,14 @@ export class KvInfoLabel {
 		} else {
 			this.enableShowMoreButton = false;
 		}
-		this.showMore = this.enableShowMoreButton ? this.showMore : false;
-		this.currentDescriptionHeight = this.enableShowMoreButton && !this.showMore ? this.descriptionHeight : null;
+		this.isExpanded = this.enableShowMoreButton ? this.isExpanded : false;
+		this.currentDescriptionHeight = this.enableShowMoreButton && !this.isExpanded ? this.descriptionHeight : null;
 	}
 
 	private onShowMoreToggle = () => {
-		this.showMore = !this.showMore;
+		this.isExpanded = !this.isExpanded;
 
-		if (this.showMore) {
+		if (this.isExpanded) {
 			const textElementHeight = this.descriptionContainer.clientHeight;
 			this.currentDescriptionHeight = textElementHeight;
 			return;
@@ -85,7 +87,7 @@ export class KvInfoLabel {
 	componentDidRender() {
 		this.descriptionContainer = this.el.shadowRoot.querySelector('.description');
 
-		if (this.descriptionHeight > 0) {
+		if (this.descriptionHeight >= 0) {
 			this.resizeSensor = new ResizeSensor(this.descriptionContainer, () => {
 				this.loadDescriptionHeight();
 			});
@@ -107,21 +109,28 @@ export class KvInfoLabel {
 							{this.labelTitle}
 						</div>
 					)}
-					{this.description && (
-						<div style={{ height: `${this.currentDescriptionHeight}px` }} class="description-wrapper">
-							<div class="description">
+					<div style={{ height: `${this.currentDescriptionHeight}px` }} class="description-wrapper">
+						<div class="description">
+							<slot>
 								{this.description && <div class="text">{this.description}</div>}
 								{this.copyValue && (
 									<kv-tooltip text={this.tooltipConfig.label} position={this.tooltipConfig.position}>
 										<kv-icon class="copy-icon" name={EIconName.Copy} onClick={this.onClickCopyAction} />
 									</kv-tooltip>
 								)}
-								<slot></slot>
-							</div>
+							</slot>
 						</div>
-					)}
+						{this.showTextShadow && this.enableShowMoreButton && (
+							<div
+								class={{
+									'description-fade': true,
+									'description-fade--expanded': this.isExpanded
+								}}
+							/>
+						)}
+					</div>
 					{this.enableShowMoreButton && (
-						<div class={{ 'expand-description-button': true, 'expanded': this.showMore }} onClick={this.onShowMoreToggle}>
+						<div class={{ 'expand-description-button': true, 'expanded': this.isExpanded }} onClick={this.onShowMoreToggle}>
 							{this.showMoreButtonLabel}
 							<kv-icon name={EIconName.Expand} />
 						</div>

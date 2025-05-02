@@ -1,0 +1,19 @@
+{
+	"$schema": "https://raw.githubusercontent.com/nrwl/nx/master/packages/nx/schemas/project-schema.json",
+	"name": "@kelvininc/react-storybook",
+	"targets": {
+		"build": {
+			"outputs": [
+				"{projectRoot}/storybook-static"
+			],
+			"dependsOn": [
+				{
+					"target": "build",
+					"projects": [
+						"@kelvininc/react-ui-components"
+					]
+				}
+			]
+		}
+	}
+}

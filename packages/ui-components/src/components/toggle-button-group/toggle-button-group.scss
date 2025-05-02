@@ -1,9 +1,12 @@
 @import '../../assets/styles/globals';
 
-:host > kv-toggle-button {
-	margin-right: $spacing;
+:host {
+	display: flex;
+	gap: $spacing;
+
+	--toggle-group-width: unset;
 }
 
-:host > kv-toggle-button:last-child {
-	margin-right: unset;
+:host > kv-toggle-button {
+	width: var(--toggle-group-width);
 }

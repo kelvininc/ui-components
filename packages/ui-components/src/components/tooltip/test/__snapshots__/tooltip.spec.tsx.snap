@@ -2,20 +2,20 @@
 
 exports[`Tooltip (unit tests) when has a position should match the snapshot 1`] = `
 <kv-tooltip custom-class="" delay="1000" position="left" text="Tooltip">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div id="content" part="content">
       <slot></slot>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tooltip>
 `;
 
 exports[`Tooltip (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-tooltip custom-class="" delay="1000" text="Tooltip">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div id="content" part="content">
       <slot></slot>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-tooltip>
 `;

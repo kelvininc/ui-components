@@ -2,7 +2,7 @@
 
 exports[`Range (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-range step="1" value="0">
-  <mock:shadow-root>
+  <template shadowrootmode="open">
     <div class="has-label range-container">
       <input class="slider" id="slider" step="1" type="range" value="0" style="background: linear-gradient(90deg, var(--slider-background-filled) calc(NaN% + NaNpx), var(--slider-background-empty) calc(NaN% + NaNpx));">
       <span class="select-value" id="select-value" style="left: NaN%; margin-left: NaNpx;">
@@ -17,6 +17,6 @@ exports[`Range (unit tests) when uses default props should match the snapshot 1`
         </span>
       </div>
     </div>
-  </mock:shadow-root>
+  </template>
 </kv-range>
 `;
