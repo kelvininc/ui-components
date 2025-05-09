@@ -11,10 +11,7 @@ import { COPY_TOOLTIP } from './info-label.types';
  */
 @Component({
 	tag: 'kv-info-label',
-	styleUrls: {
-		night: 'info-label.night.scss',
-		light: 'info-label.light.scss'
-	},
+	styleUrl: 'info-label.scss',
 	shadow: true
 })
 export class KvInfoLabel {

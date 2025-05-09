@@ -61,6 +61,32 @@
 	--private-vertical-line-height: 0;
 	--private-padding-left: 0;
 
+	--connector-lines-color: #{kv-color('neutral-5')};
+
+	--background-color-default: #{kv-color('neutral-6')};
+	--background-color-focused: #{kv-color('neutral-5')};
+	--background-color-disabled: #{kv-color('neutral-7')};
+	--background-color-highlighted: #{kv-color('neutral-6')};
+
+	--border-color-default: #{kv-color('neutral-5')};
+	--border-color-disabled: #{kv-color('neutral-6')};
+	--border-color-selected: #{kv-color('neutral-0')};
+	--border-color-highlighted: #{kv-color('neutral-4')};
+
+	--icon-color-default: #{kv-color('neutral-2')};
+	--icon-color-disabled: #{kv-color('neutral-5')};
+	--icon-color-selected: #{kv-color('neutral-0')};
+	--icon-color-no-filled: #{kv-color('neutral-4')};
+
+	--title-color-default: #{kv-color('neutral-2')};
+	--title-color-disabled: #{kv-color('neutral-5')};
+	--title-color-selected: #{kv-color('neutral-0')};
+	--title-color-no-filled: #{kv-color('neutral-4')};
+
+	--sub-title-color-default: #{kv-color('neutral-4')};
+	--sub-title-color-disabled: #{kv-color('neutral-5')};
+	--sub-title-color-no-filled: #{kv-color('neutral-4')};
+
 	kv-icon {
 		--icon-width: var(--node-icon-width);
 		--icon-height: var(--node-icon-height);
@@ -328,4 +354,8 @@
 		text-align: center;
 		line-height: 15px;
 	}
+}
+
+.node-loading {
+	@include ghost-animation('neutral-7');
 }

@@ -4,6 +4,7 @@
 	/**
 	 * @prop --label-color: Label Text color.
 	 */
+	 --label-color: #{kv-color('neutral-4')};
 }
 
 .required {

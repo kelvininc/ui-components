@@ -5,15 +5,7 @@
 }
 
 body {
-	&[mode='light'] {
-		.ValueLabel {
-			color: kv-color('neutral-6');
-		}
-	}
-
-	&[mode='night'] {
-		.ValueLabel {
-			color: kv-color('neutral-2');
-		}
+	.ValueLabel {
+		color: kv-color('neutral-2');
 	}
 }

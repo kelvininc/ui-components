@@ -5,10 +5,7 @@ import { EComponentSize } from '../../types';
 
 @Component({
 	tag: 'kv-radio',
-	styleUrls: {
-		night: 'radio.night.scss',
-		light: 'radio.light.scss'
-	},
+	styleUrl: 'radio.scss',
 	shadow: true
 })
 export class KvRadio {

@@ -77,9 +77,6 @@ importers:
       '@storybook/addon-styling-webpack':
         specifier: ^1.0.1
         version: 1.0.1(storybook@8.6.12)(webpack@5.95.0)
-      '@storybook/addon-themes':
-        specifier: ^8.6.12
-        version: 8.6.12(storybook@8.6.12)
       '@storybook/addon-webpack5-compiler-swc':
         specifier: ^3.0.0
         version: 3.0.0(webpack@5.95.0)
@@ -2763,15 +2760,6 @@ packages:
       webpack: 5.95.0(@swc/core@1.11.20)(esbuild@0.23.1)
     transitivePeerDependencies:
       - storybook
-    dev: true
-
-  /@storybook/addon-themes@8.6.12(storybook@8.6.12):
-    resolution: {integrity: sha512-eqE40MUKTz9lLEOusXjRuDC7DwCSIwlgEnlbvhhEEme8IeKf2di6yvlhenY4nn5QfkUwY1POnZxfJ2OpXj0gqQ==}
-    peerDependencies:
-      storybook: ^8.6.12
-    dependencies:
-      storybook: 8.6.12
-      ts-dedent: 2.2.0
     dev: true
 
   /@storybook/addon-toolbars@8.6.12(storybook@8.6.12):

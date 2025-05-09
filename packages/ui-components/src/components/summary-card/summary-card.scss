@@ -61,3 +61,11 @@
 		}
 	}
 }
+
+.loading {
+	.label,
+	.subtitle,
+	.description {
+		@include ghost-animation('neutral-7');
+	}
+}
