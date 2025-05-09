@@ -12,6 +12,10 @@
 
 	--input-height-large: 36px;
 	--input-height-small: 28px;
+	--radio-label-text-color: #{kv-color('neutral-2')};
+	--radio-input-checked-color: #{kv-color('neutral-0')};
+	--radio-input-focused-color: #{kv-color('neutral-5')};
+	--radio-input-default-color: #{kv-color('neutral-0')};
 }
 
 .radio-container {

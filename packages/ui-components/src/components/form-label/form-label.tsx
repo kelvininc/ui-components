@@ -3,10 +3,7 @@ import { isValidLabel } from '../../utils/string.helper';
 
 @Component({
 	tag: 'kv-form-label',
-	styleUrls: {
-		night: 'form-label.night.scss',
-		light: 'form-label.light.scss'
-	},
+	styleUrl: 'form-label.scss',
 	shadow: true
 })
 export class KvFormLabel {

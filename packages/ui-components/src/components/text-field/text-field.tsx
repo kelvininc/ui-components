@@ -17,10 +17,7 @@ import { HostAttributes, Method } from '@stencil/core/internal';
  */
 @Component({
 	tag: 'kv-text-field',
-	styleUrls: {
-		night: 'text-field.night.scss',
-		light: 'text-field.light.scss'
-	},
+	styleUrl: 'text-field.scss',
 	shadow: true
 })
 export class KvTextField implements ITextField, ITextFieldEvents {

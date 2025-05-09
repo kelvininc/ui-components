@@ -3,9 +3,7 @@ import { IStepProgressBar } from './step-progress-bar.types';
 
 @Component({
 	tag: 'kv-step-progress-bar',
-	styleUrls: {
-		night: 'step-progress-bar.night.scss'
-	},
+	styleUrl: 'step-progress-bar.scss',
 	shadow: true
 })
 export class KvStepProgressBar implements IStepProgressBar {

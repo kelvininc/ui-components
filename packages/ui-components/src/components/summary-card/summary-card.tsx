@@ -3,10 +3,7 @@ import { isEmpty } from 'lodash-es';
 import { ESummaryCardType } from './summary-card.types';
 @Component({
 	tag: 'kv-summary-card',
-	styleUrls: {
-		light: 'summary-card.light.scss',
-		night: 'summary-card.night.scss'
-	},
+	styleUrl: 'summary-card.scss',
 	shadow: true
 })
 export class KvSummaryCard {

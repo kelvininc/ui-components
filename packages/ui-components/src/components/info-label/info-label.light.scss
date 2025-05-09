@@ -1,8 +1,0 @@
-@import '../../assets/styles/globals';
-@import './info-label.base';
-
-:host {
-	--text-color-title: #{kv-color('neutral-5')};
-	--text-color-description: #{kv-color('neutral-9')};
-	--expanded-button-color: #{kv-color('primary')};
-}

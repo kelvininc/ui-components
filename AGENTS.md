@@ -162,7 +162,6 @@ pnpm build
 
 **Global Configuration:**
 - Initialize via `initialize()` function from package
-- Configure default theme mode (`StyleMode.Night` or `StyleMode.Light`)
 - Set base assets URL for icons and symbols
 - Configuration stored in `window.KvUiComponents.config`
 

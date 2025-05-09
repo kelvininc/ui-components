@@ -6,10 +6,7 @@ import { EBadgeState, IBadge } from './badge.types';
  */
 @Component({
 	tag: 'kv-badge',
-	styleUrls: {
-		night: 'badge.night.scss',
-		light: 'badge.light.scss'
-	},
+	styleUrl: 'badge.scss',
 	shadow: true
 })
 export class KvBadge implements IBadge {
