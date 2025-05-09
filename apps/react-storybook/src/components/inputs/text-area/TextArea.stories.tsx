@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { EIconName, EOtherIconName, KvTextArea } from '@kelvininc/react-ui-components';
+import { EIconName, KvTextArea } from '@kelvininc/react-ui-components';
 import { action } from '@storybook/addon-actions';
 
 const meta = {
@@ -8,7 +8,7 @@ const meta = {
 	argTypes: {
 		icon: {
 			control: { type: 'select' },
-			options: [...Object.values(EIconName), ...Object.values(EOtherIconName)]
+			options: Object.values(EIconName)
 		},
 		text: { control: { type: 'text' } },
 		placeholder: { control: { type: 'text' } },

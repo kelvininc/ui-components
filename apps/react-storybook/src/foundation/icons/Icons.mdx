@@ -3,7 +3,6 @@ import "./Icons.scss";
 import {
 	EIllustrationName,
 	EIconName,
-	EOtherIconName,
 	KvIcon,
 	KvIllustration
 } from "@kelvininc/react-ui-components";
@@ -30,21 +29,6 @@ All our icons and illustrations are build with [Scalable Vector Graphics (SVGs)]
 			</div>
 			<div className="description">
 				<span className="code">{icn}</span>
-			</div>
-		</div>
-	))}
-</div>
-
-### Other Icons
-
-<div className="svgs-container">
-	{Object.values(EOtherIconName).map((icon) => (
-		<div key={icon} className="icon-wrapper">
-			<div className="box-wrapper">
-				<KvIcon name={icon} custom-class="icon-24" />
-			</div>
-			<div className="description">
-				<span className="code">{icon}</span>
 			</div>
 		</div>
 	))}

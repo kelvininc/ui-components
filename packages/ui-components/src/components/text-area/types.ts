@@ -1,9 +1,9 @@
 import { EventEmitter } from '@stencil/core';
-import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { EIconName } from '../icon/icon.types';
 
 export interface ITextArea {
 	/** (optional) Icon to show to the left of the text field */
-	icon?: EIconName | EOtherIconName;
+	icon?: EIconName;
 	/** (optional) The text to show inside the text area */
 	text?: string;
 	/** (optional) The placeholder to show in the text area */

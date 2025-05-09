@@ -1,7 +1,7 @@
 import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { EActionButtonType } from '../action-button/action-button.types';
 import { EComponentSize } from '../../utils/types';
-import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { EIconName } from '../icon/icon.types';
 import { IActionButtonTextConfig } from './action-button-text.types';
 
 /**
@@ -16,7 +16,7 @@ export class KvActionButtonText implements IActionButtonTextConfig {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) text!: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
+	@Prop({ reflect: true }) icon?: EIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) type!: EActionButtonType;
 	/** @inheritdoc */

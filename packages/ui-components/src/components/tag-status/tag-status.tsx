@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop } from '@stencil/core';
 import { isEmpty } from 'lodash-es';
 import { ETagState, ITagStatus } from './tag-status.types';
-import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { EIconName } from '../icon/icon.types';
 
 /**
  * @part label - The label element.
@@ -15,7 +15,7 @@ export class KvTagStatus implements ITagStatus {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) state!: ETagState;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) icon!: EIconName | EOtherIconName;
+	@Prop({ reflect: true }) icon!: EIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
 

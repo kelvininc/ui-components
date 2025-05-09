@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { EActionButtonType, EBadgeState, EComponentSize, EIconName, EOtherIconName, KvActionButtonIcon } from "@kelvininc/react-ui-components"
+import { EActionButtonType, EBadgeState, EComponentSize, EIconName, KvActionButtonIcon } from "@kelvininc/react-ui-components"
 
 
 const meta = {
@@ -17,7 +17,7 @@ const meta = {
 		},
 		icon: {
 			control: { type: 'select' },
-			options: [...Object.values(EIconName), ...Object.values(EOtherIconName)]
+			options: Object.values(EIconName)
 		},
 		badgeState: {
 			control: { type: 'select' },

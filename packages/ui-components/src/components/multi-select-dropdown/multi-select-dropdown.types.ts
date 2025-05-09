@@ -1,5 +1,5 @@
 import { EventEmitter } from '@stencil/core';
-import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { EIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { ISelectMultiOptionsConfig, ISelectMultiOptionsEvents } from '../select-multi-options/select-multi-options.types';
 import { EComponentSize, ICustomCss } from '../../types';
@@ -13,7 +13,7 @@ export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptio
 	/** (optional) If `true` the dropdown is loading */
 	loading?: boolean;
 	/** (optional) The icon to display on the dropdown */
-	icon?: EIconName | EOtherIconName;
+	icon?: EIconName;
 	/** (optional) If `true` dropdown requires a value to be selected */
 	required?: boolean;
 	/** (optional) The text to display on the dropdown label */

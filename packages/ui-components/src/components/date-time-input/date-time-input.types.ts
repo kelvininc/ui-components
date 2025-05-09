@@ -1,5 +1,5 @@
 import { EventEmitter } from '@stencil/core';
-import { EComponentSize, EIconName, EOtherIconName, EValidationState } from '../../types';
+import { EComponentSize, EIconName, EValidationState } from '../../types';
 
 export enum EDateTimeInputTypeStyle {
 	Separated = 'separated',
@@ -48,7 +48,7 @@ export interface IDateTimeInput {
 	/** (optional) Specifies if the inputs should be joined together or separated */
 	inputStyleType?: EDateTimeInputTypeStyle;
 	/** (optional) Input right icon */
-	rightIcon?: EIconName | EOtherIconName;
+	rightIcon?: EIconName;
 	/** (optional) Input left icon */
-	leftIcon?: EIconName | EOtherIconName;
+	leftIcon?: EIconName;
 }

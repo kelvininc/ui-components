@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, Fragment, Host, Listen, Prop, h } from '@stencil/core';
-import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { EIconName } from '../icon/icon.types';
 import { ETreeItemLabelSize, ETreeItemState } from './tree-item.types';
 import { isEmpty, isNumber, throttle } from 'lodash-es';
 
@@ -29,7 +29,7 @@ export class KvTreeItem {
 	/** (optional) Defines the font size of title and subtitle labels.*/
 	@Prop({ reflect: true }) labelsSize?: ETreeItemLabelSize = ETreeItemLabelSize.Small;
 	/** (optional) Defines the icon of the tree item. If set, an icon will be displayed before the label.*/
-	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
+	@Prop({ reflect: true }) icon?: EIconName;
 	/** (optional) Defines the state of the icon.*/
 	@Prop({ reflect: true }) iconState?: ETreeItemState;
 	/** (optional) Defines the counter info of the tree item. If set, an badge will be displayed in the end of tree item.*/

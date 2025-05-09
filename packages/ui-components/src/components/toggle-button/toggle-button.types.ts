@@ -1,12 +1,12 @@
 import { EventEmitter } from '@stencil/core';
 import { EComponentSize } from '../../types';
-import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { EIconName } from '../icon/icon.types';
 
 export interface IToggleButton<T = string | number> {
 	/** (required) The value to be emitted upon click events */
 	value: T;
 	/** (optional) The button's icon. Only valid for toggle button icon */
-	icon?: EIconName | EOtherIconName;
+	icon?: EIconName;
 	/** (optional) The button's label. Only valid for toggle button text */
 	label?: string;
 	/** (optional) Sets the button's styling to be disabled and disables click events */
