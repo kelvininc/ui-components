@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
-import { EOtherIconName } from '../icon/icon.types';
+import { EIconName } from '../icon/icon.types';
 import { ICheckbox, ICheckboxEvents } from './checkbox.types';
 
 /**
@@ -23,14 +23,14 @@ export class KvCheckbox implements ICheckbox, ICheckboxEvents {
 
 	private getIconName = () => {
 		if (this.indeterminate) {
-			return EOtherIconName.IconIndeterminateState;
+			return EIconName.IndeterminateState;
 		}
 
 		if (this.checked) {
-			return EOtherIconName.IconCheckState;
+			return EIconName.CheckState;
 		}
 
-		return EOtherIconName.IconUncheckState;
+		return EIconName.UncheckState;
 	};
 
 	private onClick = () => {

@@ -2,7 +2,7 @@ import { Component, Element, Event, EventEmitter, h, Host, Prop, State, Watch } 
 import { isEmpty, isNil, merge } from 'lodash-es';
 import { EComponentSize } from '../../utils/types';
 import { EInputFieldType, EValidationState, ITextFieldEvents, ITextField, IInputMaskInstanceRef } from './text-field.types';
-import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { EIconName } from '../icon/icon.types';
 import { DEFAULT_TEXT_TOOLTIP_CONFIG } from './text-field.config';
 import { ITooltip } from '../tooltip/tooltip.types';
 import { buildInputMask, getValueAsString, isInputMaskCompatibleType } from './text-field.utils';
@@ -35,9 +35,9 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) examples?: string[];
 	/** @inheritdoc */
-	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
+	@Prop({ reflect: true }) icon?: EIconName;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) actionIcon?: EIconName | EOtherIconName;
+	@Prop({ reflect: true }) actionIcon?: EIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) inputName?: string;
 	/** @inheritdoc */

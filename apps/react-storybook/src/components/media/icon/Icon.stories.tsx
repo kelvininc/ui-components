@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { EIconName, EOtherIconName, KvIcon } from '@kelvininc/react-ui-components';
+import { EIconName, KvIcon } from '@kelvininc/react-ui-components';
 
 const meta = {
 	title: 'Media/Icon',
@@ -7,7 +7,7 @@ const meta = {
 	argTypes: {
 		name: {
 			control: { type: 'select' },
-			options: [...Object.values(EIconName), ...Object.values(EOtherIconName)]
+			options: Object.values(EIconName)
 		},
 		customClass: {
 			control: { type: 'text' }

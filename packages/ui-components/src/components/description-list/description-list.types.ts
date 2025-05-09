@@ -1,5 +1,5 @@
 import { ComputePositionConfig } from '@floating-ui/dom';
-import { EIconName, EOtherIconName, ETooltipPosition } from '../../types';
+import { EIconName, ETooltipPosition } from '../../types';
 import { ICustomCss } from '../../utils/types/components';
 
 export interface IDescriptionListItemToggletipConfig {
@@ -8,7 +8,7 @@ export interface IDescriptionListItemToggletipConfig {
 }
 
 export interface IDescriptionListItemPopover {
-	icon?: EIconName | EOtherIconName;
+	icon?: EIconName;
 	text: string;
 }
 

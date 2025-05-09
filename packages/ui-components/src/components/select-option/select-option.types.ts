@@ -1,5 +1,5 @@
 import { EventEmitter } from '@stencil/core';
-import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { EIconName } from '../icon/icon.types';
 import { CustomCssClass, ICustomCss } from '../../types';
 import { HostAttributes } from '@stencil/core/internal';
 
@@ -13,7 +13,7 @@ export interface ISelectOptionAction {
 	/** (required) The callback to call when the action is clicked */
 	onClick: () => void;
 	/** (required) The icon of the action */
-	icon: EIconName | EOtherIconName;
+	icon: EIconName;
 	/**  (optional) If `true` the action is active */
 	active?: boolean;
 }
@@ -24,7 +24,7 @@ export interface ISelectOption extends ICustomCss {
 	/** (required) The item value */
 	value: string;
 	/** (optional) Icon of the item displayed on the left */
-	icon?: EIconName | EOtherIconName;
+	icon?: EIconName;
 	/** (optional) Description of the item displayed on the right */
 	description?: string;
 	/** (optional) If `true` the item is disabled */

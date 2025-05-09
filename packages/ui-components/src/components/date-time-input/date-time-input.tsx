@@ -1,6 +1,6 @@
 import { Component, Element, Event, EventEmitter, Fragment, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EInputFieldType, EValidationState } from '../text-field/text-field.types';
-import { EComponentSize, EIconName, EOtherIconName } from '../../types';
+import { EComponentSize, EIconName } from '../../types';
 import { isNil, merge } from 'lodash-es';
 import { DATE_TIME_INPUTMASK_CONFIG, DEFAULT_DATE_FORMAT, DEFAULT_PLACEHOLDER } from './date-time-input.config';
 import { EDateTimeInputTypeStyle, IDateTimeInput, IDateTimeInputEvents } from './date-time-input.types';
@@ -43,9 +43,9 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) inputStyleType?: EDateTimeInputTypeStyle = EDateTimeInputTypeStyle.Separated;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) leftIcon?: EIconName | EOtherIconName;
+	@Prop({ reflect: true }) leftIcon?: EIconName;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) rightIcon?: EIconName | EOtherIconName;
+	@Prop({ reflect: true }) rightIcon?: EIconName;
 
 	@State() focused = false;
 

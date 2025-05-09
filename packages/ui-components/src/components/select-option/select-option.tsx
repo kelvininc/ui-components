@@ -2,7 +2,7 @@ import { Component, Host, h, Prop, EventEmitter, Event, Element, Watch } from '@
 import { HostAttributes } from '@stencil/core/internal';
 import { EToggleState, ISelectOption, ISelectOptionAction, ISelectOptionEvents } from './select-option.types';
 import { LEVEL_OFFSET_PX } from './select-option.config';
-import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { EIconName } from '../icon/icon.types';
 import { CustomCssClass, EActionButtonType } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 
@@ -26,7 +26,7 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) value!: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
+	@Prop({ reflect: true }) icon?: EIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) description?: string;
 	/** @inheritdoc */

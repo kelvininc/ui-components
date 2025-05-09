@@ -1,13 +1,13 @@
 import { EventEmitter } from '@stencil/core';
-import { EIconName, EOtherIconName, IButton } from '../../types';
+import { EIconName, IButton } from '../../types';
 
 export interface IActionButtonSplitConfig extends IButton, IButtonSplitEvents {
 	/** (required) Right button icon symbol name */
-	splitIcon: EIconName | EOtherIconName;
+	splitIcon: EIconName;
 	/** (required) (required) Button's text */
 	text: string;
 	/** (optional) Button's left icon symbol name */
-	icon?: EIconName | EOtherIconName;
+	icon?: EIconName;
 }
 
 export interface IButtonSplitEvents {

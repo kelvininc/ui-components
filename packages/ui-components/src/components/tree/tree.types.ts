@@ -1,4 +1,4 @@
-import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { EIconName } from '../icon/icon.types';
 import { ETreeItemState } from '../tree-item/tree-item.types';
 import { EBadgeState } from '../badge/badge.types';
 
@@ -7,7 +7,7 @@ export interface ITreeNodeItem {
 	label?: string;
 	additionalLabel?: string;
 	placeholder?: string;
-	icon?: EIconName | EOtherIconName;
+	icon?: EIconName;
 	iconState?: ETreeItemState; // Need to validate if it should be here because can change constantly
 	counter?: number; // Need to validate if it should be here because can change constantly
 	counterState?: EBadgeState; // Need to validate if it should be here because can change constantly

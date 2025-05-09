@@ -1,5 +1,5 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
-import { EOtherIconName } from '../../icon/icon.types';
+import { EIconName } from '../../icon/icon.types';
 
 describe('Radio (end-to-end)', () => {
 	let page: E2EPage;
@@ -17,7 +17,7 @@ describe('Radio (end-to-end)', () => {
 		});
 
 		it('should render the checked icon', async () => {
-			expect(iconElement).toEqualAttribute('name', EOtherIconName.IconCheckState);
+			expect(iconElement).toEqualAttribute('name', EIconName.CheckState);
 		});
 
 		describe('and the user clicks on the checkbox', () => {
@@ -47,7 +47,7 @@ describe('Radio (end-to-end)', () => {
 		});
 
 		it('should render the unchecked icon', async () => {
-			expect(iconElement).toEqualAttribute('name', EOtherIconName.IconUncheckState);
+			expect(iconElement).toEqualAttribute('name', EIconName.UncheckState);
 		});
 
 		describe('and the user clicks on the checkbox', () => {
@@ -78,7 +78,7 @@ describe('Radio (end-to-end)', () => {
 		});
 
 		it('should render the indeterminate icon', async () => {
-			expect(iconElement).toEqualAttribute('name', EOtherIconName.IconIndeterminateState);
+			expect(iconElement).toEqualAttribute('name', EIconName.IndeterminateState);
 		});
 
 		describe('and the user clicks on the checkbox', () => {
