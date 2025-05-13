@@ -45,6 +45,7 @@ export interface SchemaFormContext {
 	};
 	booleanLabels?: Record<string, string>;
 	descriptionPosition?: EDescriptionPosition;
+	allowClearInputs?: boolean;
 }
 
 export interface SchemaFormProps<T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any> extends Partial<FormProps<T, S, F>> {
