@@ -5,10 +5,17 @@ import styles from './RadioListWidget.module.scss';
 import classNames from 'classnames';
 import { get } from 'lodash';
 
-const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({ options, value, disabled, readonly, onChange }: WidgetProps<T, S, F>) => {
+const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
+	options,
+	value,
+	disabled,
+	readonly,
+	formContext,
+	onChange
+}: WidgetProps<T, S, F>) => {
 	const { enumOptions, enumDisabled, inline } = options;
 	const inlineMemo = useMemo(() => Boolean(inline), [inline]);
-
+	const { allowClearInputs } = formContext as F;
 	return (
 		<div className={classNames(styles.RadioListContainer, { [styles.Inline]: inlineMemo })}>
 			{Array.isArray(enumOptions) &&
@@ -26,7 +33,7 @@ const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends F
 							disabled={isDisabled}
 							checked={checked}
 							description={description}
-							onOptionClick={(_value: unknown) => onChange(option.value)}
+							onOptionClick={(_value: unknown) => onChange(allowClearInputs && checked ? undefined : option.value)}
 						/>
 					);
 				})}

@@ -38,7 +38,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		componentSize: optionComponentSize,
 		multiSubOptions
 	} = uiSchema;
-	const { componentSize = EComponentSize.Large, dropdownConfig = DEFAULT_DROPDOWN_CONFIG } = formContext as F;
+	const { componentSize = EComponentSize.Large, dropdownConfig = DEFAULT_DROPDOWN_CONFIG, allowClearInputs } = formContext as F;
 	const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
 	const defaultDropdownOptions = useMemo(() => buildDropdownOptions(enumOptions, enumDisabled, multiSubOptions), [enumOptions, enumDisabled, multiSubOptions]);
@@ -87,7 +87,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		maxWidth: maxWidth ?? dropdownConfig.maxWidth,
 		icon: icon ?? dropdownConfig.icon,
 		badge,
-		selectionClearable,
+		selectionClearable: allowClearInputs ?? selectionClearable,
 		minSearchOptions: minSearchOptions ?? DEFAULT_MINIMUM_SEARCHABLE_OPTIONS
 	};
 
