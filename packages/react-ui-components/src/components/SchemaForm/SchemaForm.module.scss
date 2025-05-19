@@ -58,22 +58,10 @@
 }
 
 body {
-	&[mode='light'] {
-		.FormContainer form {
-			@include kelvin-light-scrollbar();
-		}
-
-		.FormFooter.Scrolling {
-			border-color: kv-color('neutral-3');
-		}
+	.FormContainer form {
+		@include kelvin-night-scrollbar();
 	}
-
-	&[mode='night'] {
-		.FormContainer form {
-			@include kelvin-night-scrollbar();
-		}
-		.FormFooter.Scrolling {
-			border-color: kv-color('neutral-6');
-		}
+	.FormFooter.Scrolling {
+		border-color: kv-color('neutral-6');
 	}
 }

@@ -9,6 +9,9 @@
 	*/
 	--progress-bar-height: 2px;
 	--progress-height: 14px;
+	--progress-bar-background-color: #{kv-color('neutral-6')};
+	--progress-bar-filler-success-color: #{kv-color('success')};
+	--progress-bar-filler-error-color: #{kv-color('error')};
 }
 
 $progress-bar-height-half: calc(var(--progress-bar-height) / 2);

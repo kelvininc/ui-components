@@ -31,6 +31,16 @@
 	--badge-max-width: fit-content;
 	--badge-height: 16px;
 	--badge-width: unset;
+	--badge-background-color-none: #{kv-color('neutral-5')};
+	--badge-text-color-none: #{kv-color('neutral-2')};
+	--badge-background-color-info: #{kv-color('secondary-5')};
+	--badge-text-color-info: #{kv-color('neutral-2')};
+	--badge-background-color-warning: #{kv-color('warning')};
+	--badge-text-color-warning: #{kv-color('neutral-0')};
+	--badge-background-color-error: #{kv-color('error')};
+	--badge-text-color-error: #{kv-color('neutral-0')};
+	--badge-background-color-success: #{kv-color('success')};
+	--badge-text-color-success: #{kv-color('neutral-0')};
 }
 
 .badge {

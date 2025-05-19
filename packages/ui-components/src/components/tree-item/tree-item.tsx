@@ -13,10 +13,7 @@ import { STATE_ICONS } from './tree-item.config';
  */
 @Component({
 	tag: 'kv-tree-item',
-	styleUrls: {
-		night: 'tree-item.night.scss',
-		light: 'tree-item.light.scss'
-	},
+	styleUrl: 'tree-item.scss',
 	shadow: true
 })
 export class KvTreeItem {

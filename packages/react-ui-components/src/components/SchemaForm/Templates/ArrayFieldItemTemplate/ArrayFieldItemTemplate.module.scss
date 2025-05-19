@@ -33,23 +33,11 @@
 }
 
 body {
-	&[mode='light'] {
-		.ArrayItemContainer [class*='ArrayFieldTemplate_ArrayFieldTemplate'] {
-			border-color: kv-color('neutral-2');
-		}
-
-		.ArrayItemContainer .ItemPrefix {
-			color: kv-color('neutral-6');
-		}
+	.ArrayItemContainer [class*='ArrayFieldTemplate_ArrayFieldTemplate'] {
+		border-color: kv-color('neutral-6');
 	}
 
-	&[mode='night'] {
-		.ArrayItemContainer [class*='ArrayFieldTemplate_ArrayFieldTemplate'] {
-			border-color: kv-color('neutral-6');
-		}
-
-		.ArrayItemContainer .ItemPrefix {
-			color: kv-color('neutral-2');
-		}
+	.ArrayItemContainer .ItemPrefix {
+		color: kv-color('neutral-2');
 	}
 }

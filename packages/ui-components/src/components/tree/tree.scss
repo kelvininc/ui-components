@@ -14,6 +14,7 @@
 	--tree-node-gap: #{$spacing-2x};
 	--tree-children-offset: #{$spacing-3x};
 	--tree-children-padding-left: #{$spacing-2x};
+	--tree-connector-lines-color: #{kv-color('neutral-5')};
 
 	.container {
 		width: var(--tree-node-width);
@@ -25,6 +26,7 @@
 		--node-gap: var(--tree-node-gap);
 		--children-offset: var(--tree-children-offset);
 		--children-padding-left: var(--tree-children-padding-left);
+		--connector-lines-color: var(--tree-connector-lines-color);
 	}
 
 	> kv-tree-item:not(:first-child)::before {
