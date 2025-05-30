@@ -9,6 +9,12 @@ import {
 	APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_OBJECT
 } from './config';
 
+export const cleanUnsupportedSchemaKeys = <S extends StrictRJSFSchema = RJSFSchema>(schema: S): S => {
+	// Remove unsupported keys from the schema
+	const { $schema, ...cleanedSchema } = schema;
+	return cleanedSchema as S;
+};
+
 export const getInitialFormData = <T, S extends StrictRJSFSchema = RJSFSchema>(
 	schema: S,
 	formDataProp: T | undefined,
@@ -16,7 +22,8 @@ export const getInitialFormData = <T, S extends StrictRJSFSchema = RJSFSchema>(
 	applyDefaults: EApplyDefaults = EApplyDefaults.All
 ): any => {
 	const defaultFormStateBehavior = buildDefaultFormStateBehavior(applyDefaults);
-	return getDefaultFormState<T, S, SchemaFormContext>(validator, schema, formDataProp, schema, undefined, defaultFormStateBehavior);
+	const cleanedSchema = cleanUnsupportedSchemaKeys(schema);
+	return getDefaultFormState<T, S, SchemaFormContext>(validator, cleanedSchema, formDataProp, cleanedSchema, undefined, defaultFormStateBehavior);
 };
 
 export const getDefaultValidator = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>() => {

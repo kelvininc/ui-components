@@ -11,7 +11,7 @@ import { useFieldTemplateElement } from './hooks/useFieldTemplateElement';
 import styles from './SchemaForm.module.scss';
 import { generateTheme } from './Theme';
 import { EApplyDefaults, SchemaFormContext, SchemaFormProps } from './types';
-import { buildDefaultFormStateBehavior, getDefaultValidator, getInitialFormData } from '../../utils';
+import { buildDefaultFormStateBehavior, cleanUnsupportedSchemaKeys, getDefaultValidator, getInitialFormData } from '../../utils';
 
 // Custom Theme
 export function generateForm<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(): ComponentType<FormProps<T, S, F>> {
@@ -51,12 +51,13 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	formReference,
 	disabled,
 	applyDefaults = EApplyDefaults.All,
-	schema,
+	schema: schemaProp,
 	...otherProps
 }: SchemaFormProps<T, S, SchemaFormContext>) {
 	const [isValid, setValid] = useState(!liveValidate);
 	const experimental_defaultFormStateBehavior = useMemo(() => buildDefaultFormStateBehavior(applyDefaults), [applyDefaults]);
 	const formValidator = useMemo(() => validatorProp ?? getDefaultValidator<T, S, SchemaFormContext>(), [validatorProp]);
+	const schema = useMemo(() => cleanUnsupportedSchemaKeys(schemaProp), [schemaProp]);
 	const formData = useMemo(() => cloneDeep(getInitialFormData(schema, formDataProp, formValidator, applyDefaults)), [formValidator, schema, formDataProp, applyDefaults]);
 	const [hasChanges, setHasChanges] = useState(!isEqualWith(formData, submittedData || {}));
 
