@@ -14,7 +14,7 @@ export const getInitialFormData = <T, S extends StrictRJSFSchema = RJSFSchema>(
 	formDataProp: T | undefined,
 	validator: ValidatorType<T, S, SchemaFormContext> = getDefaultValidator<T, S>(),
 	applyDefaults: EApplyDefaults = EApplyDefaults.All
-): any => {
+): T | T[] => {
 	const defaultFormStateBehavior = buildDefaultFormStateBehavior(applyDefaults);
 	return getDefaultFormState<T, S, SchemaFormContext>(validator, schema, formDataProp, schema, undefined, defaultFormStateBehavior);
 };
