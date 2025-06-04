@@ -34,12 +34,15 @@
 	--text-color-default: #{kv-color('neutral-2')};
 	--text-color-active: #{kv-color('neutral-0')};
 	--text-color-disabled: #{kv-color('neutral-5')};
+	--text-color-disabled-active: #{kv-color('neutral-5')};
 	--background-color-default: #{kv-color('neutral-6')};
 	--background-color-active: #{kv-color('neutral-6')};
 	--background-color-disabled: #{kv-color('neutral-7')};
+	--background-color-disabled-active: #{kv-color('neutral-7')};
 	--border-color-default: #{kv-color('neutral-6')};
 	--border-color-active: #{kv-color('neutral-0')};
 	--border-color-disabled: #{kv-color('neutral-6')};
+	--border-color-disabled-active: #{kv-color('neutral-6')};
 	--border-radius-top-left: 2px;
 	--border-radius-bottom-left: 2px;
 	--border-radius-top-right: 2px;
@@ -95,6 +98,12 @@
 		background: var(--background-color-disabled);
 		color: var(--text-color-disabled);
 
+		&.toggle-button--checked {
+			border: 1px solid var(--border-color-disabled-active);
+			background: var(--background-color-disabled-active);
+			color: var(--text-color-disabled-active);
+		}
+
 		.toggle-button-icon kv-icon {
 			--icon-color: var(--text-color-disabled);
 		}
@@ -121,6 +130,7 @@
 	&--only-icon {
 		padding: $spacing;
 		width: var(--button-height-large);
+		justify-content: center;
 
 		.toggle-button-icon kv-icon {
 			--icon-width: var(--button-icon-width-large);

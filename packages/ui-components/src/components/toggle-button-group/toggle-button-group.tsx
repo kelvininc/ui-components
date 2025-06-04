@@ -41,9 +41,9 @@ export class KvToggleButtonGroup implements IToggleButtonGroup, IToggleButtonGro
 						icon={button.icon}
 						preventDefault={button.preventDefault}
 						size={this.size ?? button.size}
-						disabled={this.disabled ?? this.disabledButtons[button.value] ?? button.disabled}
-						checked={this.selectedButtons[button.value] ?? button.checked}
-						withRadio={this.withRadio ?? this.radioButtons[button.value] ?? button.withRadio}
+						disabled={this.disabled || this.disabledButtons[button.value] || button.disabled}
+						checked={this.selectedButtons[button.value] || button.checked}
+						withRadio={this.withRadio || this.radioButtons[button.value] || button.withRadio}
 					/>
 				))}
 			</Host>

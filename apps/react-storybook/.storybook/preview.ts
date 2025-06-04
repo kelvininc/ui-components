@@ -5,7 +5,11 @@ import {
 	extractComponentDescription,
 	setStencilDocJson
 } from "@pxtrn/storybook-addon-docs-stencil";
-import { initialize, StyleMode } from "@kelvininc/ui-components";
+import {
+	EComponentSize,
+	initialize,
+	StyleMode
+} from "@kelvininc/ui-components";
 import docJson from "@kelvininc/ui-components/docs.json";
 
 import theme from "./themes/kelvin-theme";
@@ -101,6 +105,12 @@ const preview: Preview = {
 			}
 		},
 		themes: { disable: true }
+	},
+	argTypes: {
+		size: {
+			description: "Size of the component",
+			options: Object.values(EComponentSize)
+		}
 	},
 	tags: ["autodocs"],
 	decorators: [

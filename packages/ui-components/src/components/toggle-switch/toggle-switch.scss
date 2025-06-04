@@ -19,17 +19,23 @@
 		--border-radius-top-left: 0;
 		--border-radius-bottom-left: 0;
 
-		--button-padding-small: #{$spacing-2x $spacing-3x};
-		--button-padding-large: #{$spacing-3x $spacing-4x};
+		--button-padding-small: #{$spacing $spacing-3x};
+		--button-padding-large: #{$spacing-2x $spacing-3x};
+
 		--text-color-default: #{kv-color('neutral-4')};
 		--text-color-active: #{kv-color('neutral-2')};
 		--text-color-disabled: #{kv-color('neutral-5')};
-		--background-color-default: #{kv-color('neutral-8')};
+		--text-color-disabled-active: #{kv-color('neutral-5')};
+
+		--background-color-default: 'transparent';
 		--background-color-active: #{kv-color('neutral-6')};
-		--background-color-disabled: #{kv-color('neutral-8')};
+		--background-color-disabled: 'transparent';
+		--background-color-disabled-active: #{kv-color('neutral-7')};
+
 		--border-color-default: #{kv-color('neutral-6')};
 		--border-color-active: #{kv-color('neutral-2')};
 		--border-color-disabled: #{kv-color('neutral-6')};
+		--border-color-disabled-active: #{kv-color('neutral-6')};
 
 		&::part(toggle-label) {
 			@include kv-font-label-small-regular();
