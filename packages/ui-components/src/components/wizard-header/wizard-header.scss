@@ -3,16 +3,18 @@
 /**
  * @prop --text-color: The color to use for all text
  * @prop --separator-color: The color to use for the separator
+ * @prop --container-padding: The container to use for the container
  */
 
 :host {
 	--text-color: #{kv-color('neutral-1')};
 	--separator-color: #{kv-color('neutral-2')};
+	--container-padding: #{$spacing-4x};
 }
 
 .wizard-header-container {
 	display: flex;
-	padding: $spacing-4x;
+	padding: var(--container-padding);
 	justify-content: space-between;
 
 	.left-container {
