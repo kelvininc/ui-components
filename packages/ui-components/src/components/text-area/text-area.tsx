@@ -1,6 +1,6 @@
 import { Component, Event, EventEmitter, Host, Listen, Prop, State, h } from '@stencil/core';
 import { ITextArea, ITextAreaEvents } from './types';
-import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { EIconName } from '../icon/icon.types';
 import { getUTF8StringLength } from '../../utils/string.helper';
 
 @Component({
@@ -10,7 +10,7 @@ import { getUTF8StringLength } from '../../utils/string.helper';
 })
 export class KvTextArea implements ITextArea, ITextAreaEvents {
 	/** @inheritdoc */
-	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
+	@Prop({ reflect: true }) icon?: EIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) text?: string;
 	/** @inheritdoc */

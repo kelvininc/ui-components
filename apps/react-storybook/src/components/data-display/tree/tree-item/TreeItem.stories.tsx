@@ -1,4 +1,4 @@
-import { EBadgeState, EIconName, EOtherIconName } from '@kelvininc/react-ui-components';
+import { EBadgeState, EIconName } from '@kelvininc/react-ui-components';
 import { KvTreeItem, ETreeItemState } from '@kelvininc/react-ui-components';
 import { Meta, StoryFn, StoryObj } from '@storybook/react';
 import { ComponentProps } from 'react';
@@ -9,7 +9,7 @@ const meta = {
 	argTypes: {
 		icon: {
 			control: 'select',
-			options: [...Object.values(EIconName), ...Object.values(EOtherIconName)]
+			options: Object.values(EIconName)
 		},
 		iconState: {
 			control: 'select',

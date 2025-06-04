@@ -35,16 +35,16 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 									size={EComponentSize.Large}
 									type={EActionButtonType.Tertiary}
 									tabIndex={-1}
-									disabled={disabled || readonly || !hasMoveUp}
-									onClickButton={onReorderClick(index, index - 1)}
+									disabled={disabled || readonly || !hasMoveDown}
+									onClickButton={onReorderClick(index, index + 1)}
 								/>
 								<KvActionButtonIcon
 									icon={EIconName.AlignTop}
 									size={EComponentSize.Large}
 									type={EActionButtonType.Tertiary}
 									tabIndex={-1}
-									disabled={disabled || readonly || !hasMoveDown}
-									onClickButton={onReorderClick(index, index + 1)}
+									disabled={disabled || readonly || !hasMoveUp}
+									onClickButton={onReorderClick(index, index - 1)}
 								/>
 							</>
 						)}

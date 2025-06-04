@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { EIconName, EOtherIconName, EActionButtonType, EComponentSize, KvActionButtonSplit } from "@kelvininc/react-ui-components";
+import { EIconName, EActionButtonType, EComponentSize, KvActionButtonSplit } from "@kelvininc/react-ui-components";
 
 const meta = {
 	title: 'Buttons/Split',
@@ -11,11 +11,11 @@ const meta = {
 		},
 		splitIcon: {
 			control: { type: 'select' },
-			options: [...Object.values(EIconName), ...Object.values(EOtherIconName)]
+			options: Object.values(EIconName)
 		},
 		icon: {
 			control: { type: 'select' },
-			options: ['', ...Object.values(EIconName), ...Object.values(EOtherIconName)]
+			options: ['', ...Object.values(EIconName)]
 		},
 		size: {
 			control: { type: 'radio' },

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { EIconName, EOtherIconName, EActionButtonType, EComponentSize, KvActionButtonText } from "@kelvininc/react-ui-components";
+import { EIconName, EActionButtonType, EComponentSize, KvActionButtonText } from "@kelvininc/react-ui-components";
 
 const meta = {
 	title: 'Buttons/Text',
@@ -11,7 +11,7 @@ const meta = {
 		},
 		icon: {
 			control: { type: 'select' },
-			options: ['', ...Object.values(EIconName), ...Object.values(EOtherIconName)]
+			options: ['', ...Object.values(EIconName)]
 		},
 		size: {
 			control: { type: 'radio' },

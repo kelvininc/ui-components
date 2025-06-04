@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { isEmpty, throttle } from 'lodash-es';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
-import { EComponentSize, EIconName, EOtherIconName } from '../../types';
+import { EComponentSize, EIconName } from '../../types';
 import { IToggleButton, IToggleButtonEvents } from './toggle-button.types';
 
 /**
@@ -21,7 +21,7 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) icon?: EIconName | EOtherIconName;
+	@Prop({ reflect: true }) icon?: EIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Small;
 	/** @inheritdoc */

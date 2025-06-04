@@ -1,6 +1,6 @@
 import { EventEmitter } from '@stencil/core';
 import { EComponentSize, ITooltip } from '../../types';
-import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { EIconName } from '../icon/icon.types';
 import { HostAttributes } from '@stencil/core/internal';
 
 export enum EInputFieldType {
@@ -36,9 +36,9 @@ export interface ITextField {
 	/** (optional) Text field label */
 	label?: string;
 	/** (optional) Text field's icon symbol name */
-	icon?: EIconName | EOtherIconName;
+	icon?: EIconName;
 	/** (optional) Icon that is added on the right of the input. Its clickable. */
-	actionIcon?: EIconName | EOtherIconName;
+	actionIcon?: EIconName;
 	/** (optional) Text field input name */
 	inputName?: string;
 	/** (optional) Text field example values */

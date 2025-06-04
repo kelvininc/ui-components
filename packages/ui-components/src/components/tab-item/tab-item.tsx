@@ -3,7 +3,7 @@ import { HostAttributes } from '@stencil/core/internal';
 import { throttle } from 'lodash-es';
 
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
-import { EIconName, EOtherIconName } from '../icon/icon.types';
+import { EIconName } from '../icon/icon.types';
 import { EComponentSize, CustomCssClass, ICustomCss } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 
@@ -29,7 +29,7 @@ export class KvTabItem implements ICustomCss {
 	/** (optional) The tab's notification color (hex value, rgb or css var format) */
 	@Prop() notificationColor?: string = '';
 	/** (optional) The tab's icon */
-	@Prop() icon?: EIconName | EOtherIconName;
+	@Prop() icon?: EIconName;
 	/** (optional) Sets this tab item to a different styling configuration */
 	@Prop() size?: EComponentSize = EComponentSize.Large;
 	/** Emitted when the tab is selected */

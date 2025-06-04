@@ -26,19 +26,19 @@ describe('Toggle Switch (unit tests)', () => {
 		it('should set the correct component tabs', () => {
 			expect(component.options).toEqual([
 				{
-					key: 'opt1',
+					value: 'opt1',
 					label: 'Option 1'
 				},
 				{
-					key: 'opt2',
+					value: 'opt2',
 					label: 'Option 2'
 				},
 				{
-					key: 'opt3',
+					value: 'opt3',
 					label: 'Option 3'
 				},
 				{
-					key: 'opt4',
+					value: 'opt4',
 					label: 'Option 4'
 				}
 			]);

@@ -1,5 +1,5 @@
 import { Component, Host, Prop, h } from '@stencil/core';
-import { EIconName, EOtherIconName } from './icon.types';
+import { EIconName } from './icon.types';
 
 import { CustomCssClass, ICustomCss } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
@@ -15,7 +15,7 @@ import { getConfig } from '../utils';
 })
 export class KvIcon implements ICustomCss {
 	/** (required) Icon symbol name */
-	@Prop({ reflect: true }) name!: EIconName | EOtherIconName;
+	@Prop({ reflect: true }) name!: EIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customClass: CustomCssClass = '';
 

@@ -1,8 +1,8 @@
 import { isEmpty } from 'lodash-es';
-import { EIconName, EOtherIconName, ISelectMultiOption, ISelectOption, ISelectSingleOptions } from '../../types';
+import { EIconName, ISelectMultiOption, ISelectOption, ISelectSingleOptions } from '../../types';
 import { HostAttributes } from '@stencil/core/internal';
 
-export const getDropdownDisplayIcon = (selectedOption?: string, flattenOptions: Record<string, ISelectOption> = {}): EIconName | EOtherIconName | undefined => {
+export const getDropdownDisplayIcon = (selectedOption?: string, flattenOptions: Record<string, ISelectOption> = {}): EIconName | undefined => {
 	if (!selectedOption || !flattenOptions[selectedOption]) {
 		return;
 	}
