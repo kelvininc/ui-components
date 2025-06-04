@@ -1,24 +1,17 @@
 import { EventEmitter } from '@stencil/core';
-import { EComponentSize } from '../../types';
+import { EComponentSize, IToggleButton } from '../../types';
 
-export interface IToggleSwitchOption {
-	/** Button's key */
-	key: string;
-	/** Button's label */
-	label: string;
-	/** (optional) If `true` be in a disabled state */
-	disabled?: boolean;
-}
+export type IToggleSwitchOption<T = string | number> = Omit<IToggleButton<T>, 'withRadio'>;
 
-export interface IToggleSwitch {
+export interface IToggleSwitch<T extends string | number | symbol = string | number | symbol> {
 	/** (optional) List of toggle switch options */
-	options: IToggleSwitchOption[];
+	options: IToggleSwitchOption<T>[];
 	/** (optional) If `true` all toggle buttons will be disabled */
 	disabled?: boolean;
 	/** (optional) Toggle switch selected option key */
-	selectedOption?: string;
+	selectedOption?: T;
 	/** (optional) A record with the button's key and its individual disabled state */
-	disabledButtons?: Record<string, boolean>;
+	disabledButtons?: Record<T, boolean>;
 	/** (optional) Sets the size for all toggle buttons */
 	size?: EComponentSize;
 }

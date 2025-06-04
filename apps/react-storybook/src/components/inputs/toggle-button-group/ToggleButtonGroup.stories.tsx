@@ -1,9 +1,11 @@
-import type { Meta, StoryFn, StoryObj } from '@storybook/react';
-import { useArgs } from '@storybook/preview-api';
-import { EIconName, KvToggleButtonGroup } from '@kelvininc/react-ui-components';
-import { ComponentProps } from 'react';
+import type { Meta, StoryFn, StoryObj } from "@storybook/react";
+import { useArgs } from "@storybook/preview-api";
+import { EIconName, KvToggleButtonGroup } from "@kelvininc/react-ui-components";
+import { ComponentProps } from "react";
 
-const ToggleButtonGroupTemplate: StoryFn<ComponentProps<typeof KvToggleButtonGroup>> = args => {
+const ToggleButtonGroupTemplate: StoryFn<
+	ComponentProps<typeof KvToggleButtonGroup>
+> = (args) => {
 	const [{ selectedButtons }, updateArgs] = useArgs();
 	const onCheckedChange = ({ detail: id }: CustomEvent<string>) =>
 		updateArgs({
@@ -17,12 +19,12 @@ const ToggleButtonGroupTemplate: StoryFn<ComponentProps<typeof KvToggleButtonGro
 };
 
 const meta = {
-	title: 'Inputs/Toggle Button Group',
+	title: "Inputs/Toggle Button Group",
 	component: KvToggleButtonGroup,
 	render: ToggleButtonGroupTemplate,
 	argTypes: {
 		onCheckedChange: {
-			action: 'checkedChange'
+			action: "checkedChange"
 		}
 	}
 } satisfies Meta<typeof KvToggleButtonGroup>;
@@ -34,25 +36,25 @@ export const TextButtonsState: Story = {
 	args: {
 		buttons: [
 			{
-				label: 'Option 1',
-				value: 'opt1'
+				label: "Option 1",
+				value: "opt1"
 			},
 			{
-				label: 'Option 2',
-				value: 'opt2'
+				label: "Option 2",
+				value: "opt2"
 			},
 			{
-				label: 'Option 3',
-				value: 'opt3',
+				label: "Option 3",
+				value: "opt3",
 				disabled: true
 			},
 			{
-				label: 'Option 4',
-				value: 'opt4'
+				label: "Option 4",
+				value: "opt4"
 			},
 			{
-				label: 'Option 5',
-				value: 'opt5'
+				label: "Option 5",
+				value: "opt5"
 			}
 		],
 		selectedButtons: {
@@ -60,14 +62,14 @@ export const TextButtonsState: Story = {
 			opt2: false,
 			opt3: false,
 			opt4: true,
-			opt5: false
+			opt5: true
 		},
 		disabledButtons: {
 			opt1: false,
 			opt2: false,
 			opt3: false,
 			opt4: false,
-			opt5: false
+			opt5: true
 		},
 		radioButtons: {
 			opt1: false,
@@ -84,15 +86,15 @@ export const IconButtonsState: Story = {
 		buttons: [
 			{
 				icon: EIconName.DensityLow,
-				value: 'low'
+				value: "low"
 			},
 			{
 				icon: EIconName.DensityMedium,
-				value: 'medium'
+				value: "medium"
 			},
 			{
 				icon: EIconName.DensityHigh,
-				value: 'high'
+				value: "high"
 			}
 		],
 		selectedButtons: {
@@ -107,25 +109,25 @@ export const RadioButtonsState: Story = {
 	args: {
 		buttons: [
 			{
-				label: 'Option 1',
-				value: 'opt1'
+				label: "Option 1",
+				value: "opt1"
 			},
 			{
-				label: 'Option 2',
-				value: 'opt2'
+				label: "Option 2",
+				value: "opt2"
 			},
 			{
-				label: 'Option 3',
-				value: 'opt3',
+				label: "Option 3",
+				value: "opt3",
 				disabled: true
 			},
 			{
-				label: 'Option 4',
-				value: 'opt4'
+				label: "Option 4",
+				value: "opt4"
 			},
 			{
-				label: 'Option 5',
-				value: 'opt5'
+				label: "Option 5",
+				value: "opt5"
 			}
 		],
 		selectedButtons: {
