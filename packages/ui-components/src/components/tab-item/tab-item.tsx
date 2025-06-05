@@ -4,7 +4,7 @@ import { throttle } from 'lodash-es';
 
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { EIconName } from '../icon/icon.types';
-import { EComponentSize, CustomCssClass, ICustomCss } from '../../types';
+import { EComponentSize, CustomCssClass, ICustomCss, ETagState } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 
 /**
@@ -30,6 +30,8 @@ export class KvTabItem implements ICustomCss {
 	@Prop() notificationColor?: string = '';
 	/** (optional) The tab's icon */
 	@Prop() icon?: EIconName;
+	/** (optional) Defines the color of the icon. */
+	@Prop() state?: ETagState = ETagState.Unknown;
 	/** (optional) Sets this tab item to a different styling configuration */
 	@Prop() size?: EComponentSize = EComponentSize.Large;
 	/** Emitted when the tab is selected */
@@ -70,7 +72,12 @@ export class KvTabItem implements ICustomCss {
 				>
 					<div class="label">{this.label}</div>
 					{this.icon && (
-						<div class="icon">
+						<div
+							class={{
+								icon: true,
+								[`icon--state-${this.state}`]: true
+							}}
+						>
 							<kv-icon name={this.icon} part="icon" />
 						</div>
 					)}

@@ -13,7 +13,7 @@ const AddButton = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormCon
 	const btnProps = {
 		icon: EIconName.Add,
 		size: EComponentSize.Large,
-		type: EActionButtonType.Secondary,
+		type: EActionButtonType.Tertiary,
 		tabIndex: -1,
 		disabled: disabled || readonly,
 		onClickButton: onAddClick

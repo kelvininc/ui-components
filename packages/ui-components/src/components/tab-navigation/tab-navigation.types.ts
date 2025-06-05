@@ -1,10 +1,11 @@
 import { EventEmitter } from '@stencil/core';
-import { EComponentSize, EIconName } from '../../types';
+import { EComponentSize, EIconName, ETagState } from '../../types';
 
 export interface ITabNavigationItem {
 	tabKey: number | string;
 	label: string;
 	icon?: EIconName;
+	state?: ETagState;
 	disabled?: boolean;
 }
 
