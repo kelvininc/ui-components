@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.47.0](https://github.com/kelvininc/ui-components/compare/v0.46.0...v0.47.0) (2025-06-05)
+
+
+### Bug Fixes
+
+* **schema-form:** clean the unsupported schema key ([571d99d](https://github.com/kelvininc/ui-components/commit/571d99d3a5c71cd018fa0ee1a0b7f0598758faeb))
+
+
+### Features
+
+* **schema-form:** add allow clear inputs feature ([9b5c8d1](https://github.com/kelvininc/ui-components/commit/9b5c8d1e7a6e5fdf04605bc92f079cbc9ce7f373))
+* **wizard-header:** add container padding css prop ([afea6ce](https://github.com/kelvininc/ui-components/commit/afea6ce8b4ba8a4c029df0b9d2203e0d98168119))
+
+
+
+
+
 # [0.46.0](https://github.com/kelvininc/ui-components/compare/v0.45.0...v0.46.0) (2025-05-02)
 
 

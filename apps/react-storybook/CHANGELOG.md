@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.47.0](https://github.com/kelvininc/ui-components/compare/v0.46.0...v0.47.0) (2025-06-05)
+
+
+### Bug Fixes
+
+* **kv-toggle-switch:** adds active disabled state ([cf0635e](https://github.com/kelvininc/ui-components/commit/cf0635ebc6e6f3c31ac523715c80e2e82ead961c))
+
+
+* refactor(icon)!: remove legacy icons ([096eabc](https://github.com/kelvininc/ui-components/commit/096eabc08b305f73dfd64d212a8a3c1292aeccb0))
+
+
+### BREAKING CHANGES
+
+* - All `EOtherIconName` icons were removed except the following that were
+  migrated to `EIconName`:
+    - `icon-checkmark` is now `kv-checkmark`
+    - `icon-indertimate-state` is now `kv-indeterminate-state`
+    - `icon-check-state` is now `kv-check-state`
+    - `icon-uncheck-state` is now `kv-uncheck-state`
+
+
+
+
+
 # [0.46.0](https://github.com/kelvininc/ui-components/compare/v0.45.0...v0.46.0) (2025-05-02)
 
 
