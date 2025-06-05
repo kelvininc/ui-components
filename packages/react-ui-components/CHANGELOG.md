@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.47.1](https://github.com/kelvininc/ui-components/compare/v0.47.0...v0.47.1) (2025-06-05)
+
+
+### Bug Fixes
+
+* **schema-form:** fix return type ([ee03dcd](https://github.com/kelvininc/ui-components/commit/ee03dcd5a96546cc546fcb1c61b9c11668005c9a))
+
+
+
+
+
 # [0.47.0](https://github.com/kelvininc/ui-components/compare/v0.46.0...v0.47.0) (2025-06-05)
 
 
