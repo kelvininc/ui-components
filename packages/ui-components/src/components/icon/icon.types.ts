@@ -191,6 +191,7 @@ export enum EIconName {
 	SyncCircle = 'kv-sync-circle',
 	SyncError = 'kv-sync-error',
 	SystemSource = 'kv-system-source',
+	Table = 'kv-table',
 	TagAlarm = 'kv-tag-alarm',
 	TagControlChange = 'kv-tag-control-change',
 	TaskCheckmark = 'kv-task-checkmark',
