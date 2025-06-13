@@ -330,7 +330,13 @@
 
 	<symbol id="kv-list"
 		xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-		<path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/>
+<path d="M3 8h18V4H3zm0 6h18v-4H3zm0 6h18v-4H3zM4 7V5h2v2zm0 6v-2h2v2zm0 6v-2h2v2z"/>
+</symbol>
+
+<symbol id="kv-table"
+xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+<path d="M21 14.286h-5.143V9.714H21zm-6.429 0H9.43V9.714h5.142zm0 5.714H9.43v-4.571h5.142zm-6.428-5.714H3V9.714h5.143zM3 7.556h18V4H3zm12.857 7.873V20H21v-4.571zm-7.714 0H3V20h5.143z"/>
+
 	</symbol>
 
 	<symbol id="kv-supervised-user"
