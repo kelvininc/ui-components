@@ -27,14 +27,14 @@
 	 * @prop --badge-text-color-success: Badge's text color when state is success.
 	 */
 
-	--badge-min-width: 16px;
+	--badge-min-width: 20px;
 	--badge-max-width: fit-content;
-	--badge-height: 16px;
+	--badge-height: 20px;
 	--badge-width: unset;
 }
 
 .badge {
-	@include kv-font-label-xsmall-regular;
+	@include kv-font-span-regular;
 	display: flex;
 	align-items: center;
 	justify-content: center;
