@@ -293,8 +293,10 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 						style={{
 							'--select-option-height': `${SELECT_OPTION_HEIGHT_IN_PX}px`
 						}}
+						exportparts="icon:select-option-icon"
 					/>
 				)}
+				exportparts="select-option-icon"
 			/>
 		);
 	};
@@ -345,6 +347,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 				onSelectAll={this.onSelectAll}
 				onClearSelection={this.onClearSelection}
 				part="select"
+				exportparts="select-option-icon"
 			>
 				<slot name="select-header-actions" slot="select-header-actions" />
 				<slot name="select-header-label" slot="select-header-label" />
