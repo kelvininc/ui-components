@@ -3,7 +3,9 @@ import { EIconName } from "@kelvininc/react-ui-components";
 export const SMALL_SET_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
 	option1: {
 		value: "option1",
-		label: "Option 1"
+		label: "Option 1",
+		icon: EIconName.Info,
+		iconTooltipText: "Option 1 tooltip text"
 	},
 	option2: {
 		value: "option2",
@@ -42,7 +44,8 @@ export const LARGE_SET_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
 		options: {
 			option0: {
 				label: "Option 0",
-				value: "option-0"
+				value: "option-0",
+				icon: EIconName.Info
 			},
 			option1: {
 				label: "Option 1",

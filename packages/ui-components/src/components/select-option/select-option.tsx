@@ -28,6 +28,8 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) iconTooltipText?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) description?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
@@ -94,7 +96,9 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 						)}
 						{this.icon && (
 							<div class="icon-container" part="icon">
-								<kv-icon name={this.icon} />
+								<kv-tooltip text={this.iconTooltipText}>
+									<kv-icon name={this.icon} />
+								</kv-tooltip>
 							</div>
 						)}
 						<div class="text-container">

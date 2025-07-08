@@ -363,7 +363,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							onOptionCreated={this.onOptionCreated}
 							onDismiss={this.onDismiss}
 							canAddItems={this.canAddItems}
-							exportparts="select"
+							exportparts="select,select-option-icon"
 						>
 							<slot name="create-new-option" slot="create-new-option" />
 							<slot name="select-header-actions" slot="select-header-actions" />
