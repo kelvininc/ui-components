@@ -4,6 +4,14 @@
 	margin-bottom: $spacing;
 	display: flex;
 
+	kv-info-label::part(title) {
+		@include ellipsis;
+	}
+
+	kv-tooltip {
+		max-width: 100%;
+	}
+
 	&.GroupTitle {
 		kv-info-label::part(title) {
 			@include kv-font-span-semibold;

@@ -50,7 +50,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	@State() _actionElement: HTMLElement;
 
 	private getInputConfig = () => {
-		return merge({}, DEFAULT_INPUT_CONFIG, { disabled: this.disabled }, this.inputConfig);
+		return merge({}, DEFAULT_INPUT_CONFIG, { inputDisabled: this.disabled }, this.inputConfig);
 	};
 
 	componentDidRender() {
