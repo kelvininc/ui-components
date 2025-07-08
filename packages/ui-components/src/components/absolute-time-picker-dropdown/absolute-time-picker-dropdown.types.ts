@@ -32,6 +32,8 @@ export interface IAbsoluteTimePickerDropdown {
 	headerTitle?: string;
 	/** (optional) If `true` the dropdown is disabled. Default: `false`. */
 	disabled?: boolean;
+	/** (optional) If `true`the calendar dropdown is will be open. Default: `false`  */
+	dropdownOpen?: boolean;
 }
 
 export interface IAbsoluteTimePickerDropdownEvents {

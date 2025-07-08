@@ -45,13 +45,13 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 	@Prop({ reflect: false }) headerTitle?: string = '';
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: false, mutable: true }) dropdownOpen: boolean = false;
 
 	// Defines the calendar initial date if needed
 	@State() calendarInitialDate: string = this.initialDate;
 	// Current selected option
 	@State() selectedDateState: SelectedTimestamp = [];
-	// Dropdown open state
-	@State() dropdownOpen: boolean = false;
 
 	/** @inheritdoc */
 	@Event() selectedDatesChange: EventEmitter<[number] | [number, number]>;
