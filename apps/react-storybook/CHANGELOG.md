@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.48.0](https://github.com/kelvininc/ui-components/compare/v0.47.1...v0.48.0) (2025-07-08)
+
+
+### Features
+
+* **select-option:** adds a tooltip into icon and export icon part to be stylized outside ([2a9c307](https://github.com/kelvininc/ui-components/commit/2a9c307eb56512ebb24fdddb55e17cd540f56e4f))
+
+
+
+
+
 ## [0.47.1](https://github.com/kelvininc/ui-components/compare/v0.47.0...v0.47.1) (2025-06-05)
 
 **Note:** Version bump only for package @kelvininc/react-storybook

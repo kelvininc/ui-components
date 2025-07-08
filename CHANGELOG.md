@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.48.0](https://github.com/kelvininc/ui-components/compare/v0.47.1...v0.48.0) (2025-07-08)
+
+
+### Features
+
+* **absolute-time-picker-dropdown:** enables dropdown open state to be controlled externally ([ae8910a](https://github.com/kelvininc/ui-components/commit/ae8910a0a095b2a18a61a0c92502ee3703532773))
+* **icons:** add list table view icons ([3d7b82a](https://github.com/kelvininc/ui-components/commit/3d7b82a6d9727eece7dfd26cef8b49e1679e42c5))
+* **schema-form:** add truncate fields title ([1d0d120](https://github.com/kelvininc/ui-components/commit/1d0d1203d7cf7cf08ca0d4a6f1ca870d93abca65))
+* **select-option:** adds a tooltip into icon and export icon part to be stylized outside ([2a9c307](https://github.com/kelvininc/ui-components/commit/2a9c307eb56512ebb24fdddb55e17cd540f56e4f))
+* **tab-item:** add icon state ([a4fc581](https://github.com/kelvininc/ui-components/commit/a4fc581dcd0dfc907d5d2535593d32f19a78d9c5))
+
+
+
+
+
 ## [0.47.1](https://github.com/kelvininc/ui-components/compare/v0.47.0...v0.47.1) (2025-06-05)
 
 

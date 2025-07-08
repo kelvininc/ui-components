@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.48.0](https://github.com/kelvininc/ui-components/compare/v0.47.1...v0.48.0) (2025-07-08)
+
+
+### Features
+
+* **schema-form:** add truncate fields title ([1d0d120](https://github.com/kelvininc/ui-components/commit/1d0d1203d7cf7cf08ca0d4a6f1ca870d93abca65))
+* **tab-item:** add icon state ([a4fc581](https://github.com/kelvininc/ui-components/commit/a4fc581dcd0dfc907d5d2535593d32f19a78d9c5))
+
+
+
+
+
 ## [0.47.1](https://github.com/kelvininc/ui-components/compare/v0.47.0...v0.47.1) (2025-06-05)
 
 
