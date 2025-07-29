@@ -7,11 +7,11 @@
 
 | Property        | Attribute        | Description                                                                         | Type                                                                                                                | Default     |
 | --------------- | ---------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ----------- |
-| `getItemKey`    | --               | (required) Defines the given item key                                               | `(index: number) => string`                                                                                         | `undefined` |
+| `getItemKey`    | `get-item-key`   | (required) Defines the given item key                                               | `(index: number) => string`                                                                                         | `undefined` |
 | `itemCount`     | `item-count`     | (required) Defines the total number of items rendered in the list                   | `number`                                                                                                            | `undefined` |
 | `itemHeight`    | `item-height`    | (required) Defines the estimated height in pixels of an item                        | `number`                                                                                                            | `undefined` |
 | `overscanCount` | `overscan-count` | (optional) The number of items outside the viewport that are rendered. Default: `5` | `number`                                                                                                            | `5`         |
-| `renderItem`    | --               | (required) Defines the item render function                                         | `(index: number) => ChildType \| Promise<ChildType> \| ChildType[] \| Promise<ChildType[]> \| Promise<ChildType>[]` | `undefined` |
+| `renderItem`    | `render-item`    | (required) Defines the item render function                                         | `(index: number) => ChildType \| Promise<ChildType> \| ChildType[] \| Promise<ChildType[]> \| Promise<ChildType>[]` | `undefined` |
 
 
 ## CSS Custom Properties

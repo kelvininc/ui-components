@@ -41,8 +41,8 @@ export const KvAbsoluteTimePickerDropdownInput: React.FC = () => (
 | `minimumSingleInputDate` | `minimum-single-input-date` | (optional) calendar single input minimum date                          | `number`                                                          | `undefined`                     |
 | `minimumToInputDate`     | `minimum-to-input-date`     | (optional) calendar to input minimum date                              | `number`                                                          | `undefined`                     |
 | `mode`                   | `mode`                      | (optional) Mode of the input: single, range                            | `EAbsoluteTimePickerMode.Range \| EAbsoluteTimePickerMode.Single` | `EAbsoluteTimePickerMode.Range` |
-| `selectedTime`           | --                          | (optional) Selected time in timestamp                                  | `[] \| [number, number] \| [number]`                              | `undefined`                     |
-| `timezone`               | --                          | (optional) Timezone of the provided timestamp                          | `{ name: string; offset: number; }`                               | `getDefaultTimezoneSettings()`  |
+| `selectedTime`           | `selected-time`             | (optional) Selected time in timestamp                                  | `[] \| [number, number] \| [number]`                              | `undefined`                     |
+| `timezone`               | `timezone`                  | (optional) Timezone of the provided timestamp                          | `{ name: string; offset: number; }`                               | `getDefaultTimezoneSettings()`  |
 
 
 ## Events

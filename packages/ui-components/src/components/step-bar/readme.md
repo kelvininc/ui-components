@@ -66,7 +66,7 @@ export const StepBarExample: React.FC = () => {
 | `hasError`                        | `has-error`           | (optional) Defines if the progress bar should be in an error state                           | `boolean`        | `false`         |
 | `label`                           | `label`               | (optional) Defines the label to display next to the step counter (defaults to: "Progress: ") | `string`         | `DEFAULT_LABEL` |
 | `progressPercentage` _(required)_ | `progress-percentage` | (required) Defines the percentage of steps completed                                         | `number`         | `undefined`     |
-| `steps` _(required)_              | --                    | (required) Defines the steps array to render                                                 | `IStepBarStep[]` | `undefined`     |
+| `steps` _(required)_              | `steps`               | (required) Defines the steps array to render                                                 | `IStepBarStep[]` | `undefined`     |
 
 
 ## Events

@@ -38,13 +38,13 @@ const RadioListExample: React.FC = () => {
 
 ## Properties
 
-| Property               | Attribute         | Description                                            | Type                                              | Default     |
-| ---------------------- | ----------------- | ------------------------------------------------------ | ------------------------------------------------- | ----------- |
-| `disabledOptions`      | --                | (optional) The options to show up as disabled          | `{ [x: string]: boolean; [x: number]: boolean; }` | `undefined` |
-| `label`                | `label`           | (optional) Form field label                            | `string`                                          | `undefined` |
-| `options` _(required)_ | --                | (required) The configuration for the buttons to render | `IRadioListItem[]`                                | `undefined` |
-| `required`             | `required`        | (optional) Form field required                         | `boolean`                                         | `false`     |
-| `selectedOption`       | `selected-option` | (optional) The desired selected option                 | `number \| string`                                | `undefined` |
+| Property               | Attribute          | Description                                            | Type                                              | Default     |
+| ---------------------- | ------------------ | ------------------------------------------------------ | ------------------------------------------------- | ----------- |
+| `disabledOptions`      | `disabled-options` | (optional) The options to show up as disabled          | `{ [x: string]: boolean; [x: number]: boolean; }` | `undefined` |
+| `label`                | `label`            | (optional) Form field label                            | `string`                                          | `undefined` |
+| `options` _(required)_ | `options`          | (required) The configuration for the buttons to render | `IRadioListItem[]`                                | `undefined` |
+| `required`             | `required`         | (optional) Form field required                         | `boolean`                                         | `false`     |
+| `selectedOption`       | `selected-option`  | (optional) The desired selected option                 | `number \| string`                                | `undefined` |
 
 
 ## Events

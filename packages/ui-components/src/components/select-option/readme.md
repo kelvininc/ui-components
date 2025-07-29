@@ -28,24 +28,25 @@ export const KvSelectOptionExample: React.FC = () => (
 
 ## Properties
 
-| Property             | Attribute      | Description                                                                                | Type                                                                       | Default     |
-| -------------------- | -------------- | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- | ----------- |
-| `action`             | --             | (optional) Action to display on the right side of the item                                 | `ISelectOptionAction`                                                      | `undefined` |
-| `customClass`        | `custom-class` | (optional) Custom class to apply for custom styling.                                       | `CssClassMap \| string \| string[]`                                        | `''`        |
-| `customStyle`        | --             | (optional) Additional style to apply for custom CSS.                                       | `{ [key: string]: string; }`                                               | `undefined` |
-| `description`        | `description`  | (optional) Description of the item displayed on the right                                  | `string`                                                                   | `undefined` |
-| `disabled`           | `disabled`     | (optional) If `true` the item is disabled                                                  | `boolean`                                                                  | `false`     |
-| `heading`            | `heading`      | (optional) If `true` the item is presented as a list heading. Default: `false`             | `boolean`                                                                  | `false`     |
-| `highlighted`        | `highlighted`  | (optional) If `true` the item is highlighted                                               | `boolean`                                                                  | `false`     |
-| `icon`               | `icon`         | (optional) Icon of the item displayed on the left                                          | `EIconName \| EOtherIconName`                                              | `undefined` |
-| `isDirty`            | `is-dirty`     | (optional) If true, a dirty dot indicator will be added to left side of the option's text. | `boolean`                                                                  | `false`     |
-| `label` _(required)_ | `label`        | (required) The text to display on the item                                                 | `string`                                                                   | `undefined` |
-| `level`              | `level`        | (optional) The level depth at which the option is rendered                                 | `number`                                                                   | `0`         |
-| `selectable`         | `selectable`   | (optional) If `false` the item is only for presenting and cannot be selected.              | `boolean`                                                                  | `true`      |
-| `selected`           | `selected`     | (optional) If `true` the item is selected                                                  | `boolean`                                                                  | `false`     |
-| `state`              | `state`        | (optional) The toggle button state                                                         | `EToggleState.Indeterminate \| EToggleState.None \| EToggleState.Selected` | `undefined` |
-| `togglable`          | `togglable`    | (optional) If `true` the item is togglable                                                 | `boolean`                                                                  | `false`     |
-| `value` _(required)_ | `value`        | (required) The item value                                                                  | `string`                                                                   | `undefined` |
+| Property             | Attribute           | Description                                                                                | Type                                                                       | Default     |
+| -------------------- | ------------------- | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- | ----------- |
+| `action`             | `action`            | (optional) Action to display on the right side of the item                                 | `ISelectOptionAction`                                                      | `undefined` |
+| `customClass`        | `custom-class`      | (optional) Custom class to apply for custom styling.                                       | `CssClassMap \| string \| string[]`                                        | `''`        |
+| `customStyle`        | `custom-style`      | (optional) Additional style to apply for custom CSS.                                       | `{ [key: string]: string; }`                                               | `undefined` |
+| `description`        | `description`       | (optional) Description of the item displayed on the right                                  | `string`                                                                   | `undefined` |
+| `disabled`           | `disabled`          | (optional) If `true` the item is disabled                                                  | `boolean`                                                                  | `false`     |
+| `heading`            | `heading`           | (optional) If `true` the item is presented as a list heading. Default: `false`             | `boolean`                                                                  | `false`     |
+| `highlighted`        | `highlighted`       | (optional) If `true` the item is highlighted                                               | `boolean`                                                                  | `false`     |
+| `icon`               | `icon`              | (optional) Icon of the item displayed on the left                                          | `EIconName`                                                                | `undefined` |
+| `iconTooltipText`    | `icon-tooltip-text` |                                                                                            | `string`                                                                   | `undefined` |
+| `isDirty`            | `is-dirty`          | (optional) If true, a dirty dot indicator will be added to left side of the option's text. | `boolean`                                                                  | `false`     |
+| `label` _(required)_ | `label`             | (required) The text to display on the item                                                 | `string`                                                                   | `undefined` |
+| `level`              | `level`             | (optional) The level depth at which the option is rendered                                 | `number`                                                                   | `0`         |
+| `selectable`         | `selectable`        | (optional) If `false` the item is only for presenting and cannot be selected.              | `boolean`                                                                  | `true`      |
+| `selected`           | `selected`          | (optional) If `true` the item is selected                                                  | `boolean`                                                                  | `false`     |
+| `state`              | `state`             | (optional) The toggle button state                                                         | `EToggleState.Indeterminate \| EToggleState.None \| EToggleState.Selected` | `undefined` |
+| `togglable`          | `togglable`         | (optional) If `true` the item is togglable                                                 | `boolean`                                                                  | `false`     |
+| `value` _(required)_ | `value`             | (required) The item value                                                                  | `string`                                                                   | `undefined` |
 
 
 ## Events
@@ -97,6 +98,7 @@ export const KvSelectOptionExample: React.FC = () => (
 ### Depends on
 
 - [kv-checkbox](../checkbox)
+- [kv-tooltip](../tooltip)
 - [kv-icon](../icon)
 - [kv-dirty-dot](../dirty-dot)
 - [kv-action-button-icon](../action-button-icon)
@@ -105,10 +107,13 @@ export const KvSelectOptionExample: React.FC = () => (
 ```mermaid
 graph TD;
   kv-select-option --> kv-checkbox
+  kv-select-option --> kv-tooltip
   kv-select-option --> kv-icon
   kv-select-option --> kv-dirty-dot
   kv-select-option --> kv-action-button-icon
   kv-checkbox --> kv-icon
+  kv-tooltip --> kv-portal
+  kv-tooltip --> kv-tooltip-text
   kv-dirty-dot --> kv-icon
   kv-action-button-icon --> kv-action-button
   kv-action-button-icon --> kv-icon
