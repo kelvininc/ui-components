@@ -37,12 +37,12 @@ export const KvRelativeTimePickerExample: React.FC = () => (
 | `customClass`                 | `custom-class`                   | (optional) Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. It is also valid to provide CssClassMap with boolean logic. | `CssClassMap \| string \| string[]` | `''`                                         |
 | `customIntervalOptionEnabled` | `custom-interval-option-enabled` | (optional) Defines if the customize interval select option is available                                                                                                                 | `boolean`                           | `true`                                       |
 | `disableTimezoneSelection`    | `disable-timezone-selection`     | (optional) Lets the timezone visible but doens't let the user change it                                                                                                                 | `boolean`                           | `false`                                      |
-| `options`                     | --                               | (optional) Selectable relative time options                                                                                                                                             | `IRelativeTimePickerOption[][]`     | `DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS`       |
+| `options`                     | `options`                        | (optional) Selectable relative time options                                                                                                                                             | `IRelativeTimePickerOption[][]`     | `DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS`       |
 | `selectedTimeKey`             | `selected-time-key`              | (optional) Selected time range key                                                                                                                                                      | `string`                            | `undefined`                                  |
 | `selectedTimezone`            | `selected-timezone`              | (optional) Currently selected timezone name                                                                                                                                             | `string`                            | `undefined`                                  |
 | `timezoneContentVisible`      | `timezone-content-visible`       | (optional) Determines if the input wrapper content containing the timezone is visible if true, the dropdown will be visible; if false, the content will display the timezone title      | `boolean`                           | `false`                                      |
 | `timezoneSelectionEnabled`    | `timezone-selection-enabled`     | (optional) Defines if the timezone select option is available                                                                                                                           | `boolean`                           | `true`                                       |
-| `timezones`                   | --                               | (optional) List of all selectable timezones                                                                                                                                             | `ITimezoneOffset[]`                 | `buildTimezoneByOffset(getTimezonesNames())` |
+| `timezones`                   | `timezones`                      | (optional) List of all selectable timezones                                                                                                                                             | `ITimezoneOffset[]`                 | `buildTimezoneByOffset(getTimezonesNames())` |
 
 
 ## Events
@@ -84,10 +84,13 @@ graph TD;
   kv-relative-time-picker --> kv-input-wrapper
   kv-relative-time-picker --> kv-single-select-dropdown
   kv-select-option --> kv-checkbox
+  kv-select-option --> kv-tooltip
   kv-select-option --> kv-icon
   kv-select-option --> kv-dirty-dot
   kv-select-option --> kv-action-button-icon
   kv-checkbox --> kv-icon
+  kv-tooltip --> kv-portal
+  kv-tooltip --> kv-tooltip-text
   kv-dirty-dot --> kv-icon
   kv-action-button-icon --> kv-action-button
   kv-action-button-icon --> kv-icon
@@ -104,8 +107,6 @@ graph TD;
   kv-text-field --> kv-dirty-dot
   kv-text-field --> kv-badge
   kv-text-field --> kv-form-help-text
-  kv-tooltip --> kv-portal
-  kv-tooltip --> kv-tooltip-text
   kv-form-help-text --> kv-icon
   kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option

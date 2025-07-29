@@ -29,7 +29,7 @@ export const TagStatusExample: React.FC = () => (
 
 | Property             | Attribute | Description                                  | Type                                                                                               | Default     |
 | -------------------- | --------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------- |
-| `icon` _(required)_  | `icon`    | (required) Defines the icon to be displayed. | `EIconName \| EOtherIconName`                                                                      | `undefined` |
+| `icon` _(required)_  | `icon`    | (required) Defines the icon to be displayed. | `EIconName`                                                                                        | `undefined` |
 | `label`              | `label`   | (optional) Defines the content of the label. | `string`                                                                                           | `undefined` |
 | `state` _(required)_ | `state`   | (required) Defines the color of the icon.    | `ETagState.Error \| ETagState.Info \| ETagState.Success \| ETagState.Unknown \| ETagState.Warning` | `undefined` |
 
