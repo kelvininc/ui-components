@@ -29,6 +29,8 @@ export interface ISelectOption extends ICustomCss {
 	tooltipIcon?: EIconName;
 	/** (optional) Description of the item displayed on the right */
 	description?: string;
+	/** (optional) Icon of the item displayed on the right */
+	rightIcon?: EIconName;
 	/** (optional) If `true` the item is disabled */
 	disabled?: boolean;
 	/** (optional) If `true` the item is selected */

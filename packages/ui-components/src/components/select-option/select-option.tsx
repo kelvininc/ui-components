@@ -32,6 +32,8 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) description?: string;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) rightIcon?: EIconName;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selected?: boolean = false;
@@ -109,9 +111,18 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 								</div>
 							</div>
 							<div class="right-content">
-								{this.description && <div class="item-description">{this.description}</div>}
+								{(this.description || this.rightIcon) && (
+									<div class="group">
+										{this.rightIcon && (
+											<div class="item-right-icon">
+												<kv-icon name={this.rightIcon} />
+											</div>
+										)}
+										{this.description && <div class="item-description">{this.description}</div>}
+									</div>
+								)}
 								{this.action && (
-									<div class="action-container">
+									<div class="group">
 										<kv-action-button-icon
 											type={EActionButtonType.Ghost}
 											icon={this.action.icon}

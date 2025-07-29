@@ -17,6 +17,9 @@
 	 * @prop --select-option-description-color-highlighted: Select option description color when highlighted.
 	 * @prop --select-option-description-color-hover: Select option description color when hover.
 	 * @prop --select-option-icon-size: Select option icon size in pixels.
+	 * @prop --select-option-icon-color: Select option icon color.
+	 * @prop --select-option-right-icon-size: Select option right icon size in pixels.
+	 * @prop --select-option-right-icon-color: Select option right icon color.
 	 */
 
 	--select-option-height: 32px;
@@ -37,6 +40,8 @@
 	--select-option-description-color-hover: #{kv-color('neutral-4')};
 	--select-option-icon-size: 16px;
 	--select-option-icon-color: #{kv-color('neutral-0')};
+	--select-option-right-icon-size: 16px;
+	--select-option-right-icon-color: #{kv-color('neutral-4')};
 }
 
 .select-option {
@@ -93,6 +98,17 @@
 	.item-description {
 		@include kv-font-label-small-regular;
 		color: var(--select-option-description-color);
+	}
+
+	.item-right-icon kv-icon {
+		--icon-color: var(--select-option-right-icon-color);
+	}
+
+	.group {
+		display: flex;
+		flex-direction: row;
+		gap: $spacing;
+		align-items: center;
 	}
 
 	&--selected {
