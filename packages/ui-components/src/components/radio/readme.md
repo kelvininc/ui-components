@@ -55,9 +55,14 @@ export const RadioExample: React.FC = () => (
 | Name                          | Description                                  |
 | ----------------------------- | -------------------------------------------- |
 | `--input-height-large`        | Text Field's large height.                   |
+| `--input-height-large`        | Text Field's large height.                   |
+| `--input-height-small`        | Text Field's small height.                   |
 | `--input-height-small`        | Text Field's small height.                   |
 | `--radio-input-checked-color` | Radio input color when state is checked.     |
+| `--radio-input-checked-color` | Radio input color when state is checked.     |
 | `--radio-input-default-color` | Radio input color when state is not checked. |
+| `--radio-input-default-color` | Radio input color when state is not checked. |
+| `--radio-label-text-color`    | Radio label color.                           |
 | `--radio-label-text-color`    | Radio label color.                           |
 
 

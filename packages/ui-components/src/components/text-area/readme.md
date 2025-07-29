@@ -53,14 +53,14 @@ export const TextAreaExample: React.FC = () => (
 
 ## Properties
 
-| Property        | Attribute         | Description                                                          | Type                          | Default     |
-| --------------- | ----------------- | -------------------------------------------------------------------- | ----------------------------- | ----------- |
-| `counter`       | `counter`         | (optional) If `true` the chars counter is displayed. Default: `true` | `boolean`                     | `true`      |
-| `disabled`      | `disabled`        | (optional) If `true` the text area is disabled. Default: `false`.    | `boolean`                     | `false`     |
-| `icon`          | `icon`            | (optional) Icon to show to the left of the text field                | `EIconName \| EOtherIconName` | `undefined` |
-| `maxCharLength` | `max-char-length` | (optional) The maximum number of characters allowed                  | `number`                      | `undefined` |
-| `placeholder`   | `placeholder`     | (optional) The placeholder to show in the text area                  | `string`                      | `undefined` |
-| `text`          | `text`            | (optional) The text to show inside the text area                     | `string`                      | `undefined` |
+| Property        | Attribute         | Description                                                          | Type        | Default     |
+| --------------- | ----------------- | -------------------------------------------------------------------- | ----------- | ----------- |
+| `counter`       | `counter`         | (optional) If `true` the chars counter is displayed. Default: `true` | `boolean`   | `true`      |
+| `disabled`      | `disabled`        | (optional) If `true` the text area is disabled. Default: `false`.    | `boolean`   | `false`     |
+| `icon`          | `icon`            | (optional) Icon to show to the left of the text field                | `EIconName` | `undefined` |
+| `maxCharLength` | `max-char-length` | (optional) The maximum number of characters allowed                  | `number`    | `undefined` |
+| `placeholder`   | `placeholder`     | (optional) The placeholder to show in the text area                  | `string`    | `undefined` |
+| `text`          | `text`            | (optional) The text to show inside the text area                     | `string`    | `undefined` |
 
 
 ## Events

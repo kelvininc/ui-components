@@ -89,10 +89,12 @@ export const KvWizardFooterExample: React.FC = () => {
 | `cancelEnabled`                   | `cancel-enabled`      | (optional) Defines if the `cancel` button should be enabled and interactable                 | `boolean`        | `true`      |
 | `completeBtnLabel`                | `complete-btn-label`  | (optional) The `complete` button label                                                       | `string`         | `'Submit'`  |
 | `completeEnabled`                 | `complete-enabled`    | (optional) Defines if the `complete` button should be enabled and interactable               | `boolean`        | `undefined` |
+| `completeTooltip`                 | `complete-tooltip`    | (optional) The `complete` button tooltip                                                     | `string`         | `undefined` |
 | `currentStep` _(required)_        | `current-step`        | (required) Defines the current step index                                                    | `number`         | `undefined` |
 | `hasError`                        | `has-error`           | (optional) Defines if the progress bar should be in an error state                           | `boolean`        | `undefined` |
 | `label`                           | `label`               | (optional) Defines the label to display next to the step counter (defaults to: "Progress: ") | `string`         | `undefined` |
 | `nextEnabled`                     | `next-enabled`        | (optional) Defines if the `next` button should be enabled and interactable                   | `boolean`        | `true`      |
+| `nextTooltip`                     | `next-tooltip`        | (optional) The `next` button tooltip                                                         | `string`         | `undefined` |
 | `prevEnabled`                     | `prev-enabled`        | (optional) Defines if the `previous` button should be enabled and interactable               | `boolean`        | `true`      |
 | `progressPercentage` _(required)_ | `progress-percentage` | (required) Defines the percentage of steps completed                                         | `number`         | `undefined` |
 | `showCancelBtn`                   | `show-cancel-btn`     | (optional) A boolean that determines whether the `cancel` button should be shown             | `boolean`        | `undefined` |
@@ -100,7 +102,7 @@ export const KvWizardFooterExample: React.FC = () => {
 | `showNextBtn`                     | `show-next-btn`       | (optional) A boolean that determines whether the `next` button should be shown               | `boolean`        | `undefined` |
 | `showPrevBtn`                     | `show-prev-btn`       | (optional) A boolean that determines whether the `previous` button should be shown           | `boolean`        | `undefined` |
 | `showStepBar`                     | `show-step-bar`       | (optional) Defines if the step bar should render                                             | `boolean`        | `true`      |
-| `steps` _(required)_              | --                    | (required) Defines the steps array to render                                                 | `IStepBarStep[]` | `undefined` |
+| `steps` _(required)_              | `steps`               | (required) Defines the steps array to render                                                 | `IStepBarStep[]` | `undefined` |
 
 
 ## Events
@@ -138,17 +140,21 @@ export const KvWizardFooterExample: React.FC = () => {
 
 - [kv-step-bar](../step-bar)
 - [kv-action-button-text](../action-button-text)
+- [kv-tooltip](../tooltip)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-wizard-footer --> kv-step-bar
   kv-wizard-footer --> kv-action-button-text
+  kv-wizard-footer --> kv-tooltip
   kv-step-bar --> kv-step-progress-bar
   kv-step-bar --> kv-step-indicator
   kv-step-indicator --> kv-icon
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon
+  kv-tooltip --> kv-portal
+  kv-tooltip --> kv-tooltip-text
   kv-wizard --> kv-wizard-footer
   style kv-wizard-footer fill:#f9f,stroke:#333,stroke-width:4px
 ```

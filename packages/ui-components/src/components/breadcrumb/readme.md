@@ -27,7 +27,7 @@ export const KvBreadcrumbExample: React.FC = (props) => (
 
 | Property | Attribute | Description                    | Type                | Default |
 | -------- | --------- | ------------------------------ | ------------------- | ------- |
-| `items`  | --        | (required) List of breadcrumbs | `IBreadcrumbItem[]` | `[]`    |
+| `items`  | `items`   | (required) List of breadcrumbs | `IBreadcrumbItem[]` | `[]`    |
 
 
 ## Events

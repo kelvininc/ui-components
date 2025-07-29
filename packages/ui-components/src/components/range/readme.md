@@ -31,7 +31,7 @@ export const KvRangeExample: React.FC = () => (
 | `minLabel`        | `min-label`          | (optional) Min label               | `string`                    | `undefined` |
 | `step`            | `step`               | (optional) Range value step        | `number`                    | `1`         |
 | `value`           | `value`              | (optional) Range value             | `number`                    | `0`         |
-| `valueFormatter`  | --                   | (optional) Range value formatter   | `(value: number) => string` | `identity`  |
+| `valueFormatter`  | `value-formatter`    | (optional) Range value formatter   | `(value: number) => string` | `identity`  |
 
 
 ## Events
@@ -46,17 +46,30 @@ export const KvRangeExample: React.FC = () => (
 | Name                                  | Description                                    |
 | ------------------------------------- | ---------------------------------------------- |
 | `--range-height`                      | Height of the range slider                     |
+| `--range-height`                      | Height of the range slider                     |
+| `--range-label-color`                 | range labels color                             |
 | `--range-label-color`                 | range labels color                             |
 | `--range-margin-top`                  | Margin top of the range slider                 |
+| `--range-margin-top`                  | Margin top of the range slider                 |
+| `--range-selector-border-radius`      | Border radius of the range thumb               |
 | `--range-selector-border-radius`      | Border radius of the range thumb               |
 | `--range-selector-radius`             | Radius of the range thumb                      |
+| `--range-selector-radius`             | Radius of the range thumb                      |
+| `--range-width`                       | Width of the range slider                      |
 | `--range-width`                       | Width of the range slider                      |
 | `--select-label-color`                | select labels color                            |
+| `--select-label-color`                | select labels color                            |
+| `--select-label-disabled-color`       | disabled select labels color                   |
 | `--select-label-disabled-color`       | disabled select labels color                   |
 | `--slider-background-empty`           | color of the slider when its empty             |
+| `--slider-background-empty`           | color of the slider when its empty             |
+| `--slider-background-filled`          | color of the slider when its full              |
 | `--slider-background-filled`          | color of the slider when its full              |
 | `--slider-background-filled-disabled` | color of the slider when its disabled and full |
+| `--slider-background-filled-disabled` | color of the slider when its disabled and full |
 | `--thumb-background-color`            | thumb background color                         |
+| `--thumb-background-color`            | thumb background color                         |
+| `--thumb-border-color`                | thumb border color                             |
 | `--thumb-border-color`                | thumb border color                             |
 
 
