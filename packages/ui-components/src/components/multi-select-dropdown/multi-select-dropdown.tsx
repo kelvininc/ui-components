@@ -305,6 +305,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 							<slot name="select-header-label" slot="select-header-label" />
 							<slot name="no-data-available" slot="no-data-available" />
 							<slot name="no-results-found" slot="no-results-found" />
+							<slot name="select-footer" slot="select-footer" />
 						</kv-select-multi-options>
 					</div>
 				</kv-dropdown>
