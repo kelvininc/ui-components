@@ -424,6 +424,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 						</kv-select-shortcuts-label>
 					</slot>
 				)}
+				<slot name="select-footer" slot="select-footer" />
 			</kv-select>
 		);
 	}
