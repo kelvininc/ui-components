@@ -370,6 +370,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							<slot name="select-header-label" slot="select-header-label" />
 							<slot name="no-data-available" slot="no-data-available" />
 							<slot name="no-results-found" slot="no-results-found" />
+							<slot name="select-footer" slot="select-footer" />
 						</kv-select-multi-options>
 						<slot />
 					</div>
