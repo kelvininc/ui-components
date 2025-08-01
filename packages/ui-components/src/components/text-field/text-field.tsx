@@ -188,12 +188,12 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	private onHostClick = (event: MouseEvent) => {
 		if (this.inputDisabled) return;
 		event.preventDefault();
-		this.fieldClick.emit();
+		this.fieldClick.emit(event);
 	};
 
 	private onRightActionClick = (event: MouseEvent) => {
 		event.preventDefault();
-		this.rightActionClick.emit();
+		this.rightActionClick.emit(event);
 	};
 
 	private onInputHandler = ({ target }: InputEvent) => {

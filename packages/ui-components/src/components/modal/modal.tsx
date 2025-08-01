@@ -27,18 +27,18 @@ export class KvModal implements IModalConfig, IModalEvents {
 	@Prop({ reflect: true }) customClass: CustomCssClass = '';
 
 	/** @inheritdoc */
-	@Event() clickClose: EventEmitter<void>;
+	@Event() clickClose: EventEmitter<MouseEvent>;
 	/** @inheritdoc */
-	@Event() clickOverlay: EventEmitter<void>;
+	@Event() clickOverlay: EventEmitter<MouseEvent>;
 
 	private onClose = (ev: MouseEvent) => {
 		ev.preventDefault();
-		this.clickClose.emit();
+		this.clickClose.emit(ev);
 	};
 
 	private onClickOverlay = (ev: MouseEvent) => {
 		ev.preventDefault();
-		this.clickOverlay.emit();
+		this.clickOverlay.emit(ev);
 	};
 
 	render() {

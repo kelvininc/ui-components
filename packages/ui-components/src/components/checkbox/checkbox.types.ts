@@ -11,5 +11,5 @@ export interface ICheckbox {
 
 export interface ICheckboxEvents {
 	/** Emitted when the checkbox checked state changes */
-	clickCheckbox: EventEmitter<void>;
+	clickCheckbox: EventEmitter<MouseEvent>;
 }

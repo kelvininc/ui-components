@@ -50,28 +50,28 @@ export class KvWizardFooter implements IWizardFooter, IWizardFooterEvents {
 	/** @inheritdoc */
 	@Event() stepClick: EventEmitter<number>;
 	/** @inheritdoc */
-	@Event() cancelClick: EventEmitter<void>;
+	@Event() cancelClick: EventEmitter<MouseEvent>;
 	/** @inheritdoc */
-	@Event() prevClick: EventEmitter<void>;
+	@Event() prevClick: EventEmitter<MouseEvent>;
 	/** @inheritdoc */
-	@Event() nextClick: EventEmitter<void>;
+	@Event() nextClick: EventEmitter<MouseEvent>;
 	/** @inheritdoc */
-	@Event() completeClick: EventEmitter<void>;
+	@Event() completeClick: EventEmitter<MouseEvent>;
 
-	private onPrevClick = () => {
-		this.prevClick.emit();
+	private onPrevClick = (event: MouseEvent) => {
+		this.prevClick.emit(event);
 	};
 
-	private onNextClick = () => {
-		this.nextClick.emit();
+	private onNextClick = (event: MouseEvent) => {
+		this.nextClick.emit(event);
 	};
 
-	private onCancelClick = () => {
-		this.cancelClick.emit();
+	private onCancelClick = (event: MouseEvent) => {
+		this.cancelClick.emit(event);
 	};
 
-	private onCompleteClick = () => {
-		this.completeClick.emit();
+	private onCompleteClick = (event: MouseEvent) => {
+		this.completeClick.emit(event);
 	};
 
 	private onStepClick = ({ detail }: CustomEvent<number>) => {
@@ -99,14 +99,29 @@ export class KvWizardFooter implements IWizardFooter, IWizardFooterEvents {
 					</div>
 					<div class="buttons-container">
 						{this.showCancelBtn && (
-							<kv-action-button-text type={EActionButtonType.Ghost} text="Cancel" disabled={!this.cancelEnabled} onClickButton={this.onCancelClick} />
+							<kv-action-button-text
+								type={EActionButtonType.Ghost}
+								text="Cancel"
+								disabled={!this.cancelEnabled}
+								onClickButton={({ detail: event }) => this.onCancelClick(event)}
+							/>
 						)}
 						{this.showPrevBtn && (
-							<kv-action-button-text type={EActionButtonType.Tertiary} text="Previous" disabled={!this.prevEnabled} onClickButton={this.onPrevClick} />
+							<kv-action-button-text
+								type={EActionButtonType.Tertiary}
+								text="Previous"
+								disabled={!this.prevEnabled}
+								onClickButton={({ detail: event }) => this.onPrevClick(event)}
+							/>
 						)}
 						{this.showNextBtn && (
 							<kv-tooltip position={ETooltipPosition.TopEnd} text={this.nextTooltip} customStyle={TOOLTIP_CUSTOM_STYLE}>
-								<kv-action-button-text type={EActionButtonType.Primary} text="Next" disabled={!this.nextEnabled} onClickButton={this.onNextClick} />
+								<kv-action-button-text
+									type={EActionButtonType.Primary}
+									text="Next"
+									disabled={!this.nextEnabled}
+									onClickButton={({ detail: event }) => this.onNextClick(event)}
+								/>
 							</kv-tooltip>
 						)}
 						{this.showCompleteBtn && (
@@ -115,7 +130,7 @@ export class KvWizardFooter implements IWizardFooter, IWizardFooterEvents {
 									type={EActionButtonType.Primary}
 									text={this.completeBtnLabel}
 									disabled={!this.completeEnabled}
-									onClickButton={this.onCompleteClick}
+									onClickButton={({ detail: event }) => this.onCompleteClick(event)}
 								/>
 							</kv-tooltip>
 						)}

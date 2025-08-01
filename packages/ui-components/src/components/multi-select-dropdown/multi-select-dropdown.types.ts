@@ -50,5 +50,5 @@ export interface IMultiSelectDropdownEvents extends Omit<ISelectMultiOptionsEven
 	/** Emitted when the dropdown open state changes */
 	openStateChange: EventEmitter<boolean>;
 	/** Emitted when there's a click outside the dropdown's bondaries */
-	clickOutside: EventEmitter<void>;
+	clickOutside: EventEmitter<MouseEvent>;
 }

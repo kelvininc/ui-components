@@ -19,7 +19,7 @@ export class KvCheckbox implements ICheckbox, ICheckboxEvents {
 	@Prop({ reflect: true }) indeterminate?: boolean = false;
 
 	/** @inheritdoc */
-	@Event() clickCheckbox: EventEmitter<void>;
+	@Event() clickCheckbox: EventEmitter<MouseEvent>;
 
 	private getIconName = () => {
 		if (this.indeterminate) {
@@ -33,9 +33,9 @@ export class KvCheckbox implements ICheckbox, ICheckboxEvents {
 		return EIconName.UncheckState;
 	};
 
-	private onClick = () => {
+	private onClick = (event: MouseEvent) => {
 		if (!this.disabled) {
-			this.clickCheckbox.emit();
+			this.clickCheckbox.emit(event);
 		}
 	};
 

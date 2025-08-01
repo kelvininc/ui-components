@@ -28,9 +28,9 @@ export class KvSelectCreateOption implements ISelectCreateOption, ISelectCreateO
 	@Prop({ reflect: false }) inputConfig?: Partial<ITextField> = {};
 
 	/** @inheritdoc */
-	@Event() clickCreate: EventEmitter<void>;
+	@Event() clickCreate: EventEmitter<MouseEvent | KeyboardEvent>;
 	/** @inheritdoc */
-	@Event() clickCancel: EventEmitter<void>;
+	@Event() clickCancel: EventEmitter<MouseEvent>;
 	/** @inheritdoc */
 	@Event() valueChanged: EventEmitter<string>;
 
@@ -50,20 +50,20 @@ export class KvSelectCreateOption implements ISelectCreateOption, ISelectCreateO
 
 	private onKeyPress = (event: KeyboardEvent) => {
 		if (event.key === 'Enter') {
-			this.onCreate();
+			this.onCreate(event);
 		}
 	};
 
-	private onCreate = () => {
+	private onCreate = (event: MouseEvent | KeyboardEvent) => {
 		if (!this.canSubmit) {
 			return;
 		}
 
-		this.clickCreate.emit();
+		this.clickCreate.emit(event);
 	};
 
-	private onCancel = () => {
-		this.clickCancel.emit();
+	private onCancel = (event: MouseEvent) => {
+		this.clickCancel.emit(event);
 	};
 
 	private get canSubmit() {
@@ -90,13 +90,19 @@ export class KvSelectCreateOption implements ISelectCreateOption, ISelectCreateO
 					/>
 				</div>
 				<div class="actions">
-					<kv-action-button-icon type={EActionButtonType.Tertiary} icon={EIconName.Close} size={this.size} onClickButton={this.onCancel} part="cancel-button" />
+					<kv-action-button-icon
+						type={EActionButtonType.Tertiary}
+						icon={EIconName.Close}
+						size={this.size}
+						onClickButton={({ detail: event }) => this.onCancel(event)}
+						part="cancel-button"
+					/>
 					<kv-action-button-icon
 						type={EActionButtonType.Primary}
 						icon={EIconName.DoneAll}
 						size={this.size}
 						disabled={!this.canSubmit}
-						onClickButton={this.onCreate}
+						onClickButton={({ detail: event }) => this.onCreate(event)}
 						part="create-button"
 					/>
 				</div>

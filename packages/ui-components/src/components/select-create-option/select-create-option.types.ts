@@ -14,9 +14,9 @@ export interface ISelectCreateOption {
 
 export interface ISelectCreateOptionEvents {
 	/** Emitted when the create button is pressed */
-	clickCreate: EventEmitter<void>;
+	clickCreate: EventEmitter<MouseEvent | KeyboardEvent>;
 	/** Emitted when the cancel button is pressed */
-	clickCancel: EventEmitter<void>;
+	clickCancel: EventEmitter<MouseEvent>;
 	/** Emitted when the value changes */
 	valueChanged: EventEmitter<string>;
 }
