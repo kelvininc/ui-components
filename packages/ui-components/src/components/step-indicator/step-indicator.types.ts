@@ -11,5 +11,5 @@ export interface IStepIndicator {
 
 export interface IStepIndicatorEvents {
 	/** Fires when the step is clicked */
-	indicatorClicked: EventEmitter<void>;
+	indicatorClicked: EventEmitter<MouseEvent>;
 }

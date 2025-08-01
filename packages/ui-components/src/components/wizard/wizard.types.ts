@@ -28,9 +28,9 @@ export interface IWizardEvents {
 	/** Fires when it's necessary to go to a different step */
 	goToStep: EventEmitter<number>;
 	/** Fires when a complete button is clicked */
-	completeClick: EventEmitter<void>;
+	completeClick: EventEmitter<MouseEvent>;
 	/** Fires when a cancel button is clicked */
-	cancelClick: EventEmitter<void>;
+	cancelClick: EventEmitter<MouseEvent>;
 }
 
 export type StepState =

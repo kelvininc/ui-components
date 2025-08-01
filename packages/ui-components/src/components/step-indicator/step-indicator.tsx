@@ -18,11 +18,11 @@ export class KvStepIndicator implements IStepIndicator, IStepIndicatorEvents {
 	@Prop() isCurrent?: boolean;
 
 	/** @inheritdoc */
-	@Event() indicatorClicked: EventEmitter<void>;
+	@Event() indicatorClicked: EventEmitter<MouseEvent>;
 
-	private onIndicatorClick = () => {
+	private onIndicatorClick = (event: MouseEvent) => {
 		if (this.enabled) {
-			this.indicatorClicked.emit();
+			this.indicatorClicked.emit(event);
 		}
 	};
 

@@ -105,7 +105,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Event() dismiss: EventEmitter<void>;
 	/** @inheritdoc */
-	@Event() clickOutside: EventEmitter<void>;
+	@Event() clickOutside: EventEmitter<MouseEvent>;
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
 
