@@ -28,9 +28,9 @@ export class KvWizard implements IWizard, IWizardEvents {
 	/** @inheritdoc */
 	@Event() goToStep: EventEmitter<number>;
 	/** @inheritdoc */
-	@Event() completeClick: EventEmitter<void>;
+	@Event() completeClick: EventEmitter<MouseEvent>;
 	/** @inheritdoc */
-	@Event() cancelClick: EventEmitter<void>;
+	@Event() cancelClick: EventEmitter<MouseEvent>;
 
 	/** Internal header state */
 	@State() currentHeader: IWizardHeader;

@@ -32,11 +32,11 @@ export interface IWizardFooterEvents {
 	/** Fires when a step on the step bar is clicked and emits the index */
 	stepClick: EventEmitter<number>;
 	/** Fires when the `previous` button is clicked */
-	prevClick: EventEmitter<void>;
+	prevClick: EventEmitter<MouseEvent>;
 	/** Fires when the `next` button is clicked */
-	nextClick: EventEmitter<void>;
+	nextClick: EventEmitter<MouseEvent>;
 	/** Fires when the `cancel` button is clicked */
-	cancelClick: EventEmitter<void>;
+	cancelClick: EventEmitter<MouseEvent>;
 	/** Fires when the `complete` button is clicked */
-	completeClick: EventEmitter<void>;
+	completeClick: EventEmitter<MouseEvent>;
 }

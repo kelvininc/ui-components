@@ -12,7 +12,7 @@ export interface IModalConfig extends ICustomCss {
 
 export interface IModalEvents {
 	/** Emitted when the close button is clicked */
-	clickClose: EventEmitter<void>;
+	clickClose: EventEmitter<MouseEvent>;
 	/** Emitted when the overlay container is clicked */
-	clickOverlay: EventEmitter<void>;
+	clickOverlay: EventEmitter<MouseEvent>;
 }
