@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.49.0](https://github.com/kelvininc/ui-components/compare/v0.48.0...v0.49.0) (2025-08-06)
+
+
+### Features
+
+* add original click event propagation ([aaa5a2a](https://github.com/kelvininc/ui-components/commit/aaa5a2aa8f0e63dc01575c3e1ea98f44032e7d30))
+* **dropdown:** add `select-footer` slot to multi and single select dropdowns ([f083610](https://github.com/kelvininc/ui-components/commit/f083610252bf5285c97099d572d19544eae955fb))
+* **icon:** add `kv-person` and `kv-group` icons ([8ccf1d8](https://github.com/kelvininc/ui-components/commit/8ccf1d8728f4ea0b7aa15fe6d6d40c9f3305204c))
+* **icons:** adds move icons ([955d113](https://github.com/kelvininc/ui-components/commit/955d113bda621f661218f2a310338b4d9cd9f3f5))
+* **select-option:** add `right-icon` prop ([a1c1a80](https://github.com/kelvininc/ui-components/commit/a1c1a808af128e43720375984ff3db36e3fb7ca6))
+
+
+
+
+
 # [0.48.0](https://github.com/kelvininc/ui-components/compare/v0.47.1...v0.48.0) (2025-07-08)
 
 
