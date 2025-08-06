@@ -49,14 +49,15 @@ export const KvWizardExample: React.FC = () => {
 
 ## Properties
 
-| Property                   | Attribute            | Description                                                                         | Type                                     | Default     |
-| -------------------------- | -------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------- | ----------- |
-| `completeBtnLabel`         | `complete-btn-label` | (optional) A label to show on the last step button. Default: 'Submit'               | `string`                                 | `undefined` |
-| `currentStep` _(required)_ | `current-step`       | (required) Defines the current step index                                           | `number`                                 | `undefined` |
-| `currentStepState`         | `current-step-state` | (optional) Defines the current step state. Only the success state allows to proceed | `EStepState.Error \| EStepState.Success` | `undefined` |
-| `showHeader`               | `show-header`        | (optional) Defines if the header should render. Default: true                       | `boolean`                                | `true`      |
-| `showStepBar`              | `show-step-bar`      | (optional) Defines if the step bar should render. Default: true                     | `boolean`                                | `true`      |
-| `steps` _(required)_       | --                   | (required) Defines the wizard steps                                                 | `IWizardStep[]`                          | `undefined` |
+| Property                   | Attribute            | Description                                                                         | Type                                                                                            | Default     |
+| -------------------------- | -------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------- |
+| `completeBtnLabel`         | `complete-btn-label` | (optional) A label to show on the last step button. Default: 'Submit'               | `string`                                                                                        | `undefined` |
+| `currentStep` _(required)_ | `current-step`       | (required) Defines the current step index                                           | `number`                                                                                        | `undefined` |
+| `currentStepState`         | `current-step-state` | (optional) Defines the current step state. Only the success state allows to proceed | `{ state: EStepState.Error; error?: string; } \| { state: EStepState.Success; error?: never; }` | `undefined` |
+| `disabled`                 | `disabled`           | (optional) Defines if the wizard navigation is disabled. Default: false             | `boolean`                                                                                       | `false`     |
+| `showHeader`               | `show-header`        | (optional) Defines if the header should render. Default: true                       | `boolean`                                                                                       | `true`      |
+| `showStepBar`              | `show-step-bar`      | (optional) Defines if the step bar should render. Default: true                     | `boolean`                                                                                       | `true`      |
+| `steps` _(required)_       | `steps`              | (required) Defines the wizard steps                                                 | `IWizardStep[]`                                                                                 | `undefined` |
 
 
 ## Events
@@ -95,11 +96,14 @@ graph TD;
   kv-toggle-tip --> kv-tooltip-text
   kv-wizard-footer --> kv-step-bar
   kv-wizard-footer --> kv-action-button-text
+  kv-wizard-footer --> kv-tooltip
   kv-step-bar --> kv-step-progress-bar
   kv-step-bar --> kv-step-indicator
   kv-step-indicator --> kv-icon
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon
+  kv-tooltip --> kv-portal
+  kv-tooltip --> kv-tooltip-text
   style kv-wizard fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

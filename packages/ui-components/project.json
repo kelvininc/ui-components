@@ -12,7 +12,8 @@
 				"{projectRoot}/docs",
 				"{projectRoot}/hydrate",
 				"{projectRoot}/loader",
-				"{workspaceRoot}/packages/react-ui-components/src/stencil-generated"
+				"{projectRoot}/src/**/readme.md",
+				"{workspaceRoot}/packages/react-ui-components/src/stencil-generated",
 			]
 		}
 	}

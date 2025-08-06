@@ -28,7 +28,7 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 	/** @inheritdoc */
 	@Event() openStateChange: EventEmitter<boolean>;
 	/** @inheritdoc */
-	@Event() clickOutside: EventEmitter<void>;
+	@Event() clickOutside: EventEmitter<MouseEvent>;
 
 	@Element() element: HTMLKvDropdownBaseElement;
 
@@ -43,7 +43,7 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 			this.openStateChange.emit(!this.isOpen);
 		}
 
-		this.clickOutside.emit();
+		this.clickOutside.emit(event);
 	}
 
 	private portal: HTMLElement;

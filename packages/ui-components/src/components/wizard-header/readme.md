@@ -38,10 +38,11 @@ export const WizardHeaderExamples = () => (
 
 ## CSS Custom Properties
 
-| Name                | Description                        |
-| ------------------- | ---------------------------------- |
-| `--separator-color` | The color to use for the separator |
-| `--text-color`      | The color to use for all text      |
+| Name                  | Description                            |
+| --------------------- | -------------------------------------- |
+| `--container-padding` | The container to use for the container |
+| `--separator-color`   | The color to use for the separator     |
+| `--text-color`        | The color to use for all text          |
 
 
 ## Dependencies

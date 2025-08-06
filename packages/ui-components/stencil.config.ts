@@ -31,6 +31,11 @@ export const config: Config = {
 			footer: ''
 		},
 		{
+			type: 'docs-readme',
+			strict: true,
+			footer: ''
+		},
+		{
 			type: 'docs-json',
 			file: 'docs/docs.json'
 		},
