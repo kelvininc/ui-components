@@ -1,26 +1,44 @@
+@import '../../assets/styles/globals';
+
 :host {
 	/**
 	 * @prop --checkbox-size: Text checkbox height and width. Default: 16px.
 	 * @prop --checkbox-icon-size: Text checkbox height and width. Default: 16px.
+	 * @prop --checkbox-label-color: Text label color.
+	 * @prop --checkbox-label-disabled-color: Text label color when the checkbox is disabled.
 	 */
 
 	--checkbox-size: 16px;
 	--checkbox-icon-size: 14px;
+	--checkbox-label-color: #{kv-color('neutral-2')};
+	--checkbox-label-disabled-color: #{kv-color('neutral-5')};
+
+	display: flex;
+	flex-direction: row;
+	gap: $spacing;
+	align-items: center;
+	justify-content: center;
+
+	width: fit-content;
+	cursor: pointer;
+	user-select: none;
+}
+
+.checkbox kv-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
 	width: var(--checkbox-size);
 	height: var(--checkbox-size);
 
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
+	--icon-width: var(--checkbox-icon-size);
+	--icon-height: var(--checkbox-icon-size);
+}
 
-	cursor: pointer;
-	user-select: none;
-
-	kv-icon {
-		--icon-width: var(--checkbox-icon-size);
-		--icon-height: var(--checkbox-icon-size);
-	}
+.label {
+	color: var(--checkbox-label-color);
+	@include kv-font-span-regular;
 }
 
 :host(:hover:not(.disabled)) {
