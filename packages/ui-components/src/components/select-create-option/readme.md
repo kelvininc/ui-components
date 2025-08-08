@@ -15,11 +15,11 @@
 
 ## Events
 
-| Event          | Description                               | Type                  |
-| -------------- | ----------------------------------------- | --------------------- |
-| `clickCancel`  | Emitted when the cancel button is pressed | `CustomEvent<void>`   |
-| `clickCreate`  | Emitted when the create button is pressed | `CustomEvent<void>`   |
-| `valueChanged` | Emitted when the value changes            | `CustomEvent<string>` |
+| Event          | Description                               | Type                                       |
+| -------------- | ----------------------------------------- | ------------------------------------------ |
+| `clickCancel`  | Emitted when the cancel button is pressed | `CustomEvent<MouseEvent>`                  |
+| `clickCreate`  | Emitted when the create button is pressed | `CustomEvent<KeyboardEvent \| MouseEvent>` |
+| `valueChanged` | Emitted when the value changes            | `CustomEvent<string>`                      |
 
 
 ## Methods

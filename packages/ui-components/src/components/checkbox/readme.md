@@ -44,9 +44,9 @@ export const RadioExample: React.FC = () => (
 
 ## Events
 
-| Event           | Description                                     | Type                |
-| --------------- | ----------------------------------------------- | ------------------- |
-| `clickCheckbox` | Emitted when the checkbox checked state changes | `CustomEvent<void>` |
+| Event           | Description                                     | Type                      |
+| --------------- | ----------------------------------------------- | ------------------------- |
+| `clickCheckbox` | Emitted when the checkbox checked state changes | `CustomEvent<MouseEvent>` |
 
 
 ## Shadow Parts
