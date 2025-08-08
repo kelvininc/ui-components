@@ -76,7 +76,7 @@ export const KvMultiSelectDropdownExample: React.FC = (props) => (
 | Event             | Description                                                   | Type                                     |
 | ----------------- | ------------------------------------------------------------- | ---------------------------------------- |
 | `clearSelection`  | Emitted when the user clears the selected items               | `CustomEvent<void>`                      |
-| `clickOutside`    | Emitted when there's a click outside the dropdown's bondaries | `CustomEvent<void>`                      |
+| `clickOutside`    | Emitted when there's a click outside the dropdown's bondaries | `CustomEvent<MouseEvent>`                |
 | `dismiss`         | Emitted when the 'esc' key is pressed                         | `CustomEvent<void>`                      |
 | `openStateChange` | Emitted when the dropdown open state changes                  | `CustomEvent<boolean>`                   |
 | `optionsSelected` | Emitted when the selected options change                      | `CustomEvent<{ [x: string]: boolean; }>` |
