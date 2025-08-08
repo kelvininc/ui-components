@@ -62,11 +62,11 @@ export const KvWizardExample: React.FC = () => {
 
 ## Events
 
-| Event           | Description                                         | Type                  |
-| --------------- | --------------------------------------------------- | --------------------- |
-| `cancelClick`   | Fires when a cancel button is clicked               | `CustomEvent<void>`   |
-| `completeClick` | Fires when a complete button is clicked             | `CustomEvent<void>`   |
-| `goToStep`      | Fires when it's necessary to go to a different step | `CustomEvent<number>` |
+| Event           | Description                                         | Type                      |
+| --------------- | --------------------------------------------------- | ------------------------- |
+| `cancelClick`   | Fires when a cancel button is clicked               | `CustomEvent<MouseEvent>` |
+| `completeClick` | Fires when a complete button is clicked             | `CustomEvent<MouseEvent>` |
+| `goToStep`      | Fires when it's necessary to go to a different step | `CustomEvent<number>`     |
 
 
 ## CSS Custom Properties

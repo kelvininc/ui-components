@@ -42,6 +42,7 @@ export const KvSelectOptionExample: React.FC = () => (
 | `isDirty`            | `is-dirty`          | (optional) If true, a dirty dot indicator will be added to left side of the option's text. | `boolean`                                                                  | `false`     |
 | `label` _(required)_ | `label`             | (required) The text to display on the item                                                 | `string`                                                                   | `undefined` |
 | `level`              | `level`             | (optional) The level depth at which the option is rendered                                 | `number`                                                                   | `0`         |
+| `rightIcon`          | `right-icon`        | (optional) Icon of the item displayed on the right                                         | `EIconName`                                                                | `undefined` |
 | `selectable`         | `selectable`        | (optional) If `false` the item is only for presenting and cannot be selected.              | `boolean`                                                                  | `true`      |
 | `selected`           | `selected`          | (optional) If `true` the item is selected                                                  | `boolean`                                                                  | `false`     |
 | `state`              | `state`             | (optional) The toggle button state                                                         | `EToggleState.Indeterminate \| EToggleState.None \| EToggleState.Selected` | `undefined` |
@@ -80,11 +81,14 @@ export const KvSelectOptionExample: React.FC = () => (
 | `--select-option-description-color-hover`       | Select option description color when hover.       |
 | `--select-option-description-color-selected`    | Select option description color when selected.    |
 | `--select-option-height`                        | Select option height.                             |
+| `--select-option-icon-color`                    | Select option icon color.                         |
 | `--select-option-icon-size`                     | Select option icon size in pixels.                |
 | `--select-option-label-color`                   | Select option label color.                        |
 | `--select-option-label-color-highlighted`       | Select option label color when highlighted.       |
 | `--select-option-label-color-hover`             | Select option label color when hover.             |
 | `--select-option-label-color-selected`          | Select option label color when selected.          |
+| `--select-option-right-icon-color`              | Select option right icon color.                   |
+| `--select-option-right-icon-size`               | Select option right icon size in pixels.          |
 | `--select-option-transition-duration`           | Select option transition time.                    |
 
 

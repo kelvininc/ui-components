@@ -107,13 +107,13 @@ export const KvWizardFooterExample: React.FC = () => {
 
 ## Events
 
-| Event           | Description                                                      | Type                  |
-| --------------- | ---------------------------------------------------------------- | --------------------- |
-| `cancelClick`   | Fires when the `cancel` button is clicked                        | `CustomEvent<void>`   |
-| `completeClick` | Fires when the `complete` button is clicked                      | `CustomEvent<void>`   |
-| `nextClick`     | Fires when the `next` button is clicked                          | `CustomEvent<void>`   |
-| `prevClick`     | Fires when the `previous` button is clicked                      | `CustomEvent<void>`   |
-| `stepClick`     | Fires when a step on the step bar is clicked and emits the index | `CustomEvent<number>` |
+| Event           | Description                                                      | Type                      |
+| --------------- | ---------------------------------------------------------------- | ------------------------- |
+| `cancelClick`   | Fires when the `cancel` button is clicked                        | `CustomEvent<MouseEvent>` |
+| `completeClick` | Fires when the `complete` button is clicked                      | `CustomEvent<MouseEvent>` |
+| `nextClick`     | Fires when the `next` button is clicked                          | `CustomEvent<MouseEvent>` |
+| `prevClick`     | Fires when the `previous` button is clicked                      | `CustomEvent<MouseEvent>` |
+| `stepClick`     | Fires when a step on the step bar is clicked and emits the index | `CustomEvent<number>`     |
 
 
 ## Shadow Parts
