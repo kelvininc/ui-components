@@ -7,6 +7,8 @@ export interface ICheckbox {
 	disabled?: boolean;
 	/** (optional) If `true` the checkbox is with indeterminate state. Default: false */
 	indeterminate?: boolean;
+	/** (optional) The label text for the checkbox. */
+	label?: string;
 }
 
 export interface ICheckboxEvents {

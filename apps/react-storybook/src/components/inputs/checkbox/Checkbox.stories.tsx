@@ -1,20 +1,28 @@
+import { ComponentProps, useCallback, useState } from "react";
+import { KvCheckbox, ICheckbox } from "@kelvininc/react-ui-components";
+import { Meta, StoryFn, StoryObj } from "@storybook/react";
 
-import { ComponentProps, useCallback, useState } from 'react';
-import { KvCheckbox, ICheckbox } from '@kelvininc/react-ui-components';
-import { Meta, StoryFn, StoryObj } from '@storybook/react';
-
-const CheckboxTemplate: StoryFn<ComponentProps<typeof KvCheckbox>> = ({ checked: initialChecked, ...otherArgs }: ICheckbox) => {
+const CheckboxTemplate: StoryFn<ComponentProps<typeof KvCheckbox>> = ({
+	checked: initialChecked,
+	...otherArgs
+}: ICheckbox) => {
 	const [checked, setChecked] = useState(initialChecked);
 
 	const onClickCheckbox = useCallback(() => {
 		setChecked(!checked);
 	}, [checked]);
 
-	return <KvCheckbox {...otherArgs} checked={checked} onClickCheckbox={onClickCheckbox} />;
+	return (
+		<KvCheckbox
+			{...otherArgs}
+			checked={checked}
+			onClickCheckbox={onClickCheckbox}
+		/>
+	);
 };
 
 const meta = {
-	title: 'Inputs/Checkbox',
+	title: "Inputs/Checkbox",
 	component: KvCheckbox,
 	render: CheckboxTemplate
 } satisfies Meta<typeof KvCheckbox>;
@@ -31,6 +39,7 @@ const DefaultArgs = {
 export const Default: Story = {
 	args: DefaultArgs
 };
+
 export const Disabled: Story = {
 	args: {
 		...DefaultArgs,
@@ -42,5 +51,12 @@ export const Indeterminate: Story = {
 	args: {
 		...DefaultArgs,
 		indeterminate: true
+	}
+};
+
+export const Label: Story = {
+	args: {
+		...DefaultArgs,
+		label: "I Accept the Privacy Policy"
 	}
 };
