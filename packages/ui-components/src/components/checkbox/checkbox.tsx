@@ -4,6 +4,7 @@ import { ICheckbox, ICheckboxEvents } from './checkbox.types';
 
 /**
  * @part icon - The icon element.
+ * @part label - The label element.
  */
 @Component({
 	tag: 'kv-checkbox',
@@ -13,6 +14,8 @@ import { ICheckbox, ICheckboxEvents } from './checkbox.types';
 export class KvCheckbox implements ICheckbox, ICheckboxEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) checked?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
@@ -39,6 +42,10 @@ export class KvCheckbox implements ICheckbox, ICheckboxEvents {
 		}
 	};
 
+	private get labelText() {
+		return this.label?.trim();
+	}
+
 	render() {
 		return (
 			<Host
@@ -47,7 +54,14 @@ export class KvCheckbox implements ICheckbox, ICheckboxEvents {
 					disabled: this.disabled
 				}}
 			>
-				<kv-icon name={this.getIconName()} part="icon" />
+				<div class="checkbox">
+					<kv-icon name={this.getIconName()} part="icon" />
+				</div>
+				{this.labelText?.length ? (
+					<div class="label" part="label">
+						{this.labelText}
+					</div>
+				) : null}
 			</Host>
 		);
 	}
