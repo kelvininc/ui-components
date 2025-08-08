@@ -42,9 +42,9 @@ export const StepIndicatorExample: React.FC = () => (
 
 ## Events
 
-| Event              | Description                    | Type                |
-| ------------------ | ------------------------------ | ------------------- |
-| `indicatorClicked` | Fires when the step is clicked | `CustomEvent<void>` |
+| Event              | Description                    | Type                      |
+| ------------------ | ------------------------------ | ------------------------- |
+| `indicatorClicked` | Fires when the step is clicked | `CustomEvent<MouseEvent>` |
 
 
 ## CSS Custom Properties

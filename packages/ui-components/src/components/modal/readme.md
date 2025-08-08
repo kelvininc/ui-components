@@ -42,10 +42,10 @@ export const ModalOverlayExample: React.FC = (args: ModalOverlayProps) => {
 
 ## Events
 
-| Event          | Description                                   | Type                |
-| -------------- | --------------------------------------------- | ------------------- |
-| `clickClose`   | Emitted when the close button is clicked      | `CustomEvent<void>` |
-| `clickOverlay` | Emitted when the overlay container is clicked | `CustomEvent<void>` |
+| Event          | Description                                   | Type                      |
+| -------------- | --------------------------------------------- | ------------------------- |
+| `clickClose`   | Emitted when the close button is clicked      | `CustomEvent<MouseEvent>` |
+| `clickOverlay` | Emitted when the overlay container is clicked | `CustomEvent<MouseEvent>` |
 
 
 ## Shadow Parts
