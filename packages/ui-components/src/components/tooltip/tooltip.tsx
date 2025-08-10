@@ -106,9 +106,9 @@ export class KvTooltip implements ITooltip {
 						reference={this.getContentElement()}
 						options={this.getOptions()}
 					>
-						<slot name="tooltip-content">
-							<kv-tooltip-text class={{ ...getClassMap(this.customClass) }} text={this.text} style={this.customStyle} />
-						</slot>
+						<kv-tooltip-text class={{ ...getClassMap(this.customClass) }} text={this.text} style={this.customStyle}>
+							<slot name="tooltip-content" />
+						</kv-tooltip-text>
 					</kv-portal>
 				)}
 			</Host>
