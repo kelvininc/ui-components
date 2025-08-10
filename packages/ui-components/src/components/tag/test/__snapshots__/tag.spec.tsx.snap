@@ -8,6 +8,7 @@ exports[`Tag (unit tests) when uses default props should match the snapshot 1`] 
       <div class="tag-label">
         Tag Default
       </div>
+      <slot name="right-slot"></slot>
     </div>
   </template>
 </kv-tag>
