@@ -19,6 +19,8 @@ export interface IToggleButton<T = string | number> {
 	withRadio?: boolean;
 	/** (optional) Button's size */
 	size?: EComponentSize;
+	/** (optional) Tooltip text */
+	tooltip?: string;
 }
 
 export interface IToggleButtonEvents<T = string | number> {
