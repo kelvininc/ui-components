@@ -39,11 +39,13 @@ export const DefaultState: Story = {
 		options: [
 			{
 				label: "Option 1",
-				value: "opt1"
+				value: "opt1",
+				tooltip: "This is option 1"
 			},
 			{
 				label: "Option 2",
-				value: "opt2"
+				value: "opt2",
+				tooltip: "This is option 2"
 			},
 			{
 				label: "Option 3",
