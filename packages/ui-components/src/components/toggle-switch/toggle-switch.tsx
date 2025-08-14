@@ -33,13 +33,14 @@ export class KvToggleSwitch implements IToggleSwitch, IToggleSwitchEvents {
 						<kv-toggle-button
 							part="toggle-switch-option-container"
 							exportparts="toggle-button"
+							icon={option.icon}
 							value={option.value}
 							label={option.label}
-							icon={option.icon}
-							preventDefault={option.preventDefault}
+							tooltip={option.tooltip}
 							size={this.size ?? option.size}
-							disabled={this.disabled || this.disabledButtons[option.value] || option.disabled}
+							preventDefault={option.preventDefault}
 							checked={this.selectedOption === option.value}
+							disabled={this.disabled || this.disabledButtons[option.value] || option.disabled}
 						/>
 					))}
 				</div>

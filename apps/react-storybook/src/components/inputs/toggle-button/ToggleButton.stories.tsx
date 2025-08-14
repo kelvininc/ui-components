@@ -85,3 +85,11 @@ export const WithRadioState: Story = {
 		withRadio: true
 	}
 };
+
+export const TooltipState: Story = {
+	args: {
+		label: "Option 6",
+		value: "opt6",
+		tooltip: "This is a tooltip"
+	}
+};

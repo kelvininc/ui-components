@@ -3,7 +3,6 @@ import { isEmpty, throttle } from 'lodash-es';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { EComponentSize, EIconName } from '../../types';
 import { IToggleButton, IToggleButtonEvents } from './toggle-button.types';
-
 /**
  * @part toggle-button - The toggle action.
  * @part toggle-icon - The toggle button's icon container.
@@ -32,6 +31,8 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	@Prop({ reflect: true }) preventDefault? = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) withRadio?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) tooltip?: string;
 
 	/** @inheritdoc */
 	@Event() checkedChange: EventEmitter<string | number>;
@@ -61,29 +62,31 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 
 		return (
 			<Host>
-				<div
-					class={{
-						'toggle-button': true,
-						'toggle-button--checked': this.checked,
-						'toggle-button--disabled': this.disabled,
-						'toggle-button--only-icon': hasIcon && !hasLabel,
-						[`toggle-button--size-${this.size}`]: true
-					}}
-					part="toggle-button"
-					onClick={this.onClick}
-				>
-					{this.withRadio && <kv-radio checked={this.checked} />}
-					{hasIcon && (
-						<div class="toggle-button-icon" part="toggle-icon">
-							<kv-icon name={this.icon} />
-						</div>
-					)}
-					{hasLabel && (
-						<div class="toggle-button-label" part="toggle-label">
-							{this.label}
-						</div>
-					)}
-				</div>
+				<kv-tooltip text={this.tooltip}>
+					<div
+						class={{
+							'toggle-button': true,
+							'toggle-button--checked': this.checked,
+							'toggle-button--disabled': this.disabled,
+							'toggle-button--only-icon': hasIcon && !hasLabel,
+							[`toggle-button--size-${this.size}`]: true
+						}}
+						part="toggle-button"
+						onClick={this.onClick}
+					>
+						{this.withRadio && <kv-radio checked={this.checked} />}
+						{hasIcon && (
+							<div class="toggle-button-icon" part="toggle-icon">
+								<kv-icon name={this.icon} />
+							</div>
+						)}
+						{hasLabel && (
+							<div class="toggle-button-label" part="toggle-label">
+								{this.label}
+							</div>
+						)}
+					</div>
+				</kv-tooltip>
 			</Host>
 		);
 	}
