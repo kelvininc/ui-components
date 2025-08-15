@@ -19,6 +19,7 @@ export class KvTag {
 				<div class={{ 'tag-container': true, [`tag-container--size-${this.size}`]: true }}>
 					<slot name="left-slot"></slot>
 					{isValidLabel(this.label) && <div class="tag-label">{this.label}</div>}
+					<slot name="right-slot"></slot>
 				</div>
 			</Host>
 		);
