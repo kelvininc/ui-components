@@ -44,19 +44,35 @@
 		"eslint:lint": "eslint src --ext .js,.jsx,.ts,.tsx --quiet --cache --fix"
 	},
 	"type": "module",
-	"main": "dist/index.js",
-	"module": "dist/index.esm.js",
-	"types": "dist/types/index.d.ts",
 	"files": [
 		"dist/",
 		".scripts/"
 	],
 	"exports": {
 		".": {
-			"types": "./dist/types/index.d.ts",
-			"import": "./dist/index.esm.js",
-			"require": "./dist/index.js",
-			"default": "./dist/index.esm.js"
+			"types": "./dist/types/server.d.ts",
+			"react-server": "./dist/server.esm.js",
+			"import": "./dist/server.esm.js",
+			"require": "./dist/server.js",
+			"default": "./dist/server.esm.js"
+		},
+		"./client": {
+			"types": "./dist/types/client.d.ts",
+			"import": "./dist/client.esm.js",
+			"require": "./dist/client.js",
+			"default": "./dist/client.esm.js"
+		},
+		"./shared": {
+			"types": "./dist/types/shared.d.ts",
+			"import": "./dist/shared.esm.js",
+			"require": "./dist/shared.js",
+			"default": "./dist/shared.esm.js"
+		},
+		"./server": {
+			"types": "./dist/types/server.d.ts",
+			"import": "./dist/server.esm.js",
+			"require": "./dist/server.js",
+			"default": "./dist/server.esm.js"
 		},
 		"./assets/*": "./dist/assets/*"
 	},
@@ -101,6 +117,7 @@
 		"typescript": "^5.6.2"
 	},
 	"peerDependencies": {
+		"@kelvininc/ui-components": "workspace:*",
 		"@stencil/react-output-target": "^0.5.3",
 		"dayjs": "^1.11.13",
 		"lodash-es": "^4.17.21",
