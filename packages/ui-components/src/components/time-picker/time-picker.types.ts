@@ -65,3 +65,9 @@ export interface ITimezoneOffset {
 	offset: number;
 	label: string;
 }
+
+export enum ETimePickerView {
+	RelativeTimePicker = 'relativeTimePicker',
+	AbsoluteTimePicker = 'absoluteTimePicker',
+	FullView = 'fullView'
+}
