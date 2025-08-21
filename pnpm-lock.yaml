@@ -169,7 +169,7 @@ importers:
         version: 5.24.8(@rjsf/utils@5.24.8)
       '@stencil/react-output-target':
         specifier: ^0.5.3
-        version: 0.5.3(@stencil/core@4.29.2)
+        version: 0.5.3(@stencil/core@4.36.3)
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
@@ -287,14 +287,14 @@ importers:
         specifier: 0.8.0
         version: 0.8.0(@typescript-eslint/eslint-plugin@5.62.0)(@typescript-eslint/parser@5.62.0)(eslint-plugin-react@7.37.1)(eslint@8.57.1)(typescript@5.6.2)
       '@stencil/core':
-        specifier: ^4.29.2
-        version: 4.29.2
+        specifier: ^4.36.1
+        version: 4.36.3
       '@stencil/react-output-target':
         specifier: ^0.5.3
-        version: 0.5.3(@stencil/core@4.29.2)
+        version: 0.5.3(@stencil/core@4.36.3)
       '@stencil/sass':
         specifier: ^3.2.1
-        version: 3.2.1(@stencil/core@4.29.2)
+        version: 3.2.1(@stencil/core@4.36.3)
       '@types/inputmask':
         specifier: ^5.0.3
         version: 5.0.7
@@ -2594,8 +2594,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@stencil/core@4.29.2:
-    resolution: {integrity: sha512-F1NixdECgRIpVCX1dZiUwyJoRviaJvu7cXT7ISWUkdc8r6sMaTizn41bM5bRfQelfBlETzVuafvZ91MWLEU0wA==}
+  /@stencil/core@4.36.3:
+    resolution: {integrity: sha512-C9DOaAjm+hSYRuVoUuYWG/lrYT8+4DG0AL0m1Ea9+G5v2Y6ApVpNJLbXvFlRZIdDMGecH86s6v0Gp39uockLxg==}
     engines: {node: '>=16.0.0', npm: '>=7.10.0'}
     hasBin: true
     optionalDependencies:
@@ -2608,20 +2608,20 @@ packages:
       '@rollup/rollup-win32-arm64-msvc': 4.34.9
       '@rollup/rollup-win32-x64-msvc': 4.34.9
 
-  /@stencil/react-output-target@0.5.3(@stencil/core@4.29.2):
+  /@stencil/react-output-target@0.5.3(@stencil/core@4.36.3):
     resolution: {integrity: sha512-68jwRp35CjAcwhTJ9yFD/3n+jrHOqvEH2jreVuPVvZK+4tkhPlYlwz0d1E1RlF3jyifUSfdkWUGgXIEy8Fo3yw==}
     peerDependencies:
       '@stencil/core': '>=2.0.0 || >=3 || >= 4.0.0-beta.0 || >= 4.0.0'
     dependencies:
-      '@stencil/core': 4.29.2
+      '@stencil/core': 4.36.3
 
-  /@stencil/sass@3.2.1(@stencil/core@4.29.2):
+  /@stencil/sass@3.2.1(@stencil/core@4.36.3):
     resolution: {integrity: sha512-1PPZbN5/A3xE0AY+Ko+pch00r8rfry5lJhOzekKhNjqwbi55aPjL8wbVj+GorDQh+rF2NYQshrlITwuSSz9vGA==}
     engines: {node: '>=12.0.0', npm: '>=6.0.0'}
     peerDependencies:
       '@stencil/core': '>=2.0.0 || >=3.0.0-beta.0 || >= 4.0.0-beta.0 || >= 4.0.0'
     dependencies:
-      '@stencil/core': 4.29.2
+      '@stencil/core': 4.36.3
       sass-embedded: 1.86.3
     dev: true
 
