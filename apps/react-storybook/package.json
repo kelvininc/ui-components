@@ -9,7 +9,7 @@
 		"clean:modules": "rm -rf node_modules",
 		"dev": "storybook dev -p 6006 --no-open",
 		"prebuild": "pnpm clean:build",
-		"build": "storybook build",
+		"build": "pnpm prebuild && storybook build",
 		"lint": "pnpm lint:check",
 		"lint:check": "pnpm eslint:check",
 		"lint:fix": "pnpm eslint:lint",
