@@ -67,7 +67,7 @@
 	],
 	"scripts": {
 		"prebuild": "pnpm clean:build && pnpm generate:illustrations",
-		"build": "stencil build --docs",
+		"build": "pnpm prebuild && stencil build --docs && pnpm postbuild",
 		"postbuild": "node scripts/prepend_use_client_directive.js",
 		"build:analyze": "SOURCE_MAP=true stencil build --docs && source-map-explorer dist/components/*.js",
 		"build:watch": "stencil build --watch",
