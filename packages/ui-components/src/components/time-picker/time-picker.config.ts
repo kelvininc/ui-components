@@ -34,11 +34,7 @@ export const DEFAULT_TIME_RANGE_DROPDOWN_POSITION_OPTIONS: Partial<ComputePositi
 };
 
 export const DEFAULT_SELECTED_TIME_KEY = 'last-24-h';
-export enum ETimePickerView {
-	RelativeTimePicker = 'relativeTimePicker',
-	AbsoluteTimePicker = 'absoluteTimePicker',
-	FullView = 'fullView'
-}
+
 export const FULL_RANGE_SIZE = 2;
 export const APPLY_BUTTON_ERROR_TOOLTIP_TEXT = 'Both time inputs must be filled.';
 
