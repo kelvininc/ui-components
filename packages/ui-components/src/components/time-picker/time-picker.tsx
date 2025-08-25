@@ -7,10 +7,10 @@ import {
 	DEFAULT_SELECTED_TIME_KEY,
 	DEFAULT_TIME_RANGE_DROPDOWN_POSITION_OPTIONS,
 	DEFAULT_TIME_RANGE_PICKER_INPUT_CONFIG,
-	ETimePickerView,
 	FULL_RANGE_SIZE,
 	TIME_PICKER_PORTAL_Z_INDEX
 } from './time-picker.config';
+import { ETimePickerView } from './time-picker.types';
 import { ComputePositionConfig } from '@floating-ui/dom';
 import { EAbsoluteTimePickerMode, EComponentSize, ETooltipPosition, ITimezoneOffset, SelectedRange } from '../../types';
 import { IRelativeTimePickerOption, ITimePickerRelativeTime, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';

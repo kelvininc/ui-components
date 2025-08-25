@@ -67,7 +67,7 @@
 	],
 	"scripts": {
 		"prebuild": "pnpm clean:build && pnpm generate:illustrations",
-		"build": "stencil build --docs",
+		"build": "pnpm prebuild && stencil build --docs && pnpm postbuild",
 		"postbuild": "node scripts/prepend_use_client_directive.js",
 		"build:analyze": "SOURCE_MAP=true stencil build --docs && source-map-explorer dist/components/*.js",
 		"build:watch": "stencil build --watch",
@@ -100,7 +100,7 @@
 	},
 	"devDependencies": {
 		"@stencil-community/eslint-plugin": "0.8.0",
-		"@stencil/core": "^4.29.2",
+		"@stencil/core": "^4.36.1",
 		"@stencil/react-output-target": "^0.5.3",
 		"@stencil/sass": "^3.2.1",
 		"@types/inputmask": "^5.0.3",
