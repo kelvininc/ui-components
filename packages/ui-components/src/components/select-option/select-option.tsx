@@ -30,6 +30,8 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) iconTooltipText?: string;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) rightIconTooltipText?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) description?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) rightIcon?: EIconName;
@@ -94,7 +96,12 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 						style={{ '--level-padding-offset': `${LEVEL_OFFSET_PX * this.level}px` }}
 					>
 						{this.selectable && this.togglable && (
-							<kv-checkbox checked={this.state === EToggleState.Selected} indeterminate={this.state === EToggleState.Indeterminate} part="checkbox" />
+							<kv-checkbox
+								disabled={this.disabled}
+								checked={this.state === EToggleState.Selected}
+								indeterminate={this.state === EToggleState.Indeterminate}
+								part="checkbox"
+							/>
 						)}
 						{this.icon && (
 							<div class="icon-container" part="icon">
@@ -114,9 +121,11 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 								{(this.description || this.rightIcon) && (
 									<div class="group">
 										{this.rightIcon && (
-											<div class="item-right-icon">
-												<kv-icon name={this.rightIcon} />
-											</div>
+											<kv-tooltip text={this.rightIconTooltipText}>
+												<div class="item-right-icon">
+													<kv-icon name={this.rightIcon} />
+												</div>
+											</kv-tooltip>
 										)}
 										{this.description && <div class="item-description">{this.description}</div>}
 									</div>
