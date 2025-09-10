@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useCallback, useState } from 'react';
+import React, { ComponentProps, PropsWithChildren, useCallback, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { JSX } from '@kelvininc/ui-components';
 
@@ -10,7 +10,7 @@ import { KvModal } from '../../stencil-generated';
 export type ModalOverlayProps = {
 	rootId?: string;
 	isOpen: boolean;
-} & PropsWithChildren<JSX.KvModal>;
+} & ComponentProps<typeof KvModal>;
 
 export function useModal(initialState = false): IModalController {
 	const [isOpen, setOpen] = useState(initialState);
