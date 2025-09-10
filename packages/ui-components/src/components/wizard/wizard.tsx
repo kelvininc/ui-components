@@ -1,8 +1,8 @@
-import { Component, Event, EventEmitter, Prop, h, State, Watch } from '@stencil/core';
+import { Component, Event, EventEmitter, Prop, h, State, Watch, Listen } from '@stencil/core';
 import { IWizardFooter } from '../wizard-footer/wizard-footer.types';
 import { IWizardHeader } from '../wizard-header/wizard-header.types';
 import { buildFooterConfig, buildHeaderConfig } from './wizard.helper';
-import { IWizard, IWizardEvents, IWizardStep, StepState } from './wizard.types';
+import { IWizard, IWizardEvents, IWizardStep, StepState, EStepState } from './wizard.types';
 
 @Component({
 	tag: 'kv-wizard',
@@ -71,6 +71,52 @@ export class KvWizard implements IWizard, IWizardEvents {
 	onStepClick = ({ detail }: CustomEvent<number>) => {
 		this.goToStep.emit(detail);
 	};
+
+	@Listen('keydown', { target: 'document' })
+	handleKeyDown(event: KeyboardEvent) {
+		if (event.key === 'Enter') {
+			// Don't handle if wizard is disabled
+			if (this.disabled) {
+				return;
+			}
+
+			// Don't handle if current step has errors
+			if (this.currentStepState?.state === EStepState.Error) {
+				return;
+			}
+
+			// Don't handle if the component hasn't fully initialized
+			if (!this.currentFooter) {
+				return;
+			}
+
+			event.preventDefault();
+
+			const { completeEnabled, showCompleteBtn, nextEnabled } = this.currentFooter;
+
+			if (showCompleteBtn) {
+				// Don't handle if complete button is disabled
+				if (!completeEnabled) {
+					return;
+				}
+
+				// Create a synthetic mouse event for consistency with existing API
+				const syntheticEvent = new MouseEvent('click', {
+					bubbles: true,
+					cancelable: true
+				});
+
+				return this.completeClick.emit(syntheticEvent);
+			}
+
+			if (!nextEnabled) {
+				return;
+			}
+
+			// Move to next step
+			return this.goToStep.emit(this.currentStep + 1);
+		}
+	}
 
 	render() {
 		return (
