@@ -125,6 +125,7 @@
 		}
 	}
 
+	&:not(.select-option--disabled)
 	&:hover {
 		background-color: var(--select-option-background-color-hover);
 
@@ -152,8 +153,8 @@
 	}
 
 	&--disabled {
+		cursor: not-allowed;
 		opacity: 0.5;
-		pointer-events: none;
 	}
 
 	&:not(.select-option--selectable) {

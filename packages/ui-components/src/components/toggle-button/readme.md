@@ -44,7 +44,6 @@ export const ToggleButtonExample: React.FC = () => (
 | `label`              | `label`           | (optional) The button's label. Only valid for toggle button text              | `string`                                       | `undefined`            |
 | `preventDefault`     | `prevent-default` | (optional) Defines if the item click event should prevent default behaviour.  | `boolean`                                      | `false`                |
 | `size`               | `size`            | (optional) Button's size                                                      | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Small` |
-| `tooltip`            | `tooltip`         | (optional) Tooltip text                                                       | `string`                                       | `undefined`            |
 | `value` _(required)_ | `value`           | (required) The value to be emitted upon click events                          | `number \| string`                             | `undefined`            |
 | `withRadio`          | `with-radio`      | (optional) Sets if the button is a radio button                               | `boolean`                                      | `false`                |
 
@@ -98,18 +97,14 @@ export const ToggleButtonExample: React.FC = () => (
 
 ### Depends on
 
-- [kv-tooltip](../tooltip)
 - [kv-radio](../radio)
 - [kv-icon](../icon)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-toggle-button --> kv-tooltip
   kv-toggle-button --> kv-radio
   kv-toggle-button --> kv-icon
-  kv-tooltip --> kv-portal
-  kv-tooltip --> kv-tooltip-text
   kv-toggle-button-group --> kv-toggle-button
   kv-toggle-switch --> kv-toggle-button
   style kv-toggle-button fill:#f9f,stroke:#333,stroke-width:4px
