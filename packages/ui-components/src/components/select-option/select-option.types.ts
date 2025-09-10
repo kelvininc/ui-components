@@ -26,7 +26,9 @@ export interface ISelectOption extends ICustomCss {
 	/** (optional) Icon of the item displayed on the left */
 	icon?: EIconName;
 	/** (optional) Tooltip text to be displayed on icon hover */
-	tooltipIcon?: EIconName;
+	iconTooltipText?: string;
+	/** (optional) Tooltip text to be displayed on right icon hover */
+	rightIconTooltipText?: string;
 	/** (optional) Description of the item displayed on the right */
 	description?: string;
 	/** (optional) Icon of the item displayed on the right */
