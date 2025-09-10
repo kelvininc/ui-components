@@ -1,8 +1,14 @@
-import type { Meta, StoryObj, StoryFn } from '@storybook/react';
-import { KvModal, ModalOverlay, useModal } from '@kelvininc/react-ui-components';
-import { ComponentProps } from 'react';
+import type { Meta, StoryObj, StoryFn } from "@storybook/react";
+import {
+	KvModal,
+	ModalOverlay,
+	useModal
+} from "@kelvininc/react-ui-components";
+import { ComponentProps } from "react";
 
-const ControlledModalTemplate: StoryFn<ComponentProps<typeof ModalOverlay>> = args => {
+const ControlledModalTemplate: StoryFn<ComponentProps<typeof ModalOverlay>> = (
+	args
+) => {
 	const modalCtrl = useModal(args.isOpen);
 	args.onClickClose = () => modalCtrl.close();
 
@@ -11,7 +17,12 @@ const ControlledModalTemplate: StoryFn<ComponentProps<typeof ModalOverlay>> = ar
 			<button type="button" onClick={modalCtrl.open}>
 				Open Modal
 			</button>
-			<ModalOverlay rootId="root" {...args} isOpen={modalCtrl.isOpen}>
+			<ModalOverlay
+				rootId="storybook-root"
+				{...args}
+				isOpen={modalCtrl.isOpen}
+				onEscapeKeyPressed={modalCtrl.close}
+			>
 				{args.children}
 			</ModalOverlay>
 		</>
@@ -19,9 +30,9 @@ const ControlledModalTemplate: StoryFn<ComponentProps<typeof ModalOverlay>> = ar
 };
 
 const meta = {
-	title: 'Popover/Modal',
+	title: "Popover/Modal",
 	component: KvModal,
-	render: ControlledModalTemplate,
+	render: ControlledModalTemplate
 } satisfies Meta<typeof KvModal>;
 
 export default meta;
@@ -29,7 +40,7 @@ type Story = StoryObj<typeof meta>;
 
 export const DefaultState: Story = {
 	args: {
-		headerTitle: 'Modal Header',
+		headerTitle: "Modal Header",
 		isOpen: false
 	}
 };
