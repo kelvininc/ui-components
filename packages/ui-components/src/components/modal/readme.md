@@ -1,9 +1,6 @@
-# *<kv-modal>*
-
-
+# _<kv-modal>_
 
 <!-- Auto Generated Below -->
-
 
 ## Usage
 
@@ -28,8 +25,6 @@ export const ModalOverlayExample: React.FC = (args: ModalOverlayProps) => {
 };
 ```
 
-
-
 ## Properties
 
 | Property          | Attribute           | Description                                                                                                                                                                             | Type                                | Default     |
@@ -39,14 +34,13 @@ export const ModalOverlayExample: React.FC = (args: ModalOverlayProps) => {
 | `showCloseButton` | `show-close-button` | (optional) Defines if the modal shows the close button                                                                                                                                  | `boolean`                           | `true`      |
 | `showOverlay`     | `show-overlay`      | (optional) Defines if the modal has an overlay background                                                                                                                               | `boolean`                           | `true`      |
 
-
 ## Events
 
-| Event          | Description                                   | Type                |
-| -------------- | --------------------------------------------- | ------------------- |
-| `clickClose`   | Emitted when the close button is clicked      | `CustomEvent<void>` |
-| `clickOverlay` | Emitted when the overlay container is clicked | `CustomEvent<void>` |
-
+| Event              | Description                                   | Type                         |
+| ------------------ | --------------------------------------------- | ---------------------------- |
+| `clickClose`       | Emitted when the close button is clicked      | `CustomEvent<MouseEvent>`    |
+| `clickOverlay`     | Emitted when the overlay container is clicked | `CustomEvent<MouseEvent>`    |
+| `escapeKeyPressed` | Emitted when the escape key is pressed        | `CustomEvent<KeyboardEvent>` |
 
 ## Shadow Parts
 
@@ -54,7 +48,6 @@ export const ModalOverlayExample: React.FC = (args: ModalOverlayProps) => {
 | ----------- | ---------------------------- |
 | `"content"` | The modal's content section. |
 | `"topbar"`  | The modal's topbar section.  |
-
 
 ## CSS Custom Properties
 
@@ -83,20 +76,18 @@ export const ModalOverlayExample: React.FC = (args: ModalOverlayProps) => {
 | `--modal-z-index`             | The modal's z-index               |
 | `--modal-z-index`             | The modal's z-index               |
 
-
 ## Dependencies
 
 ### Depends on
 
-- [kv-icon](../icon)
+-   [kv-icon](../icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   kv-modal --> kv-icon
   style kv-modal fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
-
-
+---
