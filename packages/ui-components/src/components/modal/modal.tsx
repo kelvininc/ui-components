@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
+import { Component, Host, h, Prop, Event, EventEmitter, Listen } from '@stencil/core';
 import { CustomCssClass } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 import { EIconName } from '../icon/icon.types';
@@ -30,6 +30,16 @@ export class KvModal implements IModalConfig, IModalEvents {
 	@Event() clickClose: EventEmitter<MouseEvent>;
 	/** @inheritdoc */
 	@Event() clickOverlay: EventEmitter<MouseEvent>;
+	/** @inheritdoc */
+	@Event() escapeKeyPressed: EventEmitter<KeyboardEvent>;
+
+	@Listen('keydown', { target: 'document' })
+	handleKeyDown(event: KeyboardEvent) {
+		if (event.key === 'Escape') {
+			event.preventDefault();
+			this.escapeKeyPressed.emit(event);
+		}
+	}
 
 	private onClose = (ev: MouseEvent) => {
 		ev.preventDefault();

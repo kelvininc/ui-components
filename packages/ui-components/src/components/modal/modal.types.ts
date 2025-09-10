@@ -15,4 +15,6 @@ export interface IModalEvents {
 	clickClose: EventEmitter<MouseEvent>;
 	/** Emitted when the overlay container is clicked */
 	clickOverlay: EventEmitter<MouseEvent>;
+	/** Emitted when the escape key is pressed */
+	escapeKeyPressed: EventEmitter<KeyboardEvent>;
 }
