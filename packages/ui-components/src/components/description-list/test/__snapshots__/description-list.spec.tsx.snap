@@ -3,32 +3,38 @@
 exports[`Description List (unit tests) when rendering with an item with icon tooltip should match the snapshot 1`] = `
 <kv-description-list custom-class="">
   <div class="description-list-container">
-    <div class="title">
-      Name ID
+    <div class="row" part="row">
+      <div class="title">
+        Name ID
+      </div>
+      <div class="description">
+        <kv-tooltip customclass="description-list-tooltip-container" text="">
+          cluster-a-brownie
+        </kv-tooltip>
+        <kv-toggle-tip customclass="description-list-tooltip-container" position="bottom-start" text="This name cannot be changed">
+          <kv-icon customclass="icon-16" name="kv-info" slot="open-element-slot"></kv-icon>
+        </kv-toggle-tip>
+      </div>
     </div>
-    <div class="description">
-      <kv-tooltip customclass="description-list-tooltip-container" text="">
-        cluster-a-brownie
-      </kv-tooltip>
-      <kv-toggle-tip customclass="description-list-tooltip-container" position="bottom-start" text="This name cannot be changed">
-        <kv-icon customclass="icon-16" name="kv-info" slot="open-element-slot"></kv-icon>
-      </kv-toggle-tip>
+    <div class="row" part="row">
+      <div class="title">
+        Kubernetes Version
+      </div>
+      <div class="description">
+        <kv-tooltip customclass="description-list-tooltip-container" text="">
+          1.20.5
+        </kv-tooltip>
+      </div>
     </div>
-    <div class="title">
-      Kubernetes Version
-    </div>
-    <div class="description">
-      <kv-tooltip customclass="description-list-tooltip-container" text="">
-        1.20.5
-      </kv-tooltip>
-    </div>
-    <div class="title">
-      Kelvin Version
-    </div>
-    <div class="description">
-      <kv-tooltip customclass="description-list-tooltip-container" text="">
-        4.2.4
-      </kv-tooltip>
+    <div class="row" part="row">
+      <div class="title">
+        Kelvin Version
+      </div>
+      <div class="description">
+        <kv-tooltip customclass="description-list-tooltip-container" text="">
+          4.2.4
+        </kv-tooltip>
+      </div>
     </div>
   </div>
 </kv-description-list>
@@ -37,29 +43,35 @@ exports[`Description List (unit tests) when rendering with an item with icon too
 exports[`Description List (unit tests) when rendering with an item with text tooltip should match the snapshot 1`] = `
 <kv-description-list custom-class="">
   <div class="description-list-container">
-    <div class="title">
-      Name ID
+    <div class="row" part="row">
+      <div class="title">
+        Name ID
+      </div>
+      <div class="description">
+        <kv-tooltip customclass="description-list-tooltip-container" text="This name cannot be changed">
+          cluster-a-brownie
+        </kv-tooltip>
+      </div>
     </div>
-    <div class="description">
-      <kv-tooltip customclass="description-list-tooltip-container" text="This name cannot be changed">
-        cluster-a-brownie
-      </kv-tooltip>
+    <div class="row" part="row">
+      <div class="title">
+        Kubernetes Version
+      </div>
+      <div class="description">
+        <kv-tooltip customclass="description-list-tooltip-container" text="">
+          1.20.5
+        </kv-tooltip>
+      </div>
     </div>
-    <div class="title">
-      Kubernetes Version
-    </div>
-    <div class="description">
-      <kv-tooltip customclass="description-list-tooltip-container" text="">
-        1.20.5
-      </kv-tooltip>
-    </div>
-    <div class="title">
-      Kelvin Version
-    </div>
-    <div class="description">
-      <kv-tooltip customclass="description-list-tooltip-container" text="">
-        4.2.4
-      </kv-tooltip>
+    <div class="row" part="row">
+      <div class="title">
+        Kelvin Version
+      </div>
+      <div class="description">
+        <kv-tooltip customclass="description-list-tooltip-container" text="">
+          4.2.4
+        </kv-tooltip>
+      </div>
     </div>
   </div>
 </kv-description-list>
@@ -68,29 +80,35 @@ exports[`Description List (unit tests) when rendering with an item with text too
 exports[`Description List (unit tests) when rendering with required item props should match the snapshot 1`] = `
 <kv-description-list custom-class="">
   <div class="description-list-container">
-    <div class="title">
-      Name ID
+    <div class="row" part="row">
+      <div class="title">
+        Name ID
+      </div>
+      <div class="description">
+        <kv-tooltip customclass="description-list-tooltip-container" text="">
+          cluster-a-brownie
+        </kv-tooltip>
+      </div>
     </div>
-    <div class="description">
-      <kv-tooltip customclass="description-list-tooltip-container" text="">
-        cluster-a-brownie
-      </kv-tooltip>
+    <div class="row" part="row">
+      <div class="title">
+        Kubernetes Version
+      </div>
+      <div class="description">
+        <kv-tooltip customclass="description-list-tooltip-container" text="">
+          1.20.5
+        </kv-tooltip>
+      </div>
     </div>
-    <div class="title">
-      Kubernetes Version
-    </div>
-    <div class="description">
-      <kv-tooltip customclass="description-list-tooltip-container" text="">
-        1.20.5
-      </kv-tooltip>
-    </div>
-    <div class="title">
-      Kelvin Version
-    </div>
-    <div class="description">
-      <kv-tooltip customclass="description-list-tooltip-container" text="">
-        4.2.4
-      </kv-tooltip>
+    <div class="row" part="row">
+      <div class="title">
+        Kelvin Version
+      </div>
+      <div class="description">
+        <kv-tooltip customclass="description-list-tooltip-container" text="">
+          4.2.4
+        </kv-tooltip>
+      </div>
     </div>
   </div>
 </kv-description-list>
