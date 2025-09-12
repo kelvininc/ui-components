@@ -67,6 +67,10 @@ export const KvCopyToClipboardExample: React.FC = () => (
 
 ## Dependencies
 
+### Used by
+
+ - [kv-description-list](../description-list)
+
 ### Depends on
 
 - [kv-tooltip](../tooltip)
@@ -79,6 +83,7 @@ graph TD;
   kv-copy-to-clipboard --> kv-icon
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
+  kv-description-list --> kv-copy-to-clipboard
   style kv-copy-to-clipboard fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

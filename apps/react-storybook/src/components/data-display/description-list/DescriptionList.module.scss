@@ -1,0 +1,16 @@
+@import "@kelvininc/react-ui-components/assets/styles/globals";
+
+.CustomDescriptionList {
+	--description-list-row-extremes: #{$spacing-3x};
+	--description-list-row-inline-padding: #{$spacing-3x};
+	--description-list-row-align: center;
+
+	border: 1px solid kv-color("neutral-6");
+	border-radius: 4px;
+
+	:global {
+		.row:not(:last-child) {
+			border-bottom: 1px solid kv-color("neutral-6");
+		}
+	}
+}
