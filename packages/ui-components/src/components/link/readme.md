@@ -25,7 +25,7 @@
 
 ```tsx
 import React from 'react';
-import { KvLink } from '@kelvininc/react-ui-components';
+import { KvLink } from '@kelvininc/react-ui-components/client';
 
 export const KvLinkExample: React.FC = () => (
 	<>

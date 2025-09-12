@@ -1,33 +1,33 @@
-import { KvRadioListItem } from '@kelvininc/react-ui-components';
-import type { Meta, StoryObj } from '@storybook/react';
+import { KvRadioListItem } from "@kelvininc/react-ui-components/client";
+import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-	title: 'Inputs/Radio List Item',
+	title: "Inputs/Radio List Item",
 	component: KvRadioListItem,
 	argTypes: {
 		optionId: {
 			control: {
-				type: 'text'
+				type: "text"
 			}
 		},
 		label: {
 			control: {
-				type: 'text'
+				type: "text"
 			}
 		},
 		description: {
 			control: {
-				type: 'text'
+				type: "text"
 			}
 		},
 		checked: {
 			control: {
-				type: 'boolean'
+				type: "boolean"
 			}
 		},
 		disabled: {
 			control: {
-				type: 'boolean'
+				type: "boolean"
 			}
 		}
 	}
@@ -38,9 +38,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		optionId: 'k3s',
-		label: 'K3S',
-		description: 'To create an edge cluster, use the Kelvin installation script for K3S. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here.'
+		optionId: "k3s",
+		label: "K3S",
+		description:
+			"To create an edge cluster, use the Kelvin installation script for K3S. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here."
 	}
 };
 

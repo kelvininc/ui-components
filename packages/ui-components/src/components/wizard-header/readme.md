@@ -12,7 +12,7 @@
 ```jsx
 import React from 'react';
 
-import { KvWizardHeader } from '@kelvininc/react-ui-components';
+import { KvWizardHeader } from '@kelvininc/react-ui-components/client';
 
 export const WizardHeaderExamples = () => (
 	<>

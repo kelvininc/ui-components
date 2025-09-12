@@ -23,7 +23,7 @@
 ```tsx
 import React from 'react';
 
-import { KvStateIndicator } from '@kelvininc/react-ui-components';
+import { KvStateIndicator } from '@kelvininc/react-ui-components/client';
 
 export const StateIndicatorExample: React.FC = () => (
   <>

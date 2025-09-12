@@ -12,7 +12,7 @@
 ```tsx
 import React from 'react';
 
-import { KvToggleTip, KvIcon, KvActionButton, EIconName, ETooltipPosition, EActionButtonType } from '@kelvininc/react-ui-components';
+import { KvToggleTip, KvIcon, KvActionButton, EIconName, ETooltipPosition, EActionButtonType } from '@kelvininc/react-ui-components/client';
 
 export const ToggleTipExample: React.FC = () => (
   <>

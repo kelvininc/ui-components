@@ -11,7 +11,7 @@
 
 ```tsx
 import React from 'react';
-import { KvTimePickerSelectOption } from '@kelvininc/react-ui-components';
+import { KvTimePickerSelectOption } from '@kelvininc/react-ui-components/client';
 export const KvTimePickerSelectOptionExample: React.FC = () => (
   <>
 	{/*-- With all properties (only label and value are mandatory) --*/}

@@ -1,24 +1,29 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { EIconName, EActionButtonType, EComponentSize, KvActionButtonSplit } from "@kelvininc/react-ui-components";
+import type { Meta, StoryObj } from "@storybook/react";
+import {
+	EIconName,
+	EActionButtonType,
+	EComponentSize,
+	KvActionButtonSplit
+} from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Buttons/Split',
+	title: "Buttons/Split",
 	component: KvActionButtonSplit,
 	argTypes: {
 		type: {
-			control: { type: 'select' },
+			control: { type: "select" },
 			options: Object.values(EActionButtonType)
 		},
 		splitIcon: {
-			control: { type: 'select' },
+			control: { type: "select" },
 			options: Object.values(EIconName)
 		},
 		icon: {
-			control: { type: 'select' },
-			options: ['', ...Object.values(EIconName)]
+			control: { type: "select" },
+			options: ["", ...Object.values(EIconName)]
 		},
 		size: {
-			control: { type: 'radio' },
+			control: { type: "radio" },
 			options: Object.values(EComponentSize)
 		}
 	}
@@ -30,7 +35,7 @@ type Story = StoryObj<typeof meta>;
 export const PrimaryState: Story = {
 	args: {
 		type: EActionButtonType.Primary,
-		text: 'Primary Button',
+		text: "Primary Button",
 		splitIcon: EIconName.ArrowDropDown,
 		size: EComponentSize.Large,
 		icon: EIconName.Add,
@@ -41,7 +46,7 @@ export const PrimaryState: Story = {
 export const SecondaryState: Story = {
 	args: {
 		type: EActionButtonType.Secondary,
-		text: 'Secondary Button',
+		text: "Secondary Button",
 		splitIcon: EIconName.ArrowDropDown,
 		size: EComponentSize.Large,
 		icon: EIconName.Add,
@@ -52,7 +57,7 @@ export const SecondaryState: Story = {
 export const TertiaryState: Story = {
 	args: {
 		type: EActionButtonType.Tertiary,
-		text: 'Tertiary Button',
+		text: "Tertiary Button",
 		splitIcon: EIconName.ArrowDropDown,
 		size: EComponentSize.Large,
 		icon: EIconName.Add,
@@ -63,7 +68,7 @@ export const TertiaryState: Story = {
 export const TertiaryLoadingState: Story = {
 	args: {
 		type: EActionButtonType.Tertiary,
-		text: 'Tertiary Button',
+		text: "Tertiary Button",
 		splitIcon: EIconName.ArrowDropDown,
 		size: EComponentSize.Large,
 		icon: EIconName.Add,
@@ -75,7 +80,7 @@ export const TertiaryLoadingState: Story = {
 export const GhostState: Story = {
 	args: {
 		type: EActionButtonType.Ghost,
-		text: 'Ghost Button',
+		text: "Ghost Button",
 		splitIcon: EIconName.ArrowDropDown,
 		size: EComponentSize.Large,
 		icon: EIconName.Add,
@@ -86,7 +91,7 @@ export const GhostState: Story = {
 export const DangerState: Story = {
 	args: {
 		type: EActionButtonType.Danger,
-		text: 'Danger Button',
+		text: "Danger Button",
 		splitIcon: EIconName.ArrowDropDown,
 		size: EComponentSize.Large,
 		icon: EIconName.Add,

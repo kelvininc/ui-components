@@ -1,38 +1,54 @@
-import type { Meta, StoryObj, StoryFn } from '@storybook/react';
-import { EActionButtonType, ETooltipPosition, KvToggleTip, EIconName, KvIcon, KvActionButtonText } from '@kelvininc/react-ui-components';
-import { ComponentProps } from 'react';
+import type { Meta, StoryObj, StoryFn } from "@storybook/react";
+import {
+	EActionButtonType,
+	ETooltipPosition,
+	KvToggleTip,
+	EIconName,
+	KvIcon,
+	KvActionButtonText
+} from "@kelvininc/react-ui-components/client";
+import { ComponentProps } from "react";
 
-import * as styles from './ToggleTip.module.scss';
+import * as styles from "./ToggleTip.module.scss";
 
-const ToggleTipTemplate: StoryFn<ComponentProps<typeof KvToggleTip>> = args => (
+const ToggleTipTemplate: StoryFn<ComponentProps<typeof KvToggleTip>> = (
+	args
+) => (
 	<KvToggleTip {...args}>
 		<KvIcon slot="open-element-slot" name={EIconName.Info} />
-		<KvActionButtonText slot="content-slot" type={EActionButtonType.Primary} text="Learn More"></KvActionButtonText>
+		<KvActionButtonText
+			slot="content-slot"
+			type={EActionButtonType.Primary}
+			text="Learn More"
+		></KvActionButtonText>
 	</KvToggleTip>
 );
 
 const meta = {
-	title: 'Feedback/ToggleTip',
+	title: "Feedback/ToggleTip",
 	component: KvToggleTip,
 	render: ToggleTipTemplate,
 	argTypes: {
-		text: { type: 'text' },
+		text: { type: "text" },
 		position: {
-			control: { type: 'select' },
+			control: { type: "select" },
 			options: Object.values(ETooltipPosition)
 		},
 		isOpen: {
-			control: { type: 'boolean' }
+			control: { type: "boolean" }
 		},
 		withArrow: {
-			control: { type: 'boolean' }
+			control: { type: "boolean" }
 		},
 		isFixed: {
-			control: { type: 'boolean' }
+			control: { type: "boolean" }
 		},
-		allowedPositions: { control: { type: 'multi-select' }, options: Object.values(ETooltipPosition) },
+		allowedPositions: {
+			control: { type: "multi-select" },
+			options: Object.values(ETooltipPosition)
+		},
 		onOpenStateChange: {
-			action: 'openStateChange'
+			action: "openStateChange"
 		}
 	}
 } satisfies Meta<typeof KvToggleTip>;
@@ -42,7 +58,7 @@ type Story = StoryObj<typeof meta>;
 
 export const DefaultState: Story = {
 	args: {
-		text: 'Toggle text with a lot of definition',
+		text: "Toggle text with a lot of definition",
 		isOpen: false,
 		isFixed: false,
 		withArrow: false,
@@ -52,7 +68,7 @@ export const DefaultState: Story = {
 
 export const FixedPositionState: Story = {
 	args: {
-		text: 'Toggle tip text',
+		text: "Toggle tip text",
 		position: ETooltipPosition.Left,
 		isFixed: false,
 		withArrow: false,
@@ -62,7 +78,7 @@ export const FixedPositionState: Story = {
 
 export const AllowedPositionsState: Story = {
 	args: {
-		text: 'Toggle tip text',
+		text: "Toggle tip text",
 		allowedPositions: [ETooltipPosition.Top, ETooltipPosition.Bottom],
 		isFixed: false,
 		withArrow: false,
@@ -72,7 +88,7 @@ export const AllowedPositionsState: Story = {
 
 export const DisabledToggleTipState: Story = {
 	args: {
-		text: 'Toggle tip text',
+		text: "Toggle tip text",
 		position: ETooltipPosition.Left,
 		isFixed: false,
 		withArrow: false,
@@ -82,7 +98,7 @@ export const DisabledToggleTipState: Story = {
 
 export const WithArrowState: Story = {
 	args: {
-		text: 'Toggle tip text',
+		text: "Toggle tip text",
 		position: ETooltipPosition.Left,
 		isFixed: false,
 		withArrow: true,
@@ -92,7 +108,7 @@ export const WithArrowState: Story = {
 
 export const WithCustomClass: Story = {
 	args: {
-		text: 'Toggle tip text',
+		text: "Toggle tip text",
 		position: ETooltipPosition.Left,
 		isFixed: false,
 		withArrow: true,

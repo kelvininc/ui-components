@@ -12,7 +12,7 @@
 ```tsx
 import React from 'react';
 
-import { KvAlert, IAlertConfig, EAlertType, EComponentSize } from '@kelvininc/react-ui-components';
+import { KvAlert, IAlertConfig, EAlertType, EComponentSize } from '@kelvininc/react-ui-components/client';
 
 export const AlertExample: React.FC<IAlertConfig> = () => (
 	<>

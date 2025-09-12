@@ -1,33 +1,35 @@
-import type { Meta, StoryFn, StoryObj } from '@storybook/react';
-import { KvCopyToClipboard } from '@kelvininc/react-ui-components';
-import { ComponentProps } from 'react';
+import type { Meta, StoryFn, StoryObj } from "@storybook/react";
+import { KvCopyToClipboard } from "@kelvininc/react-ui-components/client";
+import { ComponentProps } from "react";
 
-const CopyToClipboardTemplate: StoryFn<ComponentProps<typeof KvCopyToClipboard> & { textContent: string }> = args => (
-	<div style={{ color: 'white', fontFamily: 'proxima-nova' }}>
+const CopyToClipboardTemplate: StoryFn<
+	ComponentProps<typeof KvCopyToClipboard>
+> = (args) => (
+	<div style={{ color: "white", fontFamily: "proxima-nova" }}>
 		<KvCopyToClipboard {...args}>{QUOTE}</KvCopyToClipboard>
 	</div>
 );
 
 const meta = {
-	title: 'Data Display/Copy To Clipboard',
+	title: "Data Display/Copy To Clipboard",
 	component: KvCopyToClipboard,
-	render: CopyToClipboardTemplate,
+	render: CopyToClipboardTemplate
 } satisfies Meta<typeof KvCopyToClipboard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const QUOTE = 'Inspiration does exist, but it must find you working.';
+const QUOTE = "Inspiration does exist, but it must find you working.";
 
 export const Default: Story = {
 	args: {
 		copiableText: QUOTE
 	}
-}
+};
 
 export const WithTooltipSuffix: Story = {
 	args: {
 		...Default.args,
-		tooltipSuffix: 'Quote'
+		tooltipSuffix: "Quote"
 	}
 };

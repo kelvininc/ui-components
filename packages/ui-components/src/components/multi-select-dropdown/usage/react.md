@@ -1,6 +1,6 @@
 ```tsx
 import React from 'react';
-import { KvMultiSelectDropdown } from '@kelvininc/react-ui-components';
+import { KvMultiSelectDropdown } from '@kelvininc/react-ui-components/client';
 
 export const KvMultiSelectDropdownExample: React.FC = (props) => (
   <>

@@ -11,7 +11,7 @@
 
 ```tsx
 import React from 'react';
-import { KvTabItem } from '@kelvininc/react-ui-components';
+import { KvTabItem } from '@kelvininc/react-ui-components/client';
 
 export const TabItemExample: React.FC = () => (
 	<>

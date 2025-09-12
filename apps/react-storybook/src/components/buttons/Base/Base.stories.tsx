@@ -1,19 +1,25 @@
-import type { Meta, StoryFn, StoryObj } from '@storybook/react';
-import { EActionButtonType, EComponentSize, KvActionButton } from "@kelvininc/react-ui-components"
-import { ComponentProps } from 'react';
+import type { Meta, StoryFn, StoryObj } from "@storybook/react";
+import {
+	EActionButtonType,
+	EComponentSize,
+	KvActionButton
+} from "@kelvininc/react-ui-components/client";
+import { ComponentProps } from "react";
 
-const ButtonTemplate: StoryFn<ComponentProps<typeof KvActionButton>> = args => <KvActionButton {...args}>Action Button</KvActionButton>;
+const ButtonTemplate: StoryFn<ComponentProps<typeof KvActionButton>> = (
+	args
+) => <KvActionButton {...args}>Action Button</KvActionButton>;
 
 const meta = {
-	title: 'Buttons/Base',
+	title: "Buttons/Base",
 	component: KvActionButton,
 	argTypes: {
 		type: {
-			control: { type: 'select' },
+			control: { type: "select" },
 			options: Object.values(EActionButtonType)
 		},
 		size: {
-			control: { type: 'radio' },
+			control: { type: "radio" },
 			options: Object.values(EComponentSize)
 		}
 	},
@@ -28,8 +34,8 @@ export const PrimaryState: Story = {
 		type: EActionButtonType.Primary,
 		size: EComponentSize.Large,
 		disabled: false,
-		active: false,
-	},
+		active: false
+	}
 };
 
 export const SecondaryState: Story = {
@@ -38,8 +44,8 @@ export const SecondaryState: Story = {
 		size: EComponentSize.Large,
 		disabled: false,
 		active: false,
-		children: 'Action Button'
-	},
+		children: "Action Button"
+	}
 };
 
 export const TertiaryState: Story = {
@@ -48,8 +54,8 @@ export const TertiaryState: Story = {
 		size: EComponentSize.Large,
 		disabled: false,
 		active: false,
-		children: 'Action Button'
-	},
+		children: "Action Button"
+	}
 };
 
 export const TertiaryLoadingState: Story = {
@@ -59,8 +65,8 @@ export const TertiaryLoadingState: Story = {
 		disabled: false,
 		active: false,
 		loading: true,
-		children: 'Action Button'
-	},
+		children: "Action Button"
+	}
 };
 export const GhostState: Story = {
 	args: {
@@ -68,7 +74,7 @@ export const GhostState: Story = {
 		size: EComponentSize.Large,
 		disabled: false,
 		active: false,
-		children: 'Action Button'
+		children: "Action Button"
 	}
 };
 
@@ -78,6 +84,6 @@ export const DangerState: Story = {
 		size: EComponentSize.Large,
 		disabled: false,
 		active: false,
-		children: 'Action Button'
+		children: "Action Button"
 	}
 };

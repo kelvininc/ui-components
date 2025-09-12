@@ -10,7 +10,7 @@
 ```tsx
 import React from 'react';
 
-import { KvActionButtonText, EActionButtonType, EIconName } from '@kelvininc/react-ui-components';
+import { KvActionButtonText, EActionButtonType, EIconName } from '@kelvininc/react-ui-components/client';
 
 export const SwitchButtonExample: React.FC = () => (
 	<>

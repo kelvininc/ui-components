@@ -30,7 +30,7 @@
 
 ```tsx
 import React from 'react';
-import { KvDropdown } from '@kelvininc/react-ui-components';
+import { KvDropdown } from '@kelvininc/react-ui-components/client';
 
 export const KvDropdownExample: React.FC = () => (
   <>

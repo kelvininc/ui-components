@@ -10,7 +10,7 @@
 ```tsx
 import React from 'react';
 
-import { KvIllustration, EIllustrationName } from '@kelvininc/react-ui-components';
+import { KvIllustration, EIllustrationName } from '@kelvininc/react-ui-components/client';
 
 export const SvgIconExample: React.FC = () => (
 	<>

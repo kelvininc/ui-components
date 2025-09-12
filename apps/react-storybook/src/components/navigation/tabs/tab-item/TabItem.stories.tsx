@@ -1,16 +1,20 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { KvTabItem, EComponentSize, EIconName } from '@kelvininc/react-ui-components';
+import {
+	KvTabItem,
+	EComponentSize,
+	EIconName
+} from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Navigation/Tabs/Tab Item',
+	title: "Navigation/Tabs/Tab Item",
 	component: KvTabItem,
 	argTypes: {
 		tabKey: {
-			control: 'text'
+			control: "text"
 		},
 		size: {
-			control: 'radio',
+			control: "radio",
 			options: Object.values(EComponentSize)
 		}
 	}
@@ -21,8 +25,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		tabKey: 'tab1',
-		label: 'Tab Item'
+		tabKey: "tab1",
+		label: "Tab Item"
 	}
 };
 

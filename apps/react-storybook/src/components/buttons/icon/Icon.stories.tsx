@@ -1,26 +1,31 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { EActionButtonType, EBadgeState, EComponentSize, EIconName, KvActionButtonIcon } from "@kelvininc/react-ui-components"
-
+import {
+	EActionButtonType,
+	EBadgeState,
+	EComponentSize,
+	EIconName,
+	KvActionButtonIcon
+} from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Buttons/Icon',
+	title: "Buttons/Icon",
 	component: KvActionButtonIcon,
 	argTypes: {
 		type: {
-			control: { type: 'select' },
+			control: { type: "select" },
 			options: Object.values(EActionButtonType)
 		},
 		size: {
-			control: { type: 'radio' },
+			control: { type: "radio" },
 			options: Object.values(EComponentSize)
 		},
 		icon: {
-			control: { type: 'select' },
+			control: { type: "select" },
 			options: Object.values(EIconName)
 		},
 		badgeState: {
-			control: { type: 'select' },
+			control: { type: "select" },
 			options: Object.values(EBadgeState)
 		}
 	}
@@ -117,7 +122,7 @@ export const BadgeState: Story = {
 		size: EComponentSize.Small,
 		disabled: false,
 		active: false,
-		badgeLabel: '12',
+		badgeLabel: "12",
 		badgeState: EBadgeState.None
 	}
 };

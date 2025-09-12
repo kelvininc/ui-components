@@ -9,7 +9,7 @@
 
 ```tsx
 import React from 'react';
-import { KvBreadcrumbList } from '@kelvininc/react-ui-components';
+import { KvBreadcrumbList } from '@kelvininc/react-ui-components/client';
 
 export const KvBreadcrumbListExample: React.FC = () => (
 	<>

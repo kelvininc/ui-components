@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
 
-import { KvCopyToClipboard } from '@kelvininc/react-ui-components';
+import { KvCopyToClipboard } from '@kelvininc/react-ui-components/client';
 
 export const KvCopyToClipboardExample: React.FC = () => (
 	<>

@@ -1,9 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { KvBreadcrumbList, KvBreadcrumbItem } from '@kelvininc/react-ui-components';
+import {
+	KvBreadcrumbList,
+	KvBreadcrumbItem
+} from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Navigation/Breadcrumbs/Breadcrumb List',
+	title: "Navigation/Breadcrumbs/Breadcrumb List",
 	component: KvBreadcrumbList,
 	render: (args) => (
 		<KvBreadcrumbList {...args}>
@@ -19,4 +22,4 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {}
-}
+};

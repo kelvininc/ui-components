@@ -1,30 +1,30 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { KvSelectOption } from '@kelvininc/react-ui-components';
+import type { Meta, StoryObj } from "@storybook/react";
+import { KvSelectOption } from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Select/Select Item',
+	title: "Select/Select Item",
 	component: KvSelectOption,
 	argTypes: {
 		label: {
-			control: { type: 'text' }
+			control: { type: "text" }
 		},
 		description: {
-			control: { type: 'text' }
+			control: { type: "text" }
 		},
 		value: {
-			control: { type: 'text' }
+			control: { type: "text" }
 		},
 		selected: {
-			control: { type: 'boolean' }
+			control: { type: "boolean" }
 		},
 		disabled: {
-			control: { type: 'boolean' }
+			control: { type: "boolean" }
 		},
 		togglable: {
-			control: { type: 'boolean' }
+			control: { type: "boolean" }
 		},
 		selectable: {
-			control: { type: 'boolean' }
+			control: { type: "boolean" }
 		}
 	}
 } satisfies Meta<typeof KvSelectOption>;
@@ -34,9 +34,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		label: 'Label 1',
-		value: 'label-1',
-		description: '',
+		label: "Label 1",
+		value: "label-1",
+		description: "",
 		selected: true,
 		togglable: true,
 		disabled: false

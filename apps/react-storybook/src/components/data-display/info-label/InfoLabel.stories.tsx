@@ -1,5 +1,8 @@
 import type { Meta, StoryFn, StoryObj } from "@storybook/react";
-import { KvInfoLabel, KvTagLetter } from "@kelvininc/react-ui-components";
+import {
+	KvInfoLabel,
+	KvTagLetter
+} from "@kelvininc/react-ui-components/client";
 import { ComponentProps } from "react";
 
 const meta = {

@@ -1,6 +1,6 @@
 ```tsx
 import React from 'react';
-import { KvTreeItem, EIconName, EBadgeState } from '@kelvininc/react-ui-components';
+import { KvTreeItem, EIconName, EBadgeState } from '@kelvininc/react-ui-components/client';
 
 export const TreeItemExample: React.FC = () => (
 	<>

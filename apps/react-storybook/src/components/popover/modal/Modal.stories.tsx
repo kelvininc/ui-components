@@ -3,7 +3,7 @@ import {
 	KvModal,
 	ModalOverlay,
 	useModal
-} from "@kelvininc/react-ui-components";
+} from "@kelvininc/react-ui-components/client";
 import { ComponentProps } from "react";
 
 const ControlledModalTemplate: StoryFn<ComponentProps<typeof ModalOverlay>> = (

@@ -1,6 +1,6 @@
 ```tsx
 import React from 'react';
-import { KvSummaryCard, ESummaryCardType } from '@kelvininc/react-ui-components';
+import { KvSummaryCard, ESummaryCardType } from '@kelvininc/react-ui-components/client';
 export const KvSummaryCardExample: React.FC = () => (
 	<>
 		{/*-- Required props only (Text Type) --*/}

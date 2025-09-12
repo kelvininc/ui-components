@@ -1,36 +1,40 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { EAlertType, EComponentSize, KvAlert } from '@kelvininc/react-ui-components';
+import {
+	EAlertType,
+	EComponentSize,
+	KvAlert
+} from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Feedback/Alert',
+	title: "Feedback/Alert",
 	component: KvAlert,
 	argTypes: {
 		type: {
 			control: {
-				type: 'select'
+				type: "select"
 			},
 			options: Object.values(EAlertType)
 		},
 		size: {
 			control: {
-				type: 'radio'
+				type: "radio"
 			},
 			options: Object.values(EComponentSize)
 		},
 		showIcon: {
 			control: {
-				type: 'boolean'
+				type: "boolean"
 			}
 		},
 		label: {
 			control: {
-				type: 'text'
+				type: "text"
 			}
 		},
 		description: {
 			control: {
-				type: 'text'
+				type: "text"
 			}
 		}
 	}
@@ -43,8 +47,8 @@ export const Default: Story = {
 	args: {
 		type: EAlertType.Info,
 		size: EComponentSize.Large,
-		label: 'Main Message',
-		description: 'Secondary Message'
+		label: "Main Message",
+		description: "Secondary Message"
 	}
 };
 
@@ -52,8 +56,8 @@ export const NoIcon: Story = {
 	args: {
 		type: EAlertType.Info,
 		showIcon: false,
-		label: 'Main Message',
-		description: 'Secondary Message'
+		label: "Main Message",
+		description: "Secondary Message"
 	}
 };
 
@@ -61,7 +65,7 @@ export const SmallSize: Story = {
 	args: {
 		type: EAlertType.Info,
 		size: EComponentSize.Small,
-		label: 'Main Message',
-		description: 'Secondary Message'
+		label: "Main Message",
+		description: "Secondary Message"
 	}
 };

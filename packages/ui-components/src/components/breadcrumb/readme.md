@@ -11,7 +11,7 @@
 
 ```tsx
 import React from 'react';
-import { KvBreadcrumb } from '@kelvininc/react-ui-components';
+import { KvBreadcrumb } from '@kelvininc/react-ui-components/client';
 
 export const KvBreadcrumbExample: React.FC = (props) => (
   <>

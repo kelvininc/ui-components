@@ -12,7 +12,7 @@
 ```tsx
 import React from 'react';
 
-import { KvToaster, EToasterType } from '@kelvininc/react-ui-components';
+import { KvToaster, EToasterType } from '@kelvininc/react-ui-components/client';
 
 export const ToasterExample: React.FC = () => (
 	<>

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { KvBreadcrumbItem } from '@kelvininc/react-ui-components';
+import type { Meta, StoryObj } from "@storybook/react";
+import { KvBreadcrumbItem } from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Navigation/Breadcrumbs/Breadcrumb Item',
+	title: "Navigation/Breadcrumbs/Breadcrumb Item",
 	component: KvBreadcrumbItem,
 	argTypes: {
 		active: {
@@ -16,13 +16,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Inactive: Story = {
 	args: {
-		label: 'Homepage'
+		label: "Homepage"
 	}
 };
 
 export const Active: Story = {
 	args: {
-		label: 'Homepage',
+		label: "Homepage",
 		active: true
 	}
 };

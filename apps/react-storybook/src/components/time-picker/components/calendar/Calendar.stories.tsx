@@ -1,21 +1,21 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { KvCalendar } from '@kelvininc/react-ui-components';
+import type { Meta, StoryObj } from "@storybook/react";
+import { KvCalendar } from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Time Picker/Components/Calendar',
+	title: "Time Picker/Components/Calendar",
 	component: KvCalendar,
 	argTypes: {
 		selectedDates: {
-			type: 'object'
+			type: "object"
 		},
 		onChangeMonth: {
-			action: 'changeMonth'
+			action: "changeMonth"
 		},
 		onChangeYear: {
-			action: 'changeYear'
+			action: "changeYear"
 		},
 		onClickDate: {
-			action: 'clickDate'
+			action: "clickDate"
 		}
 	}
 } satisfies Meta<typeof KvCalendar>;
@@ -25,6 +25,6 @@ type Story = StoryObj<typeof meta>;
 
 export const DefaultState: Story = {
 	args: {
-		initialDate: new Date('2023-01-01').toISOString()
+		initialDate: new Date("2023-01-01").toISOString()
 	}
 };

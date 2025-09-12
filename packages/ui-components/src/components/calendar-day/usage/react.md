@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
 
-import { KvCalendarDay } from '@kelvininc/react-ui-components';
+import { KvCalendarDay } from '@kelvininc/react-ui-components/client';
 
 export const KvCalendarDayExample: React.FC = () => (
 	<>

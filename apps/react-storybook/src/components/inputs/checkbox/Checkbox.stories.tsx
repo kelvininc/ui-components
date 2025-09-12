@@ -1,5 +1,5 @@
 import { ComponentProps, useCallback, useState } from "react";
-import { KvCheckbox, ICheckbox } from "@kelvininc/react-ui-components";
+import { KvCheckbox, ICheckbox } from "@kelvininc/react-ui-components/client";
 import { Meta, StoryFn, StoryObj } from "@storybook/react";
 
 const CheckboxTemplate: StoryFn<ComponentProps<typeof KvCheckbox>> = ({

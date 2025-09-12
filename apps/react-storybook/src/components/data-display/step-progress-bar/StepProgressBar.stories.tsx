@@ -1,9 +1,14 @@
-import type { Meta, StoryFn, StoryObj } from '@storybook/react';
+import type { Meta, StoryFn, StoryObj } from "@storybook/react";
 
-import { KvStepIndicator, KvStepProgressBar } from '@kelvininc/react-ui-components';
-import { ComponentProps } from 'react';
+import {
+	KvStepIndicator,
+	KvStepProgressBar
+} from "@kelvininc/react-ui-components/client";
+import { ComponentProps } from "react";
 
-const StepProgressBarTemplate: StoryFn<ComponentProps<typeof KvStepProgressBar>> = args => {
+const StepProgressBarTemplate: StoryFn<
+	ComponentProps<typeof KvStepProgressBar>
+> = (args) => {
 	return (
 		<KvStepProgressBar {...args}>
 			<KvStepIndicator active></KvStepIndicator>
@@ -15,18 +20,18 @@ const StepProgressBarTemplate: StoryFn<ComponentProps<typeof KvStepProgressBar>>
 };
 
 const meta = {
-	title: 'Data Display/Step Progress Bar',
+	title: "Data Display/Step Progress Bar",
 	component: KvStepProgressBar,
 	render: StepProgressBarTemplate,
 	argTypes: {
 		progressPercentage: {
 			control: {
-				type: 'number'
+				type: "number"
 			}
 		},
 		hasError: {
 			control: {
-				type: 'boolean'
+				type: "boolean"
 			}
 		}
 	}
@@ -41,7 +46,9 @@ export const Default: Story = {
 	}
 };
 
-const StepProgressBarErrorTemplate: StoryFn<ComponentProps<typeof KvStepProgressBar>> = args => {
+const StepProgressBarErrorTemplate: StoryFn<
+	ComponentProps<typeof KvStepProgressBar>
+> = (args) => {
 	return (
 		<KvStepProgressBar {...args}>
 			<KvStepIndicator active hasError></KvStepIndicator>

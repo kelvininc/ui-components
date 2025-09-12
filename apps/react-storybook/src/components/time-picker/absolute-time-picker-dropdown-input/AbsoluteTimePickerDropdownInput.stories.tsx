@@ -1,19 +1,25 @@
-import type { Meta, StoryObj, StoryFn } from '@storybook/react';
-import { ComponentProps, useState } from 'react';
-import { EAbsoluteTimePickerMode, ITimePickerTimezone, KvAbsoluteTimePickerDropdownInput, SelectedTime, SelectedTimeState } from '@kelvininc/react-ui-components';
+import type { Meta, StoryObj, StoryFn } from "@storybook/react";
+import { ComponentProps, useState } from "react";
+import {
+	EAbsoluteTimePickerMode,
+	ITimePickerTimezone,
+	KvAbsoluteTimePickerDropdownInput,
+	SelectedTime,
+	SelectedTimeState
+} from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Time Picker/Absolute Time Picker Dropdown Input',
+	title: "Time Picker/Absolute Time Picker Dropdown Input",
 	component: KvAbsoluteTimePickerDropdownInput,
 	argTypes: {
 		onSelectedTimeChange: {
-			action: 'selectedTimeChange'
+			action: "selectedTimeChange"
 		},
 		onDropdownStateChange: {
-			action: 'dropdownStateChange'
+			action: "dropdownStateChange"
 		},
 		onCancelClicked: {
-			action: 'cancelClicked'
+			action: "cancelClicked"
 		}
 	}
 } satisfies Meta<typeof KvAbsoluteTimePickerDropdownInput>;
@@ -21,26 +27,42 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const DefaultAbsoluteTimePickerDropdownInputTemplate: StoryFn<ComponentProps<typeof KvAbsoluteTimePickerDropdownInput>> = args => {
+const DefaultAbsoluteTimePickerDropdownInputTemplate: StoryFn<
+	ComponentProps<typeof KvAbsoluteTimePickerDropdownInput>
+> = (args) => {
 	const [selectedDates, setSelectedDates] = useState<SelectedTimeState>([]);
 
-	const onSelectedDatesChange = ({ detail: newDates }: CustomEvent<SelectedTime>) => {
+	const onSelectedDatesChange = ({
+		detail: newDates
+	}: CustomEvent<SelectedTime>) => {
 		setSelectedDates(newDates);
 	};
 
-	return <KvAbsoluteTimePickerDropdownInput {...args} selectedTime={selectedDates} onSelectedTimeChange={onSelectedDatesChange} />;
+	return (
+		<KvAbsoluteTimePickerDropdownInput
+			{...args}
+			selectedTime={selectedDates}
+			onSelectedTimeChange={onSelectedDatesChange}
+		/>
+	);
 };
 
-const DefaultAbsoluteTimePickerDropdownInputSingleInputTemplate: StoryFn<ComponentProps<typeof KvAbsoluteTimePickerDropdownInput>> = args => {
+const DefaultAbsoluteTimePickerDropdownInputSingleInputTemplate: StoryFn<
+	ComponentProps<typeof KvAbsoluteTimePickerDropdownInput>
+> = (args) => {
 	const JANUARY_1_0H00: number = 1640995200 * 1000;
-	const [selectedDates, setSelectedDates] = useState<SelectedTimeState>([JANUARY_1_0H00]);
+	const [selectedDates, setSelectedDates] = useState<SelectedTimeState>([
+		JANUARY_1_0H00
+	]);
 
-	const onSelectedDatesChange = ({ detail: newDates }: CustomEvent<SelectedTime>) => {
+	const onSelectedDatesChange = ({
+		detail: newDates
+	}: CustomEvent<SelectedTime>) => {
 		setSelectedDates(newDates);
 	};
 
 	const timezone: ITimePickerTimezone = {
-		name: 'Asia/Tokyo',
+		name: "Asia/Tokyo",
 		offset: 540
 	};
 
@@ -55,13 +77,17 @@ const DefaultAbsoluteTimePickerDropdownInputSingleInputTemplate: StoryFn<Compone
 	);
 };
 
-const DefaultAbsoluteTimePickerDropdownInputWithMinimumDateTemplate: StoryFn<ComponentProps<typeof KvAbsoluteTimePickerDropdownInput>> = args => {
+const DefaultAbsoluteTimePickerDropdownInputWithMinimumDateTemplate: StoryFn<
+	ComponentProps<typeof KvAbsoluteTimePickerDropdownInput>
+> = (args) => {
 	const [selectedDates, setSelectedDates] = useState<SelectedTimeState>([]);
 
 	const APRIL_12_18H17: number = 1681319856833;
 	const APRIL_12_21H06: number = 1681329996833;
 
-	const onSelectedDatesChange = ({ detail: newDates }: CustomEvent<SelectedTime>) => {
+	const onSelectedDatesChange = ({
+		detail: newDates
+	}: CustomEvent<SelectedTime>) => {
 		setSelectedDates(newDates);
 	};
 
@@ -79,15 +105,15 @@ const DefaultAbsoluteTimePickerDropdownInputWithMinimumDateTemplate: StoryFn<Com
 
 export const DefaultState: Story = {
 	args: {},
-	render: DefaultAbsoluteTimePickerDropdownInputTemplate,
+	render: DefaultAbsoluteTimePickerDropdownInputTemplate
 };
 
 export const SingleState: Story = {
 	args: {},
-	render: DefaultAbsoluteTimePickerDropdownInputSingleInputTemplate,
+	render: DefaultAbsoluteTimePickerDropdownInputSingleInputTemplate
 };
 
 export const DefaultStateWithMinimumDates: Story = {
 	args: {},
-	render: DefaultAbsoluteTimePickerDropdownInputWithMinimumDateTemplate,
+	render: DefaultAbsoluteTimePickerDropdownInputWithMinimumDateTemplate
 };

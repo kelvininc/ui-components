@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { KvRadioListItem } from '@kelvininc/react-ui-components';
+import { KvRadioListItem } from '@kelvininc/react-ui-components/client';
 
 export const RadioListItemExample: React.FC = () => (
 	{/* Default state */}

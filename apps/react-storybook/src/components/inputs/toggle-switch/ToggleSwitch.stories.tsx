@@ -4,7 +4,7 @@ import {
 	EComponentSize,
 	EIconName,
 	KvToggleSwitch
-} from "@kelvininc/react-ui-components";
+} from "@kelvininc/react-ui-components/client";
 import { ComponentProps } from "react";
 
 const ToggleSwitchTemplate: StoryFn<ComponentProps<typeof KvToggleSwitch>> = (
