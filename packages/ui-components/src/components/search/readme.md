@@ -10,7 +10,7 @@
 ```tsx
 import React from 'react';
 
-import { KvSearch } from '@kelvininc/react-ui-components';
+import { KvSearch } from '@kelvininc/react-ui-components/client';
 
 export const SearchExample: React.FC = () => (
 	<>

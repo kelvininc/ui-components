@@ -12,7 +12,7 @@
 ```tsx
 import React from 'react';
 
-import { KvTagAlarm } from '@kelvininc/react-ui-components';
+import { KvTagAlarm } from '@kelvininc/react-ui-components/client';
 
 export const TagLetterExample: React.FC = () => (
   <>

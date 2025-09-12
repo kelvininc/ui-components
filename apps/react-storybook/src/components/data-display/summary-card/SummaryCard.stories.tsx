@@ -1,13 +1,16 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { KvSummaryCard, ESummaryCardType } from '@kelvininc/react-ui-components';
+import {
+	KvSummaryCard,
+	ESummaryCardType
+} from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Data Display/Summary Card',
+	title: "Data Display/Summary Card",
 	component: KvSummaryCard,
 	argTypes: {
 		type: {
-			control: 'select',
+			control: "select",
 			options: Object.values(ESummaryCardType)
 		}
 	}
@@ -32,8 +35,8 @@ export const NoLabel: Story = {
 export const Loaded: Story = {
 	args: {
 		type: ESummaryCardType.Number,
-		label: '23',
-		subtitle: 'PSI',
-		description: 'Casing Pressure Avg.'
+		label: "23",
+		subtitle: "PSI",
+		description: "Casing Pressure Avg."
 	}
 };

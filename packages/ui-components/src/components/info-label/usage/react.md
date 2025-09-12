@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
 
-import { KvInfoLabel, KvTagLetter } from '@kelvininc/react-ui-components';
+import { KvInfoLabel, KvTagLetter } from '@kelvininc/react-ui-components/client';
 
 export const InfoLabelExample: React.FC = () => (
 	<>

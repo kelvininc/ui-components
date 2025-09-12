@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
 
-import { KvFormLabel } from '@kelvininc/react-ui-components';
+import { KvFormLabel } from '@kelvininc/react-ui-components/client';
 
 export const FormLabelExample: React.FC = () => (
 	<>

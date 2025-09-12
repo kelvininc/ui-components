@@ -1,6 +1,6 @@
-import { EIconName } from "@kelvininc/react-ui-components";
+import { EIconName } from "@kelvininc/react-ui-components/client";
 
-export const SMALL_SET_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
+export const SMALL_SET_DROPDOWN_OPTIONS_MOCK = {
 	option1: {
 		value: "option1",
 		label: "Option 1",
@@ -37,7 +37,7 @@ export const SMALL_SET_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
 	}
 };
 
-export const LARGE_SET_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
+export const LARGE_SET_DROPDOWN_OPTIONS_MOCK = {
 	group1: {
 		label: "Group 1",
 		value: "group-1",

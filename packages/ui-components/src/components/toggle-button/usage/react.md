@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
 
-import { KvToggleButton, EIconName } from '@kelvininc/react-ui-components';
+import { KvToggleButton, EIconName } from '@kelvininc/react-ui-components/client';
 
 export const ToggleButtonExample: React.FC = () => (
 	<>

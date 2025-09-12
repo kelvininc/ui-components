@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { EAnchorTarget, KvLink } from '@kelvininc/react-ui-components';
+import { EAnchorTarget, KvLink } from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Navigation/Link',
+	title: "Navigation/Link",
 	component: KvLink
 } satisfies Meta<typeof KvLink>;
 
@@ -12,21 +12,21 @@ type Story = StoryObj<typeof meta>;
 
 export const LabelOnly: Story = {
 	args: {
-		label: 'Link Label'
+		label: "Link Label"
 	}
 };
 
 export const LabelWithAnchor: Story = {
 	args: {
-		label: 'Link Label',
-		href: 'https://kelvin.ai',
+		label: "Link Label",
+		href: "https://kelvin.ai",
 		target: EAnchorTarget.NewTab
 	}
 };
 
 export const LabelAndSubtitle: Story = {
 	args: {
-		label: 'Link Label',
-		subtitle: 'Link Subtitle'
+		label: "Link Label",
+		subtitle: "Link Subtitle"
 	}
 };

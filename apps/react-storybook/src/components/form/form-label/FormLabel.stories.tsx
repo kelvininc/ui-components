@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { KvFormLabel } from '@kelvininc/react-ui-components';
+import type { Meta, StoryObj } from "@storybook/react";
+import { KvFormLabel } from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Form/FormLabel',
+	title: "Form/FormLabel",
 	component: KvFormLabel,
 	argTypes: {}
 } satisfies Meta<typeof KvFormLabel>;
@@ -12,7 +12,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		label: 'Form Label'
+		label: "Form Label"
 	}
 };
 

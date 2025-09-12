@@ -9,7 +9,7 @@ KvSchemaForm is [React](https://reactjs.org/) component that uses [react-jsonsch
 ```tsx
 import React from 'react';
 
-import { KvSchemaForm } from '@kelvininc/react-ui-components';
+import { KvSchemaForm } from '@kelvininc/react-ui-components/client';
 
 export const SchemaFormExample: React.FC = () => {
 	const schema = {

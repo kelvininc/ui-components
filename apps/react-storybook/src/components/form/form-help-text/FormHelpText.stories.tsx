@@ -1,13 +1,16 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { EValidationState, KvFormHelpText } from '@kelvininc/react-ui-components';
+import type { Meta, StoryObj } from "@storybook/react";
+import {
+	EValidationState,
+	KvFormHelpText
+} from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Form/FormHelpText',
+	title: "Form/FormHelpText",
 	component: KvFormHelpText,
 	argTypes: {
-		helpText: { control: { type: 'array' } },
+		helpText: { control: { type: "array" } },
 		state: {
-			control: { type: 'radio' },
+			control: { type: "radio" },
 			options: Object.values(EValidationState)
 		}
 	}
@@ -16,10 +19,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-
 export const Default: Story = {
 	args: {
-		helpText: 'Help text'
+		helpText: "Help text"
 	}
 };
 
@@ -32,6 +34,6 @@ export const DefaultWithErrorState: Story = {
 
 export const ArrayOfStrings: Story = {
 	args: {
-		helpText: ['Help text 1', 'Help Text 2']
+		helpText: ["Help text 1", "Help Text 2"]
 	}
 };

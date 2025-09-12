@@ -12,7 +12,7 @@
 ```tsx
 import React from 'react';
 
-import { KvDescriptionList } from '@kelvininc/react-ui-components';
+import { KvDescriptionList } from '@kelvininc/react-ui-components/client';
 
 const defaultConfig: IDescriptionListItem[] = [
 	{

@@ -1,13 +1,17 @@
+import { action } from "@storybook/addon-actions";
+import {
+	KvCodeDiffEditor,
+	ECodeEditorTheme
+} from "@kelvininc/react-ui-components/client";
+import { Meta, StoryFn, StoryObj } from "@storybook/react";
+import { ComponentProps } from "react";
 
-import { action } from '@storybook/addon-actions';
-import { KvCodeDiffEditor, ECodeEditorTheme } from '@kelvininc/react-ui-components';
-import { Meta, StoryFn, StoryObj } from '@storybook/react';
-import { ComponentProps } from 'react';
+const onChangeAction = action("Data Changed");
 
-const onChangeAction = action('Data Changed');
-
-const DefaultCodeEditorTemplate: StoryFn<ComponentProps<typeof KvCodeDiffEditor>> = args => {
-	const wrapperStyle = { width: '640px', height: '480px' };
+const DefaultCodeEditorTemplate: StoryFn<
+	ComponentProps<typeof KvCodeDiffEditor>
+> = (args) => {
+	const wrapperStyle = { width: "640px", height: "480px" };
 
 	return (
 		<div style={wrapperStyle}>
@@ -17,39 +21,39 @@ const DefaultCodeEditorTemplate: StoryFn<ComponentProps<typeof KvCodeDiffEditor>
 };
 
 const meta = {
-	title: 'Inputs/CodeDiffEditor',
+	title: "Inputs/CodeDiffEditor",
 	component: KvCodeDiffEditor,
 	render: DefaultCodeEditorTemplate,
 	argTypes: {
 		originalCode: {
 			control: {
-				type: 'text'
+				type: "text"
 			}
 		},
 		modifiedCode: {
 			control: {
-				type: 'text'
+				type: "text"
 			}
 		},
 		language: {
 			control: {
-				type: 'text'
+				type: "text"
 			}
 		},
 		theme: {
 			control: {
-				type: 'select'
+				type: "select"
 			},
 			options: Object.values(ECodeEditorTheme)
 		},
 		customOptions: {
 			control: {
-				type: 'object'
+				type: "object"
 			}
 		},
 		customTheme: {
 			control: {
-				type: 'object'
+				type: "object"
 			}
 		}
 	}
@@ -77,7 +81,7 @@ const modifiedCode = `{
 
 export const Default: Story = {
 	args: {
-		language: 'json',
+		language: "json",
 		originalCode,
 		modifiedCode
 	}
@@ -85,7 +89,7 @@ export const Default: Story = {
 
 export const SingleEditorDiff: Story = {
 	args: {
-		language: 'json',
+		language: "json",
 		originalCode,
 		modifiedCode,
 		customOptions: { renderSideBySide: false }

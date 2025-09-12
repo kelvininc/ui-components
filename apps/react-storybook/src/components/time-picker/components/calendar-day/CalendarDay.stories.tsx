@@ -1,19 +1,19 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { KvCalendarDay } from '@kelvininc/react-ui-components';
+import { KvCalendarDay } from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Time Picker/Components/Calendar Day',
+	title: "Time Picker/Components/Calendar Day",
 	component: KvCalendarDay,
 	argTypes: {
 		onClickDay: {
-			action: 'clickDay'
+			action: "clickDay"
 		},
 		onMouseEnterDay: {
-			action: 'mouseEnterDay'
+			action: "mouseEnterDay"
 		},
 		onMouseLeaveDay: {
-			action: 'mouseLeaveDay'
+			action: "mouseLeaveDay"
 		}
 	}
 } satisfies Meta<typeof KvCalendarDay>;

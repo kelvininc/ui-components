@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { KvBreadcrumb } from '@kelvininc/react-ui-components';
+import type { Meta, StoryObj } from "@storybook/react";
+import { KvBreadcrumb } from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Navigation/Breadcrumbs/Breadcrumb',
+	title: "Navigation/Breadcrumbs/Breadcrumb",
 	component: KvBreadcrumb
 } satisfies Meta<typeof KvBreadcrumb>;
 
@@ -13,13 +13,13 @@ export const Primary: Story = {
 	args: {
 		items: [
 			{
-				label: 'Homepage'
+				label: "Homepage"
 			},
 			{
-				label: 'Product'
+				label: "Product"
 			},
 			{
-				label: 'Contact Form'
+				label: "Contact Form"
 			}
 		]
 	}

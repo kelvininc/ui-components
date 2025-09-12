@@ -9,7 +9,7 @@
 
 ```tsx
 import React from 'react';
-import { KvTree } from '@kelvininc/react-ui-components';
+import { KvTree } from '@kelvininc/react-ui-components/client';
 
 export const TreeExample: React.FC = () => (
 	<>

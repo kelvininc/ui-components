@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { KvStateIndicator } from '@kelvininc/react-ui-components';
+import { KvStateIndicator } from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Data Display/State Indicator',
+	title: "Data Display/State Indicator",
 	component: KvStateIndicator,
 	argTypes: {
-		color: { type: 'color' },
-		text: { type: 'text' }
+		color: { type: "color" },
+		text: { type: "text" }
 	}
 } satisfies Meta<typeof KvStateIndicator>;
 
@@ -16,13 +16,13 @@ type Story = StoryObj<typeof meta>;
 
 export const DefaultState: Story = {
 	args: {
-		text: 'State Indicator'
+		text: "State Indicator"
 	}
 };
 
 export const ColorState: Story = {
 	args: {
-		color: 'green',
-		text: 'State Indicator'
+		color: "green",
+		text: "State Indicator"
 	}
 };

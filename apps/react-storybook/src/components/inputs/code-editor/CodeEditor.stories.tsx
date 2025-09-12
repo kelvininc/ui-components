@@ -1,14 +1,18 @@
+import { action } from "@storybook/addon-actions";
 
-import { action } from '@storybook/addon-actions';
+import {
+	KvCodeEditor,
+	ECodeEditorTheme
+} from "@kelvininc/react-ui-components/client";
+import { Meta, StoryFn, StoryObj } from "@storybook/react";
+import { ComponentProps } from "react";
 
-import { KvCodeEditor, ECodeEditorTheme } from '@kelvininc/react-ui-components';
-import { Meta, StoryFn, StoryObj } from '@storybook/react';
-import { ComponentProps } from 'react';
+const onChangeAction = action("Data Changed");
 
-const onChangeAction = action('Data Changed');
-
-const DefaultCodeEditorTemplate: StoryFn<ComponentProps<typeof KvCodeEditor>> = args => {
-	const wrapperStyle = { width: '640px', height: '480px' };
+const DefaultCodeEditorTemplate: StoryFn<
+	ComponentProps<typeof KvCodeEditor>
+> = (args) => {
+	const wrapperStyle = { width: "640px", height: "480px" };
 
 	return (
 		<div style={wrapperStyle}>
@@ -18,34 +22,34 @@ const DefaultCodeEditorTemplate: StoryFn<ComponentProps<typeof KvCodeEditor>> = 
 };
 
 const meta = {
-	title: 'Inputs/CodeEditor',
+	title: "Inputs/CodeEditor",
 	component: KvCodeEditor,
 	render: DefaultCodeEditorTemplate,
 	argTypes: {
 		code: {
 			control: {
-				type: 'text'
+				type: "text"
 			}
 		},
 		language: {
 			control: {
-				type: 'text'
+				type: "text"
 			}
 		},
 		theme: {
 			control: {
-				type: 'select'
+				type: "select"
 			},
 			options: Object.values(ECodeEditorTheme)
 		},
 		customOptions: {
 			control: {
-				type: 'object'
+				type: "object"
 			}
 		},
 		customTheme: {
 			control: {
-				type: 'object'
+				type: "object"
 			}
 		}
 	}
@@ -64,7 +68,7 @@ const code = `{
 
 export const Default: Story = {
 	args: {
-		language: 'json',
+		language: "json",
 		code
 	}
 };
@@ -73,13 +77,13 @@ export const CustomTheme: Story = {
 	args: {
 		...Default.args,
 		customTheme: {
-			base: 'vs-dark',
+			base: "vs-dark",
 			inherit: true,
 			rules: [],
 			colors: {
-				'editor.foreground': '#ffffff',
-				'editor.background': '#3f3f3f',
-				'editor.lineHighlightBorder': '#3f3f3f'
+				"editor.foreground": "#ffffff",
+				"editor.background": "#3f3f3f",
+				"editor.lineHighlightBorder": "#3f3f3f"
 			}
 		}
 	}

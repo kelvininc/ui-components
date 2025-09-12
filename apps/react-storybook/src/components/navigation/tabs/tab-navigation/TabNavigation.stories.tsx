@@ -1,10 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { KvTabNavigation, EComponentSize } from '@kelvininc/react-ui-components';
-import { useArgs } from '@storybook/preview-api';
+import {
+	KvTabNavigation,
+	EComponentSize
+} from "@kelvininc/react-ui-components/client";
+import { useArgs } from "@storybook/preview-api";
 
 const meta = {
-	title: 'Navigation/Tabs/Tab Navigation',
+	title: "Navigation/Tabs/Tab Navigation",
 	component: KvTabNavigation,
 	render: function Renderer(args) {
 		const [, updateArgs] = useArgs();
@@ -13,14 +16,22 @@ const meta = {
 			updateArgs({ selectedTabKey: event.detail });
 		};
 
-		return <KvTabNavigation tabs={args.tabs} selectedTabKey={args.selectedTabKey} notifications={args.notifications} size={args.size} onTabChange={handleTabChange} />;
+		return (
+			<KvTabNavigation
+				tabs={args.tabs}
+				selectedTabKey={args.selectedTabKey}
+				notifications={args.notifications}
+				size={args.size}
+				onTabChange={handleTabChange}
+			/>
+		);
 	},
 	argTypes: {
 		selectedTabKey: {
-			control: 'text'
+			control: "text"
 		},
 		size: {
-			control: 'radio',
+			control: "radio",
 			options: Object.values(EComponentSize)
 		}
 	}
@@ -33,23 +44,23 @@ export const Default: Story = {
 	args: {
 		tabs: [
 			{
-				tabKey: 'assets',
-				label: 'Assets'
+				tabKey: "assets",
+				label: "Assets"
 			},
 			{
-				tabKey: 'components',
-				label: 'Components'
+				tabKey: "components",
+				label: "Components"
 			},
 			{
-				tabKey: 'parts',
-				label: 'Parts'
+				tabKey: "parts",
+				label: "Parts"
 			},
 			{
-				tabKey: 'sensors',
-				label: 'Sensors'
+				tabKey: "sensors",
+				label: "Sensors"
 			}
 		],
-		selectedTabKey: 'assets',
+		selectedTabKey: "assets",
 		notifications: {
 			components: {
 				active: true

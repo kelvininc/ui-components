@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
-import { ModalOverlay, useModal } from '@kelvininc/react-ui-components';
-import type { ModalOverlayProps } from '@kelvininc/react-ui-components';
+import { ModalOverlay, useModal } from '@kelvininc/react-ui-components/client';
+import type { ModalOverlayProps } from '@kelvininc/react-ui-components/client';
 
 export const ModalOverlayExample: React.FC = (args: ModalOverlayProps) => {
 	const modalController = useModal(args.isOpen);

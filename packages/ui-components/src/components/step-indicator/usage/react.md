@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
 
-import { KvStepIndicator } from '@kelvininc/react-ui-components';
+import { KvStepIndicator } from '@kelvininc/react-ui-components/client';
 
 export const StepIndicatorExample: React.FC = () => (
 	<>

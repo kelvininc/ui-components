@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
 
-import { KvIcon } from '@kelvininc/react-ui-components';
+import { KvIcon } from '@kelvininc/react-ui-components/client';
 
 export const SvgIconExample: React.FC = () => (
 	<>

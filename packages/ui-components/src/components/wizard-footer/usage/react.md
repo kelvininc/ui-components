@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
 
-import { KvWizardFooter } from '@kelvininc/react-ui-components';
+import { KvWizardFooter } from '@kelvininc/react-ui-components/client';
 import { BUTTONS_CONFIG } from './config';
 
 export const KvWizardFooterExample: React.FC = () => {

@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
 
-import { KvStepBar } from '@kelvininc/react-ui-components';
+import { KvStepBar } from '@kelvininc/react-ui-components/client';
 
 export const StepBarExample: React.FC = () => {
 	const stepsSuccess = [

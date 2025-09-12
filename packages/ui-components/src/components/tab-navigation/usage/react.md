@@ -1,6 +1,6 @@
 ```tsx
 import React from 'react';
-import { KvTabNavigation } from '@kelvininc/react-ui-components';
+import { KvTabNavigation } from '@kelvininc/react-ui-components/client';
 
 export const TabNavigationExample: React.FC = () => (
 	<>

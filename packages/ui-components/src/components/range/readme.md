@@ -8,7 +8,7 @@
 ### React
 
 import React from 'react';
-import { KvRange } from '@kelvininc/react-ui-components';
+import { KvRange } from '@kelvininc/react-ui-components/client';
 
 export const KvRangeExample: React.FC = () => (
   <>

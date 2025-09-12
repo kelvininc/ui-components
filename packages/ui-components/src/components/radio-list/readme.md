@@ -12,7 +12,7 @@
 ```tsx
 import React from 'react';
 
-import { KvRadioList } from '@kelvininc/react-ui-components';
+import { KvRadioList } from '@kelvininc/react-ui-components/client';
 
 const RadioListExample: React.FC = () => {
 	return (
