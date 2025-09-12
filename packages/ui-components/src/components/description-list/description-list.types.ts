@@ -1,5 +1,5 @@
 import { ComputePositionConfig } from '@floating-ui/dom';
-import { EIconName, ETooltipPosition } from '../../types';
+import { EIconName, ETooltipPosition, ICopyToClipboard } from '../../types';
 import { ICustomCss } from '../../utils/types/components';
 
 export interface IDescriptionListItemToggletipConfig {
@@ -16,6 +16,7 @@ export interface IDescriptionListItem {
 	title: string;
 	description: string;
 	popoverInfo?: IDescriptionListItemPopover;
+	copiableTextConfig?: ICopyToClipboard;
 }
 
 export interface IDescriptionList extends ICustomCss {
