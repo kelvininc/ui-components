@@ -25,7 +25,7 @@ import '@kelvininc/react-ui-components/dist/assets/fonts/font-proxima-nova.css';
 Now you are ready to use all available _Kelvin UI Components_. For example:
 
 ```tsx
-import { EActionButtonType, KvActionButton } from '@kelvininc/react-ui-components';
+import { EActionButtonType, KvActionButton } from '@kelvininc/react-ui-components/client';
 
 (...)
 
@@ -50,7 +50,7 @@ Kelvin UI Components have two predefined themes `StyleMode.Night` and `StyleMode
 pass the desired theme to the library configuration in your `index.js` or `index.tsx`.
 
 ```tsx
-import { initialize, StyleMode } from '@kelvininc/react-ui-components';
+import { initialize, StyleMode } from '@kelvininc/react-ui-components/client';
 
 (...)
 
@@ -80,7 +80,7 @@ By default, the `KvIcon` and `KvIllustration` components require an SVG file wit
 
 ```tsx
 
-import { initialize } from '@kelvininc/react-ui-components';
+import { initialize } from '@kelvininc/react-ui-components/client';
 
 (...)
 
@@ -95,7 +95,7 @@ initialize({ symbolsFileName: 'symbols.6e51ea0e37926eff2f3ef11e64be70fa.svg' });
 By default the `KvIcon` and `KvIllustration` components will expect the `svg-symbols.svg` file to be served at the server root. This could not be your use-case if you're application is being served on a relative path, e.g, `https://dashboard.com/clients/home`. In this case you will need to tell the library the base path to your assets url, which you can achieve by doing the following in your `index.js` or `index.tsx`.
 
 ```tsx
-import { initialize } from '@kelvininc/react-ui-components';
+import { initialize } from '@kelvininc/react-ui-components/client';
 
 (...)
 

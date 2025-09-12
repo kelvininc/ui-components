@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { KvLoader } from '@kelvininc/react-ui-components';
+import type { Meta, StoryObj } from "@storybook/react";
+import { KvLoader } from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Feedback/Loader',
+	title: "Feedback/Loader",
 	component: KvLoader,
 	argTypes: {
-		isLoading: { type: 'boolean' },
-		hasOverlay: { type: 'boolean' }
+		isLoading: { type: "boolean" },
+		hasOverlay: { type: "boolean" }
 	}
 } satisfies Meta<typeof KvLoader>;
 

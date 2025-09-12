@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { KvTextArea } from '@kelvininc/react-ui-components';
+import { KvTextArea } from '@kelvininc/react-ui-components/client';
 
 export const TextAreaExample: React.FC = () => (
 	<>

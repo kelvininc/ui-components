@@ -1,6 +1,6 @@
 ```tsx
 import React from 'react';
-import { KvSelect } from '@kelvininc/react-ui-components';
+import { KvSelect } from '@kelvininc/react-ui-components/client';
 
 export const KvSelectExample: React.FC = () => (
   <>

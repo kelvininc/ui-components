@@ -10,7 +10,7 @@
 ```tsx
 import React from 'react';
 
-import { KvBadge, EBadgeState } from '@kelvininc/react-ui-components';
+import { KvBadge, EBadgeState } from '@kelvininc/react-ui-components/client';
 
 export const BadgeExample: React.FC = () => (
 	<>

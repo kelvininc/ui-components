@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
 
-import { KvTagStatus, ETagStatusType } from '@kelvininc/react-ui-components';
+import { KvTagStatus, ETagStatusType } from '@kelvininc/react-ui-components/client';
 
 export const TagStatusExample: React.FC = () => (
 	<>

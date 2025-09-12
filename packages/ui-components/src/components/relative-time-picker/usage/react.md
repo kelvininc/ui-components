@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
 
-import { KvRelativeTimePicker } from '@kelvininc/react-ui-components';
+import { KvRelativeTimePicker } from '@kelvininc/react-ui-components/client';
 
 export const KvRelativeTimePickerExample: React.FC = () => (
 	<>

@@ -1,6 +1,9 @@
 import type { Meta, StoryFn, StoryObj } from "@storybook/react";
 import { useArgs } from "@storybook/preview-api";
-import { EIconName, KvToggleButtonGroup } from "@kelvininc/react-ui-components";
+import {
+	EIconName,
+	KvToggleButtonGroup
+} from "@kelvininc/react-ui-components/client";
 import { ComponentProps } from "react";
 
 const ToggleButtonGroupTemplate: StoryFn<

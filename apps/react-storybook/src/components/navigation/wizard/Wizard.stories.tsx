@@ -1,34 +1,54 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { KvWizard, EStepState } from '@kelvininc/react-ui-components';
-import { action } from '@storybook/addon-actions';
-import { ComponentProps, useState } from 'react';
+import type { Meta, StoryObj } from "@storybook/react";
+import { KvWizard, EStepState } from "@kelvininc/react-ui-components/client";
+import { action } from "@storybook/addon-actions";
+import { ComponentProps, useState } from "react";
 
 const meta = {
-	title: 'Navigation/Wizard',
+	title: "Navigation/Wizard",
 	component: KvWizard,
 	render: function Renderer(args) {
 		const [currentStep, setCurrentStep] = useState(args.currentStep);
 
 		const handleGoToStep = (event: CustomEvent<number>) => {
 			setCurrentStep(event.detail);
-			action('goToStep')(event);
+			action("goToStep")(event);
 		};
 
 		const styles = {
-			height: '600px',
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
-			color: 'white'
+			height: "600px",
+			display: "flex",
+			justifyContent: "center",
+			alignItems: "center",
+			color: "white"
 		};
 
 		return (
-			<div style={{ height: '500px' }}>
-				<KvWizard style={{ '--wizard-stepper-width': '160px' }} {...args} currentStep={currentStep} onGoToStep={handleGoToStep}>
-					<div slot="additional-header-actions">Additional Header Action</div>
-					<div slot="step-content" style={{ height: '100%', overflow: 'scroll' }}>
-						{currentStep === 0 && <div style={{ backgroundColor: 'gray', ...styles }}>Step 1 Content</div>}
-						{currentStep === 1 && <div style={{ backgroundColor: 'black', ...styles }}>Step 2 Content</div>}
+			<div style={{ height: "500px" }}>
+				<KvWizard
+					style={{ "--wizard-stepper-width": "160px" }}
+					{...args}
+					currentStep={currentStep}
+					onGoToStep={handleGoToStep}
+				>
+					<div slot="additional-header-actions">
+						Additional Header Action
+					</div>
+					<div
+						slot="step-content"
+						style={{ height: "100%", overflow: "scroll" }}
+					>
+						{currentStep === 0 && (
+							<div style={{ backgroundColor: "gray", ...styles }}>
+								Step 1 Content
+							</div>
+						)}
+						{currentStep === 1 && (
+							<div
+								style={{ backgroundColor: "black", ...styles }}
+							>
+								Step 2 Content
+							</div>
+						)}
 					</div>
 				</KvWizard>
 			</div>
@@ -36,17 +56,17 @@ const meta = {
 	},
 	argTypes: {
 		onGoToStep: {
-			action: 'goToStep'
+			action: "goToStep"
 		},
 		onCompleteClick: {
-			action: 'completeClick'
+			action: "completeClick"
 		},
 		onCancelClick: {
-			action: 'cancelClick'
+			action: "cancelClick"
 		},
 		currentStepState: {
-			control: 'select',
-			options: ['', ...Object.values(EStepState)]
+			control: "select",
+			options: ["", ...Object.values(EStepState)]
 		}
 	}
 } satisfies Meta<typeof KvWizard>;
@@ -57,22 +77,22 @@ type Story = StoryObj<typeof meta>;
 const DEFAULT_ARGS: ComponentProps<typeof KvWizard> = {
 	steps: [
 		{
-			title: 'Info',
+			title: "Info",
 			cancelable: true
 		},
 		{
-			title: 'Configuration',
+			title: "Configuration",
 			allowGoBack: true,
-			tip: 'Add·your·custom·configurations·here.'
+			tip: "Add·your·custom·configurations·here."
 		},
 		{
-			title: 'Confirmation',
+			title: "Confirmation",
 			allowGoBack: true
 		}
 	],
 	currentStep: 1,
 	showStepBar: true,
-	completeBtnLabel: 'Deploy',
+	completeBtnLabel: "Deploy",
 	currentStepState: { state: EStepState.Success }
 };
 
@@ -80,46 +100,49 @@ export const SuccessState: Story = {
 	args: {
 		...DEFAULT_ARGS
 	}
-}
+};
 
 export const ErrorState: Story = {
 	args: {
 		...DEFAULT_ARGS,
 		// currentStepState: { state: EStepState.Error, error: 'Unable to proceed to the next step' }
-		currentStepState: { state: EStepState.Error, error: 'The selected app version is missing some app settings required so you are able to add assets. Select other app version in order to proceed.' }
+		currentStepState: {
+			state: EStepState.Error,
+			error: "The selected app version is missing some app settings required so you are able to add assets. Select other app version in order to proceed."
+		}
 	}
-}
+};
 
 export const WithoutHeader: Story = {
 	args: {
 		...DEFAULT_ARGS,
 		showHeader: false
 	}
-}
+};
 
 export const WithoutStepBar: Story = {
 	args: {
 		...DEFAULT_ARGS,
 		showStepBar: false
 	}
-}
+};
 
 export const WithoutGoBack: Story = {
 	args: {
 		...DEFAULT_ARGS,
 		steps: [
 			{
-				title: 'Info',
+				title: "Info",
 				allowGoBack: false
 			},
 			{
-				title: 'Configuration',
+				title: "Configuration",
 				allowGoBack: false
 			},
 			{
-				title: 'Confirmation',
+				title: "Confirmation",
 				allowGoBack: false
 			}
 		]
 	}
-}
+};

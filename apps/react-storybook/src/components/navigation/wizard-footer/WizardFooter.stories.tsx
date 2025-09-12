@@ -1,92 +1,103 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { useMemo } from 'react';
-import { IStepBarStep, KvWizardFooter } from '@kelvininc/react-ui-components';
-import { action } from '@storybook/addon-actions';
+import type { Meta, StoryObj } from "@storybook/react";
+import { useMemo } from "react";
+import {
+	IStepBarStep,
+	KvWizardFooter
+} from "@kelvininc/react-ui-components/client";
+import { action } from "@storybook/addon-actions";
 
 const meta = {
-	title: 'Navigation/Wizard Footer',
+	title: "Navigation/Wizard Footer",
 	component: KvWizardFooter,
 	render: function Renderer(args) {
-		const onPrevClick = useMemo(() => action('previous was clicked'), []);
-		const onNextClick = useMemo(() => action('next was clicked'), []);
-		const onStepClick = useMemo(() => action('step was clicked'), []);
+		const onPrevClick = useMemo(() => action("previous was clicked"), []);
+		const onNextClick = useMemo(() => action("next was clicked"), []);
+		const onStepClick = useMemo(() => action("step was clicked"), []);
 
-		return <KvWizardFooter {...args} onPrevClick={onPrevClick} onNextClick={onNextClick} onStepClick={onStepClick} style={{ '--stepper-width': '160px' }} />;
+		return (
+			<KvWizardFooter
+				{...args}
+				onPrevClick={onPrevClick}
+				onNextClick={onNextClick}
+				onStepClick={onStepClick}
+				style={{ "--stepper-width": "160px" }}
+			/>
+		);
 	},
 	argTypes: {
 		label: {
 			control: {
-				type: 'text'
+				type: "text"
 			}
 		},
 		steps: {
 			control: {
-				type: 'object'
+				type: "object"
 			}
 		},
 		currentStep: {
 			control: {
-				type: 'number'
+				type: "number"
 			}
 		},
 		progressPercentage: {
 			control: {
-				type: 'number'
+				type: "number"
 			}
 		},
 		hasError: {
 			control: {
-				type: 'boolean'
+				type: "boolean"
 			}
 		},
 		showStepBar: {
 			control: {
-				type: 'boolean'
+				type: "boolean"
 			}
 		},
 		completeBtnLabel: {
 			control: {
-				type: 'text'
+				type: "text"
 			}
 		},
 		cancelEnabled: {
 			control: {
-				type: 'boolean'
+				type: "boolean"
 			}
 		},
 		prevEnabled: {
 			control: {
-				type: 'boolean'
+				type: "boolean"
 			}
 		},
 		nextEnabled: {
 			control: {
-				type: 'boolean'
+				type: "boolean"
 			}
 		},
 		completeEnabled: {
 			control: {
-				type: 'boolean'
+				type: "boolean"
 			}
 		},
 		showCancelBtn: {
 			control: {
-				type: 'boolean'
+				type: "boolean"
 			}
 		},
 		showPrevBtn: {
 			control: {
-				type: 'boolean'
+				type: "boolean"
 			}
 		},
 		showNextBtn: {
 			control: {
-				type: 'boolean'
+				type: "boolean"
 			}
 		},
 		showCompleteBtn: {
 			control: {
-				type: 'boolean'
+				type: "boolean"
 			}
 		}
 	}
@@ -97,17 +108,17 @@ type Story = StoryObj<typeof meta>;
 
 const STEPS_MOCK_SUCCESS: IStepBarStep[] = [
 	{
-		stepKey: 'step0',
+		stepKey: "step0",
 		enabled: true,
 		active: true
 	},
 	{
-		stepKey: 'step1',
+		stepKey: "step1",
 		enabled: true,
 		active: true
 	},
 	{
-		stepKey: 'step2',
+		stepKey: "step2",
 		enabled: false
 	}
 ];
@@ -118,7 +129,7 @@ export const Default: Story = {
 		currentStep: 1,
 		progressPercentage: 50
 	}
-}
+};
 
 export const WithPrevious: Story = {
 	args: {
@@ -127,23 +138,23 @@ export const WithPrevious: Story = {
 		progressPercentage: 50,
 		showPrevBtn: true
 	}
-}
+};
 
 const STEPS_MOCK_ERROR: IStepBarStep[] = [
 	{
-		stepKey: 'step0',
+		stepKey: "step0",
 		enabled: true,
 		active: true,
 		hasError: true
 	},
 	{
-		stepKey: 'step1',
+		stepKey: "step1",
 		enabled: true,
 		active: true,
 		hasError: true
 	},
 	{
-		stepKey: 'step2',
+		stepKey: "step2",
 		enabled: false
 	}
 ];
@@ -155,4 +166,4 @@ export const WithError: Story = {
 		progressPercentage: 50,
 		hasError: true
 	}
-}
+};

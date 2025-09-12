@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
 
-import { KvAbsoluteTimePicker } from '@kelvininc/react-ui-components';
+import { KvAbsoluteTimePicker } from '@kelvininc/react-ui-components/client';
 
 export const KvAbsoluteTimePicker: React.FC = () => (
 	<>

@@ -1,17 +1,21 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { EAlarmSeverity, ETagAlarmSize, KvTagAlarm } from '@kelvininc/react-ui-components';
+import {
+	EAlarmSeverity,
+	ETagAlarmSize,
+	KvTagAlarm
+} from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Data Display/Tag Alarm',
+	title: "Data Display/Tag Alarm",
 	component: KvTagAlarm,
 	argTypes: {
 		severity: {
-			control: { type: 'select' },
+			control: { type: "select" },
 			options: Object.values(EAlarmSeverity)
 		},
 		size: {
-			control: { type: 'select' },
+			control: { type: "select" },
 			options: Object.values(ETagAlarmSize)
 		}
 	}
@@ -33,7 +37,7 @@ export const CustomText: Story = {
 		severity: EAlarmSeverity.One,
 		size: ETagAlarmSize.XSmall,
 		hideLabel: false,
-		label: '+99'
+		label: "+99"
 	}
 };
 

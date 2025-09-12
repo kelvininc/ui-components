@@ -1,16 +1,19 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { KvIllustration, EIllustrationName } from '@kelvininc/react-ui-components';
+import type { Meta, StoryObj } from "@storybook/react";
+import {
+	KvIllustration,
+	EIllustrationName
+} from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Media/Illustration',
+	title: "Media/Illustration",
 	component: KvIllustration,
 	argTypes: {
 		name: {
-			control: { type: 'select' },
+			control: { type: "select" },
 			options: Object.values(EIllustrationName)
 		},
 		customClass: {
-			control: { type: 'text' }
+			control: { type: "text" }
 		}
 	}
 } satisfies Meta<typeof KvIllustration>;
@@ -27,6 +30,6 @@ export const IllustrationOnly: Story = {
 export const CustomClass: Story = {
 	args: {
 		name: EIllustrationName.EsSectionSomethingwentwrong,
-		customClass: 'illustration-full-size'
+		customClass: "illustration-full-size"
 	}
 };

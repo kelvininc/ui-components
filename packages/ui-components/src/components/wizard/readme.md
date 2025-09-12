@@ -12,7 +12,7 @@
 ```tsx
 import React from 'react';
 
-import { IWizardStep, KvWizard } from '@kelvininc/react-ui-components';
+import { IWizardStep, KvWizard } from '@kelvininc/react-ui-components/client';
 
 export const KvWizardExample: React.FC = () => {
 	const steps: IWizardStep[]  = [

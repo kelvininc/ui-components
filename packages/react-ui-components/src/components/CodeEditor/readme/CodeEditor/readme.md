@@ -10,7 +10,7 @@ This component automatically resizes to fill size of a wrapper element.
 
 ```tsx
 import React from 'react';
-import { KvCodeEditor } from '@kelvininc/react-ui-components';
+import { KvCodeEditor } from '@kelvininc/react-ui-components/client';
 
 export const CodeEditorExample = () => {
 	return (

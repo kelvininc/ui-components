@@ -12,7 +12,7 @@
 ```tsx
 import React from 'react';
 
-import { KvCheckbox } from '@kelvininc/react-ui-components';
+import { KvCheckbox } from '@kelvininc/react-ui-components/client';
 
 export const RadioExample: React.FC = () => (
 	<>

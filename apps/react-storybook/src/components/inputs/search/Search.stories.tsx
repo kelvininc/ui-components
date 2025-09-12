@@ -1,34 +1,46 @@
-import type { Meta, StoryFn, StoryObj } from '@storybook/react';
-import { ComponentProps, useCallback, useState } from 'react';
-import { EComponentSize, KvSearch } from '@kelvininc/react-ui-components';
+import type { Meta, StoryFn, StoryObj } from "@storybook/react";
+import { ComponentProps, useCallback, useState } from "react";
+import {
+	EComponentSize,
+	KvSearch
+} from "@kelvininc/react-ui-components/client";
 
-const SearchTemplate: StoryFn<ComponentProps<typeof KvSearch>> = args => {
-	const [searchValue, setSearchValue] = useState('');
-	const onSearchTermChange = useCallback(({ detail }: CustomEvent<string>) => {
-		setSearchValue(detail);
-	}, []);
+const SearchTemplate: StoryFn<ComponentProps<typeof KvSearch>> = (args) => {
+	const [searchValue, setSearchValue] = useState("");
+	const onSearchTermChange = useCallback(
+		({ detail }: CustomEvent<string>) => {
+			setSearchValue(detail);
+		},
+		[]
+	);
 
-	return <KvSearch {...args} value={searchValue} onTextChange={onSearchTermChange} />;
+	return (
+		<KvSearch
+			{...args}
+			value={searchValue}
+			onTextChange={onSearchTermChange}
+		/>
+	);
 };
 
 const meta = {
-	title: 'Inputs/Search',
+	title: "Inputs/Search",
 	component: KvSearch,
 	render: SearchTemplate,
 	argTypes: {
-		inputDisabled: { control: { type: 'boolean' } },
+		inputDisabled: { control: { type: "boolean" } },
 		size: {
-			control: 'radio',
+			control: "radio",
 			options: Object.values(EComponentSize)
 		},
 		onTextChange: {
-			action: 'textChange'
+			action: "textChange"
 		},
 		onTextFieldBlur: {
-			action: 'textFieldBlur'
+			action: "textFieldBlur"
 		},
 		onClickResetButton: {
-			action: 'clickResetButton'
+			action: "clickResetButton"
 		}
 	}
 } satisfies Meta<typeof KvSearch>;
@@ -38,9 +50,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		value: '',
+		value: "",
 		inputDisabled: false,
-		placeholder: 'Placeholder Here',
+		placeholder: "Placeholder Here",
 		size: EComponentSize.Large
 	}
 };
@@ -48,8 +60,8 @@ export const Default: Story = {
 export const Disabled: Story = {
 	args: {
 		...Default.args,
-		value: '',
-		placeholder: 'Search disabled',
+		value: "",
+		placeholder: "Search disabled",
 		inputDisabled: true,
 		size: EComponentSize.Large
 	}
@@ -58,8 +70,8 @@ export const Disabled: Story = {
 export const Slim: Story = {
 	args: {
 		...Default.args,
-		value: '',
-		placeholder: 'Small Search',
+		value: "",
+		placeholder: "Small Search",
 		size: EComponentSize.Small
 	}
 };

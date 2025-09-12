@@ -1,7 +1,7 @@
 ```tsx
 import React from 'react';
 
-import { KvFormHelpText } from '@kelvininc/react-ui-components';
+import { KvFormHelpText } from '@kelvininc/react-ui-components/client';
 
 export const FormHelpTextExample: React.FC = () => (
 	<>

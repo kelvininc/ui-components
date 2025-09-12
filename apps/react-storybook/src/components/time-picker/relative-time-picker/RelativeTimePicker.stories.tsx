@@ -1,19 +1,18 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { KvRelativeTimePicker } from '@kelvininc/react-ui-components';
-
+import type { Meta, StoryObj } from "@storybook/react";
+import { KvRelativeTimePicker } from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Time Picker/Components/Relative Time Picker',
+	title: "Time Picker/Components/Relative Time Picker",
 	component: KvRelativeTimePicker,
 	argTypes: {
 		onTimezoneChange: {
-			action: 'timezoneChange'
+			action: "timezoneChange"
 		},
 		onSelectedRelativeTimeChange: {
-			action: 'selectedRelativeTimeChange'
+			action: "selectedRelativeTimeChange"
 		},
 		onCustomizeIntervalClicked: {
-			action: 'customizeIntervalClicked'
+			action: "customizeIntervalClicked"
 		}
 	}
 } satisfies Meta<typeof KvRelativeTimePicker>;
@@ -21,27 +20,26 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-
 export const DefaultState: Story = {
 	args: {
-		selectedTimeKey: 'today',
+		selectedTimeKey: "today",
 		customIntervalOptionEnabled: true,
 		timezoneSelectionEnabled: true
 	}
-}
+};
 
 export const TimezoneHidden: Story = {
 	args: {
-		selectedTimeKey: 'today',
+		selectedTimeKey: "today",
 		customIntervalOptionEnabled: true,
 		timezoneSelectionEnabled: false
 	}
-}
+};
 
 export const OnlySliderVisible: Story = {
 	args: {
-		selectedTimeKey: 'today',
+		selectedTimeKey: "today",
 		customIntervalOptionEnabled: false,
 		timezoneSelectionEnabled: false
 	}
-}
+};

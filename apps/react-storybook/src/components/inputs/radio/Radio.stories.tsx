@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { EComponentSize, KvRadio } from '@kelvininc/react-ui-components';
+import type { Meta, StoryObj } from "@storybook/react";
+import { EComponentSize, KvRadio } from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: 'Inputs/Radio',
+	title: "Inputs/Radio",
 	component: KvRadio,
 	argTypes: {
 		size: {
-			control: 'radio',
+			control: "radio",
 			options: Object.values(EComponentSize)
 		}
 	}
@@ -19,37 +19,37 @@ export const Default: Story = {
 	args: {
 		checked: false
 	}
-}
+};
 
 export const DefaultWithLabel: Story = {
 	args: {
 		...Default.args,
-		label: 'Yes'
+		label: "Yes"
 	}
-}
+};
 
 export const Checked: Story = {
 	args: {
 		checked: true
 	}
-}
+};
 
 export const CheckedWithLabel: Story = {
 	args: {
 		...Checked.args,
-		label: 'Yes'
+		label: "Yes"
 	}
-}
+};
 
 export const Disabled: Story = {
 	args: {
 		disabled: true
 	}
-}
+};
 
 export const DisabledWithLabel: Story = {
 	args: {
 		...Disabled.args,
-		label: 'Yes'
+		label: "Yes"
 	}
-}
+};

@@ -12,7 +12,7 @@
 ```tsx
 import React from 'react';
 
-import { KvDateTimeInput } from '@kelvininc/react-ui-components';
+import { KvDateTimeInput } from '@kelvininc/react-ui-components/client';
 
 export const DateTimeInputExample: React.FC = () => (
 	<>

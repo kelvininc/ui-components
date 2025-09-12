@@ -10,7 +10,7 @@
 ```tsx
 import React from 'react';
 
-import { KvTooltip, KvActionButton, ETooltipPosition, EActionButtonType } from '@kelvininc/react-ui-components';
+import { KvTooltip, KvActionButton, ETooltipPosition, EActionButtonType } from '@kelvininc/react-ui-components/client';
 
 export const TooltipExample: React.FC = () => (
   <>
