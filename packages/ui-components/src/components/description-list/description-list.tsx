@@ -6,6 +6,9 @@ import { ComputePositionConfig } from '@floating-ui/dom';
 import { CustomCssClass } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 
+/**
+ * @part row - The description list row element.
+ */
 @Component({
 	tag: 'kv-description-list',
 	styleUrl: 'description-list.scss',
@@ -21,6 +24,25 @@ export class KvDescriptionList implements IDescriptionList {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
 
+	customRenderDescription({ description, popoverInfo, copiableTextConfig }: IDescriptionListItem) {
+		if (copiableTextConfig) {
+			return <kv-copy-to-clipboard {...copiableTextConfig}>{description}</kv-copy-to-clipboard>;
+		}
+
+		return (
+			<Fragment>
+				<kv-tooltip text={getTooltipText(popoverInfo)} options={this.descriptionTooltipConfig} customClass="description-list-tooltip-container">
+					{description}
+				</kv-tooltip>
+				{popoverInfo?.icon && (
+					<kv-toggle-tip text={popoverInfo.text} {...this.iconToggletipConfig} customClass="description-list-tooltip-container">
+						<kv-icon name={popoverInfo.icon} customClass="icon-16" slot="open-element-slot" />
+					</kv-toggle-tip>
+				)}
+			</Fragment>
+		);
+	}
+
 	render() {
 		return (
 			<Host>
@@ -30,20 +52,11 @@ export class KvDescriptionList implements IDescriptionList {
 						...getClassMap(this.customClass)
 					}}
 				>
-					{this.items?.map(({ title, description, popoverInfo }) => (
-						<Fragment>
-							<div class="title">{title}</div>
-							<div class="description">
-								<kv-tooltip text={getTooltipText(popoverInfo)} options={this.descriptionTooltipConfig} customClass="description-list-tooltip-container">
-									{description}
-								</kv-tooltip>
-								{popoverInfo?.icon && (
-									<kv-toggle-tip text={popoverInfo.text} {...this.iconToggletipConfig} customClass="description-list-tooltip-container">
-										<kv-icon name={popoverInfo.icon} customClass="icon-16" slot="open-element-slot" />
-									</kv-toggle-tip>
-								)}
-							</div>
-						</Fragment>
+					{this.items?.map(item => (
+						<div class="row" part="row">
+							<div class="title">{item.title}</div>
+							<div class="description">{this.customRenderDescription(item)}</div>
+						</div>
 					))}
 				</div>
 			</Host>

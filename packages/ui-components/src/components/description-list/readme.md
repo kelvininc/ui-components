@@ -96,10 +96,28 @@ export const KvDescriptionListExample: React.FC = () => (
 | `items` _(required)_       | `items`                      | (required) The array of items to display in the list                                                                                                                                    | `IDescriptionListItem[]`                                                                                                                                                                                                                                                                                                                                                       | `undefined`                     |
 
 
+## Shadow Parts
+
+| Part    | Description                       |
+| ------- | --------------------------------- |
+| `"row"` | The description list row element. |
+
+
+## CSS Custom Properties
+
+| Name                                    | Description                               |
+| --------------------------------------- | ----------------------------------------- |
+| `--description-list-gap`                | The gap between the title and description |
+| `--description-list-row-align`          | The alignment for the rows                |
+| `--description-list-row-extremes`       | The gap for the first and last row        |
+| `--description-list-row-inline-padding` | The horizontal padding for each row       |
+
+
 ## Dependencies
 
 ### Depends on
 
+- [kv-copy-to-clipboard](../copy-to-clipboard)
 - [kv-tooltip](../tooltip)
 - [kv-toggle-tip](../toggle-tip)
 - [kv-icon](../icon)
@@ -107,9 +125,12 @@ export const KvDescriptionListExample: React.FC = () => (
 ### Graph
 ```mermaid
 graph TD;
+  kv-description-list --> kv-copy-to-clipboard
   kv-description-list --> kv-tooltip
   kv-description-list --> kv-toggle-tip
   kv-description-list --> kv-icon
+  kv-copy-to-clipboard --> kv-tooltip
+  kv-copy-to-clipboard --> kv-icon
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
   kv-toggle-tip --> kv-portal

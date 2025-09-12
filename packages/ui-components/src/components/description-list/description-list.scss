@@ -1,11 +1,46 @@
 @import '../../assets/styles/globals';
 
+kv-description-list {
+	/**
+		@prop --description-list-gap: The gap between the title and description
+	**/
+	--description-list-row-gap: #{$spacing-3x};
+	/**
+		@prop --description-list-row-extremes: The gap for the first and last row
+	**/
+	--description-list-row-extremes: 0;
+	/**
+		@prop --description-list-row-inline-padding: The horizontal padding for each row
+	**/
+	--description-list-row-inline-padding: 0;
+	/**
+		@prop --description-list-row-align: The alignment for the rows
+	**/
+	--description-list-row-align: baseline;
+}
+
 .description-list-container {
 	display: grid;
 	grid-template-columns: max-content 1fr;
-	gap: $spacing-5x $spacing-7x;
+	column-gap: $spacing-7x;
 	word-break: break-all;
-	align-items: baseline;
+
+	.row {
+		display: grid;
+		grid-template-columns: subgrid;
+		grid-column: 1 / -1;
+		align-items: var(--description-list-row-align);
+		padding-block: var(--description-list-row-gap);
+		padding-inline: var(--description-list-row-inline-padding);
+
+		&:first-child {
+			padding-block-start: var(--description-list-row-extremes);
+		}
+
+		&:last-child {
+			padding-block-end: var(--description-list-row-extremes);
+		}
+	}
 
 	.title {
 		@include kv-font-label-small-uppercase-regular;
@@ -25,6 +60,11 @@
 			display: inline-block;
 			vertical-align: text-top;
 			margin-left: $spacing-2x;
+		}
+
+		kv-copy-to-clipboard {
+			--container-padding: 0;
+			--icon-start-opacity: 1;
 		}
 	}
 }
