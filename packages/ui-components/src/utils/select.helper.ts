@@ -18,9 +18,9 @@ const getHightableOptionIndex = (options: string[], highlightedOption?: string):
 
 export const getSelectableOptions = (options: ISelectOptionsWithChildren = {}): ISelectOptionsWithChildren => {
 	return Object.values(options).reduce<ISelectOptionsWithChildren>((accumulator, option) => {
-		if (isEmpty(option.options)) {
+		if (isEmpty(option.options) && !option.disabled) {
 			accumulator[option.value] = option;
-		} else {
+		} else if (!isEmpty(option.options)) {
 			accumulator = {
 				...accumulator,
 				...getSelectableOptions(option.options)
