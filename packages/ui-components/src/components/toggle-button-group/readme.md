@@ -40,11 +40,8 @@
 ```mermaid
 graph TD;
   kv-toggle-button-group --> kv-toggle-button
-  kv-toggle-button --> kv-tooltip
   kv-toggle-button --> kv-radio
   kv-toggle-button --> kv-icon
-  kv-tooltip --> kv-portal
-  kv-tooltip --> kv-tooltip-text
   style kv-toggle-button-group fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
