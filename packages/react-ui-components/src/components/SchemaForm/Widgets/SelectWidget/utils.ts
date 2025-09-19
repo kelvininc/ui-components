@@ -1,9 +1,17 @@
-import { asNumber, guessType } from '@rjsf/utils';
+import { asNumber, guessType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import { JSONSchema7 } from 'json-schema';
 import { get, isEmpty, isNil, isString } from 'lodash';
 import { EnumOptions, IUIDropdownOptions } from './types';
 
 const numericTypes = ['number', 'integer'];
+
+const enumSchemaHasCustomTitles = (schema: unknown): schema is { 'x-titles': string[] } => {
+	if (!schema || typeof schema !== 'object' || Array.isArray(schema)) {
+		return false;
+	}
+
+	return 'x-titles' in schema;
+};
 
 /**
  * This is a silly limitation in the DOM where option change event values are
@@ -45,15 +53,32 @@ export const buildSelectedOptions = (selectedOptions: string[]): Record<string, 
 		return accumulator;
 	}, {});
 
-export const buildDropdownOptions = (options?: EnumOptions, disabledOptions?: EnumOptions, multiSubOptions?: IUIDropdownOptions): IUIDropdownOptions => {
+export const buildDropdownOptions = <S extends StrictRJSFSchema = RJSFSchema>({
+	schema,
+	options,
+	disabledOptions,
+	multiSubOptions
+}: {
+	schema: S;
+	options?: EnumOptions;
+	disabledOptions?: EnumOptions;
+	multiSubOptions?: IUIDropdownOptions;
+}): IUIDropdownOptions => {
 	if (!isEmpty(multiSubOptions)) {
 		return multiSubOptions;
 	}
 
 	return Array.isArray(options)
-		? options.reduce((acc, { label, value, schema }) => {
-				const description = schema?.description;
+		? options.reduce((acc, { label: optionLabel, value, schema: optionSchema }, index) => {
+				const description = optionSchema?.description;
 				const disabled = Array.isArray(disabledOptions) && disabledOptions.indexOf(value) != -1;
+
+				// If the schema has custom titles, use them instead of the enum options
+				let label = optionLabel;
+				if (enumSchemaHasCustomTitles(schema)) {
+					label = schema['x-titles'][index] || optionLabel;
+				}
+
 				acc[value] = { value, label, description, disabled };
 				return acc;
 		  }, {})

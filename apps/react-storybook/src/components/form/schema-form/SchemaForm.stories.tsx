@@ -1,54 +1,59 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Meta, StoryObj, StoryFn } from '@storybook/react';
-import { EApplyDefaults, KvSchemaForm, SchemaFormProps, EComponentSize, EIconName, ETooltipPosition, ISelectMultiOptions, ISelectSingleOptions } from '@kelvininc/react-ui-components';
-import { IChangeEvent } from '@rjsf/core';
-import { ComponentProps, useState } from 'react';
-import { action } from '@storybook/addon-actions';
-import { FormValidation } from '@rjsf/utils';
+import type { Meta, StoryObj, StoryFn } from "@storybook/react";
+import {
+	EApplyDefaults,
+	KvSchemaForm,
+	SchemaFormProps,
+	EComponentSize,
+	EIconName,
+	ETooltipPosition,
+	ISelectMultiOptions,
+	ISelectSingleOptions
+} from "@kelvininc/react-ui-components";
+import { IChangeEvent } from "@rjsf/core";
+import { ComponentProps, useState } from "react";
+import { action } from "@storybook/addon-actions";
+import { FormValidation } from "@rjsf/utils";
 
-import { getDropdownDisplayValue } from '../../../helpers/dropdown.helper';
+import { getDropdownDisplayValue } from "../../../helpers/dropdown.helper";
 
 enum EShowErrorListType {
-	Top = 'top',
-	Bottom = 'bottom',
-	None = 'none'
+	Top = "top",
+	Bottom = "bottom",
+	None = "none"
 }
 
-const FormTemplate: StoryFn<ComponentProps<typeof KvSchemaForm>> = args => (
-	<div style={{ height: '500px' }}>
+const FormTemplate: StoryFn<ComponentProps<typeof KvSchemaForm>> = (args) => (
+	<div style={{ height: "500px" }}>
 		<KvSchemaForm<any>
 			{...args}
 			onSubmit={(e: IChangeEvent<any>) => {
-				action('submit')(e);
-			}}
-			customValidate={(data: any, errors: FormValidation<any>) => {
-				console.log('customValidate', data);
-				return errors;
+				action("submit")(e);
 			}}
 		/>
 	</div>
 );
 
 const meta = {
-	title: 'Form/SchemaForm',
+	title: "Form/SchemaForm",
 	component: KvSchemaForm,
 	render: FormTemplate,
 	argTypes: {
 		onChange: {
-			action: 'change'
+			action: "change"
 		},
 		onError: {
-			action: 'error'
+			action: "error"
 		},
 		onSubmit: {
-			action: 'submit'
+			action: "submit"
 		},
 		showErrorList: {
-			control: { type: 'inline-radio' },
+			control: { type: "inline-radio" },
 			options: Object.values(EShowErrorListType)
 		},
 		applyDefaults: {
-			control: { type: 'inline-radio' },
+			control: { type: "inline-radio" },
 			options: Object.values(EApplyDefaults)
 		}
 	}
@@ -63,64 +68,80 @@ export const Default: Story = {
 		liveValidate: true,
 		disabled: false,
 		formData: {
-			'number-example': 2.3,
-			'integer-example': 1,
-			'boolean-example': true,
-			'enum-example': 'foo',
-			'string-example': 'value',
-			'multipleChoicesList-example': ['fuzz', 'qux']
+			"number-example": 2.3,
+			"integer-example": 1,
+			"boolean-example": true,
+			"enum-example": "foo",
+			"string-example": "value",
+			"multipleChoicesList-example": ["fuzz", "qux"]
 		},
 		schema: {
-			type: 'object',
+			type: "object",
 			properties: {
-				'number-example': {
-					title: 'Number',
-					type: 'number',
+				"number-example": {
+					title: "Number",
+					type: "number",
 					minimum: -10.0,
 					maximum: 10,
-					description: 'Number description'
+					description: "Number description"
 				},
-				'integer-example': {
-					title: 'Integer',
-					type: 'integer',
+				"integer-example": {
+					title: "Integer",
+					type: "integer",
 					minimum: -10,
 					maximum: 10
 				},
-				'boolean-example': {
-					title: 'Boolean',
-					type: 'boolean'
+				"boolean-example": {
+					title: "Boolean",
+					type: "boolean"
 				},
-				'enum-example': {
-					title: 'Enum',
-					type: 'string',
-					enum: ['foo', 'bar']
+				"enum-example": {
+					title: "Enum",
+					type: "string",
+					enum: ["foo", "bar"]
 				},
-				'string-example': {
-					title: 'String',
-					type: 'string',
+				"string-example": {
+					title: "String",
+					type: "string",
 					minLength: 5,
 					maxLength: 10,
-					pattern: '^[a-zA-Z0-9]*$'
+					pattern: "^[a-zA-Z0-9]*$"
 				},
-				'basic-example': {
-					title: 'Examples',
-					description: 'A input with example values',
-					type: 'string',
-					examples: ['Firefox', 'Chrome', 'Opera', 'Vivaldi', 'Safari']
+				"basic-example": {
+					title: "Examples",
+					description: "A input with example values",
+					type: "string",
+					examples: [
+						"Firefox",
+						"Chrome",
+						"Opera",
+						"Vivaldi",
+						"Safari"
+					]
 				},
-				'multipleChoicesList-example': {
-					type: 'array',
-					title: 'A multiple choices list',
+				"multipleChoicesList-example": {
+					type: "array",
+					title: "A multiple choices list",
 					items: {
-						type: 'string',
-						enum: ['bar', 'fuzz', 'qux', 'bar1', 'fuzz1', 'qux1', 'bar2', 'fuzz2', 'qux2']
+						type: "string",
+						enum: [
+							"bar",
+							"fuzz",
+							"qux",
+							"bar1",
+							"fuzz1",
+							"qux1",
+							"bar2",
+							"fuzz2",
+							"qux2"
+						]
 					},
 					uniqueItems: true
 				}
 			}
 		},
 		uiSchema: {
-			'multipleChoicesList-example': {
+			"multipleChoicesList-example": {
 				searchable: true,
 				selectionClearable: true
 			}
@@ -135,27 +156,27 @@ export const FilesUpload: Story = {
 		disabled: false,
 		formData: {},
 		schema: {
-			type: 'object',
+			type: "object",
 			properties: {
 				multiple_files: {
-					type: 'array',
+					type: "array",
 					maxItems: 2,
 					items: {
-						type: 'string',
-						format: 'data-url'
+						type: "string",
+						format: "data-url"
 					}
 				},
 				single_file: {
-					title: 'Single File (with download)',
-					type: 'string',
-					format: 'data-url'
+					title: "Single File (with download)",
+					type: "string",
+					format: "data-url"
 				}
 			},
-			required: ['single_file', 'multiple_files']
+			required: ["single_file", "multiple_files"]
 		},
 		uiSchema: {
 			single_file: {
-				'ui:filePreview': true
+				"ui:filePreview": true
 			}
 		}
 	}
@@ -168,10 +189,10 @@ export const IfThenElseForm: Story = {
 		disabled: false,
 		formData: {},
 		schema: {
-			type: 'object',
+			type: "object",
 			properties: {
 				animal: {
-					enum: ['Cat', 'Fish']
+					enum: ["Cat", "Fish"]
 				}
 			},
 			allOf: [
@@ -179,44 +200,44 @@ export const IfThenElseForm: Story = {
 					if: {
 						properties: {
 							animal: {
-								const: 'Cat'
+								const: "Cat"
 							}
 						}
 					},
 					then: {
 						properties: {
 							food: {
-								type: 'string',
-								enum: ['meat', 'grass', 'fish']
+								type: "string",
+								enum: ["meat", "grass", "fish"]
 							}
 						},
-						required: ['food']
+						required: ["food"]
 					}
 				},
 				{
 					if: {
 						properties: {
 							animal: {
-								const: 'Fish'
+								const: "Fish"
 							}
 						}
 					},
 					then: {
 						properties: {
 							food: {
-								type: 'string',
-								enum: ['insect', 'worms']
+								type: "string",
+								enum: ["insect", "worms"]
 							},
 							water: {
-								type: 'string',
-								enum: ['lake', 'sea']
+								type: "string",
+								enum: ["lake", "sea"]
 							}
 						},
-						required: ['food', 'water']
+						required: ["food", "water"]
 					}
 				},
 				{
-					required: ['animal']
+					required: ["animal"]
 				}
 			]
 		}
@@ -229,42 +250,46 @@ export const WithSubmitButtonOptions: Story = {
 		liveValidate: true,
 		disabled: false,
 		formData: {
-			firstName: 'Chuck',
-			active: 'wrong',
-			multipleChoicesList: ['foo']
+			firstName: "Chuck",
+			active: "wrong",
+			multipleChoicesList: ["foo"]
 		},
 		uiSchema: {
-			'ui:submitButtonOptions': {
-				props: { disabled: false, tooltipText: 'Test to button tooltip', tooltipPosition: ETooltipPosition.Top },
+			"ui:submitButtonOptions": {
+				props: {
+					disabled: false,
+					tooltipText: "Test to button tooltip",
+					tooltipPosition: ETooltipPosition.Top
+				},
 				norender: false,
-				submitText: 'Save Button'
+				submitText: "Save Button"
 			},
-			'multipleChoicesList': {
-				'ui:enumDisabled': ['bar']
+			multipleChoicesList: {
+				"ui:enumDisabled": ["bar"]
 			}
 		},
 		schema: {
-			title: 'Contextualized errors',
-			type: 'object',
+			title: "Contextualized errors",
+			type: "object",
 			properties: {
 				firstName: {
-					type: 'string',
-					title: 'First name',
+					type: "string",
+					title: "First name",
 					minLength: 8,
-					pattern: '\\d+'
+					pattern: "\\d+"
 				},
 				active: {
-					type: 'boolean',
-					title: 'Active'
+					type: "boolean",
+					title: "Active"
 				},
 				multipleChoicesList: {
-					type: 'array',
-					title: 'Pick max two items',
+					type: "array",
+					title: "Pick max two items",
 					uniqueItems: true,
 					maxItems: 2,
 					items: {
-						type: 'string',
-						enum: ['foo', 'bar', 'fuzz']
+						type: "string",
+						enum: ["foo", "bar", "fuzz"]
 					}
 				}
 			}
@@ -274,36 +299,36 @@ export const WithSubmitButtonOptions: Story = {
 
 export const WithErrorList: Story = {
 	args: {
-		showErrorList: 'top',
+		showErrorList: "top",
 		liveValidate: true,
 		disabled: false,
 		formData: {
-			firstName: 'Chuck',
-			active: 'wrong',
-			multipleChoicesList: ['foo', 'bar', 'fuzz']
+			firstName: "Chuck",
+			active: "wrong",
+			multipleChoicesList: ["foo", "bar", "fuzz"]
 		},
 		schema: {
-			title: 'Contextualized errors',
-			type: 'object',
+			title: "Contextualized errors",
+			type: "object",
 			properties: {
 				firstName: {
-					type: 'string',
-					title: 'First name',
+					type: "string",
+					title: "First name",
 					minLength: 8,
-					pattern: '\\d+'
+					pattern: "\\d+"
 				},
 				active: {
-					type: 'boolean',
-					title: 'Active'
+					type: "boolean",
+					title: "Active"
 				},
 				multipleChoicesList: {
-					type: 'array',
-					title: 'Pick max two items',
+					type: "array",
+					title: "Pick max two items",
 					uniqueItems: true,
 					maxItems: 2,
 					items: {
-						type: 'string',
-						enum: ['foo', 'bar', 'fuzz']
+						type: "string",
+						enum: ["foo", "bar", "fuzz"]
 					}
 				}
 			}
@@ -317,21 +342,21 @@ export const WithAdditionalProperties: Story = {
 		disabled: false,
 		formData: {},
 		schema: {
-			title: 'Additional Properties form',
-			description: 'A simple form with additional properties example.',
-			type: 'object',
-			required: ['firstName', 'lastName'],
+			title: "Additional Properties form",
+			description: "A simple form with additional properties example.",
+			type: "object",
+			required: ["firstName", "lastName"],
 			additionalProperties: {
-				type: 'number'
+				type: "number"
 			},
 			properties: {
 				firstName: {
-					type: 'string',
-					title: 'First name'
+					type: "string",
+					title: "First name"
 				},
 				lastName: {
-					type: 'string',
-					title: 'Last name'
+					type: "string",
+					title: "Last name"
 				}
 			}
 		}
@@ -345,47 +370,47 @@ export const WithArrayFields: Story = {
 		uiSchema: {
 			listOfStrings: {
 				items: {
-					'ui:title': ' ',
-					'ui:emptyValue': ''
+					"ui:title": " ",
+					"ui:emptyValue": ""
 				}
 			},
 			minItemsList: {
 				items: {
-					'ui:title': ' '
+					"ui:title": " "
 				}
 			},
 			nestedList: {
 				items: {
 					items: {
-						'ui:title': ' '
+						"ui:title": " "
 					}
 				}
 			},
 			unorderable: {
-				'items': {
-					'ui:title': ' '
+				items: {
+					"ui:title": " "
 				},
-				'ui:options': {
+				"ui:options": {
 					orderable: false
 				}
 			},
 			unremovable: {
-				'items': {
-					'ui:title': ' '
+				items: {
+					"ui:title": " "
 				},
-				'ui:options': {
+				"ui:options": {
 					removable: false
 				}
 			},
 			noToolbar: {
-				'ui:options': {
+				"ui:options": {
 					addable: false,
 					orderable: false,
 					removable: false
 				}
 			},
 			fixedNoToolbar: {
-				'ui:options': {
+				"ui:options": {
 					addable: false,
 					orderable: false,
 					removable: false
@@ -395,125 +420,125 @@ export const WithArrayFields: Story = {
 		schema: {
 			definitions: {
 				Thing: {
-					type: 'object',
+					type: "object",
 					properties: {
 						name: {
-							type: 'string',
-							default: 'Default name'
+							type: "string",
+							default: "Default name"
 						}
 					}
 				}
 			},
-			type: 'object',
+			type: "object",
 			properties: {
 				listOfStrings: {
-					type: 'array',
-					title: 'A list of strings',
+					type: "array",
+					title: "A list of strings",
 					items: {
-						type: 'string',
-						default: 'bazinga'
+						type: "string",
+						default: "bazinga"
 					}
 				},
 				multipleChoicesList: {
-					type: 'array',
-					title: 'A multiple choices list',
+					type: "array",
+					title: "A multiple choices list",
 					items: {
-						type: 'string',
-						enum: ['foo', 'bar', 'fuzz', 'qux']
+						type: "string",
+						enum: ["foo", "bar", "fuzz", "qux"]
 					},
 					uniqueItems: true
 				},
 				fixedItemsList: {
-					type: 'array',
-					title: 'A list of fixed items',
+					type: "array",
+					title: "A list of fixed items",
 					items: [
 						{
-							title: 'A string value',
-							type: 'string',
-							default: 'lorem ipsum'
+							title: "A string value",
+							type: "string",
+							default: "lorem ipsum"
 						},
 						{
-							title: 'a boolean value',
-							type: 'boolean'
+							title: "a boolean value",
+							type: "boolean"
 						}
 					],
 					additionalItems: {
-						title: 'Additional item',
-						type: 'number'
+						title: "Additional item",
+						type: "number"
 					}
 				},
 				minItemsList: {
-					type: 'array',
-					title: 'A list with a minimal number of items',
+					type: "array",
+					title: "A list with a minimal number of items",
 					minItems: 3,
 					items: {
-						$ref: '#/definitions/Thing'
+						$ref: "#/definitions/Thing"
 					}
 				},
 				defaultsAndMinItems: {
-					type: 'array',
-					title: 'List and item level defaults',
+					type: "array",
+					title: "List and item level defaults",
 					minItems: 5,
-					default: ['carp', 'trout', 'bream'],
+					default: ["carp", "trout", "bream"],
 					items: {
-						type: 'string'
+						type: "string"
 					}
 				},
 				nestedList: {
-					type: 'array',
-					title: 'Nested list',
+					type: "array",
+					title: "Nested list",
 					items: {
-						type: 'array',
-						title: 'Inner list',
+						type: "array",
+						title: "Inner list",
 						items: {
-							type: 'string',
-							default: 'lorem ipsum'
+							type: "string",
+							default: "lorem ipsum"
 						}
 					}
 				},
 				unorderable: {
-					title: 'Unorderable items',
-					type: 'array',
+					title: "Unorderable items",
+					type: "array",
 					items: {
-						type: 'string',
-						default: 'lorem ipsum'
+						type: "string",
+						default: "lorem ipsum"
 					}
 				},
 				unremovable: {
-					title: 'Unremovable items',
-					type: 'array',
+					title: "Unremovable items",
+					type: "array",
 					items: {
-						type: 'string',
-						default: 'lorem ipsum'
+						type: "string",
+						default: "lorem ipsum"
 					}
 				},
 				noToolbar: {
-					title: 'No add, remove and order buttons',
-					type: 'array',
+					title: "No add, remove and order buttons",
+					type: "array",
 					items: {
-						type: 'string',
-						default: 'lorem ipsum'
+						type: "string",
+						default: "lorem ipsum"
 					}
 				},
 				fixedNoToolbar: {
-					title: 'Fixed array without buttons',
-					type: 'array',
+					title: "Fixed array without buttons",
+					type: "array",
 					items: [
 						{
-							title: 'A number',
-							type: 'number',
+							title: "A number",
+							type: "number",
 							default: 42
 						},
 						{
-							title: 'A boolean',
-							type: 'boolean',
+							title: "A boolean",
+							type: "boolean",
 							default: false
 						}
 					],
 					additionalItems: {
-						title: 'A string',
-						type: 'string',
-						default: 'lorem ipsum'
+						title: "A string",
+						type: "string",
+						default: "lorem ipsum"
 					}
 				}
 			}
@@ -521,18 +546,20 @@ export const WithArrayFields: Story = {
 	}
 };
 
-const DiscardChangesTemplate: StoryFn<ComponentProps<typeof KvSchemaForm>> = args => {
+const DiscardChangesTemplate: StoryFn<ComponentProps<typeof KvSchemaForm>> = (
+	args
+) => {
 	const [submittedData, setSubmittedData] = useState({});
 	return (
 		<KvSchemaForm<any>
 			{...args}
 			submittedData={submittedData}
 			onSubmit={(data: IChangeEvent<any>) => {
-				action('submit')(data);
+				action("submit")(data);
 				setSubmittedData(data.formData);
 			}}
 			customValidate={(data: any, errors: FormValidation<any>) => {
-				console.log('customValidate', data);
+				console.log("customValidate", data);
 				return errors;
 			}}
 		/>
@@ -543,28 +570,29 @@ export const AllowDiscardChanges: Story = {
 	render: DiscardChangesTemplate,
 	args: {
 		allowDiscardChanges: true,
-		showErrorList: 'top',
+		showErrorList: "top",
 		liveValidate: true,
 		disabled: false,
 		formData: {},
 		schema: {
-			title: 'Discard changes form',
-			description: '!!! The form is always reset to the values provided in the submittedData property. \nYou need update the submittedData property after a success submit.',
-			type: 'object',
-			required: ['firstName', 'lastName'],
+			title: "Discard changes form",
+			description:
+				"!!! The form is always reset to the values provided in the submittedData property. \nYou need update the submittedData property after a success submit.",
+			type: "object",
+			required: ["firstName", "lastName"],
 			properties: {
 				firstName: {
-					type: 'string',
-					title: 'First name',
-					default: 'Chuck'
+					type: "string",
+					title: "First name",
+					default: "Chuck"
 				},
 				lastName: {
-					type: 'string',
-					title: 'Last name'
+					type: "string",
+					title: "Last name"
 				},
 				telephone: {
-					type: 'string',
-					title: 'Telephone',
+					type: "string",
+					title: "Telephone",
 					minLength: 10
 				}
 			}
@@ -580,56 +608,56 @@ export const CustomSelectWidgetConfigs: Story = {
 		allowDiscardChanges: true,
 		formData: {},
 		schema: {
-			type: 'object',
+			type: "object",
 			properties: {
 				alarm_severities: {
-					type: 'array',
-					title: 'Severity',
+					type: "array",
+					title: "Severity",
 					uniqueItems: true,
 					items: {
-						type: 'number',
+						type: "number",
 						oneOf: [
 							{
-								title: 'Critical',
+								title: "Critical",
 								const: 1
 							},
 							{
-								title: 'Urgent',
+								title: "Urgent",
 								const: 2
 							},
 							{
-								title: 'Advisory',
+								title: "Advisory",
 								const: 3
 							},
 							{
-								title: 'Medium',
+								title: "Medium",
 								const: 4
 							},
 							{
-								title: 'Low',
+								title: "Low",
 								const: 5
 							}
 						]
 					}
 				},
 				alarm_statuses: {
-					type: 'array',
-					title: 'Status',
+					type: "array",
+					title: "Status",
 					uniqueItems: true,
 					items: {
-						type: 'string',
+						type: "string",
 						oneOf: [
 							{
-								title: 'Acknowledged',
-								const: 'acknowledged'
+								title: "Acknowledged",
+								const: "acknowledged"
 							},
 							{
-								title: 'Active',
-								const: 'active'
+								title: "Active",
+								const: "active"
 							},
 							{
-								title: 'Resolved',
-								const: 'resolved'
+								title: "Resolved",
+								const: "resolved"
 							}
 						]
 					}
@@ -638,8 +666,15 @@ export const CustomSelectWidgetConfigs: Story = {
 		},
 		uiSchema: {
 			alarm_severities: {
-				displayValue(selectedOptions: string[], options: ISelectSingleOptions | ISelectMultiOptions) {
-					return getDropdownDisplayValue(selectedOptions, options, 'status');
+				displayValue(
+					selectedOptions: string[],
+					options: ISelectSingleOptions | ISelectMultiOptions
+				) {
+					return getDropdownDisplayValue(
+						selectedOptions,
+						options,
+						"status"
+					);
 				}
 			},
 			alarm_statuses: {
@@ -656,29 +691,29 @@ export const CheckboxesWidget: Story = {
 		liveValidate: true,
 		disabled: false,
 		allowDiscardChanges: true,
-		formData: { alarm_statuses: ['resolved'] },
+		formData: { alarm_statuses: ["resolved"] },
 		schema: {
-			type: 'object',
+			type: "object",
 			properties: {
 				alarm_statuses: {
-					type: 'array',
-					title: 'Status',
+					type: "array",
+					title: "Status",
 					uniqueItems: true,
 					minItems: 1,
 					items: {
-						type: 'string',
+						type: "string",
 						oneOf: [
 							{
-								title: 'Active',
-								const: 'active'
+								title: "Active",
+								const: "active"
 							},
 							{
-								title: 'Acknowledged',
-								const: 'acknowledged'
+								title: "Acknowledged",
+								const: "acknowledged"
 							},
 							{
-								title: 'Resolved',
-								const: 'resolved'
+								title: "Resolved",
+								const: "resolved"
 							}
 						]
 					}
@@ -687,8 +722,8 @@ export const CheckboxesWidget: Story = {
 		},
 		uiSchema: {
 			alarm_statuses: {
-				'ui:widget': 'checkboxes',
-				'ui:allButton': true
+				"ui:widget": "checkboxes",
+				"ui:allButton": true
 			}
 		}
 	}
@@ -697,206 +732,219 @@ export const CheckboxesWidget: Story = {
 export const TextareaWidget: Story = {
 	args: {
 		schema: {
-			type: 'object',
+			type: "object",
 			properties: {
 				description: {
-					type: 'string',
-					title: 'Description'
+					type: "string",
+					title: "Description"
 				}
 			},
-			required: ['description']
+			required: ["description"]
 		},
 		uiSchema: {
-			'description': {
-				'ui:widget': 'textarea',
-				'maxCharLength': 200,
-				'iconName': EIconName.Notes,
-				'ui:placeholder': 'Add description'
+			description: {
+				"ui:widget": "textarea",
+				maxCharLength: 200,
+				iconName: EIconName.Notes,
+				"ui:placeholder": "Add description"
 			},
-			'ui:submitButtonOptions': {
+			"ui:submitButtonOptions": {
 				norender: true
 			}
 		}
 	}
 };
 
-const inlineSchema: SchemaFormProps<any>['schema'] = {
-	type: 'object',
+const inlineSchema: SchemaFormProps<any>["schema"] = {
+	type: "object",
 	properties: {
 		shift_info: {
-			title: 'Shift info',
-			type: 'object',
+			title: "Shift info",
+			type: "object",
 			properties: {
 				name: {
-					title: 'Shift name',
-					type: 'string'
+					title: "Shift name",
+					type: "string"
 				},
 				start_at: {
-					title: 'Starts at',
-					type: 'string',
-					format: 'date-time'
+					title: "Starts at",
+					type: "string",
+					format: "date-time"
 				},
 				end_at: {
-					title: 'Ends at',
-					type: 'string',
-					format: 'date-time',
-					formatExclusiveMinimum: { $data: '1/start_at' }
+					title: "Ends at",
+					type: "string",
+					format: "date-time",
+					formatExclusiveMinimum: { $data: "1/start_at" }
 				}
 			},
-			required: ['name', 'start_at', 'end_at']
+			required: ["name", "start_at", "end_at"]
 		},
 		production_info: {
-			title: 'Production info',
-			type: 'object',
+			title: "Production info",
+			type: "object",
 			properties: {
 				sku: {
-					title: 'SKU',
-					type: 'string'
+					title: "SKU",
+					type: "string"
 				},
 				expected_start_at: {
-					title: 'Expected to start at',
-					type: 'string',
-					format: 'date-time'
+					title: "Expected to start at",
+					type: "string",
+					format: "date-time"
 				},
 				expected_end_at: {
-					title: 'Expected to end at',
-					type: 'string',
-					format: 'date-time',
-					formatExclusiveMinimum: { $data: '1/expected_start_at' }
+					title: "Expected to end at",
+					type: "string",
+					format: "date-time",
+					formatExclusiveMinimum: { $data: "1/expected_start_at" }
 				}
 			},
-			required: ['sku', 'expected_start_at', 'expected_end_at']
+			required: ["sku", "expected_start_at", "expected_end_at"]
 		},
 		team_info: {
-			title: 'Team info',
-			type: 'array',
+			title: "Team info",
+			type: "array",
 			items: {
-				type: 'object',
+				type: "object",
 				properties: {
 					name: {
-						title: 'Name',
-						type: 'string'
+						title: "Name",
+						type: "string"
 					},
 					email: {
-						title: 'Email',
-						type: 'string',
-						format: 'email'
+						title: "Email",
+						type: "string",
+						format: "email"
 					},
 					phone_country_code: {
-						title: 'Phone country code',
-						type: 'string'
+						title: "Phone country code",
+						type: "string"
 					},
 					phone_number: {
-						title: 'Phone number',
-						type: 'number'
+						title: "Phone number",
+						type: "number"
 					},
 					role: {
-						title: 'Role',
-						type: 'string'
+						title: "Role",
+						type: "string"
 					},
 					responsible_for: {
-						title: 'Asset responsible for',
-						type: 'string',
+						title: "Asset responsible for",
+						type: "string",
 						oneOf: [
 							{
-								title: 'Asset 3',
-								const: 'asset-name-3'
+								title: "Asset 3",
+								const: "asset-name-3"
 							},
 							{
-								title: 'Asset 2',
-								const: 'asset-name-2'
+								title: "Asset 2",
+								const: "asset-name-2"
 							},
 							{
-								title: 'Asset 1',
-								const: 'asset-name-1'
+								title: "Asset 1",
+								const: "asset-name-1"
 							}
 						]
 					}
 				},
-				required: ['name', 'email', 'phone_country_code', 'phone_number', 'role', 'responsible_for']
+				required: [
+					"name",
+					"email",
+					"phone_country_code",
+					"phone_number",
+					"role",
+					"responsible_for"
+				]
 			}
 		},
 		assets_oee: {
-			type: 'array',
+			type: "array",
 			items: {
-				type: 'object',
+				type: "object",
 				properties: {
 					asset_name: {
-						type: 'string',
+						type: "string",
 						oneOf: [
 							{
-								title: 'Asset 3',
-								const: 'asset-name-3'
+								title: "Asset 3",
+								const: "asset-name-3"
 							},
 							{
-								title: 'Asset 2',
-								const: 'asset-name-2'
+								title: "Asset 2",
+								const: "asset-name-2"
 							},
 							{
-								title: 'Asset 1',
-								const: 'asset-name-1'
+								title: "Asset 1",
+								const: "asset-name-1"
 							}
 						]
 					},
 					oee_thresholds: {
-						title: 'OEE - Thresholds',
-						type: 'object',
+						title: "OEE - Thresholds",
+						type: "object",
 						properties: {
 							target: {
-								title: 'OEE Target',
-								type: 'number',
+								title: "OEE Target",
+								type: "number",
 								exclusiveMinimum: 0
 							},
 							critical_alarm: {
-								title: 'OEE Critical',
-								type: 'number',
+								title: "OEE Critical",
+								type: "number",
 								exclusiveMinimum: 0
 							},
 							warning_alarm: {
-								title: 'OEE Urgent',
-								type: 'number',
+								title: "OEE Urgent",
+								type: "number",
 								exclusiveMinimum: 0
 							}
 						},
-						required: ['target', 'critical_alarm', 'warning_alarm']
+						required: ["target", "critical_alarm", "warning_alarm"]
 					},
 					oee_calculation: {
-						title: 'OEE - Calculation',
-						type: 'object',
+						title: "OEE - Calculation",
+						type: "object",
 						properties: {
 							ideal_cycle_time: {
-								title: 'Ideal cycle time',
-								type: 'number',
+								title: "Ideal cycle time",
+								type: "number",
 								exclusiveMinimum: 0
 							},
 							total_units: {
-								title: 'Total units',
-								type: 'number',
+								title: "Total units",
+								type: "number",
 								exclusiveMinimum: 0
 							},
 							good_units: {
-								title: 'Good units',
-								type: 'number',
+								title: "Good units",
+								type: "number",
 								exclusiveMinimum: 0,
 								maximum: {
-									$data: '1/total_units'
+									$data: "1/total_units"
 								} as any
 							},
 							run_time: {
-								title: 'Run time',
-								type: 'number',
+								title: "Run time",
+								type: "number",
 								exclusiveMinimum: 0,
 								maximum: {
-									$data: '1/planned_production_time'
+									$data: "1/planned_production_time"
 								} as any // Type conflict occurs because JSONSchema7 don't support (yet) dynamic values but AJV Validate allow it. https://ajv.js.org/guide/combining-schemas.html#data-reference
 							},
 							planned_production_time: {
-								title: 'Planned production time',
-								type: 'number',
+								title: "Planned production time",
+								type: "number",
 								minimum: 0
 							}
 						},
-						required: ['ideal_cycle_time', 'total_units', 'good_units', 'run_time', 'planned_production_time']
+						required: [
+							"ideal_cycle_time",
+							"total_units",
+							"good_units",
+							"run_time",
+							"planned_production_time"
+						]
 					}
 				}
 			}
@@ -904,63 +952,63 @@ const inlineSchema: SchemaFormProps<any>['schema'] = {
 	}
 };
 
-const inlineUiSchema: SchemaFormProps<any>['uiSchema'] = {
-	'ui:inputConfig': {
-		width: 'fit-content',
-		minWidth: '132px',
-		maxWidth: 'unset'
+const inlineUiSchema: SchemaFormProps<any>["uiSchema"] = {
+	"ui:inputConfig": {
+		width: "fit-content",
+		minWidth: "132px",
+		maxWidth: "unset"
 	},
-	'shift_info': {
-		'ui:inline': true,
-		'ui:inputWidth': 'fit-content'
+	shift_info: {
+		"ui:inline": true,
+		"ui:inputWidth": "fit-content"
 	},
-	'production_info': {
-		'ui:inline': true,
-		'ui:inputWidth': '200px'
+	production_info: {
+		"ui:inline": true,
+		"ui:inputWidth": "200px"
 	},
-	'team_info': {
-		'ui:itemPrefix': 'Collaborator',
-		'ui:options': {
+	team_info: {
+		"ui:itemPrefix": "Collaborator",
+		"ui:options": {
 			addable: true,
 			orderable: false,
 			removable: true
 		},
-		'items': {
-			'ui:title': '',
-			'ui:itemPrefix': 'Collaborator',
-			'ui:inline': true,
-			'ui:inputWidth': 'fit-content',
-			'responsible_for': {
-				'searchable': true,
-				'ui:placeholder': ''
+		items: {
+			"ui:title": "",
+			"ui:itemPrefix": "Collaborator",
+			"ui:inline": true,
+			"ui:inputWidth": "fit-content",
+			responsible_for: {
+				searchable: true,
+				"ui:placeholder": ""
 			}
 		}
 	},
-	'assets_oee': {
-		'ui:title': '',
-		'ui:options': {
+	assets_oee: {
+		"ui:title": "",
+		"ui:options": {
 			addable: false,
 			orderable: false,
 			removable: false
 		},
-		'ui:inputWidth': 'fit-content',
-		'items': {
-			'ui:title': '',
-			'ui:fieldset': true,
-			'asset_name': {
-				'ui:widget': 'readOnlyValue',
-				'ui:readonly': true,
-				'ui:options': {
+		"ui:inputWidth": "fit-content",
+		items: {
+			"ui:title": "",
+			"ui:fieldset": true,
+			asset_name: {
+				"ui:widget": "readOnlyValue",
+				"ui:readonly": true,
+				"ui:options": {
 					label: false
 				}
 			},
-			'oee_thresholds': {
-				'ui:inline': true,
-				'ui:inputWidth': 'fit-content'
+			oee_thresholds: {
+				"ui:inline": true,
+				"ui:inputWidth": "fit-content"
 			},
-			'oee_calculation': {
-				'ui:inline': true,
-				'ui:inputWidth': '400px'
+			oee_calculation: {
+				"ui:inline": true,
+				"ui:inputWidth": "400px"
 			}
 		}
 	}
@@ -974,11 +1022,14 @@ export const InlineForm: Story = {
 		allowDiscardChanges: true,
 		formData: {
 			shift_info: {
-				start_at: '2022-11-16T00:00:00Z',
-				end_at: '2022-11-17T00:00:00Z'
+				start_at: "2022-11-16T00:00:00Z",
+				end_at: "2022-11-17T00:00:00Z"
 			},
 			team_info: [{}],
-			assets_oee: [{ asset_name: 'asset-name-3' }, { asset_name: 'asset-name-2' }]
+			assets_oee: [
+				{ asset_name: "asset-name-3" },
+				{ asset_name: "asset-name-2" }
+			]
 		},
 		schema: inlineSchema,
 		uiSchema: inlineUiSchema
@@ -989,27 +1040,30 @@ export const NotApplyDefaultsWidget: Story = {
 	args: {
 		applyDefaults: EApplyDefaults.Never,
 		liveValidate: true,
-		formContext: { showDefaultValueHelper: true, defaultValueHelperPrefix: 'Default: ' },
+		formContext: {
+			showDefaultValueHelper: true,
+			defaultValueHelperPrefix: "Default: "
+		},
 		schema: {
-			type: 'object',
+			type: "object",
 			properties: {
 				title: {
-					type: 'string',
-					title: 'Title:',
-					default: 'lorem ipsum'
+					type: "string",
+					title: "Title:",
+					default: "lorem ipsum"
 				},
 				description: {
-					type: 'string',
-					title: 'Description:',
-					default: 'lorem ipsum lorem ipsum lorem ipsum'
+					type: "string",
+					title: "Description:",
+					default: "lorem ipsum lorem ipsum lorem ipsum"
 				}
 			},
-			required: ['title']
+			required: ["title"]
 		},
 		uiSchema: {
 			description: {
-				'ui:options': {
-					placeholder: 'Add description',
+				"ui:options": {
+					placeholder: "Add description",
 					showDefaultValueHelper: false
 				}
 			}
@@ -1023,27 +1077,30 @@ export const AlowResetToDefaultsWidget: Story = {
 		allowDiscardChanges: true,
 		allowResetToDefaults: true,
 		liveValidate: true,
-		formContext: { showDefaultValueHelper: true, defaultValueHelperPrefix: 'Default: ' },
+		formContext: {
+			showDefaultValueHelper: true,
+			defaultValueHelperPrefix: "Default: "
+		},
 		schema: {
-			type: 'object',
+			type: "object",
 			properties: {
 				title: {
-					type: 'string',
-					title: 'Title:',
-					default: 'lorem ipsum'
+					type: "string",
+					title: "Title:",
+					default: "lorem ipsum"
 				},
 				description: {
-					type: 'string',
-					title: 'Description:',
-					default: 'lorem ipsum lorem ipsum lorem ipsum'
+					type: "string",
+					title: "Description:",
+					default: "lorem ipsum lorem ipsum lorem ipsum"
 				}
 			},
-			required: ['title']
+			required: ["title"]
 		},
 		uiSchema: {
 			description: {
-				'ui:options': {
-					placeholder: 'Add description',
+				"ui:options": {
+					placeholder: "Add description",
 					showDefaultValueHelper: true
 				}
 			}
@@ -1057,57 +1114,73 @@ export const UiSchemaOptions: Story = {
 		liveValidate: true,
 		disabled: false,
 		formData: {
-			'number-example': 2.3,
-			'integer-example': 1,
-			'boolean-example': true,
-			'enum-example': 'foo',
-			'string-example': 'value',
-			'multipleChoicesList-example': ['fuzz', 'qux']
+			"number-example": 2.3,
+			"integer-example": 1,
+			"boolean-example": true,
+			"enum-example": "foo",
+			"string-example": "value",
+			"multipleChoicesList-example": ["fuzz", "qux"]
 		},
 		schema: {
-			type: 'object',
+			type: "object",
 			properties: {
-				'number-example': {
-					title: 'Number',
-					type: 'number',
+				"number-example": {
+					title: "Number",
+					type: "number",
 					minimum: -10.0,
 					maximum: 10,
-					description: 'Number description'
+					description: "Number description"
 				},
-				'integer-example': {
-					title: 'Integer',
-					type: 'integer',
+				"integer-example": {
+					title: "Integer",
+					type: "integer",
 					minimum: -10,
 					maximum: 10
 				},
-				'boolean-example': {
-					title: 'Boolean',
-					type: 'boolean'
+				"boolean-example": {
+					title: "Boolean",
+					type: "boolean"
 				},
-				'enum-example': {
-					title: 'Enum',
-					type: 'string',
-					enum: ['foo', 'bar']
+				"enum-example": {
+					title: "Enum",
+					type: "string",
+					enum: ["foo", "bar"]
 				},
-				'string-example': {
-					title: 'String',
-					type: 'string',
+				"string-example": {
+					title: "String",
+					type: "string",
 					minLength: 5,
 					maxLength: 10,
-					pattern: '^[a-zA-Z0-9]*$'
+					pattern: "^[a-zA-Z0-9]*$"
 				},
-				'basic-example': {
-					title: 'Examples',
-					description: 'A input with example values',
-					type: 'string',
-					examples: ['Firefox', 'Chrome', 'Opera', 'Vivaldi', 'Safari']
+				"basic-example": {
+					title: "Examples",
+					description: "A input with example values",
+					type: "string",
+					examples: [
+						"Firefox",
+						"Chrome",
+						"Opera",
+						"Vivaldi",
+						"Safari"
+					]
 				},
-				'multipleChoicesList-example': {
-					type: 'array',
-					title: 'A multiple choices list',
+				"multipleChoicesList-example": {
+					type: "array",
+					title: "A multiple choices list",
 					items: {
-						type: 'string',
-						enum: ['bar', 'fuzz', 'qux', 'bar1', 'fuzz1', 'qux1', 'bar2', 'fuzz2', 'qux2']
+						type: "string",
+						enum: [
+							"bar",
+							"fuzz",
+							"qux",
+							"bar1",
+							"fuzz1",
+							"qux1",
+							"bar2",
+							"fuzz2",
+							"qux2"
+						]
 					},
 					uniqueItems: true
 				}
@@ -1119,11 +1192,11 @@ export const UiSchemaOptions: Story = {
 		 * Therefore, when we have default values, it is possible to override if needed.
 		 *  */
 		uiSchema: {
-			'ui:componentSize': EComponentSize.Small,
-			'ui:dropdownConfig': {
+			"ui:componentSize": EComponentSize.Small,
+			"ui:dropdownConfig": {
 				zIndex: 200
 			},
-			'multipleChoicesList-example': {
+			"multipleChoicesList-example": {
 				zIndex: 10,
 				componentSize: EComponentSize.Large,
 				searchable: true,
@@ -1136,27 +1209,67 @@ export const UiSchemaOptions: Story = {
 export const SelectBooleanField: Story = {
 	args: {
 		schema: {
-			type: 'object',
+			type: "object",
 			properties: {
 				value: {
-					type: 'boolean',
+					type: "boolean",
 					oneOf: [
 						{
-							title: 'Truthy',
+							title: "Truthy",
 							const: true
 						},
 						{
-							title: 'Falsy',
+							title: "Falsy",
 							const: false
 						}
 					]
 				}
 			},
-			required: ['value']
+			required: ["value"]
 		},
 		uiSchema: {
 			value: {
-				'ui:widget': 'select'
+				"ui:widget": "select"
+			}
+		}
+	}
+};
+
+export const DropdownStressTest: Story = {
+	args: {
+		schema: {
+			type: "object",
+			properties: {
+				single: {
+					type: "string",
+					title: "",
+					oneOf: Array.from({ length: 3000 }, (_, i) => ({
+						const: `option-${i + 1}`,
+						title: `Option ${i + 1}`
+					}))
+				},
+				multiple: {
+					type: "array",
+					title: "",
+					uniqueItems: true,
+					items: {
+						type: "string",
+						oneOf: Array.from({ length: 3000 }, (_, i) => ({
+							const: `option-${i + 1}`,
+							title: `Option ${i + 1}`
+						}))
+					}
+				}
+			}
+		},
+		uiSchema: {
+			single: {
+				searchable: true,
+				selectionClearable: true
+			},
+			multiple: {
+				searchable: true,
+				selectionClearable: true
 			}
 		}
 	}
