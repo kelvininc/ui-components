@@ -338,3 +338,12 @@ export const IconOptions: Story = {
 		shortcuts: true
 	}
 };
+
+export const StreeTest = {
+	args: {
+		options: Array.from({ length: 3000 }, (_, i) => ({
+			value: `option-${i + 1}`,
+			label: `Option ${i + 1}`
+		}))
+	}
+};
