@@ -30,10 +30,6 @@ const FormTemplate: StoryFn<ComponentProps<typeof KvSchemaForm>> = (args) => (
 			onSubmit={(e: IChangeEvent<any>) => {
 				action("submit")(e);
 			}}
-			customValidate={(data: any, errors: FormValidation<any>) => {
-				console.log("customValidate", data);
-				return errors;
-			}}
 		/>
 	</div>
 );
@@ -1234,6 +1230,46 @@ export const SelectBooleanField: Story = {
 		uiSchema: {
 			value: {
 				"ui:widget": "select"
+			}
+		}
+	}
+};
+
+export const DropdownStressTest: Story = {
+	args: {
+		schema: {
+			type: "object",
+			properties: {
+				single: {
+					type: "string",
+					title: "",
+					oneOf: Array.from({ length: 3000 }, (_, i) => ({
+						const: `option-${i + 1}`,
+						title: `Option ${i + 1}`
+					}))
+				},
+				multiple: {
+					type: "array",
+					title: "",
+					uniqueItems: true,
+					items: {
+						type: "string",
+						oneOf: Array.from({ length: 3000 }, (_, i) => ({
+							const: `option-${i + 1}`,
+							title: `Option ${i + 1}`
+						}))
+					}
+				}
+			}
+		},
+		uiSchema: {
+			single: {
+				searchable: true,
+				selectionClearable: true
+			},
+			multiple: {
+				searchable: true,
+				selectionClearable: true
 			}
 		}
 	}
