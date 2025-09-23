@@ -62,16 +62,24 @@ export const normalizeEnums = <S extends StrictRJSFSchema = RJSFSchema>(schema: 
 		} as unknown as S;
 	}
 
+	// If the schema is an array, recursively normalize each item
+	if (Array.isArray(schema)) {
+		return schema.map(item => normalizeEnums(item)) as unknown as S;
+	}
+
+	let normalizedSchema = structuredClone(schema);
+
 	// If the schema is an object, recursively normalize its properties
-	for (const key of Object.keys(schema)) {
+	for (const key of Object.keys(normalizedSchema)) {
 		const schemaKey = key as keyof S;
-		return {
-			...schema,
-			[schemaKey]: normalizeEnums(schema[schemaKey])
+
+		normalizedSchema = {
+			...normalizedSchema,
+			[schemaKey]: normalizeEnums(normalizedSchema[schemaKey])
 		};
 	}
 
-	return schema;
+	return normalizedSchema;
 };
 
 /**
