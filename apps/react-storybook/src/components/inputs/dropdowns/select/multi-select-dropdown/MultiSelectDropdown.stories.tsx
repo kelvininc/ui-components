@@ -339,7 +339,7 @@ export const IconOptions: Story = {
 	}
 };
 
-export const StreeTest = {
+export const StressTest = {
 	args: {
 		options: Array.from({ length: 3000 }, (_, i) => ({
 			value: `option-${i + 1}`,
