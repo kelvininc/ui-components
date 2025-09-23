@@ -11,8 +11,7 @@ import { useFieldTemplateElement } from './hooks/useFieldTemplateElement';
 import styles from './SchemaForm.module.scss';
 import { generateTheme } from './Theme';
 import { EApplyDefaults, SchemaFormContext, SchemaFormProps } from './types';
-import { buildDefaultFormStateBehavior, cleanUnsupportedSchemaKeys, getDefaultValidator, getInitialFormData, normalizeSchema } from '../../utils';
-import { normalizeEnums } from './utils';
+import { buildDefaultFormStateBehavior, getDefaultValidator, getInitialFormData, normalizeSchema } from '../../utils';
 
 // Custom Theme
 export function generateForm<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(): ComponentType<FormProps<T, S, F>> {
