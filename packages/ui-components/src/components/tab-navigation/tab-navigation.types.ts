@@ -7,6 +7,7 @@ export interface ITabNavigationItem {
 	icon?: EIconName;
 	state?: ETagState;
 	disabled?: boolean;
+	customAttributes?: Record<string, string>;
 }
 
 export interface ITabNotification {
