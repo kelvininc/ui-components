@@ -59,6 +59,8 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	@Prop({ reflect: true }) customStyle?: HostAttributes['style'];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) action?: ISelectOptionAction;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customAttributes?: Record<string, string>;
 
 	/** @inheritdoc */
 	@Event() itemSelected: EventEmitter<string>;
@@ -93,6 +95,7 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 						}}
 						part="option-container"
 						onClick={this.onItemClick}
+						{...(this.customAttributes || {})}
 						style={{ '--level-padding-offset': `${LEVEL_OFFSET_PX * this.level}px` }}
 					>
 						{this.selectable && this.togglable && (

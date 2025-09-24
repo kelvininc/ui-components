@@ -57,6 +57,8 @@ export interface ISelectOption extends ICustomCss {
 	isDirty?: boolean;
 	/** (optional) Action to display on the right side of the item */
 	action?: ISelectOptionAction;
+	/** (optional) Custom attributes to be applied to the option container element */
+	customAttributes?: Record<string, string>;
 }
 
 export interface ISelectOptionEvents {
