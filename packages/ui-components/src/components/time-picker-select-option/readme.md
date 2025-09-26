@@ -31,7 +31,7 @@ export const KvTimePickerSelectOptionExample: React.FC = () => (
 
 | Property             | Attribute           | Description                                                                | Type                       | Default     |
 | -------------------- | ------------------- | -------------------------------------------------------------------------- | -------------------------- | ----------- |
-| `customAttributes`   | `custom-attributes` | (optional) Custom attributes to be applied to the option container element | `{ [x: string]: string; }` | `undefined` |
+| `customAttributes`   | `custom-attributes` | (optional) Custom attributes to be applied to the option container element | `{ [x: string]: string; }` | `{}`        |
 | `description`        | `description`       | (optional) The description of the text displayed                           | `string`                   | `undefined` |
 | `label` _(required)_ | `label`             | (required) The text to display on the item                                 | `string`                   | `undefined` |
 | `selected`           | `selected`          | (optional) If `true` the item is selected                                  | `boolean`                  | `false`     |
