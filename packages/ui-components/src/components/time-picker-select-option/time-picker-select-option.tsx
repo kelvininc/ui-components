@@ -16,7 +16,7 @@ export class KvTimePickerSelectOption implements ITimePickerSelectOption, ITimeP
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selected?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) customAttributes?: Record<string, string>;
+	@Prop({ reflect: true }) customAttributes?: Record<string, string> = {};
 
 	/** @inheritdoc */
 	@Event() itemSelected: EventEmitter<string>;
@@ -34,7 +34,7 @@ export class KvTimePickerSelectOption implements ITimePickerSelectOption, ITimeP
 						'selected': this.selected
 					}}
 					onClick={this.onItemClick}
-					{...(this.customAttributes || {})}
+					{...this.customAttributes}
 				>
 					<div class="text-container">
 						<div class="item-label">{this.label}</div>
