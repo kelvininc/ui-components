@@ -23,81 +23,81 @@ $warning-color: #ffc043 !default;
 $error-color: #e11900 !default;
 
 // Default Text and Background Colors
-$background-color: #fafbfc !default;
-$text-color: #1a202c !default;
+$background-color: #202020 !default;
+$text-color: #fff !default;
 
 // Default Neutral Colors
 // -------------------------------------------------------------------------------------------
 // Neutral Color are used to provide variations in white and black colors of elements.
 // Should be $neutral-color-0 stepping towards $neutral-color-9.
 // `-rgb` prop is used to apply transparencies with RGBA
-$neutral-color-0: #ffffff;
-$neutral-color-1: #f7f8fa;
-$neutral-color-2: #f7f8fa;
-$neutral-color-3: #f7f8fa;
-$neutral-color-4: #f7f8fa;
-$neutral-color-5: #f7f8fa;
-$neutral-color-6: #f7f8fa;
-$neutral-color-7: #f7f8fa;
-$neutral-color-8: #2d3748;
-$neutral-color-9: #1a202c;
+$neutral-color-0: #636363;
+$neutral-color-1: #6f6f74;
+$neutral-color-2: #7b7b7b;
+$neutral-color-3: #888888;
+$neutral-color-4: #9a9a9a;
+$neutral-color-5: #b8b8b8;
+$neutral-color-6: #d1d1d1;
+$neutral-color-7: #e0e0e0;
+$neutral-color-8: #eeeeee;
+$neutral-color-9: #f5f5f5;
 
 $colors: (
 	'primary': (
 		base: $primary-color,
-		contrast: #ffffff,
-		dark: #004085,
-		light: #e6f3ff
+		contrast: #fff,
+		dark: #103d73,
+		light: #f2f7fc
 	),
 	'secondary-1': (
 		base: $secondary-1-color,
-		contrast: #ffffff,
-		dark: #030538,
-		light: #e8e8f2
+		contrast: #fff,
+		dark: #04053e,
+		light: #cdcdda
 	),
 	'secondary-2': (
 		base: $secondary-2-color,
-		contrast: #ffffff,
-		dark: #8f0b85,
-		light: #f8e6f7
+		contrast: #fff,
+		dark: #9e0c96,
+		light: #f0cfee
 	),
 	'secondary-3': (
 		base: $secondary-3-color,
-		contrast: #ffffff,
-		dark: #2a4d54,
-		light: #e8f0f2
+		contrast: #fff,
+		dark: #305960,
+		light: #d7e0e2
 	),
 	'secondary-4': (
 		base: $secondary-4-color,
-		contrast: #ffffff
+		contrast: #fff
 	),
 	'secondary-5': (
 		base: $secondary-5-color,
-		contrast: #ffffff
+		contrast: #fff
 	),
 	'info': (
 		base: $info-color,
-		contrast: #ffffff,
-		dark: #1e5fd1,
-		light: #e6f2ff
+		contrast: #fff,
+		dark: #2261d4,
+		light: #c6daff
 	),
 	'success': (
 		base: $success-color,
-		contrast: #ffffff,
-		dark: #038348,
-		light: #e6faf0
+		contrast: #fff,
+		dark: #048f4d,
+		light: #dff7e6
 	),
 	'warning': (
 		base: $warning-color,
-		contrast: #1a202c,
-		dark: #d6940d,
-		light: #fff8e6
+		contrast: #fff,
+		dark: #e0a93b,
+		light: #ffe3ac
 	),
 	'error': (
 		base: $error-color,
-		contrast: #ffffff,
-		dark: #b71500,
-		light: #ffeae6
+		contrast: #fff,
+		dark: #c61600,
+		light: #f9d1cc
 	),
 	'background': (
 		/* Steps move towards their contrasting color. */ 'step-0': $neutral-color-9,
