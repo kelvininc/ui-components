@@ -21,7 +21,7 @@ export interface IToggleButton<T = string | number> {
 	size?: EComponentSize;
 	/** (optional) Tooltip text */
 	tooltip?: string;
-	/** (optional) Custom attributes to be applied to the tab element */
+	/** (optional) Custom attributes to be applied to the toggle button element */
 	customAttributes?: Record<string, string>;
 }
 

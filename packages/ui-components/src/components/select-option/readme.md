@@ -67,6 +67,7 @@ export const KvSelectOptionExample: React.FC = () => (
 | `"icon"`                  | The option's icon              |
 | `"label"`                 | The option's label             |
 | `"option-container"`      | The option's container         |
+| `"right-icon"`            |                                |
 | `"select-option-content"` | The option's content container |
 
 
