@@ -41,6 +41,7 @@ export class KvToggleSwitch implements IToggleSwitch, IToggleSwitchEvents {
 							preventDefault={option.preventDefault}
 							checked={this.selectedOption === option.value}
 							disabled={this.disabled || this.disabledButtons[option.value] || option.disabled}
+							customAttributes={option.customAttributes}
 						/>
 					))}
 				</div>

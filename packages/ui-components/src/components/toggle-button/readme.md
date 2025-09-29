@@ -39,7 +39,7 @@ export const ToggleButtonExample: React.FC = () => (
 | Property             | Attribute           | Description                                                                   | Type                                           | Default                |
 | -------------------- | ------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
 | `checked`            | `checked`           | (optional) Sets the button as checked                                         | `boolean`                                      | `false`                |
-| `customAttributes`   | `custom-attributes` | (optional) Custom attributes to be applied to the tab element                 | `{ [x: string]: string; }`                     | `{}`                   |
+| `customAttributes`   | `custom-attributes` | (optional) Custom attributes to be applied to the toggle button element       | `{ [x: string]: string; }`                     | `{}`                   |
 | `disabled`           | `disabled`          | (optional) Sets the button's styling to be disabled and disables click events | `boolean`                                      | `false`                |
 | `icon`               | `icon`              | (optional) The button's icon. Only valid for toggle button icon               | `EIconName`                                    | `undefined`            |
 | `label`              | `label`             | (optional) The button's label. Only valid for toggle button text              | `string`                                       | `undefined`            |
