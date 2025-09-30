@@ -13,9 +13,9 @@
 	--select-min-height: auto;
 	--select-max-width: auto;
 	--select-min-width: max-content;
-	--select-background-color: #{kv-color('neutral-7')};
-	--select-border: 1px solid #{kv-color('neutral-6')};
-	--select-inner-border: 1px solid #{kv-color('neutral-6')};
+	--select-background-color: #{kv-color('neutral-0')};
+	--select-border: 1px solid #{kv-color('neutral-3')};
+	--select-inner-border: 1px solid #{kv-color('neutral-2')};
 	--select-border-radius: #{$spacing};
 }
 
@@ -58,7 +58,7 @@
 		flex-direction: row;
 		align-items: center;
 		gap: calc($spacing-2x);
-		color: kv-color('neutral-4');
+		color: kv-color('neutral-5');
 	}
 
 	.action {
@@ -69,13 +69,13 @@
 
 		&--disabled {
 			pointer-events: none;
-			color: kv-color('neutral-5');
+			color: kv-color('neutral-4');
 		}
 	}
 
 	.divider {
 		height: 12px;
 		width: 1px;
-		background-color: kv-color('neutral-6');
+		background-color: kv-color('neutral-3');
 	}
 }

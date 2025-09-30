@@ -3,112 +3,112 @@
 
 $btn-text-colors: (
 	default: (
-		primary: kv-color('text'),
-		secondary: kv-color('text'),
-		tertiary: kv-color('text'),
-		ghost: kv-color('text'),
-		danger: kv-color('text')
+		primary: kv-color('neutral-0'),
+		secondary: kv-color('neutral-8'),
+		tertiary: kv-color('neutral-8'),
+		ghost: kv-color('neutral-8'),
+		danger: kv-color('neutral-0')
 	),
 	hover: (
-		primary: kv-color('text'),
-		secondary: kv-color('text'),
-		tertiary: kv-color('neutral-2'),
-		ghost: kv-color('neutral-2'),
-		danger: kv-color('text')
+		primary: kv-color('neutral-0'),
+		secondary: kv-color('neutral-8'),
+		tertiary: kv-color('primary'),
+		ghost: kv-color('primary'),
+		danger: kv-color('neutral-0')
 	),
 	focus: (
-		primary: kv-color('text'),
-		secondary: kv-color('text'),
-		tertiary: kv-color('text'),
-		ghost: kv-color('text'),
-		danger: kv-color('text')
+		primary: kv-color('neutral-0'),
+		secondary: kv-color('neutral-8'),
+		tertiary: kv-color('primary'),
+		ghost: kv-color('primary'),
+		danger: kv-color('neutral-0')
 	),
 	disabled: (
-		primary: kv-color('neutral-5'),
-		secondary: kv-color('neutral-5'),
-		tertiary: kv-color('neutral-5'),
-		ghost: kv-color('neutral-5'),
-		danger: kv-color('text')
+		primary: kv-color('neutral-4'),
+		secondary: kv-color('neutral-4'),
+		tertiary: kv-color('neutral-4'),
+		ghost: kv-color('neutral-4'),
+		danger: kv-color('neutral-4')
 	),
 	active: (
-		primary: kv-color('text'),
-		secondary: kv-color('text'),
-		tertiary: kv-color('neutral-2'),
-		ghost: kv-color('neutral-2'),
-		danger: kv-color('text')
+		primary: kv-color('neutral-0'),
+		secondary: kv-color('neutral-8'),
+		tertiary: kv-color('primary'),
+		ghost: kv-color('primary'),
+		danger: kv-color('neutral-0')
 	)
 );
 $btn-background-colors: (
 	default: (
 		primary: kv-color('primary'),
-		secondary: kv-color('neutral-6'),
-		tertiary: transparent,
-		ghost: transparent,
-		danger: kv-color('error')
-	),
-	hover: (
-		primary: kv-color('primary', 'dark'),
-		secondary: kv-color('neutral-5'),
-		tertiary: transparent,
-		ghost: kv-color('neutral-7'),
-		danger: kv-color('error', 'dark')
-	),
-	focus: (
-		primary: kv-color('primary'),
-		secondary: kv-color('neutral-6'),
-		tertiary: transparent,
-		ghost: kv-color('neutral-7'),
-		danger: kv-color('error')
-	),
-	disabled: (
-		primary: kv-color('neutral-3'),
-		secondary: kv-color('neutral-3'),
-		tertiary: transparent,
-		ghost: transparent,
-		danger: kv-color('error', 'light')
-	),
-	active: (
-		primary: kv-color('primary', 'dark'),
-		secondary: kv-color('neutral-5'),
-		tertiary: transparent,
-		ghost: kv-color('neutral-7'),
-		danger: kv-color('error', 'dark')
-	)
-);
-$btn-border-colors: (
-	default: (
-		primary: kv-color('primary'),
-		secondary: kv-color('neutral-6'),
+		secondary: kv-color('neutral-1'),
 		tertiary: kv-color('neutral-0'),
 		ghost: transparent,
 		danger: kv-color('error')
 	),
 	hover: (
 		primary: kv-color('primary', 'dark'),
-		secondary: kv-color('neutral-5'),
-		tertiary: kv-color('neutral-2'),
-		ghost: kv-color('neutral-7'),
+		secondary: kv-color('neutral-2'),
+		tertiary: kv-color('neutral-0'),
+		ghost: kv-color('neutral-1'),
 		danger: kv-color('error', 'dark')
 	),
 	focus: (
 		primary: kv-color('primary'),
-		secondary: kv-color('neutral-0'),
-		tertiary: transparent,
-		ghost: kv-color('neutral-7'),
-		danger: transparent
+		secondary: kv-color('neutral-1'),
+		tertiary: kv-color('neutral-0'),
+		ghost: kv-color('neutral-1'),
+		danger: kv-color('error')
 	),
 	disabled: (
-		primary: kv-color('neutral-3'),
-		secondary: kv-color('neutral-3'),
-		tertiary: kv-color('neutral-5'),
+		primary: kv-color('neutral-1'),
+		secondary: kv-color('neutral-1'),
+		tertiary: kv-color('neutral-0'),
 		ghost: transparent,
-		danger: kv-color('error', 'light')
+		danger: kv-color('neutral-1')
 	),
 	active: (
 		primary: kv-color('primary', 'dark'),
-		secondary: kv-color('neutral-5'),
-		tertiary: kv-color('neutral-2'),
-		ghost: kv-color('neutral-7'),
+		secondary: kv-color('neutral-2'),
+		tertiary: kv-color('neutral-0'),
+		ghost: kv-color('neutral-1'),
+		danger: kv-color('error', 'dark')
+	)
+);
+$btn-border-colors: (
+	default: (
+		primary: kv-color('primary'),
+		secondary: kv-color('neutral-3'),
+		tertiary: kv-color('neutral-3'),
+		ghost: transparent,
+		danger: kv-color('error')
+	),
+	hover: (
+		primary: kv-color('primary', 'dark'),
+		secondary: kv-color('neutral-3'),
+		tertiary: kv-color('neutral-3'),
+		ghost: kv-color('neutral-2'),
+		danger: kv-color('error', 'dark')
+	),
+	focus: (
+		primary: kv-color('primary'),
+		secondary: kv-color('primary'),
+		tertiary: kv-color('primary'),
+		ghost: kv-color('primary'),
+		danger: kv-color('error')
+	),
+	disabled: (
+		primary: kv-color('neutral-2'),
+		secondary: kv-color('neutral-2'),
+		tertiary: kv-color('neutral-3'),
+		ghost: transparent,
+		danger: kv-color('neutral-2')
+	),
+	active: (
+		primary: kv-color('primary', 'dark'),
+		secondary: kv-color('neutral-3'),
+		tertiary: kv-color('neutral-3'),
+		ghost: kv-color('neutral-2'),
 		danger: kv-color('error', 'dark')
 	)
 );
@@ -460,7 +460,7 @@ $btn-paddings-x: (
 
 			&::before {
 				content: '';
-				background-image: conic-gradient(transparent, kv-color('neutral-6'), transparent);
+				background-image: conic-gradient(transparent, kv-color('neutral-2'), transparent);
 				width: 150%;
 				aspect-ratio: 1/1;
 

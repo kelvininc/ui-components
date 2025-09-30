@@ -14,7 +14,7 @@
 
 	&__hover .inline-editable-field-slot {
 		border-radius: 4px;
-		background: kv-color('neutral-8');
+		background: kv-color('neutral-1');
 	}
 }
 
@@ -30,11 +30,11 @@
 		&:hover,
 		&:focus {
 			border-radius: 4px;
-			background: kv-color('neutral-8');
+			background: kv-color('neutral-1');
 		}
 
 		&:focus {
-			outline-color: kv-color('neutral-2');
+			outline-color: kv-color('primary');
 			text-overflow: unset;
 		}
 	}

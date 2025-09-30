@@ -8,11 +8,11 @@ body {
 
 	&[mode='light'] {
 		/* Text and Background Colors */
-		--kv-text: #202020;
-		--kv-text-rgb: 32, 32, 32;
+		--kv-text: #1f2433;
+		--kv-text-rgb: 31, 36, 51;
 
-		--kv-background: #fff;
-		--kv-background-rgb: 255, 255, 255;
+		--kv-background: #f5f7fb;
+		--kv-background-rgb: 245, 247, 251;
 	}
 
 	&[mode='night'] {

@@ -13,9 +13,9 @@
 	--calendar-width: 196px;
 	--calendar-horizontal-padding: #{0px};
 	--calendar-vertical-padding: #{0px};
-	--calendar-background-color: #{kv-color('neutral-7')};
-	--calendar-month-title-text-color: #{kv-color('neutral-2')};
-	--calendar-month-weekday-text-color: #{kv-color('neutral-4')};
+	--calendar-background-color: #{kv-color('neutral-0')};
+	--calendar-month-title-text-color: #{kv-color('neutral-8')};
+	--calendar-month-weekday-text-color: #{kv-color('neutral-5')};
 }
 
 @function get-day-width() {
@@ -26,6 +26,7 @@
 	padding: var(--calendar-vertical-padding) var(--calendar-horizontal-padding);
 	background-color: var(--calendar-background-color);
 	border-radius: 4px;
+	border: 1px solid kv-color('neutral-3');
 
 	width: var(--calendar-width);
 
@@ -52,7 +53,7 @@
 				cursor: not-allowed;
 
 				kv-icon {
-					--icon-color: #{kv-color('neutral-5')};
+					--icon-color: #{kv-color('neutral-3')};
 				}
 			}
 		}

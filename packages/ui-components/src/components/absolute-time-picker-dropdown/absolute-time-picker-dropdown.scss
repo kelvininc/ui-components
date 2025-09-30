@@ -4,9 +4,10 @@
 	display: block;
 }
 
+
 .absolute-time-content {
-	background-color: kv-color('neutral-7');
-	border: 1px solid kv-color('neutral-6');
+	background-color: kv-color('neutral-0');
+	border: 1px solid kv-color('neutral-3');
 	border-radius: 4px;
 	width: max-content;
 
@@ -14,7 +15,7 @@
 		display: flex;
 		justify-content: flex-end;
 		padding: $spacing-4x;
-		border-top: 1px solid kv-color('neutral-6');
+		border-top: 1px solid kv-color('neutral-2');
 	
 		.actions {
 			display: flex;

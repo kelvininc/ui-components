@@ -19,27 +19,27 @@
 	}
 
 	.text-area {
-		@include kelvin-night-scrollbar();
+		@include kelvin-light-scrollbar();
 
 		display: flex;
 		flex-direction: column;
 		flex: 1;
 		gap: $spacing-2x;
 
-		.text-area-wrapper {
-			padding: $spacing-2x $spacing-3x;
-			border: 1px solid kv-color('neutral-7');
-			border-radius: 4px;
-			height: var(--height-default);
-			overflow: auto;
-			transition: height 0.25s ease-in-out;
+			.text-area-wrapper {
+				padding: $spacing-2x $spacing-3x;
+				border: 1px solid kv-color('neutral-3');
+				border-radius: 4px;
+				height: var(--height-default);
+				overflow: auto;
+				transition: height 0.25s ease-in-out;
 
-			.input {
-				@include kv-font-span-regular;
-				outline: none;
-				height: inherit;
-				color: kv-color('neutral-4');
-				overflow-wrap: anywhere;
+				.input {
+					@include kv-font-span-regular;
+					outline: none;
+					height: inherit;
+					color: kv-color('neutral-8');
+					overflow-wrap: anywhere;
 
 				&.placeholder::before {
 					content: attr(data-placeholder);
@@ -49,10 +49,10 @@
 			&:hover,
 			&:has(.input:focus),
 			&.has-text {
-				border: 1px solid kv-color('neutral-6');
+				border: 1px solid kv-color('primary');
 
 				.input {
-					color: kv-color('neutral-2');
+					color: kv-color('neutral-8');
 				}
 			}
 
@@ -73,7 +73,7 @@
 
 		.character-counter {
 			@include kv-font-label-small-regular;
-			color: kv-color('neutral-4');
+			color: kv-color('neutral-5');
 			margin-left: $spacing-3x;
 			display: none;
 		}
@@ -82,10 +82,10 @@
 	&.disabled {
 		.text-area {
 			.text-area-wrapper {
-				border-color: kv-color('neutral-5');
+				border-color: kv-color('neutral-2');
 
 				.input {
-					color: kv-color('neutral-5');
+					color: kv-color('neutral-4');
 				}
 
 				&:hover:not(:has(.input:focus)) {

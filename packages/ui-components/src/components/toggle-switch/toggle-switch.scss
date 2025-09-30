@@ -22,20 +22,20 @@
 		--button-padding-small: #{$spacing $spacing-3x};
 		--button-padding-large: #{$spacing-2x $spacing-3x};
 
-		--text-color-default: #{kv-color('neutral-4')};
-		--text-color-active: #{kv-color('neutral-2')};
-		--text-color-disabled: #{kv-color('neutral-5')};
-		--text-color-disabled-active: #{kv-color('neutral-5')};
+		--text-color-default: #{kv-color('neutral-6')};
+		--text-color-active: #{kv-color('neutral-0')};
+		--text-color-disabled: #{kv-color('neutral-4')};
+		--text-color-disabled-active: #{kv-color('neutral-4')};
 
-		--background-color-default: 'transparent';
-		--background-color-active: #{kv-color('neutral-6')};
-		--background-color-disabled: 'transparent';
-		--background-color-disabled-active: #{kv-color('neutral-7')};
+		--background-color-default: transparent;
+		--background-color-active: #{kv-color('primary')};
+		--background-color-disabled: transparent;
+		--background-color-disabled-active: #{kv-color('neutral-1')};
 
-		--border-color-default: #{kv-color('neutral-6')};
-		--border-color-active: #{kv-color('neutral-2')};
-		--border-color-disabled: #{kv-color('neutral-6')};
-		--border-color-disabled-active: #{kv-color('neutral-6')};
+		--border-color-default: #{kv-color('neutral-3')};
+		--border-color-active: #{kv-color('primary')};
+		--border-color-disabled: #{kv-color('neutral-2')};
+		--border-color-disabled-active: #{kv-color('neutral-2')};
 
 		&::part(toggle-label) {
 			@include kv-font-label-small-regular();

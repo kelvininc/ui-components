@@ -32,31 +32,31 @@
 			@include kv-font-span-regular;
 			@include ellipsis();
 			transition: font-weight 100ms linear;
-			color: kv-color('neutral-2');
+			color: kv-color('neutral-8');
 		}
 
 		.item-description {
 			@include kv-font-label-small-regular;
-			color: kv-color('neutral-4');
+			color: kv-color('neutral-5');
 		}
 	}
 
 	&.selected {
-		background-color: kv-color('neutral-6');
+		background-color: kv-color('primary', 'light');
 
 		.item-label {
 			@include kv-font-span-semibold;
-			color: kv-color('neutral-2');
+			color: kv-color('primary');
 		}
 
 		.item-description {
 			@include kv-font-label-small-semibold;
 			transition: font-weight 100ms linear;
-			color: kv-color('neutral-2');
+			color: kv-color('neutral-6');
 		}
 	}
 
 	&:hover {
-		background-color: kv-color('neutral-6');
+		background-color: kv-color('neutral-1');
 	}
 }

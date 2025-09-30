@@ -6,8 +6,11 @@
 
 $input-height: 32px;
 
+
 .input-container {
-	background-color: kv-color('neutral-7');
+	background-color: kv-color('neutral-0');
+	border: 1px solid kv-color('neutral-3');
+	border-radius: 4px;
 	padding: 0 $spacing-4x;
 	height: $input-height;
 	display: flex;
@@ -19,7 +22,8 @@ $input-height: 32px;
 
 	&--content-hidden {
 		&:hover {
-			background-color: kv-color('neutral-6');
+			background-color: kv-color('neutral-1');
+			border-color: kv-color('neutral-3');
 			cursor: pointer;
 
 			kv-icon {
@@ -35,7 +39,7 @@ $input-height: 32px;
 		justify-content: space-between;
 		width: 100%;
 
-		color: kv-color('neutral-4');
+		color: kv-color('neutral-6');
 	}
 
 	.slot-container {

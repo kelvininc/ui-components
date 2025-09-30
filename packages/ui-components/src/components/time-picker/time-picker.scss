@@ -8,8 +8,8 @@ $full-view-height: 347px;
 $full-view-width: 779px;
 
 .time-range-content {
-	background-color: kv-color('neutral-7');
-	border: 1px solid kv-color('neutral-6');
+	background-color: kv-color('neutral-0');
+	border: 1px solid kv-color('neutral-3');
 	border-radius: 4px;
 	width: max-content;
 
@@ -43,7 +43,7 @@ $full-view-width: 779px;
 		}
 
 		&--full-view {
-			border-right: 1px solid kv-color('neutral-6');
+			border-right: 1px solid kv-color('neutral-3');
 		}
 	}
 
@@ -52,7 +52,7 @@ $full-view-width: 779px;
 		right: -$absolute-time-picker-width;
 		z-index: 1;
 		transition: all 0.3s ease-in-out;
-		background-color: kv-color('neutral-7');
+		background-color: kv-color('neutral-0');
 		border-top-right-radius: 4px;
 		border-top-left-radius: 4px;
 
@@ -76,7 +76,7 @@ $full-view-width: 779px;
 	display: flex;
 	justify-content: space-between;
 	padding: $spacing-4x;
-	border-top: 1px solid kv-color('neutral-6');
+	border-top: 1px solid kv-color('neutral-2');
 
 	.toggle-wrapper {
 		display: flex;
@@ -89,7 +89,7 @@ $full-view-width: 779px;
 
 		.toggle-text {
 			@include kv-font-span-regular;
-			color: kv-color('neutral-2');
+			color: kv-color('neutral-6');
 		}
 	}
 

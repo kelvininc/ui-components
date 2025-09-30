@@ -3,7 +3,7 @@
 .radio-list-item-container {
 	display: flex;
 	flex-direction: column;
-	border: 1px solid kv-color('neutral-7');
+	border: 1px solid kv-color('neutral-2');
 	border-radius: 2px;
 	transition: border-color 0.25s ease-in-out;
 	cursor: pointer;
@@ -11,7 +11,7 @@
 
 	&--checked,
 	&:hover {
-		border-color: kv-color('neutral-0');
+		border-color: kv-color('primary');
 	}
 
 	&--disabled {
@@ -36,13 +36,13 @@
 		.label {
 
 			@include kv-font-h4-semibold;
-			color: kv-color('neutral-0');
+			color: kv-color('neutral-8');
 		}
 
 		.description {
 
 			@include kv-font-paragraph-regular;
-			color: kv-color('neutral-4');
+			color: kv-color('neutral-6');
 
 			kv-link::part(container) {
 				display: inline;

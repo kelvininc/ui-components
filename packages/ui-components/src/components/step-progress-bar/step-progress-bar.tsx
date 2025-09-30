@@ -4,6 +4,7 @@ import { IStepProgressBar } from './step-progress-bar.types';
 @Component({
 	tag: 'kv-step-progress-bar',
 	styleUrls: {
+		light: 'step-progress-bar.light.scss',
 		night: 'step-progress-bar.night.scss'
 	},
 	shadow: true

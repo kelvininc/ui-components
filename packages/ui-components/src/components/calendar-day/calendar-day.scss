@@ -15,7 +15,7 @@
 	justify-content: center;
 
 	background-color: transparent;
-	color: kv-color('neutral-4');
+	color: kv-color('neutral-6');
 
 	user-select: none;
 	cursor: pointer;
@@ -25,7 +25,7 @@
 	}
 
 	&--today:not(.calendar-day--disabled) {
-		border: 1px solid kv-color('neutral-5');
+		border: 1px solid kv-color('neutral-3');
 		width: calc(var(--day-width) - 2px);
 		height: calc(var(--day-height) - 2px);
 	}
@@ -35,33 +35,33 @@
 	}
 
 	&--active:not(.calendar-day--disabled) {
-		background-color: kv-color('primary', 'dark');
-		color: kv-color('neutral-2');
+		background-color: kv-color('primary');
+		color: kv-color('neutral-0');
 
 		&:hover {
-			background-color: kv-color('info', 'base', 0.16);
-			color: kv-color('neutral-4');
+			background-color: kv-color('primary', 'dark');
+			color: kv-color('neutral-0');
 		}
 	}
 
 	&--range-start:not(.calendar-day--disabled) {
-		background-color: kv-color('primary', 'dark');
-		color: kv-color('neutral-2');
+		background-color: kv-color('primary');
+		color: kv-color('neutral-0');
 	}
 
 	&--range-end:not(.calendar-day--disabled) {
-		background-color: kv-color('primary', 'dark');
-		color: kv-color('neutral-2');
+		background-color: kv-color('primary');
+		color: kv-color('neutral-0');
 	}
 
 	&--between-dates:not(.calendar-day--disabled) {
 		background-color: kv-color('info', 'base', 0.16);
-		color: kv-color('neutral-4');
+		color: kv-color('neutral-6');
 	}
 
 	&--disabled {
 		cursor: not-allowed;
 
-		color: kv-color('neutral-5');
+		color: kv-color('neutral-4');
 	}
 }

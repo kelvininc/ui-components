@@ -10,10 +10,10 @@
 	* @prop --indicator-error-border-color: The color to show on the border that highlights the indicator when there's an error
 	*/
 	--indicator-radius: 14px;
-	--indicator-default-color: #{kv-color('neutral-6')};
-	--indicator-default-border-color: #{kv-color('neutral-6')};
-	--indicator-active-color: #{kv-color('neutral-3')};
-	--indicator-active-border-color: #{kv-color('success')};
+	--indicator-default-color: #{kv-color('neutral-1')};
+	--indicator-default-border-color: #{kv-color('neutral-2')};
+	--indicator-active-color: #{kv-color('primary', 'light')};
+	--indicator-active-border-color: #{kv-color('primary')};
 	--indicator-error-border-color: #{kv-color('error')};
 }
 

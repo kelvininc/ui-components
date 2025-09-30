@@ -19,10 +19,10 @@
 	--modal-width: fit-content;
 	--modal-min-width: 400px;
 	--modal-topbar-height: 50px;
-	--modal-topbar-text-color: #{kv-color('neutral-4')};
+	--modal-topbar-text-color: #{kv-color('neutral-7')};
 	--modal-z-index: 1;
-	--modal-overlay-color: #{kv-color('neutral-9', 'base', 0.8)};
-	--modal-background-color: #{kv-color('neutral-8')};
+	--modal-overlay-color: #{kv-color('neutral-9', 'base', 0.6)};
+	--modal-background-color: #{kv-color('neutral-0')};
 	--modal-close-button-width: 16px;
 	--modal-close-button-height: 16px;
 }
@@ -60,7 +60,7 @@
 		justify-content: space-between;
 		padding: 0 $spacing-4x;
 		height: var(--modal-topbar-height);
-		border-bottom: 1px solid kv-color('neutral-7');
+		border-bottom: 1px solid kv-color('neutral-2');
 		box-sizing: border-box;
 
 		.title {
@@ -95,7 +95,7 @@
 		kv-icon {
 			--icon-width: var(--modal-close-button-width);
 			--icon-height: var(--modal-close-button-height);
-			--icon-color: #{kv-color('neutral-4')};
+			--icon-color: #{kv-color('neutral-5')};
 		}
 	}
 }

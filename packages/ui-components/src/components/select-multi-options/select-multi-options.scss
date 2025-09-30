@@ -25,17 +25,18 @@ kv-select {
 	max-width: 110px;
 }
 
+
 .selected-items-label {
 	@include ellipsis;
 	@include kv-font-label-small-regular;
-	color: kv-color('neutral-4');
+	color: kv-color('neutral-6');
 	text-wrap: nowrap;
 }
 
 .counter {
 	display: flex;
 	align-items: center;
-	color: kv-color('neutral-4');
+	color: kv-color('neutral-5');
 	@include kv-font-label-xsmall-regular;
 }
 
@@ -44,20 +45,20 @@ kv-select {
 	top: 0;
 	left: 0;
 	border-radius: 4px;
-	border: 1px solid kv-color('neutral-6');
+	border: 1px solid kv-color('neutral-3');
 	width: calc(100% - 2px);
 	height: calc(100% - 2px);
-	background: kv-color('neutral-7', 'base', 0.8);
+	background: kv-color('neutral-0', 'base', 0.95);
 	z-index: 1;
 
 	&.has-shortcuts .create-new-option-form {
 		bottom: 36px;
-		border-bottom: 1px solid kv-color('neutral-6');
+		border-bottom: 1px solid kv-color('neutral-3');
 	}
 }
 
 .form-container {
-	background: kv-color('neutral-7');
+	background: kv-color('neutral-0');
 	padding: $spacing-3x $spacing-4x;
 }
 
@@ -66,11 +67,11 @@ kv-select {
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	border-top: 1px solid kv-color('neutral-6');
+	border-top: 1px solid kv-color('neutral-3');
 }
 
 .create-new-option-button {
-	border-top: 1px solid kv-color('neutral-6');
+	border-top: 1px solid kv-color('neutral-3');
 	padding: $spacing-3x 0;
 }
 

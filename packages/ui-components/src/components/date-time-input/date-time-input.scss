@@ -3,26 +3,27 @@
 kv-form-label {
 	user-select: none;
 
-	--label-color: #{kv-color('neutral-4')};
+	--label-color: #{kv-color('neutral-6')};
 }
 
 input {
 	@include ellipsis;
 	@include kv-font-span-regular;
 
-	color-scheme: dark;
+	color-scheme: light;
 	appearance: textfield;
 	outline: 0;
-	background: kv-color('neutral-6');
+	background: kv-color('neutral-0');
 	border: transparent;
 	padding: 0 $spacing-2x;
 	width: 100%;
+	color: kv-color('neutral-8');
 }
 
 .input-container-wrapper {
 	display: flex;
 	align-items: center;
-	background-color: kv-color('neutral-6');
+	background-color: kv-color('neutral-0');
 	min-width: 196px;
 
 	&--size-large {
@@ -50,7 +51,7 @@ input {
 	.input-separator {
 		width: 1px;
 		height: 20px;
-		background-color: kv-color('neutral-5');
+		background-color: kv-color('neutral-3');
 	}
 }
 
@@ -62,24 +63,23 @@ input {
 	height: 100%;
 	width: 100%;
 	border-radius: 4px;
-	border: solid 1px kv-color('neutral-6');
-	color: kv-color('neutral-2');
+	border: solid 1px kv-color('neutral-3');
+	color: kv-color('neutral-8');
 	overflow: hidden;
 	box-sizing: border-box;
 
 	kv-icon {
-		--icon-color: #{kv-color('neutral-4')};
+		--icon-color: #{kv-color('neutral-5')};
 	}
 
 	&.focus,
 	&.forced-focus {
-		color: kv-color('neutral-2');
-		border-color: kv-color('neutral-0');
+		color: kv-color('neutral-8');
+		border-color: kv-color('primary');
 
-
-	kv-icon {
-		--icon-color: #{kv-color('neutral-2')};
-	}
+		kv-icon {
+			--icon-color: #{kv-color('primary')};
+		}
 
 		&::placeholder {
 			color: kv-color('neutral-4');
@@ -87,11 +87,12 @@ input {
 	}
 
 	&.disabled {
-		background-color: kv-color('neutral-7');
+		background-color: kv-color('neutral-1');
+		border-color: kv-color('neutral-2');
 		color: kv-color('neutral-5');
 
 		kv-icon {
-			--icon-color: #{kv-color('neutral-5')};
+			--icon-color: #{kv-color('neutral-4')};
 		}
 	}
 

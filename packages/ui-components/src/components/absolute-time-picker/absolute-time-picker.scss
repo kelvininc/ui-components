@@ -4,7 +4,8 @@
 	display: flex;
 	flex-direction: column;
 	gap: $spacing-3x;
-	background-color: kv-color('neutral-7');
+	background-color: kv-color('neutral-0');
+	border: 1px solid kv-color('neutral-3');
 	padding: $spacing-4x;
 	border-radius: 4px;
 	width: fit-content;
@@ -17,12 +18,12 @@
 		width: fit-content;
 
 		kv-icon {
-			--icon-color: #{kv-color('neutral-4')};
+			--icon-color: #{kv-color('neutral-6')};
 		}
 
 		.back-text {
 			@include kv-font-label-small-regular;
-			color: kv-color('neutral-4');
+			color: kv-color('neutral-6');
 			user-select: none;
 		}
 	}
@@ -30,7 +31,7 @@
 	.header {
 		.title {
 			@include kv-font-h4-semibold;
-			color: kv-color('neutral-2');
+			color: kv-color('neutral-8');
 		}
 	}
 

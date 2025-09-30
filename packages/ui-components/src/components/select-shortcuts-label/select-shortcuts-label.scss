@@ -1,7 +1,8 @@
 @import '../../assets/styles/globals';
 
 .shortcuts {
-	background: kv-color('neutral-6');
+	background: kv-color('neutral-0');
+	border-top: 1px solid kv-color('neutral-2');
 	display: flex;
 	justify-content: space-between;
 	padding: $spacing-2x $spacing-4x;
@@ -25,15 +26,16 @@
 	gap: $spacing;
 }
 
+
 .label {
-	color: kv-color('neutral-4');
+	color: kv-color('neutral-6');
 	@include kv-font-label-xsmall-regular;
 }
 
 .icon {
 	border-radius: 4px;
-	background: kv-color('neutral-5');
-	color: kv-color('neutral-2');
+	background: kv-color('neutral-1');
+	color: kv-color('neutral-7');
 	@include kv-font-label-xsmall-regular;
 	text-align: center;
 	display: flex;
@@ -43,6 +45,6 @@
 	width: 20px;
 
 	kv-icon {
-		--icon-color: #{kv-color('neutral-2')};
+		--icon-color: #{kv-color('neutral-7')};
 	}
 }
