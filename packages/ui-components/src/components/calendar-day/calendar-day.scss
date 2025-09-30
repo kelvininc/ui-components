@@ -15,7 +15,7 @@
 	justify-content: center;
 
 	background-color: transparent;
-	color: kv-color('neutral-6');
+	color: kv-color('text', 'step-3');
 
 	user-select: none;
 	cursor: pointer;
@@ -56,12 +56,12 @@
 
 	&--between-dates:not(.calendar-day--disabled) {
 		background-color: kv-color('info', 'base', 0.16);
-		color: kv-color('neutral-6');
+		color: kv-color('text', 'step-3');
 	}
 
 	&--disabled {
 		cursor: not-allowed;
 
-		color: kv-color('neutral-4');
+		color: kv-color('text', 'step-6');
 	}
 }

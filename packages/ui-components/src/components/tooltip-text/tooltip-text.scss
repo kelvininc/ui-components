@@ -19,7 +19,7 @@
 	display: inline-block;
 	word-wrap: break-word;
 	background-color: kv-color('neutral-0');
-	box-shadow: 0 12px 24px -8px kv-color('neutral-9', 'base', 0.12), 0 0 1px 0 kv-color('neutral-3', 'base', 0.4);
+	box-shadow: 0 12px 24px -8px kv-color('text', 'base', 0.16), 0 0 1px 0 kv-color('text', 'base', 0.08);
 	user-select: none;
 	border-radius: 2px;
 	padding: $spacing $spacing-2x;
@@ -27,6 +27,6 @@
 
 	.tooltip-text {
 		@include kv-font-span-semibold();
-		color: kv-color('neutral-7');
+		color: kv-color('text', 'step-2');
 	}
 }

@@ -44,12 +44,12 @@ kv-description-list {
 
 	.title {
 		@include kv-font-label-small-uppercase-regular;
-		color: kv-color('neutral-4');
+		color: kv-color('text', 'step-4');
 	}
 
 	.description {
 		@include kv-font-paragraph-regular;
-		color: kv-color('neutral-2');
+		color: kv-color('text', 'step-5');
 
 		kv-tooltip::part(content) {
 			display: inline;

@@ -3,7 +3,7 @@
 kv-form-label {
 	user-select: none;
 
-	--label-color: #{kv-color('neutral-6')};
+	--label-color: #{kv-color('text', 'step-3')};
 }
 
 input {
@@ -17,7 +17,7 @@ input {
 	border: transparent;
 	padding: 0 $spacing-2x;
 	width: 100%;
-	color: kv-color('neutral-8');
+	color: kv-color('text');
 }
 
 .input-container-wrapper {
@@ -64,17 +64,17 @@ input {
 	width: 100%;
 	border-radius: 4px;
 	border: solid 1px kv-color('neutral-3');
-	color: kv-color('neutral-8');
+	color: kv-color('text');
 	overflow: hidden;
 	box-sizing: border-box;
 
 	kv-icon {
-		--icon-color: #{kv-color('neutral-5')};
+		--icon-color: #{kv-color('text', 'step-4')};
 	}
 
 	&.focus,
 	&.forced-focus {
-		color: kv-color('neutral-8');
+		color: kv-color('text');
 		border-color: kv-color('primary');
 
 		kv-icon {
@@ -86,15 +86,15 @@ input {
 		}
 	}
 
-	&.disabled {
-		background-color: kv-color('neutral-1');
-		border-color: kv-color('neutral-2');
-		color: kv-color('neutral-5');
+		&.disabled {
+			background-color: kv-color('neutral-1');
+			border-color: kv-color('neutral-2');
+			color: kv-color('text', 'step-6');
 
-		kv-icon {
-			--icon-color: #{kv-color('neutral-4')};
+			kv-icon {
+				--icon-color: #{kv-color('text', 'step-5')};
+			}
 		}
-	}
 
 	&.invalid {
 		border-color: kv-color('error');

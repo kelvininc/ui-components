@@ -26,17 +26,18 @@ kv-select {
 }
 
 
+
 .selected-items-label {
 	@include ellipsis;
 	@include kv-font-label-small-regular;
-	color: kv-color('neutral-6');
+	color: kv-color('text', 'step-4');
 	text-wrap: nowrap;
 }
 
 .counter {
 	display: flex;
 	align-items: center;
-	color: kv-color('neutral-5');
+	color: kv-color('text', 'step-5');
 	@include kv-font-label-xsmall-regular;
 }
 

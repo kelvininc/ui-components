@@ -22,8 +22,8 @@ $label-height: 49px;
 	--range-width: 100%;
 	--range-height: 10px;
 	--range-selector-radius: 20px;
-	--select-label-disabled-color: #{kv-color('neutral-5')};
-	--slider-background-filled-disabled: #{kv-color('neutral-5')};
+	--select-label-disabled-color: #{kv-color('text', 'step-6')};
+	--slider-background-filled-disabled: #{kv-color('text', 'base', 0.15)};
 }
 
 .range-container {

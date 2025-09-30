@@ -43,9 +43,9 @@
 }
 
 kv-action-button {
-	--background-color-active-tertiary: #{kv-color('neutral-5')};
-	--border-color-active-tertiary: #{kv-color('neutral-4')};
-	--text-color-active-tertiary: #{kv-color('neutral-4')};
+	--background-color-active-tertiary: #{kv-color('background', 'step-1')};
+	--border-color-active-tertiary: #{kv-color('background', 'step-2')};
+	--text-color-active-tertiary: #{kv-color('text', 'step-3')};
 	--button-padding-x-small: 0;
 	--button-height-large: var(--button-size-large);
 	--button-height-small: var(--button-size-small);

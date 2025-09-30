@@ -36,13 +36,13 @@
 		.label {
 
 			@include kv-font-h4-semibold;
-			color: kv-color('neutral-8');
+			color: kv-color('text');
 		}
 
 		.description {
 
 			@include kv-font-paragraph-regular;
-			color: kv-color('neutral-6');
+			color: kv-color('text', 'step-4');
 
 			kv-link::part(container) {
 				display: inline;

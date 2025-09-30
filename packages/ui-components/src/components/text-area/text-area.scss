@@ -38,7 +38,7 @@
 					@include kv-font-span-regular;
 					outline: none;
 					height: inherit;
-					color: kv-color('neutral-8');
+					color: kv-color('text');
 					overflow-wrap: anywhere;
 
 				&.placeholder::before {
@@ -49,10 +49,10 @@
 			&:hover,
 			&:has(.input:focus),
 			&.has-text {
-				border: 1px solid kv-color('primary');
+					border: 1px solid kv-color('primary');
 
-				.input {
-					color: kv-color('neutral-8');
+					.input {
+						color: kv-color('text');
 				}
 			}
 
@@ -73,7 +73,7 @@
 
 		.character-counter {
 			@include kv-font-label-small-regular;
-			color: kv-color('neutral-5');
+			color: kv-color('text', 'step-5');
 			margin-left: $spacing-3x;
 			display: none;
 		}
@@ -85,7 +85,7 @@
 				border-color: kv-color('neutral-2');
 
 				.input {
-					color: kv-color('neutral-4');
+					color: kv-color('text', 'step-6');
 				}
 
 				&:hover:not(:has(.input:focus)) {

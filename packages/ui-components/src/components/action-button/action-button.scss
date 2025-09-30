@@ -4,35 +4,35 @@
 $btn-text-colors: (
 	default: (
 		primary: kv-color('neutral-0'),
-		secondary: kv-color('neutral-8'),
-		tertiary: kv-color('neutral-8'),
-		ghost: kv-color('neutral-8'),
+		secondary: kv-color('text'),
+		tertiary: kv-color('text'),
+		ghost: kv-color('text'),
 		danger: kv-color('neutral-0')
 	),
 	hover: (
 		primary: kv-color('neutral-0'),
-		secondary: kv-color('neutral-8'),
+		secondary: kv-color('text'),
 		tertiary: kv-color('primary'),
 		ghost: kv-color('primary'),
 		danger: kv-color('neutral-0')
 	),
 	focus: (
 		primary: kv-color('neutral-0'),
-		secondary: kv-color('neutral-8'),
+		secondary: kv-color('text'),
 		tertiary: kv-color('primary'),
 		ghost: kv-color('primary'),
 		danger: kv-color('neutral-0')
 	),
 	disabled: (
-		primary: kv-color('neutral-4'),
-		secondary: kv-color('neutral-4'),
-		tertiary: kv-color('neutral-4'),
-		ghost: kv-color('neutral-4'),
-		danger: kv-color('neutral-4')
+		primary: kv-color('text', 'step-6'),
+		secondary: kv-color('text', 'step-6'),
+		tertiary: kv-color('text', 'step-6'),
+		ghost: kv-color('text', 'step-6'),
+		danger: kv-color('text', 'step-6')
 	),
 	active: (
 		primary: kv-color('neutral-0'),
-		secondary: kv-color('neutral-8'),
+		secondary: kv-color('text'),
 		tertiary: kv-color('primary'),
 		ghost: kv-color('primary'),
 		danger: kv-color('neutral-0')

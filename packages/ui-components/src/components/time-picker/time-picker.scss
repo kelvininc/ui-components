@@ -89,7 +89,7 @@ $full-view-width: 779px;
 
 		.toggle-text {
 			@include kv-font-span-regular;
-			color: kv-color('neutral-6');
+			color: kv-color('text', 'step-4');
 		}
 	}
 

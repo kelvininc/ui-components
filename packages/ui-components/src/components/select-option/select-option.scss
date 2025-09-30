@@ -30,18 +30,18 @@
 	--select-option-background-color-highlighted: #{kv-color('neutral-1')};
 	--select-option-background-color-hover: #{kv-color('neutral-1')};
 
-	--select-option-label-color: #{kv-color('neutral-8')};
+	--select-option-label-color: #{kv-color('text')};
 	--select-option-label-color-selected: #{kv-color('primary')};
 	--select-option-label-color-highlighted: #{kv-color('primary')};
 	--select-option-label-color-hover: #{kv-color('primary')};
-	--select-option-description-color: #{kv-color('neutral-5')};
-	--select-option-description-color-selected: #{kv-color('neutral-6')};
-	--select-option-description-color-highlighted: #{kv-color('neutral-6')};
-	--select-option-description-color-hover: #{kv-color('neutral-6')};
+	--select-option-description-color: #{kv-color('text', 'step-4')};
+	--select-option-description-color-selected: #{kv-color('text', 'step-4')};
+	--select-option-description-color-highlighted: #{kv-color('text', 'step-4')};
+	--select-option-description-color-hover: #{kv-color('text', 'step-4')};
 	--select-option-icon-size: 16px;
-	--select-option-icon-color: #{kv-color('neutral-4')};
+	--select-option-icon-color: #{kv-color('text', 'step-4')};
 	--select-option-right-icon-size: 16px;
-	--select-option-right-icon-color: #{kv-color('neutral-4')};
+	--select-option-right-icon-color: #{kv-color('text', 'step-4')};
 }
 
 .select-option {
@@ -165,7 +165,7 @@
 	&--heading {
 		.item-label {
 			@include kv-font-label-xsmall-uppercase-semibold;
-			color: kv-color('neutral-5');
+			color: kv-color('text', 'step-4');
 		}
 
 		.text-container .left-content::after {
@@ -173,7 +173,7 @@
 			display: flex;
 			flex: 1;
 			height: 1px;
-			background: kv-color('neutral-2');
+			background: kv-color('background', 'step-2');
 			margin-left: $spacing-2x;
 		}
 	}

@@ -19,14 +19,14 @@
 	--icon-color-selected: #{kv-color('primary')};
 	--icon-color-no-filled: #{kv-color('neutral-3')};
 
-	--title-color-default: #{kv-color('neutral-9')};
-	--title-color-disabled: #{kv-color('neutral-5')};
-	--title-color-selected: #{kv-color('neutral-9')};
-	--title-color-no-filled: #{kv-color('neutral-5')};
+	--title-color-default: #{kv-color('text')};
+	--title-color-disabled: #{kv-color('text', 'step-6')};
+	--title-color-selected: #{kv-color('text')};
+	--title-color-no-filled: #{kv-color('text', 'step-5')};
 
-	--sub-title-color-default: #{kv-color('neutral-5')};
-	--sub-title-color-disabled: #{kv-color('neutral-5')};
-	--sub-title-color-no-filled: #{kv-color('neutral-5')};
+	--sub-title-color-default: #{kv-color('text', 'step-5')};
+	--sub-title-color-disabled: #{kv-color('text', 'step-6')};
+	--sub-title-color-no-filled: #{kv-color('text', 'step-5')};
 }
 
 .node-loading {

@@ -38,7 +38,7 @@
 	--input-min-width: 140px;
 	--input-max-width: 100%;
 
-	--text-color-help-text-default: #{kv-color('neutral-4')};
+	--text-color-help-text-default: #{kv-color('text', 'step-5')};
 	--text-color-help-text-error: #{kv-color('error', 'light')};
 
 	--border-color-error: #{kv-color('error')};
@@ -57,7 +57,7 @@ kv-form-help-text {
 
 kv-tooltip::part(container) {
 	@include kv-font-span-regular();
-	color: kv-color('neutral-2');
+	color: kv-color('text', 'step-4');
 }
 
 kv-tooltip::part(content) {

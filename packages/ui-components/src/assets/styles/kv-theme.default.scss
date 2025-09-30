@@ -11,14 +11,14 @@
 // - contrast: Color that will provide readable text against the base color (CSS variable: --kv-[color name]-contrast)
 // - dark: 12% darker version of the base color (mix with black) (CSS variable: --kv-[color name]-dark)
 // - light: 80% lighter version of the base color (mix with white) (CSS variable: --kv-[color name]-light)
-$primary-color: #1f6eeb !default;
-$secondary-1-color: #1b2559 !default;
-$secondary-2-color: #8f3dfe !default;
-$secondary-3-color: #2b8a7d !default;
+$primary-color: #1663ff !default;
+$secondary-1-color: #f3f5fb !default;
+$secondary-2-color: #f8e8ff !default;
+$secondary-3-color: #e1f6f2 !default;
 $secondary-4-color: linear-gradient(90deg, $secondary-2-color 0%, $primary-color 100%) !default;
-$secondary-5-color: #5a6bff !default;
+$secondary-5-color: #e0e7ff !default;
 $info-color: #2563eb !default;
-$success-color: #2bae66 !default;
+$success-color: #289f61 !default;
 $warning-color: #f59e0b !default;
 $error-color: #e15554 !default;
 
@@ -32,40 +32,40 @@ $text-color: #1f2433 !default;
 // Should be $neutral-color-0 stepping towards $neutral-color-9.
 // `-rgb` prop is used to apply transparencies with RGBA
 $neutral-color-0: #ffffff;
-$neutral-color-1: #f7f9fc;
-$neutral-color-2: #edf1f7;
-$neutral-color-3: #e0e6ef;
-$neutral-color-4: #c7cfdd;
-$neutral-color-5: #9aa4b8;
-$neutral-color-6: #6f7a8f;
-$neutral-color-7: #4c566a;
-$neutral-color-8: #2f3445;
-$neutral-color-9: #1c212d;
+$neutral-color-1: #fbfcff;
+$neutral-color-2: #f6f8fd;
+$neutral-color-3: #f1f3fa;
+$neutral-color-4: #eceff6;
+$neutral-color-5: #e6e9f3;
+$neutral-color-6: #e1e4ef;
+$neutral-color-7: #dbdfee;
+$neutral-color-8: #d5dae9;
+$neutral-color-9: #d0d5e6;
 
 $colors: (
 	'primary': (
 		base: $primary-color,
 		contrast: #fff,
-		dark: #1a5ad1,
-		light: #e3edff
+		dark: #0f4ed4,
+		light: #e5edff
 	),
 	'secondary-1': (
 		base: $secondary-1-color,
-		contrast: #fff,
-		dark: #161d45,
-		light: #dde1f2
+		contrast: $text-color,
+		dark: #dde2f2,
+		light: #ffffff
 	),
 	'secondary-2': (
 		base: $secondary-2-color,
-		contrast: #fff,
-		dark: #752fdb,
-		light: #f0e6ff
+		contrast: $text-color,
+		dark: #e1c2ff,
+		light: #fff8ff
 	),
 	'secondary-3': (
 		base: $secondary-3-color,
-		contrast: #fff,
-		dark: #227265,
-		light: #d6f0ec
+		contrast: $text-color,
+		dark: #bfe6dc,
+		light: #f9fffd
 	),
 	'secondary-4': (
 		base: $secondary-4-color,
@@ -73,9 +73,9 @@ $colors: (
 	),
 	'secondary-5': (
 		base: $secondary-5-color,
-		contrast: #fff,
-		dark: #4a58d6,
-		light: #e0e4ff
+		contrast: $text-color,
+		dark: #bfc8ff,
+		light: #f5f6ff
 	),
 	'info': (
 		base: $info-color,
@@ -86,8 +86,8 @@ $colors: (
 	'success': (
 		base: $success-color,
 		contrast: #fff,
-		dark: #228753,
-		light: #d6f5e5
+		dark: #1f7f4f,
+		light: #d9f5e5
 	),
 	'warning': (
 		base: $warning-color,
@@ -102,28 +102,28 @@ $colors: (
 		light: #f7d4d3
 	),
 	'background': (
-		/* Steps move towards their contrasting color. */ 'step-0': $neutral-color-9,
+		/* Steps move towards their contrasting color. */ 'step-0': $neutral-color-6,
 		base: $background-color,
-		'step-1': $neutral-color-8,
-		'step-2': $neutral-color-7,
-		'step-3': $neutral-color-6,
-		'step-4': $neutral-color-5,
-		'step-5': $neutral-color-4,
-		'step-6': $neutral-color-3,
-		'step-7': $neutral-color-2,
+		'step-1': $neutral-color-5,
+		'step-2': $neutral-color-4,
+		'step-3': $neutral-color-3,
+		'step-4': $neutral-color-2,
+		'step-5': $neutral-color-1,
+		'step-6': $neutral-color-0,
+		'step-7': $neutral-color-0,
 		'step-8': $neutral-color-0
 	),
 	'text': (
-		/* Steps move towards their contrasting color. */ 'step-0': $neutral-color-0,
+		/* Steps move towards their contrasting color. */ 'step-0': #ffffff,
 		base: $text-color,
-		'step-1': $neutral-color-7,
-		'step-2': $neutral-color-6,
-		'step-3': $neutral-color-5,
-		'step-4': $neutral-color-4,
-		'step-5': $neutral-color-3,
-		'step-6': $neutral-color-2,
-		'step-7': $neutral-color-1,
-		'step-8': $neutral-color-0
+		'step-1': #30364a,
+		'step-2': #42485d,
+		'step-3': #5a6176,
+		'step-4': #737b8f,
+		'step-5': #8d95a8,
+		'step-6': #a9b1c3,
+		'step-7': #c5ccda,
+		'step-8': #e1e6ef
 	),
 	'neutral-0': (
 		base: $neutral-color-0

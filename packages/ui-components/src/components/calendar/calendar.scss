@@ -14,8 +14,8 @@
 	--calendar-horizontal-padding: #{0px};
 	--calendar-vertical-padding: #{0px};
 	--calendar-background-color: #{kv-color('neutral-0')};
-	--calendar-month-title-text-color: #{kv-color('neutral-8')};
-	--calendar-month-weekday-text-color: #{kv-color('neutral-5')};
+	--calendar-month-title-text-color: #{kv-color('text')};
+	--calendar-month-weekday-text-color: #{kv-color('text', 'step-4')};
 }
 
 @function get-day-width() {
@@ -53,7 +53,7 @@
 				cursor: not-allowed;
 
 				kv-icon {
-					--icon-color: #{kv-color('neutral-3')};
+					--icon-color: #{kv-color('text', 'step-6')};
 				}
 			}
 		}

@@ -19,9 +19,9 @@
 	--modal-width: fit-content;
 	--modal-min-width: 400px;
 	--modal-topbar-height: 50px;
-	--modal-topbar-text-color: #{kv-color('neutral-7')};
+	--modal-topbar-text-color: #{kv-color('text')};
 	--modal-z-index: 1;
-	--modal-overlay-color: #{kv-color('neutral-9', 'base', 0.6)};
+	--modal-overlay-color: #{kv-color('text', 'base', 0.45)};
 	--modal-background-color: #{kv-color('neutral-0')};
 	--modal-close-button-width: 16px;
 	--modal-close-button-height: 16px;
@@ -95,7 +95,7 @@
 		kv-icon {
 			--icon-width: var(--modal-close-button-width);
 			--icon-height: var(--modal-close-button-height);
-			--icon-color: #{kv-color('neutral-5')};
+			--icon-color: #{kv-color('text', 'step-4')};
 		}
 	}
 }

@@ -31,10 +31,10 @@
 	--button-icon-width-large: 24px;
 	--button-icon-width-small: 16px;
 
-	--text-color-default: #{kv-color('neutral-8')};
+	--text-color-default: #{kv-color('text')};
 	--text-color-active: #{kv-color('neutral-0')};
-	--text-color-disabled: #{kv-color('neutral-4')};
-	--text-color-disabled-active: #{kv-color('neutral-4')};
+	--text-color-disabled: #{kv-color('text', 'step-6')};
+	--text-color-disabled-active: #{kv-color('text', 'step-6')};
 	--background-color-default: #{kv-color('neutral-0')};
 	--background-color-active: #{kv-color('primary')};
 	--background-color-disabled: #{kv-color('neutral-1')};

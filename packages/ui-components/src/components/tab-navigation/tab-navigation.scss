@@ -11,7 +11,7 @@ $tab-height: 34px;
 	*/
 	--tab-list-bg-color: 'transparent';
 	--tab-list-indicator-color: #{kv-color('primary')};
-	--tab-list-divider-color: #{kv-color('neutral-5')};
+	--tab-list-divider-color: #{kv-color('background', 'step-2')};
 
 	position: relative;
 	height: $tab-height;

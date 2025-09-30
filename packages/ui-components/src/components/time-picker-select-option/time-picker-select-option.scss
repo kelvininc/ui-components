@@ -32,12 +32,12 @@
 			@include kv-font-span-regular;
 			@include ellipsis();
 			transition: font-weight 100ms linear;
-			color: kv-color('neutral-8');
+			color: kv-color('text');
 		}
 
 		.item-description {
 			@include kv-font-label-small-regular;
-			color: kv-color('neutral-5');
+			color: kv-color('text', 'step-4');
 		}
 	}
 
@@ -52,7 +52,7 @@
 		.item-description {
 			@include kv-font-label-small-semibold;
 			transition: font-weight 100ms linear;
-			color: kv-color('neutral-6');
+			color: kv-color('text', 'step-4');
 		}
 	}
 

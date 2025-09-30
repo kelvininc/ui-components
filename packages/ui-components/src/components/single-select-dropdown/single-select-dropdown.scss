@@ -16,6 +16,6 @@
 .counter {
 	display: flex;
 	align-items: center;
-	color: kv-color('neutral-4');
+	color: kv-color('text', 'step-5');
 	@include kv-font-label-xsmall-regular;
 }

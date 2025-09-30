@@ -58,7 +58,7 @@
 		flex-direction: row;
 		align-items: center;
 		gap: calc($spacing-2x);
-		color: kv-color('neutral-5');
+		color: kv-color('text', 'step-4');
 	}
 
 	.action {
@@ -69,7 +69,7 @@
 
 		&--disabled {
 			pointer-events: none;
-			color: kv-color('neutral-4');
+			color: kv-color('text', 'step-6');
 		}
 	}
 

@@ -32,15 +32,15 @@ $input-height: 32px;
 		}
 	}
 
-	.label-container {
-		@include kv-font-label-small-regular;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		width: 100%;
+		.label-container {
+			@include kv-font-label-small-regular;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
 
-		color: kv-color('neutral-6');
-	}
+			color: kv-color('text', 'step-4');
+		}
 
 	.slot-container {
 		width: 100%;

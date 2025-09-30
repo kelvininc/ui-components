@@ -13,6 +13,18 @@ body {
 
 		--kv-background: #f5f7fb;
 		--kv-background-rgb: 245, 247, 251;
+
+		/* Neutral ramp tuned for light surfaces */
+		--kv-neutral-0: #ffffff;
+		--kv-neutral-1: #fbfcff;
+		--kv-neutral-2: #f6f8fd;
+		--kv-neutral-3: #f1f3fa;
+		--kv-neutral-4: #eceff6;
+		--kv-neutral-5: #e6e9f3;
+		--kv-neutral-6: #e1e4ef;
+		--kv-neutral-7: #dbdfee;
+		--kv-neutral-8: #d5dae9;
+		--kv-neutral-9: #d0d5e6;
 	}
 
 	&[mode='night'] {
@@ -22,5 +34,17 @@ body {
 
 		--kv-background: #202020;
 		--kv-background-rgb: 32, 32, 32;
+
+		/* Restore dark neutral ramp */
+		--kv-neutral-0: #ffffff;
+		--kv-neutral-1: #f2f2f6;
+		--kv-neutral-2: #e5e5e5;
+		--kv-neutral-3: #dddddd;
+		--kv-neutral-4: #bebebe;
+		--kv-neutral-5: #707070;
+		--kv-neutral-6: #3f3f3f;
+		--kv-neutral-7: #2a2a2a;
+		--kv-neutral-8: #202020;
+		--kv-neutral-9: #121212;
 	}
 }

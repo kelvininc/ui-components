@@ -22,10 +22,10 @@
 		--button-padding-small: #{$spacing $spacing-3x};
 		--button-padding-large: #{$spacing-2x $spacing-3x};
 
-		--text-color-default: #{kv-color('neutral-6')};
+		--text-color-default: #{kv-color('text', 'step-3')};
 		--text-color-active: #{kv-color('neutral-0')};
-		--text-color-disabled: #{kv-color('neutral-4')};
-		--text-color-disabled-active: #{kv-color('neutral-4')};
+		--text-color-disabled: #{kv-color('text', 'step-6')};
+		--text-color-disabled-active: #{kv-color('text', 'step-6')};
 
 		--background-color-default: transparent;
 		--background-color-active: #{kv-color('primary')};

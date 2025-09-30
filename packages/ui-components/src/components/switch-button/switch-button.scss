@@ -67,7 +67,7 @@ $icon-sizes: (
 	 * @prop --sqr-background-color: Icon square container background color.
 	 */
 
-	--off-background-color: #{kv-color('neutral-5')};
+	--off-background-color: #{kv-color('background', 'step-1')};
 	--on-background-color: #{kv-color('primary')};
 	--sqr-background-color: #{kv-color('primary', 'contrast')};
 

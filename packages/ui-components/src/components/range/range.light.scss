@@ -5,6 +5,6 @@
 	--slider-background-filled: #{kv-color('primary')};
 	--slider-background-empty: #{kv-color('neutral-3')};
 	--thumb-border-color: #{kv-color('primary')};
-	--range-label-color: #{kv-color('neutral-5')};
-	--select-label-color: #{kv-color('neutral-5')};
+	--range-label-color: #{kv-color('text', 'step-4')};
+	--select-label-color: #{kv-color('text', 'step-4')};
 }

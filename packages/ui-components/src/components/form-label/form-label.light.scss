@@ -2,5 +2,5 @@
 @import './form-label.base';
 
 :host {
-	--label-color: #{kv-color('neutral-5')};
+	--label-color: #{kv-color('text', 'step-3')};
 }

@@ -11,7 +11,7 @@
 	--checkbox-size: 16px;
 	--checkbox-icon-size: 14px;
 	--checkbox-label-color: #{kv-color('neutral-2')};
-	--checkbox-label-disabled-color: #{kv-color('neutral-5')};
+	--checkbox-label-disabled-color: #{kv-color('text', 'step-6')};
 
 	display: flex;
 	flex-direction: row;

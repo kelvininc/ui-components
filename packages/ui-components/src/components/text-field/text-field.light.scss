@@ -1,24 +1,25 @@
 @import '../../assets/styles/globals';
 @import './text-field.base';
 
-:host {
-	--text-color-label: #{kv-color('neutral-5')};
 
-	--text-color-icon-default: #{kv-color('neutral-4')};
-	--text-color-icon-disabled: #{kv-color('neutral-4')};
+:host {
+	--text-color-label: #{kv-color('text', 'step-3')};
+
+	--text-color-icon-default: #{kv-color('text', 'step-4')};
+	--text-color-icon-disabled: #{kv-color('text', 'step-5')};
 	--text-color-icon-focused: #{kv-color('primary')};
 
-	--text-color-action-icon-default: #{kv-color('neutral-4')};
-	--text-color-action-icon-disabled: #{kv-color('neutral-4')};
+	--text-color-action-icon-default: #{kv-color('text', 'step-4')};
+	--text-color-action-icon-disabled: #{kv-color('text', 'step-5')};
 	--text-color-action-icon-focused: #{kv-color('primary')};
 
-	--text-color-input-default: #{kv-color('neutral-8')};
-	--text-color-input-disabled: #{kv-color('neutral-5')};
+	--text-color-input-default: #{kv-color('text')};
+	--text-color-input-disabled: #{kv-color('text', 'step-6')};
 	--text-color-input-focused: #{kv-color('primary')};
 
-	--text-color-placeholder-default: #{kv-color('neutral-5')};
-	--text-color-placeholder-disabled: #{kv-color('neutral-5')};
-	--text-color-placeholder-focused: #{kv-color('neutral-5')};
+	--text-color-placeholder-default: #{kv-color('text', 'step-5')};
+	--text-color-placeholder-disabled: #{kv-color('text', 'step-6')};
+	--text-color-placeholder-focused: #{kv-color('text', 'step-5')};
 
 	--border-color-default: #{kv-color('neutral-3')};
 	--border-color-focused: #{kv-color('primary')};

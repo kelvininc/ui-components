@@ -18,12 +18,12 @@
 		width: fit-content;
 
 		kv-icon {
-			--icon-color: #{kv-color('neutral-6')};
+			--icon-color: #{kv-color('text', 'step-4')};
 		}
 
 		.back-text {
 			@include kv-font-label-small-regular;
-			color: kv-color('neutral-6');
+			color: kv-color('text', 'step-4');
 			user-select: none;
 		}
 	}
@@ -31,7 +31,7 @@
 	.header {
 		.title {
 			@include kv-font-h4-semibold;
-			color: kv-color('neutral-8');
+			color: kv-color('text');
 		}
 	}
 

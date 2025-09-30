@@ -28,14 +28,14 @@
 
 
 .label {
-	color: kv-color('neutral-6');
+	color: kv-color('text', 'step-4');
 	@include kv-font-label-xsmall-regular;
 }
 
 .icon {
 	border-radius: 4px;
 	background: kv-color('neutral-1');
-	color: kv-color('neutral-7');
+	color: kv-color('text', 'step-3');
 	@include kv-font-label-xsmall-regular;
 	text-align: center;
 	display: flex;
@@ -45,6 +45,6 @@
 	width: 20px;
 
 	kv-icon {
-		--icon-color: #{kv-color('neutral-7')};
+		--icon-color: #{kv-color('text', 'step-3')};
 	}
 }
