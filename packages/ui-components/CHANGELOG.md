@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.50.0](https://github.com/kelvininc/ui-components/compare/v0.49.0...v0.50.0) (2025-10-02)
+
+
+### Bug Fixes
+
+* **multi-select:** fix select all to discard the disabled options [KFE-2506] ([7aefeab](https://github.com/kelvininc/ui-components/commit/7aefeab1c7f4f4bf5f68fbaa54f93c29c0f0b492))
+* **storybook:** update react-ui-components linking to use client entry ([bbf77d5](https://github.com/kelvininc/ui-components/commit/bbf77d5cb9d9aa1e6c5e29fef0c5564ef0b92a2e))
+
+
+### Features
+
+* **checkbox:** add label prop ([3fb2b06](https://github.com/kelvininc/ui-components/commit/3fb2b06cd6dcdc67bf50afa9c251a2baef1d4e18))
+* **description-list:** enable component to be more customizable ([80a4742](https://github.com/kelvininc/ui-components/commit/80a47429195c18a2c67b7b4ad3ac2c3de49482a5))
+* **icons:** add some new icons ([c893631](https://github.com/kelvininc/ui-components/commit/c893631de67f78661c88073d30ca6504fd2010ea))
+* **modal:** emit event on press 'escape' key ([da7af6b](https://github.com/kelvininc/ui-components/commit/da7af6bb3e613d100dcfe8e0a2b9a4438349ea56))
+* restructure `@kelvininc/react-ui-components` for Next.js SSR compatibility ([c4da8d4](https://github.com/kelvininc/ui-components/commit/c4da8d41bd3b674221c1d8b7896d0f5af9b76dc8))
+* **select-option:** add right icon tooltip ([c8797c7](https://github.com/kelvininc/ui-components/commit/c8797c7c83e3488862baf25e4583b2037c63501e))
+* **tag:** add right slot ([8c3fa20](https://github.com/kelvininc/ui-components/commit/8c3fa20e862815ef1f75b7526953920221bc8479))
+* **toggle-button:** adds support to display tooltip text [KFE-2416] ([aa61ea2](https://github.com/kelvininc/ui-components/commit/aa61ea2cabb449983d94a8ad0c9bcb219a1414d6))
+* **wizard:** emit next or complete events on press 'enter' key ([3fa2544](https://github.com/kelvininc/ui-components/commit/3fa25445d891b9c219a4711ce2826e0cd2186507))
+
+
+
+
+
 # [0.49.0](https://github.com/kelvininc/ui-components/compare/v0.48.0...v0.49.0) (2025-08-06)
 
 

@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.50.0](https://github.com/kelvininc/ui-components/compare/v0.49.0...v0.50.0) (2025-10-02)
+
+
+### Bug Fixes
+
+* ensure every schema property is normalized ([26f4b03](https://github.com/kelvininc/ui-components/commit/26f4b03a28f2ed613495d40dec85044b684a94c7))
+* **schema-form:** normalize `oneOf` schemas to avoid exceeding maximum call stack size ([27ba186](https://github.com/kelvininc/ui-components/commit/27ba186393fe87b5a13372611717d386cbe4f553))
+* **storybook:** update react-ui-components linking to use client entry ([bbf77d5](https://github.com/kelvininc/ui-components/commit/bbf77d5cb9d9aa1e6c5e29fef0c5564ef0b92a2e))
+
+
+### Features
+
+* allow label customization on dropdown actions ([3a379f1](https://github.com/kelvininc/ui-components/commit/3a379f1be10302a7728ae69b0af509bc6bdd9d53))
+* restructure `@kelvininc/react-ui-components` for Next.js SSR compatibility ([c4da8d4](https://github.com/kelvininc/ui-components/commit/c4da8d41bd3b674221c1d8b7896d0f5af9b76dc8))
+* **wizard:** emit next or complete events on press 'enter' key ([3fa2544](https://github.com/kelvininc/ui-components/commit/3fa25445d891b9c219a4711ce2826e0cd2186507))
+
+
+
+
+
 # [0.49.0](https://github.com/kelvininc/ui-components/compare/v0.48.0...v0.49.0) (2025-08-06)
 
 **Note:** Version bump only for package @kelvininc/react-ui-components

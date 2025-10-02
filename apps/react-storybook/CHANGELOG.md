@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.50.0](https://github.com/kelvininc/ui-components/compare/v0.49.0...v0.50.0) (2025-10-02)
+
+
+### Bug Fixes
+
+* ensure every schema property is normalized ([26f4b03](https://github.com/kelvininc/ui-components/commit/26f4b03a28f2ed613495d40dec85044b684a94c7))
+* **schema-form:** normalize `oneOf` schemas to avoid exceeding maximum call stack size ([27ba186](https://github.com/kelvininc/ui-components/commit/27ba186393fe87b5a13372611717d386cbe4f553))
+* **storybook:** update react-ui-components linking to use client entry ([bbf77d5](https://github.com/kelvininc/ui-components/commit/bbf77d5cb9d9aa1e6c5e29fef0c5564ef0b92a2e))
+
+
+### Features
+
+* **checkbox:** add label prop ([3fb2b06](https://github.com/kelvininc/ui-components/commit/3fb2b06cd6dcdc67bf50afa9c251a2baef1d4e18))
+* **description-list:** enable component to be more customizable ([80a4742](https://github.com/kelvininc/ui-components/commit/80a47429195c18a2c67b7b4ad3ac2c3de49482a5))
+* **modal:** emit event on press 'escape' key ([da7af6b](https://github.com/kelvininc/ui-components/commit/da7af6bb3e613d100dcfe8e0a2b9a4438349ea56))
+* **toggle-button:** adds support to display tooltip text [KFE-2416] ([aa61ea2](https://github.com/kelvininc/ui-components/commit/aa61ea2cabb449983d94a8ad0c9bcb219a1414d6))
+
+
+
+
+
 # [0.49.0](https://github.com/kelvininc/ui-components/compare/v0.48.0...v0.49.0) (2025-08-06)
 
 **Note:** Version bump only for package @kelvininc/react-storybook
