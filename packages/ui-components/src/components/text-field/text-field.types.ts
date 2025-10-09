@@ -89,6 +89,8 @@ export interface ITextField {
 	customStyle?: HostAttributes['style'];
 	/** (optional) If true, a dirty dot indicator will be added to right side of the displayed value. */
 	isDirty?: boolean;
+	/** (optional) If true, the badge is not displayed */
+	hideBadge?: boolean;
 }
 
 export interface IInputMaskInstanceRef extends Inputmask.Instance {
