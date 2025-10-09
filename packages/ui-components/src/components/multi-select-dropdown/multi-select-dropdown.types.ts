@@ -24,6 +24,8 @@ export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptio
 	displayPrefix?: string;
 	/** (optional) Text to display inside a badge on the right side of the displayed value */
 	badge?: string;
+	/** (optional) If `true` the badge is not displayed */
+	hideBadge?: boolean;
 	/** (required) The error state for the dropdown */
 	errorState?: EValidationState;
 	/** (optional) The text to display as help text  */

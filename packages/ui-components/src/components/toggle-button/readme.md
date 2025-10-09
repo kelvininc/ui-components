@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### React
@@ -32,8 +31,6 @@ export const ToggleButtonExample: React.FC = () => (
 );
 ```
 
-
-
 ## Properties
 
 | Property             | Attribute           | Description                                                                   | Type                                           | Default                |
@@ -49,13 +46,11 @@ export const ToggleButtonExample: React.FC = () => (
 | `value` _(required)_ | `value`             | (required) The value to be emitted upon click events                          | `number \| string`                             | `undefined`            |
 | `withRadio`          | `with-radio`        | (optional) Sets if the button is a radio button                               | `boolean`                                      | `false`                |
 
-
 ## Events
 
 | Event           | Description                    | Type                            |
 | --------------- | ------------------------------ | ------------------------------- |
 | `checkedChange` | Emits when a button is clicked | `CustomEvent<number \| string>` |
-
 
 ## Shadow Parts
 
@@ -65,7 +60,6 @@ export const ToggleButtonExample: React.FC = () => (
 | `"toggle-icon"`   | The toggle button's icon container.  |
 | `"toggle-label"`  | The toggle button's label container. |
 | `"toggle-text"`   | The toggle button's text container.  |
-
 
 ## CSS Custom Properties
 
@@ -89,21 +83,21 @@ export const ToggleButtonExample: React.FC = () => (
 | `--text-color-default`        | toggle button component's text color default.             |
 | `--text-color-disabled`       | toggle button component's text color disabled.            |
 
-
 ## Dependencies
 
 ### Used by
 
- - [kv-toggle-button-group](../toggle-button-group)
- - [kv-toggle-switch](../toggle-switch)
+-   [kv-toggle-button-group](../toggle-button-group)
+-   [kv-toggle-switch](../toggle-switch)
 
 ### Depends on
 
-- [kv-tooltip](../tooltip)
-- [kv-radio](../radio)
-- [kv-icon](../icon)
+-   [kv-tooltip](../tooltip)
+-   [kv-radio](../radio)
+-   [kv-icon](../icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   kv-toggle-button --> kv-tooltip
@@ -116,6 +110,4 @@ graph TD;
   style kv-toggle-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
-
-
+---

@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### React
@@ -11,20 +10,12 @@
 import React from 'react';
 import { KvSelectOption } from '@kelvininc/react-ui-components';
 export const KvSelectOptionExample: React.FC = () => (
-  <>
-	{/*-- With all properties (only label and value are mandatory) --*/}
-	<KvSelectOption
-		label="Option 1"
-		link="option1"
-		selected={false}
-		togglable={true}
-		>
-	</KvSelectOption>
-  </>
+	<>
+		{/*-- With all properties (only label and value are mandatory) --*/}
+		<KvSelectOption label="Option 1" link="option1" selected={false} togglable={true}></KvSelectOption>
+	</>
 );
 ```
-
-
 
 ## Properties
 
@@ -51,13 +42,11 @@ export const KvSelectOptionExample: React.FC = () => (
 | `togglable`            | `togglable`               | (optional) If `true` the item is togglable                                                 | `boolean`                                                                  | `false`     |
 | `value` _(required)_   | `value`                   | (required) The item value                                                                  | `string`                                                                   | `undefined` |
 
-
 ## Events
 
 | Event          | Description                              | Type                  |
 | -------------- | ---------------------------------------- | --------------------- |
 | `itemSelected` | Emitted when the user clicks on the item | `CustomEvent<string>` |
-
 
 ## Shadow Parts
 
@@ -67,8 +56,8 @@ export const KvSelectOptionExample: React.FC = () => (
 | `"icon"`                  | The option's icon              |
 | `"label"`                 | The option's label             |
 | `"option-container"`      | The option's container         |
+| `"right-icon"`            |                                |
 | `"select-option-content"` | The option's content container |
-
 
 ## CSS Custom Properties
 
@@ -90,23 +79,23 @@ export const KvSelectOptionExample: React.FC = () => (
 | `--select-option-label-color-selected`          | Select option label color when selected.          |
 | `--select-option-transition-duration`           | Select option transition time.                    |
 
-
 ## Dependencies
 
 ### Used by
 
- - [kv-relative-time-picker](../relative-time-picker)
- - [kv-select-multi-options](../select-multi-options)
+-   [kv-relative-time-picker](../relative-time-picker)
+-   [kv-select-multi-options](../select-multi-options)
 
 ### Depends on
 
-- [kv-checkbox](../checkbox)
-- [kv-tooltip](../tooltip)
-- [kv-icon](../icon)
-- [kv-dirty-dot](../dirty-dot)
-- [kv-action-button-icon](../action-button-icon)
+-   [kv-checkbox](../checkbox)
+-   [kv-tooltip](../tooltip)
+-   [kv-icon](../icon)
+-   [kv-dirty-dot](../dirty-dot)
+-   [kv-action-button-icon](../action-button-icon)
 
 ### Graph
+
 ```mermaid
 graph TD;
   kv-select-option --> kv-checkbox
@@ -126,6 +115,4 @@ graph TD;
   style kv-select-option fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
-
-
+---

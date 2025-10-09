@@ -86,6 +86,8 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	@Prop({ reflect: true }) fitContent?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customStyle?: HostAttributes['style'];
+	/** @inheritdoc */
+	@Prop({ reflect: true }) hideBadge?: boolean = false;
 
 	/** Focuses the input */
 	@Method()
@@ -366,7 +368,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 								>
 									<slot name="right-slot" />
 									{this.isDirty && <kv-dirty-dot />}
-									{this.badge && (
+									{!this.hideBadge && this.badge?.trim() && (
 										<kv-badge state={EBadgeState.Info} exportparts="badge">
 											{this.badge}
 										</kv-badge>

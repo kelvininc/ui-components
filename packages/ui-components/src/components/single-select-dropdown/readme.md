@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Usage
 
 ### React
@@ -11,20 +10,18 @@
 import React from 'react';
 import { KvSingleSelectDropdown } from '@kelvininc/react-ui-components';
 
-export const KvSingleSelectDropdownExample: React.FC = (props) => (
-  <>
-    <KvSingleSelectDropdown 
-		placeholder="Select an option"
-		label="Options"
-		icon={EIconName.Layer}
-		options={props.options}
-		selectedOption={props.selectedOption}>
-	</KvSingleSelectDropdown>
-  </>
+export const KvSingleSelectDropdownExample: React.FC = props => (
+	<>
+		<KvSingleSelectDropdown
+			placeholder="Select an option"
+			label="Options"
+			icon={EIconName.Layer}
+			options={props.options}
+			selectedOption={props.selectedOption}
+		></KvSingleSelectDropdown>
+	</>
 );
 ```
-
-
 
 ## Properties
 
@@ -72,7 +69,6 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | `shortcuts`               | `shortcuts`                 | (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false`                                                                       | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `false`                               |
 | `zIndex`                  | `z-index`                   | (optional) the dropdown list z-index (default: 9004)                                                                                                                                    | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | `DEFAULT_DROPDOWN_Z_INDEX`            |
 
-
 ## Events
 
 | Event             | Description                                                   | Type                   |
@@ -85,7 +81,6 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 | `optionSelected`  | Emitted when an option is selected                            | `CustomEvent<string>`  |
 | `searchChange`    | Emitted when the user interacts with the search text field    | `CustomEvent<string>`  |
 
-
 ## Methods
 
 ### `focusSearch() => Promise<void>`
@@ -96,15 +91,11 @@ Focuses the search text field
 
 Type: `Promise<void>`
 
-
-
-
 ## Shadow Parts
 
 | Part       | Description           |
 | ---------- | --------------------- |
 | `"select"` | The select container. |
-
 
 ## CSS Custom Properties
 
@@ -115,19 +106,19 @@ Type: `Promise<void>`
 | `--dropdown-min-height` | Dropdown list minimum height. |
 | `--dropdown-min-width`  | Dropdown list minimum width.  |
 
-
 ## Dependencies
 
 ### Used by
 
- - [kv-relative-time-picker](../relative-time-picker)
+-   [kv-relative-time-picker](../relative-time-picker)
 
 ### Depends on
 
-- [kv-dropdown](../dropdown)
-- [kv-select-multi-options](../select-multi-options)
+-   [kv-dropdown](../dropdown)
+-   [kv-select-multi-options](../select-multi-options)
 
 ### Graph
+
 ```mermaid
 graph TD;
   kv-single-select-dropdown --> kv-dropdown
@@ -171,6 +162,4 @@ graph TD;
   style kv-single-select-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
-
-
+---
