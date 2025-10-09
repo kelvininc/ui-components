@@ -93,6 +93,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: true }) inputConfig?: Partial<ITextField>;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) autoFocus?: boolean = true; // eslint-disable-line @stencil-community/reserved-member-names
+	/** @inheritdoc */
+	@Prop({ reflect: true }) hideBadge?: boolean = false;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
@@ -244,7 +246,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 			state: this.errorState,
 			helpText: this.helpText,
 			size: this.inputSize,
-			badge: this._badgeLabel
+			badge: this._badgeLabel,
+			hideBadge: this.hideBadge
 		});
 	}
 
