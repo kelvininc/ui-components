@@ -40,6 +40,8 @@ export class KvTabItem implements ICustomCss {
 	@Prop({ reflect: true }) customStyle?: HostAttributes['style'];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
+	/** (optional) Custom attributes to be applied to the tab element */
+	@Prop({ reflect: true }) customAttributes?: Record<string, string> = {};
 
 	private tabClickThrottler: () => void;
 
@@ -69,6 +71,7 @@ export class KvTabItem implements ICustomCss {
 					}}
 					onClick={this.tabClickThrottler}
 					style={this.customStyle}
+					{...this.customAttributes}
 				>
 					<div class="label">{this.label}</div>
 					{this.icon && (

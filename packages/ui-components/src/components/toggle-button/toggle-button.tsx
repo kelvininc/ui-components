@@ -33,6 +33,8 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	@Prop({ reflect: true }) withRadio?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) tooltip?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) customAttributes?: Record<string, string> = {};
 
 	/** @inheritdoc */
 	@Event() checkedChange: EventEmitter<string | number>;
@@ -73,6 +75,7 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 						}}
 						part="toggle-button"
 						onClick={this.onClick}
+						{...this.customAttributes}
 					>
 						{this.withRadio && <kv-radio checked={this.checked} />}
 						{hasIcon && (

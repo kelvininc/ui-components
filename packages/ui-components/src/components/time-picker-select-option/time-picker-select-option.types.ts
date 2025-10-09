@@ -9,6 +9,8 @@ export interface ITimePickerSelectOption {
 	description?: string;
 	/** (optional) If `true` the item is selected */
 	selected?: boolean;
+	/** (optional) Custom attributes to be applied to the option container element */
+	customAttributes?: Record<string, string>;
 }
 
 export interface ITimePickerSelectOptionEvents {

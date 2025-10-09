@@ -87,6 +87,7 @@ export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEven
 						notificationColor={this.notifications[item.tabKey]?.color}
 						icon={item.icon}
 						state={item.state}
+						customAttributes={item.customAttributes}
 						exportparts="icon"
 					/>
 				))}
