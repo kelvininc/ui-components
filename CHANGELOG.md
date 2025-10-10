@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.51.0](https://github.com/kelvininc/ui-components/compare/v0.50.0...v0.51.0) (2025-10-10)
+
+
+### Features
+
+* **radio-list-item:** add CSS custom properties for customization ([6236785](https://github.com/kelvininc/ui-components/commit/6236785cdd7c027b2404541de7300b69c66a60b8))
+* **select-option:** add custom attributes ([6cfa3a4](https://github.com/kelvininc/ui-components/commit/6cfa3a4cd97ad5d0352ed5554b742a0053ab0763))
+* **tab-item:** add custom attributes ([44905c6](https://github.com/kelvininc/ui-components/commit/44905c699aba43d78257eed4d14edf94b092192a))
+* **text-field:** add `hideBadge` property ([d753d99](https://github.com/kelvininc/ui-components/commit/d753d99490fed00bb97d342527ffc5f2a47ff714))
+* **toggle-button:** add customAttributes ([9ad2368](https://github.com/kelvininc/ui-components/commit/9ad2368d17d2f57221a5ce75199373e2535cd300))
+* **toggle-switch:** add customAttributes ([222162e](https://github.com/kelvininc/ui-components/commit/222162e3d50a00f633aa381ae20f2620cac94e7b))
+
+
+
+
+
 # [0.50.0](https://github.com/kelvininc/ui-components/compare/v0.49.0...v0.50.0) (2025-10-02)
 
 
