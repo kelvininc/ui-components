@@ -52,6 +52,8 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	disabled,
 	applyDefaults = EApplyDefaults.All,
 	schema: schemaProp,
+	omitExtraData = true,
+	liveOmit = true,
 	...otherProps
 }: SchemaFormProps<T, S, SchemaFormContext>) {
 	const [isValid, setValid] = useState(!liveValidate);
