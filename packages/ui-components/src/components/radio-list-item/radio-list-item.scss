@@ -1,22 +1,59 @@
 @import '../../assets/styles/globals';
 
+:host {
+	/**
+	 * @prop --radio-list-item-background: Background color. Default: transparent.
+	 * @prop --radio-list-item-background-hover: Background color on hover. Default: transparent.
+	 * @prop --radio-list-item-background-checked: Background color when checked. Default: transparent.
+	 * @prop --radio-list-item-border: Border property (width, style, color). Default: 1px solid neutral-7.
+	 * @prop --radio-list-item-border-color-hover: Border color on hover. Default: neutral-0.
+	 * @prop --radio-list-item-border-color-checked: Border color when checked. Default: neutral-0.
+	 * @prop --radio-list-item-border-radius: Border radius. Default: 2px.
+	 * @prop --radio-list-item-padding: Content padding. Default: 16px (spacing-4x).
+	 * @prop --radio-list-item-gap: Gap between radio and info content. Default: 16px (spacing-4x).
+	 * @prop --radio-list-item-label-color: Label text color. Default: neutral-0.
+	 * @prop --radio-list-item-description-color: Description text color. Default: neutral-4.
+	 * @prop --radio-list-item-disabled-opacity: Opacity when disabled. Default: 0.5.
+	 */
+
+	--radio-list-item-background: transparent;
+	--radio-list-item-background-hover: transparent;
+	--radio-list-item-background-checked: transparent;
+	--radio-list-item-border: 1px solid #{kv-color('neutral-7')};
+	--radio-list-item-border-color-hover: #{kv-color('neutral-0')};
+	--radio-list-item-border-color-checked: #{kv-color('neutral-0')};
+	--radio-list-item-border-radius: 2px;
+	--radio-list-item-padding: #{$spacing-4x};
+	--radio-list-item-gap: #{$spacing-4x};
+	--radio-list-item-disabled-opacity: 0.5;
+}
+
 .radio-list-item-container {
 	display: flex;
 	flex-direction: column;
-	border: 1px solid kv-color('neutral-7');
-	border-radius: 2px;
-	transition: border-color 0.25s ease-in-out;
+	background: var(--radio-list-item-background);
+	border: var(--radio-list-item-border);
+	border-radius: var(--radio-list-item-border-radius);
+	transition:
+		border-color 0.25s ease-in-out,
+		background 0.25s ease-in-out;
 	cursor: pointer;
 	user-select: none;
 
 	&--checked,
 	&:hover {
-		border-color: kv-color('neutral-0');
+		background: var(--radio-list-item-background-hover);
+		border-color: var(--radio-list-item-border-color-hover);
+	}
+
+	&--checked {
+		background: var(--radio-list-item-background-checked);
+		border-color: var(--radio-list-item-border-color-checked);
 	}
 
 	&--disabled {
 		pointer-events: none;
-		opacity: 0.5;
+		opacity: var(--radio-list-item-disabled-opacity);
 	}
 
 	kv-radio {
@@ -26,21 +63,20 @@
 	.content {
 		display: flex;
 		align-items: center;
-		padding: $spacing-4x;
+		padding: var(--radio-list-item-padding);
 	}
-	
+
 	.info {
 		flex: 1;
-		margin-left: $spacing-4x;
+		min-width: 0;
+		margin-left: var(--radio-list-item-gap);
 
 		.label {
-
 			@include kv-font-h4-semibold;
 			color: kv-color('neutral-0');
 		}
 
 		.description {
-
 			@include kv-font-paragraph-regular;
 			color: kv-color('neutral-4');
 
