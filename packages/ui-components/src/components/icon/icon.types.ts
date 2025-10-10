@@ -70,6 +70,7 @@ export enum EIconName {
 	DashboardCustom = 'kv-dashboard-custom',
 	DataExplorer = 'kv-data-explorer',
 	Datalabel = 'kv-datalabel',
+	DataQuality = 'kv-data-quality',
 	Datastreams = 'kv-datastreams',
 	Delete = 'kv-delete',
 	DensityHigh = 'kv-density-high',
