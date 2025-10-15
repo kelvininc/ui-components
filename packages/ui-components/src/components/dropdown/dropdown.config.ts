@@ -1,4 +1,3 @@
-import { ComputePositionConfig, MiddlewareState, offset, size, flip } from '@floating-ui/dom';
 import { EInputFieldType, EValidationState, ITextField } from '../text-field/text-field.types';
 import { EComponentSize } from '../../types';
 
@@ -11,22 +10,6 @@ export const DEFAULT_INPUT_CONFIG: Partial<ITextField> = {
 	size: EComponentSize.Large
 };
 
-const DEFAULT_DROPDOWN_OFFSET = 8;
+export const DEFAULT_DROPDOWN_OFFSET = 8;
 
-export const DEFAULT_DROPDOWN_POSITION_CONFIG: Partial<ComputePositionConfig> = {
-	placement: 'bottom',
-	middleware: [
-		offset(DEFAULT_DROPDOWN_OFFSET),
-		flip({
-			padding: 16,
-			fallbackPlacements: ['top-end', 'bottom-end', 'top-start', 'bottom-start']
-		}),
-		size({
-			apply({ rects, elements }: MiddlewareState) {
-				Object.assign(elements.floating.style, {
-					width: `${rects.reference.width}px`
-				});
-			}
-		})
-	]
-};
+export const HELP_TEXT_HEIGHT_PX = 24;

@@ -2,11 +2,12 @@ import { Component, Element, Event, EventEmitter, Host, Method, Prop, h, State }
 import { IDropdown, IDropdownEvents } from './dropdown.types';
 
 import { ComputePositionConfig } from '@floating-ui/dom';
-import { DEFAULT_DROPDOWN_POSITION_CONFIG, DEFAULT_INPUT_CONFIG } from './dropdown.config';
+import { DEFAULT_INPUT_CONFIG } from './dropdown.config';
 import { EIconName } from '../icon/icon.types';
 import { ITextField } from '../text-field/text-field.types';
 import { merge } from 'lodash-es';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
+import { getDefaultDropdownPositionConfig } from './dropdown.helper';
 
 @Component({
 	tag: 'kv-dropdown',
@@ -19,7 +20,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) isOpen?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) options?: Partial<ComputePositionConfig> = DEFAULT_DROPDOWN_POSITION_CONFIG;
+	@Prop({ reflect: false }) options?: Partial<ComputePositionConfig>;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) actionElement?: HTMLElement | null = null;
 	/** @inheritdoc */
@@ -58,12 +59,14 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	}
 
 	render() {
+		const inputConfig = this.getInputConfig();
+
 		return (
 			<Host>
 				<div class="dropdown-container">
 					<kv-dropdown-base
 						isOpen={this.isOpen}
-						options={this.options}
+						options={this.options ?? getDefaultDropdownPositionConfig(inputConfig)}
 						actionElement={this._actionElement}
 						listElement={this.listElement}
 						clickOutsideClose={this.clickOutsideClose}
@@ -72,7 +75,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 						<slot name="dropdown-action" slot="action">
 							<div>
 								<kv-text-field
-									{...this.getInputConfig()}
+									{...inputConfig}
 									id="dropdown-input"
 									forcedFocus={this.isOpen}
 									onFieldClick={this.onToggleOpenState.bind(this)}
