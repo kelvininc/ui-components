@@ -77,13 +77,9 @@ export const RadioListItemExample: React.FC = () => (
 | `--radio-list-item-background-checked`   | Background color when checked. Default: transparent.                 |
 | `--radio-list-item-background-hover`     | Background color on hover. Default: transparent.                     |
 | `--radio-list-item-border`               | Border property (width, style, color). Default: 1px solid neutral-7. |
-| `--radio-list-item-border-checked`       | Border property when checked. Default: 1px solid neutral-0.          |
-| `--radio-list-item-border-color`         | Border color. Default: neutral-7.                                    |
 | `--radio-list-item-border-color-checked` | Border color when checked. Default: neutral-0.                       |
 | `--radio-list-item-border-color-hover`   | Border color on hover. Default: neutral-0.                           |
-| `--radio-list-item-border-hover`         | Border property on hover. Default: 1px solid neutral-0.              |
 | `--radio-list-item-border-radius`        | Border radius. Default: 2px.                                         |
-| `--radio-list-item-border-width`         | Border width. Default: 1px.                                          |
 | `--radio-list-item-description-color`    | Description text color. Default: neutral-4.                          |
 | `--radio-list-item-disabled-opacity`     | Opacity when disabled. Default: 0.5.                                 |
 | `--radio-list-item-gap`                  | Gap between radio and info content. Default: 16px (spacing-4x).      |
