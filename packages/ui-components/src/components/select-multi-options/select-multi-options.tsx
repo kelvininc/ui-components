@@ -302,7 +302,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	};
 
 	private get isSearchable() {
-		return this.searchable && Object.keys(this.selectOptions.totalSelectable).length >= this.minSearchOptions;
+		return this.searchable && Object.keys(this.selectOptions.currentFlatten).length >= this.minSearchOptions;
 	}
 
 	private get currentOptions(): ISelectMultiOptions | undefined {
