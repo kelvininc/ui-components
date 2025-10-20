@@ -8,16 +8,22 @@
 	--virtualized-list-max-height: auto;
 	--virtualized-list-min-height: auto;
 
-	max-height: var(--virtualized-list-max-height);
-	min-height: var(--virtualized-list-min-height);
-
-	padding: $spacing-3x 0;
+	display: block;
 	height: 100%;
 	width: 100%;
-	display: block;
-	overflow-y: auto;
 
-	@include kelvin-night-scrollbar;
+	.container {
+		max-height: var(--virtualized-list-max-height);
+		min-height: var(--virtualized-list-min-height);
+
+		padding: $spacing-3x 0;
+		height: 100%;
+		width: 100%;
+		display: block;
+		overflow-y: auto;
+
+		@include kelvin-night-scrollbar;
+	}
 
 	.inner {
 		position: relative;
