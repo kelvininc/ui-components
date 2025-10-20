@@ -1,4 +1,4 @@
-import { Component, Host, Prop, State, h, Element } from '@stencil/core';
+import { Component, Host, Prop, State, h } from '@stencil/core';
 import { VNode, Watch } from '@stencil/core/internal';
 import { debounce, throttle } from 'lodash-es';
 import { buildElement } from './virtualized-list.helper';
@@ -21,7 +21,7 @@ export class KvVirtualizedList implements IVirtualizedList {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) overscanCount: number = 5;
 
-	@Element() element: HTMLKvVirtualizedListElement;
+	private containerElement: HTMLDivElement;
 
 	// create an Observer instance
 	private resizeObserver = new ResizeObserver(() => this.debounceResize());
@@ -41,15 +41,28 @@ export class KvVirtualizedList implements IVirtualizedList {
 	@State() scrollTop: number = 0;
 	@State() elements: VNode[];
 
-	connectedCallback() {
-		this.element.addEventListener('scroll', this.throttledScroll);
-		this.resizeObserver.observe(this.element);
+	componentDidLoad() {
 		this.updateTotalHeight();
+		this.updateVisibleElements();
+	}
+
+	componentDidRender() {
+		if (!this.containerElement) return;
+
+		// Only attach listeners if not already attached
+		if (!this.containerElement.onscroll) {
+			this.containerElement.addEventListener('scroll', this.throttledScroll);
+		}
+
+		// ResizeObserver will just ignore if already observing
+		this.resizeObserver.observe(this.containerElement);
 	}
 
 	disconnectedCallback() {
-		this.element.removeEventListener('scroll', this.throttledScroll);
-		this.resizeObserver.disconnect();
+		if (this.containerElement) {
+			this.containerElement.removeEventListener('scroll', this.throttledScroll);
+			this.resizeObserver.unobserve(this.containerElement);
+		}
 	}
 
 	private debounceResize = debounce(() => this.updateVisibleElements(), 100);
@@ -65,7 +78,7 @@ export class KvVirtualizedList implements IVirtualizedList {
 	);
 
 	private updateScrollTop = () => {
-		this.scrollTop = this.element.scrollTop ?? 0;
+		this.scrollTop = this.containerElement?.scrollTop ?? 0;
 	};
 
 	private updateVisibleElements = () => {
@@ -73,7 +86,7 @@ export class KvVirtualizedList implements IVirtualizedList {
 	};
 
 	private getVisibleElements = (): VNode[] => {
-		const containerHeight = this.element.clientHeight ?? 0;
+		const containerHeight = this.containerElement?.clientHeight ?? 0;
 
 		const elements: VNode[] = [];
 		let accumulator = 0;
@@ -103,8 +116,10 @@ export class KvVirtualizedList implements IVirtualizedList {
 	render() {
 		return (
 			<Host>
-				<div class="inner" style={{ height: `${this.totalHeight}px` }}>
-					{this.elements}
+				<div class="container" ref={el => (this.containerElement = el as HTMLDivElement)}>
+					<div class="inner" style={{ height: `${this.totalHeight}px` }}>
+						{this.elements}
+					</div>
 				</div>
 			</Host>
 		);
