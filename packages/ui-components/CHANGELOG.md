@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.52.0](https://github.com/kelvininc/ui-components/compare/v0.51.0...v0.52.0) (2025-10-20)
+
+
+### Bug Fixes
+
+* **dropdown:** remove helptext height offset ([963f5ee](https://github.com/kelvininc/ui-components/commit/963f5ee5ecd67080ba67b03e05fc2bc14585081a))
+* **dropdown:** use total dropdown options count to display search bar ([f1aba01](https://github.com/kelvininc/ui-components/commit/f1aba01c28e7accf68037f41324af5be576d9b7f))
+
+
+### Features
+
+* **icons:** add data-quality icon ([29e26dd](https://github.com/kelvininc/ui-components/commit/29e26dd911102880443d44939718ba73e1166625))
+
+
+
+
+
 # [0.51.0](https://github.com/kelvininc/ui-components/compare/v0.50.0...v0.51.0) (2025-10-10)
 
 
