@@ -1,4 +1,4 @@
-import { Component, Host, Prop, State, h, Element } from '@stencil/core';
+import { Component, Host, Prop, State, h } from '@stencil/core';
 import { VNode, Watch } from '@stencil/core/internal';
 import { debounce, throttle } from 'lodash-es';
 import { buildElement } from './virtualized-list.helper';
@@ -21,7 +21,7 @@ export class KvVirtualizedList implements IVirtualizedList {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) overscanCount: number = 5;
 
-	@Element() element: HTMLKvVirtualizedListElement;
+	private containerElement: HTMLDivElement;
 
 	// create an Observer instance
 	private resizeObserver = new ResizeObserver(() => this.debounceResize());
@@ -41,14 +41,17 @@ export class KvVirtualizedList implements IVirtualizedList {
 	@State() scrollTop: number = 0;
 	@State() elements: VNode[];
 
-	connectedCallback() {
-		this.element.addEventListener('scroll', this.throttledScroll);
-		this.resizeObserver.observe(this.element);
+	componentDidLoad() {
+		if (!this.containerElement) return;
+
+		this.containerElement.addEventListener('scroll', this.throttledScroll);
+		this.resizeObserver.observe(this.containerElement);
 		this.updateTotalHeight();
+		this.updateVisibleElements();
 	}
 
 	disconnectedCallback() {
-		this.element.removeEventListener('scroll', this.throttledScroll);
+		this.containerElement?.removeEventListener('scroll', this.throttledScroll);
 		this.resizeObserver.disconnect();
 	}
 
@@ -65,7 +68,7 @@ export class KvVirtualizedList implements IVirtualizedList {
 	);
 
 	private updateScrollTop = () => {
-		this.scrollTop = this.element.scrollTop ?? 0;
+		this.scrollTop = this.containerElement?.scrollTop ?? 0;
 	};
 
 	private updateVisibleElements = () => {
@@ -73,7 +76,7 @@ export class KvVirtualizedList implements IVirtualizedList {
 	};
 
 	private getVisibleElements = (): VNode[] => {
-		const containerHeight = this.element.clientHeight ?? 0;
+		const containerHeight = this.containerElement?.clientHeight ?? 0;
 
 		const elements: VNode[] = [];
 		let accumulator = 0;
@@ -103,8 +106,10 @@ export class KvVirtualizedList implements IVirtualizedList {
 	render() {
 		return (
 			<Host>
-				<div class="inner" style={{ height: `${this.totalHeight}px` }}>
-					{this.elements}
+				<div class="container" ref={el => (this.containerElement = el as HTMLDivElement)}>
+					<div class="inner" style={{ height: `${this.totalHeight}px` }}>
+						{this.elements}
+					</div>
 				</div>
 			</Host>
 		);
