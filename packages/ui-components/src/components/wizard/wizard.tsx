@@ -75,6 +75,12 @@ export class KvWizard implements IWizard, IWizardEvents {
 	@Listen('keydown', { target: 'document' })
 	handleKeyDown(event: KeyboardEvent) {
 		if (event.key === 'Enter') {
+			// Don't handle if focus is on a textarea
+			const activeElement = document.activeElement;
+			if (activeElement instanceof HTMLTextAreaElement || event.target instanceof HTMLTextAreaElement) {
+				return;
+			}
+
 			// Don't handle if wizard is disabled
 			if (this.disabled) {
 				return;
