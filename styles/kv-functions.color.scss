@@ -1,0 +1,51 @@
+// Gets the specific color's css variable from the name and variation.
+// --------------------------------------------------------------------------------------------
+// Alpha/rgb are optional.
+//
+// Example usage:
+// kv-color(primary, base) => var(--kv-primary, #005CC7)
+// kv-color(secondary, contrast) => var(--kv-secondary-contrast)
+// kv-color(primary, base, 0.5) => rgba(var(--kv-primary-rgb, 0, 92, 199), 0.5)
+// --------------------------------------------------------------------------------------------
+@use "sass:map";
+
+@function kv-color($name, $variation: base, $alpha: null, $rgb: false) {
+	$values: map.get($colors, $name);
+	@if ($values) {
+		$value: map.get($values, $variation);
+		$variable: --kv-#{$name}-#{$variation};
+
+		@if ($variation == base) {
+			$variable: --kv-#{$name};
+		}
+		@if ($alpha) {
+			$value: color-to-rgb($value);
+			@return rgba(var(#{$variable}-rgb, $value), $alpha);
+		}
+		@if ($rgb) {
+			$value: color-to-rgb($value);
+			$variable: #{$variable}-rgb;
+		}
+
+		@return var(#{$variable}, $value);
+	}
+	@return null;
+}
+
+// Mixes a color with black to create its dark.
+// -----------------------------------------------------------
+@function get-color-dark($color) {
+	@return mix(#000, $color, 12%);
+}
+
+// Mixes a color with white to create its light.
+// -----------------------------------------------------------
+@function get-color-light($color) {
+	@return mix(#fff, $color, 80%);
+}
+
+// Converts a color to a comma separated rgb.
+// -----------------------------------------------------------
+@function color-to-rgb($color) {
+	@return #{red($color)},#{green($color)},#{blue($color)};
+}

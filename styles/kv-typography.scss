@@ -1,0 +1,284 @@
+/** HEADINGS **/
+@mixin kv-font-h1-semibold() {
+	font-family: $primary-font;
+	font-size: 32px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 48px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-h2-regular() {
+	font-family: $primary-font;
+	font-size: 24px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 36px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-h2-semibold() {
+	font-family: $primary-font;
+	font-size: 24px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 36px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-h3-semibold() {
+	font-family: $primary-font;
+	font-size: 20px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 30px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-h4-semibold() {
+	font-family: $primary-font;
+	font-size: 16px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 24px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-h4-uppercase-semibold() {
+	font-family: $primary-font;
+	font-size: 16px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 24px;
+	letter-spacing: normal;
+	text-transform: uppercase;
+}
+@mixin kv-font-h5-semibold() {
+	font-family: $primary-font;
+	font-size: 14px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 21px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+
+/** LABELS **/
+@mixin kv-font-label-large-regular() {
+	font-family: $primary-font;
+	font-size: 20px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 30px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-label-medium-regular() {
+	font-family: $primary-font;
+	font-size: 16px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 24px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-label-small-regular() {
+	font-family: $primary-font;
+	font-size: 12px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 18px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-label-small-semibold() {
+	font-family: $primary-font;
+	font-size: 12px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 18px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-label-small-bold() {
+	font-family: $primary-font;
+	font-size: 12px;
+	font-weight: 700;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 18px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-label-small-uppercase-regular() {
+	font-family: $primary-font;
+	font-size: 12px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 18px;
+	letter-spacing: normal;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+}
+@mixin kv-font-label-small-uppercase-semibold() {
+	font-family: $primary-font;
+	font-size: 12px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 18px;
+	letter-spacing: normal;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+}
+@mixin kv-font-label-small-uppercase-bold() {
+	font-family: $primary-font;
+	font-size: 12px;
+	font-weight: 700;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 18px;
+	letter-spacing: normal;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+}
+@mixin kv-font-label-xsmall-light() {
+	font-family: $primary-font;
+	font-size: 10px;
+	font-weight: 300;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 15px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-label-xsmall-regular() {
+	font-family: $primary-font;
+	font-size: 10px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 15px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-label-xsmall-semibold() {
+	font-family: $primary-font;
+	font-size: 10px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 15px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-label-xsmall-bold() {
+	font-family: $primary-font;
+	font-size: 10px;
+	font-weight: 700;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 15px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-label-xsmall-uppercase-regular() {
+	font-family: $primary-font;
+	font-size: 10px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 15px;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+}
+@mixin kv-font-label-xsmall-uppercase-semibold() {
+	font-family: $primary-font;
+	font-size: 10px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 15px;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+}
+
+/** SPANS **/
+@mixin kv-font-span-regular() {
+	font-family: $primary-font;
+	font-size: 14px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 21px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-span-semibold() {
+	font-family: $primary-font;
+	font-size: 14px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 21px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-span-uppercase-semibold() {
+	font-family: $primary-font;
+	font-size: 14px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 21px;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+}
+
+/** PARAGRAPHS **/
+@mixin kv-font-paragraph-regular() {
+	font-family: $primary-font;
+	font-size: 14px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 21px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+@mixin kv-font-paragraph-light() {
+	font-family: $primary-font;
+	font-size: 14px;
+	font-weight: 300;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 21px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+
+/** CODE/CONSOLE **/
+@mixin kv-font-code() {
+	font-family: $console-font, monospace, Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono';
+	font-size: 12px;
+	font-weight: 400;
+	text-align: left;
+	white-space: pre;
+	word-spacing: 0.42px;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 21px;
+	text-transform: none;
+}
