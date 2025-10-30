@@ -72,6 +72,7 @@ export const TextFieldExample: React.FC = () => (
 | `rightActionClick` | Emitted when the right icon is clicked       | `CustomEvent<MouseEvent>` |
 | `textChange`       | Emitted when a keyboard input occurred       | `CustomEvent<string>`     |
 | `textFieldBlur`    | Emitted when text field lost focus           | `CustomEvent<string>`     |
+| `textFieldFocus`   | Emitted when text field gained focus         | `CustomEvent<string>`     |
 
 
 ## Methods

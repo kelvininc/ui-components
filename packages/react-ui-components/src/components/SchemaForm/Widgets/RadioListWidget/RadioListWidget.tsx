@@ -1,11 +1,13 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 import { KvRadioListItem } from '../../../../stencil-generated';
 import styles from './RadioListWidget.module.scss';
 import classNames from 'classnames';
 import { get } from 'lodash';
+import { useFormState } from '../../contexts';
 
 const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
+	id,
 	options,
 	value,
 	disabled,
@@ -13,9 +15,20 @@ const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends F
 	formContext,
 	onChange
 }: WidgetProps<T, S, F>) => {
+	const { trackFieldChange, markFieldAsTouched } = useFormState();
 	const { enumOptions, enumDisabled, inline } = options;
 	const inlineMemo = useMemo(() => Boolean(inline), [inline]);
 	const { allowClearInputs } = formContext as F;
+
+	const handleChange = useCallback(
+		(optionValue: any, checked: boolean) => {
+			const newValue = allowClearInputs && checked ? undefined : optionValue;
+			trackFieldChange(id, newValue);
+			onChange(newValue);
+		},
+		[onChange, allowClearInputs, trackFieldChange, id]
+	);
+
 	return (
 		<div className={classNames(styles.RadioListContainer, { [styles.Inline]: inlineMemo })}>
 			{Array.isArray(enumOptions) &&
@@ -33,7 +46,9 @@ const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends F
 							disabled={isDisabled}
 							checked={checked}
 							description={description}
-							onOptionClick={(_value: unknown) => onChange(allowClearInputs && checked ? undefined : option.value)}
+							onOptionClick={(_value: unknown) => handleChange(option.value, checked)}
+							onFocus={() => markFieldAsTouched(id)}
+							onBlur={() => markFieldAsTouched(id)}
 						/>
 					);
 				})}
