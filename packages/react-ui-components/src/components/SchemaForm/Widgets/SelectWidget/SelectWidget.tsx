@@ -6,6 +6,7 @@ import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../../stenc
 import styles from './SelectWidget.module.scss';
 import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, searchDropdownOptions } from './utils';
 import { DEFAULT_DROPDOWN_CONFIG, DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
+import { useFormState } from '../../contexts';
 
 const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	schema,
@@ -21,6 +22,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	uiSchema = {},
 	formContext
 }: WidgetProps<T, S, F>) => {
+	const { trackFieldChange, markFieldAsTouched, isFieldTouched, displayErrors } = useFormState();
 	const { enumOptions, enumDisabled, placeholder: optionsPlaceholder } = options;
 	const {
 		displayValue,
@@ -59,19 +61,31 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	const processedValue = processValue(schema, value);
 
 	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => setSearchTerm(searchedLabel), []);
-	const onChangeOptionSelected = useCallback(({ detail: selectedOption }: CustomEvent<string>) => {
-		onChangeValue(selectedOption);
-	}, []);
-	const onChangeOptionsSelected = useCallback(({ detail: selectedOptionsMap }: CustomEvent<{ [key: string]: boolean }>) => {
-		const selectedOptions = getSelectedOptions(selectedOptionsMap);
-		onChangeValue(selectedOptions);
-	}, []);
-	const onChangeValue = useCallback((newValue: string | string[]) => {
-		const processedValue = processValue(schema, newValue);
-		onChange(processedValue);
-	}, []);
+	const onChangeValue = useCallback(
+		(newValue: string | string[]) => {
+			const processedValue = processValue(schema, newValue);
+			trackFieldChange(id, processedValue);
+			onChange(processedValue);
+		},
+		[schema, id, onChange, trackFieldChange]
+	);
+	const onChangeOptionSelected = useCallback(
+		({ detail: selectedOption }: CustomEvent<string>) => {
+			onChangeValue(selectedOption);
+		},
+		[onChangeValue]
+	);
+	const onChangeOptionsSelected = useCallback(
+		({ detail: selectedOptionsMap }: CustomEvent<{ [key: string]: boolean }>) => {
+			const selectedOptions = getSelectedOptions(selectedOptionsMap);
+			onChangeValue(selectedOptions);
+		},
+		[onChangeValue]
+	);
 
-	const hasErrors = useMemo(() => !isEmpty(rawErrors), [rawErrors]);
+	// Show errors if the field has been touched OR if the form is set to display errors globally
+	const shouldShowErrors = isFieldTouched(id) || displayErrors;
+	const hasErrors = useMemo(() => shouldShowErrors && !isEmpty(rawErrors), [shouldShowErrors, rawErrors]);
 
 	const props = {
 		id,
@@ -100,8 +114,24 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 
 	return (
 		<div className={styles.InputContainer}>
-			{!multiple && <KvSingleSelectDropdown selectedOption={processedValue} onOptionSelected={onChangeOptionSelected} {...props} />}
-			{multiple && <KvMultiSelectDropdown selectedOptions={buildSelectedOptions(processedValue)} onOptionsSelected={onChangeOptionsSelected} {...props} />}
+			{!multiple && (
+				<KvSingleSelectDropdown
+					selectedOption={processedValue}
+					onOptionSelected={onChangeOptionSelected}
+					{...props}
+					onFocus={() => markFieldAsTouched(id)}
+					onBlur={() => markFieldAsTouched(id)}
+				/>
+			)}
+			{multiple && (
+				<KvMultiSelectDropdown
+					selectedOptions={buildSelectedOptions(processedValue)}
+					onOptionsSelected={onChangeOptionsSelected}
+					{...props}
+					onFocus={() => markFieldAsTouched(id)}
+					onBlur={() => markFieldAsTouched(id)}
+				/>
+			)}
 		</div>
 	);
 };
