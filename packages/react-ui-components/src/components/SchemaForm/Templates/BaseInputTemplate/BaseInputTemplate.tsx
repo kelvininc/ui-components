@@ -6,6 +6,7 @@ import styles from './BaseInputTemplate.module.scss';
 import { BaseInputTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import { INPUT_TYPES } from './BaseInputTemplate.config';
 import { JSONSchema7TypeName } from 'json-schema';
+import { useFormState } from '../../contexts';
 
 const getInputType = (type?: JSONSchema7TypeName | JSONSchema7TypeName[]) => (type && !isArray(type) ? INPUT_TYPES[type] ?? EInputFieldType.Text : EInputFieldType.Text);
 
@@ -25,8 +26,24 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 	formContext,
 	type
 }: BaseInputTemplateProps<T, S, F>) => {
-	const _onChange = useCallback((value: CustomEvent<string>) => onChange(value?.detail ? value.detail : options.emptyValue), [onChange, options]);
-	const _onBlur = useCallback((value: CustomEvent<string>) => onBlur(id, value.detail), [onBlur, id]);
+	const { trackField, isFieldTouched, isFormSubmitted } = useFormState();
+
+	const _onChange = useCallback(
+		(event: CustomEvent<string>) => {
+			const newValue = event?.detail ? event.detail : options.emptyValue;
+			trackField(id, newValue);
+			onChange(newValue);
+		},
+		[onChange, options, trackField, id]
+	);
+
+	const _onBlur = useCallback(
+		(event: CustomEvent<string>) => {
+			onBlur(id, event.detail);
+		},
+		[onBlur, id]
+	);
+
 	const inputType = useMemo(() => type ?? getInputType(schema.type), [type, schema.type]);
 	const { componentSize: optionComponentSize, useInputMask, inputMaskRegex, minLength, maxLength, max, min, valuePrefix, badge } = uiSchema;
 	const { componentSize = EComponentSize.Large } = formContext as F;
@@ -35,7 +52,10 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 		() => (schema.examples ? (schema.examples as string[]).concat(schema.default ? ([schema.default] as string[]) : []) : undefined),
 		[schema.examples, schema.default]
 	);
-	const hasErrors = useMemo(() => !isEmpty(rawErrors), [rawErrors]);
+
+	// Show errors if the field has been touched OR if the form has been submitted
+	const shouldShowErrors = isFieldTouched(id) || isFormSubmitted;
+	const hasErrors = shouldShowErrors && !isEmpty(rawErrors);
 
 	return (
 		<div className={styles.InputContainer}>
