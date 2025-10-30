@@ -24,6 +24,8 @@ export interface ITextFieldEvents {
 	textChange: EventEmitter<string>;
 	/** Emitted when text field lost focus */
 	textFieldBlur: EventEmitter<string>;
+	/** Emitted when text field gained focus */
+	textFieldFocus: EventEmitter<string>;
 	/** Emitted when the right icon is clicked */
 	rightActionClick: EventEmitter<MouseEvent>;
 	/** Emmited when there's a click on this element */
