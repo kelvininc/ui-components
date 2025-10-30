@@ -7,6 +7,7 @@ import React, { ComponentProps, ComponentType, FormEvent, ForwardedRef, forwardR
 import { useScroll } from '../../hooks';
 import { KvActionButtonText, KvTooltip } from '../../stencil-generated';
 import { SCROLL_OFFSET } from './config';
+import { FormStateProvider } from './contexts';
 import { useFieldTemplateElement } from './hooks/useFieldTemplateElement';
 import styles from './SchemaForm.module.scss';
 import { generateTheme } from './Theme';
@@ -139,45 +140,47 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	}, [defaults, formData, setHasDefaults]);
 
 	return (
-		<div className={classNames(styles.FormContainer, customClass)}>
-			<CustomFormWithRef<T, S, SchemaFormContext> ref={formRef} {...themedProps} />
-			{hasFooter && (
-				<div className={classNames(styles.FormFooter, { [styles.Scrolling]: isScrolling })}>
-					<div className={styles.LeftFooter}>
-						{allowResetToDefaults && (
-							<KvActionButtonText
-								text="Reset to Default"
-								disabled={disabled || !hasDefaults}
-								size={EComponentSize.Large}
-								type={EActionButtonType.Ghost}
-								onClickButton={resetToDefaults}
-							/>
-						)}
-					</div>
-					<div className={styles.RightFooter}>
-						{allowDiscardChanges && (
-							<KvActionButtonText
-								text="Discard Changes"
-								disabled={disabled || !hasChanges}
-								size={EComponentSize.Large}
-								type={EActionButtonType.Tertiary}
-								onClickButton={discardChanges}
-							/>
-						)}
-						{!norender && (
-							<KvTooltip text={submitButtonProps?.tooltipText} position={submitButtonProps?.tooltipPosition}>
+		<FormStateProvider initialFormData={formData}>
+			<div className={classNames(styles.FormContainer, customClass)}>
+				<CustomFormWithRef<T, S, SchemaFormContext> ref={formRef} {...themedProps} />
+				{hasFooter && (
+					<div className={classNames(styles.FormFooter, { [styles.Scrolling]: isScrolling })}>
+						<div className={styles.LeftFooter}>
+							{allowResetToDefaults && (
 								<KvActionButtonText
-									text={submitText || 'Save'}
-									disabled={disabled || !isValid || submitButtonProps?.disabled}
+									text="Reset to Default"
+									disabled={disabled || !hasDefaults}
 									size={EComponentSize.Large}
-									type={EActionButtonType.Primary}
-									onClickButton={onSubmitClick}
+									type={EActionButtonType.Ghost}
+									onClickButton={resetToDefaults}
 								/>
-							</KvTooltip>
-						)}
+							)}
+						</div>
+						<div className={styles.RightFooter}>
+							{allowDiscardChanges && (
+								<KvActionButtonText
+									text="Discard Changes"
+									disabled={disabled || !hasChanges}
+									size={EComponentSize.Large}
+									type={EActionButtonType.Tertiary}
+									onClickButton={discardChanges}
+								/>
+							)}
+							{!norender && (
+								<KvTooltip text={submitButtonProps?.tooltipText} position={submitButtonProps?.tooltipPosition}>
+									<KvActionButtonText
+										text={submitText || 'Save'}
+										disabled={disabled || !isValid || submitButtonProps?.disabled}
+										size={EComponentSize.Large}
+										type={EActionButtonType.Primary}
+										onClickButton={onSubmitClick}
+									/>
+								</KvTooltip>
+							)}
+						</div>
 					</div>
-				</div>
-			)}
-		</div>
+				)}
+			</div>
+		</FormStateProvider>
 	);
 }

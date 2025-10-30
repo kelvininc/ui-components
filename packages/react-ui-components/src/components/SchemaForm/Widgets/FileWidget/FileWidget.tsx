@@ -8,6 +8,7 @@ import { get, isEmpty } from 'lodash';
 import classNames from 'classnames';
 import { FileInfoType } from './types';
 import { extractFileInfo, processFiles } from './utils';
+import { useFormState } from '../../contexts';
 
 function FileActions({ fileInfo, onDelete, preview = false }: { fileInfo: FileInfoType; onDelete: (filename: string) => void; preview?: boolean }) {
 	const { dataURL, name } = fileInfo;
@@ -77,7 +78,8 @@ function FilesInfo({
  *  It is typically used with a string property with data-url format.
  */
 function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: WidgetProps<T, S, F>) {
-	const { disabled, readonly, required, multiple, onChange, value, options, uiSchema, schema, label, name, rawErrors = [] } = props;
+	const { id, disabled, readonly, required, multiple, onChange, value, options, uiSchema, schema, label, name, rawErrors = [] } = props;
+	const { trackField } = useFormState();
 
 	const [filesInfo, setFilesInfo] = useState<FileInfoType[]>(extractFileInfo(value));
 
@@ -87,13 +89,11 @@ function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends 
 		(filename: string) => {
 			const newValue = filesInfo.filter(fileInfo => fileInfo.name !== filename);
 			setFilesInfo(newValue);
-			if (multiple) {
-				onChange(newValue.map(fileInfo => fileInfo.dataURL));
-			} else {
-				onChange(newValue[0]);
-			}
+			const finalValue = multiple ? newValue.map(fileInfo => fileInfo.dataURL) : newValue[0];
+			trackField(id, finalValue);
+			onChange(finalValue);
 		},
-		[filesInfo, setFilesInfo, onChange]
+		[filesInfo, setFilesInfo, onChange, trackField, id, multiple]
 	);
 
 	const handleChange = useCallback(
@@ -104,16 +104,19 @@ function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends 
 
 			processFiles(event.target.files).then(filesInfoEvent => {
 				const newValue = filesInfoEvent.map(fileInfo => fileInfo.dataURL);
+				let finalValue;
 				if (multiple) {
 					setFilesInfo(filesInfo.concat(filesInfoEvent));
-					onChange(value.concat(newValue));
+					finalValue = value.concat(newValue);
 				} else {
 					setFilesInfo(filesInfoEvent);
-					onChange(newValue[0]);
+					finalValue = newValue[0];
 				}
+				trackField(id, finalValue);
+				onChange(finalValue);
 			});
 		},
-		[multiple, value, filesInfo, onChange]
+		[multiple, value, filesInfo, onChange, trackField, id]
 	);
 
 	return (
