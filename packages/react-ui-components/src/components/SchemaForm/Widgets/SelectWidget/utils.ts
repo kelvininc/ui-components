@@ -49,7 +49,7 @@ export const processValue = (schema: JSONSchema7, value: any) => {
 		return value.map(asNumber);
 	} else if (type === 'boolean') {
 		return value === true || value === 'true';
-	} else if (type === 'number') {
+	} else if (type === 'number' || type === 'integer') {
 		return asNumber(value);
 	}
 
