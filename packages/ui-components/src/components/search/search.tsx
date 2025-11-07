@@ -60,6 +60,8 @@ export class KvSearch implements ISearch, ISearchEvents {
 	/** @inheritdoc */
 	@Event() textFieldBlur: EventEmitter<string>;
 	/** @inheritdoc */
+	@Event() textFieldFocus: EventEmitter<string>;
+	/** @inheritdoc */
 	@Event() clickResetButton: EventEmitter<MouseEvent>;
 	/** @inheritdoc */
 	@Event() rightActionClick: EventEmitter<MouseEvent>;

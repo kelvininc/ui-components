@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { cloneDeep, isEmpty, isEqualWith } from 'lodash';
 import React, { ComponentProps, ComponentType, FormEvent, ForwardedRef, forwardRef, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useScroll } from '../../hooks';
-import { KvActionButtonText, KvTooltip } from '../../stencil-generated';
+import { KvActionButtonText, KvSwitchButton, KvTooltip } from '../../stencil-generated';
 import { SCROLL_OFFSET } from './config';
 import { FormStateProvider } from './contexts';
 import { useFieldTemplateElement } from './hooks/useFieldTemplateElement';
@@ -56,6 +56,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	omitExtraData = true,
 	liveOmit = true,
 	displayErrors,
+	showErrorsSwitch = true,
 	...otherProps
 }: SchemaFormProps<T, S, SchemaFormContext>) {
 	const [isValid, setValid] = useState(!liveValidate);
@@ -65,6 +66,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const schema = useMemo(() => normalizeSchema(schemaProp), [schemaProp]);
 	const formData = useMemo(() => cloneDeep(getInitialFormData(schema, formDataProp, formValidator, applyDefaults, false)), [formValidator, schema, formDataProp, applyDefaults]);
 	const [hasChanges, setHasChanges] = useState(!isEqualWith(formData, submittedData || {}));
+	const [isShowingAllErrors, setShowingAllErrors] = useState(false);
 
 	const formRef = formReference ?? useRef<Form<T, S, SchemaFormContext>>(null);
 	const fieldTemplate = useFieldTemplateElement(formRef);
@@ -142,9 +144,17 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		setHasDefaults(hasDefaultsToApply);
 	}, [defaults, formData, setHasDefaults]);
 
+	const hasErrors = formRef.current?.state.errors.length > 0;
+
 	return (
-		<FormStateProvider initialFormData={formData} displayErrors={isFormSubmitted || displayErrors}>
+		<FormStateProvider initialFormData={formData} displayErrors={isFormSubmitted || displayErrors || isShowingAllErrors}>
 			<div className={classNames(styles.FormContainer, customClass)}>
+				{hasErrors && showErrorsSwitch && (
+					<div className={styles.Action}>
+						<KvSwitchButton checked={isShowingAllErrors} onSwitchChange={({ detail: newValue }) => setShowingAllErrors(newValue)} size={EComponentSize.Small} />
+						<div className={styles.Text}>Show All Errors</div>
+					</div>
+				)}
 				<CustomFormWithRef<T, S, SchemaFormContext> ref={formRef} {...themedProps} />
 				{hasFooter && (
 					<div className={classNames(styles.FormFooter, { [styles.Scrolling]: isScrolling })}>

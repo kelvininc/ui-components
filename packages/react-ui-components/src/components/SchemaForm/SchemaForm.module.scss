@@ -21,6 +21,7 @@
 	position: relative;
 	padding: var(--schema-form-y-padding) 0;
 	box-sizing: border-box;
+	position: relative;
 
 	form {
 		width: 100%;
@@ -53,6 +54,20 @@
 		.RightFooter {
 			display: flex;
 			gap: $spacing-3x;
+		}
+	}
+
+	.Action {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: $spacing-2x;
+		top: var(--schema-form-y-padding);
+		right: var(--schema-form-x-padding);
+
+		.Text {
+			color: kv-color('neutral-2');
+			@include kv-font-label-small-regular;
 		}
 	}
 }

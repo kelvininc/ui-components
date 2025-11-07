@@ -70,4 +70,9 @@ export interface SchemaFormProps<T, S extends StrictRJSFSchema = RJSFSchema, F e
 	 * Default: `false`, meaning that errors will be displayed only after form submission or when they are touched.
 	 */
 	displayErrors?: boolean;
+	/**
+	 * If set to `true`, a switch will be displayed to toggle the visibility of all error messages.
+	 * Default: `false`, meaning that the switch will not be displayed.
+	 */
+	showErrorsSwitch?: boolean;
 }
