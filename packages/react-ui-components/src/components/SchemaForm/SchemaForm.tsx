@@ -147,7 +147,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	return (
 		<FormStateProvider initialFormData={formData} displayErrors={isFormSubmitted || displayErrors || isShowingAllErrors}>
 			<div className={classNames(styles.FormContainer, customClass)}>
-				{!showErrorsSwitch && (
+				{showErrorsSwitch && (
 					<div className={styles.Action}>
 						<KvSwitchButton checked={isShowingAllErrors} onSwitchChange={({ detail: newValue }) => setShowingAllErrors(newValue)} size={EComponentSize.Small} />
 						<div className={styles.Text}>Show All Errors</div>
