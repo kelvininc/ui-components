@@ -1,6 +1,6 @@
-import { EComponentSize, EInputFieldType, EValidationState } from '@kelvininc/ui-components';
+import { EComponentSize, EIconName, EInputFieldType, EValidationState } from '@kelvininc/ui-components';
 import { isArray, isEmpty } from 'lodash';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { KvTextField } from '../../../../stencil-generated';
 import styles from './BaseInputTemplate.module.scss';
 import { BaseInputTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
@@ -29,6 +29,12 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 }: BaseInputTemplateProps<T, S, F>) => {
 	const { trackFieldChange, markFieldAsTouched, isFieldTouched, displayErrors } = useFormState();
 
+	const isPasswordField = useMemo(() => {
+		return type === EInputFieldType.Password || (type ?? getInputType(schema.type)) === EInputFieldType.Password;
+	}, [type, schema.type]);
+
+	const [showPassword, setShowPassword] = useState(false);
+
 	const _onChange = useCallback(
 		(event: CustomEvent<string>) => {
 			const newValue = event?.detail ? event.detail : options.emptyValue;
@@ -54,7 +60,23 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 		[onFocus, markFieldAsTouched, id]
 	);
 
-	const inputType = useMemo(() => type ?? getInputType(schema.type), [type, schema.type]);
+	const inputType = useMemo(() => {
+		const baseType = type ?? getInputType(schema.type);
+		if (isPasswordField && showPassword) {
+			return EInputFieldType.Text;
+		}
+		return baseType;
+	}, [isPasswordField, showPassword, type, schema.type]);
+
+	const togglePasswordVisibility = useCallback(() => {
+		setShowPassword(prev => !prev);
+	}, []);
+
+	const passwordIcon = useMemo(() => {
+		if (!isPasswordField) return undefined;
+		return showPassword ? EIconName.EyeClosed : EIconName.Eye;
+	}, [isPasswordField, showPassword]);
+
 	const { componentSize: optionComponentSize, useInputMask, inputMaskRegex, minLength, maxLength, max, min, valuePrefix, badge } = uiSchema;
 	const { componentSize = EComponentSize.Large } = formContext as F;
 
@@ -88,9 +110,11 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 				value={value || value === 0 ? value : ''}
 				valuePrefix={valuePrefix}
 				badge={badge}
+				actionIcon={passwordIcon}
 				onTextChange={_onChange}
 				onTextFieldBlur={_onBlur}
 				onTextFieldFocus={_onFocus}
+				onRightActionClick={isPasswordField ? togglePasswordVisibility : undefined}
 			/>
 		</div>
 	);

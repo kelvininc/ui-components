@@ -6,3 +6,5 @@ packages/**/dist
 .envrc
 tryouts/*
 .nx/*
+
+.claude/
