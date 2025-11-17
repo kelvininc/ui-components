@@ -4,8 +4,10 @@ import React, { useCallback, useMemo } from 'react';
 import { buildToggleButtons, buildSelectedToggleButtons, toggleSelectedOptions, buildDisabledToggleButtons, getComponentSize } from './utils';
 import { ICheckboxConfig } from './types';
 import { isEmpty } from 'lodash';
+import { useFormState } from '../../contexts';
 
 const CheckboxesWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
+	id,
 	schema,
 	options,
 	disabled,
@@ -14,6 +16,7 @@ const CheckboxesWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends 
 	readonly,
 	onChange
 }: WidgetProps<T, S, F>) => {
+	const { trackFieldChange, markFieldAsTouched } = useFormState();
 	const { enumOptions, enumDisabled, allButton, componentSize, withRadio } = options;
 	const { maxItems, minItems } = schema;
 
@@ -42,9 +45,11 @@ const CheckboxesWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends 
 	const onCheckedChange = useCallback(
 		({ detail: selectedOptionValue }: CustomEvent<string>) => {
 			const newValue = toggleSelectedOptions(selectedOptionValue, selectedOptions, allOptions, config);
-			onChange(isEmpty(newValue) ? undefined : newValue);
+			const finalValue = isEmpty(newValue) ? undefined : newValue;
+			trackFieldChange(id, finalValue);
+			onChange(finalValue);
 		},
-		[selectedOptions, allOptions, config]
+		[selectedOptions, allOptions, config, trackFieldChange, id, onChange]
 	);
 
 	return (
@@ -56,6 +61,8 @@ const CheckboxesWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends 
 			disabledButtons={disabledButtons}
 			selectedButtons={selectedButtons}
 			onCheckedChange={onCheckedChange}
+			onFocus={() => markFieldAsTouched(id)}
+			onBlur={() => markFieldAsTouched(id)}
 		/>
 	);
 };

@@ -183,6 +183,8 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Event() textFieldBlur: EventEmitter<string>;
 	/** @inheritdoc */
+	@Event() textFieldFocus: EventEmitter<string>;
+	/** @inheritdoc */
 	@Event() rightActionClick: EventEmitter<MouseEvent>;
 	/** @inheritdoc */
 	@Event() fieldClick: EventEmitter<MouseEvent>;
@@ -236,6 +238,8 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	};
 
 	private onFocusHandler = () => {
+		this.textFieldFocus.emit((this.nativeInput as HTMLInputElement).value);
+
 		this.focused = true;
 	};
 
