@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.54.0](https://github.com/kelvininc/ui-components/compare/v0.53.0...v0.54.0) (2025-11-17)
+
+
+### Bug Fixes
+
+* **badge:** set neutral-5 default background ([3f18db3](https://github.com/kelvininc/ui-components/commit/3f18db3b11b0c4df5dacb242a9750f901010ec25))
+* **schema-form:** fix integer values in select widget [KFE-2633] ([dfd53b5](https://github.com/kelvininc/ui-components/commit/dfd53b50add20043a47fe71431f5b948e8baf8ed))
+* **schema-form:** hide show errors button by default ([7f4c22c](https://github.com/kelvininc/ui-components/commit/7f4c22c51954ce51c5edb047c9d1b92903fce29a))
+* **wizard:** prevent submit on enter when keypressed inside textarea ([2408cf0](https://github.com/kelvininc/ui-components/commit/2408cf0f3a6875dd41eac621c76e05671d9c5dc9))
+
+
+### Features
+
+* **schema-form:** add 'show all errors' switch button ([68fa6df](https://github.com/kelvininc/ui-components/commit/68fa6df68e4dfffa003f5665fa93b4d7cf0d8111))
+* **schema-form:** implement touch-based validation to show errors only after user interaction ([aa2798b](https://github.com/kelvininc/ui-components/commit/aa2798b3f75c9e989c85dabf5b66dc19f8db8ac3))
+
+
+
+
+
 # [0.53.0](https://github.com/kelvininc/ui-components/compare/v0.52.0...v0.53.0) (2025-10-20)
 
 
