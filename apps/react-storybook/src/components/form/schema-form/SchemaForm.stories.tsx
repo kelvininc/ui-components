@@ -1274,3 +1274,60 @@ export const DropdownStressTest: Story = {
 		}
 	}
 };
+
+export const PasswordFields: Story = {
+	args: {
+		showErrorList: false,
+		liveValidate: true,
+		disabled: false,
+		formData: {
+			password: "",
+			apiKey: "",
+			confirmPassword: ""
+		},
+		schema: {
+			type: "object",
+			properties: {
+				password: {
+					type: "string",
+					title: "Password",
+					minLength: 8,
+					description: "Must be at least 8 characters"
+				},
+				confirmPassword: {
+					type: "string",
+					title: "Confirm Password",
+					minLength: 8
+				},
+				apiKey: {
+					type: "string",
+					title: "API Key",
+					description: "Your secret API key"
+				},
+				token: {
+					type: "string",
+					title: "Access Token"
+				}
+			},
+			required: ["password", "confirmPassword"]
+		},
+		uiSchema: {
+			password: {
+				"ui:widget": "password",
+				"ui:placeholder": "Enter your password"
+			},
+			confirmPassword: {
+				"ui:widget": "password",
+				"ui:placeholder": "Confirm your password"
+			},
+			apiKey: {
+				"ui:widget": "password",
+				"ui:placeholder": "Enter your API key"
+			},
+			token: {
+				"ui:widget": "password",
+				"ui:placeholder": "Enter your access token"
+			}
+		}
+	}
+};
