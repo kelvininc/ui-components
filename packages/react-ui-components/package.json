@@ -34,6 +34,7 @@
 		"prebuild": "pnpm clean:build",
 		"build": "pnpm prebuild && pnpm rollup",
 		"build:watch": "pnpm rollup:watch",
+		"test": "vitest",
 		"postinstall": "node -e \"try{require('./.scripts/copy-icons.js')}catch(e){}\"",
 		"rollup": "rollup -c",
 		"rollup:watch": "rollup -w -c",

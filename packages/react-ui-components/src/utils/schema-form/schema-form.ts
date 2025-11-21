@@ -9,85 +9,105 @@ import {
 	APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_OBJECT
 } from './config';
 import { JSONSchema7Definition } from 'json-schema';
+import { UiSchema } from '@rjsf/utils';
+import { set } from 'lodash';
+
+export type NormalizeEnumsResult<S extends StrictRJSFSchema = RJSFSchema> = {
+	schema: S;
+	uiSchema: UiSchema;
+};
 
 const isOneOfWithTitleAndConst = (schema: JSONSchema7Definition[]): schema is { title: string; const: string }[] => {
-	if (!schema || typeof schema !== 'object') {
+	if (!schema || typeof schema !== 'object' || schema.length === 0) {
 		return false;
 	}
 
-	// Check if the schema is a oneOf with title and const
-	if (schema.every(item => item && Object.keys(item).every(key => ['title', 'const'].includes(key)))) {
-		return true;
-	}
-
-	return false;
+	return schema.every(item => item && typeof item === 'object' && 'title' in item && 'const' in item && Object.keys(item).every(key => ['title', 'const'].includes(key)));
 };
 
 /**
  * Collapses simple `oneOf` constructs (whose members consist ONLY of `title` + `const`) into
- * an equivalent `{ enum: [...], 'x-titles': [...] }` representation.
- *
- * Motivation / Performance:
- * Large schemas containing many shallow `oneOf` blocks of `{ const, title }` objects trigger
- * deep recursion and may produce `Maximum call stack size exceeded` errors in AJV/RJSF
- * (see issue: https://github.com/rjsf-team/react-jsonschema-form/issues/3829). Replacing them
- * with `enum` + parallel title array keeps the semantic meaning while minimizing nesting.
- *
+ * an equivalent `{ enum: [...] }` representation, with titles returned separately in uiSchema.
  *
  * @typeParam S - Schema type extending `StrictRJSFSchema`.
- * @param schema - The schema (or subschema) to normalize.
- * @returns The normalized schema (same reference unless a collapsing replacement occurred at the root).
+ * @param schema - The schema to normalize.
+ * @returns Object with normalized schema and uiSchema containing ui:enumNames.
  *
  * @example
- * const schema = { type: 'string', oneOf: [
+ * const schema = { properties: { status: { type: 'string', oneOf: [
  *   { const: 'on',  title: 'On' },
  *   { const: 'off', title: 'Off' }
- * ]};
+ * ]}}};
  * normalizeEnums(schema);
- * // => { type: 'string', enum: ['on', 'off'], 'x-titles': ['On', 'Off'] }
+ * // => { schema: { properties: { status: { type: 'string', enum: ['on', 'off'] }}},
+ * //      uiSchema: { status: { 'ui:enumNames': ['On', 'Off'] }}}
  */
-export const normalizeEnums = <S extends StrictRJSFSchema = RJSFSchema>(schema: S): S => {
-	if (!schema || typeof schema !== 'object') {
-		return schema;
-	}
+export const normalizeEnums = <S extends StrictRJSFSchema = RJSFSchema>(schema: S): NormalizeEnumsResult<S> => {
+	const uiSchema: UiSchema = {};
 
-	// Check if the schema is a oneOf with title and const
-	if (Array.isArray(schema.oneOf) && isOneOfWithTitleAndConst(schema.oneOf)) {
-		const { oneOf, ...rest } = schema;
+	const normalize = (subSchema: unknown, path: string[]): unknown => {
+		if (!subSchema || typeof subSchema !== 'object') {
+			return subSchema;
+		}
 
-		return {
-			...rest,
-			'enum': schema.oneOf.map(item => item.const),
-			'x-titles': schema.oneOf.map(item => item.title)
-		} as unknown as S;
-	}
+		if (Array.isArray(subSchema)) {
+			return subSchema.map((item, index) => normalize(item, [...path, String(index)]));
+		}
 
-	// If the schema is an array, recursively normalize each item
-	if (Array.isArray(schema)) {
-		return schema.map(item => normalizeEnums(item)) as unknown as S;
-	}
+		const schemaObj = subSchema as Record<string, unknown>;
 
-	let normalizedSchema = structuredClone(schema);
+		// Check if it's a oneOf with title and const
+		if (Array.isArray(schemaObj.oneOf) && isOneOfWithTitleAndConst(schemaObj.oneOf as JSONSchema7Definition[])) {
+			const { oneOf, ...rest } = schemaObj;
+			const typedOneOf = oneOf as { title: string; const: string }[];
+			const enumNames = typedOneOf.map(item => item.title);
 
-	// If the schema is an object, recursively normalize its properties
-	for (const key of Object.keys(normalizedSchema)) {
-		const schemaKey = key as keyof S;
+			// Add to uiSchema at the correct path
+			if (path.length > 0) {
+				set(uiSchema, [...path, 'ui:enumNames'], enumNames);
+			} else {
+				uiSchema['ui:enumNames'] = enumNames;
+			}
 
-		normalizedSchema = {
-			...normalizedSchema,
-			[schemaKey]: normalizeEnums(normalizedSchema[schemaKey])
-		};
-	}
+			return {
+				...rest,
+				enum: typedOneOf.map(item => item.const)
+			};
+		}
 
-	return normalizedSchema;
+		// Process properties - the uiSchema path should skip 'properties'
+		if (schemaObj.properties && typeof schemaObj.properties === 'object') {
+			const normalizedProperties: Record<string, unknown> = {};
+			for (const propKey of Object.keys(schemaObj.properties as Record<string, unknown>)) {
+				normalizedProperties[propKey] = normalize((schemaObj.properties as Record<string, unknown>)[propKey], [...path, propKey]);
+			}
+			return { ...schemaObj, properties: normalizedProperties };
+		}
+
+		// Process items - the uiSchema path should skip 'items'
+		if (schemaObj.items) {
+			return { ...schemaObj, items: normalize(schemaObj.items, path) };
+		}
+
+		// Process other keys recursively
+		const result: Record<string, unknown> = {};
+		for (const key of Object.keys(schemaObj)) {
+			result[key] = normalize(schemaObj[key], path);
+		}
+		return result;
+	};
+
+	const normalizedSchema = normalize(structuredClone(schema), []) as S;
+
+	return { schema: normalizedSchema, uiSchema };
 };
 
 /**
  * Normalizes a JSON schema by applying various transformations.
  * @param schema The schema to normalize.
- * @returns The normalized schema.
+ * @returns Object with normalized schema and uiSchema.
  */
-export function normalizeSchema<S extends StrictRJSFSchema = RJSFSchema>(schema: S): S {
+export function normalizeSchema<S extends StrictRJSFSchema = RJSFSchema>(schema: S): NormalizeEnumsResult<S> {
 	return normalizeEnums(cleanUnsupportedSchemaKeys(schema));
 }
 
