@@ -2,7 +2,7 @@ import { EActionButtonType, EComponentSize, KvActionButtonTextCustomEvent } from
 import Form, { FormProps, IChangeEvent, withTheme } from '@rjsf/core';
 import { RJSFSchema, StrictRJSFSchema, FormContextType, createSchemaUtils, deepEquals, getSubmitButtonOptions } from '@rjsf/utils';
 import classNames from 'classnames';
-import { cloneDeep, isEmpty, isEqualWith } from 'lodash';
+import { cloneDeep, isEmpty, isEqualWith, merge } from 'lodash';
 import React, { ComponentProps, ComponentType, FormEvent, ForwardedRef, forwardRef, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useScroll } from '../../hooks';
 import { KvActionButtonText, KvSwitchButton, KvTooltip } from '../../stencil-generated';
@@ -63,7 +63,9 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const [isFormSubmitted, setFormSubmitted] = useState(false);
 	const experimental_defaultFormStateBehavior = useMemo(() => buildDefaultFormStateBehavior(applyDefaults), [applyDefaults]);
 	const formValidator = useMemo(() => validatorProp ?? getDefaultValidator<T, S, SchemaFormContext>(), [validatorProp]);
-	const schema = useMemo(() => normalizeSchema(schemaProp), [schemaProp]);
+	const { schema, uiSchema: normalizedUiSchema } = useMemo(() => normalizeSchema(schemaProp), [schemaProp]);
+	const mergedUiSchema = useMemo(() => merge({}, normalizedUiSchema, uiSchema), [normalizedUiSchema, uiSchema]);
+	console.log('Merged UI Schema:', { schemaProp, normalizedUiSchema, uiSchema, schema });
 	const formData = useMemo(() => cloneDeep(getInitialFormData(schema, formDataProp, formValidator, applyDefaults, false)), [formValidator, schema, formDataProp, applyDefaults]);
 	const [hasChanges, setHasChanges] = useState(!isEqualWith(formData, submittedData || {}));
 	const [isShowingAllErrors, setShowingAllErrors] = useState(false);
@@ -97,7 +99,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		...otherProps,
 		onChange: onFormChange,
 		uiSchema: {
-			...uiSchema,
+			...mergedUiSchema,
 			'ui:submitButtonOptions': {
 				props: { disabled: false },
 				norender: true,
