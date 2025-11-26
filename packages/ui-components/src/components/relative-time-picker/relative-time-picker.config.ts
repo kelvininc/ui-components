@@ -121,7 +121,7 @@ export const DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][]
 		},
 		{
 			label: 'Last 6 months',
-			value: 'last-6-m',
+			value: 'last-6-M',
 			comparisonConfig: ERelativeTimeComparisonConfig.RelativeAmountOfUnits,
 			startDate: {
 				amount: -6,
