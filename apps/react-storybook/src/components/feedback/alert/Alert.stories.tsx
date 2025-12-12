@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import {
+	EActionButtonType,
 	EAlertType,
 	EComponentSize,
+	KvActionButtonText,
 	KvAlert
 } from "@kelvininc/react-ui-components/client";
 
@@ -67,5 +69,25 @@ export const SmallSize: Story = {
 		size: EComponentSize.Small,
 		label: "Main Message",
 		description: "Secondary Message"
+	}
+};
+
+export const SlotsUsage: Story = {
+	render: (args) => (
+		<KvAlert {...args}>
+			<div slot="description">
+				<strong>Custom Description:</strong> This is a custom description using slots.
+			</div>
+			<div slot="actions">
+				<KvActionButtonText type={EActionButtonType.Primary} text="Action" />
+			</div>
+			<div slot="alert-content" style={{ color: '#2a2a2a'}}>
+				<p>This is additional content inside the alert using the alert-content slot.</p>
+			</div>
+		</KvAlert>
+	),
+	args: {
+		type: EAlertType.Warning,
+		label: "Main Message"
 	}
 };
