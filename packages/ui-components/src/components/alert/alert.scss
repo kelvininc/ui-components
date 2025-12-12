@@ -2,13 +2,13 @@
 
 .alert-container {
 	background-color: $neutral-color-0;
+	height: var(--alert-container-height, unset);
 }
 
 .alert {
 	display: flex;
-	padding: $spacing-4x;
-	justify-content: space-between;
-	align-items: center;
+	flex-direction: column;
+	height: 100%;
 
 	&--type-info {
 		background-color: #{kv-color('info', 'light', 0.4)};
@@ -40,6 +40,13 @@
 		kv-icon {
 			--icon-color: #{kv-color('warning')};
 		}
+	}
+
+	.main {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: $spacing-4x;
 	}
 
 	.information {
