@@ -5,16 +5,19 @@ exports[`Alert (unit tests when using required props and defaults should match t
   <template shadowrootmode="open">
     <div class="alert-container">
       <div class="alert alert--type-info" part="container">
-        <div class="information">
-          <kv-icon class="icon" name="kv-error"></kv-icon>
-          <div class="text-container">
-            <div class="title">
-              Main Message
+        <div class="main">
+          <div class="information">
+            <kv-icon class="icon" name="kv-error"></kv-icon>
+            <div class="text-container">
+              <div class="title">
+                Main Message
+              </div>
+              <slot name="description"></slot>
             </div>
-            <slot name="description"></slot>
           </div>
+          <slot name="actions"></slot>
         </div>
-        <slot name="actions"></slot>
+        <slot name="alert-content"></slot>
       </div>
     </div>
   </template>
@@ -26,20 +29,23 @@ exports[`Alert (unit tests when using required props and description should matc
   <template shadowrootmode="open">
     <div class="alert-container">
       <div class="alert alert--type-info" part="container">
-        <div class="information">
-          <kv-icon class="icon" name="kv-error"></kv-icon>
-          <div class="text-container">
-            <div class="title">
-              Main Message
-            </div>
-            <slot name="description">
-              <div class="description">
-                Secondary Message
+        <div class="main">
+          <div class="information">
+            <kv-icon class="icon" name="kv-error"></kv-icon>
+            <div class="text-container">
+              <div class="title">
+                Main Message
               </div>
-            </slot>
+              <slot name="description">
+                <div class="description">
+                  Secondary Message
+                </div>
+              </slot>
+            </div>
           </div>
+          <slot name="actions"></slot>
         </div>
-        <slot name="actions"></slot>
+        <slot name="alert-content"></slot>
       </div>
     </div>
   </template>
@@ -51,15 +57,18 @@ exports[`Alert (unit tests when using required props and showIcon \`false\` shou
   <template shadowrootmode="open">
     <div class="alert-container">
       <div class="alert alert--type-info" part="container">
-        <div class="information">
-          <div class="text-container">
-            <div class="title">
-              Main Message
+        <div class="main">
+          <div class="information">
+            <div class="text-container">
+              <div class="title">
+                Main Message
+              </div>
+              <slot name="description"></slot>
             </div>
-            <slot name="description"></slot>
           </div>
+          <slot name="actions"></slot>
         </div>
-        <slot name="actions"></slot>
+        <slot name="alert-content"></slot>
       </div>
     </div>
   </template>

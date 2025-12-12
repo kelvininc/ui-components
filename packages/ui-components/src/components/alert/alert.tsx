@@ -35,14 +35,17 @@ export class KvAlert implements IAlertConfig {
 							'alert--size-small': this.size === EComponentSize.Small
 						}}
 					>
-						<div class="information">
-							{this.showIcon && <kv-icon name={ALERT_ICON_NAMES[this.type]} class="icon" />}
-							<div class="text-container">
-								<div class="title">{this.label}</div>
-								<slot name="description">{this.description && <div class="description">{this.description}</div>}</slot>
+						<div class="main">
+							<div class="information">
+								{this.showIcon && <kv-icon name={ALERT_ICON_NAMES[this.type]} class="icon" />}
+								<div class="text-container">
+									<div class="title">{this.label}</div>
+									<slot name="description">{this.description && <div class="description">{this.description}</div>}</slot>
+								</div>
 							</div>
+							<slot name="actions"></slot>
 						</div>
-						<slot name="actions"></slot>
+						<slot name="alert-content"></slot>
 					</div>
 				</div>
 			</Host>
