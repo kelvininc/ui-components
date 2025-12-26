@@ -313,7 +313,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		const selectedOptions = this.selectedOptions ?? {};
 
 		const optionsLength = Object.keys(this.selectOptions.totalSelectable).length;
-		const currentOptionsLength = Object.keys(this.selectOptions.currentSelectable).length;
+		const currentOptionsLength = Object.keys(this.selectOptions.currentFlatten).length;
 		const selectedOptionsLength = Object.keys(selectedOptions).filter(key => selectedOptions[key]).length;
 
 		const hasOptions = optionsLength > 0;
