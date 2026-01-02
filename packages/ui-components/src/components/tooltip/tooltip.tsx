@@ -73,6 +73,10 @@ export class KvTooltip implements ITooltip {
 		this.showTooltip = false;
 	};
 
+	private getTooltipSlotElement = (): HTMLElement | null => {
+		return this.el.querySelector('[slot="tooltip-text"]');
+	};
+
 	private showTooltipHandler = () => {
 		if (this.disabled || (this.truncate && !isElementCollapsed(this.el))) return;
 		this.showTooltip = true;
@@ -83,6 +87,8 @@ export class KvTooltip implements ITooltip {
 	}
 
 	render() {
+		const tooltipSlotElement = this.getTooltipSlotElement();
+
 		return (
 			<Host>
 				<div
@@ -96,7 +102,11 @@ export class KvTooltip implements ITooltip {
 				>
 					<slot></slot>
 				</div>
-				{this.showTooltip && !isEmpty(this.text) && (
+				{/* Hidden slot holder - always in DOM to capture slotted content */}
+				<div style={{ display: 'none' }}>
+					<slot name="tooltip-text"></slot>
+				</div>
+				{this.showTooltip && (
 					<kv-portal
 						zIndex={TOOLTIP_Z_INDEX}
 						show={true}
@@ -106,7 +116,9 @@ export class KvTooltip implements ITooltip {
 						reference={this.getContentElement()}
 						options={this.getOptions()}
 					>
-						<kv-tooltip-text class={{ ...getClassMap(this.customClass) }} text={this.text} style={this.customStyle} />
+						<kv-tooltip-text class={{ ...getClassMap(this.customClass) }} text={this.text} style={this.customStyle}>
+							{tooltipSlotElement && <div innerHTML={tooltipSlotElement.innerHTML}></div>}
+						</kv-tooltip-text>
 					</kv-portal>
 				)}
 			</Host>
