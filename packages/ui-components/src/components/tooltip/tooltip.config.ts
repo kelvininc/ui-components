@@ -5,6 +5,7 @@ export const DEFAULT_POSITION_CONFIG: Partial<ComputePositionConfig> = {
 	middleware: [offset(5), shift({ padding: 5 })]
 };
 
+export const DEFAULT_HIDE_DELAY: number = 1000;
 export const DEFAULT_DELAY_CONFIG: number = 1000;
 
 export const DEFAULT_AUTO_PLACEMENT_CONFIG: Partial<AutoPlacementOptions & DetectOverflowOptions> = {
