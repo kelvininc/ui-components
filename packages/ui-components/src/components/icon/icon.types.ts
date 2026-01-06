@@ -43,6 +43,7 @@ export enum EIconName {
 	CalendarToday = 'kv-calendar-today',
 	CalendarUpdate = 'kv-calendar-update',
 	Card = 'kv-card',
+	CardsStar = 'kv-cards-star',
 	Catalog = 'kv-catalog',
 	Chat = 'kv-chat',
 	CheckState = 'kv-check-state',
