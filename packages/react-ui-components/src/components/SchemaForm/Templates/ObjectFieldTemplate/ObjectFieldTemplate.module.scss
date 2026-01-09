@@ -14,7 +14,8 @@
 
 	.PropRow {
 		width: 100%;
-		max-width: var(--schema-form-max-width);
+		min-width: unset;
+		max-width: unset;
 		
 		.Hidden {
 			display: none;
