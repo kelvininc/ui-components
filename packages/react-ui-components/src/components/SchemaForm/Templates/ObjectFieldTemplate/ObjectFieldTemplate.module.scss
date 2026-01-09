@@ -12,8 +12,13 @@
 		flex-wrap: wrap;
 	}
 
-	.PropRow.Hidden {
-		display: none;
+	.PropRow {
+		width: 100%;
+		max-width: var(--schema-form-max-width);
+		
+		.Hidden {
+			display: none;
+		}
 	}
 
 	.AddButtonContainer {
