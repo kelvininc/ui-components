@@ -13,6 +13,7 @@
 	--schema-form-max-width: 100%;
 	--schema-form-fields-x-gap: #{$spacing-5x};
 	--schema-form-fields-y-gap: #{$spacing-5x};
+	--schema-form-background: inherit;
 
 	width: 100%;
 	height: 100%;
@@ -22,6 +23,11 @@
 	padding: var(--schema-form-y-padding) 0;
 	box-sizing: border-box;
 	position: relative;
+	background-color: var(--schema-form-background);
+
+	*div {
+		background-color: inherit;
+	}
 
 	form {
 		width: 100%;
@@ -30,6 +36,7 @@
 		min-height: 0;
 		flex-direction: column;
 		justify-content: space-between;
+		background-color: inherit;
 	}
 
 	form > div[class^='FieldTemplate'] {
