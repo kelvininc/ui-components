@@ -13,10 +13,9 @@
 	align-items: center;
 
 	.ItemPrefix {
-		@include kv-font-label-small-regular;
+		@include kv-font-span-semibold;
 		margin-right: $spacing-6x;
 		white-space: nowrap;
-		text-transform: uppercase;
 	}
 
 	.ToolbarContainer {
@@ -27,9 +26,32 @@
 }
 
 .FieldsetStyle {
-	padding: $spacing-3x;
-	border-radius: 4px;
-	border: 1px solid kv-color('neutral-4');
+	padding: $spacing-6x $spacing-3x $spacing-3x;
+	margin-top: $spacing-6x;
+	border: 1px solid kv-color('neutral-6');
+	position: relative;
+
+	.ArrayItemContainer {
+		.ItemPrefix {
+			position: absolute;
+			top: 0;
+			left: $spacing-3x;
+			transform: translateY(-50%);
+			background-color: inherit;
+			padding: 0 $spacing;
+			margin: 0;
+		}
+
+		.ToolbarContainer {
+			position: absolute;
+			top: 0;
+			right: $spacing-3x;
+			transform: translateY(-50%);
+			background-color: inherit;
+			padding: 0 $spacing;
+			margin: 0;
+		}
+	}
 }
 
 body {
