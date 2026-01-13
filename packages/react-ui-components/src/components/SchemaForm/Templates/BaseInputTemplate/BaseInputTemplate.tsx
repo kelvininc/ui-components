@@ -29,9 +29,11 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 }: BaseInputTemplateProps<T, S, F>) => {
 	const { trackFieldChange, markFieldAsTouched, isFieldTouched, displayErrors } = useFormState();
 
+	const baseType = useMemo(() => type ?? getInputType(schema.type), [type, schema.type]);
+
 	const isPasswordField = useMemo(() => {
-		return type === EInputFieldType.Password || (type ?? getInputType(schema.type)) === EInputFieldType.Password;
-	}, [type, schema.type]);
+		return baseType === EInputFieldType.Password;
+	}, [baseType]);
 
 	const [showPassword, setShowPassword] = useState(false);
 
@@ -61,12 +63,11 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 	);
 
 	const inputType = useMemo(() => {
-		const baseType = type ?? getInputType(schema.type);
 		if (isPasswordField && showPassword) {
 			return EInputFieldType.Text;
 		}
 		return baseType;
-	}, [isPasswordField, showPassword, type, schema.type]);
+	}, [isPasswordField, showPassword, baseType]);
 
 	const togglePasswordVisibility = useCallback(() => {
 		setShowPassword(prev => !prev);
@@ -77,8 +78,9 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 		return showPassword ? EIconName.EyeClosed : EIconName.Eye;
 	}, [isPasswordField, showPassword]);
 
-	const { componentSize: optionComponentSize, useInputMask, inputMaskRegex, minLength, maxLength, max, min, valuePrefix, badge } = uiSchema;
+	const { componentSize: optionComponentSize, useInputMask, inputMaskRegex, valuePrefix, badge } = uiSchema;
 	const { componentSize = EComponentSize.Large } = formContext as F;
+	const { maximum = uiSchema.max, minimum = uiSchema.min, maxLength = uiSchema.maxLength, minLength = uiSchema.minLength } = schema;
 
 	const examples = useMemo(
 		() => (schema.examples ? (schema.examples as string[]).concat(schema.default ? ([schema.default] as string[]) : []) : undefined),
@@ -97,10 +99,10 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 				examples={examples}
 				inputDisabled={disabled || readonly}
 				inputReadonly={readonly}
-				maxLength={schema.maxLength ?? maxLength}
-				minLength={schema.minLength ?? minLength}
-				min={min}
-				max={max}
+				maxLength={maxLength}
+				minLength={minLength}
+				min={minimum}
+				max={maximum}
 				forcedFocus={autofocus}
 				placeholder={placeholder}
 				type={inputType}
