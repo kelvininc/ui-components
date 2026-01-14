@@ -4,15 +4,17 @@ import {
 	ETooltipPosition,
 	KvActionButton,
 	KvActionButtonText,
+	KvDescriptionList,
 	KvTooltip
 } from "@kelvininc/react-ui-components/client";
 
 import * as styles from "./Tooltip.module.scss";
+import { DESCRIPTION_LIST_ITEMS } from "./config";
 
 const meta = {
 	title: "Feedback/Tooltip",
 	component: KvTooltip,
-	render: (...args) => (
+	render: (args) => (
 		<KvTooltip {...args}>
 			<KvActionButtonText
 				text="Hover me!"
@@ -59,8 +61,22 @@ export const DisabledState: Story = {
 	}
 };
 
+export const CustomTextState: Story = {
+	render: () => (
+		<KvTooltip>
+			<div slot="tooltip-text">
+				<KvDescriptionList items={DESCRIPTION_LIST_ITEMS} />
+			</div>
+			<KvActionButtonText
+				type={EActionButtonType.Primary}
+				text="Hover me!"
+			/>
+		</KvTooltip>
+	)
+};
+
 export const TruncateState: Story = {
-	render: (...args) => (
+	render: (args) => (
 		<KvTooltip {...args}>
 			<KvActionButton type={EActionButtonType.Primary}>
 				<div

@@ -1,7 +1,7 @@
 import { Component, Element, Host, Prop, State, h } from '@stencil/core';
 import { ComputePositionConfig, Middleware, autoPlacement } from '@floating-ui/dom';
 
-import { DEFAULT_AUTO_PLACEMENT_CONFIG, DEFAULT_DELAY_CONFIG, DEFAULT_POSITION_CONFIG } from './tooltip.config';
+import { DEFAULT_AUTO_PLACEMENT_CONFIG, DEFAULT_DELAY_CONFIG, DEFAULT_HIDE_DELAY, DEFAULT_POSITION_CONFIG } from './tooltip.config';
 import { CustomCssClass, ETooltipPosition } from '../../types';
 import { ITooltip } from './tooltip.types';
 import { isElementCollapsed } from './tooltip.utils';
@@ -36,6 +36,8 @@ export class KvTooltip implements ITooltip {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) delay?: number = DEFAULT_DELAY_CONFIG;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) hideDelay?: number = DEFAULT_HIDE_DELAY;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) withArrow: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
@@ -46,6 +48,8 @@ export class KvTooltip implements ITooltip {
 	@Element() el: HTMLKvTooltipElement;
 
 	@State() showTooltip: boolean = false;
+	@State() hoverContent: boolean = false;
+	@State() hoverTooltip: boolean = false;
 
 	private tooltipContent: HTMLElement;
 
@@ -69,8 +73,20 @@ export class KvTooltip implements ITooltip {
 		return mergeComputePositionConfigs({ placement, middleware }, this.options);
 	};
 
-	private hideTooltipHandler = () => {
+	private hideTooltipHandler = (delay?: number) => {
+		if (delay) {
+			setTimeout(() => {
+				if (!this.hoverContent && !this.hoverTooltip) {
+					this.showTooltip = false;
+				}
+			}, delay);
+			return;
+		}
 		this.showTooltip = false;
+	};
+
+	private getTooltipSlotElement = (): HTMLElement | null => {
+		return this.el.querySelector('[slot="tooltip-text"]');
 	};
 
 	private showTooltipHandler = () => {
@@ -83,20 +99,38 @@ export class KvTooltip implements ITooltip {
 	}
 
 	render() {
+		const tooltipSlotElement = this.getTooltipSlotElement();
+
 		return (
 			<Host>
 				<div
 					id="content"
 					part="content"
 					ref={el => (this.tooltipContent = el)}
-					onMouseOver={this.showTooltipHandler}
-					onMouseOut={this.hideTooltipHandler}
-					onBlur={this.hideTooltipHandler}
-					onClick={this.hideTooltipHandler}
+					onMouseOver={() => {
+						this.showTooltipHandler();
+						this.hoverContent = true;
+					}}
+					onMouseOut={() => {
+						this.hoverContent = false;
+						this.hideTooltipHandler(!isEmpty(tooltipSlotElement) ? this.hideDelay : undefined);
+					}}
+					onBlur={() => {
+						this.hoverContent = false;
+						this.hideTooltipHandler(!isEmpty(tooltipSlotElement) ? this.hideDelay : undefined);
+					}}
+					onClick={() => {
+						this.hoverContent = false;
+						this.hideTooltipHandler();
+					}}
 				>
 					<slot></slot>
 				</div>
-				{this.showTooltip && !isEmpty(this.text) && (
+				{/* Hidden slot holder - always in DOM to capture slotted content */}
+				<div style={{ display: 'none' }}>
+					<slot name="tooltip-text"></slot>
+				</div>
+				{this.showTooltip && (!isEmpty(this.text) || !isEmpty(tooltipSlotElement)) && (
 					<kv-portal
 						zIndex={TOOLTIP_Z_INDEX}
 						show={true}
@@ -106,7 +140,25 @@ export class KvTooltip implements ITooltip {
 						reference={this.getContentElement()}
 						options={this.getOptions()}
 					>
-						<kv-tooltip-text class={{ ...getClassMap(this.customClass) }} text={this.text} style={this.customStyle} />
+						<kv-tooltip-text
+							class={{ ...getClassMap(this.customClass) }}
+							text={this.text}
+							style={this.customStyle}
+							onMouseOver={() => {
+								this.hoverTooltip = true;
+								this.showTooltipHandler();
+							}}
+							onMouseOut={() => {
+								this.hoverTooltip = false;
+								this.hideTooltipHandler();
+							}}
+							onBlur={() => {
+								this.hoverTooltip = false;
+								this.hideTooltipHandler();
+							}}
+						>
+							{tooltipSlotElement && <div innerHTML={tooltipSlotElement.innerHTML}></div>}
+						</kv-tooltip-text>
 					</kv-portal>
 				)}
 			</Host>

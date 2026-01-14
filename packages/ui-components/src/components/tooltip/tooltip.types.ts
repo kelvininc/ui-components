@@ -19,6 +19,8 @@ export interface ITooltip extends ICustomCss {
 	truncate?: boolean;
 	/** (optional) Delay to show tooltip in milliseconds. */
 	delay?: number;
+	/** (optional) Delay to hide tooltip in milliseconds. */
+	hideDelay?: number;
 	/** (optional) if true it will render an arrow pointing to the opening element (default false) */
 	withArrow?: boolean;
 	/** (optional) Additional style to apply for custom CSS. */
