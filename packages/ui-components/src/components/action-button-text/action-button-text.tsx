@@ -6,6 +6,7 @@ import { IActionButtonTextConfig } from './action-button-text.types';
 
 /**
  * @part button-text - The text button.
+ * @part icon - The icon button.
  */
 @Component({
 	tag: 'kv-action-button-text',
@@ -17,6 +18,8 @@ export class KvActionButtonText implements IActionButtonTextConfig {
 	@Prop({ reflect: true }) text!: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) rightIcon?: EIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) type!: EActionButtonType;
 	/** @inheritdoc */
@@ -43,6 +46,7 @@ export class KvActionButtonText implements IActionButtonTextConfig {
 					<span class="action-button-text" part="button-text">
 						{this.text}
 					</span>
+					{this.rightIcon && <kv-icon name={this.rightIcon} exportparts="icon" />}
 				</kv-action-button>
 			</Host>
 		);

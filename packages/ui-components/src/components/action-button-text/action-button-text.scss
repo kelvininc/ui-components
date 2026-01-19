@@ -13,7 +13,11 @@
 kv-icon {
 	--icon-width: var(--button-icon-width);
 	--icon-height: var(--button-icon-width);
-	margin-right: $spacing-2x;
+}
+
+kv-action-button::part(button) {
+	display: flex;
+	gap: $spacing-2x;
 }
 
 .action-button-text {
@@ -27,4 +31,3 @@ kv-action-button[size='large'] .action-button-text {
 kv-action-button[size='small'] .action-button-text {
 	@include kv-font-label-small-semibold;
 }
-
