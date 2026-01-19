@@ -36,15 +36,16 @@ export const SwitchButtonExample: React.FC = () => (
 
 ## Properties
 
-| Property            | Attribute  | Description                                        | Type                                                                                                                                            | Default                |
-| ------------------- | ---------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `active`            | `active`   | (optional) If `true` the button is active          | `boolean`                                                                                                                                       | `false`                |
-| `disabled`          | `disabled` | (optional) If `true` the button is disabled        | `boolean`                                                                                                                                       | `false`                |
-| `icon`              | `icon`     | (optional) Button's left icon symbol name          | `EIconName`                                                                                                                                     | `undefined`            |
-| `loading`           | `loading`  | (optional) If `true` the button is of type loading | `boolean`                                                                                                                                       | `false`                |
-| `size`              | `size`     | (optional) Button's size                           | `EComponentSize.Large \| EComponentSize.Small`                                                                                                  | `EComponentSize.Large` |
-| `text` _(required)_ | `text`     | (required) (required) Button's text                | `string`                                                                                                                                        | `undefined`            |
-| `type` _(required)_ | `type`     | (optional) Button's type                           | `EActionButtonType.Danger \| EActionButtonType.Ghost \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
+| Property            | Attribute    | Description                                        | Type                                                                                                                                            | Default                |
+| ------------------- | ------------ | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `active`            | `active`     | (optional) If `true` the button is active          | `boolean`                                                                                                                                       | `false`                |
+| `disabled`          | `disabled`   | (optional) If `true` the button is disabled        | `boolean`                                                                                                                                       | `false`                |
+| `icon`              | `icon`       | (optional) Button's left icon symbol name          | `EIconName`                                                                                                                                     | `undefined`            |
+| `loading`           | `loading`    | (optional) If `true` the button is of type loading | `boolean`                                                                                                                                       | `false`                |
+| `rightIcon`         | `right-icon` | (optional) Button's right icon symbol name         | `EIconName`                                                                                                                                     | `undefined`            |
+| `size`              | `size`       | (optional) Button's size                           | `EComponentSize.Large \| EComponentSize.Small`                                                                                                  | `EComponentSize.Large` |
+| `text` _(required)_ | `text`       | (required) (required) Button's text                | `string`                                                                                                                                        | `undefined`            |
+| `type` _(required)_ | `type`       | (optional) Button's type                           | `EActionButtonType.Danger \| EActionButtonType.Ghost \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
 
 
 ## Events
@@ -61,6 +62,7 @@ export const SwitchButtonExample: React.FC = () => (
 | Part            | Description      |
 | --------------- | ---------------- |
 | `"button-text"` | The text button. |
+| `"icon"`        | The icon button. |
 
 
 ## CSS Custom Properties
