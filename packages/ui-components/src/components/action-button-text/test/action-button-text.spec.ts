@@ -28,6 +28,10 @@ describe('Action Button Text (unit tests)', () => {
 			expect(component.icon).toBeUndefined();
 		});
 
+		it('should initialize `rightIcon` with undefined', () => {
+			expect(component.rightIcon).toBeUndefined();
+		});
+
 		it('should initialize `size` with large', () => {
 			expect(component.size).toBe(EComponentSize.Large);
 		});
@@ -38,6 +42,34 @@ describe('Action Button Text (unit tests)', () => {
 			page = await newSpecPage({
 				components: [KvActionButtonText],
 				html: '<kv-action-button-text icon="kv-add" type="primary" text="Primary Button"></kv-action-button-text>'
+			});
+			component = page.rootInstance;
+		});
+
+		it('should match the snapshot', () => {
+			expect(page.root).toMatchSnapshot();
+		});
+	});
+
+	describe('when has a rightIcon', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvActionButtonText],
+				html: '<kv-action-button-text right-icon="kv-arrow-right" type="primary" text="Primary Button"></kv-action-button-text>'
+			});
+			component = page.rootInstance;
+		});
+
+		it('should match the snapshot', () => {
+			expect(page.root).toMatchSnapshot();
+		});
+	});
+
+	describe('when has both icon and rightIcon', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvActionButtonText],
+				html: '<kv-action-button-text icon="kv-add" right-icon="kv-arrow-right" type="primary" text="Primary Button"></kv-action-button-text>'
 			});
 			component = page.rootInstance;
 		});

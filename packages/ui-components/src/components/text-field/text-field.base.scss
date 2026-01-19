@@ -8,6 +8,13 @@
 	 * @prop --input-min-width: Text Field's min width.
 	 * @prop --input-max-width: Text Field's max width.
 
+	 * @prop --icon-size-large: Left icon width and height when size is large.
+	 * @prop --icon-size-small: Left icon width and height when size is small.
+
+	 * @prop --action-icon-size: Right action icon width and height.
+	 * @prop --action-left-spacing: Right action icon left spacing.
+
+	 * @prop --text-padding: Text Field text padding.
 	 * @prop --text-color-label: Label Text color.
 	 * @prop --text-color-icon-default: Icon color when state is default.
 	 * @prop --text-color-icon-disabled: Icon color when state is disabled.
@@ -43,7 +50,11 @@
 
 	--border-color-error: #{kv-color('error')};
 
-	--action-icon-size: 16px;
+	--icon-size-large: 24px;
+	--icon-size-small: 16px;
+	--icon-right-spacing: 0;
+	--action-left-spacing: $spacing;
+	--text-padding: $spacing;
 }
 
 kv-form-label {
@@ -85,7 +96,7 @@ kv-tooltip::part(content) {
 }
 
 .resize-text {
-	padding: 0 $spacing;
+	padding: 0 var(--text-padding);
 	display: inline-block;
 	visibility: hidden;
 	white-space: pre;
@@ -214,16 +225,15 @@ input {
 		overflow: hidden;
 		user-select: none;
 
-		kv-icon {
-			--icon-width: 24px;
-			--icon-height: 24px;
-		}
-
 		.value-prefix {
 			white-space: nowrap;
 			margin-right: calc(#{$spacing} / 2);
 
 			@include kv-font-span-semibold;
+		}
+
+		kv-icon {
+			margin-right: var(--icon-right-spacing);
 		}
 	}
 
@@ -237,20 +247,25 @@ input {
 		kv-icon {
 			--icon-width: var(--action-icon-size);
 			--icon-height: var(--action-icon-size);
-			margin-left: $spacing;
+			margin-left: var(--action-left-spacing);
 		}
 	}
 
 	&--size-large {
 		height: var(--input-height-large);
+
+		.left-slot-container kv-icon {
+			--icon-width: var(--icon-size-large);
+			--icon-height: var(--icon-size-large);
+		}
 	}
 
 	&--size-small {
 		height: var(--input-height-small);
 
 		.left-slot-container kv-icon {
-			--icon-width: 16px;
-			--icon-height: 16px;
+			--icon-width: var(--icon-size-small);
+			--icon-height: var(--icon-size-small);
 		}
 	}
 }

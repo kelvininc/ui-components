@@ -5,4 +5,6 @@ export interface IActionButtonTextConfig extends IButton, IButtonEvents {
 	text: string;
 	/** (optional) Button's left icon symbol name */
 	icon?: EIconName;
+	/** (optional) Button's right icon symbol name */
+	rightIcon?: EIconName;
 }

@@ -8,12 +8,13 @@
 
 	--button-icon-width: 16px;
 	--button-icon-height: 16px;
+	display: flex;
+	gap: $spacing-2x;
 }
 
 kv-icon {
 	--icon-width: var(--button-icon-width);
 	--icon-height: var(--button-icon-width);
-	margin-right: $spacing-2x;
 }
 
 .action-button-text {
@@ -27,4 +28,3 @@ kv-action-button[size='large'] .action-button-text {
 kv-action-button[size='small'] .action-button-text {
 	@include kv-font-label-small-semibold;
 }
-
