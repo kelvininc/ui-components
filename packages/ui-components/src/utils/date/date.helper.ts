@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { SelectedRange, ITimePickerTimezone, ITimezoneOffset } from '../types';
+import { ITimePickerTimezone, ITimezoneOffset } from '../../types';
 
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -10,7 +10,7 @@ import isBetween from 'dayjs/plugin/isBetween';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import utc from 'dayjs/plugin/utc';
 import { TIMEZONES } from './date.config';
-import { DateInput } from './types/dates';
+import { DateInput } from '../types/dates';
 
 dayjs.extend(quarterOfYear);
 dayjs.extend(advancedFormat);
@@ -109,19 +109,14 @@ export const isDateValid = (date: DateInput): boolean => {
 
 	return newDate(date).isValid();
 };
-export const calculateDate = (date: DateInput, amount: number = 0, unit: dayjs.ManipulateType | dayjs.QUnitType = 'days'): dayjs.Dayjs => {
-	if (unit === 'quarter') {
-		return newDate(date).add(amount, 'quarter');
+export const calculateOffsetDate = (date: DateInput, offset: number = 0, unit: dayjs.ManipulateType | dayjs.QUnitType = 'days'): dayjs.Dayjs => {
+	if (['quarter', 'quarters', 'Q'].includes(unit)) {
+		return newDate(date).add(offset, 'quarter');
 	}
 
-	return newDate(date).add(amount, unit as dayjs.ManipulateType);
+	return newDate(date).add(offset, unit as dayjs.ManipulateType);
 };
-export const getDatesRangeKey = (startDate: string = 'start-date', endDate: string = 'end-date'): string => `${startDate}#${endDate}`;
-export const fromDatesRangeKey = (datesKey: string): SelectedRange => {
-	const [startDate, endDate] = datesKey.split('#');
 
-	return [startDate, endDate].filter(isDateValid) as SelectedRange;
-};
 export const getMonthAndYearTitle = (month: number, year: number): string => `${getMonthName(month)} ${year}`;
 export const getDefaultTimezoneSettings = (timezone?: string): ITimePickerTimezone => {
 	const defaultTimezone = timezone ?? getDefaultTimezone();

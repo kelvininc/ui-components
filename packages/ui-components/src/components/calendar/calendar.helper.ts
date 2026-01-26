@@ -1,6 +1,6 @@
 import { SelectedRange } from '../../types';
 import { getArrayOfIndexes } from '../../utils/arrays.helper';
-import { fromDateFields, getFirstWeekdayIndexOfMonth, getNumberOfDaysInMonth } from '../../utils/date.helper';
+import { fromDateFields, getFirstWeekdayIndexOfMonth, getNumberOfDaysInMonth } from '../../utils/date';
 import { CALENDAR_FILLED_ROWS_NUMBER_OF_DAYS, DATE_FORMAT } from './calendar.config';
 
 export const getCalendarStartDisabledDays = (month: number, year: number): number[] => {

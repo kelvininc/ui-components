@@ -11,7 +11,7 @@ import {
 	INPUT_MASK_PLACEHOLDER
 } from './absolute-time-picker-dropdown-input.config';
 import dayjs from 'dayjs';
-import { fromISO, getDefaultTimezoneSettings } from '../../utils/date.helper';
+import { fromISO, getDefaultTimezoneSettings } from '../../utils/date';
 import { getFirstCalendarInitialDate, getSecondCalendarInitialDate } from '../absolute-time-picker/absolute-time-picker.helper';
 import { IClickDateEvent } from '../calendar/calendar.types';
 import { IAbsoluteTimePickerDropdownInput, IAbsoluteTimePickerDropdownInputEvents, SelectedTime, SelectedTimeState, TimeRange } from './absolute-time-picker-dropdown-input.types';

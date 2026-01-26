@@ -1,6 +1,11 @@
 import { EventEmitter } from '@stencil/core';
-import { DateInput, ICustomCss, ITimezoneOffset, SelectedTimestamp } from '../../types';
-import dayjs from 'dayjs';
+import { ICustomCss, ITimezoneOffset, SelectedTimestamp } from '../../types';
+import { DateTimeCalculation, IDateTimeRangeFormatter, ERelativeTimeRangeKey } from '../../utils/relative-time/relative-time.types';
+
+/**
+ * @deprecated Import from '@kelvininc/ui-components/utils/dates' instead
+ */
+export { EUnitReference, DateTimeCalculation, IDateTimeRangeFormatter } from '../../utils/relative-time/relative-time.types';
 
 export interface IRelativeTimePicker extends ICustomCss {
 	/** (optional) Selected time range key */
@@ -40,7 +45,7 @@ export interface IRelativeTimePickerOption {
 	/** (required) Option label ex: Last Week, Last 24h */
 	label: string;
 	/** (required) value of the option selected */
-	value: string;
+	value: ERelativeTimeRangeKey;
 	/** (required) Specifies the type of relative time config to be considered for the time calculation */
 	comparisonConfig: ERelativeTimeComparisonConfig;
 	/** (optional) used to format the time range label description ex: 14 Feb until 12:39 */
@@ -49,36 +54,6 @@ export interface IRelativeTimePickerOption {
 	startDate?: DateTimeCalculation;
 	/** (optional) end date (Date, Time or DateTime can be defined with the dateTimeFormatter) */
 	endDate?: DateTimeCalculation;
-}
-
-export type DateTimeCalculation = {
-	// Date which the calculation should be relative to.
-	// if undefined, now will be used
-	date?: DateInput;
-	// Format of the provided date
-	dateFormat?: string;
-	// the amount of units to add to the relative time
-	// if this number is negative, the amount will be subtracted
-	amount?: number;
-	// the unit type to add/subtract to the relative time
-	unit?: dayjs.ManipulateType | dayjs.QUnitType;
-	// unit reference (start of Or end of)
-	unitReference?: EUnitReference;
-};
-
-export interface IDateTimeRangeFormatter {
-	/** Defines how the initial date is formatted on the relative time select description
-	 * 	If empty, now start date will be displayed
-	 */
-	startDateFormatter?: string;
-	/** Defines how the initial date is formatted on the relative time select description
-	 *  If empty, now end date will be displayed
-	 */
-	endDateFormatter?: string;
-	/** Defines how the start date and end date are separated. Ex: "[until]" => <start-date> until <end-date>
-	 *  If empty, no separator will appear between dates
-	 */
-	separator?: string;
 }
 
 /** Defines how the time calculation should be done */
@@ -99,11 +74,6 @@ export enum ERelativeTimeComparisonConfig {
 	EndDate = 'endDate',
 	/** Compare an absolute start date with an end date */
 	StartDateEndDate = 'startDateEndDate'
-}
-
-export enum EUnitReference {
-	StartOfUnit = 'startOfUnit',
-	EndOfUnit = 'endOfUnit'
 }
 
 export interface IRelativeTimeDropdownOption {
