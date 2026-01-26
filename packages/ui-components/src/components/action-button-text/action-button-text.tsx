@@ -42,11 +42,11 @@ export class KvActionButtonText implements IActionButtonTextConfig {
 		return (
 			<Host>
 				<kv-action-button active={this.active} loading={this.loading} type={this.type} disabled={this.disabled} size={this.size} exportparts="button">
-					{this.icon && <kv-icon name={this.icon} exportparts="icon" />}
+					{this.icon && <kv-icon name={this.icon} class="left-icon" exportparts="icon" />}
 					<span class="action-button-text" part="button-text">
 						{this.text}
 					</span>
-					{this.rightIcon && <kv-icon name={this.rightIcon} exportparts="icon" />}
+					{this.rightIcon && <kv-icon name={this.rightIcon} class="right-icon" exportparts="icon" />}
 				</kv-action-button>
 			</Host>
 		);
