@@ -8,9 +8,7 @@ import {
 	ITimePickerTimezone
 } from './relative-time-picker.types';
 import {
-	CUSTOMIZE_INTERVAL_KEY,
 	CUSTOMIZE_INTERVAL_LABEL,
-	DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS,
 	GROUP_GAP,
 	MAX_HEIGHT,
 	PADDING_SIZE,
@@ -21,13 +19,14 @@ import {
 } from './relative-time-picker.config';
 import { ISelectSingleOptions } from '../single-select-dropdown/single-select-dropdown.types';
 import { EIconName } from '../icon/icon.types';
-import { buildTimezoneByOffset, formatTimezoneName, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
+import { buildTimezoneByOffset, formatTimezoneName, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date';
 import { buildRelativeTimeSelectOptions, buildTimezonesDropdownOptions, getSelectedKeyRange, hasRangeChanged, isScrollNeeded } from './relative-time-picker.helper';
 import { CustomCssClass, EComponentSize } from '../../types';
 import { isEmpty } from 'lodash-es';
 import { getClassMap } from '../../utils/css-class.helper';
 import { searchDropdownOptions } from '../../utils/select.helper';
 import { ITimezoneOffset, SelectedTimestamp } from '../time-picker/time-picker.types';
+import { CUSTOM_TIME_RANGE_KEY, DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS } from '../../utils/relative-time';
 
 @Component({
 	tag: 'kv-relative-time-picker',
@@ -87,7 +86,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 		const dropdownOptions = buildRelativeTimeSelectOptions(optionsToBuild, this.getSelectedTimezone());
 		this.relativeTimeOptions = dropdownOptions;
 
-		if (!isEmpty(this.selectedTimeKey) && this.selectedTimeKey !== CUSTOMIZE_INTERVAL_KEY) {
+		if (!isEmpty(this.selectedTimeKey) && this.selectedTimeKey !== CUSTOM_TIME_RANGE_KEY) {
 			const currentRange = getSelectedKeyRange(dropdownOptions, this.selectedTimeKey);
 			this.hasSelectedKeyRangeChanged(currentRange, this.selectedTimeKey);
 		}
@@ -109,7 +108,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 
 	@Watch('selectedTimeKey')
 	onSelectedTimeKeyChange(newKey: string) {
-		if (newKey !== CUSTOMIZE_INTERVAL_KEY) {
+		if (newKey !== CUSTOM_TIME_RANGE_KEY) {
 			this.selectedOptionRange = getSelectedKeyRange(this.relativeTimeOptions, this.selectedTimeKey);
 		}
 	}
@@ -227,10 +226,10 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 					{this.customIntervalOptionEnabled && (
 						<div class="selectable">
 							<kv-select-option
-								key={CUSTOMIZE_INTERVAL_KEY}
+								key={CUSTOM_TIME_RANGE_KEY}
 								label={CUSTOMIZE_INTERVAL_LABEL}
-								value={CUSTOMIZE_INTERVAL_KEY}
-								selected={CUSTOMIZE_INTERVAL_KEY === this.selectedTimeKey}
+								value={CUSTOM_TIME_RANGE_KEY}
+								selected={CUSTOM_TIME_RANGE_KEY === this.selectedTimeKey}
 								onItemSelected={this.onSelectCustomizeIntervalOption}
 							/>
 						</div>

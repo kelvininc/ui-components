@@ -4,10 +4,10 @@ import { CALENDAR_DATE_TIME_MASK, DATETIME_INPUT_MASK } from '../absolute-time-p
 import { ERelativeTimeInputMode, IRelativeTimeInput } from '../absolute-time-picker/absolute-time-picker.types';
 import { ERelativeTimeComparisonConfig, IRelativeTimePickerOption, ITimePickerRelativeTime, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
 import { isEmpty, isNil, isNumber } from 'lodash-es';
-import { CUSTOMIZE_INTERVAL_KEY } from '../relative-time-picker/relative-time-picker.config';
 import { UTC_TIMEZONE_OFFSET } from './time-picker.config';
 import { ITimePickerTime, ITimePickerTimeState, SelectedTimestamp } from './time-picker.types';
-import { newTimezoneDate } from '../../utils/date.helper';
+import { newTimezoneDate } from '../../utils/date/date.helper';
+import { CUSTOM_TIME_RANGE_KEY } from '../../utils/relative-time';
 
 /**
  * Generates the text displayed in the dropdown when the custom interval option is selected
@@ -71,14 +71,14 @@ export const getAbsoluteTimePickerRangeDates = (selectedOption: ITimePickerTimeS
 	}
 
 	if (!to && from) {
-		if (selectedOption.key === CUSTOMIZE_INTERVAL_KEY) {
+		if (selectedOption.key === CUSTOM_TIME_RANGE_KEY) {
 			return [dayjs(from).tz(timezoneName).format(CALENDAR_DATE_TIME_MASK)];
 		}
 
 		return [dayjs(from).utcOffset(timezoneOffset).format(CALENDAR_DATE_TIME_MASK)];
 	}
 
-	if (selectedOption.key === CUSTOMIZE_INTERVAL_KEY) {
+	if (selectedOption.key === CUSTOM_TIME_RANGE_KEY) {
 		return [dayjs(from).tz(timezoneName).format(CALENDAR_DATE_TIME_MASK), dayjs(to).tz(timezoneName).format(CALENDAR_DATE_TIME_MASK)];
 	}
 

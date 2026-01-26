@@ -1,17 +1,15 @@
 import {
 	areDatesValid,
-	calculateDate,
+	calculateOffsetDate,
 	formatDate,
 	formatDateTime,
 	formatForTimezone,
 	formatTimezoneName,
 	fromDateFields,
-	fromDatesRangeKey,
 	fromISO,
 	getDateMonth,
 	getDateYear,
 	getDatesBetweenRange,
-	getDatesRangeKey,
 	getDefaultTimezone,
 	getFirstWeekdayIndexOfMonth,
 	getMonthName,
@@ -494,12 +492,12 @@ describe('Date Helper', () => {
 		});
 	});
 
-	describe('#calculateDate', () => {
+	describe('#calculateOffsetDate', () => {
 		describe('when it is today and calculating -24 horus', () => {
 			let actualResult: boolean;
 
 			beforeEach(() => {
-				actualResult = calculateDate(todayMock, -24, 'hours').isSame(yesterdayMock, 'day');
+				actualResult = calculateOffsetDate(todayMock, -24, 'hours').isSame(yesterdayMock, 'day');
 			});
 
 			it('should be yesterday', () => {
@@ -511,7 +509,7 @@ describe('Date Helper', () => {
 			let actualResult: boolean;
 
 			beforeEach(() => {
-				actualResult = calculateDate(yesterdayMock, 24, 'hours').isSame(todayMock, 'day');
+				actualResult = calculateOffsetDate(yesterdayMock, 24, 'hours').isSame(todayMock, 'day');
 			});
 
 			it('should be today', () => {
@@ -521,53 +519,13 @@ describe('Date Helper', () => {
 
 		describe('when a quarter is added', () => {
 			it('should return date with a quarter ahead', () => {
-				expect(calculateDate(dayjs('01-01-2023', 'DD-MM-YYYY'), 1, 'quarter').format('DD-MM-YYYY')).toEqual(dayjs('01-04-2023', 'DD-MM-YYYY').format('DD-MM-YYYY'));
+				expect(calculateOffsetDate(dayjs('01-01-2023', 'DD-MM-YYYY'), 1, 'quarter').format('DD-MM-YYYY')).toEqual(dayjs('01-04-2023', 'DD-MM-YYYY').format('DD-MM-YYYY'));
 			});
 		});
 
 		describe('when a quarter is subtracted', () => {
 			it('should return date with a quarter behind', () => {
-				expect(calculateDate(dayjs('01-01-2023', 'DD-MM-YYYY'), -1, 'quarter').format('DD-MM-YYYY')).toEqual(dayjs('01-10-2022', 'DD-MM-YYYY').format('DD-MM-YYYY'));
-			});
-		});
-	});
-
-	describe('#getDatesRangeKey', () => {
-		describe('when giving two valid date strings', () => {
-			let actualResult: string;
-
-			beforeEach(() => {
-				actualResult = getDatesRangeKey('2019-06-20', '2019-09-04');
-			});
-
-			it('should return the dates separated by #', () => {
-				expect(actualResult).toBe('2019-06-20#2019-09-04');
-			});
-		});
-	});
-
-	describe('#fromDatesRangeKey', () => {
-		describe('when giving two date separated by #', () => {
-			let actualResult: string[];
-
-			beforeEach(() => {
-				actualResult = fromDatesRangeKey('2019-06-20#2019-09-04');
-			});
-
-			it('should return the array of the two dates', () => {
-				expect(actualResult).toEqual(['2019-06-20', '2019-09-04']);
-			});
-		});
-
-		describe('when passing the result to the getDatesRangeKey', () => {
-			let actualResult: string;
-
-			beforeEach(() => {
-				actualResult = getDatesRangeKey(...fromDatesRangeKey('2019-06-20#2019-09-04'));
-			});
-
-			it('should be equal to the input', () => {
-				expect(actualResult).toBe('2019-06-20#2019-09-04');
+				expect(calculateOffsetDate(dayjs('01-01-2023', 'DD-MM-YYYY'), -1, 'quarter').format('DD-MM-YYYY')).toEqual(dayjs('01-10-2022', 'DD-MM-YYYY').format('DD-MM-YYYY'));
 			});
 		});
 	});

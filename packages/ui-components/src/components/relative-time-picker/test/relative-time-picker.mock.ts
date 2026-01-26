@@ -7,7 +7,7 @@ export const MOCK_RELATIVE_TIME_OPTIONS_GROUPS: IRelativeTimePickerOption[][] = 
 	[
 		{
 			label: 'All time',
-			value: 'all-time',
+			value: 'all-time' as any,
 			comparisonConfig: ERelativeTimeComparisonConfig.StartDateEndDate,
 			startDate: {
 				date: '1-01-2018 23:50'

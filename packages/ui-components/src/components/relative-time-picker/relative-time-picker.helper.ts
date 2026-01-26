@@ -13,8 +13,8 @@ import {
 	SELECT_OPTION_HEIGHT
 } from './relative-time-picker.config';
 import { DayjsTimeRange, ISelectSingleOptions, ITimezoneOffset, SelectedTimestamp } from '../../types';
-import { buildOptionRange, buildTimestampRange } from '../../utils/relative-time.helper';
-import { getDefaultTimezone } from '../../utils/date.helper';
+import { getDefaultTimezone } from '../../utils/date';
+import { buildOptionRange, buildTimestampRange } from '../../utils/relative-time';
 
 export const buildRelativeTimeSelectOptions = (options: IRelativeTimePickerOption[][], timeZone: string = getDefaultTimezone()): IRelativeTimeDropdownOption[][] => {
 	return options.map<IRelativeTimeDropdownOption[]>(group => buildRelativeTimeGroupOptions(group, timeZone));

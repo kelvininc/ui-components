@@ -11,7 +11,7 @@ import {
 	DATE_INPUT_PLACEHOLDER,
 	DEFAULT_HEADER_TITLE
 } from './absolute-time-picker.config';
-import { fromDateInput, fromISO, isDateBefore, isDateSame, newDate } from '../../utils/date.helper';
+import { fromDateInput, fromISO, isDateBefore, isDateSame, newDate } from '../../utils/date';
 import { isEmpty } from 'lodash-es';
 import {
 	ERelativeTimeInputMode,

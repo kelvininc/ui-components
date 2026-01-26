@@ -16,7 +16,7 @@ import {
 	isDateSame,
 	isDateValid,
 	newDate
-} from '../../utils/date.helper';
+} from '../../utils/date';
 import { getArrayOfIndexes } from '../../utils/arrays.helper';
 import { EIconName } from '../icon/icon.types';
 import { getCalendarEndDisabledDays, getCalendarStartDisabledDays, getHooveredDate, getSelectedRange } from './calendar.helper';
