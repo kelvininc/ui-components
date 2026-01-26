@@ -14,8 +14,7 @@ import { ETimePickerView } from './time-picker.types';
 import { ComputePositionConfig } from '@floating-ui/dom';
 import { EAbsoluteTimePickerMode, EComponentSize, ETooltipPosition, ITimezoneOffset, SelectedRange } from '../../types';
 import { IRelativeTimePickerOption, ITimePickerRelativeTime, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
-import { CUSTOMIZE_INTERVAL_KEY, DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS } from '../relative-time-picker/relative-time-picker.config';
-import { buildTimezoneByOffset, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date.helper';
+import { buildTimezoneByOffset, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date/date.helper';
 import { ITimePicker, ITimePickerEvents, ITimePickerTimeState, ITimePickerTime } from './time-picker.types';
 import {
 	buildCustomIntervalTimeRange,
@@ -33,6 +32,7 @@ import {
 import { CALENDAR_DATE_TIME_MASK, DATETIME_INPUT_MASK, DEFAULT_HEADER_TITLE } from '../absolute-time-picker/absolute-time-picker.config';
 import { IRelativeTimeInput, IAbsoluteSelectedRangeDates } from '../absolute-time-picker/absolute-time-picker.types';
 import dayjs from 'dayjs';
+import { CUSTOM_TIME_RANGE_KEY, DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS } from '../../utils/relative-time';
 
 @Component({
 	tag: 'kv-time-picker',
@@ -170,7 +170,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	};
 
 	private onClickSeeCustomInterval = ({ detail: key }: CustomEvent<string>) => {
-		if (this.selectedTimeState && this.selectedTimeState.key !== CUSTOMIZE_INTERVAL_KEY) {
+		if (this.selectedTimeState && this.selectedTimeState.key !== CUSTOM_TIME_RANGE_KEY) {
 			this.selectedTimeState = {
 				key,
 				range: [],
@@ -188,7 +188,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	private onSelectedTimezoneChange = ({ detail: timezone }: CustomEvent<ITimePickerTimezone>) => {
 		const previousTimezone = this.getSelectedTimezone().name;
 		const range =
-			this.selectedTimeState.key === CUSTOMIZE_INTERVAL_KEY && this.selectedTimeState?.range?.length > 0
+			this.selectedTimeState.key === CUSTOM_TIME_RANGE_KEY && this.selectedTimeState?.range?.length > 0
 				? getTimestampFromDateRange(this.selectedTimeState.range, previousTimezone, timezone.name)
 				: this.selectedTimeState.range;
 
@@ -245,7 +245,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	};
 
 	private getRelativeTimeInputConfig(): IRelativeTimeInput | undefined {
-		if (this.selectedTimeState?.key !== CUSTOMIZE_INTERVAL_KEY) {
+		if (this.selectedTimeState?.key !== CUSTOM_TIME_RANGE_KEY) {
 			return getRelativeTimeInputText(this.relativeTimePickerOptions, this.selectedTimeState, this.getSelectedTimezone().name);
 		}
 	}
@@ -253,7 +253,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	private handleRelativeTimeConfigReset = () => {
 		this.calendarViewLocked = true;
 		this.selectedTimeState = {
-			key: CUSTOMIZE_INTERVAL_KEY,
+			key: CUSTOM_TIME_RANGE_KEY,
 			range: [],
 			timezone: this.getSelectedTimezone()
 		};
@@ -272,7 +272,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 
 		if (hasRangeChanged([fromDate, toDate], this.selectedTimeState.range)) {
 			this.selectedTimeState = {
-				key: CUSTOMIZE_INTERVAL_KEY,
+				key: CUSTOM_TIME_RANGE_KEY,
 				range: range.length === FULL_RANGE_SIZE ? [fromDate, toDate] : [fromDate],
 				timezone
 			};
@@ -322,7 +322,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	};
 
 	private getDropdownInputValue = (): string | undefined => {
-		if (this.selectedTimeOption?.key === CUSTOMIZE_INTERVAL_KEY) {
+		if (this.selectedTimeOption?.key === CUSTOM_TIME_RANGE_KEY) {
 			return buildCustomIntervalTimeRange(this.selectedTimeOption.range, this.selectedTimeOption.timezone.name);
 		}
 
@@ -334,13 +334,13 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	};
 
 	private getTextFieldTooltip = (): string | undefined => {
-		if (this.selectedTimeState?.key === CUSTOMIZE_INTERVAL_KEY) {
+		if (this.selectedTimeState?.key === CUSTOM_TIME_RANGE_KEY) {
 			return buildTooltipText(this.selectedTimeState.range, this.getSelectedTimezone(), this.timezones);
 		}
 	};
 
 	private getFormattedSelectedTime = (): string | undefined => {
-		if (this.selectedTimeState?.key === CUSTOMIZE_INTERVAL_KEY) {
+		if (this.selectedTimeState?.key === CUSTOM_TIME_RANGE_KEY) {
 			return DEFAULT_HEADER_TITLE;
 		}
 

@@ -1,0 +1,38 @@
+import { ERelativeTimeRangeKey } from './relative-time.types';
+
+export const getRelativeTimeRangeName = (time: ERelativeTimeRangeKey): string =>
+	({
+		[ERelativeTimeRangeKey.Last_5_m]: 'Last 5 minutes',
+		[ERelativeTimeRangeKey.Last_10_m]: 'Last 10 minutes',
+		[ERelativeTimeRangeKey.Last_15_m]: 'Last 15 minutes',
+		[ERelativeTimeRangeKey.Last_30_m]: 'Last 30 minutes',
+		[ERelativeTimeRangeKey.Last_1_H]: 'Last 1 hour',
+		[ERelativeTimeRangeKey.Last_6_H]: 'Last 6 hours',
+		[ERelativeTimeRangeKey.Last_12_H]: 'Last 12 hours',
+		[ERelativeTimeRangeKey.Last_24_H]: 'Last 24 hours',
+		[ERelativeTimeRangeKey.Last_48_H]: 'Last 48 hours',
+		[ERelativeTimeRangeKey.Last_72_H]: 'Last 72 hours',
+		[ERelativeTimeRangeKey.Last_3_D]: 'Last 3 days',
+		[ERelativeTimeRangeKey.Last_7_D]: 'Last 7 days',
+		[ERelativeTimeRangeKey.Last_14_D]: 'Last 14 days',
+		[ERelativeTimeRangeKey.Last_30_D]: 'Last 30 days',
+		[ERelativeTimeRangeKey.Last_1_M]: 'Last 30 days',
+		[ERelativeTimeRangeKey.Last_90_D]: 'Last 90 days',
+		[ERelativeTimeRangeKey.Last_6_M]: 'Last 6 months',
+		[ERelativeTimeRangeKey.Last_365_D]: 'Last 365 days',
+		[ERelativeTimeRangeKey.Last_1_Y]: 'Last year',
+
+		[ERelativeTimeRangeKey.Next_5_M]: 'Next 5 minutes',
+		[ERelativeTimeRangeKey.Next_10_M]: 'Next 10 minutes',
+		[ERelativeTimeRangeKey.Next_15_M]: 'Next 15 minutes',
+		[ERelativeTimeRangeKey.Next_30_M]: 'Next 30 minutes',
+		[ERelativeTimeRangeKey.Next_1_H]: 'Next 1 hour',
+		[ERelativeTimeRangeKey.Next_6_H]: 'Next 6 hours',
+		[ERelativeTimeRangeKey.Next_12_H]: 'Next 12 hours',
+		[ERelativeTimeRangeKey.Next_24_H]: 'Next 24 hours',
+		[ERelativeTimeRangeKey.Next_48_H]: 'Next 48 hours',
+		[ERelativeTimeRangeKey.Next_72_H]: 'Next 72 hours',
+		[ERelativeTimeRangeKey.Next_7_D]: 'Next 7 days',
+		[ERelativeTimeRangeKey.Next_2_W]: 'Next 2 weeks',
+		[ERelativeTimeRangeKey.Next_1_M]: 'Next 30 days'
+	})[time];
