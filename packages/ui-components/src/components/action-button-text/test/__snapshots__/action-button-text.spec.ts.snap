@@ -4,7 +4,7 @@ exports[`Action Button Text (unit tests) when has a icon should match the snapsh
 <kv-action-button-text icon="kv-add" size="large" text="Primary Button" type="primary">
   <template shadowrootmode="open">
     <kv-action-button exportparts="button" size="large" type="primary">
-      <kv-icon exportparts="icon" name="kv-add"></kv-icon>
+      <kv-icon class="left-icon" exportparts="icon" name="kv-add"></kv-icon>
       <span class="action-button-text" part="button-text">
         Primary Button
       </span>
@@ -20,7 +20,7 @@ exports[`Action Button Text (unit tests) when has a rightIcon should match the s
       <span class="action-button-text" part="button-text">
         Primary Button
       </span>
-      <kv-icon exportparts="icon" name="kv-arrow-right"></kv-icon>
+      <kv-icon class="right-icon" exportparts="icon" name="kv-arrow-right"></kv-icon>
     </kv-action-button>
   </template>
 </kv-action-button-text>
@@ -30,11 +30,11 @@ exports[`Action Button Text (unit tests) when has both icon and rightIcon should
 <kv-action-button-text icon="kv-add" right-icon="kv-arrow-right" size="large" text="Primary Button" type="primary">
   <template shadowrootmode="open">
     <kv-action-button exportparts="button" size="large" type="primary">
-      <kv-icon exportparts="icon" name="kv-add"></kv-icon>
+      <kv-icon class="left-icon" exportparts="icon" name="kv-add"></kv-icon>
       <span class="action-button-text" part="button-text">
         Primary Button
       </span>
-      <kv-icon exportparts="icon" name="kv-arrow-right"></kv-icon>
+      <kv-icon class="right-icon" exportparts="icon" name="kv-arrow-right"></kv-icon>
     </kv-action-button>
   </template>
 </kv-action-button-text>
