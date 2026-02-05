@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.55.0](https://github.com/kelvininc/ui-components/compare/v0.51.0...v0.55.0) (2026-02-05)
+
+
+### Features
+
+* add support for visibility toggle on schema passwords ([e81551e](https://github.com/kelvininc/ui-components/commit/e81551e6062fbcbda9e3328c39d907ceec8ffea9))
+* **alert:** adds new content slot ([884e8ed](https://github.com/kelvininc/ui-components/commit/884e8edc94233cca0f4e6672325780830564042c))
+* **tooltip:** allow slot for tooltip text ([d667879](https://github.com/kelvininc/ui-components/commit/d6678791372b6d108df1f45a8330e3cadd5a559d))
+
+
+
+
+
 # [0.51.0](https://github.com/kelvininc/ui-components/compare/v0.50.0...v0.51.0) (2025-10-10)
 
 **Note:** Version bump only for package @kelvininc/react-storybook
