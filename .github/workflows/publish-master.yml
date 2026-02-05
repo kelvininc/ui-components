@@ -6,6 +6,7 @@ on:
 
 permissions:
     contents: write # for checkout and tag
+    id-token: write # Required for OIDC
 
 jobs:
     publish:
@@ -31,20 +32,10 @@ jobs:
               env:
                   TOKEN: ${{ secrets.LERNA_PUBLISH }}
 
-            - name: Authenticate with Registry
-              run: |
-                  echo "registry=http://registry.npmjs.org/" > .npmrc
-                  echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-                  npm whoami
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
             - name: Setup Node.js ${{ matrix.node }}
               uses: ./.github/actions/node-setup
               with:
                   node-version: ${{ matrix.node }}
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: Lint
               run: pnpm lint
@@ -54,13 +45,9 @@ jobs:
 
             - name: Generate Versions
               run: pnpm lerna version --yes --conventional-commits --no-changelog --no-git-tag-version --no-push --force-publish=*
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: Build
               run: pnpm build:packages
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: Publish to NPM JS
               run: |
@@ -68,7 +55,7 @@ jobs:
                   pnpm lerna publish --no-verify-access --yes --force-publish=*
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+                  NPM_CONFIG_PROVENANCE: true
 
             - name: Publish Alpha & Master Storybook to GitHub Pages
               run: |
