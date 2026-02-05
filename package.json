@@ -21,7 +21,7 @@
 	"devDependencies": {
 		"@commitlint/config-conventional": "^19.5.0",
 		"@types/node": "^22.7.2",
-		"lerna": "^8.1.8",
+		"lerna": "^9.0.3",
 		"typescript": "^5.6.2",
 		"vitest": "^4.0.13"
 	},
