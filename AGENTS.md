@@ -29,7 +29,7 @@ ui-components/
 - **Testing**: Jest + Puppeteer (E2E)
 - **Styling**: SASS
 - **Build**: Rollup (for React), Stencil CLI (for core)
-- **Monorepo**: Lerna v8 + pnpm workspaces
+- **Monorepo**: Lerna v9 + pnpm workspaces
 - **Documentation**: Storybook v8
 - **Commit Conventions**: Conventional Commits (with commitlint)
 
@@ -489,6 +489,8 @@ pnpm storybook:deploy
 - Packages are published to npm with `@kelvininc` scope
 - Public access (specified in publishConfig)
 - Managed via Lerna publish workflow
+- Uses OIDC trusted publishing (no npm tokens required)
+- CI workflow: `.github/workflows/publish-master.yml`
 
 ## 🔗 Useful Links
 
