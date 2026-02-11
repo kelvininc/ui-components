@@ -56,6 +56,30 @@
 	--icon-right-spacing: 0;
 	--action-left-spacing: #{$spacing};
 	--text-padding: 0 #{$spacing};
+
+	--text-color-label: #{kv-color('neutral-4')};
+
+	--text-color-icon-default: #{kv-color('neutral-4')};
+	--text-color-icon-disabled: #{kv-color('neutral-5')};
+	--text-color-icon-focused: #{kv-color('neutral-2')};
+
+	--text-color-action-icon-default: #{kv-color('neutral-4')};
+	--text-color-action-icon-disabled: #{kv-color('neutral-5')};
+	--text-color-action-icon-focused: #{kv-color('neutral-2')};
+
+	--text-color-input-default: #{kv-color('neutral-2')};
+	--text-color-input-disabled: #{kv-color('neutral-5')};
+	--text-color-input-focused: #{kv-color('neutral-2')};
+
+	--text-color-placeholder-default: #{kv-color('neutral-4')};
+	--text-color-placeholder-disabled: #{kv-color('neutral-5')};
+	--text-color-placeholder-focused: #{kv-color('neutral-4')};
+
+	--border-color-default: #{kv-color('neutral-6')};
+	--border-color-focused: #{kv-color('neutral-0')};
+
+	--background-color-default: #{kv-color('neutral-6')};
+	--background-color-disabled: #{kv-color('neutral-7')};
 }
 
 kv-form-label {
@@ -113,6 +137,8 @@ kv-tooltip::part(content) {
 
 input {
 	@include ellipsis;
+
+	color-scheme: dark;
 
 	&::placeholder {
 		color: var(--text-color-placeholder-default);
@@ -279,6 +305,9 @@ input {
 	width: 100%;
 	display: flex;
 	margin-top: $spacing;
+
+	@include ghost-animation('neutral-7');
+	transition: none;
 
 	&--size-large {
 		height: var(--input-height-large);

@@ -10,7 +10,6 @@ export {
 	EComponentSize,
 	ETooltipPosition,
 	EAlarmSeverity,
-	StyleMode,
 	EBadgeState,
 	ETagState,
 	EDateTimeInputTypeStyle,

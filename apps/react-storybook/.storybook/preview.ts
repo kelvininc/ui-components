@@ -1,15 +1,10 @@
 import type { Preview } from "@storybook/react";
-import { withThemeByClassName } from "@storybook/addon-themes";
 import {
 	extractArgTypes,
 	extractComponentDescription,
 	setStencilDocJson
 } from "@pxtrn/storybook-addon-docs-stencil";
-import {
-	EComponentSize,
-	initialize,
-	StyleMode
-} from "@kelvininc/ui-components";
+import { EComponentSize, initialize } from "@kelvininc/ui-components";
 import docJson from "@kelvininc/ui-components/docs.json";
 
 import theme from "./themes/kelvin-theme";
@@ -22,34 +17,10 @@ if (docJson) {
 }
 
 initialize({
-	styleMode: StyleMode.Night,
 	baseAssetsUrl: ""
 });
 
 const preview: Preview = {
-	globalTypes: {
-		theme: {
-			description: "Global theme for components",
-			toolbar: {
-				icon: "photo",
-				items: [
-					{
-						value: "light",
-						title: "Light Theme",
-						right: "🌕"
-					},
-					{
-						value: "night",
-						title: "Night Theme",
-						right: "🌙"
-					}
-				]
-			}
-		}
-	},
-	initialGlobals: {
-		theme: "night"
-	},
 	parameters: {
 		controls: {
 			matchers: {
@@ -112,16 +83,7 @@ const preview: Preview = {
 			options: Object.values(EComponentSize)
 		}
 	},
-	tags: ["autodocs"],
-	decorators: [
-		withThemeByClassName({
-			themes: {
-				light: "light-theme",
-				night: "night-theme"
-			},
-			defaultTheme: "night"
-		})
-	]
+	tags: ["autodocs"]
 };
 
 export default preview;

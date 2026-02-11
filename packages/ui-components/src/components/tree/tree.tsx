@@ -11,10 +11,7 @@ import { get } from 'lodash-es';
  */
 @Component({
 	tag: 'kv-tree',
-	styleUrls: {
-		night: 'tree.night.scss',
-		light: 'tree.light.scss'
-	},
+	styleUrl: 'tree.scss',
 	shadow: true
 })
 export class KvTree {

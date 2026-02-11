@@ -1,6 +1,0 @@
-@import './modal.base';
-
-:host {
-	--modal-overlay-color: #{kv-color('neutral-6', 'base', 0.5)};
-	--modal-background-color: #{kv-color('neutral-0')};
-}
