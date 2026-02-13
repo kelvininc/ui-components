@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/kelvininc/ui-components/compare/v0.51.0...v1.0.0) (2026-02-13)
+
+
+### Bug Fixes
+
+* **sass:** resolve deprecated [@import](https://github.com/import) and typographies in scss files ([b4f8e17](https://github.com/kelvininc/ui-components/commit/b4f8e178da558a4c52cba36b8eeee387eaa72f07))
+
+
+### Features
+
+* **action-buttons:** migrate to new design tokens ([ab44286](https://github.com/kelvininc/ui-components/commit/ab44286d11d88edd644948430ded7e811d1270f7))
+* add support for visibility toggle on schema passwords ([e81551e](https://github.com/kelvininc/ui-components/commit/e81551e6062fbcbda9e3328c39d907ceec8ffea9))
+* **alert:** adds new content slot ([884e8ed](https://github.com/kelvininc/ui-components/commit/884e8edc94233cca0f4e6672325780830564042c))
+* **react-storybook:** add support to toggle themes dark and light ([85eb3cb](https://github.com/kelvininc/ui-components/commit/85eb3cb2e96a8599e6c7debc8eb21ff91fafa1d6))
+* **tooltip:** allow slot for tooltip text ([d667879](https://github.com/kelvininc/ui-components/commit/d6678791372b6d108df1f45a8330e3cadd5a559d))
+
+
+
+
+
 # [0.51.0](https://github.com/kelvininc/ui-components/compare/v0.50.0...v0.51.0) (2025-10-10)
 
 **Note:** Version bump only for package @kelvininc/react-storybook
