@@ -83,26 +83,42 @@ import { EActionButtonType, KvActionButtonText } from '@kelvininc/react-ui-compo
 </KvActionButtonText>
 ```
 
-Including the global style file you can access our foundation design system definitions like [colors](/story/foundation-colors--page), [spacings](?path=/docs/foundation-spatial-system--page) and [typography](/docs/foundation-typography--page)
+Including the global style file you can access our foundation design system definitions like [typography](/docs/foundation-typography--docs)
 
 ```css
-@import "@kelvininc/react-ui-components/dist/assets/styles/globals.scss";
+@use "@kelvininc/react-ui-components/dist/assets/styles" as *;
 ```
 
 ## Themes
 
-Kelvin UI Components allows you to customize the theme by changing some CSS properties.
+Kelvin UI Components uses a design token system powered by Style Dictionary. Theming is handled through CSS custom properties scoped to the `mode` attribute on the `body` element.
 
-**_Example_**: Setting the _Primary Color_
+Two themes are available out of the box: **dark** (`night`) and **light** (`light`).
+
+**_Example_**: Setting the theme mode
+
+```html
+<!-- Dark theme (default) -->
+<body mode="night">...</body>
+
+<!-- Light theme -->
+<body mode="light">...</body>
+```
+
+The design tokens are organized into semantic categories:
+
+- **Core tokens** (`:root`): Primitive values like colors, spacing, font sizes, radii, and border widths (e.g., `--color-brand-500`, `--space-16`, `--radius-md`)
+- **Semantic tokens** (`body[mode="..."]`): Theme-aware tokens for backgrounds, text, borders, icons, and component-specific properties (e.g., `--background-surface-default`, `--text-surface-neutral-primary`, `--border-surface-neutral-default`)
+
+**_Example_**: Using design tokens in CSS
 
 ```css
-:root {
-	--kv-primary: #005cc7;
-	--kv-primary-rgb: 0, 92, 199;
-	--kv-primary-contrast: #fff;
-	--kv-primary-contrast-rgb: 255, 255, 255;
-	--kv-primary-dark: #0051af;
-	--kv-primary-light: #ccdef4;
+.my-component {
+	background-color: var(--background-surface-default);
+	color: var(--text-surface-neutral-primary);
+	border: var(--border-width-default) solid var(--border-surface-neutral-default);
+	border-radius: var(--radius-md);
+	padding: var(--space-16);
 }
 ```
 

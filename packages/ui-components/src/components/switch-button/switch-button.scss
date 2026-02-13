@@ -1,5 +1,5 @@
 @use "sass:map";
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 // map sizes
 $btn-heights: (

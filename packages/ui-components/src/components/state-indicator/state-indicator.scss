@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 .state-indicator {
 	display: flex;
@@ -12,7 +12,7 @@
 	}
 
 	.text {
-		@include kv-font-label-small-regular();
+		@include body-s-regular();
 		color: kv-color('text');
 	}
 }

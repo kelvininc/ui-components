@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -72,12 +72,12 @@
 		margin-left: var(--radio-list-item-gap);
 
 		.label {
-			@include kv-font-h4-semibold;
+			@include heading-m-semibold;
 			color: kv-color('neutral-0');
 		}
 
 		.description {
-			@include kv-font-paragraph-regular;
+			@include body-m-regular;
 			color: kv-color('neutral-4');
 
 			kv-link::part(container) {

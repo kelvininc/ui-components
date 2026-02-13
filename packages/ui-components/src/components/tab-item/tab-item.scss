@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 $tab-dot-error-size: 6px;
 
@@ -53,7 +53,7 @@ $tab-dot-error-size: 6px;
 		}
 
 		.label {
-			@include kv-font-h4-semibold();
+			@include heading-m-semibold();
 			color: kv-color('text', 'step-4');
 		}
 
@@ -61,7 +61,7 @@ $tab-dot-error-size: 6px;
 			margin: 0 $spacing-4x;
 
 			.label {
-				@include kv-font-label-small-semibold();
+				@include body-s-semibold();
 			}
 		}
 

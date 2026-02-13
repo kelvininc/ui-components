@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 kv-description-list {
 	/**
@@ -43,12 +43,12 @@ kv-description-list {
 	}
 
 	.title {
-		@include kv-font-label-small-uppercase-regular;
+		@include heading-xs-regular-caps;
 		color: kv-color('neutral-4');
 	}
 
 	.description {
-		@include kv-font-paragraph-regular;
+		@include body-m-regular;
 		color: kv-color('neutral-2');
 
 		kv-tooltip::part(content) {

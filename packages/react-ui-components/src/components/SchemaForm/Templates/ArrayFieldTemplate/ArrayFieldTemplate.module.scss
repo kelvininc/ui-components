@@ -1,5 +1,4 @@
-@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
-
+@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 .ArrayItemList {
 	display: flex;
 	flex-direction: column;
