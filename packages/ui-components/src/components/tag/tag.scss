@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -29,7 +29,7 @@
 	background-color: var(--tag-background-color);
 
 	.tag-label {
-		@include kv-font-label-small-uppercase-regular;
+		@include heading-xs-regular-caps;
 
 		color: var(--tag-label-color);
 	}
@@ -38,7 +38,7 @@
 		max-height: 20px;
 		
 		.tag-label {
-			@include kv-font-label-xsmall-uppercase-regular;
+			@include heading-xs-regular-caps;
 		}
 	}
 }

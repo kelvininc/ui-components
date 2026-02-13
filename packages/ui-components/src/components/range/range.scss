@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 $label-height: 49px;
 
@@ -42,7 +42,7 @@ $label-height: 49px;
 }
 
 .range-min-max {
-	@include kv-font-span-regular;
+	@include body-m-regular;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
@@ -89,7 +89,7 @@ $label-height: 49px;
 }
 
 .select-value {
-	@include kv-font-h2-semibold;
+	@include heading-xl-semibold;
 	top: calc(-1 * $label-height);
 	transform: translateX(-50%);
 	position: absolute;

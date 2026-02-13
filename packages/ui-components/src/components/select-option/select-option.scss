@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -90,13 +90,13 @@
 
 	.item-label {
 		@include ellipsis();
-		@include kv-font-span-regular;
+		@include body-m-regular;
 		transition: font-weight var(--select-option-transition-duration) linear;
 		color: var(--select-option-label-color);
 	}
 
 	.item-description {
-		@include kv-font-label-small-regular;
+		@include body-s-regular;
 		color: var(--select-option-description-color);
 	}
 
@@ -115,12 +115,12 @@
 		background-color: var(--select-option-background-color-selected);
 
 		.item-label {
-			@include kv-font-span-semibold;
+			@include body-m-semibold;
 			color: var(--select-option-label-color-selected);
 		}
 
 		.item-description {
-			@include kv-font-label-small-semibold;
+			@include body-s-semibold;
 			color: var(--select-option-description-color-selected);
 		}
 	}
@@ -141,12 +141,12 @@
 		background-color: var(--select-option-background-color-highlighted);
 
 		.item-label {
-			@include kv-font-span-semibold;
+			@include body-m-semibold;
 			color: var(--select-option-label-color-highlighted);
 		}
 
 		.item-description {
-			@include kv-font-label-small-semibold;
+			@include body-s-semibold;
 			color: var(--select-option-description-color-highlighted);
 		}
 	}
@@ -163,7 +163,7 @@
 
 	&--heading {
 		.item-label {
-			@include kv-font-label-xsmall-uppercase-semibold;
+			@include heading-xs-semibold-caps;
 			color: kv-color('neutral-2');
 		}
 

@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 @mixin badge-state-theme($state) {
 	$badge-text-color: var(--badge-text-color-#{$state});
@@ -44,7 +44,7 @@
 }
 
 .badge {
-	@include kv-font-span-regular;
+	@include body-m-regular;
 	display: flex;
 	align-items: center;
 	justify-content: center;

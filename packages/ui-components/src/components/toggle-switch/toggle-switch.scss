@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 .toggle-switch-container {
 	display: flex;
@@ -38,7 +38,7 @@
 		--border-color-disabled-active: #{kv-color('neutral-6')};
 
 		&::part(toggle-label) {
-			@include kv-font-label-small-regular();
+			@include body-s-regular();
 		}
 	}
 }

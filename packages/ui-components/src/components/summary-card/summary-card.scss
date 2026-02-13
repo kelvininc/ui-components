@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 .summary-card-container {
 	@include ellipsis();
@@ -19,22 +19,22 @@
 	}
 
 	.label {
-		@include kv-font-h5-semibold();
+		@include body-m-semibold();
 		margin-bottom: $spacing;
 		color: kv-color('text');
 
 		&.number {
-			@include kv-font-h4-semibold();
+			@include heading-m-semibold();
 		}
 	}
 
 	.subtitle {
-		@include kv-font-span-regular();
+		@include body-m-regular();
 		color: kv-color('text');
 	}
 
 	.description {
-		@include kv-font-label-small-regular();
+		@include body-s-regular();
 		color: kv-color('text', 'step-3');
 	}
 
@@ -66,6 +66,6 @@
 	.label,
 	.subtitle,
 	.description {
-		@include ghost-animation('neutral-7');
+		@include ghost-animation(kv-color('neutral-7'));
 	}
 }
