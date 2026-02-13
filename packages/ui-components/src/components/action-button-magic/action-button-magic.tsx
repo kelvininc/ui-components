@@ -2,18 +2,18 @@ import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { EActionButtonType } from '../action-button/action-button.types';
 import { EComponentSize } from '../../utils/types';
 import { EIconName } from '../icon/icon.types';
-import { IActionButtonTextConfig } from './action-button-text.types';
+import { IActionButtonTextConfig } from '../action-button-text/action-button-text.types';
 
 /**
  * @part button-text - The text button.
  * @part icon - The icon button.
  */
 @Component({
-	tag: 'kv-action-button-text',
-	styleUrl: 'action-button-text.scss',
+	tag: 'kv-action-button-magic',
+	styleUrl: 'action-button-magic.scss',
 	shadow: true
 })
-export class KvActionButtonText implements IActionButtonTextConfig {
+export class KvActionButtonMagic implements IActionButtonTextConfig {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) text!: string;
 	/** @inheritdoc */
@@ -41,21 +41,17 @@ export class KvActionButtonText implements IActionButtonTextConfig {
 	render() {
 		return (
 			<Host>
-				<kv-action-button active={this.active} loading={this.loading} type={this.type} disabled={this.disabled} size={this.size} exportparts="button">
-					{this.icon && <kv-icon name={this.icon} exportparts="icon" />}
-					<span
-						class={{
-							'action-button-text': true,
-							'action-button-text--disabled': this.disabled,
-							'action-button-text--active': this.active,
-							[`action-button-text--type-${this.type}`]: true
-						}}
-						part="button-text"
-					>
-						{this.text}
-					</span>
-					{this.rightIcon && <kv-icon name={this.rightIcon} exportparts="icon" />}
-				</kv-action-button>
+				<kv-action-button-text
+					text={this.text}
+					icon={this.icon}
+					rightIcon={this.rightIcon}
+					type={this.type}
+					disabled={this.disabled}
+					active={this.active}
+					loading={this.loading}
+					size={this.size}
+					exportparts="button, button-text, icon"
+				/>
 			</Host>
 		);
 	}

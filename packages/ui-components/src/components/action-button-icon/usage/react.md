@@ -3,7 +3,7 @@ import React from 'react';
 
 import { KvActionButtonIcon, EIconName } from '@kelvininc/react-ui-components/client';
 
-export const SwitchButtonExample: React.FC = () => (
+export const ActionButtonIconExample: React.FC = () => (
 	<>
 		{/*-- Primary --*/}
 		<KvActionButtonIcon icon={EIconName.Add} type={EActionButtonType.Primary}></KvActionButtonIcon>
@@ -14,8 +14,8 @@ export const SwitchButtonExample: React.FC = () => (
 		{/*-- Tertiary --*/}
 		<KvActionButtonIcon icon={EIconName.Add} type={EActionButtonType.Tertiary}></KvActionButtonIcon>
 
-		{/*-- Ghost --*/}
-		<KvActionButtonIcon icon={EIconName.Add} type={EActionButtonType.Ghost}></KvActionButtonIcon>
+		{/*-- Text --*/}
+		<KvActionButtonIcon icon={EIconName.Add} type={EActionButtonType.Text}></KvActionButtonIcon>
 
 		{/*-- Danger --*/}
 		<KvActionButtonIcon icon={EIconName.Add} type={EActionButtonType.Danger}></KvActionButtonIcon>
