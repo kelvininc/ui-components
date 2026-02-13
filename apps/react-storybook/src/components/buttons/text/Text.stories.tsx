@@ -69,12 +69,11 @@ export const TertiaryLoadingState: Story = {
 	}
 };
 
-export const GhostState: Story = {
+export const TextState: Story = {
 	args: {
-		type: EActionButtonType.Ghost,
-		text: "Ghost Button",
+		type: EActionButtonType.Text,
+		text: "Text Button",
 		size: EComponentSize.Large,
-		icon: EIconName.Add,
 		disabled: false
 	}
 };

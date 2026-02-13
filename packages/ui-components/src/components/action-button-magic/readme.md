@@ -1,37 +1,8 @@
-# _<kv-action-button-text>_
+# kv-action-button-magic
+
+
 
 <!-- Auto Generated Below -->
-
-
-## Usage
-
-### React
-
-```tsx
-import React from 'react';
-
-import { KvActionButtonText, EActionButtonType, EIconName } from '@kelvininc/react-ui-components/client';
-
-export const ActionButtonTextExample: React.FC = () => (
-	<>
-		{/*-- Primary --*/}
-		<KvActionButtonText text="Primary Button" icon={EIconName.Add} type={EActionButtonType.Primary}></KvActionButtonText>
-
-		{/*--Secondary --*/}
-		<KvActionButtonText text="Secondary Button" icon={EIconName.Add} type={EActionButtonType.Secondary}></KvActionButtonText>
-
-		{/*-- Tertiary --*/}
-		<KvActionButtonText text="Tertiary Button" icon={EIconName.Add} type={EActionButtonType.Tertiary}></KvActionButtonText>
-
-		{/*-- Text --*/}
-		<KvActionButtonText text="Text Button" icon={EIconName.Add} type={EActionButtonType.Text}></KvActionButtonText>
-
-		{/*-- Disabled --*/}
-		<KvActionButtonText disabled text="Disabled Button" icon={EIconName.Add} type={EActionButtonType.Primary}></KvActionButtonText>
-	</>
-);
-```
-
 
 
 ## Properties
@@ -67,30 +38,17 @@ export const ActionButtonTextExample: React.FC = () => (
 
 ## Dependencies
 
-### Used by
-
- - [kv-absolute-time-picker-dropdown](../absolute-time-picker-dropdown)
- - [kv-action-button-magic](../action-button-magic)
- - [kv-action-button-split](../action-button-split)
- - [kv-time-picker](../time-picker)
- - [kv-wizard-footer](../wizard-footer)
-
 ### Depends on
 
-- [kv-action-button](../action-button)
-- [kv-icon](../icon)
+- [kv-action-button-text](../action-button-text)
 
 ### Graph
 ```mermaid
 graph TD;
+  kv-action-button-magic --> kv-action-button-text
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon
-  kv-absolute-time-picker-dropdown --> kv-action-button-text
-  kv-action-button-magic --> kv-action-button-text
-  kv-action-button-split --> kv-action-button-text
-  kv-time-picker --> kv-action-button-text
-  kv-wizard-footer --> kv-action-button-text
-  style kv-action-button-text fill:#f9f,stroke:#333,stroke-width:4px
+  style kv-action-button-magic fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

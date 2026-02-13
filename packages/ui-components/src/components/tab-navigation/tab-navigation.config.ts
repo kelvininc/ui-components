@@ -1,8 +1,8 @@
 import { EComponentSize } from '../../types';
 
 export const FONT_DESCRIPTOR_SIZE_MAP: Record<EComponentSize, string> = {
-	[EComponentSize.Small]: 'normal normal 600 12px proxima-nova',
-	[EComponentSize.Large]: 'normal normal 600 16px proxima-nova'
+	[EComponentSize.Small]: 'normal normal 600 12px Proxima Nova',
+	[EComponentSize.Large]: 'normal normal 600 16px Proxima Nova'
 };
 
 export const TAB_ITEM_PADDING_PX = 48;

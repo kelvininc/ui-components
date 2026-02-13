@@ -3,7 +3,7 @@ import React from 'react';
 
 import { KvActionButton } from '@kelvininc/react-ui-components/client';
 
-export const SwitchButtonExample: React.FC = () => (
+export const ActionButtonExample: React.FC = () => (
 	<>
 		{/*-- Primary --*/}
 		<KvActionButton type={EActionButtonType.Primary}>Primary Button</KvActionButton>
@@ -14,8 +14,8 @@ export const SwitchButtonExample: React.FC = () => (
 		{/*-- Tertiary --*/}
 		<KvActionButton type={EActionButtonType.Tertiary}>Tertiary Button</KvActionButton>
 
-		{/*-- Tertiary --*/}
-		<KvActionButton type={EActionButtonType.Ghost}>Ghost Button</KvActionButton>
+		{/*-- Text --*/}
+		<KvActionButton type={EActionButtonType.Text}>Text Button</KvActionButton>
 
 		{/*-- Disabled --*/}
 		<KvActionButton disabled type={EActionButtonType.Primary}>
