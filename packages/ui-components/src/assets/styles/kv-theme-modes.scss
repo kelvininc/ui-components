@@ -1,5 +1,5 @@
-// Globals
-@import './globals';
+@use 'kv-functions-color' as *;
+@use 'kv-typography' as *;
 
 body {
 	color: kv-color('text');
