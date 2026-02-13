@@ -41,7 +41,7 @@ import { EActionButtonType, KvActionButton } from '@kelvininc/react-ui-component
 Including the global style file you can access our foundation design system definitions like [colors](https://kelvininc.github.io/ui-components/?path=/story/foundation-colors--page), [spacings](https://kelvininc.github.io/ui-components/?path=/docs/foundation-spatial-system--page) and [typography](https://kelvininc.github.io/ui-components/?path=/docs/foundation-typography--page)
 
 ```css
-@import '@kelvininc/react-ui-components/dist/assets/styles/globals.scss';
+@use '@kelvininc/react-ui-components/dist/assets/styles' as *;
 ```
 
 ## Themes
