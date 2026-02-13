@@ -100,7 +100,7 @@ export class KvWizardFooter implements IWizardFooter, IWizardFooterEvents {
 					<div class="buttons-container">
 						{this.showCancelBtn && (
 							<kv-action-button-text
-								type={EActionButtonType.Ghost}
+								type={EActionButtonType.Tertiary}
 								text="Cancel"
 								disabled={!this.cancelEnabled}
 								onClickButton={({ detail: event }) => this.onCancelClick(event)}

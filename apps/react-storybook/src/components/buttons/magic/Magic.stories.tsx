@@ -3,20 +3,16 @@ import {
 	EIconName,
 	EActionButtonType,
 	EComponentSize,
-	KvActionButtonSplit
+	KvActionButtonMagic
 } from "@kelvininc/react-ui-components/client";
 
 const meta = {
-	title: "Buttons/Split",
-	component: KvActionButtonSplit,
+	title: "Buttons/Magic",
+	component: KvActionButtonMagic,
 	argTypes: {
 		type: {
 			control: { type: "select" },
 			options: [EActionButtonType.Primary, EActionButtonType.Secondary]
-		},
-		splitIcon: {
-			control: { type: "select" },
-			options: Object.values(EIconName)
 		},
 		icon: {
 			control: { type: "select" },
@@ -27,27 +23,27 @@ const meta = {
 			options: Object.values(EComponentSize)
 		}
 	}
-} satisfies Meta<typeof KvActionButtonSplit>;
+} satisfies Meta<typeof KvActionButtonMagic>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const PrimaryState: Story = {
+export const Primary: Story = {
 	args: {
 		type: EActionButtonType.Primary,
-		text: "Primary Button",
-		splitIcon: EIconName.ArrowDropDown,
+		text: "Button",
 		size: EComponentSize.Large,
+		icon: EIconName.AI,
 		disabled: false
 	}
 };
 
-export const SecondaryState: Story = {
+export const Secondary: Story = {
 	args: {
 		type: EActionButtonType.Secondary,
-		text: "Secondary Button",
-		splitIcon: EIconName.ArrowDropDown,
+		text: "Button",
 		size: EComponentSize.Large,
+		icon: EIconName.AI,
 		disabled: false
 	}
 };
