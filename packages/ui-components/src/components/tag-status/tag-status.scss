@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -38,7 +38,7 @@
 	gap: var(--tag-status-gap);
 
 	.label {
-		@include kv-font-label-small-regular;
+		@include body-s-regular;
 		color: var(--tag-status-label-color);
 	}
 

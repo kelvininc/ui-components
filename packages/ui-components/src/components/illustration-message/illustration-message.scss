@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -29,13 +29,13 @@
 .header {
 	color: var(--header-color);
 	text-align: center;
-	@include kv-font-h5-semibold;
+	@include body-m-semibold;
 }
 
 .description {
 	color: var(--description-color);
 	text-align: center;
-	@include kv-font-label-small-regular;
+	@include body-s-regular;
 	white-space: break-spaces;
 	margin-top: $spacing;
 }

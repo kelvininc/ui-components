@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -27,7 +27,7 @@ kv-select {
 
 .selected-items-label {
 	@include ellipsis;
-	@include kv-font-label-small-regular;
+	@include body-s-regular;
 	color: kv-color('neutral-4');
 	text-wrap: nowrap;
 }
@@ -36,7 +36,7 @@ kv-select {
 	display: flex;
 	align-items: center;
 	color: kv-color('neutral-4');
-	@include kv-font-label-xsmall-regular;
+	@include body-xs-regular;
 }
 
 .create-new-option-container {

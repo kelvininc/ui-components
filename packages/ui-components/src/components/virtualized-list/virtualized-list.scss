@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -22,7 +22,7 @@
 		display: block;
 		overflow-y: auto;
 
-		@include kelvin-night-scrollbar;
+		@include kelvin-scrollbar;
 	}
 
 	.inner {

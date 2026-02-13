@@ -1,5 +1,4 @@
-@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
-
+@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 .FormContainer {
 	/**
 	* @prop --schema-form-x-padding: horizontal form padding
@@ -75,14 +74,14 @@
 
 		.Text {
 			color: kv-color('neutral-2');
-			@include kv-font-label-small-regular;
+			@include body-s-regular;
 		}
 	}
 }
 
 body {
 	.FormContainer form {
-		@include kelvin-night-scrollbar();
+		@include kelvin-scrollbar;
 	}
 	.FormFooter.Scrolling {
 		border-color: kv-color('neutral-6');

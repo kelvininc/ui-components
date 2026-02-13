@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -53,7 +53,7 @@
 	gap: $spacing-3x;
 
 	.footer-actions {
-		@include kv-font-label-small-regular;
+		@include body-s-regular;
 		display: flex;
 		flex-direction: row;
 		align-items: center;

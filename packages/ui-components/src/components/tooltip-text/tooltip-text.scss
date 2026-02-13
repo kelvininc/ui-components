@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -25,7 +25,7 @@
 	white-space: var(--container-white-space);
 
 	.tooltip-text {
-		@include kv-font-span-semibold();
+		@include body-m-semibold();
 		color: kv-color('neutral-2');
 	}
 }

@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 /**
 	 * @prop --text-color-title: Info label's title color.
@@ -24,7 +24,7 @@
 	flex-direction: column;
 
 	.title {
-		@include kv-font-label-small-uppercase-regular();
+		@include heading-xs-regular-caps();
 		color: var(--text-color-title);
 		white-space: nowrap;
 		margin-bottom: $spacing-2x;
@@ -41,13 +41,13 @@
 		height: auto;
 
 		.text {
-			@include kv-font-span-regular();
+			@include body-m-regular();
 			color: var(--text-color-description);
 		}
 	}
 
 	.expand-description-button {
-		@include kv-font-label-small-regular();
+		@include body-s-regular();
 		display: flex;
 		align-items: center;
 		cursor: pointer;

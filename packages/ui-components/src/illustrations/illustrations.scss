@@ -1,5 +1,5 @@
 @use "sass:color";
-@import '../assets/styles/globals';
+@use '../assets/styles' as *;
 
 .illustration {
 	--illustration-color: var(--kv-illustrations-color, #{$primary-color});

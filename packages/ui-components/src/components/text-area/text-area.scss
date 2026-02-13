@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -19,7 +19,7 @@
 	}
 
 	.text-area {
-		@include kelvin-night-scrollbar();
+		@include kelvin-scrollbar;
 
 		display: flex;
 		flex-direction: column;
@@ -35,7 +35,7 @@
 			transition: height 0.25s ease-in-out;
 
 			.input {
-				@include kv-font-span-regular;
+				@include body-m-regular;
 				outline: none;
 				height: inherit;
 				color: kv-color('neutral-4');
@@ -72,7 +72,7 @@
 		}
 
 		.character-counter {
-			@include kv-font-label-small-regular;
+			@include body-s-regular;
 			color: kv-color('neutral-4');
 			margin-left: $spacing-3x;
 			display: none;

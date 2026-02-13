@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -13,7 +13,7 @@
 }
 
 .breadcrumb-item {
-	@include kv-font-span-regular();
+	@include body-m-regular();
 	cursor: pointer;
 	user-select: none;
 
@@ -26,7 +26,7 @@
 	}
 
 	&--active {
-		@include kv-font-span-semibold();
+		@include body-m-semibold();
 		pointer-events: none;
 
 		color: var(--breadcrumb-item-active-color);

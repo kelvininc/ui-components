@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -92,7 +92,7 @@ kv-form-help-text {
 }
 
 kv-tooltip::part(container) {
-	@include kv-font-span-regular();
+	@include body-m-regular();
 	color: kv-color('neutral-2');
 }
 
@@ -109,7 +109,7 @@ kv-tooltip::part(content) {
 
 .resize-input,
 .resize-text {
-	@include kv-font-span-regular;
+	@include body-m-regular;
 	flex: 1;
 	appearance: textfield;
 	border: 0;
@@ -256,7 +256,7 @@ input {
 			white-space: nowrap;
 			margin-right: calc(#{$spacing} / 2);
 
-			@include kv-font-span-semibold;
+			@include body-m-semibold;
 		}
 
 		kv-icon {
@@ -306,8 +306,7 @@ input {
 	display: flex;
 	margin-top: $spacing;
 
-	@include ghost-animation('neutral-7');
-	transition: none;
+	@include ghost-animation(var(--background-color-disabled));
 
 	&--size-large {
 		height: var(--input-height-large);
