@@ -207,8 +207,8 @@ export class KvInlineEditableField {
 				>
 					{this.isEditing && (
 						<Fragment>
-							<kv-action-button-icon type={EActionButtonType.Ghost} icon={EIconName.Close} onClickButton={this.discardContent} />
-							<kv-action-button-icon type={EActionButtonType.Ghost} icon={EIconName.DoneAll} disabled={this.isSaveDisabled} onClickButton={this.saveChanges} />
+							<kv-action-button-icon type={EActionButtonType.Tertiary} icon={EIconName.Close} onClickButton={this.discardContent} />
+							<kv-action-button-icon type={EActionButtonType.Tertiary} icon={EIconName.DoneAll} disabled={this.isSaveDisabled} onClickButton={this.saveChanges} />
 						</Fragment>
 					)}
 				</div>

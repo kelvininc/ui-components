@@ -68,15 +68,6 @@ export const TertiaryLoadingState: Story = {
 		children: "Action Button"
 	}
 };
-export const GhostState: Story = {
-	args: {
-		type: EActionButtonType.Ghost,
-		size: EComponentSize.Large,
-		disabled: false,
-		active: false,
-		children: "Action Button"
-	}
-};
 
 export const DangerState: Story = {
 	args: {

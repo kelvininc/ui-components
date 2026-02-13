@@ -14,7 +14,12 @@ const meta = {
 	argTypes: {
 		type: {
 			control: { type: "select" },
-			options: Object.values(EActionButtonType)
+			options: [
+				EActionButtonType.Primary,
+				EActionButtonType.Secondary,
+				EActionButtonType.Tertiary,
+				EActionButtonType.Danger
+			]
 		},
 		size: {
 			control: { type: "radio" },
@@ -72,16 +77,6 @@ export const TertiaryLoadingState: Story = {
 		disabled: false,
 		active: false,
 		loading: true
-	}
-};
-
-export const GhostState: Story = {
-	args: {
-		icon: EIconName.Add,
-		type: EActionButtonType.Ghost,
-		size: EComponentSize.Small,
-		disabled: false,
-		active: false
 	}
 };
 
