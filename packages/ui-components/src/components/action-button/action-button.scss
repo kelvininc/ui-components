@@ -439,7 +439,6 @@ $btn-paddings-x: (
 	--icon-color-focus-tertiary: var(--button-tertiary-icon-color-default, #{get-text-color('focus', 'tertiary')});
 	--icon-color-focus-text: var(--button-text-icon-color-default, #{get-text-color('focus', 'text')});
 	--icon-color-focus-danger: var(--button-danger-icon-color-default, #{get-text-color('focus', 'danger')});
-
 	--icon-color-disabled-primary: var(--button-primary-icon-color-disabled, #{get-text-color('disabled', 'primary')});
 	--icon-color-disabled-secondary: var(--button-secondary-icon-color-disabled, #{get-text-color('disabled', 'secondary')});
 	--icon-color-disabled-tertiary: var(--button-tertiary-icon-color-disabled, #{get-text-color('disabled', 'tertiary')});
@@ -458,7 +457,6 @@ $btn-paddings-x: (
 	--text-color-default-tertiary: var(--button-tertiary-label-default, #{get-text-color('default', 'tertiary')});
 	--text-color-default-text: var(--button-text-label-default, #{get-text-color('default', 'text')});
 	--text-color-default-danger: var(--button-danger-label-default, #{get-text-color('default', 'danger')});
-
 	--text-color-hover-primary: var(--button-primary-label-default, #{get-text-color('hover', 'primary')});
 	--text-color-hover-secondary: var(--button-secondary-label-subtle, #{get-text-color('hover', 'secondary')});
 	--text-color-hover-tertiary: var(--button-tertiary-label-subtle, #{get-text-color('hover', 'tertiary')});
@@ -470,7 +468,6 @@ $btn-paddings-x: (
 	--text-color-focus-tertiary: var(--button-tertiary-label-default, #{get-text-color('focus', 'tertiary')});
 	--text-color-focus-text: var(--button-text-label-default, #{get-text-color('focus', 'text')});
 	--text-color-focus-danger: var(--button-danger-label-default, #{get-text-color('focus', 'danger')});
-
 	--text-color-disabled-primary: var(--button-primary-label-disabled, #{get-text-color('disabled', 'primary')});
 	--text-color-disabled-secondary: var(--button-secondary-label-disabled, #{get-text-color('disabled', 'secondary')});
 	--text-color-disabled-tertiary: var(--button-tertiary-label-disabled, #{get-text-color('disabled', 'tertiary')});
@@ -501,7 +498,6 @@ $btn-paddings-x: (
 	--background-color-focus-tertiary: var(--transparent, #{get-background-color('focus', 'tertiary')});
 	--background-color-focus-text: var(--transparent, #{get-background-color('focus', 'text')});
 	--background-color-focus-danger: var(--button-danger-background-default, #{get-background-color('focus', 'danger')});
-
 	--background-color-disabled-primary: var(--button-primary-background-disabled, #{get-background-color('disabled', 'primary')});
 	--background-color-disabled-secondary: var(--button-secondary-background-disabled, #{get-background-color('disabled', 'secondary')});
 	--background-color-disabled-tertiary: var(--button-tertiary-background-disabled, #{get-background-color('disabled', 'tertiary')});
@@ -550,7 +546,6 @@ $btn-paddings-x: (
 	--button-gap-small: var(--button-gap-compact, 8px);
 	--button-height-large: var(--button-height-regular, #{get-height('large')});
 	--button-height-small: var(--button-height-compact, #{get-height('small')});
-
 	--button-padding-x-large: var(--button-padding-x-regular, #{get-horizontal-padding('large')});
 	--button-padding-y-large: var(--button-padding-y-regular, #{get-horizontal-padding('large')});
 
