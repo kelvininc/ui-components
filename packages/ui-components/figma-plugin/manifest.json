@@ -1,0 +1,14 @@
+{
+	"name": "Design Tokens Export",
+	"id": "1604132349400801357",
+	"api": "1.0.0",
+	"main": "code.js",
+	"ui": "ui.html",
+	"documentAccess": "dynamic-page",
+	"capabilities": ["inspect"],
+	"enableProposedApi": false,
+	"editorType": ["figma", "figjam", "dev"],
+	"networkAccess": {
+		"allowedDomains": ["https://cdnjs.cloudflare.com"]
+	}
+}
