@@ -1,10 +1,16 @@
-import type { Preview } from "@storybook/react";
+import type { Preview, Decorator } from "@storybook/react";
+import { useEffect } from "react";
 import {
 	extractArgTypes,
 	extractComponentDescription,
 	setStencilDocJson
 } from "@pxtrn/storybook-addon-docs-stencil";
-import { EComponentSize, initialize } from "@kelvininc/ui-components";
+import {
+	EComponentSize,
+	initialize,
+	setThemeMode,
+	StyleMode
+} from "@kelvininc/ui-components";
 import docJson from "@kelvininc/ui-components/docs.json";
 
 import theme from "./themes/kelvin-theme";
@@ -17,10 +23,54 @@ if (docJson) {
 }
 
 initialize({
+	styleMode: StyleMode.Night,
 	baseAssetsUrl: ""
 });
 
+/**
+ * Decorator that syncs the Storybook theme toggle with the design tokens system.
+ * Updates the body[mode] attribute when theme changes, enabling dynamic dark/light mode.
+ */
+const withThemeMode: Decorator = (Story, context) => {
+	const selectedTheme = context.globals.theme || "night";
+
+	useEffect(() => {
+		const mode = selectedTheme === "light" ? StyleMode.Light : StyleMode.Night;
+		setThemeMode(mode);
+
+		// Update color-scheme for native elements (scrollbars, inputs, etc.)
+		document.documentElement.style.colorScheme = selectedTheme === "light" ? "light" : "dark";
+	}, [selectedTheme]);
+
+	return Story();
+};
+
 const preview: Preview = {
+	globalTypes: {
+		theme: {
+			description: "Global theme for components",
+			toolbar: {
+				icon: "circlehollow",
+				title: "Theme",
+				items: [
+					{
+						value: "light",
+						title: "Light Theme",
+						icon: "sun"
+					},
+					{
+						value: "night",
+						title: "Night Theme",
+						icon: "moon"
+					}
+				],
+				dynamicTitle: true
+			}
+		}
+	},
+	initialGlobals: {
+		theme: "night"
+	},
 	parameters: {
 		controls: {
 			matchers: {
@@ -50,7 +100,7 @@ const preview: Preview = {
 		},
 		docs: {
 			theme,
-			extractComponentDescription: (component) => {
+			extractComponentDescription: (component: any) => {
 				const displayName =
 					component?.displayName || component?.render?.displayName;
 
@@ -62,7 +112,7 @@ const preview: Preview = {
 
 				return extractComponentDescription(tagName);
 			},
-			extractArgTypes: (component) => {
+			extractArgTypes: (component: any) => {
 				const displayName =
 					component?.displayName || component?.render?.displayName;
 
@@ -83,7 +133,8 @@ const preview: Preview = {
 			options: Object.values(EComponentSize)
 		}
 	},
-	tags: ["autodocs"]
+	tags: ["autodocs"],
+	decorators: [withThemeMode]
 };
 
 export default preview;
