@@ -1,36 +1,28 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
-:host {
-	/**
-	 * @prop --button-icon-width: Button's icon width.
-	 * @prop --button-icon-height: Button's icon height.
-	 */
 
-	--button-icon-width: 16px;
-	--button-icon-height: 16px;
-}
+kv-action-button[type="text"] {
+	--button-height-large: 16px;
+	--button-height-small: 16px;
 
-kv-icon {
-	--icon-width: var(--button-icon-width);
-	--icon-height: var(--button-icon-width);
-}
-
-.left-icon {
-	margin-right: $spacing-2x;
-}
-
-.right-icon {
-	margin-left: $spacing-2x;
+	--button-padding-x-large: none;
+	--button-padding-y-large: none;
+	
+	--button-padding-x-small: none;
+	--button-padding-y-small: none;
 }
 
 .action-button-text {
 	white-space: nowrap;
-}
 
-kv-action-button[size='large'] .action-button-text {
-	@include kv-font-span-semibold;
-}
+	@include body-m-semibold;
 
-kv-action-button[size='small'] .action-button-text {
-	@include kv-font-label-small-semibold;
+	&--type-text {
+		@include body-m-regular;
+
+		&.action-button-text--active,
+		&:hover:not(.action-button-text--disabled) {
+			@include body-m-semibold;
+		}
+	}
 }

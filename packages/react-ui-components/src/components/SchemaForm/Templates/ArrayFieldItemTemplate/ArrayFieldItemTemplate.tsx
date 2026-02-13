@@ -33,7 +33,7 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 								<KvActionButtonIcon
 									icon={EIconName.AlignBottom}
 									size={EComponentSize.Large}
-									type={EActionButtonType.Ghost}
+									type={EActionButtonType.Tertiary}
 									tabIndex={-1}
 									disabled={disabled || readonly || !hasMoveDown}
 									onClickButton={onReorderClick(index, index + 1)}
@@ -41,7 +41,7 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 								<KvActionButtonIcon
 									icon={EIconName.AlignTop}
 									size={EComponentSize.Large}
-									type={EActionButtonType.Ghost}
+									type={EActionButtonType.Tertiary}
 									tabIndex={-1}
 									disabled={disabled || readonly || !hasMoveUp}
 									onClickButton={onReorderClick(index, index - 1)}
@@ -52,7 +52,7 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 							<KvActionButtonIcon
 								icon={EIconName.Delete}
 								size={EComponentSize.Large}
-								type={EActionButtonType.Ghost}
+								type={EActionButtonType.Tertiary}
 								tabIndex={-1}
 								disabled={disabled || readonly}
 								onClickButton={onDropIndexClick(index)}

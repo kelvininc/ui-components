@@ -12,6 +12,7 @@ import { getClassMap } from '../../utils/css-class.helper';
  * @part checkbox - The option's checkbox
  * @part label - The option's label
  * @part icon - The option's icon
+ * @part right-icon - The option's right icon
  */
 @Component({
 	tag: 'kv-select-option',
@@ -136,7 +137,7 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 								{this.action && (
 									<div class="group">
 										<kv-action-button-icon
-											type={EActionButtonType.Ghost}
+											type={EActionButtonType.Tertiary}
 											icon={this.action.icon}
 											onClickButton={this.action.onClick}
 											active={this.action.active}
