@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -79,7 +79,7 @@
 }
 
 .label {
-	@include kv-font-span-regular();
+	@include body-m-regular();
 	@include ellipsis();
 
 	color: var(--radio-label-text-color);

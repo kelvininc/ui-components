@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 .alert-container {
 	background-color: $neutral-color-0;
@@ -63,13 +63,13 @@
 		}
 
 		.title {
-			@include kv-font-span-semibold;
+			@include body-m-semibold;
 
 			color: #{kv-color('neutral-9')};
 		}
 
 		.description {
-			@include kv-font-paragraph-regular;
+			@include body-m-regular;
 
 			color: #{kv-color('neutral-6')};
 			margin-top: $spacing;

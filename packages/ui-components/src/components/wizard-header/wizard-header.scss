@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 /**
  * @prop --text-color: The color to use for all text
@@ -28,12 +28,12 @@
 		}
 
 		.label {
-			@include kv-font-label-small-uppercase-semibold;
+			@include heading-xs-semibold-caps;
 		}
 
 		.description {
 			@include ellipsis;
-			@include kv-font-paragraph-light;
+			@include body-m-regular;
 		}
 
 		.separator {

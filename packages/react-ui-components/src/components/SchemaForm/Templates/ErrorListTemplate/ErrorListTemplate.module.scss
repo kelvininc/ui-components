@@ -1,5 +1,4 @@
-@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
-
+@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 .ErrorListContainer {
 	border-bottom: 1px solid kv-color('neutral-6');
 	padding: 0 $spacing-3x $spacing-3x $spacing-2x;

@@ -1,28 +1,13 @@
-@use "@kelvininc/react-ui-components/assets/styles/globals";
-
-:export {
-	spacing: globals.$spacing;
-	spacing-2x: globals.$spacing-2x;
-	spacing-3x: globals.$spacing-3x;
-	spacing-4x: globals.$spacing-4x;
-	spacing-5x: globals.$spacing-5x;
-	spacing-6x: globals.$spacing-6x;
-	spacing-7x: globals.$spacing-7x;
-	spacing-8x: globals.$spacing-8x;
-	spacing-9x: globals.$spacing-9x;
-	spacing-10x: globals.$spacing-10x;
-	spacing-12x: globals.$spacing-12x;
-	spacing-16x: globals.$spacing-16x;
-}
+@use "@kelvininc/react-ui-components/assets/styles" as *;
 
 .SpacingContainer {
 	display: flex;
 	flex-wrap: wrap;
-	padding: globals.$spacing-7x 0;
+	padding: 28px 0;
 }
 
 .SpacingWrapper {
-	padding: globals.$spacing-3x;
+	padding: 12px;
 
 	.BoxWrapper {
 		display: flex;
@@ -32,27 +17,41 @@
 		align-items: center;
 		justify-content: center;
 
-		background: globals.kv-color("neutral-7");
+		background: kv-color("neutral-7");
 		border-radius: 4px;
 
 		.Box {
-			background-color: globals.kv-color("primary");
+			background-color: kv-color("primary");
+		}
+
+		.RadiusBox {
+			width: 80px;
+			height: 80px;
+			background-color: kv-color("primary");
+		}
+
+		.BorderBox {
+			width: 80px;
+			height: 80px;
+			border-style: solid;
+			border-color: kv-color("primary");
+			background: transparent;
 		}
 	}
 
 	.Description {
 		display: flex;
 		justify-content: space-between;
-		padding: 0 globals.$spacing;
+		padding: 0 4px;
 
 		.Code {
-			color: globals.kv-color("neutral-5");
-			@include globals.kv-font-label-small-regular;
+			color: kv-color("neutral-5");
+			@include body-s-regular;
 		}
 
 		.Value {
-			color: globals.kv-color("neutral-5");
-			@include globals.kv-font-label-small-semibold;
+			color: kv-color("neutral-5");
+			@include body-s-semibold;
 		}
 	}
 }

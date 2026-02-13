@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	.link-container {
@@ -6,7 +6,7 @@
 		flex-direction: column;
 
 		.label {
-			@include kv-font-h5-semibold();
+			@include body-m-semibold();
 			text-decoration: none;
 			user-select: none;
 			color: kv-color('text');
@@ -19,7 +19,7 @@
 		}
 
 		.subtitle {
-			@include kv-font-label-small-regular();
+			@include body-s-regular();
 			color: kv-color('text');
 		}
 	}

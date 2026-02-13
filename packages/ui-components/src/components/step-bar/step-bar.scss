@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 /**
 * @prop --step-label-color: The color of the label.
@@ -13,12 +13,12 @@ $progress-bar-height: 2px;
 
 .label-container {
 	.label {
-		@include kv-font-label-small-semibold;
+		@include body-s-semibold;
 		color: var(--step-label-color);
 	}
 
 	.step-counter {
-		@include kv-font-label-small-regular;
+		@include body-s-regular;
 
 		color: var(--step-counter-color);
 		margin-left: $spacing;
