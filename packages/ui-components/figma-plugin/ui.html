@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Design Tokens Export</title>
+	<style>
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+			font-size: 12px;
+			color: #333;
+			padding: 16px;
+			background: #fff;
+		}
+
+		h1 {
+			font-size: 16px;
+			font-weight: 600;
+			margin-bottom: 16px;
+			color: #1a1a1a;
+		}
+
+		.info {
+			background: #f5f5f5;
+			border-radius: 6px;
+			padding: 12px;
+			margin-bottom: 16px;
+		}
+
+		.info p {
+			margin-bottom: 4px;
+		}
+
+		.info strong {
+			color: #666;
+		}
+
+		.exports-list {
+			margin-bottom: 16px;
+			max-height: 280px;
+			overflow-y: auto;
+		}
+
+		.export-item {
+			background: #fafafa;
+			border: 1px solid #e5e5e5;
+			border-radius: 6px;
+			padding: 12px;
+			margin-bottom: 8px;
+			cursor: pointer;
+			transition: all 0.15s;
+		}
+
+		.export-item:hover {
+			background: #f0f0f0;
+			border-color: #006fff;
+		}
+
+		.export-item.selected {
+			background: #e5f1ff;
+			border-color: #006fff;
+		}
+
+		.export-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 6px;
+		}
+
+		.export-name {
+			font-weight: 600;
+			font-size: 13px;
+		}
+
+		.export-count {
+			color: #666;
+			font-size: 11px;
+		}
+
+		.export-meta {
+			display: flex;
+			gap: 8px;
+			align-items: center;
+		}
+
+		.file-name {
+			color: #006fff;
+			font-size: 11px;
+			font-family: monospace;
+		}
+
+		.mode-badge {
+			background: #e5e5e5;
+			color: #666;
+			padding: 2px 8px;
+			border-radius: 10px;
+			font-size: 10px;
+		}
+
+		.mode-badge.combined {
+			background: #006fff;
+			color: white;
+		}
+
+		.type-badge {
+			background: #9747ff;
+			color: white;
+			padding: 2px 8px;
+			border-radius: 10px;
+			font-size: 10px;
+		}
+
+		.actions {
+			display: flex;
+			gap: 8px;
+			margin-bottom: 16px;
+		}
+
+		button {
+			background: #006fff;
+			color: white;
+			border: none;
+			padding: 10px 16px;
+			border-radius: 6px;
+			font-size: 12px;
+			font-weight: 500;
+			cursor: pointer;
+			flex: 1;
+		}
+
+		button:hover {
+			background: #0058cc;
+		}
+
+		button:disabled {
+			background: #ccc;
+			cursor: not-allowed;
+		}
+
+		button.secondary {
+			background: #f5f5f5;
+			color: #333;
+		}
+
+		button.secondary:hover {
+			background: #e5e5e5;
+		}
+
+		button.download-all {
+			background: #05a357;
+		}
+
+		button.download-all:hover {
+			background: #048a49;
+		}
+
+		.json-preview {
+			background: #1a1a1a;
+			color: #50fa7b;
+			padding: 12px;
+			border-radius: 6px;
+			font-family: 'Monaco', 'Menlo', monospace;
+			font-size: 11px;
+			max-height: 150px;
+			overflow: auto;
+			white-space: pre-wrap;
+			word-break: break-all;
+		}
+
+		.status {
+			text-align: center;
+			padding: 20px;
+			color: #666;
+		}
+
+		.success {
+			color: #05a357;
+			background: #dcfeee;
+			padding: 8px 12px;
+			border-radius: 6px;
+			margin-bottom: 16px;
+			text-align: center;
+		}
+
+		.error {
+			color: #e11900;
+			background: #ffe4e0;
+			padding: 8px 12px;
+			border-radius: 6px;
+			margin-bottom: 16px;
+		}
+
+		.section-title {
+			font-weight: 600;
+			margin-bottom: 8px;
+			color: #666;
+			font-size: 11px;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+	</style>
+</head>
+<body>
+	<h1>Design Tokens Export</h1>
+
+	<div id="loading" class="status">Loading variables...</div>
+
+	<div id="content" style="display: none;">
+		<div class="info">
+			<p><strong>File:</strong> <span id="fileName"></span></p>
+			<p><strong>Collections:</strong> <span id="totalCollections"></span> | <strong>Variables:</strong> <span id="totalVariables"></span></p>
+		</div>
+
+		<div class="section-title">Select file to export (click to select):</div>
+		<div class="exports-list" id="exportsList"></div>
+
+		<div class="actions">
+			<button id="copyBtn" disabled>Copy to Clipboard</button>
+			<button id="downloadBtn" class="secondary" disabled>Download</button>
+		</div>
+
+		<div class="actions">
+			<button id="downloadAllBtn" class="download-all">Download All Files (ZIP)</button>
+		</div>
+
+		<div id="successMsg" class="success" style="display: none;">
+			Copied to clipboard!
+		</div>
+
+		<div class="section-title">Preview:</div>
+		<div class="json-preview" id="jsonPreview">Select a file above to preview</div>
+	</div>
+
+	<div id="errorContainer" class="error" style="display: none;"></div>
+
+	<!-- JSZip library for creating ZIP files -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+	<script>
+		let exportData = null;
+		let selectedExportId = null;
+
+		// Handle messages from the plugin
+		window.onmessage = (event) => {
+			const msg = event.data.pluginMessage;
+
+			if (msg.type === 'export-result') {
+				exportData = msg.data;
+				renderContent();
+			}
+
+			if (msg.type === 'error') {
+				document.getElementById('loading').style.display = 'none';
+				document.getElementById('errorContainer').style.display = 'block';
+				document.getElementById('errorContainer').textContent = 'Error: ' + msg.message;
+			}
+		};
+
+		function renderContent() {
+			document.getElementById('loading').style.display = 'none';
+			document.getElementById('content').style.display = 'block';
+
+			document.getElementById('fileName').textContent = exportData.fileName;
+			document.getElementById('totalCollections').textContent = exportData.totalCollections;
+			document.getElementById('totalVariables').textContent = exportData.totalVariables;
+
+			// Render exports list
+			const listContainer = document.getElementById('exportsList');
+			listContainer.innerHTML = '';
+
+			exportData.exports.forEach((exp) => {
+				const div = document.createElement('div');
+				div.className = 'export-item';
+				div.dataset.id = exp.id;
+
+				let modeHtml = '';
+				if (exp.isStyle) {
+					modeHtml = `<span class="type-badge">Style</span>`;
+				} else if (exp.isCombined) {
+					modeHtml = `<span class="mode-badge combined">Combined: ${exp.modes.join(' + ')}</span>`;
+				} else if (exp.modeName) {
+					modeHtml = `<span class="mode-badge">${exp.modeName}</span>`;
+				}
+
+				div.innerHTML = `
+					<div class="export-header">
+						<span class="export-name">${exp.collectionName}</span>
+						<span class="export-count">${exp.variableCount} vars</span>
+					</div>
+					<div class="export-meta">
+						<span class="file-name">tokens/${exp.filePath}</span>
+						${modeHtml}
+					</div>
+				`;
+
+				div.addEventListener('click', () => selectExport(exp.id));
+				listContainer.appendChild(div);
+			});
+		}
+
+		function selectExport(id) {
+			selectedExportId = id;
+
+			// Update UI
+			document.querySelectorAll('.export-item').forEach(el => {
+				el.classList.toggle('selected', el.dataset.id === id);
+			});
+
+			// Enable buttons
+			document.getElementById('copyBtn').disabled = false;
+			document.getElementById('downloadBtn').disabled = false;
+
+			// Update preview
+			updatePreview();
+		}
+
+		function getSelectedExport() {
+			return exportData.exports.find(e => e.id === selectedExportId);
+		}
+
+		function updatePreview() {
+			const exp = getSelectedExport();
+			if (exp) {
+				const json = JSON.stringify(exp.tokens, null, 2);
+				document.getElementById('jsonPreview').textContent = json;
+			}
+		}
+
+		document.getElementById('copyBtn').addEventListener('click', () => {
+			const exp = getSelectedExport();
+			if (!exp) return;
+
+			const json = JSON.stringify(exp.tokens, null, 2);
+
+			if (navigator.clipboard) {
+				navigator.clipboard.writeText(json).then(() => {
+					showSuccess('Copied to clipboard!');
+				});
+			} else {
+				const textarea = document.createElement('textarea');
+				textarea.value = json;
+				document.body.appendChild(textarea);
+				textarea.select();
+				document.execCommand('copy');
+				document.body.removeChild(textarea);
+				showSuccess('Copied to clipboard!');
+			}
+		});
+
+		document.getElementById('downloadBtn').addEventListener('click', () => {
+			const exp = getSelectedExport();
+			if (!exp) return;
+			// Use just the filename part for individual downloads
+			const filename = exp.filePath.split('/').pop();
+			downloadFile(filename, exp.tokens);
+		});
+
+		document.getElementById('downloadAllBtn').addEventListener('click', async () => {
+			const btn = document.getElementById('downloadAllBtn');
+			btn.disabled = true;
+			btn.textContent = 'Creating ZIP...';
+
+			try {
+				const zip = new JSZip();
+
+				// Create tokens folder in ZIP
+				const tokensFolder = zip.folder('tokens');
+
+				// Add each export as a file in the ZIP with folder structure
+				exportData.exports.forEach(exp => {
+					const json = JSON.stringify(exp.tokens, null, 2);
+					tokensFolder.file(exp.filePath, json);
+				});
+
+				// Generate the ZIP file
+				const content = await zip.generateAsync({ type: 'blob' });
+
+				// Download the ZIP
+				const url = URL.createObjectURL(content);
+				const a = document.createElement('a');
+				a.href = url;
+				a.download = `${exportData.fileName.toLowerCase().replace(/\s+/g, '-')}-tokens.zip`;
+				a.click();
+				URL.revokeObjectURL(url);
+
+				showSuccess(`Downloaded ZIP with ${exportData.exports.length} files!`);
+			} catch (error) {
+				showSuccess('Error creating ZIP: ' + error.message);
+			} finally {
+				btn.disabled = false;
+				btn.textContent = 'Download All Files (ZIP)';
+			}
+		});
+
+		function downloadFile(filename, tokens) {
+			const json = JSON.stringify(tokens, null, 2);
+			const blob = new Blob([json], { type: 'application/json' });
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = filename;
+			a.click();
+			URL.revokeObjectURL(url);
+		}
+
+		function showSuccess(message) {
+			const msg = document.getElementById('successMsg');
+			msg.textContent = message;
+			msg.style.display = 'block';
+			setTimeout(() => {
+				msg.style.display = 'none';
+			}, 2000);
+		}
+	</script>
+</body>
+</html>
