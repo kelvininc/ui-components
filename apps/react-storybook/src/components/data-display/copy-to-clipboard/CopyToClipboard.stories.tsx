@@ -5,7 +5,7 @@ import { ComponentProps } from "react";
 const CopyToClipboardTemplate: StoryFn<
 	ComponentProps<typeof KvCopyToClipboard>
 > = (args) => (
-	<div style={{ color: "white", fontFamily: "proxima-nova" }}>
+	<div style={{ color: "white", fontFamily: "Proxima Nova" }}>
 		<KvCopyToClipboard {...args}>{QUOTE}</KvCopyToClipboard>
 	</div>
 );
