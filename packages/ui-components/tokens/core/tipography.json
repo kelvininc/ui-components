@@ -1,0 +1,135 @@
+{
+  "font-size": {
+    "xs": {
+      "value": "{space.10}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "sm": {
+      "value": "{space.12}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "md": {
+      "value": "{space.14}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "lg": {
+      "value": "{space.16}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "xl": {
+      "value": "{space.20}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "2xl": {
+      "value": "{space.24}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "3xl": {
+      "value": "{space.32}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "4xl": {
+      "value": "{space.48}",
+      "type": "number",
+      "prefix": "tipography"
+    }
+  },
+  "line-height": {
+    "xs": {
+      "value": "{space.14}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "sm": {
+      "value": "{space.16}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "md": {
+      "value": "{space.20}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "lg": {
+      "value": "{space.24}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "xl": {
+      "value": "{space.28}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "2xl": {
+      "value": "{space.32}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "3xl": {
+      "value": "{space.40}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "4xl": {
+      "value": "{space.56}",
+      "type": "number",
+      "prefix": "tipography"
+    }
+  },
+  "letter-spacing": {
+    "default": {
+      "value": "{space.0}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "loose": {
+      "value": "{space.1,5}",
+      "type": "number",
+      "prefix": "tipography"
+    }
+  },
+  "paragraph-spacing": {
+    "sm": {
+      "value": "{space.8}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "md": {
+      "value": "{space.12}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "lg": {
+      "value": "{space.16}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "xl": {
+      "value": "{space.20}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "2xl": {
+      "value": "{space.24}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "3xl": {
+      "value": "{space.32}",
+      "type": "number",
+      "prefix": "tipography"
+    },
+    "4xl": {
+      "value": "{space.48}",
+      "type": "number",
+      "prefix": "tipography"
+    }
+  }
+}
