@@ -6,6 +6,10 @@ This is not just a library of UI components as it's also a style guide where you
 
 Our Storybook is publicly available [here](https://kelvininc.github.io/ui-components/)
 
+## Migration Guide
+
+If you are upgrading to the new design token system, please refer to the [Migration Guide](./MIGRATION.md) for detailed instructions on how to update your application.
+
 ## Technological Stack
 
 -   Development: [StencilJS](https://stenciljs.com/docs/introduction)
