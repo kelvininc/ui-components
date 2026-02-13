@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -68,7 +68,7 @@
 		.title {
 			@include ellipsis();
 
-			@include kv-font-label-small-uppercase-regular;
+			@include heading-xs-regular-caps;
 			color: var(--modal-topbar-text-color);
 		}
 

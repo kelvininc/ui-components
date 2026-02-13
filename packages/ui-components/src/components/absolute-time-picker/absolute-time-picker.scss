@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 .absolute-time-picker-container {
 	display: flex;
@@ -21,7 +21,7 @@
 		}
 
 		.back-text {
-			@include kv-font-label-small-regular;
+			@include body-s-regular;
 			color: kv-color('neutral-4');
 			user-select: none;
 		}
@@ -29,7 +29,7 @@
 
 	.header {
 		.title {
-			@include kv-font-h4-semibold;
+			@include heading-m-semibold;
 			color: kv-color('neutral-2');
 		}
 	}

@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 .shortcuts {
 	background: kv-color('neutral-6');
@@ -27,14 +27,14 @@
 
 .label {
 	color: kv-color('neutral-4');
-	@include kv-font-label-xsmall-regular;
+	@include body-xs-regular;
 }
 
 .icon {
 	border-radius: 4px;
 	background: kv-color('neutral-5');
 	color: kv-color('neutral-2');
-	@include kv-font-label-xsmall-regular;
+	@include body-xs-regular;
 	text-align: center;
 	display: flex;
 	align-items: center;

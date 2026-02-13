@@ -66,8 +66,7 @@ $console-font: var(--kv-console-font, 'Inconsolata', 'mono');
 	letter-spacing: normal;
 	text-transform: none;
 }
-//TODO:
-///@deprecated Removed in the new design tokens, no direct replacement available
+/// @deprecated Use `heading-s-semibold-caps` from the new design token typography mixins
 @mixin kv-font-h4-uppercase-semibold() {
 	@warn "kv-font-h4-uppercase-semibold is deprecated. No direct replacement available in new design tokens.";
 	font-family: $primary-font;

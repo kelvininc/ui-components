@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 .tag-letter-container {
 	height: 22px;
@@ -8,7 +8,7 @@
 }
 
 .letter-avatar {
-	@include kv-font-h4-semibold();
+	@include heading-m-semibold();
 	height: 100%;
 	width: 24px;
 	display: flex;
@@ -19,7 +19,7 @@
 }
 
 .label {
-	@include kv-font-label-small-regular();
+	@include body-s-regular();
 	padding: 0 $spacing;
 	align-self: center;
 	color: kv-color('neutral-9');

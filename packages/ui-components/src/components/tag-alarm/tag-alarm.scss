@@ -1,5 +1,5 @@
 @use 'sass:map';
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 $icon-sizes: (
 	xxsmall: 12px,
@@ -109,7 +109,7 @@ $alarms-severity-background: (
 		align-items: center;
 
 		.alarm-tag-label {
-			@include kv-font-span-regular;
+			@include body-m-regular;
 
 			color: kv-color('neutral-2');
 		}

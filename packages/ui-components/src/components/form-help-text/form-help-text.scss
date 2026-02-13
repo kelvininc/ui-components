@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -18,7 +18,7 @@
 	box-sizing: border-box;
 	
 	.help-text {
-		@include kv-font-label-small-regular;
+		@include body-s-regular;
 
 		margin-right: $spacing;
 		color: var(--help-text-default-color);
