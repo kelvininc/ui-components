@@ -58,7 +58,7 @@ const containerStyle: CSSProperties = {
 	flexDirection: "column",
 	gap: "16px",
 	color: "white",
-	fontFamily: "proxima-nova",
+	fontFamily: "Proxima Nova",
 	padding: "32px",
 	backgroundColor: "black"
 };
