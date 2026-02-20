@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import {
 	EActionButtonType,
-	EBadgeState,
 	EComponentSize,
 	EIconName,
 	KvActionButtonIcon
@@ -28,10 +27,6 @@ const meta = {
 		icon: {
 			control: { type: "select" },
 			options: Object.values(EIconName)
-		},
-		badgeState: {
-			control: { type: "select" },
-			options: Object.values(EBadgeState)
 		}
 	}
 } satisfies Meta<typeof KvActionButtonIcon>;
@@ -107,17 +102,5 @@ export const AnchorState: Story = {
 		size: EComponentSize.Small,
 		disabled: false,
 		active: false
-	}
-};
-
-export const BadgeState: Story = {
-	args: {
-		icon: EIconName.Dashboard,
-		type: EActionButtonType.Secondary,
-		size: EComponentSize.Small,
-		disabled: false,
-		active: false,
-		badgeLabel: "12",
-		badgeState: EBadgeState.None
 	}
 };

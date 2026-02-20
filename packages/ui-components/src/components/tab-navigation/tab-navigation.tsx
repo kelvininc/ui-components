@@ -1,9 +1,11 @@
-import { Component, Event, EventEmitter, Host, Listen, Prop, State, Watch, h } from '@stencil/core';
-import { ISelectedTabIndicatorConfig, ITabNavigationConfig, ITabNavigationEvents, ITabNavigationItem, ITabsNotificationDict } from './tab-navigation.types';
+import { Component, Event, EventEmitter, Listen, Prop, State, Watch, h } from '@stencil/core';
+import { ISelectedTabIndicatorConfig, ITabNavigationConfig, ITabNavigationEvents, ITabNavigationItem } from './tab-navigation.types';
 
-import { EComponentSize } from '../../utils/types';
 import { isEmpty } from 'lodash-es';
-import { calculateTabWidths } from './tab-navigation.utils';
+import { ETabItemType } from '../tab-item/tab-item.types';
+import { calculatePrimaryTabWidths } from './tab-navigation.utils';
+import { ETagState } from '../tag-status/tag-status.types';
+import { EBadgeType } from '../badge/badge.types';
 
 @Component({
 	tag: 'kv-tab-navigation',
@@ -16,9 +18,7 @@ export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEven
 	/** @inheritdoc */
 	@Prop() selectedTabKey?: number | string;
 	/** @inheritdoc */
-	@Prop() notifications?: ITabsNotificationDict = {};
-	/** @inheritdoc */
-	@Prop() size?: EComponentSize = EComponentSize.Large;
+	@Prop() type?: ETabItemType = ETabItemType.Primary;
 
 	/** @inheritdoc */
 	@Event() tabChange: EventEmitter<string>;
@@ -33,18 +33,21 @@ export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEven
 
 	/** Watch for tabs change to calculate elements width */
 	@Watch('tabs')
-	@Watch('size')
-	@Watch('notifications')
-	tabsChangeHandler() {
-		this.tabsIndicatorConfig = calculateTabWidths(this.tabs, this.notifications, this.size);
-		this.applySelectedTabStyling();
+	@Watch('type')
+	async tabsChangeHandler() {
+		if (this.type === ETabItemType.Primary) {
+			this.tabsIndicatorConfig = await calculatePrimaryTabWidths(this.tabs);
+			this.applySelectedTabStyling();
+		}
 	}
 
 	/** Watch for tab selection change and react accordingly by updating the internal states */
 	@Watch('selectedTabKey')
-	tabSelectionChangeHandler() {
+	async tabSelectionChangeHandler() {
+		if (this.type === ETabItemType.Secondary) return;
+
 		if (isEmpty(this.tabsIndicatorConfig)) {
-			this.tabsIndicatorConfig = calculateTabWidths(this.tabs, this.notifications, this.size);
+			this.tabsIndicatorConfig = await calculatePrimaryTabWidths(this.tabs);
 		}
 
 		this.applySelectedTabStyling();
@@ -56,9 +59,11 @@ export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEven
 		width: '0px'
 	};
 
-	componentDidLoad() {
-		this.tabsIndicatorConfig = calculateTabWidths(this.tabs, this.notifications, this.size);
-		this.applySelectedTabStyling();
+	async componentDidLoad() {
+		if (this.type === ETabItemType.Primary) {
+			this.tabsIndicatorConfig = await calculatePrimaryTabWidths(this.tabs);
+			this.applySelectedTabStyling();
+		}
 	}
 
 	private applySelectedTabStyling() {
@@ -74,7 +79,7 @@ export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEven
 
 	render() {
 		return (
-			<Host>
+			<div class={{ [this.type]: true }}>
 				{this.tabs.map(item => (
 					<kv-tab-item
 						key={item.tabKey}
@@ -82,17 +87,19 @@ export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEven
 						label={item.label}
 						disabled={item.disabled}
 						selected={item.tabKey === this.selectedTabKey}
-						size={this.size}
-						hasNotification={this.notifications[item.tabKey]?.active}
-						notificationColor={this.notifications[item.tabKey]?.color}
-						icon={item.icon}
-						state={item.state}
+						type={this.type}
 						customAttributes={item.customAttributes}
-						exportparts="icon"
-					/>
+					>
+						{(!isEmpty(item.badge) || !isEmpty(item.tagIcon)) && (
+							<div slot="right-slot">
+								{!isEmpty(item.badge) && <kv-badge type={item.badgeType ?? EBadgeType.Secondary}>{item.badge}</kv-badge>}
+								{!isEmpty(item.tagIcon) && <kv-tag-status icon={item.tagIcon} state={item.tagState ?? ETagState.Unknown} />}
+							</div>
+						)}
+					</kv-tab-item>
 				))}
-				<div class="selected-tab-indicator" style={this.selectedTabIndicatorConfig} />
-			</Host>
+				{this.type === ETabItemType.Primary && <div class="selected-tab-indicator" style={this.selectedTabIndicatorConfig} />}
+			</div>
 		);
 	}
 }
