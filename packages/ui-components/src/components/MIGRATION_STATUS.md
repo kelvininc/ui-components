@@ -27,6 +27,9 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] portal
 - [x] tooltip
 - [x] tooltip-text
+- [x] badge
+- [x] tab-item
+- [x] tab-navigation
 
 
 
@@ -36,8 +39,6 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] input-wrapper
 - [ ] multi-select-dropdown
 - [ ] single-select-dropdown
-- [ ] tab-item
-- [ ] tab-navigation
 - [ ] text-area
 - [ ] toaster
 - [ ] toggle-tip
@@ -49,7 +50,6 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] absolute-time-picker-dropdown
 - [ ] absolute-time-picker-dropdown-input
 - [ ] alert-button
-- [ ] badge
 - [ ] breadcrumb
 - [ ] breadcrumb-item
 - [ ] breadcrumb-list

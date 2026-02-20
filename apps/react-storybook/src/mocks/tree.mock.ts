@@ -1,5 +1,5 @@
 import {
-	EBadgeState,
+	EBadgeType,
 	EIconName,
 	ETreeItemState,
 	ITreeNodeItem
@@ -51,7 +51,7 @@ export const TREE_NODES_MOCK: ITreeNodeItem[] = [
 		icon: EIconName.AssetSStatus,
 		iconState: ETreeItemState.Error,
 		counter: 32,
-		counterState: EBadgeState.Error
+		counterState: EBadgeType.Secondary
 	},
 	{
 		id: "3",

@@ -13,7 +13,7 @@ exports[`Tree (unit tests) when rendering with required props should match the s
           <kv-tree-item exportparts="icon,children" icon="kv-asset-s" label="Node 1.5.2" part="tree-item" slot="child-slot"></kv-tree-item>
         </kv-tree-item>
       </kv-tree-item>
-      <kv-tree-item counter="32" counterstate="error" exportparts="icon,children" icon="kv-asset-s-status" iconstate="error" label="Node 2" part="tree-item" slot="child-slot"></kv-tree-item>
+      <kv-tree-item counter="32" counterstate="secondary" exportparts="icon,children" icon="kv-asset-s-status" iconstate="error" label="Node 2" part="tree-item" slot="child-slot"></kv-tree-item>
       <kv-tree-item exportparts="icon,children" label="Node 3" part="tree-item" slot="child-slot"></kv-tree-item>
     </div>
   </template>

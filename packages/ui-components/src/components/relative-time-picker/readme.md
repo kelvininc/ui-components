@@ -96,7 +96,6 @@ graph TD;
   kv-dirty-dot --> kv-icon
   kv-action-button-icon --> kv-action-button
   kv-action-button-icon --> kv-icon
-  kv-action-button-icon --> kv-badge
   kv-input-wrapper --> kv-icon
   kv-single-select-dropdown --> kv-dropdown
   kv-single-select-dropdown --> kv-select-multi-options
