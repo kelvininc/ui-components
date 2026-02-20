@@ -136,7 +136,6 @@ graph TD;
   kv-dirty-dot --> kv-icon
   kv-action-button-icon --> kv-action-button
   kv-action-button-icon --> kv-icon
-  kv-action-button-icon --> kv-badge
   kv-select --> kv-search
   kv-search --> kv-text-field
   kv-text-field --> kv-tooltip

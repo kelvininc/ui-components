@@ -62,6 +62,10 @@ export const TagStatusExample: React.FC = () => (
 
 ## Dependencies
 
+### Used by
+
+ - [kv-tab-navigation](../tab-navigation)
+
 ### Depends on
 
 - [kv-icon](../icon)
@@ -70,6 +74,7 @@ export const TagStatusExample: React.FC = () => (
 ```mermaid
 graph TD;
   kv-tag-status --> kv-icon
+  kv-tab-navigation --> kv-tag-status
   style kv-tag-status fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

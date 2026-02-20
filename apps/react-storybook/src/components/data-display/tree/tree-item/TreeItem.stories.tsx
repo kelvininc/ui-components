@@ -1,4 +1,4 @@
-import { EBadgeState, EIconName } from "@kelvininc/react-ui-components/client";
+import { EBadgeType, EIconName } from "@kelvininc/react-ui-components/client";
 import {
 	KvTreeItem,
 	ETreeItemState
@@ -102,7 +102,7 @@ export const WithCounterState: Story = {
 		label: "Node title",
 		additionalLabel: "default state node",
 		counter: 32,
-		counterState: EBadgeState.Success
+		counterState: EBadgeType.Primary
 	}
 };
 

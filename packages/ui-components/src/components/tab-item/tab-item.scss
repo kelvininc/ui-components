@@ -1,132 +1,75 @@
 @use '../../assets/styles' as *;
 
-$tab-dot-error-size: 6px;
-
 :host {
-	/**
-	 * @prop --tab-item-icon-size: Tag status icon width and height in pixels.
-	 * @prop --tab-item-icon-success-color: Tag status icon success color.
-	 * @prop --tab-item-icon-success-background-color: Tag status icon success background color.
-	 * @prop --tab-item-icon-error-color: Tag status icon error color.
-	 * @prop --tab-item-icon-error-background-color: Tag status icon error background color.
-	 * @prop --tab-item-icon-unknown-color: Tag status icon unknown color.
-	 * @prop --tab-item-icon-unknown-background-color: Tag status icon unknown background color.
-	 * @prop --tab-item-icon-warning-color: Tag status icon warning color.
-	 * @prop --tab-item-icon-warning-background-color: Tag status icon warning background color.
-	 * @prop --tab-item-icon-info-color: Tag status icon info color.
-	 * @prop --tab-item-icon-info-background-color: Tag status icon info background color.
-	 */
-	--tab-item-icon-size: 16px;
-	--tab-item-icon-success-color: #{kv-color('success', 'dark')};
-	--tab-item-icon-success-background-color: #{kv-color('neutral-0')};
-	--tab-item-icon-error-color: #{kv-color('error', 'dark')};
-	--tab-item-icon-error-background-color: #{kv-color('neutral-0')};
-	--tab-item-icon-unknown-color: #{kv-color('neutral-4')};
-	--tab-item-icon-unknown-background-color: transparent;
-	--tab-item-icon-warning-color: #{kv-color('warning', 'dark')};
-	--tab-item-icon-warning-background-color: transparent;
-	--tab-item-icon-info-color: #{kv-color('info', 'dark')};
-	--tab-item-icon-info-background-color: #{kv-color('neutral-0')};
-
-	height: inherit;
-
 	.tab-item-container {
-		height: 100%;
 		display: flex;
 		align-items: center;
-		padding: 0 $spacing-6x;
+		width: fit-content;
+		height: 100%;
 		user-select: none;
 		white-space: nowrap;
+		gap: var(--tab-secondary-gap-default);
 		cursor: pointer;
 
-		&.selected .label {
-			color: kv-color('text');
-		}
-
-		&.disabled {
-			cursor: not-allowed;
-			pointer-events: none;
+		&.primary {
+			padding: 0 var(--tab-primary-padding-x-default);
 
 			.label {
-				color: kv-color('text', 'step-5');
+				@include heading-m-semibold;
+				color: var(--tab-primary-label-default);
+			}
+
+			&.selected .label {
+				color: var(--tab-primary-label-selected);
+			}
+
+			&.disabled {
+				cursor: not-allowed;
+				pointer-events: none;
+
+				.label {
+					color: var(--tab-primary-label-disabled);
+				}
 			}
 		}
 
-		.label {
-			@include heading-m-semibold();
-			color: kv-color('text', 'step-4');
-		}
-
-		&.small {
-			margin: 0 $spacing-4x;
+		&.secondary {
+			height: var(--tab-secondary-height-default);
+			padding: var(--tab-secondary-padding-y-default) var(--tab-secondary-padding-x-default);
+			box-sizing: border-box;
+			border-radius: var(--tab-secondary-radius-default, 4px);
+			align-self: center;
 
 			.label {
-				@include body-s-semibold();
-			}
-		}
-
-		.icon {
-			margin-left: $spacing;
-
-			kv-icon {
-				--icon-width: #{var(--tab-item-icon-size, 16px)};
-				--icon-height: #{var(--tab-item-icon-size, 16px)};
-				--icon-color: #{kv-color('text')};
+				@include body-m-semibold;
+				color: var(--tab-secondary-label-default);
 			}
 
-			&--state-success {
-				kv-icon {
-					--icon-color: var(--tab-item-icon-success-color);
-					--icon-background-color: var(--tab-item-icon-success-background-color);
+			&:hover:not(.disabled) {
+				background: var(--tab-secondary-background-hover);
+
+				.label {
+					color: var(--tab-secondary-label-hover);
 				}
 			}
 
-			&--state-error {
-				kv-icon {
-					--icon-color: var(--tab-item-icon-error-color);
-					--icon-background-color: var(--tab-item-icon-error-background-color);
+			&.selected:not(:hover):not(.disabled) {
+				background: var(--tab-secondary-background-selected);
+
+				.label {
+					color: var(--tab-secondary-label-selected);
 				}
 			}
 
-			&--state-unknown {
-				kv-icon {
-					--icon-color: var(--tab-item-icon-unknown-color);
-					--icon-background-color: var(--tab-item-icon-unknown-background-color);
+			&.disabled {
+				cursor: not-allowed;
+				user-select: none;
+				background: var(--tab-secondary-background-disabled);
+
+				.label {
+					color: var(--tab-secondary-label-disabled);
 				}
 			}
-
-			&--state-warning {
-				kv-icon {
-					--icon-color: var(--tab-item-icon-warning-color);
-					--icon-background-color: var(--tab-item-icon-warning-background-color);
-				}
-			}
-
-			&--state-info {
-				kv-icon {
-					--icon-color: var(--tab-item-icon-info-color);
-					--icon-background-color: var(--tab-item-icon-info-background-color);
-				}
-			}
-		}
-
-		.notification-dot {
-			width: $tab-dot-error-size;
-			height: $tab-dot-error-size;
-			border-radius: 50%;
-			margin-left: $spacing-2x;
-			background-color: kv-color('error');
-			animation: circleGrow 0.25s;
-		}
-	}
-
-	@keyframes circleGrow {
-		from {
-			transform: scale(0);
-		}
-
-		to {
-			transform: scale(1);
 		}
 	}
 }

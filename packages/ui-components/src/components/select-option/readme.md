@@ -126,7 +126,6 @@ graph TD;
   kv-dirty-dot --> kv-icon
   kv-action-button-icon --> kv-action-button
   kv-action-button-icon --> kv-icon
-  kv-action-button-icon --> kv-badge
   kv-relative-time-picker --> kv-select-option
   kv-select-multi-options --> kv-select-option
   style kv-select-option fill:#f9f,stroke:#333,stroke-width:4px
