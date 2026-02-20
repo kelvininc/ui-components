@@ -1,7 +1,7 @@
 import { newSpecPage, SpecPage } from '@stencil/core/testing';
 import { cloneDeep } from 'lodash-es';
 import { KvTabNavigation } from '../tab-navigation';
-import { NOTIFICATIONS_MOCK, TAB_ITEMS } from './tab-navigation.mock';
+import { TAB_ITEMS } from './tab-navigation.mock';
 import { h } from '@stencil/core';
 
 describe('Tab Navigation (unit tests)', () => {
@@ -9,7 +9,6 @@ describe('Tab Navigation (unit tests)', () => {
 	let component: KvTabNavigation;
 
 	const tabsMock = cloneDeep(TAB_ITEMS);
-	const notificationsMock = cloneDeep(NOTIFICATIONS_MOCK);
 	const mockIntersectionObserver = jest.fn(() => ({
 		observe: () => null,
 		disconnect: () => null
@@ -17,6 +16,11 @@ describe('Tab Navigation (unit tests)', () => {
 
 	beforeAll(() => {
 		Object.defineProperty(global, 'IntersectionObserver', { value: mockIntersectionObserver });
+		Object.defineProperty(document, 'fonts', {
+			value: {
+				load: jest.fn().mockResolvedValue([])
+			}
+		});
 	});
 
 	describe('when rendering with required props', () => {
@@ -62,21 +66,13 @@ describe('Tab Navigation (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvTabNavigation],
-				template: () => <kv-tab-navigation selectedTabKey="tab1" tabs={tabsMock} notifications={notificationsMock}></kv-tab-navigation>
+				template: () => <kv-tab-navigation selectedTabKey="tab1" tabs={tabsMock}></kv-tab-navigation>
 			});
 			component = page.rootInstance;
 		});
 
 		it('should match the snapshot', () => {
 			expect(page.root).toMatchSnapshot();
-		});
-
-		it('should set the correct notifications', () => {
-			expect(component.notifications).toEqual({
-				tab1: {
-					active: true
-				}
-			});
 		});
 	});
 });

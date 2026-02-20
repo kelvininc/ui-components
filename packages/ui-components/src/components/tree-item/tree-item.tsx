@@ -4,7 +4,7 @@ import { ETreeItemLabelSize, ETreeItemState } from './tree-item.types';
 import { isEmpty, isNumber, throttle } from 'lodash-es';
 
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
-import { EBadgeState } from '../badge/badge.types';
+import { EBadgeType } from '../badge/badge.types';
 import { STATE_ICONS } from './tree-item.config';
 
 /**
@@ -32,7 +32,7 @@ export class KvTreeItem {
 	/** (optional) Defines the counter info of the tree item. If set, an badge will be displayed in the end of tree item.*/
 	@Prop({ reflect: true }) counter?: number;
 	/** (optional) Defines the state of the counter.*/
-	@Prop({ reflect: true }) counterState?: EBadgeState;
+	@Prop({ reflect: true }) counterState?: EBadgeType;
 	/** (optional) Defines whether the tree node has children, even if currently no other tree nodes are slotted inside.
 	 * This property is useful for showing big tree structures where not all nodes are initially loaded due to performance reasons.
 	 * Set this to <code>true</code> for nodes you intend to load lazily, when the user clicks the expand button.
@@ -163,7 +163,7 @@ export class KvTreeItem {
 									<div class="right-indicators">
 										{isNumber(this.counter) && this.counter >= 0 && (
 											<div class="alarm-bubble">
-												<kv-badge state={this.counterState}>{this.counter > 100 ? '+99' : this.counter}</kv-badge>
+												<kv-badge type={this.counterState}>{this.counter > 100 ? '+99' : this.counter}</kv-badge>
 											</div>
 										)}
 									</div>

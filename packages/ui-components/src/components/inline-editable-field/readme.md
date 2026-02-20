@@ -48,7 +48,6 @@ graph TD;
   kv-inline-editable-field --> kv-action-button-icon
   kv-action-button-icon --> kv-action-button
   kv-action-button-icon --> kv-icon
-  kv-action-button-icon --> kv-badge
   style kv-inline-editable-field fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
