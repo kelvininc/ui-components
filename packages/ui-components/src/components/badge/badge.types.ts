@@ -1,12 +1,11 @@
 export interface IBadge {
-	/** (optional) Defines the badge state.*/
-	state?: EBadgeState;
+	/** (optional) Defines the badge type.*/
+	type?: EBadgeType;
+	/** (optional) If `true` the badge is in disabled state. */
+	disabled?: boolean;
 }
 
-export enum EBadgeState {
-	None = 'none',
-	Info = 'info',
-	Warning = 'warning',
-	Error = 'error',
-	Success = 'success'
+export enum EBadgeType {
+	Primary = 'primary',
+	Secondary = 'secondary'
 }

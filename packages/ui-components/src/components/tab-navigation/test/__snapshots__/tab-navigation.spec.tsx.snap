@@ -3,12 +3,14 @@
 exports[`Tab Navigation (unit tests) when rendering with required props and notifications should match the snapshot 1`] = `
 <kv-tab-navigation>
   <template shadowrootmode="open">
-    <kv-tab-item exportparts="icon" hasnotification="" label="Tab 1" selected="" size="large" tabkey="tab1"></kv-tab-item>
-    <kv-tab-item exportparts="icon" label="Tab 1" size="large" tabkey="tab2"></kv-tab-item>
-    <kv-tab-item exportparts="icon" label="Tab 1" size="large" tabkey="tab3"></kv-tab-item>
-    <kv-tab-item exportparts="icon" label="Tab 1" size="large" tabkey="tab4"></kv-tab-item>
-    <kv-tab-item exportparts="icon" label="Tab 1" size="large" tabkey="tab5"></kv-tab-item>
-    <div class="selected-tab-indicator" style="left: 0px; width: 62px;"></div>
+    <div class="primary">
+      <kv-tab-item label="Tab 1" selected="" tabkey="tab1" type="primary"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab2" type="primary"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab3" type="primary"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab4" type="primary"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab5" type="primary"></kv-tab-item>
+      <div class="selected-tab-indicator" style="left: 0px; width: 0px;"></div>
+    </div>
   </template>
 </kv-tab-navigation>
 `;
@@ -16,12 +18,14 @@ exports[`Tab Navigation (unit tests) when rendering with required props and noti
 exports[`Tab Navigation (unit tests) when rendering with required props should match the snapshot 1`] = `
 <kv-tab-navigation>
   <template shadowrootmode="open">
-    <kv-tab-item exportparts="icon" label="Tab 1" selected="" size="large" tabkey="tab1"></kv-tab-item>
-    <kv-tab-item exportparts="icon" label="Tab 1" size="large" tabkey="tab2"></kv-tab-item>
-    <kv-tab-item exportparts="icon" label="Tab 1" size="large" tabkey="tab3"></kv-tab-item>
-    <kv-tab-item exportparts="icon" label="Tab 1" size="large" tabkey="tab4"></kv-tab-item>
-    <kv-tab-item exportparts="icon" label="Tab 1" size="large" tabkey="tab5"></kv-tab-item>
-    <div class="selected-tab-indicator" style="left: 0px; width: 48px;"></div>
+    <div class="primary">
+      <kv-tab-item label="Tab 1" selected="" tabkey="tab1" type="primary"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab2" type="primary"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab3" type="primary"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab4" type="primary"></kv-tab-item>
+      <kv-tab-item label="Tab 1" tabkey="tab5" type="primary"></kv-tab-item>
+      <div class="selected-tab-indicator" style="left: 0px; width: 0px;"></div>
+    </div>
   </template>
 </kv-tab-navigation>
 `;

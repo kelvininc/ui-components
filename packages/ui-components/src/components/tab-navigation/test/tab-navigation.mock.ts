@@ -20,9 +20,3 @@ export const TAB_ITEMS = [
 		label: 'Tab 1'
 	}
 ];
-
-export const NOTIFICATIONS_MOCK = {
-	tab1: {
-		active: true
-	}
-};

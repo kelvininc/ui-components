@@ -150,7 +150,6 @@ graph TD;
   kv-radio --> kv-icon
   kv-action-button-icon --> kv-action-button
   kv-action-button-icon --> kv-icon
-  kv-action-button-icon --> kv-badge
   kv-select --> kv-search
   kv-search --> kv-text-field
   kv-illustration-message --> kv-illustration

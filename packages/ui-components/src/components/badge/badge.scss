@@ -1,8 +1,8 @@
 @use '../../assets/styles' as *;
 
-@mixin badge-state-theme($state) {
-	$badge-text-color: var(--badge-text-color-#{$state});
-	$badge-background-color: var(--badge-background-color-#{$state});
+@mixin badge-type-theme($type) {
+	$badge-text-color: var(--badge-text-color-#{$type});
+	$badge-background-color: var(--badge-background-color-#{$type});
 
 	color: $badge-text-color;
 	background-color: $badge-background-color;
@@ -27,20 +27,17 @@
 	 * @prop --badge-text-color-success: Badge's text color when state is success.
 	 */
 
-	--badge-min-width: 20px;
+	--badge-min-width: unset;
 	--badge-max-width: fit-content;
-	--badge-height: 20px;
+	--badge-height: var(--size-md, 20px);
 	--badge-width: unset;
-	--badge-background-color-none: #{kv-color('neutral-5')};
-	--badge-text-color-none: #{kv-color('neutral-2')};
-	--badge-background-color-info: #{kv-color('secondary-5')};
-	--badge-text-color-info: #{kv-color('neutral-2')};
-	--badge-background-color-warning: #{kv-color('warning')};
-	--badge-text-color-warning: #{kv-color('neutral-0')};
-	--badge-background-color-error: #{kv-color('error')};
-	--badge-text-color-error: #{kv-color('neutral-0')};
-	--badge-background-color-success: #{kv-color('success')};
-	--badge-text-color-success: #{kv-color('neutral-0')};
+	
+	--badge-background-color-primary: var(--background-container-accent-default, #{kv-color('secondary-5')});
+	--badge-text-color-primary: var(--text-container-accent-default, #{kv-color('neutral-2')});
+	
+	--badge-background-color-secondary: var(--background-interactive-counter-default, #{kv-color('neutral-5')});
+	--badge-text-color-secondary: var(--text-interactive-counter-default, #{kv-color('neutral-2')});
+	
 }
 
 .badge {
@@ -53,28 +50,21 @@
 	max-width: var(--badge-max-width);
 	height: var(--badge-height);
 	width: var(--badge-width);
-	padding: 0 $spacing;
-	line-height: var(--badge-height);
+	padding: 0 var(--spacing-xs, $spacing);
+	line-height: unset;
 
-	border-radius: 8px;
+	border-radius: var(--radius-full, 8px);
 
-	&--state-none {
-		@include badge-state-theme(none);
+	&--type-primary {
+		@include badge-type-theme(primary);
+	}
+	
+	&--type-secondary {
+		@include badge-type-theme(secondary);
 	}
 
-	&--state-info {
-		@include badge-state-theme(info);
-	}
-
-	&--state-warning {
-		@include badge-state-theme(warning);
-	}
-
-	&--state-error {
-		@include badge-state-theme(error);
-	}
-
-	&--state-success {
-		@include badge-state-theme(success);
+	&.disabled {
+		color: var(--text-interactive-counter-disabled);
+		background-color: var(--background-interactive-counter-disabled);
 	}
 }

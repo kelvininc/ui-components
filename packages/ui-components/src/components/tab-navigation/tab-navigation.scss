@@ -9,29 +9,44 @@ $tab-height: 34px;
 	 * @prop --tab-list-divider-color: Tab divider bar color
 	 *
 	*/
-	--tab-list-bg-color: 'transparent';
-	--tab-list-indicator-color: #{kv-color('primary')};
-	--tab-list-divider-color: #{kv-color('neutral-5')};
+	--tab-list-bg-color: transparent;
+	--tab-list-indicator-color: var(--tab-primary-border-color-selected);
+	--tab-list-divider-color: var(--tab-primary-border-color-default);
 
-	position: relative;
-	height: $tab-height;
-	width: 100%;
-	display: flex;
-	background-color: var(--tab-list-bg-color);
-
-	&::before {
-		content: '';
+	.primary {
+		position: relative;
 		width: 100%;
-		position: absolute;
-		bottom: 0;
-		border-bottom: 1px solid var(--tab-list-divider-color);
+		display: flex;
+		background-color: var(--tab-list-bg-color);
+
+		&::before {
+			content: '';
+			width: 100%;
+			position: absolute;
+			bottom: 0;
+			border-bottom: var(--tab-primary-border-thickness-default) solid var(--tab-list-divider-color);
+		}
+
+		.selected-tab-indicator {
+			height: var(--tab-primary-border-thickness-strong);
+			position: absolute;
+			bottom: 0;
+			transition: all 0.3s ease-out;
+			background: var(--tab-list-indicator-color);
+		}
+	}
+	
+	.secondary {
+		display: flex;
+		gap: var(--spacing-xl);
+		align-items: center;
 	}
 
-	.selected-tab-indicator {
-		height: 2px;
-		position: absolute;
-		bottom: 0;
-		transition: all 0.3s ease-out;
-		background: var(--tab-list-indicator-color);
+	kv-badge {
+		--badge-height: var(--size-md);
+	}
+
+	kv-tag-status {
+		--tag-status-icon-size: var(--size-md);
 	}
 }

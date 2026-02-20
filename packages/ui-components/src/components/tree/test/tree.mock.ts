@@ -1,7 +1,7 @@
 import { EIconName } from '../../icon/icon.types';
 import { ETreeItemState } from '../../tree-item/tree-item.types';
 import { ITreeNodeItem } from '../tree.types';
-import { EBadgeState } from '../../badge/badge.types';
+import { EBadgeType } from '../../badge/badge.types';
 
 export const NODES: ITreeNodeItem[] = [
 	{
@@ -49,7 +49,7 @@ export const NODES: ITreeNodeItem[] = [
 		icon: EIconName.AssetSStatus,
 		iconState: ETreeItemState.Error,
 		counter: 32,
-		counterState: EBadgeState.Error
+		counterState: EBadgeType.Secondary
 	},
 	{
 		id: '3',

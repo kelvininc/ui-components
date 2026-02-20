@@ -2,8 +2,12 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import {
 	KvTabItem,
-	EComponentSize,
-	EIconName
+	ETabItemType,
+	EIconName,
+	KvBadge,
+	EBadgeType,
+	KvTagStatus,
+	ETagState
 } from "@kelvininc/react-ui-components/client";
 
 const meta = {
@@ -13,9 +17,9 @@ const meta = {
 		tabKey: {
 			control: "text"
 		},
-		size: {
+		type: {
 			control: "radio",
-			options: Object.values(EComponentSize)
+			options: Object.values(ETabItemType)
 		}
 	}
 } satisfies Meta<typeof KvTabItem>;
@@ -23,44 +27,65 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Primary: Story = {
 	args: {
 		tabKey: "tab1",
 		label: "Tab Item"
 	}
 };
 
-export const Disabled: Story = {
+export const Secondary: Story = {
 	args: {
-		...Default.args,
-		disabled: true
+		tabKey: "tab1",
+		label: "Tab Item",
+		type: ETabItemType.Secondary
 	}
 };
 
-export const Selected: Story = {
+export const SecondaryWithBadge: Story = {
+	render: function Renderer(args) {
+		return (
+			<KvTabItem
+				tabKey={args.tabKey}
+				type={args.type}
+				label={args.label}
+				disabled={args.disabled}
+				selected={args.selected}
+			>
+				<KvBadge slot="right-slot" type={EBadgeType.Secondary}>
+					+3
+				</KvBadge>
+			</KvTabItem>
+		);
+	},
 	args: {
-		...Default.args,
-		selected: true
+		tabKey: "tab1",
+		label: "Tab Item",
+		type: ETabItemType.Secondary
 	}
 };
 
-export const WithNotification: Story = {
+export const SecondaryWithTagStatus: Story = {
+	render: function Renderer(args) {
+		return (
+			<KvTabItem
+				tabKey={args.tabKey}
+				type={args.type}
+				label={args.label}
+				disabled={args.disabled}
+				selected={args.selected}
+			>
+				<KvTagStatus
+					slot="right-slot"
+					icon={EIconName.Error}
+					state={ETagState.Error}
+				/>
+			</KvTabItem>
+		);
+	},
 	args: {
-		...Default.args,
-		hasNotification: true
-	}
-};
-
-export const WithIcon: Story = {
-	args: {
-		...Default.args,
-		icon: EIconName.Warning
-	}
-};
-
-export const SelectedWithNotification: Story = {
-	args: {
-		...WithNotification.args,
-		selected: true
+		tabKey: "tab1",
+		label: "Tab Item",
+		type: ETabItemType.Secondary
 	}
 };
