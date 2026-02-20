@@ -217,6 +217,7 @@ export enum EIconName {
 	Time = 'kv-time',
 	Timer = 'kv-timer',
 	Todo = 'kv-todo',
+	TrafficLights = 'kv-traffic-lights',
 	TrendingDown = 'kv-trending-down',
 	TrendingUp = 'kv-trending-up',
 	Tree = 'kv-tree',
