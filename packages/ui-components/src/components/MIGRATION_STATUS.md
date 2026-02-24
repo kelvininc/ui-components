@@ -12,6 +12,9 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] action-button-split
 - [x] action-button-text
 - [x] switch-button
+- [x] toggle-button
+- [x] toggle-switch
+- [x] toggle-button-group
 
 
 
@@ -32,8 +35,6 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] text-area
 - [ ] text-field
 - [ ] toaster
-- [ ] toggle-button
-- [ ] toggle-switch
 - [ ] toggle-tip
 - [ ] tooltip-text
 
@@ -85,7 +86,6 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] tag-status
 - [ ] time-picker
 - [ ] time-picker-select-option
-- [ ] toggle-button-group
 - [ ] tooltip
 - [ ] tree
 - [ ] tree-dropdown
