@@ -35,15 +35,16 @@ export const TagExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                           | Description                 |
-| ------------------------------ | --------------------------- |
-| `--tag-background-color`       | Tag Background Color.       |
-| `--tag-badge-background-color` | Tag Badge Background Color. |
-| `--tag-badge-color`            | Tag Badge Text Color.       |
-| `--tag-content-gap`            | Gap between elements.       |
-| `--tag-content-padding`        | Padding inside content.     |
-| `--tag-icon-color`             | Tag Icon Color.             |
-| `--tag-label-color`            | Tag Text Color.             |
+| Name                           | Description                        |
+| ------------------------------ | ---------------------------------- |
+| `--tag-background-color`       | Tag background color.              |
+| `--tag-badge-background-color` | Tag badge background color.        |
+| `--tag-badge-color`            | Tag badge text color.              |
+| `--tag-content-gap`            | Gap between icon, label and badge. |
+| `--tag-content-padding-x`      | Horizontal padding inside the tag. |
+| `--tag-content-padding-y`      | Vertical padding inside the tag.   |
+| `--tag-icon-color`             | Tag icon color.                    |
+| `--tag-label-color`            | Tag label text color.              |
 
 
 ## Dependencies

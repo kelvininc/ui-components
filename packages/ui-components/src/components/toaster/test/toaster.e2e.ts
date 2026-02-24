@@ -27,8 +27,8 @@ describe('kv-toaster', () => {
 				// waiting for css animation to end
 				await new Promise(r => setTimeout(r, 600));
 
-				const resetIcon = await page.find('kv-toaster >>> .toaster-close-icon');
-				await resetIcon.click();
+				const closeButton = await page.find('kv-toaster >>> kv-action-button-text');
+				await closeButton.click();
 			});
 
 			it('should emit click event', () => {
