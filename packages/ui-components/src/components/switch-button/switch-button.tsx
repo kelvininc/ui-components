@@ -41,8 +41,6 @@ export class KvSwitchButton implements ISwitchButton, ISwitchButtonEvents {
 	}
 
 	render() {
-		const iconName = this.disabled ? EIconName.Lock : EIconName.DoneAll;
-
 		return (
 			<Host>
 				<slot name="left-slot" />
@@ -57,7 +55,7 @@ export class KvSwitchButton implements ISwitchButton, ISwitchButtonEvents {
 					onClick={this.onSwitchClick}
 				>
 					<div class="icon-square" part="icon-square">
-						<kv-icon name={iconName} part="icon-svg" />
+						<kv-icon name={EIconName.CheckState} part="icon-svg" />
 					</div>
 				</div>
 				<slot name="right-slot" />
