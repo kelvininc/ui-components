@@ -6,7 +6,7 @@ exports[`Switch Button (unit tests) when uses default props should match the sna
     <slot name="left-slot"></slot>
     <div class="switch-button switch-button--large" part="button">
       <div class="icon-square" part="icon-square">
-        <kv-icon name="kv-done-all" part="icon-svg"></kv-icon>
+        <kv-icon name="kv-check-state" part="icon-svg"></kv-icon>
       </div>
     </div>
     <slot name="right-slot"></slot>
