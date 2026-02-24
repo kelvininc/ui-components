@@ -74,6 +74,7 @@ export const ActionButtonTextExample: React.FC = () => (
  - [kv-action-button-split](../action-button-split)
  - [kv-select](../select)
  - [kv-time-picker](../time-picker)
+ - [kv-toaster](../toaster)
  - [kv-wizard-footer](../wizard-footer)
 
 ### Depends on
@@ -91,6 +92,7 @@ graph TD;
   kv-action-button-split --> kv-action-button-text
   kv-select --> kv-action-button-text
   kv-time-picker --> kv-action-button-text
+  kv-toaster --> kv-action-button-text
   kv-wizard-footer --> kv-action-button-text
   style kv-action-button-text fill:#f9f,stroke:#333,stroke-width:4px
 ```
