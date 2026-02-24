@@ -2,6 +2,7 @@ import { Watch, Component, Event, Host, h, Prop, EventEmitter, State } from '@st
 import { isEmpty } from 'lodash-es';
 import { EToasterType, EToasterIconTypeClass, IToaster, IToasterEvents, CLOSE_ICON } from './toaster.types';
 import { TOASTER_ANIMATION_DURATION, TYPE_ICONS } from './toaster.config';
+import { EActionButtonType, EComponentSize } from '../../types';
 
 @Component({
 	tag: 'kv-toaster',
@@ -116,9 +117,7 @@ export class KvToaster implements IToaster, IToasterEvents {
 					</div>
 					<slot></slot>
 					{this.closable && (
-						<div class="toaster-close-icon">
-							<kv-icon name={CLOSE_ICON.icon} customClass="icon-16" onClick={this.onCloseClick}></kv-icon>
-						</div>
+						<kv-action-button-text text="" size={EComponentSize.Small} type={EActionButtonType.Text} icon={CLOSE_ICON.icon} onClick={this.onCloseClick} />
 					)}
 				</div>
 			</Host>
