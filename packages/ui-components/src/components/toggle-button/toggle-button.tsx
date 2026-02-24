@@ -77,7 +77,7 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 						onClick={this.onClick}
 						{...this.customAttributes}
 					>
-						{this.withRadio && <kv-radio checked={this.checked} />}
+						{this.withRadio && <kv-radio size={this.size} checked={this.checked} disabled={this.disabled} />}
 						{hasIcon && (
 							<div class="toggle-button-icon" part="toggle-icon">
 								<kv-icon name={this.icon} />

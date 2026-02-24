@@ -142,7 +142,7 @@
           "prefix": "component_semantics"
         },
         "subtle": {
-          "value": "{text.on-color.neutral.secondary}",
+          "value": "{text.on-color.neutral.primary}",
           "type": "color",
           "prefix": "component_semantics"
         }
@@ -172,7 +172,7 @@
             "prefix": "component_semantics"
           },
           "subtle": {
-            "value": "{icon.on-color.neutral.secondary}",
+            "value": "{icon.on-color.neutral.primary}",
             "type": "color",
             "prefix": "component_semantics"
           }
@@ -230,7 +230,7 @@
           "prefix": "component_semantics"
         },
         "subtle": {
-          "value": "{text.on-color.neutral.secondary}",
+          "value": "{text.on-color.neutral.primary}",
           "type": "color",
           "prefix": "component_semantics"
         },
@@ -260,7 +260,7 @@
             "prefix": "component_semantics"
           },
           "subtle": {
-            "value": "{icon.on-color.neutral.secondary}",
+            "value": "{icon.on-color.neutral.primary}",
             "type": "color",
             "prefix": "component_semantics"
           },
@@ -296,11 +296,6 @@
         "color": {
           "default": {
             "value": "{icon.surface.neutral.primary}",
-            "type": "color",
-            "prefix": "component_semantics"
-          },
-          "subtle": {
-            "value": "{icon.on-color.neutral.secondary}",
             "type": "color",
             "prefix": "component_semantics"
           },
@@ -1674,7 +1669,7 @@
       }
     }
   },
-  "toogle": {
+  "toggle": {
     "height": {
       "regular": {
         "value": "{size.4xl}",
@@ -1708,12 +1703,7 @@
     },
     "icon": {
       "size": {
-        "regular": {
-          "value": "{size.lg}",
-          "type": "number",
-          "prefix": "component_semantics"
-        },
-        "compact": {
+        "default": {
           "value": "{size.default}",
           "type": "number",
           "prefix": "component_semantics"
@@ -2433,6 +2423,147 @@
     "background": {
       "default": {
         "value": "{background.container.elevated.slider}",
+        "type": "color",
+        "prefix": "component_semantics"
+      }
+    }
+  },
+  "table-cell": {
+    "padding": {
+      "x": {
+        "default": {
+          "value": "{spacing.2xl}",
+          "type": "number",
+          "prefix": "component_semantics"
+        },
+        "small": {
+          "value": "{spacing.md}",
+          "type": "number",
+          "prefix": "component_semantics"
+        }
+      },
+      "y": {
+        "default": {
+          "value": "{spacing.md}",
+          "type": "number",
+          "prefix": "component_semantics"
+        },
+        "spacious": {
+          "value": "{spacing.xl}",
+          "type": "number",
+          "prefix": "component_semantics"
+        }
+      }
+    },
+    "gap": {
+      "default": {
+        "value": "{spacing.2xl}",
+        "type": "number",
+        "prefix": "component_semantics"
+      },
+      "compact": {
+        "value": "{spacing.md}",
+        "type": "number",
+        "prefix": "component_semantics"
+      }
+    },
+    "border": {
+      "color": {
+        "default": {
+          "value": "{border.container.elevated.slider}",
+          "type": "color",
+          "prefix": "component_semantics"
+        }
+      },
+      "thickness": {
+        "default": {
+          "value": "{border-width.default}",
+          "type": "number",
+          "prefix": "component_semantics"
+        }
+      }
+    },
+    "background": {
+      "default": {
+        "value": "{background.interactive.cell-table.default}",
+        "type": "color",
+        "prefix": "component_semantics"
+      },
+      "hover": {
+        "value": "{background.interactive.cell-table.hover}",
+        "type": "color",
+        "prefix": "component_semantics"
+      },
+      "selected": {
+        "value": "{background.interactive.cell-table.selected}",
+        "type": "color",
+        "prefix": "component_semantics"
+      },
+      "disabled": {
+        "value": "{background.interactive.cell-table.disabled}",
+        "type": "color",
+        "prefix": "component_semantics"
+      }
+    },
+    "text": {
+      "default": {
+        "value": "{text.container.neutral.default}",
+        "type": "color",
+        "prefix": "component_semantics"
+      },
+      "subtle": {
+        "value": "{text.container.neutral.subtle}",
+        "type": "color",
+        "prefix": "component_semantics"
+      },
+      "disabled": {
+        "value": "{text.container.neutral.disabled}",
+        "type": "color",
+        "prefix": "component_semantics"
+      }
+    },
+    "icon": {
+      "default": {
+        "value": "{icon.container.neutral.default}",
+        "type": "color",
+        "prefix": "component_semantics"
+      },
+      "subtle": {
+        "value": "{icon.container.neutral.subtle}",
+        "type": "color",
+        "prefix": "component_semantics"
+      },
+      "disabled": {
+        "value": "{icon.container.neutral.disabled}",
+        "type": "color",
+        "prefix": "component_semantics"
+      },
+      "subtlest": {
+        "value": "{icon.container.neutral.subtle}",
+        "type": "color",
+        "prefix": "component_semantics"
+      }
+    },
+    "height": {
+      "default": {
+        "value": "{size.6xl}",
+        "type": "number",
+        "prefix": "component_semantics"
+      },
+      "spacious": {
+        "value": "{size.7xl}",
+        "type": "number",
+        "prefix": "component_semantics"
+      },
+      "small": {
+        "value": "{size.4xl}",
+        "type": "number",
+        "prefix": "component_semantics"
+      }
+    },
+    "divider": {
+      "default": {
+        "value": "{background.container.neutral.subtle}",
         "type": "color",
         "prefix": "component_semantics"
       }

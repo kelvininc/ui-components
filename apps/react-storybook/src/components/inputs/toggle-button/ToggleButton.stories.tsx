@@ -23,6 +23,20 @@ const meta = {
 	argTypes: {
 		onCheckedChange: {
 			action: "checkedChange"
+		},
+		icon: {
+			control: { type: "select" },
+			options: ["", ...Object.values(EIconName)]
+		},
+		size: {
+			control: { type: "radio" },
+			options: Object.values(EComponentSize)
+		},
+		checked: {
+			control: { type: "boolean" }
+		},
+		disabled: {
+			control: { type: "boolean" }
 		}
 	}
 } satisfies Meta<typeof KvToggleButton>;
@@ -32,6 +46,7 @@ type Story = StoryObj<typeof meta>;
 
 export const DefaultState: Story = {
 	args: {
+		size: EComponentSize.Large,
 		label: "Option 1",
 		value: "opt1"
 	}
@@ -39,6 +54,7 @@ export const DefaultState: Story = {
 
 export const CheckedState: Story = {
 	args: {
+		size: EComponentSize.Large,
 		label: "Option 2",
 		value: "opt2",
 		checked: true
@@ -47,6 +63,7 @@ export const CheckedState: Story = {
 
 export const DisabledState: Story = {
 	args: {
+		size: EComponentSize.Large,
 		label: "Option 3",
 		value: "opt3",
 		disabled: true
@@ -55,6 +72,7 @@ export const DisabledState: Story = {
 
 export const CheckedDisabledState: Story = {
 	args: {
+		size: EComponentSize.Large,
 		label: "Option 3",
 		value: "opt3",
 		disabled: true,
@@ -64,7 +82,8 @@ export const CheckedDisabledState: Story = {
 
 export const WithIconState: Story = {
 	args: {
-		icon: EIconName.Add,
+		size: EComponentSize.Large,
+		icon: EIconName.DensityMedium,
 		label: "Option 4",
 		value: "opt4"
 	}
@@ -72,7 +91,7 @@ export const WithIconState: Story = {
 
 export const OnlyIconState: Story = {
 	args: {
-		icon: EIconName.Add,
+		icon: EIconName.DensityMedium,
 		value: "opt5",
 		size: EComponentSize.Large
 	}
@@ -82,12 +101,14 @@ export const WithRadioState: Story = {
 	args: {
 		label: "Option 6",
 		value: "opt6",
-		withRadio: true
+		withRadio: true,
+		size: EComponentSize.Large
 	}
 };
 
 export const TooltipState: Story = {
 	args: {
+		size: EComponentSize.Large,
 		label: "Option 6",
 		value: "opt6",
 		tooltip: "This is a tooltip"
