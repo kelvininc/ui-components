@@ -11,6 +11,7 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] action-button-magic
 - [x] action-button-split
 - [x] action-button-text
+- [x] switch-button
 
 
 
@@ -26,7 +27,6 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] multi-select-dropdown
 - [ ] search
 - [ ] single-select-dropdown
-- [ ] switch-button
 - [ ] tab-item
 - [ ] tab-navigation
 - [ ] text-area
