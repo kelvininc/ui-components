@@ -100,11 +100,13 @@ export class SwichButtonExample {
 
 ## CSS Custom Properties
 
-| Name                     | Description                             |
-| ------------------------ | --------------------------------------- |
-| `--off-background-color` | Button background color when's OFF.     |
-| `--on-background-color`  | Button background color when's ON.      |
-| `--sqr-background-color` | Icon square container background color. |
+| Name                           | Description                                             |
+| ------------------------------ | ------------------------------------------------------- |
+| `--disabled-background-color`  | Button background color when's disabled.                |
+| `--off-background-color`       | Button background color when's OFF.                     |
+| `--on-background-color`        | Button background color when's ON.                      |
+| `--switch-disabled-icon-color` | Icon square container background color when's disabled. |
+| `--switch-icon-color`          | Icon square container background color.                 |
 
 
 ## Dependencies
