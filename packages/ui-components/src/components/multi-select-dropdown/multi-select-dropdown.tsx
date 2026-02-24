@@ -95,6 +95,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: true }) autoFocus?: boolean = true; // eslint-disable-line @stencil-community/reserved-member-names
 	/** @inheritdoc */
 	@Prop({ reflect: true }) hideBadge?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) maxSelectable?: number;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
@@ -297,6 +299,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 							minWidth={this.getMinWidth()}
 							counter={this.counter}
 							shortcuts={this._isOpen && this.shortcuts}
+							maxSelectable={this.maxSelectable}
 							onSearchChange={this.onSearchChange}
 							onClearSelection={this.onClearSelection}
 							onOptionsSelected={this.onOptionsSelected}

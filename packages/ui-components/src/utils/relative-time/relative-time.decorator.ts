@@ -21,6 +21,7 @@ export const getRelativeTimeRangeName = (time: ERelativeTimeRangeKey): string =>
 		[ERelativeTimeRangeKey.Last_6_M]: 'Last 6 months',
 		[ERelativeTimeRangeKey.Last_365_D]: 'Last 365 days',
 		[ERelativeTimeRangeKey.Last_1_Y]: 'Last year',
+		[ERelativeTimeRangeKey.Last_2_Y]: 'Last 2 years',
 
 		[ERelativeTimeRangeKey.Next_5_M]: 'Next 5 minutes',
 		[ERelativeTimeRangeKey.Next_10_M]: 'Next 10 minutes',

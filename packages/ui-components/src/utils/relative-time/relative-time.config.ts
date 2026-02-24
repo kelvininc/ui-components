@@ -110,6 +110,10 @@ export const RELATIVE_TIME_OFFSETS: Record<ERelativeTimeRangeKey, RelativeTimeOf
 		offset: -2,
 		unit: 'years'
 	},
+	[ERelativeTimeRangeKey.Last_5_Y]: {
+		offset: -5,
+		unit: 'years'
+	},
 	[ERelativeTimeRangeKey.Last_365_D]: {
 		offset: -1,
 		unit: 'years'

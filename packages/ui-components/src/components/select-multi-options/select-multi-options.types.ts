@@ -58,6 +58,8 @@ export interface ISelectMultiOptionsConfig {
 	createOptionPlaceholder?: string;
 	/** (optional) The create form input placeholder  */
 	createInputPlaceholder?: string;
+	/** (optional) Maximum number of items that can be selected */
+	maxSelectable?: number;
 }
 
 export interface ISelectMultiOptionsEvents extends ISelectEvents {

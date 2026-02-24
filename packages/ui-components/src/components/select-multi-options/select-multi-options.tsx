@@ -69,6 +69,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Prop({ reflect: true }) createInputPlaceholder?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) createOptionPlaceholder?: string = DEFAULT_ADD_OPTION_PLACEHOLDER;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) maxSelectable?: number;
 
 	@Element() el: HTMLKvSelectMultiOptionsElement;
 
@@ -117,13 +119,16 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Watch('selectedOptions')
 	@Watch('highlightedOption')
 	buildSelectionOptions() {
+		const selectedCount = Object.keys(this.selectedOptions ?? {}).filter(key => this.selectedOptions[key]).length;
 		const selectOptions = buildSelectOptions({
 			options: this.options,
 			allOptions: this.options,
 			selectedOptions: this.selectedOptions,
 			highlightedOption: this.highlightedOption,
 			hasAddItem: this.canAddItems,
-			createInputPlaceholder: this.createOptionPlaceholder
+			createInputPlaceholder: this.createOptionPlaceholder,
+			maxSelectable: this.maxSelectable,
+			selectedCount
 		});
 		const selectCurrentOptions = buildSelectOptions({
 			options: this.currentOptions,
@@ -131,7 +136,9 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 			selectedOptions: this.selectedOptions,
 			highlightedOption: this.highlightedOption,
 			hasAddItem: this.canAddItems,
-			createInputPlaceholder: this.createOptionPlaceholder
+			createInputPlaceholder: this.createOptionPlaceholder,
+			maxSelectable: this.maxSelectable,
+			selectedCount
 		});
 		const selectSelectableOptions = getSelectableOptions(selectOptions);
 		const selectCurrentSelectableOptions = getSelectableOptions(selectCurrentOptions);
@@ -249,6 +256,11 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 			if (selectedOptionValue) {
 				this.optionsSelected.emit(otherSelectedOptions);
 			} else {
+				// Check if max selectable limit is reached
+				const selectedCount = Object.keys(this.selectedOptions ?? {}).filter(key => this.selectedOptions[key]).length;
+				if (this.maxSelectable !== undefined && selectedCount >= this.maxSelectable) {
+					return;
+				}
 				this.optionsSelected.emit({
 					...otherSelectedOptions,
 					[selectedOptionKey]: true
@@ -321,12 +333,13 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		const hasSelectedOptions = selectedOptionsLength > 0;
 		const isSelectionClearable = hasOptions && this.selectionClearable;
 		const isSelectionClearEnabled = hasSelectedOptions && hasCurrentOptions;
-		const isSelectAllAvailable = hasOptions && this.selectionAll;
+		const isSelectAllAvailable = hasOptions && this.selectionAll && this.maxSelectable === undefined;
 		const isSelectAllEnabled = hasCurrentOptions && selectedOptionsLength < optionsLength;
 
 		const hasNoDataAvailable = !hasOptions && !hasCurrentOptions;
 		const hasNoResultsFound = hasOptions && !hasCurrentOptions;
-		const selectedItemsCountText = `Selected: ${selectedOptionsLength}/${optionsLength}`;
+		const maxSelectableCount = Math.min(this.maxSelectable ?? optionsLength, optionsLength);
+		const selectedItemsCountText = `Selected: ${selectedOptionsLength}/${maxSelectableCount}`;
 
 		return (
 			<kv-select
