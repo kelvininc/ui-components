@@ -43,7 +43,7 @@ describe('Info Label (end-to-end)', () => {
 	describe('when renders with a component', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-info-label label-title="DESCRIPTION"><kv-tag-letter label="Test" tag-letter="T" /></kv-info-label>');
+			await page.setContent('<kv-info-label label-title="DESCRIPTION"><kv-tag label="Test" /></kv-info-label>');
 			await page.waitForChanges();
 		});
 
@@ -54,7 +54,7 @@ describe('Info Label (end-to-end)', () => {
 		});
 
 		it('should render a component', async () => {
-			const externalComponent = await page.find('kv-tag-letter');
+			const externalComponent = await page.find('kv-tag');
 			expect(externalComponent).toBeTruthy();
 		});
 	});

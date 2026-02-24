@@ -2,18 +2,24 @@
 
 :host {
 	/**
-	 * @prop --tag-background-color: Tag Background Color.
-	 * @prop --tag-border-color: Tag Border Color.
-	 * @prop --tag-label-color: Tag Text Color.
-	 * @prop --tag-content-gap: Gap between text and slot.
-	 * @prop --tag-content-padding: Padding insise content
+	 * @prop --tag-background-color: Tag background color.
+	 * @prop --tag-label-color: Tag label text color.
+	 * @prop --tag-badge-color: Tag badge text color.
+	 * @prop --tag-badge-background-color: Tag badge background color.
+	 * @prop --tag-icon-color: Tag icon color.
+	 * @prop --tag-content-gap: Gap between icon, label and badge.
+	 * @prop --tag-content-padding-x: Horizontal padding inside the tag.
+	 * @prop --tag-content-padding-y: Vertical padding inside the tag.
 	 */
 
-	--tag-background-color: #{kv-color('neutral-6')};
-	--tag-border-color: #{kv-color('neutral-6')};
-	--tag-label-color: #{kv-color('neutral-2')};
-	--tag-content-gap: #{$spacing};
-	--tag-content-padding: #{2px $spacing};
+	--tag-background-color: var(--background-container-neutral-default, #{kv-color('neutral-6')});
+	--tag-label-color: var(--text-container-neutral-subtle, #{kv-color('neutral-2')});
+	--tag-badge-color: var(--text-container-neutral-subtle);
+	--tag-badge-background-color: var(--background-container-neutral-subtle);
+	--tag-icon-color: var(--icon-container-neutral-subtle);
+	--tag-content-gap: var(--spacing-xs, #{$spacing});
+	--tag-content-padding-x: var(--spacing-md, #{$spacing});
+	--tag-content-padding-y: var(--spacing-none, 2px);
 }
 
 .tag-container {
@@ -22,23 +28,82 @@
 	align-items: center;
 	gap: var(--tag-content-gap);
 	width: fit-content;
-	max-height: 24px;
-	border-radius: 4px;
-	padding: var(--tag-content-padding);
-	border: 1px solid var(--tag-border-color);
+	height: var(--size-xl, 24px);
+	border-radius: var(--radius-md);
+	padding: var(--tag-content-padding-y) var(--tag-content-padding-x);
 	background-color: var(--tag-background-color);
 
+	kv-icon {
+		--icon-color: var(--tag-icon-color);
+		--icon-width: var(--size-md, 12px);
+		--icon-height: var(--size-md, 12px);
+	}
+
 	.tag-label {
-		@include heading-xs-regular-caps;
+		@include label-m-regular;
 
 		color: var(--tag-label-color);
 	}
 
-	&--size-small {
-		max-height: 20px;
-		
-		.tag-label {
-			@include heading-xs-regular-caps;
-		}
+	kv-badge {
+		--badge-background-color-secondary: var(--tag-badge-background-color);
+		--badge-text-color-secondary: var(--tag-badge-color);
+	}
+
+	// Color variants
+	&--color-neutral {
+		--tag-background-color: var(--background-container-neutral-default);
+		--tag-label-color: var(--text-container-neutral-subtle);
+		--tag-badge-color: var(--text-container-neutral-subtle);
+		--tag-badge-background-color: var(--background-container-neutral-subtle);
+		--tag-icon-color: var(--icon-container-neutral-subtle);
+	}
+
+	&--color-brand {
+		--tag-background-color: var(--background-container-brand-default);
+		--tag-label-color: var(--text-container-brand-default);
+		--tag-badge-color: var(--text-container-brand-default);
+		--tag-badge-background-color: var(--background-container-brand-subtle);
+		--tag-icon-color: var(--icon-container-brand-soft);
+	}
+
+	&--color-purple {
+		--tag-background-color: var(--background-container-accent-default);
+		--tag-label-color: var(--text-container-accent-default);
+		--tag-badge-color: var(--text-container-accent-default);
+		--tag-badge-background-color: var(--background-container-accent-subtle);
+		--tag-icon-color: var(--icon-container-accent-soft);
+	}
+
+	&--color-green {
+		--tag-background-color: var(--background-container-status-success-default);
+		--tag-label-color: var(--text-container-status-success-default);
+		--tag-badge-color: var(--text-container-status-success-default);
+		--tag-badge-background-color: var(--background-container-status-success-subtle);
+		--tag-icon-color: var(--icon-container-status-success-soft);
+	}
+
+	&--color-yellow {
+		--tag-background-color: var(--background-container-status-warning-default);
+		--tag-label-color: var(--text-container-status-warning-default);
+		--tag-badge-color: var(--text-container-status-warning-default);
+		--tag-badge-background-color: var(--background-container-status-warning-subtle);
+		--tag-icon-color: var(--icon-container-status-warning-soft);
+	}
+
+	&--color-red {
+		--tag-background-color: var(--background-container-status-danger-default);
+		--tag-label-color: var(--text-container-status-danger-default);
+		--tag-badge-color: var(--text-container-status-danger-default);
+		--tag-badge-background-color: var(--background-container-status-danger-subtle);
+		--tag-icon-color: var(--icon-container-status-danger-soft);
+	}
+
+	&--color-blue {
+		--tag-background-color: var(--background-container-status-info-default);
+		--tag-label-color: var(--text-container-status-info-default);
+		--tag-badge-color: var(--text-container-status-info-default);
+		--tag-badge-background-color: var(--background-container-status-info-subtle);
+		--tag-icon-color: var(--icon-container-status-info-soft);
 	}
 }
