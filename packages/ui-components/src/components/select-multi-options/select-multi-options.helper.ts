@@ -17,7 +17,9 @@ const buildSelectOption = ({
 	allOptions = {},
 	selectedOptions = {},
 	highlightedOption,
-	level = 0
+	level = 0,
+	maxSelectable,
+	selectedCount
 }: {
 	optionKey: string;
 	options?: ISelectMultiOptions;
@@ -25,24 +27,33 @@ const buildSelectOption = ({
 	selectedOptions?: Record<string, boolean>;
 	highlightedOption?: string;
 	level?: number;
+	maxSelectable?: number;
+	selectedCount?: number;
 }): ISelectOptionWithChildren => {
 	const childrenOptions = buildSelectOptions({
 		options: options[optionKey].options,
 		allOptions: allOptions[optionKey].options,
 		selectedOptions,
 		highlightedOption,
-		level: level + 1
+		level: level + 1,
+		maxSelectable,
+		selectedCount
 	});
+
+	const isSelected = selectedOptions[optionKey] === true;
+	const isMaxReached = maxSelectable !== undefined && selectedCount !== undefined && selectedCount >= maxSelectable;
+	const isDisabledByMax = isMaxReached && !isSelected;
 
 	return {
 		togglable: true,
 		...options[optionKey],
 		options: childrenOptions,
-		selected: selectedOptions[optionKey] === true,
+		selected: isSelected,
 		state: getOptionToggleState(allOptions[optionKey], selectedOptions),
 		highlighted: optionKey === highlightedOption,
 		level: level,
-		heading: Object.values(childrenOptions).length > 0
+		heading: Object.values(childrenOptions).length > 0,
+		disabled: options[optionKey].disabled || isDisabledByMax
 	};
 };
 
@@ -75,7 +86,9 @@ export const buildSelectOptions = ({
 	highlightedOption,
 	hasAddItem = false,
 	createInputPlaceholder,
-	level = 0
+	level = 0,
+	maxSelectable,
+	selectedCount
 }: {
 	options?: ISelectMultiOptions;
 	allOptions?: ISelectMultiOptions;
@@ -84,10 +97,12 @@ export const buildSelectOptions = ({
 	hasAddItem?: boolean;
 	createInputPlaceholder?: string;
 	level?: number;
+	maxSelectable?: number;
+	selectedCount?: number;
 }): ISelectOptionsWithChildren => {
 	const selectOptions = Object.keys(options).reduce<ISelectOptionsWithChildren>((accumulator, optionKey) => {
 		if (allOptions[optionKey]) {
-			accumulator[optionKey] = buildSelectOption({ optionKey, options, allOptions, selectedOptions, highlightedOption, level });
+			accumulator[optionKey] = buildSelectOption({ optionKey, options, allOptions, selectedOptions, highlightedOption, level, maxSelectable, selectedCount });
 		}
 
 		return accumulator;

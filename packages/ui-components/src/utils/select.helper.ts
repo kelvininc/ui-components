@@ -68,6 +68,21 @@ export const buildAllOptionsSelected = (options: ISelectMultiOptions = {}): Reco
 		return accumulator;
 	}, {});
 
+export const getSelectedCount = (selectedOptions: Record<string, boolean> = {}): number => Object.keys(selectedOptions).filter(key => selectedOptions[key]).length;
+
+export const buildPartialOptionsSelected = (options: ISelectMultiOptions = {}, maxSelectable: number, currentSelectedCount: number): Record<string, boolean> | undefined => {
+	const availableSlots = maxSelectable - currentSelectedCount;
+	if (availableSlots <= 0) {
+		return undefined;
+	}
+
+	const keysToSelect = Object.keys(options).slice(0, availableSlots);
+	return keysToSelect.reduce<Record<string, boolean>>((acc, key) => {
+		acc[key] = true;
+		return acc;
+	}, {});
+};
+
 export const getPreviousHightlightableOption = (options: IMultiSelectDropdown, highlightedOption?: string): string | undefined => {
 	if (isEmpty(options)) {
 		return;

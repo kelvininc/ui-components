@@ -40,7 +40,9 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		componentSize: optionComponentSize,
 		multiSubOptions,
 		clearSelectionLabel,
-		selectAllLabel
+		selectionAll,
+		selectAllLabel,
+		maxSelectable
 	} = uiSchema;
 	const { componentSize = EComponentSize.Large, dropdownConfig = DEFAULT_DROPDOWN_CONFIG, allowClearInputs } = formContext as F;
 	const [searchTerm, setSearchTerm] = useState<string | null>(null);
@@ -108,7 +110,9 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		badge,
 		selectionClearable: allowClearInputs ?? selectionClearable,
 		clearSelectionLabel,
+		selectionAll,
 		selectAllLabel,
+		maxSelectable,
 		minSearchOptions: minSearchOptions ?? DEFAULT_MINIMUM_SEARCHABLE_OPTIONS
 	};
 
