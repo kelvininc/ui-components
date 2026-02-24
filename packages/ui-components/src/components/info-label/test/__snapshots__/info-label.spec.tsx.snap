@@ -14,20 +14,17 @@ exports[`Info Label (unit tests) when renders with a component should match the 
       </div>
     </div>
   </template>
-  <kv-tag-letter label="Test" tag-letter="T">
+  <kv-tag color="neutral" label="Test">
     <template shadowrootmode="open">
-      <div class="tag-letter-container">
-        <div class="letter-avatar">
-          <div class="avatar">
-            T
-          </div>
-        </div>
-        <div class="label">
+      <div class="tag-container tag-container--color-neutral">
+        <slot name="left-slot"></slot>
+        <div class="tag-label">
           Test
         </div>
+        <slot name="right-slot"></slot>
       </div>
     </template>
-  </kv-tag-letter>
+  </kv-tag>
 </kv-info-label>
 `;
 

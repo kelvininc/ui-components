@@ -45,7 +45,7 @@ export * from './components/summary-card/summary-card.types';
 export * from './components/switch-button/switch-button.types';
 export * from './components/tab-navigation/tab-navigation.types';
 export * from './components/tab-item/tab-item.types';
-export * from './components/tag-alarm/tag-alarm.types';
+export * from './components/tag/tag.types';
 export * from './components/tag-status/tag-status.types';
 export * from './components/text-field/text-field.types';
 export * from './components/time-picker/time-picker.types';
