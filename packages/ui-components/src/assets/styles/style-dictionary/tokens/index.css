@@ -7,3 +7,7 @@
 @import './component_semantics.css';
 @import './themes/dark.css';
 @import './themes/light.css';
+
+:root {
+	--transparent: transparent;
+}
