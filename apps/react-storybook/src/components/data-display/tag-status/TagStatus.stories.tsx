@@ -35,7 +35,7 @@ export const Error: Story = {
 export const Unknown: Story = {
 	args: {
 		state: ETagState.Unknown,
-		icon: EIconName.Error,
+		icon: EIconName.CloseCircle,
 		label: "Unknown"
 	}
 };
@@ -43,7 +43,7 @@ export const Unknown: Story = {
 export const Warning: Story = {
 	args: {
 		state: ETagState.Warning,
-		icon: EIconName.Error,
+		icon: EIconName.DottedCircle,
 		label: "Partially Online"
 	}
 };
@@ -59,7 +59,7 @@ export const Success: Story = {
 export const Info: Story = {
 	args: {
 		state: ETagState.Info,
-		icon: EIconName.Error,
+		icon: EIconName.SyncCircle,
 		label: "Started"
 	}
 };
@@ -67,7 +67,7 @@ export const Info: Story = {
 export const WithoutLabel: Story = {
 	args: {
 		state: ETagState.Info,
-		icon: EIconName.Error,
+		icon: EIconName.SyncCircle,
 		label: ""
 	}
 };
