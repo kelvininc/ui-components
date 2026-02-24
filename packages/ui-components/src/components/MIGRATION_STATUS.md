@@ -27,6 +27,7 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] portal
 - [x] tooltip
 - [x] tooltip-text
+- [x] toggle-tip
 - [x] badge
 - [x] tab-item
 - [x] tab-navigation
@@ -41,8 +42,7 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] single-select-dropdown
 - [x] illustration
 - [x] illustration-message
-
-
+- [x] toaster
 
 
 ## Not Migrated (tokens defined but not yet consumed)
@@ -50,9 +50,6 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] alert
 - [ ] input-wrapper
 - [ ] text-area
-- [ ] toaster
-- [ ] toggle-tip
-
 
 ## No Tokens Defined
 
