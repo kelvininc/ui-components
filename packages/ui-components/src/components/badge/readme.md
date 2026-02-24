@@ -75,6 +75,7 @@ export const BadgeExample: React.FC = () => (
 ### Used by
 
  - [kv-tab-navigation](../tab-navigation)
+ - [kv-tag](../tag)
  - [kv-text-field](../text-field)
  - [kv-tree-item](../tree-item)
 
@@ -82,6 +83,7 @@ export const BadgeExample: React.FC = () => (
 ```mermaid
 graph TD;
   kv-tab-navigation --> kv-badge
+  kv-tag --> kv-badge
   kv-text-field --> kv-badge
   kv-tree-item --> kv-badge
   style kv-badge fill:#f9f,stroke:#333,stroke-width:4px
