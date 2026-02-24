@@ -125,8 +125,7 @@
 		}
 	}
 
-	&:not(.select-option--disabled)
-	&:hover {
+	&:not(.select-option--disabled):hover {
 		background-color: var(--select-option-background-color-hover);
 
 		.item-label {
