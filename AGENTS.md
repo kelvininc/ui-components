@@ -374,6 +374,26 @@ calendar/
 2. **Rebuild packages**: `pnpm build:packages`
 3. **View changes in Storybook**: `pnpm storybook`
 
+> ⚠️ **Build required after any change to `packages/ui-components`**: The core package is consumed by `packages/react-ui-components` and `apps/react-storybook` via Rollup. Any change to component source, types, or enums in `packages/ui-components` **must be followed by a build** before those changes are available in dependent packages and apps. Skipping the build means downstream consumers (including Storybook stories) will see stale types and missing exports.
+>
+> ```bash
+> # Run from the repository root — builds all packages in the correct order:
+> pnpm build:packages
+> ```
+
+> ⚠️ **Enum exports must be kept in sync**: Whenever an enum is **added or removed** from `packages/ui-components`, the named export list in `packages/react-ui-components/src/ui-components.ts` **must be updated manually** to include or remove it. This file is the bridge that makes enums available as runtime values (not just types) to consumers of `@kelvininc/react-ui-components`.
+>
+> The file has an explicit named export block — `export type *` alone is **not sufficient** for enums since they are runtime values, not just types.
+>
+> **Example** — after adding `ETagColor` to `packages/ui-components`:
+> ```ts
+> // packages/react-ui-components/src/ui-components.ts
+> export {
+>   // ... existing enums ...
+>   ETagColor,  // ← add new enum here
+> } from '@kelvininc/ui-components';
+> ```
+
 ### Running Tests
 
 ```bash

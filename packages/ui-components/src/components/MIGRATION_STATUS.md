@@ -30,6 +30,8 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] badge
 - [x] tab-item
 - [x] tab-navigation
+- [x] tag
+- [x] tag-status
 
 
 
@@ -82,10 +84,6 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] step-progress-bar
 - [ ] summary-card
 - [ ] svg-icon
-- [ ] tag
-- [ ] tag-alarm
-- [ ] tag-letter
-- [ ] tag-status
 - [ ] time-picker
 - [ ] time-picker-select-option
 - [ ] tree

@@ -1,8 +1,5 @@
 import type { Meta, StoryFn, StoryObj } from "@storybook/react";
-import {
-	KvInfoLabel,
-	KvTagLetter
-} from "@kelvininc/react-ui-components/client";
+import { KvInfoLabel, KvTag } from "@kelvininc/react-ui-components/client";
 import { ComponentProps } from "react";
 
 const meta = {
@@ -52,7 +49,7 @@ const InfoLabelTemplateWithComponent: StoryFn<
 	ComponentProps<typeof KvInfoLabel>
 > = (args) => (
 	<KvInfoLabel {...args}>
-		<KvTagLetter tagLetter="C" label="Change The Rapper" />
+		<KvTag label="Change The Rapper" />
 	</KvInfoLabel>
 );
 
@@ -67,7 +64,7 @@ const InfoLabelTemplateWithComponentHidden: StoryFn<
 	ComponentProps<typeof KvInfoLabel>
 > = (args) => (
 	<KvInfoLabel {...args}>
-		<KvTagLetter tagLetter="C" label="Change The Rapper" />
+		<KvTag label="Change The Rapper" />
 	</KvInfoLabel>
 );
 
