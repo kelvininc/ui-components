@@ -47,6 +47,7 @@ export enum ERelativeTimeRangeKey {
 	// Years - Past
 	Last_1_Y = 'last-1-y',
 	Last_2_Y = 'last-2-y',
+	Last_5_Y = 'last-5-y',
 
 	// Special - Unit-based references
 	Today = 'today',
