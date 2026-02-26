@@ -25,7 +25,8 @@ describe('Radio (end-to-end)', () => {
 
 			beforeEach(async () => {
 				spyClickCheckboxEvent = await checkboxElement.spyOnEvent('clickCheckbox');
-				await checkboxElement.click();
+				const radioContainer = await page.find('kv-checkbox >>> .radio-container');
+				await radioContainer.click();
 			});
 
 			it('should emit the clicked event', async () => {
@@ -56,7 +57,8 @@ describe('Radio (end-to-end)', () => {
 			beforeEach(async () => {
 				spyClickCheckboxEvent = await checkboxElement.spyOnEvent('clickCheckbox');
 
-				await checkboxElement.click();
+				const radioContainer = await page.find('kv-checkbox >>> .radio-container');
+				await radioContainer.click();
 			});
 
 			it('should emit the clicked event', async () => {
@@ -87,7 +89,8 @@ describe('Radio (end-to-end)', () => {
 			beforeEach(async () => {
 				spyClickCheckboxEvent = await checkboxElement.spyOnEvent('clickCheckbox');
 
-				await checkboxElement.click();
+				const radioContainer = await page.find('kv-checkbox >>> .radio-container');
+				await radioContainer.click();
 			});
 
 			it('should emit the clicked event', async () => {
@@ -107,7 +110,8 @@ describe('Radio (end-to-end)', () => {
 			checkboxElement = await page.find('kv-checkbox');
 			spyClickCheckboxEvent = await checkboxElement.spyOnEvent('clickCheckbox');
 
-			await checkboxElement.click();
+			const radioContainer = await page.find('kv-checkbox >>> .radio-container');
+			await radioContainer.click();
 		});
 
 		it('should not emit the clicked event', async () => {

@@ -18,14 +18,6 @@ describe('Radio Button (unit tests)', () => {
 			expect(page.root).toMatchSnapshot();
 		});
 
-		it('should initialize `isChecked` with value false', () => {
-			expect(component.isChecked).toBeFalsy();
-		});
-
-		it('should initialize `isDisabled` with value false', () => {
-			expect(component.isDisabled).toBeFalsy();
-		});
-
 		it('should initialize `label` with empty string', () => {
 			expect(component.label).toBeFalsy();
 		});
@@ -61,10 +53,6 @@ describe('Radio Button (unit tests)', () => {
 		it('should match the snapshot', () => {
 			expect(page.root).toMatchSnapshot();
 		});
-
-		it('should initialize `isDisabled` with value true', () => {
-			expect(component.isDisabled).toBeTruthy();
-		});
 	});
 
 	describe('when the component loads with checked prop', () => {
@@ -78,10 +66,6 @@ describe('Radio Button (unit tests)', () => {
 
 		it('should match the snapshot', () => {
 			expect(page.root).toMatchSnapshot();
-		});
-
-		it('should initialize `isChecked` with value true', () => {
-			expect(component.isChecked).toBeTruthy();
 		});
 	});
 });

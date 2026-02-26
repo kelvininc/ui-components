@@ -125,6 +125,7 @@ graph TD;
   kv-toggle-button --> kv-icon
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
+  kv-radio --> kv-icon
   kv-toggle-button-group --> kv-toggle-button
   kv-toggle-switch --> kv-toggle-button
   style kv-toggle-button fill:#f9f,stroke:#333,stroke-width:4px

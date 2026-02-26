@@ -1,5 +1,9 @@
 import { ComponentProps, useCallback, useState } from "react";
-import { KvCheckbox, ICheckbox } from "@kelvininc/react-ui-components/client";
+import {
+	KvCheckbox,
+	ICheckbox,
+	EComponentSize
+} from "@kelvininc/react-ui-components/client";
 import { Meta, StoryFn, StoryObj } from "@storybook/react";
 
 const CheckboxTemplate: StoryFn<ComponentProps<typeof KvCheckbox>> = ({
@@ -24,7 +28,13 @@ const CheckboxTemplate: StoryFn<ComponentProps<typeof KvCheckbox>> = ({
 const meta = {
 	title: "Inputs/Checkbox",
 	component: KvCheckbox,
-	render: CheckboxTemplate
+	render: CheckboxTemplate,
+	argTypes: {
+		size: {
+			control: "radio",
+			options: Object.values(EComponentSize)
+		}
+	}
 } satisfies Meta<typeof KvCheckbox>;
 
 export default meta;

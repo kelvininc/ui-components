@@ -28,6 +28,7 @@ export * from './components/link/link.types';
 export * from './components/modal/modal.types';
 export * from './components/multi-select-dropdown/multi-select-dropdown.types';
 export * from './components/portal/portal.types';
+export * from './components/radio/radio.types';
 export * from './components/radio-list/radio-list.types';
 export * from './components/radio-list-item/radio-list-item.types';
 export * from './components/range/range.types';
