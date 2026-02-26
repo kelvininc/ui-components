@@ -3,7 +3,7 @@ import { HostAttributes } from '@stencil/core/internal';
 import { EToggleState, ISelectOption, ISelectOptionAction, ISelectOptionEvents } from './select-option.types';
 import { LEVEL_OFFSET_PX } from './select-option.config';
 import { EIconName } from '../icon/icon.types';
-import { CustomCssClass, EActionButtonType } from '../../types';
+import { CustomCssClass, EActionButtonType, EComponentSize } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 
 /**
@@ -92,7 +92,8 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 							'select-option--highlighted': this.highlighted,
 							'select-option--disabled': this.disabled,
 							'select-option--selectable': this.selectable,
-							'select-option--heading': this.heading
+							'select-option--heading': this.heading,
+							'select-option--with-checkbox': this.selectable && this.togglable
 						}}
 						part="option-container"
 						onClick={this.onItemClick}
@@ -101,6 +102,7 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 					>
 						{this.selectable && this.togglable && (
 							<kv-checkbox
+								size={EComponentSize.Small}
 								disabled={this.disabled}
 								checked={this.state === EToggleState.Selected}
 								indeterminate={this.state === EToggleState.Indeterminate}

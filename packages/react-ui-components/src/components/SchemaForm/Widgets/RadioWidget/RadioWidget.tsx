@@ -1,3 +1,4 @@
+import { EComponentSize } from '@kelvininc/ui-components';
 import React, { useCallback, useMemo } from 'react';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 import { KvRadio } from '../../../../stencil-generated';
@@ -44,7 +45,7 @@ const RadioWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormC
 							onFocus={() => markFieldAsTouched(id)}
 							onBlur={() => markFieldAsTouched(id)}
 						>
-							<KvRadio id={option.label} label={option.label} disabled={isDisabled} checked={checked} />
+							<KvRadio size={EComponentSize.Large} id={option.label} label={option.label} disabled={isDisabled} checked={checked} />
 						</div>
 					);
 				})}

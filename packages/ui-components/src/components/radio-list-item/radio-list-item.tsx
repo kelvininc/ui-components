@@ -1,6 +1,7 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { buildDescription } from './radio-list-item.helper';
 import { IRadioListItem, IRadioListItemEvents } from './radio-list-item.types';
+import { EComponentSize } from '../../types';
 
 @Component({
 	tag: 'kv-radio-list-item',
@@ -30,7 +31,7 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 		this.parsedDescription = buildDescription(newValue);
 	}
 
-	private onOptionClick = (ev: MouseEvent) => {
+	private onOptionClick = (ev: Event) => {
 		ev.stopPropagation();
 		this.optionClick.emit(this.optionId);
 	};
@@ -39,6 +40,7 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 		return (
 			<Host>
 				<div
+					tabIndex={this.disabled ? -1 : 0}
 					class={{
 						'radio-list-item-container': true,
 						'radio-list-item-container--disabled': this.disabled,
@@ -48,7 +50,7 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 				>
 					<slot name="header" />
 					<div class="content">
-						<kv-radio checked={this.checked} disabled={this.disabled} />
+						<kv-radio size={EComponentSize.Large} checked={this.checked} disabled={this.disabled} onCheckedChange={this.onOptionClick} />
 						<div class="info">
 							<slot name="label">
 								<div class="label">{this.label}</div>

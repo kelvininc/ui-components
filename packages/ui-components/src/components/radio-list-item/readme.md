@@ -103,6 +103,7 @@ export const RadioListItemExample: React.FC = () => (
 graph TD;
   kv-radio-list-item --> kv-radio
   kv-radio-list-item --> kv-link
+  kv-radio --> kv-icon
   kv-radio-list --> kv-radio-list-item
   style kv-radio-list-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
