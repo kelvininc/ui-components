@@ -2,78 +2,110 @@
 
 :host {
 	/**
-	 * @prop --input-height-large: Text Field's large height.
-	 * @prop --input-height-small: Text Field's small height.
-
-	 * @prop --radio-label-text-color: Radio label color.
-	 * @prop --radio-input-default-color: Radio input color when state is not checked.
-	 * @prop --radio-input-checked-color: Radio input color when state is checked.
+	 * @prop --input-height-large: Radio height when size is large.
+	 * @prop --input-height-small: Radio height when size is small.
+	 * @prop --radio-input-large: Radio icon size when size is large.
+	 * @prop --radio-input-small: Radio icon size when size is small.
+	 * @prop --radio-input-default-color: Radio icon color when state is default.
+	 * @prop --radio-input-disabled-color: Radio icon and label color when state is disabled.
+	 * @prop --radio-background-default-color: Radio circle background color when state is default.
+	 * @prop --radio-background-hover-color: Radio circle background color when state is hovered.
+	 * @prop --radio-background-pressed-color: Radio circle background color when state is pressed.
+	 * @prop --radio-background-disabled-color: Radio circle background color when state is disabled.
 	 */
 
-	--input-height-large: 36px;
-	--input-height-small: 28px;
-	--radio-label-text-color: #{kv-color('neutral-2')};
-	--radio-input-checked-color: #{kv-color('neutral-0')};
-	--radio-input-focused-color: #{kv-color('neutral-5')};
-	--radio-input-default-color: #{kv-color('neutral-0')};
+	--input-height-large: var(--input-height-regular, 36px);
+	--input-height-small: var(--input-height-compact, 28px);
+	--input-gap-large: var(--spacing-none);
+	--input-gap-small: var(--spacing-xs);
+	--input-label-color: var(--text-surface-neutral-secondary);
+
+	--radio-input-large: var(--size-xl, 14px);
+	--radio-input-small: var(--size-default, 14px);
+	--radio-input-default-color: var(--icon-persistent-indicator-on, #{kv-color('neutral-0')});
+	--radio-input-disabled-color: var(--icon-surface-neutral-disabled, #{kv-color('neutral-0')});
+	--radio-background-default-color: var(--transparent);
+	--radio-background-hover-color: var(--overlay-interactive-opacity-10);
+	--radio-background-pressed-color: var(--overlay-interactive-opacity-16);
+	--radio-background-disabled-color: var(--transparent);
 }
 
 .radio-container {
 	display: flex;
 	align-items: center;
-	cursor: pointer;
-	user-select: none;
 	width: fit-content;
+
+	@include clickable;
 
 	&--size-large {
 		height: var(--input-height-large);
+		gap: var(--input-gap-large);
+
+		.circle {
+			height: var(--input-height-large);
+			width: var(--input-height-large);
+
+			::slotted(kv-icon),
+			kv-icon {
+				--icon-width: var(--radio-input-large);
+				--icon-height: var(--radio-input-large);
+			}
+		}
 	}
 
 	&--size-small {
 		height: var(--input-height-small);
+		gap: var(--input-gap-small);
+		
+		.circle {
+			height: var(--input-height-small);
+			width: var(--input-height-small);
+
+			::slotted(kv-icon),
+			kv-icon {
+				--icon-width: var(--radio-input-small);
+				--icon-height: var(--radio-input-small);
+			}
+		}
 	}
 
 	&.disabled {
-		pointer-events: none;
-		opacity: 0.5;
+		@include non-clickable;
 
 		.circle {
-			border-color: var(--radio-input-default-color);
+			background-color: var(--radio-background-disabled-color);
+
+			::slotted(kv-icon),
+			kv-icon {
+				--icon-color: var(--radio-input-disabled-color);
+			}
+		}
+
+		.label {
+			color: var(--radio-input-disabled-color);
 		}
 	}
 }
 
 .circle {
-	height: 14px;
-	width: 14px;
-	border-radius: 50%;
-	border: 1px solid var(--radio-input-default-color);
-	display: inline-flex;
+	display: flex;
 	align-items: center;
 	justify-content: center;
-	flex-shrink: 0;
+	border-radius: var(--radius-full);
+	outline: none;
 
-	&:focus {
-		outline: none;
-		border-color: var(--radio-input-focused-color);
+	&:hover {
+		background-color: var(--radio-background-hover-color);
 	}
 
-	.checked-icon {
-		height: 8px;
-		width: 8px;
-		border-radius: 50%;
-		transition: all 0.2s ease-out;
+	&:focus,
+	&:active {
+		background-color: var(--radio-background-pressed-color);
 	}
-}
-
-.checked .circle {
-	border: 1px solid var(--radio-input-checked-color);
-
-	.checked-icon {
-		height: 8px;
-		width: 8px;
-		border-radius: 50%;
-		background: var(--radio-input-checked-color);
+	
+	::slotted(kv-icon),
+	kv-icon {
+		--icon-color: var(--radio-input-default-color);
 		transition: all 0.2s ease-out;
 	}
 }
@@ -82,6 +114,5 @@
 	@include body-m-regular();
 	@include ellipsis();
 
-	color: var(--radio-label-text-color);
-	margin-left: $spacing-2x;
+	color: var(--input-label-color);
 }

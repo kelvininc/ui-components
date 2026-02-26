@@ -23,8 +23,8 @@
 	--radio-list-item-border-color-hover: #{kv-color('neutral-0')};
 	--radio-list-item-border-color-checked: #{kv-color('neutral-0')};
 	--radio-list-item-border-radius: 2px;
-	--radio-list-item-padding: #{$spacing-4x};
-	--radio-list-item-gap: #{$spacing-4x};
+	--radio-list-item-padding: var(--spacing-2xl, #{$spacing-4x});
+	--radio-list-item-gap: var(--spacing-md, #{$spacing-4x});
 	--radio-list-item-disabled-opacity: 0.5;
 }
 
@@ -37,10 +37,12 @@
 	transition:
 		border-color 0.25s ease-in-out,
 		background 0.25s ease-in-out;
-	cursor: pointer;
-	user-select: none;
+	outline: none;
+
+	@include clickable;
 
 	&--checked,
+	&:focus,
 	&:hover {
 		background: var(--radio-list-item-background-hover);
 		border-color: var(--radio-list-item-border-color-hover);
@@ -52,24 +54,21 @@
 	}
 
 	&--disabled {
-		pointer-events: none;
 		opacity: var(--radio-list-item-disabled-opacity);
-	}
 
-	kv-radio {
-		--input-height-large: unset;
+		@include non-clickable;
 	}
 
 	.content {
 		display: flex;
 		align-items: center;
 		padding: var(--radio-list-item-padding);
+		gap: var(--radio-list-item-gap);
 	}
 
 	.info {
 		flex: 1;
 		min-width: 0;
-		margin-left: var(--radio-list-item-gap);
 
 		.label {
 			@include heading-m-semibold;
