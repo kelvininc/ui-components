@@ -17,6 +17,7 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] toggle-button-group
 - [x] radio
 - [x] checkbox
+- [x] link
 
 
 
@@ -28,7 +29,6 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] form-help-text
 - [ ] form-label
 - [ ] input-wrapper
-- [ ] link
 - [ ] multi-select-dropdown
 - [ ] search
 - [ ] single-select-dropdown
