@@ -15,6 +15,8 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] toggle-button
 - [x] toggle-switch
 - [x] toggle-button-group
+- [x] radio
+- [x] checkbox
 
 
 
@@ -50,7 +52,6 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] breadcrumb-list
 - [ ] calendar
 - [ ] calendar-day
-- [ ] checkbox
 - [ ] copy-to-clipboard
 - [ ] date-time-input
 - [ ] description-list
@@ -64,7 +65,6 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] loader
 - [ ] modal
 - [ ] portal
-- [ ] radio
 - [ ] radio-list
 - [ ] radio-list-item
 - [ ] range
