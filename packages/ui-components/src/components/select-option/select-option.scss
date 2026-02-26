@@ -177,8 +177,11 @@
 		}
 	}
 
-	kv-checkbox {
-		--checkbox-icon-size: 12px;
-		margin-right: $spacing-2x;
+	&--with-checkbox {
+		padding-left: var(--spacing-md);
+		
+		kv-checkbox {
+			margin-right: var(--spacing-xs);
+		}
 	}
 }
