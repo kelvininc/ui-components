@@ -1,10 +1,24 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { EAnchorTarget, KvLink } from "@kelvininc/react-ui-components/client";
+import {
+	EAnchorTarget,
+	EIconName,
+	KvLink
+} from "@kelvininc/react-ui-components/client";
 
 const meta = {
 	title: "Navigation/Link",
-	component: KvLink
+	component: KvLink,
+	argTypes: {
+		leftIcon: {
+			control: { type: "select" },
+			options: ["", ...Object.values(EIconName)]
+		},
+		rightIcon: {
+			control: { type: "select" },
+			options: ["", ...Object.values(EIconName)]
+		}
+	}
 } satisfies Meta<typeof KvLink>;
 
 export default meta;
@@ -16,11 +30,19 @@ export const LabelOnly: Story = {
 	}
 };
 
-export const LabelWithAnchor: Story = {
+export const LabelWithAnchorAndIcon: Story = {
 	args: {
 		label: "Link Label",
 		href: "https://kelvin.ai",
-		target: EAnchorTarget.NewTab
+		target: EAnchorTarget.NewTab,
+		rightIcon: EIconName.ExternalLink
+	}
+};
+
+export const LabelWithIcon: Story = {
+	args: {
+		label: "Link Label",
+		leftIcon: EIconName.ExternalLink
 	}
 };
 

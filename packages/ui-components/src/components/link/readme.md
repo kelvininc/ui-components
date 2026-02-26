@@ -72,12 +72,16 @@ export class SwichButtonExample {
 
 ## Properties
 
-| Property             | Attribute  | Description                                          | Type                                                                                                | Default     |
-| -------------------- | ---------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------- |
-| `href`               | `href`     | (optional) The link to open when clicking on the tag | `string`                                                                                            | `undefined` |
-| `label` _(required)_ | `label`    | (required) Main component label                      | `string`                                                                                            | `undefined` |
-| `subtitle`           | `subtitle` | (optional) Description for the label                 | `string`                                                                                            | `undefined` |
-| `target`             | `target`   | (optional) The link to open when clicking on the tag | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top` | `undefined` |
+| Property             | Attribute    | Description                                                                   | Type                                                                                                | Default     |
+| -------------------- | ------------ | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------- |
+| `disabled`           | `disabled`   | (optional) Defines if the link are disabled. Default: false                   | `boolean`                                                                                           | `false`     |
+| `href`               | `href`       | (optional) The anchor's link to open when clicking                            | `string`                                                                                            | `undefined` |
+| `inline`             | `inline`     | (optional) Whether the link is displayed inline. Default: false               | `boolean`                                                                                           | `false`     |
+| `label` _(required)_ | `label`      | (required) Main component label                                               | `string`                                                                                            | `undefined` |
+| `leftIcon`           | `left-icon`  | (optional) The name of the icon to be rendered on the left side of the label  | `EIconName`                                                                                         | `undefined` |
+| `rightIcon`          | `right-icon` | (optional) The name of the icon to be rendered on the right side of the label | `EIconName`                                                                                         | `undefined` |
+| `subtitle`           | `subtitle`   | (optional) Description for the label                                          | `string`                                                                                            | `undefined` |
+| `target`             | `target`     | (optional) The anchor's target                                                | `EAnchorTarget.BrowserDefault \| EAnchorTarget.NewTab \| EAnchorTarget.Parent \| EAnchorTarget.Top` | `undefined` |
 
 
 ## Events
@@ -92,6 +96,7 @@ export class SwichButtonExample {
 | Part          | Description          |
 | ------------- | -------------------- |
 | `"container"` | The link's container |
+| `"label"`     | The link's label     |
 
 
 ## Dependencies
@@ -100,9 +105,14 @@ export class SwichButtonExample {
 
  - [kv-radio-list-item](../radio-list-item)
 
+### Depends on
+
+- [kv-icon](../icon)
+
 ### Graph
 ```mermaid
 graph TD;
+  kv-link --> kv-icon
   kv-radio-list-item --> kv-link
   style kv-link fill:#f9f,stroke:#333,stroke-width:4px
 ```
