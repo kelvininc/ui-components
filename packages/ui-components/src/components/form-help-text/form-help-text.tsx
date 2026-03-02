@@ -13,6 +13,8 @@ export class KvFormHelpText {
 	@Prop({ reflect: true }) helpText: string | string[] = [];
 	/** (optional) Form field state */
 	@Prop({ reflect: true }) state: EValidationState = EValidationState.None;
+	/** (optional) Show icon. Default: false */
+	@Prop({ reflect: true }) showIcon = false;
 
 	/** Internal help texts state */
 	@State() _helpTexts: string[];
@@ -37,7 +39,7 @@ export class KvFormHelpText {
 			<Host>
 				{!isEmpty(this._helpTexts) && (
 					<div class={{ 'help-text-container': true, 'invalid': this.state === EValidationState.Invalid }}>
-						{this.state === EValidationState.Invalid && <kv-icon name={EIconName.Error} customClass="icon-16"></kv-icon>}
+						{this.state === EValidationState.Invalid && this.showIcon && <kv-icon name={EIconName.Error} customClass="icon-16"></kv-icon>}
 						{this._helpTexts.map(msg => (
 							<span class="help-text">{msg}</span>
 						))}
