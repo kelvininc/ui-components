@@ -16,14 +16,12 @@ export class KvFormLabel {
 	render() {
 		return (
 			<Host>
-				<div class="form-field-container">
-					{isValidLabel(this.label) && (
-						<div class="label-container">
-							{this.required && <span class="required">*</span>}
-							{this.label && <span class="label">{this.label}</span>}
-						</div>
-					)}
-				</div>
+				{isValidLabel(this.label) && (
+					<div class="label-container">
+						{this.required && <span class="required">*</span>}
+						{this.label && <span class="label">{this.label}</span>}
+					</div>
+				)}
 			</Host>
 		);
 	}
