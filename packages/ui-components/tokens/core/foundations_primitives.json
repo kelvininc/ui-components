@@ -168,6 +168,11 @@
         "value": "#05a357",
         "type": "color",
         "prefix": "foundations_(primitives)"
+      },
+      "600": {
+        "value": "#03723d",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
       }
     },
     "red": {
@@ -227,6 +232,11 @@
         "value": "#276ef1",
         "type": "color",
         "prefix": "foundations_(primitives)"
+      },
+      "600": {
+        "value": "#0b42a8",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
       }
     },
     "yellow": {
@@ -247,6 +257,11 @@
       },
       "500": {
         "value": "#f7a900",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "600": {
+        "value": "#e09a00",
         "type": "color",
         "prefix": "foundations_(primitives)"
       }
