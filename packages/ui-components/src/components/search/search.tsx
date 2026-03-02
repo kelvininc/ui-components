@@ -7,6 +7,7 @@ import { ISearch, ISearchEvents } from './search.types';
 
 @Component({
 	tag: 'kv-search',
+	styleUrl: 'search.scss',
 	shadow: true
 })
 export class KvSearch implements ISearch, ISearchEvents {

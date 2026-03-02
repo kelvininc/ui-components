@@ -4,7 +4,12 @@
 	/**
 	 * @prop --label-color: Label Text color.
 	 */
-	 --label-color: #{kv-color('neutral-4')};
+	 --label-color: var(--text-surface-neutral-tertiary, #{kv-color('neutral-4')});
+	 --label-required-color: var(--text-surface-danger-default, #{kv-color('error')});
+	 --label-gap: var(--spacing-2xs, #{$spacing});
+	 --label-bottom-spacing: var(--spacing-2xs, #{$spacing});
+
+	 display: inline-flex;
 }
 
 .required {
@@ -18,14 +23,14 @@
 .label {
 	@include heading-xs-regular-caps;
 	color: var(--label-color);
-	margin-left: $spacing;
 }
 
 .required {
-	color: kv-color('error');
-	margin-left: $spacing;
+	color: var( --label-required-color);
 }
 
 .label-container {
-	margin-bottom: $spacing;
+	display: inline-flex;
+	gap: var(--label-gap);
+	margin-bottom: var(--label-bottom-spacing);
 }
