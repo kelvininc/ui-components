@@ -121,6 +121,11 @@
       "value": "{space.56}",
       "type": "number",
       "prefix": "spacing"
+    },
+    "9xl": {
+      "value": "{space.64}",
+      "type": "number",
+      "prefix": "spacing"
     }
   },
   "radius": {

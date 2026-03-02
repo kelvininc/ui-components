@@ -90,14 +90,13 @@ describe('Text Field (end-to-end)', () => {
 	describe('when the text field has a required text field', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-text-field label="Text Field" required></kv-text-field>');
+			await page.setContent('<kv-text-field label="Text Field" input-required></kv-text-field>');
 		});
 
 		it('should render label and component with required indication', async () => {
 			const labelComponent = await page.find('kv-text-field >>> kv-form-label');
 			expect(labelComponent).toBeTruthy();
-			const errorComponent = await page.find('kv-text-field >>> kv-form-help-text');
-			expect(errorComponent).toBeTruthy();
+			expect(labelComponent).toEqualAttribute('required', '');
 		});
 	});
 

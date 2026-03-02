@@ -20,7 +20,6 @@ exports[`Text Field (unit tests) when has a label should match the snapshot 1`] 
             <slot name="right-slot"></slot>
           </div>
         </div>
-        <kv-form-help-text state="none"></kv-form-help-text>
       </div>
     </kv-tooltip>
   </template>
@@ -32,7 +31,6 @@ exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] 
   <template shadowrootmode="open">
     <kv-tooltip position="top-start" truncate="">
       <div class="text-field-container">
-        <kv-form-label></kv-form-label>
         <div class="disabled input-container input-container--size-large" part="input-container">
           <div class="disabled left-slot-container">
             <slot name="left-slot"></slot>
@@ -47,7 +45,6 @@ exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] 
             <slot name="right-slot"></slot>
           </div>
         </div>
-        <kv-form-help-text state="none"></kv-form-help-text>
       </div>
     </kv-tooltip>
   </template>
@@ -59,7 +56,6 @@ exports[`Text Field (unit tests) when uses default props should match the snapsh
   <template shadowrootmode="open">
     <kv-tooltip position="top-start" truncate="">
       <div class="text-field-container">
-        <kv-form-label></kv-form-label>
         <div class="input-container input-container--size-large" part="input-container">
           <div class="left-slot-container">
             <slot name="left-slot"></slot>
@@ -74,7 +70,6 @@ exports[`Text Field (unit tests) when uses default props should match the snapsh
             <slot name="right-slot"></slot>
           </div>
         </div>
-        <kv-form-help-text state="none"></kv-form-help-text>
       </div>
     </kv-tooltip>
   </template>
