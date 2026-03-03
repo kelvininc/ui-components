@@ -347,3 +347,41 @@ export const StressTest = {
 		}))
 	}
 };
+
+export const MaxSelectable: Story = {
+	args: {
+		options: {
+			option1: {
+				value: "option1",
+				label: "Option 1"
+			},
+			option2: {
+				value: "option2",
+				label: "Option 2"
+			},
+			option3: {
+				value: "option3",
+				label: "Option 3"
+			},
+			option4: {
+				value: "option4",
+				label: "Option 4"
+			},
+			option5: {
+				value: "option5",
+				label: "Option 5"
+			},
+			option6: {
+				value: "option6",
+				label: "Option 6"
+			}
+		},
+		selectedOptions: { option1: true },
+		maxSelectable: 3,
+		label: "Select up to 3 options",
+		icon: EIconName.Layer,
+		searchable: true,
+		selectionClearable: true,
+		counter: true
+	}
+};
