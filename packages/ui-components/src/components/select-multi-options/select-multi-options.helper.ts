@@ -1,4 +1,4 @@
-import { ISelectMultiOption, ISelectMultiOptions, ISelectOptionWithChildren, ISelectOptionsWithChildren } from './select-multi-options.types';
+import { ISelectMultiOption, ISelectOptionWithChildren, ISelectOptionsWithChildren, type IBuildSelectOptionsParams } from './select-multi-options.types';
 import { EToggleState, ISelectOption } from '../../types';
 import { ADD_OPTION } from './select-multi-options.config';
 
@@ -20,16 +20,7 @@ const buildSelectOption = ({
 	level = 0,
 	maxSelectable,
 	selectedCount
-}: {
-	optionKey: string;
-	options?: ISelectMultiOptions;
-	allOptions?: ISelectMultiOptions;
-	selectedOptions?: Record<string, boolean>;
-	highlightedOption?: string;
-	level?: number;
-	maxSelectable?: number;
-	selectedCount?: number;
-}): ISelectOptionWithChildren => {
+}: IBuildSelectOptionsParams & { optionKey: string }): ISelectOptionWithChildren => {
 	const childrenOptions = buildSelectOptions({
 		options: options[optionKey].options,
 		allOptions: allOptions[optionKey].options,
@@ -89,17 +80,7 @@ export const buildSelectOptions = ({
 	level = 0,
 	maxSelectable,
 	selectedCount
-}: {
-	options?: ISelectMultiOptions;
-	allOptions?: ISelectMultiOptions;
-	selectedOptions?: Record<string, boolean>;
-	highlightedOption?: string;
-	hasAddItem?: boolean;
-	createInputPlaceholder?: string;
-	level?: number;
-	maxSelectable?: number;
-	selectedCount?: number;
-}): ISelectOptionsWithChildren => {
+}: IBuildSelectOptionsParams): ISelectOptionsWithChildren => {
 	const selectOptions = Object.keys(options).reduce<ISelectOptionsWithChildren>((accumulator, optionKey) => {
 		if (allOptions[optionKey]) {
 			accumulator[optionKey] = buildSelectOption({ optionKey, options, allOptions, selectedOptions, highlightedOption, level, maxSelectable, selectedCount });
@@ -113,4 +94,31 @@ export const buildSelectOptions = ({
 	}
 
 	return selectOptions;
+};
+
+export const buildSelectOptionsArray = ({
+	options = {},
+	allOptions = {},
+	selectedOptions = {},
+	highlightedOption,
+	hasAddItem = false,
+	createInputPlaceholder,
+	level = 0,
+	maxSelectable,
+	selectedCount
+}: IBuildSelectOptionsParams): ISelectOptionWithChildren[] => {
+	const selectOptionsArray: ISelectOptionWithChildren[] = [];
+
+	for (const optionKey of Object.keys(options)) {
+		if (allOptions[optionKey] !== undefined) {
+			const builtOption = buildSelectOption({ optionKey, options, allOptions, selectedOptions, highlightedOption, level, maxSelectable, selectedCount });
+			selectOptionsArray.push(builtOption);
+		}
+	}
+
+	if (hasAddItem) {
+		selectOptionsArray.push(buildNewOption(highlightedOption, createInputPlaceholder));
+	}
+
+	return selectOptionsArray;
 };

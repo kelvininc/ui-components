@@ -71,14 +71,9 @@ export const InfoLabelExample: React.FC = () => (
 | Name                        | Description                     |
 | --------------------------- | ------------------------------- |
 | `--description-fade-height` | Description fade height.        |
-| `--description-fade-height` | Description fade height.        |
-| `--description-fade-shadow` | Description fade shadow.        |
 | `--description-fade-shadow` | Description fade shadow.        |
 | `--expanded-buttom-color`   | Expandded buttom's color.       |
-| `--expanded-buttom-color`   | Expandded buttom's color.       |
 | `--text-color-description`  | Info label's description color. |
-| `--text-color-description`  | Info label's description color. |
-| `--text-color-title`        | Info label's title color.       |
 | `--text-color-title`        | Info label's title color.       |
 
 

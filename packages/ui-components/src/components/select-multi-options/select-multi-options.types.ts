@@ -13,6 +13,18 @@ export interface ISelectMultiOption extends Omit<ISelectOption, 'selected' | 'he
 
 export type ISelectMultiOptions = Record<string, ISelectMultiOption>;
 
+export interface IBuildSelectOptionsParams {
+	options?: ISelectMultiOptions;
+	allOptions?: ISelectMultiOptions;
+	selectedOptions?: Record<string, boolean>;
+	highlightedOption?: string;
+	hasAddItem?: boolean;
+	createInputPlaceholder?: string;
+	level?: number;
+	maxSelectable?: number;
+	selectedCount?: number;
+}
+
 export interface ISelectMultiOptionsConfig {
 	/** (optional) The object with the dropdown options */
 	options?: ISelectMultiOptions;

@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, Prop, h, Element, State, Watch, Listen, Method } from '@stencil/core';
-import { ISelectMultiOptions, ISelectMultiOptionsConfig, ISelectMultiOptionsEvents, ISelectOptionsWithChildren } from './select-multi-options.types';
+import { ISelectMultiOptions, ISelectMultiOptionsConfig, ISelectMultiOptionsEvents, ISelectOptionWithChildren, ISelectOptionsWithChildren } from './select-multi-options.types';
 import {
 	ADD_OPTION,
 	DEFAULT_ADD_OPTION_PLACEHOLDER,
@@ -13,13 +13,15 @@ import { isEmpty } from 'lodash-es';
 import {
 	buildAllOptionsSelected,
 	buildPartialOptionsSelected,
+	flattenSelectOptionsArray,
 	getFlattenSelectOptions,
 	getNextHightlightableOption,
 	getPreviousHightlightableOption,
 	getSelectableOptions,
+	getSelectableOptionsFromArray,
 	getSelectedCount
 } from '../../utils/select.helper';
-import { buildNewOption, buildSelectOptions } from './select-multi-options.helper';
+import { buildNewOption, buildSelectOptions, buildSelectOptionsArray } from './select-multi-options.helper';
 import { selectHelper } from '../../utils';
 import pluralize from 'pluralize';
 import { IIllustrationMessage } from '../illustration-message/illustration-message.types';
@@ -114,9 +116,9 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 	@State() selectOptions: {
 		totalFlatten: ISelectOptionsWithChildren;
-		currentFlatten: ISelectOptionsWithChildren;
+		currentFlatten: ISelectOptionWithChildren[];
 		totalSelectable: ISelectOptionsWithChildren;
-		currentSelectable: ISelectOptionsWithChildren;
+		currentSelectable: ISelectOptionWithChildren[];
 	};
 	@State() highlightedOption: string;
 	@State() isCreating: boolean = false;
@@ -139,20 +141,18 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 			maxSelectable: this.maxSelectable,
 			selectedCount
 		});
-		const selectCurrentOptions = buildSelectOptions({
+		const selectCurrentOptionsArray = buildSelectOptionsArray({
 			options: this.currentOptions,
 			allOptions: this.options,
 			selectedOptions: this.selectedOptions,
 			highlightedOption: this.highlightedOption,
 			hasAddItem: this.canAddItems,
-			createInputPlaceholder: this.createOptionPlaceholder,
-			maxSelectable: this.maxSelectable,
-			selectedCount
+			createInputPlaceholder: this.createOptionPlaceholder
 		});
 		const selectSelectableOptions = getSelectableOptions(selectOptions);
-		const selectCurrentSelectableOptions = getSelectableOptions(selectCurrentOptions);
 		const selectFlattenOptions = getFlattenSelectOptions(selectOptions);
-		const selectCurrentFlattenOptions = getFlattenSelectOptions(selectCurrentOptions);
+		const selectCurrentFlattenOptions = flattenSelectOptionsArray(selectCurrentOptionsArray);
+		const selectCurrentSelectableOptions = getSelectableOptionsFromArray(selectCurrentFlattenOptions);
 
 		this.selectOptions = {
 			totalFlatten: selectFlattenOptions,
@@ -311,7 +311,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	};
 
 	private renderOptions = (): HTMLKvVirtualizedListElement => {
-		const items = Object.values(this.selectOptions.currentFlatten);
+		const items = this.selectOptions.currentFlatten;
 
 		return (
 			<kv-virtualized-list
@@ -346,7 +346,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		const selectedOptions = this.selectedOptions ?? {};
 
 		const optionsLength = Object.keys(this.selectOptions.totalSelectable).length;
-		const currentOptionsLength = Object.keys(this.selectOptions.currentFlatten).length;
+		const currentOptionsLength = this.selectOptions.currentFlatten.length;
 		const selectedOptionsLength = Object.keys(selectedOptions).filter(key => selectedOptions[key]).length;
 
 		const hasOptions = optionsLength > 0;
