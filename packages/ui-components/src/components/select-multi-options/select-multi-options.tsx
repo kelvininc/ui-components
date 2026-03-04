@@ -378,6 +378,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 				selectionAll={isSelectAllAvailable}
 				selectionAllEnabled={isSelectAllEnabled}
 				selectAllLabel={this.selectAllLabel}
+				hasLabelContent={this.counter}
 				onSelectAll={this.onSelectAll}
 				onClearSelection={this.onClearSelection}
 				part="select"

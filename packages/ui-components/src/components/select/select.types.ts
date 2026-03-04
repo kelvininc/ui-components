@@ -27,6 +27,8 @@ export interface ISelect {
 	minWidth?: string;
 	/** (optional) The dropdown's max-width */
 	maxWidth?: string;
+	/** (optional) If `true` the header label section is forced to be visible */
+	hasLabelContent?: boolean;
 }
 
 export interface ISelectEvents {

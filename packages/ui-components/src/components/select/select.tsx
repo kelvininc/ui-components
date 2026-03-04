@@ -40,6 +40,8 @@ export class KvSelect implements ISelect, ISelectEvents {
 	@Prop({ reflect: true }) minWidth?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxWidth?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) hasLabelContent?: boolean = false;
 
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
@@ -92,7 +94,7 @@ export class KvSelect implements ISelect, ISelectEvents {
 	}
 
 	render() {
-		const hasLabels = this.selectionAll || this.selectionClearable || this.hasActionsSlot || this.hasLabelSlot;
+		const hasLabels = this.selectionAll || this.selectionClearable || this.hasActionsSlot || this.hasLabelSlot || this.hasLabelContent;
 		const hasHeader = this.searchable || hasLabels;
 
 		return (
