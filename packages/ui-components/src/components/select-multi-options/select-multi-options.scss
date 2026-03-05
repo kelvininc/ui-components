@@ -28,14 +28,14 @@ kv-select {
 .selected-items-label {
 	@include ellipsis;
 	@include body-s-regular;
-	color: kv-color('neutral-4');
+	color: var(--text-container-neutral-subtle, #{kv-color('neutral-4')});
 	text-wrap: nowrap;
 }
 
 .counter {
 	display: flex;
 	align-items: center;
-	color: kv-color('neutral-4');
+	color: var(--text-container-neutral-subtle, #{kv-color('neutral-4')});
 	@include body-xs-regular;
 }
 
@@ -43,22 +43,22 @@ kv-select {
 	position: absolute;
 	top: 0;
 	left: 0;
-	border-radius: 4px;
-	border: 1px solid kv-color('neutral-6');
+	border-radius: var(--slider-radius-default, #{$spacing});
+	border: var(--slider-border-thickness-default, 1px) solid var(--slider-border-color-default, #{kv-color('neutral-6')});
 	width: calc(100% - 2px);
 	height: calc(100% - 2px);
-	background: kv-color('neutral-7', 'base', 0.8);
+	background: var(--overlay-surface-default, #{kv-color('neutral-7', 'base', 0.8)});
 	z-index: 1;
 
 	&.has-shortcuts .create-new-option-form {
 		bottom: 36px;
-		border-bottom: 1px solid kv-color('neutral-6');
+		border-bottom: var(--slider-border-thickness-default, 1px) solid var(--slider-border-color-default, #{kv-color('neutral-6')});
 	}
 }
 
 .form-container {
-	background: kv-color('neutral-7');
-	padding: $spacing-3x $spacing-4x;
+	background: var(--slider-background-default, #{kv-color('neutral-7')});
+	padding: var(--spacing-xl, #{$spacing-3x}) var(--spacing-2xl, #{$spacing-4x});
 }
 
 .create-new-option-form {
@@ -66,12 +66,12 @@ kv-select {
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	border-top: 1px solid kv-color('neutral-6');
+	border-top: var(--slider-border-thickness-default, 1px) solid var(--slider-border-color-default, #{kv-color('neutral-6')});
 }
 
 .create-new-option-button {
-	border-top: 1px solid kv-color('neutral-6');
-	padding: $spacing-3x 0;
+	border-top: var(--slider-border-thickness-default, 1px) solid var(--slider-border-color-default, #{kv-color('neutral-6')});
+	padding: var(--spacing-xl, #{$spacing-3x}) 0;
 }
 
 .no-results-found,
@@ -81,7 +81,7 @@ kv-select {
 
 	.illustration-message {
 		max-width: 292px;
-		padding: $spacing-8x $spacing-3x;
+		padding: var(--spacing-5xl, #{$spacing-8x}) var(--spacing-xl, #{$spacing-3x});
 		align-self: center;
 	}
 }
