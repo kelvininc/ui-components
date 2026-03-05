@@ -3,12 +3,10 @@
 exports[`Form Label (unit tests) when has a label should match the snapshot 1`] = `
 <kv-form-label label="Text Field">
   <template shadowrootmode="open">
-    <div class="form-field-container">
-      <div class="label-container">
-        <span class="label">
-          Text Field
-        </span>
-      </div>
+    <div class="label-container">
+      <span class="label">
+        Text Field
+      </span>
     </div>
   </template>
 </kv-form-label>
@@ -17,15 +15,13 @@ exports[`Form Label (unit tests) when has a label should match the snapshot 1`] 
 exports[`Form Label (unit tests) when is labeled and required should match the snapshot 1`] = `
 <kv-form-label label="Text Field" required="">
   <template shadowrootmode="open">
-    <div class="form-field-container">
-      <div class="label-container">
-        <span class="required">
-          *
-        </span>
-        <span class="label">
-          Text Field
-        </span>
-      </div>
+    <div class="label-container">
+      <span class="required">
+        *
+      </span>
+      <span class="label">
+        Text Field
+      </span>
     </div>
   </template>
 </kv-form-label>
@@ -33,8 +29,6 @@ exports[`Form Label (unit tests) when is labeled and required should match the s
 
 exports[`Form Label (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-form-label>
-  <template shadowrootmode="open">
-    <div class="form-field-container"></div>
-  </template>
+  <template shadowrootmode="open"></template>
 </kv-form-label>
 `;
