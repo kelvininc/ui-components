@@ -8,7 +8,6 @@ import { ITooltip } from '../tooltip/tooltip.types';
 import { buildInputMask, getValueAsString, isInputMaskCompatibleType } from './text-field.utils';
 import Inputmask from 'inputmask';
 import { getUTF8StringLength } from '../../utils/string.helper';
-import { EBadgeState } from '../../types';
 import { HostAttributes, Method } from '@stencil/core/internal';
 
 /**
@@ -373,11 +372,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 								>
 									<slot name="right-slot" />
 									{this.isDirty && <kv-dirty-dot />}
-									{!this.hideBadge && this.badge?.trim() && (
-										<kv-badge state={EBadgeState.Info} exportparts="badge">
-											{this.badge}
-										</kv-badge>
-									)}
+									{!this.hideBadge && this.badge?.trim() && <kv-badge exportparts="badge">{this.badge}</kv-badge>}
 									{this.actionIcon && (
 										<kv-icon
 											name={this.actionIcon}

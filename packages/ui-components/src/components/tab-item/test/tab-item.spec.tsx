@@ -67,17 +67,13 @@ describe('Tab Item (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvTabItem],
-				html: `<kv-tab-item tab-key="dashboard" label="Dashboard" notification-color="#EFEFEF"></kv-tab-item>`
+				html: `<kv-tab-item tab-key="dashboard" label="Dashboard"></kv-tab-item>`
 			});
 			component = page.rootInstance;
 		});
 
 		it('should match the snapshot', () => {
 			expect(page.root).toMatchSnapshot();
-		});
-
-		it('should set the notificationColor prop value', () => {
-			expect(component.notificationColor).toEqual('#EFEFEF');
 		});
 	});
 });

@@ -1,11 +1,14 @@
 import { EventEmitter } from '@stencil/core';
-import { EComponentSize, EIconName, ETagState } from '../../types';
+import { EBadgeType, EIconName, ETagState } from '../../types';
+import { ETabItemType } from '../tab-item/tab-item.types';
 
 export interface ITabNavigationItem {
 	tabKey: number | string;
 	label: string;
-	icon?: EIconName;
-	state?: ETagState;
+	badge?: string;
+	badgeType?: EBadgeType;
+	tagIcon?: EIconName;
+	tagState?: ETagState;
 	disabled?: boolean;
 	customAttributes?: Record<string, string>;
 }
@@ -13,11 +16,6 @@ export interface ITabNavigationItem {
 export interface ITabNotification {
 	active: boolean;
 	color?: string;
-}
-
-export interface ITabsNotificationDict {
-	[tabKey: string]: ITabNotification;
-	[tabKey: number]: ITabNotification;
 }
 
 export type ISelectedTabIndicatorConfig = {
@@ -30,10 +28,8 @@ export interface ITabNavigationConfig {
 	tabs: ITabNavigationItem[];
 	/** (optional) The currently selected tab key */
 	selectedTabKey?: number | string;
-	/** (optional) To add a notification dot and its respective color to a specific tab */
-	notifications?: ITabsNotificationDict;
-	/** (optional) Sets the items on this tab nav to use small styling configuration */
-	size?: EComponentSize;
+	/** (optional) Sets the visual variant of the tab navigation */
+	type?: ETabItemType;
 }
 
 export interface ITabNavigationEvents {

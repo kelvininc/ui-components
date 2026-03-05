@@ -1,5 +1,5 @@
 import type { Meta, StoryFn, StoryObj } from "@storybook/react";
-import { KvBadge, EBadgeState } from "@kelvininc/react-ui-components/client";
+import { KvBadge, EBadgeType } from "@kelvininc/react-ui-components/client";
 import { ComponentProps } from "react";
 
 const BadgeTemplate: StoryFn<ComponentProps<typeof KvBadge>> = (args) => (
@@ -10,9 +10,9 @@ const meta = {
 	title: "Data Display/Badge",
 	component: KvBadge,
 	argTypes: {
-		state: {
+		type: {
 			control: { type: "select" },
-			options: Object.values(EBadgeState)
+			options: Object.values(EBadgeType)
 		}
 	},
 	render: BadgeTemplate
@@ -21,30 +21,14 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const DefaultState: Story = {
-	args: {}
-};
-
-export const InfoState: Story = {
+export const PrimaryType: Story = {
 	args: {
-		state: EBadgeState.Info
+		type: EBadgeType.Primary
 	}
 };
 
-export const WarningState: Story = {
+export const SecondaryType: Story = {
 	args: {
-		state: EBadgeState.Warning
-	}
-};
-
-export const ErrorState = {
-	args: {
-		state: EBadgeState.Error
-	}
-};
-
-export const SuccessState = {
-	args: {
-		state: EBadgeState.Success
+		type: EBadgeType.Secondary
 	}
 };
