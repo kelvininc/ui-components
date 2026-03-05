@@ -1,5 +1,5 @@
-@use "kv-functions-color" as *;
-@use "kv-spacing" as *;
+@use 'kv-functions-color' as *;
+@use 'kv-spacing' as *;
 
 @mixin ghost-animation($color) {
 	$color-faded: color-mix(in srgb, $color 30%, transparent);
@@ -140,9 +140,24 @@
 	inherits: false;
 }
 
-
 @keyframes rotate-border {
 	to {
 		--rotation: 360deg;
 	}
+}
+
+@mixin kelvin-vertical-divider($color: var(--border-surface-neutral-default)) {
+	content: '';
+	display: flex;
+	flex: 1;
+	width: 1px;
+	background: $color;
+}
+
+@mixin kelvin-horizontal-divider($color: var(--border-surface-neutral-default)) {
+	content: '';
+	display: flex;
+	flex: 1;
+	height: 1px;
+	background: $color;
 }

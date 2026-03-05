@@ -123,31 +123,33 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 									{this.label}
 								</div>
 							</div>
-							<div class="right-content">
-								{(this.description || this.rightIcon) && (
-									<div class="group">
-										{this.rightIcon && (
-											<kv-tooltip text={this.rightIconTooltipText}>
-												<div class="item-right-icon" part="right-icon">
-													<kv-icon name={this.rightIcon} />
-												</div>
-											</kv-tooltip>
-										)}
-										{this.description && <div class="item-description">{this.description}</div>}
-									</div>
-								)}
-								{this.action && (
-									<div class="group">
-										<kv-action-button-icon
-											type={EActionButtonType.Tertiary}
-											icon={this.action.icon}
-											onClickButton={this.action.onClick}
-											active={this.action.active}
-											onClick={event => event.stopPropagation()}
-										/>
-									</div>
-								)}
-							</div>
+							{(this.description || this.rightIcon || this.action) && (
+								<div class="right-content">
+									{(this.description || this.rightIcon) && (
+										<div class="group">
+											{this.rightIcon && (
+												<kv-tooltip text={this.rightIconTooltipText}>
+													<div class="item-right-icon" part="right-icon">
+														<kv-icon name={this.rightIcon} />
+													</div>
+												</kv-tooltip>
+											)}
+											{this.description && <div class="item-description">{this.description}</div>}
+										</div>
+									)}
+									{this.action && (
+										<div class="group">
+											<kv-action-button-icon
+												type={EActionButtonType.Tertiary}
+												icon={this.action.icon}
+												onClickButton={this.action.onClick}
+												active={this.action.active}
+												onClick={event => event.stopPropagation()}
+											/>
+										</div>
+									)}
+								</div>
+							)}
 						</div>
 					</div>
 					<slot />

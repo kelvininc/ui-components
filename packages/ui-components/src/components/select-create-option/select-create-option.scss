@@ -3,7 +3,7 @@
 .select-create-option {
 	display: flex;
 	align-items: flex-start;
-	gap: $spacing-3x;
+	gap: var(--spacing-xl, #{$spacing-3x});
 }
 
 .form {
@@ -14,5 +14,5 @@
 .actions {
 	display: flex;
 	align-items: center;
-	gap: $spacing;
+	gap: var(--spacing-xs, #{$spacing});
 }

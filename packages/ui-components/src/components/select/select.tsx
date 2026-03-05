@@ -3,7 +3,7 @@ import { isNil, omitBy } from 'lodash-es';
 import { CLEAR_SELECTION_LABEL, SELECT_ALL_LABEL } from './select.config';
 import { ISelect, ISelectEvents } from './select.types';
 import { isElementVisible } from './select.helper';
-import { EComponentSize } from '../../types';
+import { EActionButtonType, EComponentSize } from '../../types';
 
 /**
  * @part select - The select container.
@@ -113,28 +113,22 @@ export class KvSelect implements ISelect, ISelectEvents {
 								<div class="search-footer">
 									<div class="footer-actions">
 										{this.selectionAll && (
-											<div
-												class={{
-													'action': true,
-													'action--disabled': !this.selectionAllEnabled
-												}}
+											<kv-action-button-text
+												type={EActionButtonType.Text}
+												text={this.selectAllLabel}
 												onClick={this.onSelectAll}
-											>
-												{this.selectAllLabel}
-											</div>
+												disabled={!this.selectionAllEnabled}
+											/>
 										)}
 										{this.selectionClearable && (
 											<Fragment>
 												{this.selectionAll && <div class="divider" />}
-												<div
-													class={{
-														'action': true,
-														'action--disabled': !this.selectionClearEnabled
-													}}
+												<kv-action-button-text
+													type={EActionButtonType.Text}
+													text={this.clearSelectionLabel}
 													onClick={this.onClearSelection}
-												>
-													{this.clearSelectionLabel}
-												</div>
+													disabled={!this.selectionClearEnabled}
+												/>
 												{this.hasActionsSlot && <div class="divider" />}
 											</Fragment>
 										)}

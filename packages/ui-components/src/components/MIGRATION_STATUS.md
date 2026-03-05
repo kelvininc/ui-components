@@ -32,6 +32,14 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] tab-navigation
 - [x] tag
 - [x] tag-status
+- [x] select
+- [x] select-create-option
+- [x] select-multi-options
+- [x] select-option
+- [x] select-shortcuts-label
+- [x] multi-select-dropdown
+- [x] single-select-dropdown
+
 
 
 
@@ -39,8 +47,6 @@ Checklist of all components indicating whether they have been migrated to the ne
 
 - [ ] alert
 - [ ] input-wrapper
-- [ ] multi-select-dropdown
-- [ ] single-select-dropdown
 - [ ] text-area
 - [ ] toaster
 - [ ] toggle-tip
@@ -73,11 +79,6 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] radio-list-item
 - [ ] range
 - [ ] relative-time-picker
-- [ ] select
-- [ ] select-create-option
-- [ ] select-multi-options
-- [ ] select-option
-- [ ] select-shortcuts-label
 - [ ] state-indicator
 - [ ] step-bar
 - [ ] step-indicator
