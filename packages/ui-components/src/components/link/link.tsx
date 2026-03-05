@@ -1,9 +1,10 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { ILink } from './link.types';
-import { EAnchorTarget } from '../../types';
+import { EAnchorTarget, EIconName } from '../../types';
 
 /**
  * @part container - The link's container
+ * @part label - The link's label
  */
 @Component({
 	tag: 'kv-link',
@@ -11,13 +12,21 @@ import { EAnchorTarget } from '../../types';
 	shadow: true
 })
 export class KvLink implements ILink {
-	/** (required) Main component label */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) label!: string;
-	/** (optional) Description for the label */
+	/** @inheritdoc */
+	@Prop({ reflect: true }) leftIcon?: EIconName;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) rightIcon?: EIconName;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) subtitle?: string;
-	/** (optional) The link to open when clicking on the tag */
+	/** @inheritdoc */
+	@Prop({ reflect: true }) disabled? = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) inline? = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) href?: string;
-	/** (optional) The link to open when clicking on the tag */
+	/** @inheritdoc */
 	@Prop({ reflect: true }) target?: EAnchorTarget;
 
 	/** Emitted when clicking the label */
@@ -30,9 +39,28 @@ export class KvLink implements ILink {
 	render() {
 		return (
 			<Host>
-				<div class="link-container" part="container">
-					<a class="label" href={this.href} target={this.target} onClick={this.onLabelClick}>
+				<div
+					class={{
+						'link-container': true,
+						'link-container--disabled': this.disabled
+					}}
+					part="container"
+				>
+					<a
+						tabIndex={this.disabled ? -1 : 0}
+						class={{
+							'label': true,
+							'label--disabled': this.disabled,
+							'label--inline': this.inline
+						}}
+						href={this.href}
+						target={this.target}
+						onClick={this.onLabelClick}
+						part="label"
+					>
+						<slot name="left">{this.leftIcon && <kv-icon name={this.leftIcon} />}</slot>
 						{this.label}
+						<slot name="right">{this.rightIcon && <kv-icon name={this.rightIcon} />}</slot>
 					</a>
 					{this.subtitle && <div class="subtitle">{this.subtitle}</div>}
 				</div>
