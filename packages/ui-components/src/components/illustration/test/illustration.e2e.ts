@@ -12,7 +12,7 @@ describe('Illustration (end-to-end)', () => {
 
 		it('should render the <kv-es-section-somethingwentwrong> with custom classes', async () => {
 			const illustration = await page.find('kv-illustration >>> kv-es-section-somethingwentwrong');
-			expect(illustration.getAttribute('customClass').toLocaleLowerCase()).toBe('illustration-full-size');
+			expect(illustration.getAttribute('custom-class').toLocaleLowerCase()).toBe('illustration-full-size');
 		});
 	});
 });

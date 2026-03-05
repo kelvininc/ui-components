@@ -163,7 +163,10 @@ graph TD;
   kv-action-button-icon --> kv-action-button
   kv-action-button-icon --> kv-icon
   kv-select --> kv-search
+  kv-select --> kv-action-button-text
   kv-search --> kv-text-field
+  kv-action-button-text --> kv-action-button
+  kv-action-button-text --> kv-icon
   kv-illustration-message --> kv-illustration
   kv-select-create-option --> kv-text-field
   kv-select-create-option --> kv-action-button-icon

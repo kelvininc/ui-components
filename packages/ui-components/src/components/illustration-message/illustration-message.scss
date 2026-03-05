@@ -9,8 +9,8 @@
 	 */
 	--image-width: 60px;
 	--image-height: auto;
-	--header-color: #{kv-color('neutral-2')};
-	--description-color: #{kv-color('neutral-4')};
+	--header-color: var(--text-surface-neutral-secondary, #{kv-color('neutral-2')});
+	--description-color: var(--text-surface-neutral-tertiary, #{kv-color('neutral-4')});
 }
 
 .illustration-message {
@@ -21,7 +21,7 @@
 }
 
 .image {
-	margin-bottom: $spacing-3x;
+	margin-bottom: var(--spacing-xl, #{$spacing-3x});
 	--illustration-width: var(--image-width);
 	--illustration-height: var(--image-height);
 }
@@ -37,5 +37,5 @@
 	text-align: center;
 	@include body-s-regular;
 	white-space: break-spaces;
-	margin-top: $spacing;
+	margin-top: var(--spacing-xs, #{$spacing});
 }
