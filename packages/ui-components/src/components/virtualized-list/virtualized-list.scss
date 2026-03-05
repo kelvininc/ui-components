@@ -7,6 +7,7 @@
 	 */
 	--virtualized-list-max-height: auto;
 	--virtualized-list-min-height: auto;
+	--virtualized-list-padding: var(--spacing-xl, #{$spacing-3x}) 0;
 
 	display: block;
 	height: 100%;
@@ -16,7 +17,7 @@
 		max-height: var(--virtualized-list-max-height);
 		min-height: var(--virtualized-list-min-height);
 
-		padding: $spacing-3x 0;
+		padding: var(--virtualized-list-padding);
 		height: 100%;
 		width: 100%;
 		display: block;

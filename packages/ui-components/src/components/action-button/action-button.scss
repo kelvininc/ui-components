@@ -571,9 +571,6 @@ $btn-paddings-x: (
 	--button-icon-size-danger-large: var(--button-danger-icon-size-regular, 16px);
 	--button-icon-size-danger-small: var(--button-danger-icon-size-compact, 16px);
 
-	display: flex;
-	height: fit-content;
-	width: fit-content;
 }
 
 .action-button {

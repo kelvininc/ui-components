@@ -112,7 +112,10 @@ graph TD;
   kv-select-multi-options --> kv-select-create-option
   kv-select-multi-options --> kv-select-shortcuts-label
   kv-select --> kv-search
+  kv-select --> kv-action-button-text
   kv-search --> kv-text-field
+  kv-action-button-text --> kv-action-button
+  kv-action-button-text --> kv-icon
   kv-illustration-message --> kv-illustration
   kv-select-create-option --> kv-text-field
   kv-select-create-option --> kv-action-button-icon
@@ -126,8 +129,6 @@ graph TD;
   kv-calendar --> kv-icon
   kv-calendar --> kv-calendar-day
   kv-switch-button --> kv-icon
-  kv-action-button-text --> kv-action-button
-  kv-action-button-text --> kv-icon
   style kv-time-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
