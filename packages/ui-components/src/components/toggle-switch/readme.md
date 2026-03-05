@@ -43,6 +43,7 @@ graph TD;
   kv-toggle-button --> kv-icon
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
+  kv-radio --> kv-icon
   style kv-toggle-switch fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

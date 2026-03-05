@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
-import { EIconName } from '../icon/icon.types';
+import { EComponentSize, EIconName } from '../../types';
 import { ICheckbox, ICheckboxEvents } from './checkbox.types';
 
 /**
@@ -8,10 +8,11 @@ import { ICheckbox, ICheckboxEvents } from './checkbox.types';
  */
 @Component({
 	tag: 'kv-checkbox',
-	styleUrl: 'checkbox.scss',
 	shadow: true
 })
 export class KvCheckbox implements ICheckbox, ICheckboxEvents {
+	/** @inheritdoc */
+	@Prop() size: EComponentSize = EComponentSize.Small;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) checked?: boolean = false;
 	/** @inheritdoc */
@@ -22,7 +23,7 @@ export class KvCheckbox implements ICheckbox, ICheckboxEvents {
 	@Prop({ reflect: true }) indeterminate?: boolean = false;
 
 	/** @inheritdoc */
-	@Event() clickCheckbox: EventEmitter<MouseEvent>;
+	@Event() clickCheckbox: EventEmitter<Event>;
 
 	private getIconName = () => {
 		if (this.indeterminate) {
@@ -36,32 +37,16 @@ export class KvCheckbox implements ICheckbox, ICheckboxEvents {
 		return EIconName.UncheckState;
 	};
 
-	private onClick = (event: MouseEvent) => {
-		if (!this.disabled) {
-			this.clickCheckbox.emit(event);
-		}
+	private onCheckedChange = (ev: Event) => {
+		this.clickCheckbox.emit(ev);
 	};
-
-	private get labelText() {
-		return this.label?.trim();
-	}
 
 	render() {
 		return (
-			<Host
-				onClick={this.onClick}
-				class={{
-					disabled: this.disabled
-				}}
-			>
-				<div class="checkbox">
-					<kv-icon name={this.getIconName()} part="icon" />
-				</div>
-				{this.labelText?.length ? (
-					<div class="label" part="label">
-						{this.labelText}
-					</div>
-				) : null}
+			<Host>
+				<kv-radio exportparts="label" size={this.size} checked={this.checked} label={this.label} disabled={this.disabled} onCheckedChange={this.onCheckedChange}>
+					<kv-icon slot="action-icon" name={this.getIconName()} part="icon" />
+				</kv-radio>
 			</Host>
 		);
 	}

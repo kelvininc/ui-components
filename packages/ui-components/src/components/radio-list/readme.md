@@ -75,6 +75,7 @@ graph TD;
   kv-radio-list --> kv-radio-list-item
   kv-radio-list-item --> kv-radio
   kv-radio-list-item --> kv-link
+  kv-radio --> kv-icon
   style kv-radio-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
