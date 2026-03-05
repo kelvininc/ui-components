@@ -1,6 +1,6 @@
 {
 	"name": "@kelvininc/ui-components",
-	"version": "0.51.0",
+	"version": "1.0.0",
 	"description": "Kelvin UI Components",
 	"homepage": "https://docs.kelvininc.com",
 	"license": "SEE LICENSE IN LICENSE",
@@ -66,7 +66,7 @@
 		"loader/"
 	],
 	"scripts": {
-		"tokens:build": "node scripts/style-dictionary.config.mjs",
+		"tokens:build": "node scripts/style-dictionary.config.mjs && stylelint 'src/assets/styles/style-dictionary/**/*.{css,scss}' --fix",
 		"prebuild": "pnpm clean:build && pnpm generate:illustrations && pnpm tokens:build",
 		"build": "pnpm prebuild && stencil build --docs && pnpm postbuild",
 		"postbuild": "node scripts/prepend_use_client_directive.js",

@@ -4,14 +4,14 @@
  */
 
 :root {
-  --color-gray-50: #ffffff;
+  --color-gray-50: #fff;
   --color-gray-100: #fafafa;
   --color-gray-200: #f2f2f2;
   --color-gray-300: #e5e5e5;
   --color-gray-400: #bfbfbf;
   --color-gray-500: #595959;
   --color-gray-600: #404040;
-  --color-gray-700: #333333;
+  --color-gray-700: #333;
   --color-gray-800: #262626;
   --color-gray-900: #1a1a1a;
   --color-gray-950: #0d0d0d;
@@ -51,7 +51,7 @@
   --color-yellow-200: #ffe4a8;
   --color-yellow-300: #ffc342;
   --color-yellow-500: #f7a900;
-  --space-0: 0px;
+  --space-0: 0;
   --space-1: 1px;
   --space-2: 2px;
   --space-4: 4px;
@@ -97,7 +97,7 @@
   --size-5xl: 48px;
   --size-6xl: 56px;
   --size-7xl: 64px;
-  --spacing-none: 0px;
+  --spacing-none: 0;
   --spacing-2xs: 2px;
   --spacing-xs: 4px;
   --spacing-sm: 6px;
@@ -111,7 +111,7 @@
   --spacing-6xl: 40px;
   --spacing-7xl: 48px;
   --spacing-8xl: 56px;
-  --radius-none: 0px;
+  --radius-none: 0;
   --radius-sm: 2px;
   --radius-md: 4px;
   --radius-lg: 6px;
@@ -120,7 +120,7 @@
   --radius-3xl: 16px;
   --radius-4xl: 24px;
   --radius-full: 999px;
-  --border-width-none: 0px;
+  --border-width-none: 0;
   --border-width-default: 1px;
   --border-width-strong: 2px;
   --font-size-xs: 10px;
@@ -139,7 +139,7 @@
   --line-height-2xl: 32px;
   --line-height-3xl: 40px;
   --line-height-4xl: 56px;
-  --letter-spacing-default: 0px;
+  --letter-spacing-default: 0;
   --letter-spacing-loose: 1.5px;
   --paragraph-spacing-sm: 8px;
   --paragraph-spacing-md: 12px;
