@@ -18,27 +18,30 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] radio
 - [x] checkbox
 - [x] link
+- [x] text-field
+- [x] search
+- [x] dropdown
+- [x] dropdown-base
+- [x] form-help-text
+- [x] form-label
+- [x] portal
+- [x] tooltip
+- [x] tooltip-text
 
 
 
 ## Not Migrated (tokens defined but not yet consumed)
 
 - [ ] alert
-- [ ] dropdown
-- [ ] dropdown-base
-- [ ] form-help-text
-- [ ] form-label
 - [ ] input-wrapper
 - [ ] multi-select-dropdown
-- [ ] search
 - [ ] single-select-dropdown
 - [ ] tab-item
 - [ ] tab-navigation
 - [ ] text-area
-- [ ] text-field
 - [ ] toaster
 - [ ] toggle-tip
-- [ ] tooltip-text
+
 
 ## No Tokens Defined
 
@@ -64,7 +67,6 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] inline-editable-field
 - [ ] loader
 - [ ] modal
-- [ ] portal
 - [ ] radio-list
 - [ ] radio-list-item
 - [ ] range
@@ -86,7 +88,6 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] tag-status
 - [ ] time-picker
 - [ ] time-picker-select-option
-- [ ] tooltip
 - [ ] tree
 - [ ] tree-dropdown
 - [ ] tree-item
