@@ -1,48 +1,50 @@
 @use '../../assets/styles' as *;
 
 .shortcuts {
-	background: kv-color('neutral-6');
+	background: var(--background-container-neutral-default, #{kv-color('neutral-6')});
 	display: flex;
 	justify-content: space-between;
-	padding: $spacing-2x $spacing-4x;
+	padding: var(--spacing-sm, #{$spacing-2x}) var(--spacing-2xl, #{$spacing-4x});
 	user-select: none;
 }
 
 .left-items {
 	display: flex;
-	gap: $spacing-5x;
+	gap: var(--spacing-5xl, #{$spacing-5x});
 }
 
 .group {
 	display: flex;
 	align-items: center;
-	gap: $spacing-2x;
+	gap: var(--spacing-md, #{$spacing-2x});
 }
 
 .icons {
 	display: flex;
 	align-items: center;
-	gap: $spacing;
+	gap: var(--spacing-xs, #{$spacing});
 }
 
 .label {
-	color: kv-color('neutral-4');
+	color: var(--text-on-color-neutral-tertiary, #{kv-color('neutral-4')});
 	@include body-xs-regular;
 }
 
 .icon {
-	border-radius: 4px;
-	background: kv-color('neutral-5');
-	color: kv-color('neutral-2');
+	border-radius: var(--radius-sm, 4px);
+	background: var(--background-container-neutral-subtlest, #{kv-color('neutral-5')});
+	color: var(--text-container-neutral-default, #{kv-color('neutral-2')});
 	@include body-xs-regular;
 	text-align: center;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 20px;
-	width: 20px;
+	height: var(--size-lg, 20px);
+	width: var(--size-lg, 20px);
 
 	kv-icon {
-		--icon-color: #{kv-color('neutral-2')};
+		--icon-width: var(--size-default, 16px);
+		--icon-height: var(--size-default, 16px);
+		--icon-color: var(--icon-container-neutral-subtle, #{kv-color('neutral-2')});
 	}
 }
