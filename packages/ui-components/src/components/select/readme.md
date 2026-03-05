@@ -101,11 +101,13 @@ Type: `Promise<void>`
 ### Depends on
 
 - [kv-search](../search)
+- [kv-action-button-text](../action-button-text)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-select --> kv-search
+  kv-select --> kv-action-button-text
   kv-search --> kv-text-field
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
@@ -117,6 +119,8 @@ graph TD;
   kv-tooltip --> kv-tooltip-text
   kv-dirty-dot --> kv-icon
   kv-form-help-text --> kv-icon
+  kv-action-button-text --> kv-action-button
+  kv-action-button-text --> kv-icon
   kv-select-multi-options --> kv-select
   style kv-select fill:#f9f,stroke:#333,stroke-width:4px
 ```
