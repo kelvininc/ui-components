@@ -1,62 +1,22 @@
-@use "sass:map";
 @use '../../assets/styles' as *;
 
-// map sizes
-$btn-heights: (
-	'small': 16px,
-	'large': 20px
-);
-$btn-widths: (
-	'small': 32px,
-	'large': 40px
-);
-$sqr-sizes: (
-	'small': 11px,
-	'large': 16px
-);
-$sqr-paddings-x: (
-	'small': 2.5px,
-	'large': 2px
-);
-$sqr-paddings-y: (
-	'small': 2.5px,
-	'large': 2px
-);
-$icon-sizes: (
-	'small': 8px,
-	'large': 12px
-);
-
-@function get-sqr-x-translation($button-width, $square-size, $square-padding-x) {
-	@return $button-width - $square-size - $square-padding-x * 2;
-}
-
 @mixin button-theme($size) {
-	$btn-height: map.get($btn-heights, $size);
-	$btn-width: map.get($btn-widths, $size);
-	$sqr-size: map.get($sqr-sizes, $size);
-	$sqr-padding-x: map.get($sqr-paddings-x, $size);
-	$sqr-padding-y: map.get($sqr-paddings-y, $size);
-	$sqr-size: map.get($sqr-sizes, $size);
-	$icon-size: map.get($icon-sizes, $size);
-
-	height: $btn-height;
-	width: $btn-width;
-	padding: $sqr-padding-y $sqr-padding-x;
+	height: var(--switch-height-#{$size});
+	width: var(--switch-width-#{$size});
 
 	.icon-square {
-		height: $sqr-size;
-		width: $sqr-size;
+		width: var(--switch-icon-size-#{$size});
+		height: var(--switch-icon-size-#{$size});
+		padding: var(--switch-padding-#{$size});
 
 		kv-icon {
-			--icon-width: #{$icon-size};
-			--icon-height: #{$icon-size};
+			--icon-width: calc(var(--switch-icon-size-#{$size}) - var(--switch-padding-#{$size}) * 2);
+			--icon-height: calc(var(--switch-icon-size-#{$size}) - var(--switch-padding-#{$size}) * 2);
 		}
 	}
 
 	&.switch-button--on .icon-square {
-		$translation-x: get-sqr-x-translation($btn-width, $sqr-size, $sqr-padding-x);
-		transform: translateX($translation-x);
+		transform: translateX(calc(var(--switch-width-#{$size}) - var(--switch-icon-size-#{$size})));
 	}
 }
 
@@ -64,39 +24,55 @@ $icon-sizes: (
 	/**
 	 * @prop --off-background-color: Button background color when's OFF.
 	 * @prop --on-background-color: Button background color when's ON.
-	 * @prop --sqr-background-color: Icon square container background color.
+	 * @prop --disabled-background-color: Button background color when's disabled.
+	 * @prop --switch-icon-color: Icon square container background color.
+	 * @prop --switch-disabled-icon-color: Icon square container background color when's disabled.
 	 */
 
-	--off-background-color: #{kv-color('neutral-5')};
-	--on-background-color: #{kv-color('primary')};
-	--sqr-background-color: #{kv-color('primary', 'contrast')};
+	--off-background-color: var(--switch-background-off, #{kv-color('neutral-5')});
+	--on-background-color: var(--switch-background-on, #{kv-color('primary')});
+	--disabled-background-color: var(--switch-background-disabled, #{kv-color('neutral-5')});
+	--switch-icon-color: var(--switch-icon-color-default, #{kv-color('primary', 'contrast')});
+	--switch-disabled-icon-color: var(--switch-icon-color-disabled, #{kv-color('neutral-6')});
+
+	// sizing - maps component size names (large/small) to token names (regular/compact)
+	--switch-height-large: var(--switch-height-regular, 20px);
+	--switch-height-small: var(--switch-height-compact, 16px);
+	--switch-width-large: var(--switch-width-regular, 40px);
+	--switch-width-small: var(--switch-width-compact, 32px);
+	--switch-icon-size-large: var(--switch-icon-size-regular, 16px);
+	--switch-icon-size-small: var(--switch-icon-size-compact, 11px);
+	--switch-padding-large: var(--spacing-2xs, 2px);
+	--switch-padding-small: 2.5px;
 
 	display: flex;
 	align-items: center;
-	gap: $spacing-2x;
+	gap: var(--spacing-md, $spacing-2x);
 }
 
 .switch-button {
 	display: flex;
 	box-sizing: border-box;
-
-	cursor: pointer;
-	border-radius: 4px;
-
+	border-radius: var(--switch-radius-default, 4px);
 	background-color: var(--off-background-color);
 	transition: background-color 0.3s ease-out;
+	
+	cursor: pointer;
+	
 
 	&--disabled {
+		background-color: var(--disabled-background-color);
+		
 		cursor: not-allowed;
 		user-select: none;
+	
+		.icon-square kv-icon {
+			--icon-color: var(--switch-disabled-icon-color);
+		}
 	}
 
-	&--on {
+	&--on:not(.switch-button--disabled) {
 		background-color: var(--on-background-color);
-
-		.icon-square kv-icon::part(icon) {
-			fill: var(--on-background-color);
-		}
 	}
 
 	&--large {
@@ -112,14 +88,10 @@ $icon-sizes: (
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-
+	box-sizing: border-box;
 	transition: transform 0.3s ease-out;
-	border-radius: 2px;
-	background-color: var(--sqr-background-color);
-
-	font-size: 0;
 
 	kv-icon {
-		--icon-color: #{var(--off-background-color)};
+		--icon-color: #{var(--switch-icon-color)};
 	}
 }
