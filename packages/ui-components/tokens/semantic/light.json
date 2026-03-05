@@ -304,19 +304,41 @@
           "prefix": "color"
         }
       },
-      "slider-cell": {
+      "slider-list": {
         "hover": {
-          "value": "{color.brand.200}",
+          "value": "{color.gray.200}",
           "type": "color",
           "prefix": "color"
         },
         "selected": {
-          "value": "{color.brand.200}",
+          "value": "{color.brand.100}",
           "type": "color",
           "prefix": "color"
         },
         "disabled": {
           "value": "{color.gray.300}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "cell-table": {
+        "hover": {
+          "value": "{color.gray.200}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "selected": {
+          "value": "{color.brand.100}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "disabled": {
+          "value": "{color.gray.300}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "default": {
+          "value": "{color.gray.50}",
           "type": "color",
           "prefix": "color"
         }
@@ -536,7 +558,7 @@
           "prefix": "color"
         }
       },
-      "slider-cell": {
+      "slider-list": {
         "default": {
           "value": "{color.gray.500}",
           "type": "color",
@@ -548,7 +570,7 @@
           "prefix": "color"
         },
         "selected": {
-          "value": "{color.gray.950}",
+          "value": "{color.brand.500}",
           "type": "color",
           "prefix": "color"
         },
@@ -814,7 +836,7 @@
           "prefix": "color"
         },
         "default": {
-          "value": "{color.gray.300}",
+          "value": "{color.gray.400}",
           "type": "color",
           "prefix": "color"
         },
@@ -836,7 +858,7 @@
           "prefix": "color"
         },
         "default": {
-          "value": "{color.gray.300}",
+          "value": "{color.gray.400}",
           "type": "color",
           "prefix": "color"
         }
@@ -1052,7 +1074,7 @@
           "prefix": "color"
         },
         "secondary": {
-          "value": "{color.gray.500}",
+          "value": "{color.gray.300}",
           "type": "color",
           "prefix": "color"
         },
@@ -1065,28 +1087,6 @@
       "accent": {
         "default": {
           "value": "{color.gray.50}",
-          "type": "color",
-          "prefix": "color"
-        },
-        "disabled": {
-          "value": "{color.gray.400}",
-          "type": "color",
-          "prefix": "color"
-        }
-      },
-      "slider-cell": {
-        "default": {
-          "value": "{color.gray.950}",
-          "type": "color",
-          "prefix": "color"
-        },
-        "hover": {
-          "value": "{color.gray.950}",
-          "type": "color",
-          "prefix": "color"
-        },
-        "selected": {
-          "value": "{color.gray.950}",
           "type": "color",
           "prefix": "color"
         },
@@ -1163,12 +1163,34 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "slider-list": {
+        "default": {
+          "value": "{color.gray.950}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "hover": {
+          "value": "{color.gray.950}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "selected": {
+          "value": "{color.brand.500}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "disabled": {
+          "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "container": {
       "neutral": {
         "default": {
-          "value": "{color.gray.300}",
+          "value": "{color.gray.950}",
           "type": "color",
           "prefix": "color"
         },
@@ -1183,7 +1205,7 @@
           "prefix": "color"
         },
         "disabled": {
-          "value": "{color.gray.300}",
+          "value": "{color.gray.400}",
           "type": "color",
           "prefix": "color"
         }
@@ -1282,7 +1304,7 @@
     "persistent": {
       "control": {
         "on": {
-          "value": "{color.gray.50}",
+          "value": "{color.brand.500}",
           "type": "color",
           "prefix": "color"
         },

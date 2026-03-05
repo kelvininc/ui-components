@@ -421,8 +421,6 @@ $btn-paddings-x: (
 	 * @prop --button-icon-size-danger-small: Icon size when theme is danger and size is small.
 	 */
 
-	--transparent: transparent;
-
 	//icon colors
 	--icon-color-default-primary: var(--button-primary-icon-color-default, #{get-text-color('default', 'primary')});
 	--icon-color-default-secondary: var(--button-secondary-icon-color-default, #{get-text-color('default', 'secondary')});
