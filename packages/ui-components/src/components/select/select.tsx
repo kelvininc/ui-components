@@ -144,7 +144,9 @@ export class KvSelect implements ISelect, ISelectEvents {
 					<div class="select-options-container">
 						<slot></slot>
 					</div>
-					<slot name="select-footer" />
+					<div>
+						<slot name="select-footer" />
+					</div>
 				</div>
 			</Host>
 		);
