@@ -83,6 +83,8 @@ export class KvInlineEditableField {
 
 	@Watch('disabled')
 	handleDisableChange(state) {
+		if (!this.slotEl) return;
+
 		if (state) {
 			this.destroyEditableContent();
 		} else {
@@ -157,20 +159,26 @@ export class KvInlineEditableField {
 		this.slotEl.removeEventListener('input', this.checkSaveBtnDisabled);
 	}
 
-	connectedCallback() {
+	componentDidLoad() {
 		if (this.disabled) {
 			return;
 		}
 
-		if (this.el.children.length !== 1) {
-			throw new Error('Inline editable field must have exactly one child element to be editable');
+		// Filter out the actions div and ensure exactly one editable child element exists
+		const children = Array.from(this.el.children);
+		const slottedElements = children.filter(child => !child.classList.contains('inline-editable-field-actions'));
+
+		if (slottedElements.length !== 1) {
+			console.warn('Inline editable field must have exactly one child element to be editable');
+			return;
 		}
 
-		this.slotEl = this.el.children[0] as HTMLElement;
+		this.slotEl = slottedElements[0] as HTMLElement;
 		this.initializeEditableContent();
 	}
 
 	disconnectedCallback() {
+		clearTimeout(this.timeoutID);
 		this.destroyEditableContent();
 	}
 
