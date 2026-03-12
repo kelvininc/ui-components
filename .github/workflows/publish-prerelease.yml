@@ -1,4 +1,4 @@
-name: publish-alpha
+name: publish-prerelease
 
 on:
     push:
@@ -41,8 +41,35 @@ jobs:
               with:
                   node-version: ${{ matrix.node }}
 
+            - name: Get Branch Name
+              run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+
+            - name: Validate Branch
+              run: |
+                  if [ "$BRANCH_NAME" != "alpha" ] && [ "$BRANCH_NAME" != "beta" ]; then
+                    echo "Error: This workflow can only run on 'alpha' or 'beta' branches."
+                    echo "Current branch: $BRANCH_NAME"
+                    exit 1
+                  fi
+
+            - name: Set Prerelease Identifier
+              run: |
+                  if [ "$BRANCH_NAME" = "beta" ]; then
+                    echo "PRERELEASE_ID=beta" >> $GITHUB_ENV
+                  else
+                    echo "PRERELEASE_ID=alpha" >> $GITHUB_ENV
+                  fi
+
             - name: Get Tag
-              run: echo "LAST_VERSION=$(git describe --tags `git rev-list --tags --max-count=1` | tr -d v)" >> $GITHUB_ENV
+              run: |
+                  if [ "$BRANCH_NAME" = "beta" ]; then
+                    # On beta branch: exclude alpha tags
+                    LAST_VERSION=$(git tag -l --sort=-version:refname | grep -v '\-alpha' | head -n 1 | tr -d v)
+                  else
+                    # On alpha branch: exclude beta tags
+                    LAST_VERSION=$(git tag -l --sort=-version:refname | grep -v '\-beta' | head -n 1 | tr -d v)
+                  fi
+                  echo "LAST_VERSION=${LAST_VERSION}" >> $GITHUB_ENV
 
             - name: Get Current Version
               run: |
@@ -54,23 +81,23 @@ jobs:
               run: |
                   sed -ie "s/\(\"version\": \"\).[^\"]*/\1$LAST_VERSION/" lerna.json
                   git add lerna.json
-                  git commit -m 'chore(release): publish alpha version [skip ci]'
+                  git commit -m "chore(release): publish $PRERELEASE_ID version [skip ci]"
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Generate Versions (Amend)
               if: env.CURRENT_VERSION != env.LAST_VERSION
               run: |
-                  pnpm lerna version prerelease --yes --conventional-commits --conventional-prerelease --no-changelog --amend --force-publish=*
-                  git push origin alpha --force
+                  pnpm lerna version prerelease --yes --conventional-commits --conventional-prerelease --preid=$PRERELEASE_ID --no-changelog --amend --force-publish=*
+                  git push origin $BRANCH_NAME --force
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Generate Versions
               if: env.CURRENT_VERSION == env.LAST_VERSION
               run: |
-                  pnpm lerna version prerelease --yes --conventional-commits --conventional-prerelease --no-changelog --force-publish=*
-                  git push origin alpha --force
+                  pnpm lerna version prerelease --yes --conventional-commits --conventional-prerelease --preid=$PRERELEASE_ID --no-changelog --force-publish=*
+                  git push origin $BRANCH_NAME --force
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
