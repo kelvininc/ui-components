@@ -5,17 +5,21 @@
 	* @prop --height-default: The height of the text area when is not focused.
 	* @prop --height-active: The height of the text are when is focused.
 	*/
-	--height-default: 36px;
+	--height-default: var(--text-area-height-default, 36px);
 	--height-active: 100px;
 }
 
 .text-area-container {
 	display: flex;
-	gap: $spacing-2x;
+	gap: var(--text-area-gap-default);
 	align-items: flex-start;
 
-	.left-icon {
-		margin-top: $spacing-2x;
+	kv-icon {
+		--icon-color: var(--text-area-icon-color-default);
+		--icon-width: var(--text-area-icon-size-default);
+		--icon-height: var(--text-area-icon-size-default);
+
+		margin-top: var(--text-area-gap-default);
 	}
 
 	.text-area {
@@ -24,12 +28,12 @@
 		display: flex;
 		flex-direction: column;
 		flex: 1;
-		gap: $spacing-2x;
+		gap: var(--spacing-md);
 
 		.text-area-wrapper {
-			padding: $spacing-2x $spacing-3x;
-			border: 1px solid kv-color('neutral-7');
-			border-radius: 4px;
+			padding: var(--text-area-padding-y-default) var(--text-area-padding-x-default);
+			border: var(--text-area-border-thickness-default) solid var(--text-area-border-color-default);
+			border-radius: var(--text-area-radius-default);
 			height: var(--height-default);
 			overflow: auto;
 			transition: height 0.25s ease-in-out;
@@ -38,7 +42,7 @@
 				@include body-m-regular;
 				outline: none;
 				height: inherit;
-				color: kv-color('neutral-4');
+				color: var(--text-area-text-default);
 				overflow-wrap: anywhere;
 
 				&.placeholder::before {
@@ -46,19 +50,29 @@
 				}
 			}
 
-			&:hover,
-			&:has(.input:focus),
 			&.has-text {
-				border: 1px solid kv-color('neutral-6');
+				height: var(--height-active);
+				border-color: var(--text-area-border-color-filled);
 
 				.input {
-					color: kv-color('neutral-2');
+					color: var(--text-area-text-filled);
 				}
 			}
 
-			&:has(.input:focus),
-			&.has-text {
-				height: var(--height-active);
+			&:hover {
+				border-color: var(--text-area-border-color-hover);
+
+				.input {
+					color: var(--text-area-text-hover);
+				}
+			}
+
+			&:has(.input:focus) {
+				border-color: var(--text-area-border-color-selected);
+
+				.input {
+					color: var(--text-area-text-selected);
+				}
 			}
 
 			&:hover:not(:has(.input:focus)) {
@@ -66,32 +80,27 @@
 			}
 		}
 
-
 		&:has(.input:focus) .character-counter {
 			display: block;
 		}
 
 		.character-counter {
 			@include body-s-regular;
-			color: kv-color('neutral-4');
-			margin-left: $spacing-3x;
+			color: var(--text-area-helper-text-default);
+			margin-left: var(--spacing-xl);
 			display: none;
 		}
 	}
 
-	&.disabled {
-		.text-area {
-			.text-area-wrapper {
-				border-color: kv-color('neutral-5');
+	&.disabled .text-area .text-area-wrapper {
+		border-color: var(--border-interactive-input-disabled);
 
-				.input {
-					color: kv-color('neutral-5');
-				}
+		.input {
+			color: var(--text-interactive-input-disabled);
+		}
 
-				&:hover:not(:has(.input:focus)) {
-					cursor: not-allowed;
-				}
-			}
+		&:hover:not(:has(.input:focus)) {
+			cursor: not-allowed;
 		}
 	}
 }
