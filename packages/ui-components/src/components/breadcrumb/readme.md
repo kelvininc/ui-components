@@ -56,6 +56,8 @@ export const KvBreadcrumbExample: React.FC = (props) => (
 graph TD;
   kv-breadcrumb --> kv-breadcrumb-list
   kv-breadcrumb --> kv-breadcrumb-item
+  kv-breadcrumb-item --> kv-link
+  kv-link --> kv-icon
   style kv-breadcrumb fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
