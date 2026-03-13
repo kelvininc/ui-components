@@ -8,7 +8,7 @@ import { IBreadcrumbItem, IBreadcrumbItemEvents } from './breadcrumb-item.types'
 })
 export class KvBreadcrumbItem implements IBreadcrumbItem, IBreadcrumbItemEvents {
 	/** @inheritdoc */
-	@Prop({ reflect: true }) label!: string;
+	@Prop({ reflect: true }) label: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) active?: boolean;
 
@@ -32,7 +32,7 @@ export class KvBreadcrumbItem implements IBreadcrumbItem, IBreadcrumbItemEvents 
 					}}
 					onClick={this.onItemClick}
 				>
-					<slot>{this.label}</slot>
+					<slot>{this.label && <kv-link label={this.label} />}</slot>
 				</div>
 			</Host>
 		);
