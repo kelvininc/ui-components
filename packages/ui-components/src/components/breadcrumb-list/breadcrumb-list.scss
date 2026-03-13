@@ -2,11 +2,11 @@
 
 :host {
 	/**
-	 * @prop --breadcrumb-seperator-color: Breadcrumb's seperator color.
-	 * @prop --breadcrumb-seperator-content: Breadcrumb's seperator content.
+	 * @prop --breadcrumb-separator-color: Breadcrumb's separator color.
+	 * @prop --breadcrumb-separator-content: Breadcrumb's separator content.
 	 */
 
-	--breadcrumb-separator-color: #{kv-color('neutral-4')};
+	--breadcrumb-separator-color: var(--text-surface-neutral-secondary);
 	--breadcrumb-separator-content: '/';
 }
 
@@ -22,7 +22,7 @@
 			@include body-m-regular();
 			display: inline-block;
 			content: var(--breadcrumb-separator-content);
-			margin: 0 $spacing-2x;
+			margin: 0 var(--spacing-md);
 			color: var(--breadcrumb-separator-color);
 		}
 	}
