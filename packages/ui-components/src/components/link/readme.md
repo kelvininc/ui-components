@@ -103,6 +103,7 @@ export class SwichButtonExample {
 
 ### Used by
 
+ - [kv-breadcrumb-item](../breadcrumb-item)
  - [kv-radio-list-item](../radio-list-item)
 
 ### Depends on
@@ -113,6 +114,7 @@ export class SwichButtonExample {
 ```mermaid
 graph TD;
   kv-link --> kv-icon
+  kv-breadcrumb-item --> kv-link
   kv-radio-list-item --> kv-link
   style kv-link fill:#f9f,stroke:#333,stroke-width:4px
 ```
