@@ -16,8 +16,13 @@
 			gap: var(--link-gap-default);
 			outline: none;
 
-			@include body-m-semibold;
+			@include body-m-regular;
 			@include clickable;
+
+			//Required due the breadcrumb item active state
+			font-weight: var(--kv-link-font-weight, var(--font-weight-regular));
+			pointer-events: var(--kv-link-pointer-events, all);
+			cursor: var(--kv-link-cursor, pointer);
 
 			color: var(--link-label-default);
 			text-decoration: none;
