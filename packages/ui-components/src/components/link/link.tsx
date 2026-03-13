@@ -59,7 +59,7 @@ export class KvLink implements ILink {
 						part="label"
 					>
 						<slot name="left">{this.leftIcon && <kv-icon name={this.leftIcon} />}</slot>
-						{this.label}
+						{this.label && <span>{this.label}</span>}
 						<slot name="right">{this.rightIcon && <kv-icon name={this.rightIcon} />}</slot>
 					</a>
 					{this.subtitle && <div class="subtitle">{this.subtitle}</div>}

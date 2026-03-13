@@ -6,7 +6,9 @@ exports[`KvLink (unit tests) when label and subtitle is provided should match th
     <div class="link-container" part="container">
       <a class="label" part="label" tabindex="0">
         <slot name="left"></slot>
-        Hello
+        <span>
+          Hello
+        </span>
         <slot name="right"></slot>
       </a>
       <div class="subtitle">
@@ -23,7 +25,9 @@ exports[`KvLink (unit tests) when only label is provided should match the snapsh
     <div class="link-container" part="container">
       <a class="label" part="label" tabindex="0">
         <slot name="left"></slot>
-        Hello
+        <span>
+          Hello
+        </span>
         <slot name="right"></slot>
       </a>
     </div>
