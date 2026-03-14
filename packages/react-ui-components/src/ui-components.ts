@@ -3,8 +3,6 @@ export type * from '@kelvininc/ui-components';
 
 // Export enums
 export {
-	ETreeItemState,
-	ETreeItemLabelSize,
 	EIllustrationName,
 	EAnchorTarget,
 	EComponentSize,
@@ -20,7 +18,6 @@ export {
 	EAbsoluteTimePickerMode,
 	ERelativeTimeInputMode,
 	EInputSource,
-	ESummaryCardType,
 	EAbsoluteTimeError,
 	EStepState,
 	EToggleState,

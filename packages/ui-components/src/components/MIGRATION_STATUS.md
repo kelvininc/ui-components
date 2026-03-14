@@ -43,51 +43,47 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] illustration
 - [x] illustration-message
 - [x] toaster
-
+- [x] text-area
+- [x] breadcrumb
+- [x] breadcrumb-item
+- [x] breadcrumb-list
+- [x] icon
+- [x] virtualized-list
+- [x] state-indicator
+- [x] dirty-dot
+- [x] modal
 
 ## Not Migrated (tokens defined but not yet consumed)
 
 - [ ] alert
 - [ ] input-wrapper
-- [ ] text-area
 
 ## No Tokens Defined
 
 - [ ] absolute-time-picker
 - [ ] absolute-time-picker-dropdown
 - [ ] absolute-time-picker-dropdown-input
-- [ ] alert-button
-- [ ] breadcrumb
-- [ ] breadcrumb-item
-- [ ] breadcrumb-list
+- [ ] time-picker
+- [ ] time-picker-select-option
 - [ ] calendar
 - [ ] calendar-day
-- [ ] copy-to-clipboard
 - [ ] date-time-input
+- [ ] relative-time-picker
+
+- [ ] alert
+- [ ] copy-to-clipboard
 - [ ] description-list
-- [ ] dirty-dot
-- [ ] icon
 - [ ] illustrations
 - [ ] info-label
 - [ ] inline-editable-field
 - [ ] loader
-- [ ] modal
 - [ ] radio-list
 - [ ] radio-list-item
 - [ ] range
-- [ ] relative-time-picker
-- [ ] state-indicator
-- [ ] step-bar
-- [ ] step-indicator
-- [ ] step-progress-bar
-- [ ] summary-card
-- [ ] svg-icon
-- [ ] time-picker
-- [ ] time-picker-select-option
-- [ ] tree
-- [ ] tree-dropdown
-- [ ] tree-item
-- [ ] virtualized-list
+
 - [ ] wizard
 - [ ] wizard-footer
 - [ ] wizard-header
+- [ ] step-bar
+- [ ] step-indicator
+- [ ] step-progress-bar

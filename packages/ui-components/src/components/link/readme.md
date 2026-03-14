@@ -93,10 +93,11 @@ export class SwichButtonExample {
 
 ## Shadow Parts
 
-| Part          | Description          |
-| ------------- | -------------------- |
-| `"container"` | The link's container |
-| `"label"`     | The link's label     |
+| Part           | Description          |
+| -------------- | -------------------- |
+| `"container"`  | The link's container |
+| `"label"`      | The link's label     |
+| `"label-text"` |                      |
 
 
 ## Dependencies
