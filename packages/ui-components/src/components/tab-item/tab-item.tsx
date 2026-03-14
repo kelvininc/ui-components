@@ -2,7 +2,7 @@ import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { HostAttributes } from '@stencil/core/internal';
 import { throttle } from 'lodash-es';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
-import { CustomCssClass, ICustomCss } from '../../types';
+import { CustomCssClass, EIconName, ICustomCss } from '../../types';
 import { ETabItemType } from './tab-item.types';
 import { getClassMap } from '../../utils/css-class.helper';
 
@@ -16,8 +16,10 @@ export class KvTabItem implements ICustomCss {
 	@Prop() tabKey!: number | string;
 	/** (optional) Sets this tab item to a different styling configuration */
 	@Prop() type?: ETabItemType = ETabItemType.Primary;
-	/** (required) Name to show in UI for this tab */
-	@Prop() label!: string;
+	/** (optional) Name to show in UI for this tab */
+	@Prop() label?: string;
+	/** (optional) Icon to show in UI for this tab */
+	@Prop() icon?: EIconName;
 	/** (optional) To disable this tab */
 	@Prop() disabled?: boolean = false;
 	/** (optional) To set this tab as the selected one */
@@ -50,6 +52,7 @@ export class KvTabItem implements ICustomCss {
 						'tab-item-container': true,
 						'selected': this.selected,
 						'disabled': this.disabled,
+						'only-icon': this.type === ETabItemType.Secondary && this.icon && !this.label,
 						[this.type]: true,
 						...getClassMap(this.customClass)
 					}}
@@ -57,7 +60,8 @@ export class KvTabItem implements ICustomCss {
 					style={this.customStyle}
 					{...this.customAttributes}
 				>
-					<div class="label">{this.label}</div>
+					{this.icon && this.type === ETabItemType.Secondary && <kv-icon name={this.icon} />}
+					{this.label && <div class="label">{this.label}</div>}
 					<slot name="right-slot"></slot>
 				</div>
 			</Host>
