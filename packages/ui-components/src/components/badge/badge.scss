@@ -32,8 +32,8 @@
 	--badge-height: var(--size-md, 20px);
 	--badge-width: unset;
 	
-	--badge-background-color-primary: var(--background-container-accent-default, #{kv-color('secondary-5')});
-	--badge-text-color-primary: var(--text-container-accent-default, #{kv-color('neutral-2')});
+	--badge-background-color-primary: var(--background-container-accent-purple-default, #{kv-color('secondary-5')});
+	--badge-text-color-primary: var(--text-container-accent-purple-default, #{kv-color('neutral-2')});
 	
 	--badge-background-color-secondary: var(--background-interactive-counter-default, #{kv-color('neutral-5')});
 	--badge-text-color-secondary: var(--text-interactive-counter-default, #{kv-color('neutral-2')});

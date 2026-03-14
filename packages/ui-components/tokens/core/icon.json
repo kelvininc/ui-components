@@ -14,6 +14,11 @@
       "value": "{size.xl}",
       "type": "number",
       "prefix": "icon"
+    },
+    "sm": {
+      "value": "{size.sm}",
+      "type": "number",
+      "prefix": "icon"
     }
   }
 }
