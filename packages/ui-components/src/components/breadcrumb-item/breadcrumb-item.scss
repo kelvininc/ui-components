@@ -1,34 +1,14 @@
 @use '../../assets/styles' as *;
 
-:host {
-	/**
-	 * @prop --breadcrumb-item-default-color: Breadcrumb's item default color.
-	 * @prop --breadcrumb-item-hover-color: Breadcrumb's item hover color.
-	 * @prop --breadcrumb-item-active-color: Breadcrumb's item active color.
-	 */
-
-	--breadcrumb-item-default-color: #{kv-color('neutral-4')};
-	--breadcrumb-item-hover-color: #{kv-color('neutral-3')};
-	--breadcrumb-item-active-color: #{kv-color('neutral-2')};
-}
-
 .breadcrumb-item {
-	@include body-m-regular();
-	cursor: pointer;
 	user-select: none;
 
-	color: var(--breadcrumb-item-default-color);
-	text-decoration: none;
-
-	&:hover {
-		text-decoration: underline;
-		color: var(--breadcrumb-item-hover-color);
-	}
-
 	&--active {
-		@include body-m-semibold();
-		pointer-events: none;
-
-		color: var(--breadcrumb-item-active-color);
+		kv-link,
+		::slotted(*) {
+			--kv-link-pointer-events: none;
+			--kv-link-cursor: default;
+			--kv-link-font-weight: 600;
+		}
 	}
 }

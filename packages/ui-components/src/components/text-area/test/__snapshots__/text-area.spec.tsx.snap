@@ -4,7 +4,7 @@ exports[`Text Area (unit tests) when initialized with icon should match the snap
 <kv-text-area counter="" icon="kv-notes" max-char-length="100">
   <template shadowrootmode="open">
     <div class="text-area-container">
-      <kv-icon class="left-icon" customclass="icon-20" name="kv-notes"></kv-icon>
+      <kv-icon name="kv-notes"></kv-icon>
       <div class="text-area">
         <div class="text-area-wrapper">
           <div class="input placeholder" contenteditable=""></div>

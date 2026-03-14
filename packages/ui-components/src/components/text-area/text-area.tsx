@@ -93,7 +93,7 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 		return (
 			<Host>
 				<div class={{ 'text-area-container': true, 'disabled': this.disabled }}>
-					{this.icon && <kv-icon name={this.icon} customClass="icon-20" class="left-icon" />}
+					{this.icon && <kv-icon name={this.icon} />}
 					<div class="text-area" onClick={this.focusTextArea}>
 						<div
 							class={{

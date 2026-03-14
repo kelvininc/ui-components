@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import {
 	KvBreadcrumbList,
-	KvBreadcrumbItem
+	KvBreadcrumbItem,
+	KvLink
 } from "@kelvininc/react-ui-components/client";
 
 const meta = {
@@ -12,7 +13,11 @@ const meta = {
 		<KvBreadcrumbList {...args}>
 			<KvBreadcrumbItem label="First label here"></KvBreadcrumbItem>
 			<KvBreadcrumbItem label="Second label here"></KvBreadcrumbItem>
-			<KvBreadcrumbItem label="Last label here" active></KvBreadcrumbItem>
+			<KvBreadcrumbItem active>
+				<a>
+					<KvLink label="Last label here" />
+				</a>
+			</KvBreadcrumbItem>
 		</KvBreadcrumbList>
 	)
 } satisfies Meta<typeof KvBreadcrumbList>;
