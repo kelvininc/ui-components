@@ -4,10 +4,11 @@
  */
 
 body[mode="night"] {
-  --background-surface-subtlest: var(--color-gray-700);
-  --background-surface-default: var(--color-gray-900);
-  --background-surface-subtle: var(--color-gray-800);
-  --background-surface-inverse: var(--color-gray-50);
+  --background-surface-neutral-subtlest: var(--color-gray-700);
+  --background-surface-neutral-default: var(--color-gray-900);
+  --background-surface-neutral-subtle: var(--color-gray-800);
+  --background-surface-neutral-inverse: var(--color-gray-50);
+  --background-surface-sidepanel-default: var(--color-gray-800);
   --background-container-status-success-default: var(--color-green-500);
   --background-container-status-success-subtle: var(--color-green-400);
   --background-container-status-success-soft: var(--color-green-100);
@@ -161,6 +162,7 @@ body[mode="night"] {
   --border-surface-neutral-default: var(--color-gray-600);
   --border-surface-neutral-subtle: var(--color-gray-700);
   --border-surface-brand-default: var(--color-brand-500);
+  --border-surface-sidepanel-default: rgba(255, 255, 255, 0);
   --border-interactive-neutral-default: var(--color-gray-400);
   --border-interactive-neutral-subtle: var(--color-gray-300);
   --border-interactive-accent-default: var(--color-teal-500);
@@ -185,6 +187,9 @@ body[mode="night"] {
   --border-container-elevated-default: var(--color-gray-700);
   --border-container-neutral-default: var(--color-gray-700);
   --border-container-neutral-selected: var(--color-gray-50);
+  --border-container-divider-default: var(--color-gray-600);
+  --border-container-divider-strong: var(--color-gray-500);
+  --border-container-modal-default: rgba(255, 255, 255, 0);
   --border-persistent-control-off: var(--color-gray-600);
   --border-persistent-control-on: var(--color-gray-300);
   --border-persistent-control-disabled: var(--color-gray-700);
@@ -274,5 +279,43 @@ body[mode="night"] {
   --icon-persistent-wizard-selected: var(--color-green-500);
   --icon-persistent-wizard-default: var(--color-gray-700);
   --icon-persistent-wizard-inverse: var(--color-gray-50);
-  --scrollbar-thumb-default: var(--color-gray-700);
+  --scrollbar-thumb-default: var(--color-gray-600);
+  --raw-text-primary: var(--color-gray-300);
+  --raw-text-secondary: var(--color-gray-400);
+  --raw-text-disabled: var(--color-gray-500);
+  --raw-text-active: var(--color-gray-50);
+  --raw-text-accent: var(--color-purple-500);
+  --raw-text-success: var(--color-green-100);
+  --raw-text-warning: var(--color-yellow-100);
+  --raw-text-danger: var(--color-red-100);
+  --raw-text-info: var(--color-blue-100);
+  --raw-icon-default: var(--color-gray-300);
+  --raw-icon-subtle: var(--color-gray-400);
+  --raw-icon-disabled: var(--color-gray-500);
+  --raw-icon-active: var(--color-gray-50);
+  --raw-icon-accent: var(--color-purple-500);
+  --raw-icon-success: var(--color-green-500);
+  --raw-icon-warning: var(--color-yellow-500);
+  --raw-icon-danger: var(--color-red-500);
+  --raw-icon-info: var(--color-blue-500);
+  --raw-border-default: var(--color-gray-600);
+  --raw-border-disabled: var(--color-gray-700);
+  --raw-border-active: var(--color-gray-50);
+  --raw-border-accent: var(--color-purple-500);
+  --raw-border-success: var(--color-green-500);
+  --raw-border-warning: var(--color-yellow-500);
+  --raw-border-danger: var(--color-red-500);
+  --raw-border-info: var(--color-blue-500);
+  --raw-border-strong: var(--color-gray-500);
+  --raw-border-brand: var(--color-brand-500);
+  --raw-background-strong: var(--color-gray-500);
+  --raw-background-default: var(--color-gray-900);
+  --raw-background-disabled: var(--color-gray-700);
+  --raw-background-active: var(--color-gray-500);
+  --raw-background-subtle-1: var(--color-gray-800);
+  --raw-background-subtlest: var(--color-gray-700);
+  --raw-background-elevated: var(--color-gray-500);
+  --raw-background-subtle-2: var(--color-gray-800);
+  --raw-background-brand: var(--color-brand-500);
+  --raw-background-accent: var(--color-purple-500);
 }

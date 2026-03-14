@@ -48,10 +48,10 @@ body {
   --button-tertiary-icon-color-default: var(--icon-surface-neutral-primary);
   --button-tertiary-icon-color-subtle: var(--icon-on-color-neutral-primary);
   --button-tertiary-icon-color-disabled: var(--icon-on-color-neutral-disabled);
-  --button-text-label-default: var(--text-surface-neutral-primary);
+  --button-text-label-default: var(--text-surface-neutral-secondary);
   --button-text-label-disabled: var(--text-on-color-neutral-disabled);
   --button-text-icon-size-regular: var(--size-default);
-  --button-text-icon-color-default: var(--icon-surface-neutral-primary);
+  --button-text-icon-color-default: var(--icon-surface-neutral-secondary);
   --button-text-icon-color-disabled: var(--icon-on-color-neutral-disabled);
   --button-radius-regular: var(--radius-md);
   --button-radius-compact: var(--radius-md);
@@ -483,7 +483,22 @@ body {
   --modal-padding-y-default: var(--spacing-2xl);
   --modal-radius-default: var(--radius-xl);
   --modal-background-default: var(--background-container-neutral-default);
+  --modal-background-subtle: var(--background-container-neutral-subtle);
   --modal-gap-horizontal-default: var(--spacing-4xl);
   --modal-gap-horizontal-larger: var(--spacing-9xl);
   --modal-gap-vertical-default: var(--spacing-xl);
+  --modal-title-default: var(--text-container-neutral-subtle);
+  --modal-divider-default: var(--border-container-divider-default);
+  --modal-divider-strong: var(--border-container-divider-strong);
+  --modal-border-default: var(--border-container-modal-default);
+  --sidepanel-padding-x-default: var(--spacing-2xl);
+  --sidepanel-padding-y-default: var(--spacing-2xl);
+  --sidepanel-gap-horizontal-default: var(--spacing-2xl);
+  --sidepanel-gap-vertical-default: var(--spacing-xl);
+  --sidepanel-background-default: var(--background-surface-sidepanel-default);
+  --sidepanel-border-default: var(--border-surface-sidepanel-default);
+  --sidepanel-title-default: var(--text-container-neutral-subtle);
+  --sidepanel-divider-default: var(--border-container-divider-default);
+  --sidepanel-divider-strong: var(--border-container-divider-strong);
+  --sidepanel-icon-default: var(--icon-container-neutral-subtle);
 }
