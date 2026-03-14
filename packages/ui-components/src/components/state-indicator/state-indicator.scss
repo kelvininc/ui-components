@@ -8,11 +8,11 @@
 		width: 8px;
 		height: 8px;
 		border-radius: 50%;
-		margin-right: $spacing-2x;
+		margin-right: var(--spacing-md);
 	}
 
 	.text {
 		@include body-s-regular();
-		color: kv-color('text');
+		color: var(--text-surface-neutral-primary);
 	}
 }

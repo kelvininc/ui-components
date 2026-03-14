@@ -41,7 +41,6 @@ export * from './components/single-select-dropdown/single-select-dropdown.types'
 export * from './components/step-bar/step-bar.types';
 export * from './components/step-indicator/step-indicator.types';
 export * from './components/step-progress-bar/step-progress-bar.types';
-export * from './components/summary-card/summary-card.types';
 export * from './components/switch-button/switch-button.types';
 export * from './components/tab-navigation/tab-navigation.types';
 export * from './components/tab-item/tab-item.types';
@@ -57,8 +56,6 @@ export * from './components/toggle-switch/toggle-switch.types';
 export * from './components/toggle-tip/toggle-tip.types';
 export * from './components/tooltip/tooltip.types';
 export * from './components/tooltip-text/tooltip-text.types';
-export * from './components/tree/tree.types';
-export * from './components/tree-item/tree-item.types';
 export * from './components/virtualized-list/virtualized-list.types';
 export * from './components/wizard/wizard.types';
 export * from './components/wizard-footer/wizard-footer.types';
