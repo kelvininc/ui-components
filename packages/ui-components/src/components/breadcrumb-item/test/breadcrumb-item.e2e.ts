@@ -9,7 +9,8 @@ describe('KvBreadcrumbItem (end-to-end)', () => {
 
 	describe('when renders with default props', () => {
 		let itemElement: E2EElement;
-		let labelElement: E2EElement;
+		let containerElement: E2EElement;
+		let linkElement: E2EElement;
 		let clickEventSpy: EventSpy;
 
 		beforeEach(async () => {
@@ -17,17 +18,19 @@ describe('KvBreadcrumbItem (end-to-end)', () => {
 			await page.setContent(`
 				<kv-breadcrumb-item label='Awesome Label'></kv-breadcrumb-item>`);
 			itemElement = await page.find('kv-breadcrumb-item');
-			labelElement = await page.find('kv-breadcrumb-item >>> div');
+			containerElement = await page.find('kv-breadcrumb-item >>> div');
+			linkElement = await page.find('kv-breadcrumb-item >>> kv-link');
 		});
 
 		it('should render label', () => {
-			expect(labelElement.innerText).toContain('Awesome Label');
+			expect(linkElement).not.toBeNull();
+			expect(linkElement.getAttribute('label')).toBe('Awesome Label');
 		});
 
 		describe('and the user clicks on the item', () => {
 			beforeEach(async () => {
 				clickEventSpy = await itemElement.spyOnEvent('breadcrumbItemClick');
-				await labelElement.click();
+				await containerElement.click();
 			});
 
 			it('should emit an event with the clicked item', () => {
