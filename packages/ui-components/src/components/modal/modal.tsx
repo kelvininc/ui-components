@@ -64,6 +64,7 @@ export class KvModal implements IModalConfig, IModalEvents {
 							)}
 						</div>
 					</div>
+					{this.headerTitle && <div class="divider" />}
 					<div class="content" part="content">
 						<slot name="header"></slot>
 						<slot name="body"></slot>
