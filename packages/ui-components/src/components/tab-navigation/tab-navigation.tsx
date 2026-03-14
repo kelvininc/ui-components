@@ -85,6 +85,7 @@ export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEven
 						key={item.tabKey}
 						tabKey={item.tabKey}
 						label={item.label}
+						icon={item.icon}
 						disabled={item.disabled}
 						selected={item.tabKey === this.selectedTabKey}
 						type={this.type}

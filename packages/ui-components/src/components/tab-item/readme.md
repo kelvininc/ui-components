@@ -43,7 +43,8 @@ export const TabItemExample: React.FC = () => (
 | `customClass`         | `custom-class`      | (optional) Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. It is also valid to provide CssClassMap with boolean logic. | `CssClassMap \| string \| string[]`              | `''`                   |
 | `customStyle`         | `custom-style`      | (optional) Additional style to apply for custom CSS.                                                                                                                                    | `{ [key: string]: string; }`                     | `undefined`            |
 | `disabled`            | `disabled`          | (optional) To disable this tab                                                                                                                                                          | `boolean`                                        | `false`                |
-| `label` _(required)_  | `label`             | (required) Name to show in UI for this tab                                                                                                                                              | `string`                                         | `undefined`            |
+| `icon`                | `icon`              | (optional) Icon to show in UI for this tab                                                                                                                                              | `EIconName`                                      | `undefined`            |
+| `label`               | `label`             | (optional) Name to show in UI for this tab                                                                                                                                              | `string`                                         | `undefined`            |
 | `selected`            | `selected`          | (optional) To set this tab as the selected one                                                                                                                                          | `boolean`                                        | `false`                |
 | `tabKey` _(required)_ | `tab-key`           | (required) A unique identifier for this tab                                                                                                                                             | `number \| string`                               | `undefined`            |
 | `type`                | `type`              | (optional) Sets this tab item to a different styling configuration                                                                                                                      | `ETabItemType.Primary \| ETabItemType.Secondary` | `ETabItemType.Primary` |
@@ -62,9 +63,14 @@ export const TabItemExample: React.FC = () => (
 
  - [kv-tab-navigation](../tab-navigation)
 
+### Depends on
+
+- [kv-icon](../icon)
+
 ### Graph
 ```mermaid
 graph TD;
+  kv-tab-item --> kv-icon
   kv-tab-navigation --> kv-tab-item
   style kv-tab-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
