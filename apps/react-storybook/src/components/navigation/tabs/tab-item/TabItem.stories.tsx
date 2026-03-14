@@ -42,6 +42,23 @@ export const Secondary: Story = {
 	}
 };
 
+export const SecondaryWithIcon: Story = {
+	args: {
+		tabKey: "tab1",
+		label: "Tab Item",
+		icon: EIconName.Add,
+		type: ETabItemType.Secondary
+	}
+};
+
+export const SecondaryOnlyIcon: Story = {
+	args: {
+		tabKey: "tab1",
+		icon: EIconName.Add,
+		type: ETabItemType.Secondary
+	}
+};
+
 export const SecondaryWithBadge: Story = {
 	render: function Renderer(args) {
 		return (

@@ -99,3 +99,75 @@ export const SecondaryType: Story = {
 		type: ETabItemType.Secondary
 	}
 };
+
+export const SecondaryTypeOnlyIcon: Story = {
+	args: {
+		tabs: [
+			{
+				tabKey: "device",
+				icon: EIconName.Device
+			},
+			{
+				tabKey: "place",
+				icon: EIconName.Place
+			},
+			{
+				tabKey: "properties",
+				icon: EIconName.Properties,
+				disabled: true
+			},
+			{
+				tabKey: "world",
+				icon: EIconName.World
+			}
+		],
+		selectedTabKey: "device",
+		type: ETabItemType.Secondary
+	}
+};
+
+export const SecondaryTypeOnlyIconVertical: Story = {
+	render: function Renderer(args) {
+		const [, updateArgs] = useArgs();
+
+		const handleTabChange = (event: CustomEvent<string>) => {
+			updateArgs({ selectedTabKey: event.detail });
+		};
+
+		return (
+			<KvTabNavigation
+				style={{
+					"--secondary-tab-list-direction": "column",
+					"--secondary-items-align": "flex-start"
+				}}
+				tabs={args.tabs}
+				selectedTabKey={args.selectedTabKey}
+				type={args.type}
+				onTabChange={handleTabChange}
+			/>
+		);
+	},
+	args: {
+		tabs: [
+			{
+				tabKey: "device",
+				icon: EIconName.Device
+			},
+			{
+				tabKey: "place",
+				icon: EIconName.Place
+			},
+			{
+				tabKey: "properties",
+				icon: EIconName.Properties,
+				disabled: true
+			},
+			{
+				tabKey: "world",
+				icon: EIconName.World
+			}
+		],
+		selectedTabKey: "device",
+		type: ETabItemType.Secondary
+	}
+};
