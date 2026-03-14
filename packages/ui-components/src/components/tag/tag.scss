@@ -12,11 +12,6 @@
 	 * @prop --tag-content-padding-y: Vertical padding inside the tag.
 	 */
 
-	--tag-background-color: var(--background-container-neutral-default, #{kv-color('neutral-6')});
-	--tag-label-color: var(--text-container-neutral-subtle, #{kv-color('neutral-2')});
-	--tag-badge-color: var(--text-container-neutral-subtle);
-	--tag-badge-background-color: var(--background-container-neutral-subtle);
-	--tag-icon-color: var(--icon-container-neutral-subtle);
 	--tag-content-gap: var(--spacing-xs, #{$spacing});
 	--tag-content-padding-x: var(--spacing-md, #{$spacing});
 	--tag-content-padding-y: var(--spacing-none, 2px);
@@ -31,10 +26,10 @@
 	height: var(--size-xl, 24px);
 	border-radius: var(--radius-md);
 	padding: var(--tag-content-padding-y) var(--tag-content-padding-x);
-	background-color: var(--tag-background-color);
+	background-color: var(--tag-background-color, var(--_tag-bg));
 
 	kv-icon {
-		--icon-color: var(--tag-icon-color);
+		--icon-color: var(--tag-icon-color, var(--_tag-icon));
 		--icon-width: var(--size-md, 12px);
 		--icon-height: var(--size-md, 12px);
 	}
@@ -42,68 +37,68 @@
 	.tag-label {
 		@include label-m-regular;
 
-		color: var(--tag-label-color);
+		color: var(--tag-label-color, var(--_tag-label));
 	}
 
 	kv-badge {
-		--badge-background-color-secondary: var(--tag-badge-background-color);
-		--badge-text-color-secondary: var(--tag-badge-color);
+		--badge-background-color-secondary: var(--tag-badge-background-color, var(--_tag-badge-bg));
+		--badge-text-color-secondary: var(--tag-badge-color, var(--_tag-badge));
 	}
 
 	// Color variants
 	&--color-neutral {
-		--tag-background-color: var(--background-container-neutral-default);
-		--tag-label-color: var(--text-container-neutral-subtle);
-		--tag-badge-color: var(--text-container-neutral-subtle);
-		--tag-badge-background-color: var(--background-container-neutral-subtle);
-		--tag-icon-color: var(--icon-container-neutral-subtle);
+		--_tag-bg: var(--background-container-neutral-default);
+		--_tag-label: var(--text-container-neutral-subtle);
+		--_tag-badge: var(--text-container-neutral-subtle);
+		--_tag-badge-bg: var(--background-container-neutral-subtle);
+		--_tag-icon: var(--icon-container-neutral-subtle);
 	}
 
 	&--color-brand {
-		--tag-background-color: var(--background-container-brand-default);
-		--tag-label-color: var(--text-container-brand-default);
-		--tag-badge-color: var(--text-container-brand-default);
-		--tag-badge-background-color: var(--background-container-brand-subtle);
-		--tag-icon-color: var(--icon-container-brand-soft);
+		--_tag-bg: var(--background-container-brand-default);
+		--_tag-label: var(--text-container-brand-default);
+		--_tag-badge: var(--text-container-brand-default);
+		--_tag-badge-bg: var(--background-container-brand-subtle);
+		--_tag-icon: var(--icon-container-brand-soft);
 	}
 
 	&--color-purple {
-		--tag-background-color: var(--background-container-accent-default);
-		--tag-label-color: var(--text-container-accent-default);
-		--tag-badge-color: var(--text-container-accent-default);
-		--tag-badge-background-color: var(--background-container-accent-subtle);
-		--tag-icon-color: var(--icon-container-accent-soft);
+		--_tag-bg: var(--background-container-accent-purple-default);
+		--_tag-label: var(--text-container-accent-purple-default);
+		--_tag-badge: var(--text-container-accent-purple-default);
+		--_tag-badge-bg: var(--background-container-accent-purple-subtle);
+		--_tag-icon: var(--icon-container-accent-soft);
 	}
 
 	&--color-green {
-		--tag-background-color: var(--background-container-status-success-default);
-		--tag-label-color: var(--text-container-status-success-default);
-		--tag-badge-color: var(--text-container-status-success-default);
-		--tag-badge-background-color: var(--background-container-status-success-subtle);
-		--tag-icon-color: var(--icon-container-status-success-soft);
+		--_tag-bg: var(--background-container-status-success-default);
+		--_tag-label: var(--text-container-status-success-default);
+		--_tag-badge: var(--text-container-status-success-default);
+		--_tag-badge-bg: var(--background-container-status-success-subtle);
+		--_tag-icon: var(--icon-container-status-success-soft);
 	}
 
 	&--color-yellow {
-		--tag-background-color: var(--background-container-status-warning-default);
-		--tag-label-color: var(--text-container-status-warning-default);
-		--tag-badge-color: var(--text-container-status-warning-default);
-		--tag-badge-background-color: var(--background-container-status-warning-subtle);
-		--tag-icon-color: var(--icon-container-status-warning-soft);
+		--_tag-bg: var(--background-container-status-warning-default);
+		--_tag-label: var(--text-container-status-warning-default);
+		--_tag-badge: var(--text-container-status-warning-default);
+		--_tag-badge-bg: var(--background-container-status-warning-subtle);
+		--_tag-icon: var(--icon-container-status-warning-soft);
 	}
 
 	&--color-red {
-		--tag-background-color: var(--background-container-status-danger-default);
-		--tag-label-color: var(--text-container-status-danger-default);
-		--tag-badge-color: var(--text-container-status-danger-default);
-		--tag-badge-background-color: var(--background-container-status-danger-subtle);
-		--tag-icon-color: var(--icon-container-status-danger-soft);
+		--_tag-bg: var(--background-container-status-danger-default);
+		--_tag-label: var(--text-container-status-danger-default);
+		--_tag-badge: var(--text-container-status-danger-default);
+		--_tag-badge-bg: var(--background-container-status-danger-subtle);
+		--_tag-icon: var(--icon-container-status-danger-soft);
 	}
 
 	&--color-blue {
-		--tag-background-color: var(--background-container-status-info-default);
-		--tag-label-color: var(--text-container-status-info-default);
-		--tag-badge-color: var(--text-container-status-info-default);
-		--tag-badge-background-color: var(--background-container-status-info-subtle);
-		--tag-icon-color: var(--icon-container-status-info-soft);
+		--_tag-bg: var(--background-container-status-info-default);
+		--_tag-label: var(--text-container-status-info-default);
+		--_tag-badge: var(--text-container-status-info-default);
+		--_tag-badge-bg: var(--background-container-status-info-subtle);
+		--_tag-icon: var(--icon-container-status-info-soft);
 	}
 }

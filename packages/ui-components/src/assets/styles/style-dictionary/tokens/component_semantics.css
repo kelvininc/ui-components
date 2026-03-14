@@ -484,8 +484,7 @@ body {
   --modal-radius-default: var(--radius-xl);
   --modal-background-default: var(--background-container-neutral-default);
   --modal-background-subtle: var(--background-container-neutral-subtle);
-  --modal-gap-horizontal-default: var(--spacing-4xl);
-  --modal-gap-horizontal-larger: var(--spacing-9xl);
+  --modal-gap-horizontal-default: var(--spacing-2xl);
   --modal-gap-vertical-default: var(--spacing-xl);
   --modal-title-default: var(--text-container-neutral-subtle);
   --modal-divider-default: var(--border-container-divider-default);
@@ -495,10 +494,21 @@ body {
   --sidepanel-padding-y-default: var(--spacing-2xl);
   --sidepanel-gap-horizontal-default: var(--spacing-2xl);
   --sidepanel-gap-vertical-default: var(--spacing-xl);
-  --sidepanel-background-default: var(--background-surface-sidepanel-default);
+  --sidepanel-background-default: var(--background-surface-sidebar-default);
   --sidepanel-border-default: var(--border-surface-sidepanel-default);
   --sidepanel-title-default: var(--text-container-neutral-subtle);
   --sidepanel-divider-default: var(--border-container-divider-default);
   --sidepanel-divider-strong: var(--border-container-divider-strong);
   --sidepanel-icon-default: var(--icon-container-neutral-subtle);
+  --navigation-padding-x-default: var(--spacing-2xl);
+  --navigation-padding-x-smaill: var(--spacing-xl);
+  --navigation-padding-y-default: var(--spacing-2xl);
+  --navigation-padding-y-smaill: var(--spacing-xl);
+  --navigation-border-color-default: var(--border-surface-neutral-default);
+  --navigation-border-thickness-default: var(--border-width-default);
+  --navigation-background-default: var(--background-surface-sidebar-default);
+  --navigation-background-strong: var(--background-surface-sidebar-strong);
+  --navigation-logo-color-default: var(--icon-surface-neutral-secondary);
+  --navigation-logo-height-default: var(--size-2xl);
+  --navigation-gap-default: var(--spacing-2xl);
 }
