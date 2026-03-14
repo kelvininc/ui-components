@@ -16,6 +16,7 @@ exports[`Modal (unit tests) when using a title should match the snapshot 1`] = `
           </div>
         </div>
       </div>
+      <div class="divider"></div>
       <div class="content" part="content">
         <slot name="header"></slot>
         <slot name="body"></slot>

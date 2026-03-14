@@ -40,8 +40,8 @@ export const KvBreadcrumbListExample: React.FC = () => (
 
 | Name                             | Description                     |
 | -------------------------------- | ------------------------------- |
-| `--breadcrumb-seperator-color`   | Breadcrumb's seperator color.   |
-| `--breadcrumb-seperator-content` | Breadcrumb's seperator content. |
+| `--breadcrumb-separator-color`   | Breadcrumb's separator color.   |
+| `--breadcrumb-separator-content` | Breadcrumb's separator content. |
 
 
 ## Dependencies
