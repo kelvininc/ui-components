@@ -3063,12 +3063,7 @@
     "gap": {
       "horizontal": {
         "default": {
-          "value": "{spacing.4xl}",
-          "type": "number",
-          "prefix": "component_semantics"
-        },
-        "larger": {
-          "value": "{spacing.9xl}",
+          "value": "{spacing.2xl}",
           "type": "number",
           "prefix": "component_semantics"
         }
@@ -3143,7 +3138,7 @@
     },
     "background": {
       "default": {
-        "value": "{background.surface.sidepanel.default}",
+        "value": "{background.surface.sidebar.default}",
         "type": "color",
         "prefix": "component_semantics"
       }
@@ -3178,6 +3173,85 @@
       "default": {
         "value": "{icon.container.neutral.subtle}",
         "type": "color",
+        "prefix": "component_semantics"
+      }
+    }
+  },
+  "navigation": {
+    "padding": {
+      "x": {
+        "default": {
+          "value": "{spacing.2xl}",
+          "type": "number",
+          "prefix": "component_semantics"
+        },
+        "smaill": {
+          "value": "{spacing.xl}",
+          "type": "number",
+          "prefix": "component_semantics"
+        }
+      },
+      "y": {
+        "default": {
+          "value": "{spacing.2xl}",
+          "type": "number",
+          "prefix": "component_semantics"
+        },
+        "smaill": {
+          "value": "{spacing.xl}",
+          "type": "number",
+          "prefix": "component_semantics"
+        }
+      }
+    },
+    "border": {
+      "color": {
+        "default": {
+          "value": "{border.surface.neutral.default}",
+          "type": "color",
+          "prefix": "component_semantics"
+        }
+      },
+      "thickness": {
+        "default": {
+          "value": "{border-width.default}",
+          "type": "number",
+          "prefix": "component_semantics"
+        }
+      }
+    },
+    "background": {
+      "default": {
+        "value": "{background.surface.sidebar.default}",
+        "type": "color",
+        "prefix": "component_semantics"
+      },
+      "strong": {
+        "value": "{background.surface.sidebar.strong}",
+        "type": "color",
+        "prefix": "component_semantics"
+      }
+    },
+    "logo": {
+      "color": {
+        "default": {
+          "value": "{icon.surface.neutral.secondary}",
+          "type": "color",
+          "prefix": "component_semantics"
+        }
+      },
+      "height": {
+        "default": {
+          "value": "{size.2xl}",
+          "type": "number",
+          "prefix": "component_semantics"
+        }
+      }
+    },
+    "gap": {
+      "default": {
+        "value": "{spacing.2xl}",
+        "type": "number",
         "prefix": "component_semantics"
       }
     }

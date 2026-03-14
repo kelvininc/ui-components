@@ -36,6 +36,14 @@ Type: `Promise<void>`
 
 
 
+## CSS Custom Properties
+
+| Name                  | Description                                      |
+| --------------------- | ------------------------------------------------ |
+| `--margin-left-right` | Margin left and right of the editable container. |
+| `--margin-top-bottom` | Margin top and bottom of the editable container. |
+
+
 ## Dependencies
 
 ### Depends on

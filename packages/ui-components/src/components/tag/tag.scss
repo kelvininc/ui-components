@@ -68,10 +68,10 @@
 	}
 
 	&--color-purple {
-		--tag-background-color: var(--background-container-accent-default);
-		--tag-label-color: var(--text-container-accent-default);
-		--tag-badge-color: var(--text-container-accent-default);
-		--tag-badge-background-color: var(--background-container-accent-subtle);
+		--tag-background-color: var(--background-container-accent-purple-default);
+		--tag-label-color: var(--text-container-accent-purple-default);
+		--tag-badge-color: var(--text-container-accent-purple-default);
+		--tag-badge-background-color: var(--background-container-accent-purple-subtle);
 		--tag-icon-color: var(--icon-container-accent-soft);
 	}
 

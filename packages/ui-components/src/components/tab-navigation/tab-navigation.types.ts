@@ -4,7 +4,8 @@ import { ETabItemType } from '../tab-item/tab-item.types';
 
 export interface ITabNavigationItem {
 	tabKey: number | string;
-	label: string;
+	label?: string;
+	icon?: EIconName;
 	badge?: string;
 	badgeType?: EBadgeType;
 	tagIcon?: EIconName;

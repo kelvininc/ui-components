@@ -12,6 +12,8 @@ $tab-height: 34px;
 	--tab-list-bg-color: transparent;
 	--tab-list-indicator-color: var(--tab-primary-border-color-selected);
 	--tab-list-divider-color: var(--tab-primary-border-color-default);
+	--secondary-tab-list-direction: row;
+	--secondary-items-align: center;
 
 	.primary {
 		position: relative;
@@ -39,7 +41,8 @@ $tab-height: 34px;
 	.secondary {
 		display: flex;
 		gap: var(--spacing-xl);
-		align-items: center;
+		align-items: var(--secondary-items-align);
+		flex-direction: var(--secondary-tab-list-direction);
 	}
 
 	kv-badge {
