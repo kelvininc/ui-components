@@ -69,6 +69,7 @@ graph TD;
   kv-tab-navigation --> kv-tab-item
   kv-tab-navigation --> kv-badge
   kv-tab-navigation --> kv-tag-status
+  kv-tab-item --> kv-icon
   kv-tag-status --> kv-icon
   style kv-tab-navigation fill:#f9f,stroke:#333,stroke-width:4px
 ```

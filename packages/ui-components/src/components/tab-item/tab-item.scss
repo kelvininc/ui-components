@@ -37,8 +37,15 @@
 			height: var(--tab-secondary-height-default);
 			padding: var(--tab-secondary-padding-y-default) var(--tab-secondary-padding-x-default);
 			box-sizing: border-box;
-			border-radius: var(--tab-secondary-radius-default, 4px);
+			border: var(--tab-secondary-border-thickness-default) solid var(--transparent); 
+			border-radius: var(--tab-secondary-radius-default);
 			align-self: center;
+
+			kv-icon {
+				--icon-color: var(--icon-tab-icon-color-default);
+				--icon-width: var(--icon-tab-icon-size-default);
+				--icon-height: var(--icon-tab-icon-size-default);
+			}
 
 			.label {
 				@include body-m-semibold;
@@ -48,6 +55,10 @@
 			&:hover:not(.disabled) {
 				background: var(--tab-secondary-background-hover);
 
+				kv-icon {
+					--icon-color: var(--icon-tab-icon-color-hover);
+				}
+
 				.label {
 					color: var(--tab-secondary-label-hover);
 				}
@@ -55,6 +66,11 @@
 
 			&.selected:not(:hover):not(.disabled) {
 				background: var(--tab-secondary-background-selected);
+				border-color: var(--tab-secondary-border-color-default);
+
+				kv-icon {
+					--icon-color: var(--icon-tab-icon-color-selected);
+				}
 
 				.label {
 					color: var(--tab-secondary-label-selected);
@@ -65,9 +81,35 @@
 				cursor: not-allowed;
 				user-select: none;
 				background: var(--tab-secondary-background-disabled);
+				border-color: var(--tab-secondary-border-color-disabled);
+
+				kv-icon {
+					--icon-color: var(--icon-tab-icon-color-disabled);
+				}
 
 				.label {
 					color: var(--tab-secondary-label-disabled);
+				}
+			}
+
+			&.only-icon {
+				height: var(--icon-tab-height-default);
+				padding: var(--icon-tab-padding-y-default) var(--icon-tab-padding-x-default);
+				border: var(--icon-tab-border-thickness-default) solid var(--transparent); 
+				border-radius: var(--icon-tab-radius-default);
+
+				&:hover:not(.disabled) { 
+					background: var(--icon-tab-background-hover);
+				}
+
+				&.selected:not(:hover):not(.disabled) {
+					background: var(--icon-tab-background-selected);
+					border-color: var(--icon-tab-border-color-default);
+				}
+
+				&.disabled {
+					background: var(--icon-tab-background-disabled);
+					border-color: var(--icon-tab-border-color-disabled);
 				}
 			}
 		}
