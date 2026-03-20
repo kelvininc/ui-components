@@ -50,6 +50,7 @@ export enum EIconName {
 	Chat = 'kv-chat',
 	CheckState = 'kv-check-state',
 	Checkmark = 'kv-checkmark',
+	Checklist = 'kv-checklist',
 	Circle = 'kv-circle',
 	Clear = 'kv-clear',
 	Close = 'kv-close',
