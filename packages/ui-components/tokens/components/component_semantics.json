@@ -2653,7 +2653,7 @@
       }
     }
   },
-  "table-cell": {
+  "table": {
     "padding": {
       "x": {
         "default": {
@@ -2693,41 +2693,78 @@
       }
     },
     "border": {
-      "color": {
-        "default": {
-          "value": "{border.container.neutral.default}",
-          "type": "color",
-          "prefix": "component_semantics"
+      "cell": {
+        "color": {
+          "default": {
+            "value": "{border.container.neutral.default}",
+            "type": "color",
+            "prefix": "component_semantics"
+          }
+        },
+        "thickness": {
+          "default": {
+            "value": "{border-width.default}",
+            "type": "number",
+            "prefix": "component_semantics"
+          }
         }
       },
-      "thickness": {
-        "default": {
-          "value": "{border-width.default}",
-          "type": "number",
-          "prefix": "component_semantics"
+      "container": {
+        "color": {
+          "default": {
+            "value": "{border.container.table.default}",
+            "type": "color",
+            "prefix": "component_semantics"
+          },
+          "inverse": {
+            "value": "{border.container.table.inverse}",
+            "type": "color",
+            "prefix": "component_semantics"
+          }
+        },
+        "thickness": {
+          "default": {
+            "value": "{border-width.default}",
+            "type": "number",
+            "prefix": "component_semantics"
+          }
         }
       }
     },
     "background": {
-      "default": {
-        "value": "{background.interactive.cells.default}",
-        "type": "color",
-        "prefix": "component_semantics"
+      "state": {
+        "default": {
+          "value": "{background.interactive.table-cell.state.default}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "hover": {
+          "value": "{background.interactive.table-cell.state.hover}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "selected": {
+          "value": "{background.interactive.table-cell.state.selected}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "blocked": {
+          "value": "{background.interactive.table-cell.state.blocked}",
+          "type": "color",
+          "prefix": "component_semantics"
+        }
       },
-      "hover": {
-        "value": "{background.interactive.cells.hover}",
-        "type": "color",
-        "prefix": "component_semantics"
-      },
-      "selected": {
-        "value": "{background.interactive.cells.selected}",
-        "type": "color",
-        "prefix": "component_semantics"
-      },
-      "disabled": {
-        "value": null,
-        "type": "color",
-        "prefix": "component_semantics"
+      "level": {
+        "subtle": {
+          "value": "{background.interactive.table-cell.level.subtle}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "strong": {
+          "value": "{background.interactive.table-cell.level.strong}",
+          "type": "color",
+          "prefix": "component_semantics"
+        }
       }
     },
     "text": {
@@ -2743,28 +2780,6 @@
       },
       "disabled": {
         "value": "{text.container.neutral.disabled}",
-        "type": "color",
-        "prefix": "component_semantics"
-      }
-    },
-    "icon": {
-      "default": {
-        "value": "{icon.container.neutral.default}",
-        "type": "color",
-        "prefix": "component_semantics"
-      },
-      "subtle": {
-        "value": "{icon.container.neutral.subtle}",
-        "type": "color",
-        "prefix": "component_semantics"
-      },
-      "disabled": {
-        "value": "{icon.container.neutral.disabled}",
-        "type": "color",
-        "prefix": "component_semantics"
-      },
-      "subtlest": {
-        "value": "{icon.container.neutral.subtle}",
         "type": "color",
         "prefix": "component_semantics"
       }
@@ -2788,13 +2803,30 @@
     },
     "divider": {
       "default": {
-        "value": null,
+        "value": "{border.container.neutral.default}",
+        "type": "color",
+        "prefix": "component_semantics"
+      }
+    },
+    "icon": {
+      "default": {
+        "value": "{icon.container.neutral.default}",
+        "type": "color",
+        "prefix": "component_semantics"
+      },
+      "subtle": {
+        "value": "{icon.container.neutral.subtle}",
+        "type": "color",
+        "prefix": "component_semantics"
+      },
+      "disabled": {
+        "value": "{icon.container.neutral.disabled}",
         "type": "color",
         "prefix": "component_semantics"
       }
     }
   },
-  "editable-table-cell": {
+  "editable-table": {
     "height": {
       "small": {
         "value": "{size.4xl}",
@@ -2862,25 +2894,39 @@
       }
     },
     "background": {
-      "default": {
-        "value": "{background.interactive.editable-cell.default}",
-        "type": "color",
-        "prefix": "component_semantics"
+      "state": {
+        "default": {
+          "value": "{background.interactive.table-editable-cell.state.default}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "filled": {
+          "value": "{background.interactive.table-editable-cell.state.filled}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "selected": {
+          "value": "{background.interactive.table-editable-cell.state.selected}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "blocked": {
+          "value": "{background.interactive.table-editable-cell.state.blocked}",
+          "type": "color",
+          "prefix": "component_semantics"
+        }
       },
-      "filled": {
-        "value": "{background.interactive.editable-cell.filled}",
-        "type": "color",
-        "prefix": "component_semantics"
-      },
-      "selected": {
-        "value": "{background.interactive.editable-cell.selected}",
-        "type": "color",
-        "prefix": "component_semantics"
-      },
-      "blocked": {
-        "value": "{background.interactive.editable-cell.blocked}",
-        "type": "color",
-        "prefix": "component_semantics"
+      "level": {
+        "subtle": {
+          "value": "{background.interactive.table-editable-cell.level.subtle}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "strong": {
+          "value": "{background.interactive.table-editable-cell.level.strong}",
+          "type": "color",
+          "prefix": "component_semantics"
+        }
       }
     },
     "text": {
