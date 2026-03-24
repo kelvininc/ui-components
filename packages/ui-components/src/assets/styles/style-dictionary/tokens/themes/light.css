@@ -92,6 +92,8 @@ body[mode="light"] {
   --background-interactive-table-editable-cell-level-strong: var(--color-brand-100);
   --background-interactive-table-icon-hover: var(--color-gray-200);
   --background-interactive-table-icon-pressed: var(--color-brand-100);
+  --background-interactive-table-pin-hover: var(--color-gray-200);
+  --background-interactive-table-pin-pressed: var(--color-brand-100);
   --background-persistent-control-on-defaullt: var(--color-brand-500);
   --background-persistent-control-on-subtle: var(--color-brand-100);
   --background-persistent-control-off-neutral: var(--color-gray-600);
@@ -305,6 +307,11 @@ body[mode="light"] {
   --icon-container-table-icon-hover: var(--color-brand-500);
   --icon-container-table-icon-pressed: var(--color-brand-500);
   --icon-container-table-icon-disabled: var(--color-gray-400);
+  --icon-container-table-pin-default: var(--color-gray-500);
+  --icon-container-table-pin-hover: var(--color-gray-500);
+  --icon-container-table-pin-pressed: var(--color-gray-500);
+  --icon-container-table-pin-disabled: var(--color-gray-400);
+  --icon-container-table-pin-selected: var(--color-brand-500);
   --icon-persistent-control-on: var(--color-gray-50);
   --icon-persistent-control-off: var(--color-gray-500);
   --icon-persistent-control-disabled: var(--color-gray-400);
