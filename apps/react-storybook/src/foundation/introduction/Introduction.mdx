@@ -108,13 +108,13 @@ Two themes are available out of the box: **dark** (`night`) and **light** (`ligh
 The design tokens are organized into semantic categories:
 
 - **Core tokens** (`:root`): Primitive values like colors, spacing, font sizes, radii, and border widths (e.g., `--color-brand-500`, `--space-16`, `--radius-md`)
-- **Semantic tokens** (`body[mode="..."]`): Theme-aware tokens for backgrounds, text, borders, icons, and component-specific properties (e.g., `--background-surface-default`, `--text-surface-neutral-primary`, `--border-surface-neutral-default`)
+- **Semantic tokens** (`body[mode="..."]`): Theme-aware tokens for backgrounds, text, borders, icons, and component-specific properties (e.g., `--background-surface-neutral-default`, `--text-surface-neutral-primary`, `--border-surface-neutral-default`)
 
 **_Example_**: Using design tokens in CSS
 
 ```css
 .my-component {
-	background-color: var(--background-surface-default);
+	background-color: var(--background-surface-neutral-default);
 	color: var(--text-surface-neutral-primary);
 	border: var(--border-width-default) solid var(--border-surface-neutral-default);
 	border-radius: var(--radius-md);
