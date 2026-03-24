@@ -184,6 +184,11 @@
             "value": "{color.purple.300}",
             "type": "color",
             "prefix": "color"
+          },
+          "strong": {
+            "value": "{color.purple.500}",
+            "type": "color",
+            "prefix": "color"
           }
         },
         "teal": {
@@ -451,51 +456,108 @@
           "prefix": "color"
         }
       },
-      "cells": {
+      "table-cell": {
+        "state": {
+          "hover": {
+            "value": "{color.gray.800}",
+            "type": "color",
+            "prefix": "color"
+          },
+          "selected": {
+            "value": "{color.gray.700}",
+            "type": "color",
+            "prefix": "color"
+          },
+          "default": {
+            "value": "{color.gray.900}",
+            "type": "color",
+            "prefix": "color"
+          },
+          "filled": {
+            "value": "{color.gray.900}",
+            "type": "color",
+            "prefix": "color"
+          },
+          "blocked": {
+            "value": "{color.gray.800}",
+            "type": "color",
+            "prefix": "color"
+          },
+          "disabled": {
+            "value": "{color.gray.900}",
+            "type": "color",
+            "prefix": "color"
+          }
+        },
+        "level": {
+          "subtle": {
+            "value": "{color.gray.800}",
+            "type": "color",
+            "prefix": "color"
+          },
+          "strong": {
+            "value": "{color.gray.700}",
+            "type": "color",
+            "prefix": "color"
+          }
+        }
+      },
+      "table-editable-cell": {
+        "state": {
+          "default": {
+            "value": "{color.gray.900}",
+            "type": "color",
+            "prefix": "color"
+          },
+          "selected": {
+            "value": "{color.gray.900}",
+            "type": "color",
+            "prefix": "color"
+          },
+          "filled": {
+            "value": "{color.gray.900}",
+            "type": "color",
+            "prefix": "color"
+          },
+          "blocked": {
+            "value": "{color.gray.800}",
+            "type": "color",
+            "prefix": "color"
+          }
+        },
+        "level": {
+          "subtle": {
+            "value": "{color.gray.800}",
+            "type": "color",
+            "prefix": "color"
+          },
+          "strong": {
+            "value": "{color.gray.700}",
+            "type": "color",
+            "prefix": "color"
+          }
+        }
+      },
+      "table-icon": {
         "hover": {
-          "value": "{color.gray.800}",
+          "value": "{color.gray.600}",
           "type": "color",
           "prefix": "color"
         },
-        "selected": {
-          "value": "{color.gray.700}",
-          "type": "color",
-          "prefix": "color"
-        },
-        "default": {
-          "value": "{color.gray.900}",
-          "type": "color",
-          "prefix": "color"
-        },
-        "filled": {
-          "value": "{color.gray.900}",
-          "type": "color",
-          "prefix": "color"
-        },
-        "blocked": {
-          "value": "{color.gray.800}",
+        "pressed": {
+          "value": "{color.gray.600}",
           "type": "color",
           "prefix": "color"
         }
       },
-      "editable-cell": {
-        "default": {
-          "value": "{color.gray.900}",
+      "table-pin": {
+        "hover": {
+          "value": "{color.gray.600}",
           "type": "color",
           "prefix": "color"
         },
-        "selected": {
-          "value": "{color.gray.900}",
-          "type": "color",
-          "prefix": "color"
-        },
-        "filled": {
-          "value": "{color.gray.900}",
-          "type": "color",
-          "prefix": "color"
-        },
-        "blocked": {
-          "value": "{color.gray.800}",
+        "pressed": {
+          "value": "{color.gray.600}",
           "type": "color",
           "prefix": "color"
         }
@@ -753,6 +815,23 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "table-secondary-text": {
+        "hover": {
+          "value": "{color.gray.300}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "default": {
+          "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "disabled": {
+          "value": "{color.gray.500}",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "on-color": {
@@ -985,11 +1064,21 @@
             "value": "{color.green.100}",
             "type": "color",
             "prefix": "color"
+          },
+          "strong": {
+            "value": "{color.green.500}",
+            "type": "color",
+            "prefix": "color"
           }
         },
         "warning": {
           "default": {
             "value": "{color.yellow.100}",
+            "type": "color",
+            "prefix": "color"
+          },
+          "strong": {
+            "value": "{color.yellow.500}",
             "type": "color",
             "prefix": "color"
           }
@@ -1283,10 +1372,19 @@
         }
       },
       "accent": {
-        "default": {
-          "value": "{color.teal.500}",
-          "type": "color",
-          "prefix": "color"
+        "teal": {
+          "default": {
+            "value": "{color.teal.500}",
+            "type": "color",
+            "prefix": "color"
+          }
+        },
+        "purple": {
+          "default": {
+            "value": "{color.purple.500}",
+            "type": "color",
+            "prefix": "color"
+          }
         }
       },
       "table": {
@@ -1324,6 +1422,13 @@
         },
         "divider": {
           "value": "{color.gray.600}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "graphic-recommendation": {
+        "default": {
+          "value": "#40404000",
           "type": "color",
           "prefix": "color"
         }
@@ -1435,8 +1540,25 @@
       }
     },
     "surface": {
-      "default": {
+      "opacity-80": {
         "value": "#1a1a1acc",
+        "type": "color",
+        "prefix": "color"
+      }
+    },
+    "card-recommendation": {
+      "opacity-100": {
+        "value": "{color.gray.800}",
+        "type": "color",
+        "prefix": "color"
+      },
+      "opacity-80": {
+        "value": "#262626cc",
+        "type": "color",
+        "prefix": "color"
+      },
+      "opacity-0": {
+        "value": "#26262600",
         "type": "color",
         "prefix": "color"
       }
@@ -1659,6 +1781,23 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "table-secondary-icon": {
+        "default": {
+          "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "hover": {
+          "value": "{color.gray.300}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "disabled": {
+          "value": "{color.gray.500}",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "container": {
@@ -1824,6 +1963,55 @@
       "metrics": {
         "default": {
           "value": "{color.gray.300}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "table-icon": {
+        "default": {
+          "value": "{color.gray.50}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "hover": {
+          "value": "{color.gray.50}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "pressed": {
+          "value": "{color.gray.50}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "disabled": {
+          "value": "{color.gray.500}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "table-pin": {
+        "default": {
+          "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "hover": {
+          "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "pressed": {
+          "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "disabled": {
+          "value": "{color.gray.500}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "selected": {
+          "value": "{color.gray.50}",
           "type": "color",
           "prefix": "color"
         }

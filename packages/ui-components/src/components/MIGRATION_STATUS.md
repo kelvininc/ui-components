@@ -52,6 +52,7 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] state-indicator
 - [x] dirty-dot
 - [x] modal
+- [x] info-label
 - [x] wizard
 - [x] wizard-footer
 - [x] wizard-header
@@ -80,7 +81,6 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] copy-to-clipboard
 - [ ] description-list
 - [ ] illustrations
-- [ ] info-label
 - [ ] inline-editable-field
 - [ ] loader
 - [ ] radio-list
