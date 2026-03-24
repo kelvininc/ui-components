@@ -47,7 +47,7 @@ kv-select {
 	border: var(--slider-border-thickness-default, 1px) solid var(--slider-border-color-default, #{kv-color('neutral-6')});
 	width: calc(100% - 2px);
 	height: calc(100% - 2px);
-	background: var(--overlay-surface-default, #{kv-color('neutral-7', 'base', 0.8)});
+	background: var(--overlay-surface-opacity-80, #{kv-color('neutral-7', 'base', 0.8)});
 	z-index: 1;
 
 	&.has-shortcuts .create-new-option-form {
