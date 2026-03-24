@@ -71,12 +71,12 @@ Tokens that change according to the theme (light/dark). Defined in `body[mode="l
 **Example:**
 ```css
 body[mode="light"] {
-  --background-surface-default: var(--color-gray-50);
+  --background-surface-neutral-default: var(--color-gray-50);
   --text-primary: var(--color-gray-900);
 }
 
 body[mode="night"] {
-  --background-surface-default: var(--color-gray-900);
+  --background-surface-neutral-default: var(--color-gray-900);
   --text-primary: var(--color-gray-50);
 }
 ```
@@ -84,7 +84,7 @@ body[mode="night"] {
 **Usage:**
 ```css
 .container {
-  background: var(--background-surface-default);
+  background: var(--background-surface-neutral-default);
   color: var(--text-primary);
 }
 ```
@@ -161,7 +161,7 @@ Use the variables in your components:
   border-radius: var(--radius-sm);
 
   /* Semantic tokens (change with theme) */
-  background: var(--background-surface-default);
+  background: var(--background-surface-neutral-default);
   color: var(--text-primary);
 
   /* Component tokens */
