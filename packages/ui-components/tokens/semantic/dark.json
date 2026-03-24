@@ -776,6 +776,23 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "table-secondary-text": {
+        "hover": {
+          "value": "{color.gray.300}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "default": {
+          "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "disabled": {
+          "value": "{color.gray.500}",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "on-color": {
@@ -1642,6 +1659,23 @@
       "accordion": {
         "default": {
           "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "disabled": {
+          "value": "{color.gray.500}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "table-secondary-icon": {
+        "default": {
+          "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "hover": {
+          "value": "{color.gray.300}",
           "type": "color",
           "prefix": "color"
         },

@@ -136,6 +136,9 @@ body[mode="light"] {
   --text-interactive-slider-list-disabled: var(--color-gray-400);
   --text-interactive-accordion-default: var(--color-gray-500);
   --text-interactive-accordion-disabled: var(--color-gray-400);
+  --text-interactive-table-secondary-text-hover: var(--color-gray-950);
+  --text-interactive-table-secondary-text-default: var(--color-gray-500);
+  --text-interactive-table-secondary-text-disabled: var(--color-gray-400);
   --text-on-color-neutral-primary: var(--color-gray-50);
   --text-on-color-neutral-secondary: var(--color-gray-50);
   --text-on-color-neutral-disabled: var(--color-gray-400);
@@ -276,6 +279,9 @@ body[mode="light"] {
   --icon-interactive-slider-list-disabled: var(--color-gray-400);
   --icon-interactive-accordion-default: var(--color-gray-500);
   --icon-interactive-accordion-disabled: var(--color-gray-400);
+  --icon-interactive-table-secondary-icon-default: var(--color-gray-500);
+  --icon-interactive-table-secondary-icon-hover: var(--color-gray-950);
+  --icon-interactive-table-secondary-icon-disabled: var(--color-gray-400);
   --icon-container-neutral-default: var(--color-gray-950);
   --icon-container-neutral-subtle: var(--color-gray-600);
   --icon-container-neutral-inverse: var(--color-gray-50);

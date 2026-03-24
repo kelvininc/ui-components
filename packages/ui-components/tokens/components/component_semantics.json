@@ -2768,20 +2768,39 @@
       }
     },
     "text": {
-      "default": {
-        "value": "{text.container.neutral.default}",
-        "type": "color",
-        "prefix": "component_semantics"
+      "main": {
+        "default": {
+          "value": "{text.container.neutral.default}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "subtle": {
+          "value": "{text.container.neutral.subtle}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "disabled": {
+          "value": "{text.container.neutral.disabled}",
+          "type": "color",
+          "prefix": "component_semantics"
+        }
       },
-      "subtle": {
-        "value": "{text.container.neutral.subtle}",
-        "type": "color",
-        "prefix": "component_semantics"
-      },
-      "disabled": {
-        "value": "{text.container.neutral.disabled}",
-        "type": "color",
-        "prefix": "component_semantics"
+      "secondary": {
+        "default": {
+          "value": "{text.interactive.table-secondary-text.default}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "hover": {
+          "value": "{text.interactive.table-secondary-text.hover}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "disabled": {
+          "value": "{text.interactive.table-secondary-text.disabled}",
+          "type": "color",
+          "prefix": "component_semantics"
+        }
       }
     },
     "height": {
@@ -2809,20 +2828,39 @@
       }
     },
     "icon": {
-      "default": {
-        "value": "{icon.container.neutral.default}",
-        "type": "color",
-        "prefix": "component_semantics"
+      "main": {
+        "default": {
+          "value": "{icon.container.neutral.default}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "subtle": {
+          "value": "{icon.container.neutral.subtle}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "disabled": {
+          "value": "{icon.container.neutral.disabled}",
+          "type": "color",
+          "prefix": "component_semantics"
+        }
       },
-      "subtle": {
-        "value": "{icon.container.neutral.subtle}",
-        "type": "color",
-        "prefix": "component_semantics"
-      },
-      "disabled": {
-        "value": "{icon.container.neutral.disabled}",
-        "type": "color",
-        "prefix": "component_semantics"
+      "secondary": {
+        "hover": {
+          "value": "{icon.interactive.table-secondary-icon.hover}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "default": {
+          "value": "{icon.interactive.table-secondary-icon.default}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "disabled": {
+          "value": "{icon.interactive.table-secondary-icon.disabled}",
+          "type": "color",
+          "prefix": "component_semantics"
+        }
       }
     }
   },
