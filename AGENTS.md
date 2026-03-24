@@ -217,19 +217,19 @@ Tokens follow a **kebab-case hierarchical** pattern: `--category-subcategory-pro
 |-------|---------|------------|
 | Core / primitives | `color.gray.50` | `--color-gray-50: #fff` |
 | Core / spacing | `space.16` | `--space-16: 16px` |
-| Semantic | `background.surface.default` | `--background-surface-default: var(--color-gray-50)` |
+| Semantic | `background.surface.default` | `--background-surface-neutral-default: var(--color-gray-50)` |
 | Component | `button.height.regular` | `--button-height-regular: 32px` |
 
 State suffixes: `default`, `hover`, `pressed`, `disabled`, `selected`.
 
 #### Using Tokens in Component SCSS
 
-> **Prefer component semantic tokens.** When styling components, always reach for tokens from `component_semantics.css` first (e.g. `--button-*`, `--input-*`). Only fall back to generic semantic tokens (e.g. `--background-surface-default`) when no component-specific token exists, and only use core primitives (e.g. `--color-gray-50`) as a last resort.
+> **Prefer component semantic tokens.** When styling components, always reach for tokens from `component_semantics.css` first (e.g. `--button-*`, `--input-*`). Only fall back to generic semantic tokens (e.g. `--background-surface-neutral-default`) when no component-specific token exists, and only use core primitives (e.g. `--color-gray-50`) as a last resort.
 
 **CSS custom properties (semantic tokens — preferred for colors/spacing):**
 ```scss
 .my-element {
-  background: var(--background-surface-default);  // Semantic — theme-aware
+  background: var(--background-surface-neutral-default);  // Semantic — theme-aware
   color: var(--text-surface-neutral-primary);
   padding: var(--space-16);
   border: 1px solid var(--border-neutral-default);
@@ -258,7 +258,7 @@ Components expose their own CSS custom properties via `:host` to allow external 
 
 ```scss
 :host {
-  --my-component-background: var(--background-surface-default);
+  --my-component-background: var(--background-surface-neutral-default);
   --my-component-padding: var(--space-16);
 }
 
