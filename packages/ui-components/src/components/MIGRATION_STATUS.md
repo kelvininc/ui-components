@@ -53,6 +53,12 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] dirty-dot
 - [x] modal
 - [x] info-label
+- [x] wizard
+- [x] wizard-footer
+- [x] wizard-header
+- [x] step-bar
+- [x] step-indicator
+- [x] step-progress-bar
 
 ## Not Migrated (tokens defined but not yet consumed)
 
@@ -80,10 +86,3 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] radio-list
 - [ ] radio-list-item
 - [ ] range
-
-- [ ] wizard
-- [ ] wizard-footer
-- [ ] wizard-header
-- [ ] step-bar
-- [ ] step-indicator
-- [ ] step-progress-bar
