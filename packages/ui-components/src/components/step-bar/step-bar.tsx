@@ -36,7 +36,7 @@ export class KvStepBar implements IStepBar, IStepBarEvents {
 				<div class="label-container">
 					<span class="label">{this.label}</span>
 					<span class="step-counter">
-						{this.currentStep + 1} / {this.steps.length} Steps
+						{this.currentStep + 1}/{this.steps.length} Steps
 					</span>
 				</div>
 				<div class="progress-bar-container">
