@@ -183,7 +183,7 @@ $btn-paddings-x: (
 		}
 	}
 
-	&:focus:not(.action-button--disabled) {
+	&:focus:not(.action-button--disabled):not(.action-button--active) {
 		color: $btn-focus-text-color;
 
 		::slotted(kv-icon) {
@@ -231,7 +231,7 @@ $btn-paddings-x: (
 		background-position: left top;
 	}
 
-	&:focus:not(.action-button--disabled) {
+	&:focus:not(.action-button--disabled):not(.action-button--active) {
 		background: $btn-focus-background-color;
 	}
 
@@ -261,7 +261,7 @@ $btn-paddings-x: (
 		border-left-color: $btn-hover-border-color;
 	}
 
-	&:focus:not(.action-button--disabled) {
+	&:focus:not(.action-button--disabled):not(.action-button--active) {
 		&::before {
 			content: '';
 			filter: blur(2px);

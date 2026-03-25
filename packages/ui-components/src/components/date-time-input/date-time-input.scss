@@ -1,11 +1,5 @@
 @use '../../assets/styles' as *;
 
-kv-form-label {
-	user-select: none;
-
-	--label-color: #{kv-color('neutral-4')};
-}
-
 input {
 	@include ellipsis;
 	@include body-m-regular;
