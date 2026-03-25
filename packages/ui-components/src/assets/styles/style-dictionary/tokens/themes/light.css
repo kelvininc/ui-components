@@ -52,6 +52,11 @@ body[mode="light"] {
   --background-container-navigation-row-selected: var(--color-brand-100);
   --background-container-account-brand: var(--color-brand-500);
   --background-container-account-accent: var(--color-purple-500);
+  --background-container-card-recommendation-default: var(--color-gray-50);
+  --background-container-card-recommendation-subtle: var(--color-gray-100);
+  --background-container-card-default: var(--color-gray-200);
+  --background-container-card-hover: var(--color-brand-100);
+  --background-container-card-selected: var(--color-brand-100);
   --background-interactive-neutral-hover: var(--color-gray-500);
   --background-interactive-neutral-pressed: var(--color-gray-600);
   --background-interactive-neutral-disabled: var(--color-gray-300);
@@ -217,6 +222,7 @@ body[mode="light"] {
   --border-container-elevated-default: var(--color-gray-400);
   --border-container-neutral-default: var(--color-gray-400);
   --border-container-neutral-selected: var(--color-gray-950);
+  --border-container-neutral-subtle: var(--color-gray-300);
   --border-container-divider-default: var(--color-gray-300);
   --border-container-divider-strong: var(--color-gray-400);
   --border-container-modal-default: var(--color-gray-400);
@@ -225,6 +231,11 @@ body[mode="light"] {
   --border-container-accent-default: var(--color-teal-500);
   --border-container-table-default: var(--color-gray-400);
   --border-container-table-inverse: rgba(191, 191, 191, 0);
+  --border-container-card-recommendation-default: var(--color-gray-400);
+  --border-container-card-recommendation-applied: var(--color-green-500);
+  --border-container-card-recommendation-pending: var(--color-yellow-500);
+  --border-container-card-recommendation-failed: var(--color-red-500);
+  --border-container-card-recommendation-divider: var(--color-gray-400);
   --border-persistent-control-off: var(--color-gray-300);
   --border-persistent-control-on: var(--color-brand-200);
   --border-persistent-control-disabled: var(--color-gray-300);
@@ -286,6 +297,7 @@ body[mode="light"] {
   --icon-container-neutral-subtle: var(--color-gray-600);
   --icon-container-neutral-inverse: var(--color-gray-50);
   --icon-container-neutral-disabled: var(--color-gray-400);
+  --icon-container-neutral-muted: var(--color-gray-300);
   --icon-container-brand-soft: var(--color-brand-500);
   --icon-container-brand-default: var(--color-brand-500);
   --icon-container-accent-soft: var(--color-purple-500);

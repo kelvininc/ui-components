@@ -52,6 +52,11 @@ body[mode="night"] {
   --background-container-navigation-row-selected: var(--color-gray-600);
   --background-container-account-brand: var(--color-brand-500);
   --background-container-account-accent: var(--color-purple-500);
+  --background-container-card-recommendation-default: var(--color-gray-900);
+  --background-container-card-recommendation-subtle: var(--color-gray-800);
+  --background-container-card-default: var(--color-gray-700);
+  --background-container-card-hover: var(--color-gray-600);
+  --background-container-card-selected: var(--color-gray-600);
   --background-interactive-neutral-hover: var(--color-gray-600);
   --background-interactive-neutral-pressed: var(--color-gray-500);
   --background-interactive-neutral-disabled: var(--color-gray-700);
@@ -217,6 +222,7 @@ body[mode="night"] {
   --border-container-elevated-default: var(--color-gray-700);
   --border-container-neutral-default: var(--color-gray-700);
   --border-container-neutral-selected: var(--color-gray-50);
+  --border-container-neutral-subtle: var(--color-gray-600);
   --border-container-divider-default: var(--color-gray-600);
   --border-container-divider-strong: var(--color-gray-500);
   --border-container-modal-default: rgba(255, 255, 255, 0);
@@ -225,6 +231,11 @@ body[mode="night"] {
   --border-container-accent-default: var(--color-teal-500);
   --border-container-table-default: rgba(51, 51, 51, 0);
   --border-container-table-inverse: var(--color-gray-700);
+  --border-container-card-recommendation-default: rgba(64, 64, 64, 0);
+  --border-container-card-recommendation-applied: var(--color-green-500);
+  --border-container-card-recommendation-pending: var(--color-yellow-500);
+  --border-container-card-recommendation-failed: var(--color-red-500);
+  --border-container-card-recommendation-divider: var(--color-gray-600);
   --border-persistent-control-off: var(--color-gray-600);
   --border-persistent-control-on: var(--color-gray-300);
   --border-persistent-control-disabled: var(--color-gray-700);
@@ -286,6 +297,7 @@ body[mode="night"] {
   --icon-container-neutral-subtle: var(--color-gray-400);
   --icon-container-neutral-inverse: var(--color-gray-50);
   --icon-container-neutral-disabled: var(--color-gray-500);
+  --icon-container-neutral-muted: var(--color-gray-600);
   --icon-container-brand-soft: var(--color-brand-100);
   --icon-container-brand-default: var(--color-brand-500);
   --icon-container-accent-soft: var(--color-purple-100);
