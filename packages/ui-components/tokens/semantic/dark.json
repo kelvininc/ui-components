@@ -278,6 +278,35 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "card-recommendation": {
+        "default": {
+          "value": "{color.gray.900}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "subtle": {
+          "value": "{color.gray.800}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "card": {
+        "default": {
+          "value": "{color.gray.700}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "hover": {
+          "value": "{color.gray.600}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "selected": {
+          "value": "{color.gray.600}",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "interactive": {
@@ -1215,6 +1244,11 @@
           "value": "{color.gray.50}",
           "type": "color",
           "prefix": "color"
+        },
+        "subtle": {
+          "value": "{color.gray.600}",
+          "type": "color",
+          "prefix": "color"
         }
       },
       "divider": {
@@ -1251,6 +1285,45 @@
       "accent": {
         "default": {
           "value": "{color.teal.500}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "table": {
+        "default": {
+          "value": "#33333300",
+          "type": "color",
+          "prefix": "color"
+        },
+        "inverse": {
+          "value": "{color.gray.700}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "card-recommendation": {
+        "default": {
+          "value": "#40404000",
+          "type": "color",
+          "prefix": "color"
+        },
+        "applied": {
+          "value": "{color.green.500}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "pending": {
+          "value": "{color.yellow.500}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "failed": {
+          "value": "{color.red.500}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "divider": {
+          "value": "{color.gray.600}",
           "type": "color",
           "prefix": "color"
         }
@@ -1607,6 +1680,11 @@
         },
         "disabled": {
           "value": "{color.gray.500}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "muted": {
+          "value": "{color.gray.600}",
           "type": "color",
           "prefix": "color"
         }
