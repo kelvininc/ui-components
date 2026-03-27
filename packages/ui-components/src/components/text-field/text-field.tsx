@@ -339,7 +339,11 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 									{value && this.valuePrefix && <div class="value-prefix">{this.valuePrefix}</div>}
 								</div>
 								<div class="resize-container">
-									{this.fitContent && <span class="resize-text">{value || this.placeholder}</span>}
+									{this.fitContent && (
+										<span class="resize-text" part="input-text">
+											{value || this.placeholder}
+										</span>
+									)}
 									<slot name="input">
 										<input
 											ref={input => (this.nativeInput = input as HTMLInputElement)}
@@ -359,6 +363,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 											onPaste={this.onPasteHandler}
 											class={{ 'resize-input': true, 'forced-focus': this.focused }}
 											readonly={this.inputReadonly}
+											part="input-text"
 										/>
 									</slot>
 								</div>

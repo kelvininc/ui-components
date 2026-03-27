@@ -94,6 +94,7 @@ Type: `Promise<void>`
 | ------------------- | ------------------------------------------------------ |
 | `"badge"`           | badge rendered at the right of the text field          |
 | `"input-container"` | container that includes the input, right and left slot |
+| `"input-text"`      |                                                        |
 
 
 ## CSS Custom Properties

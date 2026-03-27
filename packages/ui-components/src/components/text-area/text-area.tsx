@@ -20,6 +20,8 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) counter?: boolean = true;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) counterAlwaysVisible?: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled: boolean = false;
 
 	/** @inheritdoc */
@@ -39,7 +41,7 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	@State() curCharLength = getUTF8StringLength(this.text);
 	@State() showPlaceholder = !this.text ? true : false;
 
-	syncTextValues(text?: string) {
+	private syncTextValues(text?: string) {
 		if (text != null) {
 			this.inputRef.innerText = text;
 		}
@@ -92,7 +94,7 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	render() {
 		return (
 			<Host>
-				<div class={{ 'text-area-container': true, 'disabled': this.disabled }}>
+				<div class={{ 'text-area-container': true, 'disabled': this.disabled, 'counter-always-visible': this.counterAlwaysVisible }}>
 					{this.icon && <kv-icon name={this.icon} />}
 					<div class="text-area" onClick={this.focusTextArea}>
 						<div
