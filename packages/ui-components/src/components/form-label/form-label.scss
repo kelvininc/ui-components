@@ -10,6 +10,7 @@
 	 --label-bottom-spacing: var(--spacing-2xs, #{$spacing});
 
 	 display: inline-flex;
+	 user-select: none;
 }
 
 .required {
