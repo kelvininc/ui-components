@@ -12,6 +12,8 @@ export interface ITextArea {
 	maxCharLength?: number;
 	/** (optional) If `true` the chars counter is displayed. Default: `true` */
 	counter?: boolean;
+	/** (optional) If `true` the counter is always visible (not only on focus). Default: `false` */
+	counterAlwaysVisible?: boolean;
 	/** (optional) If `true` the text area is disabled. Default: `false`. */
 	disabled?: boolean;
 }

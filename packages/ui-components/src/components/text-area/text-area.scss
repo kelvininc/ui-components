@@ -79,6 +79,14 @@
 		}
 	}
 
+	&.counter-always-visible {
+		.text-area {
+			.character-counter {
+				display: block;
+			}
+		}
+	}
+
 	&.disabled {
 		.text-area {
 			.text-area-wrapper {
