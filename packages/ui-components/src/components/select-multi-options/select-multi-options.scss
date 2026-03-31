@@ -28,14 +28,14 @@ kv-select {
 .selected-items-label {
 	@include ellipsis;
 	@include body-s-regular;
-	color: var(--text-container-neutral-subtle, #{kv-color('neutral-4')});
+	color: var(--text-container-neutral-subtle);
 	text-wrap: nowrap;
 }
 
 .counter {
 	display: flex;
 	align-items: center;
-	color: var(--text-container-neutral-subtle, #{kv-color('neutral-4')});
+	color: var(--text-container-neutral-subtle);
 	@include body-xs-regular;
 }
 
@@ -43,22 +43,22 @@ kv-select {
 	position: absolute;
 	top: 0;
 	left: 0;
-	border-radius: var(--slider-radius-default, #{$spacing});
-	border: var(--slider-border-thickness-default, 1px) solid var(--slider-border-color-default, #{kv-color('neutral-6')});
+	border-radius: var(--slider-radius-default);
+	border: var(--slider-border-thickness-default) solid var(--slider-border-color-default);
 	width: calc(100% - 2px);
 	height: calc(100% - 2px);
-	background: var(--overlay-surface-opacity-80, #{kv-color('neutral-7', 'base', 0.8)});
+	background: var(--overlay-surface-opacity-80);
 	z-index: 1;
 
 	&.has-shortcuts .create-new-option-form {
 		bottom: 36px;
-		border-bottom: var(--slider-border-thickness-default, 1px) solid var(--slider-border-color-default, #{kv-color('neutral-6')});
+		border-bottom: var(--slider-border-thickness-default) solid var(--slider-border-color-default);
 	}
 }
 
 .form-container {
-	background: var(--slider-background-default, #{kv-color('neutral-7')});
-	padding: var(--spacing-xl, #{$spacing-3x}) var(--spacing-2xl, #{$spacing-4x});
+	background: var(--slider-background-default);
+	padding: var(--spacing-xl) var(--spacing-2xl);
 }
 
 .create-new-option-form {
@@ -66,12 +66,12 @@ kv-select {
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	border-top: var(--slider-border-thickness-default, 1px) solid var(--slider-border-color-default, #{kv-color('neutral-6')});
+	border-top: var(--slider-border-thickness-default) solid var(--slider-border-color-default);
 }
 
 .create-new-option-button {
-	border-top: var(--slider-border-thickness-default, 1px) solid var(--slider-border-color-default, #{kv-color('neutral-6')});
-	padding: var(--spacing-xl, #{$spacing-3x}) 0;
+	border-top: var(--slider-border-thickness-default) solid var(--slider-border-color-default);
+	padding: var(--spacing-xl) 0;
 }
 
 .no-results-found,
@@ -81,7 +81,7 @@ kv-select {
 
 	.illustration-message {
 		max-width: 292px;
-		padding: var(--spacing-5xl, #{$spacing-8x}) var(--spacing-xl, #{$spacing-3x});
+		padding: var(--spacing-5xl) var(--spacing-xl);
 		align-self: center;
 	}
 }

@@ -14,16 +14,16 @@
 	 * @prop --radio-background-disabled-color: Radio circle background color when state is disabled.
 	 */
 
-	--input-height-large: var(--input-height-regular, 36px);
-	--input-height-small: var(--input-height-compact, 28px);
+	--input-height-large: var(--input-height-regular);
+	--input-height-small: var(--input-height-compact);
 	--input-gap-large: var(--spacing-none);
 	--input-gap-small: var(--spacing-xs);
 	--input-label-color: var(--text-surface-neutral-secondary);
 
-	--radio-input-large: var(--size-xl, 14px);
-	--radio-input-small: var(--size-default, 14px);
-	--radio-input-default-color: var(--icon-persistent-indicator-on, #{kv-color('neutral-0')});
-	--radio-input-disabled-color: var(--icon-surface-neutral-disabled, #{kv-color('neutral-0')});
+	--radio-input-large: var(--size-xl);
+	--radio-input-small: var(--size-default);
+	--radio-input-default-color: var(--icon-persistent-indicator-on);
+	--radio-input-disabled-color: var(--icon-surface-neutral-disabled);
 	--radio-background-default-color: var(--transparent);
 	--radio-background-hover-color: var(--overlay-interactive-opacity-10);
 	--radio-background-pressed-color: var(--overlay-interactive-opacity-16);

@@ -1,4 +1,5 @@
 @use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
+
 .FormContainer {
 	/**
 	* @prop --schema-form-x-padding: horizontal form padding
@@ -7,8 +8,8 @@
 	* @prop --schema-form-fields-x-gap: horizontal gap between fields
 	* @prop --schema-form-fields-y-gap: vertical gap between fields
 	*/
-	--schema-form-x-padding: 0px;
-	--schema-form-y-padding: 0px;
+	--schema-form-x-padding: 0;
+	--schema-form-y-padding: 0;
 	--schema-form-max-width: 100%;
 	--schema-form-fields-x-gap: #{$spacing-5x};
 	--schema-form-fields-y-gap: #{$spacing-5x};
@@ -18,7 +19,6 @@
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	position: relative;
 	padding: var(--schema-form-y-padding) 0;
 	box-sizing: border-box;
 	position: relative;
@@ -40,8 +40,7 @@
 
 	form > div[class^='FieldTemplate'] {
 		height: 100%;
-		overflow-y: auto;
-		overflow-x: hidden;
+		overflow: hidden auto;
 		box-sizing: border-box;
 		padding: 0 var(--schema-form-x-padding);
 	}
@@ -83,6 +82,8 @@ body {
 	.FormContainer form {
 		@include kelvin-scrollbar;
 	}
+
+	/* stylelint-disable-next-line no-descending-specificity */
 	.FormFooter.Scrolling {
 		border-color: kv-color('neutral-6');
 	}

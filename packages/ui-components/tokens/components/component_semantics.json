@@ -1515,7 +1515,7 @@
       },
       "secondary": {
         "default": {
-          "value": "{background.container.neutral.subtlest}",
+          "value": "{background.container.alert-secondary.default}",
           "type": "color",
           "prefix": "component_semantics"
         }

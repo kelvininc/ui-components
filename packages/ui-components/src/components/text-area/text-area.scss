@@ -5,7 +5,7 @@
 	* @prop --height-default: The height of the text area when is not focused.
 	* @prop --height-active: The height of the text are when is focused.
 	*/
-	--height-default: var(--text-area-height-default, 36px);
+	--height-default: var(--text-area-height-default);
 	--height-active: 100px;
 }
 

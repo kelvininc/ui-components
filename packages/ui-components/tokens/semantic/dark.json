@@ -25,7 +25,7 @@
       },
       "sidebar": {
         "default": {
-          "value": "{color.gray.800}",
+          "value": "{color.gray.900}",
           "type": "color",
           "prefix": "color"
         },
@@ -295,6 +295,13 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "alert-secondary": {
+        "default": {
+          "value": "{color.gray.700}",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "interactive": {
@@ -557,7 +564,19 @@
           "prefix": "color"
         },
         "default": {
-          "value": "{color.gray.700}",
+          "value": "{color.gray.800}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "card-application": {
+        "default": {
+          "value": "{color.gray.900}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "hover": {
+          "value": "{color.gray.800}",
           "type": "color",
           "prefix": "color"
         }
@@ -1451,6 +1470,18 @@
       "graphic-recommendation": {
         "default": {
           "value": "#40404000",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "radio-selected": {
+        "hover": {
+          "value": "{color.gray.50}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "selected": {
+          "value": "{color.gray.50}",
           "type": "color",
           "prefix": "color"
         }

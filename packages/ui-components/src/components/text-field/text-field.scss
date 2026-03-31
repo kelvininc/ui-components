@@ -40,56 +40,56 @@
 	--input-width: auto;
 	--input-min-width: 140px;
 	--input-max-width: 100%;
-	--input-height-large: var(--input-height-regular, 36px);
-	--input-height-small: var(--input-height-compact, 28px);
+	--input-height-large: var(--input-height-regular);
+	--input-height-small: var(--input-height-compact);
 	--input-gap-x: var(--input-gap-vertical-default);
-	--input-prefix-spacing-x: var(--input-gap-vertical-small, 2px);
-	--input-gap-y: var(--input-gap-horizontal-horizontal, #{$spacing});
+	--input-prefix-spacing-x: var(--input-gap-vertical-small);
+	--input-gap-y: var(--input-gap-horizontal-horizontal);
 	--input-padding-x-large: var(--input-padding-x-regular);
 	--input-padding-x-small: var(--input-padding-x-compact);
-	--input-radius-large: var(--input-radius-regular, 4px);
-	--input-radius-small: var(--input-radius-compact, 4px);
-	--input-border-thickness: var(--input-border-thickness-default, 1px);
-	--icon-size-large: var(--input-icon-size-regular, 24px);
-	--icon-size-small: var(--input-icon-size-regular, 16px);
-	--action-icon-size: var(--size-lg, 16px);
+	--input-radius-large: var(--input-radius-regular);
+	--input-radius-small: var(--input-radius-compact);
+	--input-border-thickness: var(--input-border-thickness-default);
+	--icon-size-large: var(--input-icon-size-regular);
+	--icon-size-small: var(--input-icon-size-regular);
+	--action-icon-size: var(--size-lg);
 
 	//Colors
 	////Default
-	--text-color-input-default: var(--input-text-text-input-default, #{kv-color('neutral-4')});
-	--text-color-help-text-default: var(--input-text-helper-text-default, #{kv-color('neutral-4')});
-	--border-color-default: var(--input-border-color-default, #{kv-color('neutral-6')});
-	--background-color-default: var(--input-background-default, #{kv-color('neutral-6')});
-	--text-color-icon-default: var(--input-icon-color-default, #{kv-color('neutral-4')});
-	--text-color-action-icon-default: var(--input-icon-color-default, #{kv-color('neutral-4')});
+	--text-color-input-default: var(--input-text-text-input-default);
+	--text-color-help-text-default: var(--input-text-helper-text-default);
+	--border-color-default: var(--input-border-color-default);
+	--background-color-default: var(--input-background-default);
+	--text-color-icon-default: var(--input-icon-color-default);
+	--text-color-action-icon-default: var(--input-icon-color-default);
 
 	/// Selected
-	--text-color-input-focused: var(--input-text-text-input-selected, #{kv-color('neutral-2')});
-	--border-color-focused: var(--input-border-color-selected, #{kv-color('neutral-0')});
-	--text-color-icon-focused: var(--icon-interactive-input-selected, #{kv-color('neutral-2')});
-	--text-color-action-icon-focused: var(--icon-interactive-input-selected, #{kv-color('neutral-2')});
+	--text-color-input-focused: var(--input-text-text-input-selected);
+	--border-color-focused: var(--input-border-color-selected);
+	--text-color-icon-focused: var(--icon-interactive-input-selected);
+	--text-color-action-icon-focused: var(--icon-interactive-input-selected);
 
 	/// Filled
-	--text-color-input-filled: var(--input-text-text-input-filled, #{kv-color('neutral-2')});
-	--text-color-icon-filled: var(--icon-interactive-input-filled, #{kv-color('neutral-2')});
-	--text-color-action-icon-filled: var(--icon-interactive-input-filled, #{kv-color('neutral-2')});
-	--border-color-filled: var(--input-border-color-filled, #{kv-color('neutral-6')});
+	--text-color-input-filled: var(--input-text-text-input-filled);
+	--text-color-icon-filled: var(--icon-interactive-input-filled);
+	--text-color-action-icon-filled: var(--icon-interactive-input-filled);
+	--border-color-filled: var(--input-border-color-filled);
 
 	/// Disabled
-	--text-color-input-disabled: var(--input-text-text-input-disabled, #{kv-color('neutral-5')});
-	--text-color-placeholder-disabled: var(--input-text-text-input-disabled, #{kv-color('neutral-5')});
-	--border-color-disabled: var(--input-border-color-disabled, #{kv-color('neutral-7')});
-	--background-color-disabled: var(--input-background-disabled, #{kv-color('neutral-7')});
-	--text-color-icon-disabled: var(--icon-interactive-input-disabled, #{kv-color('neutral-5')});
-	--text-color-action-icon-disabled: var(--icon-interactive-input-disabled, #{kv-color('neutral-5')});
+	--text-color-input-disabled: var(--input-text-text-input-disabled);
+	--text-color-placeholder-disabled: var(--input-text-text-input-disabled);
+	--border-color-disabled: var(--input-border-color-disabled);
+	--background-color-disabled: var(--input-background-disabled);
+	--text-color-icon-disabled: var(--icon-interactive-input-disabled);
+	--text-color-action-icon-disabled: var(--icon-interactive-input-disabled);
 
 	/// Error
-	--text-color-help-text-error: var(--input-text-helper-text-error, #{kv-color('error', 'light')});
-	--border-color-error: var(--input-border-color-error, #{kv-color('error')});
+	--text-color-help-text-error: var(--input-text-helper-text-error);
+	--border-color-error: var(--input-border-color-error);
 }
 
 kv-form-label {
-	--label-color: var(--input-text-label-default, #{kv-color('neutral-4')});
+	--label-color: var(--input-text-label-default);
 	--label-gap: var(--input-gap-vertical-small);
 	--label-required-color: var(--input-text-required-default);
 	--label-bottom-spacing: var(--spacing-none);
@@ -212,7 +212,7 @@ input {
 		height: 100%;
 		display: flex;
 		align-items: center;
-		gap: var(--spacing-xs, #{$spacing});
+		gap: var(--spacing-xs);
 
 		color: var(--text-color-input-default);
 

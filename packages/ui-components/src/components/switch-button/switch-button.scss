@@ -1,5 +1,6 @@
 @use '../../assets/styles' as *;
 
+/* stylelint-disable csstools/value-no-unknown-custom-properties */
 @mixin button-theme($size) {
 	height: var(--switch-height-#{$size});
 	width: var(--switch-width-#{$size});
@@ -19,6 +20,7 @@
 		transform: translateX(calc(var(--switch-width-#{$size}) - var(--switch-icon-size-#{$size})));
 	}
 }
+/* stylelint-enable csstools/value-no-unknown-custom-properties */
 
 :host {
 	/**
@@ -29,31 +31,31 @@
 	 * @prop --switch-disabled-icon-color: Icon square container background color when's disabled.
 	 */
 
-	--off-background-color: var(--switch-background-off, #{kv-color('neutral-5')});
-	--on-background-color: var(--switch-background-on, #{kv-color('primary')});
-	--disabled-background-color: var(--switch-background-disabled, #{kv-color('neutral-5')});
-	--switch-icon-color: var(--switch-icon-color-default, #{kv-color('primary', 'contrast')});
-	--switch-disabled-icon-color: var(--switch-icon-color-disabled, #{kv-color('neutral-6')});
+	--off-background-color: var(--switch-background-off);
+	--on-background-color: var(--switch-background-on);
+	--disabled-background-color: var(--switch-background-disabled);
+	--switch-icon-color: var(--switch-icon-color-default);
+	--switch-disabled-icon-color: var(--switch-icon-color-disabled);
 
 	// sizing - maps component size names (large/small) to token names (regular/compact)
-	--switch-height-large: var(--switch-height-regular, 20px);
-	--switch-height-small: var(--switch-height-compact, 16px);
-	--switch-width-large: var(--switch-width-regular, 40px);
-	--switch-width-small: var(--switch-width-compact, 32px);
-	--switch-icon-size-large: var(--switch-icon-size-regular, 16px);
-	--switch-icon-size-small: var(--switch-icon-size-compact, 11px);
-	--switch-padding-large: var(--spacing-2xs, 2px);
+	--switch-height-large: var(--switch-height-regular);
+	--switch-height-small: var(--switch-height-compact);
+	--switch-width-large: var(--switch-width-regular);
+	--switch-width-small: var(--switch-width-compact);
+	--switch-icon-size-large: var(--switch-icon-size-regular);
+	--switch-icon-size-small: var(--switch-icon-size-compact);
+	--switch-padding-large: var(--spacing-2xs);
 	--switch-padding-small: 2.5px;
 
 	display: flex;
 	align-items: center;
-	gap: var(--spacing-md, $spacing-2x);
+	gap: var(--spacing-md);
 }
 
 .switch-button {
 	display: flex;
 	box-sizing: border-box;
-	border-radius: var(--switch-radius-default, 4px);
+	border-radius: var(--switch-radius-default);
 	background-color: var(--off-background-color);
 	transition: background-color 0.3s ease-out;
 	

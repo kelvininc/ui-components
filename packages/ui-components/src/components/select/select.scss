@@ -13,10 +13,10 @@
 	--select-min-height: auto;
 	--select-max-width: auto;
 	--select-min-width: max-content;
-	--select-background-color: var(--slider-background-default, #{kv-color('neutral-7')});
-	--select-border: var(--slider-border-thickness-default, 1px) solid var(--slider-border-color-default, #{kv-color('neutral-6')});
-	--select-inner-border: 1px solid var(--border-on-color-neutral-default, #{kv-color('neutral-6')});
-	--select-border-radius: var(--slider-radius-default, #{$spacing});
+	--select-background-color: var(--slider-background-default);
+	--select-border: var(--slider-border-thickness-default) solid var(--slider-border-color-default);
+	--select-inner-border: 1px solid var(--border-on-color-neutral-default);
+	--select-border-radius: var(--slider-radius-default);
 }
 
 .select-container {
@@ -46,8 +46,8 @@
 .select-header-container {
 	display: flex;
 	flex-direction: column;
-	gap: var(--spacing-md, #{$spacing-3x});
-	padding: 0 var(--spacing-xl, #{$spacing-4x}) var(--spacing-md, #{$spacing-3x});
+	gap: var(--spacing-md);
+	padding: 0 var(--spacing-xl) var(--spacing-md);
 	border-bottom: var(--select-inner-border);
 }
 
@@ -55,15 +55,15 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	gap: var(--spacing-xl, #{$spacing-3x});
+	gap: var(--spacing-xl);
 
 	.footer-actions {
 		@include body-s-regular;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		gap: var(--spacing-xs, #{$spacing-2x});
-		color: var(--text-container-neutral-subtle, #{kv-color('neutral-4')});
+		gap: var(--spacing-xs);
+		color: var(--text-container-neutral-subtle);
 	}
 
 	.divider {
@@ -71,7 +71,7 @@
 		height: 100%;
 
 		&::after {
-			@include kelvin-vertical-divider(var(--text-on-color-neutral-muted, #{kv-color('neutral-6')}));
+			@include kelvin-vertical-divider(var(--text-on-color-neutral-muted));
 		}
 	}
 }

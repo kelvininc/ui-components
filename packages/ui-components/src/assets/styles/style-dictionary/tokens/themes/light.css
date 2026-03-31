@@ -55,6 +55,7 @@ body[mode="light"] {
   --background-container-account-accent: var(--color-purple-500);
   --background-container-card-recommendation-default: var(--color-gray-50);
   --background-container-card-recommendation-subtle: var(--color-gray-100);
+  --background-container-alert-secondary-default: var(--color-gray-200);
   --background-interactive-neutral-hover: var(--color-gray-500);
   --background-interactive-neutral-pressed: var(--color-gray-600);
   --background-interactive-neutral-disabled: var(--color-gray-300);
@@ -100,7 +101,9 @@ body[mode="light"] {
   --background-interactive-table-pin-pressed: var(--color-brand-100);
   --background-interactive-card-hover: var(--color-gray-200);
   --background-interactive-card-selected: var(--color-brand-100);
-  --background-interactive-card-default: var(--color-gray-200);
+  --background-interactive-card-default: var(--color-gray-50);
+  --background-interactive-card-application-default: var(--color-gray-50);
+  --background-interactive-card-application-hover: var(--color-gray-200);
   --background-persistent-control-on-defaullt: var(--color-brand-500);
   --background-persistent-control-on-subtle: var(--color-brand-100);
   --background-persistent-control-off-neutral: var(--color-gray-600);
@@ -246,6 +249,8 @@ body[mode="light"] {
   --border-container-card-failed: var(--color-red-500);
   --border-container-card-divider: var(--color-gray-400);
   --border-container-graphic-recommendation-default: var(--color-gray-300);
+  --border-container-radio-selected-hover: var(--color-gray-950);
+  --border-container-radio-selected-selected: var(--color-gray-950);
   --border-persistent-control-off: var(--color-gray-300);
   --border-persistent-control-on: var(--color-brand-200);
   --border-persistent-control-disabled: var(--color-gray-300);
