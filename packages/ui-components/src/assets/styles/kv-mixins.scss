@@ -98,7 +98,7 @@
 }
 
 @mixin kelvin-scrollbar {
-	@include custom-scrollbar(var(--scrollbar-thumb-default, kv-color('neutral-6')));
+	@include custom-scrollbar(var(--scrollbar-thumb-default));
 }
 
 /// @deprecated Use kelvin-scrollbar instead
@@ -107,8 +107,7 @@
 	@include custom-scrollbar(kv-color('neutral-6'));
 }
 
-///TODO: Fix (--border-animation-1, --border-animation-2) with CSS Variables from Design Tokens
-@mixin rotate-border-animation($border-radius: var(--radius-md, $spacing-2x), $border-width: 2px, $inset: 0) {
+@mixin rotate-border-animation($border-radius: var(--radius-md), $border-width: 2px, $inset: 0) {
 	position: relative;
 
 	&::before {
@@ -122,9 +121,9 @@
 		border-radius: $border-radius;
 		background-image: conic-gradient(
 			from var(--rotation),
-			var(--border-animation-1, kv-color('secondary-5')),
-			var(--border-animation-2, kv-color('secondary-2')),
-			var(--border-animation-1, kv-color('secondary-5'))
+			var(--color-teal-500),
+			var(--color-teal-600),
+			var(--color-teal-500)
 		);
 		background-origin: border-box;
 		mask: linear-gradient(#000, #000), linear-gradient(#000, #000);

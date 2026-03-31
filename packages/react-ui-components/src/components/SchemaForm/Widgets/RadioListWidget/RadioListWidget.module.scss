@@ -2,9 +2,8 @@
 
 .RadioListContainer {
 	display: flex;
-	flex-direction: column;
+	flex-flow: column wrap;
 	gap: $spacing-2x;
-	flex-wrap: wrap;
 	margin-left: $spacing;
 
 	&.Inline {

@@ -5,7 +5,7 @@
 	 * @prop --portal-arrow-color: arrow color.
 	 */
 
-	--portal-arrow-color: var(--tooltip-background-default, #{kv-color('neutral-6')});
+	--portal-arrow-color: var(--tooltip-background-default);
 }
 
 .portal-container {

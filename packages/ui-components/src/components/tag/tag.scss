@@ -12,9 +12,9 @@
 	 * @prop --tag-content-padding-y: Vertical padding inside the tag.
 	 */
 
-	--tag-content-gap: var(--spacing-xs, #{$spacing});
-	--tag-content-padding-x: var(--spacing-md, #{$spacing});
-	--tag-content-padding-y: var(--spacing-none, 2px);
+	--tag-content-gap: var(--spacing-xs);
+	--tag-content-padding-x: var(--spacing-md);
+	--tag-content-padding-y: var(--spacing-none);
 }
 
 .tag-container {
@@ -23,19 +23,21 @@
 	align-items: center;
 	gap: var(--tag-content-gap);
 	width: fit-content;
-	height: var(--size-xl, 24px);
+	max-width: stretch;
+	height: var(--size-xl);
 	border-radius: var(--radius-md);
 	padding: var(--tag-content-padding-y) var(--tag-content-padding-x);
 	background-color: var(--tag-background-color, var(--_tag-bg));
 
 	kv-icon {
 		--icon-color: var(--tag-icon-color, var(--_tag-icon));
-		--icon-width: var(--size-md, 12px);
-		--icon-height: var(--size-md, 12px);
+		--icon-width: var(--size-md);
+		--icon-height: var(--size-md);
 	}
 
 	.tag-label {
 		@include label-m-regular;
+		@include ellipsis;
 
 		color: var(--tag-label-color, var(--_tag-label));
 	}
