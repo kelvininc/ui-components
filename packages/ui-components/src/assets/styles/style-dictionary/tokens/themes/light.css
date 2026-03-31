@@ -55,6 +55,7 @@ body[mode="light"] {
   --background-container-account-accent: var(--color-purple-500);
   --background-container-card-recommendation-default: var(--color-gray-50);
   --background-container-card-recommendation-subtle: var(--color-gray-100);
+  --background-container-alert-secondary-default: var(--color-gray-200);
   --background-interactive-neutral-hover: var(--color-gray-500);
   --background-interactive-neutral-pressed: var(--color-gray-600);
   --background-interactive-neutral-disabled: var(--color-gray-300);
@@ -100,7 +101,9 @@ body[mode="light"] {
   --background-interactive-table-pin-pressed: var(--color-brand-100);
   --background-interactive-card-hover: var(--color-gray-200);
   --background-interactive-card-selected: var(--color-brand-100);
-  --background-interactive-card-default: var(--color-gray-200);
+  --background-interactive-card-default: var(--color-gray-50);
+  --background-interactive-card-application-default: var(--color-gray-50);
+  --background-interactive-card-application-hover: var(--color-gray-200);
   --background-persistent-control-on-defaullt: var(--color-brand-500);
   --background-persistent-control-on-subtle: var(--color-brand-100);
   --background-persistent-control-off-neutral: var(--color-gray-600);
@@ -110,6 +113,9 @@ body[mode="light"] {
   --background-persistent-tab-hover: var(--color-brand-100);
   --background-persistent-tab-selected: var(--color-brand-100);
   --background-persistent-tab-disabled: var(--color-gray-300);
+  --background-persistent-radio-selector-hover: var(--color-gray-200);
+  --background-persistent-radio-selector-selected: var(--color-brand-100);
+  --background-persistent-radio-selector-default: var(--color-gray-50);
   --background-canvas-neutral-default: var(--color-gray-100);
   --text-surface-neutral-primary: var(--color-gray-950);
   --text-surface-neutral-secondary: var(--color-gray-950);
@@ -179,6 +185,9 @@ body[mode="light"] {
   --text-persistent-tab-default: var(--color-gray-500);
   --text-persistent-tab-seleted: var(--color-brand-500);
   --text-persistent-tab-disabled: var(--color-gray-400);
+  --text-persistent-radio-selector-default: var(--color-gray-950);
+  --text-persistent-radio-selector-hover: var(--color-gray-950);
+  --text-persistent-radio-selector-seleted: var(--color-brand-500);
   --text-container-neutral-default: var(--color-gray-950);
   --text-container-neutral-inverse: var(--color-gray-950);
   --text-container-neutral-disabled: var(--color-gray-400);
@@ -193,7 +202,8 @@ body[mode="light"] {
   --text-container-status-warning-strong: var(--color-yellow-500);
   --text-container-status-danger-default: var(--color-red-500);
   --text-container-status-info-default: var(--color-blue-500);
-  --text-container-elevated-info-panel-info-panel: var(--color-gray-950);
+  --text-container-elevated-info-panel-default: var(--color-gray-950);
+  --text-container-elevated-info-panel-subtle: var(--color-gray-500);
   --text-container-elevated-tooltip-default: var(--color-gray-950);
   --text-container-elevated-toast-default: var(--color-gray-950);
   --text-container-elevated-toast-subtle: var(--color-gray-500);
@@ -246,6 +256,8 @@ body[mode="light"] {
   --border-container-card-failed: var(--color-red-500);
   --border-container-card-divider: var(--color-gray-400);
   --border-container-graphic-recommendation-default: var(--color-gray-300);
+  --border-container-radio-selected-hover: var(--color-gray-950);
+  --border-container-radio-selected-selected: var(--color-gray-950);
   --border-persistent-control-off: var(--color-gray-300);
   --border-persistent-control-on: var(--color-brand-200);
   --border-persistent-control-disabled: var(--color-gray-300);
@@ -256,6 +268,9 @@ body[mode="light"] {
   --border-persistent-tab-disabled: rgba(178, 212, 255, 0);
   --border-persistent-wizard-selected: var(--color-green-500);
   --border-persistent-wizard-default: var(--color-gray-300);
+  --border-persistent-radio-selector-seleted: var(--color-brand-200);
+  --border-persistent-radio-selector-hover: var(--color-gray-400);
+  --border-persistent-radio-selector-default: var(--color-gray-400);
   --border-on-color-neutral-default: var(--color-gray-400);
   --border-on-color-button-alert-success: var(--color-green-600);
   --border-on-color-button-alert-warning: var(--color-yellow-600);

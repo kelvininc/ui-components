@@ -10,7 +10,7 @@
 	--container-width: fit-content;
 	--container-max-width: 280px;
 
-	--container-background-color: var(--tooltip-background-default, #{kv-color('neutral-6')});
+	--container-background-color: var(--tooltip-background-default);
 }
 
 .tooltip-container {
@@ -21,12 +21,12 @@
 	word-wrap: break-word;
 	background-color: var(--container-background-color);
 	user-select: none;
-	border-radius: var(--tooltip-radius-default, 2px);
-	padding: var(--tooltip-padding-y-default, #{$spacing}) var(--tooltip-padding-x-default, #{$spacing-2x});
+	border-radius: var(--tooltip-radius-default);
+	padding: var(--tooltip-padding-y-default) var(--tooltip-padding-x-default);
 	white-space: var(--container-white-space);
 
 	.tooltip-text {
 		@include body-m-semibold();
-		color: var(--tooltip-text-default, #{kv-color('neutral-2')});
+		color: var(--tooltip-text-default);
 	}
 }

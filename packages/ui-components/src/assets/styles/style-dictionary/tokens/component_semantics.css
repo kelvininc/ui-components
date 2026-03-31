@@ -129,9 +129,10 @@ body {
   --info-panel-padding-x-default: var(--spacing-md);
   --info-panel-padding-y-default: var(--spacing-md);
   --info-panel-radius-default: var(--radius-md);
-  --info-panel-title-default: var(--text-container-elevated-info-panel-info-panel);
+  --info-panel-title-default: var(--text-container-elevated-info-panel-default);
   --info-panel-background-default: var(--background-container-elevated-info-panel);
-  --info-panel-content-default: var(--text-container-elevated-info-panel-info-panel);
+  --info-panel-content-default: var(--text-container-elevated-info-panel-default);
+  --info-panel-content-subtle: var(--text-container-elevated-info-panel-subtle);
   --info-panel-gap-default: var(--spacing-md);
   --info-panel-icon-color-default: var(--icon-container-elevated-info-panel-info-panel);
   --tab-primary-padding-x-default: var(--spacing-4xl);
@@ -240,7 +241,7 @@ body {
   --alert-background-primary-warning: var(--background-container-status-warning-strong);
   --alert-background-primary-error: var(--background-container-status-danger-strong);
   --alert-background-primary-info: var(--background-container-status-info-strong);
-  --alert-background-secondary-default: var(--background-container-neutral-subtlest);
+  --alert-background-secondary-default: var(--background-container-alert-secondary-default);
   --alert-padding-x-default: var(--spacing-2xl);
   --alert-padding-x-small: var(--spacing-xl);
   --alert-padding-y-default: var(--spacing-2xl);
