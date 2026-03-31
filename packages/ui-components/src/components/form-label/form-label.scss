@@ -4,10 +4,10 @@
 	/**
 	 * @prop --label-color: Label Text color.
 	 */
-	 --label-color: var(--text-surface-neutral-tertiary, #{kv-color('neutral-4')});
-	 --label-required-color: var(--text-surface-danger-default, #{kv-color('error')});
-	 --label-gap: var(--spacing-2xs, #{$spacing});
-	 --label-bottom-spacing: var(--spacing-2xs, #{$spacing});
+	 --label-color: var(--text-surface-neutral-tertiary);
+	 --label-required-color: var(--text-surface-danger-default);
+	 --label-gap: var(--spacing-2xs);
+	 --label-bottom-spacing: var(--spacing-2xs);
 
 	 display: inline-flex;
 	 user-select: none;

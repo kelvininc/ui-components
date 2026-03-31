@@ -1,7 +1,9 @@
 @use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
+
 .ArrayItemList {
 	display: flex;
 	flex-direction: column;
+	/* stylelint-disable-next-line csstools/value-no-unknown-custom-properties -- vars defined by parent component */
 	gap: var(--schema-form-fields-y-gap) var(--schema-form-fields-x-gap);
 }
 

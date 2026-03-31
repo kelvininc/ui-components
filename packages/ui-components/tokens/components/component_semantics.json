@@ -803,7 +803,7 @@
     },
     "title": {
       "default": {
-        "value": "{text.container.elevated.info-panel.info-panel}",
+        "value": "{text.container.elevated.info-panel.default}",
         "type": "color",
         "prefix": "component_semantics"
       }
@@ -817,7 +817,12 @@
     },
     "content": {
       "default": {
-        "value": "{text.container.elevated.info-panel.info-panel}",
+        "value": "{text.container.elevated.info-panel.default}",
+        "type": "color",
+        "prefix": "component_semantics"
+      },
+      "subtle": {
+        "value": "{text.container.elevated.info-panel.subtle}",
         "type": "color",
         "prefix": "component_semantics"
       }
@@ -1515,7 +1520,7 @@
       },
       "secondary": {
         "default": {
-          "value": "{background.container.neutral.subtlest}",
+          "value": "{background.container.alert-secondary.default}",
           "type": "color",
           "prefix": "component_semantics"
         }
