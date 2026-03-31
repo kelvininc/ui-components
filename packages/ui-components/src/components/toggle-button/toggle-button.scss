@@ -35,45 +35,45 @@
 	 * @prop --border-radius-bottom-right: toggle button component's bottom-right border radius.
 	 */
 
-	--button-height-large: var(--toggle-height-regular, 36px);
-	--button-height-small: var(--toggle-height-compact, 28px);
-	--button-width: fit-content;
+	--button-height-large: var(--toggle-height-regular);
+	--button-height-small: var(--toggle-height-compact);
+	--button-width: 100%;
 
-	--button-padding-large: #{var(--spacing-none, #{$spacing-2x}) var(--toggle-padding-x-default, #{$spacing-4x})};
-	--button-padding-small: #{var(--spacing-none, #{$spacing}) var(--toggle-padding-x-default, #{$spacing-3x})};
+	--button-padding-large: #{var(--spacing-none) var(--toggle-padding-x-default)};
+	--button-padding-small: #{var(--spacing-none) var(--toggle-padding-x-default)};
 	
-	--button-icon-height-large: var(--toggle-icon-size-default, 24px);
-	--button-icon-height-small: var(--toggle-icon-size-default, 16px);
-	--button-icon-width-large: var(--toggle-icon-size-default, 24px);
-	--button-icon-width-small: var(--toggle-icon-size-default, 16px);
+	--button-icon-height-large: var(--toggle-icon-size-default);
+	--button-icon-height-small: var(--toggle-icon-size-default);
+	--button-icon-width-large: var(--toggle-icon-size-default);
+	--button-icon-width-small: var(--toggle-icon-size-default);
 
-	--text-color-default: var(--toggle-text-off, #{kv-color('neutral-2')});
-	--text-color-active: var(--toggle-text-on, #{kv-color('neutral-0')});
-	--text-color-disabled: var(--toggle-text-disabled, #{kv-color('neutral-5')});
-	--text-color-disabled-active: var(--toggle-text-disabled, #{kv-color('neutral-5')});
+	--text-color-default: var(--toggle-text-off);
+	--text-color-active: var(--toggle-text-on);
+	--text-color-disabled: var(--toggle-text-disabled);
+	--text-color-disabled-active: var(--toggle-text-disabled);
 
-	--icon-color-default: var(--toggle-icon-color-off, #{kv-color('neutral-2')});
-	--icon-color-active: var(--toggle-icon-color-on, #{kv-color('neutral-0')});
-	--icon-color-disabled: var(--toggle-icon-color-disabled, #{kv-color('neutral-5')});
-	--icon-color-disabled-active: var(--toggle-icon-color-disabled, #{kv-color('neutral-5')});
+	--icon-color-default: var(--toggle-icon-color-off);
+	--icon-color-active: var(--toggle-icon-color-on);
+	--icon-color-disabled: var(--toggle-icon-color-disabled);
+	--icon-color-disabled-active: var(--toggle-icon-color-disabled);
 
-	--background-color-default: var(--transparent, #{kv-color('neutral-6')});
-	--background-color-active: var(--toggle-background-on, #{kv-color('neutral-6')});
-	--background-color-disabled: var(--transparent, #{kv-color('neutral-7')});
-	--background-color-disabled-active: var(--toggle-background-disabled, #{kv-color('neutral-7')});
+	--background-color-default: var(--transparent);
+	--background-color-active: var(--toggle-background-on);
+	--background-color-disabled: var(--transparent);
+	--background-color-disabled-active: var(--toggle-background-disabled);
 
-	--border-size: var(--toggle-border-thickness-default, 1px);
-	--border-left-size: var(--toggle-border-thickness-default, 1px);
-	--border-right-size: var(--toggle-border-thickness-default, 1px);
-	--border-color-default: var(--toggle-border-color-off, #{kv-color('neutral-6')});
-	--border-color-active: var(--toggle-border-color-on, #{kv-color('neutral-0')});
-	--border-color-disabled: var(--toggle-border-color-disabled, #{kv-color('neutral-6')});
-	--border-color-disabled-active: var(--toggle-border-color-disabled, #{kv-color('neutral-6')});
+	--border-size: var(--toggle-border-thickness-default);
+	--border-left-size: var(--toggle-border-thickness-default);
+	--border-right-size: var(--toggle-border-thickness-default);
+	--border-color-default: var(--toggle-border-color-off);
+	--border-color-active: var(--toggle-border-color-on);
+	--border-color-disabled: var(--toggle-border-color-disabled);
+	--border-color-disabled-active: var(--toggle-border-color-disabled);
 
-	--border-radius-top-left: var(--toggle-radius-default, 2px);
-	--border-radius-bottom-left: var(--toggle-radius-default, 2px);
-	--border-radius-top-right: var(--toggle-radius-default, 2px);
-	--border-radius-bottom-right: var(--toggle-radius-default, 2px);
+	--border-radius-top-left: var(--toggle-radius-default);
+	--border-radius-bottom-left: var(--toggle-radius-default);
+	--border-radius-top-right: var(--toggle-radius-default);
+	--border-radius-bottom-right: var(--toggle-radius-default);
 }
 
 kv-tooltip::part(content) {
@@ -83,7 +83,7 @@ kv-tooltip::part(content) {
 .toggle-button {
 	display: inline-flex;
 	align-items: center;
-	gap: var(--spacing-md, #{$spacing-2x});
+	gap: var(--spacing-md);
 	border-top-left-radius: var(--border-radius-top-left);
 	border-bottom-left-radius: var(--border-radius-bottom-left);
 	border-top-right-radius: var(--border-radius-top-right);

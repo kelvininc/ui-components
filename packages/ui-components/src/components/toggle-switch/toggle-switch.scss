@@ -4,13 +4,13 @@
 	display: flex;
 
 	> :last-child {
-		--border-radius-top-right: var(--toggle-radius-default, 4px);
-		--border-radius-bottom-right: var(--toggle-radius-default, 4px);
+		--border-radius-top-right: var(--toggle-radius-default);
+		--border-radius-bottom-right: var(--toggle-radius-default);
 	}
 
 	> :first-child {
-		--border-radius-top-left: var(--toggle-radius-default, 4px);
-		--border-radius-bottom-left: var(--toggle-radius-default, 4px);
+		--border-radius-top-left: var(--toggle-radius-default);
+		--border-radius-bottom-left: var(--toggle-radius-default);
 	}
 
 	kv-toggle-button {

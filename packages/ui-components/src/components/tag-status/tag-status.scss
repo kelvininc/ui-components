@@ -17,19 +17,19 @@
 	 * @prop --tag-status-gap: Tag status gap between label and icon in pixels.
 	 */
 
-	--tag-status-label-color: var(--text-surface-neutral-secondary ,#{kv-color('neutral-2')});
-	--tag-status-icon-size: var(--size-md, 16px);
-	--tag-status-icon-success-color: var(--icon-surface-status-success-default, #{kv-color('success', 'dark')});
-	--tag-status-icon-success-background-color: var(--background-surface-inverse, #{kv-color('neutral-0')});
-	--tag-status-icon-error-color: var(--icon-surface-status-danger-default, #{kv-color('error', 'dark')});
-	--tag-status-icon-error-background-color: var(--background-surface-inverse, #{kv-color('neutral-0')});
-	--tag-status-icon-unknown-color: var(--icon-surface-status-inactive-default, #{kv-color('neutral-4')});
+	--tag-status-label-color: var(--text-surface-neutral-secondary );
+	--tag-status-icon-size: var(--size-md);
+	--tag-status-icon-success-color: var(--icon-surface-status-success-default);
+	--tag-status-icon-success-background-color: var(--background-surface-neutral-inverse);
+	--tag-status-icon-error-color: var(--icon-surface-status-danger-default);
+	--tag-status-icon-error-background-color: var(--background-surface-neutral-inverse);
+	--tag-status-icon-unknown-color: var(--icon-surface-status-inactive-default);
 	--tag-status-icon-unknown-background-color: transparent;
-	--tag-status-icon-warning-color: var(--icon-surface-status-warning-default, #{kv-color('warning', 'dark')});
+	--tag-status-icon-warning-color: var(--icon-surface-status-warning-default);
 	--tag-status-icon-warning-background-color: transparent;
-	--tag-status-icon-info-color: var(--icon-surface-status-info-default, #{kv-color('info', 'dark')});
-	--tag-status-icon-info-background-color: var(--background-surface-inverse, #{kv-color('neutral-0')});
-	--tag-status-gap: var(--spacing-md, #{$spacing-2x});
+	--tag-status-icon-info-color: var(--icon-surface-status-info-default);
+	--tag-status-icon-info-background-color: var(--background-surface-neutral-inverse);
+	--tag-status-gap: var(--spacing-md);
 }
 
 .tag-status {

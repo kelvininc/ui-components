@@ -51,14 +51,14 @@
 				min-width: 0;
 
 				.Label {
-					@include ellipsis();
+					@include ellipsis;
 					@include heading-xs-semibold-caps;
 
 					color: kv-color('neutral-2');
 				}
 
 				.FileName {
-					@include ellipsis();
+					@include ellipsis;
 					@include body-m-semibold;
 
 					color: kv-color('neutral-5');
@@ -69,6 +69,8 @@
 				kv-icon {
 					--icon-color: #{kv-color('neutral-2')};
 				}
+
+				/* stylelint-disable-next-line selector-max-class */
 				.FileDetails .FileName {
 					color: kv-color('neutral-4');
 				}

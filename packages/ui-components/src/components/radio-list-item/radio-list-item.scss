@@ -23,8 +23,8 @@
 	--radio-list-item-border-color-hover: #{kv-color('neutral-0')};
 	--radio-list-item-border-color-checked: #{kv-color('neutral-0')};
 	--radio-list-item-border-radius: 2px;
-	--radio-list-item-padding: var(--spacing-2xl, #{$spacing-4x});
-	--radio-list-item-gap: var(--spacing-md, #{$spacing-4x});
+	--radio-list-item-padding: var(--spacing-2xl);
+	--radio-list-item-gap: var(--spacing-md);
 	--radio-list-item-disabled-opacity: 0.5;
 }
 

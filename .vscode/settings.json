@@ -1,0 +1,31 @@
+{
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit",
+		"source.fixAll.stylelint": "explicit",
+		"source.organizeImports": "never"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true
+	},
+	"[scss]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true,
+		"editor.formatOnPaste": true
+	},
+	"stylelint.validate": ["css", "scss"],
+	"stylelint.snippet": ["css", "scss"],
+	"cssVariables.lookupFiles": [
+		"packages/ui-components/src/assets/styles/style-dictionary/tokens/core.css",
+		"packages/ui-components/src/assets/styles/style-dictionary/tokens/component_semantics.css",
+		"packages/ui-components/src/assets/styles/style-dictionary/tokens/themes/dark.css"
+	]
+}
