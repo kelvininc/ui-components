@@ -16,6 +16,6 @@
 .counter {
 	display: flex;
 	align-items: center;
-	color: var(--text-container-neutral-subtle, #{kv-color('neutral-4')});
+	color: var(--text-container-neutral-subtle);
 	@include body-xs-regular;
 }

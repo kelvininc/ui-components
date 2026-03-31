@@ -1,5 +1,4 @@
 node_modules
-.vscode/*
 .DS_Store
 lerna-debug.log
 packages/**/dist

@@ -68,19 +68,20 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 					<div
 						class={{
 							'toggle-button': true,
-							'toggle-button--checked': this.checked,
-							'toggle-button--disabled': this.disabled,
+							'toggle-button--checked': !!this.checked,
+							'toggle-button--disabled': !!this.disabled,
 							'toggle-button--only-icon': hasIcon && !hasLabel,
+							'toggle-button--with-radio': !!this.withRadio,
 							[`toggle-button--size-${this.size}`]: true
 						}}
 						part="toggle-button"
 						onClick={this.onClick}
 						{...this.customAttributes}
 					>
-						{this.withRadio && <kv-radio size={this.size} checked={this.checked} disabled={this.disabled} />}
+						{this.withRadio && <kv-radio size={EComponentSize.Small} checked={this.checked} disabled={this.disabled} />}
 						{hasIcon && (
 							<div class="toggle-button-icon" part="toggle-icon">
-								<kv-icon name={this.icon} />
+								<kv-icon name={this.icon!} />
 							</div>
 						)}
 						{hasLabel && (

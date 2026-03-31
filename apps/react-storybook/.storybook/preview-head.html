@@ -9,17 +9,25 @@
 <style>
 	:root {
 		color-scheme: dark;
+		font-family: Proxima Nova;
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 20px;
+		letter-spacing: 0;
 	}
 
 	body {
+		--kv-primary-font: var(--font-family-proxima-nova, 'proxima-nova');
+
 		margin: 0;
 		box-sizing: border-box;
 		padding: 10px;
-		background-color: var(--background-surface-neutral-default, #202020);
-		--kv-primary-font: var(--font-family-proxima-nova, 'proxima-nova');
+		background-color: var(--background-surface-neutral-default);
+		color: var(--text-surface-neutral-primary);
 	}
 
 	.docs-story {
-		background-color: var(--background-surface-neutral-default, #202020);
+		background-color: var(--background-surface-neutral-default);
+		color: var(--text-surface-neutral-primary);
 	}
 </style>

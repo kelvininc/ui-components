@@ -59,14 +59,20 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] step-bar
 - [x] step-indicator
 - [x] step-progress-bar
+- [x] radio-list
+- [x] radio-list-item
+- [x] copy-to-clipboard
+- [x] description-list
+- [x] inline-editable-field
+- [x] schema-form
 
 ## Not Migrated (tokens defined but not yet consumed)
 
 - [ ] alert
-- [ ] input-wrapper
 
 ## No Tokens Defined
 
+- [ ] input-wrapper
 - [ ] absolute-time-picker
 - [ ] absolute-time-picker-dropdown
 - [ ] absolute-time-picker-dropdown-input
@@ -77,12 +83,7 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [ ] date-time-input
 - [ ] relative-time-picker
 
-- [ ] alert
-- [ ] copy-to-clipboard
-- [ ] description-list
 - [ ] illustrations
-- [ ] inline-editable-field
 - [ ] loader
-- [ ] radio-list
-- [ ] radio-list-item
 - [ ] range
+- [ ] code-editor
