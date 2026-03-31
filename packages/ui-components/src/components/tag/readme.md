@@ -40,6 +40,7 @@ export const TagExample: React.FC = () => (
 | `--tag-background-color`       | Tag background color.              |
 | `--tag-badge-background-color` | Tag badge background color.        |
 | `--tag-badge-color`            | Tag badge text color.              |
+| `--tag-border-color`           | Tag border color.                  |
 | `--tag-content-gap`            | Gap between icon, label and badge. |
 | `--tag-content-padding-x`      | Horizontal padding inside the tag. |
 | `--tag-content-padding-y`      | Vertical padding inside the tag.   |

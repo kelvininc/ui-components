@@ -1,158 +1,7 @@
 @use 'sass:map';
 @use '../../assets/styles' as *;
 
-$btn-text-colors: (
-	default: (
-		primary: kv-color('text'),
-		secondary: kv-color('text'),
-		tertiary: kv-color('text'),
-		text: kv-color('text'),
-		danger: kv-color('text')
-	),
-	hover: (
-		primary: kv-color('text'),
-		secondary: kv-color('text'),
-		tertiary: kv-color('neutral-2'),
-		text: kv-color('neutral-2'),
-		danger: kv-color('text')
-	),
-	focus: (
-		primary: kv-color('text'),
-		secondary: kv-color('text'),
-		tertiary: kv-color('text'),
-		text: kv-color('text'),
-		danger: kv-color('text')
-	),
-	disabled: (
-		primary: kv-color('neutral-5'),
-		secondary: kv-color('neutral-5'),
-		tertiary: kv-color('neutral-5'),
-		text: kv-color('neutral-5'),
-		danger: kv-color('text')
-	),
-	active: (
-		primary: kv-color('text'),
-		secondary: kv-color('text'),
-		tertiary: kv-color('neutral-2'),
-		text: kv-color('neutral-2'),
-		danger: kv-color('text')
-	)
-);
-$btn-background-colors: (
-	default: (
-		primary: kv-color('primary'),
-		secondary: kv-color('neutral-6'),
-		tertiary: transparent,
-		text: transparent,
-		danger: kv-color('error')
-	),
-	hover: (
-		primary: kv-color('primary', 'dark'),
-		secondary: kv-color('neutral-5'),
-		tertiary: transparent,
-		text: kv-color('neutral-7'),
-		danger: kv-color('error', 'dark')
-	),
-	focus: (
-		primary: kv-color('primary'),
-		secondary: kv-color('neutral-6'),
-		tertiary: transparent,
-		text: kv-color('neutral-7'),
-		danger: kv-color('error')
-	),
-	disabled: (
-		primary: kv-color('neutral-3'),
-		secondary: kv-color('neutral-3'),
-		tertiary: transparent,
-		text: transparent,
-		danger: kv-color('error', 'light')
-	),
-	active: (
-		primary: kv-color('primary', 'dark'),
-		secondary: kv-color('neutral-5'),
-		tertiary: transparent,
-		text: kv-color('neutral-7'),
-		danger: kv-color('error', 'dark')
-	)
-);
-$btn-border-colors: (
-	default: (
-		primary: kv-color('primary'),
-		secondary: kv-color('neutral-6'),
-		tertiary: kv-color('neutral-0'),
-		text: transparent,
-		danger: kv-color('error')
-	),
-	hover: (
-		primary: kv-color('primary', 'dark'),
-		secondary: kv-color('neutral-5'),
-		tertiary: kv-color('neutral-2'),
-		text: kv-color('neutral-7'),
-		danger: kv-color('error', 'dark')
-	),
-	focus: (
-		primary: kv-color('primary'),
-		secondary: kv-color('neutral-0'),
-		tertiary: transparent,
-		text: kv-color('neutral-7'),
-		danger: transparent
-	),
-	disabled: (
-		primary: kv-color('neutral-3'),
-		secondary: kv-color('neutral-3'),
-		tertiary: kv-color('neutral-5'),
-		text: transparent,
-		danger: kv-color('error', 'light')
-	),
-	active: (
-		primary: kv-color('primary', 'dark'),
-		secondary: kv-color('neutral-5'),
-		tertiary: kv-color('neutral-2'),
-		text: kv-color('neutral-7'),
-		danger: kv-color('error', 'dark')
-	)
-);
-$btn-heights: (
-	small: 28px,
-	large: 36px
-);
-
-$btn-paddings-x: (
-	small: $spacing-3x,
-	large: $spacing-4x
-);
-
-@function get-text-color($state, $type) {
-	$values: map.get($btn-text-colors, $state);
-	@if ($values) {
-		@return map.get($values, $type);
-	}
-
-	@return null;
-}
-@function get-background-color($state, $type) {
-	$values: map.get($btn-background-colors, $state);
-	@if ($values) {
-		@return map.get($values, $type);
-	}
-
-	@return null;
-}
-@function get-border-color($state, $type) {
-	$values: map.get($btn-border-colors, $state);
-	@if ($values) {
-		@return map.get($values, $type);
-	}
-
-	@return null;
-}
-@function get-height($size) {
-	@return map.get($btn-heights, $size);
-}
-@function get-horizontal-padding($size) {
-	@return map.get($btn-paddings-x, $size);
-}
-
+/* stylelint-disable csstools/value-no-unknown-custom-properties */
 @mixin button-text-theme($type) {
 	$btn-default-text-color: var(--text-color-default-#{$type});
 	$btn-default-icon-color: var(--icon-color-default-#{$type});
@@ -295,6 +144,7 @@ $btn-paddings-x: (
 		--icon-height: var(--button-icon-size-#{$type}-#{$size});
 	}
 }
+/* stylelint-enable csstools/value-no-unknown-custom-properties */
 
 :host {
 	/**
@@ -422,155 +272,154 @@ $btn-paddings-x: (
 	 */
 
 	//icon colors
-	--icon-color-default-primary: var(--button-primary-icon-color-default, #{get-text-color('default', 'primary')});
-	--icon-color-default-secondary: var(--button-secondary-icon-color-default, #{get-text-color('default', 'secondary')});
-	--icon-color-default-tertiary: var(--button-tertiary-icon-color-default, #{get-text-color('default', 'tertiary')});
-	--icon-color-default-text: var(--button-text-icon-color-default, #{get-text-color('default', 'text')});
-	--icon-color-default-danger: var(--button-danger-icon-color-default, #{get-text-color('default', 'danger')});
+	--icon-color-default-primary: var(--button-primary-icon-color-default);
+	--icon-color-default-secondary: var(--button-secondary-icon-color-default);
+	--icon-color-default-tertiary: var(--button-tertiary-icon-color-default);
+	--icon-color-default-text: var(--button-text-icon-color-default);
+	--icon-color-default-danger: var(--button-danger-icon-color-default);
 
-	--icon-color-hover-primary: var(--button-primary-icon-color-default, #{get-text-color('hover', 'primary')});
-	--icon-color-hover-secondary: var(--button-secondary-icon-color-subtle, #{get-text-color('hover', 'secondary')});
-	--icon-color-hover-tertiary: var(--button-tertiary-icon-color-subtle, #{get-text-color('hover', 'tertiary')});
-	--icon-color-hover-text: var(--button-text-icon-color-default, #{get-text-color('hover', 'text')});
-	--icon-color-hover-danger: var(--button-danger-icon-color-default, #{get-text-color('hover', 'danger')});
+	--icon-color-hover-primary: var(--button-primary-icon-color-default);
+	--icon-color-hover-secondary: var(--button-secondary-icon-color-subtle);
+	--icon-color-hover-tertiary: var(--button-tertiary-icon-color-subtle);
+	--icon-color-hover-text: var(--button-text-icon-color-default);
+	--icon-color-hover-danger: var(--button-danger-icon-color-default);
 
-	--icon-color-focus-primary: var(--button-primary-icon-color-default, #{get-text-color('focus', 'primary')});
-	--icon-color-focus-secondary: var(--button-secondary-icon-color-default, #{get-text-color('focus', 'secondary')});
-	--icon-color-focus-tertiary: var(--button-tertiary-icon-color-default, #{get-text-color('focus', 'tertiary')});
-	--icon-color-focus-text: var(--button-text-icon-color-default, #{get-text-color('focus', 'text')});
-	--icon-color-focus-danger: var(--button-danger-icon-color-default, #{get-text-color('focus', 'danger')});
-	--icon-color-disabled-primary: var(--button-primary-icon-color-disabled, #{get-text-color('disabled', 'primary')});
-	--icon-color-disabled-secondary: var(--button-secondary-icon-color-disabled, #{get-text-color('disabled', 'secondary')});
-	--icon-color-disabled-tertiary: var(--button-tertiary-icon-color-disabled, #{get-text-color('disabled', 'tertiary')});
-	--icon-color-disabled-text: var(--button-text-icon-color-disabled, #{get-text-color('disabled', 'text')});
-	--icon-color-disabled-danger: var(--button-danger-icon-color-disabled, #{get-text-color('disabled', 'danger')});
+	--icon-color-focus-primary: var(--button-primary-icon-color-default);
+	--icon-color-focus-secondary: var(--button-secondary-icon-color-default);
+	--icon-color-focus-tertiary: var(--button-tertiary-icon-color-default);
+	--icon-color-focus-text: var(--button-text-icon-color-default);
+	--icon-color-focus-danger: var(--button-danger-icon-color-default);
+	--icon-color-disabled-primary: var(--button-primary-icon-color-disabled);
+	--icon-color-disabled-secondary: var(--button-secondary-icon-color-disabled);
+	--icon-color-disabled-tertiary: var(--button-tertiary-icon-color-disabled);
+	--icon-color-disabled-text: var(--button-text-icon-color-disabled);
+	--icon-color-disabled-danger: var(--button-danger-icon-color-disabled);
 
-	--icon-color-active-primary: var(--button-primary-icon-color-default, #{get-text-color('active', 'primary')});
-	--icon-color-active-secondary: var(--button-secondary-icon-color-subtle, #{get-text-color('active', 'secondary')});
-	--icon-color-active-tertiary: var(--button-tertiary-icon-color-subtle, #{get-text-color('active', 'tertiary')});
-	--icon-color-active-text: var(--button-text-icon-color-default, #{get-text-color('active', 'text')});
-	--icon-color-active-danger: var(--button-danger-icon-color-default, #{get-text-color('active', 'danger')});
+	--icon-color-active-primary: var(--button-primary-icon-color-default);
+	--icon-color-active-secondary: var(--button-secondary-icon-color-subtle);
+	--icon-color-active-tertiary: var(--button-tertiary-icon-color-subtle);
+	--icon-color-active-text: var(--button-text-icon-color-default);
+	--icon-color-active-danger: var(--button-danger-icon-color-default);
 
 	// text colors
-	--text-color-default-primary: var(--button-primary-label-default, #{get-text-color('default', 'primary')});
-	--text-color-default-secondary: var(--button-secondary-label-default, #{get-text-color('default', 'secondary')});
-	--text-color-default-tertiary: var(--button-tertiary-label-default, #{get-text-color('default', 'tertiary')});
-	--text-color-default-text: var(--button-text-label-default, #{get-text-color('default', 'text')});
-	--text-color-default-danger: var(--button-danger-label-default, #{get-text-color('default', 'danger')});
-	--text-color-hover-primary: var(--button-primary-label-default, #{get-text-color('hover', 'primary')});
-	--text-color-hover-secondary: var(--button-secondary-label-subtle, #{get-text-color('hover', 'secondary')});
-	--text-color-hover-tertiary: var(--button-tertiary-label-subtle, #{get-text-color('hover', 'tertiary')});
-	--text-color-hover-text: var(--button-text-label-default, #{get-text-color('hover', 'text')});
-	--text-color-hover-danger: var(--button-danger-label-default, #{get-text-color('hover', 'danger')});
+	--text-color-default-primary: var(--button-primary-label-default);
+	--text-color-default-secondary: var(--button-secondary-label-default);
+	--text-color-default-tertiary: var(--button-tertiary-label-default);
+	--text-color-default-text: var(--button-text-label-default);
+	--text-color-default-danger: var(--button-danger-label-default);
+	--text-color-hover-primary: var(--button-primary-label-default);
+	--text-color-hover-secondary: var(--button-secondary-label-subtle);
+	--text-color-hover-tertiary: var(--button-tertiary-label-subtle);
+	--text-color-hover-text: var(--button-text-label-default);
+	--text-color-hover-danger: var(--button-danger-label-default);
 
-	--text-color-focus-primary: var(--button-primary-label-default, #{get-text-color('focus', 'primary')});
-	--text-color-focus-secondary: var(--button-secondary-label-default, #{get-text-color('focus', 'secondary')});
-	--text-color-focus-tertiary: var(--button-tertiary-label-default, #{get-text-color('focus', 'tertiary')});
-	--text-color-focus-text: var(--button-text-label-default, #{get-text-color('focus', 'text')});
-	--text-color-focus-danger: var(--button-danger-label-default, #{get-text-color('focus', 'danger')});
-	--text-color-disabled-primary: var(--button-primary-label-disabled, #{get-text-color('disabled', 'primary')});
-	--text-color-disabled-secondary: var(--button-secondary-label-disabled, #{get-text-color('disabled', 'secondary')});
-	--text-color-disabled-tertiary: var(--button-tertiary-label-disabled, #{get-text-color('disabled', 'tertiary')});
-	--text-color-disabled-text: var(--button-text-label-disabled, #{get-text-color('disabled', 'text')});
-	--text-color-disabled-danger: var(--button-danger-label-disabled, #{get-text-color('disabled', 'danger')});
+	--text-color-focus-primary: var(--button-primary-label-default);
+	--text-color-focus-secondary: var(--button-secondary-label-default);
+	--text-color-focus-tertiary: var(--button-tertiary-label-default);
+	--text-color-focus-text: var(--button-text-label-default);
+	--text-color-focus-danger: var(--button-danger-label-default);
+	--text-color-disabled-primary: var(--button-primary-label-disabled);
+	--text-color-disabled-secondary: var(--button-secondary-label-disabled);
+	--text-color-disabled-tertiary: var(--button-tertiary-label-disabled);
+	--text-color-disabled-text: var(--button-text-label-disabled);
+	--text-color-disabled-danger: var(--button-danger-label-disabled);
 
-	--text-color-active-primary: var(--button-primary-label-default, #{get-text-color('active', 'primary')});
-	--text-color-active-secondary: var(--button-secondary-label-subtle, #{get-text-color('active', 'secondary')});
-	--text-color-active-tertiary: var(--button-tertiary-label-subtle, #{get-text-color('active', 'tertiary')});
-	--text-color-active-text: var(--button-text-label-default, #{get-text-color('active', 'text')});
-	--text-color-active-danger: var(--button-danger-label-default, #{get-text-color('active', 'danger')});
+	--text-color-active-primary: var(--button-primary-label-default);
+	--text-color-active-secondary: var(--button-secondary-label-subtle);
+	--text-color-active-tertiary: var(--button-tertiary-label-subtle);
+	--text-color-active-text: var(--button-text-label-default);
+	--text-color-active-danger: var(--button-danger-label-default);
 
 	// background colors
-	--background-color-default-primary: var(--button-primary-background-default, #{get-background-color('default', 'primary')});
-	--background-color-default-secondary: var(--transparent, #{get-background-color('default', 'secondary')});
-	--background-color-default-tertiary: var(--transparent, #{get-background-color('default', 'tertiary')});
-	--background-color-default-text: var(--transparent, #{get-background-color('default', 'text')});
-	--background-color-default-danger: var(--button-danger-background-default, #{get-background-color('default', 'danger')});
+	--background-color-default-primary: var(--button-primary-background-default);
+	--background-color-default-secondary: var(--transparent);
+	--background-color-default-tertiary: var(--transparent);
+	--background-color-default-text: var(--transparent);
+	--background-color-default-danger: var(--button-danger-background-default);
 
-	--background-color-hover-primary: var(--button-primary-background-hover, #{get-background-color('hover', 'primary')});
-	--background-color-hover-secondary: var(--button-secondary-background-hover, #{get-background-color('hover', 'secondary')});
-	--background-color-hover-tertiary: var(--button-tertiary-background-hover, #{get-background-color('hover', 'tertiary')});
-	--background-color-hover-text: var(--transparent, #{get-background-color('hover', 'text')});
-	--background-color-hover-danger: var(--button-danger-background-hover, #{get-background-color('hover', 'danger')});
+	--background-color-hover-primary: var(--button-primary-background-hover);
+	--background-color-hover-secondary: var(--button-secondary-background-hover);
+	--background-color-hover-tertiary: var(--button-tertiary-background-hover);
+	--background-color-hover-text: var(--transparent);
+	--background-color-hover-danger: var(--button-danger-background-hover);
 
-	--background-color-focus-primary: var(--button-primary-background-default, #{get-background-color('focus', 'primary')});
-	--background-color-focus-secondary: var(--transparent, #{get-background-color('focus', 'secondary')});
-	--background-color-focus-tertiary: var(--transparent, #{get-background-color('focus', 'tertiary')});
-	--background-color-focus-text: var(--transparent, #{get-background-color('focus', 'text')});
-	--background-color-focus-danger: var(--button-danger-background-default, #{get-background-color('focus', 'danger')});
-	--background-color-disabled-primary: var(--button-primary-background-disabled, #{get-background-color('disabled', 'primary')});
-	--background-color-disabled-secondary: var(--button-secondary-background-disabled, #{get-background-color('disabled', 'secondary')});
-	--background-color-disabled-tertiary: var(--button-tertiary-background-disabled, #{get-background-color('disabled', 'tertiary')});
-	--background-color-disabled-text: var(--transparent, #{get-background-color('disabled', 'text')});
-	--background-color-disabled-danger: var(--button-danger-background-disabled, #{get-background-color('disabled', 'danger')});
+	--background-color-focus-primary: var(--button-primary-background-default);
+	--background-color-focus-secondary: var(--transparent);
+	--background-color-focus-tertiary: var(--transparent);
+	--background-color-focus-text: var(--transparent);
+	--background-color-focus-danger: var(--button-danger-background-default);
+	--background-color-disabled-primary: var(--button-primary-background-disabled);
+	--background-color-disabled-secondary: var(--button-secondary-background-disabled);
+	--background-color-disabled-tertiary: var(--button-tertiary-background-disabled);
+	--background-color-disabled-text: var(--transparent);
+	--background-color-disabled-danger: var(--button-danger-background-disabled);
 
-	--background-color-active-primary: var(--button-primary-background-pressed, #{get-background-color('active', 'primary')});
-	--background-color-active-secondary: var(--button-secondary-background-pressed, #{get-background-color('active', 'secondary')});
-	--background-color-active-tertiary: var(--button-tertiary-background-pressed, #{get-background-color('active', 'tertiary')});
-	--background-color-active-text: var(--transparent, #{get-background-color('active', 'text')});
-	--background-color-active-danger: var(--button-danger-background-pressed, #{get-background-color('active', 'danger')});
+	--background-color-active-primary: var(--button-primary-background-pressed);
+	--background-color-active-secondary: var(--button-secondary-background-pressed);
+	--background-color-active-tertiary: var(--button-tertiary-background-pressed);
+	--background-color-active-text: var(--transparent);
+	--background-color-active-danger: var(--button-danger-background-pressed);
 
 	// borders colors
-	--border-color-default-primary: var(--button-primary-background-default, #{get-border-color('default', 'primary')});
-	--border-color-default-secondary: var(--button-secondary-border-color-default, #{get-border-color('default', 'secondary')});
-	--border-color-default-tertiary: var(--transparent, #{get-border-color('default', 'tertiary')});
-	--border-color-default-text: var(--transparent, #{get-border-color('default', 'text')});
-	--border-color-default-danger: var(--button-danger-background-default, #{get-border-color('default', 'danger')});
+	--border-color-default-primary: var(--button-primary-background-default);
+	--border-color-default-secondary: var(--button-secondary-border-color-default);
+	--border-color-default-tertiary: var(--transparent);
+	--border-color-default-text: var(--transparent);
+	--border-color-default-danger: var(--button-danger-background-default);
 
-	--border-color-hover-primary: var(--button-primary-background-hover, #{get-border-color('hover', 'primary')});
-	--border-color-hover-secondary: var(--button-secondary-border-color-default, #{get-border-color('hover', 'secondary')});
-	--border-color-hover-tertiary: var(--button-tertiary-background-hover, #{get-border-color('hover', 'tertiary')});
-	--border-color-hover-text: var(--transparent, #{get-border-color('hover', 'text')});
-	--border-color-hover-danger: var(--button-danger-background-hover, #{get-border-color('hover', 'danger')});
+	--border-color-hover-primary: var(--button-primary-background-hover);
+	--border-color-hover-secondary: var(--button-secondary-border-color-default);
+	--border-color-hover-tertiary: var(--button-tertiary-background-hover);
+	--border-color-hover-text: var(--transparent);
+	--border-color-hover-danger: var(--button-danger-background-hover);
 
-	--border-color-focus-primary: var(--button-primary-background-default, #{get-border-color('focus', 'primary')});
-	--border-color-focus-secondary: var(--button-secondary-border-color-default, #{get-border-color('focus', 'secondary')});
-	--border-color-focus-tertiary: var(--transparent, #{get-border-color('focus', 'tertiary')});
-	--border-color-focus-text: var(--transparent, #{get-border-color('focus', 'text')});
-	--border-color-focus-danger: var(--button-danger-background-default, #{get-border-color('focus', 'danger')});
+	--border-color-focus-primary: var(--button-primary-background-default);
+	--border-color-focus-secondary: var(--button-secondary-border-color-default);
+	--border-color-focus-tertiary: var(--transparent);
+	--border-color-focus-text: var(--transparent);
+	--border-color-focus-danger: var(--button-danger-background-default);
 
-	--border-color-disabled-primary: var(--button-primary-background-disabled, #{get-border-color('disabled', 'primary')});
-	--border-color-disabled-secondary: var(--button-secondary-background-disabled, #{get-border-color('disabled', 'secondary')});
-	--border-color-disabled-tertiary: var(--button-tertiary-background-disabled, #{get-border-color('disabled', 'tertiary')});
-	--border-color-disabled-text: var(--transparent, #{get-border-color('disabled', 'text')});
-	--border-color-disabled-danger: var(--button-danger-background-disabled, #{get-border-color('disabled', 'danger')});
+	--border-color-disabled-primary: var(--button-primary-background-disabled);
+	--border-color-disabled-secondary: var(--button-secondary-background-disabled);
+	--border-color-disabled-tertiary: var(--button-tertiary-background-disabled);
+	--border-color-disabled-text: var(--transparent);
+	--border-color-disabled-danger: var(--button-danger-background-disabled);
 
-	--border-color-active-primary: var(--button-primary-background-pressed, #{get-border-color('active', 'primary')});
-	--border-color-active-secondary: var(--button-secondary-border-color-pressed, #{get-border-color('active', 'secondary')});
-	--border-color-active-tertiary: var(--button-tertiary-background-pressed, #{get-border-color('active', 'tertiary')});
-	--border-color-active-text: var(--transparent, #{get-border-color('active', 'text')});
-	--border-color-active-danger: var(--button-danger-background-pressed, #{get-border-color('active', 'danger')});
+	--border-color-active-primary: var(--button-primary-background-pressed);
+	--border-color-active-secondary: var(--button-secondary-border-color-pressed);
+	--border-color-active-tertiary: var(--button-tertiary-background-pressed);
+	--border-color-active-text: var(--transparent);
+	--border-color-active-danger: var(--button-danger-background-pressed);
 
 	// sizing
-	--button-gap-large: var(--button-gap-regular, 8px);
-	--button-gap-small: var(--button-gap-compact, 8px);
-	--button-height-large: var(--button-height-regular, #{get-height('large')});
-	--button-height-small: var(--button-height-compact, #{get-height('small')});
-	--button-padding-x-large: var(--button-padding-x-regular, #{get-horizontal-padding('large')});
-	--button-padding-y-large: var(--button-padding-y-regular, #{get-horizontal-padding('large')});
+	--button-gap-large: var(--button-gap-regular);
+	--button-gap-small: var(--button-gap-compact);
+	--button-height-large: var(--button-height-regular);
+	--button-height-small: var(--button-height-compact);
+	--button-padding-x-large: var(--button-padding-x-regular);
+	--button-padding-y-large: var(--button-padding-y-regular);
 
-	--button-padding-x-small: var(--button-padding-x-compact, #{get-horizontal-padding('small')});
-	--button-padding-y-small: var(--button-padding-y-compact, #{get-horizontal-padding('small')});
+	--button-padding-x-small: var(--button-padding-x-compact);
+	--button-padding-y-small: var(--button-padding-y-compact);
 
-	--button-border-thickness: var(--button-secondary-border-thickness-default, 1px);
-	--button-border-radius-large: var(--button-radius-regular, 4px);
-	--button-border-radius-small: var(--button-radius-compact, 4px);
+	--button-border-thickness: var(--button-secondary-border-thickness-default);
+	--button-border-radius-large: var(--button-radius-regular);
+	--button-border-radius-small: var(--button-radius-compact);
 
-	--button-icon-size-primary-large: var(--button-primary-icon-size-regular, 16px);
-	--button-icon-size-primary-small: var(--button-primary-icon-size-compact, 16px);
+	--button-icon-size-primary-large: var(--button-primary-icon-size-regular);
+	--button-icon-size-primary-small: var(--button-primary-icon-size-compact);
 
-	--button-icon-size-secondary-large: var(--button-secondary-icon-size-regular, 16px);
-	--button-icon-size-secondary-small: var(--button-secondary-icon-size-compact, 16px);
+	--button-icon-size-secondary-large: var(--button-secondary-icon-size-regular);
+	--button-icon-size-secondary-small: var(--button-secondary-icon-size-compact);
 
-	--button-icon-size-tertiary-large: var(--button-tertiary-icon-size-regular, 16px);
-	--button-icon-size-tertiary-small: var(--button-tertiary-icon-size-compact, 16px);
+	--button-icon-size-tertiary-large: var(--button-tertiary-icon-size-regular);
+	--button-icon-size-tertiary-small: var(--button-tertiary-icon-size-compact);
 
-	--button-icon-size-text-large: var(--button-text-icon-size-regular, 16px);
-	--button-icon-size-text-small: var(--button-text-icon-size-compact, 16px);
+	--button-icon-size-text-large: var(--button-text-icon-size-regular);
+	--button-icon-size-text-small: var(--button-text-icon-size-regular);
 
-	--button-icon-size-danger-large: var(--button-danger-icon-size-regular, 16px);
-	--button-icon-size-danger-small: var(--button-danger-icon-size-compact, 16px);
-
+	--button-icon-size-danger-large: var(--button-danger-icon-size-regular);
+	--button-icon-size-danger-small: var(--button-danger-icon-size-compact);
 }
 
 .action-button {

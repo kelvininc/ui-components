@@ -1,0 +1,56 @@
+{
+	"extends": [
+		"stylelint-config-standard-scss",
+		"stylelint-config-prettier-scss"
+	],
+	"plugins": [
+		"stylelint-value-no-unknown-custom-properties"
+	],
+	"rules": {
+		"value-keyword-case": "lower",
+		"selector-class-pattern": "[a-z]+(--[a-z]+)?(__[a-z]+)?",
+		"custom-property-pattern": "[a-z]+(--[a-z]+)?(__[a-zA-Z]+)?(-[a-zA-Z]+)?",
+		"selector-max-class": 5,
+		"selector-max-id": 2,
+		"selector-max-pseudo-class": 3,
+		"function-url-no-scheme-relative": true,
+		"selector-type-no-unknown": null,
+		"declaration-block-no-shorthand-property-overrides": true,
+		"declaration-no-important": true,
+		"declaration-block-no-duplicate-properties": [
+			true,
+			{
+				"ignore": ["consecutive-duplicates"]
+			}
+		],
+		"scss/at-import-partial-extension": "always",
+		"property-disallowed-list": ["float"],
+		"declaration-property-unit-allowed-list": {
+			"height": ["vh", "%", "px"],
+			"font-size": ["rem", "px"]
+		},
+		"function-no-unknown": [
+			true,
+			{
+				"ignoreFunctions": ["/^(#{)?kv-/", "map-get", "get-color-dark"]
+			}
+		],
+		"selector-pseudo-class-no-unknown": [
+			true,
+			{
+				"ignorePseudoClasses": ["global"]
+			}
+		],
+		"csstools/value-no-unknown-custom-properties": [
+			true,
+			{
+				"importFrom": [
+					"../ui-components/src/assets/styles/style-dictionary/tokens/index.css"
+				]
+			}
+		]
+	},
+	"ignoreFiles": [
+		"dist/**"
+	]
+}

@@ -3,6 +3,7 @@
 :host {
 	/**
 	 * @prop --tag-background-color: Tag background color.
+	 * @prop --tag-border-color: Tag border color.
 	 * @prop --tag-label-color: Tag label text color.
 	 * @prop --tag-badge-color: Tag badge text color.
 	 * @prop --tag-badge-background-color: Tag badge background color.
@@ -12,9 +13,9 @@
 	 * @prop --tag-content-padding-y: Vertical padding inside the tag.
 	 */
 
-	--tag-content-gap: var(--spacing-xs, #{$spacing});
-	--tag-content-padding-x: var(--spacing-md, #{$spacing});
-	--tag-content-padding-y: var(--spacing-none, 2px);
+	--tag-content-gap: var(--spacing-xs);
+	--tag-content-padding-x: var(--spacing-md);
+	--tag-content-padding-y: var(--spacing-none);
 }
 
 .tag-container {
@@ -23,19 +24,23 @@
 	align-items: center;
 	gap: var(--tag-content-gap);
 	width: fit-content;
-	height: var(--size-xl, 24px);
+	max-width: stretch;
+	height: var(--size-xl);
+	box-sizing: border-box;
 	border-radius: var(--radius-md);
 	padding: var(--tag-content-padding-y) var(--tag-content-padding-x);
 	background-color: var(--tag-background-color, var(--_tag-bg));
+	border: 1px solid var(--tag-border-color, var(--_tag-border-color));
 
 	kv-icon {
 		--icon-color: var(--tag-icon-color, var(--_tag-icon));
-		--icon-width: var(--size-md, 12px);
-		--icon-height: var(--size-md, 12px);
+		--icon-width: var(--size-md);
+		--icon-height: var(--size-md);
 	}
 
 	.tag-label {
 		@include label-m-regular;
+		@include ellipsis;
 
 		color: var(--tag-label-color, var(--_tag-label));
 	}
@@ -48,6 +53,7 @@
 	// Color variants
 	&--color-neutral {
 		--_tag-bg: var(--background-container-neutral-default);
+		--_tag-border-color: var(--border-container-tag-neutral-subtle);
 		--_tag-label: var(--text-container-neutral-subtle);
 		--_tag-badge: var(--text-container-neutral-subtle);
 		--_tag-badge-bg: var(--background-container-neutral-subtle);
@@ -56,6 +62,7 @@
 
 	&--color-brand {
 		--_tag-bg: var(--background-container-brand-default);
+		--_tag-border-color: var(--border-container-tag-brand-subtle);
 		--_tag-label: var(--text-container-brand-default);
 		--_tag-badge: var(--text-container-brand-default);
 		--_tag-badge-bg: var(--background-container-brand-subtle);
@@ -64,6 +71,7 @@
 
 	&--color-purple {
 		--_tag-bg: var(--background-container-accent-purple-default);
+		--_tag-border-color: var(--border-container-accent-purple-subtle);
 		--_tag-label: var(--text-container-accent-purple-default);
 		--_tag-badge: var(--text-container-accent-purple-default);
 		--_tag-badge-bg: var(--background-container-accent-purple-subtle);
@@ -72,6 +80,7 @@
 
 	&--color-green {
 		--_tag-bg: var(--background-container-status-success-default);
+		--_tag-border-color: var(--border-container-status-success-subtle);
 		--_tag-label: var(--text-container-status-success-default);
 		--_tag-badge: var(--text-container-status-success-default);
 		--_tag-badge-bg: var(--background-container-status-success-subtle);
@@ -80,6 +89,7 @@
 
 	&--color-yellow {
 		--_tag-bg: var(--background-container-status-warning-default);
+		--_tag-border-color: var(--border-container-status-warning-subtle);
 		--_tag-label: var(--text-container-status-warning-default);
 		--_tag-badge: var(--text-container-status-warning-default);
 		--_tag-badge-bg: var(--background-container-status-warning-subtle);
@@ -88,6 +98,7 @@
 
 	&--color-red {
 		--_tag-bg: var(--background-container-status-danger-default);
+		--_tag-border-color: var(--border-container-status-danger-subtle);
 		--_tag-label: var(--text-container-status-danger-default);
 		--_tag-badge: var(--text-container-status-danger-default);
 		--_tag-badge-bg: var(--background-container-status-danger-subtle);
@@ -96,6 +107,7 @@
 
 	&--color-blue {
 		--_tag-bg: var(--background-container-status-info-default);
+		--_tag-border-color: var(--border-container-status-info-subtle);
 		--_tag-label: var(--text-container-status-info-default);
 		--_tag-badge: var(--text-container-status-info-default);
 		--_tag-badge-bg: var(--background-container-status-info-subtle);
