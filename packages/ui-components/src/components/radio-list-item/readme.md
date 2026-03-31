@@ -53,13 +53,14 @@ export const RadioListItemExample: React.FC = () => (
 
 ## Properties
 
-| Property                | Attribute     | Description                                                                 | Type               | Default     |
-| ----------------------- | ------------- | --------------------------------------------------------------------------- | ------------------ | ----------- |
-| `checked`               | `checked`     | (optional) Defines if this option is checked                                | `boolean`          | `false`     |
-| `description`           | `description` | (optional) The description that can contain links in the [text](url) format | `string`           | `undefined` |
-| `disabled`              | `disabled`    | (optional) Defines if this option is disabled                               | `boolean`          | `false`     |
-| `label` _(required)_    | `label`       | (required) The label to display                                             | `string`           | `undefined` |
-| `optionId` _(required)_ | `option-id`   | (required) The unique id that serves as a key for this item                 | `number \| string` | `undefined` |
+| Property                | Attribute     | Description                                                                 | Type                                           | Default                |
+| ----------------------- | ------------- | --------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
+| `checked`               | `checked`     | (optional) Defines if this option is checked                                | `boolean`                                      | `false`                |
+| `description`           | `description` | (optional) The description that can contain links in the [text](url) format | `string`                                       | `undefined`            |
+| `disabled`              | `disabled`    | (optional) Defines if this option is disabled                               | `boolean`                                      | `false`                |
+| `label`                 | `label`       | (required) The label to display                                             | `string`                                       | `undefined`            |
+| `optionId` _(required)_ | `option-id`   | (required) The unique id that serves as a key for this item                 | `number \| string`                             | `undefined`            |
+| `size`                  | `size`        | (optional) Button's size                                                    | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
 
 
 ## Events
@@ -81,7 +82,6 @@ export const RadioListItemExample: React.FC = () => (
 | `--radio-list-item-border-color-hover`   | Border color on hover. Default: neutral-0.                           |
 | `--radio-list-item-border-radius`        | Border radius. Default: 2px.                                         |
 | `--radio-list-item-description-color`    | Description text color. Default: neutral-4.                          |
-| `--radio-list-item-disabled-opacity`     | Opacity when disabled. Default: 0.5.                                 |
 | `--radio-list-item-gap`                  | Gap between radio and info content. Default: 16px (spacing-4x).      |
 | `--radio-list-item-label-color`          | Label text color. Default: neutral-0.                                |
 | `--radio-list-item-padding`              | Content padding. Default: 16px (spacing-4x).                         |

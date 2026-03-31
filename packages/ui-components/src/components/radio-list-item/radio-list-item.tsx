@@ -12,9 +12,11 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) optionId!: string | number;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) label!: string;
+	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) description?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) checked?: boolean = false;
 	/** @inheritdoc */
@@ -33,6 +35,9 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 
 	private onOptionClick = (ev: Event) => {
 		ev.stopPropagation();
+		if (this.disabled) {
+			return;
+		}
 		this.optionClick.emit(this.optionId);
 	};
 
@@ -40,21 +45,20 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 		return (
 			<Host>
 				<div
-					tabIndex={this.disabled ? -1 : 0}
 					class={{
 						'radio-list-item-container': true,
-						'radio-list-item-container--disabled': this.disabled,
-						'radio-list-item-container--checked': this.checked
+						'radio-list-item-container--disabled': !!this.disabled,
+						'radio-list-item-container--checked': !!this.checked
 					}}
 					onClick={this.onOptionClick}
 				>
 					<slot name="header" />
-					<div class="content">
-						<kv-radio size={EComponentSize.Large} checked={this.checked} disabled={this.disabled} onCheckedChange={this.onOptionClick} />
+					<div class={{ content: true, [`content--size-${this.size}`]: true }}>
+						<kv-radio size={EComponentSize.Small} checked={this.checked} disabled={this.disabled} onCheckedChange={this.onOptionClick} />
 						<div class="info">
-							<slot name="label">
-								<div class="label">{this.label}</div>
-							</slot>
+							<div class="label">
+								<slot name="label">{this.label}</slot>
+							</div>
 							{this.description && <div class="description">{this.parsedDescription}</div>}
 							<slot name="additional-info"></slot>
 						</div>

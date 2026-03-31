@@ -6,12 +6,12 @@
 	 * @prop --help-text-error-color: Help Text color when state is invalid.
 	 */
 
-	--help-text-default-color: var(--text-surface-neutral-tertiary, #{kv-color('neutral-4')});
-	--help-text-error-color: var(--text-container-status-danger-default, #{kv-color('error', 'light')});
-	--help-text-top-spacing: var(--spacing-xs, #{$spacing});
-	--help-text-bottom-spacing: var(--spacing-none, 0);
-	--help-text-right-spacing: var(--spacing-none, 0);
-	--help-text-left-spacing: var(--spacing-md, #{$spacing-2x});
+	--help-text-default-color: var(--text-surface-neutral-tertiary);
+	--help-text-error-color: var(--text-container-status-danger-default);
+	--help-text-top-spacing: var(--spacing-xs);
+	--help-text-bottom-spacing: var(--spacing-none);
+	--help-text-right-spacing: var(--spacing-none);
+	--help-text-left-spacing: var(--spacing-md);
 
 	display: flex;
 }
@@ -27,20 +27,20 @@
 	.help-text {
 		@include body-s-regular;
 
-		margin-right: var(--spacing-xs, #{$spacing});
+		margin-right: var(--spacing-xs);
 		color: var(--help-text-default-color);
 	}
 
 	span + span::before {
 		content: '•';
-		padding-right: var(--spacing-xs, #{$spacing});
+		padding-right: var(--spacing-xs);
 	}
 
 	kv-icon {
 		--icon-color: var(--help-text-default-color);
 
 		align-items: center;
-		margin-right: var(--spacing-xs, #{$spacing-2x});
+		margin-right: var(--spacing-xs);
 		float: left;
 	}
 

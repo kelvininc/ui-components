@@ -4,11 +4,7 @@ import { ComponentProps } from "react";
 
 const CopyToClipboardTemplate: StoryFn<
 	ComponentProps<typeof KvCopyToClipboard>
-> = (args) => (
-	<div style={{ color: "white", fontFamily: "Proxima Nova" }}>
-		<KvCopyToClipboard {...args}>{QUOTE}</KvCopyToClipboard>
-	</div>
-);
+> = (args) => <KvCopyToClipboard {...args}>{QUOTE}</KvCopyToClipboard>;
 
 const meta = {
 	title: "Data Display/Copy To Clipboard",
