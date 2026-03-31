@@ -6,5 +6,5 @@
 }
 
 .toggle-tip-container::part(tooltip-container) {
-	padding: var(--spacing-xl, #{$spacing-3x});
+	padding: var(--spacing-xl);
 }

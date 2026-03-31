@@ -295,6 +295,13 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "alert-secondary": {
+        "default": {
+          "value": "{color.gray.200}",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "interactive": {
@@ -557,6 +564,18 @@
           "prefix": "color"
         },
         "default": {
+          "value": "{color.gray.50}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "card-application": {
+        "default": {
+          "value": "{color.gray.50}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "hover": {
           "value": "{color.gray.200}",
           "type": "color",
           "prefix": "color"
@@ -1451,6 +1470,18 @@
       "graphic-recommendation": {
         "default": {
           "value": "{color.gray.300}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "radio-selected": {
+        "hover": {
+          "value": "{color.gray.950}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "selected": {
+          "value": "{color.gray.950}",
           "type": "color",
           "prefix": "color"
         }
