@@ -8,11 +8,11 @@
 	 * @prop --button-size-small: Button's height and width size when size is small.
 	 */
 
-	--button-icon-large-size: var(--icon-button-primary-icon-size-regular, 24px);
-	--button-icon-small-size: var(--icon-button-primary-icon-size-compact, 20px);
+	--button-icon-large-size: var(--icon-button-primary-icon-size-regular);
+	--button-icon-small-size: var(--icon-button-primary-icon-size-compact);
 
-	--button-size-large: var(--icon-button-height-regular, 36px);
-	--button-size-small: var(--icon-button-height-compact, 28px);
+	--button-size-large: var(--icon-button-height-regular);
+	--button-size-small: var(--icon-button-height-compact);
 
 	position: relative;
 }
@@ -35,86 +35,50 @@ kv-action-button {
 	// sizing
 	--button-height-large: var(--button-size-large);
 	--button-height-small: var(--button-size-small);
-	--button-padding-x-large: var(--icon-button-padding-x-regular, 0);
-	--button-padding-y-large: var(--icon-button-padding-y-regular, 0);
-	--button-padding-x-small: var(--icon-button-padding-x-compact, 0);
-	--button-padding-y-small: var(--icon-button-padding-y-compact, 0);
-	--button-border-thickness: var(--icon-button-secondary-border-thickness-default, 1px);
-	--button-border-radius-large: var(--icon-button-radius-regular, 4px);
-	--button-border-radius-small: var(--icon-button-radius-compact, 4px);
+	--button-padding-x-large: var(--icon-button-padding-x-regular);
+	--button-padding-y-large: var(--icon-button-padding-y-regular);
+	--button-padding-x-small: var(--icon-button-padding-x-compact);
+	--button-padding-y-small: var(--icon-button-padding-y-compact);
+	--button-border-thickness: var(--icon-button-secondary-border-thickness-default);
+	--button-border-radius-large: var(--icon-button-radius-regular);
+	--button-border-radius-small: var(--icon-button-radius-compact);
 
-	--button-icon-size-primary-large: var(--button-icon-large-size, --icon-button-primary-icon-size-regular, 16px);
-	--button-icon-size-primary-small: var(--button-icon-small-size, --icon-button-primary-icon-size-compact, 16px);
-	--button-icon-size-secondary-large: var(--button-icon-large-size, --icon-button-secondary-icon-size-regular, 16px);
-	--button-icon-size-secondary-small: var(--button-icon-small-size, --icon-button-secondary-icon-size-compact, 16px);
-	--button-icon-size-tertiary-large: var(--button-icon-large-size, --icon-button-tertiary-icon-size-regular, 16px);
-	--button-icon-size-tertiary-small: var(--button-icon-small-size, --icon-button-tertiary-icon-size-compact, 16px);
-	--button-icon-size-text-large: var(--button-icon-large-size, --icon-button-text-icon-size-regular, 16px);
-	--button-icon-size-text-small: var(--button-icon-small-size, --icon-button-text-icon-size-compact, 16px);
-	--button-icon-size-danger-large: var(--button-icon-large-size, --icon-button-danger-icon-size-regular, 16px);
-	--button-icon-size-danger-small: var(--button-icon-small-size, --icon-button-danger-icon-size-compact, 16px);
+	--button-icon-size-primary-large: var(--button-icon-large-size, --icon-button-primary-icon-size-regular);
+	--button-icon-size-primary-small: var(--button-icon-small-size, --icon-button-primary-icon-size-compact);
+	--button-icon-size-secondary-large: var(--button-icon-large-size, --icon-button-secondary-icon-size-regular);
+	--button-icon-size-secondary-small: var(--button-icon-small-size, --icon-button-secondary-icon-size-compact);
+	--button-icon-size-tertiary-large: var(--button-icon-large-size, --icon-button-tertiary-icon-size-regular);
+	--button-icon-size-tertiary-small: var(--button-icon-small-size, --icon-button-tertiary-icon-size-compact);
+	--button-icon-size-text-large: var(--button-icon-large-size, --icon-button-text-icon-size-regular);
+	--button-icon-size-text-small: var(--button-icon-small-size, --icon-button-text-icon-size-compact);
+	--button-icon-size-danger-large: var(--button-icon-large-size, --icon-button-danger-icon-size-regular);
+	--button-icon-size-danger-small: var(--button-icon-small-size, --icon-button-danger-icon-size-compact);
 
 	//icon colors
 	--icon-color-default-primary: var(--icon-button-primary-icon-color-default);
 	--icon-color-default-secondary: var(--icon-button-secondary-icon-color-default);
 	--icon-color-default-tertiary: var(--icon-button-tertiary-icon-color-default);
-	--icon-color-default-text: var(--icon-button-text-icon-color-default);
 	--icon-color-default-danger: var(--icon-button-danger-icon-color-default);
 
 	--icon-color-hover-primary: var(--icon-button-primary-icon-color-default);
 	--icon-color-hover-secondary: var(--icon-button-secondary-icon-color-subtle);
 	--icon-color-hover-tertiary: var(--icon-button-tertiary-icon-color-subtle);
-	--icon-color-hover-text: var(--icon-button-text-icon-color-default);
 	--icon-color-hover-danger: var(--icon-button-danger-icon-color-default);
 
 	--icon-color-focus-primary: var(--icon-button-primary-icon-color-default);
 	--icon-color-focus-secondary: var(--icon-button-secondary-icon-color-default);
 	--icon-color-focus-tertiary: var(--icon-button-tertiary-icon-color-default);
-	--icon-color-focus-text: var(--icon-button-text-icon-color-default);
 	--icon-color-focus-danger: var(--icon-button-danger-icon-color-default);
 
 	--icon-color-disabled-primary: var(--icon-button-primary-icon-color-disabled);
 	--icon-color-disabled-secondary: var(--icon-button-secondary-icon-color-disabled);
 	--icon-color-disabled-tertiary: var(--icon-button-tertiary-icon-color-disabled);
-	--icon-color-disabled-text: var(--icon-button-text-icon-color-disabled);
 	--icon-color-disabled-danger: var(--icon-button-danger-icon-color-disabled);
 
 	--icon-color-active-primary: var(--icon-button-primary-icon-color-default);
 	--icon-color-active-secondary: var(--icon-button-secondary-icon-color-subtle);
 	--icon-color-active-tertiary: var(--icon-button-tertiary-icon-color-subtle);
-	--icon-color-active-text: var(--icon-button-text-icon-color-default);
 	--icon-color-active-danger: var(--icon-button-danger-icon-color-default);
-
-	// text colors
-	--text-color-default-primary: var(--icon-button-primary-label-default);
-	--text-color-default-secondary: var(--icon-button-secondary-label-default);
-	--text-color-default-tertiary: var(--icon-button-tertiary-label-default);
-	--text-color-default-text: var(--icon-button-text-label-default);
-	--text-color-default-danger: var(--icon-button-danger-label-default);
-
-	--text-color-hover-primary: var(--icon-button-primary-label-default);
-	--text-color-hover-secondary: var(--icon-button-secondary-label-subtle);
-	--text-color-hover-tertiary: var(--icon-button-tertiary-label-subtle);
-	--text-color-hover-text: var(--icon-button-text-label-default);
-	--text-color-hover-danger: var(--icon-button-danger-label-default);
-
-	--text-color-focus-primary: var(--icon-button-primary-label-default);
-	--text-color-focus-secondary: var(--icon-button-secondary-label-default);
-	--text-color-focus-tertiary: var(--icon-button-tertiary-label-default);
-	--text-color-focus-text: var(--icon-button-text-label-default);
-	--text-color-focus-danger: var(--icon-button-danger-label-default);
-
-	--text-color-disabled-primary: var(--icon-button-primary-label-disabled);
-	--text-color-disabled-secondary: var(--icon-button-secondary-label-disabled);
-	--text-color-disabled-tertiary: var(--icon-button-tertiary-label-disabled);
-	--text-color-disabled-text: var(--icon-button-text-label-disabled);
-	--text-color-disabled-danger: var(--icon-button-danger-label-disabled);
-
-	--text-color-active-primary: var(--icon-button-primary-label-default);
-	--text-color-active-secondary: var(--icon-button-secondary-label-subtle);
-	--text-color-active-tertiary: var(--icon-button-tertiary-label-subtle);
-	--text-color-active-text: var(--icon-button-text-label-default);
-	--text-color-active-danger: var(--icon-button-danger-label-default);
 
 	// background colors
 	--background-color-default-primary: var(--icon-button-primary-background-default);
