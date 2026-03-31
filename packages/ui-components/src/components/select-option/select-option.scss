@@ -25,38 +25,38 @@
 	--select-option-height: 32px;
 	--select-option-transition-duration: 100ms;
 
-	--select-option-background-color: var(--transparent, #{kv-color('neutral-7')});
-	--select-option-background-color-selected: var(--background-interactive-slider-list-selected, #{kv-color('neutral-6')});
-	--select-option-background-color-highlighted: var(--background-interactive-slider-list-hover, #{kv-color('neutral-6')});
-	--select-option-background-color-hover: var(--background-interactive-slider-list-hover, #{kv-color('neutral-6')});
-	--select-option-background-color-disabled: var(--transparent, #{kv-color('neutral-7')});
+	--select-option-background-color: var(--transparent);
+	--select-option-background-color-selected: var(--background-interactive-slider-list-selected);
+	--select-option-background-color-highlighted: var(--background-interactive-slider-list-hover);
+	--select-option-background-color-hover: var(--background-interactive-slider-list-hover);
+	--select-option-background-color-disabled: var(--transparent);
 
-	--select-option-label-color: var(--text-interactive-slider-list-default, #{kv-color('neutral-4')});
-	--select-option-label-color-selected: var(--text-interactive-slider-list-selected, #{kv-color('neutral-1')});
-	--select-option-label-color-highlighted: var(--text-interactive-slider-list-hover, #{kv-color('neutral-2')});
-	--select-option-label-color-hover: var(--text-interactive-slider-list-hover, #{kv-color('neutral-2')});
-	--select-option-label-color-disabled: var(--text-interactive-slider-list-disabled, #{kv-color('neutral-6')});
+	--select-option-label-color: var(--text-interactive-slider-list-default);
+	--select-option-label-color-selected: var(--text-interactive-slider-list-selected);
+	--select-option-label-color-highlighted: var(--text-interactive-slider-list-hover);
+	--select-option-label-color-hover: var(--text-interactive-slider-list-hover);
+	--select-option-label-color-disabled: var(--text-interactive-slider-list-disabled);
 
-	--select-option-description-color: var(--text-on-color-neutral-tertiary, #{kv-color('neutral-4')});
-	--select-option-description-color-selected: var(--text-on-color-neutral-tertiary, #{kv-color('neutral-4')});
-	--select-option-description-color-highlighted: var(--text-on-color-neutral-tertiary, #{kv-color('neutral-4')});
-	--select-option-description-color-hover: var(--text-on-color-neutral-tertiary, #{kv-color('neutral-4')});
-	--select-option-description-color-disabled: var(--text-on-color-neutral-disabled, #{kv-color('neutral-6')});
+	--select-option-description-color: var(--text-on-color-neutral-tertiary);
+	--select-option-description-color-selected: var(--text-on-color-neutral-tertiary);
+	--select-option-description-color-highlighted: var(--text-on-color-neutral-tertiary);
+	--select-option-description-color-hover: var(--text-on-color-neutral-tertiary);
+	--select-option-description-color-disabled: var(--text-on-color-neutral-disabled);
 
-	--select-option-icon-color: var(--icon-interactive-slider-list-default, #{kv-color('neutral-0')});
-	--select-option-icon-color-selected: var(--icon-interactive-slider-list-selected, #{kv-color('neutral-0')});
-	--select-option-icon-color-highlighted: var(--icon-interactive-slider-list-hover, #{kv-color('neutral-0')});
-	--select-option-icon-color-hover: var(--icon-interactive-slider-list-hover, #{kv-color('neutral-0')});
-	--select-option-icon-color-disabled: var(--icon-interactive-slider-list-disabled, #{kv-color('neutral-6')});
+	--select-option-icon-color: var(--icon-interactive-slider-list-default);
+	--select-option-icon-color-selected: var(--icon-interactive-slider-list-selected);
+	--select-option-icon-color-highlighted: var(--icon-interactive-slider-list-hover);
+	--select-option-icon-color-hover: var(--icon-interactive-slider-list-hover);
+	--select-option-icon-color-disabled: var(--icon-interactive-slider-list-disabled);
 
-	--select-option-right-icon-color: var(--icon-interactive-slider-list-default, #{kv-color('neutral-4')});
-	--select-option-right-icon-color-selected: var(--icon-interactive-slider-list-selected, #{kv-color('neutral-4')});
-	--select-option-right-icon-color-highlighted: var(--icon-interactive-slider-list-hover, #{kv-color('neutral-4')});
-	--select-option-right-icon-color-hover: var(--icon-interactive-slider-list-hover, #{kv-color('neutral-4')});
-	--select-option-right-icon-color-disabled: var(--icon-interactive-slider-list-disabled, #{kv-color('neutral-6')});
+	--select-option-right-icon-color: var(--icon-interactive-slider-list-default);
+	--select-option-right-icon-color-selected: var(--icon-interactive-slider-list-selected);
+	--select-option-right-icon-color-highlighted: var(--icon-interactive-slider-list-hover);
+	--select-option-right-icon-color-hover: var(--icon-interactive-slider-list-hover);
+	--select-option-right-icon-color-disabled: var(--icon-interactive-slider-list-disabled);
 
-	--select-option-icon-size: var(--size-default, 16px);
-	--select-option-right-icon-size: var(--size-default, 16px);
+	--select-option-icon-size: var(--size-default);
+	--select-option-right-icon-size: var(--size-default);
 }
 
 .select-option {
@@ -68,15 +68,16 @@
 	cursor: pointer;
 	background-color: var(--select-option-background-color);
 	transition: background-color var(--select-option-transition-duration) linear;
-	padding-right: var(--spacing-2xl, #{$spacing-4x});
-	padding-left: calc(var(--level-padding-offset) + var(--spacing-2xl, #{$spacing-4x}));
+	padding-right: var(--spacing-2xl);
+	/* stylelint-disable-next-line csstools/value-no-unknown-custom-properties -- vars defined by parent component */
+	padding-left: calc(var(--level-padding-offset) + var(--spacing-2xl));
 
 	.text-container {
 		flex: 1;
 		min-width: 0;
 		display: flex;
 		align-items: center;
-		gap: var(--spacing-md, #{$spacing-2x});
+		gap: var(--spacing-md);
 	}
 
 	.left-content {
@@ -84,17 +85,17 @@
 		min-width: 0;
 		display: flex;
 		align-items: center;
-		gap: var(--spacing-xs, #{$spacing});
+		gap: var(--spacing-xs);
 	}
 
 	.right-content {
 		display: flex;
 		align-items: center;
-		gap: var(--spacing-md, #{$spacing-2x});
+		gap: var(--spacing-md);
 	}
 
 	.icon-container {
-		margin-right: var(--spacing-md, #{$spacing-2x});
+		margin-right: var(--spacing-md);
 
 		kv-icon {
 			--icon-width: var(--select-option-icon-size);
@@ -122,7 +123,7 @@
 	.group {
 		display: flex;
 		flex-direction: row;
-		gap: var(--spacing-xs, #{$spacing});
+		gap: var(--spacing-xs);
 		align-items: center;
 	}
 
@@ -217,13 +218,13 @@
 	&--heading {
 		.item-label {
 			@include body-m-regular;
-			color: var(--text-on-color-neutral-tertiary, #{kv-color('neutral-2')});
+			color: var(--text-on-color-neutral-tertiary);
 		}
 
 		.text-container .left-content::after {
-			@include kelvin-horizontal-divider(var(--border-on-color-neutral-default, #{kv-color('neutral-6')}));
+			@include kelvin-horizontal-divider(var(--border-on-color-neutral-default));
 
-			margin-left: var(--spacing-md, #{$spacing-2x});
+			margin-left: var(--spacing-md);
 		}
 	}
 

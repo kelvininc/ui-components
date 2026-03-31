@@ -8,7 +8,7 @@ body[mode="night"] {
   --background-surface-neutral-default: var(--color-gray-900);
   --background-surface-neutral-subtle: var(--color-gray-800);
   --background-surface-neutral-inverse: var(--color-gray-50);
-  --background-surface-sidebar-default: var(--color-gray-800);
+  --background-surface-sidebar-default: var(--color-gray-900);
   --background-surface-sidebar-strong: var(--color-gray-700);
   --background-surface-skeleton-highlight: var(--color-gray-500);
   --background-surface-skeleton-base: var(--color-gray-600);
@@ -55,6 +55,7 @@ body[mode="night"] {
   --background-container-account-accent: var(--color-purple-500);
   --background-container-card-recommendation-default: var(--color-gray-900);
   --background-container-card-recommendation-subtle: var(--color-gray-800);
+  --background-container-alert-secondary-default: var(--color-gray-700);
   --background-interactive-neutral-hover: var(--color-gray-600);
   --background-interactive-neutral-pressed: var(--color-gray-500);
   --background-interactive-neutral-disabled: var(--color-gray-700);
@@ -100,7 +101,15 @@ body[mode="night"] {
   --background-interactive-table-pin-pressed: var(--color-gray-600);
   --background-interactive-card-hover: var(--color-gray-700);
   --background-interactive-card-selected: var(--color-gray-600);
-  --background-interactive-card-default: var(--color-gray-700);
+  --background-interactive-card-default: var(--color-gray-800);
+  --background-interactive-card-application-default: var(--color-gray-900);
+  --background-interactive-card-application-hover: var(--color-gray-800);
+  --background-interactive-column-bar-active: var(--color-gray-700);
+  --background-interactive-column-bar-hidden: var(--color-gray-900);
+  --background-interactive-column-bar-hover: var(--color-gray-600);
+  --background-interactive-column-bar-drag: var(--color-gray-500);
+  --background-interactive-column-bar-locked: var(--color-gray-800);
+  --background-interactive-column-bar-empty: var(--color-gray-800);
   --background-persistent-control-on-defaullt: var(--color-brand-500);
   --background-persistent-control-on-subtle: var(--color-gray-600);
   --background-persistent-control-off-neutral: var(--color-gray-600);
@@ -224,9 +233,13 @@ body[mode="night"] {
   --border-interactive-accordion-default: var(--color-gray-500);
   --border-interactive-accordion-disabled: var(--color-gray-500);
   --border-container-status-success-default: var(--color-green-500);
+  --border-container-status-success-subtle: rgba(7, 213, 113, 0);
   --border-container-status-warning-default: var(--color-yellow-500);
+  --border-container-status-warning-subtle: rgba(255, 228, 168, 0);
   --border-container-status-danger-default: var(--color-red-500);
+  --border-container-status-danger-subtle: rgba(255, 184, 173, 0);
   --border-container-status-info-default: var(--color-blue-500);
+  --border-container-status-info-subtle: rgba(184, 208, 249, 0);
   --border-container-elevated-default: var(--color-gray-700);
   --border-container-neutral-default: var(--color-gray-700);
   --border-container-neutral-selected: var(--color-gray-50);
@@ -238,6 +251,7 @@ body[mode="night"] {
   --border-container-navigation-row-selected: rgba(64, 64, 64, 0);
   --border-container-accent-teal-default: var(--color-teal-500);
   --border-container-accent-purple-default: var(--color-purple-500);
+  --border-container-accent-purple-subtle: rgba(198, 178, 255, 0);
   --border-container-table-default: rgba(51, 51, 51, 0);
   --border-container-table-inverse: var(--color-gray-700);
   --border-container-card-default: rgba(64, 64, 64, 0);
@@ -246,6 +260,11 @@ body[mode="night"] {
   --border-container-card-failed: var(--color-red-500);
   --border-container-card-divider: var(--color-gray-600);
   --border-container-graphic-recommendation-default: rgba(64, 64, 64, 0);
+  --border-container-radio-selected-hover: var(--color-gray-50);
+  --border-container-radio-selected-selected: var(--color-gray-50);
+  --border-container-tag-neutral-subtle: rgba(191, 191, 191, 0);
+  --border-container-tag-brand-subtle: rgba(178, 212, 255, 0);
+  --border-container-column-bar-default: rgba(26, 26, 26, 0);
   --border-persistent-control-off: var(--color-gray-600);
   --border-persistent-control-on: var(--color-gray-300);
   --border-persistent-control-disabled: var(--color-gray-700);

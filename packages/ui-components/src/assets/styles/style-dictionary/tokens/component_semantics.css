@@ -240,7 +240,7 @@ body {
   --alert-background-primary-warning: var(--background-container-status-warning-strong);
   --alert-background-primary-error: var(--background-container-status-danger-strong);
   --alert-background-primary-info: var(--background-container-status-info-strong);
-  --alert-background-secondary-default: var(--background-container-neutral-subtlest);
+  --alert-background-secondary-default: var(--background-container-alert-secondary-default);
   --alert-padding-x-default: var(--spacing-2xl);
   --alert-padding-x-small: var(--spacing-xl);
   --alert-padding-y-default: var(--spacing-2xl);

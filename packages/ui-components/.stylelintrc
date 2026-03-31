@@ -1,5 +1,8 @@
 {
 	"extends": "stylelint-config-sass-guidelines",
+	"plugins": [
+		"stylelint-value-no-unknown-custom-properties"
+	],
 	"rules": {
 		"selector-max-compound-selectors": 4,
 		"max-nesting-depth": [
@@ -10,7 +13,15 @@
 				]
 			}
 		],
-		"selector-no-qualifying-type": null
+		"selector-no-qualifying-type": null,
+		"csstools/value-no-unknown-custom-properties": [
+			true,
+			{
+				"importFrom": [
+					"src/assets/styles/style-dictionary/tokens/index.css"
+				]
+			}
+		]
 	},
 	"ignoreFiles": [
 		"src/assets/fonts/*.scss"
