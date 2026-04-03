@@ -29,9 +29,11 @@
 	--radio-list-item-border: 1px solid var(--border-persistent-radio-selector-default);
 	--radio-list-item-border-color-hover: var(--border-persistent-radio-selector-hover);
 	--radio-list-item-border-color-checked: var(--border-persistent-radio-selector-seleted);
-	--radio-list-item-border-radius: var(--radius-sm);
-	--radio-list-item-padding: var(--spacing-2xl);
-	--radio-list-item-gap: var(--spacing-md);
+	--radio-list-item-border-radius: var(--radius-md);
+	--radio-list-item-padding-large: var(--spacing-2xl);
+	--radio-list-item-padding-small: var(--spacing-xs) var(--spacing-2xl) var(--spacing-xs) var(--spacing-md);
+	--radio-list-item-gap-large: var(--spacing-md);
+	--radio-list-item-gap-small: var(--spacing-none);
 }
 
 .radio-list-item-container {
@@ -101,7 +103,12 @@
 	.content {
 		display: flex;
 		align-items: center;
-		padding: var(--radio-list-item-padding);
-		gap: var(--radio-list-item-gap);
+		padding: var(--radio-list-item-padding-large);
+		gap: var(--radio-list-item-gap-large);
+
+		&--size-small {
+			gap: var(--radio-list-item-gap-small);
+			padding: var(--radio-list-item-padding-small);
+		}
 	}
 }

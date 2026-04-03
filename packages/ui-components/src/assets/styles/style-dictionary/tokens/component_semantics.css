@@ -129,9 +129,10 @@ body {
   --info-panel-padding-x-default: var(--spacing-md);
   --info-panel-padding-y-default: var(--spacing-md);
   --info-panel-radius-default: var(--radius-md);
-  --info-panel-title-default: var(--text-container-elevated-info-panel-info-panel);
+  --info-panel-title-default: var(--text-container-elevated-info-panel-default);
   --info-panel-background-default: var(--background-container-elevated-info-panel);
-  --info-panel-content-default: var(--text-container-elevated-info-panel-info-panel);
+  --info-panel-content-default: var(--text-container-elevated-info-panel-default);
+  --info-panel-content-subtle: var(--text-container-elevated-info-panel-subtle);
   --info-panel-gap-default: var(--spacing-md);
   --info-panel-icon-color-default: var(--icon-container-elevated-info-panel-info-panel);
   --tab-primary-padding-x-default: var(--spacing-4xl);

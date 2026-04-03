@@ -3,5 +3,5 @@
 .radio-list-items {
 	display: flex;
 	flex-direction: column;
-	gap: $spacing-2x;
+	gap: var(--spacing-md);
 }

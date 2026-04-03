@@ -6,6 +6,6 @@
 
 body {
 	.ValueLabel {
-		color: kv-color('neutral-2');
+		color: var(--text-container-neutral-default);
 	}
 }

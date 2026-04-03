@@ -1,7 +1,7 @@
 import { EComponentSize } from '@kelvininc/ui-components';
 import React, { useCallback, useMemo } from 'react';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
-import { KvRadio } from '../../../../stencil-generated';
+import { KvRadioListItem } from '../../../../stencil-generated';
 import styles from './RadioWidget.module.scss';
 import classNames from 'classnames';
 import { useFormState } from '../../contexts';
@@ -38,14 +38,20 @@ const RadioWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormC
 					const isDisabled = disabled || itemDisabled || readonly;
 
 					return (
-						<div
-							key={i}
-							className={classNames(styles.RadioOption, { [styles.Checked]: checked, [styles.Disabled]: isDisabled })}
-							onClick={_ => handleChange(option.value, checked)}
-							onFocus={() => markFieldAsTouched(id)}
-							onBlur={() => markFieldAsTouched(id)}
-						>
-							<KvRadio size={EComponentSize.Large} id={option.label} label={option.label} disabled={isDisabled} checked={checked} />
+						<div key={i} className={styles.Item}>
+							<KvRadioListItem
+								size={EComponentSize.Small}
+								optionId={option.label}
+								disabled={isDisabled}
+								checked={checked}
+								onOptionClick={_ => handleChange(option.value, checked)}
+								onFocus={() => markFieldAsTouched(id)}
+								onBlur={() => markFieldAsTouched(id)}
+							>
+								<span slot="label" className={styles.Label}>
+									{option.label}
+								</span>
+							</KvRadioListItem>
 						</div>
 					);
 				})}

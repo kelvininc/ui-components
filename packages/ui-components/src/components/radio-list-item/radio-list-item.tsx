@@ -12,9 +12,11 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) optionId!: string | number;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) label!: string;
+	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) description?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) checked?: boolean = false;
 	/** @inheritdoc */
@@ -51,7 +53,7 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 					onClick={this.onOptionClick}
 				>
 					<slot name="header" />
-					<div class="content">
+					<div class={{ content: true, [`content--size-${this.size}`]: true }}>
 						<kv-radio size={EComponentSize.Small} checked={this.checked} disabled={this.disabled} onCheckedChange={this.onOptionClick} />
 						<div class="info">
 							<div class="label">

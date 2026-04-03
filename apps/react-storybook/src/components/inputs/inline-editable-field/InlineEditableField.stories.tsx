@@ -1,4 +1,4 @@
-import { ComponentProps, CSSProperties, useRef, useState } from "react";
+import { ComponentProps, useRef, useState } from "react";
 import {
 	KvInlineEditableField,
 	KvInlineEditableFieldCustomEvent

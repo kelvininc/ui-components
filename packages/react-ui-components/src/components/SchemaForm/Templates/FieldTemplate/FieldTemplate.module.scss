@@ -6,6 +6,6 @@
 	flex-direction: column;
 
 	.TopDescription {
-		padding-bottom: $spacing-4x;
+		padding-bottom: var(--spacing-2xl);
 	}
 }

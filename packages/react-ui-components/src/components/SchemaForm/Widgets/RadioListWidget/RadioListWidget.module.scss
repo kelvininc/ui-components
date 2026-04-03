@@ -3,8 +3,8 @@
 .RadioListContainer {
 	display: flex;
 	flex-flow: column wrap;
-	gap: $spacing-2x;
-	margin-left: $spacing;
+	gap: var(--spacing-md);
+	margin-left: var(--spacing-xs);
 
 	&.Inline {
 		flex-direction: row;

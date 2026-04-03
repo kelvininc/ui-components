@@ -11,8 +11,8 @@
 	--schema-form-x-padding: 0;
 	--schema-form-y-padding: 0;
 	--schema-form-max-width: 100%;
-	--schema-form-fields-x-gap: #{$spacing-5x};
-	--schema-form-fields-y-gap: #{$spacing-5x};
+	--schema-form-fields-x-gap: var(--spacing-3xl);
+	--schema-form-fields-y-gap: var(--spacing-3xl);
 	--schema-form-background: inherit;
 
 	width: 100%;
@@ -49,16 +49,16 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: end;
-		padding: $spacing-4x var(--schema-form-x-padding) 0 var(--schema-form-x-padding);
+		padding: var(--spacing-2xl) var(--schema-form-x-padding) 0 var(--schema-form-x-padding);
 
 		&.Scrolling {
-			border-top: 1px solid kv-color('neutral-6');
+			border-top: 1px solid var(--modal-divider-strong);
 		}
 
 		.LeftFooter,
 		.RightFooter {
 			display: flex;
-			gap: $spacing-3x;
+			gap: var(--spacing-xl);
 		}
 	}
 
@@ -66,13 +66,13 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		gap: $spacing-2x;
+		gap: var(--spacing-md);
 		position: absolute;
 		top: var(--schema-form-y-padding);
 		right: var(--schema-form-x-padding);
 
 		.Text {
-			color: kv-color('neutral-2');
+			color: var(--text-container-neutral-default);
 			@include body-s-regular;
 		}
 	}
@@ -85,6 +85,6 @@ body {
 
 	/* stylelint-disable-next-line no-descending-specificity */
 	.FormFooter.Scrolling {
-		border-color: kv-color('neutral-6');
+		border-color: var(--modal-divider-strong);
 	}
 }
