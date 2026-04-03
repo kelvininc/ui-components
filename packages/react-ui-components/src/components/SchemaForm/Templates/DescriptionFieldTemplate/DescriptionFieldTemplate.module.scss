@@ -1,5 +1,5 @@
 @use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
 .DescriptionContainer {
-	margin-bottom: $spacing-2x;
+	margin-bottom: var(--spacing-md);
 }

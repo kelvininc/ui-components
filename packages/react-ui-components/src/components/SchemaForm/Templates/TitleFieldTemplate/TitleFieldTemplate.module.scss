@@ -1,7 +1,7 @@
 @use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
 .TitleContainer {
-	margin-bottom: $spacing;
+	margin-bottom: var(--spacing-xs);
 	display: flex;
 
 	kv-info-label::part(title) {
@@ -16,19 +16,19 @@
 		kv-info-label::part(title) {
 			@include body-m-semibold;
 
-			color: kv-color('neutral-2');
-			padding-bottom: $spacing-3x;
+			color: var(--text-container-neutral-default);
+			padding-bottom: var(--spacing-xl);
 		}
 	}
 
 	.Required {
 		@include heading-xs-semibold-caps;
 
-		color: kv-color('error');
-		margin: 0 $spacing;
+		color: var(--input-text-required-default);
+		margin: 0 var(--spacing-xs);
 	}
 
 	.ToggleTip {
-		margin-left: $spacing-2x;
+		margin-left: var(--spacing-md);
 	}
 }

@@ -1,12 +1,5 @@
 @use '../../assets/styles' as *;
 
-:host {
-	--inline-editable-field-background-color-hover: var(--input-background-default);
-	--inline-editable-field-outline-color-hover: var(--input-border-color-default);
-	--inline-editable-field-outline-color-focus: var(--input-border-color-selected);
-
-}
-
 .inline-editable-field-container {
 	display: inline-flex;
 	align-items: center;
@@ -15,9 +8,15 @@
 	/**
 	* @prop --margin-top-bottom: Margin top and bottom of the editable container.
 	* @prop --margin-left-right: Margin left and right of the editable container.
+	* @prop --inline-editable-field-background-color-hover: Background color of the editable field on hover.
+	* @prop --inline-editable-field-outline-color-hover: Outline color of the editable field on hover.
+	* @prop --inline-editable-field-outline-color-focus: Outline color of the editable field on focus.
 	*/
 	--margin-top-bottom: var(--spacing-xs);
 	--margin-left-right: var(--spacing-md);
+	--inline-editable-field-background-color-hover: var(--input-background-default);
+	--inline-editable-field-outline-color-hover: var(--input-border-color-default);
+	--inline-editable-field-outline-color-focus: var(--input-border-color-selected);
 
 	&__hover .inline-editable-field-slot {
 		border-radius: var(--radius-md);
@@ -67,6 +66,6 @@
 	&__focus {
 		width: 64px;
 		align-self: flex-end;
-		margin-bottom: calc(var(--margin-left-right) * -1);
+		margin-bottom: calc(var(--margin-top-bottom) * -1);
 	}
 }
