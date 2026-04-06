@@ -30,6 +30,7 @@
 | `selectionAll`            | `selection-all`             | (optional) If `true` the list has an action to select all items                                                   | `boolean`                              | `undefined`                                     |
 | `selectionClearable`      | `selection-clearable`       | (optional) If `true` dropdown items can be cleared                                                                | `boolean`                              | `undefined`                                     |
 | `shortcuts`               | `shortcuts`                 | (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false` | `boolean`                              | `false`                                         |
+| `showShortcuts`           | `show-shortcuts`            |                                                                                                                   | `boolean`                              | `false`                                         |
 
 
 ## Events
