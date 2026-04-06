@@ -1,15 +1,16 @@
-@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
+@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
 .PropsContainer {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
+	/* stylelint-disable csstools/value-no-unknown-custom-properties -- vars defined by parent component */
 	max-width: var(--schema-form-max-width);
 	gap: var(--schema-form-fields-y-gap) var(--schema-form-fields-x-gap);
+	/* stylelint-enable csstools/value-no-unknown-custom-properties -- vars defined by parent component */
 
 	&.Inline {
-		flex-direction: row;
-		flex-wrap: wrap;
+		flex-flow: row wrap;
 	}
 
 	.PropRow.Hidden {

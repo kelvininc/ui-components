@@ -1,31 +1,37 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
 	 * @prop --label-color: Label Text color.
 	 */
-	 --label-color: #{kv-color('neutral-4')};
+	 --label-color: var(--text-surface-neutral-tertiary);
+	 --label-required-color: var(--text-surface-danger-default);
+	 --label-gap: var(--spacing-2xs);
+	 --label-bottom-spacing: var(--spacing-2xs);
+
+	 display: inline-flex;
+	 user-select: none;
 }
 
 .required {
-	@include kv-font-label-small-uppercase-semibold;
+	@include heading-xs-semibold-caps;
 
 	+ label {
-		@include kv-font-label-small-uppercase-semibold;
+		@include heading-xs-semibold-caps;
 	}
 }
 
 .label {
-	@include kv-font-label-small-uppercase-regular;
+	@include heading-xs-regular-caps;
 	color: var(--label-color);
-	margin-left: $spacing;
 }
 
 .required {
-	color: kv-color('error');
-	margin-left: $spacing;
+	color: var( --label-required-color);
 }
 
 .label-container {
-	margin-bottom: $spacing;
+	display: inline-flex;
+	gap: var(--label-gap);
+	margin-bottom: var(--label-bottom-spacing);
 }

@@ -1,37 +1,23 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
 	 * @prop --toaster-large-height: Toaster with two messages.
 	 * @prop --toaster-small-height: Toaster with one message.
-
 	 * @prop --toaster-width: Toaster width.
 	 * @prop --toaster-top-space: Space between Toaster and top of page.
 	 * @prop --background-color-default: Toaster background color.
-
-	 * @prop --reset-button-focused: Close button focused.
 	 * @prop --toaster-icons-height: toaster icons height
 	 * @prop --toaster-icons-width: toaster icons width
 	 */
 
-	--toaster-large-height: 74px;
+	--toaster-large-height: 76px;
 	--toaster-small-height: 56px;
-
-	--toaster-width: 500px;
-	--toaster-top-space: #{$spacing-4x};
-	--background-color-default: #{kv-color('neutral-6')};
-
-	--close-button-focused: #{kv-color('neutral-2')};
-
-	--toaster-icons-width: 24px;
-	--toaster-icons-height: 24px;
-}
-
-kv-icon {
-	--icon-width: var(--toaster-icons-width);
-	--icon-height: var(--toaster-icons-height);
-	margin-right: $spacing-4x;
-	object-fit: contain;
+	--toaster-width: 360px;
+	--toaster-top-space: var(--spacing-2xl);
+	--background-color-default: var(--toast-background-default);
+	--toaster-icon-width: var(--toast-icon-size-large);
+	--toaster-icon-height: var(--toast-icon-size-large);
 }
 
 .toaster-container {
@@ -45,45 +31,51 @@ kv-icon {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	gap: var(--toast-gap-vertical);
 	z-index: 1000;
-	padding: $spacing-4x;
-	border-left: solid 2px kv-color('neutral-6');
+	padding: var(--toast-padding-y-default) var(--toast-padding-x-default);
+	border-left: solid var(--toast-border-thickness-default) var(--background-color-default);
 	background-color: var(--background-color-default);
 	box-sizing: border-box;
 	overflow: hidden;
 
+	.toaster-icon kv-icon {
+		--icon-width: var(--toaster-icon-width);
+		--icon-height: var(--toaster-icon-height);
+	}
+
 	&.toaster-type--info {
-		border-color: kv-color('info');
+		border-color: var(--toast-border-color-info);
 
 		.toaster-icon kv-icon {
-			--icon-color: #{kv-color('info')};
-			--icon-background-color: #{kv-color('neutral-0')};
+			--icon-color: var(--toast-icon-color-info);
+			--icon-background-color: var(--icon-container-neutral-inverse);
 		}
 	}
 
 	&.toaster-type--warning {
-		border-color: kv-color('warning');
+		border-color: var(--toast-border-color-warning);
 
 		.toaster-icon kv-icon {
-			--icon-color: #{kv-color('warning')};
+			--icon-color: var(--toast-icon-color-warning);
 		}
 	}
 
 	&.toaster-type--error {
-		border-color: kv-color('error');
+		border-color: var(--toast-border-color-error);
 
 		.toaster-icon kv-icon {
-			--icon-color: #{kv-color('error')};
-			--icon-background-color: #{kv-color('neutral-0')};
+			--icon-color: var(--toast-icon-color-error);
+			--icon-background-color: var(--icon-container-neutral-inverse);
 		}
 	}
 
 	&.toaster-type--success {
-		border-color: kv-color('success');
+		border-color: var(--toast-border-color-success);
 
 		.toaster-icon kv-icon {
-			--icon-color: #{kv-color('success')};
-			--icon-background-color: #{kv-color('neutral-0')};
+			--icon-color: var(--toast-icon-color-success);
+			--icon-background-color: var(--icon-container-neutral-inverse);
 		}
 	}
 
@@ -120,32 +112,16 @@ kv-icon {
 		flex-grow: 1;
 		display: flex;
 		flex-direction: column;
+		gap: var(--toast-gap-horizontal);
 
 		.main-message {
-			@include kv-font-span-semibold;
-			color: kv-color('neutral-2');
+			@include body-m-semibold;
+			color: var(--toast-main-message-default);
 		}
 
 		.secondary-message {
-			@include kv-font-span-regular;
-			margin-top: $spacing;
-			color: kv-color('neutral-4');
-		}
-	}
-
-	.toaster-close-icon {
-		display: flex;
-		align-items: center;
-		margin-left: $spacing-4x;
-
-		kv-icon {
-			margin: 0;
-			user-select: none;
-			cursor: pointer;
-
-			&:hover {
-				--icon-color: var(--close-button-focused);
-			}
+			@include body-m-regular;
+			color: var(--toast-secondary-message-default);
 		}
 	}
 }

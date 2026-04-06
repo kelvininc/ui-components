@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import {
 	EActionButtonType,
-	EBadgeState,
 	EComponentSize,
 	EIconName,
 	KvActionButtonIcon
@@ -14,7 +13,12 @@ const meta = {
 	argTypes: {
 		type: {
 			control: { type: "select" },
-			options: Object.values(EActionButtonType)
+			options: [
+				EActionButtonType.Primary,
+				EActionButtonType.Secondary,
+				EActionButtonType.Tertiary,
+				EActionButtonType.Danger
+			]
 		},
 		size: {
 			control: { type: "radio" },
@@ -23,10 +27,6 @@ const meta = {
 		icon: {
 			control: { type: "select" },
 			options: Object.values(EIconName)
-		},
-		badgeState: {
-			control: { type: "select" },
-			options: Object.values(EBadgeState)
 		}
 	}
 } satisfies Meta<typeof KvActionButtonIcon>;
@@ -75,16 +75,6 @@ export const TertiaryLoadingState: Story = {
 	}
 };
 
-export const GhostState: Story = {
-	args: {
-		icon: EIconName.Add,
-		type: EActionButtonType.Ghost,
-		size: EComponentSize.Small,
-		disabled: false,
-		active: false
-	}
-};
-
 export const DangerState: Story = {
 	args: {
 		icon: EIconName.Add,
@@ -112,17 +102,5 @@ export const AnchorState: Story = {
 		size: EComponentSize.Small,
 		disabled: false,
 		active: false
-	}
-};
-
-export const BadgeState: Story = {
-	args: {
-		icon: EIconName.Dashboard,
-		type: EActionButtonType.Secondary,
-		size: EComponentSize.Small,
-		disabled: false,
-		active: false,
-		badgeLabel: "12",
-		badgeState: EBadgeState.None
 	}
 };

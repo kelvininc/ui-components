@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -14,7 +14,6 @@
 	 * @prop --action-icon-size: Right action icon width and height.
 	 * @prop --action-left-spacing: Right action icon left spacing.
 
-	 * @prop --text-padding: Text Field text padding.
 	 * @prop --text-color-label: Label Text color.
 	 * @prop --text-color-icon-default: Icon color when state is default.
 	 * @prop --text-color-icon-disabled: Icon color when state is disabled.
@@ -22,12 +21,10 @@
 	 * @prop --text-color-action-icon-default: Action icon color when state is default.
 	 * @prop --text-color-action-icon-disabled: Action icon color when state is disabled.
 	 * @prop --text-color-action-icon-focused: Action icon color when state is focused.
-	 * @prop --text-color-input-default: Input text color when state is default.
+	 * @prop --text-color-input-filled: Input text color when state is filled.
 	 * @prop --text-color-input-disabled: Input text color when state is disabled.
 	 * @prop --text-color-input-focused: Input Text color when state is focused.
-	 * @prop --text-color-placeholder-default: Placeholder text color when state is default.
-	 * @prop --text-color-placeholder-disabled: Placeholder text color when state is disabled.
-	 * @prop --text-color-placeholder-focused: Placeholder text color when state is focused.
+	 * @prop --text-color-input-default: Placeholder text color when state is default.
 	 * @prop --text-color-help-text-default: Help Text color when state is default.
 	 * @prop --text-color-help-text-error: Help Text color when state is invalid.
 
@@ -39,65 +36,82 @@
 	 * @prop --background-color-disabled: Background color when state is disabled.
 	 */
 
-	--input-height-large: 36px;
-	--input-height-small: 28px;
+	//Sizes
 	--input-width: auto;
 	--input-min-width: 140px;
 	--input-max-width: 100%;
+	--input-height-large: var(--input-height-regular);
+	--input-height-small: var(--input-height-compact);
+	--input-gap-x: var(--input-gap-vertical-default);
+	--input-prefix-spacing-x: var(--input-gap-vertical-small);
+	--input-gap-y: var(--input-gap-horizontal-horizontal);
+	--input-padding-x-large: var(--input-padding-x-regular);
+	--input-padding-x-small: var(--input-padding-x-compact);
+	--input-radius-large: var(--input-radius-regular);
+	--input-radius-small: var(--input-radius-compact);
+	--input-border-thickness: var(--input-border-thickness-default);
+	--icon-size-large: var(--input-icon-size-regular);
+	--icon-size-small: var(--input-icon-size-regular);
+	--action-icon-size: var(--size-lg);
 
-	--text-color-help-text-default: #{kv-color('neutral-4')};
-	--text-color-help-text-error: #{kv-color('error', 'light')};
+	//Colors
+	////Default
+	--text-color-input-default: var(--input-text-text-input-default);
+	--text-color-help-text-default: var(--input-text-helper-text-default);
+	--border-color-default: var(--input-border-color-default);
+	--background-color-default: var(--input-background-default);
+	--text-color-icon-default: var(--input-icon-color-default);
+	--text-color-action-icon-default: var(--input-icon-color-default);
 
-	--border-color-error: #{kv-color('error')};
+	/// Selected
+	--text-color-input-focused: var(--input-text-text-input-selected);
+	--border-color-focused: var(--input-border-color-selected);
+	--text-color-icon-focused: var(--icon-interactive-input-selected);
+	--text-color-action-icon-focused: var(--icon-interactive-input-selected);
 
-	--action-icon-size: 16px;
-	--icon-size-large: 24px;
-	--icon-size-small: 16px;
-	--icon-right-spacing: 0;
-	--action-left-spacing: #{$spacing};
-	--text-padding: 0 #{$spacing};
+	/// Filled
+	--text-color-input-filled: var(--input-text-text-input-filled);
+	--text-color-icon-filled: var(--icon-interactive-input-filled);
+	--text-color-action-icon-filled: var(--icon-interactive-input-filled);
+	--border-color-filled: var(--input-border-color-filled);
 
-	--text-color-label: #{kv-color('neutral-4')};
+	/// Disabled
+	--text-color-input-disabled: var(--input-text-text-input-disabled);
+	--text-color-placeholder-disabled: var(--input-text-text-input-disabled);
+	--border-color-disabled: var(--input-border-color-disabled);
+	--background-color-disabled: var(--input-background-disabled);
+	--text-color-icon-disabled: var(--icon-interactive-input-disabled);
+	--text-color-action-icon-disabled: var(--icon-interactive-input-disabled);
 
-	--text-color-icon-default: #{kv-color('neutral-4')};
-	--text-color-icon-disabled: #{kv-color('neutral-5')};
-	--text-color-icon-focused: #{kv-color('neutral-2')};
-
-	--text-color-action-icon-default: #{kv-color('neutral-4')};
-	--text-color-action-icon-disabled: #{kv-color('neutral-5')};
-	--text-color-action-icon-focused: #{kv-color('neutral-2')};
-
-	--text-color-input-default: #{kv-color('neutral-2')};
-	--text-color-input-disabled: #{kv-color('neutral-5')};
-	--text-color-input-focused: #{kv-color('neutral-2')};
-
-	--text-color-placeholder-default: #{kv-color('neutral-4')};
-	--text-color-placeholder-disabled: #{kv-color('neutral-5')};
-	--text-color-placeholder-focused: #{kv-color('neutral-4')};
-
-	--border-color-default: #{kv-color('neutral-6')};
-	--border-color-focused: #{kv-color('neutral-0')};
-
-	--background-color-default: #{kv-color('neutral-6')};
-	--background-color-disabled: #{kv-color('neutral-7')};
+	/// Error
+	--text-color-help-text-error: var(--input-text-helper-text-error);
+	--border-color-error: var(--input-border-color-error);
 }
 
 kv-form-label {
-	--label-color: var(--text-color-label);
+	--label-color: var(--input-text-label-default);
+	--label-gap: var(--input-gap-vertical-small);
+	--label-required-color: var(--input-text-required-default);
+	--label-bottom-spacing: var(--spacing-none);
 }
 
 kv-form-help-text {
 	--help-text-default-color: var(--text-color-help-text-default);
 	--help-text-error-color: var(--text-color-help-text-error);
-}
-
-kv-tooltip::part(container) {
-	@include kv-font-span-regular();
-	color: kv-color('neutral-2');
+	--help-text-top-spacing: var(--spacing-none);
+	--help-text-bottom-spacing: var(--spacing-none);
+	--help-text-right-spacing: var(--spacing-none);
+	--help-text-left-spacing: var(--spacing-none);
 }
 
 kv-tooltip::part(content) {
 	width: 100%;
+}
+
+.text-field-container {
+	display: flex;
+	flex-direction: column;
+	gap: var(--input-gap-y);
 }
 
 .resize-container {
@@ -109,19 +123,18 @@ kv-tooltip::part(content) {
 
 .resize-input,
 .resize-text {
-	@include kv-font-span-regular;
+	@include body-m-regular;
 	flex: 1;
 	appearance: textfield;
 	border: 0;
 	height: 100%;
 	outline: 0;
 	box-sizing: border-box;
-	color: var(--text-color-input-default);
+	color: var(--text-color-input-filled);
 	background-color: transparent;
 }
 
 .resize-text {
-	padding: var(--text-padding);
 	display: inline-block;
 	visibility: hidden;
 	white-space: pre;
@@ -129,7 +142,7 @@ kv-tooltip::part(content) {
 
 .resize-input {
 	position: absolute;
-	top: 0;
+	top: -1px;
 	left: 0;
 	right: 0;
 	bottom: 0;
@@ -137,11 +150,19 @@ kv-tooltip::part(content) {
 
 input {
 	@include ellipsis;
-
-	color-scheme: dark;
+	padding: 0;
 
 	&::placeholder {
-		color: var(--text-color-placeholder-default);
+		color: var(--text-color-input-default);
+	}
+
+	&:focus,
+	&.forced-focus {
+		color: var(--text-color-input-focused);
+	}
+
+	&:read-only:not(:disabled) {
+		cursor: pointer;
 	}
 
 	&:disabled {
@@ -150,19 +171,6 @@ input {
 		&::placeholder {
 			color: var(--text-color-placeholder-disabled);
 		}
-	}
-
-	&:focus,
-	&.forced-focus {
-		color: var(--text-color-input-focused);
-
-		&::placeholder {
-			color: var(--text-color-placeholder-focused);
-		}
-	}
-
-	&:read-only:not(:disabled) {
-		cursor: pointer;
 	}
 
 	&::-webkit-outer-spin-button,
@@ -176,55 +184,27 @@ input {
 	width: var(--input-width);
 	min-width: var(--input-min-width);
 	max-width: var(--input-max-width);
-	padding: 0 $spacing-2x;
-	border: solid 1px var(--border-color-default);
-	border-radius: 4px;
+	border: solid var(--input-border-thickness) var(--border-color-default);
 	position: relative;
 	overflow: hidden;
 	background-color: var(--background-color-default);
 	box-sizing: border-box;
+
+	&.filled {
+		border-color: var(--border-color-filled);
+	}
+
+	&.focused {
+		border-color: var(--border-color-focused);
+	}
 
 	&.invalid {
 		border-color: var(--border-color-error);
 	}
 
 	&.disabled {
-		border-color: var(--background-color-disabled);
+		border-color: var(--border-color-disabled);
 		background-color: var(--background-color-disabled);
-	}
-
-	&.focused {
-		&:not(.invalid) {
-			border-color: var(--border-color-focused);
-		}
-	}
-
-	.left-slot-container {
-		kv-icon {
-			--icon-color: var(--text-color-icon-default);
-
-			&.disabled {
-				--icon-color: var(--text-color-icon-disabled);
-			}
-
-			&.focus:not(.invalid) {
-				--icon-color: var(--text-color-icon-focused);
-			}
-		}
-	}
-
-	.right-slot-container {
-		kv-icon {
-			--icon-color: var(--text-color-action-icon-default);
-
-			&.disabled {
-				--icon-color: var(--text-color-action-icon-disabled);
-			}
-
-			&.focus:not(.invalid) {
-				--icon-color: var(--text-color-action-icon-focused);
-			}
-		}
 	}
 
 	.left-slot-container,
@@ -232,35 +212,53 @@ input {
 		height: 100%;
 		display: flex;
 		align-items: center;
-		gap: $spacing;
+		gap: var(--spacing-xs);
 
-		&.invalid {
-			color: var(--text-color-help-text-error);
+		color: var(--text-color-input-default);
+
+		&.filled {
+			color: var(--text-color-input-filled);
+		}
+
+		&.focus {
+			color: var(--text-color-input-focused);
 		}
 
 		&.disabled {
-			color: var(--text-color-icon-disabled);
-		}
-
-		&.focus:not(.invalid) {
-			color: var(--text-color-input-focused);
+			color: var(--text-color-input-disabled);
 		}
 	}
 
 	.left-slot-container {
-		color: var(--text-color-input-default);
+		color: var(--text-color-input-filled);
 		overflow: hidden;
 		user-select: none;
+		margin-right: var(--input-gap-x);
 
-		.value-prefix {
-			white-space: nowrap;
-			margin-right: calc(#{$spacing} / 2);
-
-			@include kv-font-span-semibold;
+		&.has-value-prefix {
+			margin-right: var(--input-prefix-spacing-x);
 		}
 
 		kv-icon {
-			margin-right: var(--icon-right-spacing);
+			--icon-color: var(--text-color-icon-default);
+
+			&.filled {
+				--icon-color: var(--text-color-icon-filled);
+			}
+
+			&.focus {
+				--icon-color: var(--text-color-icon-focused);
+			}
+
+			&.disabled {
+				--icon-color: var(--text-color-icon-disabled);
+			}
+		}
+
+		.value-prefix {
+			white-space: nowrap;
+
+			@include body-m-semibold;
 		}
 
 		&:has(input:read-only:not(:disabled)) {
@@ -270,20 +268,35 @@ input {
 
 	.right-slot-container {
 		justify-content: center;
+		margin-left: var(--input-gap-x);
+
+		kv-icon {
+			--icon-color: var(--text-color-action-icon-default);
+			--icon-width: var(--action-icon-size);
+			--icon-height: var(--action-icon-size);
+
+			&.filled {
+				--icon-color: var(--text-color-action-icon-filled);
+			}
+
+			&.focus {
+				--icon-color: var(--text-color-action-icon-focused);
+			}
+
+			&.disabled {
+				--icon-color: var(--text-color-action-icon-disabled);
+			}
+		}
 
 		&:not(.disabled) {
 			cursor: pointer;
-		}
-
-		kv-icon {
-			--icon-width: var(--action-icon-size);
-			--icon-height: var(--action-icon-size);
-			margin-left: var(--action-left-spacing);
 		}
 	}
 
 	&--size-large {
 		height: var(--input-height-large);
+		border-radius: var(--input-radius-large);
+		padding: 0 var(--input-padding-x-large);
 
 		.left-slot-container kv-icon {
 			--icon-width: var(--icon-size-large);
@@ -293,6 +306,8 @@ input {
 
 	&--size-small {
 		height: var(--input-height-small);
+		border-radius: var(--input-radius-small);
+		padding: 0 var(--input-padding-x-small);
 
 		.left-slot-container kv-icon {
 			--icon-width: var(--icon-size-small);
@@ -306,8 +321,7 @@ input {
 	display: flex;
 	margin-top: $spacing;
 
-	@include ghost-animation('neutral-7');
-	transition: none;
+	@include ghost-animation(var(--background-color-disabled));
 
 	&--size-large {
 		height: var(--input-height-large);

@@ -1,11 +1,11 @@
-@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
+@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
 .ValueLabel {
-	@include kv-font-h3-semibold;
+	@include heading-l-semibold;
 }
 
 body {
 	.ValueLabel {
-		color: kv-color('neutral-2');
+		color: var(--text-container-neutral-default);
 	}
 }

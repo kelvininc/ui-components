@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -16,6 +16,6 @@
 .counter {
 	display: flex;
 	align-items: center;
-	color: kv-color('neutral-4');
-	@include kv-font-label-xsmall-regular;
+	color: var(--text-container-neutral-subtle);
+	@include body-xs-regular;
 }

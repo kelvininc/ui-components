@@ -8,7 +8,7 @@ exports[`KvStepBar (unit tests) when rendering with required props and \`hasErro
         Progress:
       </span>
       <span class="step-counter">
-        2 / 3 Steps
+        2/3 Steps
       </span>
     </div>
     <div class="progress-bar-container">
@@ -36,7 +36,7 @@ exports[`KvStepBar (unit tests) when rendering with required props should match 
         Progress:
       </span>
       <span class="step-counter">
-        2 / 3 Steps
+        2/3 Steps
       </span>
     </div>
     <div class="progress-bar-container">

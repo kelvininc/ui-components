@@ -1,10 +1,10 @@
-@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
+@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
 .ArrayItemContainer [class*='ArrayFieldTemplate_ArrayFieldTemplate'] {
-	border: 1px solid kv-color('neutral-6');
+	border: 1px solid var(--border-container-divider-default);
 	border-width: 0 1px;
-	padding: 0 $spacing-5x;
-	margin-left: $spacing-2x;
+	padding: 0 var(--spacing-3xl);
+	margin-left: var(--spacing-md);
 }
 
 .ArrayItemContainer {
@@ -13,42 +13,43 @@
 	align-items: center;
 
 	.ItemPrefix {
-		@include kv-font-span-semibold;
-		margin-right: $spacing-6x;
+		@include body-m-semibold;
+		
+		margin-right: var(--spacing-4xl);
 		white-space: nowrap;
 	}
 
 	.ToolbarContainer {
 		display: flex;
-		padding-left: $spacing-5x;
-		gap: $spacing;
+		padding-left: var(--spacing-3xl);
+		gap: var(--spacing-xs);
 	}
 }
 
 .FieldsetStyle {
-	padding: $spacing-6x $spacing-3x $spacing-3x;
-	margin-top: $spacing-6x;
-	border: 1px solid kv-color('neutral-6');
+	padding: var(--spacing-4xl) var(--spacing-xl) var(--spacing-xl);
+	margin-top: var(--spacing-4xl);
+	border: 1px solid var(--border-container-divider-default);
 	position: relative;
 
 	.ArrayItemContainer {
 		.ItemPrefix {
 			position: absolute;
 			top: 0;
-			left: $spacing-3x;
+			left: var(--spacing-xl);
 			transform: translateY(-50%);
 			background-color: inherit;
-			padding: 0 $spacing;
+			padding: 0 var(--spacing-xs);
 			margin: 0;
 		}
 
 		.ToolbarContainer {
 			position: absolute;
 			top: 0;
-			right: $spacing-3x;
+			right: var(--spacing-xl);
 			transform: translateY(-50%);
 			background-color: inherit;
-			padding: 0 $spacing;
+			padding: 0 var(--spacing-xs);
 			margin: 0;
 		}
 	}
@@ -56,10 +57,11 @@
 
 body {
 	.ArrayItemContainer [class*='ArrayFieldTemplate_ArrayFieldTemplate'] {
-		border-color: kv-color('neutral-6');
+		border-color: var(--border-container-divider-default);
 	}
 
+	/* stylelint-disable-next-line no-descending-specificity */
 	.ArrayItemContainer .ItemPrefix {
-		color: kv-color('neutral-2');
+		color: var(--text-container-neutral-default);
 	}
 }

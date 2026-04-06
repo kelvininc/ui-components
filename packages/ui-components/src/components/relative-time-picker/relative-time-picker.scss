@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -12,20 +12,24 @@
 	display: flex;
 	flex-direction: column;
 	width: 328px;
+	/* stylelint-disable-next-line csstools/value-no-unknown-custom-properties -- vars defined by parent component */
 	max-height: var(--max-height);
 	background-color: var(--background-color);
 
 	.relative-time-selector {
-		@include kelvin-night-scrollbar();
+		@include kelvin-scrollbar;
 
+		/* stylelint-disable-next-line csstools/value-no-unknown-custom-properties -- vars defined by parent component */
 		padding: var(--padding-size) 0;
 		display: flex;
 		flex-direction: column;
+		/* stylelint-disable-next-line csstools/value-no-unknown-custom-properties -- vars defined by parent component */
 		gap: var(--group-gap);
 		overflow: auto;
 		min-height: var(--min-height);
 
 		kv-time-picker-select-option {
+			/* stylelint-disable-next-line csstools/value-no-unknown-custom-properties -- vars defined by parent component */
 			--time-picker-select-option-height: var(--option-height);
 		}
 

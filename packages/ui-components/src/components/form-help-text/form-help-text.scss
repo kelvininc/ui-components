@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -6,36 +6,42 @@
 	 * @prop --help-text-error-color: Help Text color when state is invalid.
 	 */
 
-	--help-text-default-color: #{kv-color('neutral-4')};
-	--help-text-error-color: #{kv-color('error', 'light')};
+	--help-text-default-color: var(--text-surface-neutral-tertiary);
+	--help-text-error-color: var(--text-container-status-danger-default);
+	--help-text-top-spacing: var(--spacing-xs);
+	--help-text-bottom-spacing: var(--spacing-none);
+	--help-text-right-spacing: var(--spacing-none);
+	--help-text-left-spacing: var(--spacing-md);
+
+	display: flex;
 }
 
 .help-text-container {
-	width: calc(100% - $spacing-2x);
+	display: inline-flex;
+	flex-flow: wrap;
+	flex: 1;
 	overflow: hidden;
-	padding: $spacing 0 0 $spacing-2x;
+	padding: var(--help-text-top-spacing) var(--help-text-right-spacing) var(--help-text-bottom-spacing) var(--help-text-left-spacing);
 	color: var(--help-text-default-color);
-	box-sizing: border-box;
-	
-	.help-text {
-		@include kv-font-label-small-regular;
 
-		margin-right: $spacing;
+	.help-text {
+		@include body-s-regular;
+
+		margin-right: var(--spacing-xs);
 		color: var(--help-text-default-color);
 	}
 
 	span + span::before {
 		content: '•';
-		padding-right: $spacing;
+		padding-right: var(--spacing-xs);
 	}
 
 	kv-icon {
 		--icon-color: var(--help-text-default-color);
 
 		align-items: center;
-		margin-right: $spacing-2x;
+		margin-right: var(--spacing-xs);
 		float: left;
-		margin-top: 2px;
 	}
 
 	&.invalid {

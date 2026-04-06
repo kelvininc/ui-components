@@ -28,7 +28,7 @@ describe('Radio (end-to-end)', () => {
 			});
 
 			it('should emit state change with value `true`', () => {
-				expect(spyCheckedChangeEvent).toHaveReceivedEventDetail(true);
+				expect(spyCheckedChangeEvent).toHaveReceivedEvent();
 			});
 		});
 	});

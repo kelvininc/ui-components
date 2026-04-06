@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 .inline-editable-field-container {
 	display: inline-flex;
@@ -8,13 +8,20 @@
 	/**
 	* @prop --margin-top-bottom: Margin top and bottom of the editable container.
 	* @prop --margin-left-right: Margin left and right of the editable container.
+	* @prop --inline-editable-field-background-color-hover: Background color of the editable field on hover.
+	* @prop --inline-editable-field-outline-color-hover: Outline color of the editable field on hover.
+	* @prop --inline-editable-field-outline-color-focus: Outline color of the editable field on focus.
 	*/
-	--margin-top-bottom: #{$spacing};
-	--margin-left-right: #{$spacing-2x};
+	--margin-top-bottom: var(--spacing-xs);
+	--margin-left-right: var(--spacing-md);
+	--inline-editable-field-background-color-hover: var(--input-background-default);
+	--inline-editable-field-outline-color-hover: var(--input-border-color-default);
+	--inline-editable-field-outline-color-focus: var(--input-border-color-selected);
 
 	&__hover .inline-editable-field-slot {
-		border-radius: 4px;
-		background: kv-color('neutral-8');
+		border-radius: var(--radius-md);
+		background: var(--inline-editable-field-background-color-hover);
+		outline-color: var(--inline-editable-field-outline-color-hover);
 	}
 }
 
@@ -29,12 +36,13 @@
 
 		&:hover,
 		&:focus {
-			border-radius: 4px;
-			background: kv-color('neutral-8');
+			border-radius: var(--radius-md);
+			background: var(--inline-editable-field-background-color-hover);
+			outline-color: var(--inline-editable-field-outline-color-hover);
 		}
 
 		&:focus {
-			outline-color: kv-color('neutral-2');
+			outline-color: var(--inline-editable-field-outline-color-focus);
 			text-overflow: unset;
 		}
 	}
@@ -51,13 +59,13 @@
 
 .inline-editable-field-actions {
 	display: inline-flex;
-	gap: $spacing;
+	gap: var(--spacing-xs);
 	flex: 0;
-	margin-left: calc(var(--margin-left-right) + $spacing-2x);
+	margin-left: calc(var(--margin-left-right) + var(--spacing-md));
 
 	&__focus {
 		width: 64px;
 		align-self: flex-end;
-		margin-bottom: calc(var(--margin-left-right) * -1);
+		margin-bottom: calc(var(--margin-top-bottom) * -1);
 	}
 }

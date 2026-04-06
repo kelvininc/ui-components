@@ -5,7 +5,7 @@ exports[`KvBreadcrumbItem (unit tests) when the component loads should match the
   <template shadowrootmode="open">
     <div class="breadcrumb-item breadcrumb-item--active">
       <slot>
-        Awesome Label
+        <kv-link label="Awesome Label"></kv-link>
       </slot>
     </div>
   </template>

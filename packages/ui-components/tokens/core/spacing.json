@@ -1,0 +1,195 @@
+{
+  "size": {
+    "sm": {
+      "value": "{space.12}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "md": {
+      "value": "{space.16}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "lg": {
+      "value": "{space.20}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "xl": {
+      "value": "{space.24}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "2xl": {
+      "value": "{space.32}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "3xl": {
+      "value": "{space.36}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "4xl": {
+      "value": "{space.40}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "5xl": {
+      "value": "{space.48}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "6xl": {
+      "value": "{space.56}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "7xl": {
+      "value": "{space.64}",
+      "type": "number",
+      "prefix": "spacing"
+    }
+  },
+  "spacing": {
+    "none": {
+      "value": "{space.0}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "2xs": {
+      "value": "{space.2}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "xs": {
+      "value": "{space.4}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "sm": {
+      "value": "{space.6}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "md": {
+      "value": "{space.8}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "lg": {
+      "value": "{space.10}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "xl": {
+      "value": "{space.12}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "2xl": {
+      "value": "{space.16}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "3xl": {
+      "value": "{space.20}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "4xl": {
+      "value": "{space.24}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "5xl": {
+      "value": "{space.32}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "6xl": {
+      "value": "{space.40}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "7xl": {
+      "value": "{space.48}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "8xl": {
+      "value": "{space.56}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "9xl": {
+      "value": "{space.64}",
+      "type": "number",
+      "prefix": "spacing"
+    }
+  },
+  "radius": {
+    "none": {
+      "value": "{space.0}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "sm": {
+      "value": "{space.2}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "md": {
+      "value": "{space.4}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "lg": {
+      "value": "{space.6}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "xl": {
+      "value": "{space.8}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "2xl": {
+      "value": "{space.12}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "3xl": {
+      "value": "{space.16}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "4xl": {
+      "value": "{space.24}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "full": {
+      "value": "{space.999}",
+      "type": "number",
+      "prefix": "spacing"
+    }
+  },
+  "border-width": {
+    "none": {
+      "value": "{space.0}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "default": {
+      "value": "{space.1}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "strong": {
+      "value": "{space.2}",
+      "type": "number",
+      "prefix": "spacing"
+    }
+  }
+}

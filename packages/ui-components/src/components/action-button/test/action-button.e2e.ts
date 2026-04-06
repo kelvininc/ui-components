@@ -6,7 +6,7 @@ describe('Action Button (end-to-end)', () => {
 	describe('when renders with default props', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-action-button type="primary"></kv-action-button>');
+			await page.setContent('<kv-action-button type="primary">Click</kv-action-button>');
 		});
 
 		describe('and user clicks on the button', () => {
@@ -29,7 +29,7 @@ describe('Action Button (end-to-end)', () => {
 	describe('when is disabled', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-action-button type="primary" disabled></kv-action-button>');
+			await page.setContent('<kv-action-button type="primary" disabled>Click</kv-action-button>');
 		});
 
 		describe('and user clicks on the button', () => {

@@ -59,16 +59,4 @@ describe('Tab Item (end-to-end)', () => {
 			});
 		});
 	});
-
-	describe('when rendering with has-notification attribute', () => {
-		beforeEach(async () => {
-			page = await newE2EPage();
-			await page.setContent('<kv-tab-item tab-key="dashboard" label="Dashboard" has-notification></kv-tab-item>');
-		});
-
-		it('should render the notification dot', async () => {
-			const dotEl = await page.find('kv-tab-item >>> .notification-dot');
-			expect(dotEl).toBeTruthy();
-		});
-	});
 });

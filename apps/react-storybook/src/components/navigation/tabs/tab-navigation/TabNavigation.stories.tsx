@@ -2,7 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import {
 	KvTabNavigation,
-	EComponentSize
+	ETabItemType,
+	EIconName,
+	ETagState
 } from "@kelvininc/react-ui-components/client";
 import { useArgs } from "@storybook/preview-api";
 
@@ -20,8 +22,7 @@ const meta = {
 			<KvTabNavigation
 				tabs={args.tabs}
 				selectedTabKey={args.selectedTabKey}
-				notifications={args.notifications}
-				size={args.size}
+				type={args.type}
 				onTabChange={handleTabChange}
 			/>
 		);
@@ -30,9 +31,9 @@ const meta = {
 		selectedTabKey: {
 			control: "text"
 		},
-		size: {
+		type: {
 			control: "radio",
-			options: Object.values(EComponentSize)
+			options: Object.values(ETabItemType)
 		}
 	}
 } satisfies Meta<typeof KvTabNavigation>;
@@ -40,7 +41,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const PrimaryType: Story = {
 	args: {
 		tabs: [
 			{
@@ -49,23 +50,124 @@ export const Default: Story = {
 			},
 			{
 				tabKey: "components",
-				label: "Components"
+				label: "Components",
+				badge: "0"
 			},
 			{
 				tabKey: "parts",
-				label: "Parts"
+				label: "Parts",
+				disabled: true
 			},
 			{
 				tabKey: "sensors",
-				label: "Sensors"
+				label: "Sensors",
+				tagIcon: EIconName.Error,
+				tagState: ETagState.Error
 			}
 		],
 		selectedTabKey: "assets",
-		notifications: {
-			components: {
-				active: true
+		type: ETabItemType.Primary
+	}
+};
+
+export const SecondaryType: Story = {
+	args: {
+		tabs: [
+			{
+				tabKey: "assets",
+				label: "Assets",
+				badge: "0"
+			},
+			{
+				tabKey: "components",
+				label: "Components",
+				badge: "4"
+			},
+			{
+				tabKey: "parts",
+				label: "Parts",
+				disabled: true
+			},
+			{
+				tabKey: "sensors",
+				label: "Sensors",
+				tagIcon: EIconName.Error,
+				tagState: ETagState.Error
 			}
-		},
-		size: EComponentSize.Large
+		],
+		selectedTabKey: "assets",
+		type: ETabItemType.Secondary
+	}
+};
+
+export const SecondaryTypeOnlyIcon: Story = {
+	args: {
+		tabs: [
+			{
+				tabKey: "device",
+				icon: EIconName.Device
+			},
+			{
+				tabKey: "place",
+				icon: EIconName.Place
+			},
+			{
+				tabKey: "properties",
+				icon: EIconName.Properties,
+				disabled: true
+			},
+			{
+				tabKey: "world",
+				icon: EIconName.World
+			}
+		],
+		selectedTabKey: "device",
+		type: ETabItemType.Secondary
+	}
+};
+
+export const SecondaryTypeOnlyIconVertical: Story = {
+	render: function Renderer(args) {
+		const [, updateArgs] = useArgs();
+
+		const handleTabChange = (event: CustomEvent<string>) => {
+			updateArgs({ selectedTabKey: event.detail });
+		};
+
+		return (
+			<KvTabNavigation
+				style={{
+					"--secondary-tab-list-direction": "column",
+					"--secondary-items-align": "flex-start"
+				}}
+				tabs={args.tabs}
+				selectedTabKey={args.selectedTabKey}
+				type={args.type}
+				onTabChange={handleTabChange}
+			/>
+		);
+	},
+	args: {
+		tabs: [
+			{
+				tabKey: "device",
+				icon: EIconName.Device
+			},
+			{
+				tabKey: "place",
+				icon: EIconName.Place
+			},
+			{
+				tabKey: "properties",
+				icon: EIconName.Properties,
+				disabled: true
+			},
+			{
+				tabKey: "world",
+				icon: EIconName.World
+			}
+		],
+		selectedTabKey: "device",
+		type: ETabItemType.Secondary
 	}
 };

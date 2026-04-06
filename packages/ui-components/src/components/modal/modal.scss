@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -19,14 +19,12 @@
 	--modal-width: fit-content;
 	--modal-min-width: 400px;
 	--modal-topbar-height: 50px;
-	--modal-topbar-text-color: #{kv-color('neutral-4')};
+	--modal-topbar-text-color: var(--modal-title-default);
 	--modal-z-index: 1;
-	--modal-overlay-color: #{kv-color('neutral-9', 'base', 0.8)};
-	--modal-background-color: #{kv-color('neutral-8')};
-	--modal-close-button-width: 16px;
-	--modal-close-button-height: 16px;
-	--modal-overlay-color: #{kv-color('neutral-9', 'base', 0.8)};
-	--modal-background-color: #{kv-color('neutral-8')};
+	--modal-overlay-color: var(--overlay-surface-opacity-80);
+	--modal-background-color: var(--modal-background-default);
+	--modal-close-button-width: var(--button-text-icon-size-regular);
+	--modal-close-button-height: var(--button-text-icon-size-regular);
 }
 
 .modal-overlay {
@@ -49,33 +47,39 @@
 	min-width: var(--modal-min-width);
 	height: var(--modal-height);
 	min-height: var(--modal-min-height);
-	border-radius: 10px;
+	border-radius: var(--modal-radius-default);
 	background-color: var(--modal-background-color);
 	display: flex;
 	flex-direction: column;
 	z-index: var(--modal-z-index);
-	transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+	transition:
+		width 0.3s ease-in-out,
+		height 0.3s ease-in-out;
+
+	.divider {
+		@include kelvin-horizontal-divider(var(--modal-divider-default));
+		flex: none;
+	}
 
 	.topbar {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 0 $spacing-4x;
+		padding: 0 var(--spacing-2xl);
 		height: var(--modal-topbar-height);
-		border-bottom: 1px solid kv-color('neutral-7');
 		box-sizing: border-box;
 
 		.title {
 			@include ellipsis();
 
-			@include kv-font-label-small-uppercase-regular;
+			@include heading-xs-regular-caps;
 			color: var(--modal-topbar-text-color);
 		}
 
 		.actions {
 			display: inline-flex;
 			align-items: center;
-			gap: $spacing-3x;
+			gap: var(--spacing-xl);
 		}
 	}
 
@@ -83,7 +87,7 @@
 		display: flex;
 		flex-direction: column;
 		flex: 1;
-		min-height: 0;
+		min-height: 0; 
 	}
 
 	.close-button {
@@ -97,7 +101,7 @@
 		kv-icon {
 			--icon-width: var(--modal-close-button-width);
 			--icon-height: var(--modal-close-button-height);
-			--icon-color: #{kv-color('neutral-4')};
+			--icon-color: var(--button-text-icon-color-default);
 		}
 	}
 }

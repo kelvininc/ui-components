@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -13,19 +13,27 @@
 	 * @prop --radio-list-item-gap: Gap between radio and info content. Default: 16px (spacing-4x).
 	 * @prop --radio-list-item-label-color: Label text color. Default: neutral-0.
 	 * @prop --radio-list-item-description-color: Description text color. Default: neutral-4.
-	 * @prop --radio-list-item-disabled-opacity: Opacity when disabled. Default: 0.5.
 	 */
 
-	--radio-list-item-background: transparent;
-	--radio-list-item-background-hover: transparent;
-	--radio-list-item-background-checked: transparent;
-	--radio-list-item-border: 1px solid #{kv-color('neutral-7')};
-	--radio-list-item-border-color-hover: #{kv-color('neutral-0')};
-	--radio-list-item-border-color-checked: #{kv-color('neutral-0')};
-	--radio-list-item-border-radius: 2px;
-	--radio-list-item-padding: #{$spacing-4x};
-	--radio-list-item-gap: #{$spacing-4x};
-	--radio-list-item-disabled-opacity: 0.5;
+	--radio-list-item-background: var(--background-persistent-radio-selector-default);
+	--radio-list-item-background-hover: var(--background-persistent-radio-selector-hover);
+	--radio-list-item-background-checked: var(--background-persistent-radio-selector-selected);
+	
+	--radio-list-item-label-color: var(--text-interactive-card-default);
+	--radio-list-item-label-color-hover: var(--text-interactive-card-hover);
+	--radio-list-item-label-color-checked: var(--text-interactive-card-selected);
+	--radio-list-item-label-color-disabled: var(--text-interactive-card-disabled);
+	--radio-list-item-description-color: var(--text-container-neutral-default);
+	--radio-list-item-description-color-disabled: var(--text-container-neutral-disabled);
+	
+	--radio-list-item-border: 1px solid var(--border-persistent-radio-selector-default);
+	--radio-list-item-border-color-hover: var(--border-persistent-radio-selector-hover);
+	--radio-list-item-border-color-checked: var(--border-persistent-radio-selector-seleted);
+	--radio-list-item-border-radius: var(--radius-md);
+	--radio-list-item-padding-large: var(--spacing-2xl);
+	--radio-list-item-padding-small: var(--spacing-xs) var(--spacing-2xl) var(--spacing-xs) var(--spacing-md);
+	--radio-list-item-gap-large: var(--spacing-md);
+	--radio-list-item-gap-small: var(--spacing-none);
 }
 
 .radio-list-item-container {
@@ -37,52 +45,70 @@
 	transition:
 		border-color 0.25s ease-in-out,
 		background 0.25s ease-in-out;
-	cursor: pointer;
-	user-select: none;
+	outline: none;
 
-	&--checked,
-	&:hover {
-		background: var(--radio-list-item-background-hover);
-		border-color: var(--radio-list-item-border-color-hover);
+	@include clickable;
+
+	.info {
+		flex: 1;
+		min-width: 0;
+
+		.label {
+			@include heading-m-semibold;
+			color: var(--radio-list-item-label-color);
+		}
+
+		.description {
+			@include body-m-regular;
+			color: var(--radio-list-item-description-color);
+
+			kv-link::part(container) {
+				display: inline;
+			}
+		}
 	}
 
-	&--checked {
+	&:hover:not(.radio-list-item-container--checked):not(.radio-list-item-container--disabled) {
+		background: var(--radio-list-item-background-hover);
+		border-color: var(--radio-list-item-border-color-hover);
+
+		.info .label {
+			color: var(--radio-list-item-label-color-hover);
+		}
+	}
+
+	&--checked:not(.radio-list-item-container--disabled) {
 		background: var(--radio-list-item-background-checked);
 		border-color: var(--radio-list-item-border-color-checked);
+
+		.info .label {
+			color: var(--radio-list-item-label-color-checked);
+		}
 	}
 
 	&--disabled {
-		pointer-events: none;
-		opacity: var(--radio-list-item-disabled-opacity);
-	}
+		.info {
+			.label {
+				color: var(--radio-list-item-label-color-disabled)
+			}
 
-	kv-radio {
-		--input-height-large: unset;
+			.description {
+				color: var(--radio-list-item-description-color-disabled);
+			}
+		}
+
+		@include non-clickable;
 	}
 
 	.content {
 		display: flex;
 		align-items: center;
-		padding: var(--radio-list-item-padding);
-	}
+		padding: var(--radio-list-item-padding-large);
+		gap: var(--radio-list-item-gap-large);
 
-	.info {
-		flex: 1;
-		min-width: 0;
-		margin-left: var(--radio-list-item-gap);
-
-		.label {
-			@include kv-font-h4-semibold;
-			color: kv-color('neutral-0');
-		}
-
-		.description {
-			@include kv-font-paragraph-regular;
-			color: kv-color('neutral-4');
-
-			kv-link::part(container) {
-				display: inline;
-			}
+		&--size-small {
+			gap: var(--radio-list-item-gap-small);
+			padding: var(--radio-list-item-padding-small);
 		}
 	}
 }

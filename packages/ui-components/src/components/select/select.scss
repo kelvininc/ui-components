@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -13,19 +13,23 @@
 	--select-min-height: auto;
 	--select-max-width: auto;
 	--select-min-width: max-content;
-	--select-background-color: #{kv-color('neutral-7')};
-	--select-border: 1px solid #{kv-color('neutral-6')};
-	--select-inner-border: 1px solid #{kv-color('neutral-6')};
-	--select-border-radius: #{$spacing};
+	--select-background-color: var(--slider-background-default);
+	--select-border: var(--slider-border-thickness-default) solid var(--slider-border-color-default);
+	--select-inner-border: 1px solid var(--border-on-color-neutral-default);
+	--select-border-radius: var(--slider-radius-default);
 }
 
 .select-container {
+	display: flex;
+	flex-direction: column;
 	max-width: var(--select-max-width);
 	min-width: var(--select-min-width);
 	border: var(--select-border);
 	border-radius: var(--select-border-radius);
 	overflow: hidden;
 	background-color: var(--select-background-color);
+	gap: var(--slider-gap-default);
+	padding-top: var(--slider-padding-default);
 }
 
 .select-options-container {
@@ -33,16 +37,17 @@
 	min-height: var(--select-min-height);
 
 	::slotted(kv-virtualized-list)  {
-		--virtualized-list-max-height: #{calc(var(--select-max-height) - $spacing-3x * 2)};
+		--virtualized-list-max-height: #{var(--select-max-height)};
 		--virtualized-list-min-height: #{var(--select-min-height)};
+		--virtualized-list-padding: 0;
 	}
 }
 
 .select-header-container {
 	display: flex;
 	flex-direction: column;
-	gap: $spacing-3x;
-	padding: $spacing-3x $spacing-4x;
+	gap: var(--spacing-md);
+	padding: 0 var(--spacing-xl) var(--spacing-md);
 	border-bottom: var(--select-inner-border);
 }
 
@@ -50,32 +55,23 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	gap: $spacing-3x;
+	gap: var(--spacing-xl);
 
 	.footer-actions {
-		@include kv-font-label-small-regular;
+		@include body-s-regular;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		gap: calc($spacing-2x);
-		color: kv-color('neutral-4');
-	}
-
-	.action {
-		user-select: none;
-		cursor: pointer;
-		position: relative;
-		text-wrap: nowrap;
-
-		&--disabled {
-			pointer-events: none;
-			color: kv-color('neutral-5');
-		}
+		gap: var(--spacing-xs);
+		color: var(--text-container-neutral-subtle);
 	}
 
 	.divider {
-		height: 12px;
-		width: 1px;
-		background-color: kv-color('neutral-6');
+		display: flex;
+		height: 100%;
+
+		&::after {
+			@include kelvin-vertical-divider(var(--text-on-color-neutral-muted));
+		}
 	}
 }

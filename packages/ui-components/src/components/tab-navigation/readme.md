@@ -32,12 +32,11 @@ export const TabNavigationExample: React.FC = () => (
 
 ## Properties
 
-| Property         | Attribute          | Description                                                                     | Type                                           | Default                |
-| ---------------- | ------------------ | ------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
-| `notifications`  | `notifications`    | (optional) To add a notification dot and its respective color to a specific tab | `ITabsNotificationDict`                        | `{}`                   |
-| `selectedTabKey` | `selected-tab-key` | (optional) The currently selected tab key                                       | `number \| string`                             | `undefined`            |
-| `size`           | `size`             | (optional) Sets the items on this tab nav to use small styling configuration    | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
-| `tabs`           | `tabs`             | (required) The tab items to render in this component                            | `ITabNavigationItem[]`                         | `[]`                   |
+| Property         | Attribute          | Description                                              | Type                                             | Default                |
+| ---------------- | ------------------ | -------------------------------------------------------- | ------------------------------------------------ | ---------------------- |
+| `selectedTabKey` | `selected-tab-key` | (optional) The currently selected tab key                | `number \| string`                               | `undefined`            |
+| `tabs`           | `tabs`             | (required) The tab items to render in this component     | `ITabNavigationItem[]`                           | `[]`                   |
+| `type`           | `type`             | (optional) Sets the visual variant of the tab navigation | `ETabItemType.Primary \| ETabItemType.Secondary` | `ETabItemType.Primary` |
 
 
 ## Events
@@ -61,12 +60,17 @@ export const TabNavigationExample: React.FC = () => (
 ### Depends on
 
 - [kv-tab-item](../tab-item)
+- [kv-badge](../badge)
+- [kv-tag-status](../tag-status)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-tab-navigation --> kv-tab-item
+  kv-tab-navigation --> kv-badge
+  kv-tab-navigation --> kv-tag-status
   kv-tab-item --> kv-icon
+  kv-tag-status --> kv-icon
   style kv-tab-navigation fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

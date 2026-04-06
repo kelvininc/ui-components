@@ -36,9 +36,10 @@ export const BadgeExample: React.FC = () => (
 
 ## Properties
 
-| Property | Attribute | Description                         | Type                                                                                                      | Default            |
-| -------- | --------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------ |
-| `state`  | `state`   | (optional) Defines the badge state. | `EBadgeState.Error \| EBadgeState.Info \| EBadgeState.None \| EBadgeState.Success \| EBadgeState.Warning` | `EBadgeState.None` |
+| Property   | Attribute  | Description                                          | Type                                         | Default              |
+| ---------- | ---------- | ---------------------------------------------------- | -------------------------------------------- | -------------------- |
+| `disabled` | `disabled` | (optional) If `true` the badge is in disabled state. | `boolean`                                    | `false`              |
+| `type`     | `type`     | (optional) Defines the badge type.                   | `EBadgeType.Primary \| EBadgeType.Secondary` | `EBadgeType.Primary` |
 
 
 ## Shadow Parts
@@ -73,16 +74,16 @@ export const BadgeExample: React.FC = () => (
 
 ### Used by
 
- - [kv-action-button-icon](../action-button-icon)
+ - [kv-tab-navigation](../tab-navigation)
+ - [kv-tag](../tag)
  - [kv-text-field](../text-field)
- - [kv-tree-item](../tree-item)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-action-button-icon --> kv-badge
+  kv-tab-navigation --> kv-badge
+  kv-tag --> kv-badge
   kv-text-field --> kv-badge
-  kv-tree-item --> kv-badge
   style kv-badge fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

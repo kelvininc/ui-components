@@ -31,10 +31,11 @@ export const FormHelpTextExample: React.FC = () => (
 
 ## Properties
 
-| Property   | Attribute   | Description                     | Type                                                                          | Default                 |
-| ---------- | ----------- | ------------------------------- | ----------------------------------------------------------------------------- | ----------------------- |
-| `helpText` | `help-text` | (optional) Form field help text | `string \| string[]`                                                          | `[]`                    |
-| `state`    | `state`     | (optional) Form field state     | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid` | `EValidationState.None` |
+| Property   | Attribute   | Description                          | Type                                                                          | Default                 |
+| ---------- | ----------- | ------------------------------------ | ----------------------------------------------------------------------------- | ----------------------- |
+| `helpText` | `help-text` | (optional) Form field help text      | `string \| string[]`                                                          | `[]`                    |
+| `showIcon` | `show-icon` | (optional) Show icon. Default: false | `boolean`                                                                     | `false`                 |
+| `state`    | `state`     | (optional) Form field state          | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid` | `EValidationState.None` |
 
 
 ## CSS Custom Properties

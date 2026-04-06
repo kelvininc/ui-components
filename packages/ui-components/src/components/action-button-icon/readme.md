@@ -12,7 +12,7 @@ import React from 'react';
 
 import { KvActionButtonIcon, EIconName } from '@kelvininc/react-ui-components/client';
 
-export const SwitchButtonExample: React.FC = () => (
+export const ActionButtonIconExample: React.FC = () => (
 	<>
 		{/*-- Primary --*/}
 		<KvActionButtonIcon icon={EIconName.Add} type={EActionButtonType.Primary}></KvActionButtonIcon>
@@ -23,8 +23,8 @@ export const SwitchButtonExample: React.FC = () => (
 		{/*-- Tertiary --*/}
 		<KvActionButtonIcon icon={EIconName.Add} type={EActionButtonType.Tertiary}></KvActionButtonIcon>
 
-		{/*-- Ghost --*/}
-		<KvActionButtonIcon icon={EIconName.Add} type={EActionButtonType.Ghost}></KvActionButtonIcon>
+		{/*-- Text --*/}
+		<KvActionButtonIcon icon={EIconName.Add} type={EActionButtonType.Text}></KvActionButtonIcon>
 
 		{/*-- Danger --*/}
 		<KvActionButtonIcon icon={EIconName.Add} type={EActionButtonType.Danger}></KvActionButtonIcon>
@@ -42,16 +42,14 @@ export const SwitchButtonExample: React.FC = () => (
 
 ## Properties
 
-| Property            | Attribute     | Description                                                                                                   | Type                                                                                                                                            | Default                |
-| ------------------- | ------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `active`            | `active`      | (optional) If `true` the button is active                                                                     | `boolean`                                                                                                                                       | `false`                |
-| `badgeLabel`        | `badge-label` | (optional) Defines button's badge label. If set, an badge will be displayed in the end of action icon button. | `string`                                                                                                                                        | `undefined`            |
-| `badgeState`        | `badge-state` | (optional) Defines button's badge type.                                                                       | `EBadgeState.Error \| EBadgeState.Info \| EBadgeState.None \| EBadgeState.Success \| EBadgeState.Warning`                                       | `undefined`            |
-| `disabled`          | `disabled`    | (optional) If `true` the button is disabled                                                                   | `boolean`                                                                                                                                       | `false`                |
-| `icon` _(required)_ | `icon`        | (required) Button's icon symbol name                                                                          | `EIconName`                                                                                                                                     | `undefined`            |
-| `loading`           | `loading`     | (optional) If `true` the button is of type loading                                                            | `boolean`                                                                                                                                       | `false`                |
-| `size`              | `size`        | (optional) Button's size                                                                                      | `EComponentSize.Large \| EComponentSize.Small`                                                                                                  | `EComponentSize.Small` |
-| `type` _(required)_ | `type`        | (required) Button's type                                                                                      | `EActionButtonType.Danger \| EActionButtonType.Ghost \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
+| Property            | Attribute  | Description                                        | Type                                                                                                                                           | Default                |
+| ------------------- | ---------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `active`            | `active`   | (optional) If `true` the button is active          | `boolean`                                                                                                                                      | `false`                |
+| `disabled`          | `disabled` | (optional) If `true` the button is disabled        | `boolean`                                                                                                                                      | `false`                |
+| `icon` _(required)_ | `icon`     | (required) Button's icon symbol name               | `EIconName`                                                                                                                                    | `undefined`            |
+| `loading`           | `loading`  | (optional) If `true` the button is of type loading | `boolean`                                                                                                                                      | `false`                |
+| `size`              | `size`     | (optional) Button's size                           | `EComponentSize.Large \| EComponentSize.Small`                                                                                                 | `EComponentSize.Small` |
+| `type` _(required)_ | `type`     | (required) Button's type                           | `EActionButtonType.Danger \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary \| EActionButtonType.Text` | `undefined`            |
 
 
 ## Events
@@ -65,14 +63,12 @@ export const SwitchButtonExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                         | Description                                        |
-| ---------------------------- | -------------------------------------------------- |
-| `--button-icon-large-height` | Button's icon large height.                        |
-| `--button-icon-large-width`  | Button's icon large width.                         |
-| `--button-icon-small-height` | Button's icon small height.                        |
-| `--button-icon-small-width`  | Button's icon small width.                         |
-| `--button-size-large`        | Button's height and width size when size is large. |
-| `--button-size-small`        | Button's height and width size when size is small. |
+| Name                       | Description                                        |
+| -------------------------- | -------------------------------------------------- |
+| `--button-icon-large-size` | Button's icon large size.                          |
+| `--button-icon-small-size` | Button's icon small size.                          |
+| `--button-size-large`      | Button's height and width size when size is large. |
+| `--button-size-small`      | Button's height and width size when size is small. |
 
 
 ## Dependencies
@@ -87,14 +83,12 @@ export const SwitchButtonExample: React.FC = () => (
 
 - [kv-action-button](../action-button)
 - [kv-icon](../icon)
-- [kv-badge](../badge)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-action-button-icon --> kv-action-button
   kv-action-button-icon --> kv-icon
-  kv-action-button-icon --> kv-badge
   kv-inline-editable-field --> kv-action-button-icon
   kv-select-create-option --> kv-action-button-icon
   kv-select-option --> kv-action-button-icon

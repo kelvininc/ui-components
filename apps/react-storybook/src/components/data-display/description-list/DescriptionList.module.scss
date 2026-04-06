@@ -1,4 +1,4 @@
-@import "@kelvininc/react-ui-components/assets/styles/globals";
+@use "@kelvininc/react-ui-components/assets/styles" as *;
 
 .CustomDescriptionList {
 	--description-list-row-extremes: #{$spacing-3x};

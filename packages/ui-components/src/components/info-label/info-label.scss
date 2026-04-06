@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 /**
 	 * @prop --text-color-title: Info label's title color.
@@ -9,14 +9,12 @@
 */
 
 :host {
-	--text-color-title: #{kv-color('neutral-4')};
-	--text-color-description: #{kv-color('neutral-2')};
-	--expanded-button-color: #{kv-color('neutral-0')};
+	--text-color-title: var(--text-surface-neutral-tertiary);
+	--text-color-description: var(--text-surface-neutral-secondary);
+	--expanded-button-color: var(--text-surface-neutral-primary);
 	--description-fade-height: 30px;
-	--description-fade-shadow: linear-gradient(to bottom, rgba(32, 32, 32, 0) 0%, rgba(32, 32, 32, 1) 100%);
-	--text-color-title: #{kv-color('neutral-4')};
-	--text-color-description: #{kv-color('neutral-2')};
-	--expanded-button-color: #{kv-color('neutral-0')};
+	--description-shadow-background: var(--background-surface-neutral-default);
+	--description-fade-shadow: linear-gradient(to bottom, color-mix(in srgb, var(--description-shadow-background) 10%, transparent) 50%, color-mix(in srgb, var(--description-shadow-background) 50%, transparent) 30%);
 }
 
 .info-label {
@@ -24,10 +22,10 @@
 	flex-direction: column;
 
 	.title {
-		@include kv-font-label-small-uppercase-regular();
+		@include heading-xs-regular-caps();
 		color: var(--text-color-title);
 		white-space: nowrap;
-		margin-bottom: $spacing-2x;
+		margin-bottom: var(--spacing-md);
 
 		&.no-description {
 			margin-bottom: 0;
@@ -41,22 +39,22 @@
 		height: auto;
 
 		.text {
-			@include kv-font-span-regular();
+			@include body-m-regular();
 			color: var(--text-color-description);
 		}
 	}
 
 	.expand-description-button {
-		@include kv-font-label-small-regular();
+		@include body-s-regular();
 		display: flex;
 		align-items: center;
 		cursor: pointer;
-		margin-top: $spacing-3x;
+		margin-top: var(--spacing-xl);
 		color: var(--expanded-button-color);
 
 		kv-icon {
 			--icon-color: #{var(--expanded-button-color)};
-			margin-left: $spacing;
+			margin-left: var(--spacing-xs);
 			transition: transform 0.3s ease-in-out;
 		}
 
@@ -81,7 +79,7 @@
 }
 
 .copy-icon {
-	margin-left: $spacing-2x;
+	margin-left: var(--spacing-md);
 	cursor: pointer;
 	user-select: none;
 }

@@ -4,7 +4,6 @@ exports[`Form Help Text (unit tests) when has a help text and state is invalid s
 <kv-form-help-text help-text="Help Text" state="invalid">
   <template shadowrootmode="open">
     <div class="help-text-container invalid">
-      <kv-icon customclass="icon-16" name="kv-error"></kv-icon>
       <span class="help-text">
         Help Text
       </span>

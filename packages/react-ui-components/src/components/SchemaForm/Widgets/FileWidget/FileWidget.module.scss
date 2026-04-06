@@ -1,9 +1,9 @@
-@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
+@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
 .FileWidgetContainer {
 	display: flex;
 	justify-content: space-between;
-	gap: $spacing-3x;
+	gap: var(--spacing-xl);
 	align-items: center;
 
 	.FilesInfo {
@@ -13,7 +13,7 @@
 
 	.ActionsContainer {
 		display: flex;
-		gap: $spacing-2x;
+		gap: var(--spacing-md);
 		align-items: center;
 	}
 
@@ -21,25 +21,26 @@
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: $spacing-3x;
+		gap: var(--spacing-xl);
 
 		.FileInfo {
 			display: flex;
-			border-radius: $spacing;
-			background-color: kv-color('neutral-7');
-			padding: $spacing-3x;
-			gap: $spacing-2x;
+			border-radius: var(--radius-md);
+			background-color: var(--background-container-neutral-subtle);
+			border: 1px solid var(--input-border-color-default);
+			padding: var(--spacing-xl);
+			gap: var(--spacing-md);
 			justify-content: space-between;
 
 			.LeftContent {
 				display: flex;
 				flex: 1;
 				min-width: 0;
-				gap: $spacing-2x;
+				gap: var(--spacing-md);
 			}
 
 			kv-icon {
-				--icon-color: #{kv-color('neutral-5')};
+				--icon-color: var(--icon-surface-neutral-disabled);
 				--icon-height: 40px;
 				--icon-width: 40px;
 			}
@@ -51,31 +52,33 @@
 				min-width: 0;
 
 				.Label {
-					@include ellipsis();
-					@include kv-font-label-small-uppercase-semibold;
+					@include ellipsis;
+					@include heading-xs-semibold-caps;
 
-					color: kv-color('neutral-2');
+					color: var(--text-container-neutral-default);
 				}
 
 				.FileName {
-					@include ellipsis();
-					@include kv-font-span-semibold;
+					@include ellipsis;
+					@include body-m-semibold;
 
-					color: kv-color('neutral-5');
+					color: var(--text-surface-neutral-disabled);
 				}
 			}
 
 			&.HasValue {
 				kv-icon {
-					--icon-color: #{kv-color('neutral-2')};
+					--icon-color: var(--icon-surface-neutral-secondary);
 				}
+
+				/* stylelint-disable-next-line selector-max-class */
 				.FileDetails .FileName {
-					color: kv-color('neutral-4');
+					color: var(--text-surface-neutral-secondary);
 				}
 			}
 
 			&.HasError {
-				border: 1px solid kv-color('error');
+				border: 1px solid var(--input-border-color-error);
 			}
 		}
 	}

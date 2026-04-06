@@ -1,14 +1,8 @@
-@import '../../assets/styles/globals';
-
-kv-form-label {
-	user-select: none;
-
-	--label-color: #{kv-color('neutral-4')};
-}
+@use '../../assets/styles' as *;
 
 input {
 	@include ellipsis;
-	@include kv-font-span-regular;
+	@include body-m-regular;
 
 	color-scheme: dark;
 	appearance: textfield;

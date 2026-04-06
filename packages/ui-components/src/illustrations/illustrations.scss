@@ -1,5 +1,5 @@
 @use "sass:color";
-@import '../assets/styles/globals';
+@use '../assets/styles' as *;
 
 .illustration {
 	--illustration-color: var(--kv-illustrations-color, #{$primary-color});
@@ -9,8 +9,10 @@
 	--illustration-color-dark-35: var(--kv-illustrations-color-dark-35, #{color.mix(#000, $primary-color, 36%)});
 	--illustration-success-color: var(--kv-illustrations-success-color, #{$success-color});
 
+	/* stylelint-disable csstools/value-no-unknown-custom-properties -- vars defined by parent component */
 	width: var(--illustration-width);
 	height: var(--illustration-height);
+	/* stylelint-enable csstools/value-no-unknown-custom-properties -- vars defined by parent component */
 	display: flex;
 	
 	&-full-size {

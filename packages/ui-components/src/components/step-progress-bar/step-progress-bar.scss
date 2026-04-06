@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -9,9 +9,9 @@
 	*/
 	--progress-bar-height: 2px;
 	--progress-height: 14px;
-	--progress-bar-background-color: #{kv-color('neutral-6')};
-	--progress-bar-filler-success-color: #{kv-color('success')};
-	--progress-bar-filler-error-color: #{kv-color('error')};
+	--progress-bar-background-color: var(--border-persistent-wizard-default);
+	--progress-bar-filler-success-color: var(--border-persistent-wizard-selected);
+	--progress-bar-filler-error-color: var(--color-red-500);
 }
 
 $progress-bar-height-half: calc(var(--progress-bar-height) / 2);

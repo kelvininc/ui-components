@@ -123,14 +123,11 @@ Type: `Promise<void>`
 | `--text-color-icon-default`         | Icon color when state is default.              |
 | `--text-color-icon-disabled`        | Icon color when state is disabled.             |
 | `--text-color-icon-focused`         | Icon color when state is focused.              |
-| `--text-color-input-default`        | Input text color when state is default.        |
+| `--text-color-input-default`        | Placeholder text color when state is default.  |
 | `--text-color-input-disabled`       | Input text color when state is disabled.       |
+| `--text-color-input-filled`         | Input text color when state is filled.         |
 | `--text-color-input-focused`        | Input Text color when state is focused.        |
 | `--text-color-label`                | Label Text color.                              |
-| `--text-color-placeholder-default`  | Placeholder text color when state is default.  |
-| `--text-color-placeholder-disabled` | Placeholder text color when state is disabled. |
-| `--text-color-placeholder-focused`  | Placeholder text color when state is focused.  |
-| `--text-padding`                    | Text Field text padding.                       |
 
 
 ## Dependencies

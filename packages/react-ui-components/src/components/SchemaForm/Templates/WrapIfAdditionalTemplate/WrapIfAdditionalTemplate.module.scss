@@ -1,4 +1,4 @@
-@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
+@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
 .NewKeyContainer {
 	width: 100%;
@@ -8,10 +8,10 @@
 
 	.InputContainer {
 		width: 100%;
-		padding-right: $spacing-5x;
+		padding-right: var(--spacing-3xl);
 	}
 
 	.DeleteButton {
-		padding-top: $spacing-6x;
+		padding-top: var(--spacing-4xl);
 	}
 }

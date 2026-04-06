@@ -128,14 +128,16 @@ graph TD;
   kv-select-option --> kv-icon
   kv-select-option --> kv-dirty-dot
   kv-select-option --> kv-action-button-icon
+  kv-checkbox --> kv-radio
   kv-checkbox --> kv-icon
+  kv-radio --> kv-icon
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
   kv-dirty-dot --> kv-icon
   kv-action-button-icon --> kv-action-button
   kv-action-button-icon --> kv-icon
-  kv-action-button-icon --> kv-badge
   kv-select --> kv-search
+  kv-select --> kv-action-button-text
   kv-search --> kv-text-field
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
@@ -144,6 +146,8 @@ graph TD;
   kv-text-field --> kv-badge
   kv-text-field --> kv-form-help-text
   kv-form-help-text --> kv-icon
+  kv-action-button-text --> kv-action-button
+  kv-action-button-text --> kv-icon
   kv-illustration-message --> kv-illustration
   kv-select-create-option --> kv-text-field
   kv-select-create-option --> kv-action-button-icon

@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 $relative-time-picker-height: 347px;
 $relative-time-picker-width: 328px;
@@ -88,7 +88,7 @@ $full-view-width: 779px;
 		align-items: center;
 
 		.toggle-text {
-			@include kv-font-span-regular;
+			@include body-m-regular;
 			color: kv-color('neutral-2');
 		}
 	}

@@ -163,7 +163,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 									text="Reset to Default"
 									disabled={disabled || !hasDefaults}
 									size={EComponentSize.Large}
-									type={EActionButtonType.Ghost}
+									type={EActionButtonType.Tertiary}
 									onClickButton={resetToDefaults}
 								/>
 							)}

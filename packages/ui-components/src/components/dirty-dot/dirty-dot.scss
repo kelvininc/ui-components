@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -7,7 +7,7 @@
 	 * @prop --dot-width: DirtyDot's width.
 	 */
 
-	--dot-color: #{kv-color('secondary-5')};
+	--dot-color: var(--color-purple-500);
 	--dot-height: 6px;
 	--dot-width: 6px;
 }

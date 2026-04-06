@@ -2,8 +2,9 @@ import type { Meta, StoryObj, StoryFn } from "@storybook/react";
 
 import {
 	EActionButtonType,
+	EIconName,
 	EToasterType,
-	KvActionButton,
+	KvActionButtonText,
 	KvToaster
 } from "@kelvininc/react-ui-components/client";
 import { ComponentProps } from "react";
@@ -28,43 +29,34 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const ErrorIcon: Story = {
+export const Success: Story = {
 	args: {
 		header: "Main Message",
 		description: "Secondary Message",
-		ttl: 2000,
-		type: EToasterType.Error
-	}
-};
-
-export const WarningIcon: Story = {
-	args: {
-		header: "Main Message",
-		description: "Secondary Message",
-		ttl: 2000,
-		type: EToasterType.Warning
-	}
-};
-
-export const SuccessIcon: Story = {
-	args: {
-		header: "Main Message",
-		description: "Secondary Message",
-		ttl: 2000,
+		ttl: 0,
 		type: EToasterType.Success
 	}
 };
 
-export const InfoIcon: Story = {
+export const Warning: Story = {
 	args: {
 		header: "Main Message",
 		description: "Secondary Message",
-		ttl: 2000,
-		type: EToasterType.Info
+		ttl: 0,
+		type: EToasterType.Warning
 	}
 };
 
-export const NoTTL: Story = {
+export const Error: Story = {
+	args: {
+		header: "Main Message",
+		description: "Secondary Message",
+		ttl: 0,
+		type: EToasterType.Error
+	}
+};
+
+export const Info: Story = {
 	args: {
 		header: "Main Message",
 		description: "Secondary Message",
@@ -77,9 +69,11 @@ const ToasterWithSlotTemplate: StoryFn<ComponentProps<typeof KvToaster>> = (
 	args
 ) => (
 	<KvToaster {...args}>
-		<KvActionButton type={EActionButtonType.Tertiary}>
-			Clean Simulation
-		</KvActionButton>
+		<KvActionButtonText
+			type={EActionButtonType.Secondary}
+			text={"Clean"}
+			icon={EIconName.Clear}
+		/>
 	</KvToaster>
 );
 export const WithSlot: Story = {
@@ -87,6 +81,7 @@ export const WithSlot: Story = {
 	args: {
 		header: "Displaying results of simulation",
 		description: "Click to end simulation",
-		type: EToasterType.Warning
+		type: EToasterType.Warning,
+		closable: false
 	}
 };
