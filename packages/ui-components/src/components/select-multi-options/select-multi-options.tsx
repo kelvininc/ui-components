@@ -81,6 +81,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Prop({ reflect: true }) createOptionPlaceholder?: string = DEFAULT_ADD_OPTION_PLACEHOLDER;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxSelectable?: number;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) showShortcuts?: boolean = false;
 
 	@Element() el: HTMLKvSelectMultiOptionsElement;
 
@@ -438,7 +440,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 					<div
 						class={{
 							'create-new-option-container': true,
-							'has-shortcuts': this.shortcuts
+							'has-shortcuts': this.shortcuts && this.showShortcuts
 						}}
 					>
 						<div class="create-new-option-form">
@@ -450,7 +452,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 						</div>
 					</div>
 				)}
-				{this.shortcuts && (
+				{this.shortcuts && this.showShortcuts && (
 					<slot name="select-footer" slot="select-footer">
 						<kv-select-shortcuts-label>
 							<div class="counter" slot="right-items">

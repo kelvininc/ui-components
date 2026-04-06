@@ -38,10 +38,15 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                  | Description                                      |
-| --------------------- | ------------------------------------------------ |
-| `--margin-left-right` | Margin left and right of the editable container. |
-| `--margin-top-bottom` | Margin top and bottom of the editable container. |
+| Name                    | Description                                          |
+| ----------------------- | ---------------------------------------------------- |
+| `--border-radius`       | Border radius of the editable container.             |
+| `--focus-background`    | Background color of the editable container on focus. |
+| `--focus-outline-color` | Outline color of the editable container on focus.    |
+| `--focus-outline-width` | Outline width of the editable container on focus.    |
+| `--hover-background`    | Background color of the editable container on hover. |
+| `--margin-left-right`   | Margin left and right of the editable container.     |
+| `--margin-top-bottom`   | Margin top and bottom of the editable container.     |
 
 
 ## Dependencies

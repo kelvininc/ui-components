@@ -61,7 +61,7 @@
 
 	.content {
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 		padding: var(--radio-list-item-padding);
 		gap: var(--radio-list-item-gap);
 	}
