@@ -93,6 +93,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) shortcuts?: boolean = false;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) showShortcuts?: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: false }) zIndex?: number = DEFAULT_DROPDOWN_Z_INDEX;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) canAddItems?: boolean = false;
@@ -357,6 +359,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							minWidth={this.getMinWidth()}
 							counter={this.counter}
 							shortcuts={this.isOpen && this.shortcuts}
+							showShortcuts={this.showShortcuts}
 							onSearchChange={this.onSearchChange}
 							onClearSelection={this.onClearSelection}
 							onOptionSelected={this.onOptionSelected}

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Radio List Item (unit tests) when passing required props and \`checked\` true should match the snapshot 1`] = `
-<kv-radio-list-item checked="" label="K3S" option-id="k3s">
+<kv-radio-list-item checked="" label="K3S" option-id="k3s" size="large">
   <template shadowrootmode="open">
     <div class="radio-list-item-container radio-list-item-container--checked" tabindex="0">
       <slot name="header"></slot>
@@ -22,7 +22,7 @@ exports[`Radio List Item (unit tests) when passing required props and \`checked\
 `;
 
 exports[`Radio List Item (unit tests) when passing required props and \`disabled\` true should match the snapshot 1`] = `
-<kv-radio-list-item disabled="" label="K3S" option-id="k3s">
+<kv-radio-list-item disabled="" label="K3S" option-id="k3s" size="large">
   <template shadowrootmode="open">
     <div class="radio-list-item-container radio-list-item-container--disabled" tabindex="-1">
       <slot name="header"></slot>
@@ -43,7 +43,7 @@ exports[`Radio List Item (unit tests) when passing required props and \`disabled
 `;
 
 exports[`Radio List Item (unit tests) when passing required props and a description should match the snapshot 1`] = `
-<kv-radio-list-item description="Check the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="K3S" option-id="k3s">
+<kv-radio-list-item description="Check the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="K3S" option-id="k3s" size="large">
   <template shadowrootmode="open">
     <div class="radio-list-item-container" tabindex="0">
       <slot name="header"></slot>
@@ -69,7 +69,7 @@ exports[`Radio List Item (unit tests) when passing required props and a descript
 `;
 
 exports[`Radio List Item (unit tests) when passing required props should match the snapshot 1`] = `
-<kv-radio-list-item label="K3S" option-id="k3s">
+<kv-radio-list-item label="K3S" option-id="k3s" size="large">
   <template shadowrootmode="open">
     <div class="radio-list-item-container" tabindex="0">
       <slot name="header"></slot>

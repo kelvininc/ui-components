@@ -53,13 +53,14 @@ export const RadioListItemExample: React.FC = () => (
 
 ## Properties
 
-| Property                | Attribute     | Description                                                                 | Type               | Default     |
-| ----------------------- | ------------- | --------------------------------------------------------------------------- | ------------------ | ----------- |
-| `checked`               | `checked`     | (optional) Defines if this option is checked                                | `boolean`          | `false`     |
-| `description`           | `description` | (optional) The description that can contain links in the [text](url) format | `string`           | `undefined` |
-| `disabled`              | `disabled`    | (optional) Defines if this option is disabled                               | `boolean`          | `false`     |
-| `label` _(required)_    | `label`       | (required) The label to display                                             | `string`           | `undefined` |
-| `optionId` _(required)_ | `option-id`   | (required) The unique id that serves as a key for this item                 | `number \| string` | `undefined` |
+| Property                | Attribute     | Description                                                                 | Type                                           | Default                |
+| ----------------------- | ------------- | --------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
+| `checked`               | `checked`     | (optional) Defines if this option is checked                                | `boolean`                                      | `false`                |
+| `description`           | `description` | (optional) The description that can contain links in the [text](url) format | `string`                                       | `undefined`            |
+| `disabled`              | `disabled`    | (optional) Defines if this option is disabled                               | `boolean`                                      | `false`                |
+| `label` _(required)_    | `label`       | (required) The label to display                                             | `string`                                       | `undefined`            |
+| `optionId` _(required)_ | `option-id`   | (required) The unique id that serves as a key for this item                 | `number \| string`                             | `undefined`            |
+| `size`                  | `size`        |                                                                             | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
 
 
 ## Events

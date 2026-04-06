@@ -8,13 +8,23 @@
 	/**
 	* @prop --margin-top-bottom: Margin top and bottom of the editable container.
 	* @prop --margin-left-right: Margin left and right of the editable container.
+	* @prop --hover-background: Background color of the editable container on hover.
+	* @prop --focus-background: Background color of the editable container on focus.
+	* @prop --focus-outline-color: Outline color of the editable container on focus.
+	* @prop --focus-outline-width: Outline width of the editable container on focus.
+	* @prop --border-radius: Border radius of the editable container.
 	*/
 	--margin-top-bottom: #{$spacing};
 	--margin-left-right: #{$spacing-2x};
+	--hover-background: kv-color('neutral-8');
+	--focus-background: kv-color('neutral-8');
+	--focus-outline-width: 1px;
+	--focus-outline-color: kv-color('neutral-2');
+	--border-radius: 4px;
 
 	&__hover .inline-editable-field-slot {
-		border-radius: 4px;
-		background: kv-color('neutral-8');
+		border-radius: var(--border-radius);
+		background: var(--hover-background);
 	}
 }
 
@@ -24,18 +34,22 @@
 		margin: calc(var(--margin-top-bottom) * -1) calc(var(--margin-left-right) * -1);
 		white-space: nowrap;
 		overflow: hidden;
-		outline: 1px solid transparent;
+		outline: var(--focus-outline-width) solid transparent;
 		transition: all 0.25s ease-in-out;
 
-		&:hover,
-		&:focus {
-			border-radius: 4px;
-			background: kv-color('neutral-8');
+		&:hover {
+			background: var(--hover-background);
 		}
 
 		&:focus {
-			outline-color: kv-color('neutral-2');
+			background: var(--focus-background);
+			outline-color: var(--focus-outline-color);
 			text-overflow: unset;
+		}
+
+		&:focus,
+		&:hover {
+			border-radius: var(--border-radius);
 		}
 	}
 
