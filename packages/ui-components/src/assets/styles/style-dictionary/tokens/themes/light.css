@@ -8,10 +8,12 @@ body[mode="light"] {
   --background-surface-neutral-default: var(--color-gray-50);
   --background-surface-neutral-subtle: var(--color-gray-200);
   --background-surface-neutral-inverse: rgba(13, 13, 13, 0);
+  --background-surface-neutral-strong: var(--color-gray-200);
   --background-surface-sidebar-default: var(--color-gray-50);
   --background-surface-sidebar-strong: var(--color-gray-100);
   --background-surface-skeleton-highlight: var(--color-gray-200);
   --background-surface-skeleton-base: var(--color-gray-300);
+  --background-surface-brand-default: var(--color-brand-500);
   --background-container-status-success-default: var(--color-green-100);
   --background-container-status-success-subtle: var(--color-green-200);
   --background-container-status-success-soft: var(--color-green-100);
@@ -110,6 +112,9 @@ body[mode="light"] {
   --background-interactive-column-bar-drag: var(--color-brand-100);
   --background-interactive-column-bar-locked: var(--color-gray-200);
   --background-interactive-column-bar-empty: var(--color-gray-200);
+  --background-interactive-calendar-hover: var(--color-gray-200);
+  --background-interactive-calendar-selected: var(--color-brand-100);
+  --background-interactive-calendar-selected-middle: var(--color-gray-200);
   --background-persistent-control-on-defaullt: var(--color-brand-500);
   --background-persistent-control-on-subtle: var(--color-brand-100);
   --background-persistent-control-off-neutral: var(--color-gray-600);
@@ -218,8 +223,12 @@ body[mode="light"] {
   --text-container-navigation-row-selected: var(--color-brand-500);
   --border-surface-neutral-default: var(--color-gray-400);
   --border-surface-neutral-subtle: var(--color-gray-300);
+  --border-surface-neutral-inverse: var(--color-gray-950);
   --border-surface-brand-default: var(--color-brand-500);
   --border-surface-sidepanel-default: var(--color-gray-300);
+  --border-surface-card-default: var(--color-gray-400);
+  --border-surface-slider-value-default: var(--color-brand-200);
+  --border-surface-code-default: var(--color-gray-400);
   --border-interactive-neutral-default: var(--color-gray-800);
   --border-interactive-neutral-subtle: var(--color-gray-700);
   --border-interactive-accent-default: var(--color-teal-500);
@@ -251,6 +260,7 @@ body[mode="light"] {
   --border-container-neutral-default: var(--color-gray-400);
   --border-container-neutral-selected: var(--color-gray-950);
   --border-container-neutral-subtle: var(--color-gray-300);
+  --border-container-neutral-subtlest: var(--color-gray-400);
   --border-container-divider-default: var(--color-gray-300);
   --border-container-divider-strong: var(--color-gray-400);
   --border-container-modal-default: var(--color-gray-400);
@@ -372,6 +382,9 @@ body[mode="light"] {
   --icon-container-table-pin-pressed: var(--color-gray-500);
   --icon-container-table-pin-disabled: var(--color-gray-400);
   --icon-container-table-pin-selected: var(--color-brand-500);
+  --icon-container-column-bar-default: var(--color-gray-600);
+  --icon-container-column-bar-hover: var(--color-brand-500);
+  --icon-container-column-bar-disabled: var(--color-gray-400);
   --icon-persistent-control-on: var(--color-gray-50);
   --icon-persistent-control-off: var(--color-gray-500);
   --icon-persistent-control-disabled: var(--color-gray-400);

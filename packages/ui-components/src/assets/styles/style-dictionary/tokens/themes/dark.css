@@ -8,10 +8,12 @@ body[mode="night"] {
   --background-surface-neutral-default: var(--color-gray-900);
   --background-surface-neutral-subtle: var(--color-gray-800);
   --background-surface-neutral-inverse: var(--color-gray-50);
+  --background-surface-neutral-strong: var(--color-gray-950);
   --background-surface-sidebar-default: var(--color-gray-900);
   --background-surface-sidebar-strong: var(--color-gray-700);
   --background-surface-skeleton-highlight: var(--color-gray-500);
   --background-surface-skeleton-base: var(--color-gray-600);
+  --background-surface-brand-default: var(--color-brand-500);
   --background-container-status-success-default: var(--color-green-500);
   --background-container-status-success-subtle: var(--color-green-400);
   --background-container-status-success-soft: var(--color-green-100);
@@ -55,7 +57,7 @@ body[mode="night"] {
   --background-container-account-accent: var(--color-purple-500);
   --background-container-card-recommendation-default: var(--color-gray-900);
   --background-container-card-recommendation-subtle: var(--color-gray-800);
-  --background-container-alert-secondary-default: var(--color-gray-700);
+  --background-container-alert-secondary-default: var(--color-gray-800);
   --background-interactive-neutral-hover: var(--color-gray-600);
   --background-interactive-neutral-pressed: var(--color-gray-500);
   --background-interactive-neutral-disabled: var(--color-gray-700);
@@ -105,11 +107,14 @@ body[mode="night"] {
   --background-interactive-card-application-default: var(--color-gray-900);
   --background-interactive-card-application-hover: var(--color-gray-800);
   --background-interactive-column-bar-active: var(--color-gray-700);
-  --background-interactive-column-bar-hidden: var(--color-gray-900);
+  --background-interactive-column-bar-hidden: var(--color-gray-800);
   --background-interactive-column-bar-hover: var(--color-gray-600);
   --background-interactive-column-bar-drag: var(--color-gray-500);
   --background-interactive-column-bar-locked: var(--color-gray-800);
   --background-interactive-column-bar-empty: var(--color-gray-800);
+  --background-interactive-calendar-hover: rgba(0, 44, 102, 0.32);
+  --background-interactive-calendar-selected: var(--color-brand-800);
+  --background-interactive-calendar-selected-middle: rgba(0, 44, 102, 0.32);
   --background-persistent-control-on-defaullt: var(--color-brand-500);
   --background-persistent-control-on-subtle: var(--color-gray-600);
   --background-persistent-control-off-neutral: var(--color-gray-600);
@@ -218,8 +223,12 @@ body[mode="night"] {
   --text-container-navigation-row-selected: var(--color-gray-300);
   --border-surface-neutral-default: var(--color-gray-600);
   --border-surface-neutral-subtle: var(--color-gray-700);
+  --border-surface-neutral-inverse: var(--color-gray-50);
   --border-surface-brand-default: var(--color-brand-500);
   --border-surface-sidepanel-default: rgba(255, 255, 255, 0);
+  --border-surface-card-default: rgba(255, 255, 255, 0);
+  --border-surface-slider-value-default: var(--color-gray-50);
+  --border-surface-code-default: rgba(26, 26, 26, 0);
   --border-interactive-neutral-default: var(--color-gray-400);
   --border-interactive-neutral-subtle: var(--color-gray-300);
   --border-interactive-accent-default: var(--color-teal-500);
@@ -251,6 +260,7 @@ body[mode="night"] {
   --border-container-neutral-default: var(--color-gray-700);
   --border-container-neutral-selected: var(--color-gray-50);
   --border-container-neutral-subtle: var(--color-gray-600);
+  --border-container-neutral-subtlest: var(--color-gray-500);
   --border-container-divider-default: var(--color-gray-600);
   --border-container-divider-strong: var(--color-gray-500);
   --border-container-modal-default: rgba(255, 255, 255, 0);
@@ -372,6 +382,9 @@ body[mode="night"] {
   --icon-container-table-pin-pressed: var(--color-gray-400);
   --icon-container-table-pin-disabled: var(--color-gray-500);
   --icon-container-table-pin-selected: var(--color-gray-50);
+  --icon-container-column-bar-default: var(--color-gray-400);
+  --icon-container-column-bar-hover: var(--color-gray-300);
+  --icon-container-column-bar-disabled: var(--color-gray-500);
   --icon-persistent-control-on: var(--color-gray-50);
   --icon-persistent-control-off: var(--color-gray-300);
   --icon-persistent-control-disabled: var(--color-gray-500);
