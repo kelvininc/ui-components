@@ -22,13 +22,13 @@ $label-height: 49px;
 	--range-width: 100%;
 	--range-height: 10px;
 	--range-selector-radius: 20px;
-	--select-label-disabled-color: #{kv-color('neutral-5')};
-	--slider-background-filled-disabled: #{kv-color('neutral-5')};
-	--slider-background-filled: #{kv-color('primary')};
-	--slider-background-empty: #{kv-color('neutral-9')};
-	--thumb-border-color: #{kv-color('neutral-0')};
-	--range-label-color: #{kv-color('neutral-5')};
-	--select-label-color: #{kv-color('neutral-0')};
+	--select-label-disabled-color: var(--text-surface-neutral-tertiary);
+	--slider-background-filled-disabled: var(--text-surface-neutral-tertiary);
+	--slider-background-filled: var(--background-surface-brand-default);
+	--slider-background-empty: var(--background-surface-neutral-strong);
+	--thumb-border-color: var(--border-surface-slider-value-default);
+	--range-label-color: var(--text-surface-neutral-tertiary);
+	--select-label-color: var(--text-surface-neutral-primary);
 }
 
 .range-container {
@@ -46,7 +46,7 @@ $label-height: 49px;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
-	margin-top: $spacing;
+	margin-top: var(--spacing-xs);
 	user-select: none;
 	color: var(--range-label-color);
 }
@@ -62,7 +62,7 @@ $label-height: 49px;
 	border: 1px solid var(--slider-background-empty);
 
 	&::-webkit-slider-thumb {
-		border: var(--range-selector-border-radius, calc($spacing - 1px)) solid var(--thumb-border-color);
+		border: var(--range-selector-border-radius, calc(var(--spacing-xs) - 1px)) solid var(--thumb-border-color);
 		background: var(--thumb-background-color, var(--slider-background-filled));
 		height: calc(var(--range-selector-radius) + 5px);
 		width: calc(var(--range-selector-radius) + 5px);
@@ -72,7 +72,7 @@ $label-height: 49px;
 	}
 
 	&::-moz-range-thumb {
-		border: var(--range-selector-border-radius, $spacing) solid var(--thumb-border-color);
+		border: var(--range-selector-border-radius, var(--spacing-xs)) solid var(--thumb-border-color);
 		background: var(--thumb-background-color, var(--slider-background-filled));
 		height: var(--range-selector-radius);
 		width: var(--range-selector-radius);
