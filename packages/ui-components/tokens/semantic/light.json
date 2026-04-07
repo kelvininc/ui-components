@@ -2204,6 +2204,23 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "column-bar": {
+        "default": {
+          "value": "{color.gray.600}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "hover": {
+          "value": "{color.brand.500}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "disabled": {
+          "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "persistent": {

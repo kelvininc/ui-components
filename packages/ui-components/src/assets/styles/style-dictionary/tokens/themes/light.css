@@ -372,6 +372,9 @@ body[mode="light"] {
   --icon-container-table-pin-pressed: var(--color-gray-500);
   --icon-container-table-pin-disabled: var(--color-gray-400);
   --icon-container-table-pin-selected: var(--color-brand-500);
+  --icon-container-column-bar-default: var(--color-gray-600);
+  --icon-container-column-bar-hover: var(--color-brand-500);
+  --icon-container-column-bar-disabled: var(--color-gray-400);
   --icon-persistent-control-on: var(--color-gray-50);
   --icon-persistent-control-off: var(--color-gray-500);
   --icon-persistent-control-disabled: var(--color-gray-400);
