@@ -314,6 +314,18 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "modal": {
+        "default": {
+          "value": "{color.gray.50}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "subtle": {
+          "value": "{color.gray.100}",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "interactive": {
