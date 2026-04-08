@@ -1,7 +1,7 @@
 import React, { ForwardedRef, forwardRef, useCallback, useMemo } from 'react';
 import { DiffEditor } from '@monaco-editor/react';
-import { DEFAULT_CODE_EDITOR_LANGUAGE, DEFAULT_CODE_EDITOR_THEME, KELVIN_CODE_EDITOR_THEME } from './config';
-import { CodeEditor, CodeInstance, ICodeDiffEditorProps, OnCodeEditorChange } from './types';
+import { DEFAULT_CODE_EDITOR_LANGUAGE } from './config';
+import { CodeEditor, CodeInstance, ECodeEditorTheme, ICodeDiffEditorProps, OnCodeEditorChange } from './types';
 import { getEditorOptions } from './utils';
 import { editor } from 'monaco-editor';
 import { CodeEditorLoader } from './CodeEditorLoader';
@@ -13,15 +13,15 @@ export const Component = ({
 	originalCode,
 	modifiedCode,
 	language = DEFAULT_CODE_EDITOR_LANGUAGE,
-	theme = DEFAULT_CODE_EDITOR_THEME,
-	customTheme = KELVIN_CODE_EDITOR_THEME,
+	theme = ECodeEditorTheme.Dark,
+	customTheme,
 	customOptions,
 	LoadingComponent = CodeEditorLoader,
 	onChange
 }: ICodeDiffEditorProps) => {
 	const options = useMemo(() => getEditorOptions(customOptions), [customOptions]);
 
-	const hasLoaded = useLoadMonacoEditorStyle(options, customTheme);
+	const hasLoaded = useLoadMonacoEditorStyle(options, theme, customTheme);
 
 	const onTextChange: OnCodeEditorChange = useCallback(value => onChange?.(value), [onChange]);
 
@@ -58,7 +58,7 @@ export const Component = ({
 			original={originalCode}
 			modified={modifiedCode}
 			language={language}
-			theme={theme}
+			theme={ECodeEditorTheme.Custom}
 			options={options}
 			loading={<LoadingComponent />}
 		/>

@@ -3139,12 +3139,12 @@
     },
     "background": {
       "default": {
-        "value": "{background.container.neutral.default}",
+        "value": "{background.container.modal.default}",
         "type": "color",
         "prefix": "component_semantics"
       },
       "subtle": {
-        "value": "{background.container.neutral.subtle}",
+        "value": "{background.container.modal.subtle}",
         "type": "color",
         "prefix": "component_semantics"
       }

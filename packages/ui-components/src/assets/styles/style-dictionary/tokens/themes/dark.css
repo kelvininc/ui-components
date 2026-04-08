@@ -58,6 +58,8 @@ body[mode="night"] {
   --background-container-card-recommendation-default: var(--color-gray-900);
   --background-container-card-recommendation-subtle: var(--color-gray-800);
   --background-container-alert-secondary-default: var(--color-gray-800);
+  --background-container-modal-default: var(--color-gray-800);
+  --background-container-modal-subtle: var(--color-gray-900);
   --background-interactive-neutral-hover: var(--color-gray-600);
   --background-interactive-neutral-pressed: var(--color-gray-500);
   --background-interactive-neutral-disabled: var(--color-gray-700);
