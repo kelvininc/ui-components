@@ -92,6 +92,11 @@
         "value": "#004299",
         "type": "color",
         "prefix": "foundations_(primitives)"
+      },
+      "800": {
+        "value": "#002c66",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
       }
     },
     "purple": {

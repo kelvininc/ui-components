@@ -57,7 +57,7 @@ body[mode="night"] {
   --background-container-account-accent: var(--color-purple-500);
   --background-container-card-recommendation-default: var(--color-gray-900);
   --background-container-card-recommendation-subtle: var(--color-gray-800);
-  --background-container-alert-secondary-default: var(--color-gray-700);
+  --background-container-alert-secondary-default: var(--color-gray-800);
   --background-interactive-neutral-hover: var(--color-gray-600);
   --background-interactive-neutral-pressed: var(--color-gray-500);
   --background-interactive-neutral-disabled: var(--color-gray-700);
@@ -112,6 +112,9 @@ body[mode="night"] {
   --background-interactive-column-bar-drag: var(--color-gray-500);
   --background-interactive-column-bar-locked: var(--color-gray-800);
   --background-interactive-column-bar-empty: var(--color-gray-800);
+  --background-interactive-calendar-hover: rgba(0, 44, 102, 0.32);
+  --background-interactive-calendar-selected: var(--color-brand-800);
+  --background-interactive-calendar-selected-middle: rgba(0, 44, 102, 0.32);
   --background-persistent-control-on-defaullt: var(--color-brand-500);
   --background-persistent-control-on-subtle: var(--color-gray-600);
   --background-persistent-control-off-neutral: var(--color-gray-600);
@@ -225,6 +228,7 @@ body[mode="night"] {
   --border-surface-sidepanel-default: rgba(255, 255, 255, 0);
   --border-surface-card-default: rgba(255, 255, 255, 0);
   --border-surface-slider-value-default: var(--color-gray-50);
+  --border-surface-code-default: rgba(26, 26, 26, 0);
   --border-interactive-neutral-default: var(--color-gray-400);
   --border-interactive-neutral-subtle: var(--color-gray-300);
   --border-interactive-accent-default: var(--color-teal-500);
@@ -256,6 +260,7 @@ body[mode="night"] {
   --border-container-neutral-default: var(--color-gray-700);
   --border-container-neutral-selected: var(--color-gray-50);
   --border-container-neutral-subtle: var(--color-gray-600);
+  --border-container-neutral-subtlest: var(--color-gray-500);
   --border-container-divider-default: var(--color-gray-600);
   --border-container-divider-strong: var(--color-gray-500);
   --border-container-modal-default: rgba(255, 255, 255, 0);

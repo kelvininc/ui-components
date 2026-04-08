@@ -310,7 +310,7 @@
       },
       "alert-secondary": {
         "default": {
-          "value": "{color.gray.700}",
+          "value": "{color.gray.800}",
           "type": "color",
           "prefix": "color"
         }
@@ -621,6 +621,23 @@
         },
         "empty": {
           "value": "{color.gray.800}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "calendar": {
+        "hover": {
+          "value": "#002c6652",
+          "type": "color",
+          "prefix": "color"
+        },
+        "selected": {
+          "value": "{color.brand.800}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "selected-middle": {
+          "value": "#002c6652",
           "type": "color",
           "prefix": "color"
         }
@@ -1315,6 +1332,13 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "code": {
+        "default": {
+          "value": "#1a1a1a00",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "interactive": {
@@ -1499,6 +1523,11 @@
         },
         "subtle": {
           "value": "{color.gray.600}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "subtlest": {
+          "value": "{color.gray.500}",
           "type": "color",
           "prefix": "color"
         }

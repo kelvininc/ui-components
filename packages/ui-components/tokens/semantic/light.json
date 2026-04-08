@@ -624,6 +624,23 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "calendar": {
+        "hover": {
+          "value": "{color.gray.200}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "selected": {
+          "value": "{color.brand.100}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "selected-middle": {
+          "value": "{color.gray.200}",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "persistent": {
@@ -1315,6 +1332,13 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "code": {
+        "default": {
+          "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "interactive": {
@@ -1499,6 +1523,11 @@
         },
         "subtle": {
           "value": "{color.gray.300}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "subtlest": {
+          "value": "{color.gray.400}",
           "type": "color",
           "prefix": "color"
         }
