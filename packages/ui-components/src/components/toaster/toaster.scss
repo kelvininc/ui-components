@@ -2,13 +2,13 @@
 
 :host {
 	/**
-	 * @prop --toaster-large-height: Toaster with two messages.
-	 * @prop --toaster-small-height: Toaster with one message.
+	 * @prop --toaster-large-height: Toaster height with two messages.
+	 * @prop --toaster-small-height: Toaster height with one message.
 	 * @prop --toaster-width: Toaster width.
 	 * @prop --toaster-top-space: Space between Toaster and top of page.
 	 * @prop --background-color-default: Toaster background color.
-	 * @prop --toaster-icons-height: toaster icons height
-	 * @prop --toaster-icons-width: toaster icons width
+	 * @prop --toaster-icon-height: Toaster icon height.
+	 * @prop --toaster-icon-width: Toaster icon width.
 	 */
 
 	--toaster-large-height: 76px;

@@ -77,11 +77,19 @@ export const AlertExample: React.FC<IAlertConfig> = () => (
 
 | Property             | Attribute     | Description                                                                               | Type                                                                              | Default                |
 | -------------------- | ------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ---------------------- |
+| `closable`           | `closable`    | (optional) Defines if the close button should be shown, defaults to `false`               | `boolean`                                                                         | `false`                |
 | `description`        | `description` | (optional) Defines the description text to show                                           | `string`                                                                          | `undefined`            |
 | `label` _(required)_ | `label`       | (required) Defines the label (title) text to show                                         | `string`                                                                          | `undefined`            |
 | `showIcon`           | `show-icon`   | (optional) Defines if the icon should be shown, defaults to `true`                        | `boolean`                                                                         | `true`                 |
 | `size`               | `size`        | (optional) Defines the size of the component, defaults to EComponentType.Large            | `EComponentSize.Large \| EComponentSize.Small`                                    | `EComponentSize.Large` |
 | `type` _(required)_  | `type`        | (required) Defines the type of alert to show, possible values are defined in `EAlertType` | `EAlertType.Error \| EAlertType.Info \| EAlertType.Success \| EAlertType.Warning` | `undefined`            |
+
+
+## Events
+
+| Event              | Description                              | Type                      |
+| ------------------ | ---------------------------------------- | ------------------------- |
+| `clickCloseButton` | Emitted when the close button is clicked | `CustomEvent<MouseEvent>` |
 
 
 ## Shadow Parts
@@ -96,11 +104,15 @@ export const AlertExample: React.FC<IAlertConfig> = () => (
 ### Depends on
 
 - [kv-icon](../icon)
+- [kv-action-button-text](../action-button-text)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-alert --> kv-icon
+  kv-alert --> kv-action-button-text
+  kv-action-button-text --> kv-action-button
+  kv-action-button-text --> kv-icon
   style kv-alert fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

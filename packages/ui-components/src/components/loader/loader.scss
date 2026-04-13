@@ -2,9 +2,11 @@
 
 :host {
 	/**
-	 * @prop --loader-overlay-color: Overlay color
-	 * @prop --loader-background-color: Loader background
-	 * @prop --loader-spinner-color: Loader color
+	 * @prop --loader-overlay-color: Overlay color.
+	 * @prop --loader-background-color: Loader background color.
+	 * @prop --loader-spinner-color: Loader spinner color.
+	 * @prop --loader-padding: Loader padding.
+	 * @prop --loader-border-size: Loader border size.
 	 * @prop --loader-z-index: Loader z-index position.
 	 */
 	--loader-overlay-color: var(--overlay-surface-opacity-80);

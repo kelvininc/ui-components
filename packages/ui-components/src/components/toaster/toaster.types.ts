@@ -1,9 +1,6 @@
 import { EventEmitter } from '@stencil/core';
 import { EIconName } from '../icon/icon.types';
 
-export const CLOSE_ICON = {
-	icon: EIconName.Close
-};
 
 export enum EToasterType {
 	Info = 'info',

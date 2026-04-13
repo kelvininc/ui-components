@@ -3,6 +3,7 @@
 :host {
 	/**
 	 * @prop --background-color: Background color.
+	 * @prop --min-height: Minimum height of the relative time picker.
 	 */
 	--background-color: var(--background-container-elevated-slider);
 	--min-height: 233px;

@@ -495,8 +495,8 @@ body {
   --modal-padding-x-default: var(--spacing-2xl);
   --modal-padding-y-default: var(--spacing-2xl);
   --modal-radius-default: var(--radius-xl);
-  --modal-background-default: var(--background-container-neutral-default);
-  --modal-background-subtle: var(--background-container-neutral-subtle);
+  --modal-background-default: var(--background-container-modal-default);
+  --modal-background-subtle: var(--background-container-modal-subtle);
   --modal-gap-horizontal-default: var(--spacing-2xl);
   --modal-gap-vertical-default: var(--spacing-xl);
   --modal-title-default: var(--text-container-neutral-subtle);

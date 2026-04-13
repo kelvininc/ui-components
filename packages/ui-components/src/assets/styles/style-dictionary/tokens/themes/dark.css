@@ -14,6 +14,8 @@ body[mode="night"] {
   --background-surface-skeleton-highlight: var(--color-gray-500);
   --background-surface-skeleton-base: var(--color-gray-600);
   --background-surface-brand-default: var(--color-brand-500);
+  --background-surface-progress-bar-default: var(--color-purple-500);
+  --background-surface-progress-bar-subtle: var(--color-gray-300);
   --background-container-status-success-default: var(--color-green-500);
   --background-container-status-success-subtle: var(--color-green-400);
   --background-container-status-success-soft: var(--color-green-100);
@@ -58,6 +60,8 @@ body[mode="night"] {
   --background-container-card-recommendation-default: var(--color-gray-900);
   --background-container-card-recommendation-subtle: var(--color-gray-800);
   --background-container-alert-secondary-default: var(--color-gray-800);
+  --background-container-modal-default: var(--color-gray-800);
+  --background-container-modal-subtle: var(--color-gray-900);
   --background-interactive-neutral-hover: var(--color-gray-600);
   --background-interactive-neutral-pressed: var(--color-gray-500);
   --background-interactive-neutral-disabled: var(--color-gray-700);
@@ -82,7 +86,7 @@ body[mode="night"] {
   --background-interactive-counter-selected: var(--color-gray-600);
   --background-interactive-slider-list-hover: var(--color-gray-600);
   --background-interactive-slider-list-selected: var(--color-gray-600);
-  --background-interactive-slider-list-disabled: var(--color-gray-700);
+  --background-interactive-slider-list-default: var(--color-gray-700);
   --background-interactive-table-cell-state-hover: var(--color-gray-800);
   --background-interactive-table-cell-state-selected: var(--color-gray-700);
   --background-interactive-table-cell-state-default: var(--color-gray-900);
@@ -124,9 +128,9 @@ body[mode="night"] {
   --background-persistent-tab-hover: var(--color-gray-500);
   --background-persistent-tab-selected: var(--color-gray-500);
   --background-persistent-tab-disabled: var(--color-gray-700);
-  --background-persistent-radio-selector-hover: var(--color-gray-800);
-  --background-persistent-radio-selector-selected: var(--color-gray-800);
-  --background-persistent-radio-selector-default: var(--color-gray-900);
+  --background-persistent-radio-selector-hover: var(--color-gray-700);
+  --background-persistent-radio-selector-selected: var(--color-gray-700);
+  --background-persistent-radio-selector-default: var(--color-gray-800);
   --background-canvas-neutral-default: var(--color-gray-950);
   --text-surface-neutral-primary: var(--color-gray-50);
   --text-surface-neutral-secondary: var(--color-gray-300);
@@ -282,6 +286,8 @@ body[mode="night"] {
   --border-container-tag-neutral-subtle: rgba(191, 191, 191, 0);
   --border-container-tag-brand-subtle: rgba(178, 212, 255, 0);
   --border-container-column-bar-default: rgba(26, 26, 26, 0);
+  --border-container-card-widgets-default: rgba(26, 26, 26, 0);
+  --border-container-card-widgets-hover: var(--color-gray-50);
   --border-persistent-control-off: var(--color-gray-600);
   --border-persistent-control-on: var(--color-gray-300);
   --border-persistent-control-disabled: var(--color-gray-700);

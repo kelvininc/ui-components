@@ -2,14 +2,15 @@
 
 :host {
 	/**
-	  * @prop --container-white-space: The white space strategy for the tooltip container (default: normal).
-	  * @prop --container-max-width: The max width for the tooltip container (default: 240px).
+	 * @prop --container-white-space: The white space strategy for the tooltip container.
+	 * @prop --container-width: The width for the tooltip container.
+	 * @prop --container-max-width: The max width for the tooltip container.
+	 * @prop --container-background-color: The background color for the tooltip container.
 	 */
 
 	--container-white-space: normal;
 	--container-width: fit-content;
 	--container-max-width: 280px;
-
 	--container-background-color: var(--tooltip-background-default);
 }
 

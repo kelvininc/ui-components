@@ -2,36 +2,42 @@
 
 :host {
 	/**
-	 * @prop --input-height-large: Text Field's large height.
-	 * @prop --input-height-small: Text Field's small height.
 	 * @prop --input-width: Text Field's width.
 	 * @prop --input-min-width: Text Field's min width.
 	 * @prop --input-max-width: Text Field's max width.
-
+	 * @prop --input-height-large: Text Field's height when size is large.
+	 * @prop --input-height-small: Text Field's height when size is small.
+	 * @prop --input-gap-x: Horizontal gap between input elements.
+	 * @prop --input-prefix-spacing-x: Horizontal spacing for value prefix.
+	 * @prop --input-gap-y: Vertical gap between input container sections.
+	 * @prop --input-padding-x-large: Horizontal padding when size is large.
+	 * @prop --input-padding-x-small: Horizontal padding when size is small.
+	 * @prop --input-radius-large: Border radius when size is large.
+	 * @prop --input-radius-small: Border radius when size is small.
+	 * @prop --input-border-thickness: Input border thickness.
 	 * @prop --icon-size-large: Left icon width and height when size is large.
 	 * @prop --icon-size-small: Left icon width and height when size is small.
-
 	 * @prop --action-icon-size: Right action icon width and height.
-	 * @prop --action-left-spacing: Right action icon left spacing.
-
-	 * @prop --text-color-label: Label Text color.
-	 * @prop --text-color-icon-default: Icon color when state is default.
-	 * @prop --text-color-icon-disabled: Icon color when state is disabled.
-	 * @prop --text-color-icon-focused: Icon color when state is focused.
-	 * @prop --text-color-action-icon-default: Action icon color when state is default.
-	 * @prop --text-color-action-icon-disabled: Action icon color when state is disabled.
-	 * @prop --text-color-action-icon-focused: Action icon color when state is focused.
+	 * @prop --text-color-input-default: Placeholder text color when state is default.
+	 * @prop --text-color-input-focused: Input text color when state is focused.
 	 * @prop --text-color-input-filled: Input text color when state is filled.
 	 * @prop --text-color-input-disabled: Input text color when state is disabled.
-	 * @prop --text-color-input-focused: Input Text color when state is focused.
-	 * @prop --text-color-input-default: Placeholder text color when state is default.
-	 * @prop --text-color-help-text-default: Help Text color when state is default.
-	 * @prop --text-color-help-text-error: Help Text color when state is invalid.
-
+	 * @prop --text-color-placeholder-disabled: Placeholder text color when state is disabled.
+	 * @prop --text-color-help-text-default: Help text color when state is default.
+	 * @prop --text-color-help-text-error: Help text color when state is invalid.
+	 * @prop --text-color-icon-default: Icon color when state is default.
+	 * @prop --text-color-icon-focused: Icon color when state is focused.
+	 * @prop --text-color-icon-filled: Icon color when state is filled.
+	 * @prop --text-color-icon-disabled: Icon color when state is disabled.
+	 * @prop --text-color-action-icon-default: Action icon color when state is default.
+	 * @prop --text-color-action-icon-focused: Action icon color when state is focused.
+	 * @prop --text-color-action-icon-filled: Action icon color when state is filled.
+	 * @prop --text-color-action-icon-disabled: Action icon color when state is disabled.
 	 * @prop --border-color-default: Border color when state is default.
 	 * @prop --border-color-focused: Border color when state is focused.
+	 * @prop --border-color-filled: Border color when state is filled.
+	 * @prop --border-color-disabled: Border color when state is disabled.
 	 * @prop --border-color-error: Border color when state is invalid.
-
 	 * @prop --background-color-default: Background color when state is default.
 	 * @prop --background-color-disabled: Background color when state is disabled.
 	 */

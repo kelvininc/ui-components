@@ -8,18 +8,29 @@
 	 * @prop --select-option-background-color-selected: Select option background color when selected.
 	 * @prop --select-option-background-color-highlighted: Select option background color when highlighted.
 	 * @prop --select-option-background-color-hover: Select option background color when hovered.
+	 * @prop --select-option-background-color-disabled: Select option background color when disabled.
 	 * @prop --select-option-label-color: Select option label color.
 	 * @prop --select-option-label-color-selected: Select option label color when selected.
 	 * @prop --select-option-label-color-highlighted: Select option label color when highlighted.
-	 * @prop --select-option-label-color-hover: Select option label color when hover.
+	 * @prop --select-option-label-color-hover: Select option label color when hovered.
+	 * @prop --select-option-label-color-disabled: Select option label color when disabled.
 	 * @prop --select-option-description-color: Select option description color.
 	 * @prop --select-option-description-color-selected: Select option description color when selected.
 	 * @prop --select-option-description-color-highlighted: Select option description color when highlighted.
-	 * @prop --select-option-description-color-hover: Select option description color when hover.
-	 * @prop --select-option-icon-size: Select option icon size in pixels.
+	 * @prop --select-option-description-color-hover: Select option description color when hovered.
+	 * @prop --select-option-description-color-disabled: Select option description color when disabled.
+	 * @prop --select-option-icon-size: Select option icon size.
 	 * @prop --select-option-icon-color: Select option icon color.
-	 * @prop --select-option-right-icon-size: Select option right icon size in pixels.
+	 * @prop --select-option-icon-color-selected: Select option icon color when selected.
+	 * @prop --select-option-icon-color-highlighted: Select option icon color when highlighted.
+	 * @prop --select-option-icon-color-hover: Select option icon color when hovered.
+	 * @prop --select-option-icon-color-disabled: Select option icon color when disabled.
+	 * @prop --select-option-right-icon-size: Select option right icon size.
 	 * @prop --select-option-right-icon-color: Select option right icon color.
+	 * @prop --select-option-right-icon-color-selected: Select option right icon color when selected.
+	 * @prop --select-option-right-icon-color-highlighted: Select option right icon color when highlighted.
+	 * @prop --select-option-right-icon-color-hover: Select option right icon color when hovered.
+	 * @prop --select-option-right-icon-color-disabled: Select option right icon color when disabled.
 	 */
 
 	--select-option-height: 32px;

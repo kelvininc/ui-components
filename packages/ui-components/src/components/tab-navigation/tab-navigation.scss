@@ -4,11 +4,12 @@ $tab-height: 34px;
 
 :host {
 	/**
-	 * @prop --tab-list-bg-color: Background color of the list
-	 * @prop --tab-list-indicator-color: Tab indicator bar color
-	 * @prop --tab-list-divider-color: Tab divider bar color
-	 *
-	*/
+	 * @prop --tab-list-bg-color: Background color of the list.
+	 * @prop --tab-list-indicator-color: Tab indicator bar color.
+	 * @prop --tab-list-divider-color: Tab divider bar color.
+	 * @prop --secondary-tab-list-direction: Flex direction of the secondary tab list.
+	 * @prop --secondary-items-align: Alignment of secondary tab items.
+	 */
 	--tab-list-bg-color: transparent;
 	--tab-list-indicator-color: var(--tab-primary-border-color-selected);
 	--tab-list-divider-color: var(--tab-primary-border-color-default);

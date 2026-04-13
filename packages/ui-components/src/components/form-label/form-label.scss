@@ -2,7 +2,10 @@
 
 :host {
 	/**
-	 * @prop --label-color: Label Text color.
+	 * @prop --label-color: Label text color.
+	 * @prop --label-required-color: Required indicator color.
+	 * @prop --label-gap: Gap between label elements.
+	 * @prop --label-bottom-spacing: Bottom spacing of the label container.
 	 */
 	 --label-color: var(--text-surface-neutral-tertiary);
 	 --label-required-color: var(--text-surface-danger-default);
