@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
-import { EAbsoluteTimeError, EComponentSize, EIconName, EInputSource } from '../../types';
+import { EAbsoluteTimeError, EActionButtonType, EComponentSize, EIconName, EInputSource } from '../../types';
 import dayjs from 'dayjs';
 import {
 	CALENDAR_DATE_TIME_MASK,
@@ -395,13 +395,14 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 				<div class="absolute-time-picker-container">
 					{this.displayBackButton && (
 						<div class="navigate-back" onClick={this.handleBackClick}>
-							<kv-icon name={EIconName.SlimRight} customClass="rotate-180" />
-							<div class="back-text">Back</div>
+							<kv-action-button-text text="Back" icon={EIconName.SlimRight} type={EActionButtonType.Text} size={EComponentSize.Small} />
 						</div>
 					)}
-					<div class="header">
-						<div class="title">{this.headerTitle}</div>
-					</div>
+					{this.headerTitle && (
+						<div class="header">
+							<div class="title">{this.headerTitle}</div>
+						</div>
+					)}
 					{this.mode === EAbsoluteTimePickerMode.Range ? (
 						<div class="absolute-range-input">
 							<kv-date-time-input

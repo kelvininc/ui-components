@@ -101,12 +101,6 @@
 	@include custom-scrollbar(var(--scrollbar-thumb-default));
 }
 
-/// @deprecated Use kelvin-scrollbar instead
-@mixin kelvin-night-scrollbar {
-	@warn 'Use @include kelvin-scrollbar instead';
-	@include custom-scrollbar(kv-color('neutral-6'));
-}
-
 @mixin rotate-border-animation($border-radius: var(--radius-md), $border-width: 2px, $color1: var(--color-teal-500), $color2: var(--color-teal-600), $inset: 0) {
 	position: relative;
 

@@ -33,6 +33,6 @@ export function buildInputMask(input: HTMLInputElement, inputType: EInputFieldTy
 	}).mask(input) as IInputMaskInstanceRef;
 }
 
-export function getValueAsString(newValue: string | number | null): string {
+export function getValueAsString(newValue?: string | number | null): string {
 	return typeof newValue === 'number' ? newValue.toString() : (newValue || '').toString();
 }

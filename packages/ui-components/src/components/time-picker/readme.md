@@ -120,7 +120,7 @@ graph TD;
   kv-select-create-option --> kv-text-field
   kv-select-create-option --> kv-action-button-icon
   kv-select-shortcuts-label --> kv-icon
-  kv-absolute-time-picker --> kv-icon
+  kv-absolute-time-picker --> kv-action-button-text
   kv-absolute-time-picker --> kv-date-time-input
   kv-absolute-time-picker --> kv-calendar
   kv-date-time-input --> kv-form-label

@@ -15,7 +15,7 @@ export class KvInputWrapper implements IInputWrapper, IInputWrapperEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: false }) label?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) icon?: EIconName = EIconName.Edit;
+	@Prop({ reflect: false }) icon: EIconName = EIconName.Edit;
 
 	/** @inheritdoc */
 	@Event() contentClick: EventEmitter<boolean>;

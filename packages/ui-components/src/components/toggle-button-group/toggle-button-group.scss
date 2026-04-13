@@ -2,7 +2,7 @@
 
 :host {
 	display: flex;
-	gap: $spacing;
+	gap: var(--spacing-xs);
 
 	--toggle-group-width: unset;
 }

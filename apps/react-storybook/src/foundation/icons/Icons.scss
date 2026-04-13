@@ -3,11 +3,11 @@
 .svgs-container {
 	display: flex;
 	flex-wrap: wrap;
-	padding: $spacing-7x 0;
+	padding: var(--spacing-4xl) 0;
 }
 
 .icon-wrapper {
-	padding: $spacing-3x;
+	padding: var(--spacing-xl);
 	width: 100px;
 	height: 120px;
 
@@ -17,21 +17,21 @@
 		height: 100px;
 		align-items: center;
 		justify-content: center;
-		background: kv-color("neutral-7");
+		background: var(--color-gray-800);
 		border-radius: 4px;
 
 		kv-icon::part(icon) {
-			fill: kv-color("primary");
+			fill: var(--color-brand-600);
 		}
 	}
 
 	.description {
 		display: flex;
 		justify-content: space-between;
-		padding: 0 $spacing;
+		padding: 0 var(--spacing-xs);
 
 		.code {
-			color: kv-color("neutral-5");
+			color: var(--color-gray-500);
 			@include body-s-regular;
 		}
 	}
@@ -40,7 +40,7 @@
 .ilus-wrapper {
 	display: flex;
 	flex-direction: column;
-	padding: $spacing-2x;
+	padding: var(--spacing-md);
 
 	.box-wrapper {
 		display: flex;
@@ -50,17 +50,17 @@
 		justify-content: center;
 		border: 1px solid #f2f2f2;
 		border-radius: 4px;
-		padding: $spacing-2x;
+		padding: var(--spacing-md);
 	}
 
 	.description {
 		display: flex;
 		width: 100%;
 		justify-content: space-between;
-		padding: 0 $spacing;
+		padding: 0 var(--spacing-xs);
 
 		.code {
-			color: kv-color("neutral-5");
+			color: var(--color-gray-500);
 			@include body-s-regular;
 		}
 	}
