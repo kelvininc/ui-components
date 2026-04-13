@@ -92,16 +92,16 @@ graph TD;
   kv-tooltip --> kv-tooltip-text
   kv-dirty-dot --> kv-icon
   kv-form-help-text --> kv-icon
-  kv-absolute-time-picker --> kv-icon
+  kv-absolute-time-picker --> kv-action-button-text
   kv-absolute-time-picker --> kv-date-time-input
   kv-absolute-time-picker --> kv-calendar
+  kv-action-button-text --> kv-action-button
+  kv-action-button-text --> kv-icon
   kv-date-time-input --> kv-form-label
   kv-date-time-input --> kv-icon
   kv-date-time-input --> kv-form-help-text
   kv-calendar --> kv-icon
   kv-calendar --> kv-calendar-day
-  kv-action-button-text --> kv-action-button
-  kv-action-button-text --> kv-icon
   style kv-absolute-time-picker-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

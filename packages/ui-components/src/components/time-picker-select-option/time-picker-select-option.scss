@@ -6,7 +6,7 @@
 	 * @prop --time-picker-select-option-background-color: Background color.
 	 * @prop --time-picker-select-option-height: Select option height.
 	 */
-	--time-picker-select-option-padding: #{0 $spacing-4x};
+	--time-picker-select-option-padding: #{0 var(--spacing-2xl)};
 	--time-picker-select-option-background-color: #{transparent};
 	--time-picker-select-option-height: #{32px};
 }
@@ -32,31 +32,31 @@
 			@include body-m-regular;
 			@include ellipsis();
 			transition: font-weight 100ms linear;
-			color: kv-color('neutral-2');
+			color: var(--text-interactive-slider-list-default);
 		}
 
 		.item-description {
 			@include body-s-regular;
-			color: kv-color('neutral-4');
+			color: var(--text-on-color-neutral-tertiary);
 		}
 	}
 
+	&:hover {
+		background-color: var(--background-interactive-slider-list-hover);
+	}
+
 	&.selected {
-		background-color: kv-color('neutral-6');
+		background-color: var(--background-interactive-slider-list-selected);
 
 		.item-label {
 			@include body-m-semibold;
-			color: kv-color('neutral-2');
+			color: var(--text-interactive-slider-list-selected);
 		}
 
 		.item-description {
 			@include body-s-semibold;
 			transition: font-weight 100ms linear;
-			color: kv-color('neutral-2');
+			color: var(--text-interactive-slider-list-default);
 		}
-	}
-
-	&:hover {
-		background-color: kv-color('neutral-6');
 	}
 }

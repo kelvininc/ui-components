@@ -4,7 +4,7 @@
 	/**
 	 * @prop --background-color: Background color.
 	 */
-	--background-color: #{kv-color('neutral-7')};
+	--background-color: var(--background-container-elevated-slider);
 	--min-height: 233px;
 }
 
@@ -35,14 +35,14 @@
 
 		&--has-scroll {
 			kv-time-picker-select-option {
-				--time-picker-select-option-padding: #{0 $spacing 0 $spacing-4x};
+				--time-picker-select-option-padding: #{0 var(--spacing-xs) 0 var(--spacing-2xl)};
 			}
 		}
 	}
 
 	.selectable {
-		border-top: 1px solid kv-color('neutral-6');
-		padding: $spacing 0;
+		border-top: 1px solid var(--slider-border-color-default);
+		padding: var(--spacing-xs) 0;
 
 		kv-single-select-dropdown {
 			--dropdown-max-height: 210px;
