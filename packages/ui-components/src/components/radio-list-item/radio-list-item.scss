@@ -2,17 +2,23 @@
 
 :host {
 	/**
-	 * @prop --radio-list-item-background: Background color. Default: transparent.
-	 * @prop --radio-list-item-background-hover: Background color on hover. Default: transparent.
-	 * @prop --radio-list-item-background-checked: Background color when checked. Default: transparent.
-	 * @prop --radio-list-item-border: Border property (width, style, color). Default: 1px solid neutral-7.
-	 * @prop --radio-list-item-border-color-hover: Border color on hover. Default: neutral-0.
-	 * @prop --radio-list-item-border-color-checked: Border color when checked. Default: neutral-0.
-	 * @prop --radio-list-item-border-radius: Border radius. Default: 2px.
-	 * @prop --radio-list-item-padding: Content padding. Default: 16px (spacing-4x).
-	 * @prop --radio-list-item-gap: Gap between radio and info content. Default: 16px (spacing-4x).
-	 * @prop --radio-list-item-label-color: Label text color. Default: neutral-0.
-	 * @prop --radio-list-item-description-color: Description text color. Default: neutral-4.
+	 * @prop --radio-list-item-background: Background color.
+	 * @prop --radio-list-item-background-hover: Background color on hover.
+	 * @prop --radio-list-item-background-checked: Background color when checked.
+	 * @prop --radio-list-item-label-color: Label text color.
+	 * @prop --radio-list-item-label-color-hover: Label text color on hover.
+	 * @prop --radio-list-item-label-color-checked: Label text color when checked.
+	 * @prop --radio-list-item-label-color-disabled: Label text color when disabled.
+	 * @prop --radio-list-item-description-color: Description text color.
+	 * @prop --radio-list-item-description-color-disabled: Description text color when disabled.
+	 * @prop --radio-list-item-border: Border property (width, style, color).
+	 * @prop --radio-list-item-border-color-hover: Border color on hover.
+	 * @prop --radio-list-item-border-color-checked: Border color when checked.
+	 * @prop --radio-list-item-border-radius: Border radius.
+	 * @prop --radio-list-item-padding-large: Content padding when size is large.
+	 * @prop --radio-list-item-padding-small: Content padding when size is small.
+	 * @prop --radio-list-item-gap-large: Gap between radio and info content when size is large.
+	 * @prop --radio-list-item-gap-small: Gap between radio and info content when size is small.
 	 */
 
 	--radio-list-item-background: var(--background-persistent-radio-selector-default);

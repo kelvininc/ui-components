@@ -1,14 +1,14 @@
 @use '../../assets/styles' as *;
 
-/**
+:host {
+	/**
 	 * @prop --text-color-title: Info label's title color.
 	 * @prop --text-color-description: Info label's description color.
-	 * @prop --expanded-buttom-color: Expandded buttom's color.
+	 * @prop --expanded-button-color: Expand button's color.
 	 * @prop --description-fade-height: Description fade height.
+	 * @prop --description-shadow-background: Description shadow background color.
 	 * @prop --description-fade-shadow: Description fade shadow.
-*/
-
-:host {
+	 */
 	--text-color-title: var(--text-surface-neutral-tertiary);
 	--text-color-description: var(--text-surface-neutral-secondary);
 	--expanded-button-color: var(--text-surface-neutral-primary);
