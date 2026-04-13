@@ -21,6 +21,11 @@
           "value": "{color.gray.50}",
           "type": "color",
           "prefix": "color"
+        },
+        "strong": {
+          "value": "{color.gray.950}",
+          "type": "color",
+          "prefix": "color"
         }
       },
       "sidebar": {
@@ -43,6 +48,13 @@
         },
         "base": {
           "value": "{color.gray.600}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "brand": {
+        "default": {
+          "value": "{color.brand.500}",
           "type": "color",
           "prefix": "color"
         }
@@ -298,7 +310,7 @@
       },
       "alert-secondary": {
         "default": {
-          "value": "{color.gray.700}",
+          "value": "{color.gray.800}",
           "type": "color",
           "prefix": "color"
         }
@@ -588,7 +600,7 @@
           "prefix": "color"
         },
         "hidden": {
-          "value": "{color.gray.900}",
+          "value": "{color.gray.800}",
           "type": "color",
           "prefix": "color"
         },
@@ -609,6 +621,23 @@
         },
         "empty": {
           "value": "{color.gray.800}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "calendar": {
+        "hover": {
+          "value": "#002c6652",
+          "type": "color",
+          "prefix": "color"
+        },
+        "selected": {
+          "value": "{color.brand.800}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "selected-middle": {
+          "value": "#002c6652",
           "type": "color",
           "prefix": "color"
         }
@@ -1269,6 +1298,11 @@
           "value": "{color.gray.700}",
           "type": "color",
           "prefix": "color"
+        },
+        "inverse": {
+          "value": "{color.gray.50}",
+          "type": "color",
+          "prefix": "color"
         }
       },
       "brand": {
@@ -1281,6 +1315,27 @@
       "sidepanel": {
         "default": {
           "value": "#ffffff00",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "card": {
+        "default": {
+          "value": "#ffffff00",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "slider-value": {
+        "default": {
+          "value": "{color.gray.50}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "code": {
+        "default": {
+          "value": "#1a1a1a00",
           "type": "color",
           "prefix": "color"
         }
@@ -1468,6 +1523,11 @@
         },
         "subtle": {
           "value": "{color.gray.600}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "subtlest": {
+          "value": "{color.gray.500}",
           "type": "color",
           "prefix": "color"
         }
@@ -2201,6 +2261,23 @@
         },
         "selected": {
           "value": "{color.gray.50}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "column-bar": {
+        "default": {
+          "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "hover": {
+          "value": "{color.gray.300}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "disabled": {
+          "value": "{color.gray.500}",
           "type": "color",
           "prefix": "color"
         }

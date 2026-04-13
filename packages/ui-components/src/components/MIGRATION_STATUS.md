@@ -65,6 +65,7 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] description-list
 - [x] inline-editable-field
 - [x] schema-form
+- [x] range
 
 ## Not Migrated (tokens defined but not yet consumed)
 
@@ -85,5 +86,4 @@ Checklist of all components indicating whether they have been migrated to the ne
 
 - [ ] illustrations
 - [ ] loader
-- [ ] range
 - [ ] code-editor
