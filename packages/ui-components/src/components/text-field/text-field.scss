@@ -207,6 +207,10 @@ input {
 		background-color: var(--background-color-disabled);
 	}
 
+	&:has(input:read-only:not(:disabled)) {
+		cursor: pointer;
+	}
+
 	.left-slot-container,
 	.right-slot-container {
 		height: 100%;
@@ -259,10 +263,6 @@ input {
 			white-space: nowrap;
 
 			@include body-m-semibold;
-		}
-
-		&:has(input:read-only:not(:disabled)) {
-			cursor: pointer;
 		}
 	}
 
@@ -319,7 +319,7 @@ input {
 .input-container-loading {
 	width: 100%;
 	display: flex;
-	margin-top: $spacing;
+	margin-top: var(--spacing-xs);
 
 	@include ghost-animation(var(--background-color-disabled));
 

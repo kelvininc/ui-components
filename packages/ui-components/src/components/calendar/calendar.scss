@@ -13,9 +13,9 @@
 	--calendar-width: 196px;
 	--calendar-horizontal-padding: #{0px};
 	--calendar-vertical-padding: #{0px};
-	--calendar-background-color: #{kv-color('neutral-7')};
-	--calendar-month-title-text-color: #{kv-color('neutral-2')};
-	--calendar-month-weekday-text-color: #{kv-color('neutral-4')};
+	--calendar-background-color: var(--transparent);
+	--calendar-month-title-text-color: var(--text-container-neutral-default);
+	--calendar-month-weekday-text-color: var(--text-container-neutral-subtle);
 }
 
 @function get-day-width() {
@@ -36,7 +36,7 @@
 		align-items: center;
 		justify-content: space-between;
 
-		margin-bottom: $spacing-2x;
+		margin-bottom: var(--spacing-md);
 
 		.month {
 			@include body-m-regular;
@@ -48,11 +48,15 @@
 			min-width: 16px;
 			cursor: pointer;
 
+			kv-icon {
+				--icon-color: var(--icon-container-table-icon-default);
+			}
+
 			&--disabled {
 				cursor: not-allowed;
 
 				kv-icon {
-					--icon-color: #{kv-color('neutral-5')};
+					--icon-color: var(--icon-container-table-icon-disabled);
 				}
 			}
 		}
@@ -68,7 +72,7 @@
 				align-items: center;
 				justify-content: space-between;
 				user-select: none;
-				margin-bottom: $spacing;
+				margin-bottom: var(--spacing-xs);
 
 				.weekday {
 					@include body-s-regular;

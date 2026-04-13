@@ -69,6 +69,7 @@ export const ActionButtonTextExample: React.FC = () => (
 
 ### Used by
 
+ - [kv-absolute-time-picker](../absolute-time-picker)
  - [kv-absolute-time-picker-dropdown](../absolute-time-picker-dropdown)
  - [kv-action-button-magic](../action-button-magic)
  - [kv-action-button-split](../action-button-split)
@@ -87,6 +88,7 @@ export const ActionButtonTextExample: React.FC = () => (
 graph TD;
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon
+  kv-absolute-time-picker --> kv-action-button-text
   kv-absolute-time-picker-dropdown --> kv-action-button-text
   kv-action-button-magic --> kv-action-button-text
   kv-action-button-split --> kv-action-button-text

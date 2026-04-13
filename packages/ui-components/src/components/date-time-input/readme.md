@@ -55,7 +55,7 @@ export const DateTimeInputExample: React.FC = () => (
 | ---------------- | -------------------------------------- | ------------------------- |
 | `dateTimeBlur`   | Emitted when date time lost focus      | `CustomEvent<string>`     |
 | `inputFocus`     | Emitted when the input is foccused     | `CustomEvent<FocusEvent>` |
-| `rightIconClick` | Emitted when the right icon is clicked | `CustomEvent<string>`     |
+| `rightIconClick` | Emitted when the right icon is clicked | `CustomEvent<void>`       |
 | `textChange`     | Emitted when a keyboard input occurred | `CustomEvent<string>`     |
 
 

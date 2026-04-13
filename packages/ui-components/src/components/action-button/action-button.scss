@@ -477,7 +477,7 @@
 
 			&::before {
 				content: '';
-				background-image: conic-gradient(transparent, kv-color('neutral-6'), transparent);
+				background-image: conic-gradient(transparent, var(--background-surface-skeleton-base), transparent);
 				width: 150%;
 				aspect-ratio: 1/1;
 

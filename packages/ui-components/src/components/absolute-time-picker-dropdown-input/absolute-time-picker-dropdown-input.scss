@@ -2,7 +2,7 @@
 
 .time-range-input-container {
 	display: flex;
-	border-radius: 4px;
+	border-radius: var(--radius-md);
 	width: 100%;
 	align-items: flex-end;
 
@@ -12,14 +12,14 @@
 }
 
 .single-input-container {
-	border-radius: 4px;
+	border-radius: var(--radius-md);
 }
 
 .calendar-container {
 	display: flex;
-	gap: $spacing-5x;
-	border-radius: 4px;
-	border: 1px solid kv-color('neutral-6');
-	background: kv-color('neutral-7');
-	padding: $spacing-5x;
+	gap: var(--spacing-3xl);
+	border-radius: var(--radius-md);
+	background-color: var(--background-container-elevated-slider);
+	border: 1px solid var(--slider-border-color-default);
+	padding: var(--spacing-3xl);
 }

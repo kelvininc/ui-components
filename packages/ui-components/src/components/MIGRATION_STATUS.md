@@ -66,24 +66,22 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] inline-editable-field
 - [x] schema-form
 - [x] range
+- [x] loader
+- [x] code-editor
+- [x] input-wrapper
+- [x] absolute-time-picker
+- [x] absolute-time-picker-dropdown
+- [x] absolute-time-picker-dropdown-input
+- [x] time-picker
+- [x] time-picker-select-option
+- [x] calendar
+- [x] calendar-day
+- [x] date-time-input
+- [x] relative-time-picker
 
 ## Not Migrated (tokens defined but not yet consumed)
 
 - [ ] alert
 
 ## No Tokens Defined
-
-- [ ] input-wrapper
-- [ ] absolute-time-picker
-- [ ] absolute-time-picker-dropdown
-- [ ] absolute-time-picker-dropdown-input
-- [ ] time-picker
-- [ ] time-picker-select-option
-- [ ] calendar
-- [ ] calendar-day
-- [ ] date-time-input
-- [ ] relative-time-picker
-
 - [ ] illustrations
-- [ ] loader
-- [ ] code-editor
