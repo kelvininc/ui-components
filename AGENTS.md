@@ -274,7 +274,7 @@ Components expose their own CSS custom properties via `:host` to allow external 
 |-----------|-------------|
 | `kv-color('neutral-0')` | `var(--color-gray-950)` or semantic token |
 | `@include kv-font-h1-semibold` | `@include heading-xxl-semibold` |
-| `$spacing-4x` | `var(--space-16)` |
+| `$spacing-4x` | `var(--spacing-2xl)` |
 
 Legacy utilities still compile but are being phased out. Prefer CSS variables and generated mixins in all new or modified components. See `MIGRATION.md` for the full mapping.
 

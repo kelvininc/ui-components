@@ -14,6 +14,8 @@ body[mode="light"] {
   --background-surface-skeleton-highlight: var(--color-gray-200);
   --background-surface-skeleton-base: var(--color-gray-300);
   --background-surface-brand-default: var(--color-brand-500);
+  --background-surface-progress-bar-default: var(--color-purple-500);
+  --background-surface-progress-bar-subtle: var(--color-gray-200);
   --background-container-status-success-default: var(--color-green-100);
   --background-container-status-success-subtle: var(--color-green-200);
   --background-container-status-success-soft: var(--color-green-100);
@@ -58,6 +60,8 @@ body[mode="light"] {
   --background-container-card-recommendation-default: var(--color-gray-50);
   --background-container-card-recommendation-subtle: var(--color-gray-100);
   --background-container-alert-secondary-default: var(--color-gray-200);
+  --background-container-modal-default: var(--color-gray-50);
+  --background-container-modal-subtle: var(--color-gray-100);
   --background-interactive-neutral-hover: var(--color-gray-500);
   --background-interactive-neutral-pressed: var(--color-gray-600);
   --background-interactive-neutral-disabled: var(--color-gray-300);
@@ -82,7 +86,7 @@ body[mode="light"] {
   --background-interactive-counter-selected: var(--color-brand-200);
   --background-interactive-slider-list-hover: var(--color-gray-200);
   --background-interactive-slider-list-selected: var(--color-brand-100);
-  --background-interactive-slider-list-disabled: var(--color-gray-300);
+  --background-interactive-slider-list-default: var(--color-gray-50);
   --background-interactive-table-cell-state-hover: var(--color-gray-200);
   --background-interactive-table-cell-state-selected: var(--color-brand-100);
   --background-interactive-table-cell-state-default: var(--color-gray-50);
@@ -263,7 +267,7 @@ body[mode="light"] {
   --border-container-neutral-subtlest: var(--color-gray-400);
   --border-container-divider-default: var(--color-gray-300);
   --border-container-divider-strong: var(--color-gray-400);
-  --border-container-modal-default: var(--color-gray-400);
+  --border-container-modal-default: var(--color-gray-300);
   --border-container-navigation-row-hover: var(--color-brand-200);
   --border-container-navigation-row-selected: var(--color-brand-200);
   --border-container-accent-teal-default: var(--color-teal-500);
@@ -282,6 +286,8 @@ body[mode="light"] {
   --border-container-tag-neutral-subtle: var(--color-gray-400);
   --border-container-tag-brand-subtle: var(--color-brand-200);
   --border-container-column-bar-default: var(--color-gray-300);
+  --border-container-card-widgets-default: var(--color-gray-300);
+  --border-container-card-widgets-hover: var(--color-brand-500);
   --border-persistent-control-off: var(--color-gray-300);
   --border-persistent-control-on: var(--color-brand-200);
   --border-persistent-control-disabled: var(--color-gray-300);

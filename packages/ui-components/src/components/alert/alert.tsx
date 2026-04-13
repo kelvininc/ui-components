@@ -1,7 +1,8 @@
-import { Component, Host, Prop, h } from '@stencil/core';
-import { EAlertType, IAlertConfig } from './alert.types';
+import { Component, Event, EventEmitter, Host, Prop, h } from '@stencil/core';
+import { EAlertType, IAlertConfig, IAlertEvents } from './alert.types';
 import { ALERT_ICON_NAMES } from './alert.config';
-import { EComponentSize } from '../../types';
+import { EActionButtonType, EComponentSize, EIconName } from '../../types';
+import { isEmpty } from 'lodash-es';
 
 /**
  * @part container - The alert container.
@@ -11,7 +12,7 @@ import { EComponentSize } from '../../types';
 	styleUrl: 'alert.scss',
 	shadow: true
 })
-export class KvAlert implements IAlertConfig {
+export class KvAlert implements IAlertConfig, IAlertEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) type!: EAlertType;
 	/** @inheritdoc */
@@ -22,6 +23,15 @@ export class KvAlert implements IAlertConfig {
 	@Prop({ reflect: true }) label!: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) description?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) closable?: boolean = false;
+
+	/** @inheritdoc */
+	@Event() clickCloseButton: EventEmitter<MouseEvent>;
+
+	private onCloseClick = (event: MouseEvent) => {
+		this.clickCloseButton.emit(event);
+	};
 
 	render() {
 		return (
@@ -32,7 +42,7 @@ export class KvAlert implements IAlertConfig {
 						class={{
 							'alert': true,
 							[`alert--type-${this.type}`]: true,
-							'alert--size-small': this.size === EComponentSize.Small
+							'alert--size-small': this.size === EComponentSize.Small || !isEmpty(this.description)
 						}}
 					>
 						<div class="main">
@@ -44,6 +54,16 @@ export class KvAlert implements IAlertConfig {
 								</div>
 							</div>
 							<slot name="actions"></slot>
+							{this.closable && (
+								<kv-action-button-text
+									text=""
+									size={EComponentSize.Small}
+									type={EActionButtonType.Text}
+									icon={EIconName.Close}
+									class="close-button"
+									onClick={this.onCloseClick}
+								/>
+							)}
 						</div>
 						<slot name="alert-content"></slot>
 					</div>

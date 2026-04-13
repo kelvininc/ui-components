@@ -77,7 +77,6 @@ export class LoaderExample {
 | --------------------------- | ------------------------ |
 | `--loader-background-color` | Loader background        |
 | `--loader-overlay-color`    | Overlay color            |
-| `--loader-overlay-opacity`  | Overlay opacity          |
 | `--loader-spinner-color`    | Loader color             |
 | `--loader-z-index`          | Loader z-index position. |
 

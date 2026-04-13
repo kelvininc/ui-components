@@ -1,3 +1,4 @@
+import { EventEmitter } from '@stencil/core';
 import { EComponentSize } from '../../types';
 
 export enum EAlertType {
@@ -18,4 +19,11 @@ export interface IAlertConfig {
 	label: string;
 	/** (optional) Defines the description text to show */
 	description?: string;
+	/** (optional) Defines if the close button should be shown, defaults to `false` */
+	closable?: boolean;
+}
+
+export interface IAlertEvents {
+	/** Emitted when the close button is clicked */
+	clickCloseButton: EventEmitter<MouseEvent>;
 }

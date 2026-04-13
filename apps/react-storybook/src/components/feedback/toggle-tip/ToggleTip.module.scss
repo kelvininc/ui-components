@@ -5,6 +5,6 @@
 	--container-max-width: 480px;
 
 	&::part(tooltip-container) {
-		padding: $spacing-5x;
+		padding: var(--spacing-3xl);
 	}
 }

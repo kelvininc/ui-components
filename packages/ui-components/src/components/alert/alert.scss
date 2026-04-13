@@ -1,8 +1,42 @@
 @use '../../assets/styles' as *;
 
+/* stylelint-disable csstools/value-no-unknown-custom-properties */
+@mixin alert-slotted-button-theme($token-type) {
+	::slotted(*) {
+		--icon-color-default-secondary: var(--alert-button-text-#{$token-type}-default);
+		--icon-color-hover-secondary: var(--alert-button-text-#{$token-type}-hover);
+		--icon-color-focus-secondary: var(--alert-button-text-#{$token-type}-pressed);
+		--icon-color-active-secondary: var(--alert-button-text-#{$token-type}-pressed);
+
+		--text-color-default-secondary: var(--alert-button-text-#{$token-type}-default);
+		--text-color-hover-secondary: var(--alert-button-text-#{$token-type}-hover);
+		--text-color-focus-secondary: var(--alert-button-text-#{$token-type}-pressed);
+		--text-color-active-secondary: var(--alert-button-text-#{$token-type}-pressed);
+
+		--background-color-hover-secondary: var(--alert-button-background-#{$token-type});
+		--background-color-focus-secondary: var(--alert-button-background-#{$token-type});
+		--background-color-active-secondary: var(--alert-button-background-#{$token-type});
+
+		--border-color-default-secondary: var(--alert-button-border-#{$token-type});
+		--border-color-hover-secondary: var(--alert-button-background-#{$token-type});
+		--border-color-focus-secondary: var(--alert-button-background-#{$token-type});
+		--border-color-active-secondary: var(--alert-button-background-#{$token-type});
+	}
+}
+
+@mixin alert-close-button-theme($token-type) {
+	.close-button {
+		--icon-color-default-text: var(--alert-button-icon-#{$token-type});
+		--icon-color-hover-text: var(--alert-button-icon-#{$token-type});
+		--icon-color-focus-text: var(--alert-button-icon-#{$token-type});
+		--icon-color-active-text: var(--alert-button-icon-#{$token-type});
+	}
+}
+/* stylelint-enable csstools/value-no-unknown-custom-properties */
+
 .alert-container {
-	background-color: $neutral-color-0;
 	height: var(--alert-container-height, unset);
+	border-radius: var(--alert-radius-default);
 }
 
 .alert {
@@ -11,73 +45,105 @@
 	height: 100%;
 
 	&--type-info {
-		background-color: #{kv-color('info', 'light', 0.4)};
+		background-color: var(--alert-background-primary-info);
 
 		kv-icon {
-			--icon-color: #{kv-color('info')};
+			--icon-color: var(--alert-icon-color-primary-info);
 		}
+
+		@include alert-slotted-button-theme('info');
+		@include alert-close-button-theme('info');
 	}
 
 	&--type-error {
-		background-color: #{kv-color('error', 'light', 0.4)};
+		background-color: var(--alert-background-primary-error);
 
 		kv-icon {
-			--icon-color: #{kv-color('error')};
+			--icon-color: var(--alert-icon-color-primary-danger);
 		}
+
+		@include alert-slotted-button-theme('danger');
+		@include alert-close-button-theme('danger');
 	}
 
 	&--type-success {
-		background-color: #{kv-color('success', 'light', 0.4)};
+		background-color: var(--alert-background-primary-success);
 
 		kv-icon {
-			--icon-color: #{kv-color('success')};
+			--icon-color: var(--alert-icon-color-primary-success);
 		}
+
+		@include alert-slotted-button-theme('success');
+		@include alert-close-button-theme('success');
 	}
 
 	&--type-warning {
-		background-color: #{kv-color('warning', 'light', 0.4)};
+		background-color: var(--alert-background-primary-warning);
 
 		kv-icon {
-			--icon-color: #{kv-color('warning')};
+			--icon-color: var(--alert-icon-color-primary-warning);
 		}
+
+		@include alert-slotted-button-theme('warning');
+		@include alert-close-button-theme('warning');
 	}
 
 	.main {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: $spacing-4x;
+		gap: var(--alert-gap-vertical-small);
+		padding: var(--alert-padding-y-default) var(--alert-padding-x-default);
 	}
 
 	.information {
 		display: flex;
-		align-items: center;
+		flex: 1;
+		overflow: hidden;
+		gap: var(--alert-gap-vertical-small);
 
 		kv-icon {
-			--icon-height: 24px;
-			--icon-width: 24px;
-		}
+			height: 20px;
+			align-items: center;
+			display: flex;
 
-		.icon {
-			margin-right: $spacing-3x;
+			--icon-height: var(--size-default);
+			--icon-width: var(--size-default);
 		}
 
 		.title {
 			@include body-m-semibold;
 
-			color: #{kv-color('neutral-9')};
+			color: var(--alert-text-default);
 		}
 
 		.description {
 			@include body-m-regular;
 
-			color: #{kv-color('neutral-6')};
-			margin-top: $spacing;
+			color: var(--alert-text-default);
+			margin-top: var(--spacing-xs);
+		}
+	}
+
+	.close-button {
+		&::part(button) {
+			display: flex;
 		}
 	}
 }
 
 .alert--size-small .main {
-	flex-direction: column;
-	align-items: flex-start;
+	flex-wrap: wrap;
+	row-gap: var(--alert-gap-horizontal-large);
+
+	.close-button {
+		order: 1;
+		align-self: start;
+	}
+
+	::slotted([slot='actions']) {
+		order: 2;
+		flex-basis: 100%;
+		margin-left: calc(var(--size-default) + var(--alert-gap-vertical-small));
+	}
 }

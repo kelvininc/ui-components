@@ -44,7 +44,7 @@ export const ActionButtonTextExample: React.FC = () => (
 | `loading`           | `loading`    | (optional) If `true` the button is of type loading | `boolean`                                                                                                                                      | `false`                |
 | `rightIcon`         | `right-icon` | (optional) Button's right icon symbol name         | `EIconName`                                                                                                                                    | `undefined`            |
 | `size`              | `size`       | (optional) Button's size                           | `EComponentSize.Large \| EComponentSize.Small`                                                                                                 | `EComponentSize.Large` |
-| `text` _(required)_ | `text`       | (required) (required) Button's text                | `string`                                                                                                                                       | `undefined`            |
+| `text`              | `text`       | (optional) Button's text                           | `string`                                                                                                                                       | `undefined`            |
 | `type` _(required)_ | `type`       | (optional) Button's type                           | `EActionButtonType.Danger \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary \| EActionButtonType.Text` | `undefined`            |
 
 
@@ -69,9 +69,11 @@ export const ActionButtonTextExample: React.FC = () => (
 
 ### Used by
 
+ - [kv-absolute-time-picker](../absolute-time-picker)
  - [kv-absolute-time-picker-dropdown](../absolute-time-picker-dropdown)
  - [kv-action-button-magic](../action-button-magic)
  - [kv-action-button-split](../action-button-split)
+ - [kv-alert](../alert)
  - [kv-select](../select)
  - [kv-time-picker](../time-picker)
  - [kv-toaster](../toaster)
@@ -87,9 +89,11 @@ export const ActionButtonTextExample: React.FC = () => (
 graph TD;
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon
+  kv-absolute-time-picker --> kv-action-button-text
   kv-absolute-time-picker-dropdown --> kv-action-button-text
   kv-action-button-magic --> kv-action-button-text
   kv-action-button-split --> kv-action-button-text
+  kv-alert --> kv-action-button-text
   kv-select --> kv-action-button-text
   kv-time-picker --> kv-action-button-text
   kv-toaster --> kv-action-button-text

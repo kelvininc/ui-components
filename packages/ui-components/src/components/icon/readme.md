@@ -58,7 +58,6 @@ export const SvgIconExample: React.FC = () => (
 
 ### Used by
 
- - [kv-absolute-time-picker](../absolute-time-picker)
  - [kv-action-button-icon](../action-button-icon)
  - [kv-action-button-split](../action-button-split)
  - [kv-action-button-text](../action-button-text)
@@ -91,7 +90,6 @@ export const SvgIconExample: React.FC = () => (
 ### Graph
 ```mermaid
 graph TD;
-  kv-absolute-time-picker --> kv-icon
   kv-action-button-icon --> kv-icon
   kv-action-button-split --> kv-icon
   kv-action-button-text --> kv-icon

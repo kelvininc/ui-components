@@ -3,20 +3,20 @@
 
 /* stylelint-disable csstools/value-no-unknown-custom-properties */
 @mixin button-text-theme($type) {
-	$btn-default-text-color: var(--text-color-default-#{$type});
-	$btn-default-icon-color: var(--icon-color-default-#{$type});
+	$btn-default-text-color: var(--text-color-default-#{$type}, var(--_text-color-default-#{$type}));
+	$btn-default-icon-color: var(--icon-color-default-#{$type}, var(--_icon-color-default-#{$type}));
 
-	$btn-hover-text-color: var(--text-color-hover-#{$type});
-	$btn-hover-icon-color: var(--icon-color-hover-#{$type});
+	$btn-hover-text-color: var(--text-color-hover-#{$type}, var(--_text-color-hover-#{$type}));
+	$btn-hover-icon-color: var(--icon-color-hover-#{$type}, var(--_icon-color-hover-#{$type}));
 
-	$btn-focus-text-color: var(--text-color-focus-#{$type});
-	$btn-focus-icon-color: var(--icon-color-focus-#{$type});
+	$btn-focus-text-color: var(--text-color-focus-#{$type}, var(--_text-color-focus-#{$type}));
+	$btn-focus-icon-color: var(--icon-color-focus-#{$type}, var(--_icon-color-focus-#{$type}));
 
-	$btn-disabled-text-color: var(--text-color-disabled-#{$type});
-	$btn-disabled-icon-color: var(--icon-color-disabled-#{$type});
+	$btn-disabled-text-color: var(--text-color-disabled-#{$type}, var(--_text-color-disabled-#{$type}));
+	$btn-disabled-icon-color: var(--icon-color-disabled-#{$type}, var(--_icon-color-disabled-#{$type}));
 
-	$btn-active-text-color: var(--text-color-active-#{$type});
-	$btn-active-icon-color: var(--icon-color-active-#{$type});
+	$btn-active-text-color: var(--text-color-active-#{$type}, var(--_text-color-active-#{$type}));
+	$btn-active-icon-color: var(--icon-color-active-#{$type}, var(--_icon-color-active-#{$type}));
 
 	color: $btn-default-text-color;
 
@@ -58,11 +58,11 @@
 	}
 }
 @mixin button-background-theme($type) {
-	$btn-default-background-color: var(--background-color-default-#{$type});
-	$btn-hover-background-color: var(--background-color-hover-#{$type});
-	$btn-focus-background-color: var(--background-color-focus-#{$type});
-	$btn-disabled-background-color: var(--background-color-disabled-#{$type});
-	$btn-active-background-color: var(--background-color-active-#{$type});
+	$btn-default-background-color: var(--background-color-default-#{$type}, var(--_background-color-default-#{$type}));
+	$btn-hover-background-color: var(--background-color-hover-#{$type}, var(--_background-color-hover-#{$type}));
+	$btn-focus-background-color: var(--background-color-focus-#{$type}, var(--_background-color-focus-#{$type}));
+	$btn-disabled-background-color: var(--background-color-disabled-#{$type}, var(--_background-color-disabled-#{$type}));
+	$btn-active-background-color: var(--background-color-active-#{$type}, var(--_background-color-active-#{$type}));
 
 	background: linear-gradient(45deg, $btn-hover-background-color 50%, $btn-default-background-color 50%);
 	background-size: 350% 100%;
@@ -94,11 +94,11 @@
 	}
 }
 @mixin button-border-theme($type) {
-	$btn-default-border-color: var(--border-color-default-#{$type});
-	$btn-hover-border-color: var(--border-color-hover-#{$type});
-	$btn-focus-border-color: var(--border-color-focus-#{$type});
-	$btn-disabled-border-color: var(--border-color-disabled-#{$type});
-	$btn-active-border-color: var(--border-color-active-#{$type});
+	$btn-default-border-color: var(--border-color-default-#{$type}, var(--_border-color-default-#{$type}));
+	$btn-hover-border-color: var(--border-color-hover-#{$type}, var(--_border-color-hover-#{$type}));
+	$btn-focus-border-color: var(--border-color-focus-#{$type}, var(--_border-color-focus-#{$type}));
+	$btn-disabled-border-color: var(--border-color-disabled-#{$type}, var(--_border-color-disabled-#{$type}));
+	$btn-active-border-color: var(--border-color-active-#{$type}, var(--_border-color-active-#{$type}));
 	$btn-border-thickness: var(--button-border-thickness);
 
 	border: $btn-border-thickness solid $btn-default-border-color;
@@ -271,125 +271,125 @@
 	 * @prop --button-icon-size-danger-small: Icon size when theme is danger and size is small.
 	 */
 
-	//icon colors
-	--icon-color-default-primary: var(--button-primary-icon-color-default);
-	--icon-color-default-secondary: var(--button-secondary-icon-color-default);
-	--icon-color-default-tertiary: var(--button-tertiary-icon-color-default);
-	--icon-color-default-text: var(--button-text-icon-color-default);
-	--icon-color-default-danger: var(--button-danger-icon-color-default);
+	//icon colors (internal defaults)
+	--_icon-color-default-primary: var(--button-primary-icon-color-default);
+	--_icon-color-default-secondary: var(--button-secondary-icon-color-default);
+	--_icon-color-default-tertiary: var(--button-tertiary-icon-color-default);
+	--_icon-color-default-text: var(--button-text-icon-color-default);
+	--_icon-color-default-danger: var(--button-danger-icon-color-default);
 
-	--icon-color-hover-primary: var(--button-primary-icon-color-default);
-	--icon-color-hover-secondary: var(--button-secondary-icon-color-subtle);
-	--icon-color-hover-tertiary: var(--button-tertiary-icon-color-subtle);
-	--icon-color-hover-text: var(--button-text-icon-color-default);
-	--icon-color-hover-danger: var(--button-danger-icon-color-default);
+	--_icon-color-hover-primary: var(--button-primary-icon-color-default);
+	--_icon-color-hover-secondary: var(--button-secondary-icon-color-subtle);
+	--_icon-color-hover-tertiary: var(--button-tertiary-icon-color-subtle);
+	--_icon-color-hover-text: var(--button-text-icon-color-default);
+	--_icon-color-hover-danger: var(--button-danger-icon-color-default);
 
-	--icon-color-focus-primary: var(--button-primary-icon-color-default);
-	--icon-color-focus-secondary: var(--button-secondary-icon-color-default);
-	--icon-color-focus-tertiary: var(--button-tertiary-icon-color-default);
-	--icon-color-focus-text: var(--button-text-icon-color-default);
-	--icon-color-focus-danger: var(--button-danger-icon-color-default);
-	--icon-color-disabled-primary: var(--button-primary-icon-color-disabled);
-	--icon-color-disabled-secondary: var(--button-secondary-icon-color-disabled);
-	--icon-color-disabled-tertiary: var(--button-tertiary-icon-color-disabled);
-	--icon-color-disabled-text: var(--button-text-icon-color-disabled);
-	--icon-color-disabled-danger: var(--button-danger-icon-color-disabled);
+	--_icon-color-focus-primary: var(--button-primary-icon-color-default);
+	--_icon-color-focus-secondary: var(--button-secondary-icon-color-default);
+	--_icon-color-focus-tertiary: var(--button-tertiary-icon-color-default);
+	--_icon-color-focus-text: var(--button-text-icon-color-default);
+	--_icon-color-focus-danger: var(--button-danger-icon-color-default);
+	--_icon-color-disabled-primary: var(--button-primary-icon-color-disabled);
+	--_icon-color-disabled-secondary: var(--button-secondary-icon-color-disabled);
+	--_icon-color-disabled-tertiary: var(--button-tertiary-icon-color-disabled);
+	--_icon-color-disabled-text: var(--button-text-icon-color-disabled);
+	--_icon-color-disabled-danger: var(--button-danger-icon-color-disabled);
 
-	--icon-color-active-primary: var(--button-primary-icon-color-default);
-	--icon-color-active-secondary: var(--button-secondary-icon-color-subtle);
-	--icon-color-active-tertiary: var(--button-tertiary-icon-color-subtle);
-	--icon-color-active-text: var(--button-text-icon-color-default);
-	--icon-color-active-danger: var(--button-danger-icon-color-default);
+	--_icon-color-active-primary: var(--button-primary-icon-color-default);
+	--_icon-color-active-secondary: var(--button-secondary-icon-color-subtle);
+	--_icon-color-active-tertiary: var(--button-tertiary-icon-color-subtle);
+	--_icon-color-active-text: var(--button-text-icon-color-default);
+	--_icon-color-active-danger: var(--button-danger-icon-color-default);
 
-	// text colors
-	--text-color-default-primary: var(--button-primary-label-default);
-	--text-color-default-secondary: var(--button-secondary-label-default);
-	--text-color-default-tertiary: var(--button-tertiary-label-default);
-	--text-color-default-text: var(--button-text-label-default);
-	--text-color-default-danger: var(--button-danger-label-default);
-	--text-color-hover-primary: var(--button-primary-label-default);
-	--text-color-hover-secondary: var(--button-secondary-label-subtle);
-	--text-color-hover-tertiary: var(--button-tertiary-label-subtle);
-	--text-color-hover-text: var(--button-text-label-default);
-	--text-color-hover-danger: var(--button-danger-label-default);
+	// text colors (internal defaults)
+	--_text-color-default-primary: var(--button-primary-label-default);
+	--_text-color-default-secondary: var(--button-secondary-label-default);
+	--_text-color-default-tertiary: var(--button-tertiary-label-default);
+	--_text-color-default-text: var(--button-text-label-default);
+	--_text-color-default-danger: var(--button-danger-label-default);
+	--_text-color-hover-primary: var(--button-primary-label-default);
+	--_text-color-hover-secondary: var(--button-secondary-label-subtle);
+	--_text-color-hover-tertiary: var(--button-tertiary-label-subtle);
+	--_text-color-hover-text: var(--button-text-label-default);
+	--_text-color-hover-danger: var(--button-danger-label-default);
 
-	--text-color-focus-primary: var(--button-primary-label-default);
-	--text-color-focus-secondary: var(--button-secondary-label-default);
-	--text-color-focus-tertiary: var(--button-tertiary-label-default);
-	--text-color-focus-text: var(--button-text-label-default);
-	--text-color-focus-danger: var(--button-danger-label-default);
-	--text-color-disabled-primary: var(--button-primary-label-disabled);
-	--text-color-disabled-secondary: var(--button-secondary-label-disabled);
-	--text-color-disabled-tertiary: var(--button-tertiary-label-disabled);
-	--text-color-disabled-text: var(--button-text-label-disabled);
-	--text-color-disabled-danger: var(--button-danger-label-disabled);
+	--_text-color-focus-primary: var(--button-primary-label-default);
+	--_text-color-focus-secondary: var(--button-secondary-label-default);
+	--_text-color-focus-tertiary: var(--button-tertiary-label-default);
+	--_text-color-focus-text: var(--button-text-label-default);
+	--_text-color-focus-danger: var(--button-danger-label-default);
+	--_text-color-disabled-primary: var(--button-primary-label-disabled);
+	--_text-color-disabled-secondary: var(--button-secondary-label-disabled);
+	--_text-color-disabled-tertiary: var(--button-tertiary-label-disabled);
+	--_text-color-disabled-text: var(--button-text-label-disabled);
+	--_text-color-disabled-danger: var(--button-danger-label-disabled);
 
-	--text-color-active-primary: var(--button-primary-label-default);
-	--text-color-active-secondary: var(--button-secondary-label-subtle);
-	--text-color-active-tertiary: var(--button-tertiary-label-subtle);
-	--text-color-active-text: var(--button-text-label-default);
-	--text-color-active-danger: var(--button-danger-label-default);
+	--_text-color-active-primary: var(--button-primary-label-default);
+	--_text-color-active-secondary: var(--button-secondary-label-subtle);
+	--_text-color-active-tertiary: var(--button-tertiary-label-subtle);
+	--_text-color-active-text: var(--button-text-label-default);
+	--_text-color-active-danger: var(--button-danger-label-default);
 
-	// background colors
-	--background-color-default-primary: var(--button-primary-background-default);
-	--background-color-default-secondary: var(--transparent);
-	--background-color-default-tertiary: var(--transparent);
-	--background-color-default-text: var(--transparent);
-	--background-color-default-danger: var(--button-danger-background-default);
+	// background colors (internal defaults)
+	--_background-color-default-primary: var(--button-primary-background-default);
+	--_background-color-default-secondary: var(--transparent);
+	--_background-color-default-tertiary: var(--transparent);
+	--_background-color-default-text: var(--transparent);
+	--_background-color-default-danger: var(--button-danger-background-default);
 
-	--background-color-hover-primary: var(--button-primary-background-hover);
-	--background-color-hover-secondary: var(--button-secondary-background-hover);
-	--background-color-hover-tertiary: var(--button-tertiary-background-hover);
-	--background-color-hover-text: var(--transparent);
-	--background-color-hover-danger: var(--button-danger-background-hover);
+	--_background-color-hover-primary: var(--button-primary-background-hover);
+	--_background-color-hover-secondary: var(--button-secondary-background-hover);
+	--_background-color-hover-tertiary: var(--button-tertiary-background-hover);
+	--_background-color-hover-text: var(--transparent);
+	--_background-color-hover-danger: var(--button-danger-background-hover);
 
-	--background-color-focus-primary: var(--button-primary-background-default);
-	--background-color-focus-secondary: var(--transparent);
-	--background-color-focus-tertiary: var(--transparent);
-	--background-color-focus-text: var(--transparent);
-	--background-color-focus-danger: var(--button-danger-background-default);
-	--background-color-disabled-primary: var(--button-primary-background-disabled);
-	--background-color-disabled-secondary: var(--button-secondary-background-disabled);
-	--background-color-disabled-tertiary: var(--button-tertiary-background-disabled);
-	--background-color-disabled-text: var(--transparent);
-	--background-color-disabled-danger: var(--button-danger-background-disabled);
+	--_background-color-focus-primary: var(--button-primary-background-default);
+	--_background-color-focus-secondary: var(--transparent);
+	--_background-color-focus-tertiary: var(--transparent);
+	--_background-color-focus-text: var(--transparent);
+	--_background-color-focus-danger: var(--button-danger-background-default);
+	--_background-color-disabled-primary: var(--button-primary-background-disabled);
+	--_background-color-disabled-secondary: var(--button-secondary-background-disabled);
+	--_background-color-disabled-tertiary: var(--button-tertiary-background-disabled);
+	--_background-color-disabled-text: var(--transparent);
+	--_background-color-disabled-danger: var(--button-danger-background-disabled);
 
-	--background-color-active-primary: var(--button-primary-background-pressed);
-	--background-color-active-secondary: var(--button-secondary-background-pressed);
-	--background-color-active-tertiary: var(--button-tertiary-background-pressed);
-	--background-color-active-text: var(--transparent);
-	--background-color-active-danger: var(--button-danger-background-pressed);
+	--_background-color-active-primary: var(--button-primary-background-pressed);
+	--_background-color-active-secondary: var(--button-secondary-background-pressed);
+	--_background-color-active-tertiary: var(--button-tertiary-background-pressed);
+	--_background-color-active-text: var(--transparent);
+	--_background-color-active-danger: var(--button-danger-background-pressed);
 
-	// borders colors
-	--border-color-default-primary: var(--button-primary-background-default);
-	--border-color-default-secondary: var(--button-secondary-border-color-default);
-	--border-color-default-tertiary: var(--transparent);
-	--border-color-default-text: var(--transparent);
-	--border-color-default-danger: var(--button-danger-background-default);
+	// borders colors (internal defaults)
+	--_border-color-default-primary: var(--button-primary-background-default);
+	--_border-color-default-secondary: var(--button-secondary-border-color-default);
+	--_border-color-default-tertiary: var(--transparent);
+	--_border-color-default-text: var(--transparent);
+	--_border-color-default-danger: var(--button-danger-background-default);
 
-	--border-color-hover-primary: var(--button-primary-background-hover);
-	--border-color-hover-secondary: var(--button-secondary-border-color-default);
-	--border-color-hover-tertiary: var(--button-tertiary-background-hover);
-	--border-color-hover-text: var(--transparent);
-	--border-color-hover-danger: var(--button-danger-background-hover);
+	--_border-color-hover-primary: var(--button-primary-background-hover);
+	--_border-color-hover-secondary: var(--button-secondary-border-color-default);
+	--_border-color-hover-tertiary: var(--button-tertiary-background-hover);
+	--_border-color-hover-text: var(--transparent);
+	--_border-color-hover-danger: var(--button-danger-background-hover);
 
-	--border-color-focus-primary: var(--button-primary-background-default);
-	--border-color-focus-secondary: var(--button-secondary-border-color-default);
-	--border-color-focus-tertiary: var(--transparent);
-	--border-color-focus-text: var(--transparent);
-	--border-color-focus-danger: var(--button-danger-background-default);
+	--_border-color-focus-primary: var(--button-primary-background-default);
+	--_border-color-focus-secondary: var(--button-secondary-border-color-default);
+	--_border-color-focus-tertiary: var(--transparent);
+	--_border-color-focus-text: var(--transparent);
+	--_border-color-focus-danger: var(--button-danger-background-default);
 
-	--border-color-disabled-primary: var(--button-primary-background-disabled);
-	--border-color-disabled-secondary: var(--button-secondary-background-disabled);
-	--border-color-disabled-tertiary: var(--button-tertiary-background-disabled);
-	--border-color-disabled-text: var(--transparent);
-	--border-color-disabled-danger: var(--button-danger-background-disabled);
+	--_border-color-disabled-primary: var(--button-primary-background-disabled);
+	--_border-color-disabled-secondary: var(--button-secondary-background-disabled);
+	--_border-color-disabled-tertiary: var(--button-tertiary-background-disabled);
+	--_border-color-disabled-text: var(--transparent);
+	--_border-color-disabled-danger: var(--button-danger-background-disabled);
 
-	--border-color-active-primary: var(--button-primary-background-pressed);
-	--border-color-active-secondary: var(--button-secondary-border-color-pressed);
-	--border-color-active-tertiary: var(--button-tertiary-background-pressed);
-	--border-color-active-text: var(--transparent);
-	--border-color-active-danger: var(--button-danger-background-pressed);
+	--_border-color-active-primary: var(--button-primary-background-pressed);
+	--_border-color-active-secondary: var(--button-secondary-border-color-pressed);
+	--_border-color-active-tertiary: var(--button-tertiary-background-pressed);
+	--_border-color-active-text: var(--transparent);
+	--_border-color-active-danger: var(--button-danger-background-pressed);
 
 	// sizing
 	--button-gap-large: var(--button-gap-regular);
@@ -477,7 +477,7 @@
 
 			&::before {
 				content: '';
-				background-image: conic-gradient(transparent, kv-color('neutral-6'), transparent);
+				background-image: conic-gradient(transparent, var(--background-surface-skeleton-base), transparent);
 				width: 150%;
 				aspect-ratio: 1/1;
 
