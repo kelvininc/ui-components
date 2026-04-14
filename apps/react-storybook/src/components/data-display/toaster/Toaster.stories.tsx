@@ -23,6 +23,9 @@ const meta = {
 		onTtlExpired: {
 			action: "ttlExpired"
 		}
+	},
+	parameters: {
+		themeSideBySide: false
 	}
 } satisfies Meta<typeof KvToaster>;
 

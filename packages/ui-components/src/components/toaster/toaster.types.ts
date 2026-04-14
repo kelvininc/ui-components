@@ -1,7 +1,6 @@
 import { EventEmitter } from '@stencil/core';
 import { EIconName } from '../icon/icon.types';
 
-
 export enum EToasterType {
 	Info = 'info',
 	Warning = 'warning',

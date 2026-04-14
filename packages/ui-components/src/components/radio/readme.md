@@ -62,8 +62,11 @@ export const RadioExample: React.FC = () => (
 
 | Name                                | Description                                           |
 | ----------------------------------- | ----------------------------------------------------- |
+| `--input-gap-large`                 | Gap between radio and label when size is large.       |
+| `--input-gap-small`                 | Gap between radio and label when size is small.       |
 | `--input-height-large`              | Radio height when size is large.                      |
 | `--input-height-small`              | Radio height when size is small.                      |
+| `--input-label-color`               | Label text color.                                     |
 | `--radio-background-default-color`  | Radio circle background color when state is default.  |
 | `--radio-background-disabled-color` | Radio circle background color when state is disabled. |
 | `--radio-background-hover-color`    | Radio circle background color when state is hovered.  |

@@ -3,7 +3,7 @@
  * Do not edit manually - run `pnpm tokens:build` to regenerate
  */
 
-body[mode="night"] {
+body[mode="night"], [data-theme="night"] {
   --background-surface-neutral-subtlest: var(--color-gray-700);
   --background-surface-neutral-default: var(--color-gray-900);
   --background-surface-neutral-subtle: var(--color-gray-800);
@@ -128,9 +128,9 @@ body[mode="night"] {
   --background-persistent-tab-hover: var(--color-gray-500);
   --background-persistent-tab-selected: var(--color-gray-500);
   --background-persistent-tab-disabled: var(--color-gray-700);
-  --background-persistent-radio-selector-hover: var(--color-gray-700);
-  --background-persistent-radio-selector-selected: var(--color-gray-700);
-  --background-persistent-radio-selector-default: var(--color-gray-800);
+  --background-persistent-radio-selector-hover: var(--color-gray-600);
+  --background-persistent-radio-selector-selected: var(--color-gray-600);
+  --background-persistent-radio-selector-default: var(--color-gray-700);
   --background-canvas-neutral-default: var(--color-gray-950);
   --text-surface-neutral-primary: var(--color-gray-50);
   --text-surface-neutral-secondary: var(--color-gray-300);
@@ -324,6 +324,8 @@ body[mode="night"] {
   --icon-surface-status-info-default: var(--color-blue-500);
   --icon-surface-status-inactive-default: var(--color-gray-400);
   --icon-surface-brand-primary: var(--color-brand-500);
+  --icon-surface-logo-default: var(--color-gray-300);
+  --icon-surface-logo-subtle: var(--color-gray-300);
   --icon-on-color-neutral-primary: var(--color-gray-50);
   --icon-on-color-neutral-disabled: var(--color-gray-500);
   --icon-on-color-neutral-secondary: var(--color-gray-300);

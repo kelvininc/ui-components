@@ -59,11 +59,33 @@ export class KvPortal implements IPortal, IPortalEvents {
 	private timeoutId: number;
 	private closeAutoUpdate: () => void;
 
+	private getClosestThemedAncestor(): Element | null {
+		let current: Element | null = this.element;
+		while (current) {
+			const themed = current.closest('[data-theme]');
+			if (themed) return themed;
+			const root = current.getRootNode();
+			current = root instanceof ShadowRoot ? root.host : null;
+		}
+		return null;
+	}
+
 	private createPortal() {
 		this.portal = document.createElement('div');
 		this.portal.setAttribute('id', this.portalId);
 		this.portal.style.zIndex = `${PORTAL_Z_INDEX.hidden}`;
 		this.portal.style.position = 'absolute';
+
+		// Inherit data-theme from nearest themed ancestor so portal
+		// content resolves the correct design token values.
+		// Traverse shadow DOM boundaries since the portal may be
+		// rendered inside another component's shadow tree (e.g. tooltip).
+		const themedAncestor = this.getClosestThemedAncestor();
+		const theme = themedAncestor?.getAttribute('data-theme');
+		if (theme) {
+			this.portal.setAttribute('data-theme', theme);
+		}
+
 		document.body.prepend(this.portal);
 	}
 

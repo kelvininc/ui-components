@@ -76,22 +76,33 @@ export const KvSelectOptionExample: React.FC = () => (
 | Name                                            | Description                                       |
 | ----------------------------------------------- | ------------------------------------------------- |
 | `--select-option-background-color`              | Select option background color.                   |
+| `--select-option-background-color-disabled`     | Select option background color when disabled.     |
 | `--select-option-background-color-highlighted`  | Select option background color when highlighted.  |
 | `--select-option-background-color-hover`        | Select option background color when hovered.      |
 | `--select-option-background-color-selected`     | Select option background color when selected.     |
 | `--select-option-description-color`             | Select option description color.                  |
+| `--select-option-description-color-disabled`    | Select option description color when disabled.    |
 | `--select-option-description-color-highlighted` | Select option description color when highlighted. |
-| `--select-option-description-color-hover`       | Select option description color when hover.       |
+| `--select-option-description-color-hover`       | Select option description color when hovered.     |
 | `--select-option-description-color-selected`    | Select option description color when selected.    |
 | `--select-option-height`                        | Select option height.                             |
 | `--select-option-icon-color`                    | Select option icon color.                         |
-| `--select-option-icon-size`                     | Select option icon size in pixels.                |
+| `--select-option-icon-color-disabled`           | Select option icon color when disabled.           |
+| `--select-option-icon-color-highlighted`        | Select option icon color when highlighted.        |
+| `--select-option-icon-color-hover`              | Select option icon color when hovered.            |
+| `--select-option-icon-color-selected`           | Select option icon color when selected.           |
+| `--select-option-icon-size`                     | Select option icon size.                          |
 | `--select-option-label-color`                   | Select option label color.                        |
+| `--select-option-label-color-disabled`          | Select option label color when disabled.          |
 | `--select-option-label-color-highlighted`       | Select option label color when highlighted.       |
-| `--select-option-label-color-hover`             | Select option label color when hover.             |
+| `--select-option-label-color-hover`             | Select option label color when hovered.           |
 | `--select-option-label-color-selected`          | Select option label color when selected.          |
 | `--select-option-right-icon-color`              | Select option right icon color.                   |
-| `--select-option-right-icon-size`               | Select option right icon size in pixels.          |
+| `--select-option-right-icon-color-disabled`     | Select option right icon color when disabled.     |
+| `--select-option-right-icon-color-highlighted`  | Select option right icon color when highlighted.  |
+| `--select-option-right-icon-color-hover`        | Select option right icon color when hovered.      |
+| `--select-option-right-icon-color-selected`     | Select option right icon color when selected.     |
+| `--select-option-right-icon-size`               | Select option right icon size.                    |
 | `--select-option-transition-duration`           | Select option transition time.                    |
 
 

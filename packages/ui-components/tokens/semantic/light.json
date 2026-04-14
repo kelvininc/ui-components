@@ -1928,6 +1928,18 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "logo": {
+        "default": {
+          "value": "{color.brand.500}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "subtle": {
+          "value": "{color.purple.500}",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "on-color": {

@@ -3324,7 +3324,12 @@
     "logo": {
       "color": {
         "default": {
-          "value": "{icon.surface.neutral.secondary}",
+          "value": "{icon.surface.logo.default}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "subtle": {
+          "value": "{icon.surface.logo.subtle}",
           "type": "color",
           "prefix": "component_semantics"
         }

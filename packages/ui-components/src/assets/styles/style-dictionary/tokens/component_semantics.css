@@ -3,7 +3,7 @@
  * Do not edit manually - run `pnpm tokens:build` to regenerate
  */
 
-body {
+body, [data-theme] {
   --button-height-regular: var(--size-4xl);
   --button-height-compact: var(--size-2xl);
   --button-padding-x-regular: var(--spacing-2xl);
@@ -521,7 +521,8 @@ body {
   --navigation-border-thickness-default: var(--border-width-default);
   --navigation-background-default: var(--background-surface-sidebar-default);
   --navigation-background-strong: var(--background-surface-sidebar-strong);
-  --navigation-logo-color-default: var(--icon-surface-neutral-secondary);
+  --navigation-logo-color-default: var(--icon-surface-logo-default);
+  --navigation-logo-color-subtle: var(--icon-surface-logo-subtle);
   --navigation-logo-height-default: var(--size-2xl);
   --navigation-gap-default: var(--spacing-2xl);
 }
