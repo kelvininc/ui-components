@@ -1,5 +1,5 @@
 import type { Preview, Decorator } from "@storybook/react";
-import { useEffect } from "react";
+import { createElement, useEffect } from "react";
 import {
 	extractArgTypes,
 	extractComponentDescription,
@@ -43,6 +43,51 @@ const withThemeMode: Decorator = (Story, context) => {
 	}, [selectedTheme]);
 
 	return Story();
+};
+
+const themeContainerStyle = {
+	flex: 1,
+	padding: "24px",
+	borderRadius: "8px",
+	backgroundColor: "var(--background-surface-neutral-default)",
+	border: "1px solid var(--border-surface-card-default)",
+	color: "var(--text-surface-neutral-primary)"
+} as const;
+
+const themeLabelStyle = {
+	marginBottom: "12px",
+	fontSize: "11px",
+	fontWeight: 600,
+	textTransform: "uppercase" as const,
+	letterSpacing: "0.05em",
+	color: "var(--text-surface-neutral-secondary)",
+};
+
+/**
+ * Decorator that renders each story side-by-side in both light and night themes.
+ * Only active in docs mode — canvas mode uses the toolbar theme toggle instead.
+ */
+const withThemeSideBySide: Decorator = (Story, context) => {
+	if (context.viewMode !== "docs" || context.parameters.themeSideBySide === false) {
+		return Story();
+	}
+
+	return createElement(
+		"div",
+		{ style: { display: "flex", gap: "24px", width: "100%" } },
+		createElement(
+			"div",
+			{ "data-theme": "light", style: { ...themeContainerStyle, colorScheme: "light" } },
+			createElement("div", { style: themeLabelStyle }, "Light"),
+			createElement(Story)
+		),
+		createElement(
+			"div",
+			{ "data-theme": "night", style: { ...themeContainerStyle, colorScheme: "dark" } },
+			createElement("div", { style: themeLabelStyle }, "Night"),
+			createElement(Story)
+		)
+	);
 };
 
 const preview: Preview = {
@@ -134,7 +179,7 @@ const preview: Preview = {
 		}
 	},
 	tags: ["autodocs"],
-	decorators: [withThemeMode]
+	decorators: [withThemeSideBySide, withThemeMode]
 };
 
 export default preview;

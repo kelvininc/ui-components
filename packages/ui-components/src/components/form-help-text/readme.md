@@ -40,10 +40,14 @@ export const FormHelpTextExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                        | Description                            |
-| --------------------------- | -------------------------------------- |
-| `--help-text-default-color` | Help Text color when state is default. |
-| `--help-text-error-color`   | Help Text color when state is invalid. |
+| Name                         | Description                            |
+| ---------------------------- | -------------------------------------- |
+| `--help-text-bottom-spacing` | Help text bottom spacing.              |
+| `--help-text-default-color`  | Help text color when state is default. |
+| `--help-text-error-color`    | Help text color when state is invalid. |
+| `--help-text-left-spacing`   | Help text left spacing.                |
+| `--help-text-right-spacing`  | Help text right spacing.               |
+| `--help-text-top-spacing`    | Help text top spacing.                 |
 
 
 ## Dependencies

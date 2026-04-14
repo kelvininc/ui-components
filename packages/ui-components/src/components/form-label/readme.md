@@ -39,9 +39,12 @@ export const FormLabelExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name            | Description       |
-| --------------- | ----------------- |
-| `--label-color` | Label Text color. |
+| Name                     | Description                            |
+| ------------------------ | -------------------------------------- |
+| `--label-bottom-spacing` | Bottom spacing of the label container. |
+| `--label-color`          | Label text color.                      |
+| `--label-gap`            | Gap between label elements.            |
+| `--label-required-color` | Required indicator color.              |
 
 
 ## Dependencies
