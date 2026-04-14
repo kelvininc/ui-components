@@ -72,19 +72,25 @@ export const RadioListItemExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                                     | Description                                                          |
-| ---------------------------------------- | -------------------------------------------------------------------- |
-| `--radio-list-item-background`           | Background color. Default: transparent.                              |
-| `--radio-list-item-background-checked`   | Background color when checked. Default: transparent.                 |
-| `--radio-list-item-background-hover`     | Background color on hover. Default: transparent.                     |
-| `--radio-list-item-border`               | Border property (width, style, color). Default: 1px solid neutral-7. |
-| `--radio-list-item-border-color-checked` | Border color when checked. Default: neutral-0.                       |
-| `--radio-list-item-border-color-hover`   | Border color on hover. Default: neutral-0.                           |
-| `--radio-list-item-border-radius`        | Border radius. Default: 2px.                                         |
-| `--radio-list-item-description-color`    | Description text color. Default: neutral-4.                          |
-| `--radio-list-item-gap`                  | Gap between radio and info content. Default: 16px (spacing-4x).      |
-| `--radio-list-item-label-color`          | Label text color. Default: neutral-0.                                |
-| `--radio-list-item-padding`              | Content padding. Default: 16px (spacing-4x).                         |
+| Name                                           | Description                                            |
+| ---------------------------------------------- | ------------------------------------------------------ |
+| `--radio-list-item-background`                 | Background color.                                      |
+| `--radio-list-item-background-checked`         | Background color when checked.                         |
+| `--radio-list-item-background-hover`           | Background color on hover.                             |
+| `--radio-list-item-border`                     | Border property (width, style, color).                 |
+| `--radio-list-item-border-color-checked`       | Border color when checked.                             |
+| `--radio-list-item-border-color-hover`         | Border color on hover.                                 |
+| `--radio-list-item-border-radius`              | Border radius.                                         |
+| `--radio-list-item-description-color`          | Description text color.                                |
+| `--radio-list-item-description-color-disabled` | Description text color when disabled.                  |
+| `--radio-list-item-gap-large`                  | Gap between radio and info content when size is large. |
+| `--radio-list-item-gap-small`                  | Gap between radio and info content when size is small. |
+| `--radio-list-item-label-color`                | Label text color.                                      |
+| `--radio-list-item-label-color-checked`        | Label text color when checked.                         |
+| `--radio-list-item-label-color-disabled`       | Label text color when disabled.                        |
+| `--radio-list-item-label-color-hover`          | Label text color on hover.                             |
+| `--radio-list-item-padding-large`              | Content padding when size is large.                    |
+| `--radio-list-item-padding-small`              | Content padding when size is small.                    |
 
 
 ## Dependencies

@@ -75,9 +75,11 @@ export class LoaderExample {
 
 | Name                        | Description              |
 | --------------------------- | ------------------------ |
-| `--loader-background-color` | Loader background        |
-| `--loader-overlay-color`    | Overlay color            |
-| `--loader-spinner-color`    | Loader color             |
+| `--loader-background-color` | Loader background color. |
+| `--loader-border-size`      | Loader border size.      |
+| `--loader-overlay-color`    | Overlay color.           |
+| `--loader-padding`          | Loader padding.          |
+| `--loader-spinner-color`    | Loader spinner color.    |
 | `--loader-z-index`          | Loader z-index position. |
 
 

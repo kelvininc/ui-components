@@ -45,9 +45,9 @@ kv-select {
 	left: 0;
 	border-radius: var(--slider-radius-default);
 	border: var(--slider-border-thickness-default) solid var(--slider-border-color-default);
-	width: calc(100% - 2px);
+	width: 100%;
 	height: calc(100% - 2px);
-	background: var(--overlay-surface-opacity-80);
+	background: var(--overlay-interactive-opacity-16);
 	z-index: 1;
 
 	&.has-shortcuts .create-new-option-form {

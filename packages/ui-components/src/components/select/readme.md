@@ -89,7 +89,9 @@ Type: `Promise<void>`
 | `--select-border-radius`    | Select border radius.      |
 | `--select-inner-border`     | Select inner border style. |
 | `--select-max-height`       | Select maximum height.     |
+| `--select-max-width`        | Select maximum width.      |
 | `--select-min-height`       | Select minimum height.     |
+| `--select-min-width`        | Select minimum width.      |
 
 
 ## Dependencies

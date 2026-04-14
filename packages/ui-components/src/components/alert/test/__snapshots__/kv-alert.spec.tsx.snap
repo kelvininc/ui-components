@@ -1,11 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Alert (unit tests when closable is true should match the snapshot 1`] = `
+<kv-alert closable="" label="Main Message" show-icon="" size="large" type="info">
+  <template shadowrootmode="open">
+    <div class="alert-container">
+      <div class="alert alert--type-info" part="container">
+        <div class="main show-icon">
+          <div class="information">
+            <kv-icon class="icon" name="kv-error"></kv-icon>
+            <div class="text-container">
+              <div class="title">
+                Main Message
+              </div>
+              <slot name="description"></slot>
+            </div>
+          </div>
+          <slot name="actions"></slot>
+          <kv-action-button-text class="close-button" icon="kv-close" size="small" type="text"></kv-action-button-text>
+        </div>
+        <slot name="alert-content"></slot>
+      </div>
+    </div>
+  </template>
+</kv-alert>
+`;
+
 exports[`Alert (unit tests when using required props and defaults should match the snapshot 1`] = `
 <kv-alert label="Main Message" show-icon="" size="large" type="info">
   <template shadowrootmode="open">
     <div class="alert-container">
       <div class="alert alert--type-info" part="container">
-        <div class="main">
+        <div class="main show-icon">
           <div class="information">
             <kv-icon class="icon" name="kv-error"></kv-icon>
             <div class="text-container">
@@ -28,8 +53,8 @@ exports[`Alert (unit tests when using required props and description should matc
 <kv-alert description="Secondary Message" label="Main Message" show-icon="" size="large" type="info">
   <template shadowrootmode="open">
     <div class="alert-container">
-      <div class="alert alert--type-info" part="container">
-        <div class="main">
+      <div class="alert alert--size-small alert--type-info" part="container">
+        <div class="main show-icon">
           <div class="information">
             <kv-icon class="icon" name="kv-error"></kv-icon>
             <div class="text-container">

@@ -59,10 +59,10 @@ export const ToasterExample: React.FC = () => (
 | Name                         | Description                            |
 | ---------------------------- | -------------------------------------- |
 | `--background-color-default` | Toaster background color.              |
-| `--toaster-icons-height`     | toaster icons height                   |
-| `--toaster-icons-width`      | toaster icons width                    |
-| `--toaster-large-height`     | Toaster with two messages.             |
-| `--toaster-small-height`     | Toaster with one message.              |
+| `--toaster-icon-height`      | Toaster icon height.                   |
+| `--toaster-icon-width`       | Toaster icon width.                    |
+| `--toaster-large-height`     | Toaster height with two messages.      |
+| `--toaster-small-height`     | Toaster height with one message.       |
 | `--toaster-top-space`        | Space between Toaster and top of page. |
 | `--toaster-width`            | Toaster width.                         |
 

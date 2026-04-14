@@ -51,23 +51,16 @@ export const BadgeExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                               | Description                                     |
-| ---------------------------------- | ----------------------------------------------- |
-| `--badge-background-color-error`   | Badge's background color when state is error.   |
-| `--badge-background-color-info`    | Badge's background color when state is info.    |
-| `--badge-background-color-none`    | Badge's background color when state is none.    |
-| `--badge-background-color-success` | Badge's background color when state is success. |
-| `--badge-background-color-warning` | Badge's background color when state is warning. |
-| `--badge-height`                   | Badge's height.                                 |
-| `--badge-max-width`                | Badge's maximum width.                          |
-| `--badge-min-width`                | Badge's minimum width.                          |
-| `--badge-text-color-error`         | Badge's text color when state is error.         |
-| `--badge-text-color-info`          | Badge's text color when state is info.          |
-| `--badge-text-color-none`          | Badge's text color when state is none.          |
-| `--badge-text-color-success`       | Badge's text color when state is success.       |
-| `--badge-text-color-warning`       | Badge's text color when state is warning.       |
-| `--badge-warning-text-color`       | Badge's text color when state is warning.       |
-| `--badge-width`                    | Badge's width.                                  |
+| Name                                 | Description                                      |
+| ------------------------------------ | ------------------------------------------------ |
+| `--badge-background-color-primary`   | Badge's background color when type is primary.   |
+| `--badge-background-color-secondary` | Badge's background color when type is secondary. |
+| `--badge-height`                     | Badge's height.                                  |
+| `--badge-max-width`                  | Badge's maximum width.                           |
+| `--badge-min-width`                  | Badge's minimum width.                           |
+| `--badge-text-color-primary`         | Badge's text color when type is primary.         |
+| `--badge-text-color-secondary`       | Badge's text color when type is secondary.       |
+| `--badge-width`                      | Badge's width.                                   |
 
 
 ## Dependencies

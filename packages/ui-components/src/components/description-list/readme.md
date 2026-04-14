@@ -105,12 +105,12 @@ export const KvDescriptionListExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                                    | Description                               |
-| --------------------------------------- | ----------------------------------------- |
-| `--description-list-gap`                | The gap between the title and description |
-| `--description-list-row-align`          | The alignment for the rows                |
-| `--description-list-row-extremes`       | The gap for the first and last row        |
-| `--description-list-row-inline-padding` | The horizontal padding for each row       |
+| Name                                    | Description                                |
+| --------------------------------------- | ------------------------------------------ |
+| `--description-list-row-align`          | The alignment for the rows.                |
+| `--description-list-row-extremes`       | The gap for the first and last row.        |
+| `--description-list-row-gap`            | The gap between the title and description. |
+| `--description-list-row-inline-padding` | The horizontal padding for each row.       |
 
 
 ## Dependencies

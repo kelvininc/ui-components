@@ -66,7 +66,7 @@
           "prefix": "color"
         },
         "subtle": {
-          "value": "{color.gray.200}",
+          "value": "{color.gray.50}",
           "type": "color",
           "prefix": "color"
         }
@@ -323,6 +323,13 @@
       "alert-secondary": {
         "default": {
           "value": "{color.gray.200}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "radio-selector": {
+        "default": {
+          "value": "{color.gray.50}",
           "type": "color",
           "prefix": "color"
         }
@@ -972,6 +979,23 @@
         },
         "disabled": {
           "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "card-radio-selector": {
+        "default": {
+          "value": "{color.gray.950}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "hover": {
+          "value": "{color.brand.500}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "selected": {
+          "value": "{color.brand.500}",
           "type": "color",
           "prefix": "color"
         }
@@ -1777,6 +1801,23 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "card-radio-selector": {
+        "default": {
+          "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "hover": {
+          "value": "{color.brand.500}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "seleted": {
+          "value": "{color.brand.500}",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "on-color": {
@@ -1827,6 +1868,11 @@
     "surface": {
       "opacity-80": {
         "value": "#595959cc",
+        "type": "color",
+        "prefix": "color"
+      },
+      "opacity-60": {
+        "value": "#fafafa99",
         "type": "color",
         "prefix": "color"
       }
@@ -1925,6 +1971,18 @@
       "brand": {
         "primary": {
           "value": "{color.brand.500}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "logo": {
+        "default": {
+          "value": "{color.brand.500}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "subtle": {
+          "value": "{color.purple.500}",
           "type": "color",
           "prefix": "color"
         }
