@@ -39,10 +39,12 @@ export const TooltipTextExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                      | Description                                                           |
-| ------------------------- | --------------------------------------------------------------------- |
-| `--container-max-width`   | The max width for the tooltip container (default: 240px).             |
-| `--container-white-space` | The white space strategy for the tooltip container (default: normal). |
+| Name                           | Description                                         |
+| ------------------------------ | --------------------------------------------------- |
+| `--container-background-color` | The background color for the tooltip container.     |
+| `--container-max-width`        | The max width for the tooltip container.            |
+| `--container-white-space`      | The white space strategy for the tooltip container. |
+| `--container-width`            | The width for the tooltip container.                |
 
 
 ## Dependencies

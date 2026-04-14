@@ -58,9 +58,10 @@ export const KvRelativeTimePickerExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                 | Description       |
-| -------------------- | ----------------- |
-| `--background-color` | Background color. |
+| Name                 | Description                                 |
+| -------------------- | ------------------------------------------- |
+| `--background-color` | Background color.                           |
+| `--min-height`       | Minimum height of the relative time picker. |
 
 
 ## Dependencies

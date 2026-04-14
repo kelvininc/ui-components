@@ -16,15 +16,15 @@ export class KvAlert implements IAlertConfig, IAlertEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) type!: EAlertType;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) size?: EComponentSize = EComponentSize.Large;
+	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) showIcon?: boolean = true;
+	@Prop({ reflect: true }) showIcon: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label!: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) description?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) closable?: boolean = false;
+	@Prop({ reflect: true }) closable: boolean = false;
 
 	/** @inheritdoc */
 	@Event() clickCloseButton: EventEmitter<MouseEvent>;
@@ -56,7 +56,6 @@ export class KvAlert implements IAlertConfig, IAlertEvents {
 							<slot name="actions"></slot>
 							{this.closable && (
 								<kv-action-button-text
-									text=""
 									size={EComponentSize.Small}
 									type={EActionButtonType.Text}
 									icon={EIconName.Close}

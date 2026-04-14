@@ -3,7 +3,7 @@
  * Do not edit manually - run `pnpm tokens:build` to regenerate
  */
 
-body[mode="night"] {
+body[mode="night"], [data-theme="night"] {
   --background-surface-neutral-subtlest: var(--color-gray-700);
   --background-surface-neutral-default: var(--color-gray-900);
   --background-surface-neutral-subtle: var(--color-gray-800);
@@ -60,6 +60,7 @@ body[mode="night"] {
   --background-container-card-recommendation-default: var(--color-gray-900);
   --background-container-card-recommendation-subtle: var(--color-gray-800);
   --background-container-alert-secondary-default: var(--color-gray-800);
+  --background-container-radio-selector-default: var(--color-gray-700);
   --background-container-modal-default: var(--color-gray-800);
   --background-container-modal-subtle: var(--color-gray-900);
   --background-interactive-neutral-hover: var(--color-gray-600);
@@ -128,9 +129,9 @@ body[mode="night"] {
   --background-persistent-tab-hover: var(--color-gray-500);
   --background-persistent-tab-selected: var(--color-gray-500);
   --background-persistent-tab-disabled: var(--color-gray-700);
-  --background-persistent-radio-selector-hover: var(--color-gray-700);
-  --background-persistent-radio-selector-selected: var(--color-gray-700);
-  --background-persistent-radio-selector-default: var(--color-gray-800);
+  --background-persistent-radio-selector-hover: var(--color-gray-600);
+  --background-persistent-radio-selector-selected: var(--color-gray-600);
+  --background-persistent-radio-selector-default: var(--color-gray-700);
   --background-canvas-neutral-default: var(--color-gray-950);
   --text-surface-neutral-primary: var(--color-gray-50);
   --text-surface-neutral-secondary: var(--color-gray-300);
@@ -171,6 +172,9 @@ body[mode="night"] {
   --text-interactive-card-hover: var(--color-gray-300);
   --text-interactive-card-selected: var(--color-gray-300);
   --text-interactive-card-disabled: var(--color-gray-500);
+  --text-interactive-card-radio-selector-default: var(--color-gray-400);
+  --text-interactive-card-radio-selector-hover: var(--color-gray-300);
+  --text-interactive-card-radio-selector-selected: var(--color-gray-300);
   --text-on-color-neutral-primary: var(--color-gray-50);
   --text-on-color-neutral-secondary: var(--color-gray-50);
   --text-on-color-neutral-disabled: var(--color-gray-500);
@@ -247,7 +251,7 @@ body[mode="night"] {
   --border-interactive-text-area-filled: var(--color-gray-600);
   --border-interactive-underline-default: var(--color-gray-500);
   --border-interactive-underline-hover: var(--color-gray-50);
-  --border-interactive-editable-cell-default: var(--color-gray-700);
+  --border-interactive-editable-cell-default: var(--color-gray-600);
   --border-interactive-editable-cell-selected: var(--color-gray-50);
   --border-interactive-editable-cell-error: var(--color-red-500);
   --border-interactive-accordion-default: var(--color-gray-500);
@@ -301,6 +305,9 @@ body[mode="night"] {
   --border-persistent-radio-selector-seleted: var(--color-gray-50);
   --border-persistent-radio-selector-hover: var(--color-gray-50);
   --border-persistent-radio-selector-default: rgba(13, 13, 13, 0);
+  --border-persistent-card-radio-selector-default: rgba(13, 13, 13, 0);
+  --border-persistent-card-radio-selector-hover: var(--color-gray-50);
+  --border-persistent-card-radio-selector-seleted: var(--color-gray-50);
   --border-on-color-neutral-default: var(--color-gray-500);
   --border-on-color-button-alert-success: var(--color-gray-50);
   --border-on-color-button-alert-warning: var(--color-gray-50);
@@ -309,6 +316,7 @@ body[mode="night"] {
   --overlay-interactive-opacity-10: rgba(191, 191, 191, 0.1);
   --overlay-interactive-opacity-16: rgba(191, 191, 191, 0.16);
   --overlay-surface-opacity-80: rgba(26, 26, 26, 0.8);
+  --overlay-surface-opacity-60: rgba(38, 38, 38, 0.6);
   --overlay-card-recommendation-opacity-100: var(--color-gray-800);
   --overlay-card-recommendation-opacity-80: rgba(38, 38, 38, 0.8);
   --overlay-card-recommendation-opacity-0: rgba(38, 38, 38, 0);
@@ -324,6 +332,8 @@ body[mode="night"] {
   --icon-surface-status-info-default: var(--color-blue-500);
   --icon-surface-status-inactive-default: var(--color-gray-400);
   --icon-surface-brand-primary: var(--color-brand-500);
+  --icon-surface-logo-default: var(--color-gray-300);
+  --icon-surface-logo-subtle: var(--color-gray-300);
   --icon-on-color-neutral-primary: var(--color-gray-50);
   --icon-on-color-neutral-disabled: var(--color-gray-500);
   --icon-on-color-neutral-secondary: var(--color-gray-300);

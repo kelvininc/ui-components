@@ -12,11 +12,11 @@
 
 ## CSS Custom Properties
 
-| Name                     | Description                  |
-| ------------------------ | ---------------------------- |
-| `--dot-background-color` | DirtyDot's background color. |
-| `--dot-height`           | DirtyDot's height.           |
-| `--dot-width`            | DirtyDot's width.            |
+| Name           | Description        |
+| -------------- | ------------------ |
+| `--dot-color`  | DirtyDot's color.  |
+| `--dot-height` | DirtyDot's height. |
+| `--dot-width`  | DirtyDot's width.  |
 
 
 ## Dependencies

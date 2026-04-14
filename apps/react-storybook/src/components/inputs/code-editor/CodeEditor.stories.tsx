@@ -52,6 +52,9 @@ const meta = {
 				type: "object"
 			}
 		}
+	},
+	parameters: {
+		themeSideBySide: false
 	}
 } satisfies Meta<typeof KvCodeEditor>;
 

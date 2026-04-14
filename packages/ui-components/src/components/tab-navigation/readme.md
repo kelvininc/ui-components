@@ -48,11 +48,13 @@ export const TabNavigationExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                         | Description                  |
-| ---------------------------- | ---------------------------- |
-| `--tab-list-bg-color`        | Background color of the list |
-| `--tab-list-divider-color`   | Tab divider bar color        |
-| `--tab-list-indicator-color` | Tab indicator bar color      |
+| Name                             | Description                               |
+| -------------------------------- | ----------------------------------------- |
+| `--secondary-items-align`        | Alignment of secondary tab items.         |
+| `--secondary-tab-list-direction` | Flex direction of the secondary tab list. |
+| `--tab-list-bg-color`            | Background color of the list.             |
+| `--tab-list-divider-color`       | Tab divider bar color.                    |
+| `--tab-list-indicator-color`     | Tab indicator bar color.                  |
 
 
 ## Dependencies
