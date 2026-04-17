@@ -101,7 +101,14 @@
 	@include custom-scrollbar(var(--scrollbar-thumb-default));
 }
 
-@mixin rotate-border-animation($border-radius: var(--radius-md), $border-width: 2px, $color1: var(--color-teal-500), $color2: var(--color-teal-600), $inset: 0) {
+@mixin rotate-border-animation(
+	$border-radius: var(--radius-md),
+	$border-width: 2px,
+	$color1: var(--color-teal-400),
+	$color2: var(--color-brand-800),
+	$color3: var(--color-teal-400),
+	$inset: 0
+) {
 	position: relative;
 
 	&::before {
@@ -113,7 +120,7 @@
 		z-index: 99;
 		border: $border-width solid transparent;
 		border-radius: $border-radius;
-		background-image: conic-gradient(from var(--rotation), $color1, $color2, $color1);
+		background-image: conic-gradient(from var(--rotation), $color1, $color2, $color3);
 		background-origin: border-box;
 		mask: linear-gradient(#000, #000), linear-gradient(#000, #000);
 		mask-clip: content-box, border-box;
