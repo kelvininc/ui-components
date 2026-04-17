@@ -21,6 +21,24 @@
 		--border-color-hover-secondary: var(--alert-button-background-#{$token-type});
 		--border-color-focus-secondary: var(--alert-button-background-#{$token-type});
 		--border-color-active-secondary: var(--alert-button-background-#{$token-type});
+
+		--icon-color-default-tertiary: var(--alert-button-text-#{$token-type}-default);
+		--icon-color-hover-tertiary: var(--alert-button-text-#{$token-type}-hover);
+		--icon-color-focus-tertiary: var(--alert-button-text-#{$token-type}-pressed);
+		--icon-color-active-tertiary: var(--alert-button-text-#{$token-type}-pressed);
+
+		--text-color-default-tertiary: var(--alert-button-text-#{$token-type}-default);
+		--text-color-hover-tertiary: var(--alert-button-text-#{$token-type}-hover);
+		--text-color-focus-tertiary: var(--alert-button-text-#{$token-type}-pressed);
+		--text-color-active-tertiary: var(--alert-button-text-#{$token-type}-pressed);
+
+		--background-color-hover-tertiary: var(--alert-button-background-#{$token-type});
+		--background-color-focus-tertiary: var(--alert-button-background-#{$token-type});
+		--background-color-active-tertiary: var(--alert-button-background-#{$token-type});
+
+		--border-color-hover-tertiary: var(--alert-button-background-#{$token-type});
+		--border-color-focus-tertiary: var(--alert-button-background-#{$token-type});
+		--border-color-active-tertiary: var(--alert-button-background-#{$token-type});
 	}
 }
 
