@@ -164,6 +164,11 @@
         "type": "color",
         "prefix": "foundations_(primitives)"
       },
+      "300": {
+        "value": "#79fcbd",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
       "400": {
         "value": "#07d571",
         "type": "color",

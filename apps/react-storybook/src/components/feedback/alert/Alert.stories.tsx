@@ -81,8 +81,12 @@ export const SlotsUsage: Story = {
 			</div>
 			<div slot="actions">
 				<KvActionButtonText
+					type={EActionButtonType.Tertiary}
+					text="Action Tertiary"
+				/>
+				<KvActionButtonText
 					type={EActionButtonType.Secondary}
-					text="Action"
+					text="Action Secondary"
 				/>
 			</div>
 			<div slot="alert-content" style={{ color: "#2a2a2a" }}>
