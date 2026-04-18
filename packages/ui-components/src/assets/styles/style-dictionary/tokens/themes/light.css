@@ -496,4 +496,13 @@ body[mode="light"], [data-theme="light"] {
   --raw-background-subtle-2: var(--color-gray-50);
   --raw-background-brand: var(--color-brand-500);
   --raw-background-accent: var(--color-purple-500);
+  --illustrations-background: var(--color-gray-200);
+  --illustrations-shape-primary: var(--color-gray-400);
+  --illustrations-shape-secondary: var(--color-gray-300);
+  --illustrations-shape-tertiary: var(--color-gray-50);
+  --illustrations-accent-primary: var(--color-purple-500);
+  --illustrations-accent-secondary: var(--color-purple-600);
+  --illustrations-icon-primary: var(--color-gray-400);
+  --illustrations-icon-secondary: var(--color-gray-300);
+  --illustrations-accent-tertiary: var(--color-purple-300);
 }
