@@ -119,6 +119,11 @@
         "value": "#7c4dff",
         "type": "color",
         "prefix": "foundations_(primitives)"
+      },
+      "600": {
+        "value": "#6933ff",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
       }
     },
     "teal": {

@@ -1,0 +1,10 @@
+<svg id="kv-es-kelvin-logo"
+	xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+	<path fill="url(#logo-kelvin)" fill-rule="evenodd" d="M16.002 0C7.177 0 0 7.178 0 16s7.177 16 16 16 16-7.178 16-16S24.824 0 16.002 0m0 30.897C7.786 30.897 1.104 24.214 1.104 16S7.786 1.103 16.002 1.103 30.896 7.787 30.896 16s-6.681 14.897-14.894 14.897M23.35 8.48 15.825 16l7.526 7.518h-1.462l-7.435-7.289v7.289H13.29V8.48h1.163v7.286l7.293-7.286zm-13.293.537a.864.864 0 0 1-.864.864.87.87 0 0 1-.864-.864c0-.47.396-.867.864-.867.469 0 .864.39.864.867" clip-rule="evenodd"/>
+	<defs>
+		<linearGradient id="logo-kelvin" x1="0" x2="33.5" y1="16" y2="16" gradientUnits="userSpaceOnUse">
+			<stop stop-color="var(--navigation-logo-color-subtle)"/>
+			<stop offset="1" stop-color="var(--navigation-logo-color-default)"/>
+		</linearGradient>
+	</defs>
+</svg>

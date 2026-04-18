@@ -817,23 +817,6 @@
           "type": "color",
           "prefix": "color"
         }
-      },
-      "radio-selector": {
-        "hover": {
-          "value": "{color.gray.200}",
-          "type": "color",
-          "prefix": "color"
-        },
-        "selected": {
-          "value": "{color.brand.100}",
-          "type": "color",
-          "prefix": "color"
-        },
-        "default": {
-          "value": "{color.gray.50}",
-          "type": "color",
-          "prefix": "color"
-        }
       }
     },
     "canvas": {
@@ -2606,20 +2589,20 @@
       },
       "map": {
         "neutral-dark": {
-			"value": "{color.gray.500}",
-			"type": "color",
-			"prefix": "color"
-		},
+          "value": "{color.gray.500}",
+          "type": "color",
+          "prefix": "color"
+        },
         "blue-light": {
           "value": "{color.blue.500}",
           "type": "color",
           "prefix": "color"
         },
         "neutral-light": {
-			"value": "{color.gray.50}",
-			"type": "color",
-			"prefix": "color"
-		},
+          "value": "{color.gray.50}",
+          "type": "color",
+          "prefix": "color"
+        },
         "green-light": {
           "value": "{color.green.500}",
           "type": "color",
@@ -2937,6 +2920,53 @@
         "type": "color",
         "prefix": "color"
       }
+    }
+  },
+  "illustrations": {
+    "background": {
+      "value": "{color.gray.200}",
+      "type": "color",
+      "prefix": "color"
+    },
+    "shape-primary": {
+      "value": "{color.gray.400}",
+      "type": "color",
+      "prefix": "color"
+    },
+    "shape-secondary": {
+      "value": "{color.gray.300}",
+      "type": "color",
+      "prefix": "color"
+    },
+    "shape-tertiary": {
+      "value": "{color.gray.50}",
+      "type": "color",
+      "prefix": "color"
+    },
+    "accent-primary": {
+      "value": "{color.purple.500}",
+      "type": "color",
+      "prefix": "color"
+    },
+    "accent-secondary": {
+      "value": "{color.purple.600}",
+      "type": "color",
+      "prefix": "color"
+    },
+    "icon-primary": {
+      "value": "{color.gray.400}",
+      "type": "color",
+      "prefix": "color"
+    },
+    "icon-secondary": {
+      "value": "{color.gray.300}",
+      "type": "color",
+      "prefix": "color"
+    },
+    "accent-tertiary": {
+      "value": "{color.purple.300}",
+      "type": "color",
+      "prefix": "color"
     }
   }
 }

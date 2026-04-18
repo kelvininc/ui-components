@@ -143,9 +143,6 @@ body[mode="light"], [data-theme="light"] {
   --background-persistent-tab-hover: var(--color-brand-100);
   --background-persistent-tab-selected: var(--color-brand-100);
   --background-persistent-tab-disabled: var(--color-gray-300);
-  --background-persistent-radio-selector-hover: var(--color-gray-200);
-  --background-persistent-radio-selector-selected: var(--color-brand-100);
-  --background-persistent-radio-selector-default: var(--color-gray-50);
   --background-canvas-neutral-default: var(--color-gray-100);
   --text-surface-neutral-primary: var(--color-gray-950);
   --text-surface-neutral-secondary: var(--color-gray-950);
@@ -496,4 +493,13 @@ body[mode="light"], [data-theme="light"] {
   --raw-background-subtle-2: var(--color-gray-50);
   --raw-background-brand: var(--color-brand-500);
   --raw-background-accent: var(--color-purple-500);
+  --illustrations-background: var(--color-gray-200);
+  --illustrations-shape-primary: var(--color-gray-400);
+  --illustrations-shape-secondary: var(--color-gray-300);
+  --illustrations-shape-tertiary: var(--color-gray-50);
+  --illustrations-accent-primary: var(--color-purple-500);
+  --illustrations-accent-secondary: var(--color-purple-600);
+  --illustrations-icon-primary: var(--color-gray-400);
+  --illustrations-icon-secondary: var(--color-gray-300);
+  --illustrations-accent-tertiary: var(--color-purple-300);
 }

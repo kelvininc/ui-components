@@ -18,6 +18,7 @@ export enum EIllustrationName {
 	EsTableBuild = 'kv-es-table-build',
 	EsTableEmpty = 'kv-es-table-empty',
 	EsTableSearch = 'kv-es-table-search',
+	EsKelvinLogo = 'kv-es-kelvin-logo',
 	EsKelvinLogotype = 'kv-es-kelvin-logotype',
 	Agree = 'kv-agree',
 	SoftAgree = 'kv-soft-agree',
