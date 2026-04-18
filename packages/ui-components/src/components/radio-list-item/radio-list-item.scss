@@ -22,19 +22,19 @@
 	 */
 
 	--radio-list-item-background: var(--background-persistent-radio-selector-default);
-	--radio-list-item-background-hover: var(--background-persistent-radio-selector-hover);
-	--radio-list-item-background-checked: var(--background-persistent-radio-selector-selected);
+	--radio-list-item-background-hover: var(--background-persistent-radio-selector-default);
+	--radio-list-item-background-checked: var(--background-persistent-radio-selector-default);
 	
-	--radio-list-item-label-color: var(--text-interactive-card-default);
-	--radio-list-item-label-color-hover: var(--text-interactive-card-hover);
-	--radio-list-item-label-color-checked: var(--text-interactive-card-selected);
+	--radio-list-item-label-color: var(--text-interactive-card-radio-selector-default);
+	--radio-list-item-label-color-hover: var(--text-interactive-card-radio-selector-hover);
+	--radio-list-item-label-color-checked: var(--text-interactive-card-radio-selector-selected);
 	--radio-list-item-label-color-disabled: var(--text-interactive-card-disabled);
-	--radio-list-item-description-color: var(--text-container-neutral-default);
+	--radio-list-item-description-color: var(--text-container-neutral-subtle);
 	--radio-list-item-description-color-disabled: var(--text-container-neutral-disabled);
 	
-	--radio-list-item-border: 1px solid var(--border-persistent-radio-selector-default);
-	--radio-list-item-border-color-hover: var(--border-persistent-radio-selector-hover);
-	--radio-list-item-border-color-checked: var(--border-persistent-radio-selector-seleted);
+	--radio-list-item-border: 1px solid var(--border-persistent-card-radio-selector-default);
+	--radio-list-item-border-color-hover: var(--border-persistent-card-radio-selector-hover);
+	--radio-list-item-border-color-checked: var(--border-persistent-card-radio-selector-seleted);
 	--radio-list-item-border-radius: var(--radius-md);
 	--radio-list-item-padding-large: var(--spacing-2xl);
 	--radio-list-item-padding-small: var(--spacing-xs) var(--spacing-2xl) var(--spacing-xs) var(--spacing-md);
