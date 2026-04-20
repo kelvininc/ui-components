@@ -17,6 +17,9 @@ jobs:
 
         name: Publish Master (${{ matrix.os }} / Node.js ${{ matrix.node }})
         runs-on: ${{ matrix.os }}
+        outputs:
+            new-version: ${{ steps.version.outputs.new-version }}
+            release-tag: ${{ steps.version.outputs.release-tag }}
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
@@ -44,7 +47,12 @@ jobs:
               run: pnpm test
 
             - name: Generate Versions
-              run: pnpm lerna version --yes --conventional-commits --no-changelog --no-git-tag-version --no-push --force-publish=*
+              id: version
+              run: |
+                  pnpm lerna version --yes --conventional-commits --no-changelog --no-git-tag-version --no-push --force-publish=*
+                  NEW_VERSION=$(node -p "require('./lerna.json').version")
+                  echo "new-version=$NEW_VERSION" >> $GITHUB_OUTPUT
+                  echo "release-tag=v$NEW_VERSION" >> $GITHUB_OUTPUT
 
             - name: Build
               run: pnpm build:packages
@@ -67,3 +75,37 @@ jobs:
                   pnpm storybook:deploy -- -- -- --existing-output-dir='./gp'
               env:
                   GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
+
+    summary:
+        name: Publish Master Summary
+        runs-on: ubuntu-22.04
+        needs: [publish]
+        if: always()
+        steps:
+            - name: Generate workflow summary
+              run: |
+                  cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+                  # Kelvin UI Components - Release Summary
+
+                  ## 📦 Release Information
+                  - **Version**: `${{ needs.publish.outputs.new-version || 'N/A' }}`
+                  - **Release Tag**: `${{ needs.publish.outputs.release-tag || 'N/A' }}`
+                  - **Commit**: `${{ github.sha }}`
+                  - **Branch**: `${{ github.ref_name }}`
+                  - **Environment**: Production Release
+
+                  ## Component Status
+
+                  | Component | Status |
+                  |-----------|---------|
+                  | Publish (Lint + Test + Version + Build + NPM + Storybook) | ${{ needs.publish.result == 'success' && '✅ Success' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
+
+                  ## Release Summary
+                  - **Package Release**: ${{ needs.publish.result == 'success' && '📦 Published to NPM (with provenance)' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Master Storybook**: ${{ needs.publish.result == 'success' && '💅 Deployed to /' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Alpha (Dev) Storybook**: ${{ needs.publish.result == 'success' && '💅 Deployed to /alpha' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+
+                  ---
+
+                  > 🚀 **Release Complete**: Version `${{ needs.publish.outputs.new-version || 'N/A' }}` has been successfully released and is available on NPM!
+                  EOF

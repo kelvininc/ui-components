@@ -38,3 +38,37 @@ jobs:
 
             - name: 💅 Build storybook
               run: pnpm storybook:build
+
+    summary:
+        name: CI Summary
+        runs-on: ubuntu-22.04
+        needs: [ci]
+        if: always()
+        steps:
+            - name: Generate workflow summary
+              run: |
+                  cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+                  # Kelvin UI Components - Pull Request Summary
+
+                  ## Build Information
+                  - **Commit**: `${{ github.sha }}`
+                  - **Branch**: `${{ github.head_ref }}`
+                  - **Target**: `${{ github.base_ref }}`
+                  - **Environment**: Pull Request
+
+                  ## Component Status
+
+                  | Component | Status |
+                  |-----------|---------|
+                  | CI (Lint + Test + Build + Storybook) | ${{ needs.ci.result == 'success' && '✅ Success' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
+
+                  ## Testing Summary
+                  - **Linting**: ${{ needs.ci.result == 'success' && '✅ Passed' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Unit Tests**: ${{ needs.ci.result == 'success' && '✅ Passed' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Package Build**: ${{ needs.ci.result == 'success' && '✅ Passed' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Storybook Build**: ${{ needs.ci.result == 'success' && '✅ Passed' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+
+                  ---
+
+                  > **Next Steps**: Once this PR is approved and merged, it will trigger the appropriate deployment workflow based on the target branch.
+                  EOF

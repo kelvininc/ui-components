@@ -21,6 +21,10 @@ jobs:
 
         name: Pre-Release Publish (${{ matrix.os }} / Node.js ${{ matrix.node }})
         runs-on: ${{ matrix.os }}
+        outputs:
+            new-version: ${{ steps.version.outputs.new-version }}
+            release-tag: ${{ steps.version.outputs.release-tag }}
+            prerelease-id: ${{ steps.prerelease.outputs.prerelease-id }}
 
         steps:
             - name: Checkout repository
@@ -53,11 +57,14 @@ jobs:
                   fi
 
             - name: Set Prerelease Identifier
+              id: prerelease
               run: |
                   if [ "$BRANCH_NAME" = "beta" ]; then
                     echo "PRERELEASE_ID=beta" >> $GITHUB_ENV
+                    echo "prerelease-id=beta" >> $GITHUB_OUTPUT
                   else
                     echo "PRERELEASE_ID=alpha" >> $GITHUB_ENV
+                    echo "prerelease-id=alpha" >> $GITHUB_OUTPUT
                   fi
 
             - name: Get Tag
@@ -101,6 +108,13 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+            - name: Capture Version
+              id: version
+              run: |
+                  NEW_VERSION=$(node -p 'require("./lerna.json").version')
+                  echo "new-version=$NEW_VERSION" >> $GITHUB_OUTPUT
+                  echo "release-tag=v$NEW_VERSION" >> $GITHUB_OUTPUT
+
             - name: Build packages
               run: pnpm build:packages
 
@@ -124,3 +138,37 @@ jobs:
               run: git push origin $(git describe --tags --abbrev=0)
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    summary:
+        name: Pre-Release Summary
+        runs-on: ubuntu-22.04
+        needs: [publish]
+        if: always()
+        steps:
+            - name: Generate workflow summary
+              run: |
+                  cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+                  # Kelvin UI Components - Pre-Release Summary
+
+                  ## 📦 Pre-Release Information
+                  - **Version**: `${{ needs.publish.outputs.new-version || 'N/A' }}`
+                  - **Release Tag**: `${{ needs.publish.outputs.release-tag || 'N/A' }}`
+                  - **Channel**: `${{ needs.publish.outputs.prerelease-id || github.ref_name }}`
+                  - **Commit**: `${{ github.sha }}`
+                  - **Branch**: `${{ github.ref_name }}`
+                  - **Environment**: Pre-Release (${{ github.ref_name }})
+
+                  ## Component Status
+
+                  | Component | Status |
+                  |-----------|---------|
+                  | Pre-Release (Version + Build + Nexus Publish) | ${{ needs.publish.result == 'success' && '✅ Success' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
+
+                  ## Pre-Release Summary
+                  - **Package Release**: ${{ needs.publish.result == 'success' && '📦 Published to Nexus' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Git Tag**: ${{ needs.publish.result == 'success' && '🏷️ Pushed' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+
+                  ---
+
+                  > 🚀 **Pre-Release Complete**: Version `${{ needs.publish.outputs.new-version || 'N/A' }}` has been successfully released as a pre-release to Nexus!
+                  EOF
