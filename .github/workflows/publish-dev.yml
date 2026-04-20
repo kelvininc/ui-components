@@ -55,3 +55,34 @@ jobs:
                   pnpm storybook:deploy -- -- -- --existing-output-dir='./gp'
               env:
                   GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
+
+    summary:
+        name: Publish Dev Summary
+        runs-on: ubuntu-22.04
+        needs: [publish]
+        if: always()
+        steps:
+            - name: Generate workflow summary
+              run: |
+                  cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+                  # Kelvin UI Components - Publish Dev Summary
+
+                  ## 📦 Deployment Information
+                  - **Commit**: `${{ github.sha }}`
+                  - **Branch**: `${{ github.ref_name }}`
+                  - **Environment**: Storybook (GitHub Pages)
+
+                  ## Component Status
+
+                  | Component | Status |
+                  |-----------|---------|
+                  | Publish (Lint + Test + Build + Storybook Deploy) | ${{ needs.publish.result == 'success' && '✅ Success' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
+
+                  ## Deployment Summary
+                  - **Master Storybook**: ${{ needs.publish.result == 'success' && '💅 Deployed to /' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Alpha (Dev) Storybook**: ${{ needs.publish.result == 'success' && '💅 Deployed to /alpha' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+
+                  ---
+
+                  > 🚀 **Storybook Updated**: The alpha storybook has been refreshed from the `dev` branch alongside the latest `master` storybook.
+                  EOF
