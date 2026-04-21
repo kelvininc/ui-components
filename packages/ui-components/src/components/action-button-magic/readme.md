@@ -15,7 +15,7 @@
 | `loading`           | `loading`    | (optional) If `true` the button is of type loading | `boolean`                                                                                                                                      | `false`                |
 | `rightIcon`         | `right-icon` | (optional) Button's right icon symbol name         | `EIconName`                                                                                                                                    | `undefined`            |
 | `size`              | `size`       | (optional) Button's size                           | `EComponentSize.Large \| EComponentSize.Small`                                                                                                 | `EComponentSize.Large` |
-| `text` _(required)_ | `text`       | (required) (required) Button's text                | `string`                                                                                                                                       | `undefined`            |
+| `text` _(required)_ | `text`       | (optional) Button's text                           | `string`                                                                                                                                       | `undefined`            |
 | `type` _(required)_ | `type`       | (optional) Button's type                           | `EActionButtonType.Danger \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary \| EActionButtonType.Text` | `undefined`            |
 
 

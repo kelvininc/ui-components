@@ -2,20 +2,14 @@
 
 kv-description-list {
 	/**
-		@prop --description-list-gap: The gap between the title and description
-	**/
+	 * @prop --description-list-row-gap: The gap between the title and description.
+	 * @prop --description-list-row-extremes: The gap for the first and last row.
+	 * @prop --description-list-row-inline-padding: The horizontal padding for each row.
+	 * @prop --description-list-row-align: The alignment for the rows.
+	 */
 	--description-list-row-gap: var(--spacing-xl);
-	/**
-		@prop --description-list-row-extremes: The gap for the first and last row
-	**/
 	--description-list-row-extremes: 0;
-	/**
-		@prop --description-list-row-inline-padding: The horizontal padding for each row
-	**/
 	--description-list-row-inline-padding: 0;
-	/**
-		@prop --description-list-row-align: The alignment for the rows
-	**/
 	--description-list-row-align: baseline;
 }
 

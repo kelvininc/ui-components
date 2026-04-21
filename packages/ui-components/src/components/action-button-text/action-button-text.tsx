@@ -3,6 +3,7 @@ import { EActionButtonType } from '../action-button/action-button.types';
 import { EComponentSize } from '../../utils/types';
 import { EIconName } from '../icon/icon.types';
 import { IActionButtonTextConfig } from './action-button-text.types';
+import { isEmpty } from 'lodash-es';
 
 /**
  * @part button-text - The text button.
@@ -15,7 +16,7 @@ import { IActionButtonTextConfig } from './action-button-text.types';
 })
 export class KvActionButtonText implements IActionButtonTextConfig {
 	/** @inheritdoc */
-	@Prop({ reflect: true }) text!: string;
+	@Prop({ reflect: true }) text?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName;
 	/** @inheritdoc */
@@ -43,17 +44,19 @@ export class KvActionButtonText implements IActionButtonTextConfig {
 			<Host>
 				<kv-action-button active={this.active} loading={this.loading} type={this.type} disabled={this.disabled} size={this.size} exportparts="button">
 					{this.icon && <kv-icon name={this.icon} exportparts="icon" />}
-					<span
-						class={{
-							'action-button-text': true,
-							'action-button-text--disabled': this.disabled,
-							'action-button-text--active': this.active,
-							[`action-button-text--type-${this.type}`]: true
-						}}
-						part="button-text"
-					>
-						{this.text}
-					</span>
+					{!isEmpty(this.text) && (
+						<span
+							class={{
+								'action-button-text': true,
+								'action-button-text--disabled': this.disabled,
+								'action-button-text--active': this.active,
+								[`action-button-text--type-${this.type}`]: true
+							}}
+							part="button-text"
+						>
+							{this.text}
+						</span>
+					)}
 					{this.rightIcon && <kv-icon name={this.rightIcon} exportparts="icon" />}
 				</kv-action-button>
 			</Host>

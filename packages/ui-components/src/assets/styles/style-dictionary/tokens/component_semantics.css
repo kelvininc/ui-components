@@ -3,7 +3,7 @@
  * Do not edit manually - run `pnpm tokens:build` to regenerate
  */
 
-body {
+body, [data-theme] {
   --button-height-regular: var(--size-4xl);
   --button-height-compact: var(--size-2xl);
   --button-padding-x-regular: var(--spacing-2xl);
@@ -427,7 +427,7 @@ body {
   --table-padding-y-spacious: var(--spacing-xl);
   --table-gap-default: var(--spacing-2xl);
   --table-gap-compact: var(--spacing-md);
-  --table-border-cell-color-default: var(--border-container-neutral-default);
+  --table-border-cell-color-default: var(--border-container-neutral-subtle);
   --table-border-cell-thickness-default: var(--border-width-default);
   --table-border-container-color-default: var(--border-container-table-default);
   --table-border-container-color-inverse: var(--border-container-table-inverse);
@@ -495,8 +495,8 @@ body {
   --modal-padding-x-default: var(--spacing-2xl);
   --modal-padding-y-default: var(--spacing-2xl);
   --modal-radius-default: var(--radius-xl);
-  --modal-background-default: var(--background-container-neutral-default);
-  --modal-background-subtle: var(--background-container-neutral-subtle);
+  --modal-background-default: var(--background-container-modal-default);
+  --modal-background-subtle: var(--background-container-modal-subtle);
   --modal-gap-horizontal-default: var(--spacing-2xl);
   --modal-gap-vertical-default: var(--spacing-xl);
   --modal-title-default: var(--text-container-neutral-subtle);
@@ -521,7 +521,8 @@ body {
   --navigation-border-thickness-default: var(--border-width-default);
   --navigation-background-default: var(--background-surface-sidebar-default);
   --navigation-background-strong: var(--background-surface-sidebar-strong);
-  --navigation-logo-color-default: var(--icon-surface-neutral-secondary);
+  --navigation-logo-color-default: var(--icon-surface-logo-default);
+  --navigation-logo-color-subtle: var(--icon-surface-logo-subtle);
   --navigation-logo-height-default: var(--size-2xl);
   --navigation-gap-default: var(--spacing-2xl);
 }

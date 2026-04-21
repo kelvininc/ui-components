@@ -138,7 +138,7 @@ const componentsConfig = {
 					format: 'css/variables-themed',
 					filter: semanticFilter('tokens/components/**/*.json'),
 					options: {
-						selector: 'body',
+						selector: 'body, [data-theme]',
 						outputReferences: true
 					}
 				}
@@ -165,7 +165,7 @@ const darkConfig = {
 					format: 'css/variables-themed',
 					filter: semanticFilter('tokens/semantic/dark.json'),
 					options: {
-						selector: 'body[mode="night"]',
+						selector: 'body[mode="night"], [data-theme="night"]',
 						outputReferences: true
 					}
 				}
@@ -192,7 +192,7 @@ const lightConfig = {
 					format: 'css/variables-themed',
 					filter: semanticFilter('tokens/semantic/light.json'),
 					options: {
-						selector: 'body[mode="light"]',
+						selector: 'body[mode="light"], [data-theme="light"]',
 						outputReferences: true
 					}
 				}

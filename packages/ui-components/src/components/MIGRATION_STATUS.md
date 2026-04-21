@@ -78,10 +78,7 @@ Checklist of all components indicating whether they have been migrated to the ne
 - [x] calendar-day
 - [x] date-time-input
 - [x] relative-time-picker
-
-## Not Migrated (tokens defined but not yet consumed)
-
-- [ ] alert
+- [x] alert
 
 ## No Tokens Defined
 - [ ] illustrations

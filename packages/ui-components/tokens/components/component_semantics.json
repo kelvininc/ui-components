@@ -2701,7 +2701,7 @@
       "cell": {
         "color": {
           "default": {
-            "value": "{border.container.neutral.default}",
+            "value": "{border.container.neutral.subtle}",
             "type": "color",
             "prefix": "component_semantics"
           }
@@ -3139,12 +3139,12 @@
     },
     "background": {
       "default": {
-        "value": "{background.container.neutral.default}",
+        "value": "{background.container.modal.default}",
         "type": "color",
         "prefix": "component_semantics"
       },
       "subtle": {
-        "value": "{background.container.neutral.subtle}",
+        "value": "{background.container.modal.subtle}",
         "type": "color",
         "prefix": "component_semantics"
       }
@@ -3324,7 +3324,12 @@
     "logo": {
       "color": {
         "default": {
-          "value": "{icon.surface.neutral.secondary}",
+          "value": "{icon.surface.logo.default}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "subtle": {
+          "value": "{icon.surface.logo.subtle}",
           "type": "color",
           "prefix": "component_semantics"
         }

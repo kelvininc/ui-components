@@ -7,6 +7,9 @@ const meta = {
 	argTypes: {
 		isLoading: { type: "boolean" },
 		hasOverlay: { type: "boolean" }
+	},
+	parameters: {
+		themeSideBySide: false
 	}
 } satisfies Meta<typeof KvLoader>;
 

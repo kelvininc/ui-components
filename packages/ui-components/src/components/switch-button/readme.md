@@ -100,13 +100,21 @@ export class SwichButtonExample {
 
 ## CSS Custom Properties
 
-| Name                           | Description                                             |
-| ------------------------------ | ------------------------------------------------------- |
-| `--disabled-background-color`  | Button background color when's disabled.                |
-| `--off-background-color`       | Button background color when's OFF.                     |
-| `--on-background-color`        | Button background color when's ON.                      |
-| `--switch-disabled-icon-color` | Icon square container background color when's disabled. |
-| `--switch-icon-color`          | Icon square container background color.                 |
+| Name                           | Description                                           |
+| ------------------------------ | ----------------------------------------------------- |
+| `--disabled-background-color`  | Button background color when disabled.                |
+| `--off-background-color`       | Button background color when OFF.                     |
+| `--on-background-color`        | Button background color when ON.                      |
+| `--switch-disabled-icon-color` | Icon square container background color when disabled. |
+| `--switch-height-large`        | Switch height when size is large.                     |
+| `--switch-height-small`        | Switch height when size is small.                     |
+| `--switch-icon-color`          | Icon square container background color.               |
+| `--switch-icon-size-large`     | Switch icon size when size is large.                  |
+| `--switch-icon-size-small`     | Switch icon size when size is small.                  |
+| `--switch-padding-large`       | Switch padding when size is large.                    |
+| `--switch-padding-small`       | Switch padding when size is small.                    |
+| `--switch-width-large`         | Switch width when size is large.                      |
+| `--switch-width-small`         | Switch width when size is small.                      |
 
 
 ## Dependencies

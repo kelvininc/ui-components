@@ -2,33 +2,39 @@
 
 :host {
 	/**
-	 * @prop --radio-list-item-background: Background color. Default: transparent.
-	 * @prop --radio-list-item-background-hover: Background color on hover. Default: transparent.
-	 * @prop --radio-list-item-background-checked: Background color when checked. Default: transparent.
-	 * @prop --radio-list-item-border: Border property (width, style, color). Default: 1px solid neutral-7.
-	 * @prop --radio-list-item-border-color-hover: Border color on hover. Default: neutral-0.
-	 * @prop --radio-list-item-border-color-checked: Border color when checked. Default: neutral-0.
-	 * @prop --radio-list-item-border-radius: Border radius. Default: 2px.
-	 * @prop --radio-list-item-padding: Content padding. Default: 16px (spacing-4x).
-	 * @prop --radio-list-item-gap: Gap between radio and info content. Default: 16px (spacing-4x).
-	 * @prop --radio-list-item-label-color: Label text color. Default: neutral-0.
-	 * @prop --radio-list-item-description-color: Description text color. Default: neutral-4.
+	 * @prop --radio-list-item-background: Background color.
+	 * @prop --radio-list-item-background-hover: Background color on hover.
+	 * @prop --radio-list-item-background-checked: Background color when checked.
+	 * @prop --radio-list-item-label-color: Label text color.
+	 * @prop --radio-list-item-label-color-hover: Label text color on hover.
+	 * @prop --radio-list-item-label-color-checked: Label text color when checked.
+	 * @prop --radio-list-item-label-color-disabled: Label text color when disabled.
+	 * @prop --radio-list-item-description-color: Description text color.
+	 * @prop --radio-list-item-description-color-disabled: Description text color when disabled.
+	 * @prop --radio-list-item-border: Border property (width, style, color).
+	 * @prop --radio-list-item-border-color-hover: Border color on hover.
+	 * @prop --radio-list-item-border-color-checked: Border color when checked.
+	 * @prop --radio-list-item-border-radius: Border radius.
+	 * @prop --radio-list-item-padding-large: Content padding when size is large.
+	 * @prop --radio-list-item-padding-small: Content padding when size is small.
+	 * @prop --radio-list-item-gap-large: Gap between radio and info content when size is large.
+	 * @prop --radio-list-item-gap-small: Gap between radio and info content when size is small.
 	 */
 
-	--radio-list-item-background: var(--background-persistent-radio-selector-default);
-	--radio-list-item-background-hover: var(--background-persistent-radio-selector-hover);
-	--radio-list-item-background-checked: var(--background-persistent-radio-selector-selected);
+	--radio-list-item-background: var(--background-container-radio-selector-default);
+	--radio-list-item-background-hover: var(--background-container-radio-selector-default);
+	--radio-list-item-background-checked: var(--background-container-radio-selector-default);
 	
-	--radio-list-item-label-color: var(--text-interactive-card-default);
-	--radio-list-item-label-color-hover: var(--text-interactive-card-hover);
-	--radio-list-item-label-color-checked: var(--text-interactive-card-selected);
+	--radio-list-item-label-color: var(--text-interactive-card-radio-selector-default);
+	--radio-list-item-label-color-hover: var(--text-interactive-card-radio-selector-hover);
+	--radio-list-item-label-color-checked: var(--text-interactive-card-radio-selector-selected);
 	--radio-list-item-label-color-disabled: var(--text-interactive-card-disabled);
-	--radio-list-item-description-color: var(--text-container-neutral-default);
+	--radio-list-item-description-color: var(--text-container-neutral-subtle);
 	--radio-list-item-description-color-disabled: var(--text-container-neutral-disabled);
 	
-	--radio-list-item-border: 1px solid var(--border-persistent-radio-selector-default);
-	--radio-list-item-border-color-hover: var(--border-persistent-radio-selector-hover);
-	--radio-list-item-border-color-checked: var(--border-persistent-radio-selector-seleted);
+	--radio-list-item-border: 1px solid var(--border-persistent-card-radio-selector-default);
+	--radio-list-item-border-color-hover: var(--border-persistent-card-radio-selector-hover);
+	--radio-list-item-border-color-checked: var(--border-persistent-card-radio-selector-seleted);
 	--radio-list-item-border-radius: var(--radius-md);
 	--radio-list-item-padding-large: var(--spacing-2xl);
 	--radio-list-item-padding-small: var(--spacing-xs) var(--spacing-2xl) var(--spacing-xs) var(--spacing-md);

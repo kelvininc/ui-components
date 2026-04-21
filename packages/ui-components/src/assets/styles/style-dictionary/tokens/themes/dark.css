@@ -3,7 +3,7 @@
  * Do not edit manually - run `pnpm tokens:build` to regenerate
  */
 
-body[mode="night"] {
+body[mode="night"], [data-theme="night"] {
   --background-surface-neutral-subtlest: var(--color-gray-700);
   --background-surface-neutral-default: var(--color-gray-900);
   --background-surface-neutral-subtle: var(--color-gray-800);
@@ -14,6 +14,8 @@ body[mode="night"] {
   --background-surface-skeleton-highlight: var(--color-gray-500);
   --background-surface-skeleton-base: var(--color-gray-600);
   --background-surface-brand-default: var(--color-brand-500);
+  --background-surface-progress-bar-default: var(--color-purple-500);
+  --background-surface-progress-bar-subtle: var(--color-gray-300);
   --background-container-status-success-default: var(--color-green-500);
   --background-container-status-success-subtle: var(--color-green-400);
   --background-container-status-success-soft: var(--color-green-100);
@@ -58,6 +60,23 @@ body[mode="night"] {
   --background-container-card-recommendation-default: var(--color-gray-900);
   --background-container-card-recommendation-subtle: var(--color-gray-800);
   --background-container-alert-secondary-default: var(--color-gray-800);
+  --background-container-radio-selector-default: var(--color-gray-700);
+  --background-container-modal-default: var(--color-gray-800);
+  --background-container-modal-subtle: var(--color-gray-900);
+  --background-container-tag-success-default: var(--color-green-100);
+  --background-container-tag-success-subtle: var(--color-green-300);
+  --background-container-tag-warning-default: var(--color-yellow-100);
+  --background-container-tag-warning-subtle: var(--color-yellow-200);
+  --background-container-tag-danger-default: var(--color-red-100);
+  --background-container-tag-danger-subtle: var(--color-red-200);
+  --background-container-tag-info-default: var(--color-blue-100);
+  --background-container-tag-info-subtle: var(--color-blue-200);
+  --background-container-tag-brand-default: var(--color-brand-100);
+  --background-container-tag-brand-subtle: var(--color-brand-200);
+  --background-container-tag-neutral-default: var(--color-gray-300);
+  --background-container-tag-neutral-subtle: var(--color-gray-400);
+  --background-container-tag-accent-default: var(--color-purple-100);
+  --background-container-tag-accent-subtle: var(--color-purple-200);
   --background-interactive-neutral-hover: var(--color-gray-600);
   --background-interactive-neutral-pressed: var(--color-gray-500);
   --background-interactive-neutral-disabled: var(--color-gray-700);
@@ -82,7 +101,7 @@ body[mode="night"] {
   --background-interactive-counter-selected: var(--color-gray-600);
   --background-interactive-slider-list-hover: var(--color-gray-600);
   --background-interactive-slider-list-selected: var(--color-gray-600);
-  --background-interactive-slider-list-disabled: var(--color-gray-700);
+  --background-interactive-slider-list-default: var(--color-gray-700);
   --background-interactive-table-cell-state-hover: var(--color-gray-800);
   --background-interactive-table-cell-state-selected: var(--color-gray-700);
   --background-interactive-table-cell-state-default: var(--color-gray-900);
@@ -124,9 +143,6 @@ body[mode="night"] {
   --background-persistent-tab-hover: var(--color-gray-500);
   --background-persistent-tab-selected: var(--color-gray-500);
   --background-persistent-tab-disabled: var(--color-gray-700);
-  --background-persistent-radio-selector-hover: var(--color-gray-800);
-  --background-persistent-radio-selector-selected: var(--color-gray-800);
-  --background-persistent-radio-selector-default: var(--color-gray-900);
   --background-canvas-neutral-default: var(--color-gray-950);
   --text-surface-neutral-primary: var(--color-gray-50);
   --text-surface-neutral-secondary: var(--color-gray-300);
@@ -167,6 +183,9 @@ body[mode="night"] {
   --text-interactive-card-hover: var(--color-gray-300);
   --text-interactive-card-selected: var(--color-gray-300);
   --text-interactive-card-disabled: var(--color-gray-500);
+  --text-interactive-card-radio-selector-default: var(--color-gray-400);
+  --text-interactive-card-radio-selector-hover: var(--color-gray-300);
+  --text-interactive-card-radio-selector-selected: var(--color-gray-300);
   --text-on-color-neutral-primary: var(--color-gray-50);
   --text-on-color-neutral-secondary: var(--color-gray-50);
   --text-on-color-neutral-disabled: var(--color-gray-500);
@@ -221,9 +240,17 @@ body[mode="night"] {
   --text-container-navigation-row-default: var(--color-gray-300);
   --text-container-navigation-row-hover: var(--color-gray-300);
   --text-container-navigation-row-selected: var(--color-gray-300);
+  --text-container-tag-success-default: var(--color-green-500);
+  --text-container-tag-warning-default: var(--color-yellow-500);
+  --text-container-tag-danger-default: var(--color-red-500);
+  --text-container-tag-info-default: var(--color-blue-500);
+  --text-container-tag-neutral-default: var(--color-gray-500);
+  --text-container-tag-brand-default: var(--color-brand-500);
+  --text-container-tag-accent-default: var(--color-purple-500);
   --border-surface-neutral-default: var(--color-gray-600);
   --border-surface-neutral-subtle: var(--color-gray-700);
   --border-surface-neutral-inverse: var(--color-gray-50);
+  --border-surface-neutral-subtlest: var(--color-gray-500);
   --border-surface-brand-default: var(--color-brand-500);
   --border-surface-sidepanel-default: rgba(255, 255, 255, 0);
   --border-surface-card-default: rgba(255, 255, 255, 0);
@@ -243,7 +270,7 @@ body[mode="night"] {
   --border-interactive-text-area-filled: var(--color-gray-600);
   --border-interactive-underline-default: var(--color-gray-500);
   --border-interactive-underline-hover: var(--color-gray-50);
-  --border-interactive-editable-cell-default: var(--color-gray-700);
+  --border-interactive-editable-cell-default: var(--color-gray-600);
   --border-interactive-editable-cell-selected: var(--color-gray-50);
   --border-interactive-editable-cell-error: var(--color-red-500);
   --border-interactive-accordion-default: var(--color-gray-500);
@@ -279,9 +306,16 @@ body[mode="night"] {
   --border-container-graphic-recommendation-default: rgba(64, 64, 64, 0);
   --border-container-radio-selected-hover: var(--color-gray-50);
   --border-container-radio-selected-selected: var(--color-gray-50);
-  --border-container-tag-neutral-subtle: rgba(191, 191, 191, 0);
-  --border-container-tag-brand-subtle: rgba(178, 212, 255, 0);
+  --border-container-tag-neutral-subtle: var(--color-gray-400);
+  --border-container-tag-brand-subtle: var(--color-brand-200);
+  --border-container-tag-accent-subtle: var(--color-purple-200);
+  --border-container-tag-success-default: var(--color-green-400);
+  --border-container-tag-warning-default: var(--color-yellow-200);
+  --border-container-tag-danger-default: var(--color-red-200);
+  --border-container-tag-info-default: var(--color-blue-200);
   --border-container-column-bar-default: rgba(26, 26, 26, 0);
+  --border-container-card-widgets-default: rgba(26, 26, 26, 0);
+  --border-container-card-widgets-hover: var(--color-gray-50);
   --border-persistent-control-off: var(--color-gray-600);
   --border-persistent-control-on: var(--color-gray-300);
   --border-persistent-control-disabled: var(--color-gray-700);
@@ -295,6 +329,9 @@ body[mode="night"] {
   --border-persistent-radio-selector-seleted: var(--color-gray-50);
   --border-persistent-radio-selector-hover: var(--color-gray-50);
   --border-persistent-radio-selector-default: rgba(13, 13, 13, 0);
+  --border-persistent-card-radio-selector-default: rgba(13, 13, 13, 0);
+  --border-persistent-card-radio-selector-hover: var(--color-gray-50);
+  --border-persistent-card-radio-selector-seleted: var(--color-gray-50);
   --border-on-color-neutral-default: var(--color-gray-500);
   --border-on-color-button-alert-success: var(--color-gray-50);
   --border-on-color-button-alert-warning: var(--color-gray-50);
@@ -303,6 +340,7 @@ body[mode="night"] {
   --overlay-interactive-opacity-10: rgba(191, 191, 191, 0.1);
   --overlay-interactive-opacity-16: rgba(191, 191, 191, 0.16);
   --overlay-surface-opacity-80: rgba(26, 26, 26, 0.8);
+  --overlay-surface-opacity-60: rgba(38, 38, 38, 0.6);
   --overlay-card-recommendation-opacity-100: var(--color-gray-800);
   --overlay-card-recommendation-opacity-80: rgba(38, 38, 38, 0.8);
   --overlay-card-recommendation-opacity-0: rgba(38, 38, 38, 0);
@@ -318,6 +356,8 @@ body[mode="night"] {
   --icon-surface-status-info-default: var(--color-blue-500);
   --icon-surface-status-inactive-default: var(--color-gray-400);
   --icon-surface-brand-primary: var(--color-brand-500);
+  --icon-surface-logo-default: var(--color-gray-300);
+  --icon-surface-logo-subtle: var(--color-gray-300);
   --icon-on-color-neutral-primary: var(--color-gray-50);
   --icon-on-color-neutral-disabled: var(--color-gray-500);
   --icon-on-color-neutral-secondary: var(--color-gray-300);
@@ -385,6 +425,19 @@ body[mode="night"] {
   --icon-container-column-bar-default: var(--color-gray-400);
   --icon-container-column-bar-hover: var(--color-gray-300);
   --icon-container-column-bar-disabled: var(--color-gray-500);
+  --icon-container-tag-success-soft: var(--color-green-500);
+  --icon-container-tag-warning-soft: var(--color-yellow-500);
+  --icon-container-tag-danger-soft: var(--color-red-500);
+  --icon-container-tag-info-soft: var(--color-blue-500);
+  --icon-container-tag-neutral-soft: var(--color-gray-500);
+  --icon-container-tag-brand-soft: var(--color-brand-500);
+  --icon-container-tag-accent-soft: var(--color-purple-500);
+  --icon-container-map-neutral-dark: var(--color-gray-700);
+  --icon-container-map-blue-light: var(--color-blue-500);
+  --icon-container-map-neutral-light: var(--color-gray-50);
+  --icon-container-map-green-light: var(--color-green-500);
+  --icon-container-map-blue-dark: var(--color-blue-600);
+  --icon-container-map-green-dark: var(--color-green-600);
   --icon-persistent-control-on: var(--color-gray-50);
   --icon-persistent-control-off: var(--color-gray-300);
   --icon-persistent-control-disabled: var(--color-gray-500);
@@ -440,4 +493,13 @@ body[mode="night"] {
   --raw-background-subtle-2: var(--color-gray-800);
   --raw-background-brand: var(--color-brand-500);
   --raw-background-accent: var(--color-purple-500);
+  --illustrations-background: var(--color-gray-800);
+  --illustrations-shape-primary: var(--color-gray-500);
+  --illustrations-shape-secondary: var(--color-gray-600);
+  --illustrations-shape-tertiary: var(--color-gray-900);
+  --illustrations-accent-primary: var(--color-purple-500);
+  --illustrations-accent-secondary: var(--color-purple-600);
+  --illustrations-icon-primary: var(--color-gray-400);
+  --illustrations-icon-secondary: var(--color-gray-300);
+  --illustrations-accent-tertiary: var(--color-purple-300);
 }

@@ -2,11 +2,12 @@
 
 :host {
 	/**
-	* @prop --progress-bar-height: The height of the progress bar
-	* @prop --progress-bar-background-color: The color of the progress bar container
-	* @prop --progress-bar-filler-success-color: The color of the progress bar filler
-	* @prop --progress-bar-filler-error-color: The color of the progress bar filler when in error
-	*/
+	 * @prop --progress-bar-height: The height of the progress bar.
+	 * @prop --progress-height: The overall height of the progress bar container.
+	 * @prop --progress-bar-background-color: The color of the progress bar container.
+	 * @prop --progress-bar-filler-success-color: The color of the progress bar filler.
+	 * @prop --progress-bar-filler-error-color: The color of the progress bar filler when in error.
+	 */
 	--progress-bar-height: 2px;
 	--progress-height: 14px;
 	--progress-bar-background-color: var(--border-persistent-wizard-default);

@@ -1,8 +1,8 @@
 import { Watch, Component, Event, Host, h, Prop, EventEmitter, State } from '@stencil/core';
 import { isEmpty } from 'lodash-es';
-import { EToasterType, EToasterIconTypeClass, IToaster, IToasterEvents, CLOSE_ICON } from './toaster.types';
+import { EToasterType, EToasterIconTypeClass, IToaster, IToasterEvents } from './toaster.types';
 import { TOASTER_ANIMATION_DURATION, TYPE_ICONS } from './toaster.config';
-import { EActionButtonType, EComponentSize } from '../../types';
+import { EActionButtonType, EComponentSize, EIconName } from '../../types';
 
 @Component({
 	tag: 'kv-toaster',
@@ -117,7 +117,7 @@ export class KvToaster implements IToaster, IToasterEvents {
 					</div>
 					<slot></slot>
 					{this.closable && (
-						<kv-action-button-text text="" size={EComponentSize.Small} type={EActionButtonType.Text} icon={CLOSE_ICON.icon} onClick={this.onCloseClick} />
+						<kv-action-button-text text="" size={EComponentSize.Small} type={EActionButtonType.Text} icon={EIconName.Close} onClick={this.onCloseClick} />
 					)}
 				</div>
 			</Host>

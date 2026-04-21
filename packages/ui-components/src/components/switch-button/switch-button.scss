@@ -24,11 +24,19 @@
 
 :host {
 	/**
-	 * @prop --off-background-color: Button background color when's OFF.
-	 * @prop --on-background-color: Button background color when's ON.
-	 * @prop --disabled-background-color: Button background color when's disabled.
+	 * @prop --off-background-color: Button background color when OFF.
+	 * @prop --on-background-color: Button background color when ON.
+	 * @prop --disabled-background-color: Button background color when disabled.
 	 * @prop --switch-icon-color: Icon square container background color.
-	 * @prop --switch-disabled-icon-color: Icon square container background color when's disabled.
+	 * @prop --switch-disabled-icon-color: Icon square container background color when disabled.
+	 * @prop --switch-height-large: Switch height when size is large.
+	 * @prop --switch-height-small: Switch height when size is small.
+	 * @prop --switch-width-large: Switch width when size is large.
+	 * @prop --switch-width-small: Switch width when size is small.
+	 * @prop --switch-icon-size-large: Switch icon size when size is large.
+	 * @prop --switch-icon-size-small: Switch icon size when size is small.
+	 * @prop --switch-padding-large: Switch padding when size is large.
+	 * @prop --switch-padding-small: Switch padding when size is small.
 	 */
 
 	--off-background-color: var(--switch-background-off);
