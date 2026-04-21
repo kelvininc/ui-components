@@ -40,10 +40,18 @@ All our icons and illustrations are build with [Scalable Vector Graphics (SVGs)]
 	{Object.values(EIllustrationName).map((illustration) => (
 		<div key={illustration} className="ilus-wrapper">
 			<div className="box-wrapper">
-				<KvIllustration
-					name={illustration}
-					custom-class="illustration-full-size"
-				/>
+				<div className="theme-half" data-theme="light">
+					<KvIllustration
+						name={illustration}
+						custom-class="illustration-full-size"
+					/>
+				</div>
+				<div className="theme-half" data-theme="night">
+					<KvIllustration
+						name={illustration}
+						custom-class="illustration-full-size"
+					/>
+				</div>
 			</div>
 			<div className="description">
 				<span className="code">{illustration}</span>

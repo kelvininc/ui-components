@@ -499,7 +499,9 @@ body[mode="night"], [data-theme="night"] {
   --illustrations-shape-tertiary: var(--color-gray-900);
   --illustrations-accent-primary: var(--color-purple-500);
   --illustrations-accent-secondary: var(--color-purple-600);
-  --illustrations-icon-primary: var(--color-gray-400);
-  --illustrations-icon-secondary: var(--color-gray-300);
+  --illustrations-icon-secondary: var(--color-gray-400);
+  --illustrations-icon-primary: var(--color-gray-300);
   --illustrations-accent-tertiary: var(--color-purple-300);
+  --illustrations-shape-strongest: var(--color-gray-200);
+  --illustrations-shape-strong: var(--color-gray-300);
 }

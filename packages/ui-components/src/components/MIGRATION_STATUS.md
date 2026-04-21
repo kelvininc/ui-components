@@ -82,3 +82,15 @@ Checklist of all components indicating whether they have been migrated to the ne
 
 ## No Tokens Defined
 - [ ] illustrations
+
+
+- [x] NoDataAvailable
+- [x] ErrorState
+- [x] NoResultsFoundDark/NoResultsFoundLight -> NoResultsFound
+- [x] NoContentHere
+- [x] NoMatchingResults
+- [x] ErrorState404
+- [ ] TakeActions
+- [ ] Import
+- [x] EsKelvinLogo
+- [x] EsKelvinLogotype

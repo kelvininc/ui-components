@@ -31,7 +31,7 @@
 		padding: 0 var(--spacing-xs);
 
 		.code {
-			color: var(--color-gray-500);
+			color: var(--color-gray-400);
 			@include body-s-regular;
 		}
 	}
@@ -44,13 +44,25 @@
 
 	.box-wrapper {
 		display: flex;
-		width: 299px;
-		height: 150px;
-		align-items: center;
-		justify-content: center;
-		border: 1px solid #f2f2f2;
+		width: 458px;
+		height: 200px;
+		border: 1px solid var(--color-gray-700);
 		border-radius: var(--radius-md);
-		padding: var(--spacing-md);
+		padding: var(--spacing-xl);
+		overflow: hidden;
+
+		.theme-half {
+			display: flex;
+			flex: 1;
+			align-items: center;
+			justify-content: center;
+			padding: var(--spacing-md);
+			background: var(--background-surface-neutral-default);
+
+			&[data-theme="night"] {
+				border-left: 1px solid var(--border-surface-card-default);
+			}
+		}
 	}
 
 	.description {
@@ -60,7 +72,7 @@
 		padding: 0 var(--spacing-xs);
 
 		.code {
-			color: var(--color-gray-500);
+			color: var(--color-gray-400);
 			@include body-s-regular;
 		}
 	}

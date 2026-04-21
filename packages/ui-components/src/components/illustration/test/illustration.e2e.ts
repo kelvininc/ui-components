@@ -6,12 +6,12 @@ describe('Illustration (end-to-end)', () => {
 	describe('when has custom classes', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-illustration name="kv-es-section-somethingwentwrong" custom-class="illustration-full-size"></kv-illustration>');
+			await page.setContent('<kv-illustration name="kv-no-data-available" custom-class="illustration-full-size"></kv-illustration>');
 			await page.waitForChanges();
 		});
 
-		it('should render the <kv-es-section-somethingwentwrong> with custom classes', async () => {
-			const illustration = await page.find('kv-illustration >>> kv-es-section-somethingwentwrong');
+		it('should render the <kv-no-data-available> with custom classes', async () => {
+			const illustration = await page.find('kv-illustration >>> kv-no-data-available');
 			expect(illustration.getAttribute('customClass').toLocaleLowerCase()).toBe('illustration-full-size');
 		});
 	});
