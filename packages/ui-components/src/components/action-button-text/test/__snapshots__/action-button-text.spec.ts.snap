@@ -14,27 +14,27 @@ exports[`Action Button Text (unit tests) when has a icon should match the snapsh
 `;
 
 exports[`Action Button Text (unit tests) when has a rightIcon should match the snapshot 1`] = `
-<kv-action-button-text right-icon="kv-arrow-right" size="large" text="Primary Button" type="primary">
+<kv-action-button-text right-icon="kv-arrow-drop-down" size="large" text="Primary Button" type="primary">
   <template shadowrootmode="open">
     <kv-action-button exportparts="button" size="large" type="primary">
       <span class="action-button-text action-button-text--type-primary" part="button-text">
         Primary Button
       </span>
-      <kv-icon exportparts="icon" name="kv-arrow-right"></kv-icon>
+      <kv-icon exportparts="icon" name="kv-arrow-drop-down"></kv-icon>
     </kv-action-button>
   </template>
 </kv-action-button-text>
 `;
 
 exports[`Action Button Text (unit tests) when has both icon and rightIcon should match the snapshot 1`] = `
-<kv-action-button-text icon="kv-add" right-icon="kv-arrow-right" size="large" text="Primary Button" type="primary">
+<kv-action-button-text icon="kv-add" right-icon="kv-arrow-drop-down" size="large" text="Primary Button" type="primary">
   <template shadowrootmode="open">
     <kv-action-button exportparts="button" size="large" type="primary">
       <kv-icon exportparts="icon" name="kv-add"></kv-icon>
       <span class="action-button-text action-button-text--type-primary" part="button-text">
         Primary Button
       </span>
-      <kv-icon exportparts="icon" name="kv-arrow-right"></kv-icon>
+      <kv-icon exportparts="icon" name="kv-arrow-drop-down"></kv-icon>
     </kv-action-button>
   </template>
 </kv-action-button-text>
