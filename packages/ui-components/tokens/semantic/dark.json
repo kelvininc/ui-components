@@ -2953,18 +2953,28 @@
       "type": "color",
       "prefix": "color"
     },
-    "icon-primary": {
+    "icon-secondary": {
       "value": "{color.gray.400}",
       "type": "color",
       "prefix": "color"
     },
-    "icon-secondary": {
+    "icon-primary": {
       "value": "{color.gray.300}",
       "type": "color",
       "prefix": "color"
     },
     "accent-tertiary": {
       "value": "{color.purple.300}",
+      "type": "color",
+      "prefix": "color"
+    },
+    "shape-strongest": {
+      "value": "{color.gray.200}",
+      "type": "color",
+      "prefix": "color"
+    },
+    "shape-strong": {
+      "value": "{color.gray.300}",
       "type": "color",
       "prefix": "color"
     }
