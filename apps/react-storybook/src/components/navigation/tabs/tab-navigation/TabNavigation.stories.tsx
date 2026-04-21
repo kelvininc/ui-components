@@ -104,12 +104,12 @@ export const SecondaryTypeOnlyIcon: Story = {
 	args: {
 		tabs: [
 			{
-				tabKey: "device",
-				icon: EIconName.Device
+				tabKey: "control",
+				icon: EIconName.Control
 			},
 			{
-				tabKey: "place",
-				icon: EIconName.Place
+				tabKey: "orchestration",
+				icon: EIconName.orchestration
 			},
 			{
 				tabKey: "properties",
@@ -121,7 +121,7 @@ export const SecondaryTypeOnlyIcon: Story = {
 				icon: EIconName.World
 			}
 		],
-		selectedTabKey: "device",
+		selectedTabKey: "control",
 		type: ETabItemType.Secondary
 	}
 };
@@ -150,12 +150,12 @@ export const SecondaryTypeOnlyIconVertical: Story = {
 	args: {
 		tabs: [
 			{
-				tabKey: "device",
-				icon: EIconName.Device
+				tabKey: "control",
+				icon: EIconName.Control
 			},
 			{
-				tabKey: "place",
-				icon: EIconName.Place
+				tabKey: "orchestration",
+				icon: EIconName.Orchestration
 			},
 			{
 				tabKey: "properties",
@@ -167,7 +167,7 @@ export const SecondaryTypeOnlyIconVertical: Story = {
 				icon: EIconName.World
 			}
 		],
-		selectedTabKey: "device",
+		selectedTabKey: "control",
 		type: ETabItemType.Secondary
 	}
 };
