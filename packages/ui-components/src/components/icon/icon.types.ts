@@ -2,6 +2,7 @@ export enum EIconName {
 	Action = 'kv-action',
 	Activity = 'kv-activity',
 	Add = 'kv-add',
+	Agents = 'kv-agents',
 	AI = 'kv-ai',
 	AlignBottom = 'kv-align-bottom',
 	AlignTop = 'kv-align-top',
