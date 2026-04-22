@@ -55,7 +55,7 @@ describe('Action Button Text (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvActionButtonText],
-				html: '<kv-action-button-text right-icon="kv-arrow-right" type="primary" text="Primary Button"></kv-action-button-text>'
+				html: '<kv-action-button-text right-icon="kv-arrow-drop-down" type="primary" text="Primary Button"></kv-action-button-text>'
 			});
 			component = page.rootInstance;
 		});
@@ -69,7 +69,7 @@ describe('Action Button Text (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvActionButtonText],
-				html: '<kv-action-button-text icon="kv-add" right-icon="kv-arrow-right" type="primary" text="Primary Button"></kv-action-button-text>'
+				html: '<kv-action-button-text icon="kv-add" right-icon="kv-arrow-drop-down" type="primary" text="Primary Button"></kv-action-button-text>'
 			});
 			component = page.rootInstance;
 		});

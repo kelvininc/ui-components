@@ -48,27 +48,27 @@ describe('Action Button Text (end-to-end)', () => {
 	describe('when has rightIcon', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-action-button-text type="primary" text="Primary Button" right-icon="kv-arrow-right"></kv-action-button-text>');
+			await page.setContent('<kv-action-button-text type="primary" text="Primary Button" right-icon="kv-arrow-drop-down"></kv-action-button-text>');
 		});
 
 		it('should render rightIcon', async () => {
 			const iconElements = await page.findAll('kv-action-button-text >>> kv-icon');
 			expect(iconElements).toHaveLength(1);
-			expect(iconElements[0].getAttribute('name')).toEqual('kv-arrow-right');
+			expect(iconElements[0].getAttribute('name')).toEqual('kv-arrow-drop-down');
 		});
 	});
 
 	describe('when has both icon and rightIcon', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-action-button-text type="primary" text="Primary Button" icon="kv-add" right-icon="kv-arrow-right"></kv-action-button-text>');
+			await page.setContent('<kv-action-button-text type="primary" text="Primary Button" icon="kv-add" right-icon="kv-arrow-drop-down"></kv-action-button-text>');
 		});
 
 		it('should render both icons', async () => {
 			const iconElements = await page.findAll('kv-action-button-text >>> kv-icon');
 			expect(iconElements).toHaveLength(2);
 			expect(iconElements[0].getAttribute('name')).toEqual('kv-add');
-			expect(iconElements[1].getAttribute('name')).toEqual('kv-arrow-right');
+			expect(iconElements[1].getAttribute('name')).toEqual('kv-arrow-drop-down');
 		});
 	});
 
