@@ -67,6 +67,7 @@ export enum EIconName {
 	File = 'kv-file',
 	FileCheck = 'kv-file-check',
 	FilePicker = 'kv-file-picker',
+	Filter = 'kv-filter',
 	FitContent = 'kv-fit-content',
 	Fixed = 'kv-fixed',
 	Fullscreen = 'kv-fullscreen',
