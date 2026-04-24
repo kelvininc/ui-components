@@ -10,6 +10,7 @@ export enum EIconName {
 	Applications = 'kv-applications',
 	ArrowDropDown = 'kv-arrow-drop-down',
 	ArrowDropUp = 'kv-arrow-drop-up',
+	ArrowLeft = 'kv-arrow-left',
 	ArrowUpward = 'kv-arrow-upward',
 	Asset = 'kv-asset',
 	AssetsManagement = 'kv-assets-management',
