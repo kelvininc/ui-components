@@ -56,7 +56,7 @@ export class KvPortal implements IPortal, IPortalEvents {
 
 	private portal: HTMLElement;
 	private moved: boolean = false;
-	private timeoutId: number;
+	private timeoutId?: number;
 	private closeAutoUpdate: () => void;
 
 	private getClosestThemedAncestor(): Element | null {
@@ -95,7 +95,7 @@ export class KvPortal implements IPortal, IPortalEvents {
 	}
 
 	private getPortalArrowElement = (): HTMLElement | null => {
-		return this.element.shadowRoot.querySelector('#portal-arrow') as HTMLElement | null;
+		return (this.element.shadowRoot?.querySelector('#portal-arrow') as HTMLElement | null) ?? null;
 	};
 
 	private getMiddlewareConfig = () => {
@@ -103,7 +103,7 @@ export class KvPortal implements IPortal, IPortalEvents {
 
 		const offSet = this.withArrow ? OFFSET_WITH_ARROW : DEFAULT_OFFSET;
 		const middleware = [offset(offSet), shift(DEFAULT_SHIFT_CONFIG)];
-		if (this.withArrow) middleware.push(arrow({ element: arrowElement, padding: 5 }));
+		if (this.withArrow && arrowElement !== null) middleware.push(arrow({ element: arrowElement, padding: 5 }));
 
 		middleware.push(hide({ padding: 15 }));
 		return middleware;
@@ -118,7 +118,7 @@ export class KvPortal implements IPortal, IPortalEvents {
 	private updatePosition() {
 		computePosition(this.reference, this.portal, this.getOptions()).then(({ x, y, placement, middlewareData }) => {
 			if (this.autoUpdate) {
-				const { referenceHidden } = middlewareData.hide;
+				const referenceHidden = middlewareData.hide?.referenceHidden;
 				if (this.show) {
 					this.visible = !referenceHidden;
 					this.portal.style.zIndex = referenceHidden ? `${PORTAL_Z_INDEX.hidden}` : `${this.zIndex}`;
@@ -131,10 +131,13 @@ export class KvPortal implements IPortal, IPortalEvents {
 			});
 
 			if (this.withArrow) {
-				const { x: arrowX, y: arrowY } = middlewareData.arrow;
-				Object.assign(this.getPortalArrowElement().style, {
-					...getArrowElementPositionConfig(arrowX, arrowY, placement)
-				});
+				const { x: arrowX, y: arrowY } = middlewareData.arrow ?? { x: undefined, y: undefined };
+				const arrowElement = this.getPortalArrowElement();
+				if (arrowElement !== null) {
+					Object.assign(arrowElement.style, {
+						...getArrowElementPositionConfig(arrowX, arrowY, placement)
+					});
+				}
 			}
 		});
 	}

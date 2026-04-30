@@ -49,7 +49,7 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 	@Prop({ reflect: false, mutable: true }) dropdownOpen: boolean = false;
 
 	// Defines the calendar initial date if needed
-	@State() calendarInitialDate: string = this.initialDate;
+	@State() calendarInitialDate?: string = this.initialDate;
 	// Current selected option
 	@State() selectedDateState: SelectedTimestamp = [];
 
@@ -61,9 +61,10 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 	@Event() dropdownStateChange: EventEmitter<boolean>;
 
 	componentWillLoad() {
-		if (this.selectedDates?.length > 0 && this.selectedDateState?.length === 0) {
-			this.selectedDateState = this.selectedDates;
-			this.handleSelecteDatesChange(this.selectedDates);
+		const selectedDates = this.selectedDates;
+		if (selectedDates !== undefined && selectedDates.length > 0 && this.selectedDateState?.length === 0) {
+			this.selectedDateState = selectedDates;
+			this.handleSelecteDatesChange(selectedDates);
 		}
 	}
 
@@ -77,7 +78,7 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 	}
 
 	private getSelectedTimezone = (): ITimePickerTimezone => {
-		if (!isEmpty(this.timezone)) return this.timezone;
+		if (this.timezone !== undefined && !isEmpty(this.timezone)) return this.timezone;
 
 		const defaultTimezone = getDefaultTimezone();
 		return {
@@ -86,18 +87,20 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 		};
 	};
 
+	private getMode = (): EAbsoluteTimePickerMode => this.mode ?? EAbsoluteTimePickerMode.Single;
+
 	private handleAbsoluteDatesChange = ({ detail }: CustomEvent<IAbsoluteSelectedRangeDates>) => {
 		const range = detail.range;
 		const { name: timezoneName } = this.getSelectedTimezone();
-		this.selectedDateState = getSelectedTimestampDates(range, this.mode, timezoneName);
+		this.selectedDateState = getSelectedTimestampDates(range, this.getMode(), timezoneName);
 	};
 
 	private getAbsoluteRange = (): string[] => {
 		const { name: timezoneName } = this.getSelectedTimezone();
-		return getFormattedSelectedDates(this.selectedDateState, this.mode, timezoneName);
+		return getFormattedSelectedDates(this.selectedDateState, this.getMode(), timezoneName);
 	};
 
-	private getCalendarLimitDatesFormatted = (date: number): string | undefined => {
+	private getCalendarLimitDatesFormatted = (date: number | undefined): string | undefined => {
 		if (!isNumber(date)) return;
 
 		const selectedTimezone = this.getSelectedTimezone();
@@ -110,13 +113,14 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 	};
 
 	private getTextFieldTooltip = (): string | undefined => {
-		if (this.selectedDates?.length > 0) {
-			return buildTooltipText(this.selectedDates, this.getSelectedTimezone(), this.timezones);
+		const selectedDates = this.selectedDates;
+		if (selectedDates !== undefined && selectedDates.length > 0) {
+			return buildTooltipText(selectedDates, this.getSelectedTimezone(), this.timezones ?? []);
 		}
 	};
 
 	private getDropdownInputValue = (): string | undefined => {
-		return buildCustomIntervalTimeRange(this.selectedDates, this.getSelectedTimezone().name);
+		return buildCustomIntervalTimeRange(this.selectedDates ?? [], this.getSelectedTimezone().name);
 	};
 
 	private getInputConfig = (): Partial<ITextField> => {
@@ -141,7 +145,7 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 	};
 
 	private undoLastChanges = () => {
-		if (!isEmpty(this.selectedDates)) {
+		if (this.selectedDates !== undefined && !isEmpty(this.selectedDates)) {
 			this.selectedDateState = this.selectedDates;
 		} else {
 			this.selectedDateState = [];
@@ -151,10 +155,10 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 	render() {
 		const dropdownPositionConfig = this.dropdownPositionOptions;
 		const inputConfig = this.getInputConfig();
-		const error = getAbsoluteTimePickerError(this.selectedDateState, this.mode, { minDate: this.calendarInputMinDate, maxDate: this.calendarInputMaxDate });
+		const error = getAbsoluteTimePickerError(this.selectedDateState, this.getMode(), { minDate: this.calendarInputMinDate, maxDate: this.calendarInputMaxDate });
 
-		const isFilled = isAbsoluteTimePickerFilled(this.selectedDateState, this.mode);
-		const isDirty = hasRangeChanged(this.selectedDateState, this.selectedDates);
+		const isFilled = isAbsoluteTimePickerFilled(this.selectedDateState, this.getMode());
+		const isDirty = hasRangeChanged(this.selectedDateState, this.selectedDates ?? []);
 		const hasError = error !== undefined;
 
 		const isApplyDisabled = !isFilled || hasError || !isDirty;

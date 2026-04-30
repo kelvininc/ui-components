@@ -44,7 +44,7 @@ export class KvToggleTip implements IToggleTip, IToggleTipEvents {
 	checkForClickOutside(event) {
 		if (!this.isFixed) {
 			// Check if clicked inside the toggle tip
-			if (didClickOnElement(this.portal, event) || didClickOnElement(this.openElement, event)) {
+			if (didClickOnElement(this.portal ?? null, event) || didClickOnElement(this.openElement ?? null, event)) {
 				return;
 			}
 			if (this.isOpen) {
@@ -54,8 +54,8 @@ export class KvToggleTip implements IToggleTip, IToggleTipEvents {
 		}
 	}
 
-	private portal: HTMLElement;
-	private openElement: HTMLElement;
+	private portal?: HTMLElement;
+	private openElement?: HTMLElement;
 
 	private getOptions = (): Partial<ComputePositionConfig> => {
 		const placement = isEmpty(this.allowedPositions) ? this.position : undefined;
@@ -70,7 +70,7 @@ export class KvToggleTip implements IToggleTip, IToggleTipEvents {
 			);
 		}
 
-		return mergeComputePositionConfigs({ placement, middleware }, this.options);
+		return mergeComputePositionConfigs({ placement, middleware }, this.options ?? {});
 	};
 
 	private onButtonClick = () => {
@@ -85,7 +85,7 @@ export class KvToggleTip implements IToggleTip, IToggleTipEvents {
 	disconnectedCallback() {
 		// Requires deleting portal from outside KvPortal because KvPortal is moved to global context
 		// and would only be destroyed when the global context is destroyed.
-		this.portal.remove();
+		this.portal?.remove();
 	}
 
 	render() {

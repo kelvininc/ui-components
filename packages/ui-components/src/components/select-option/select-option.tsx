@@ -88,12 +88,12 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 					<div
 						class={{
 							'select-option': true,
-							'select-option--selected': this.selected,
-							'select-option--highlighted': this.highlighted,
-							'select-option--disabled': this.disabled,
-							'select-option--selectable': this.selectable,
-							'select-option--heading': this.heading,
-							'select-option--with-checkbox': this.selectable && this.togglable
+							'select-option--selected': !!this.selected,
+							'select-option--highlighted': !!this.highlighted,
+							'select-option--disabled': !!this.disabled,
+							'select-option--selectable': !!this.selectable,
+							'select-option--heading': !!this.heading,
+							'select-option--with-checkbox': !!(this.selectable && this.togglable)
 						}}
 						part="option-container"
 						onClick={this.onItemClick}

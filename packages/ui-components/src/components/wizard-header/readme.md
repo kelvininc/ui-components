@@ -29,11 +29,11 @@ export const WizardHeaderExamples = () => (
 
 ## Properties
 
-| Property                   | Attribute     | Description                                                           | Type     | Default     |
-| -------------------------- | ------------- | --------------------------------------------------------------------- | -------- | ----------- |
-| `description` _(required)_ | `description` | (required) A description of the state (e.g the description of a step) | `string` | `undefined` |
-| `label` _(required)_       | `label`       | (required) A title to describe a state (e.g step)                     | `string` | `undefined` |
-| `tip`                      | `tip`         | (optional) An extra information for the step                          | `string` | `undefined` |
+| Property                   | Attribute     | Description                                                           | Type                  | Default     |
+| -------------------------- | ------------- | --------------------------------------------------------------------- | --------------------- | ----------- |
+| `description` _(required)_ | `description` | (required) A description of the state (e.g the description of a step) | `string`              | `undefined` |
+| `label` _(required)_       | `label`       | (required) A title to describe a state (e.g step)                     | `string`              | `undefined` |
+| `tip`                      | `tip`         | (optional) An extra information for the step                          | `string \| undefined` | `undefined` |
 
 
 ## CSS Custom Properties

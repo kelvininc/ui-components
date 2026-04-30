@@ -28,7 +28,7 @@ export class KvBreadcrumbItem implements IBreadcrumbItem, IBreadcrumbItemEvents 
 				<div
 					class={{
 						'breadcrumb-item': true,
-						'breadcrumb-item--active': this.active
+						'breadcrumb-item--active': !!this.active
 					}}
 					onClick={this.onItemClick}
 				>

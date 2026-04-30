@@ -172,8 +172,8 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		const clickedDate = fromISO(date);
 		const inputDate = newDate(date);
 
-		const fromDate = getMinimumDateFromDayClick(clickedDate, this.calendarInputMinDate);
-		const toDate = getMaximumDateFromDayClick(clickedDate, this.calendarInputMaxDate);
+		const fromDate = getMinimumDateFromDayClick(clickedDate, this.calendarInputMinDate ?? CALENDAR_INPUT_MIN_DATE);
+		const toDate = getMaximumDateFromDayClick(clickedDate, this.calendarInputMaxDate ?? CALENDAR_INPUT_MAX_DATE);
 
 		if (this.mode === EAbsoluteTimePickerMode.Range) {
 			const [selectedStartDate, selectedEndDate] = this.selectedDates ?? [];

@@ -32,12 +32,12 @@ export const StepIndicatorExample: React.FC = () => (
 
 ## Properties
 
-| Property    | Attribute    | Description                                                                | Type      | Default     |
-| ----------- | ------------ | -------------------------------------------------------------------------- | --------- | ----------- |
-| `active`    | `active`     | (optional) Defines if the step is active                                   | `boolean` | `undefined` |
-| `enabled`   | `enabled`    | (optional) Defines if the step is interactable and emits clicks            | `boolean` | `undefined` |
-| `hasError`  | `has-error`  | (optional) Defines if the step has an error and applies the border styling | `boolean` | `undefined` |
-| `isCurrent` | `is-current` | (optional) Defines if the step is the current step                         | `boolean` | `undefined` |
+| Property    | Attribute    | Description                                                                | Type                   | Default     |
+| ----------- | ------------ | -------------------------------------------------------------------------- | ---------------------- | ----------- |
+| `active`    | `active`     | (optional) Defines if the step is active                                   | `boolean \| undefined` | `undefined` |
+| `enabled`   | `enabled`    | (optional) Defines if the step is interactable and emits clicks            | `boolean \| undefined` | `undefined` |
+| `hasError`  | `has-error`  | (optional) Defines if the step has an error and applies the border styling | `boolean \| undefined` | `undefined` |
+| `isCurrent` | `is-current` | (optional) Defines if the step is the current step                         | `boolean \| undefined` | `undefined` |
 
 
 ## Events

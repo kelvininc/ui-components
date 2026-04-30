@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, Fragment, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EInputFieldType, EValidationState } from '../text-field/text-field.types';
 import { EComponentSize, EIconName } from '../../types';
-import { isEmpty, isNil, merge } from 'lodash-es';
+import { isEmpty, merge } from 'lodash-es';
 import { DATE_TIME_INPUTMASK_CONFIG, DEFAULT_DATE_FORMAT, DEFAULT_PLACEHOLDER } from './date-time-input.config';
 import { EDateTimeInputTypeStyle, IDateTimeInput, IDateTimeInputEvents } from './date-time-input.types';
 import Inputmask from 'inputmask';
@@ -91,12 +91,13 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	};
 
 	private createInputMaskInstance = () => {
+		if (this.nativeInput === undefined) return;
 		Inputmask(this.getInputMaskConfig()).mask(this.nativeInput);
 	};
 
 	private onInputHandler = ({ target }: InputEvent) => {
 		const input = target as HTMLInputElement | null;
-		if (!isNil(input) && input?.value !== this.value) {
+		if (input !== null && input.value !== this.value) {
 			this.textChange.emit(input.value || '');
 		}
 	};
@@ -120,7 +121,7 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	}
 
 	render() {
-		const id = this.el.getAttribute('id');
+		const id = this.el.getAttribute('id') ?? undefined;
 		const value = this.getValue();
 
 		return (

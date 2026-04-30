@@ -42,9 +42,9 @@ export class KvToggleButtonGroup implements IToggleButtonGroup, IToggleButtonGro
 						tooltip={button.tooltip}
 						size={this.size ?? button.size}
 						preventDefault={button.preventDefault}
-						checked={this.selectedButtons[button.value] || button.checked}
-						disabled={this.disabled || this.disabledButtons[button.value] || button.disabled}
-						withRadio={this.withRadio || this.radioButtons[button.value] || button.withRadio}
+						checked={this.selectedButtons?.[button.value] || button.checked}
+						disabled={this.disabled || this.disabledButtons?.[button.value] || button.disabled}
+						withRadio={this.withRadio || this.radioButtons?.[button.value] || button.withRadio}
 						customAttributes={button.customAttributes}
 					/>
 				))}

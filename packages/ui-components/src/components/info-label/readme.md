@@ -48,15 +48,15 @@ export const InfoLabelExample: React.FC = () => (
 
 ## Properties
 
-| Property                   | Attribute                    | Description                                     | Type      | Default                              |
-| -------------------------- | ---------------------------- | ----------------------------------------------- | --------- | ------------------------------------ |
-| `copyValue`                | `copy-value`                 | (optional) Info label copy value                | `string`  | `undefined`                          |
-| `description`              | `description`                | (optional) Info label description               | `string`  | `undefined`                          |
-| `descriptionCollapsedText` | `description-collapsed-text` | (optional) Info label description collapse text | `string`  | `DEFAULT_DESCRIPTION_COLLAPSED_TEXT` |
-| `descriptionHeight`        | `description-height`         | (optional) Info label description height        | `number`  | `undefined`                          |
-| `descriptionOpenedText`    | `description-opened-text`    | (optional) Info label description opened text   | `string`  | `DEFAULT_DESCRIPTION_OPENED_TEXT`    |
-| `labelTitle`               | `label-title`                | (optional) Info label title                     | `string`  | `undefined`                          |
-| `showTextShadow`           | `show-text-shadow`           | (optional) Show text with a shadow              | `boolean` | `false`                              |
+| Property                   | Attribute                    | Description                                     | Type                  | Default                              |
+| -------------------------- | ---------------------------- | ----------------------------------------------- | --------------------- | ------------------------------------ |
+| `copyValue`                | `copy-value`                 | (optional) Info label copy value                | `string \| undefined` | `undefined`                          |
+| `description`              | `description`                | (optional) Info label description               | `string \| undefined` | `undefined`                          |
+| `descriptionCollapsedText` | `description-collapsed-text` | (optional) Info label description collapse text | `string`              | `DEFAULT_DESCRIPTION_COLLAPSED_TEXT` |
+| `descriptionHeight`        | `description-height`         | (optional) Info label description height        | `number \| undefined` | `undefined`                          |
+| `descriptionOpenedText`    | `description-opened-text`    | (optional) Info label description opened text   | `string`              | `DEFAULT_DESCRIPTION_OPENED_TEXT`    |
+| `labelTitle`               | `label-title`                | (optional) Info label title                     | `string \| undefined` | `undefined`                          |
+| `showTextShadow`           | `show-text-shadow`           | (optional) Show text with a shadow              | `boolean`             | `false`                              |
 
 
 ## Shadow Parts

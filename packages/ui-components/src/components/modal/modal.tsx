@@ -51,7 +51,7 @@ export class KvModal implements IModalConfig, IModalEvents {
 	render() {
 		return (
 			<Host class={getClassMap(this.customClass)}>
-				<div class={{ 'modal-overlay': this.showOverlay }} onClick={this.onClickOverlay} />
+				<div class={{ 'modal-overlay': !!this.showOverlay }} onClick={this.onClickOverlay} />
 				<div class="modal-container">
 					<div class="topbar" part="topbar">
 						<div class="title">{this.headerTitle}</div>

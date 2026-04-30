@@ -69,7 +69,7 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 
 	private onClipboardPaste = (event: ClipboardEvent) => {
 		const textLength = this.getTextLength();
-		const pasteData = event.clipboardData.getData('text/plain');
+		const pasteData = event.clipboardData?.getData('text/plain') ?? '';
 		const shouldPaste = this.maxCharLength && textLength + getUTF8StringLength(pasteData) <= this.maxCharLength;
 
 		if (!shouldPaste) {
@@ -94,13 +94,13 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	render() {
 		return (
 			<Host>
-				<div class={{ 'text-area-container': true, 'disabled': this.disabled, 'counter-always-visible': this.counterAlwaysVisible }}>
+				<div class={{ 'text-area-container': true, 'disabled': !!this.disabled, 'counter-always-visible': !!this.counterAlwaysVisible }}>
 					{this.icon && <kv-icon name={this.icon} />}
 					<div class="text-area" onClick={this.focusTextArea}>
 						<div
 							class={{
 								'text-area-wrapper': true,
-								'has-text': this.inputRef?.innerText.length > 0
+								'has-text': (this.inputRef?.innerText.length ?? 0) > 0
 							}}
 						>
 							<div

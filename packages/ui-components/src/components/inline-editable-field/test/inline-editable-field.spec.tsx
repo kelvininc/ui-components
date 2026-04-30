@@ -15,7 +15,7 @@ describe('KvInlineEditableField (unit tests)', () => {
 
 	describe('on mouseenter the component', () => {
 		beforeEach(() => {
-			page.root.dispatchEvent(new MouseEvent('mouseenter'));
+			page.root!.dispatchEvent(new MouseEvent('mouseenter'));
 		});
 
 		it('should change the isHovered to true', () => {
@@ -25,7 +25,7 @@ describe('KvInlineEditableField (unit tests)', () => {
 
 	describe('on mouseleave the component', () => {
 		beforeEach(() => {
-			page.root.dispatchEvent(new MouseEvent('mouseleave'));
+			page.root!.dispatchEvent(new MouseEvent('mouseleave'));
 		});
 
 		it('should change the isHovered to false', () => {

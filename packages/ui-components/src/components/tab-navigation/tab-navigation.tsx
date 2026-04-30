@@ -67,9 +67,10 @@ export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEven
 	}
 
 	private applySelectedTabStyling() {
-		if (isEmpty(this.selectedTabKey) || isEmpty(this.tabsIndicatorConfig[this.selectedTabKey])) return;
+		const selectedTabKey = this.selectedTabKey;
+		if (selectedTabKey === undefined || isEmpty(selectedTabKey) || isEmpty(this.tabsIndicatorConfig[selectedTabKey])) return;
 
-		const { left, width } = this.tabsIndicatorConfig[this.selectedTabKey];
+		const { left, width } = this.tabsIndicatorConfig[selectedTabKey]!;
 
 		this.selectedTabIndicatorConfig = {
 			left: `${left}px`,
@@ -79,7 +80,7 @@ export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEven
 
 	render() {
 		return (
-			<div class={{ [this.type]: true }}>
+			<div class={{ [this.type ?? ETabItemType.Primary]: true }}>
 				{this.tabs.map(item => (
 					<kv-tab-item
 						key={item.tabKey}
@@ -94,7 +95,7 @@ export class KvTabNavigation implements ITabNavigationConfig, ITabNavigationEven
 						{(!isEmpty(item.badge) || !isEmpty(item.tagIcon)) && (
 							<div slot="right-slot">
 								{!isEmpty(item.badge) && <kv-badge type={item.badgeType ?? EBadgeType.Secondary}>{item.badge}</kv-badge>}
-								{!isEmpty(item.tagIcon) && <kv-tag-status icon={item.tagIcon} state={item.tagState ?? ETagState.Unknown} />}
+								{!isEmpty(item.tagIcon) && <kv-tag-status icon={item.tagIcon!} state={item.tagState ?? ETagState.Unknown} />}
 							</div>
 						)}
 					</kv-tab-item>
