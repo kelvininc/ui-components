@@ -119,9 +119,11 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 						<div class="text-container">
 							<div class="left-content">
 								{this.isDirty && <kv-dirty-dot />}
-								<div class="item-label" part="label">
-									{this.label}
-								</div>
+								<kv-tooltip truncate text={this.label}>
+									<div class="item-label" part="label">
+										{this.label}
+									</div>
+								</kv-tooltip>
 							</div>
 							{(this.description || this.rightIcon || this.action) && (
 								<div class="right-content">
