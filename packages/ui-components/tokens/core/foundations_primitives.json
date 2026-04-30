@@ -436,7 +436,7 @@
   },
   "font": {
     "family": {
-      "proxima nova": {
+      "proxima-nova": {
         "value": "Proxima Nova",
         "type": "string",
         "prefix": "foundations_(primitives)"

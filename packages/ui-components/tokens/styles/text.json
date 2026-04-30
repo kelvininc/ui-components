@@ -3,7 +3,7 @@
     "XXL": {
       "Semibold": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.semibold}",
           "fontSize": "{font-size.3xl}",
           "lineHeight": "{line-height.3xl}",
@@ -16,7 +16,7 @@
     "XL": {
       "Semibold": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.semibold}",
           "fontSize": "{font-size.2xl}",
           "lineHeight": "{line-height.2xl}",
@@ -27,7 +27,7 @@
       },
       "Regular": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.regular}",
           "fontSize": "{font-size.2xl}",
           "lineHeight": "{line-height.2xl}",
@@ -40,7 +40,7 @@
     "L": {
       "Semibold": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.semibold}",
           "fontSize": "{font-size.xl}",
           "lineHeight": "{line-height.xl}",
@@ -51,7 +51,7 @@
       },
       "Regular": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.regular}",
           "fontSize": "{font-size.xl}",
           "lineHeight": "{line-height.xl}",
@@ -64,7 +64,7 @@
     "M": {
       "Semibold": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.semibold}",
           "fontSize": "{font-size.lg}",
           "lineHeight": "{line-height.lg}",
@@ -75,7 +75,7 @@
       },
       "Regular": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.regular}",
           "fontSize": "{font-size.lg}",
           "lineHeight": "{line-height.lg}",
@@ -88,7 +88,7 @@
     "S": {
       "Semibold - Caps": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.semibold}",
           "fontSize": "{font-size.md}",
           "lineHeight": "{line-height.md}",
@@ -102,7 +102,7 @@
     "XS": {
       "Semibold - Caps": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.semibold}",
           "fontSize": "{font-size.sm}",
           "lineHeight": "{line-height.sm}",
@@ -114,7 +114,7 @@
       },
       "Regular - Caps": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.regular}",
           "fontSize": "{font-size.sm}",
           "lineHeight": "{line-height.sm}",
@@ -130,7 +130,7 @@
     "M": {
       "Semibold": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.semibold}",
           "fontSize": "{font-size.md}",
           "lineHeight": "{line-height.md}",
@@ -141,7 +141,7 @@
       },
       "Regular": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.regular}",
           "fontSize": "{font-size.md}",
           "lineHeight": "{line-height.md}",
@@ -154,7 +154,7 @@
     "S": {
       "Bold": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.bold}",
           "fontSize": "{font-size.sm}",
           "lineHeight": "{line-height.sm}",
@@ -165,7 +165,7 @@
       },
       "Semibold": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.semibold}",
           "fontSize": "{font-size.sm}",
           "lineHeight": "{line-height.sm}",
@@ -176,7 +176,7 @@
       },
       "Regular": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.regular}",
           "fontSize": "{font-size.sm}",
           "lineHeight": "{line-height.sm}",
@@ -189,7 +189,7 @@
     "XS": {
       "Bold": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.bold}",
           "fontSize": "{font-size.xs}",
           "lineHeight": "{line-height.xs}",
@@ -200,7 +200,7 @@
       },
       "Semibold": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.semibold}",
           "fontSize": "{font-size.xs}",
           "lineHeight": "{line-height.xs}",
@@ -211,7 +211,7 @@
       },
       "Regular": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.regular}",
           "fontSize": "{font-size.xs}",
           "lineHeight": "{line-height.xs}",
@@ -222,7 +222,7 @@
       },
       "Light": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.light}",
           "fontSize": "{font-size.xs}",
           "lineHeight": "{line-height.xs}",
@@ -237,7 +237,7 @@
     "M": {
       "Regular": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.regular}",
           "fontSize": "{font-size.md}",
           "lineHeight": "{line-height.md}",
@@ -252,7 +252,7 @@
     "M": {
       "Semibold": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.semibold}",
           "fontSize": "{font-size.4xl}",
           "lineHeight": "{line-height.4xl}",
@@ -265,7 +265,7 @@
     "S": {
       "Semibold": {
         "value": {
-          "fontFamily": "{font.family.proxima nova}",
+          "fontFamily": "{font.family.proxima-nova}",
           "fontWeight": "{font.weight.semibold}",
           "fontSize": "{font-size.2xl}",
           "lineHeight": "{line-height.2xl}",
