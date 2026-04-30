@@ -230,12 +230,12 @@
       },
       "elevated": {
         "tooltip": {
-          "value": "{color.gray.500}",
+          "value": "{color.gray.600}",
           "type": "color",
           "prefix": "color"
         },
         "info-panel": {
-          "value": "{color.gray.500}",
+          "value": "{color.gray.600}",
           "type": "color",
           "prefix": "color"
         },

@@ -43,8 +43,8 @@ body[mode="night"], [data-theme="night"] {
   --background-container-accent-purple-strong: var(--color-purple-500);
   --background-container-accent-teal-default: var(--color-teal-500);
   --background-container-accent-teal-subtle: var(--color-teal-600);
-  --background-container-elevated-tooltip: var(--color-gray-500);
-  --background-container-elevated-info-panel: var(--color-gray-500);
+  --background-container-elevated-tooltip: var(--color-gray-600);
+  --background-container-elevated-info-panel: var(--color-gray-600);
   --background-container-elevated-toast: var(--color-gray-600);
   --background-container-elevated-slider: var(--color-gray-800);
   --background-container-input-default: var(--color-gray-600);
