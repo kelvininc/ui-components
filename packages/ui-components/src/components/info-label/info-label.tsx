@@ -56,7 +56,7 @@ export class KvInfoLabel {
 			this.enableShowMoreButton = false;
 		}
 		this.isExpanded = this.enableShowMoreButton ? this.isExpanded : false;
-		this.currentDescriptionHeight = this.enableShowMoreButton && !this.isExpanded ? this.descriptionHeight ?? null : null;
+		this.currentDescriptionHeight = this.enableShowMoreButton && !this.isExpanded ? (this.descriptionHeight ?? null) : null;
 	}
 
 	private onShowMoreToggle = () => {

@@ -82,7 +82,14 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 					<slot name="action"></slot>
 				</div>
 
-				<kv-portal animated ref={el => (this.portal = el)} show={this.isOpen ?? false} reference={this.getActionElement() ?? undefined} options={this.options} zIndex={this.zIndex}>
+				<kv-portal
+					animated
+					ref={el => (this.portal = el)}
+					show={this.isOpen ?? false}
+					reference={this.getActionElement() ?? undefined}
+					options={this.options}
+					zIndex={this.zIndex}
+				>
 					<div class="dropdown-base-list">
 						{/* Shadow Root should be false to slot work here */}
 						<slot name="list"></slot>

@@ -23,7 +23,8 @@ export const buildFooterConfig = (steps?: IWizardStep[], currentStep?: number, c
 	const stepsConfig: IStepBarStep[] = steps.map((step, index) => {
 		return {
 			stepKey: step.title,
-			enabled: !disabled && ((index === currentStep + 1 && currentStepState?.state === EStepState.Success) || (index < currentStep && (steps[index + 1]?.allowGoBack ?? false))),
+			enabled:
+				!disabled && ((index === currentStep + 1 && currentStepState?.state === EStepState.Success) || (index < currentStep && (steps[index + 1]?.allowGoBack ?? false))),
 			active: index <= currentStep,
 			hasError: index === currentStep && currentStepState?.state === EStepState.Error
 		};

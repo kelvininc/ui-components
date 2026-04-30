@@ -398,13 +398,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 						)}
 						{!isEmpty(this._helpTexts) && <kv-form-help-text helpText={this._helpTexts} state={this.state}></kv-form-help-text>}
 					</div>
-					{!isEmpty(this.examples) ? (
-						<datalist id={`examples_${id}`}>
-							{this.examples?.map(example => (
-								<option key={example} value={example}></option>
-							))}
-						</datalist>
-					) : null}
+					{!isEmpty(this.examples) ? <datalist id={`examples_${id}`}>{this.examples?.map(example => <option key={example} value={example}></option>)}</datalist> : null}
 				</kv-tooltip>
 			</Host>
 		);
