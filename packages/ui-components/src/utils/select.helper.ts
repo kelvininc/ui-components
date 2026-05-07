@@ -7,10 +7,10 @@ export const getSelectableOptions = (options: ISelectOptionsWithChildren = {}): 
 		if (isEmpty(option.options) && !option.disabled) {
 			accumulator[option.value] = option;
 		} else if (!isEmpty(option.options)) {
-			accumulator = {
-				...accumulator,
-				...getSelectableOptions(option.options)
-			};
+			const nested = getSelectableOptions(option.options);
+			for (const key of Object.keys(nested)) {
+				accumulator[key] = nested[key];
+			}
 		}
 
 		return accumulator;

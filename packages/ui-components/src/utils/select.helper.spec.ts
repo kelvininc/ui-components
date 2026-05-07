@@ -1,4 +1,4 @@
-import { getFlattenSelectOptions, getFlattenSelectOptionsArray } from './select.helper';
+import { getFlattenSelectOptions, getFlattenSelectOptionsArray, getSelectableOptions } from './select.helper';
 import { ISelectOptionsWithChildren } from '../types';
 import { EToggleState } from '../components/select-option/select-option.types';
 
@@ -106,6 +106,144 @@ describe('select.helper', () => {
 
 				// Object.keys puts numeric-like keys first - this is expected JavaScript behavior
 				expect(keys[0]).toBe('98000');
+			});
+		});
+	});
+
+	describe('#getSelectableOptions', () => {
+		describe('when options is empty', () => {
+			it('should return an empty object', () => {
+				expect(getSelectableOptions({})).toEqual({});
+			});
+		});
+
+		describe('when called with no argument', () => {
+			it('should return an empty object', () => {
+				expect(getSelectableOptions()).toEqual({});
+			});
+		});
+
+		describe('when options has flat enabled leaves', () => {
+			it('should return all leaves keyed by their value', () => {
+				const options: ISelectOptionsWithChildren = {
+					'option-a': createOption('option-a', 'Option A'),
+					'option-b': createOption('option-b', 'Option B'),
+					'option-c': createOption('option-c', 'Option C')
+				};
+
+				const result = getSelectableOptions(options);
+
+				expect(Object.keys(result).sort()).toEqual(['option-a', 'option-b', 'option-c']);
+				expect(result['option-a']).toBe(options['option-a']);
+			});
+		});
+
+		describe('when options has a disabled leaf', () => {
+			it('should exclude the disabled leaf', () => {
+				const options: ISelectOptionsWithChildren = {
+					'option-a': createOption('option-a', 'Option A'),
+					'option-b': { ...createOption('option-b', 'Option B'), disabled: true },
+					'option-c': createOption('option-c', 'Option C')
+				};
+
+				const result = getSelectableOptions(options);
+
+				expect(Object.keys(result).sort()).toEqual(['option-a', 'option-c']);
+			});
+		});
+
+		describe('when options has a heading with enabled children', () => {
+			it('should exclude the heading itself and include all children', () => {
+				const childOptions: ISelectOptionsWithChildren = {
+					'child-1': createOption('child-1', 'Child 1'),
+					'child-2': createOption('child-2', 'Child 2')
+				};
+
+				const options: ISelectOptionsWithChildren = {
+					parent: createOption('parent', 'Parent', childOptions)
+				};
+
+				const result = getSelectableOptions(options);
+
+				expect(Object.keys(result).sort()).toEqual(['child-1', 'child-2']);
+				expect(result['parent']).toBeUndefined();
+			});
+		});
+
+		describe('when options has a heading with a disabled child', () => {
+			it('should exclude the disabled child but keep the enabled siblings', () => {
+				const childOptions: ISelectOptionsWithChildren = {
+					'child-1': createOption('child-1', 'Child 1'),
+					'child-2': { ...createOption('child-2', 'Child 2'), disabled: true },
+					'child-3': createOption('child-3', 'Child 3')
+				};
+
+				const options: ISelectOptionsWithChildren = {
+					parent: createOption('parent', 'Parent', childOptions)
+				};
+
+				const result = getSelectableOptions(options);
+
+				expect(Object.keys(result).sort()).toEqual(['child-1', 'child-3']);
+			});
+		});
+
+		describe('when a heading itself is disabled but its children are enabled', () => {
+			it('should still include the children (disabled on the heading does not propagate)', () => {
+				const childOptions: ISelectOptionsWithChildren = {
+					'child-1': createOption('child-1', 'Child 1'),
+					'child-2': createOption('child-2', 'Child 2')
+				};
+
+				const options: ISelectOptionsWithChildren = {
+					parent: { ...createOption('parent', 'Parent', childOptions), disabled: true }
+				};
+
+				const result = getSelectableOptions(options);
+
+				expect(Object.keys(result).sort()).toEqual(['child-1', 'child-2']);
+			});
+		});
+
+		describe('when options is nested two levels deep', () => {
+			it('should collect leaves from every level', () => {
+				const grandchildren: ISelectOptionsWithChildren = {
+					'grandchild-1': createOption('grandchild-1', 'Grandchild 1'),
+					'grandchild-2': createOption('grandchild-2', 'Grandchild 2')
+				};
+
+				const childOptions: ISelectOptionsWithChildren = {
+					'leaf-1': createOption('leaf-1', 'Leaf 1'),
+					'subgroup': createOption('subgroup', 'Subgroup', grandchildren)
+				};
+
+				const options: ISelectOptionsWithChildren = {
+					sibling: createOption('sibling', 'Sibling'),
+					parent: createOption('parent', 'Parent', childOptions)
+				};
+
+				const result = getSelectableOptions(options);
+
+				expect(Object.keys(result).sort()).toEqual(['grandchild-1', 'grandchild-2', 'leaf-1', 'sibling']);
+			});
+		});
+
+		describe('when options mixes enabled leaves and a group with a disabled leaf', () => {
+			it('should include all enabled leaves regardless of nesting', () => {
+				const childOptions: ISelectOptionsWithChildren = {
+					'child-1': createOption('child-1', 'Child 1'),
+					'child-2': { ...createOption('child-2', 'Child 2'), disabled: true }
+				};
+
+				const options: ISelectOptionsWithChildren = {
+					'top-1': createOption('top-1', 'Top 1'),
+					'top-2': { ...createOption('top-2', 'Top 2'), disabled: true },
+					'group': createOption('group', 'Group', childOptions)
+				};
+
+				const result = getSelectableOptions(options);
+
+				expect(Object.keys(result).sort()).toEqual(['child-1', 'top-1']);
 			});
 		});
 	});
