@@ -8,14 +8,15 @@ export const buildToggleButtons = <T extends CheckboxOption>(
 	{ multiple, allButton, readonly }: ICheckboxConfig
 ): IToggleButton[] =>
 	options.reduce<IToggleButton[]>(
-		(acc, { label, value }) => [
-			...acc,
-			{
+		(acc, { label, value }) => {
+			acc.push({
 				label,
 				value,
 				disabled: enumDisabled.includes(value) || readonly
-			}
-		],
+			});
+
+			return acc;
+		},
 		multiple && allButton
 			? [
 					{
