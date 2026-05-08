@@ -8,7 +8,7 @@ import { CustomCssClass, EComponentSize, IIllustrationMessage, ISelectOption } f
 import { getClassMap } from '../../utils/css-class.helper';
 import { getCssStyle } from '../utils';
 import { ComputePositionConfig } from '@floating-ui/dom';
-import { buildSingleSelectOptions, getDropdownCustomCss, getDropdownDisplayIcon } from './single-select-dropdown.helper';
+import { buildSingleSelectOptions, createSingleSelectOptionCache, getDropdownCustomCss, getDropdownDisplayIcon, SingleSelectOptionCache } from './single-select-dropdown.helper';
 import { getFlattenSelectOptions } from '../../utils/select.helper';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
 import { merge } from 'lodash-es';
@@ -137,7 +137,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 	@Watch('options')
 	optionsChangeHandler() {
-		this.buildSelectionOptions();
+		this.scheduleRebuild();
 		this.calculateLabelValue();
 	}
 
@@ -154,8 +154,19 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 	@Watch('filteredOptions')
 	filterOptionsChangeHandler() {
-		this.buildSelectionOptions();
+		this.scheduleRebuild();
 	}
+
+	private rebuildScheduled = false;
+
+	private scheduleRebuild = () => {
+		if (this.rebuildScheduled) return;
+		this.rebuildScheduled = true;
+		queueMicrotask(() => {
+			this.rebuildScheduled = false;
+			this.buildSelectionOptions();
+		});
+	};
 
 	/** Focuses the search text field */
 	@Method()

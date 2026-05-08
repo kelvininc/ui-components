@@ -126,11 +126,26 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@State() isCreating: boolean = false;
 	@State() createdOptionValue: string = '';
 
+	private rebuildScheduled = false;
+
+	private scheduleRebuild = () => {
+		if (this.rebuildScheduled) return;
+		this.rebuildScheduled = true;
+		queueMicrotask(() => {
+			this.rebuildScheduled = false;
+			this.buildSelectionOptions();
+		});
+	};
+
 	@Watch('options')
 	@Watch('filteredOptions')
 	@Watch('selectedOptions')
 	@Watch('highlightedOption')
 	@Watch('maxSelectable')
+	onInputsChanged() {
+		this.scheduleRebuild();
+	}
+
 	buildSelectionOptions() {
 		const selectedCount = getSelectedCount(this.selectedOptions);
 		const selectOptions = buildSelectOptions({
