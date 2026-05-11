@@ -27,6 +27,12 @@
 		background: var(--inline-editable-field-background-color-hover);
 		outline-color: var(--inline-editable-field-outline-color-hover);
 	}
+
+	&:not(&__editing) .inline-editable-field-slot[contenteditable]:empty::before {
+		content: attr(data-placeholder);
+		color: var(--inline-editable-field-placeholder-color);
+		pointer-events: none;
+	}
 }
 
 .inline-editable-field-slot {
@@ -60,12 +66,6 @@
 		display: inline;
 		white-space: nowrap;
 	}
-}
-
-.inline-editable-field-container:not(.inline-editable-field-container__editing) .inline-editable-field-slot[contenteditable]:empty::before {
-	content: attr(data-placeholder);
-	color: var(--inline-editable-field-placeholder-color);
-	pointer-events: none;
 }
 
 .inline-editable-field-actions {
