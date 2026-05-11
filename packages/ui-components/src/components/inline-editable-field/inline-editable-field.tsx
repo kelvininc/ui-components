@@ -24,6 +24,12 @@ export class KvInlineEditableField {
 	 * The maximum length of the editable field.
 	 */
 	@Prop({ reflect: true }) maxLength: number = DEFAULT_MAX_LENGTH;
+	/**
+	 * Text displayed when the field has no value. Visible only when the slot is empty
+	 * and the field is not in edit mode. Empty saves are not allowed: clearing all
+	 * content and confirming reverts to the previous value.
+	 */
+	@Prop({ reflect: true }) placeholder?: string;
 
 	/**
 	 * Emitted when the content is edited.
@@ -92,6 +98,17 @@ export class KvInlineEditableField {
 		}
 	}
 
+	@Watch('placeholder')
+	handlePlaceholderChange(placeholder: string | undefined) {
+		if (!this.slotEl) return;
+
+		if (placeholder) {
+			this.slotEl.setAttribute('data-placeholder', placeholder);
+		} else {
+			this.slotEl.removeAttribute('data-placeholder');
+		}
+	}
+
 	private discardContent = () => {
 		this.slotEl.innerText = this.value;
 	};
@@ -144,6 +161,9 @@ export class KvInlineEditableField {
 	private initializeEditableContent() {
 		this.slotEl.classList.add('inline-editable-field-slot');
 		this.slotEl.setAttribute('contenteditable', 'true');
+		if (this.placeholder) {
+			this.slotEl.setAttribute('data-placeholder', this.placeholder);
+		}
 		this.slotEl.addEventListener('blur', this.handleBlur);
 		this.slotEl.addEventListener('focus', this.handleFocus);
 		this.slotEl.addEventListener('input', this.checkSaveBtnDisabled);
@@ -154,6 +174,7 @@ export class KvInlineEditableField {
 
 		this.slotEl.classList.remove('inline-editable-field-slot');
 		this.slotEl.removeAttribute('contenteditable');
+		this.slotEl.removeAttribute('data-placeholder');
 		this.slotEl.removeEventListener('blur', this.handleBlur);
 		this.slotEl.removeEventListener('focus', this.handleFocus);
 		this.slotEl.removeEventListener('input', this.checkSaveBtnDisabled);
@@ -195,7 +216,8 @@ export class KvInlineEditableField {
 			<Host
 				class={{
 					'inline-editable-field-container': true,
-					'inline-editable-field-container__hover': this.isHovering
+					'inline-editable-field-container__hover': this.isHovering,
+					'inline-editable-field-container__editing': this.isEditing
 				}}
 			>
 				<slot></slot>
