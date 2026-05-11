@@ -63,3 +63,10 @@ export const DisableEdit: Story = {
 		disabled: true
 	}
 };
+
+export const WithPlaceholder: Story = {
+	args: {
+		value: "",
+		placeholder: "-"
+	}
+};

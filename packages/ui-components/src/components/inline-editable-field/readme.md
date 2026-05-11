@@ -7,11 +7,12 @@
 
 ## Properties
 
-| Property    | Attribute    | Description                                       | Type      | Default              |
-| ----------- | ------------ | ------------------------------------------------- | --------- | -------------------- |
-| `disabled`  | `disabled`   | Indicates whether the editable field is disabled. | `boolean` | `undefined`          |
-| `maxLength` | `max-length` | The maximum length of the editable field.         | `number`  | `DEFAULT_MAX_LENGTH` |
-| `value`     | `value`      | The value of the field.                           | `string`  | `undefined`          |
+| Property      | Attribute     | Description                                                                                                                                                                                                        | Type      | Default              |
+| ------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------- | -------------------- |
+| `disabled`    | `disabled`    | Indicates whether the editable field is disabled.                                                                                                                                                                  | `boolean` | `undefined`          |
+| `maxLength`   | `max-length`  | The maximum length of the editable field.                                                                                                                                                                          | `number`  | `DEFAULT_MAX_LENGTH` |
+| `placeholder` | `placeholder` | Text displayed when the field has no value. Visible only when the slot is empty and the field is not in edit mode. Empty saves are not allowed: clearing all content and confirming reverts to the previous value. | `string`  | `undefined`          |
+| `value`       | `value`       | The value of the field.                                                                                                                                                                                            | `string`  | `undefined`          |
 
 
 ## Events
@@ -38,13 +39,15 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                                             | Description                                      |
-| ------------------------------------------------ | ------------------------------------------------ |
-| `--inline-editable-field-background-color-hover` | Background color of the editable field on hover. |
-| `--inline-editable-field-outline-color-focus`    | Outline color of the editable field on focus.    |
-| `--inline-editable-field-outline-color-hover`    | Outline color of the editable field on hover.    |
-| `--margin-left-right`                            | Margin left and right of the editable container. |
-| `--margin-top-bottom`                            | Margin top and bottom of the editable container. |
+| Name                                             | Description                                                          |
+| ------------------------------------------------ | -------------------------------------------------------------------- |
+| `--inline-editable-field-background-color-hover` | Background color of the editable field on hover.                     |
+| `--inline-editable-field-min-width`              | Minimum width of the editable area so it stays clickable when empty. |
+| `--inline-editable-field-outline-color-focus`    | Outline color of the editable field on focus.                        |
+| `--inline-editable-field-outline-color-hover`    | Outline color of the editable field on hover.                        |
+| `--inline-editable-field-placeholder-color`      | Text color used to render the placeholder when the field is empty.   |
+| `--margin-left-right`                            | Margin left and right of the editable container.                     |
+| `--margin-top-bottom`                            | Margin top and bottom of the editable container.                     |
 
 
 ## Dependencies
