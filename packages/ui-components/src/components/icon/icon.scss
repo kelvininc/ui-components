@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -7,9 +7,9 @@
 	 * @prop --icon-width: Width of icon
 	 * @prop --icon-rotation: Rotation of icon
 	 */
-	--icon-color: #{kv-color('text')};
-	--icon-height: 16px;
-	--icon-width: 16px;
+	--icon-color: var(--icon-surface-neutral-primary);
+	--icon-height: var(--size-md);
+	--icon-width: var(--size-md);
 	--icon-rotation: 0deg;
 }
 

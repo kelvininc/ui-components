@@ -28,8 +28,9 @@ ui-components/
 - **Core**: StencilJS (web components compiler)
 - **Testing**: Jest + Puppeteer (E2E)
 - **Styling**: SASS
+- **Design Tokens**: Style Dictionary v5 + Tokens Studio transforms
 - **Build**: Rollup (for React), Stencil CLI (for core)
-- **Monorepo**: Lerna v8 + pnpm workspaces
+- **Monorepo**: Lerna v9 + pnpm workspaces
 - **Documentation**: Storybook v8
 - **Commit Conventions**: Conventional Commits (with commitlint)
 
@@ -153,18 +154,129 @@ pnpm build
 
 **Theme System:**
 - Components support dual themes: `light` and `night` (dark)
-- Theme is set via `mode` attribute on components or globally on `<body>`
-- Components use separate SCSS files for theme-specific styles:
-  - `.base.scss` - Shared base styles
-  - `.light.scss` - Light theme overrides
-  - `.night.scss` - Night theme overrides
+- Theme is set via `mode` attribute on `<body>`: `<body mode="light">` or `<body mode="night">`
+- CSS custom properties cascade: `:root` (core primitives) → `body[mode]` (semantic) → component styles
+- Theming is handled entirely through design tokens — no per-theme SCSS files needed
 - Configure via `styleUrls` in component decorator
 
 **Global Configuration:**
 - Initialize via `initialize()` function from package
-- Configure default theme mode (`StyleMode.Night` or `StyleMode.Light`)
 - Set base assets URL for icons and symbols
 - Configuration stored in `window.KvUiComponents.config`
+
+### Design Token System
+
+The project uses **Style Dictionary v5** with **Tokens Studio transforms** to compile design tokens from JSON into CSS custom properties and SCSS mixins.
+
+#### Token Directory Structure
+
+```
+packages/ui-components/tokens/
+├── core/                          # Primitive/foundational tokens
+│   ├── foundations_primitives.json  # Colors (gray, brand, teal, green, etc.)
+│   ├── tipography.json              # Font sizes, line-heights, letter-spacing (filename kept as-is)
+│   ├── spacing.json                 # Size and spacing scales
+│   └── icon.json                    # Icon sizing
+├── semantic/                      # Theme-dependent tokens
+│   ├── light.json                   # Light theme color mappings
+│   └── dark.json                    # Dark theme color mappings
+├── components/                    # Component-specific tokens
+│   └── component_semantics.json     # Buttons, inputs, containers, cards
+└── styles/                        # Typography design styles (Figma export)
+    └── text.json                    # Heading, body, label styles
+```
+
+#### Generated Output
+
+```
+packages/ui-components/src/assets/styles/style-dictionary/
+├── core.css                       # Core CSS variables (:root)
+├── component_semantics.css        # Component-level variables (body selector)
+├── styles-mixins.scss             # Typography SCSS @mixin directives
+├── themes/
+│   ├── light.css                  # Light theme (body[mode="light"])
+│   └── dark.css                   # Dark theme (body[mode="night"])
+└── index.css                      # Master import file
+```
+
+#### Building Tokens
+
+```bash
+# Build tokens (runs style-dictionary + stylelint fix)
+cd packages/ui-components
+pnpm tokens:build
+```
+
+Run this whenever you change any file in `tokens/`.
+
+#### Token Naming Convention
+
+Tokens follow a **kebab-case hierarchical** pattern: `--category-subcategory-property-state`
+
+| Layer | Example | CSS Output |
+|-------|---------|------------|
+| Core / primitives | `color.gray.50` | `--color-gray-50: #fff` |
+| Core / spacing | `space.16` | `--space-16: 16px` |
+| Semantic | `background.surface.default` | `--background-surface-neutral-default: var(--color-gray-50)` |
+| Component | `button.height.regular` | `--button-height-regular: 32px` |
+
+State suffixes: `default`, `hover`, `pressed`, `disabled`, `selected`.
+
+#### Using Tokens in Component SCSS
+
+> **Prefer component semantic tokens.** When styling components, always reach for tokens from `component_semantics.css` first (e.g. `--button-*`, `--input-*`). Only fall back to generic semantic tokens (e.g. `--background-surface-neutral-default`) when no component-specific token exists, and only use core primitives (e.g. `--color-gray-50`) as a last resort.
+
+**CSS custom properties (semantic tokens — preferred for colors/spacing):**
+```scss
+.my-element {
+  background: var(--background-surface-neutral-default);  // Semantic — theme-aware
+  color: var(--text-surface-neutral-primary);
+  padding: var(--space-16);
+  border: 1px solid var(--border-neutral-default);
+}
+```
+
+**SCSS typography mixins (generated from `styles-mixins.scss`):**
+```scss
+@use '../../assets/styles' as *;
+
+.title {
+  @include heading-xl-semibold;   // Sets font-family, weight, size, line-height
+  color: var(--text-surface-neutral-primary);
+}
+
+.body-text {
+  @include body-m-regular;
+}
+```
+
+Available mixin families: `heading-{xxl|xl|lg|m|sm|xs}-{regular|semibold|bold}`, `body-{l|m|s|xs}-{regular|semibold|bold}`, `label-{l|m|s}-{regular|semibold|bold|regular-caps}`.
+
+#### Component-Scoped Custom Properties
+
+Components expose their own CSS custom properties via `:host` to allow external customization, backed by semantic tokens:
+
+```scss
+:host {
+  --my-component-background: var(--background-surface-neutral-default);
+  --my-component-padding: var(--space-16);
+}
+
+.my-component-container {
+  background: var(--my-component-background);
+  padding: var(--my-component-padding);
+}
+```
+
+#### Deprecated / Legacy Patterns (avoid in new code)
+
+| Deprecated | Replacement |
+|-----------|-------------|
+| `kv-color('neutral-0')` | `var(--color-gray-950)` or semantic token |
+| `@include kv-font-h1-semibold` | `@include heading-xxl-semibold` |
+| `$spacing-4x` | `var(--spacing-2xl)` |
+
+Legacy utilities still compile but are being phased out. Prefer CSS variables and generated mixins in all new or modified components. See `MIGRATION.md` for the full mapping.
 
 ### Component File Structure
 
@@ -175,11 +287,8 @@ Each component follows a consistent structure in `packages/ui-components/src/com
 - `[component-name].types.ts` - TypeScript interfaces and enums
 - `readme.md` - Auto-generated documentation (generated by Stencil)
 
-**Styling Files (theme-based):**
-- `[component-name].base.scss` - Base styles (shared across themes)
-- `[component-name].light.scss` - Light theme styles
-- `[component-name].night.scss` - Night/dark theme styles
-- OR `[component-name].scss` - Single stylesheet (for simple components)
+**Styling Files:**
+- `[component-name].scss` - Single stylesheet using CSS custom properties from design tokens
 
 **Optional Files:**
 - `[component-name].config.ts` - Configuration constants
@@ -196,9 +305,7 @@ Simple component (`badge/`):
 badge/
 ├── badge.tsx
 ├── badge.types.ts
-├── badge.base.scss
-├── badge.light.scss
-├── badge.night.scss
+├── badge.scss
 ├── readme.md
 └── usage/
     └── react.md
@@ -230,9 +337,7 @@ calendar/
 2. **Create required files**:
    - `[component-name].tsx` - Component logic with `tag: 'kv-[component-name]'`
    - `[component-name].types.ts` - TypeScript types
-   - Styling files (choose based on complexity):
-     - For themed components: `.base.scss`, `.light.scss`, `.night.scss`
-     - For simple components: `.scss`
+   - `[component-name].scss` - Single stylesheet using design token CSS custom properties
 
 3. **Add optional files as needed**:
    - `[component-name].config.ts` - For constants
@@ -268,6 +373,26 @@ calendar/
    - Component tags in `.tsx` files include `kv-` prefix: `tag: 'kv-badge'`
 2. **Rebuild packages**: `pnpm build:packages`
 3. **View changes in Storybook**: `pnpm storybook`
+
+> ⚠️ **Build required after any change to `packages/ui-components`**: The core package is consumed by `packages/react-ui-components` and `apps/react-storybook` via Rollup. Any change to component source, types, or enums in `packages/ui-components` **must be followed by a build** before those changes are available in dependent packages and apps. Skipping the build means downstream consumers (including Storybook stories) will see stale types and missing exports.
+>
+> ```bash
+> # Run from the repository root — builds all packages in the correct order:
+> pnpm build:packages
+> ```
+
+> ⚠️ **Enum exports must be kept in sync**: Whenever an enum is **added or removed** from `packages/ui-components`, the named export list in `packages/react-ui-components/src/ui-components.ts` **must be updated manually** to include or remove it. This file is the bridge that makes enums available as runtime values (not just types) to consumers of `@kelvininc/react-ui-components`.
+>
+> The file has an explicit named export block — `export type *` alone is **not sufficient** for enums since they are runtime values, not just types.
+>
+> **Example** — after adding `ETagColor` to `packages/ui-components`:
+> ```ts
+> // packages/react-ui-components/src/ui-components.ts
+> export {
+>   // ... existing enums ...
+>   ETagColor,  // ← add new enum here
+> } from '@kelvininc/ui-components';
+> ```
 
 ### Running Tests
 
@@ -489,6 +614,8 @@ pnpm storybook:deploy
 - Packages are published to npm with `@kelvininc` scope
 - Public access (specified in publishConfig)
 - Managed via Lerna publish workflow
+- Uses OIDC trusted publishing (no npm tokens required)
+- CI workflow: `.github/workflows/publish-master.yml`
 
 ## 🔗 Useful Links
 

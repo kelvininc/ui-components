@@ -19,7 +19,7 @@ export const DEFAULT_NO_DATA_AVAILABLE_ILLUSTRATION_CONFIG: IIllustrationMessage
 };
 
 export const DEFAULT_NO_RESULTS_FOUND_ILLUSTRATION_CONFIG: IIllustrationMessage = {
-	illustration: EIllustrationName.NoResultsFoundLight,
+	illustration: EIllustrationName.NoResultsFound,
 	header: 'No Results Found',
 	description: 'Despite our best efforts, no results were extracted. Please try a new query or keyword for better results.'
 };

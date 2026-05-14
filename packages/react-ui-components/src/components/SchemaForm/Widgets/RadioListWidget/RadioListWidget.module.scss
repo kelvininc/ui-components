@@ -1,11 +1,10 @@
-@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
+@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
 .RadioListContainer {
 	display: flex;
-	flex-direction: column;
-	gap: $spacing-2x;
-	flex-wrap: wrap;
-	margin-left: $spacing;
+	flex-flow: column wrap;
+	gap: var(--spacing-md);
+	margin-left: var(--spacing-xs);
 
 	&.Inline {
 		flex-direction: row;

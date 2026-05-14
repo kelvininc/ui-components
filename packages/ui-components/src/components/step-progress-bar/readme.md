@@ -44,12 +44,13 @@ export const StepProgressBarExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                                  | Description                                        |
-| ------------------------------------- | -------------------------------------------------- |
-| `--progress-bar-background-color`     | The color of the progress bar container            |
-| `--progress-bar-filler-error-color`   | The color of the progress bar filler when in error |
-| `--progress-bar-filler-success-color` | The color of the progress bar filler               |
-| `--progress-bar-height`               | The height of the progress bar                     |
+| Name                                  | Description                                         |
+| ------------------------------------- | --------------------------------------------------- |
+| `--progress-bar-background-color`     | The color of the progress bar container.            |
+| `--progress-bar-filler-error-color`   | The color of the progress bar filler when in error. |
+| `--progress-bar-filler-success-color` | The color of the progress bar filler.               |
+| `--progress-bar-height`               | The height of the progress bar.                     |
+| `--progress-height`                   | The overall height of the progress bar container.   |
 
 
 ## Dependencies

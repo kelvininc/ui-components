@@ -1,0 +1,121 @@
+@use '../../assets/styles' as *;
+
+:host {
+	/**
+	 * @prop --input-height-large: Radio height when size is large.
+	 * @prop --input-height-small: Radio height when size is small.
+	 * @prop --input-gap-large: Gap between radio and label when size is large.
+	 * @prop --input-gap-small: Gap between radio and label when size is small.
+	 * @prop --input-label-color: Label text color.
+	 * @prop --radio-input-large: Radio icon size when size is large.
+	 * @prop --radio-input-small: Radio icon size when size is small.
+	 * @prop --radio-input-default-color: Radio icon color when state is default.
+	 * @prop --radio-input-disabled-color: Radio icon and label color when state is disabled.
+	 * @prop --radio-background-default-color: Radio circle background color when state is default.
+	 * @prop --radio-background-hover-color: Radio circle background color when state is hovered.
+	 * @prop --radio-background-pressed-color: Radio circle background color when state is pressed.
+	 * @prop --radio-background-disabled-color: Radio circle background color when state is disabled.
+	 */
+
+	--input-height-large: var(--input-height-regular);
+	--input-height-small: var(--input-height-compact);
+	--input-gap-large: var(--spacing-none);
+	--input-gap-small: var(--spacing-xs);
+	--input-label-color: var(--text-surface-neutral-secondary);
+
+	--radio-input-large: var(--size-xl);
+	--radio-input-small: var(--size-default);
+	--radio-input-default-color: var(--icon-persistent-indicator-on);
+	--radio-input-disabled-color: var(--icon-surface-neutral-disabled);
+	--radio-background-default-color: var(--transparent);
+	--radio-background-hover-color: var(--overlay-interactive-opacity-10);
+	--radio-background-pressed-color: var(--overlay-interactive-opacity-16);
+	--radio-background-disabled-color: var(--transparent);
+}
+
+.radio-container {
+	display: flex;
+	align-items: center;
+	width: fit-content;
+
+	@include clickable;
+
+	&--size-large {
+		height: var(--input-height-large);
+		gap: var(--input-gap-large);
+
+		.circle {
+			height: var(--input-height-large);
+			width: var(--input-height-large);
+
+			::slotted(kv-icon),
+			kv-icon {
+				--icon-width: var(--radio-input-large);
+				--icon-height: var(--radio-input-large);
+			}
+		}
+	}
+
+	&--size-small {
+		height: var(--input-height-small);
+		gap: var(--input-gap-small);
+		
+		.circle {
+			height: var(--input-height-small);
+			width: var(--input-height-small);
+
+			::slotted(kv-icon),
+			kv-icon {
+				--icon-width: var(--radio-input-small);
+				--icon-height: var(--radio-input-small);
+			}
+		}
+	}
+
+	&.disabled {
+		@include non-clickable;
+
+		.circle {
+			background-color: var(--radio-background-disabled-color);
+
+			::slotted(kv-icon),
+			kv-icon {
+				--icon-color: var(--radio-input-disabled-color);
+			}
+		}
+
+		.label {
+			color: var(--radio-input-disabled-color);
+		}
+	}
+}
+
+.circle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--radius-full);
+	outline: none;
+
+	&:hover {
+		background-color: var(--radio-background-hover-color);
+	}
+
+	&:focus,
+	&:active {
+		background-color: var(--radio-background-pressed-color);
+	}
+	
+	::slotted(kv-icon),
+	kv-icon {
+		--icon-color: var(--radio-input-default-color);
+		transition: all 0.2s ease-out;
+	}
+}
+
+.label {
+	@include body-m-regular();
+	@include ellipsis();
+
+	color: var(--input-label-color);
+}

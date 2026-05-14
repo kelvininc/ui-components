@@ -1,0 +1,279 @@
+{
+  "Heading": {
+    "XXL": {
+      "Semibold": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.semibold}",
+          "fontSize": "{font-size.3xl}",
+          "lineHeight": "{line-height.3xl}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      }
+    },
+    "XL": {
+      "Semibold": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.semibold}",
+          "fontSize": "{font-size.2xl}",
+          "lineHeight": "{line-height.2xl}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      },
+      "Regular": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.regular}",
+          "fontSize": "{font-size.2xl}",
+          "lineHeight": "{line-height.2xl}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      }
+    },
+    "L": {
+      "Semibold": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.semibold}",
+          "fontSize": "{font-size.xl}",
+          "lineHeight": "{line-height.xl}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      },
+      "Regular": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.regular}",
+          "fontSize": "{font-size.xl}",
+          "lineHeight": "{line-height.xl}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      }
+    },
+    "M": {
+      "Semibold": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.semibold}",
+          "fontSize": "{font-size.lg}",
+          "lineHeight": "{line-height.lg}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      },
+      "Regular": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.regular}",
+          "fontSize": "{font-size.lg}",
+          "lineHeight": "{line-height.lg}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      }
+    },
+    "S": {
+      "Semibold - Caps": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.semibold}",
+          "fontSize": "{font-size.md}",
+          "lineHeight": "{line-height.md}",
+          "letterSpacing": "{letter-spacing.loose}",
+          "textTransform": "uppercase"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      }
+    },
+    "XS": {
+      "Semibold - Caps": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.semibold}",
+          "fontSize": "{font-size.sm}",
+          "lineHeight": "{line-height.sm}",
+          "letterSpacing": "{letter-spacing.loose}",
+          "textTransform": "uppercase"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      },
+      "Regular - Caps": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.regular}",
+          "fontSize": "{font-size.sm}",
+          "lineHeight": "{line-height.sm}",
+          "letterSpacing": "{letter-spacing.loose}",
+          "textTransform": "uppercase"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      }
+    }
+  },
+  "Body": {
+    "M": {
+      "Semibold": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.semibold}",
+          "fontSize": "{font-size.md}",
+          "lineHeight": "{line-height.md}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      },
+      "Regular": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.regular}",
+          "fontSize": "{font-size.md}",
+          "lineHeight": "{line-height.md}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      }
+    },
+    "S": {
+      "Bold": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.bold}",
+          "fontSize": "{font-size.sm}",
+          "lineHeight": "{line-height.sm}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      },
+      "Semibold": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.semibold}",
+          "fontSize": "{font-size.sm}",
+          "lineHeight": "{line-height.sm}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      },
+      "Regular": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.regular}",
+          "fontSize": "{font-size.sm}",
+          "lineHeight": "{line-height.sm}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      }
+    },
+    "XS": {
+      "Bold": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.bold}",
+          "fontSize": "{font-size.xs}",
+          "lineHeight": "{line-height.xs}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      },
+      "Semibold": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.semibold}",
+          "fontSize": "{font-size.xs}",
+          "lineHeight": "{line-height.xs}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      },
+      "Regular": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.regular}",
+          "fontSize": "{font-size.xs}",
+          "lineHeight": "{line-height.xs}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      },
+      "Light": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.light}",
+          "fontSize": "{font-size.xs}",
+          "lineHeight": "{line-height.xs}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      }
+    }
+  },
+  "Label": {
+    "M": {
+      "Regular": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.regular}",
+          "fontSize": "{font-size.md}",
+          "lineHeight": "{line-height.md}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      }
+    }
+  },
+  "Numeric": {
+    "M": {
+      "Semibold": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.semibold}",
+          "fontSize": "{font-size.4xl}",
+          "lineHeight": "{line-height.4xl}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      }
+    },
+    "S": {
+      "Semibold": {
+        "value": {
+          "fontFamily": "{font.family.proxima-nova}",
+          "fontWeight": "{font.weight.semibold}",
+          "fontSize": "{font-size.2xl}",
+          "lineHeight": "{line-height.2xl}",
+          "letterSpacing": "{letter-spacing.default}"
+        },
+        "type": "typography",
+        "prefix": "styles_text"
+      }
+    }
+  }
+}

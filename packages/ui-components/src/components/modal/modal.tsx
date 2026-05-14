@@ -10,10 +10,7 @@ import { IModalConfig, IModalEvents } from './modal.types';
  */
 @Component({
 	tag: 'kv-modal',
-	styleUrls: {
-		night: 'modal.night.scss',
-		light: 'modal.light.scss'
-	},
+	styleUrl: 'modal.scss',
 	shadow: true
 })
 export class KvModal implements IModalConfig, IModalEvents {
@@ -67,6 +64,7 @@ export class KvModal implements IModalConfig, IModalEvents {
 							)}
 						</div>
 					</div>
+					{this.headerTitle && <div class="divider" />}
 					<div class="content" part="content">
 						<slot name="header"></slot>
 						<slot name="body"></slot>

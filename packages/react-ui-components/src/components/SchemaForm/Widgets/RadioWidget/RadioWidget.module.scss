@@ -1,34 +1,24 @@
-@import 'node_modules/@kelvininc/ui-components/dist/assets/styles/globals.scss';
+@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
 .RadioListContainer {
 	display: flex;
-	flex-direction: column;
-	column-gap: $spacing-5x;
-	flex-wrap: wrap;
-	margin-left: $spacing;
+	flex-flow: column wrap;
+	gap: var(--spacing-3xl);
 
 	&.Inline {
 		flex-direction: row;
-		column-gap: $spacing-2x;
+		gap: var(--spacing-md);
 	}
 
-	.RadioOption {
+	kv-radio-list-item {
+		--radio-list-item-background: var(--input-background-default);
+	}
+
+	.Item {
 		flex: 1;
-		background-color: kv-color('neutral-7');
-		border-radius: 4px;
-		padding: 0 $spacing-4x;
-		cursor: pointer;
-
-		&.Checked {
-			border: 1px solid kv-color('neutral-0');
-		}
-
-		&.Disabled {
-			pointer-events: none;
-
-			&.Checked {
-				border-color: kv-color('neutral-6');
-			}
-		}
+	}
+	
+	.Label {
+		@include body-m-semibold;
 	}
 }

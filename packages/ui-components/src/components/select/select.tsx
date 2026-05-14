@@ -2,8 +2,8 @@ import { Component, Host, h, Prop, Event, EventEmitter, Element, Fragment, Metho
 import { isNil, omitBy } from 'lodash-es';
 import { CLEAR_SELECTION_LABEL, SELECT_ALL_LABEL } from './select.config';
 import { ISelect, ISelectEvents } from './select.types';
-import { isElementVisible } from './select.helper';
-import { EComponentSize } from '../../types';
+import { hasAnyVisibleElement, isElementVisible } from './select.helper';
+import { EActionButtonType, EComponentSize } from '../../types';
 
 /**
  * @part select - The select container.
@@ -40,6 +40,8 @@ export class KvSelect implements ISelect, ISelectEvents {
 	@Prop({ reflect: true }) minWidth?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxWidth?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) hasLabelContent?: boolean = false;
 
 	/** @inheritdoc */
 	@Event() searchChange: EventEmitter<string>;
@@ -88,11 +90,11 @@ export class KvSelect implements ISelect, ISelectEvents {
 	}
 
 	private get hasLabelSlot() {
-		return isElementVisible(this.el, '[slot="select-header-label"]');
+		return hasAnyVisibleElement(this.el, '[slot="select-header-label"]');
 	}
 
 	render() {
-		const hasLabels = this.selectionAll || this.selectionClearable || this.hasActionsSlot || this.hasLabelSlot;
+		const hasLabels = this.selectionAll || this.selectionClearable || this.hasActionsSlot || this.hasLabelSlot || this.hasLabelContent;
 		const hasHeader = this.searchable || hasLabels;
 
 		return (
@@ -113,28 +115,22 @@ export class KvSelect implements ISelect, ISelectEvents {
 								<div class="search-footer">
 									<div class="footer-actions">
 										{this.selectionAll && (
-											<div
-												class={{
-													'action': true,
-													'action--disabled': !this.selectionAllEnabled
-												}}
-												onClick={this.onSelectAll}
-											>
-												{this.selectAllLabel}
-											</div>
+											<kv-action-button-text
+												type={EActionButtonType.Text}
+												text={this.selectAllLabel}
+												onClickButton={this.onSelectAll}
+												disabled={!this.selectionAllEnabled}
+											/>
 										)}
 										{this.selectionClearable && (
 											<Fragment>
 												{this.selectionAll && <div class="divider" />}
-												<div
-													class={{
-														'action': true,
-														'action--disabled': !this.selectionClearEnabled
-													}}
-													onClick={this.onClearSelection}
-												>
-													{this.clearSelectionLabel}
-												</div>
+												<kv-action-button-text
+													type={EActionButtonType.Text}
+													text={this.clearSelectionLabel}
+													onClickButton={this.onClearSelection}
+													disabled={!this.selectionClearEnabled}
+												/>
 												{this.hasActionsSlot && <div class="divider" />}
 											</Fragment>
 										)}
@@ -148,7 +144,9 @@ export class KvSelect implements ISelect, ISelectEvents {
 					<div class="select-options-container">
 						<slot></slot>
 					</div>
-					<slot name="select-footer" />
+					<div>
+						<slot name="select-footer" />
+					</div>
 				</div>
 			</Host>
 		);

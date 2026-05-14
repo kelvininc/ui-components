@@ -1,28 +1,22 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 kv-description-list {
 	/**
-		@prop --description-list-gap: The gap between the title and description
-	**/
-	--description-list-row-gap: #{$spacing-3x};
-	/**
-		@prop --description-list-row-extremes: The gap for the first and last row
-	**/
+	 * @prop --description-list-row-gap: The gap between the title and description.
+	 * @prop --description-list-row-extremes: The gap for the first and last row.
+	 * @prop --description-list-row-inline-padding: The horizontal padding for each row.
+	 * @prop --description-list-row-align: The alignment for the rows.
+	 */
+	--description-list-row-gap: var(--spacing-xl);
 	--description-list-row-extremes: 0;
-	/**
-		@prop --description-list-row-inline-padding: The horizontal padding for each row
-	**/
 	--description-list-row-inline-padding: 0;
-	/**
-		@prop --description-list-row-align: The alignment for the rows
-	**/
 	--description-list-row-align: baseline;
 }
 
 .description-list-container {
 	display: grid;
 	grid-template-columns: max-content 1fr;
-	column-gap: $spacing-7x;
+	column-gap: var(--space-28);
 	word-break: break-all;
 
 	.row {
@@ -43,13 +37,13 @@ kv-description-list {
 	}
 
 	.title {
-		@include kv-font-label-small-uppercase-regular;
-		color: kv-color('neutral-4');
+		@include heading-xs-regular-caps;
+		color: var(--text-container-neutral-subtle);
 	}
 
 	.description {
-		@include kv-font-paragraph-regular;
-		color: kv-color('neutral-2');
+		@include body-m-regular;
+		color: var(--text-container-neutral-default);
 
 		kv-tooltip::part(content) {
 			display: inline;
@@ -59,7 +53,7 @@ kv-description-list {
 			@include clickable;
 			display: inline-block;
 			vertical-align: text-top;
-			margin-left: $spacing-2x;
+			margin-left: var(--spacing-md);
 		}
 
 		kv-copy-to-clipboard {
@@ -70,5 +64,5 @@ kv-description-list {
 }
 
 .description-list-tooltip-container::part(tooltip-container) {
-	padding: $spacing-2x;
+	padding: var(--spacing-md);
 }

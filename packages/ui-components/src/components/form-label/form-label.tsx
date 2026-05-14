@@ -3,10 +3,7 @@ import { isValidLabel } from '../../utils/string.helper';
 
 @Component({
 	tag: 'kv-form-label',
-	styleUrls: {
-		night: 'form-label.night.scss',
-		light: 'form-label.light.scss'
-	},
+	styleUrl: 'form-label.scss',
 	shadow: true
 })
 export class KvFormLabel {
@@ -19,14 +16,12 @@ export class KvFormLabel {
 	render() {
 		return (
 			<Host>
-				<div class="form-field-container">
-					{isValidLabel(this.label) && (
-						<div class="label-container">
-							{this.required && <span class="required">*</span>}
-							{this.label && <span class="label">{this.label}</span>}
-						</div>
-					)}
-				</div>
+				{isValidLabel(this.label) && (
+					<div class="label-container">
+						{this.required && <span class="required">*</span>}
+						{this.label && <span class="label">{this.label}</span>}
+					</div>
+				)}
 			</Host>
 		);
 	}

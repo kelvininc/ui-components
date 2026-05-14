@@ -4,8 +4,12 @@ exports[`KvLink (unit tests) when label and subtitle is provided should match th
 <kv-link label="Hello" subtitle="World">
   <template shadowrootmode="open">
     <div class="link-container" part="container">
-      <a class="label">
-        Hello
+      <a class="label" part="label" tabindex="0">
+        <slot name="left"></slot>
+        <span part="label-text">
+          Hello
+        </span>
+        <slot name="right"></slot>
       </a>
       <div class="subtitle">
         World
@@ -19,8 +23,12 @@ exports[`KvLink (unit tests) when only label is provided should match the snapsh
 <kv-link label="Hello">
   <template shadowrootmode="open">
     <div class="link-container" part="container">
-      <a class="label">
-        Hello
+      <a class="label" part="label" tabindex="0">
+        <slot name="left"></slot>
+        <span part="label-text">
+          Hello
+        </span>
+        <slot name="right"></slot>
       </a>
     </div>
   </template>

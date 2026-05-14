@@ -71,7 +71,6 @@ export const TooltipExample: React.FC = () => (
  - [kv-text-field](../text-field)
  - [kv-time-picker](../time-picker)
  - [kv-toggle-button](../toggle-button)
- - [kv-tree-item](../tree-item)
  - [kv-wizard-footer](../wizard-footer)
 
 ### Depends on
@@ -92,7 +91,6 @@ graph TD;
   kv-text-field --> kv-tooltip
   kv-time-picker --> kv-tooltip
   kv-toggle-button --> kv-tooltip
-  kv-tree-item --> kv-tooltip
   kv-wizard-footer --> kv-tooltip
   style kv-tooltip fill:#f9f,stroke:#333,stroke-width:4px
 ```

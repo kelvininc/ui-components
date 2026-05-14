@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	display: block;
@@ -7,8 +7,8 @@
 $input-height: 32px;
 
 .input-container {
-	background-color: kv-color('neutral-7');
-	padding: 0 $spacing-4x;
+	background-color: var(--transparent);
+	padding: 0 var(--spacing-2xl);
 	height: $input-height;
 	display: flex;
 	align-items: center;
@@ -19,23 +19,24 @@ $input-height: 32px;
 
 	&--content-hidden {
 		&:hover {
-			background-color: kv-color('neutral-6');
+			background-color: var(--background-interactive-slider-list-hover);
 			cursor: pointer;
 
 			kv-icon {
+				--icon-color: var(--icon-surface-neutral-primary);
 				visibility: visible;
 			}
 		}
 	}
 
 	.label-container {
-		@include kv-font-label-small-regular;
+		@include body-s-regular;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		width: 100%;
 
-		color: kv-color('neutral-4');
+		color: var(--text-container-neutral-default);
 	}
 
 	.slot-container {

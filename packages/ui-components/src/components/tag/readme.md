@@ -25,33 +25,41 @@ export const TagExample: React.FC = () => (
 
 ## Properties
 
-| Property | Attribute | Description                     | Type                                           | Default                |
-| -------- | --------- | ------------------------------- | ---------------------------------------------- | ---------------------- |
-| `label`  | `label`   | (optional) Tag label            | `string`                                       | `undefined`            |
-| `size`   | `size`    | (optional) Sets the size of tag | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
+| Property     | Attribute     | Description                                            | Type                                                                                                                                 | Default             |
+| ------------ | ------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
+| `badgeLabel` | `badge-label` | (optional) Badge label displayed at the end of the tag | `string`                                                                                                                             | `undefined`         |
+| `color`      | `color`       | (optional) Tag color variant                           | `ETagColor.Blue \| ETagColor.Brand \| ETagColor.Green \| ETagColor.Neutral \| ETagColor.Purple \| ETagColor.Red \| ETagColor.Yellow` | `ETagColor.Neutral` |
+| `icon`       | `icon`        | (optional) Icon to display inside the tag              | `EIconName`                                                                                                                          | `undefined`         |
+| `label`      | `label`       | (optional) Tag label                                   | `string`                                                                                                                             | `undefined`         |
 
 
 ## CSS Custom Properties
 
-| Name                     | Description                |
-| ------------------------ | -------------------------- |
-| `--tag-background-color` | Tag Background Color.      |
-| `--tag-border-color`     | Tag Border Color.          |
-| `--tag-content-gap`      | Gap between text and slot. |
-| `--tag-content-padding`  | Padding insise content     |
-| `--tag-label-color`      | Tag Text Color.            |
+| Name                           | Description                        |
+| ------------------------------ | ---------------------------------- |
+| `--tag-background-color`       | Tag background color.              |
+| `--tag-badge-background-color` | Tag badge background color.        |
+| `--tag-badge-color`            | Tag badge text color.              |
+| `--tag-border-color`           | Tag border color.                  |
+| `--tag-content-gap`            | Gap between icon, label and badge. |
+| `--tag-content-padding-x`      | Horizontal padding inside the tag. |
+| `--tag-content-padding-y`      | Vertical padding inside the tag.   |
+| `--tag-icon-color`             | Tag icon color.                    |
+| `--tag-label-color`            | Tag label text color.              |
 
 
 ## Dependencies
 
-### Used by
+### Depends on
 
- - [kv-tag-alarm](../tag-alarm)
+- [kv-icon](../icon)
+- [kv-badge](../badge)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-tag-alarm --> kv-tag
+  kv-tag --> kv-icon
+  kv-tag --> kv-badge
   style kv-tag fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

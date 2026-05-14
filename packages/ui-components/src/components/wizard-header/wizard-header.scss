@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 /**
  * @prop --text-color: The color to use for all text
@@ -7,9 +7,9 @@
  */
 
 :host {
-	--text-color: #{kv-color('neutral-1')};
-	--separator-color: #{kv-color('neutral-2')};
-	--container-padding: #{$spacing-4x};
+	--text-color: var(--text-surface-neutral-secondary);
+	--separator-color: var(--text-surface-neutral-secondary);
+	--container-padding: var(--spacing-2xl);
 }
 
 .wizard-header-container {
@@ -28,25 +28,25 @@
 		}
 
 		.label {
-			@include kv-font-label-small-uppercase-semibold;
+			@include heading-xs-semibold-caps;
 		}
 
 		.description {
 			@include ellipsis;
-			@include kv-font-paragraph-light;
+			@include body-m-regular;
 		}
 
 		.separator {
 			width: 4px;
 			height: 4px;
 			border-radius: 50%;
-			margin: 0 $spacing-2x;
+			margin: 0 var(--spacing-md);
 			background-color: var(--separator-color);
 		}
 
 		kv-toggle-tip .toggle-tip-open-element-container {
 			@include clickable;
-			margin-left: $spacing-2x;
+			margin-left: var(--spacing-md);
 		}
 	}
 }

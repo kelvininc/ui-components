@@ -14,6 +14,7 @@
 | `createOptionPlaceholder` | `create-option-placeholder` | (optional) The create new option placeholder. Default: `Add a new option`                                         | `string`                               | `DEFAULT_ADD_OPTION_PLACEHOLDER`                |
 | `filteredOptions`         | `filtered-options`          | (optional) The object with the dropdown options filtered                                                          | `{ [x: string]: ISelectMultiOption; }` | `undefined`                                     |
 | `maxHeight`               | `max-height`                | (optional) The dropdown's max-height                                                                              | `string`                               | `undefined`                                     |
+| `maxSelectable`           | `max-selectable`            | (optional) Maximum number of items that can be selected                                                           | `number`                               | `undefined`                                     |
 | `maxWidth`                | `max-width`                 | (optional) The dropdown's max-width                                                                               | `string`                               | `undefined`                                     |
 | `minHeight`               | `min-height`                | (optional) The dropdown's min-height                                                                              | `string`                               | `undefined`                                     |
 | `minSearchOptions`        | `min-search-options`        | (optional) The minimum amount of options required to display the search. Defaults to `15`.                        | `number`                               | `MINIMUM_SEARCHABLE_OPTIONS`                    |
@@ -29,6 +30,7 @@
 | `selectionAll`            | `selection-all`             | (optional) If `true` the list has an action to select all items                                                   | `boolean`                              | `undefined`                                     |
 | `selectionClearable`      | `selection-clearable`       | (optional) If `true` dropdown items can be cleared                                                                | `boolean`                              | `undefined`                                     |
 | `shortcuts`               | `shortcuts`                 | (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false` | `boolean`                              | `false`                                         |
+| `showShortcuts`           | `show-shortcuts`            |                                                                                                                   | `boolean`                              | `false`                                         |
 
 
 ## Events
@@ -126,14 +128,16 @@ graph TD;
   kv-select-option --> kv-icon
   kv-select-option --> kv-dirty-dot
   kv-select-option --> kv-action-button-icon
+  kv-checkbox --> kv-radio
   kv-checkbox --> kv-icon
+  kv-radio --> kv-icon
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
   kv-dirty-dot --> kv-icon
   kv-action-button-icon --> kv-action-button
   kv-action-button-icon --> kv-icon
-  kv-action-button-icon --> kv-badge
   kv-select --> kv-search
+  kv-select --> kv-action-button-text
   kv-search --> kv-text-field
   kv-text-field --> kv-tooltip
   kv-text-field --> kv-form-label
@@ -142,6 +146,8 @@ graph TD;
   kv-text-field --> kv-badge
   kv-text-field --> kv-form-help-text
   kv-form-help-text --> kv-icon
+  kv-action-button-text --> kv-action-button
+  kv-action-button-text --> kv-icon
   kv-illustration-message --> kv-illustration
   kv-select-create-option --> kv-text-field
   kv-select-create-option --> kv-action-button-icon

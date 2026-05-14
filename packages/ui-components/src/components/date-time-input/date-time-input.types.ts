@@ -15,7 +15,7 @@ export interface IDateTimeInputEvents {
 	/** Emitted when the input is foccused */
 	inputFocus: EventEmitter<FocusEvent>;
 	/** Emitted when the right icon is clicked */
-	rightIconClick: EventEmitter<string>;
+	rightIconClick: EventEmitter<void>;
 }
 
 export interface IDateTimeInput {

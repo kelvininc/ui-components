@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Illustration (unit tests) when has custom classes should match the snapshot 1`] = `
-<kv-illustration custom-class="icon-full-size" name="kv-es-section-somethingwentwrong">
+<kv-illustration custom-class="icon-full-size" name="kv-no-data-available">
   <template shadowrootmode="open">
-    <kv-es-section-somethingwentwrong customclass="icon-full-size"></kv-es-section-somethingwentwrong>
+    <kv-no-data-available customclass="icon-full-size"></kv-no-data-available>
   </template>
 </kv-illustration>
 `;
 
 exports[`Illustration (unit tests) when uses default props should match the snapshot 1`] = `
-<kv-illustration custom-class="" name="kv-es-section-somethingwentwrong">
+<kv-illustration custom-class="" name="kv-no-data-available">
   <template shadowrootmode="open">
-    <kv-es-section-somethingwentwrong customclass=""></kv-es-section-somethingwentwrong>
+    <kv-no-data-available customclass=""></kv-no-data-available>
   </template>
 </kv-illustration>
 `;

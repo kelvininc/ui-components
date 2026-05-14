@@ -1,0 +1,24 @@
+{
+  "size": {
+    "default": {
+      "value": "{size.md}",
+      "type": "number",
+      "prefix": "icon"
+    },
+    "lg": {
+      "value": "{size.lg}",
+      "type": "number",
+      "prefix": "icon"
+    },
+    "xl": {
+      "value": "{size.xl}",
+      "type": "number",
+      "prefix": "icon"
+    },
+    "sm": {
+      "value": "{size.sm}",
+      "type": "number",
+      "prefix": "icon"
+    }
+  }
+}

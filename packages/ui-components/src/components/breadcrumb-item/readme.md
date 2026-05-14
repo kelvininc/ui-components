@@ -22,10 +22,10 @@ export const KvBreadcrumbItemExample: React.FC = () => (
 
 ## Properties
 
-| Property             | Attribute | Description                                                                         | Type      | Default     |
-| -------------------- | --------- | ----------------------------------------------------------------------------------- | --------- | ----------- |
-| `active`             | `active`  | (optional) Sets this breadcrumb styling to be the active one (usually the last one) | `boolean` | `undefined` |
-| `label` _(required)_ | `label`   | (required) The text to display on the breadcrumb                                    | `string`  | `undefined` |
+| Property | Attribute | Description                                                                         | Type      | Default     |
+| -------- | --------- | ----------------------------------------------------------------------------------- | --------- | ----------- |
+| `active` | `active`  | (optional) Sets this breadcrumb styling to be the active one (usually the last one) | `boolean` | `undefined` |
+| `label`  | `label`   | (optional) The text to display on the breadcrumb                                    | `string`  | `undefined` |
 
 
 ## Events
@@ -35,24 +35,21 @@ export const KvBreadcrumbItemExample: React.FC = () => (
 | `breadcrumbItemClick` | Emitted when the user clicks on the breadcrumb | `CustomEvent<IBreadcrumbItem>` |
 
 
-## CSS Custom Properties
-
-| Name                              | Description                      |
-| --------------------------------- | -------------------------------- |
-| `--breadcrumb-item-active-color`  | Breadcrumb's item active color.  |
-| `--breadcrumb-item-default-color` | Breadcrumb's item default color. |
-| `--breadcrumb-item-hover-color`   | Breadcrumb's item hover color.   |
-
-
 ## Dependencies
 
 ### Used by
 
  - [kv-breadcrumb](../breadcrumb)
 
+### Depends on
+
+- [kv-link](../link)
+
 ### Graph
 ```mermaid
 graph TD;
+  kv-breadcrumb-item --> kv-link
+  kv-link --> kv-icon
   kv-breadcrumb --> kv-breadcrumb-item
   style kv-breadcrumb-item fill:#f9f,stroke:#333,stroke-width:4px
 ```

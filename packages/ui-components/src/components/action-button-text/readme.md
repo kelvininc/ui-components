@@ -12,7 +12,7 @@ import React from 'react';
 
 import { KvActionButtonText, EActionButtonType, EIconName } from '@kelvininc/react-ui-components/client';
 
-export const SwitchButtonExample: React.FC = () => (
+export const ActionButtonTextExample: React.FC = () => (
 	<>
 		{/*-- Primary --*/}
 		<KvActionButtonText text="Primary Button" icon={EIconName.Add} type={EActionButtonType.Primary}></KvActionButtonText>
@@ -23,8 +23,8 @@ export const SwitchButtonExample: React.FC = () => (
 		{/*-- Tertiary --*/}
 		<KvActionButtonText text="Tertiary Button" icon={EIconName.Add} type={EActionButtonType.Tertiary}></KvActionButtonText>
 
-		{/*-- Ghost --*/}
-		<KvActionButtonText text="Ghost Button" icon={EIconName.Add} type={EActionButtonType.Ghost}></KvActionButtonText>
+		{/*-- Text --*/}
+		<KvActionButtonText text="Text Button" icon={EIconName.Add} type={EActionButtonType.Text}></KvActionButtonText>
 
 		{/*-- Disabled --*/}
 		<KvActionButtonText disabled text="Disabled Button" icon={EIconName.Add} type={EActionButtonType.Primary}></KvActionButtonText>
@@ -36,16 +36,16 @@ export const SwitchButtonExample: React.FC = () => (
 
 ## Properties
 
-| Property            | Attribute    | Description                                        | Type                                                                                                                                            | Default                |
-| ------------------- | ------------ | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `active`            | `active`     | (optional) If `true` the button is active          | `boolean`                                                                                                                                       | `false`                |
-| `disabled`          | `disabled`   | (optional) If `true` the button is disabled        | `boolean`                                                                                                                                       | `false`                |
-| `icon`              | `icon`       | (optional) Button's left icon symbol name          | `EIconName`                                                                                                                                     | `undefined`            |
-| `loading`           | `loading`    | (optional) If `true` the button is of type loading | `boolean`                                                                                                                                       | `false`                |
-| `rightIcon`         | `right-icon` | (optional) Button's right icon symbol name         | `EIconName`                                                                                                                                     | `undefined`            |
-| `size`              | `size`       | (optional) Button's size                           | `EComponentSize.Large \| EComponentSize.Small`                                                                                                  | `EComponentSize.Large` |
-| `text` _(required)_ | `text`       | (required) (required) Button's text                | `string`                                                                                                                                        | `undefined`            |
-| `type` _(required)_ | `type`       | (optional) Button's type                           | `EActionButtonType.Danger \| EActionButtonType.Ghost \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
+| Property            | Attribute    | Description                                        | Type                                                                                                                                           | Default                |
+| ------------------- | ------------ | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `active`            | `active`     | (optional) If `true` the button is active          | `boolean`                                                                                                                                      | `false`                |
+| `disabled`          | `disabled`   | (optional) If `true` the button is disabled        | `boolean`                                                                                                                                      | `false`                |
+| `icon`              | `icon`       | (optional) Button's left icon symbol name          | `EIconName`                                                                                                                                    | `undefined`            |
+| `loading`           | `loading`    | (optional) If `true` the button is of type loading | `boolean`                                                                                                                                      | `false`                |
+| `rightIcon`         | `right-icon` | (optional) Button's right icon symbol name         | `EIconName`                                                                                                                                    | `undefined`            |
+| `size`              | `size`       | (optional) Button's size                           | `EComponentSize.Large \| EComponentSize.Small`                                                                                                 | `EComponentSize.Large` |
+| `text`              | `text`       | (optional) Button's text                           | `string`                                                                                                                                       | `undefined`            |
+| `type` _(required)_ | `type`       | (optional) Button's type                           | `EActionButtonType.Danger \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary \| EActionButtonType.Text` | `undefined`            |
 
 
 ## Events
@@ -65,21 +65,18 @@ export const SwitchButtonExample: React.FC = () => (
 | `"icon"`        | The icon button. |
 
 
-## CSS Custom Properties
-
-| Name                   | Description           |
-| ---------------------- | --------------------- |
-| `--button-icon-height` | Button's icon height. |
-| `--button-icon-width`  | Button's icon width.  |
-
-
 ## Dependencies
 
 ### Used by
 
+ - [kv-absolute-time-picker](../absolute-time-picker)
  - [kv-absolute-time-picker-dropdown](../absolute-time-picker-dropdown)
+ - [kv-action-button-magic](../action-button-magic)
  - [kv-action-button-split](../action-button-split)
+ - [kv-alert](../alert)
+ - [kv-select](../select)
  - [kv-time-picker](../time-picker)
+ - [kv-toaster](../toaster)
  - [kv-wizard-footer](../wizard-footer)
 
 ### Depends on
@@ -92,9 +89,14 @@ export const SwitchButtonExample: React.FC = () => (
 graph TD;
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon
+  kv-absolute-time-picker --> kv-action-button-text
   kv-absolute-time-picker-dropdown --> kv-action-button-text
+  kv-action-button-magic --> kv-action-button-text
   kv-action-button-split --> kv-action-button-text
+  kv-alert --> kv-action-button-text
+  kv-select --> kv-action-button-text
   kv-time-picker --> kv-action-button-text
+  kv-toaster --> kv-action-button-text
   kv-wizard-footer --> kv-action-button-text
   style kv-action-button-text fill:#f9f,stroke:#333,stroke-width:4px
 ```

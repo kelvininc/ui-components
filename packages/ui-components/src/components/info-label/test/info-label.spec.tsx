@@ -1,7 +1,7 @@
 import { SpecPage } from '@stencil/core/internal';
 import { KvInfoLabel } from '../info-label';
 import { newSpecPage } from '@stencil/core/testing';
-import { KvTagLetter } from '../../tag-letter/tag-letter';
+import { KvTag } from '../../tag/tag';
 
 describe('Info Label (unit tests)', () => {
 	let page: SpecPage;
@@ -55,8 +55,8 @@ describe('Info Label (unit tests)', () => {
 	describe('when renders with a component', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
-				components: [KvInfoLabel, KvTagLetter],
-				html: '<kv-info-label label-title="DESCRIPTION"><kv-tag-letter label="Test" tag-letter="T" /></kv-info-label>'
+				components: [KvInfoLabel, KvTag],
+				html: '<kv-info-label label-title="DESCRIPTION"><kv-tag label="Test" /></kv-info-label>'
 			});
 		});
 

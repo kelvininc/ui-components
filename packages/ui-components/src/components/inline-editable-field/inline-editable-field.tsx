@@ -24,6 +24,12 @@ export class KvInlineEditableField {
 	 * The maximum length of the editable field.
 	 */
 	@Prop({ reflect: true }) maxLength: number = DEFAULT_MAX_LENGTH;
+	/**
+	 * Text displayed when the field has no value. Visible only when the slot is empty
+	 * and the field is not in edit mode. Empty saves are not allowed: clearing all
+	 * content and confirming reverts to the previous value.
+	 */
+	@Prop({ reflect: true }) placeholder?: string;
 
 	/**
 	 * Emitted when the content is edited.
@@ -83,10 +89,23 @@ export class KvInlineEditableField {
 
 	@Watch('disabled')
 	handleDisableChange(state) {
+		if (!this.slotEl) return;
+
 		if (state) {
 			this.destroyEditableContent();
 		} else {
 			this.initializeEditableContent();
+		}
+	}
+
+	@Watch('placeholder')
+	handlePlaceholderChange(placeholder: string | undefined) {
+		if (!this.slotEl) return;
+
+		if (placeholder) {
+			this.slotEl.setAttribute('data-placeholder', placeholder);
+		} else {
+			this.slotEl.removeAttribute('data-placeholder');
 		}
 	}
 
@@ -142,6 +161,9 @@ export class KvInlineEditableField {
 	private initializeEditableContent() {
 		this.slotEl.classList.add('inline-editable-field-slot');
 		this.slotEl.setAttribute('contenteditable', 'true');
+		if (this.placeholder) {
+			this.slotEl.setAttribute('data-placeholder', this.placeholder);
+		}
 		this.slotEl.addEventListener('blur', this.handleBlur);
 		this.slotEl.addEventListener('focus', this.handleFocus);
 		this.slotEl.addEventListener('input', this.checkSaveBtnDisabled);
@@ -152,25 +174,32 @@ export class KvInlineEditableField {
 
 		this.slotEl.classList.remove('inline-editable-field-slot');
 		this.slotEl.removeAttribute('contenteditable');
+		this.slotEl.removeAttribute('data-placeholder');
 		this.slotEl.removeEventListener('blur', this.handleBlur);
 		this.slotEl.removeEventListener('focus', this.handleFocus);
 		this.slotEl.removeEventListener('input', this.checkSaveBtnDisabled);
 	}
 
-	connectedCallback() {
+	componentDidLoad() {
 		if (this.disabled) {
 			return;
 		}
 
-		if (this.el.children.length !== 1) {
-			throw new Error('Inline editable field must have exactly one child element to be editable');
+		// Filter out the actions div and ensure exactly one editable child element exists
+		const children = Array.from(this.el.children);
+		const slottedElements = children.filter(child => !child.classList.contains('inline-editable-field-actions'));
+
+		if (slottedElements.length !== 1) {
+			console.warn('Inline editable field must have exactly one child element to be editable');
+			return;
 		}
 
-		this.slotEl = this.el.children[0] as HTMLElement;
+		this.slotEl = slottedElements[0] as HTMLElement;
 		this.initializeEditableContent();
 	}
 
 	disconnectedCallback() {
+		clearTimeout(this.timeoutID);
 		this.destroyEditableContent();
 	}
 
@@ -187,7 +216,8 @@ export class KvInlineEditableField {
 			<Host
 				class={{
 					'inline-editable-field-container': true,
-					'inline-editable-field-container__hover': this.isHovering
+					'inline-editable-field-container__hover': this.isHovering,
+					'inline-editable-field-container__editing': this.isEditing
 				}}
 			>
 				<slot></slot>
@@ -199,8 +229,8 @@ export class KvInlineEditableField {
 				>
 					{this.isEditing && (
 						<Fragment>
-							<kv-action-button-icon type={EActionButtonType.Ghost} icon={EIconName.Close} onClickButton={this.discardContent} />
-							<kv-action-button-icon type={EActionButtonType.Ghost} icon={EIconName.DoneAll} disabled={this.isSaveDisabled} onClickButton={this.saveChanges} />
+							<kv-action-button-icon type={EActionButtonType.Tertiary} icon={EIconName.Close} onClickButton={this.discardContent} />
+							<kv-action-button-icon type={EActionButtonType.Tertiary} icon={EIconName.DoneAll} disabled={this.isSaveDisabled} onClickButton={this.saveChanges} />
 						</Fragment>
 					)}
 				</div>

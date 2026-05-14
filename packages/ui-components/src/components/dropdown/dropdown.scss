@@ -1,9 +1,53 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 .dropdown-container {
 	user-select: none;
 
 	kv-text-field {
-		--action-icon-size: 20px;
+		//Sizes
+		--input-height-large: var(--dropdown-height-regular);
+		--input-height-small: var(--dropdown-height-compact);
+		--input-gap-x: var(--dropdown-gap-vertical-default);
+		--input-prefix-spacing-x: var(--dropdown-gap-vertical-small);
+		--input-gap-y: var(--dropdown-gap-horizontal-horizontal);
+		--input-padding-x-large: var(--dropdown-padding-x-regular);
+		--input-padding-x-small: var(--dropdown-padding-x-compact);
+		--input-radius-large: var(--dropdown-radius-regular);
+		--input-radius-small: var(--dropdown-radius-compact);
+		--input-border-thickness: var(--dropdown-border-thickness-default);
+		--action-icon-size: var(--dropdown-icon-size-regular);
+
+		//Colors
+		////Default
+		--text-color-input-default: var(--dropdown-text-text-default);
+		--text-color-help-text-default: var(--dropdown-text-helper-text-default);
+		--border-color-default: var(--dropdown-border-color-default);
+		--background-color-default: var(--dropdown-background-default);
+		--text-color-icon-default: var(--dropdown-icon-color-input-default);
+		--text-color-action-icon-default: var(--dropdown-icon-color-input-default);
+
+		/// Selected
+		--text-color-input-focused: var(--dropdown-text-text-selected);
+		--border-color-focused: var(--dropdown-border-color-selected);
+		--text-color-icon-focused: var(--dropdown-icon-color-input-selected);
+		--text-color-action-icon-focused: var(--dropdown-icon-color-input-selected);
+
+		/// Filled
+		--text-color-input-filled: var(--dropdown-text-text-filled);
+		--text-color-icon-filled: var(--dropdown-icon-color-input-filled);
+		--text-color-action-icon-filled: var(--dropdown-icon-color-input-filled);
+		--border-color-filled: var(--dropdown-border-color-filled);
+
+		/// Disabled
+		--text-color-input-disabled: var(--dropdown-text-text-disabled);
+		--text-color-placeholder-disabled: var(--dropdown-text-text-disabled);
+		--border-color-disabled: var(--dropdown-border-color-disabled);
+		--background-color-disabled: var(--dropdown-background-disabled);
+		--text-color-icon-disabled: var(--dropdown-icon-color-input-disabled);
+		--text-color-action-icon-disabled: var(--dropdown-icon-color-input-disabled);
+
+		/// Error
+		--text-color-help-text-error: var(--dropdown-text-helper-text-error);
+		--border-color-error: var(--dropdown-border-color-error);
 	}
 }

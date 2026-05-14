@@ -12,7 +12,7 @@ export type CodeEditorTheme = editor.IStandaloneThemeData;
 
 export enum ECodeEditorTheme {
 	Dark = 'vs-dark',
-	Light = 'light',
+	Light = 'vs',
 	Custom = 'custom'
 }
 

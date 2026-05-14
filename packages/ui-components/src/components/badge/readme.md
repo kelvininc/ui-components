@@ -36,9 +36,10 @@ export const BadgeExample: React.FC = () => (
 
 ## Properties
 
-| Property | Attribute | Description                         | Type                                                                                                      | Default            |
-| -------- | --------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------ |
-| `state`  | `state`   | (optional) Defines the badge state. | `EBadgeState.Error \| EBadgeState.Info \| EBadgeState.None \| EBadgeState.Success \| EBadgeState.Warning` | `EBadgeState.None` |
+| Property   | Attribute  | Description                                          | Type                                         | Default              |
+| ---------- | ---------- | ---------------------------------------------------- | -------------------------------------------- | -------------------- |
+| `disabled` | `disabled` | (optional) If `true` the badge is in disabled state. | `boolean`                                    | `false`              |
+| `type`     | `type`     | (optional) Defines the badge type.                   | `EBadgeType.Primary \| EBadgeType.Secondary` | `EBadgeType.Primary` |
 
 
 ## Shadow Parts
@@ -50,54 +51,32 @@ export const BadgeExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                               | Description                                     |
-| ---------------------------------- | ----------------------------------------------- |
-| `--badge-background-color-error`   | Badge's background color when state is error.   |
-| `--badge-background-color-error`   | Badge's background color when state is error.   |
-| `--badge-background-color-info`    | Badge's background color when state is info.    |
-| `--badge-background-color-info`    | Badge's background color when state is info.    |
-| `--badge-background-color-none`    | Badge's background color when state is none.    |
-| `--badge-background-color-none`    | Badge's background color when state is none.    |
-| `--badge-background-color-success` | Badge's background color when state is success. |
-| `--badge-background-color-success` | Badge's background color when state is success. |
-| `--badge-background-color-warning` | Badge's background color when state is warning. |
-| `--badge-background-color-warning` | Badge's background color when state is warning. |
-| `--badge-height`                   | Badge's height.                                 |
-| `--badge-height`                   | Badge's height.                                 |
-| `--badge-max-width`                | Badge's maximum width.                          |
-| `--badge-max-width`                | Badge's maximum width.                          |
-| `--badge-min-width`                | Badge's minimum width.                          |
-| `--badge-min-width`                | Badge's minimum width.                          |
-| `--badge-text-color-error`         | Badge's text color when state is error.         |
-| `--badge-text-color-error`         | Badge's text color when state is error.         |
-| `--badge-text-color-info`          | Badge's text color when state is info.          |
-| `--badge-text-color-info`          | Badge's text color when state is info.          |
-| `--badge-text-color-none`          | Badge's text color when state is none.          |
-| `--badge-text-color-none`          | Badge's text color when state is none.          |
-| `--badge-text-color-success`       | Badge's text color when state is success.       |
-| `--badge-text-color-success`       | Badge's text color when state is success.       |
-| `--badge-text-color-warning`       | Badge's text color when state is warning.       |
-| `--badge-text-color-warning`       | Badge's text color when state is warning.       |
-| `--badge-warning-text-color`       | Badge's text color when state is warning.       |
-| `--badge-warning-text-color`       | Badge's text color when state is warning.       |
-| `--badge-width`                    | Badge's width.                                  |
-| `--badge-width`                    | Badge's width.                                  |
+| Name                                 | Description                                      |
+| ------------------------------------ | ------------------------------------------------ |
+| `--badge-background-color-primary`   | Badge's background color when type is primary.   |
+| `--badge-background-color-secondary` | Badge's background color when type is secondary. |
+| `--badge-height`                     | Badge's height.                                  |
+| `--badge-max-width`                  | Badge's maximum width.                           |
+| `--badge-min-width`                  | Badge's minimum width.                           |
+| `--badge-text-color-primary`         | Badge's text color when type is primary.         |
+| `--badge-text-color-secondary`       | Badge's text color when type is secondary.       |
+| `--badge-width`                      | Badge's width.                                   |
 
 
 ## Dependencies
 
 ### Used by
 
- - [kv-action-button-icon](../action-button-icon)
+ - [kv-tab-navigation](../tab-navigation)
+ - [kv-tag](../tag)
  - [kv-text-field](../text-field)
- - [kv-tree-item](../tree-item)
 
 ### Graph
 ```mermaid
 graph TD;
-  kv-action-button-icon --> kv-badge
+  kv-tab-navigation --> kv-badge
+  kv-tag --> kv-badge
   kv-text-field --> kv-badge
-  kv-tree-item --> kv-badge
   style kv-badge fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -3,7 +3,7 @@ import { HostAttributes } from '@stencil/core/internal';
 import { EToggleState, ISelectOption, ISelectOptionAction, ISelectOptionEvents } from './select-option.types';
 import { LEVEL_OFFSET_PX } from './select-option.config';
 import { EIconName } from '../icon/icon.types';
-import { CustomCssClass, EActionButtonType } from '../../types';
+import { CustomCssClass, EActionButtonType, EComponentSize } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 
 /**
@@ -12,6 +12,7 @@ import { getClassMap } from '../../utils/css-class.helper';
  * @part checkbox - The option's checkbox
  * @part label - The option's label
  * @part icon - The option's icon
+ * @part right-icon - The option's right icon
  */
 @Component({
 	tag: 'kv-select-option',
@@ -91,7 +92,8 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 							'select-option--highlighted': this.highlighted,
 							'select-option--disabled': this.disabled,
 							'select-option--selectable': this.selectable,
-							'select-option--heading': this.heading
+							'select-option--heading': this.heading,
+							'select-option--with-checkbox': this.selectable && this.togglable
 						}}
 						part="option-container"
 						onClick={this.onItemClick}
@@ -100,6 +102,7 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 					>
 						{this.selectable && this.togglable && (
 							<kv-checkbox
+								size={EComponentSize.Small}
 								disabled={this.disabled}
 								checked={this.state === EToggleState.Selected}
 								indeterminate={this.state === EToggleState.Indeterminate}
@@ -116,35 +119,39 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 						<div class="text-container">
 							<div class="left-content">
 								{this.isDirty && <kv-dirty-dot />}
-								<div class="item-label" part="label">
-									{this.label}
+								<kv-tooltip truncate text={this.label}>
+									<div class="item-label" part="label">
+										{this.label}
+									</div>
+								</kv-tooltip>
+							</div>
+							{(this.description || this.rightIcon || this.action) && (
+								<div class="right-content">
+									{(this.description || this.rightIcon) && (
+										<div class="group">
+											{this.rightIcon && (
+												<kv-tooltip text={this.rightIconTooltipText}>
+													<div class="item-right-icon" part="right-icon">
+														<kv-icon name={this.rightIcon} />
+													</div>
+												</kv-tooltip>
+											)}
+											{this.description && <div class="item-description">{this.description}</div>}
+										</div>
+									)}
+									{this.action && (
+										<div class="group">
+											<kv-action-button-icon
+												type={EActionButtonType.Tertiary}
+												icon={this.action.icon}
+												onClickButton={this.action.onClick}
+												active={this.action.active}
+												onClick={event => event.stopPropagation()}
+											/>
+										</div>
+									)}
 								</div>
-							</div>
-							<div class="right-content">
-								{(this.description || this.rightIcon) && (
-									<div class="group">
-										{this.rightIcon && (
-											<kv-tooltip text={this.rightIconTooltipText}>
-												<div class="item-right-icon" part="right-icon">
-													<kv-icon name={this.rightIcon} />
-												</div>
-											</kv-tooltip>
-										)}
-										{this.description && <div class="item-description">{this.description}</div>}
-									</div>
-								)}
-								{this.action && (
-									<div class="group">
-										<kv-action-button-icon
-											type={EActionButtonType.Ghost}
-											icon={this.action.icon}
-											onClickButton={this.action.onClick}
-											active={this.action.active}
-											onClick={event => event.stopPropagation()}
-										/>
-									</div>
-								)}
-							</div>
+							)}
 						</div>
 					</div>
 					<slot />

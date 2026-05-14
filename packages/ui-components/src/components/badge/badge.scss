@@ -1,0 +1,65 @@
+@use '../../assets/styles' as *;
+
+/* stylelint-disable csstools/value-no-unknown-custom-properties */
+@mixin badge-type-theme($type) {
+	$badge-text-color: var(--badge-text-color-#{$type});
+	$badge-background-color: var(--badge-background-color-#{$type});
+
+	color: $badge-text-color;
+	background-color: $badge-background-color;
+}
+/* stylelint-enable csstools/value-no-unknown-custom-properties */
+
+:host {
+	/**
+	 * @prop --badge-min-width: Badge's minimum width.
+	 * @prop --badge-max-width: Badge's maximum width.
+	 * @prop --badge-height: Badge's height.
+	 * @prop --badge-width: Badge's width.
+	 * @prop --badge-background-color-primary: Badge's background color when type is primary.
+	 * @prop --badge-background-color-secondary: Badge's background color when type is secondary.
+	 * @prop --badge-text-color-primary: Badge's text color when type is primary.
+	 * @prop --badge-text-color-secondary: Badge's text color when type is secondary.
+	 */
+
+	--badge-min-width: unset;
+	--badge-max-width: fit-content;
+	--badge-height: var(--size-md);
+	--badge-width: unset;
+	
+	--badge-background-color-primary: var(--background-container-accent-purple-default);
+	--badge-text-color-primary: var(--text-container-accent-purple-default);
+	
+	--badge-background-color-secondary: var(--background-interactive-counter-default);
+	--badge-text-color-secondary: var(--text-interactive-counter-default);
+	
+}
+
+.badge {
+	@include body-m-regular;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	min-width: var(--badge-min-width);
+	max-width: var(--badge-max-width);
+	height: var(--badge-height);
+	width: var(--badge-width);
+	padding: 0 var(--spacing-xs);
+	line-height: unset;
+
+	border-radius: var(--radius-full);
+
+	&--type-primary {
+		@include badge-type-theme(primary);
+	}
+	
+	&--type-secondary {
+		@include badge-type-theme(secondary);
+	}
+
+	&.disabled {
+		color: var(--text-interactive-counter-disabled);
+		background-color: var(--background-interactive-counter-disabled);
+	}
+}

@@ -1,184 +1,42 @@
-@use "sass:map";
-@import '../../assets/styles/globals';
+@use 'sass:map';
+@use '../../assets/styles' as *;
 
-$btn-text-colors: (
-	default: (
-		primary: kv-color('text'),
-		secondary: kv-color('text'),
-		tertiary: kv-color('text'),
-		ghost: kv-color('text'),
-		danger: kv-color('text')
-	),
-	hover: (
-		primary: kv-color('text'),
-		secondary: kv-color('text'),
-		tertiary: kv-color('neutral-2'),
-		ghost: kv-color('neutral-2'),
-		danger: kv-color('text')
-	),
-	focus: (
-		primary: kv-color('text'),
-		secondary: kv-color('text'),
-		tertiary: kv-color('text'),
-		ghost: kv-color('text'),
-		danger: kv-color('text')
-	),
-	disabled: (
-		primary: kv-color('neutral-5'),
-		secondary: kv-color('neutral-5'),
-		tertiary: kv-color('neutral-5'),
-		ghost: kv-color('neutral-5'),
-		danger: kv-color('text')
-	),
-	active: (
-		primary: kv-color('text'),
-		secondary: kv-color('text'),
-		tertiary: kv-color('neutral-2'),
-		ghost: kv-color('neutral-2'),
-		danger: kv-color('text')
-	)
-);
-$btn-background-colors: (
-	default: (
-		primary: kv-color('primary'),
-		secondary: kv-color('neutral-6'),
-		tertiary: transparent,
-		ghost: transparent,
-		danger: kv-color('error')
-	),
-	hover: (
-		primary: kv-color('primary', 'dark'),
-		secondary: kv-color('neutral-5'),
-		tertiary: transparent,
-		ghost: kv-color('neutral-7'),
-		danger: kv-color('error', 'dark')
-	),
-	focus: (
-		primary: kv-color('primary'),
-		secondary: kv-color('neutral-6'),
-		tertiary: transparent,
-		ghost: kv-color('neutral-7'),
-		danger: kv-color('error')
-	),
-	disabled: (
-		primary: kv-color('neutral-3'),
-		secondary: kv-color('neutral-3'),
-		tertiary: transparent,
-		ghost: transparent,
-		danger: kv-color('error', 'light')
-	),
-	active: (
-		primary: kv-color('primary', 'dark'),
-		secondary: kv-color('neutral-5'),
-		tertiary: transparent,
-		ghost: kv-color('neutral-7'),
-		danger: kv-color('error', 'dark')
-	)
-);
-$btn-border-colors: (
-	default: (
-		primary: kv-color('primary'),
-		secondary: kv-color('neutral-6'),
-		tertiary: kv-color('neutral-0'),
-		ghost: transparent,
-		danger: kv-color('error')
-	),
-	hover: (
-		primary: kv-color('primary', 'dark'),
-		secondary: kv-color('neutral-5'),
-		tertiary: kv-color('neutral-2'),
-		ghost: kv-color('neutral-7'),
-		danger: kv-color('error', 'dark')
-	),
-	focus: (
-		primary: kv-color('primary'),
-		secondary: kv-color('neutral-0'),
-		tertiary: transparent,
-		ghost: kv-color('neutral-7'),
-		danger: transparent
-	),
-	disabled: (
-		primary: kv-color('neutral-3'),
-		secondary: kv-color('neutral-3'),
-		tertiary: kv-color('neutral-5'),
-		ghost: transparent,
-		danger: kv-color('error', 'light')
-	),
-	active: (
-		primary: kv-color('primary', 'dark'),
-		secondary: kv-color('neutral-5'),
-		tertiary: kv-color('neutral-2'),
-		ghost: kv-color('neutral-7'),
-		danger: kv-color('error', 'dark')
-	)
-);
-$btn-heights: (
-	small: 28px,
-	large: 36px
-);
-
-$btn-paddings-x: (
-	small: $spacing-3x,
-	large: $spacing-4x
-);
-
-@function get-text-color($state, $type) {
-	$values: map.get($btn-text-colors, $state);
-	@if ($values) {
-		@return map.get($values, $type);
-	}
-
-	@return null;
-}
-@function get-background-color($state, $type) {
-	$values: map.get($btn-background-colors, $state);
-	@if ($values) {
-		@return map.get($values, $type);
-	}
-
-	@return null;
-}
-@function get-border-color($state, $type) {
-	$values: map.get($btn-border-colors, $state);
-	@if ($values) {
-		@return map.get($values, $type);
-	}
-
-	@return null;
-}
-@function get-height($size) {
-	@return map.get($btn-heights, $size);
-}
-@function get-horizontal-padding($size) {
-	@return map.get($btn-paddings-x, $size);
-}
-
+/* stylelint-disable csstools/value-no-unknown-custom-properties */
 @mixin button-text-theme($type) {
-	$btn-default-text-color: var(--text-color-default-#{$type});
-	$btn-hover-text-color: var(--text-color-hover-#{$type});
-	$btn-focus-text-color: var(--text-color-focus-#{$type});
-	$btn-disabled-text-color: var(--text-color-disabled-#{$type});
-	$btn-active-text-color: var(--text-color-active-#{$type});
+	$btn-default-text-color: var(--text-color-default-#{$type}, var(--_text-color-default-#{$type}));
+	$btn-default-icon-color: var(--icon-color-default-#{$type}, var(--_icon-color-default-#{$type}));
+
+	$btn-hover-text-color: var(--text-color-hover-#{$type}, var(--_text-color-hover-#{$type}));
+	$btn-hover-icon-color: var(--icon-color-hover-#{$type}, var(--_icon-color-hover-#{$type}));
+
+	$btn-focus-text-color: var(--text-color-focus-#{$type}, var(--_text-color-focus-#{$type}));
+	$btn-focus-icon-color: var(--icon-color-focus-#{$type}, var(--_icon-color-focus-#{$type}));
+
+	$btn-disabled-text-color: var(--text-color-disabled-#{$type}, var(--_text-color-disabled-#{$type}));
+	$btn-disabled-icon-color: var(--icon-color-disabled-#{$type}, var(--_icon-color-disabled-#{$type}));
+
+	$btn-active-text-color: var(--text-color-active-#{$type}, var(--_text-color-active-#{$type}));
+	$btn-active-icon-color: var(--icon-color-active-#{$type}, var(--_icon-color-active-#{$type}));
 
 	color: $btn-default-text-color;
 
 	::slotted(kv-icon) {
-		--icon-color: #{$btn-default-text-color};
+		--icon-color: #{$btn-default-icon-color};
 	}
 
 	&:hover:not(.action-button--disabled) {
 		color: $btn-hover-text-color;
 
 		::slotted(kv-icon) {
-			--icon-color: #{$btn-hover-text-color};
+			--icon-color: #{$btn-hover-icon-color};
 		}
 	}
 
-	&:focus:not(.action-button--disabled) {
+	&:focus:not(.action-button--disabled):not(.action-button--active) {
 		color: $btn-focus-text-color;
 
 		::slotted(kv-icon) {
-			--icon-color: #{$btn-focus-text-color};
+			--icon-color: #{$btn-focus-icon-color};
 		}
 	}
 
@@ -186,38 +44,43 @@ $btn-paddings-x: (
 		color: $btn-disabled-text-color;
 
 		::slotted(kv-icon) {
-			--icon-color: #{$btn-disabled-text-color};
+			--icon-color: #{$btn-disabled-icon-color};
 		}
 	}
 
+	&:active:not(.action-button--disabled),
 	&.action-button--active {
 		color: $btn-active-text-color;
 
 		::slotted(kv-icon) {
-			--icon-color: #{$btn-active-text-color};
+			--icon-color: #{$btn-active-icon-color};
 		}
 	}
 }
 @mixin button-background-theme($type) {
-	$btn-default-background-color: var(--background-color-default-#{$type});
-	$btn-hover-background-color: var(--background-color-hover-#{$type});
-	$btn-focus-background-color: var(--background-color-focus-#{$type});
-	$btn-disabled-background-color: var(--background-color-disabled-#{$type});
-	$btn-active-background-color: var(--background-color-active-#{$type});
+	$btn-default-background-color: var(--background-color-default-#{$type}, var(--_background-color-default-#{$type}));
+	$btn-hover-background-color: var(--background-color-hover-#{$type}, var(--_background-color-hover-#{$type}));
+	$btn-focus-background-color: var(--background-color-focus-#{$type}, var(--_background-color-focus-#{$type}));
+	$btn-disabled-background-color: var(--background-color-disabled-#{$type}, var(--_background-color-disabled-#{$type}));
+	$btn-active-background-color: var(--background-color-active-#{$type}, var(--_background-color-active-#{$type}));
 
 	background: linear-gradient(45deg, $btn-hover-background-color 50%, $btn-default-background-color 50%);
 	background-size: 350% 100%;
 	background-repeat: no-repeat;
 	background-color: $btn-default-background-color;
 	background-position: right bottom;
-	transition: background-position 0.5s ease-out, border-top-color 0.5s ease-out, border-right-color 0.5s ease-out, border-bottom-color 0.25s ease-in-out,
+	transition:
+		background-position 0.5s ease-out,
+		border-top-color 0.5s ease-out,
+		border-right-color 0.5s ease-out,
+		border-bottom-color 0.25s ease-in-out,
 		border-left-color 0.25s ease-in-out;
 
 	&:hover:not(.action-button--disabled) {
 		background-position: left top;
 	}
 
-	&:focus:not(.action-button--disabled) {
+	&:focus:not(.action-button--disabled):not(.action-button--active) {
 		background: $btn-focus-background-color;
 	}
 
@@ -225,18 +88,20 @@ $btn-paddings-x: (
 		background: $btn-disabled-background-color;
 	}
 
+	&:active:not(.action-button--disabled),
 	&.action-button--active {
 		background: $btn-active-background-color;
 	}
 }
 @mixin button-border-theme($type) {
-	$btn-default-border-color: var(--border-color-default-#{$type});
-	$btn-hover-border-color: var(--border-color-hover-#{$type});
-	$btn-focus-border-color: var(--border-color-focus-#{$type});
-	$btn-disabled-border-color: var(--border-color-disabled-#{$type});
-	$btn-active-border-color: var(--border-color-active-#{$type});
+	$btn-default-border-color: var(--border-color-default-#{$type}, var(--_border-color-default-#{$type}));
+	$btn-hover-border-color: var(--border-color-hover-#{$type}, var(--_border-color-hover-#{$type}));
+	$btn-focus-border-color: var(--border-color-focus-#{$type}, var(--_border-color-focus-#{$type}));
+	$btn-disabled-border-color: var(--border-color-disabled-#{$type}, var(--_border-color-disabled-#{$type}));
+	$btn-active-border-color: var(--border-color-active-#{$type}, var(--_border-color-active-#{$type}));
+	$btn-border-thickness: var(--button-border-thickness);
 
-	border: 1px solid $btn-default-border-color;
+	border: $btn-border-thickness solid $btn-default-border-color;
 
 	&:hover:not(.action-button--disabled) {
 		border-top-color: $btn-hover-border-color;
@@ -245,22 +110,23 @@ $btn-paddings-x: (
 		border-left-color: $btn-hover-border-color;
 	}
 
-	&:focus:not(.action-button--disabled) {
+	&:focus:not(.action-button--disabled):not(.action-button--active) {
 		&::before {
 			content: '';
 			filter: blur(2px);
 			position: absolute;
 			z-index: -1;
-			border: 1px solid $btn-focus-border-color;
+			border: $btn-border-thickness solid $btn-focus-border-color;
 		}
 	}
 
 	&.action-button--disabled {
-		border: 1px solid $btn-disabled-border-color;
+		border: $btn-border-thickness solid $btn-disabled-border-color;
 	}
 
+	&:active:not(.action-button--disabled),
 	&.action-button--active {
-		border: 1px solid $btn-active-border-color;
+		border: $btn-border-thickness solid $btn-active-border-color;
 	}
 }
 
@@ -269,164 +135,291 @@ $btn-paddings-x: (
 	@include button-background-theme($type);
 	@include button-border-theme($type);
 }
-@mixin button-size-theme($size) {
+@mixin button-size-theme($size, $type) {
 	height: var(--button-height-#{$size});
-	padding: 0 var(--button-padding-x-#{$size});
+	padding: var(--button-padding-y-#{$size}, 0) var(--button-padding-x-#{$size});
+
+	::slotted(kv-icon) {
+		--icon-width: var(--button-icon-size-#{$type}-#{$size});
+		--icon-height: var(--button-icon-size-#{$type}-#{$size});
+	}
 }
+/* stylelint-enable csstools/value-no-unknown-custom-properties */
 
 :host {
 	/**
+	 * @prop --icon-color-default-primary: Icon color when state is default and theme is primary.
+	 * @prop --icon-color-default-secondary: Icon color when state is default and theme is secondary.
+	 * @prop --icon-color-default-tertiary: Icon color when state is default and theme is tertiary.
+	 * @prop --icon-color-default-text: Icon color when state is default and theme is text.
+	 * @prop --icon-color-default-danger: Icon color when state is default and theme is danger.
+	 * @prop --icon-color-hover-primary: Icon color when state is hover and theme is primary.
+	 * @prop --icon-color-hover-secondary: Icon color when state is hover and theme is secondary.
+	 * @prop --icon-color-hover-tertiary: Icon color when state is hover and theme is tertiary.
+	 * @prop --icon-color-hover-text: Icon color when state is hover and theme is text.
+	 * @prop --icon-color-hover-danger: Icon color when state is hover and theme is danger.
+	 * @prop --icon-color-focus-primary: Icon color when state is focus and theme is primary.
+	 * @prop --icon-color-focus-secondary: Icon color when state is focus and theme is secondary.
+	 * @prop --icon-color-focus-tertiary: Icon color when state is focus and theme is tertiary.
+	 * @prop --icon-color-focus-text: Icon color when state is focus and theme is text.
+	 * @prop --icon-color-focus-danger: Icon color when state is focus and theme is danger.
+	 * @prop --icon-color-disabled-primary: Icon color when state is disabled and theme is primary.
+	 * @prop --icon-color-disabled-secondary: Icon color when state is disabled and theme is secondary.
+	 * @prop --icon-color-disabled-tertiary: Icon color when state is disabled and theme is tertiary.
+	 * @prop --icon-color-disabled-text: Icon color when state is disabled and theme is text.
+	 * @prop --icon-color-disabled-danger: Icon color when state is disabled and theme is danger.
+	 * @prop --icon-color-active-primary: Icon color when state is active and theme is primary.
+	 * @prop --icon-color-active-secondary: Icon color when state is active and theme is secondary.
+	 * @prop --icon-color-active-tertiary: Icon color when state is active and theme is tertiary.
+	 * @prop --icon-color-active-text: Icon color when state is active and theme is text.
+	 * @prop --icon-color-active-danger: Icon color when state is active and theme is danger.
 	 * @prop --text-color-default-primary: Text color when state is default and theme is primary.
 	 * @prop --text-color-default-secondary: Text color when state is default and theme is secondary.
 	 * @prop --text-color-default-tertiary: Text color when state is default and theme is tertiary.
+	 * @prop --text-color-default-text: Text color when state is default and theme is text.
 	 * @prop --text-color-default-danger: Text color when state is default and theme is danger.
 	 * @prop --text-color-hover-primary: Text color when state is hover and theme is primary.
 	 * @prop --text-color-hover-secondary: Text color when state is hover and theme is secondary.
 	 * @prop --text-color-hover-tertiary: Text color when state is hover and theme is tertiary.
+	 * @prop --text-color-hover-text: Text color when state is hover and theme is text.
 	 * @prop --text-color-hover-danger: Text color when state is hover and theme is danger.
 	 * @prop --text-color-focus-primary: Text color when state is focus and theme is primary.
 	 * @prop --text-color-focus-secondary: Text color when state is focus and theme is secondary.
 	 * @prop --text-color-focus-tertiary: Text color when state is focus and theme is tertiary.
+	 * @prop --text-color-focus-text: Text color when state is focus and theme is text.
 	 * @prop --text-color-focus-danger: Text color when state is focus and theme is danger.
 	 * @prop --text-color-disabled-primary: Text color when state is disabled and theme is primary.
 	 * @prop --text-color-disabled-secondary: Text color when state is disabled and theme is secondary.
 	 * @prop --text-color-disabled-tertiary: Text color when state is disabled and theme is tertiary.
+	 * @prop --text-color-disabled-text: Text color when state is disabled and theme is text.
 	 * @prop --text-color-disabled-danger: Text color when state is disabled and theme is danger.
 	 * @prop --text-color-active-primary: Text color when state is active and theme is primary.
 	 * @prop --text-color-active-secondary: Text color when state is active and theme is secondary.
 	 * @prop --text-color-active-tertiary: Text color when state is active and theme is tertiary.
+	 * @prop --text-color-active-text: Text color when state is active and theme is text.
 	 * @prop --text-color-active-danger: Text color when state is active and theme is danger.
 	 * @prop --background-color-default-primary: Background color when state is default and theme is primary.
 	 * @prop --background-color-default-secondary: Background color when state is default and theme is secondary.
 	 * @prop --background-color-default-tertiary: Background color when state is default and theme is tertiary.
+	 * @prop --background-color-default-text: Background color when state is default and theme is text.
 	 * @prop --background-color-default-danger: Background color when state is default and theme is danger.
 	 * @prop --background-color-hover-primary: Background color when state is hover and theme is primary.
 	 * @prop --background-color-hover-secondary: Background color when state is hover and theme is secondary.
 	 * @prop --background-color-hover-tertiary: Background color when state is hover and theme is tertiary.
+	 * @prop --background-color-hover-text: Background color when state is hover and theme is text.
 	 * @prop --background-color-hover-danger: Background color when state is hover and theme is danger.
 	 * @prop --background-color-focus-primary: Background color when state is focus and theme is primary.
 	 * @prop --background-color-focus-secondary: Background color when state is focus and theme is secondary.
 	 * @prop --background-color-focus-tertiary: Background color when state is focus and theme is tertiary.
+	 * @prop --background-color-focus-text: Background color when state is focus and theme is text.
 	 * @prop --background-color-focus-danger: Background color when state is focus and theme is danger.
 	 * @prop --background-color-disabled-primary: Background color when state is disabled and theme is primary.
 	 * @prop --background-color-disabled-secondary: Background color when state is disabled and theme is secondary.
 	 * @prop --background-color-disabled-tertiary: Background color when state is disabled and theme is tertiary.
+	 * @prop --background-color-disabled-text: Background color when state is disabled and theme is text.
 	 * @prop --background-color-disabled-danger: Background color when state is disabled and theme is danger.
 	 * @prop --background-color-active-primary: Background color when state is active and theme is primary.
 	 * @prop --background-color-active-secondary: Background color when state is active and theme is secondary.
 	 * @prop --background-color-active-tertiary: Background color when state is active and theme is tertiary.
+	 * @prop --background-color-active-text: Background color when state is active and theme is text.
 	 * @prop --background-color-active-danger: Background color when state is active and theme is danger.
 	 * @prop --border-color-default-primary: Border color when state is default and theme is primary.
 	 * @prop --border-color-default-secondary: Border color when state is default and theme is secondary.
 	 * @prop --border-color-default-tertiary: Border color when state is default and theme is tertiary.
+	 * @prop --border-color-default-text: Border color when state is default and theme is text.
 	 * @prop --border-color-default-danger: Border color when state is default and theme is danger.
 	 * @prop --border-color-hover-primary: Border color when state is hover and theme is primary.
 	 * @prop --border-color-hover-secondary: Border color when state is hover and theme is secondary.
 	 * @prop --border-color-hover-tertiary: Border color when state is hover and theme is tertiary.
+	 * @prop --border-color-hover-text: Border color when state is hover and theme is text.
 	 * @prop --border-color-hover-danger: Border color when state is hover and theme is danger.
 	 * @prop --border-color-focus-primary: Border color when state is focus and theme is primary.
 	 * @prop --border-color-focus-secondary: Border color when state is focus and theme is secondary.
 	 * @prop --border-color-focus-tertiary: Border color when state is focus and theme is tertiary.
+	 * @prop --border-color-focus-text: Border color when state is focus and theme is text.
 	 * @prop --border-color-focus-danger: Border color when state is focus and theme is danger.
 	 * @prop --border-color-disabled-primary: Border color when state is disabled and theme is primary.
 	 * @prop --border-color-disabled-secondary: Border color when state is disabled and theme is secondary.
 	 * @prop --border-color-disabled-tertiary: Border color when state is disabled and theme is tertiary.
+	 * @prop --border-color-disabled-text: Border color when state is disabled and theme is text.
 	 * @prop --border-color-disabled-danger: Border color when state is disabled and theme is danger.
 	 * @prop --border-color-active-primary: Border color when state is active and theme is primary.
 	 * @prop --border-color-active-secondary: Border color when state is active and theme is secondary.
 	 * @prop --border-color-active-tertiary: Border color when state is active and theme is tertiary.
+	 * @prop --border-color-active-text: Border color when state is active and theme is text.
 	 * @prop --border-color-active-danger: Border color when state is active and theme is danger.
-	 * @prop --button-height-large: Button's height when size large.
-	 * @prop --button-height-small: Button's height when size small.
+	 * @prop --button-gap-large: Button's gap between elements when size is large.
+	 * @prop --button-gap-small: Button's gap between elements when size is small.
+	 * @prop --button-height-large: Button's height when size is large.
+	 * @prop --button-height-small: Button's height when size is small.
 	 * @prop --button-padding-x-large: Button's horizontal padding when size is large.
 	 * @prop --button-padding-x-small: Button's horizontal padding when size is small.
+	 * @prop --button-padding-y-large: Button's vertical padding when size is large.
+	 * @prop --button-padding-y-small: Button's vertical padding when size is small.
+	 * @prop --button-border-thickness: Button's border thickness.
+	 * @prop --button-border-radius-large: Button's border radius when size is large.
+	 * @prop --button-border-radius-small: Button's border radius when size is small.
+	 * @prop --button-icon-size-primary-large: Icon size when theme is primary and size is large.
+	 * @prop --button-icon-size-primary-small: Icon size when theme is primary and size is small.
+	 * @prop --button-icon-size-secondary-large: Icon size when theme is secondary and size is large.
+	 * @prop --button-icon-size-secondary-small: Icon size when theme is secondary and size is small.
+	 * @prop --button-icon-size-tertiary-large: Icon size when theme is tertiary and size is large.
+	 * @prop --button-icon-size-tertiary-small: Icon size when theme is tertiary and size is small.
+	 * @prop --button-icon-size-text-large: Icon size when theme is text and size is large.
+	 * @prop --button-icon-size-text-small: Icon size when theme is text and size is small.
+	 * @prop --button-icon-size-danger-large: Icon size when theme is danger and size is large.
+	 * @prop --button-icon-size-danger-small: Icon size when theme is danger and size is small.
 	 */
 
-	// text colors
-	--text-color-default-primary: #{get-text-color('default', 'primary')};
-	--text-color-default-secondary: #{get-text-color('default', 'secondary')};
-	--text-color-default-tertiary: #{get-text-color('default', 'tertiary')};
-	--text-color-default-ghost: #{get-text-color('default', 'ghost')};
-	--text-color-default-danger: #{get-text-color('default', 'danger')};
-	--text-color-hover-primary: #{get-text-color('hover', 'primary')};
-	--text-color-hover-secondary: #{get-text-color('hover', 'secondary')};
-	--text-color-hover-tertiary: #{get-text-color('hover', 'tertiary')};
-	--text-color-hover-ghost: #{get-text-color('hover', 'ghost')};
-	--text-color-hover-danger: #{get-text-color('hover', 'danger')};
-	--text-color-focus-primary: #{get-text-color('focus', 'primary')};
-	--text-color-focus-secondary: #{get-text-color('focus', 'secondary')};
-	--text-color-focus-tertiary: #{get-text-color('focus', 'tertiary')};
-	--text-color-focus-ghost: #{get-text-color('focus', 'ghost')};
-	--text-color-focus-danger: #{get-text-color('focus', 'danger')};
-	--text-color-disabled-primary: #{get-text-color('disabled', 'primary')};
-	--text-color-disabled-secondary: #{get-text-color('disabled', 'secondary')};
-	--text-color-disabled-tertiary: #{get-text-color('disabled', 'tertiary')};
-	--text-color-disabled-ghost: #{get-text-color('disabled', 'ghost')};
-	--text-color-disabled-danger: #{get-text-color('disabled', 'danger')};
-	--text-color-active-primary: #{get-text-color('active', 'primary')};
-	--text-color-active-secondary: #{get-text-color('active', 'secondary')};
-	--text-color-active-tertiary: #{get-text-color('active', 'tertiary')};
-	--text-color-active-ghost: #{get-text-color('active', 'ghost')};
-	--text-color-active-danger: #{get-text-color('active', 'danger')};
+	//icon colors (internal defaults)
+	--_icon-color-default-primary: var(--button-primary-icon-color-default);
+	--_icon-color-default-secondary: var(--button-secondary-icon-color-default);
+	--_icon-color-default-tertiary: var(--button-tertiary-icon-color-default);
+	--_icon-color-default-text: var(--button-text-icon-color-default);
+	--_icon-color-default-danger: var(--button-danger-icon-color-default);
 
-	// background colors
-	--background-color-default-primary: #{get-background-color('default', 'primary')};
-	--background-color-default-secondary: #{get-background-color('default', 'secondary')};
-	--background-color-default-tertiary: #{get-background-color('default', 'tertiary')};
-	--background-color-default-ghost: #{get-background-color('default', 'ghost')};
-	--background-color-default-danger: #{get-background-color('default', 'danger')};
-	--background-color-hover-primary: #{get-background-color('hover', 'primary')};
-	--background-color-hover-secondary: #{get-background-color('hover', 'secondary')};
-	--background-color-hover-tertiary: #{get-background-color('hover', 'tertiary')};
-	--background-color-hover-ghost: #{get-background-color('hover', 'ghost')};
-	--background-color-hover-danger: #{get-background-color('hover', 'danger')};
-	--background-color-focus-primary: #{get-background-color('focus', 'primary')};
-	--background-color-focus-secondary: #{get-background-color('focus', 'secondary')};
-	--background-color-focus-tertiary: #{get-background-color('focus', 'tertiary')};
-	--background-color-focus-ghost: #{get-background-color('focus', 'ghost')};
-	--background-color-focus-danger: #{get-background-color('focus', 'danger')};
-	--background-color-disabled-primary: #{get-background-color('disabled', 'primary')};
-	--background-color-disabled-secondary: #{get-background-color('disabled', 'secondary')};
-	--background-color-disabled-tertiary: #{get-background-color('disabled', 'tertiary')};
-	--background-color-disabled-ghost: #{get-background-color('disabled', 'ghost')};
-	--background-color-disabled-danger: #{get-background-color('disabled', 'danger')};
-	--background-color-active-primary: #{get-background-color('active', 'primary')};
-	--background-color-active-secondary: #{get-background-color('active', 'secondary')};
-	--background-color-active-tertiary: #{get-background-color('active', 'tertiary')};
-	--background-color-active-ghost: #{get-background-color('active', 'ghost')};
-	--background-color-active-danger: #{get-background-color('active', 'danger')};
+	--_icon-color-hover-primary: var(--button-primary-icon-color-default);
+	--_icon-color-hover-secondary: var(--button-secondary-icon-color-subtle);
+	--_icon-color-hover-tertiary: var(--button-tertiary-icon-color-subtle);
+	--_icon-color-hover-text: var(--button-text-icon-color-default);
+	--_icon-color-hover-danger: var(--button-danger-icon-color-default);
 
-	// borders colors
-	--border-color-default-primary: #{get-border-color('default', 'primary')};
-	--border-color-default-secondary: #{get-border-color('default', 'secondary')};
-	--border-color-default-tertiary: #{get-border-color('default', 'tertiary')};
-	--border-color-default-ghost: #{get-border-color('default', 'ghost')};
-	--border-color-default-danger: #{get-border-color('default', 'danger')};
-	--border-color-hover-primary: #{get-border-color('hover', 'primary')};
-	--border-color-hover-secondary: #{get-border-color('hover', 'secondary')};
-	--border-color-hover-tertiary: #{get-border-color('hover', 'tertiary')};
-	--border-color-hover-ghost: #{get-border-color('hover', 'ghost')};
-	--border-color-hover-danger: #{get-border-color('hover', 'danger')};
-	--border-color-focus-primary: #{get-border-color('focus', 'primary')};
-	--border-color-focus-secondary: #{get-border-color('focus', 'secondary')};
-	--border-color-focus-tertiary: #{get-border-color('focus', 'tertiary')};
-	--border-color-focus-ghost: #{get-border-color('focus', 'ghost')};
-	--border-color-focus-danger: #{get-border-color('focus', 'danger')};
-	--border-color-disabled-primary: #{get-border-color('disabled', 'primary')};
-	--border-color-disabled-secondary: #{get-border-color('disabled', 'secondary')};
-	--border-color-disabled-tertiary: #{get-border-color('disabled', 'tertiary')};
-	--border-color-disabled-ghost: #{get-border-color('disabled', 'ghost')};
-	--border-color-disabled-danger: #{get-border-color('disabled', 'danger')};
-	--border-color-active-primary: #{get-border-color('active', 'primary')};
-	--border-color-active-secondary: #{get-border-color('active', 'secondary')};
-	--border-color-active-tertiary: #{get-border-color('active', 'tertiary')};
-	--border-color-active-ghost: #{get-border-color('active', 'ghost')};
-	--border-color-active-danger: #{get-border-color('active', 'danger')};
+	--_icon-color-focus-primary: var(--button-primary-icon-color-default);
+	--_icon-color-focus-secondary: var(--button-secondary-icon-color-default);
+	--_icon-color-focus-tertiary: var(--button-tertiary-icon-color-default);
+	--_icon-color-focus-text: var(--button-text-icon-color-default);
+	--_icon-color-focus-danger: var(--button-danger-icon-color-default);
+	--_icon-color-disabled-primary: var(--button-primary-icon-color-disabled);
+	--_icon-color-disabled-secondary: var(--button-secondary-icon-color-disabled);
+	--_icon-color-disabled-tertiary: var(--button-tertiary-icon-color-disabled);
+	--_icon-color-disabled-text: var(--button-text-icon-color-disabled);
+	--_icon-color-disabled-danger: var(--button-danger-icon-color-disabled);
 
-	--button-height-large: #{get-height('large')};
-	--button-height-small: #{get-height('small')};
-	--button-padding-x-large: #{get-horizontal-padding('large')};
-	--button-padding-x-small: #{get-horizontal-padding('small')};
+	--_icon-color-active-primary: var(--button-primary-icon-color-default);
+	--_icon-color-active-secondary: var(--button-secondary-icon-color-subtle);
+	--_icon-color-active-tertiary: var(--button-tertiary-icon-color-subtle);
+	--_icon-color-active-text: var(--button-text-icon-color-default);
+	--_icon-color-active-danger: var(--button-danger-icon-color-default);
+
+	// text colors (internal defaults)
+	--_text-color-default-primary: var(--button-primary-label-default);
+	--_text-color-default-secondary: var(--button-secondary-label-default);
+	--_text-color-default-tertiary: var(--button-tertiary-label-default);
+	--_text-color-default-text: var(--button-text-label-default);
+	--_text-color-default-danger: var(--button-danger-label-default);
+	--_text-color-hover-primary: var(--button-primary-label-default);
+	--_text-color-hover-secondary: var(--button-secondary-label-subtle);
+	--_text-color-hover-tertiary: var(--button-tertiary-label-subtle);
+	--_text-color-hover-text: var(--button-text-label-default);
+	--_text-color-hover-danger: var(--button-danger-label-default);
+
+	--_text-color-focus-primary: var(--button-primary-label-default);
+	--_text-color-focus-secondary: var(--button-secondary-label-default);
+	--_text-color-focus-tertiary: var(--button-tertiary-label-default);
+	--_text-color-focus-text: var(--button-text-label-default);
+	--_text-color-focus-danger: var(--button-danger-label-default);
+	--_text-color-disabled-primary: var(--button-primary-label-disabled);
+	--_text-color-disabled-secondary: var(--button-secondary-label-disabled);
+	--_text-color-disabled-tertiary: var(--button-tertiary-label-disabled);
+	--_text-color-disabled-text: var(--button-text-label-disabled);
+	--_text-color-disabled-danger: var(--button-danger-label-disabled);
+
+	--_text-color-active-primary: var(--button-primary-label-default);
+	--_text-color-active-secondary: var(--button-secondary-label-subtle);
+	--_text-color-active-tertiary: var(--button-tertiary-label-subtle);
+	--_text-color-active-text: var(--button-text-label-default);
+	--_text-color-active-danger: var(--button-danger-label-default);
+
+	// background colors (internal defaults)
+	--_background-color-default-primary: var(--button-primary-background-default);
+	--_background-color-default-secondary: var(--transparent);
+	--_background-color-default-tertiary: var(--transparent);
+	--_background-color-default-text: var(--transparent);
+	--_background-color-default-danger: var(--button-danger-background-default);
+
+	--_background-color-hover-primary: var(--button-primary-background-hover);
+	--_background-color-hover-secondary: var(--button-secondary-background-hover);
+	--_background-color-hover-tertiary: var(--button-tertiary-background-hover);
+	--_background-color-hover-text: var(--transparent);
+	--_background-color-hover-danger: var(--button-danger-background-hover);
+
+	--_background-color-focus-primary: var(--button-primary-background-default);
+	--_background-color-focus-secondary: var(--transparent);
+	--_background-color-focus-tertiary: var(--transparent);
+	--_background-color-focus-text: var(--transparent);
+	--_background-color-focus-danger: var(--button-danger-background-default);
+	--_background-color-disabled-primary: var(--button-primary-background-disabled);
+	--_background-color-disabled-secondary: var(--button-secondary-background-disabled);
+	--_background-color-disabled-tertiary: var(--button-tertiary-background-disabled);
+	--_background-color-disabled-text: var(--transparent);
+	--_background-color-disabled-danger: var(--button-danger-background-disabled);
+
+	--_background-color-active-primary: var(--button-primary-background-pressed);
+	--_background-color-active-secondary: var(--button-secondary-background-pressed);
+	--_background-color-active-tertiary: var(--button-tertiary-background-pressed);
+	--_background-color-active-text: var(--transparent);
+	--_background-color-active-danger: var(--button-danger-background-pressed);
+
+	// borders colors (internal defaults)
+	--_border-color-default-primary: var(--button-primary-background-default);
+	--_border-color-default-secondary: var(--button-secondary-border-color-default);
+	--_border-color-default-tertiary: var(--transparent);
+	--_border-color-default-text: var(--transparent);
+	--_border-color-default-danger: var(--button-danger-background-default);
+
+	--_border-color-hover-primary: var(--button-primary-background-hover);
+	--_border-color-hover-secondary: var(--button-secondary-border-color-default);
+	--_border-color-hover-tertiary: var(--button-tertiary-background-hover);
+	--_border-color-hover-text: var(--transparent);
+	--_border-color-hover-danger: var(--button-danger-background-hover);
+
+	--_border-color-focus-primary: var(--button-primary-background-default);
+	--_border-color-focus-secondary: var(--button-secondary-border-color-default);
+	--_border-color-focus-tertiary: var(--transparent);
+	--_border-color-focus-text: var(--transparent);
+	--_border-color-focus-danger: var(--button-danger-background-default);
+
+	--_border-color-disabled-primary: var(--button-primary-background-disabled);
+	--_border-color-disabled-secondary: var(--button-secondary-background-disabled);
+	--_border-color-disabled-tertiary: var(--button-tertiary-background-disabled);
+	--_border-color-disabled-text: var(--transparent);
+	--_border-color-disabled-danger: var(--button-danger-background-disabled);
+
+	--_border-color-active-primary: var(--button-primary-background-pressed);
+	--_border-color-active-secondary: var(--button-secondary-border-color-pressed);
+	--_border-color-active-tertiary: var(--button-tertiary-background-pressed);
+	--_border-color-active-text: var(--transparent);
+	--_border-color-active-danger: var(--button-danger-background-pressed);
+
+	// sizing
+	--button-gap-large: var(--button-gap-regular);
+	--button-gap-small: var(--button-gap-compact);
+	--button-height-large: var(--button-height-regular);
+	--button-height-small: var(--button-height-compact);
+	--button-padding-x-large: var(--button-padding-x-regular);
+	--button-padding-y-large: var(--button-padding-y-regular);
+
+	--button-padding-x-small: var(--button-padding-x-compact);
+	--button-padding-y-small: var(--button-padding-y-compact);
+
+	--button-border-thickness: var(--button-secondary-border-thickness-default);
+	--button-border-radius-large: var(--button-radius-regular);
+	--button-border-radius-small: var(--button-radius-compact);
+
+	--button-icon-size-primary-large: var(--button-primary-icon-size-regular);
+	--button-icon-size-primary-small: var(--button-primary-icon-size-compact);
+
+	--button-icon-size-secondary-large: var(--button-secondary-icon-size-regular);
+	--button-icon-size-secondary-small: var(--button-secondary-icon-size-compact);
+
+	--button-icon-size-tertiary-large: var(--button-tertiary-icon-size-regular);
+	--button-icon-size-tertiary-small: var(--button-tertiary-icon-size-compact);
+
+	--button-icon-size-text-large: var(--button-text-icon-size-regular);
+	--button-icon-size-text-small: var(--button-text-icon-size-regular);
+
+	--button-icon-size-danger-large: var(--button-danger-icon-size-regular);
+	--button-icon-size-danger-small: var(--button-danger-icon-size-compact);
 }
 
 .action-button {
@@ -439,16 +432,40 @@ $btn-paddings-x: (
 	display: inline-flex;
 	align-items: center;
 
-	border-radius: 4px;
-
 	box-sizing: border-box;
+
+	&--size-small {
+		border-radius: var(--button-border-radius-small);
+		gap: var(--button-gap-small);
+	}
+
+	&--size-large {
+		border-radius: var(--button-border-radius-large);
+		gap: var(--button-gap-large);
+	}
 
 	&--type-primary {
 		@include button-type-theme('primary');
+
+		&.action-button--size-small {
+			@include button-size-theme('small', 'primary');
+		}
+
+		&.action-button--size-large {
+			@include button-size-theme('large', 'primary');
+		}
 	}
 
 	&--type-secondary {
 		@include button-type-theme('secondary');
+
+		&.action-button--size-small {
+			@include button-size-theme('small', 'secondary');
+		}
+
+		&.action-button--size-large {
+			@include button-size-theme('large', 'secondary');
+		}
 	}
 
 	&--type-tertiary {
@@ -460,7 +477,7 @@ $btn-paddings-x: (
 
 			&::before {
 				content: '';
-				background-image: conic-gradient(transparent, kv-color('neutral-6'), transparent);
+				background-image: conic-gradient(transparent, var(--background-surface-skeleton-base), transparent);
 				width: 150%;
 				aspect-ratio: 1/1;
 
@@ -474,22 +491,38 @@ $btn-paddings-x: (
 				z-index: -1;
 			}
 		}
+
+		&.action-button--size-small {
+			@include button-size-theme('small', 'tertiary');
+		}
+
+		&.action-button--size-large {
+			@include button-size-theme('large', 'tertiary');
+		}
 	}
 
-	&--type-ghost {
-		@include button-type-theme('ghost');
+	&--type-text {
+		@include button-type-theme('text');
+
+		&.action-button--size-small {
+			@include button-size-theme('small', 'text');
+		}
+
+		&.action-button--size-large {
+			@include button-size-theme('large', 'text');
+		}
 	}
 
 	&--type-danger {
 		@include button-type-theme('danger');
-	}
 
-	&--size-small {
-		@include button-size-theme('small');
-	}
+		&.action-button--size-small {
+			@include button-size-theme('small', 'danger');
+		}
 
-	&--size-large {
-		@include button-size-theme('large');
+		&.action-button--size-large {
+			@include button-size-theme('large', 'danger');
+		}
 	}
 
 	&--disabled {

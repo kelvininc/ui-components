@@ -1,0 +1,42 @@
+kv-text-field {
+	//Sizes
+	--input-height-large: var(--search-height-regular);
+	--input-height-small: var(--search-height-compact);
+	--input-gap-x: var(--search-gap-default);
+	--input-padding-x-large: var(--search-padding-x-regular);
+	--input-padding-x-small: var(--search-padding-x-compact);
+	--input-radius-large: var(--search-radius-regular);
+	--input-radius-small: var(--search-radius-compact);
+	--input-border-thickness: var(--search-border-thickness-default);
+	--icon-size-large: var(--search-icon-size-large);
+	--icon-size-small: var(--search-icon-size-large);
+	--action-icon-size: var(--search-icon-size-regular);
+
+	//Colors
+	////Default
+	--text-color-input-default: var(--search-text-default);
+	--border-color-default: var(--search-border-color-default);
+	--background-color-default: var(--search-background-default);
+	--text-color-icon-default: var(--search-icon-color-default);
+	--text-color-action-icon-default: var(--search-icon-color-default);
+
+	/// Selected
+	--text-color-input-focused: var(--search-text-selected);
+	--border-color-focused: var(--search-border-color-selected);
+	--text-color-icon-focused: var(--search-icon-color-selected);
+	--text-color-action-icon-focused: var(--search-icon-color-selected);
+
+	/// Filled
+	--text-color-input-filled: var(--search-text-filled);
+	--text-color-icon-filled: var(--search-icon-color-filled);
+	--text-color-action-icon-filled: var(--search-icon-color-selected);
+	--border-color-filled: var(--search-border-color-filled);
+
+	/// Disabled
+	--text-color-input-disabled: var(--search-text-disabled);
+	--text-color-placeholder-disabled: var(--search-text-disabled);
+	--border-color-disabled: var(--search-border-color-disabled); //TODO:r To be confirmed if should be equal to --background-color-disabled
+	--background-color-disabled: var(--search-background-disabled);
+	--text-color-icon-disabled: var(--search-icon-color-disabled);
+	--text-color-action-icon-disabled: var(--search-icon-color-disabled);
+}

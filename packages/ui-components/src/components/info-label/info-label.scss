@@ -1,0 +1,100 @@
+@use '../../assets/styles' as *;
+
+:host {
+	/**
+	 * @prop --text-color-title: Info label's title color.
+	 * @prop --text-color-description: Info label's description color.
+	 * @prop --expanded-button-color: Expand button's color.
+	 * @prop --description-fade-height: Description fade height.
+	 * @prop --description-shadow-background: Description shadow background color.
+	 * @prop --description-fade-shadow: Description fade shadow.
+	 */
+	--text-color-title: var(--text-surface-neutral-tertiary);
+	--text-color-description: var(--text-surface-neutral-secondary);
+	--expanded-button-color: var(--text-surface-neutral-primary);
+	--description-fade-height: 30px;
+	--description-shadow-background: var(--background-surface-neutral-default);
+	--description-fade-shadow: linear-gradient(to bottom, color-mix(in srgb, var(--description-shadow-background) 10%, transparent) 50%, color-mix(in srgb, var(--description-shadow-background) 50%, transparent) 30%);
+}
+
+.info-label {
+	display: flex;
+	flex-direction: column;
+
+	.title {
+		@include heading-xs-regular-caps();
+		color: var(--text-color-title);
+		white-space: nowrap;
+		margin-bottom: var(--spacing-md);
+
+		&.no-description {
+			margin-bottom: 0;
+		}
+	}
+
+	.description-wrapper {
+		position: relative;
+		overflow-y: hidden;
+		transition: height 0.3s ease-in-out;
+		height: auto;
+
+		.text {
+			@include body-m-regular();
+			color: var(--text-color-description);
+		}
+	}
+
+	.expand-description-button {
+		@include body-s-regular();
+		display: flex;
+		align-items: center;
+		cursor: pointer;
+		margin-top: var(--spacing-xl);
+		color: var(--expanded-button-color);
+
+		kv-icon {
+			--icon-color: #{var(--expanded-button-color)};
+			margin-left: var(--spacing-xs);
+			transition: transform 0.3s ease-in-out;
+		}
+
+		&.expanded kv-icon {
+			--icon-rotation: 180deg;
+		}
+	}
+}
+
+.description {
+	display: flex;
+	align-items: center;
+
+	.copy-icon {
+		opacity: 0;
+	}
+
+	&:hover .copy-icon {
+		opacity: 1;
+		transition: all 200ms ease-in-out;
+	}
+}
+
+.copy-icon {
+	margin-left: var(--spacing-md);
+	cursor: pointer;
+	user-select: none;
+}
+
+.description-fade {
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	right: 0;
+	height: var(--description-fade-height);
+	background: var(--description-fade-shadow);
+	pointer-events: none;
+	transition: background 0.3s ease-in-out;
+
+	&--expanded {
+		background: transparent;
+	}
+}

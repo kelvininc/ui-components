@@ -59,11 +59,10 @@ export const ToasterExample: React.FC = () => (
 | Name                         | Description                            |
 | ---------------------------- | -------------------------------------- |
 | `--background-color-default` | Toaster background color.              |
-| `--reset-button-focused`     | Close button focused.                  |
-| `--toaster-icons-height`     | toaster icons height                   |
-| `--toaster-icons-width`      | toaster icons width                    |
-| `--toaster-large-height`     | Toaster with two messages.             |
-| `--toaster-small-height`     | Toaster with one message.              |
+| `--toaster-icon-height`      | Toaster icon height.                   |
+| `--toaster-icon-width`       | Toaster icon width.                    |
+| `--toaster-large-height`     | Toaster height with two messages.      |
+| `--toaster-small-height`     | Toaster height with one message.       |
 | `--toaster-top-space`        | Space between Toaster and top of page. |
 | `--toaster-width`            | Toaster width.                         |
 
@@ -73,11 +72,15 @@ export const ToasterExample: React.FC = () => (
 ### Depends on
 
 - [kv-icon](../icon)
+- [kv-action-button-text](../action-button-text)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-toaster --> kv-icon
+  kv-toaster --> kv-action-button-text
+  kv-action-button-text --> kv-action-button
+  kv-action-button-text --> kv-icon
   style kv-toaster fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

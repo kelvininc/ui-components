@@ -1,24 +1,24 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	display: block;
 }
 
 .absolute-time-content {
-	background-color: kv-color('neutral-7');
-	border: 1px solid kv-color('neutral-6');
-	border-radius: 4px;
+	background-color: var(--background-container-elevated-slider);
+	border: 1px solid var(--slider-border-color-default);
+	border-radius: var(--radius-md);
 	width: max-content;
 
 	.footer {
 		display: flex;
 		justify-content: flex-end;
-		padding: $spacing-4x;
-		border-top: 1px solid kv-color('neutral-6');
+		padding: var(--spacing-2xl);
+		border-top: 1px solid var(--slider-border-color-default);
 	
 		.actions {
 			display: flex;
-			gap: $spacing-2x;
+			gap: var(--spacing-md);
 		}
 	}	
 }

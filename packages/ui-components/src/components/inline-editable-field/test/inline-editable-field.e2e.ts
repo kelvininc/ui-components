@@ -50,4 +50,46 @@ describe('KvInlineEditableField (e2e tests)', () => {
 			});
 		});
 	});
+
+	describe('when a placeholder is set and the value is empty', () => {
+		let page: E2EPage;
+		let component: E2EElement;
+		let slot: E2EElement;
+
+		beforeEach(async () => {
+			page = await newE2EPage();
+			await page.setContent(`
+				<kv-inline-editable-field placeholder="-">
+					<div></div>
+				</kv-inline-editable-field>`);
+			await page.waitForChanges();
+
+			component = await page.find('kv-inline-editable-field');
+			slot = await component.find('div');
+		});
+
+		it('should set data-placeholder on the slotted element', async () => {
+			expect(slot.getAttribute('data-placeholder')).toBe('-');
+		});
+
+		it('should add the editing class to the host on focus', async () => {
+			await slot.click();
+			await page.waitForChanges();
+
+			expect(component.getAttribute('class')).toContain('inline-editable-field-container__editing');
+		});
+
+		it('should not emit contentEdited when saving an empty value', async () => {
+			const contentEdited = await component.spyOnEvent('contentEdited');
+
+			await slot.click();
+			await page.waitForChanges();
+
+			const saveBtn = await page.find('kv-inline-editable-field .inline-editable-field-actions kv-action-button-icon[icon="kv-done-all"]');
+			await saveBtn.click();
+			await page.waitForChanges();
+
+			expect(contentEdited).not.toHaveReceivedEvent();
+		});
+	});
 });

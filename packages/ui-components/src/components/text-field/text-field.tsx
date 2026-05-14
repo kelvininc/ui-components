@@ -8,7 +8,6 @@ import { ITooltip } from '../tooltip/tooltip.types';
 import { buildInputMask, getValueAsString, isInputMaskCompatibleType } from './text-field.utils';
 import Inputmask from 'inputmask';
 import { getUTF8StringLength } from '../../utils/string.helper';
-import { EBadgeState } from '../../types';
 import { HostAttributes, Method } from '@stencil/core/internal';
 
 /**
@@ -17,10 +16,7 @@ import { HostAttributes, Method } from '@stencil/core/internal';
  */
 @Component({
 	tag: 'kv-text-field',
-	styleUrls: {
-		night: 'text-field.night.scss',
-		light: 'text-field.light.scss'
-	},
+	styleUrl: 'text-field.scss',
 	shadow: true
 })
 export class KvTextField implements ITextField, ITextFieldEvents {
@@ -305,7 +301,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 			<Host onClick={this.onHostClick} style={{ ...this.customStyle }}>
 				<kv-tooltip {...this.getTooltipConfig()}>
 					<div class="text-field-container">
-						<kv-form-label label={this.label} required={this.inputRequired}></kv-form-label>
+						{this.label && <kv-form-label label={this.label} required={this.inputRequired}></kv-form-label>}
 						{!this.loading ? (
 							<div
 								part="input-container"
@@ -314,7 +310,8 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 									[`input-container--size-${this.size}`]: true,
 									'invalid': this.state === EValidationState.Invalid,
 									'focused': this.focused,
-									'disabled': this.inputDisabled
+									'disabled': this.inputDisabled,
+									'filled': !isEmpty(value)
 								}}
 							>
 								<div
@@ -322,7 +319,9 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										'left-slot-container': true,
 										'focus': this.focused,
 										'invalid': this.state === EValidationState.Invalid,
-										'disabled': this.inputDisabled
+										'disabled': this.inputDisabled,
+										'filled': !isEmpty(value),
+										'has-value-prefix': this.valuePrefix && !isEmpty(value)
 									}}
 								>
 									<slot name="left-slot" />
@@ -331,16 +330,20 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 											name={this.icon}
 											exportparts="icon"
 											class={{
-												invalid: this.state === EValidationState.Invalid,
 												disabled: this.inputDisabled,
-												focus: this.focused
+												focus: this.focused,
+												filled: !isEmpty(value)
 											}}
 										/>
 									)}
 									{value && this.valuePrefix && <div class="value-prefix">{this.valuePrefix}</div>}
 								</div>
 								<div class="resize-container">
-									{this.fitContent && <span class="resize-text">{value || this.placeholder}</span>}
+									{this.fitContent && (
+										<span class="resize-text" part="input-text">
+											{value || this.placeholder}
+										</span>
+									)}
 									<slot name="input">
 										<input
 											ref={input => (this.nativeInput = input as HTMLInputElement)}
@@ -360,6 +363,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 											onPaste={this.onPasteHandler}
 											class={{ 'resize-input': true, 'forced-focus': this.focused }}
 											readonly={this.inputReadonly}
+											part="input-text"
 										/>
 									</slot>
 								</div>
@@ -367,24 +371,21 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 									class={{
 										'right-slot-container': true,
 										'focus': this.focused,
-										'disabled': this.inputDisabled
+										'disabled': this.inputDisabled,
+										'filled': !isEmpty(value)
 									}}
 								>
 									<slot name="right-slot" />
 									{this.isDirty && <kv-dirty-dot />}
-									{!this.hideBadge && this.badge?.trim() && (
-										<kv-badge state={EBadgeState.Info} exportparts="badge">
-											{this.badge}
-										</kv-badge>
-									)}
+									{!this.hideBadge && this.badge?.trim() && <kv-badge exportparts="badge">{this.badge}</kv-badge>}
 									{this.actionIcon && (
 										<kv-icon
 											name={this.actionIcon}
 											onClick={this.onRightActionClick}
 											class={{
-												invalid: this.state === EValidationState.Invalid,
 												disabled: this.inputDisabled,
-												focus: this.focused
+												focus: this.focused,
+												filled: !isEmpty(value)
 											}}
 										/>
 									)}
@@ -393,7 +394,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 						) : (
 							<div class={{ 'input-container-loading': true, [`input-container-loading--size-${this.size}`]: true }} />
 						)}
-						<kv-form-help-text helpText={this._helpTexts} state={this.state}></kv-form-help-text>
+						{!isEmpty(this._helpTexts) && <kv-form-help-text helpText={this._helpTexts} state={this.state}></kv-form-help-text>}
 					</div>
 					{!isEmpty(this.examples) ? (
 						<datalist id={`examples_${id}`}>

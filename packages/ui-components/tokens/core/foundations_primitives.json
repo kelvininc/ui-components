@@ -1,0 +1,468 @@
+{
+  "color": {
+    "gray": {
+      "50": {
+        "value": "#ffffff",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "100": {
+        "value": "#fafafa",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "200": {
+        "value": "#f2f2f2",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "300": {
+        "value": "#e5e5e5",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "400": {
+        "value": "#bfbfbf",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "500": {
+        "value": "#595959",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "600": {
+        "value": "#404040",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "700": {
+        "value": "#333333",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "800": {
+        "value": "#262626",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "900": {
+        "value": "#1a1a1a",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "950": {
+        "value": "#0d0d0d",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      }
+    },
+    "brand": {
+      "100": {
+        "value": "#e5f1ff",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "200": {
+        "value": "#b2d4ff",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "300": {
+        "value": "#66a8ff",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "400": {
+        "value": "#338bff",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "500": {
+        "value": "#006fff",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "600": {
+        "value": "#0058cc",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "700": {
+        "value": "#004299",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "800": {
+        "value": "#002c66",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      }
+    },
+    "purple": {
+      "100": {
+        "value": "#ece5ff",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "200": {
+        "value": "#c6b2ff",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "300": {
+        "value": "#a180ff",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "500": {
+        "value": "#7c4dff",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "600": {
+        "value": "#6933ff",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      }
+    },
+    "teal": {
+      "200": {
+        "value": "#84dcd9",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "300": {
+        "value": "#5dd0cd",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "400": {
+        "value": "#38c2be",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "500": {
+        "value": "#2d9c99",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "600": {
+        "value": "#217371",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "700": {
+        "value": "#164b4a",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      }
+    },
+    "green": {
+      "100": {
+        "value": "#dcfeee",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "200": {
+        "value": "#abfdd6",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "300": {
+        "value": "#79fcbd",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "400": {
+        "value": "#07d571",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "500": {
+        "value": "#05a357",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "600": {
+        "value": "#03723d",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      }
+    },
+    "red": {
+      "100": {
+        "value": "#ffe4e0",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "200": {
+        "value": "#ffb8ad",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "300": {
+        "value": "#ff5c47",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "400": {
+        "value": "#ff2e14",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "500": {
+        "value": "#e11900",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "600": {
+        "value": "#ad1300",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "700": {
+        "value": "#7a0e00",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      }
+    },
+    "blue": {
+      "100": {
+        "value": "#e7effd",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "200": {
+        "value": "#b8d0f9",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "400": {
+        "value": "#578ef4",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "500": {
+        "value": "#276ef1",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "600": {
+        "value": "#0b42a8",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      }
+    },
+    "yellow": {
+      "100": {
+        "value": "#fff4db",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "200": {
+        "value": "#ffe4a8",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "300": {
+        "value": "#ffc342",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "500": {
+        "value": "#f7a900",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "600": {
+        "value": "#e09a00",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      }
+    }
+  },
+  "space": {
+    "0": {
+      "value": "0px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "1": {
+      "value": "1px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "2": {
+      "value": "2px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "4": {
+      "value": "4px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "6": {
+      "value": "6px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "8": {
+      "value": "8px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "10": {
+      "value": "10px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "12": {
+      "value": "12px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "14": {
+      "value": "14px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "16": {
+      "value": "16px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "18": {
+      "value": "18px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "20": {
+      "value": "20px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "22": {
+      "value": "22px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "24": {
+      "value": "24px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "28": {
+      "value": "28px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "32": {
+      "value": "32px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "36": {
+      "value": "36px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "40": {
+      "value": "40px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "44": {
+      "value": "44px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "48": {
+      "value": "48px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "52": {
+      "value": "52px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "56": {
+      "value": "56px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "60": {
+      "value": "60px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "64": {
+      "value": "64px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "72": {
+      "value": "72px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "80": {
+      "value": "80px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "88": {
+      "value": "88px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "96": {
+      "value": "96px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "999": {
+      "value": "999px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    },
+    "1,5": {
+      "value": "1.5px",
+      "type": "number",
+      "prefix": "foundations_(primitives)"
+    }
+  },
+  "font": {
+    "family": {
+      "proxima-nova": {
+        "value": "Proxima Nova",
+        "type": "string",
+        "prefix": "foundations_(primitives)"
+      }
+    },
+    "weight": {
+      "light": {
+        "value": 300,
+        "type": "number",
+        "prefix": "foundations_(primitives)"
+      },
+      "regular": {
+        "value": 400,
+        "type": "number",
+        "prefix": "foundations_(primitives)"
+      },
+      "semibold": {
+        "value": 600,
+        "type": "number",
+        "prefix": "foundations_(primitives)"
+      },
+      "bold": {
+        "value": 700,
+        "type": "number",
+        "prefix": "foundations_(primitives)"
+      }
+    }
+  }
+}

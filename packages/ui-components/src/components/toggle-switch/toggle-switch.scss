@@ -1,16 +1,16 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 .toggle-switch-container {
 	display: flex;
 
 	> :last-child {
-		--border-radius-top-right: 4px;
-		--border-radius-bottom-right: 4px;
+		--border-radius-top-right: var(--toggle-radius-default);
+		--border-radius-bottom-right: var(--toggle-radius-default);
 	}
 
 	> :first-child {
-		--border-radius-top-left: 4px;
-		--border-radius-bottom-left: 4px;
+		--border-radius-top-left: var(--toggle-radius-default);
+		--border-radius-bottom-left: var(--toggle-radius-default);
 	}
 
 	kv-toggle-button {
@@ -18,27 +18,5 @@
 		--border-radius-bottom-right: 0;
 		--border-radius-top-left: 0;
 		--border-radius-bottom-left: 0;
-
-		--button-padding-small: #{$spacing $spacing-3x};
-		--button-padding-large: #{$spacing-2x $spacing-3x};
-
-		--text-color-default: #{kv-color('neutral-4')};
-		--text-color-active: #{kv-color('neutral-2')};
-		--text-color-disabled: #{kv-color('neutral-5')};
-		--text-color-disabled-active: #{kv-color('neutral-5')};
-
-		--background-color-default: 'transparent';
-		--background-color-active: #{kv-color('neutral-6')};
-		--background-color-disabled: 'transparent';
-		--background-color-disabled-active: #{kv-color('neutral-7')};
-
-		--border-color-default: #{kv-color('neutral-6')};
-		--border-color-active: #{kv-color('neutral-2')};
-		--border-color-disabled: #{kv-color('neutral-6')};
-		--border-color-disabled-active: #{kv-color('neutral-6')};
-
-		&::part(toggle-label) {
-			@include kv-font-label-small-regular();
-		}
 	}
 }

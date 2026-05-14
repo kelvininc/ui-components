@@ -1,26 +1,113 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	.link-container {
+		width: fit-content;
 		display: flex;
 		flex-direction: column;
 
-		.label {
-			@include kv-font-h5-semibold();
-			text-decoration: none;
-			user-select: none;
-			color: kv-color('text');
-			cursor: pointer;
+		&--disabled {
+			@include non-clickable;
+		}
 
-			&:hover {
-				color: kv-color('primary');
+		.label {
+			display: inline-flex;
+			align-items: center;
+			gap: var(--link-gap-default);
+			outline: none;
+
+			@include body-m-regular;
+			@include clickable;
+
+			//Required due the breadcrumb item active state
+			font-weight: var(--kv-link-font-weight, var(--font-weight-regular));
+			pointer-events: var(--kv-link-pointer-events, all);
+			cursor: var(--kv-link-cursor, pointer);
+
+			color: var(--link-label-default);
+			text-decoration: none;
+			transition: text-decoration 0.2s ease;
+
+			kv-icon,
+			::slotted(kv-icon) {
+				// Required due to browser restrictions on the :visited selector
+				--icon-color: currentColor;
+				--icon-width: var(--link-icon-size-default);
+				--icon-height: var(--link-icon-size-default);
+			}
+
+			&:visited:not(.label--disabled) {
+				color: var(--link-label-visited);
+			}
+
+			&:focus:not(.label--disabled),
+			&:hover:not(.label--disabled) {
+				color: var(--link-label-hover);
 				text-decoration: underline;
+				text-decoration-thickness: var(--link-decoration-thickness-default);
+				text-decoration-color: var(--link-decoration-color-hover);
+
+				kv-icon,
+				::slotted(kv-icon) {
+					--icon-color: var(--link-icon-color-hover);
+				}
+			}
+
+			&--disabled {
+				color: var(--link-label-disabled);
+				pointer-events: none;
+
+				kv-icon,
+				::slotted(kv-icon) {
+					--icon-color: var(--link-icon-color-disabled);
+				}
+			}
+		}
+
+		.label--inline {
+			text-decoration: underline;
+			text-decoration-thickness: var(--inline-link-decoration-thickness-default);
+			text-decoration-color: var(--inline-link-decoration-color-default);
+
+			color: var(--inline-link-label-default);
+
+			kv-icon,
+			::slotted(kv-icon) {
+				--icon-color: currentColor;
+				--icon-width: var(--inline-link-icon-size-default);
+				--icon-height: var(--inline-link-icon-size-default);
+			}
+
+			&:visited:not(.label--disabled) {
+				color: var(--inline-link-label-visited);
+				text-decoration-color: var(--inline-link-decoration-color-visited);
+			}
+
+			&:focus:not(.label--disabled),
+			&:hover:not(.label--disabled) {
+				color: var(--inline-link-label-hover);
+				text-decoration-color: var(--inline-link-decoration-color-hover);
+
+				kv-icon,
+				::slotted(kv-icon) {
+					--icon-color: var(--inline-link-icon-color-hover);
+				}
+			}
+
+			&.label--disabled {
+				color: var(--inline-link-label-disabled);
+				text-decoration-color: var(--inline-link-decoration-color-disabled);
+
+				kv-icon,
+				::slotted(kv-icon) {
+					--icon-color: var(--inline-link-icon-color-disabled);
+				}
 			}
 		}
 
 		.subtitle {
-			@include kv-font-label-small-regular();
-			color: kv-color('text');
+			@include body-s-regular();
+			color: var(--text-container-neutral-subtle);
 		}
 	}
 }

@@ -1,6 +1,7 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { buildDescription } from './radio-list-item.helper';
 import { IRadioListItem, IRadioListItemEvents } from './radio-list-item.types';
+import { EComponentSize } from '../../types';
 
 @Component({
 	tag: 'kv-radio-list-item',
@@ -11,9 +12,11 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) optionId!: string | number;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) label!: string;
+	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) description?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) checked?: boolean = false;
 	/** @inheritdoc */
@@ -30,8 +33,11 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 		this.parsedDescription = buildDescription(newValue);
 	}
 
-	private onOptionClick = (ev: MouseEvent) => {
+	private onOptionClick = (ev: Event) => {
 		ev.stopPropagation();
+		if (this.disabled) {
+			return;
+		}
 		this.optionClick.emit(this.optionId);
 	};
 
@@ -41,18 +47,18 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 				<div
 					class={{
 						'radio-list-item-container': true,
-						'radio-list-item-container--disabled': this.disabled,
-						'radio-list-item-container--checked': this.checked
+						'radio-list-item-container--disabled': !!this.disabled,
+						'radio-list-item-container--checked': !!this.checked
 					}}
 					onClick={this.onOptionClick}
 				>
 					<slot name="header" />
-					<div class="content">
-						<kv-radio checked={this.checked} disabled={this.disabled} />
+					<div class={{ content: true, [`content--size-${this.size}`]: true }}>
+						<kv-radio size={EComponentSize.Small} checked={this.checked} disabled={this.disabled} onCheckedChange={this.onOptionClick} />
 						<div class="info">
-							<slot name="label">
-								<div class="label">{this.label}</div>
-							</slot>
+							<div class="label">
+								<slot name="label">{this.label}</slot>
+							</div>
 							{this.description && <div class="description">{this.parsedDescription}</div>}
 							<slot name="additional-info"></slot>
 						</div>

@@ -4,8 +4,8 @@ import { EComponentSize } from '../../utils/types';
 export enum EActionButtonType {
 	Primary = 'primary',
 	Secondary = 'secondary',
-	Tertiary = 'tertiary',
-	Ghost = 'ghost',
+	Tertiary = 'tertiary', // Replace old Ghost type
+	Text = 'text',
 	Danger = 'danger'
 }
 

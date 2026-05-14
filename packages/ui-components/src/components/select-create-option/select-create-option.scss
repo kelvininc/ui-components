@@ -1,9 +1,9 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 .select-create-option {
 	display: flex;
 	align-items: flex-start;
-	gap: $spacing-3x;
+	gap: var(--spacing-xl);
 }
 
 .form {
@@ -14,5 +14,5 @@
 .actions {
 	display: flex;
 	align-items: center;
-	gap: $spacing;
+	gap: var(--spacing-xs);
 }

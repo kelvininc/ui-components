@@ -1,9 +1,19 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryFn, StoryObj } from "@storybook/react";
 import { EComponentSize, KvRadio } from "@kelvininc/react-ui-components/client";
+import { useArgs } from "@storybook/preview-api";
+import { ComponentProps } from "react";
+
+const RadioInputTemplate: StoryFn<ComponentProps<typeof KvRadio>> = (args) => {
+	const [{ checked }, updateArgs] = useArgs();
+	const onCheckedChange = () => updateArgs({ checked: !(checked === true) });
+
+	return <KvRadio {...args} onCheckedChange={onCheckedChange} />;
+};
 
 const meta = {
 	title: "Inputs/Radio",
 	component: KvRadio,
+	render: RadioInputTemplate,
 	argTypes: {
 		size: {
 			control: "radio",
@@ -17,39 +27,45 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		checked: false
+		checked: false,
+		size: EComponentSize.Large
 	}
 };
 
 export const DefaultWithLabel: Story = {
 	args: {
 		...Default.args,
-		label: "Yes"
+		label: "Yes",
+		size: EComponentSize.Large
 	}
 };
 
 export const Checked: Story = {
 	args: {
-		checked: true
+		checked: true,
+		size: EComponentSize.Large
 	}
 };
 
 export const CheckedWithLabel: Story = {
 	args: {
 		...Checked.args,
-		label: "Yes"
+		label: "Yes",
+		size: EComponentSize.Large
 	}
 };
 
 export const Disabled: Story = {
 	args: {
-		disabled: true
+		disabled: true,
+		size: EComponentSize.Large
 	}
 };
 
 export const DisabledWithLabel: Story = {
 	args: {
 		...Disabled.args,
-		label: "Yes"
+		label: "Yes",
+		size: EComponentSize.Large
 	}
 };

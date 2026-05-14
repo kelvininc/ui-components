@@ -1,8 +1,8 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	display: flex;
-	gap: $spacing;
+	gap: var(--spacing-xs);
 
 	--toggle-group-width: unset;
 }

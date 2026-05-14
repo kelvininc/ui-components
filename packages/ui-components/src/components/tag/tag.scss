@@ -1,19 +1,21 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
-	 * @prop --tag-background-color: Tag Background Color.
-	 * @prop --tag-border-color: Tag Border Color.
-	 * @prop --tag-label-color: Tag Text Color.
-	 * @prop --tag-content-gap: Gap between text and slot.
-	 * @prop --tag-content-padding: Padding insise content
+	 * @prop --tag-background-color: Tag background color.
+	 * @prop --tag-border-color: Tag border color.
+	 * @prop --tag-label-color: Tag label text color.
+	 * @prop --tag-badge-color: Tag badge text color.
+	 * @prop --tag-badge-background-color: Tag badge background color.
+	 * @prop --tag-icon-color: Tag icon color.
+	 * @prop --tag-content-gap: Gap between icon, label and badge.
+	 * @prop --tag-content-padding-x: Horizontal padding inside the tag.
+	 * @prop --tag-content-padding-y: Vertical padding inside the tag.
 	 */
 
-	--tag-background-color: #{kv-color('neutral-6')};
-	--tag-border-color: #{kv-color('neutral-6')};
-	--tag-label-color: #{kv-color('neutral-2')};
-	--tag-content-gap: #{$spacing};
-	--tag-content-padding: #{2px $spacing};
+	--tag-content-gap: var(--spacing-xs);
+	--tag-content-padding-x: var(--spacing-md);
+	--tag-content-padding-y: var(--spacing-none);
 }
 
 .tag-container {
@@ -22,23 +24,93 @@
 	align-items: center;
 	gap: var(--tag-content-gap);
 	width: fit-content;
-	max-height: 24px;
-	border-radius: 4px;
-	padding: var(--tag-content-padding);
-	border: 1px solid var(--tag-border-color);
-	background-color: var(--tag-background-color);
+	max-width: stretch;
+	height: var(--size-xl);
+	box-sizing: border-box;
+	border-radius: var(--radius-md);
+	padding: var(--tag-content-padding-y) var(--tag-content-padding-x);
+	background-color: var(--tag-background-color, var(--_tag-bg));
+	border: 1px solid var(--tag-border-color, var(--_tag-border-color));
 
-	.tag-label {
-		@include kv-font-label-small-uppercase-regular;
-
-		color: var(--tag-label-color);
+	kv-icon {
+		--icon-color: var(--tag-icon-color, var(--_tag-icon));
+		--icon-width: var(--size-md);
+		--icon-height: var(--size-md);
 	}
 
-	&--size-small {
-		max-height: 20px;
-		
-		.tag-label {
-			@include kv-font-label-xsmall-uppercase-regular;
-		}
+	.tag-label {
+		@include label-m-regular;
+		@include ellipsis;
+
+		color: var(--tag-label-color, var(--_tag-label));
+	}
+
+	kv-badge {
+		--badge-background-color-secondary: var(--tag-badge-background-color, var(--_tag-badge-bg));
+		--badge-text-color-secondary: var(--tag-badge-color, var(--_tag-badge));
+	}
+
+	// Color variants
+	&--color-neutral {
+		--_tag-bg: var(--background-container-tag-neutral-default);
+		--_tag-border-color: var(--border-container-tag-neutral-subtle);
+		--_tag-label: var(--text-container-tag-neutral-default);
+		--_tag-badge: var(--text-container-tag-neutral-default);
+		--_tag-badge-bg: var(--background-container-tag-neutral-subtle);
+		--_tag-icon: var(--icon-container-tag-neutral-soft);
+	}
+
+	&--color-brand {
+		--_tag-bg: var(--background-container-tag-brand-default);
+		--_tag-border-color: var(--border-container-tag-brand-subtle);
+		--_tag-label: var(--text-container-tag-brand-default);
+		--_tag-badge: var(--text-container-tag-brand-default);
+		--_tag-badge-bg: var(--background-container-tag-brand-subtle);
+		--_tag-icon: var(--icon-container-tag-brand-soft);
+	}
+
+	&--color-purple {
+		--_tag-bg: var(--background-container-tag-accent-default);
+		--_tag-border-color: var(--border-container-tag-accent-subtle);
+		--_tag-label: var(--text-container-tag-accent-default);
+		--_tag-badge: var(--text-container-tag-accent-default);
+		--_tag-badge-bg: var(--background-container-tag-accent-subtle);
+		--_tag-icon: var(--icon-container-tag-accent-soft);
+	}
+
+	&--color-green {
+		--_tag-bg: var(--background-container-tag-success-default);
+		--_tag-border-color: var(--border-container-tag-success-default);
+		--_tag-label: var(--text-container-tag-success-default);
+		--_tag-badge: var(--text-container-tag-success-default);
+		--_tag-badge-bg: var(--background-container-tag-success-subtle);
+		--_tag-icon: var(--icon-container-tag-success-soft);
+	}
+
+	&--color-yellow {
+		--_tag-bg: var(--background-container-tag-warning-default);
+		--_tag-border-color: var(--border-container-tag-warning-default);
+		--_tag-label: var(--text-container-tag-warning-default);
+		--_tag-badge: var(--text-container-tag-warning-default);
+		--_tag-badge-bg: var(--background-container-tag-warning-subtle);
+		--_tag-icon: var(--icon-container-tag-warning-soft);
+	}
+
+	&--color-red {
+		--_tag-bg: var(--background-container-tag-danger-default);
+		--_tag-border-color: var(--border-container-tag-danger-default);
+		--_tag-label: var(--text-container-tag-danger-default);
+		--_tag-badge: var(--text-container-tag-danger-default);
+		--_tag-badge-bg: var(--background-container-tag-danger-subtle);
+		--_tag-icon: var(--icon-container-tag-danger-soft);
+	}
+
+	&--color-blue {
+		--_tag-bg: var(--background-container-tag-info-default);
+		--_tag-border-color: var(--border-container-tag-info-default);
+		--_tag-label: var(--text-container-tag-info-default);
+		--_tag-badge: var(--text-container-tag-info-default);
+		--_tag-badge-bg: var(--background-container-tag-info-subtle);
+		--_tag-icon: var(--icon-container-tag-info-soft);
 	}
 }

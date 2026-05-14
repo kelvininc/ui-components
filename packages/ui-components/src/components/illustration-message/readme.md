@@ -24,11 +24,11 @@ export const IllustrationMessageExample: React.FC = () => (
 
 ## Properties
 
-| Property       | Attribute      | Description                                                           | Type                | Default     |
-| -------------- | -------------- | --------------------------------------------------------------------- | ------------------- | ----------- |
-| `description`  | `description`  | (optional) The message description to be displayed below the title.   | `string`            | `undefined` |
-| `header`       | `header`       | (required) The message header to be displayed below the illustration. | `string`            | `undefined` |
-| `illustration` | `illustration` | (required) The illustration that will be presented.                   | `EIllustrationName` | `undefined` |
+| Property       | Attribute      | Description                                                           | Type                                                                                                                                                                                                                                                                                                                                                      | Default     |
+| -------------- | -------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `description`  | `description`  | (optional) The message description to be displayed below the title.   | `string`                                                                                                                                                                                                                                                                                                                                                  | `undefined` |
+| `header`       | `header`       | (required) The message header to be displayed below the illustration. | `string`                                                                                                                                                                                                                                                                                                                                                  | `undefined` |
+| `illustration` | `illustration` | (required) The illustration that will be presented.                   | `EIllustrationName.ErrorState \| EIllustrationName.ErrorState404 \| EIllustrationName.EsKelvinLogo \| EIllustrationName.EsKelvinLogotype \| EIllustrationName.Import \| EIllustrationName.NoContentHere \| EIllustrationName.NoDataAvailable \| EIllustrationName.NoMatchingResults \| EIllustrationName.NoResultsFound \| EIllustrationName.TakeActions` | `undefined` |
 
 
 ## Shadow Parts

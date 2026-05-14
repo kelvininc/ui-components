@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	--day-width: 28px;
@@ -6,7 +6,7 @@
 }
 
 .calendar-day {
-	@include kv-font-label-small-regular;
+	@include body-s-regular;
 	width: var(--day-width);
 	height: var(--day-height);
 
@@ -15,53 +15,53 @@
 	justify-content: center;
 
 	background-color: transparent;
-	color: kv-color('neutral-4');
+	color: var(--text-container-neutral-subtle);
 
 	user-select: none;
 	cursor: pointer;
 
 	&:hover:not(.calendar-day--disabled):not(.calendar-day--active) {
-		background-color: kv-color('info', 'base', 0.16);
+		background-color: var(--background-interactive-calendar-hover);
 	}
 
 	&--today:not(.calendar-day--disabled) {
-		border: 1px solid kv-color('neutral-5');
+		border: 1px solid var(--border-container-neutral-subtlest);
 		width: calc(var(--day-width) - 2px);
 		height: calc(var(--day-height) - 2px);
 	}
 
 	&--in-range:not(.calendar-day--disabled) {
-		background-color: kv-color('info', 'base', 0.16);
+		background-color: var(--background-interactive-calendar-selected-middle);
 	}
 
 	&--active:not(.calendar-day--disabled) {
-		background-color: kv-color('primary', 'dark');
-		color: kv-color('neutral-2');
+		background-color: var(--background-interactive-calendar-selected);
+		color: var(--text-container-neutral-default);
 
 		&:hover {
-			background-color: kv-color('info', 'base', 0.16);
-			color: kv-color('neutral-4');
+			background-color: var(--background-interactive-calendar-hover);
+			color: var(--text-container-neutral-subtle);
 		}
 	}
 
 	&--range-start:not(.calendar-day--disabled) {
-		background-color: kv-color('primary', 'dark');
-		color: kv-color('neutral-2');
+		background-color: var(--background-interactive-calendar-selected);
+		color: var(--text-container-neutral-default);
 	}
 
 	&--range-end:not(.calendar-day--disabled) {
-		background-color: kv-color('primary', 'dark');
-		color: kv-color('neutral-2');
+		background-color: var(--background-interactive-calendar-selected);
+		color: var(--text-container-neutral-default);
 	}
 
 	&--between-dates:not(.calendar-day--disabled) {
-		background-color: kv-color('info', 'base', 0.16);
-		color: kv-color('neutral-4');
+		background-color: var(--background-interactive-calendar-hover);
+		color: var(--text-container-neutral-subtle);
 	}
 
 	&--disabled {
 		cursor: not-allowed;
 
-		color: kv-color('neutral-5');
+		color: var(--text-container-neutral-disabled);
 	}
 }

@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, Fragment, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EInputFieldType, EValidationState } from '../text-field/text-field.types';
 import { EComponentSize, EIconName } from '../../types';
-import { isNil, merge } from 'lodash-es';
+import { isEmpty, isNil, merge } from 'lodash-es';
 import { DATE_TIME_INPUTMASK_CONFIG, DEFAULT_DATE_FORMAT, DEFAULT_PLACEHOLDER } from './date-time-input.config';
 import { EDateTimeInputTypeStyle, IDateTimeInput, IDateTimeInputEvents } from './date-time-input.types';
 import Inputmask from 'inputmask';
@@ -25,7 +25,7 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) value?: string | null = '';
 	/** @inheritdoc */
-	@Prop({ reflect: true }) useInputMask?: boolean = false;
+	@Prop({ reflect: true }) useInputMask: boolean = false;
 	/** @inheritdoc */
 	@Prop() size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
@@ -58,7 +58,7 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	/** @inheritdoc */
 	@Event() inputFocus: EventEmitter<FocusEvent>;
 	/** @inheritdoc */
-	@Event() rightIconClick: EventEmitter<string>;
+	@Event() rightIconClick: EventEmitter<void>;
 
 	@Watch('forcedFocus')
 	forcedFocusChangeHandler(newValue: boolean) {
@@ -111,8 +111,8 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 		this.inputFocus.emit(event);
 	};
 
-	private onRightIconClickHandler = event => {
-		this.rightIconClick.emit(event);
+	private onRightIconClickHandler = () => {
+		this.rightIconClick.emit();
 	};
 
 	private getValue(): string {
@@ -126,59 +126,72 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 		return (
 			<Host>
 				<div class="date-time-input-container">
-					<kv-form-label label={this.label} required={this.required} />
+					{this.label && <kv-form-label label={this.label} required={this.required} />}
 					<div
 						class={{
 							'input-container-wrapper': true,
 							[`input-container-wrapper--style-${this.inputStyleType}`]: true,
-							[`input-container-wrapper--size-${this.size}`]: true
+							[`input-container-wrapper--size-${this.size}`]: true,
+							'focused': (this.focused || this.forcedFocus || this.highlighted) && !this.disabled,
+							'invalid': this.state === EValidationState.Invalid,
+							'disabled': this.disabled,
+							'filled': !isEmpty(value)
 						}}
 					>
-						<div
-							class={{
-								'input-container': true,
-								['forced-focus']: (this.focused || this.forcedFocus || this.highlighted) && !this.disabled,
-								['invalid']: this.state === EValidationState.Invalid
-							}}
-						>
+						<div class="input-container">
 							<Fragment>
-								<div class="left-container">
+								<div
+									class={{
+										'left-container': true,
+										'focus': this.focused || this.forcedFocus,
+										'invalid': this.state === EValidationState.Invalid,
+										'disabled': this.disabled,
+										'filled': !isEmpty(value)
+									}}
+								>
 									{this.leftIcon && (
-										<div class="left-icon">
-											<kv-icon
-												name={this.leftIcon}
-												exportparts="icon"
-												class={{
-													invalid: this.state === EValidationState.Invalid,
-													disabled: this.disabled,
-													focus: this.focused || this.forcedFocus
-												}}
-											/>
-										</div>
+										<kv-icon
+											name={this.leftIcon}
+											exportparts="icon"
+											class={{
+												// invalid: this.state === EValidationState.Invalid,
+												disabled: this.disabled,
+												focus: this.focused || this.forcedFocus,
+												filled: !isEmpty(value)
+											}}
+										/>
 									)}
-									<input
-										id={id}
-										ref={input => (this.nativeInput = input as HTMLInputElement)}
-										type={EInputFieldType.Text}
-										name={this.inputName}
-										disabled={this.disabled}
-										placeholder={this.placeholder}
-										value={value}
-										onInput={this.onInputHandler}
-										onBlur={this.onBlurHandler}
-										onFocus={this.onFocusHandler}
-										class={{ 'forced-focus': this.focused || this.forcedFocus }}
-									/>
 								</div>
+								<input
+									id={id}
+									ref={input => (this.nativeInput = input as HTMLInputElement)}
+									type={EInputFieldType.Text}
+									name={this.inputName}
+									disabled={this.disabled}
+									placeholder={this.placeholder}
+									value={value}
+									onInput={this.onInputHandler}
+									onBlur={this.onBlurHandler}
+									onFocus={this.onFocusHandler}
+									class={{ 'forced-focus': this.focused || this.forcedFocus }}
+								/>
 								{this.rightIcon && (
-									<div class="right-icon" onClick={this.onRightIconClickHandler}>
+									<div
+										class={{
+											'right-container': true,
+											'focus': this.focused || this.forcedFocus,
+											'disabled': this.disabled,
+											'filled': !isEmpty(value)
+										}}
+										onClick={this.onRightIconClickHandler}
+									>
 										<kv-icon
 											name={this.rightIcon}
 											exportparts="icon"
 											class={{
-												invalid: this.state === EValidationState.Invalid,
 												disabled: this.disabled,
-												focus: this.focused || this.forcedFocus
+												focus: this.focused || this.forcedFocus,
+												filled: !isEmpty(value)
 											}}
 										/>
 									</div>

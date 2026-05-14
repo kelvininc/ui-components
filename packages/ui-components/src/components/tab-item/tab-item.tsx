@@ -1,15 +1,11 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { HostAttributes } from '@stencil/core/internal';
 import { throttle } from 'lodash-es';
-
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
-import { EIconName } from '../icon/icon.types';
-import { EComponentSize, CustomCssClass, ICustomCss, ETagState } from '../../types';
+import { CustomCssClass, EIconName, ICustomCss } from '../../types';
+import { ETabItemType } from './tab-item.types';
 import { getClassMap } from '../../utils/css-class.helper';
 
-/**
- * @part icon - The tab's item icon.
- */
 @Component({
 	tag: 'kv-tab-item',
 	styleUrl: 'tab-item.scss',
@@ -18,30 +14,25 @@ import { getClassMap } from '../../utils/css-class.helper';
 export class KvTabItem implements ICustomCss {
 	/** (required) A unique identifier for this tab */
 	@Prop() tabKey!: number | string;
-	/** (required) Name to show in UI for this tab */
-	@Prop() label!: string;
+	/** (optional) Sets this tab item to a different styling configuration */
+	@Prop() type?: ETabItemType = ETabItemType.Primary;
+	/** (optional) Name to show in UI for this tab */
+	@Prop() label?: string;
+	/** (optional) Icon to show in UI for this tab */
+	@Prop() icon?: EIconName;
 	/** (optional) To disable this tab */
 	@Prop() disabled?: boolean = false;
 	/** (optional) To set this tab as the selected one */
 	@Prop() selected?: boolean = false;
-	/** (optional) To show/hide notification icon or not */
-	@Prop() hasNotification: boolean = false;
-	/** (optional) The tab's notification color (hex value, rgb or css var format) */
-	@Prop() notificationColor?: string = '';
-	/** (optional) The tab's icon */
-	@Prop() icon?: EIconName;
-	/** (optional) Defines the color of the icon. */
-	@Prop() state?: ETagState = ETagState.Unknown;
-	/** (optional) Sets this tab item to a different styling configuration */
-	@Prop() size?: EComponentSize = EComponentSize.Large;
-	/** Emitted when the tab is selected */
-	@Event() tabSelected: EventEmitter<number | string>;
 	/** (optional) Additional style to apply for custom CSS. */
 	@Prop({ reflect: true }) customStyle?: HostAttributes['style'];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customClass?: CustomCssClass = '';
 	/** (optional) Custom attributes to be applied to the tab element */
 	@Prop({ reflect: true }) customAttributes?: Record<string, string> = {};
+
+	/** Emitted when the tab is selected */
+	@Event() tabSelected: EventEmitter<number | string>;
 
 	private tabClickThrottler: () => void;
 
@@ -54,10 +45,6 @@ export class KvTabItem implements ICustomCss {
 	};
 
 	render() {
-		const customStyles = {
-			backgroundColor: this.notificationColor
-		};
-
 		return (
 			<Host>
 				<div
@@ -65,26 +52,17 @@ export class KvTabItem implements ICustomCss {
 						'tab-item-container': true,
 						'selected': this.selected,
 						'disabled': this.disabled,
-						'has-notification': this.hasNotification,
-						'small': this.size === EComponentSize.Small,
+						'only-icon': this.type === ETabItemType.Secondary && this.icon && !this.label,
+						[this.type]: true,
 						...getClassMap(this.customClass)
 					}}
 					onClick={this.tabClickThrottler}
 					style={this.customStyle}
 					{...this.customAttributes}
 				>
-					<div class="label">{this.label}</div>
-					{this.icon && (
-						<div
-							class={{
-								icon: true,
-								[`icon--state-${this.state}`]: true
-							}}
-						>
-							<kv-icon name={this.icon} part="icon" />
-						</div>
-					)}
-					{this.hasNotification && <div class="notification-dot" style={customStyles}></div>}
+					{this.icon && this.type === ETabItemType.Secondary && <kv-icon name={this.icon} />}
+					{this.label && <div class="label">{this.label}</div>}
+					<slot name="right-slot"></slot>
 				</div>
 			</Host>
 		);

@@ -1,4 +1,4 @@
-import { ComponentProps, CSSProperties, useRef, useState } from "react";
+import { ComponentProps, useRef, useState } from "react";
 import {
 	KvInlineEditableField,
 	KvInlineEditableFieldCustomEvent
@@ -18,24 +18,22 @@ const KvInlineEditableFieldTemplate: StoryFn<
 	};
 
 	return (
-		<div style={containerStyle}>
-			<KvInlineEditableField
-				{...args}
-				ref={ref}
-				value={title}
-				onContentEdited={onContentEdited}
+		<KvInlineEditableField
+			{...args}
+			ref={ref}
+			value={title}
+			onContentEdited={onContentEdited}
+		>
+			<div
+				style={{
+					fontSize: 32,
+					fontWeight: 600,
+					lineHeight: "48px"
+				}}
 			>
-				<div
-					style={{
-						fontSize: 32,
-						fontWeight: 600,
-						lineHeight: "48px"
-					}}
-				>
-					{title}
-				</div>
-			</KvInlineEditableField>
-		</div>
+				{title}
+			</div>
+		</KvInlineEditableField>
 	);
 };
 
@@ -53,16 +51,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const containerStyle: CSSProperties = {
-	display: "flex",
-	flexDirection: "column",
-	gap: "16px",
-	color: "white",
-	fontFamily: "proxima-nova",
-	padding: "32px",
-	backgroundColor: "black"
-};
-
 export const Default: Story = {
 	args: {
 		value: "Hello World"
@@ -73,5 +61,12 @@ export const DisableEdit: Story = {
 	args: {
 		value: "Hello World",
 		disabled: true
+	}
+};
+
+export const WithPlaceholder: Story = {
+	args: {
+		value: "",
+		placeholder: "-"
 	}
 };

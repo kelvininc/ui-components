@@ -83,39 +83,42 @@ import { EActionButtonType, KvActionButtonText } from '@kelvininc/react-ui-compo
 </KvActionButtonText>
 ```
 
-Including the global style file you can access our foundation design system definitions like [colors](/story/foundation-colors--page), [spacings](?path=/docs/foundation-spatial-system--page) and [typography](/docs/foundation-typography--page)
+Including the global style file you can access our foundation design system definitions like [typography](/docs/foundation-typography--docs)
 
 ```css
-@import "@kelvininc/react-ui-components/dist/assets/styles/globals.scss";
+@use "@kelvininc/react-ui-components/dist/assets/styles" as *;
 ```
 
 ## Themes
 
-Kelvin UI Components have two predefined themes `StyleMode.Night` and `StyleMode.Light` (`StyleMode.Night` is applied by default) that can be applied on library startup. For that you need pass the desired theme to the library configuration in your `index.js` (_React_).
+Kelvin UI Components uses a design token system powered by Style Dictionary. Theming is handled through CSS custom properties scoped to the `mode` attribute on the `body` element.
 
-```tsx
-import { initialize, StyleMode } from '@kelvininc/react-ui-components/client';
+Two themes are available out of the box: **dark** (`night`) and **light** (`light`).
 
-(...)
+**_Example_**: Setting the theme mode
 
-initialize({styleMode: StyleMode.Light});
+```html
+<!-- Dark theme (default) -->
+<body mode="night">...</body>
 
+<!-- Light theme -->
+<body mode="light">...</body>
 ```
 
-<br />
+The design tokens are organized into semantic categories:
 
-In addition, you can customize the theme by changing some CSS properties.
+- **Core tokens** (`:root`): Primitive values like colors, spacing, font sizes, radii, and border widths (e.g., `--color-brand-500`, `--space-16`, `--radius-md`)
+- **Semantic tokens** (`body[mode="..."]`): Theme-aware tokens for backgrounds, text, borders, icons, and component-specific properties (e.g., `--background-surface-neutral-default`, `--text-surface-neutral-primary`, `--border-surface-neutral-default`)
 
-**_Example_**: Setting the _Primary Color_
+**_Example_**: Using design tokens in CSS
 
 ```css
-:root {
-	--kv-primary: #005cc7;
-	--kv-primary-rgb: 0, 92, 199;
-	--kv-primary-contrast: #fff;
-	--kv-primary-contrast-rgb: 255, 255, 255;
-	--kv-primary-dark: #0051af;
-	--kv-primary-light: #ccdef4;
+.my-component {
+	background-color: var(--background-surface-neutral-default);
+	color: var(--text-surface-neutral-primary);
+	border: var(--border-width-default) solid var(--border-surface-neutral-default);
+	border-radius: var(--radius-md);
+	padding: var(--space-16);
 }
 ```
 
@@ -124,7 +127,7 @@ In addition, you can customize the theme by changing some CSS properties.
 By default the `KvIcon` and `KvIllustration` components will expect the `svg-symbols.svg` file to be served at the server root. This could not be your use-case if you're application is being served on a relative path, e.g, `https://dashboard.com/clients/home`. In this case you will need to tell the library the base path to your assets url, which you can achieve by doing the following in your `index.js` (_React_).
 
 ```tsx
-import { initialize, StyleMode } from '@kelvininc/react-ui-components/client';
+import { initialize } from '@kelvininc/react-ui-components/client';
 
 (...)
 

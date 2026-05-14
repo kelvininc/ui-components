@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -11,7 +11,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: $spacing-4x;
+	padding: var(--spacing-2xl);
 
 	.actions-container {
 		display: flex;
@@ -19,12 +19,12 @@
 
 		.wizard-stepper {
 			width: var(--stepper-width);
-			padding-right: $spacing-4x;
+			padding-right: var(--spacing-2xl);
 		}
 	}
 
 	.buttons-container {
 		display: flex;
-		gap: $spacing-3x;
+		gap: var(--spacing-xl);
 	}
 }

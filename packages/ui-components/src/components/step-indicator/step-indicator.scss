@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
@@ -10,11 +10,11 @@
 	* @prop --indicator-error-border-color: The color to show on the border that highlights the indicator when there's an error
 	*/
 	--indicator-radius: 14px;
-	--indicator-default-color: #{kv-color('neutral-6')};
-	--indicator-default-border-color: #{kv-color('neutral-6')};
-	--indicator-active-color: #{kv-color('neutral-3')};
-	--indicator-active-border-color: #{kv-color('success')};
-	--indicator-error-border-color: #{kv-color('error')};
+	--indicator-default-color: var(--icon-persistent-wizard-default);
+	--indicator-default-border-color: var(--icon-persistent-wizard-default);
+	--indicator-active-color: var(--icon-persistent-wizard-inverse);
+	--indicator-active-border-color: var(--border-persistent-wizard-selected);
+	--indicator-error-border-color: var(--color-red-500);
 }
 
 .indicator {

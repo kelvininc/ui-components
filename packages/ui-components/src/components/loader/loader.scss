@@ -1,19 +1,19 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles';
 
 :host {
 	/**
-	 * @prop --loader-overlay-color: Overlay color
-	 * @prop --loader-overlay-opacity: Overlay opacity
-	 * @prop --loader-background-color: Loader background
-	 * @prop --loader-spinner-color: Loader color
+	 * @prop --loader-overlay-color: Overlay color.
+	 * @prop --loader-background-color: Loader background color.
+	 * @prop --loader-spinner-color: Loader spinner color.
+	 * @prop --loader-padding: Loader padding.
+	 * @prop --loader-border-size: Loader border size.
 	 * @prop --loader-z-index: Loader z-index position.
 	 */
-	--loader-overlay-color: #{kv-color('neutral-4')};
-	--loader-overlay-opacity: 0.4;
-	--loader-background-color: #{kv-color('neutral-2')};
-	--loader-spinner-color: #{kv-color('secondary-5')};
-	--loader-padding: #{15px};
-	--loader-border-size: #{6px};
+	--loader-overlay-color: var(--overlay-surface-opacity-80);
+	--loader-background-color: var(--background-container-accent-purple-disabled);
+	--loader-spinner-color: var(--background-container-accent-purple-strong);
+	--loader-padding: 15px;
+	--loader-border-size: 6px;
 	--loader-z-index: 1;
 }
 
@@ -28,7 +28,6 @@
 	.overlay {
 		width: 100%;
 		height: 100%;
-		opacity: var(--loader-overlay-opacity);
 		background-color: var(--loader-overlay-color);
 	}
 

@@ -12,7 +12,7 @@ import React from 'react';
 
 import { KvActionButtonText } from '@kelvininc/react-ui-components/client';
 
-export const SwitchButtonExample: React.FC = () => (
+export const ActionButtonTextExample: React.FC = () => (
 	<>
 		{/*-- Primary --*/}
 		<KvActionButtonText text="Primary Button" icon={EIconName.Add} splitIcon={EIconNameArrowDropDown} type={EActionButtonType.Primary}></KvActionButtonText>
@@ -23,8 +23,8 @@ export const SwitchButtonExample: React.FC = () => (
 		{/*-- Tertiary --*/}
 		<KvActionButtonText text="Tertiary Button" icon={EIconName.Add} splitIcon={EIconNameArrowDropDown} type={EActionButtonType.Tertiary}></KvActionButtonText>
 
-		{/*-- Ghost --*/}
-		<KvActionButtonText text="Ghost Button" icon={EIconName.Add} splitIcon={EIconNameArrowDropDown} type={EActionButtonType.Ghost}></KvActionButtonText>
+		{/*-- Text --*/}
+		<KvActionButtonText text="Text Button" icon={EIconName.Add} splitIcon={EIconNameArrowDropDown} type={EActionButtonType.Text}></KvActionButtonText>
 
 		{/*-- Disabled --*/}
 		<KvActionButtonText disabled text="Disabled Button" icon={EIconName.Add} splitIcon={EIconNameArrowDropDown} type={EActionButtonType.Primary}></KvActionButtonText>
@@ -36,16 +36,16 @@ export const SwitchButtonExample: React.FC = () => (
 
 ## Properties
 
-| Property                 | Attribute    | Description                                        | Type                                                                                                                                            | Default                |
-| ------------------------ | ------------ | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `active`                 | `active`     | (optional) If `true` the button is active          | `boolean`                                                                                                                                       | `false`                |
-| `disabled`               | `disabled`   | (optional) If `true` the button is disabled        | `boolean`                                                                                                                                       | `false`                |
-| `icon`                   | `icon`       | (optional) Button's left icon symbol name          | `EIconName`                                                                                                                                     | `undefined`            |
-| `loading`                | `loading`    | (optional) If `true` the button is of type loading | `boolean`                                                                                                                                       | `false`                |
-| `size`                   | `size`       | (optional) Button's size                           | `EComponentSize.Large \| EComponentSize.Small`                                                                                                  | `EComponentSize.Large` |
-| `splitIcon` _(required)_ | `split-icon` | (required) Right button icon symbol name           | `EIconName`                                                                                                                                     | `undefined`            |
-| `text` _(required)_      | `text`       | (required) (required) Button's text                | `string`                                                                                                                                        | `undefined`            |
-| `type` _(required)_      | `type`       | (optional) Button's type                           | `EActionButtonType.Danger \| EActionButtonType.Ghost \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary` | `undefined`            |
+| Property                 | Attribute    | Description                                        | Type                                                                                                                                           | Default                |
+| ------------------------ | ------------ | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `active`                 | `active`     | (optional) If `true` the button is active          | `boolean`                                                                                                                                      | `false`                |
+| `disabled`               | `disabled`   | (optional) If `true` the button is disabled        | `boolean`                                                                                                                                      | `false`                |
+| `icon`                   | `icon`       | (optional) Button's left icon symbol name          | `EIconName`                                                                                                                                    | `undefined`            |
+| `loading`                | `loading`    | (optional) If `true` the button is of type loading | `boolean`                                                                                                                                      | `false`                |
+| `size`                   | `size`       | (optional) Button's size                           | `EComponentSize.Large \| EComponentSize.Small`                                                                                                 | `EComponentSize.Large` |
+| `splitIcon` _(required)_ | `split-icon` | (required) Right button icon symbol name           | `EIconName`                                                                                                                                    | `undefined`            |
+| `text` _(required)_      | `text`       | (required) (required) Button's text                | `string`                                                                                                                                       | `undefined`            |
+| `type` _(required)_      | `type`       | (optional) Button's type                           | `EActionButtonType.Danger \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary \| EActionButtonType.Text` | `undefined`            |
 
 
 ## Events
@@ -65,11 +65,13 @@ export const SwitchButtonExample: React.FC = () => (
 | Name                             | Description                                         |
 | -------------------------------- | --------------------------------------------------- |
 | `--button-split-height-large`    | Split button height when size is large.             |
-| `--button-split-height-small`    | Split button height when size is size.              |
+| `--button-split-height-small`    | Split button height when size is small.             |
 | `--button-split-icon-height`     | Split button icon height.                           |
 | `--button-split-icon-width`      | Split button icon width.                            |
 | `--button-split-padding-x-large` | Split button horizontal padding when size is large. |
-| `--button-split-padding-x-small` | Split button horizontal padding when size is size.  |
+| `--button-split-padding-x-small` | Split button horizontal padding when size is small. |
+| `--button-split-padding-y-large` | Split button vertical padding when size is large.   |
+| `--button-split-padding-y-small` | Split button vertical padding when size is small.   |
 
 
 ## Dependencies

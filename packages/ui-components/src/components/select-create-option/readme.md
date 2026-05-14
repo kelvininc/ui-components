@@ -82,7 +82,6 @@ graph TD;
   kv-form-help-text --> kv-icon
   kv-action-button-icon --> kv-action-button
   kv-action-button-icon --> kv-icon
-  kv-action-button-icon --> kv-badge
   kv-select-multi-options --> kv-select-create-option
   style kv-select-create-option fill:#f9f,stroke:#333,stroke-width:4px
 ```

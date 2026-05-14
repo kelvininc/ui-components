@@ -3,11 +3,13 @@
 exports[`Radio Button (unit tests) when the component loads with a label should match the snapshot 1`] = `
 <kv-radio label="Accepted">
   <template shadowrootmode="open">
-    <div class="radio-container radio-container--size-large">
+    <div class="radio-container radio-container--size-small">
       <div class="circle" tabindex="0">
-        <div class="checked-icon"></div>
+        <slot name="action-icon">
+          <kv-icon name="kv-radio-btn" part="icon"></kv-icon>
+        </slot>
       </div>
-      <span class="label">
+      <span class="label" part="label">
         Accepted
       </span>
     </div>
@@ -18,9 +20,11 @@ exports[`Radio Button (unit tests) when the component loads with a label should 
 exports[`Radio Button (unit tests) when the component loads with checked prop should match the snapshot 1`] = `
 <kv-radio checked="" label="">
   <template shadowrootmode="open">
-    <div class="checked radio-container radio-container--size-large">
-      <div class="circle" tabindex="-1">
-        <div class="checked-icon"></div>
+    <div class="radio-container radio-container--size-small">
+      <div class="circle" tabindex="0">
+        <slot name="action-icon">
+          <kv-icon name="kv-radio-btn-selected" part="icon"></kv-icon>
+        </slot>
       </div>
     </div>
   </template>
@@ -30,9 +34,11 @@ exports[`Radio Button (unit tests) when the component loads with checked prop sh
 exports[`Radio Button (unit tests) when the component loads with default props should match the snapshot 1`] = `
 <kv-radio label="">
   <template shadowrootmode="open">
-    <div class="radio-container radio-container--size-large">
+    <div class="radio-container radio-container--size-small">
       <div class="circle" tabindex="0">
-        <div class="checked-icon"></div>
+        <slot name="action-icon">
+          <kv-icon name="kv-radio-btn" part="icon"></kv-icon>
+        </slot>
       </div>
     </div>
   </template>
@@ -42,9 +48,11 @@ exports[`Radio Button (unit tests) when the component loads with default props s
 exports[`Radio Button (unit tests) when the component loads with disabled prop should match the snapshot 1`] = `
 <kv-radio disabled="" label="">
   <template shadowrootmode="open">
-    <div class="disabled radio-container radio-container--size-large">
+    <div class="disabled radio-container radio-container--size-small">
       <div class="circle" tabindex="-1">
-        <div class="checked-icon"></div>
+        <slot name="action-icon">
+          <kv-icon name="kv-radio-btn" part="icon"></kv-icon>
+        </slot>
       </div>
     </div>
   </template>

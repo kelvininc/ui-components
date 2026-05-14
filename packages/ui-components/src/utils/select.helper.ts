@@ -1,35 +1,24 @@
 import { isEmpty } from 'lodash-es';
-import { IMultiSelectDropdown, ISelectMultiOptions, ISelectOptionsWithChildren, ISelectSingleOptions } from '../types';
+import { ISelectMultiOptions, ISelectOptionWithChildren, ISelectOptionsWithChildren, ISelectSingleOptions } from '../types';
 import { isSubString } from './string.helper';
-
-const getHightableFallbackOption = (options: string[]): string => {
-	const [firstOption] = options;
-
-	return firstOption;
-};
-
-const getHightableOptionIndex = (options: string[], highlightedOption?: string): number => {
-	if (!highlightedOption) {
-		return -1;
-	}
-
-	return options.findIndex(name => name === highlightedOption);
-};
 
 export const getSelectableOptions = (options: ISelectOptionsWithChildren = {}): ISelectOptionsWithChildren => {
 	return Object.values(options).reduce<ISelectOptionsWithChildren>((accumulator, option) => {
 		if (isEmpty(option.options) && !option.disabled) {
 			accumulator[option.value] = option;
 		} else if (!isEmpty(option.options)) {
-			accumulator = {
-				...accumulator,
-				...getSelectableOptions(option.options)
-			};
+			const nested = getSelectableOptions(option.options);
+			for (const key of Object.keys(nested)) {
+				accumulator[key] = nested[key];
+			}
 		}
 
 		return accumulator;
 	}, {});
 };
+
+export const getSelectableOptionsFromArray = (options: ISelectOptionWithChildren[]): ISelectOptionWithChildren[] =>
+	options.filter(option => isEmpty(option.options) && !option.disabled);
 
 export const getSelectedSelectableOptions = (options: ISelectMultiOptions = {}, selectedOptions: Record<string, boolean> = {}): ISelectMultiOptions => {
 	const selectableOptions = getSelectableOptions(options);
@@ -56,6 +45,17 @@ export const getFlattenSelectOptions = (selectOptions: ISelectOptionsWithChildre
 		return accumulator;
 	}, {});
 
+const flattenOptionsReducer = (accumulator: ISelectOptionWithChildren[], selectOption: ISelectOptionWithChildren): ISelectOptionWithChildren[] => {
+	accumulator.push(selectOption);
+	Object.values(selectOption.options ?? {}).reduce(flattenOptionsReducer, accumulator);
+	return accumulator;
+};
+
+export const getFlattenSelectOptionsArray = (selectOptions: ISelectOptionsWithChildren = {}): ISelectOptionWithChildren[] =>
+	Object.values(selectOptions).reduce(flattenOptionsReducer, []);
+
+export const flattenSelectOptionsArray = (selectOptions: ISelectOptionWithChildren[] = []): ISelectOptionWithChildren[] => selectOptions.reduce(flattenOptionsReducer, []);
+
 export const buildSelectedOptions = (options: ISelectMultiOptions = {}, selected: string[]): Record<string, boolean> =>
 	Object.keys(options).reduce<Record<string, boolean>>((accumulator, childKey) => {
 		accumulator[childKey] = selected.includes(childKey);
@@ -68,44 +68,59 @@ export const buildAllOptionsSelected = (options: ISelectMultiOptions = {}): Reco
 		return accumulator;
 	}, {});
 
-export const getPreviousHightlightableOption = (options: IMultiSelectDropdown, highlightedOption?: string): string | undefined => {
-	if (isEmpty(options)) {
+export const getSelectedCount = (selectedOptions: Record<string, boolean> = {}): number => Object.keys(selectedOptions).filter(key => selectedOptions[key]).length;
+
+export const buildPartialOptionsSelected = (options: ISelectMultiOptions = {}, maxSelectable: number, currentSelectedCount: number): Record<string, boolean> | undefined => {
+	const availableSlots = maxSelectable - currentSelectedCount;
+	if (availableSlots <= 0) {
+		return undefined;
+	}
+
+	const keysToSelect = Object.keys(options).slice(0, availableSlots);
+	return keysToSelect.reduce<Record<string, boolean>>((acc, key) => {
+		acc[key] = true;
+		return acc;
+	}, {});
+};
+
+export const getPreviousHightlightableOption = (options: ISelectOptionWithChildren[], highlightedOption?: string): string | undefined => {
+	if (options.length === 0) {
 		return;
 	}
 
-	const optionsKeys = Object.keys(options);
-	const fallbackOption = getHightableFallbackOption(optionsKeys);
-	const highlightedIndex = getHightableOptionIndex(optionsKeys, highlightedOption);
+	const optionValues = options.map(o => o.value);
+	const fallbackOption = optionValues[0];
+	const highlightedIndex = highlightedOption !== undefined ? optionValues.indexOf(highlightedOption) : -1;
+
 	if (highlightedIndex === -1) {
 		return fallbackOption;
 	}
 
-	// Check if highlighted option is the first
 	if (highlightedIndex === 0) {
 		return highlightedOption;
 	}
 
-	return optionsKeys[highlightedIndex - 1];
+	return optionValues[highlightedIndex - 1];
 };
 
-export const getNextHightlightableOption = (options: IMultiSelectDropdown, highlightedOption?: string): string | undefined => {
-	if (isEmpty(options)) {
+export const getNextHightlightableOption = (options: ISelectOptionWithChildren[], highlightedOption?: string): string | undefined => {
+	if (options.length === 0) {
 		return;
 	}
 
-	const optionsKeys = Object.keys(options);
-	const fallbackOption = getHightableFallbackOption(optionsKeys);
-	const highlightedIndex = getHightableOptionIndex(optionsKeys, highlightedOption);
+	const optionValues = options.map(o => o.value);
+	const fallbackOption = optionValues[0];
+	const highlightedIndex = highlightedOption !== undefined ? optionValues.indexOf(highlightedOption) : -1;
+
 	if (highlightedIndex === -1) {
 		return fallbackOption;
 	}
 
-	// Check if highlighted option is the last
-	if (highlightedIndex === optionsKeys.length - 1) {
+	if (highlightedIndex === optionValues.length - 1) {
 		return highlightedOption;
 	}
 
-	return optionsKeys[highlightedIndex + 1];
+	return optionValues[highlightedIndex + 1];
 };
 
 export const searchDropdownOptions = (term: string, options: ISelectSingleOptions | ISelectMultiOptions = {}): ISelectSingleOptions | ISelectMultiOptions => {

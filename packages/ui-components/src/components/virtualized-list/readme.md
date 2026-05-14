@@ -16,10 +16,11 @@
 
 ## CSS Custom Properties
 
-| Name                            | Description                           |
-| ------------------------------- | ------------------------------------- |
-| `--virtualized-list-max-height` | Virtualized list maximum height.      |
-| `--virtualized-list-min-height` | Virtualized list list minimum height. |
+| Name                            | Description                      |
+| ------------------------------- | -------------------------------- |
+| `--virtualized-list-max-height` | Virtualized list maximum height. |
+| `--virtualized-list-min-height` | Virtualized list minimum height. |
+| `--virtualized-list-padding`    | Virtualized list padding.        |
 
 
 ## Dependencies

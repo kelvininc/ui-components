@@ -31,7 +31,7 @@ describe('Form Help Text (end-to-end)', () => {
 	describe('when has a help text and state is invalid', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-form-help-text help-text="Help Text" state="invalid"></kv-form-help-text>');
+			await page.setContent('<kv-form-help-text help-text="Help Text" state="invalid" show-icon></kv-form-help-text>');
 		});
 
 		it('should render help text and icon', async () => {

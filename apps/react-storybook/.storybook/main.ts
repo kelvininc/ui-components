@@ -75,8 +75,8 @@ const config: StorybookConfig = {
 		name: getAbsolutePath("@storybook/react-webpack5"),
 		options: {
 			builder: {
-				useSWC: true,
-			},
+				useSWC: true
+			}
 		}
 	},
 	staticDirs: [

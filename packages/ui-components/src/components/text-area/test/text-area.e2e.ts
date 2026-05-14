@@ -46,4 +46,70 @@ describe('Text Area (end-to-end)', () => {
 			});
 		});
 	});
+
+	describe('when rendering with counter', () => {
+		describe('and counter is not always visible (default behavior)', () => {
+			beforeEach(async () => {
+				page = await newE2EPage({
+					html: '<kv-text-area max-char-length="100" counter="true" />'
+				});
+			});
+
+			it('should not display counter when not focused', async () => {
+				const counterElement = await page.find('kv-text-area >>> .character-counter');
+				const isVisible = await counterElement.isVisible();
+				expect(isVisible).toBe(false);
+			});
+
+			it('should display counter when focused', async () => {
+				const textAreaInputEl = await page.find('kv-text-area >>> .input');
+				await textAreaInputEl.focus();
+				await page.waitForChanges();
+
+				const counterElement = await page.find('kv-text-area >>> .character-counter');
+				const isVisible = await counterElement.isVisible();
+				expect(isVisible).toBe(true);
+			});
+		});
+
+		describe('and counter is always visible', () => {
+			beforeEach(async () => {
+				page = await newE2EPage({
+					html: '<kv-text-area max-char-length="100" counter="true" counter-always-visible="true" />'
+				});
+			});
+
+			it('should display counter when not focused', async () => {
+				const counterElement = await page.find('kv-text-area >>> .character-counter');
+				const isVisible = await counterElement.isVisible();
+				expect(isVisible).toBe(true);
+			});
+
+			it('should display counter when focused', async () => {
+				const textAreaInputEl = await page.find('kv-text-area >>> .input');
+				await textAreaInputEl.focus();
+				await page.waitForChanges();
+
+				const counterElement = await page.find('kv-text-area >>> .character-counter');
+				const isVisible = await counterElement.isVisible();
+				expect(isVisible).toBe(true);
+			});
+
+			it('should update counter as user types', async () => {
+				const textAreaInputEl = await page.find('kv-text-area >>> .input');
+				await textAreaInputEl.type('Hello');
+				await page.waitForChanges();
+
+				const counterElement = await page.find('kv-text-area >>> .character-counter');
+				const counterText = await counterElement.innerText;
+				expect(counterText).toContain('5/100');
+			});
+
+			it('should have counter-always-visible class on container', async () => {
+				const containerElement = await page.find('kv-text-area >>> .text-area-container');
+				const hasClass = containerElement.classList.contains('counter-always-visible');
+				expect(hasClass).toBe(true);
+			});
+		});
+	});
 });

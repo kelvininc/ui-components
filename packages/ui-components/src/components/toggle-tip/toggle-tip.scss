@@ -1,4 +1,4 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 .toggle-tip-open-element-container {
 	width: fit-content;
@@ -6,5 +6,5 @@
 }
 
 .toggle-tip-container::part(tooltip-container) {
-	padding: $spacing-3x;
+	padding: var(--spacing-xl);
 }

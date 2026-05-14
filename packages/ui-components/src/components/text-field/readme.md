@@ -94,6 +94,7 @@ Type: `Promise<void>`
 | ------------------- | ------------------------------------------------------ |
 | `"badge"`           | badge rendered at the right of the text field          |
 | `"input-container"` | container that includes the input, right and left slot |
+| `"input-text"`      |                                                        |
 
 
 ## CSS Custom Properties
@@ -101,65 +102,43 @@ Type: `Promise<void>`
 | Name                                | Description                                    |
 | ----------------------------------- | ---------------------------------------------- |
 | `--action-icon-size`                | Right action icon width and height.            |
-| `--action-icon-size`                | Right action icon width and height.            |
-| `--action-left-spacing`             | Right action icon left spacing.                |
-| `--action-left-spacing`             | Right action icon left spacing.                |
-| `--background-color-default`        | Background color when state is default.        |
 | `--background-color-default`        | Background color when state is default.        |
 | `--background-color-disabled`       | Background color when state is disabled.       |
-| `--background-color-disabled`       | Background color when state is disabled.       |
 | `--border-color-default`            | Border color when state is default.            |
-| `--border-color-default`            | Border color when state is default.            |
+| `--border-color-disabled`           | Border color when state is disabled.           |
 | `--border-color-error`              | Border color when state is invalid.            |
-| `--border-color-error`              | Border color when state is invalid.            |
-| `--border-color-focused`            | Border color when state is focused.            |
+| `--border-color-filled`             | Border color when state is filled.             |
 | `--border-color-focused`            | Border color when state is focused.            |
 | `--icon-size-large`                 | Left icon width and height when size is large. |
-| `--icon-size-large`                 | Left icon width and height when size is large. |
 | `--icon-size-small`                 | Left icon width and height when size is small. |
-| `--icon-size-small`                 | Left icon width and height when size is small. |
-| `--input-height-large`              | Text Field's large height.                     |
-| `--input-height-large`              | Text Field's large height.                     |
-| `--input-height-small`              | Text Field's small height.                     |
-| `--input-height-small`              | Text Field's small height.                     |
-| `--input-max-width`                 | Text Field's max width.                        |
+| `--input-border-thickness`          | Input border thickness.                        |
+| `--input-gap-x`                     | Horizontal gap between input elements.         |
+| `--input-gap-y`                     | Vertical gap between input container sections. |
+| `--input-height-large`              | Text Field's height when size is large.        |
+| `--input-height-small`              | Text Field's height when size is small.        |
 | `--input-max-width`                 | Text Field's max width.                        |
 | `--input-min-width`                 | Text Field's min width.                        |
-| `--input-min-width`                 | Text Field's min width.                        |
-| `--input-width`                     | Text Field's width.                            |
+| `--input-padding-x-large`           | Horizontal padding when size is large.         |
+| `--input-padding-x-small`           | Horizontal padding when size is small.         |
+| `--input-prefix-spacing-x`          | Horizontal spacing for value prefix.           |
+| `--input-radius-large`              | Border radius when size is large.              |
+| `--input-radius-small`              | Border radius when size is small.              |
 | `--input-width`                     | Text Field's width.                            |
 | `--text-color-action-icon-default`  | Action icon color when state is default.       |
-| `--text-color-action-icon-default`  | Action icon color when state is default.       |
 | `--text-color-action-icon-disabled` | Action icon color when state is disabled.      |
-| `--text-color-action-icon-disabled` | Action icon color when state is disabled.      |
+| `--text-color-action-icon-filled`   | Action icon color when state is filled.        |
 | `--text-color-action-icon-focused`  | Action icon color when state is focused.       |
-| `--text-color-action-icon-focused`  | Action icon color when state is focused.       |
-| `--text-color-help-text-default`    | Help Text color when state is default.         |
-| `--text-color-help-text-default`    | Help Text color when state is default.         |
-| `--text-color-help-text-error`      | Help Text color when state is invalid.         |
-| `--text-color-help-text-error`      | Help Text color when state is invalid.         |
-| `--text-color-icon-default`         | Icon color when state is default.              |
+| `--text-color-help-text-default`    | Help text color when state is default.         |
+| `--text-color-help-text-error`      | Help text color when state is invalid.         |
 | `--text-color-icon-default`         | Icon color when state is default.              |
 | `--text-color-icon-disabled`        | Icon color when state is disabled.             |
-| `--text-color-icon-disabled`        | Icon color when state is disabled.             |
+| `--text-color-icon-filled`          | Icon color when state is filled.               |
 | `--text-color-icon-focused`         | Icon color when state is focused.              |
-| `--text-color-icon-focused`         | Icon color when state is focused.              |
-| `--text-color-input-default`        | Input text color when state is default.        |
-| `--text-color-input-default`        | Input text color when state is default.        |
+| `--text-color-input-default`        | Placeholder text color when state is default.  |
 | `--text-color-input-disabled`       | Input text color when state is disabled.       |
-| `--text-color-input-disabled`       | Input text color when state is disabled.       |
-| `--text-color-input-focused`        | Input Text color when state is focused.        |
-| `--text-color-input-focused`        | Input Text color when state is focused.        |
-| `--text-color-label`                | Label Text color.                              |
-| `--text-color-label`                | Label Text color.                              |
-| `--text-color-placeholder-default`  | Placeholder text color when state is default.  |
-| `--text-color-placeholder-default`  | Placeholder text color when state is default.  |
+| `--text-color-input-filled`         | Input text color when state is filled.         |
+| `--text-color-input-focused`        | Input text color when state is focused.        |
 | `--text-color-placeholder-disabled` | Placeholder text color when state is disabled. |
-| `--text-color-placeholder-disabled` | Placeholder text color when state is disabled. |
-| `--text-color-placeholder-focused`  | Placeholder text color when state is focused.  |
-| `--text-color-placeholder-focused`  | Placeholder text color when state is focused.  |
-| `--text-padding`                    | Text Field text padding.                       |
-| `--text-padding`                    | Text Field text padding.                       |
 
 
 ## Dependencies

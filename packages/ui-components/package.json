@@ -1,6 +1,6 @@
 {
 	"name": "@kelvininc/ui-components",
-	"version": "0.55.0",
+	"version": "1.0.0",
 	"description": "Kelvin UI Components",
 	"homepage": "https://docs.kelvininc.com",
 	"license": "SEE LICENSE IN LICENSE",
@@ -66,7 +66,8 @@
 		"loader/"
 	],
 	"scripts": {
-		"prebuild": "pnpm clean:build && pnpm generate:illustrations",
+		"tokens:build": "node scripts/style-dictionary.config.mjs && stylelint 'src/assets/styles/style-dictionary/**/*.{css,scss}' --fix",
+		"prebuild": "pnpm clean:build && pnpm generate:illustrations && pnpm tokens:build",
 		"build": "pnpm prebuild && stencil build --docs && pnpm postbuild",
 		"postbuild": "node scripts/prepend_use_client_directive.js",
 		"build:analyze": "SOURCE_MAP=true stencil build --docs && source-map-explorer dist/components/*.js",
@@ -103,6 +104,7 @@
 		"@stencil/core": "^4.36.1",
 		"@stencil/react-output-target": "^0.5.3",
 		"@stencil/sass": "^3.2.1",
+		"@tokens-studio/sd-transforms": "^2.0.3",
 		"@types/inputmask": "^5.0.3",
 		"@types/jest": "^29.5.13",
 		"@types/lodash-es": "^4.17.12",
@@ -126,8 +128,10 @@
 		"prettier": "^3.0.0",
 		"puppeteer": "^24.3.0",
 		"source-map-explorer": "^2.5.3",
+		"style-dictionary": "^5.2.0",
 		"stylelint": "^15.0.0",
 		"stylelint-config-sass-guidelines": "^10.0.0",
+		"stylelint-value-no-unknown-custom-properties": "^5.0.0",
 		"svg-parser": "^2.0.4",
 		"svgo": "^3.2.0",
 		"typescript": "^5.6.2"

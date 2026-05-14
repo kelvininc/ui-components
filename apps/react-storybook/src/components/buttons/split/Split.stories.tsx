@@ -12,7 +12,7 @@ const meta = {
 	argTypes: {
 		type: {
 			control: { type: "select" },
-			options: Object.values(EActionButtonType)
+			options: [EActionButtonType.Primary, EActionButtonType.Secondary]
 		},
 		splitIcon: {
 			control: { type: "select" },
@@ -38,7 +38,6 @@ export const PrimaryState: Story = {
 		text: "Primary Button",
 		splitIcon: EIconName.ArrowDropDown,
 		size: EComponentSize.Large,
-		icon: EIconName.Add,
 		disabled: false
 	}
 };
@@ -49,52 +48,6 @@ export const SecondaryState: Story = {
 		text: "Secondary Button",
 		splitIcon: EIconName.ArrowDropDown,
 		size: EComponentSize.Large,
-		icon: EIconName.Add,
-		disabled: false
-	}
-};
-
-export const TertiaryState: Story = {
-	args: {
-		type: EActionButtonType.Tertiary,
-		text: "Tertiary Button",
-		splitIcon: EIconName.ArrowDropDown,
-		size: EComponentSize.Large,
-		icon: EIconName.Add,
-		disabled: false
-	}
-};
-
-export const TertiaryLoadingState: Story = {
-	args: {
-		type: EActionButtonType.Tertiary,
-		text: "Tertiary Button",
-		splitIcon: EIconName.ArrowDropDown,
-		size: EComponentSize.Large,
-		icon: EIconName.Add,
-		disabled: false,
-		loading: true
-	}
-};
-
-export const GhostState: Story = {
-	args: {
-		type: EActionButtonType.Ghost,
-		text: "Ghost Button",
-		splitIcon: EIconName.ArrowDropDown,
-		size: EComponentSize.Large,
-		icon: EIconName.Add,
-		disabled: false
-	}
-};
-
-export const DangerState: Story = {
-	args: {
-		type: EActionButtonType.Danger,
-		text: "Danger Button",
-		splitIcon: EIconName.ArrowDropDown,
-		size: EComponentSize.Large,
-		icon: EIconName.Add,
 		disabled: false
 	}
 };

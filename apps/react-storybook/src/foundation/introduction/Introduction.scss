@@ -1,7 +1,7 @@
-@use "@kelvininc/react-ui-components/assets/styles/globals";
+@use "@kelvininc/react-ui-components/assets/styles" as *;
 
 .version {
-	color: globals.kv-color("neutral-5");
+	color: var(--color-gray-500);
 }
 
 .intro-header {
@@ -21,8 +21,8 @@
 			position: absolute;
 			bottom: 0;
 			right: 0;
-			color: globals.kv-color("neutral-5");
-			@include globals.kv-font-label-xsmall-light;
+			color: var(--color-gray-500);
+			@include body-xs-light;
 			font-size: 1.5rem;
 		}
 	}
@@ -33,7 +33,7 @@
 	justify-content: flex-end;
 
 	span {
-		@include globals.kv-font-code;
+		@include kv-font-code;
 	}
 }
 

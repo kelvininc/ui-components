@@ -1,13 +1,13 @@
-@use "@kelvininc/react-ui-components/assets/styles/globals";
+@use "@kelvininc/react-ui-components/assets/styles" as *;
 
 .svgs-container {
 	display: flex;
 	flex-wrap: wrap;
-	padding: globals.$spacing-7x 0;
+	padding: var(--spacing-4xl) 0;
 }
 
 .icon-wrapper {
-	padding: globals.$spacing-3x;
+	padding: var(--spacing-xl);
 	width: 100px;
 	height: 120px;
 
@@ -17,22 +17,22 @@
 		height: 100px;
 		align-items: center;
 		justify-content: center;
-		background: globals.kv-color("neutral-7");
-		border-radius: 4px;
+		background: var(--color-gray-800);
+		border-radius: var(--radius-md);
 
 		kv-icon::part(icon) {
-			fill: globals.kv-color("primary");
+			fill: var(--color-brand-600);
 		}
 	}
 
 	.description {
 		display: flex;
 		justify-content: space-between;
-		padding: 0 globals.$spacing;
+		padding: 0 var(--spacing-xs);
 
 		.code {
-			color: globals.kv-color("neutral-5");
-			@include globals.kv-font-label-small-regular;
+			color: var(--color-gray-400);
+			@include body-s-regular;
 		}
 	}
 }
@@ -40,28 +40,40 @@
 .ilus-wrapper {
 	display: flex;
 	flex-direction: column;
-	padding: globals.$spacing-2x;
+	padding: var(--spacing-md);
 
 	.box-wrapper {
 		display: flex;
-		width: 299px;
-		height: 150px;
-		align-items: center;
-		justify-content: center;
-		border: 1px solid #f2f2f2;
-		border-radius: 4px;
-		padding: globals.$spacing-2x;
+		width: 458px;
+		height: 200px;
+		border: 1px solid var(--color-gray-700);
+		border-radius: var(--radius-md);
+		padding: var(--spacing-xl);
+		overflow: hidden;
+
+		.theme-half {
+			display: flex;
+			flex: 1;
+			align-items: center;
+			justify-content: center;
+			padding: var(--spacing-md);
+			background: var(--background-surface-neutral-default);
+
+			&[data-theme="night"] {
+				border-left: 1px solid var(--border-surface-card-default);
+			}
+		}
 	}
 
 	.description {
 		display: flex;
 		width: 100%;
 		justify-content: space-between;
-		padding: 0 globals.$spacing;
+		padding: 0 var(--spacing-xs);
 
 		.code {
-			color: globals.kv-color("neutral-5");
-			@include globals.kv-font-label-small-regular;
+			color: var(--color-gray-400);
+			@include body-s-regular;
 		}
 	}
 }

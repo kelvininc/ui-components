@@ -1,12 +1,14 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 :host {
 	/**
 	 * @prop --virtualized-list-max-height: Virtualized list maximum height.
-	 * @prop --virtualized-list-min-height: Virtualized list list minimum height.
+	 * @prop --virtualized-list-min-height: Virtualized list minimum height.
+	 * @prop --virtualized-list-padding: Virtualized list padding.
 	 */
 	--virtualized-list-max-height: auto;
 	--virtualized-list-min-height: auto;
+	--virtualized-list-padding: var(--spacing-xl) 0;
 
 	display: block;
 	height: 100%;
@@ -16,13 +18,13 @@
 		max-height: var(--virtualized-list-max-height);
 		min-height: var(--virtualized-list-min-height);
 
-		padding: $spacing-3x 0;
+		padding: var(--virtualized-list-padding);
 		height: 100%;
 		width: 100%;
 		display: block;
 		overflow-y: auto;
 
-		@include kelvin-night-scrollbar;
+		@include kelvin-scrollbar;
 	}
 
 	.inner {

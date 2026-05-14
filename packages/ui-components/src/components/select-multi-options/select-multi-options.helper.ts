@@ -1,4 +1,4 @@
-import { ISelectMultiOption, ISelectMultiOptions, ISelectOptionWithChildren, ISelectOptionsWithChildren } from './select-multi-options.types';
+import { ISelectMultiOption, ISelectOptionWithChildren, ISelectOptionsWithChildren, type IBuildSelectOptionsParams } from './select-multi-options.types';
 import { EToggleState, ISelectOption } from '../../types';
 import { ADD_OPTION } from './select-multi-options.config';
 
@@ -17,32 +17,34 @@ const buildSelectOption = ({
 	allOptions = {},
 	selectedOptions = {},
 	highlightedOption,
-	level = 0
-}: {
-	optionKey: string;
-	options?: ISelectMultiOptions;
-	allOptions?: ISelectMultiOptions;
-	selectedOptions?: Record<string, boolean>;
-	highlightedOption?: string;
-	level?: number;
-}): ISelectOptionWithChildren => {
+	level = 0,
+	maxSelectable,
+	selectedCount
+}: IBuildSelectOptionsParams & { optionKey: string }): ISelectOptionWithChildren => {
 	const childrenOptions = buildSelectOptions({
 		options: options[optionKey].options,
 		allOptions: allOptions[optionKey].options,
 		selectedOptions,
 		highlightedOption,
-		level: level + 1
+		level: level + 1,
+		maxSelectable,
+		selectedCount
 	});
+
+	const isSelected = selectedOptions[optionKey] === true;
+	const isMaxReached = maxSelectable !== undefined && selectedCount !== undefined && selectedCount >= maxSelectable;
+	const isDisabledByMax = isMaxReached && !isSelected;
 
 	return {
 		togglable: true,
 		...options[optionKey],
 		options: childrenOptions,
-		selected: selectedOptions[optionKey] === true,
+		selected: isSelected,
 		state: getOptionToggleState(allOptions[optionKey], selectedOptions),
 		highlighted: optionKey === highlightedOption,
 		level: level,
-		heading: Object.values(childrenOptions).length > 0
+		heading: Object.values(childrenOptions).length > 0,
+		disabled: options[optionKey].disabled || isDisabledByMax
 	};
 };
 
@@ -75,19 +77,13 @@ export const buildSelectOptions = ({
 	highlightedOption,
 	hasAddItem = false,
 	createInputPlaceholder,
-	level = 0
-}: {
-	options?: ISelectMultiOptions;
-	allOptions?: ISelectMultiOptions;
-	selectedOptions?: Record<string, boolean>;
-	highlightedOption?: string;
-	hasAddItem?: boolean;
-	createInputPlaceholder?: string;
-	level?: number;
-}): ISelectOptionsWithChildren => {
+	level = 0,
+	maxSelectable,
+	selectedCount
+}: IBuildSelectOptionsParams): ISelectOptionsWithChildren => {
 	const selectOptions = Object.keys(options).reduce<ISelectOptionsWithChildren>((accumulator, optionKey) => {
 		if (allOptions[optionKey]) {
-			accumulator[optionKey] = buildSelectOption({ optionKey, options, allOptions, selectedOptions, highlightedOption, level });
+			accumulator[optionKey] = buildSelectOption({ optionKey, options, allOptions, selectedOptions, highlightedOption, level, maxSelectable, selectedCount });
 		}
 
 		return accumulator;
@@ -98,4 +94,31 @@ export const buildSelectOptions = ({
 	}
 
 	return selectOptions;
+};
+
+export const buildSelectOptionsArray = ({
+	options = {},
+	allOptions = {},
+	selectedOptions = {},
+	highlightedOption,
+	hasAddItem = false,
+	createInputPlaceholder,
+	level = 0,
+	maxSelectable,
+	selectedCount
+}: IBuildSelectOptionsParams): ISelectOptionWithChildren[] => {
+	const selectOptionsArray: ISelectOptionWithChildren[] = [];
+
+	for (const optionKey of Object.keys(options)) {
+		if (allOptions[optionKey] !== undefined) {
+			const builtOption = buildSelectOption({ optionKey, options, allOptions, selectedOptions, highlightedOption, level, maxSelectable, selectedCount });
+			selectOptionsArray.push(builtOption);
+		}
+	}
+
+	if (hasAddItem) {
+		selectOptionsArray.push(buildNewOption(highlightedOption, createInputPlaceholder));
+	}
+
+	return selectOptionsArray;
 };

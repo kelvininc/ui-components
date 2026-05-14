@@ -76,13 +76,24 @@ export const SlotsUsage: Story = {
 	render: (args) => (
 		<KvAlert {...args}>
 			<div slot="description">
-				<strong>Custom Description:</strong> This is a custom description using slots.
+				<strong>Custom Description:</strong> This is a custom
+				description using slots.
 			</div>
 			<div slot="actions">
-				<KvActionButtonText type={EActionButtonType.Primary} text="Action" />
+				<KvActionButtonText
+					type={EActionButtonType.Tertiary}
+					text="Action Tertiary"
+				/>
+				<KvActionButtonText
+					type={EActionButtonType.Secondary}
+					text="Action Secondary"
+				/>
 			</div>
-			<div slot="alert-content" style={{ color: '#2a2a2a'}}>
-				<p>This is additional content inside the alert using the alert-content slot.</p>
+			<div slot="alert-content" style={{ color: "#2a2a2a" }}>
+				<p>
+					This is additional content inside the alert using the
+					alert-content slot.
+				</p>
 			</div>
 		</KvAlert>
 	),

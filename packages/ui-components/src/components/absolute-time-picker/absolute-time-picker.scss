@@ -1,42 +1,38 @@
-@import '../../assets/styles/globals';
+@use '../../assets/styles' as *;
 
 .absolute-time-picker-container {
 	display: flex;
 	flex-direction: column;
-	gap: $spacing-3x;
-	background-color: kv-color('neutral-7');
-	padding: $spacing-4x;
-	border-radius: 4px;
+	gap: var(--spacing-xl);
+	padding: var(--spacing-2xl);
+	border-radius: var(--radius-md);
 	width: fit-content;
 
 	.navigate-back {
 		display: flex;
-		gap: $spacing;
-		align-items: center;
-		cursor: pointer;
-		width: fit-content;
+		height: 16px;
 
-		kv-icon {
-			--icon-color: #{kv-color('neutral-4')};
-		}
+		kv-action-button-text {
+			&::part(button) {
+				width: 57px;
+			}
 
-		.back-text {
-			@include kv-font-label-small-regular;
-			color: kv-color('neutral-4');
-			user-select: none;
+			&::part(icon) {
+				transform: rotate(180deg);
+			}
 		}
 	}
 
 	.header {
 		.title {
-			@include kv-font-h4-semibold;
-			color: kv-color('neutral-2');
+			@include heading-m-semibold;
+			color: var(--text-surface-neutral-secondary);
 		}
 	}
 
 	.absolute-range-input {
 		display: flex;
-		gap: $spacing-6x;
+		gap: var(--spacing-4xl);
 
 		kv-date-time-input {
 			width: 196px;
@@ -49,6 +45,6 @@
 
 	.calendars {
 		display: flex;
-		gap: $spacing-6x;
+		gap: var(--spacing-4xl);
 	}
 }

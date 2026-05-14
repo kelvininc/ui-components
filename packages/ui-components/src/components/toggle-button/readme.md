@@ -69,25 +69,40 @@ export const ToggleButtonExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name                          | Description                                               |
-| ----------------------------- | --------------------------------------------------------- |
-| `--background-color-active`   | toggle button component's background color active.        |
-| `--background-color-default`  | toggle button component's background color default.       |
-| `--background-color-disabled` | toggle button component's background color disabled.      |
-| `--border-color-active`       | toggle button component's border color active.            |
-| `--border-color-default`      | toggle button component's border color default.           |
-| `--border-color-disabled`     | toggle button component's border color disabled.          |
-| `--button-height-large`       | toggle button component's height when size is large.      |
-| `--button-height-small`       | toggle button component's height when size is small.      |
-| `--button-icon-height-large`  | toggle button component's icon height when size is large. |
-| `--button-icon-height-small`  | toggle button component's icon height when size is small. |
-| `--button-icon-width-large`   | toggle button component's icon width when size is large.  |
-| `--button-icon-width-small`   | toggle button component's icon width when size is small.  |
-| `--button-padding-large`      | toggle button component's padding when size is large.     |
-| `--button-padding-small`      | toggle button component's padding when size is small.     |
-| `--text-color-active`         | toggle button component's text color active.              |
-| `--text-color-default`        | toggle button component's text color default.             |
-| `--text-color-disabled`       | toggle button component's text color disabled.            |
+| Name                                 | Description                                              |
+| ------------------------------------ | -------------------------------------------------------- |
+| `--background-color-active`          | Toggle button background color when state is active.     |
+| `--background-color-default`         | Toggle button background color when state is default.    |
+| `--background-color-disabled`        | Toggle button background color when state is disabled.   |
+| `--background-color-disabled-active` | Toggle button background color when disabled and active. |
+| `--border-color-active`              | Toggle button border color when state is active.         |
+| `--border-color-default`             | Toggle button border color when state is default.        |
+| `--border-color-disabled`            | Toggle button border color when state is disabled.       |
+| `--border-color-disabled-active`     | Toggle button border color when disabled and active.     |
+| `--border-left-size`                 | Toggle button left border size.                          |
+| `--border-radius-bottom-left`        | Toggle button bottom-left border radius.                 |
+| `--border-radius-bottom-right`       | Toggle button bottom-right border radius.                |
+| `--border-radius-top-left`           | Toggle button top-left border radius.                    |
+| `--border-radius-top-right`          | Toggle button top-right border radius.                   |
+| `--border-right-size`                | Toggle button right border size.                         |
+| `--border-size`                      | Toggle button border size.                               |
+| `--button-height-large`              | Toggle button height when size is large.                 |
+| `--button-height-small`              | Toggle button height when size is small.                 |
+| `--button-icon-height-large`         | Toggle button icon height when size is large.            |
+| `--button-icon-height-small`         | Toggle button icon height when size is small.            |
+| `--button-icon-width-large`          | Toggle button icon width when size is large.             |
+| `--button-icon-width-small`          | Toggle button icon width when size is small.             |
+| `--button-padding-large`             | Toggle button padding when size is large.                |
+| `--button-padding-small`             | Toggle button padding when size is small.                |
+| `--button-width`                     | Toggle button width.                                     |
+| `--icon-color-active`                | Toggle button icon color when state is active.           |
+| `--icon-color-default`               | Toggle button icon color when state is default.          |
+| `--icon-color-disabled`              | Toggle button icon color when state is disabled.         |
+| `--icon-color-disabled-active`       | Toggle button icon color when disabled and active.       |
+| `--text-color-active`                | Toggle button text color when state is active.           |
+| `--text-color-default`               | Toggle button text color when state is default.          |
+| `--text-color-disabled`              | Toggle button text color when state is disabled.         |
+| `--text-color-disabled-active`       | Toggle button text color when disabled and active.       |
 
 
 ## Dependencies
@@ -111,6 +126,7 @@ graph TD;
   kv-toggle-button --> kv-icon
   kv-tooltip --> kv-portal
   kv-tooltip --> kv-tooltip-text
+  kv-radio --> kv-icon
   kv-toggle-button-group --> kv-toggle-button
   kv-toggle-switch --> kv-toggle-button
   style kv-toggle-button fill:#f9f,stroke:#333,stroke-width:4px

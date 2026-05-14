@@ -5,10 +5,7 @@ import { identity } from 'lodash-es';
 
 @Component({
 	tag: 'kv-range',
-	styleUrls: {
-		night: 'range.night.scss',
-		light: 'range.light.scss'
-	},
+	styleUrl: 'range.scss',
 	shadow: true
 })
 export class KvRange implements IRange, IRangeEvents {

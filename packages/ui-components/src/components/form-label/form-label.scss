@@ -1,0 +1,40 @@
+@use '../../assets/styles' as *;
+
+:host {
+	/**
+	 * @prop --label-color: Label text color.
+	 * @prop --label-required-color: Required indicator color.
+	 * @prop --label-gap: Gap between label elements.
+	 * @prop --label-bottom-spacing: Bottom spacing of the label container.
+	 */
+	 --label-color: var(--text-surface-neutral-tertiary);
+	 --label-required-color: var(--text-surface-danger-default);
+	 --label-gap: var(--spacing-2xs);
+	 --label-bottom-spacing: var(--spacing-2xs);
+
+	 display: inline-flex;
+	 user-select: none;
+}
+
+.required {
+	@include heading-xs-semibold-caps;
+
+	+ label {
+		@include heading-xs-semibold-caps;
+	}
+}
+
+.label {
+	@include heading-xs-regular-caps;
+	color: var(--label-color);
+}
+
+.required {
+	color: var( --label-required-color);
+}
+
+.label-container {
+	display: inline-flex;
+	gap: var(--label-gap);
+	margin-bottom: var(--label-bottom-spacing);
+}
