@@ -3,6 +3,117 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/kelvininc/ui-components/compare/v0.55.0...v2.0.0) (2026-05-14)
+
+
+### Bug Fixes
+
+* **ci:** support beta prerelease versions in publish workflow ([8b1d2c2](https://github.com/kelvininc/ui-components/commit/8b1d2c2d841c766edb10ba09e8e927556a9320a3))
+* **dropdown:** add hover to select option ([c28ea8c](https://github.com/kelvininc/ui-components/commit/c28ea8c057186b0844a5d2451590181a5c3e1a73))
+* **inline-editable-field:** use componentDidLoad and fix null safety issues ([572d850](https://github.com/kelvininc/ui-components/commit/572d85093e160d11ad6cf9fe69d123e3da02c428))
+* **sass:** resolve deprecated [@import](https://github.com/import) and typographies in scss files ([2d26703](https://github.com/kelvininc/ui-components/commit/2d267031c2838def552b65f40c0d15765eaa1a4c))
+* **select:** force counter to be visible ([ee91454](https://github.com/kelvininc/ui-components/commit/ee914541e2c7a31c55c9b2df2959837f158ede2f))
+* **select:** preserve options order with numeric-like keys ([d6c47ce](https://github.com/kelvininc/ui-components/commit/d6c47ce78a1a3720b072e20edefe87724cff6652))
+
+
+* feat(illustrations)!: migrate illustrations to design tokens and remove deprecated assets ([2135132](https://github.com/kelvininc/ui-components/commit/2135132f5f93a7510f3b8125c694aefb53a589cf))
+* feat(design-tokens)! add stylelint custom properties validation ([2bd7af2](https://github.com/kelvininc/ui-components/commit/2bd7af2e2fd14ba261621959099ccc14075dfdbe))
+* feat(modal, icon, dirty-dot, state-indicator, virtualized-list)!: migrate modal to design tokens and remove tree/summary-card components ([83efadd](https://github.com/kelvininc/ui-components/commit/83efadd0c6f587f79c636d913525fe2c2a3bb001))
+* feat(tag)!: redesign kv-tag with color variants, icon and badge support ([43bb921](https://github.com/kelvininc/ui-components/commit/43bb921dddff2d73389335933878485f3a50fa7f))
+* feat!: migrate badge, tab-item and tab-navigation to design tokens ([1f3edc1](https://github.com/kelvininc/ui-components/commit/1f3edc1475f293a309d169d51632ed84ebbe31d3))
+* feat!: migrate to design token system ([3cb94a5](https://github.com/kelvininc/ui-components/commit/3cb94a561aed2e396e56004a78d6eb3c742c0a89))
+
+
+### Features
+
+* **action-buttons:** migrate to new design tokens ([736225d](https://github.com/kelvininc/ui-components/commit/736225d76f161f3c03aef304ec802d011d51faef))
+* **action-buttons:** migrate to new design tokens ([02974f3](https://github.com/kelvininc/ui-components/commit/02974f36a183e9b91b966a0493716c392c6eaa73))
+* add `showShortcuts` prop to select-multi-options ([f183265](https://github.com/kelvininc/ui-components/commit/f183265720d53493b4fd43ec8dc78c3ca86320ec))
+* **alert:** migrate alert component to design tokens ([9217745](https://github.com/kelvininc/ui-components/commit/92177455c8a7f720c8708e410e31dafa9e0b3d31))
+* **breadcrumb-item, link, text-area:** refactor breadcrumb to use kv-link and migrate text-area to design tokens ([37c1e8a](https://github.com/kelvininc/ui-components/commit/37c1e8ad29ace98b2f97053ad0dd6ba68af6ba25))
+* **code-editor:** migrate code editor to design tokens ([78c6df5](https://github.com/kelvininc/ui-components/commit/78c6df5ce9930ea0962f8c2275c7d8f7612e5a85))
+* **copy-to-clipboard, description-list, inline-editable-field:** migrate to design token system ([20d4532](https://github.com/kelvininc/ui-components/commit/20d4532823177cd4ed4a6359758cc73a24c78497))
+* **design-tokens:** add support to new design tokens with style dictionary ([e6e3869](https://github.com/kelvininc/ui-components/commit/e6e386957c0b9bf67f13a1c5cf6732ecf15f121f))
+* **design-tokens:** update tags design tokens ([3090a62](https://github.com/kelvininc/ui-components/commit/3090a62db0dc3195d4932a314bd6edc9c0331d91))
+* **figma-plugin:** add new plugin to export figma variables ([00373c2](https://github.com/kelvininc/ui-components/commit/00373c24ecc5ff92ac30ea26653d9d2dde10e9a2))
+* **icon:** add agents icon ([a8c8322](https://github.com/kelvininc/ui-components/commit/a8c832283b063094472cf2552dab11b91de7a439))
+* **icon:** add arrow-left icon ([a0416cd](https://github.com/kelvininc/ui-components/commit/a0416cd673228f982e9c782a771c8545a50196a7))
+* **icon:** add filter icon ([d17fe2e](https://github.com/kelvininc/ui-components/commit/d17fe2e066d3edc4f7cae68f35f37217af1e10a9))
+* **icon:** add message and notifications icons ([f69cc02](https://github.com/kelvininc/ui-components/commit/f69cc02e2ec535d63f8165d33f06c635e5f0433b))
+* **icons:** add 'traffic-lights' icon ([86583b4](https://github.com/kelvininc/ui-components/commit/86583b402d9921fee26973d7abb8f5929976333f))
+* **icons:** add checklist icon ([9d34ea3](https://github.com/kelvininc/ui-components/commit/9d34ea3e23870d58198701380a366b8346561d4b))
+* **icons:** remove deprecated icons from the icon library ([886ff1b](https://github.com/kelvininc/ui-components/commit/886ff1b54e804cc16821c87bd6ddeead0e58adf3))
+* **illustrations:** update kelvin logo illustrations ([1a251ef](https://github.com/kelvininc/ui-components/commit/1a251effb299bc154cd38dad085d5304a6b3a1cb))
+* **info-label:** migrate to design token system ([52c4f38](https://github.com/kelvininc/ui-components/commit/52c4f38e87a14cb745799ce43c0d465763931c00))
+* **inline-editable-field:** add placeholder for empty values ([95cd890](https://github.com/kelvininc/ui-components/commit/95cd890ccc39c1b8c8f073c47f306893fbec0e71))
+* **link:** migrate to design token system ([96a2beb](https://github.com/kelvininc/ui-components/commit/96a2beb8cff2a95afab23e4cac93ae69fdcf6ccf))
+* **radio, checkbox:** migrate to design token system ([cfd506c](https://github.com/kelvininc/ui-components/commit/cfd506c4a0bf52c8481552048fb1a5095f37aab4))
+* **range:** migrate to design tokens ([00c69b7](https://github.com/kelvininc/ui-components/commit/00c69b7967742fe49a49fea661a6be23e23ac75a))
+* **react-storybook:** add support to toggle themes dark and light ([98c720a](https://github.com/kelvininc/ui-components/commit/98c720a5288ba8ec25386eb28f16f9d48fdc4dc9))
+* **schema-form:** migrate schema-form to design tokens ([7108d6b](https://github.com/kelvininc/ui-components/commit/7108d6b45da813a5ddbaaf9b9775d2db48890324))
+* **select-option:** add tooltip with option text when truncated ([491fa11](https://github.com/kelvininc/ui-components/commit/491fa116b99ed2f6d4913a4e5441871383b54be3))
+* **select:** adds max selectable items property ([ea5dc98](https://github.com/kelvininc/ui-components/commit/ea5dc982ed00ea251464157bbf913144c610a1ac))
+* **select:** migrate to design token system ([3967de0](https://github.com/kelvininc/ui-components/commit/3967de0c14f4f629b33e7672f01dcd89e16ed1b0))
+* **storybook:** add side-by-side light/night theme preview in docs ([5e4b390](https://github.com/kelvininc/ui-components/commit/5e4b390f79e5fdadc08837e2e905b865306a4f44))
+* **switch-button:** migrate to design token system ([8aa2c96](https://github.com/kelvininc/ui-components/commit/8aa2c96b2e8c583b4930745732066d7d9cd95d72))
+* **tab-item:** add icon support to secondary tab items ([9886259](https://github.com/kelvininc/ui-components/commit/9886259ec0832d8bd9a892c71e08b6614160c5b6))
+* **text-area:** add counterAlwaysVisible property ([4da4eab](https://github.com/kelvininc/ui-components/commit/4da4eab0c4f8df003d8cafe5983ce4f71afe0801))
+* **text-field,search,dropdown:** migrate to design token system ([be14056](https://github.com/kelvininc/ui-components/commit/be140561522b060321e9b0759dd18bc990b77163))
+* **time-picker:** migrate time pickers to  design tokens ([2cc7acb](https://github.com/kelvininc/ui-components/commit/2cc7acb15162b376881ce49342d5560a3874436e))
+* **toaster:** migrate to design token system ([1dd027a](https://github.com/kelvininc/ui-components/commit/1dd027a6ee1b3287dd49ba3212b48eeea4f1d717))
+* **toggle-button, toggle-switch:** migrate to design token system ([655c85c](https://github.com/kelvininc/ui-components/commit/655c85c7d5d092679a1387c3fb02f663dc488ba7))
+* **tooltip:** migrate to new design tokens ([25fa329](https://github.com/kelvininc/ui-components/commit/25fa3292ff5d126a146d20ebb540e5d8e6fe56df))
+* **wizard:** migrate wizard components to design token system ([4bbe176](https://github.com/kelvininc/ui-components/commit/4bbe176a55fbb0264ebbf3a5767f1f8304a1b789))
+
+
+### Performance Improvements
+
+* **checkboxes-widget:** avoid O(n^2) accumulator spread in buildToggleButtons ([6bda2c9](https://github.com/kelvininc/ui-components/commit/6bda2c952769530d84030d75f853cf9097b67d99)), closes [core-ui-apps#844](https://github.com/core-ui-apps/issues/844)
+* **select-helper:** avoid O(n^2) accumulator spread in getSelectableOptions ([d3463db](https://github.com/kelvininc/ui-components/commit/d3463db91be286e95bf46db2d76463e42ab891c6)), closes [core-ui-apps#844](https://github.com/core-ui-apps/issues/844)
+* **select:** batch option rebuilds via microtask scheduling ([1f1e3e3](https://github.com/kelvininc/ui-components/commit/1f1e3e307e13c36f3a92830aebc9460589c86432))
+
+
+### BREAKING CHANGES
+
+* several EIllustration values have been removed (agree, disagree, soft-agree, box-build, color-circle, impact, party-dance, table-build, feedback-form, es-* illustrations, no-results-found-dark, no-results-found-light). Use the consolidated no-results-found or remaining illustrations instead.
+* **copy-to-clipboard, description-list, inline-editable-field:** copy-to-clipboard hover background is now transparent
+by default instead of neutral-6.
+* Components no longer provide legacy kv-color() fallback
+values — consumers must ensure design token CSS custom properties are loaded.
+* kv-tree, kv-tree-item, kv-tree-dropdown and kv-summary-card components have been removed
+* `size` prop removed — the tag no longer supports size
+variants. Remove any `size` attribute usage from kv-tag.
+* CSS custom property `--tag-border-color` removed. The
+tag no longer renders a border; adjust any overrides that relied on this
+variable.
+* CSS custom property `--tag-content-padding` replaced
+by `--tag-content-padding-x` and `--tag-content-padding-y`. Update any
+custom padding overrides accordingly.
+
+New props: `color` (ETagColor, default: neutral), `icon` (EIconName),
+`badgeLabel` (string).
+New CSS custom properties: `--tag-badge-color`, `--tag-badge-background-color`,
+`--tag-icon-color`, `--tag-content-padding-x`, `--tag-content-padding-y`.
+Color variants: neutral, brand, purple, green, yellow, red, blue.
+* `EBadgeState` was removed and replaced with `EBadgeType`
+(Primary, Secondary). The `state` prop on `kv-badge` is now `type`, and
+`disabled` is a new explicit prop instead of a state variant.
+* `kv-action-button-icon` removed `badgeLabel` and
+`badgeState` props. The badge is no longer part of the action button icon.
+* `kv-tab-item` removed props `size`, `hasNotification`,
+`notificationColor`, `icon`, and `state`. The tab type is now controlled
+via `type` (ETabItemType.Primary | Secondary) and slot-based content
+(`right-slot`) replaces inline icon and notification dot rendering.
+* `kv-tab-navigation` removed `notifications` and `size`
+props. Use `type` (ETabItemType.Primary | Secondary) to control the visual
+variant. Badge and tag-status content is now passed via `ITabNavigationItem`
+fields `badge`, `badgeType`, `tagIcon`, and `tagState`.
+* action button types renamed (Ghost → Text, Tertiary → Secondary), deprecated kv-font-* mixins replaced with new design token typography, @import replaced with @use
+
+
+
+
+
 # [0.55.0](https://github.com/kelvininc/ui-components/compare/v0.51.0...v0.55.0) (2026-02-05)
 
 

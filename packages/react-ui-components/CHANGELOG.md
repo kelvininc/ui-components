@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/kelvininc/ui-components/compare/v0.55.0...v2.0.0) (2026-05-14)
+
+
+### Bug Fixes
+
+* **sass:** resolve deprecated [@import](https://github.com/import) and typographies in scss files ([2d26703](https://github.com/kelvininc/ui-components/commit/2d267031c2838def552b65f40c0d15765eaa1a4c))
+
+
+* feat(design-tokens)! add stylelint custom properties validation ([2bd7af2](https://github.com/kelvininc/ui-components/commit/2bd7af2e2fd14ba261621959099ccc14075dfdbe))
+* feat(modal, icon, dirty-dot, state-indicator, virtualized-list)!: migrate modal to design tokens and remove tree/summary-card components ([83efadd](https://github.com/kelvininc/ui-components/commit/83efadd0c6f587f79c636d913525fe2c2a3bb001))
+* feat(tag)!: redesign kv-tag with color variants, icon and badge support ([43bb921](https://github.com/kelvininc/ui-components/commit/43bb921dddff2d73389335933878485f3a50fa7f))
+* feat!: migrate badge, tab-item and tab-navigation to design tokens ([1f3edc1](https://github.com/kelvininc/ui-components/commit/1f3edc1475f293a309d169d51632ed84ebbe31d3))
+* feat!: migrate to design token system ([3cb94a5](https://github.com/kelvininc/ui-components/commit/3cb94a561aed2e396e56004a78d6eb3c742c0a89))
+
+
+### Features
+
+* **action-buttons:** migrate to new design tokens ([02974f3](https://github.com/kelvininc/ui-components/commit/02974f36a183e9b91b966a0493716c392c6eaa73))
+* **code-editor:** migrate code editor to design tokens ([78c6df5](https://github.com/kelvininc/ui-components/commit/78c6df5ce9930ea0962f8c2275c7d8f7612e5a85))
+* **design-tokens:** add support to new design tokens with style dictionary ([e6e3869](https://github.com/kelvininc/ui-components/commit/e6e386957c0b9bf67f13a1c5cf6732ecf15f121f))
+* **radio, checkbox:** migrate to design token system ([cfd506c](https://github.com/kelvininc/ui-components/commit/cfd506c4a0bf52c8481552048fb1a5095f37aab4))
+* **schema-form:** migrate schema-form to design tokens ([7108d6b](https://github.com/kelvininc/ui-components/commit/7108d6b45da813a5ddbaaf9b9775d2db48890324))
+* **select:** adds max selectable items property ([ea5dc98](https://github.com/kelvininc/ui-components/commit/ea5dc982ed00ea251464157bbf913144c610a1ac))
+
+
+### Performance Improvements
+
+* **checkboxes-widget:** avoid O(n^2) accumulator spread in buildToggleButtons ([6bda2c9](https://github.com/kelvininc/ui-components/commit/6bda2c952769530d84030d75f853cf9097b67d99)), closes [core-ui-apps#844](https://github.com/core-ui-apps/issues/844)
+
+
+### BREAKING CHANGES
+
+* Components no longer provide legacy kv-color() fallback
+values — consumers must ensure design token CSS custom properties are loaded.
+* kv-tree, kv-tree-item, kv-tree-dropdown and kv-summary-card components have been removed
+* `size` prop removed — the tag no longer supports size
+variants. Remove any `size` attribute usage from kv-tag.
+* CSS custom property `--tag-border-color` removed. The
+tag no longer renders a border; adjust any overrides that relied on this
+variable.
+* CSS custom property `--tag-content-padding` replaced
+by `--tag-content-padding-x` and `--tag-content-padding-y`. Update any
+custom padding overrides accordingly.
+
+New props: `color` (ETagColor, default: neutral), `icon` (EIconName),
+`badgeLabel` (string).
+New CSS custom properties: `--tag-badge-color`, `--tag-badge-background-color`,
+`--tag-icon-color`, `--tag-content-padding-x`, `--tag-content-padding-y`.
+Color variants: neutral, brand, purple, green, yellow, red, blue.
+* `EBadgeState` was removed and replaced with `EBadgeType`
+(Primary, Secondary). The `state` prop on `kv-badge` is now `type`, and
+`disabled` is a new explicit prop instead of a state variant.
+* `kv-action-button-icon` removed `badgeLabel` and
+`badgeState` props. The badge is no longer part of the action button icon.
+* `kv-tab-item` removed props `size`, `hasNotification`,
+`notificationColor`, `icon`, and `state`. The tab type is now controlled
+via `type` (ETabItemType.Primary | Secondary) and slot-based content
+(`right-slot`) replaces inline icon and notification dot rendering.
+* `kv-tab-navigation` removed `notifications` and `size`
+props. Use `type` (ETabItemType.Primary | Secondary) to control the visual
+variant. Badge and tag-status content is now passed via `ITabNavigationItem`
+fields `badge`, `badgeType`, `tagIcon`, and `tagState`.
+* action button types renamed (Ghost → Text, Tertiary → Secondary), deprecated kv-font-* mixins replaced with new design token typography, @import replaced with @use
+
+
+
+
+
 # [0.55.0](https://github.com/kelvininc/ui-components/compare/v0.51.0...v0.55.0) (2026-02-05)
 
 
