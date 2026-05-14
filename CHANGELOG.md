@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.55.0](https://github.com/kelvininc/ui-components/compare/v0.51.0...v0.55.0) (2026-02-05)
+
+
+### Bug Fixes
+
+* **action-button-text:** remove flexbox and replace gap with margins ([6877798](https://github.com/kelvininc/ui-components/commit/687779801b731b6fb8b813c083a6a872bfa3a492))
+* **alert:** prevents small size alerts to be row styled ([225c2bc](https://github.com/kelvininc/ui-components/commit/225c2bc61afcb48c02f94811fd678e81176a906e))
+* **badge:** set neutral-5 default background ([3f18db3](https://github.com/kelvininc/ui-components/commit/3f18db3b11b0c4df5dacb242a9750f901010ec25))
+* **dropdown:** fix search disabled options [KFE-2750] ([1abe5d9](https://github.com/kelvininc/ui-components/commit/1abe5d9dff7691b118dc5741d6384a444b25e2b6))
+* **dropdown:** remove helptext height offset ([ab66a04](https://github.com/kelvininc/ui-components/commit/ab66a046e1cba4d0f78c3fe70eaf5c14a44e0ae4))
+* **dropdown:** use total dropdown options count to display search bar ([63f137c](https://github.com/kelvininc/ui-components/commit/63f137cc31099d348f42becbd360cdaf615a1f43))
+* **schema-form:** fix array field design ([9b7ed95](https://github.com/kelvininc/ui-components/commit/9b7ed9528f70fba0f012ccbbbacb5502012301b9))
+* **schema-form:** fix integer values in select widget [KFE-2633] ([dfd53b5](https://github.com/kelvininc/ui-components/commit/dfd53b50add20043a47fe71431f5b948e8baf8ed))
+* **schema-form:** fix oneof titles [KFE-2686] ([18f9a00](https://github.com/kelvininc/ui-components/commit/18f9a00e990f23b9758c98740a242e82f93414bf))
+* **schema-form:** hide show errors button by default ([7f4c22c](https://github.com/kelvininc/ui-components/commit/7f4c22c51954ce51c5edb047c9d1b92903fce29a))
+* update last 6 months calendar key ([05c350b](https://github.com/kelvininc/ui-components/commit/05c350babf66f08f53ee85f018a77c9236ccfe63))
+* **virtualized-list:** move scroll container to inner div for proper scrollbar styling ([a24235d](https://github.com/kelvininc/ui-components/commit/a24235d3a9583557835f72ebd754fa25d5c67f6a))
+* **wizard:** prevent submit on enter when keypressed inside textarea ([2408cf0](https://github.com/kelvininc/ui-components/commit/2408cf0f3a6875dd41eac621c76e05671d9c5dc9))
+
+
+### Features
+
+* **action-button-text:** add right icon support ([14efb1a](https://github.com/kelvininc/ui-components/commit/14efb1ae8ad2de82b0b89b53a58cfe29c1f72f56))
+* add support for visibility toggle on schema passwords ([e81551e](https://github.com/kelvininc/ui-components/commit/e81551e6062fbcbda9e3328c39d907ceec8ffea9))
+* **alert:** adds new content slot ([884e8ed](https://github.com/kelvininc/ui-components/commit/884e8edc94233cca0f4e6672325780830564042c))
+* export relative time and date helpers ([d785a44](https://github.com/kelvininc/ui-components/commit/d785a44dd454c721d34c51e3b75770bf91ab456a))
+* **icon:** add 'automated-response' and 'custom-action' icons ([970c3ac](https://github.com/kelvininc/ui-components/commit/970c3ac69d04528244d6d8fa8eeb87a86b268b00))
+* **icons:** add 'cards-star' icon ([f3b1452](https://github.com/kelvininc/ui-components/commit/f3b1452421ef57f33b3f78dea8a021794f4459a0))
+* **icons:** add data-quality icon ([2a0b73a](https://github.com/kelvininc/ui-components/commit/2a0b73a4c39914f9e6ecaf5e97ed1a0158e3fa6e))
+* **schema-form:** add 'show all errors' switch button ([68fa6df](https://github.com/kelvininc/ui-components/commit/68fa6df68e4dfffa003f5665fa93b4d7cf0d8111))
+* **schema-form:** implement touch-based validation to show errors only after user interaction ([aa2798b](https://github.com/kelvininc/ui-components/commit/aa2798b3f75c9e989c85dabf5b66dc19f8db8ac3))
+* **tooltip:** allow slot for tooltip text ([d667879](https://github.com/kelvininc/ui-components/commit/d6678791372b6d108df1f45a8330e3cadd5a559d))
+
+
+
+
+
 # [0.51.0](https://github.com/kelvininc/ui-components/compare/v0.50.0...v0.51.0) (2025-10-10)
 
 
