@@ -8,7 +8,7 @@ import { CustomCssClass, EComponentSize, IIllustrationMessage, ISelectOption } f
 import { getClassMap } from '../../utils/css-class.helper';
 import { getCssStyle } from '../utils';
 import { ComputePositionConfig } from '@floating-ui/dom';
-import { buildSingleSelectOptions, createSingleSelectOptionCache, getDropdownCustomCss, getDropdownDisplayIcon, SingleSelectOptionCache } from './single-select-dropdown.helper';
+import { buildSingleSelectOptions, getDropdownCustomCss, getDropdownDisplayIcon } from './single-select-dropdown.helper';
 import { getFlattenSelectOptions } from '../../utils/select.helper';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
 import { merge } from 'lodash-es';
