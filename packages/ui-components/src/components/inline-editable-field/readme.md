@@ -39,15 +39,16 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                                             | Description                                                          |
-| ------------------------------------------------ | -------------------------------------------------------------------- |
-| `--inline-editable-field-background-color-hover` | Background color of the editable field on hover.                     |
-| `--inline-editable-field-min-width`              | Minimum width of the editable area so it stays clickable when empty. |
-| `--inline-editable-field-outline-color-focus`    | Outline color of the editable field on focus.                        |
-| `--inline-editable-field-outline-color-hover`    | Outline color of the editable field on hover.                        |
-| `--inline-editable-field-placeholder-color`      | Text color used to render the placeholder when the field is empty.   |
-| `--margin-left-right`                            | Margin left and right of the editable container.                     |
-| `--margin-top-bottom`                            | Margin top and bottom of the editable container.                     |
+| Name                                             | Description                                                                                                                  |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| `--inline-editable-field-background-color-hover` | Background color of the editable field on hover.                                                                             |
+| `--inline-editable-field-editing-min-width`      | Minimum width applied while editing. Takes priority over `--inline-editable-field-min-width` in edit mode. Unset by default. |
+| `--inline-editable-field-min-width`              | Minimum width applied to the field in visualization mode. Unset by default — consumers opt in for layout stability.          |
+| `--inline-editable-field-outline-color-focus`    | Outline color of the editable field on focus.                                                                                |
+| `--inline-editable-field-outline-color-hover`    | Outline color of the editable field on hover.                                                                                |
+| `--inline-editable-field-placeholder-color`      | Text color used to render the placeholder when the field is empty.                                                           |
+| `--margin-left-right`                            | Margin left and right of the editable container.                                                                             |
+| `--margin-top-bottom`                            | Margin top and bottom of the editable container.                                                                             |
 
 
 ## Dependencies
