@@ -79,6 +79,7 @@
 
 			&.disabled {
 				cursor: not-allowed;
+				pointer-events: none;
 				user-select: none;
 				background: var(--tab-secondary-background-disabled);
 				border-color: var(--tab-secondary-border-color-disabled);

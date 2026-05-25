@@ -43,6 +43,14 @@ describe('Tab Item (unit tests)', () => {
 		it('should set the disabled prop value', () => {
 			expect(component.disabled).toBeTruthy();
 		});
+
+		it('should not emit tabSelected when the inner container is clicked', async () => {
+			const emitSpy = jest.spyOn(component.tabSelected, 'emit');
+			const container = page.root.shadowRoot.querySelector<HTMLElement>('.tab-item-container');
+			container.click();
+			await page.waitForChanges();
+			expect(emitSpy).not.toHaveBeenCalled();
+		});
 	});
 
 	describe('when initialized with selected attribute', () => {
