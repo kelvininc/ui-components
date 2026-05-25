@@ -41,6 +41,7 @@ export class KvTabItem implements ICustomCss {
 	}
 
 	private tabClick = () => {
+		if (this.disabled) return;
 		this.tabSelected.emit(this.tabKey);
 	};
 

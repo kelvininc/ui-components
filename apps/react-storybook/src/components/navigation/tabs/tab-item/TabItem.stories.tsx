@@ -20,7 +20,8 @@ const meta = {
 		type: {
 			control: "radio",
 			options: Object.values(ETabItemType)
-		}
+		},
+		onTabSelected: { action: "tabSelected" }
 	}
 } satisfies Meta<typeof KvTabItem>;
 
@@ -68,6 +69,7 @@ export const SecondaryWithBadge: Story = {
 				label={args.label}
 				disabled={args.disabled}
 				selected={args.selected}
+				onTabSelected={args.onTabSelected}
 			>
 				<KvBadge slot="right-slot" type={EBadgeType.Secondary}>
 					+3
@@ -91,6 +93,7 @@ export const SecondaryWithTagStatus: Story = {
 				label={args.label}
 				disabled={args.disabled}
 				selected={args.selected}
+				onTabSelected={args.onTabSelected}
 			>
 				<KvTagStatus
 					slot="right-slot"
