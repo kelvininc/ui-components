@@ -133,7 +133,7 @@ function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends 
 					id={`file_${name}`}
 					type="file"
 					value=""
-					onInput={handleChange}
+					onChange={handleChange}
 					required={value ? false : required}
 					readOnly={readonly}
 					accept={options.accept ? String(options.accept) : undefined}
