@@ -11,10 +11,11 @@
 // from first paint; once `.hydrated` is added the rule stops matching and the closed portal keeps
 // the panel hidden.
 //
-// Scoped to `:not([is-open])` so it only applies to CLOSED dropdowns: a dropdown rendered with the
-// `is-open` attribute is meant to show its list immediately, so its panel must stay visible
-// pre-hydration (hiding it would regress initially-open dropdowns).
+// NOTE: this also hides an initially-open (`is-open`) dropdown's list until hydration. Do NOT scope
+// with `:not([is-open])` — closed dropdowns also carry an `is-open` attribute pre-hydration, so that
+// would exempt them too and re-introduce the CLS. A correct scope must key off the attribute value;
+// deferred as a follow-up since the only observed CLS is from closed dropdowns.
 
-kv-dropdown-base:not(.hydrated):not([is-open]) > [slot='list'] {
+kv-dropdown-base:not(.hydrated) > [slot='list'] {
 	display: none;
 }
