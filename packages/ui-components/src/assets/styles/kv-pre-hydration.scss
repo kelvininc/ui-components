@@ -10,7 +10,11 @@
 // producing a layout shift (CLS). Hiding the un-projected panel pre-hydration keeps layout stable
 // from first paint; once `.hydrated` is added the rule stops matching and the closed portal keeps
 // the panel hidden.
+//
+// Scoped to `:not([is-open])` so it only applies to CLOSED dropdowns: a dropdown rendered with the
+// `is-open` attribute is meant to show its list immediately, so its panel must stay visible
+// pre-hydration (hiding it would regress initially-open dropdowns).
 
-kv-dropdown-base:not(.hydrated) > [slot='list'] {
+kv-dropdown-base:not(.hydrated):not([is-open]) > [slot='list'] {
 	display: none;
 }
