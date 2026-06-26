@@ -122,7 +122,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		totalSelectable: ISelectOptionsWithChildren;
 		currentSelectable: ISelectOptionWithChildren[];
 	};
-	@State() highlightedOption: string;
+	@State() highlightedOption?: string;
 	@State() isCreating: boolean = false;
 	@State() createdOptionValue: string = '';
 
@@ -226,11 +226,12 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	private selectRef?: HTMLKvSelectElement | null;
 
 	private onEnter = (): void => {
-		if (isEmpty(this.highlightedOption)) {
+		const highlightedOption = this.highlightedOption;
+		if (highlightedOption === undefined || isEmpty(highlightedOption)) {
 			return;
 		}
 
-		this.selectOption(this.highlightedOption);
+		this.selectOption(highlightedOption);
 	};
 
 	private onNavigateDown = (): void => {
@@ -269,16 +270,16 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	private selectOption = (selectedOptionKey: string): void => {
 		if (selectedOptionKey === ADD_OPTION.value) {
 			this.isCreating = true;
-			this.createdOptionValue = this.searchValue;
+			this.createdOptionValue = this.searchValue ?? '';
 			return;
 		}
 
-		const selectedOption = this.selectOptions.totalFlatten[selectedOptionKey];
+		const selectedOption = this.selectOptions.totalFlatten[selectedOptionKey]!;
 		this.optionSelected.emit(selectedOptionKey);
 
 		// Check if the selected option does not have any children
 		if (isEmpty(selectedOption.options)) {
-			const { [selectedOptionKey]: selectedOptionValue, ...otherSelectedOptions } = this.selectedOptions;
+			const { [selectedOptionKey]: selectedOptionValue, ...otherSelectedOptions } = this.selectedOptions ?? {};
 			if (selectedOptionValue) {
 				this.optionsSelected.emit(otherSelectedOptions);
 			} else {
@@ -301,7 +302,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 			case EToggleState.Selected:
 			case EToggleState.Indeterminate:
 				// de-select all children
-				const newOptions = this.selectedOptions;
+				const newOptions = this.selectedOptions ?? {};
 				Object.keys(childrenValues).forEach(childrenKey => delete newOptions[childrenKey]);
 				this.optionsSelected.emit({ ...newOptions });
 				break;
@@ -334,11 +335,11 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 			<kv-virtualized-list
 				itemCount={items.length}
 				itemHeight={SELECT_OPTION_HEIGHT_IN_PX}
-				getItemKey={index => items[index].value}
+				getItemKey={index => items[index]!.value}
 				renderItem={index => (
 					<kv-select-option
-						key={items[index].value}
-						{...items[index]}
+						key={items[index]!.value}
+						{...items[index]!}
 						onItemSelected={this.onItemSelected}
 						style={{
 							'--select-option-height': `${SELECT_OPTION_HEIGHT_IN_PX}px`
@@ -352,7 +353,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	};
 
 	private get isSearchable() {
-		return this.searchable && Object.keys(this.selectOptions.totalFlatten).length >= this.minSearchOptions;
+		return this.searchable && Object.keys(this.selectOptions.totalFlatten).length >= (this.minSearchOptions ?? MINIMUM_SEARCHABLE_OPTIONS);
 	}
 
 	private get currentOptions(): ISelectMultiOptions | undefined {
@@ -455,7 +456,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 					<div
 						class={{
 							'create-new-option-container': true,
-							'has-shortcuts': this.shortcuts && this.showShortcuts
+							'has-shortcuts': !!(this.shortcuts && this.showShortcuts)
 						}}
 					>
 						<div class="create-new-option-form">

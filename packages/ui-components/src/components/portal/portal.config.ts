@@ -10,20 +10,20 @@ export const PORTAL_Z_INDEX = {
 export const OFFSET_WITH_ARROW = 10;
 export const STATIC_SIDE_OFFSET = '-5px';
 
-export const getArrowElementPositionConfig = (x: number, y: number, placement: Placement) => {
+export const getArrowElementPositionConfig = (x: number | undefined, y: number | undefined, placement: Placement) => {
 	const staticSide = {
 		top: 'bottom',
 		right: 'left',
 		bottom: 'top',
 		left: 'right'
-	}[placement.split('-')[0]];
+	}[placement.split('-')[0]!];
 
 	return {
 		left: x != null ? `${x}px` : '',
 		top: y != null ? `${y}px` : '',
 		right: '',
 		bottom: '',
-		[staticSide]: STATIC_SIDE_OFFSET,
+		[staticSide!]: STATIC_SIDE_OFFSET,
 		transform: 'rotate(45deg)'
 	};
 };

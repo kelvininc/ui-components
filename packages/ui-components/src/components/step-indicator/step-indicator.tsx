@@ -32,9 +32,9 @@ export class KvStepIndicator implements IStepIndicator, IStepIndicatorEvents {
 				<div
 					class={{
 						'indicator': true,
-						'indicator--state-enabled': this.enabled,
-						'indicator--state-active': this.active,
-						'indicator--state-error': this.hasError
+						'indicator--state-enabled': !!this.enabled,
+						'indicator--state-active': !!this.active,
+						'indicator--state-error': !!this.hasError
 					}}
 					onClick={this.onIndicatorClick}
 				>

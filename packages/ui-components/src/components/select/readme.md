@@ -33,22 +33,22 @@ export const KvSelectExample: React.FC = () => (
 
 ## Properties
 
-| Property                | Attribute                 | Description                                                           | Type      | Default                 |
-| ----------------------- | ------------------------- | --------------------------------------------------------------------- | --------- | ----------------------- |
-| `clearSelectionLabel`   | `clear-selection-label`   | (optional) The clear search action text                               | `string`  | `CLEAR_SELECTION_LABEL` |
-| `hasLabelContent`       | `has-label-content`       | (optional) If `true` the header label section is forced to be visible | `boolean` | `false`                 |
-| `maxHeight`             | `max-height`              | (optional) The dropdown's max-height                                  | `string`  | `undefined`             |
-| `maxWidth`              | `max-width`               | (optional) The dropdown's max-width                                   | `string`  | `undefined`             |
-| `minHeight`             | `min-height`              | (optional) The dropdown's min-height                                  | `string`  | `undefined`             |
-| `minWidth`              | `min-width`               | (optional) The dropdown's min-width                                   | `string`  | `undefined`             |
-| `searchPlaceholder`     | `search-placeholder`      | (optional) The list search text field placeholder                     | `string`  | `undefined`             |
-| `searchValue`           | `search-value`            | (optional) The search value on the list                               | `string`  | `undefined`             |
-| `searchable`            | `searchable`              | (optional) If `true` the list has a search text field                 | `boolean` | `false`                 |
-| `selectAllLabel`        | `select-all-label`        | (optional) The selection all action text                              | `string`  | `SELECT_ALL_LABEL`      |
-| `selectionAll`          | `selection-all`           | (optional) If `true` the list has an action to select all items       | `boolean` | `false`                 |
-| `selectionAllEnabled`   | `selection-all-enabled`   | (optional) If `true` the selection action is enabled                  | `boolean` | `undefined`             |
-| `selectionClearEnabled` | `selection-clear-enabled` | (optional) If `true` the list can be cleared                          | `boolean` | `undefined`             |
-| `selectionClearable`    | `selection-clearable`     | (optional) If `true` the list has an action to unselect all items     | `boolean` | `false`                 |
+| Property                | Attribute                 | Description                                                           | Type                   | Default                 |
+| ----------------------- | ------------------------- | --------------------------------------------------------------------- | ---------------------- | ----------------------- |
+| `clearSelectionLabel`   | `clear-selection-label`   | (optional) The clear search action text                               | `string \| undefined`  | `CLEAR_SELECTION_LABEL` |
+| `hasLabelContent`       | `has-label-content`       | (optional) If `true` the header label section is forced to be visible | `boolean \| undefined` | `false`                 |
+| `maxHeight`             | `max-height`              | (optional) The dropdown's max-height                                  | `string \| undefined`  | `undefined`             |
+| `maxWidth`              | `max-width`               | (optional) The dropdown's max-width                                   | `string \| undefined`  | `undefined`             |
+| `minHeight`             | `min-height`              | (optional) The dropdown's min-height                                  | `string \| undefined`  | `undefined`             |
+| `minWidth`              | `min-width`               | (optional) The dropdown's min-width                                   | `string \| undefined`  | `undefined`             |
+| `searchPlaceholder`     | `search-placeholder`      | (optional) The list search text field placeholder                     | `string \| undefined`  | `undefined`             |
+| `searchValue`           | `search-value`            | (optional) The search value on the list                               | `string \| undefined`  | `undefined`             |
+| `searchable`            | `searchable`              | (optional) If `true` the list has a search text field                 | `boolean \| undefined` | `false`                 |
+| `selectAllLabel`        | `select-all-label`        | (optional) The selection all action text                              | `string \| undefined`  | `SELECT_ALL_LABEL`      |
+| `selectionAll`          | `selection-all`           | (optional) If `true` the list has an action to select all items       | `boolean \| undefined` | `false`                 |
+| `selectionAllEnabled`   | `selection-all-enabled`   | (optional) If `true` the selection action is enabled                  | `boolean \| undefined` | `undefined`             |
+| `selectionClearEnabled` | `selection-clear-enabled` | (optional) If `true` the list can be cleared                          | `boolean \| undefined` | `undefined`             |
+| `selectionClearable`    | `selection-clearable`     | (optional) If `true` the list has an action to unselect all items     | `boolean \| undefined` | `false`                 |
 
 
 ## Events

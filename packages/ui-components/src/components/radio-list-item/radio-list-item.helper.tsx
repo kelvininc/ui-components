@@ -3,7 +3,7 @@ import { LINK_MATCHER_REGEX } from './radio-list-item.config';
 import { EAnchorTarget } from '../../types';
 
 export const buildDescription = (description?: string): JSX.Element[] => {
-	if (!description) return;
+	if (!description) return [];
 
 	const linkMatches = [...description.matchAll(LINK_MATCHER_REGEX)];
 	const parsedJSX: JSX.Element[] = [];

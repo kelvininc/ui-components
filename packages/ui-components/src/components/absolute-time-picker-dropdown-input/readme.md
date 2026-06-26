@@ -32,17 +32,17 @@ export const KvAbsoluteTimePickerDropdownInput: React.FC = () => (
 
 ## Properties
 
-| Property                 | Attribute                   | Description                                                            | Type                                                              | Default                         |
-| ------------------------ | --------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------- |
-| `disabled`               | `disabled`                  | (optional) Defines if the inputs for inserting the dates are disabled. | `boolean`                                                         | `false`                         |
-| `initialDate`            | `initial-date`              | (optional) Initial date displayed on the calendars                     | `number`                                                          | `undefined`                     |
-| `isDropdownOpen`         | `is-dropdown-open`          | (optional) Determines if the dropdown is open                          | `boolean`                                                         | `false`                         |
-| `minimumFromInputDate`   | `minimum-from-input-date`   | (optional) calendar from input minimum date                            | `number`                                                          | `undefined`                     |
-| `minimumSingleInputDate` | `minimum-single-input-date` | (optional) calendar single input minimum date                          | `number`                                                          | `undefined`                     |
-| `minimumToInputDate`     | `minimum-to-input-date`     | (optional) calendar to input minimum date                              | `number`                                                          | `undefined`                     |
-| `mode`                   | `mode`                      | (optional) Mode of the input: single, range                            | `EAbsoluteTimePickerMode.Range \| EAbsoluteTimePickerMode.Single` | `EAbsoluteTimePickerMode.Range` |
-| `selectedTime`           | `selected-time`             | (optional) Selected time in timestamp                                  | `[] \| [number, number] \| [number]`                              | `undefined`                     |
-| `timezone`               | `timezone`                  | (optional) Timezone of the provided timestamp                          | `{ name: string; offset: number; }`                               | `getDefaultTimezoneSettings()`  |
+| Property                 | Attribute                   | Description                                                            | Type                                                                           | Default                         |
+| ------------------------ | --------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------- |
+| `disabled`               | `disabled`                  | (optional) Defines if the inputs for inserting the dates are disabled. | `boolean \| undefined`                                                         | `false`                         |
+| `initialDate`            | `initial-date`              | (optional) Initial date displayed on the calendars                     | `number \| undefined`                                                          | `undefined`                     |
+| `isDropdownOpen`         | `is-dropdown-open`          | (optional) Determines if the dropdown is open                          | `boolean \| undefined`                                                         | `false`                         |
+| `minimumFromInputDate`   | `minimum-from-input-date`   | (optional) calendar from input minimum date                            | `number \| undefined`                                                          | `undefined`                     |
+| `minimumSingleInputDate` | `minimum-single-input-date` | (optional) calendar single input minimum date                          | `number \| undefined`                                                          | `undefined`                     |
+| `minimumToInputDate`     | `minimum-to-input-date`     | (optional) calendar to input minimum date                              | `number \| undefined`                                                          | `undefined`                     |
+| `mode`                   | `mode`                      | (optional) Mode of the input: single, range                            | `EAbsoluteTimePickerMode.Range \| EAbsoluteTimePickerMode.Single \| undefined` | `EAbsoluteTimePickerMode.Range` |
+| `selectedTime`           | `selected-time`             | (optional) Selected time in timestamp                                  | `[] \| [number, number] \| [number] \| undefined`                              | `undefined`                     |
+| `timezone`               | `timezone`                  | (optional) Timezone of the provided timestamp                          | `undefined \| { name: string; offset: number; }`                               | `getDefaultTimezoneSettings()`  |
 
 
 ## Events

@@ -84,25 +84,25 @@ export const KvWizardFooterExample: React.FC = () => {
 
 ## Properties
 
-| Property                          | Attribute             | Description                                                                                  | Type             | Default     |
-| --------------------------------- | --------------------- | -------------------------------------------------------------------------------------------- | ---------------- | ----------- |
-| `cancelEnabled`                   | `cancel-enabled`      | (optional) Defines if the `cancel` button should be enabled and interactable                 | `boolean`        | `true`      |
-| `completeBtnLabel`                | `complete-btn-label`  | (optional) The `complete` button label                                                       | `string`         | `'Submit'`  |
-| `completeEnabled`                 | `complete-enabled`    | (optional) Defines if the `complete` button should be enabled and interactable               | `boolean`        | `undefined` |
-| `completeTooltip`                 | `complete-tooltip`    | (optional) The `complete` button tooltip                                                     | `string`         | `undefined` |
-| `currentStep` _(required)_        | `current-step`        | (required) Defines the current step index                                                    | `number`         | `undefined` |
-| `hasError`                        | `has-error`           | (optional) Defines if the progress bar should be in an error state                           | `boolean`        | `undefined` |
-| `label`                           | `label`               | (optional) Defines the label to display next to the step counter (defaults to: "Progress: ") | `string`         | `undefined` |
-| `nextEnabled`                     | `next-enabled`        | (optional) Defines if the `next` button should be enabled and interactable                   | `boolean`        | `true`      |
-| `nextTooltip`                     | `next-tooltip`        | (optional) The `next` button tooltip                                                         | `string`         | `undefined` |
-| `prevEnabled`                     | `prev-enabled`        | (optional) Defines if the `previous` button should be enabled and interactable               | `boolean`        | `true`      |
-| `progressPercentage` _(required)_ | `progress-percentage` | (required) Defines the percentage of steps completed                                         | `number`         | `undefined` |
-| `showCancelBtn`                   | `show-cancel-btn`     | (optional) A boolean that determines whether the `cancel` button should be shown             | `boolean`        | `undefined` |
-| `showCompleteBtn`                 | `show-complete-btn`   | (optional) A boolean that determines whether the `complete` button should be shown           | `boolean`        | `undefined` |
-| `showNextBtn`                     | `show-next-btn`       | (optional) A boolean that determines whether the `next` button should be shown               | `boolean`        | `undefined` |
-| `showPrevBtn`                     | `show-prev-btn`       | (optional) A boolean that determines whether the `previous` button should be shown           | `boolean`        | `undefined` |
-| `showStepBar`                     | `show-step-bar`       | (optional) Defines if the step bar should render                                             | `boolean`        | `true`      |
-| `steps` _(required)_              | `steps`               | (required) Defines the steps array to render                                                 | `IStepBarStep[]` | `undefined` |
+| Property                          | Attribute             | Description                                                                                  | Type                   | Default     |
+| --------------------------------- | --------------------- | -------------------------------------------------------------------------------------------- | ---------------------- | ----------- |
+| `cancelEnabled`                   | `cancel-enabled`      | (optional) Defines if the `cancel` button should be enabled and interactable                 | `boolean`              | `true`      |
+| `completeBtnLabel`                | `complete-btn-label`  | (optional) The `complete` button label                                                       | `string`               | `'Submit'`  |
+| `completeEnabled`                 | `complete-enabled`    | (optional) Defines if the `complete` button should be enabled and interactable               | `boolean`              | `undefined` |
+| `completeTooltip`                 | `complete-tooltip`    | (optional) The `complete` button tooltip                                                     | `string \| undefined`  | `undefined` |
+| `currentStep` _(required)_        | `current-step`        | (required) Defines the current step index                                                    | `number`               | `undefined` |
+| `hasError`                        | `has-error`           | (optional) Defines if the progress bar should be in an error state                           | `boolean`              | `undefined` |
+| `label`                           | `label`               | (optional) Defines the label to display next to the step counter (defaults to: "Progress: ") | `string`               | `undefined` |
+| `nextEnabled`                     | `next-enabled`        | (optional) Defines if the `next` button should be enabled and interactable                   | `boolean`              | `true`      |
+| `nextTooltip`                     | `next-tooltip`        | (optional) The `next` button tooltip                                                         | `string \| undefined`  | `undefined` |
+| `prevEnabled`                     | `prev-enabled`        | (optional) Defines if the `previous` button should be enabled and interactable               | `boolean`              | `true`      |
+| `progressPercentage` _(required)_ | `progress-percentage` | (required) Defines the percentage of steps completed                                         | `number`               | `undefined` |
+| `showCancelBtn`                   | `show-cancel-btn`     | (optional) A boolean that determines whether the `cancel` button should be shown             | `boolean`              | `undefined` |
+| `showCompleteBtn`                 | `show-complete-btn`   | (optional) A boolean that determines whether the `complete` button should be shown           | `boolean`              | `undefined` |
+| `showNextBtn`                     | `show-next-btn`       | (optional) A boolean that determines whether the `next` button should be shown               | `boolean`              | `undefined` |
+| `showPrevBtn`                     | `show-prev-btn`       | (optional) A boolean that determines whether the `previous` button should be shown           | `boolean`              | `undefined` |
+| `showStepBar`                     | `show-step-bar`       | (optional) Defines if the step bar should render                                             | `boolean \| undefined` | `true`      |
+| `steps` _(required)_              | `steps`               | (required) Defines the steps array to render                                                 | `IStepBarStep[]`       | `undefined` |
 
 
 ## Events

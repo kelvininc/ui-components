@@ -21,8 +21,8 @@ export const buildOptionRange = (option: IRelativeTimePickerOption, timeZone: st
 
 // Build date from config with start and end date
 export const buildStartDateEndDateConfigRange = (option: IRelativeTimePickerOption, timeZone: string): DayjsTimeRange => {
-	const startDateTime = newTimezoneDateFromFormat(timeZone, option.startDate.dateFormat, option.startDate.date);
-	const endDateTime = newTimezoneDateFromFormat(timeZone, option.endDate.dateFormat, option.endDate.date);
+	const startDateTime = newTimezoneDateFromFormat(timeZone, option.startDate!.dateFormat!, option.startDate!.date);
+	const endDateTime = newTimezoneDateFromFormat(timeZone, option.endDate!.dateFormat!, option.endDate!.date);
 
 	return buildDayjsRange(startDateTime, endDateTime);
 };
@@ -30,7 +30,7 @@ export const buildStartDateEndDateConfigRange = (option: IRelativeTimePickerOpti
 // Build date from config with start or end date
 export const buildSingleDateConfigRange = (option: IRelativeTimePickerOption, timeZone: string): DayjsTimeRange => {
 	const nowDateTime = newTimezoneDate(timeZone);
-	const calculatedDate = newTimezoneDateFromFormat(timeZone, option.startDate.dateFormat, option.startDate.date);
+	const calculatedDate = newTimezoneDateFromFormat(timeZone, option.startDate!.dateFormat!, option.startDate!.date);
 
 	return buildDayjsRange(nowDateTime, calculatedDate);
 };
@@ -38,8 +38,8 @@ export const buildSingleDateConfigRange = (option: IRelativeTimePickerOption, ti
 // Build date with both start and end date relative to now timestamp
 export const buildAbsoluteAmountOfUnitsConfigRange = (option: IRelativeTimePickerOption, timeZone: string): DayjsTimeRange => {
 	const nowDateTime = newTimezoneDate(timeZone);
-	const { unit: startDateUnit, amount: startDateAmount, unitReference: startUnitReference } = option.startDate;
-	const { unit: endDateUnit, amount: endDateAmount, unitReference: endUnitReference } = option.endDate;
+	const { unit: startDateUnit, amount: startDateAmount, unitReference: startUnitReference } = option.startDate!;
+	const { unit: endDateUnit, amount: endDateAmount, unitReference: endUnitReference } = option.endDate!;
 
 	const startDateTime = calculateOffsetDateWithUnitReference(calculateOffsetDate(nowDateTime, startDateAmount, startDateUnit), startDateUnit, startUnitReference);
 	const endDateTime = calculateOffsetDateWithUnitReference(calculateOffsetDate(nowDateTime, endDateAmount, endDateUnit), endDateUnit, endUnitReference);
@@ -50,14 +50,14 @@ export const buildAbsoluteAmountOfUnitsConfigRange = (option: IRelativeTimePicke
 // Build date with start date relative to now timestamp
 export const buildRelativeAmountOfUnitsConfigRange = (option: IRelativeTimePickerOption, timeZone: string): DayjsTimeRange => {
 	const nowDateTime = newTimezoneDate(timeZone);
-	const { amount, unit, unitReference } = option.startDate;
+	const { amount, unit, unitReference } = option.startDate!;
 	const calculatedDate = calculateOffsetDateWithUnitReference(calculateOffsetDate(nowDateTime, amount, unit), unit, unitReference);
 
 	return buildDayjsRange(nowDateTime, calculatedDate);
 };
 
-const calculateOffsetDateWithUnitReference = (date: dayjs.Dayjs, unit: dayjs.ManipulateType | dayjs.QUnitType, unitReference?: EUnitReference): dayjs.Dayjs => {
-	if (!unitReference) {
+const calculateOffsetDateWithUnitReference = (date: dayjs.Dayjs, unit: dayjs.ManipulateType | dayjs.QUnitType | undefined, unitReference?: EUnitReference): dayjs.Dayjs => {
+	if (!unitReference || unit === undefined) {
 		return date;
 	}
 

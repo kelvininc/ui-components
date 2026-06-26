@@ -42,7 +42,7 @@ export class KvLink implements ILink {
 				<div
 					class={{
 						'link-container': true,
-						'link-container--disabled': this.disabled
+						'link-container--disabled': !!this.disabled
 					}}
 					part="container"
 				>
@@ -50,8 +50,8 @@ export class KvLink implements ILink {
 						tabIndex={this.disabled ? -1 : 0}
 						class={{
 							'label': true,
-							'label--disabled': this.disabled,
-							'label--inline': this.inline
+							'label--disabled': !!this.disabled,
+							'label--inline': !!this.inline
 						}}
 						href={this.href}
 						target={this.target}

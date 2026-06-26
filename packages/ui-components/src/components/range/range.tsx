@@ -38,8 +38,8 @@ export class KvRange implements IRange, IRangeEvents {
 		this.applyCssStyles();
 	}
 
-	private getRangeElement = (): HTMLInputElement => {
-		return this.el.shadowRoot.querySelector('input');
+	private getRangeElement = (): HTMLInputElement | null => {
+		return this.el.shadowRoot?.querySelector('input') ?? null;
 	};
 
 	private getInputValue = (element: HTMLInputElement) => {
@@ -56,16 +56,19 @@ export class KvRange implements IRange, IRangeEvents {
 
 	private applyCssStyles = () => {
 		const rangeInputValue = this.getRangeElement();
+		if (rangeInputValue === null) return;
 
 		const inputValue = this.getInputValue(rangeInputValue);
 		const percentage = getInputPercentageFromValue(inputValue, this.min, this.max);
 		const inputOffSet = getInputOffset(percentage);
 
 		if (!this.hideLabel) {
-			const selector = this.el.shadowRoot.getElementById('select-value');
-			const valueOffset = getValueOffset(percentage, inputValue);
-			selector.style.left = percentage + '%';
-			selector.style.marginLeft = valueOffset + 'px';
+			const selector = this.el.shadowRoot?.getElementById('select-value');
+			if (selector !== null && selector !== undefined) {
+				const valueOffset = getValueOffset(percentage, inputValue);
+				selector.style.left = percentage + '%';
+				selector.style.marginLeft = valueOffset + 'px';
+			}
 		}
 
 		rangeInputValue.style.background = `linear-gradient(90deg, var(--slider-background-filled${
@@ -74,7 +77,9 @@ export class KvRange implements IRange, IRangeEvents {
 	};
 
 	private onInputChange = () => {
-		const inputValue = this.getInputValue(this.getRangeElement());
+		const rangeElement = this.getRangeElement();
+		if (rangeElement === null) return;
+		const inputValue = this.getInputValue(rangeElement);
 		this.valueChange.emit(inputValue);
 	};
 
@@ -95,7 +100,7 @@ export class KvRange implements IRange, IRangeEvents {
 					/>
 					{!this.hideLabel && (
 						<span id="select-value" class={{ 'select-value': true, 'disabled': this.disabled }}>
-							{this.valueFormatter(this.value)}
+							{this.valueFormatter(this.value ?? 0)}
 						</span>
 					)}
 					{!this.hideMinMaxLabel && (

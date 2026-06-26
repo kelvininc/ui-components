@@ -31,7 +31,7 @@ export class KvTimePickerSelectOption implements ITimePickerSelectOption, ITimeP
 				<div
 					class={{
 						'select-option': true,
-						'selected': this.selected
+						'selected': !!this.selected
 					}}
 					onClick={this.onItemClick}
 					{...this.customAttributes}

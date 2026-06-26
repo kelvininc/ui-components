@@ -27,10 +27,10 @@ export const TagExample: React.FC = () => (
 
 | Property     | Attribute     | Description                                            | Type                                                                                                                                 | Default             |
 | ------------ | ------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
-| `badgeLabel` | `badge-label` | (optional) Badge label displayed at the end of the tag | `string`                                                                                                                             | `undefined`         |
+| `badgeLabel` | `badge-label` | (optional) Badge label displayed at the end of the tag | `string \| undefined`                                                                                                                | `undefined`         |
 | `color`      | `color`       | (optional) Tag color variant                           | `ETagColor.Blue \| ETagColor.Brand \| ETagColor.Green \| ETagColor.Neutral \| ETagColor.Purple \| ETagColor.Red \| ETagColor.Yellow` | `ETagColor.Neutral` |
-| `icon`       | `icon`        | (optional) Icon to display inside the tag              | `EIconName`                                                                                                                          | `undefined`         |
-| `label`      | `label`       | (optional) Tag label                                   | `string`                                                                                                                             | `undefined`         |
+| `icon`       | `icon`        | (optional) Icon to display inside the tag              | `EIconName \| undefined`                                                                                                             | `undefined`         |
+| `label`      | `label`       | (optional) Tag label                                   | `string \| undefined`                                                                                                                | `undefined`         |
 
 
 ## CSS Custom Properties

@@ -22,9 +22,9 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: false }) options?: Partial<ComputePositionConfig>;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) actionElement?: HTMLElement | null = null;
+	@Prop({ reflect: false }) actionElement?: HTMLElement;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) listElement?: HTMLElement | null = null;
+	@Prop({ reflect: false }) listElement?: HTMLElement;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) disabled?: boolean = false;
 	/** @inheritdoc */
@@ -48,14 +48,15 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	}
 
 	/** Internal actionElement ref */
-	@State() _actionElement: HTMLElement;
+	@State() _actionElement?: HTMLElement;
 
 	private getInputConfig = () => {
-		return merge({}, DEFAULT_INPUT_CONFIG, { inputDisabled: this.disabled }, this.inputConfig);
+		return merge({}, DEFAULT_INPUT_CONFIG, { inputDisabled: this.disabled ?? false }, this.inputConfig);
 	};
 
 	componentDidRender() {
-		this._actionElement = this.actionElement ?? this.el.querySelector('#dropdown-input').shadowRoot.querySelector('#dropdown-input');
+		const dropdownInput = this.el.querySelector('#dropdown-input') as HTMLElement | null;
+		this._actionElement = this.actionElement ?? (dropdownInput?.shadowRoot?.querySelector('#dropdown-input') as HTMLElement | undefined) ?? undefined;
 	}
 
 	render() {

@@ -7,10 +7,10 @@
 
 | Property          | Attribute          | Description                                                                 | Type                                           | Default                |
 | ----------------- | ------------------ | --------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
-| `disabled`        | `disabled`         | (optional) If `true` all toggle buttons will be disabled                    | `boolean`                                      | `false`                |
-| `disabledButtons` | `disabled-buttons` | (optional) A record with the button's key and its individual disabled state | `{ [x: string]: boolean; }`                    | `{}`                   |
+| `disabled`        | `disabled`         | (optional) If `true` all toggle buttons will be disabled                    | `boolean \| undefined`                         | `false`                |
+| `disabledButtons` | `disabled-buttons` | (optional) A record with the button's key and its individual disabled state | `undefined \| { [x: string]: boolean; }`       | `{}`                   |
 | `options`         | `options`          | (optional) List of toggle switch options                                    | `IToggleSwitchOption[]`                        | `[]`                   |
-| `selectedOption`  | `selected-option`  | (optional) Toggle switch selected option key                                | `string`                                       | `''`                   |
+| `selectedOption`  | `selected-option`  | (optional) Toggle switch selected option key                                | `string \| undefined`                          | `''`                   |
 | `size`            | `size`             | (optional) Sets the size for all toggle buttons                             | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Small` |
 
 

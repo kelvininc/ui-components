@@ -63,7 +63,7 @@ export class KvCalendar implements ICalendar, ICalendarEvents {
 
 	@State() month: number = getDateMonth(this.initialDate ?? new Date());
 	@State() year: number = getDateYear(this.initialDate ?? new Date());
-	@State() hoveredDay: number;
+	@State() hoveredDay?: number;
 
 	@Watch('selectedDates')
 	validateSelectedDates(newSelectedDates: string[] | undefined) {
@@ -157,7 +157,7 @@ export class KvCalendar implements ICalendar, ICalendarEvents {
 
 		return isDateInArray(
 			date,
-			this.selectedDates.filter(date => date !== undefined)
+			(this.selectedDates ?? []).filter(date => date !== undefined)
 		);
 	};
 
