@@ -59,4 +59,30 @@ describe('Tab Item (end-to-end)', () => {
 			});
 		});
 	});
+
+	describe('when rendering with disabled attribute on a secondary tab', () => {
+		beforeEach(async () => {
+			page = await newE2EPage();
+			await page.setContent('<kv-tab-item tab-key="dashboard" label="Dashboard" type="secondary" disabled></kv-tab-item>');
+		});
+
+		describe('and the user clicks on the tab', () => {
+			let tabClickSpy: EventSpy;
+			let tabEl: E2EElement;
+
+			beforeEach(async () => {
+				tabEl = await page.find('kv-tab-item');
+				tabClickSpy = await tabEl.spyOnEvent('tabSelected');
+
+				const tabContainerEl = await page.find('kv-tab-item >>> .tab-item-container');
+				await tabContainerEl.click();
+
+				await new Promise(r => setTimeout(r, 300));
+			});
+
+			it(`should not emit the tab's key (tabKey)`, () => {
+				expect(tabClickSpy).not.toHaveReceivedEvent();
+			});
+		});
+	});
 });

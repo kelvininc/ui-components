@@ -138,7 +138,6 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Watch('options')
 	optionsChangeHandler() {
 		this.scheduleRebuild();
-		this.calculateLabelValue();
 	}
 
 	@Watch('selectedOption')
@@ -165,6 +164,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		queueMicrotask(() => {
 			this.rebuildScheduled = false;
 			this.buildSelectionOptions();
+			this.calculateLabelValue();
 		});
 	};
 

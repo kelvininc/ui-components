@@ -15,6 +15,7 @@ const meta = {
 		const [, updateArgs] = useArgs();
 
 		const handleTabChange = (event: CustomEvent<string>) => {
+			args.onTabChange?.(event);
 			updateArgs({ selectedTabKey: event.detail });
 		};
 
@@ -34,7 +35,8 @@ const meta = {
 		type: {
 			control: "radio",
 			options: Object.values(ETabItemType)
-		}
+		},
+		onTabChange: { action: "tabChange" }
 	}
 } satisfies Meta<typeof KvTabNavigation>;
 
@@ -131,6 +133,7 @@ export const SecondaryTypeOnlyIconVertical: Story = {
 		const [, updateArgs] = useArgs();
 
 		const handleTabChange = (event: CustomEvent<string>) => {
+			args.onTabChange?.(event);
 			updateArgs({ selectedTabKey: event.detail });
 		};
 
