@@ -131,18 +131,13 @@
         }
       },
       "label": {
-        "default": {
-          "value": "{text.surface.neutral.primary}",
-          "type": "color",
-          "prefix": "component_semantics"
-        },
         "disabled": {
           "value": "{text.on-color.neutral.disabled}",
           "type": "color",
           "prefix": "component_semantics"
         },
-        "subtle": {
-          "value": "{text.on-color.neutral.primary}",
+        "default": {
+          "value": "{text.on-color.neutral.secondary}",
           "type": "color",
           "prefix": "component_semantics"
         }
@@ -225,12 +220,7 @@
       },
       "label": {
         "default": {
-          "value": "{text.surface.neutral.primary}",
-          "type": "color",
-          "prefix": "component_semantics"
-        },
-        "subtle": {
-          "value": "{text.on-color.neutral.primary}",
+          "value": "{text.on-color.neutral.secondary}",
           "type": "color",
           "prefix": "component_semantics"
         },
@@ -535,7 +525,7 @@
             "prefix": "component_semantics"
           },
           "subtle": {
-            "value": "{icon.on-color.neutral.primary}",
+            "value": "{icon.on-color.neutral.secondary}",
             "type": "color",
             "prefix": "component_semantics"
           },
@@ -585,7 +575,7 @@
             "prefix": "component_semantics"
           },
           "subtle": {
-            "value": "{icon.on-color.neutral.primary}",
+            "value": "{icon.on-color.neutral.secondary}",
             "type": "color",
             "prefix": "component_semantics"
           },
@@ -982,6 +972,11 @@
         },
         "disabled": {
           "value": "{border.persistent.tab.disabled}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "hover": {
+          "value": "{border.persistent.tab.hover}",
           "type": "color",
           "prefix": "component_semantics"
         }
@@ -1498,22 +1493,22 @@
     "background": {
       "primary": {
         "success": {
-          "value": "{background.container.status.success.strong}",
+          "value": "{background.container.status.success.soft}",
           "type": "color",
           "prefix": "component_semantics"
         },
         "warning": {
-          "value": "{background.container.status.warning.strong}",
+          "value": "{background.container.status.warning.soft}",
           "type": "color",
           "prefix": "component_semantics"
         },
         "error": {
-          "value": "{background.container.status.danger.strong}",
+          "value": "{background.container.status.danger.soft}",
           "type": "color",
           "prefix": "component_semantics"
         },
         "info": {
-          "value": "{background.container.status.info.strong}",
+          "value": "{background.container.status.info.soft}",
           "type": "color",
           "prefix": "component_semantics"
         }

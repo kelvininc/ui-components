@@ -25,9 +25,8 @@ body, [data-theme] {
   --button-secondary-background-hover: var(--background-interactive-neutral-hover);
   --button-secondary-background-pressed: var(--background-interactive-neutral-pressed);
   --button-secondary-background-disabled: var(--background-interactive-neutral-disabled);
-  --button-secondary-label-default: var(--text-surface-neutral-primary);
   --button-secondary-label-disabled: var(--text-on-color-neutral-disabled);
-  --button-secondary-label-subtle: var(--text-on-color-neutral-primary);
+  --button-secondary-label-default: var(--text-on-color-neutral-secondary);
   --button-secondary-icon-size-regular: var(--size-default);
   --button-secondary-icon-size-compact: var(--size-default);
   --button-secondary-icon-color-default: var(--icon-surface-neutral-primary);
@@ -40,8 +39,7 @@ body, [data-theme] {
   --button-tertiary-background-hover: var(--background-interactive-neutral-hover);
   --button-tertiary-background-pressed: var(--background-interactive-neutral-pressed);
   --button-tertiary-background-disabled: var(--background-interactive-neutral-disabled);
-  --button-tertiary-label-default: var(--text-surface-neutral-primary);
-  --button-tertiary-label-subtle: var(--text-on-color-neutral-primary);
+  --button-tertiary-label-default: var(--text-on-color-neutral-secondary);
   --button-tertiary-label-disabled: var(--text-on-color-neutral-disabled);
   --button-tertiary-icon-size-regular: var(--size-default);
   --button-tertiary-icon-size-compact: var(--size-default);
@@ -89,7 +87,7 @@ body, [data-theme] {
   --icon-button-secondary-icon-size-regular: var(--size-xl);
   --icon-button-secondary-icon-size-compact: var(--size-lg);
   --icon-button-secondary-icon-color-default: var(--icon-surface-neutral-primary);
-  --icon-button-secondary-icon-color-subtle: var(--icon-on-color-neutral-primary);
+  --icon-button-secondary-icon-color-subtle: var(--icon-on-color-neutral-secondary);
   --icon-button-secondary-icon-color-disabled: var(--icon-on-color-neutral-disabled);
   --icon-button-tertiary-background-hover: var(--background-interactive-neutral-hover);
   --icon-button-tertiary-background-pressed: var(--background-interactive-neutral-pressed);
@@ -97,7 +95,7 @@ body, [data-theme] {
   --icon-button-tertiary-icon-size-regular: var(--size-xl);
   --icon-button-tertiary-icon-size-compact: var(--size-lg);
   --icon-button-tertiary-icon-color-default: var(--icon-surface-neutral-primary);
-  --icon-button-tertiary-icon-color-subtle: var(--icon-on-color-neutral-primary);
+  --icon-button-tertiary-icon-color-subtle: var(--icon-on-color-neutral-secondary);
   --icon-button-tertiary-icon-color-disabled: var(--icon-on-color-neutral-disabled);
   --icon-button-danger-background-default: var(--background-interactive-danger-default);
   --icon-button-danger-background-hover: var(--background-interactive-danger-hover);
@@ -157,6 +155,7 @@ body, [data-theme] {
   --tab-secondary-height-default: var(--size-2xl);
   --tab-secondary-border-color-default: var(--border-persistent-tab-seleted);
   --tab-secondary-border-color-disabled: var(--border-persistent-tab-disabled);
+  --tab-secondary-border-color-hover: var(--border-persistent-tab-hover);
   --tab-secondary-border-thickness-default: var(--border-width-default);
   --tab-secondary-gap-default: var(--radius-xl);
   --tab-secondary-counter-background-default: var(--background-interactive-counter-default);
@@ -237,10 +236,10 @@ body, [data-theme] {
   --toast-border-color-error: var(--border-container-status-danger-default);
   --toast-border-color-info: var(--border-container-status-info-default);
   --toast-border-thickness-default: var(--border-width-strong);
-  --alert-background-primary-success: var(--background-container-status-success-strong);
-  --alert-background-primary-warning: var(--background-container-status-warning-strong);
-  --alert-background-primary-error: var(--background-container-status-danger-strong);
-  --alert-background-primary-info: var(--background-container-status-info-strong);
+  --alert-background-primary-success: var(--background-container-status-success-soft);
+  --alert-background-primary-warning: var(--background-container-status-warning-soft);
+  --alert-background-primary-error: var(--background-container-status-danger-soft);
+  --alert-background-primary-info: var(--background-container-status-info-soft);
   --alert-background-secondary-default: var(--background-container-alert-secondary-default);
   --alert-padding-x-default: var(--spacing-2xl);
   --alert-padding-x-small: var(--spacing-xl);
