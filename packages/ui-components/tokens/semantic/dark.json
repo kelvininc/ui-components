@@ -2321,7 +2321,7 @@
           "prefix": "color"
         },
         "secondary": {
-          "value": "{color.gray.300}",
+          "value": "{color.gray.50}",
           "type": "color",
           "prefix": "color"
         },

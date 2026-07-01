@@ -157,7 +157,7 @@
         },
         "color": {
           "default": {
-            "value": "{icon.surface.neutral.primary}",
+            "value": "{icon.surface.neutral.secondary}",
             "type": "color",
             "prefix": "component_semantics"
           },
@@ -167,7 +167,7 @@
             "prefix": "component_semantics"
           },
           "subtle": {
-            "value": "{icon.on-color.neutral.primary}",
+            "value": "{icon.on-color.neutral.secondary}",
             "type": "color",
             "prefix": "component_semantics"
           }
@@ -1097,7 +1097,7 @@
     "gap": {
       "horizontal": {
         "horizontal": {
-          "value": "{spacing.xs}",
+          "value": "{spacing.md}",
           "type": "number",
           "prefix": "component_semantics"
         }

@@ -29,9 +29,9 @@ body, [data-theme] {
   --button-secondary-label-default: var(--text-on-color-neutral-secondary);
   --button-secondary-icon-size-regular: var(--size-default);
   --button-secondary-icon-size-compact: var(--size-default);
-  --button-secondary-icon-color-default: var(--icon-surface-neutral-primary);
+  --button-secondary-icon-color-default: var(--icon-surface-neutral-secondary);
   --button-secondary-icon-color-disabled: var(--icon-on-color-neutral-disabled);
-  --button-secondary-icon-color-subtle: var(--icon-on-color-neutral-primary);
+  --button-secondary-icon-color-subtle: var(--icon-on-color-neutral-secondary);
   --button-secondary-border-color-default: var(--border-interactive-neutral-default);
   --button-secondary-border-color-hover: var(--border-interactive-neutral-default);
   --button-secondary-border-color-pressed: var(--border-interactive-neutral-subtle);
@@ -174,7 +174,7 @@ body, [data-theme] {
   --input-text-helper-text-default: var(--text-surface-neutral-tertiary);
   --input-text-helper-text-error: var(--text-container-status-danger-default);
   --input-text-required-default: var(--text-surface-danger-default);
-  --input-gap-horizontal-horizontal: var(--spacing-xs);
+  --input-gap-horizontal-horizontal: var(--spacing-md);
   --input-gap-vertical-default: var(--spacing-xs);
   --input-gap-vertical-small: var(--spacing-2xs);
   --input-height-regular: var(--size-4xl);

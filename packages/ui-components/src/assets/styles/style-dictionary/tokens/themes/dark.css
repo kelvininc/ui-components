@@ -388,7 +388,7 @@ body[mode="night"], [data-theme="night"] {
   --icon-surface-loading-subtle: var(--color-gray-700);
   --icon-on-color-neutral-primary: var(--color-gray-50);
   --icon-on-color-neutral-disabled: var(--color-gray-500);
-  --icon-on-color-neutral-secondary: var(--color-gray-300);
+  --icon-on-color-neutral-secondary: var(--color-gray-50);
   --icon-on-color-neutral-tertiary: var(--color-gray-400);
   --icon-on-color-accent-default: var(--color-gray-50);
   --icon-on-color-accent-disabled: var(--color-gray-500);
