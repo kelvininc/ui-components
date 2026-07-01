@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 100 86">
-	<circle cx="58.768" cy="42" r="40" fill="var(--illustrations-background, var(--color-gray-800, #262626))"/>
+	<circle cx="58.768" cy="42" r="40" fill="var(--illustrations-background-default, var(--color-gray-800, #262626))"/>
 	<mask id="b" width="81" height="80" x="18" y="2" maskUnits="userSpaceOnUse" style="mask-type:alpha">
-		<circle cx="58.768" cy="42" r="40" fill="var(--illustrations-background, var(--color-gray-800, #262626))"/>
+		<circle cx="58.768" cy="42" r="40" fill="var(--illustrations-background-default, var(--color-gray-800, #262626))"/>
 	</mask>
 	<g mask="url(#b)">
 		<path fill="var(--illustrations-shape-tertiary, #1a1a1a)" d="M85.396 86.11h3.663L77.788 34.403h-4.344L62.173 86.11h3.663l1.526-6.892H83.87zm-5.025-22.604h-9.534l1.832-8.285h5.847l1.832 8.285zm-2.653-11.998h-4.204l2.09-9.446 2.09 9.446zm-9.534 24.019 1.832-8.285h11.177l1.832 8.285H68.16z"/>
