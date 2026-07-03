@@ -47,3 +47,22 @@ export const Secondary: Story = {
 		disabled: false
 	}
 };
+
+export const Disabled: Story = {
+	args: {
+		type: EActionButtonType.Primary,
+		text: "Button",
+		size: EComponentSize.Large,
+		icon: EIconName.AI,
+		disabled: true
+	}
+};
+
+export const IconOnly: Story = {
+	args: {
+		type: EActionButtonType.Primary,
+		size: EComponentSize.Small,
+		icon: EIconName.AI,
+		disabled: false
+	}
+};

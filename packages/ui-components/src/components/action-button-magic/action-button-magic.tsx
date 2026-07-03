@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
+import { Component, Event, EventEmitter, h, Prop } from '@stencil/core';
 import { EActionButtonType } from '../action-button/action-button.types';
 import { EComponentSize } from '../../utils/types';
 import { EIconName } from '../icon/icon.types';
@@ -15,7 +15,7 @@ import { IActionButtonTextConfig } from '../action-button-text/action-button-tex
 })
 export class KvActionButtonMagic implements IActionButtonTextConfig {
 	/** @inheritdoc */
-	@Prop({ reflect: true }) text!: string;
+	@Prop({ reflect: true }) text?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName;
 	/** @inheritdoc */
@@ -39,20 +39,24 @@ export class KvActionButtonMagic implements IActionButtonTextConfig {
 	@Event() blurButton: EventEmitter<FocusEvent>;
 
 	render() {
-		return (
-			<Host>
-				<kv-action-button-text
-					text={this.text}
-					icon={this.icon}
-					rightIcon={this.rightIcon}
-					type={this.type}
-					disabled={this.disabled}
-					active={this.active}
-					loading={this.loading}
-					size={this.size}
-					exportparts="button, button-text, icon"
-				/>
-			</Host>
-		);
+		const props = {
+			text: this.text,
+			icon: this.icon,
+			rightIcon: this.rightIcon,
+			type: this.type,
+			disabled: this.disabled,
+			active: this.active,
+			loading: this.loading,
+			size: this.size,
+			exportparts: 'button, button-text, icon'
+		};
+
+		if (this.text) {
+			return <kv-action-button-text {...props} text={this.text} />;
+		}
+
+		if (this.icon) {
+			return <kv-action-button-icon {...props} icon={this.icon} />;
+		}
 	}
 }
