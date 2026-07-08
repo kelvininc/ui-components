@@ -685,7 +685,7 @@ export const CustomSelectWidgetConfigs: Story = {
 	}
 };
 
-export const CheckboxesWidget: Story = {
+export const ToggleButtonGroupWidget: Story = {
 	args: {
 		showErrorList: false,
 		liveValidate: true,
@@ -722,8 +722,32 @@ export const CheckboxesWidget: Story = {
 		},
 		uiSchema: {
 			alarm_statuses: {
-				"ui:widget": "checkboxes",
+				"ui:widget": "toggleButtonGroup",
 				"ui:allButton": true
+			}
+		}
+	}
+};
+
+export const CheckboxWidget: Story = {
+	args: {
+		showErrorList: false,
+		liveValidate: true,
+		disabled: false,
+		allowDiscardChanges: true,
+		formData: { active: true },
+		schema: {
+			type: "object",
+			properties: {
+				active: {
+					type: "boolean",
+					title: "Active"
+				}
+			}
+		},
+		uiSchema: {
+			active: {
+				"ui:widget": "checkbox"
 			}
 		}
 	}

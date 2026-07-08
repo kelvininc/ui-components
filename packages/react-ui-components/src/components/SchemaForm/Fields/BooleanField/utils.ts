@@ -6,13 +6,15 @@ export const getWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends 
 	uiSchema: UiSchema<T, S, F> = {},
 	widgets: RegistryWidgetsType<T, S, F>
 ): Widget<T, S, F> => {
-	const { RadioWidget, SelectWidget } = widgets;
+	const { RadioWidget, SelectWidget, CheckboxWidget } = widgets;
 	const { ['ui:widget']: widgetName = 'radio' } = uiSchema;
 
 	if (widgetName === 'radio') {
 		return RadioWidget;
 	} else if (widgetName === 'select') {
 		return SelectWidget;
+	} else if (widgetName === 'checkbox') {
+		return CheckboxWidget;
 	} else if (typeof widgetName === 'string') {
 		return widgets[widgetName] ?? RadioWidget;
 	}

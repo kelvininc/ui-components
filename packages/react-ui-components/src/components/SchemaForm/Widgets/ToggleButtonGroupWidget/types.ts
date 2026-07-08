@@ -1,4 +1,4 @@
-export interface ICheckboxConfig {
+export interface IToggleButtonGroupConfig {
 	multiple: boolean;
 	allButton: boolean;
 	minItems: number;
@@ -7,4 +7,4 @@ export interface ICheckboxConfig {
 	readonly?: boolean;
 }
 
-export type CheckboxOption = { label: string; value: string };
+export type ToggleButtonGroupOption = { label: string; value: string };

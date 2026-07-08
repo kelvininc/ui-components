@@ -2,11 +2,11 @@ import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjs
 import { KvToggleButtonGroup } from '../../../../stencil-generated';
 import React, { useCallback, useMemo } from 'react';
 import { buildToggleButtons, buildSelectedToggleButtons, toggleSelectedOptions, buildDisabledToggleButtons, getComponentSize } from './utils';
-import { ICheckboxConfig } from './types';
+import { IToggleButtonGroupConfig } from './types';
 import { isEmpty } from 'lodash';
 import { useFormState } from '../../contexts';
 
-const CheckboxesWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
+const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
 	schema,
 	options,
@@ -27,7 +27,7 @@ const CheckboxesWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends 
 	const minimumItems = useMemo(() => minItems ?? 0, [minItems]);
 	const maximumItems = useMemo(() => maxItems ?? allOptions.length, [maxItems, allOptions.length]);
 	const multiple = useMemo(() => minimumItems > 0 || maximumItems > 1, [minItems, maxItems]);
-	const config = useMemo<ICheckboxConfig>(
+	const config = useMemo<IToggleButtonGroupConfig>(
 		() => ({
 			multiple,
 			allButton: allButton === true,
@@ -67,4 +67,4 @@ const CheckboxesWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends 
 	);
 };
 
-export default CheckboxesWidget;
+export default ToggleButtonGroupWidget;
