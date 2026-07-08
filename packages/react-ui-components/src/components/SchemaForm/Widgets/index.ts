@@ -1,6 +1,7 @@
 import RadioWidget from './RadioWidget';
 import SelectWidget from './SelectWidget';
-import CheckboxesWidget from './CheckboxesWidget';
+import ToggleButtonGroupWidget from './ToggleButtonGroupWidget';
+import CheckboxWidget from './CheckboxWidget';
 import ReadOnlyValueWidget from './ReadOnlyValueWidget';
 import EmailWidget from './EmailWidget';
 import DateTimeWidget from './DateTimeWidget';
@@ -20,7 +21,9 @@ export function generateWidgets<T = any, S extends StrictRJSFSchema = RJSFSchema
 		RadioWidget,
 		RadioListWidget,
 		SelectWidget,
-		CheckboxesWidget,
+		ToggleButtonGroupWidget,
+		toggleButtonGroup: ToggleButtonGroupWidget,
+		CheckboxWidget,
 		readOnlyValue: ReadOnlyValueWidget,
 		ReadOnlyValueWidget,
 		EmailWidget,
