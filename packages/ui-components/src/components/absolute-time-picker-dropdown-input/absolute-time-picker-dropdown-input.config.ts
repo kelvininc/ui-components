@@ -22,3 +22,6 @@ export const EMPTY_INPUT_PLACEHOLDER = 'Pick date & time';
 
 export const DATE_FORMAT = 'DD-MM-YYYY HH:mm';
 export const CALENDAR_DATE_FORMAT = 'YYYY-MM-DD';
+
+export const DEFAULT_NUMBER_OF_CALENDARS = 2;
+export const MIN_NUMBER_OF_CALENDARS = 1; // correctness floor only — never render zero

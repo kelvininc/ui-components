@@ -6,16 +6,26 @@ import {
 	DATE_FORMAT,
 	DATE_TIME_INPUT_DATE_FORMAT,
 	DEFAULT_LEFT_INPUT_CONFIG,
+	DEFAULT_NUMBER_OF_CALENDARS,
 	DEFAULT_RIGHT_INPUT_CONFIG,
 	EMPTY_INPUT_PLACEHOLDER,
-	INPUT_MASK_PLACEHOLDER
+	INPUT_MASK_PLACEHOLDER,
+	MIN_NUMBER_OF_CALENDARS
 } from './absolute-time-picker-dropdown-input.config';
 import dayjs from 'dayjs';
 import { fromISO, getDefaultTimezoneSettings } from '../../utils/date';
-import { getFirstCalendarInitialDate, getSecondCalendarInitialDate } from '../absolute-time-picker/absolute-time-picker.helper';
-import { IClickDateEvent } from '../calendar/calendar.types';
-import { IAbsoluteTimePickerDropdownInput, IAbsoluteTimePickerDropdownInputEvents, SelectedTime, SelectedTimeState, TimeRange } from './absolute-time-picker-dropdown-input.types';
-import { isEmpty, isNumber } from 'lodash-es';
+import { getCalendarInitialDate } from '../absolute-time-picker/absolute-time-picker.helper';
+import { getArrayOfIndexes } from '../../utils/arrays.helper';
+import { IChangeMonthEvent, IClickDateEvent } from '../calendar/calendar.types';
+import {
+	IAbsoluteTimeDateTimeInputConfig,
+	IAbsoluteTimePickerDropdownInput,
+	IAbsoluteTimePickerDropdownInputEvents,
+	SelectedTime,
+	SelectedTimeState,
+	TimeRange
+} from './absolute-time-picker-dropdown-input.types';
+import { isEmpty, isNumber, merge } from 'lodash-es';
 import { getRangeCalendarDates, getRangeInputValues, getSingleCalendarDate, getSingleInputDate } from './absolute-time-picker-dropdown-input.utils';
 
 @Component({
@@ -42,6 +52,12 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 	@Prop({ reflect: false }) minimumToInputDate?: number;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) minimumSingleInputDate?: number;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) fromInputConfig?: IAbsoluteTimeDateTimeInputConfig;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) toInputConfig?: IAbsoluteTimeDateTimeInputConfig;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) numberOfCalendars?: number = DEFAULT_NUMBER_OF_CALENDARS;
 
 	/** @inheritdoc */
 	@Event() selectedTimeChange: EventEmitter<SelectedTime>;
@@ -174,6 +190,17 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 		this.displayedMonth = this.displayedMonth.add(1, 'month');
 	};
 
+	/**
+	 * Direction-aware month navigation for the single-calendar layout, where one calendar owns both
+	 * arrows. `displayedMonth` equals that calendar's month, and each click moves ±1, so the emitted
+	 * month unambiguously tells us the direction (handles the Dec↔Jan year wrap).
+	 */
+	private handleChangeMonth = (event: CustomEvent<IChangeMonthEvent>) => {
+		const currentMonth = this.displayedMonth.month() + 1; // dayjs month is 0-indexed
+		const forwardMonth = (currentMonth % 12) + 1;
+		this.displayedMonth = event.detail.month === forwardMonth ? this.displayedMonth.add(1, 'month') : this.displayedMonth.subtract(1, 'month');
+	};
+
 	private handleHoveredDateChange = (event: CustomEvent<string>) => {
 		if (this.mode === EAbsoluteTimePickerMode.Range) this.hoveredDate = event.detail;
 	};
@@ -238,14 +265,22 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 	};
 
 	render() {
-		const fromCalendarInitialDate = getFirstCalendarInitialDate(this.displayedMonth);
-		const toCalendarInitialDate = getSecondCalendarInitialDate(this.displayedMonth);
 		const selectedDates = this.getSelectedCalendarDates();
 		const useFromInputInputMask = this.focusedInput === EInputSource.From;
 		const useToInputInputMask = this.focusedInput === EInputSource.To;
 		const useSingleInputInputMask = this.focusedInput === EInputSource.Single;
 		const isHoveringStyleEnabled = this.isHoveringStylingActive();
 		const minimumCalendarDate = this.getMinimumCalendarDate();
+
+		// Config first so consumer overrides apply, but component-controlled props are set after the
+		// spread below so they always win.
+		const fromConfig = merge({}, DEFAULT_LEFT_INPUT_CONFIG, this.fromInputConfig);
+		const toConfig = merge({}, DEFAULT_RIGHT_INPUT_CONFIG, this.toInputConfig);
+
+		// Coerce to an integer and fall back to the default for non-finite values (NaN/Infinity) so a
+		// bad prop value can never reach `Array(size)` and throw a RangeError. Floors to MIN as well.
+		const requestedCalendars = Math.floor(this.numberOfCalendars ?? DEFAULT_NUMBER_OF_CALENDARS);
+		const calendarCount = Math.max(Number.isFinite(requestedCalendars) ? requestedCalendars : DEFAULT_NUMBER_OF_CALENDARS, MIN_NUMBER_OF_CALENDARS);
 
 		return (
 			<Host>
@@ -254,39 +289,40 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 						{this.mode === EAbsoluteTimePickerMode.Range ? (
 							<div class="time-range-input-container">
 								<kv-date-time-input
+									{...fromConfig}
 									disabled={this.disabled}
 									inputStyleType={EDateTimeInputTypeStyle.MergedLeft}
 									value={this.rangeInputValues?.from}
 									dateFormat={DATE_TIME_INPUT_DATE_FORMAT}
-									placeholder={useFromInputInputMask ? INPUT_MASK_PLACEHOLDER : EMPTY_INPUT_PLACEHOLDER}
+									placeholder={useFromInputInputMask ? INPUT_MASK_PLACEHOLDER : (fromConfig.placeholder ?? EMPTY_INPUT_PLACEHOLDER)}
 									useInputMask={useFromInputInputMask}
 									onInputFocus={() => this.handleInputFocus(EInputSource.From)}
 									forcedFocus={this.focusedInput === EInputSource.From && this.isDropdownOpen}
 									onTextChange={this.hanleOnTextChange}
-									{...DEFAULT_LEFT_INPUT_CONFIG}
 								/>
 								<kv-date-time-input
+									{...toConfig}
 									disabled={this.disabled}
 									inputStyleType={EDateTimeInputTypeStyle.MergedRight}
 									value={this.rangeInputValues?.to}
 									dateFormat={DATE_TIME_INPUT_DATE_FORMAT}
-									placeholder={useToInputInputMask ? INPUT_MASK_PLACEHOLDER : EMPTY_INPUT_PLACEHOLDER}
+									placeholder={useToInputInputMask ? INPUT_MASK_PLACEHOLDER : (toConfig.placeholder ?? EMPTY_INPUT_PLACEHOLDER)}
 									useInputMask={useToInputInputMask}
 									onInputFocus={() => this.handleInputFocus(EInputSource.To)}
 									forcedFocus={this.focusedInput === EInputSource.To && this.isDropdownOpen}
 									rightIcon={this.isDropdownOpen ? EIconName.ArrowDropUp : EIconName.ArrowDropDown}
 									onTextChange={this.hanleOnTextChange}
 									onRightIconClick={this.handleDropdownArrowClick}
-									{...DEFAULT_RIGHT_INPUT_CONFIG}
 								/>
 							</div>
 						) : (
 							<div class="single-input-container">
 								<kv-date-time-input
+									{...fromConfig}
 									disabled={this.disabled}
 									value={this.singleTimeInputValue}
 									dateFormat={DATE_TIME_INPUT_DATE_FORMAT}
-									placeholder={useSingleInputInputMask ? INPUT_MASK_PLACEHOLDER : EMPTY_INPUT_PLACEHOLDER}
+									placeholder={useSingleInputInputMask ? INPUT_MASK_PLACEHOLDER : (fromConfig.placeholder ?? EMPTY_INPUT_PLACEHOLDER)}
 									useInputMask={useSingleInputInputMask}
 									forcedFocus={this.focusedInput === EInputSource.Single && this.isDropdownOpen}
 									onInputFocus={() => this.handleInputFocus(EInputSource.Single)}
@@ -294,39 +330,34 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 									rightIcon={this.isDropdownOpen ? EIconName.ArrowDropUp : EIconName.ArrowDropDown}
 									onTextChange={this.hanleOnTextChange}
 									onRightIconClick={this.handleDropdownArrowClick}
-									{...DEFAULT_LEFT_INPUT_CONFIG}
 								/>
 							</div>
 						)}
 					</slot>
 					<div slot="list">
 						<div class="calendar-container">
-							<kv-calendar
-								mode={this.mode}
-								displayNextMonthArrow={false}
-								displayPreviousMonthArrow
-								selectedDates={selectedDates}
-								hoveredDate={this.hoveredDate}
-								onHoveredDateChange={this.handleHoveredDateChange}
-								disableHoveringStyling={!isHoveringStyleEnabled}
-								initialDate={fromCalendarInitialDate}
-								onChangeMonth={this.handleClickBackMonth}
-								onClickDate={this.onClickDate}
-								minDate={minimumCalendarDate}
-							/>
-							<kv-calendar
-								mode={this.mode}
-								displayNextMonthArrow
-								displayPreviousMonthArrow={false}
-								selectedDates={selectedDates}
-								hoveredDate={this.hoveredDate}
-								onHoveredDateChange={this.handleHoveredDateChange}
-								disableHoveringStyling={!isHoveringStyleEnabled}
-								initialDate={toCalendarInitialDate}
-								onChangeMonth={this.handleClickForwardMonth}
-								onClickDate={this.onClickDate}
-								minDate={minimumCalendarDate}
-							/>
+							{getArrayOfIndexes(calendarCount).map(index => {
+								const isFirst = index === 0;
+								const isLast = index === calendarCount - 1;
+								const isSingleCalendar = calendarCount === 1;
+
+								return (
+									<kv-calendar
+										key={index}
+										mode={this.mode}
+										displayPreviousMonthArrow={isFirst}
+										displayNextMonthArrow={isLast}
+										selectedDates={selectedDates}
+										hoveredDate={this.hoveredDate}
+										onHoveredDateChange={this.handleHoveredDateChange}
+										disableHoveringStyling={!isHoveringStyleEnabled}
+										initialDate={getCalendarInitialDate(this.displayedMonth, index)}
+										onChangeMonth={isSingleCalendar ? this.handleChangeMonth : isFirst ? this.handleClickBackMonth : this.handleClickForwardMonth}
+										onClickDate={this.onClickDate}
+										minDate={minimumCalendarDate}
+									/>
+								);
+							})}
 						</div>
 					</div>
 				</kv-dropdown-base>
