@@ -308,8 +308,8 @@
 	--_text-color-default-text: var(--button-text-label-default);
 	--_text-color-default-danger: var(--button-danger-label-default);
 	--_text-color-hover-primary: var(--button-primary-label-default);
-	--_text-color-hover-secondary: var(--button-secondary-label-subtle);
-	--_text-color-hover-tertiary: var(--button-tertiary-label-subtle);
+	--_text-color-hover-secondary: var(--button-secondary-label-default);
+	--_text-color-hover-tertiary: var(--button-tertiary-label-default);
 	--_text-color-hover-text: var(--button-text-label-default);
 	--_text-color-hover-danger: var(--button-danger-label-default);
 
@@ -325,8 +325,8 @@
 	--_text-color-disabled-danger: var(--button-danger-label-disabled);
 
 	--_text-color-active-primary: var(--button-primary-label-default);
-	--_text-color-active-secondary: var(--button-secondary-label-subtle);
-	--_text-color-active-tertiary: var(--button-tertiary-label-subtle);
+	--_text-color-active-secondary: var(--button-secondary-label-default);
+	--_text-color-active-tertiary: var(--button-tertiary-label-default);
 	--_text-color-active-text: var(--button-text-label-default);
 	--_text-color-active-danger: var(--button-danger-label-default);
 

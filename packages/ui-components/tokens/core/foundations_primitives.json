@@ -22,7 +22,7 @@
         "prefix": "foundations_(primitives)"
       },
       "400": {
-        "value": "#bfbfbf",
+        "value": "#a6a6a6",
         "type": "color",
         "prefix": "foundations_(primitives)"
       },
@@ -235,6 +235,11 @@
       },
       "200": {
         "value": "#b8d0f9",
+        "type": "color",
+        "prefix": "foundations_(primitives)"
+      },
+      "300": {
+        "value": "#89b1f5",
         "type": "color",
         "prefix": "foundations_(primitives)"
       },

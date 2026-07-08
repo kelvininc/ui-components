@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 100 86">
-	<circle cx="56" cy="43" r="40" fill="var(--illustrations-background, #262626)"/>
+	<circle cx="56" cy="43" r="40" fill="var(--illustrations-background-default, #262626)"/>
 	<path fill="var(--illustrations-shape-secondary, #404040)" d="M66.975 41.914C62.307 33.874 56 23 56 23v39.984c.227 0 .463 0 .69-.016 7.135-.354 12.81-6.181 12.81-13.312 0-2.89-1.161-5.417-2.517-7.75z"/>
 	<path fill="var(--illustrations-shape-primary, #595959)" fill-rule="evenodd" d="M45.016 41.921C49.692 33.881 56 23.008 56 23.008V63c-.235 0-.462-.008-.69-.016-7.135-.355-12.81-6.174-12.81-13.312 0-2.89 1.16-5.425 2.516-7.75" clip-rule="evenodd"/>
 	<rect width="40.582" height="6.087" x="4" y="78.696" fill="var(--illustrations-accent-primary, #7c4dff)" rx="3" transform="rotate(-45 4 78.696)"/>

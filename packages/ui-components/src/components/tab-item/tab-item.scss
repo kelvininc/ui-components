@@ -54,6 +54,7 @@
 
 			&:hover:not(.disabled) {
 				background: var(--tab-secondary-background-hover);
+				border-color: var(--tab-secondary-border-color-hover);
 
 				kv-icon {
 					--icon-color: var(--icon-tab-icon-color-hover);
