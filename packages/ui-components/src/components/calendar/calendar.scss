@@ -59,6 +59,10 @@
 					--icon-color: var(--icon-container-table-icon-disabled);
 				}
 			}
+
+			&--hidden {
+				cursor: default;
+			}
 		}
 	}
 

@@ -2,6 +2,7 @@ import type { Meta, StoryObj, StoryFn } from "@storybook/react";
 import { ComponentProps, useState } from "react";
 import {
 	EAbsoluteTimePickerMode,
+	EIconName,
 	ITimePickerTimezone,
 	KvAbsoluteTimePickerDropdownInput,
 	SelectedTime,
@@ -12,6 +13,21 @@ const meta = {
 	title: "Time Picker/Absolute Time Picker Dropdown Input",
 	component: KvAbsoluteTimePickerDropdownInput,
 	argTypes: {
+		numberOfCalendars: {
+			control: { type: "number", min: 1 },
+			description:
+				"Number of month calendars shown in the dropdown (minimum 1, no upper limit)."
+		},
+		fromInputConfig: {
+			control: "object",
+			description:
+				'Config forwarded to the "from" date-time input (also used in single mode).'
+		},
+		toInputConfig: {
+			control: "object",
+			description:
+				'Config forwarded to the "to" date-time input (range mode only).'
+		},
 		onSelectedTimeChange: {
 			action: "selectedTimeChange"
 		},
@@ -116,4 +132,34 @@ export const SingleState: Story = {
 export const DefaultStateWithMinimumDates: Story = {
 	args: {},
 	render: DefaultAbsoluteTimePickerDropdownInputWithMinimumDateTemplate
+};
+
+export const SingleCalendar: Story = {
+	args: {
+		mode: EAbsoluteTimePickerMode.Single,
+		numberOfCalendars: 1
+	},
+	render: DefaultAbsoluteTimePickerDropdownInputTemplate
+};
+
+export const ThreeCalendars: Story = {
+	args: {
+		numberOfCalendars: 3
+	},
+	render: DefaultAbsoluteTimePickerDropdownInputTemplate
+};
+
+export const CustomInputs: Story = {
+	args: {
+		fromInputConfig: {
+			label: "Start date",
+			placeholder: "Select a start",
+			leftIcon: EIconName.Calendar
+		},
+		toInputConfig: {
+			label: "End date",
+			placeholder: "Select an end"
+		}
+	},
+	render: DefaultAbsoluteTimePickerDropdownInputTemplate
 };
