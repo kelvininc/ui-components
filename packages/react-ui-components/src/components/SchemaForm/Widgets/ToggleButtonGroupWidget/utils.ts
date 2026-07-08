@@ -1,11 +1,11 @@
 import { EComponentSize, IToggleButton } from '@kelvininc/ui-components';
 import { ALL_BUTTON_VALUE } from './config';
-import { CheckboxOption, ICheckboxConfig } from './types';
+import { ToggleButtonGroupOption, IToggleButtonGroupConfig } from './types';
 
-export const buildToggleButtons = <T extends CheckboxOption>(
+export const buildToggleButtons = <T extends ToggleButtonGroupOption>(
 	options: T[],
 	enumDisabled: (string | number | boolean)[],
-	{ multiple, allButton, readonly }: ICheckboxConfig
+	{ multiple, allButton, readonly }: IToggleButtonGroupConfig
 ): IToggleButton[] =>
 	options.reduce<IToggleButton[]>(
 		(acc, { label, value }) => {
@@ -27,10 +27,10 @@ export const buildToggleButtons = <T extends CheckboxOption>(
 			: []
 	);
 
-export const buildSelectedToggleButtons = <T extends CheckboxOption>(
+export const buildSelectedToggleButtons = <T extends ToggleButtonGroupOption>(
 	selectedOptions: string[],
 	allOptions: T[],
-	{ multiple, allButton }: ICheckboxConfig
+	{ multiple, allButton }: IToggleButtonGroupConfig
 ): { [key: string]: boolean } => {
 	const allButtonsSelected = selectedOptions.length === allOptions.length;
 
@@ -61,11 +61,11 @@ export const buildDisabledToggleButtons = (buttons: IToggleButton[]): { [key: st
 	return disabledButtons;
 };
 
-export const toggleSelectedOptions = <T extends CheckboxOption>(
+export const toggleSelectedOptions = <T extends ToggleButtonGroupOption>(
 	selectedOptionValue: string,
 	selectedOptions: string[],
 	allOptions: T[],
-	{ multiple, allButton, minItems, maxItems, required }: ICheckboxConfig
+	{ multiple, allButton, minItems, maxItems, required }: IToggleButtonGroupConfig
 ): string[] => {
 	if (!multiple) {
 		if (selectedOptions.includes(selectedOptionValue)) {
