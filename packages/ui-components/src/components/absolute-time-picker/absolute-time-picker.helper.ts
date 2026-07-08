@@ -28,6 +28,10 @@ export const getSecondCalendarInitialDate = (displayedMonth: dayjs.Dayjs): strin
 	return initialDate.isValid() ? initialDate.add(1, 'month').format(CALENDAR_MASK) : '';
 };
 
+export const getCalendarInitialDate = (displayedMonth: dayjs.Dayjs, monthOffset: number): string => {
+	return displayedMonth.isValid() ? displayedMonth.add(monthOffset, 'month').format(CALENDAR_MASK) : '';
+};
+
 export const getMinimumDateFromDayClick = (clickedDate: dayjs.Dayjs, minimumDate: string): dayjs.Dayjs => {
 	const parsedMinDate = dayjs(minimumDate, DATETIME_INPUT_MASK);
 	if (clickedDate.startOf('day').isBefore(parsedMinDate)) {

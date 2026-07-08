@@ -260,11 +260,17 @@ export class KvCalendar implements ICalendar, ICalendarEvents {
 			<Host>
 				<div class="calendar">
 					<div class="calendar__header">
-						<div class={{ 'navigator': true, 'navigator--disabled': this.isBackNavigationDisabled() }} onClick={this.onClickPreviousMonth}>
+						<div
+							class={{ 'navigator': true, 'navigator--hidden': !this.displayPreviousMonthArrow, 'navigator--disabled': this.isBackNavigationDisabled() }}
+							onClick={this.displayPreviousMonthArrow ? this.onClickPreviousMonth : undefined}
+						>
 							{this.displayPreviousMonthArrow && <kv-icon name={EIconName.NavClose} />}
 						</div>
 						<div class="month">{getMonthAndYearTitle(this.month, this.year)}</div>
-						<div class={{ 'navigator': true, 'navigator--disabled': this.isNextNavigationDisabled() }} onClick={this.onClickNextMonth}>
+						<div
+							class={{ 'navigator': true, 'navigator--hidden': !this.displayNextMonthArrow, 'navigator--disabled': this.isNextNavigationDisabled() }}
+							onClick={this.displayNextMonthArrow ? this.onClickNextMonth : undefined}
+						>
 							{this.displayNextMonthArrow && <kv-icon name={EIconName.NavOpen} />}
 						</div>
 					</div>
