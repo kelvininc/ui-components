@@ -33,9 +33,9 @@ export class KvWizard implements IWizard, IWizardEvents {
 	@Event() cancelClick: EventEmitter<MouseEvent>;
 
 	/** Internal header state */
-	@State() currentHeader: IWizardHeader;
+	@State() currentHeader: IWizardHeader | null;
 	/** Internal footer state */
-	@State() currentFooter: IWizardFooter;
+	@State() currentFooter: IWizardFooter | null;
 
 	/** Watch the `steps` property and update internal state accordingly */
 	@Watch('steps')
@@ -140,17 +140,19 @@ export class KvWizard implements IWizard, IWizardEvents {
 					<slot name="step-content"></slot>
 				</div>
 				<div class="wizard-footer">
-					<kv-wizard-footer
-						onPrevClick={this.onPrevClick}
-						onNextClick={this.onNextClick}
-						onStepClick={this.onStepClick}
-						showStepBar={this.showStepBar}
-						completeBtnLabel={this.completeBtnLabel}
-						exportparts="footer-actions-container"
-						{...this.currentFooter}
-					>
-						<slot slot="additional-actions" name="additional-actions" />
-					</kv-wizard-footer>
+					{this.currentFooter && (
+						<kv-wizard-footer
+							onPrevClick={this.onPrevClick}
+							onNextClick={this.onNextClick}
+							onStepClick={this.onStepClick}
+							showStepBar={this.showStepBar ?? false}
+							completeBtnLabel={this.completeBtnLabel}
+							exportparts="footer-actions-container"
+							{...this.currentFooter}
+						>
+							<slot slot="additional-actions" name="additional-actions" />
+						</kv-wizard-footer>
+					)}
 				</div>
 			</div>
 		);

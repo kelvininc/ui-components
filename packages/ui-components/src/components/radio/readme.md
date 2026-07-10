@@ -37,9 +37,9 @@ export const RadioExample: React.FC = () => (
 
 | Property   | Attribute  | Description                                                              | Type                                           | Default                |
 | ---------- | ---------- | ------------------------------------------------------------------------ | ---------------------------------------------- | ---------------------- |
-| `checked`  | `checked`  | (optional) If `true` the radio is with checked state. Default: false     | `boolean`                                      | `false`                |
-| `disabled` | `disabled` | (optional) If `true` the radio is with disabled state. Default: false    | `boolean`                                      | `false`                |
-| `label`    | `label`    | (optional) The label text for the radio.                                 | `string`                                       | `''`                   |
+| `checked`  | `checked`  | (optional) If `true` the radio is with checked state. Default: false     | `boolean \| undefined`                         | `false`                |
+| `disabled` | `disabled` | (optional) If `true` the radio is with disabled state. Default: false    | `boolean \| undefined`                         | `false`                |
+| `label`    | `label`    | (optional) The label text for the radio.                                 | `string \| undefined`                          | `''`                   |
 | `size`     | `size`     | (optional) Sets this component item to a different styling configuration | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Small` |
 
 

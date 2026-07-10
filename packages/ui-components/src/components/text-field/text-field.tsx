@@ -88,7 +88,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** Focuses the input */
 	@Method()
 	async focusInput() {
-		this.nativeInput.focus();
+		this.nativeInput?.focus();
 	}
 
 	/** Watch `value` property for changes and update native input element accordingly */
@@ -124,16 +124,16 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 
 		if (!this.focused) {
 			this.el.blur();
-			this.nativeInput.blur();
+			this.nativeInput?.blur();
 		} else {
 			this.el.focus();
-			this.nativeInput.focus();
+			this.nativeInput?.focus();
 		}
 	}
 
 	@Watch('useInputMask')
 	handleUseInputMask(newValue: boolean = this.type === EInputFieldType.Number) {
-		if (newValue && isInputMaskCompatibleType(this.type) && !this.maskInstance) {
+		if (newValue && isInputMaskCompatibleType(this.type) && !this.maskInstance && this.nativeInput) {
 			this.maskInstance = buildInputMask(
 				this.nativeInput,
 				this.type,
@@ -144,11 +144,13 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 				},
 				this.maxLength
 			);
-			this.maskInstance.shadowRoot = this.el.shadowRoot;
+			if (this.el.shadowRoot !== null) {
+				this.maskInstance.shadowRoot = this.el.shadowRoot;
+			}
 		} else {
 			if (this.nativeInput) {
 				Inputmask.remove(this.nativeInput);
-				this.valueChangeHandler(this.value);
+				this.valueChangeHandler(this.value ?? '');
 			}
 		}
 	}
@@ -199,23 +201,23 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	private onInputHandler = ({ target }: InputEvent) => {
 		const input = target as HTMLInputElement | null;
 
+		if (input === null) return;
+
 		if (this.maxLength && getUTF8StringLength(input.value) > this.maxLength) {
-			const caretPositionIdx = input.selectionStart - 1;
+			const caretPositionIdx = (input.selectionStart ?? 0) - 1;
 			input.value = this.getValue().substring(0, this.maxLength);
 			input.setSelectionRange(caretPositionIdx, caretPositionIdx);
 			return;
 		}
 
-		if (!isNil(input)) {
-			this.value = input.value || '';
-		}
+		this.value = input.value || '';
 
 		this.textChange.emit(this.getValue());
 	};
 
 	private onPasteHandler = (event: ClipboardEvent) => {
-		const textLength = getUTF8StringLength(this.nativeInput.value);
-		const pasteData = event.clipboardData.getData('text/plain');
+		const textLength = getUTF8StringLength(this.nativeInput?.value ?? '');
+		const pasteData = event.clipboardData?.getData('text/plain') ?? '';
 		const shouldDisablePaste = this.maxLength && textLength + getUTF8StringLength(pasteData) > this.maxLength;
 
 		if (shouldDisablePaste) {
@@ -321,7 +323,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										'invalid': this.state === EValidationState.Invalid,
 										'disabled': this.inputDisabled,
 										'filled': !isEmpty(value),
-										'has-value-prefix': this.valuePrefix && !isEmpty(value)
+										'has-value-prefix': !!(this.valuePrefix && !isEmpty(value))
 									}}
 								>
 									<slot name="left-slot" />
@@ -396,13 +398,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 						)}
 						{!isEmpty(this._helpTexts) && <kv-form-help-text helpText={this._helpTexts} state={this.state}></kv-form-help-text>}
 					</div>
-					{!isEmpty(this.examples) ? (
-						<datalist id={`examples_${id}`}>
-							{this.examples.map(example => (
-								<option key={example} value={example}></option>
-							))}
-						</datalist>
-					) : null}
+					{!isEmpty(this.examples) ? <datalist id={`examples_${id}`}>{this.examples?.map(example => <option key={example} value={example}></option>)}</datalist> : null}
 				</kv-tooltip>
 			</Host>
 		);

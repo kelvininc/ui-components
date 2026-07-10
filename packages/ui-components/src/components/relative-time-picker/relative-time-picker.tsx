@@ -86,14 +86,15 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 		const dropdownOptions = buildRelativeTimeSelectOptions(optionsToBuild, this.getSelectedTimezone());
 		this.relativeTimeOptions = dropdownOptions;
 
-		if (!isEmpty(this.selectedTimeKey) && this.selectedTimeKey !== CUSTOM_TIME_RANGE_KEY) {
-			const currentRange = getSelectedKeyRange(dropdownOptions, this.selectedTimeKey);
-			this.hasSelectedKeyRangeChanged(currentRange, this.selectedTimeKey);
+		const selectedTimeKey = this.selectedTimeKey;
+		if (selectedTimeKey !== undefined && !isEmpty(selectedTimeKey) && selectedTimeKey !== CUSTOM_TIME_RANGE_KEY) {
+			const currentRange = getSelectedKeyRange(dropdownOptions, selectedTimeKey);
+			this.hasSelectedKeyRangeChanged(currentRange, selectedTimeKey);
 		}
 
 		if (this.relativeTimeOptions && this.relativeTimeOptions.length === 0) return;
 
-		this.hasScroll = isScrollNeeded(this.options, this.customIntervalOptionEnabled, this.timezoneSelectionEnabled);
+		this.hasScroll = isScrollNeeded(optionsToBuild, this.customIntervalOptionEnabled ?? true, this.timezoneSelectionEnabled ?? true);
 	}
 
 	@Watch('timezones')
@@ -109,7 +110,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	@Watch('selectedTimeKey')
 	onSelectedTimeKeyChange(newKey: string) {
 		if (newKey !== CUSTOM_TIME_RANGE_KEY) {
-			this.selectedOptionRange = getSelectedKeyRange(this.relativeTimeOptions, this.selectedTimeKey);
+			this.selectedOptionRange = getSelectedKeyRange(this.relativeTimeOptions, newKey);
 		}
 	}
 
@@ -237,7 +238,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 					{this.timezoneSelectionEnabled && (
 						<div class="selectable">
 							<kv-input-wrapper
-								contentVisible={this.timezoneContentVisible}
+								contentVisible={this.timezoneContentVisible ?? false}
 								contentHidden={this.disableTimezoneSelection}
 								label={this.getSelectedTimezoneTitle()}
 								icon={EIconName.Edit}

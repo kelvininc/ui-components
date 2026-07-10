@@ -27,7 +27,7 @@ export const buildRelativeTimeGroupOptions = (options: IRelativeTimePickerOption
 		return {
 			key: option.value,
 			...option,
-			description: buildDateRangeDescription(dayjsRange, option.labelRangeFormatter),
+			description: buildDateRangeDescription(dayjsRange, option.labelRangeFormatter ?? {}),
 			range: buildTimestampRange(dayjsRange)
 		};
 	});
@@ -68,7 +68,7 @@ export const hasRangeChanged = (selectedRange: SelectedTimestamp, currentRange: 
 	return false;
 };
 
-const getDateTimeWithResetedSeconds = (date: number): string => {
+const getDateTimeWithResetedSeconds = (date: number | undefined): string => {
 	return dayjs(date).set('second', 0).format();
 };
 
@@ -83,7 +83,7 @@ export const isScrollNeeded = (options: IRelativeTimePickerOption[][], displayin
 	return optionsListHeight > MAX_HEIGHT - customizeOptionHeight - dropdownOptionHeight - 2 * PADDING_SIZE;
 };
 
-export const buildTimezonesDropdownOptions = (timezones: ITimezoneOffset[]): ISelectSingleOptions => {
+export const buildTimezonesDropdownOptions = (timezones: ITimezoneOffset[] = []): ISelectSingleOptions => {
 	let defaultTimezoneGroup: ISelectSingleOptions = {};
 	const defaultTimezone = getDefaultTimezone();
 	let otherTimezones = [...timezones];
@@ -130,10 +130,10 @@ export const buildTimezonesDropdownOptions = (timezones: ITimezoneOffset[]): ISe
 	};
 
 	// Check if there's only one group
-	if (Object.keys(options).length === 1) {
-		const [groupKey] = Object.keys(options);
-
-		return options[groupKey].options;
+	const optionKeys = Object.keys(options);
+	if (optionKeys.length === 1) {
+		const groupKey = optionKeys[0]!;
+		return options[groupKey]!.options ?? {};
 	}
 
 	return options;

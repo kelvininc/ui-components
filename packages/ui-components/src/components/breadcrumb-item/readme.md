@@ -22,10 +22,10 @@ export const KvBreadcrumbItemExample: React.FC = () => (
 
 ## Properties
 
-| Property | Attribute | Description                                                                         | Type      | Default     |
-| -------- | --------- | ----------------------------------------------------------------------------------- | --------- | ----------- |
-| `active` | `active`  | (optional) Sets this breadcrumb styling to be the active one (usually the last one) | `boolean` | `undefined` |
-| `label`  | `label`   | (optional) The text to display on the breadcrumb                                    | `string`  | `undefined` |
+| Property | Attribute | Description                                                                         | Type                   | Default     |
+| -------- | --------- | ----------------------------------------------------------------------------------- | ---------------------- | ----------- |
+| `active` | `active`  | (optional) Sets this breadcrumb styling to be the active one (usually the last one) | `boolean \| undefined` | `undefined` |
+| `label`  | `label`   | (optional) The text to display on the breadcrumb                                    | `string`               | `undefined` |
 
 
 ## Events

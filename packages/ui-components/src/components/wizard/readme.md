@@ -49,15 +49,15 @@ export const KvWizardExample: React.FC = () => {
 
 ## Properties
 
-| Property                   | Attribute            | Description                                                                         | Type                                                                                            | Default     |
-| -------------------------- | -------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------- |
-| `completeBtnLabel`         | `complete-btn-label` | (optional) A label to show on the last step button. Default: 'Submit'               | `string`                                                                                        | `undefined` |
-| `currentStep` _(required)_ | `current-step`       | (required) Defines the current step index                                           | `number`                                                                                        | `undefined` |
-| `currentStepState`         | `current-step-state` | (optional) Defines the current step state. Only the success state allows to proceed | `{ state: EStepState.Error; error?: string; } \| { state: EStepState.Success; error?: never; }` | `undefined` |
-| `disabled`                 | `disabled`           | (optional) Defines if the wizard navigation is disabled. Default: false             | `boolean`                                                                                       | `false`     |
-| `showHeader`               | `show-header`        | (optional) Defines if the header should render. Default: true                       | `boolean`                                                                                       | `true`      |
-| `showStepBar`              | `show-step-bar`      | (optional) Defines if the step bar should render. Default: true                     | `boolean`                                                                                       | `true`      |
-| `steps` _(required)_       | `steps`              | (required) Defines the wizard steps                                                 | `IWizardStep[]`                                                                                 | `undefined` |
+| Property                   | Attribute            | Description                                                                         | Type                                                                                                                          | Default     |
+| -------------------------- | -------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `completeBtnLabel`         | `complete-btn-label` | (optional) A label to show on the last step button. Default: 'Submit'               | `string \| undefined`                                                                                                         | `undefined` |
+| `currentStep` _(required)_ | `current-step`       | (required) Defines the current step index                                           | `number`                                                                                                                      | `undefined` |
+| `currentStepState`         | `current-step-state` | (optional) Defines the current step state. Only the success state allows to proceed | `undefined \| { state: EStepState.Error; error?: string \| undefined; } \| { state: EStepState.Success; error?: undefined; }` | `undefined` |
+| `disabled`                 | `disabled`           | (optional) Defines if the wizard navigation is disabled. Default: false             | `boolean`                                                                                                                     | `false`     |
+| `showHeader`               | `show-header`        | (optional) Defines if the header should render. Default: true                       | `boolean`                                                                                                                     | `true`      |
+| `showStepBar`              | `show-step-bar`      | (optional) Defines if the step bar should render. Default: true                     | `boolean`                                                                                                                     | `true`      |
+| `steps` _(required)_       | `steps`              | (required) Defines the wizard steps                                                 | `IWizardStep[]`                                                                                                               | `undefined` |
 
 
 ## Events

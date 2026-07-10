@@ -17,9 +17,9 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: false }) options?: Partial<ComputePositionConfig> = DEFAULT_POSITION_CONFIG;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) actionElement?: HTMLElement = null;
+	@Prop({ reflect: false }) actionElement?: HTMLElement;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) listElement?: HTMLElement = null;
+	@Prop({ reflect: false }) listElement?: HTMLElement;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) clickOutsideClose?: boolean = true;
 	/** @inheritdoc */
@@ -46,15 +46,15 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 		this.clickOutside.emit(event);
 	}
 
-	private portal: HTMLElement;
-	@State() action: HTMLDivElement;
+	private portal?: HTMLElement;
+	@State() action?: HTMLDivElement;
 
 	private getActionElement = (): HTMLElement | null => {
-		return this.actionElement ?? this.action;
+		return this.actionElement ?? this.action ?? null;
 	};
 
 	private getListElement = (): HTMLElement | null => {
-		return this.listElement ?? this.portal;
+		return this.listElement ?? this.portal ?? null;
 	};
 
 	private didClickOnDropdownAction = (event: MouseEvent): boolean => {
@@ -82,7 +82,14 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 					<slot name="action"></slot>
 				</div>
 
-				<kv-portal animated ref={el => (this.portal = el)} show={this.isOpen} reference={this.getActionElement()} options={this.options} zIndex={this.zIndex}>
+				<kv-portal
+					animated
+					ref={el => (this.portal = el)}
+					show={this.isOpen ?? false}
+					reference={this.getActionElement() ?? undefined}
+					options={this.options}
+					zIndex={this.zIndex}
+				>
 					<div class="dropdown-base-list">
 						{/* Shadow Root should be false to slot work here */}
 						<slot name="list"></slot>

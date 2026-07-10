@@ -1,8 +1,6 @@
-import { isNil } from 'lodash-es';
-
 export const getSlotElements = (element: HTMLElement): HTMLElement[] => ((element.querySelector('slot') as HTMLSlotElement | null)?.assignedNodes() as HTMLElement[]) ?? [];
 export const didClickOnElement = (element: HTMLElement | null, event: MouseEvent): boolean => {
-	if (isNil(element)) {
+	if (element === null) {
 		return false;
 	}
 
@@ -13,6 +11,7 @@ export const didClickOnElement = (element: HTMLElement | null, event: MouseEvent
 	const slotElements = getSlotElements(element);
 	for (let index = 0; index < slotElements.length; index++) {
 		const slotElement = slotElements[index];
+		if (slotElement === undefined) continue;
 
 		if (isTargetOnElement(slotElement, event)) {
 			return true;

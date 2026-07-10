@@ -88,7 +88,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: true }) clickOutsideClose?: boolean = true;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) actionElement?: HTMLElement | null = null;
+	@Prop({ reflect: false }) actionElement?: HTMLElement;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) zIndex?: number = DEFAULT_DROPDOWN_Z_INDEX;
 	/** @inheritdoc */

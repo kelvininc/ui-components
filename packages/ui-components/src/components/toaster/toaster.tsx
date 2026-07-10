@@ -68,7 +68,7 @@ export class KvToaster implements IToaster, IToasterEvents {
 	};
 
 	private createTTL = () => {
-		if (this.ttl > 0) {
+		if (this.ttl !== undefined && this.ttl > 0) {
 			this.timeoutID = window.setTimeout(() => {
 				this.ttlExpired.emit();
 

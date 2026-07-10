@@ -15,16 +15,16 @@ import { COPY_TOOLTIP } from './info-label.types';
 	shadow: true
 })
 export class KvInfoLabel {
-	private descriptionContainer: Element;
+	private descriptionContainer?: Element;
 	private tooltipConfig = COPY_TOOLTIP;
-	private resizeSensor: ResizeSensor = null;
+	private resizeSensor: ResizeSensor | null = null;
 
 	/** Define if the show more button needed to be visible */
 	@State() enableShowMoreButton = false;
 	/** Define if the label content is completely visible */
 	@State() isExpanded = false;
 	/** Store the current div content height */
-	@State() currentDescriptionHeight: number = null;
+	@State() currentDescriptionHeight: number | null = null;
 
 	/** (optional) Info label title */
 	@Prop({ reflect: true }) labelTitle?: string;
@@ -49,42 +49,44 @@ export class KvInfoLabel {
 	}
 
 	private loadDescriptionHeight() {
-		if (this.descriptionHeight !== undefined) {
+		if (this.descriptionHeight !== undefined && this.descriptionContainer !== undefined) {
 			const descriptionHeight = this.descriptionContainer.clientHeight;
 			this.enableShowMoreButton = descriptionHeight !== undefined && descriptionHeight > this.descriptionHeight;
 		} else {
 			this.enableShowMoreButton = false;
 		}
 		this.isExpanded = this.enableShowMoreButton ? this.isExpanded : false;
-		this.currentDescriptionHeight = this.enableShowMoreButton && !this.isExpanded ? this.descriptionHeight : null;
+		this.currentDescriptionHeight = this.enableShowMoreButton && !this.isExpanded ? (this.descriptionHeight ?? null) : null;
 	}
 
 	private onShowMoreToggle = () => {
 		this.isExpanded = !this.isExpanded;
 
 		if (this.isExpanded) {
-			const textElementHeight = this.descriptionContainer.clientHeight;
+			const textElementHeight = this.descriptionContainer?.clientHeight ?? null;
 			this.currentDescriptionHeight = textElementHeight;
 			return;
 		}
 
-		this.currentDescriptionHeight = this.descriptionHeight;
+		this.currentDescriptionHeight = this.descriptionHeight ?? null;
 	};
 
 	private onClickCopyAction = async () => {
-		const tooltip: HTMLKvTooltipElement = this.el.shadowRoot.querySelector('kv-tooltip');
-		const tooltipText = tooltip.shadowRoot.querySelector('#tooltip') as HTMLElement;
-		if (await copyTextToClipboard(this.copyValue)) {
-			tooltipText.innerText = this.tooltipConfig.resultLabel;
+		const tooltip = this.el.shadowRoot?.querySelector('kv-tooltip');
+		const tooltipText = tooltip?.shadowRoot?.querySelector('#tooltip') as HTMLElement | null;
+		if (await copyTextToClipboard(this.copyValue ?? '')) {
+			if (tooltipText !== null) {
+				tooltipText.innerText = this.tooltipConfig.resultLabel;
+			}
 		} else {
 			console.error('Copy to clipboard failed');
 		}
 	};
 
 	componentDidRender() {
-		this.descriptionContainer = this.el.shadowRoot.querySelector('.description');
+		this.descriptionContainer = this.el.shadowRoot?.querySelector('.description') ?? undefined;
 
-		if (this.descriptionHeight >= 0) {
+		if (this.descriptionHeight !== undefined && this.descriptionHeight >= 0 && this.descriptionContainer !== undefined) {
 			this.resizeSensor = new ResizeSensor(this.descriptionContainer, () => {
 				this.loadDescriptionHeight();
 			});

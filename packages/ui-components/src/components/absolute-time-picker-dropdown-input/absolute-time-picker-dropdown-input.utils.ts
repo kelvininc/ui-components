@@ -3,16 +3,16 @@ import { SelectedTimeState, TimeRange } from './absolute-time-picker-dropdown-in
 import { CALENDAR_DATE_FORMAT, DATE_FORMAT } from './absolute-time-picker-dropdown-input.config';
 import { isEmpty, isNumber } from 'lodash-es';
 
-export const getSingleInputDate = (selectedTime: SelectedTimeState, timezoneName: string): string => {
-	if (isEmpty(selectedTime)) {
+export const getSingleInputDate = (selectedTime: SelectedTimeState | undefined, timezoneName: string): string => {
+	if (selectedTime === undefined || isEmpty(selectedTime)) {
 		return '';
 	}
 
 	return dayjs(selectedTime[0]).tz(timezoneName).format(DATE_FORMAT);
 };
 
-export const getRangeInputValues = (selectedTime: SelectedTimeState, timezoneName: string): TimeRange => {
-	if (isEmpty(selectedTime)) {
+export const getRangeInputValues = (selectedTime: SelectedTimeState | undefined, timezoneName: string): TimeRange => {
+	if (selectedTime === undefined || isEmpty(selectedTime)) {
 		return {
 			from: '',
 			to: ''

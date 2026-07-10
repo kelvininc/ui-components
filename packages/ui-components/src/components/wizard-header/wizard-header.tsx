@@ -23,7 +23,7 @@ export class KvWizardHeader implements IWizardHeader {
 						<span class="label">{this.label}</span>
 						<span class="separator" />
 						<span class="description">{this.description}</span>
-						{this.tip?.length > 0 && (
+						{(this.tip?.length ?? 0) > 0 && (
 							<kv-toggle-tip text={this.tip} position={ETooltipPosition.Bottom} customClass="wizard-header-tip">
 								<kv-icon name={EIconName.Info} slot="open-element-slot" />
 							</kv-toggle-tip>

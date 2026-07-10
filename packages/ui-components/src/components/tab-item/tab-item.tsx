@@ -51,10 +51,10 @@ export class KvTabItem implements ICustomCss {
 				<div
 					class={{
 						'tab-item-container': true,
-						'selected': this.selected,
-						'disabled': this.disabled,
-						'only-icon': this.type === ETabItemType.Secondary && this.icon && !this.label,
-						[this.type]: true,
+						'selected': !!this.selected,
+						'disabled': !!this.disabled,
+						'only-icon': !!(this.type === ETabItemType.Secondary && this.icon && !this.label),
+						[this.type ?? ETabItemType.Primary]: true,
 						...getClassMap(this.customClass)
 					}}
 					onClick={this.tabClickThrottler}

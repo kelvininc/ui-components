@@ -37,10 +37,10 @@ export const RadioExample: React.FC = () => (
 
 | Property        | Attribute       | Description                                                                   | Type                                           | Default                |
 | --------------- | --------------- | ----------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
-| `checked`       | `checked`       | (optional) If `true` the radio is with checked state. Default: false          | `boolean`                                      | `false`                |
-| `disabled`      | `disabled`      | (optional) If `true` the radio is with disabled state. Default: false         | `boolean`                                      | `false`                |
-| `indeterminate` | `indeterminate` | (optional) If `true` the checkbox is with indeterminate state. Default: false | `boolean`                                      | `false`                |
-| `label`         | `label`         | (optional) The label text for the radio.                                      | `string`                                       | `undefined`            |
+| `checked`       | `checked`       | (optional) If `true` the radio is with checked state. Default: false          | `boolean \| undefined`                         | `false`                |
+| `disabled`      | `disabled`      | (optional) If `true` the radio is with disabled state. Default: false         | `boolean \| undefined`                         | `false`                |
+| `indeterminate` | `indeterminate` | (optional) If `true` the checkbox is with indeterminate state. Default: false | `boolean \| undefined`                         | `false`                |
+| `label`         | `label`         | (optional) The label text for the radio.                                      | `string \| undefined`                          | `undefined`            |
 | `size`          | `size`          | (optional) Sets this component item to a different styling configuration      | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Small` |
 
 

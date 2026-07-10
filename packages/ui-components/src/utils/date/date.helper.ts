@@ -109,12 +109,13 @@ export const isDateValid = (date: DateInput): boolean => {
 
 	return newDate(date).isValid();
 };
-export const calculateOffsetDate = (date: DateInput, offset: number = 0, unit: dayjs.ManipulateType | dayjs.QUnitType = 'days'): dayjs.Dayjs => {
-	if (['quarter', 'quarters', 'Q'].includes(unit)) {
+export const calculateOffsetDate = (date: DateInput, offset: number = 0, unit?: dayjs.ManipulateType | dayjs.QUnitType): dayjs.Dayjs => {
+	const resolvedUnit = unit ?? 'days';
+	if (['quarter', 'quarters', 'Q'].includes(resolvedUnit)) {
 		return newDate(date).add(offset, 'quarter');
 	}
 
-	return newDate(date).add(offset, unit as dayjs.ManipulateType);
+	return newDate(date).add(offset, resolvedUnit as dayjs.ManipulateType);
 };
 
 export const getMonthAndYearTitle = (month: number, year: number): string => `${getMonthName(month)} ${year}`;

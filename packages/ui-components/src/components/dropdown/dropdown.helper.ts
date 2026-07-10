@@ -5,7 +5,7 @@ import { ITextField } from '../text-field/text-field.types';
 
 export const getDefaultDropdownPositionConfig = (
 	inputConfig: Partial<ITextField> & {
-		inputDisabled: boolean;
+		inputDisabled: boolean | undefined;
 	}
 ): Partial<ComputePositionConfig> => {
 	const helpTextOffset = isEmpty(inputConfig.helpText) ? 0 : HELP_TEXT_HEIGHT_PX;

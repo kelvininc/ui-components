@@ -53,7 +53,7 @@ export class KvRadio implements IRadio, IRadioEvents {
 					class={{
 						'radio-container': true,
 						[`radio-container--size-${this.size}`]: true,
-						'disabled': this.disabled
+						'disabled': !!this.disabled
 					}}
 					onClick={this.clickThrottler}
 				>

@@ -55,7 +55,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) clickOutsideClose?: boolean = true;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) actionElement?: HTMLElement | null = null;
+	@Prop({ reflect: false }) actionElement?: HTMLElement;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) options?: ISelectSingleOptions = {};
 	/** @inheritdoc */
@@ -130,7 +130,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 
 	@State() selectOptions: {
 		total: Record<string, ISelectOption>;
-		filtered: Record<string, ISelectOption>;
+		filtered: Record<string, ISelectOption> | undefined;
 		flatten: Record<string, ISelectOption>;
 	};
 	@State() highlightedOption?: string;

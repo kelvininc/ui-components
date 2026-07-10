@@ -6,7 +6,7 @@ import { CALENDAR_FILLED_ROWS_NUMBER_OF_DAYS, DATE_FORMAT } from './calendar.con
 export const getCalendarStartDisabledDays = (month: number, year: number): number[] => {
 	const currentMonthFirstWeekday = getFirstWeekdayIndexOfMonth(month, year);
 	const lastMonthNumberOfDays = getNumberOfDaysInMonth(month - 1, year);
-	const lastMonthDays = [];
+	const lastMonthDays: number[] = [];
 	let index = currentMonthFirstWeekday;
 
 	while (index > 0) {
@@ -36,7 +36,7 @@ export const getSelectedRange = (selectedDates: string[] = []): SelectedRange =>
 	return [];
 };
 
-export const getHooveredDate = (hoveredDay: number, month: number, year: number, hoveredDate: string): string => {
+export const getHooveredDate = (hoveredDay: number | undefined, month: number, year: number, hoveredDate: string | undefined): string | undefined => {
 	if (hoveredDay !== undefined) {
 		return fromDateFields(hoveredDay, month, year).format(DATE_FORMAT);
 	}

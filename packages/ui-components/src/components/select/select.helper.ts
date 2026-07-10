@@ -1,9 +1,7 @@
-import { isNil } from 'lodash-es';
-
 export const isElementVisible = (element: HTMLElement, selector: string): boolean => {
 	const foundElement = element.querySelector(selector);
 
-	return !isNil(foundElement) && foundElement.clientHeight > 0 && foundElement.clientWidth > 0;
+	return foundElement !== null && foundElement.clientHeight > 0 && foundElement.clientWidth > 0;
 };
 
 export const hasAnyVisibleElement = (element: HTMLElement, selector: string): boolean => {

@@ -31,10 +31,10 @@ export const FormLabelExample: React.FC = () => (
 
 ## Properties
 
-| Property             | Attribute  | Description                    | Type      | Default     |
-| -------------------- | ---------- | ------------------------------ | --------- | ----------- |
-| `label` _(required)_ | `label`    | (required) Form field label    | `string`  | `undefined` |
-| `required`           | `required` | (optional) Form field required | `boolean` | `undefined` |
+| Property             | Attribute  | Description                    | Type                   | Default     |
+| -------------------- | ---------- | ------------------------------ | ---------------------- | ----------- |
+| `label` _(required)_ | `label`    | (required) Form field label    | `string`               | `undefined` |
+| `required`           | `required` | (optional) Form field required | `boolean \| undefined` | `undefined` |
 
 
 ## CSS Custom Properties

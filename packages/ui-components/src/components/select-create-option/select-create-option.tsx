@@ -37,13 +37,13 @@ export class KvSelectCreateOption implements ISelectCreateOption, ISelectCreateO
 	/** Focus the input */
 	@Method()
 	async focusInput() {
-		this.input.focus();
+		this.input?.focus();
 	}
 
 	/** Blur the input */
 	@Method()
 	async blurInput() {
-		this.input.blur();
+		this.input?.blur();
 	}
 
 	private input?: HTMLKvTextFieldElement;
@@ -71,7 +71,7 @@ export class KvSelectCreateOption implements ISelectCreateOption, ISelectCreateO
 	}
 
 	componentDidLoad() {
-		this.input.focusInput();
+		this.input?.focusInput();
 	}
 
 	render() {

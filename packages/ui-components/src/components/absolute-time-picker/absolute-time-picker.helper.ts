@@ -7,6 +7,10 @@ export const buildSelectedDatesEventPayload = (dateA?: dayjs.Dayjs, dateB?: dayj
 		return [];
 	}
 
+	if (!dateA) {
+		return [dateB!.format(CALENDAR_DATE_TIME_MASK)];
+	}
+
 	if (!dateB) {
 		return [dateA.format(CALENDAR_DATE_TIME_MASK)];
 	}

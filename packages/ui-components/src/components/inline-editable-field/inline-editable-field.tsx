@@ -186,7 +186,7 @@ export class KvInlineEditableField {
 		}
 
 		// Filter out the actions div and ensure exactly one editable child element exists
-		const children = Array.from(this.el.children);
+		const children = Array.from(this.el.children) as Element[];
 		const slottedElements = children.filter(child => !child.classList.contains('inline-editable-field-actions'));
 
 		if (slottedElements.length !== 1) {

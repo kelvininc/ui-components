@@ -35,16 +35,16 @@ export const KvCalendarDayExample: React.FC = () => (
 
 ## Properties
 
-| Property                 | Attribute                   | Description                                                                            | Type      | Default     |
-| ------------------------ | --------------------------- | -------------------------------------------------------------------------------------- | --------- | ----------- |
-| `active`                 | `active`                    | (optional) If `true`, the day is with active                                           | `boolean` | `false`     |
-| `day` _(required)_       | `day`                       | (required) Calendar day                                                                | `number`  | `undefined` |
-| `disabled`               | `disabled`                  | (optional) If `true`, the day is disabled                                              | `boolean` | `false`     |
-| `inRange`                | `in-range`                  | (optional) If `true`, the day is in range from a start date to the current hovered day | `boolean` | `false`     |
-| `isBetweenSelectedDates` | `is-between-selected-dates` | (optional) If `true`, the day is between to selected dates                             | `boolean` | `false`     |
-| `isRangeEndDate`         | `is-range-end-date`         | (optional) If `true` the day is the end of the range                                   | `boolean` | `false`     |
-| `isRangeStartDate`       | `is-range-start-date`       | (optional) If `true` the day is the start of the range                                 | `boolean` | `false`     |
-| `isToday`                | `is-today`                  | (optional) If `true`, the day is the day of `today`date                                | `boolean` | `false`     |
+| Property                 | Attribute                   | Description                                                                            | Type                   | Default     |
+| ------------------------ | --------------------------- | -------------------------------------------------------------------------------------- | ---------------------- | ----------- |
+| `active`                 | `active`                    | (optional) If `true`, the day is with active                                           | `boolean \| undefined` | `false`     |
+| `day` _(required)_       | `day`                       | (required) Calendar day                                                                | `number`               | `undefined` |
+| `disabled`               | `disabled`                  | (optional) If `true`, the day is disabled                                              | `boolean \| undefined` | `false`     |
+| `inRange`                | `in-range`                  | (optional) If `true`, the day is in range from a start date to the current hovered day | `boolean \| undefined` | `false`     |
+| `isBetweenSelectedDates` | `is-between-selected-dates` | (optional) If `true`, the day is between to selected dates                             | `boolean \| undefined` | `false`     |
+| `isRangeEndDate`         | `is-range-end-date`         | (optional) If `true` the day is the end of the range                                   | `boolean \| undefined` | `false`     |
+| `isRangeStartDate`       | `is-range-start-date`       | (optional) If `true` the day is the start of the range                                 | `boolean \| undefined` | `false`     |
+| `isToday`                | `is-today`                  | (optional) If `true`, the day is the day of `today`date                                | `boolean \| undefined` | `false`     |
 
 
 ## Events

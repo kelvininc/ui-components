@@ -52,7 +52,7 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 	@State() singleTimeInputValue: string = '';
 
 	@State() displayedMonth: dayjs.Dayjs = isNumber(this.initialDate) ? dayjs(this.initialDate) : dayjs();
-	@State() focusedInput: EInputSource;
+	@State() focusedInput?: EInputSource;
 	/** Shared hovered date between calendars for range mode */
 	@State() hoveredDate: string = '';
 
@@ -65,11 +65,13 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 		this.syncSelectedTimeState(newValue);
 	}
 
-	syncSelectedTimeState(newValue: SelectedTime | SelectedTimeState) {
+	private getTimezoneName = (): string => (this.timezone ?? getDefaultTimezoneSettings()).name;
+
+	syncSelectedTimeState(newValue: SelectedTime | SelectedTimeState | undefined) {
 		if (this.mode === EAbsoluteTimePickerMode.Single) {
-			this.singleTimeInputValue = getSingleInputDate(newValue, this.timezone.name);
+			this.singleTimeInputValue = getSingleInputDate(newValue, this.getTimezoneName());
 		} else {
-			this.rangeInputValues = getRangeInputValues(newValue, this.timezone.name);
+			this.rangeInputValues = getRangeInputValues(newValue, this.getTimezoneName());
 		}
 	}
 
@@ -180,20 +182,20 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 
 	private handleCloseDropdown = () => {
 		this.isDropdownOpen = false;
-		this.focusedInput = null;
+		this.focusedInput = undefined;
 		if (this.mode === EAbsoluteTimePickerMode.Single) {
 			if (isEmpty(this.singleTimeInputValue)) {
 				this.syncSelectedTimeState(this.selectedTime);
 			} else {
-				this.selectedTimeChange.emit([dayjs(this.singleTimeInputValue, DATE_FORMAT).tz(this.timezone.name, true).valueOf()]);
+				this.selectedTimeChange.emit([dayjs(this.singleTimeInputValue, DATE_FORMAT).tz(this.getTimezoneName(), true).valueOf()]);
 			}
 		} else {
 			if (isEmpty(this.rangeInputValues?.from) || isEmpty(this.rangeInputValues?.to)) {
 				this.syncSelectedTimeState(this.selectedTime);
 			} else {
 				this.selectedTimeChange.emit([
-					dayjs(this.rangeInputValues.from, DATE_FORMAT).tz(this.timezone.name, true).valueOf(),
-					dayjs(this.rangeInputValues.to, DATE_FORMAT).tz(this.timezone.name, true).valueOf()
+					dayjs(this.rangeInputValues.from, DATE_FORMAT).tz(this.getTimezoneName(), true).valueOf(),
+					dayjs(this.rangeInputValues.to, DATE_FORMAT).tz(this.getTimezoneName(), true).valueOf()
 				]);
 			}
 		}
@@ -217,10 +219,11 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 		return (!isEmpty(this.rangeInputValues?.from) && this.focusedInput === EInputSource.To) || (!isEmpty(this.rangeInputValues?.to) && this.focusedInput === EInputSource.From);
 	};
 
-	private getMinimumCalendarDate = () => {
-		return this.mode === EAbsoluteTimePickerMode.Single
-			? isNumber(this.minimumSingleInputDate) && dayjs(this.minimumSingleInputDate).format(CALENDAR_DATE_FORMAT)
-			: isNumber(this.minimumFromInputDate) && dayjs(this.minimumFromInputDate).format(CALENDAR_DATE_FORMAT);
+	private getMinimumCalendarDate = (): string | undefined => {
+		if (this.mode === EAbsoluteTimePickerMode.Single) {
+			return isNumber(this.minimumSingleInputDate) ? dayjs(this.minimumSingleInputDate).format(CALENDAR_DATE_FORMAT) : undefined;
+		}
+		return isNumber(this.minimumFromInputDate) ? dayjs(this.minimumFromInputDate).format(CALENDAR_DATE_FORMAT) : undefined;
 	};
 
 	private getSelectedCalendarDates = () => {
@@ -230,8 +233,8 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 
 		if (this.selectedTime) {
 			return this.mode === EAbsoluteTimePickerMode.Single
-				? getSingleCalendarDate(getSingleInputDate(this.selectedTime, this.timezone.name))
-				: getRangeCalendarDates(getRangeInputValues(this.selectedTime, this.timezone.name));
+				? getSingleCalendarDate(getSingleInputDate(this.selectedTime, this.getTimezoneName()))
+				: getRangeCalendarDates(getRangeInputValues(this.selectedTime, this.getTimezoneName()));
 		}
 
 		return [];

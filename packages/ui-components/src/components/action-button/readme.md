@@ -38,13 +38,13 @@ export const ActionButtonExample: React.FC = () => (
 
 ## Properties
 
-| Property   | Attribute  | Description                                        | Type                                                                                                                                           | Default                |
-| ---------- | ---------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `active`   | `active`   | (optional) If `true` the button is active          | `boolean`                                                                                                                                      | `false`                |
-| `disabled` | `disabled` | (optional) If `true` the button is disabled        | `boolean`                                                                                                                                      | `false`                |
-| `loading`  | `loading`  | (optional) If `true` the button is of type loading | `boolean`                                                                                                                                      | `false`                |
-| `size`     | `size`     | (optional) Button's size                           | `EComponentSize.Large \| EComponentSize.Small`                                                                                                 | `EComponentSize.Large` |
-| `type`     | `type`     | (optional) Button's type                           | `EActionButtonType.Danger \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary \| EActionButtonType.Text` | `undefined`            |
+| Property   | Attribute  | Description                                        | Type                                                                                                                                                        | Default                |
+| ---------- | ---------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `active`   | `active`   | (optional) If `true` the button is active          | `boolean`                                                                                                                                                   | `false`                |
+| `disabled` | `disabled` | (optional) If `true` the button is disabled        | `boolean`                                                                                                                                                   | `false`                |
+| `loading`  | `loading`  | (optional) If `true` the button is of type loading | `boolean`                                                                                                                                                   | `false`                |
+| `size`     | `size`     | (optional) Button's size                           | `EComponentSize.Large \| EComponentSize.Small`                                                                                                              | `EComponentSize.Large` |
+| `type`     | `type`     | (optional) Button's type                           | `EActionButtonType.Danger \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary \| EActionButtonType.Text \| undefined` | `undefined`            |
 
 
 ## Events

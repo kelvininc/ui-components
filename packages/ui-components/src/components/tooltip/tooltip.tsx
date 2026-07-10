@@ -30,7 +30,7 @@ export class KvTooltip implements ITooltip {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) contentElement?: HTMLElement = null;
+	@Prop({ reflect: false }) contentElement?: HTMLElement;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) truncate?: boolean = false;
 	/** @inheritdoc */
@@ -51,9 +51,9 @@ export class KvTooltip implements ITooltip {
 	@State() hoverContent: boolean = false;
 	@State() hoverTooltip: boolean = false;
 
-	private tooltipContent: HTMLElement;
+	private tooltipContent?: HTMLElement;
 
-	private getContentElement = (): HTMLElement | null => {
+	private getContentElement = (): HTMLElement | undefined => {
 		return this.contentElement ?? this.tooltipContent;
 	};
 
@@ -70,7 +70,7 @@ export class KvTooltip implements ITooltip {
 			);
 		}
 
-		return mergeComputePositionConfigs({ placement, middleware }, this.options);
+		return mergeComputePositionConfigs({ placement, middleware }, this.options ?? {});
 	};
 
 	private hideTooltipHandler = (delay?: number) => {

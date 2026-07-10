@@ -14,10 +14,12 @@ export const getSelectedTimestampDates = (range: SelectedRange, mode: EAbsoluteT
 	}
 
 	const [from, to] = range;
-	const dateFrom = createTimestampInTimezoneFromFormattedDate(from, timezoneName, CALENDAR_DATE_TIME_MASK);
-	const dateTo = !isEmpty(to) ? createTimestampInTimezoneFromFormattedDate(to, timezoneName, CALENDAR_DATE_TIME_MASK) : undefined;
+	const dateFrom = createTimestampInTimezoneFromFormattedDate(from!, timezoneName, CALENDAR_DATE_TIME_MASK);
+	if (to === undefined || isEmpty(to)) {
+		return [dateFrom];
+	}
 
-	return [dateFrom, dateTo];
+	return [dateFrom, createTimestampInTimezoneFromFormattedDate(to, timezoneName, CALENDAR_DATE_TIME_MASK)];
 };
 
 export const getFormattedSelectedDates = (range: SelectedTimestamp, mode: EAbsoluteTimePickerMode, timezoneName: string): SelectedRange => {
@@ -31,9 +33,10 @@ export const getFormattedSelectedDates = (range: SelectedTimestamp, mode: EAbsol
 
 	const [from, to] = range;
 	const dateFrom = dayjs(from).tz(timezoneName).format(CALENDAR_DATE_TIME_MASK);
-	const dateTo = !isNil(to) ? dayjs(to).tz(timezoneName).format(CALENDAR_DATE_TIME_MASK) : undefined;
-
-	return [dateFrom, dateTo];
+	if (isNil(to)) {
+		return [dateFrom];
+	}
+	return [dateFrom, dayjs(to).tz(timezoneName).format(CALENDAR_DATE_TIME_MASK)];
 };
 
 export const getAbsoluteTimePickerError = (range: SelectedTimestamp, mode: EAbsoluteTimePickerMode, limits: IAbsoluteTimeLimits): EAbsoluteTimeError | undefined => {

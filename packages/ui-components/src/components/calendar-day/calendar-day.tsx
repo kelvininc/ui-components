@@ -57,13 +57,13 @@ export class KvCalendarDay implements ICalendarDay, ICalendarDayEvents {
 					onClick={this.onClickDay}
 					class={{
 						'calendar-day': true,
-						'calendar-day--disabled': this.disabled,
-						'calendar-day--active': this.active,
-						'calendar-day--in-range': this.inRange,
-						'calendar-day--today': this.isToday,
-						'calendar-day--range-start': this.isRangeStartDate,
-						'calendar-day--range-end': this.isRangeEndDate,
-						'calendar-day--between-dates': this.isBetweenSelectedDates
+						'calendar-day--disabled': !!this.disabled,
+						'calendar-day--active': !!this.active,
+						'calendar-day--in-range': !!this.inRange,
+						'calendar-day--today': !!this.isToday,
+						'calendar-day--range-start': !!this.isRangeStartDate,
+						'calendar-day--range-end': !!this.isRangeEndDate,
+						'calendar-day--between-dates': !!this.isBetweenSelectedDates
 					}}
 					onMouseEnter={this.onMouseEnterDay}
 					onMouseLeave={this.onMouseLeaveDay}

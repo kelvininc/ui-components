@@ -72,7 +72,7 @@ export class KvSearch implements ISearch, ISearchEvents {
 	/** Focus input */
 	@Method()
 	async focusInput() {
-		this.inputRef.focusInput();
+		this.inputRef?.focusInput();
 	}
 
 	private inputRef?: HTMLKvTextFieldElement | null;

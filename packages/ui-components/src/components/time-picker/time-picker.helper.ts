@@ -48,7 +48,8 @@ export const buildTooltipText = (range: SelectedTimestamp, selectdTimezone: ITim
 	return `${fromDate.format(DATETIME_INPUT_MASK)} ${timezoneText.label}`;
 };
 
-const createFormattedDateFromTimestampInTimezone = (date: number, timezone: string): string => {
+const createFormattedDateFromTimestampInTimezone = (date: number | undefined, timezone: string): string => {
+	if (date === undefined) return '';
 	return dayjs(date).tz(timezone).format(DATETIME_INPUT_MASK);
 };
 
@@ -90,14 +91,16 @@ export const getLast24HoursRange = (): SelectedTimestamp => {
 	return [nowTimestamp.subtract(24, 'hours').valueOf(), nowTimestamp.valueOf()];
 };
 
-export const getRelativeTimeInputText = (options: IRelativeTimePickerOption[][], selectedTimeOption: ITimePickerRelativeTime, timezone: string): IRelativeTimeInput => {
+export const getRelativeTimeInputText = (options: IRelativeTimePickerOption[][], selectedTimeOption: ITimePickerRelativeTime, timezone: string): IRelativeTimeInput | undefined => {
 	const option = options.flat().find(option => option.value === selectedTimeOption.key);
 
-	if (!isEmpty(option)) {
+	if (option !== undefined && !isEmpty(option)) {
 		if (option.comparisonConfig === ERelativeTimeComparisonConfig.RelativeAmountOfUnits) {
+			const startDate = option.startDate;
+			const amount = startDate?.amount ?? 0;
 			return {
 				mode: ERelativeTimeInputMode.Text,
-				from: `Now - ${Math.abs(option.startDate.amount) === 0 ? 'start of' : Math.abs(option.startDate.amount)} ${option.startDate.unit}`,
+				from: `Now - ${Math.abs(amount) === 0 ? 'start of' : Math.abs(amount)} ${startDate?.unit ?? ''}`,
 				to: 'Now'
 			};
 		} else {
@@ -147,7 +150,7 @@ export const hasRangeChanged = (componentRangeState: SelectedTimestamp, propRang
 
 export const validateNewRange = (range: SelectedTimestamp): boolean => {
 	const [from, to] = range;
-	return from && to && dayjs(from).isValid() && dayjs(to).isValid() && dayjs(from).isBefore(to);
+	return from !== undefined && to !== undefined && dayjs(from).isValid() && dayjs(to).isValid() && dayjs(from).isBefore(to);
 };
 
 export const getTimePickerEventPayload = (timeState: ITimePickerTimeState, timezone: ITimePickerTimezone): ITimePickerTime => {

@@ -32,11 +32,11 @@ export const TabNavigationExample: React.FC = () => (
 
 ## Properties
 
-| Property         | Attribute          | Description                                              | Type                                             | Default                |
-| ---------------- | ------------------ | -------------------------------------------------------- | ------------------------------------------------ | ---------------------- |
-| `selectedTabKey` | `selected-tab-key` | (optional) The currently selected tab key                | `number \| string`                               | `undefined`            |
-| `tabs`           | `tabs`             | (required) The tab items to render in this component     | `ITabNavigationItem[]`                           | `[]`                   |
-| `type`           | `type`             | (optional) Sets the visual variant of the tab navigation | `ETabItemType.Primary \| ETabItemType.Secondary` | `ETabItemType.Primary` |
+| Property         | Attribute          | Description                                              | Type                                                          | Default                |
+| ---------------- | ------------------ | -------------------------------------------------------- | ------------------------------------------------------------- | ---------------------- |
+| `selectedTabKey` | `selected-tab-key` | (optional) The currently selected tab key                | `number \| string \| undefined`                               | `undefined`            |
+| `tabs`           | `tabs`             | (required) The tab items to render in this component     | `ITabNavigationItem[]`                                        | `[]`                   |
+| `type`           | `type`             | (optional) Sets the visual variant of the tab navigation | `ETabItemType.Primary \| ETabItemType.Secondary \| undefined` | `ETabItemType.Primary` |
 
 
 ## Events

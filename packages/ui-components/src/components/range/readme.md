@@ -23,14 +23,14 @@ export const KvRangeExample: React.FC = () => (
 | Property          | Attribute            | Description                        | Type                        | Default     |
 | ----------------- | -------------------- | ---------------------------------- | --------------------------- | ----------- |
 | `disabled`        | `disabled`           | (optional) Range input disabled    | `boolean`                   | `false`     |
-| `hideLabel`       | `hide-label`         | (optional) Hide value label        | `boolean`                   | `false`     |
-| `hideMinMaxLabel` | `hide-min-max-label` | (optional) Hide min and max labels | `boolean`                   | `false`     |
+| `hideLabel`       | `hide-label`         | (optional) Hide value label        | `boolean \| undefined`      | `false`     |
+| `hideMinMaxLabel` | `hide-min-max-label` | (optional) Hide min and max labels | `boolean \| undefined`      | `false`     |
 | `max`             | `max`                | (required) Range maximum value     | `number`                    | `undefined` |
-| `maxLabel`        | `max-label`          | (optional) Max label               | `string`                    | `undefined` |
+| `maxLabel`        | `max-label`          | (optional) Max label               | `string \| undefined`       | `undefined` |
 | `min`             | `min`                | (required) Range minimum value     | `number`                    | `undefined` |
-| `minLabel`        | `min-label`          | (optional) Min label               | `string`                    | `undefined` |
-| `step`            | `step`               | (optional) Range value step        | `number`                    | `1`         |
-| `value`           | `value`              | (optional) Range value             | `number`                    | `0`         |
+| `minLabel`        | `min-label`          | (optional) Min label               | `string \| undefined`       | `undefined` |
+| `step`            | `step`               | (optional) Range value step        | `number \| undefined`       | `1`         |
+| `value`           | `value`              | (optional) Range value             | `number \| undefined`       | `0`         |
 | `valueFormatter`  | `value-formatter`    | (optional) Range value formatter   | `(value: number) => string` | `identity`  |
 
 
