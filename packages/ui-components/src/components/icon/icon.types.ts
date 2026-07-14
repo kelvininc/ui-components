@@ -1,4 +1,5 @@
 export enum EIconName {
+	Academy = 'kv-academy',
 	Action = 'kv-action',
 	Activity = 'kv-activity',
 	Add = 'kv-add',
