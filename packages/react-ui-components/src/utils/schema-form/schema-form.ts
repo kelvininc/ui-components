@@ -6,7 +6,8 @@ import {
 	APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_ALL_OFF,
 	APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_ARRAY,
 	APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_CONST_AS_DEFAULT,
-	APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_OBJECT
+	APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_OBJECT,
+	DEFAULT_VALIDATOR
 } from './config';
 import { JSONSchema7Definition } from 'json-schema';
 import { UiSchema } from '@rjsf/utils';
@@ -129,17 +130,8 @@ export const getInitialFormData = <T, S extends StrictRJSFSchema = RJSFSchema>(
 	return getDefaultFormState<T, S, SchemaFormContext>(validator, cleanedSchema, formDataProp, cleanedSchema, undefined, defaultFormStateBehavior);
 };
 
-export const getDefaultValidator = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>() => {
-	// Custom validator
-	const ajvOptionsOverrides: CustomValidatorOptionsType['ajvOptionsOverrides'] = {
-		$data: true //Mandatory for use $data reference (https://ajv.js.org/guide/combining-schemas.html#data-reference)
-	};
-	const ajvFormatOptions: CustomValidatorOptionsType['ajvFormatOptions'] = {
-		keywords: true //Mandatory for use keywords to compare values like formatMinimum,... (https://ajv.js.org/packages/ajv-formats.html#keywords-to-compare-values-formatmaximum-formatminimum-and-formatexclusivemaximum-formatexclusiveminimum)
-	};
-
-	return customizeValidator<T, S, F>({ ajvOptionsOverrides, ajvFormatOptions });
-};
+export const getDefaultValidator = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(): ValidatorType<T, S, F> =>
+	DEFAULT_VALIDATOR as unknown as ValidatorType<T, S, F>;
 
 export const buildDefaultFormStateBehavior = (applyDefaults: EApplyDefaults): Experimental_DefaultFormStateBehavior => {
 	const emptyObjectFields = APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_OBJECT[applyDefaults];
