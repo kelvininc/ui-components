@@ -12,7 +12,7 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 	uiSchema,
 	schema,
 	formData,
-	onAddClick,
+	onAddProperty,
 	disabled,
 	readonly,
 	formContext
@@ -46,7 +46,7 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 							type={EActionButtonType.Primary}
 							tabIndex={-1}
 							disabled={disabled || readonly}
-							onClickButton={onAddClick(schema)}
+							onClickButton={onAddProperty}
 						/>
 					</div>
 				)}

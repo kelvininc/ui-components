@@ -82,9 +82,9 @@
 	"dependencies": {
 		"@kelvininc/ui-components": "workspace:*",
 		"@monaco-editor/react": "^4.7.0",
-		"@rjsf/core": "^5.24.8",
-		"@rjsf/utils": "^5.24.8",
-		"@rjsf/validator-ajv8": "^5.24.8",
+		"@rjsf/core": "^6.7.0",
+		"@rjsf/utils": "^6.7.0",
+		"@rjsf/validator-ajv8": "^6.7.0",
 		"@stencil/react-output-target": "^0.5.3",
 		"classnames": "^2.5.1",
 		"fs-extra": "10.0.0",

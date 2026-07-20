@@ -18,8 +18,9 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 		classNames: customClasses,
 		disabled,
 		label,
-		onDropPropertyClick,
-		onKeyChange,
+		onKeyRename,
+		onKeyRenameBlur,
+		onRemoveProperty,
 		readonly,
 		required,
 		schema,
@@ -49,8 +50,9 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 			disabled={disabled}
 			id={id}
 			label={label}
-			onDropPropertyClick={onDropPropertyClick}
-			onKeyChange={onKeyChange}
+			onKeyRename={onKeyRename}
+			onKeyRenameBlur={onKeyRenameBlur}
+			onRemoveProperty={onRemoveProperty}
 			readonly={readonly}
 			required={required}
 			schema={schema}

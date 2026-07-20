@@ -9,8 +9,9 @@ const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F 
 	disabled,
 	id,
 	label,
-	onDropPropertyClick,
-	onKeyChange,
+	onKeyRename,
+	onKeyRenameBlur,
+	onRemoveProperty,
 	readonly,
 	required,
 	schema
@@ -22,7 +23,10 @@ const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F 
 		return children;
 	}
 
-	const handleBlur = (value: CustomEvent<string>) => onKeyChange(value.detail);
+	const handleBlur = (value: CustomEvent<string>) => {
+		onKeyRename(value.detail);
+		onKeyRenameBlur();
+	};
 
 	return (
 		<div key={`${id}-key`} className={styles.NewKeyContainer}>
@@ -45,7 +49,7 @@ const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F 
 					type={EActionButtonType.Danger}
 					tabIndex={-1}
 					disabled={disabled || readonly}
-					onClickButton={onDropPropertyClick(label)}
+					onClickButton={onRemoveProperty}
 				/>
 			</div>
 		</div>

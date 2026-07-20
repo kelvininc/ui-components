@@ -7,7 +7,7 @@ function BooleanField<T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	schema,
 	name,
 	uiSchema = {},
-	idSchema,
+	fieldPathId,
 	formData,
 	registry,
 	required,
@@ -29,7 +29,7 @@ function BooleanField<T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	return (
 		<Widget
 			name={name}
-			id={idSchema && idSchema.$id}
+			id={fieldPathId && fieldPathId.$id}
 			schema={schema}
 			options={{ ...options, enumOptions, inline: uiInline === undefined ? true : uiInline }}
 			value={formData}

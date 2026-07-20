@@ -21,8 +21,8 @@
 	},
 	"dependencies": {
 		"@kelvininc/react-ui-components": "workspace:*",
-		"@rjsf/core": "^5.24.8",
-		"@rjsf/utils": "^5.24.8",
+		"@rjsf/core": "^6.7.0",
+		"@rjsf/utils": "^6.7.0",
 		"lodash-es": "^4.17.21",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0"
