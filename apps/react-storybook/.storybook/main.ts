@@ -16,8 +16,7 @@ const config: StorybookConfig = {
 	stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
 	addons: [
 		getAbsolutePath("@storybook/addon-links"),
-		getAbsolutePath("@storybook/addon-essentials"),
-		getAbsolutePath("@storybook/addon-interactions"),
+		getAbsolutePath("@storybook/addon-docs"),
 		getAbsolutePath("@storybook/addon-themes"),
 		{
 			name: "@storybook/addon-styling-webpack",
@@ -95,6 +94,32 @@ const config: StorybookConfig = {
 	],
 	typescript: {
 		reactDocgen: "react-docgen-typescript"
+	},
+	// Storybook 9 consolidated a number of runtime packages into the main
+	// `storybook` package. `@pxtrn/storybook-addon-docs-stencil@8` (patched to
+	// expose its Storybook 8 preset) still resolves the pre-consolidation
+	// package names, so alias them here to keep the addon working.
+	webpackFinal: async (webpackConfig) => {
+		webpackConfig.resolve = webpackConfig.resolve || {};
+		webpackConfig.resolve.alias = {
+			...(webpackConfig.resolve.alias ?? {}),
+			"@storybook/client-logger": require.resolve(
+				"storybook/internal/client-logger"
+			),
+			"@storybook/preview-api": require.resolve(
+				"storybook/preview-api"
+			)
+		};
+		// Storybook 9 ships a CommonJS build of the instrumenter which
+		// `require`s Node built-ins such as `tty` and calls `tty.isatty()`
+		// at load time. Webpack 5 no longer polyfills Node built-ins, and a
+		// bare `false` stub leaves `isatty` undefined (TypeError in the
+		// preview iframe), so point `tty` at a minimal browser shim instead.
+		webpackConfig.resolve.fallback = {
+			...(webpackConfig.resolve.fallback ?? {}),
+			tty: path.join(__dirname, "tty-shim.cjs")
+		};
+		return webpackConfig;
 	}
 };
 export default config;
