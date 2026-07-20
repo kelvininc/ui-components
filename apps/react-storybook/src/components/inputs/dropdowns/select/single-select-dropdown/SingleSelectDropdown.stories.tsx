@@ -7,7 +7,7 @@ import {
 	useState
 } from "react";
 import { selectHelper } from "@kelvininc/react-ui-components/client";
-import { useArgs } from "@storybook/preview-api";
+import { useArgs } from "storybook/preview-api";
 import {
 	EComponentSize,
 	EIconName,

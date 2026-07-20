@@ -1,6 +1,6 @@
 import type { Meta, StoryFn, StoryObj } from "@storybook/react";
 import { EComponentSize, KvRadio } from "@kelvininc/react-ui-components/client";
-import { useArgs } from "@storybook/preview-api";
+import { useArgs } from "storybook/preview-api";
 import { ComponentProps } from "react";
 
 const RadioInputTemplate: StoryFn<ComponentProps<typeof KvRadio>> = (args) => {
