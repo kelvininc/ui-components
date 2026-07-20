@@ -12,7 +12,7 @@ import {
 } from "@kelvininc/react-ui-components/client";
 import { IChangeEvent } from "@rjsf/core";
 import { ComponentProps, useState } from "react";
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import { FormValidation } from "@rjsf/utils";
 
 import { getDropdownDisplayValue } from "../../../helpers/dropdown.helper";

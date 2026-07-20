@@ -40,12 +40,6 @@
 		"overrides": {
 			"@types/react": "^19.2.0",
 			"@types/react-dom": "^19.2.0"
-		},
-		"peerDependencyRules": {
-			"allowedVersions": {
-				"@storybook/icons>react": "19",
-				"@storybook/icons>react-dom": "19"
-			}
 		}
 	}
 }

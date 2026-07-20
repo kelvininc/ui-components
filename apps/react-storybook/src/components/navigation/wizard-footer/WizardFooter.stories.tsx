@@ -4,7 +4,7 @@ import {
 	IStepBarStep,
 	KvWizardFooter
 } from "@kelvininc/react-ui-components/client";
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 
 const meta = {
 	title: "Navigation/Wizard Footer",
