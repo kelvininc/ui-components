@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/kelvininc/ui-components/compare/v2.1.0...v3.0.0) (2026-07-22)
+
+
+* feat(schema-form)!: rename CheckboxesWidget to ToggleButtonGroupWidget and add boolean CheckboxWidget ([8e9041a](https://github.com/kelvininc/ui-components/commit/8e9041a66cb6b877a3bd16267aa14abf2609221c))
+
+
+### Performance Improvements
+
+* **schema-form:** reuse one AJV validator to keep its compiled-schema cache ([c06730a](https://github.com/kelvininc/ui-components/commit/c06730af89f48359414b9d3390557164ba498dae))
+
+
+### BREAKING CHANGES
+
+* the "checkboxes" / "CheckboxesWidget" schema-form widget key
+is removed. Schemas using "ui:widget": "checkboxes" must migrate to
+"ui:widget": "toggleButtonGroup".
+
+
+
+
+
 # [2.1.0](https://github.com/kelvininc/ui-components/compare/v2.0.1...v2.1.0) (2026-06-26)
 
 **Note:** Version bump only for package @kelvininc/react-ui-components

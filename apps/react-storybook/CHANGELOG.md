@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/kelvininc/ui-components/compare/v2.1.0...v3.0.0) (2026-07-22)
+
+
+* feat(schema-form)!: rename CheckboxesWidget to ToggleButtonGroupWidget and add boolean CheckboxWidget ([8e9041a](https://github.com/kelvininc/ui-components/commit/8e9041a66cb6b877a3bd16267aa14abf2609221c))
+
+
+### Features
+
+* **absolute-time-picker-dropdown-input:** customize date-time inputs and calendar count ([92f5aee](https://github.com/kelvininc/ui-components/commit/92f5aee6822263bc078a485a4cb82326d6bf392c))
+* **magic:** add icon only button to `kv-action-button-magic` ([7529eeb](https://github.com/kelvininc/ui-components/commit/7529eebe10fabc3be3a65e6d6300eb759e9930f4))
+
+
+### BREAKING CHANGES
+
+* the "checkboxes" / "CheckboxesWidget" schema-form widget key
+is removed. Schemas using "ui:widget": "checkboxes" must migrate to
+"ui:widget": "toggleButtonGroup".
+
+
+
+
+
 # [2.1.0](https://github.com/kelvininc/ui-components/compare/v2.0.1...v2.1.0) (2026-06-26)
 
 

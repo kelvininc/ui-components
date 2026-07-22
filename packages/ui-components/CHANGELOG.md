@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/kelvininc/ui-components/compare/v2.1.0...v3.0.0) (2026-07-22)
+
+
+### Bug Fixes
+
+* **portal:** tear down autoUpdate loop and delay timeout on disconnect ([96c6d0f](https://github.com/kelvininc/ui-components/commit/96c6d0f37bbe09a72d3b84832630801bcc658c6d))
+
+
+### Features
+
+* **absolute-time-picker-dropdown-input:** customize date-time inputs and calendar count ([92f5aee](https://github.com/kelvininc/ui-components/commit/92f5aee6822263bc078a485a4cb82326d6bf392c))
+* **design-tokens:** update design tokens ([7c82253](https://github.com/kelvininc/ui-components/commit/7c822531011e604e3d5f350a57942a5b2f6c1fc8))
+* **icons:** add academy icon ([d6a4af2](https://github.com/kelvininc/ui-components/commit/d6a4af2b7f8fe621b69ee963712688d3103d106c))
+* **icons:** add compress, uncompress, impact icons ([f7a5a9a](https://github.com/kelvininc/ui-components/commit/f7a5a9a73c6b9ca19f22a65b518a561d173fbf40))
+* **icons:** add smile icons ([2bdb1e7](https://github.com/kelvininc/ui-components/commit/2bdb1e7431425616de61fce97dc90d257df1c047))
+* **magic:** add icon only button to `kv-action-button-magic` ([7529eeb](https://github.com/kelvininc/ui-components/commit/7529eebe10fabc3be3a65e6d6300eb759e9930f4))
+
+
+
+
+
 # [2.1.0](https://github.com/kelvininc/ui-components/compare/v2.0.1...v2.1.0) (2026-06-26)
 
 
