@@ -15,7 +15,7 @@
 | `loading`           | `loading`    | (optional) If `true` the button is of type loading | `boolean`                                                                                                                                      | `false`                |
 | `rightIcon`         | `right-icon` | (optional) Button's right icon symbol name         | `EIconName`                                                                                                                                    | `undefined`            |
 | `size`              | `size`       | (optional) Button's size                           | `EComponentSize.Large \| EComponentSize.Small`                                                                                                 | `EComponentSize.Large` |
-| `text` _(required)_ | `text`       | (optional) Button's text                           | `string`                                                                                                                                       | `undefined`            |
+| `text`              | `text`       | (optional) Button's text                           | `string`                                                                                                                                       | `undefined`            |
 | `type` _(required)_ | `type`       | (optional) Button's type                           | `EActionButtonType.Danger \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary \| EActionButtonType.Text` | `undefined`            |
 
 
@@ -41,13 +41,17 @@
 ### Depends on
 
 - [kv-action-button-text](../action-button-text)
+- [kv-action-button-icon](../action-button-icon)
 
 ### Graph
 ```mermaid
 graph TD;
   kv-action-button-magic --> kv-action-button-text
+  kv-action-button-magic --> kv-action-button-icon
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon
+  kv-action-button-icon --> kv-action-button
+  kv-action-button-icon --> kv-icon
   style kv-action-button-magic fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

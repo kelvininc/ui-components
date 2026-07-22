@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { buildToggleButtons } from './utils';
 import { ALL_BUTTON_VALUE } from './config';
-import { CheckboxOption, ICheckboxConfig } from './types';
+import { ToggleButtonGroupOption, IToggleButtonGroupConfig } from './types';
 
-const baseConfig: ICheckboxConfig = {
+const baseConfig: IToggleButtonGroupConfig = {
 	multiple: false,
 	allButton: false,
 	minItems: 0,
@@ -13,11 +13,11 @@ const baseConfig: ICheckboxConfig = {
 describe('buildToggleButtons', () => {
 	describe('when options is empty', () => {
 		it('should return an empty array when allButton is disabled', () => {
-			expect(buildToggleButtons<CheckboxOption>([], [], baseConfig)).toEqual([]);
+			expect(buildToggleButtons<ToggleButtonGroupOption>([], [], baseConfig)).toEqual([]);
 		});
 
 		it('should return only the All button when multiple and allButton are enabled', () => {
-			const result = buildToggleButtons<CheckboxOption>([], [], { ...baseConfig, multiple: true, allButton: true });
+			const result = buildToggleButtons<ToggleButtonGroupOption>([], [], { ...baseConfig, multiple: true, allButton: true });
 
 			expect(result).toEqual([{ label: 'All', value: ALL_BUTTON_VALUE }]);
 		});
@@ -25,7 +25,7 @@ describe('buildToggleButtons', () => {
 
 	describe('when options has enabled items', () => {
 		it('should return one button per option in input order with truthy disabled equal to false-or-undefined', () => {
-			const options: CheckboxOption[] = [
+			const options: ToggleButtonGroupOption[] = [
 				{ label: 'Option A', value: 'a' },
 				{ label: 'Option B', value: 'b' },
 				{ label: 'Option C', value: 'c' }
@@ -44,7 +44,7 @@ describe('buildToggleButtons', () => {
 
 	describe('when some options are listed in enumDisabled', () => {
 		it('should mark only those options as disabled', () => {
-			const options: CheckboxOption[] = [
+			const options: ToggleButtonGroupOption[] = [
 				{ label: 'Option A', value: 'a' },
 				{ label: 'Option B', value: 'b' },
 				{ label: 'Option C', value: 'c' }
@@ -61,7 +61,7 @@ describe('buildToggleButtons', () => {
 
 	describe('when readonly is true', () => {
 		it('should mark every button as disabled', () => {
-			const options: CheckboxOption[] = [
+			const options: ToggleButtonGroupOption[] = [
 				{ label: 'Option A', value: 'a' },
 				{ label: 'Option B', value: 'b' }
 			];
@@ -74,7 +74,7 @@ describe('buildToggleButtons', () => {
 
 	describe('when multiple and allButton are enabled with options', () => {
 		it('should put the All button first, followed by per-option buttons in input order', () => {
-			const options: CheckboxOption[] = [
+			const options: ToggleButtonGroupOption[] = [
 				{ label: 'Option A', value: 'a' },
 				{ label: 'Option B', value: 'b' },
 				{ label: 'Option C', value: 'c' }
@@ -89,7 +89,7 @@ describe('buildToggleButtons', () => {
 
 	describe('when allButton is enabled but multiple is false', () => {
 		it('should not include the All button', () => {
-			const options: CheckboxOption[] = [
+			const options: ToggleButtonGroupOption[] = [
 				{ label: 'Option A', value: 'a' },
 				{ label: 'Option B', value: 'b' }
 			];
@@ -102,7 +102,7 @@ describe('buildToggleButtons', () => {
 
 	describe('when there are many options', () => {
 		it('should preserve input order across all of them', () => {
-			const options: CheckboxOption[] = Array.from({ length: 25 }, (_, i) => ({ label: `L${i}`, value: `v${i}` }));
+			const options: ToggleButtonGroupOption[] = Array.from({ length: 25 }, (_, i) => ({ label: `L${i}`, value: `v${i}` }));
 
 			const result = buildToggleButtons(options, [], baseConfig);
 

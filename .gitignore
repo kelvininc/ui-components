@@ -6,4 +6,6 @@ packages/**/dist
 tryouts/*
 .nx/*
 
+memory
+
 .claude/

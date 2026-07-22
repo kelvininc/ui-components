@@ -75,6 +75,7 @@ export const ActionButtonIconExample: React.FC = () => (
 
 ### Used by
 
+ - [kv-action-button-magic](../action-button-magic)
  - [kv-inline-editable-field](../inline-editable-field)
  - [kv-select-create-option](../select-create-option)
  - [kv-select-option](../select-option)
@@ -89,6 +90,7 @@ export const ActionButtonIconExample: React.FC = () => (
 graph TD;
   kv-action-button-icon --> kv-action-button
   kv-action-button-icon --> kv-icon
+  kv-action-button-magic --> kv-action-button-icon
   kv-inline-editable-field --> kv-action-button-icon
   kv-select-create-option --> kv-action-button-icon
   kv-select-option --> kv-action-button-icon

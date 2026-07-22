@@ -191,7 +191,26 @@ export class KvPortal implements IPortal, IPortalEvents {
 	}
 
 	disconnectedCallback() {
-		this.moved ? this.portal?.remove() : (this.moved = true);
+		if (this.moved) {
+			// The portal is being removed for good (the first disconnect is the element
+			// being moved into the portal, guarded by `moved`). Tear down the floating-ui
+			// autoUpdate loop and any pending delay timeout here too — otherwise a portal
+			// that is unmounted directly, e.g. a conditionally-rendered kv-tooltip that
+			// removes <kv-portal> instead of toggling `show` to false, never runs
+			// hidePortalContent() and leaks autoUpdate's scroll/resize listeners +
+			// observers, which retain the detached reference/portal nodes.
+			if (this.timeoutId) {
+				window.clearTimeout(this.timeoutId);
+				this.timeoutId = undefined;
+			}
+			if (!isNil(this.closeAutoUpdate)) {
+				this.closeAutoUpdate();
+				this.closeAutoUpdate = undefined;
+			}
+			this.portal?.remove();
+		} else {
+			this.moved = true;
+		}
 	}
 
 	render() {
