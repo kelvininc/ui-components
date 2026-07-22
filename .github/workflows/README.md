@@ -259,7 +259,7 @@ ${{ needs.publish.result == 'success' && '✅ Success'
 - `node-version` — Node.js version to set up (e.g. `22.x`).
 
 **Steps**:
-1. Install pnpm (`pnpm/action-setup@v4`, version `8.15.9`).
+1. Install pnpm (`pnpm/action-setup@v4`, version `10.33.4`).
 2. Setup Node.js (`actions/setup-node@v4`) with pnpm cache enabled.
 3. `pnpm install` (with `PUPPETEER_SKIP_DOWNLOAD=true` to defer Chrome download).
 4. Cache Puppeteer Chrome binary under `~/.cache/puppeteer/`, keyed by `puppeteer-core` and `puppeteer` source files.
