@@ -37,7 +37,7 @@ ui-components/
 ## 🔧 System Requirements
 
 - **Node.js**: >= 22 (specified in engines)
-- **pnpm**: v8.15.9 (exact version, specified in packageManager)
+- **pnpm**: v10.33.4 (exact version, specified in packageManager)
 - **Operating System**: macOS, Linux, or Windows with WSL
 
 ## 📦 Package Dependencies
@@ -545,7 +545,7 @@ pnpm test
 ```bash
 # Use the exact version specified
 corepack enable
-corepack prepare pnpm@8.15.9 --activate
+corepack prepare pnpm@10.33.4 --activate
 ```
 
 ## 📚 Component Naming Convention
