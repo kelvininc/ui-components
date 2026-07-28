@@ -175,7 +175,7 @@ After `lerna publish` pushes the production `vX.Y.Z` tag, the workflow:
 1. **Creates a GitHub Release** for `vX.Y.Z` with `gh release create` — auto-generated notes (`--generate-notes`), marked as `--latest`, and tag-verified (`--verify-tag`). The step is idempotent: if a release for the tag already exists it is skipped rather than failing the run.
 2. **Removes the pre-release tags** matching `*-alpha.*` or `*-beta.*` **whose base version (`X.Y.Z`) is `<=` the version just released**, from both the remote and the local checkout. Once a production version ships, the alpha/beta tags that led up to it are no longer needed, so the tag list stays limited to shipped production releases. The cleanup deletes each tag individually so an already-removed tag does not abort the run, and logs when there is nothing to remove.
 
-   **The `<=` bound is deliberate — it avoids a race.** A concurrent `alpha`/`beta` run can push a fresh pre-release tag while this workflow is in flight, and the cleanup's `git fetch --tags --force` would pull it in. If that tag targets a *future* version (e.g. `v1.4.0-alpha.0` pushed while master releases `v1.3.0`), an unbounded delete would wrongly remove it. Bounding the delete to base versions `<= X.Y.Z` leaves any future-version pre-release untouched, whether it already existed or was pushed mid-release.
+   **The `<=` bound is deliberate.** It keeps the cleanup correct even when `dev`/`alpha` is ahead of `master`: pre-release tags for a *future* version (e.g. `v1.4.0-alpha.*` still in active use while master ships `v1.3.1`) have a higher base version and are left untouched. It is also a second line of defense against a mid-release tag push — the [concurrency serialization](#-concurrency--release-serialization) below is the primary guard for that.
 
    > ⚠️ Base versions are compared with `sort -V`, which is **not** semver-aware for pre-release suffixes (it orders `1.3.0-alpha.0` *after* `1.3.0`). The workflow therefore strips the `-alpha.N` / `-beta.N` suffix and compares only the plain `X.Y.Z` base versions, which `sort -V` orders correctly (including `1.10.0 > 1.3.0`).
 
@@ -205,6 +205,22 @@ Jobs:
 - **Resync guard**: When `lerna.json` drifts from the latest tag, the workflow re-aligns it before versioning so `lerna` computes the next prerelease from a clean baseline.
 - **Canary publish**: `lerna publish from-git --canary` publishes exactly the tagged versions to Nexus, keeping pre-releases clearly separated from production NPM.
 - **Summary with channel context**: The `summary` job reports the resolved pre-release channel (`alpha` / `beta`) and the exact version published to Nexus.
+
+## 🔒 Concurrency / Release Serialization
+
+`publish-master.yml` and `publish-prerelease.yml` share a single top-level concurrency group so the release workflows are **never in flight at the same time**:
+
+```yaml
+concurrency:
+    group: release-pipeline
+    cancel-in-progress: false
+```
+
+- **Same group name** across both workflows means GitHub treats their runs as one serialized queue: while a `master` release runs, an `alpha`/`beta` push is held as *pending* and only starts once the release finishes (and vice versa).
+- **`cancel-in-progress: false`** ensures a running release is never cancelled by a newly queued run — releases always complete.
+- **Why it matters**: the master release pushes the `vX.Y.Z` tag and then prunes pre-release tags. Serializing guarantees no concurrent `alpha`/`beta` run pushes a tag during that window, so the cleanup can't race a fresh tag. (The pre-release cleanup is *also* version-bounded as a second line of defense — see [Publish Master Workflow](#3-publish-master-workflow-publish-masteryml).)
+
+> ℹ️ **Queue depth**: A concurrency group keeps at most one running and one pending run. If several release runs pile up behind an in-flight one, only the newest pending run is retained; older pending runs are cancelled. In practice releases don't stack this quickly, but be aware a rapid burst of `alpha`/`beta` pushes during a long master release may collapse to the latest one. `publish-dev.yml` (storybook only) is intentionally left out of the group so docs previews are never blocked by a release.
 
 ## 🧾 Summary Jobs
 
