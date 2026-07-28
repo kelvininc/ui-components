@@ -4,6 +4,14 @@ on:
         branches:
             - master
 
+# Serialize all release workflows (master + alpha/beta pre-releases) so they
+# never run at the same time. A pre-release push while a master release is in
+# flight is queued (cancel-in-progress: false) rather than run in parallel,
+# which prevents a concurrent alpha/beta run from pushing a tag mid-release.
+concurrency:
+    group: release-pipeline
+    cancel-in-progress: false
+
 permissions:
     contents: write # for checkout and tag
     id-token: write # Required for OIDC
