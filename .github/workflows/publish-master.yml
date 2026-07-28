@@ -65,6 +65,44 @@ jobs:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_CONFIG_PROVENANCE: true
 
+            - name: Create GitHub Release
+              run: |
+                  # The `v$NEW_VERSION` tag was created and pushed by `lerna publish`.
+                  # Make sure it is available locally before creating the release.
+                  git fetch origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG" --force || true
+                  if gh release view "$RELEASE_TAG" > /dev/null 2>&1; then
+                    echo "Release $RELEASE_TAG already exists — skipping creation."
+                  else
+                    gh release create "$RELEASE_TAG" \
+                      --title "$RELEASE_TAG" \
+                      --generate-notes \
+                      --latest \
+                      --verify-tag
+                  fi
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  RELEASE_TAG: ${{ steps.version.outputs.release-tag }}
+
+            - name: Remove Pre-Release Tags
+              run: |
+                  # Refresh the local tag list from the remote so we operate on the
+                  # complete set of tags (and prune any that were already deleted).
+                  git fetch origin --tags --prune --prune-tags --force
+                  PRERELEASE_TAGS=$(git tag -l '*-alpha.*' '*-beta.*')
+                  if [ -z "$PRERELEASE_TAGS" ]; then
+                    echo "No pre-release tags found to remove."
+                  else
+                    echo "Removing the following pre-release tags:"
+                    echo "$PRERELEASE_TAGS"
+                    # Delete the tags on the remote (one at a time so a single
+                    # already-deleted tag does not abort the whole cleanup).
+                    echo "$PRERELEASE_TAGS" | xargs -r -n 1 -I {} git push origin ":refs/tags/{}"
+                    # Delete the tags locally.
+                    echo "$PRERELEASE_TAGS" | xargs -r git tag -d
+                  fi
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
             - name: Publish Alpha & Master Storybook to GitHub Pages
               run: |
                   pnpm storybook:deploy -- -- -- --out='./gp' --dry-run
@@ -98,10 +136,12 @@ jobs:
 
                   | Component | Status |
                   |-----------|---------|
-                  | Publish (Lint + Test + Version + Build + NPM + Storybook) | ${{ needs.publish.result == 'success' && '✅ Success' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
+                  | Publish (Lint + Test + Version + Build + NPM + GitHub Release + Tag Cleanup + Storybook) | ${{ needs.publish.result == 'success' && '✅ Success' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
 
                   ## Release Summary
                   - **Package Release**: ${{ needs.publish.result == 'success' && '📦 Published to NPM (with provenance)' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **GitHub Release**: `${{ needs.publish.outputs.release-tag || 'N/A' }}` ${{ needs.publish.result == 'success' && '🏷️ Created' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Pre-Release Tags**: ${{ needs.publish.result == 'success' && '🧹 `*-alpha.*` / `*-beta.*` removed' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
                   - **Master Storybook**: ${{ needs.publish.result == 'success' && '💅 Deployed to /' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
                   - **Alpha (Dev) Storybook**: ${{ needs.publish.result == 'success' && '💅 Deployed to /alpha' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
 

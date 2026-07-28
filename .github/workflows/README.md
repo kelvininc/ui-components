@@ -87,12 +87,14 @@ graph TD
     C --> D[test]
     D --> E[lerna version → outputs new-version]
     E --> F[build:packages]
-    F --> G[lerna publish → NPM]
-    G --> H[Build master storybook → ./gp]
-    H --> I[Build dev storybook → ./gp/alpha]
-    I --> J[Deploy combined output to gh-pages]
-    J --> K[summary]
-    K --> L[End]
+    F --> G[lerna publish → NPM + push vX.Y.Z tag]
+    G --> H[Create GitHub Release for vX.Y.Z]
+    H --> I[Remove pre-release tags: *-alpha.* / *-beta.*]
+    I --> J[Build master storybook → ./gp]
+    J --> K[Build dev storybook → ./gp/alpha]
+    K --> L[Deploy combined output to gh-pages]
+    L --> M[summary]
+    M --> N[End]
 ```
 
 #### Publish Pre-Release Workflow
@@ -156,18 +158,28 @@ Jobs:
 
 ```yaml
 Jobs:
-├── publish    # Lint + Test + lerna version + build + lerna publish + storybook deploy
+├── publish    # Lint + Test + lerna version + build + lerna publish
+│              # + GitHub Release + pre-release tag cleanup + storybook deploy
 │              # Exposes outputs: new-version, release-tag (read from lerna.json after version)
 └── summary    # Writes Release Summary (including version/tag) to $GITHUB_STEP_SUMMARY (if: always())
 ```
 
 **Permissions**:
-- `contents: write` — required to create tags and push version commits.
+- `contents: write` — required to create tags, push version commits, **create the GitHub Release**, and **delete pre-release tags**.
 - `id-token: write` — required for **NPM provenance** via OIDC (`NPM_CONFIG_PROVENANCE: true`).
 
+**Release & pre-release tag cleanup**:
+
+After `lerna publish` pushes the production `vX.Y.Z` tag, the workflow:
+
+1. **Creates a GitHub Release** for `vX.Y.Z` with `gh release create` — auto-generated notes (`--generate-notes`), marked as `--latest`, and tag-verified (`--verify-tag`). The step is idempotent: if a release for the tag already exists it is skipped rather than failing the run.
+2. **Removes all pre-release tags** matching `*-alpha.*` or `*-beta.*` from both the remote and the local checkout. Once a production version ships, the alpha/beta tags that led up to it are no longer needed, so the tag list stays limited to shipped production releases. The cleanup deletes each tag individually so an already-removed tag does not abort the run, and logs when there is nothing to remove.
+
 **Why this approach?**
-- **Atomic release**: Versioning, building, publishing, and docs deployment live in one job; a failure in any step halts the release.
+- **Atomic release**: Versioning, building, publishing, GitHub release creation, tag cleanup, and docs deployment live in one job; a failure in any step halts the release.
 - **Provenance**: Production packages are published with NPM provenance for supply-chain traceability.
+- **Discoverable releases**: Every production version gets a corresponding GitHub Release with generated notes, so the Releases page mirrors what is on NPM.
+- **Clean tag history**: Pre-release (`*-alpha.*` / `*-beta.*`) tags are pruned on each production release, keeping the tag list focused on shipped versions.
 - **Consistent docs**: Storybook for `master` and `dev` is refreshed together so GitHub Pages always reflects the latest released and in-flight docs.
 - **Summary with version context**: The `summary` job consumes `needs.publish.outputs.new-version` / `release-tag` so the report shows exactly what was (or would have been) released.
 
