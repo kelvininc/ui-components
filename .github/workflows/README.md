@@ -89,7 +89,7 @@ graph TD
     E --> F[build:packages]
     F --> G[lerna publish → NPM + push vX.Y.Z tag]
     G --> H[Create GitHub Release for vX.Y.Z]
-    H --> I[Remove pre-release tags: *-alpha.* / *-beta.*]
+    H --> I["Remove pre-release tags &le; vX.Y.Z (*-alpha.* / *-beta.*)"]
     I --> J[Build master storybook → ./gp]
     J --> K[Build dev storybook → ./gp/alpha]
     K --> L[Deploy combined output to gh-pages]
@@ -173,7 +173,11 @@ Jobs:
 After `lerna publish` pushes the production `vX.Y.Z` tag, the workflow:
 
 1. **Creates a GitHub Release** for `vX.Y.Z` with `gh release create` — auto-generated notes (`--generate-notes`), marked as `--latest`, and tag-verified (`--verify-tag`). The step is idempotent: if a release for the tag already exists it is skipped rather than failing the run.
-2. **Removes all pre-release tags** matching `*-alpha.*` or `*-beta.*` from both the remote and the local checkout. Once a production version ships, the alpha/beta tags that led up to it are no longer needed, so the tag list stays limited to shipped production releases. The cleanup deletes each tag individually so an already-removed tag does not abort the run, and logs when there is nothing to remove.
+2. **Removes the pre-release tags** matching `*-alpha.*` or `*-beta.*` **whose base version (`X.Y.Z`) is `<=` the version just released**, from both the remote and the local checkout. Once a production version ships, the alpha/beta tags that led up to it are no longer needed, so the tag list stays limited to shipped production releases. The cleanup deletes each tag individually so an already-removed tag does not abort the run, and logs when there is nothing to remove.
+
+   **The `<=` bound is deliberate — it avoids a race.** A concurrent `alpha`/`beta` run can push a fresh pre-release tag while this workflow is in flight, and the cleanup's `git fetch --tags --force` would pull it in. If that tag targets a *future* version (e.g. `v1.4.0-alpha.0` pushed while master releases `v1.3.0`), an unbounded delete would wrongly remove it. Bounding the delete to base versions `<= X.Y.Z` leaves any future-version pre-release untouched, whether it already existed or was pushed mid-release.
+
+   > ⚠️ Base versions are compared with `sort -V`, which is **not** semver-aware for pre-release suffixes (it orders `1.3.0-alpha.0` *after* `1.3.0`). The workflow therefore strips the `-alpha.N` / `-beta.N` suffix and compares only the plain `X.Y.Z` base versions, which `sort -V` orders correctly (including `1.10.0 > 1.3.0`).
 
 **Why this approach?**
 - **Atomic release**: Versioning, building, publishing, GitHub release creation, tag cleanup, and docs deployment live in one job; a failure in any step halts the release.
