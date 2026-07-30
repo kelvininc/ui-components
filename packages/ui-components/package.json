@@ -95,7 +95,7 @@
 	"dependencies": {
 		"@floating-ui/dom": "^1.5.4",
 		"css-element-queries": "^1.2.3",
-		"inputmask": "~5.0.8",
+		"inputmask": "~5.0.10-beta.71",
 		"lodash-es": "^4.17.21",
 		"pluralize": "^8.0.0"
 	},

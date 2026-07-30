@@ -289,8 +289,8 @@ importers:
         specifier: ^1.2.3
         version: 1.2.3
       inputmask:
-        specifier: ~5.0.8
-        version: 5.0.9
+        specifier: ~5.0.10-beta.71
+        version: 5.0.10-beta.71
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -3881,8 +3881,8 @@ packages:
     resolution: {integrity: sha512-UxgyK5W3/UV4VrI3dl6ajGfHM4aOqMAkFLWe2KibeQudLf6NJpDrDMSHwZj+3iKC4jFU7dkKbbtH2h/al4sW3Q==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || 19
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || 19
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -8793,8 +8793,8 @@ packages:
       validate-npm-package-name: 6.0.2
     dev: true
 
-  /inputmask@5.0.9:
-    resolution: {integrity: sha512-s0lUfqcEbel+EQXtehXqwCJGShutgieOaIImFKC/r4reYNvX3foyrChl6LOEvaEgxEbesePIrw1Zi2jhZaDZbQ==}
+  /inputmask@5.0.10-beta.71:
+    resolution: {integrity: sha512-35tLjsdRYwbBGQUSRUgjF638AHWB+fM1k9GhKEBUcsS5iMW89l3CtfZrmvXNYMA6zN9LJuZUnk/TEk59E7llZg==}
     dev: false
 
   /inquirer@12.9.6(@types/node@22.7.4):
