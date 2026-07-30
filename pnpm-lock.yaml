@@ -270,8 +270,8 @@ importers:
         specifier: ^1.2.3
         version: 1.2.3
       inputmask:
-        specifier: ~5.0.8
-        version: 5.0.9
+        specifier: ~5.0.10-beta.71
+        version: 5.0.10
       lodash-es:
         specifier: ^4.17.21
         version: 4.18.1
@@ -4641,8 +4641,8 @@ packages:
     resolution: {integrity: sha512-pXVMn67Jdw2hPKLCuJZj62NC9B2OIDd1R3JwZXTHXuEnfN3Uq5kJbKOSld6YEU+KOGfMD82EzxFTYz5o0SSJoA==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  inputmask@5.0.9:
-    resolution: {integrity: sha512-s0lUfqcEbel+EQXtehXqwCJGShutgieOaIImFKC/r4reYNvX3foyrChl6LOEvaEgxEbesePIrw1Zi2jhZaDZbQ==}
+  inputmask@5.0.10:
+    resolution: {integrity: sha512-WksYiOYQb9cYLxbpyZsoxWZXQAlRmA/gTj4t0TOgeaEpSxuQKMK+64mKrZtsFA0OYtwlhd+tR7oMp7jRKQAakg==}
 
   inquirer@12.9.6:
     resolution: {integrity: sha512-603xXOgyfxhuis4nfnWaZrMaotNT0Km9XwwBNWUKbIDqeCY89jGr2F9YPEMiNhU6XjIP4VoWISMBFfcc5NgrTw==}
@@ -12707,7 +12707,7 @@ snapshots:
       validate-npm-package-license: 3.0.4
       validate-npm-package-name: 6.0.2
 
-  inputmask@5.0.9: {}
+  inputmask@5.0.10: {}
 
   inquirer@12.9.6(@types/node@22.20.1):
     dependencies:
