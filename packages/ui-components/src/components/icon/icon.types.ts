@@ -119,6 +119,7 @@ export enum EIconName {
 	RunSuccess = 'kv-run-success',
 	RunWarning = 'kv-run-warning',
 	Save = 'kv-save',
+	Saving = 'kv-saving',
 	Schedule = 'kv-schedule',
 	Search = 'kv-search',
 	SendMessage = 'kv-send-message',
