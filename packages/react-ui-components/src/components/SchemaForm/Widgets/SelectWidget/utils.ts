@@ -8,6 +8,11 @@ const numericTypes = ['number', 'integer'];
 /**
  * This is a silly limitation in the DOM where option change event values are
  * always retrieved as strings.
+ *
+ * Each coercion is guarded by the shape it needs rather than trusting `value` to
+ * match `schema`: the value is host data, so an array-typed field can hold a scalar
+ * left over from a schema that typed it differently. A value the branch cannot
+ * coerce falls through and is returned as-is instead of throwing.
  */
 export const processValue = (schema: JSONSchema7, value: any) => {
 	// "enum" is a reserved word, so only "type" and "items" can be destructured
@@ -15,7 +20,7 @@ export const processValue = (schema: JSONSchema7, value: any) => {
 	const itemsType = get(items, 'type');
 	if (value === '' || isNil(value)) {
 		return undefined;
-	} else if (type === 'array' && items && isString(itemsType) && numericTypes.includes(itemsType)) {
+	} else if (type === 'array' && Array.isArray(value) && items && isString(itemsType) && numericTypes.includes(itemsType)) {
 		return value.map(asNumber);
 	} else if (type === 'boolean') {
 		return value === true || value === 'true';
@@ -38,12 +43,25 @@ export const processValue = (schema: JSONSchema7, value: any) => {
 
 export const getSelectedOptions = (selectedOptionsMap: Record<string, boolean>): string[] => Object.keys(selectedOptionsMap);
 
-export const buildSelectedOptions = (selectedOptions: string[]): Record<string, boolean> =>
-	selectedOptions.reduce<Record<string, boolean>>((accumulator, selectOptionKey) => {
-		accumulator[selectOptionKey] = true;
+/**
+ * Maps the selected values onto the map `KvMultiSelectDropdown` expects.
+ *
+ * Anything that is not an array selects nothing, rather than throwing. The value
+ * reaching a multiple select is host data — it can be a scalar left over from a
+ * schema that typed the field differently, or restored from a URL — and
+ * `processValue` maps `''` and nil to `undefined`. Reducing over any of those threw
+ * `TypeError: … .reduce is not a function` and took the whole form down with it.
+ * This mirrors what `buildDropdownOptions` below already does for a non-array
+ * `options`.
+ */
+export const buildSelectedOptions = (selectedOptions?: string[] | null): Record<string, boolean> =>
+	Array.isArray(selectedOptions)
+		? selectedOptions.reduce<Record<string, boolean>>((accumulator, selectOptionKey) => {
+				accumulator[selectOptionKey] = true;
 
-		return accumulator;
-	}, {});
+				return accumulator;
+		  }, {})
+		: {};
 
 export const buildDropdownOptions = <S extends StrictRJSFSchema = RJSFSchema>({
 	schema,
