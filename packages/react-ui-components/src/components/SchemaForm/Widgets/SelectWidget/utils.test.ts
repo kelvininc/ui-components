@@ -1,6 +1,8 @@
 import { JSONSchema7 } from 'json-schema';
 import { describe, expect, it } from 'vitest';
-import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue } from './utils';
+import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, resolveDropdownConfig } from './utils';
+import { DEFAULT_DROPDOWN_CONFIG, IDropdownConfig } from './config';
+import { buildHelperOptions } from '../../Templates/FieldTemplate/utils';
 
 describe('buildSelectedOptions', () => {
 	describe('when given an array of selected values', () => {
@@ -156,6 +158,93 @@ describe('buildDropdownOptions', () => {
 			['an object', { a: 1 }]
 		])('should return no options for %s', (_, options) => {
 			expect(buildDropdownOptions({ schema, options })).toEqual({});
+		});
+	});
+});
+
+describe('resolveDropdownConfig', () => {
+	// `const { dropdownConfig = DEFAULT_DROPDOWN_CONFIG } = formContext` only falls
+	// back when the whole config is `undefined`, so any partial config replaced the
+	// defaults wholesale and left `zIndex` undefined. `kv-portal` then wrote the
+	// literal string "undefined" to `style.zIndex`, which the browser discards, and
+	// the dropdown stayed stuck behind the page at the `-1` it was created with.
+	describe('when no config is provided', () => {
+		it('should return every default', () => {
+			expect(resolveDropdownConfig(undefined)).toEqual(DEFAULT_DROPDOWN_CONFIG);
+		});
+
+		it('should return every default for an empty config', () => {
+			expect(resolveDropdownConfig({})).toEqual(DEFAULT_DROPDOWN_CONFIG);
+		});
+	});
+
+	describe('when a partial config is provided', () => {
+		it('should keep the default z-index', () => {
+			expect(resolveDropdownConfig({ minWidth: '240px' }).zIndex).toBe(DEFAULT_DROPDOWN_CONFIG.zIndex);
+		});
+
+		it('should retain all the other defaults', () => {
+			expect(resolveDropdownConfig({ minWidth: '240px' })).toEqual({
+				...DEFAULT_DROPDOWN_CONFIG,
+				minWidth: '240px'
+			});
+		});
+
+		it('should apply the provided override', () => {
+			expect(resolveDropdownConfig({ minWidth: '240px' }).minWidth).toBe('240px');
+		});
+
+		it.each<[keyof IDropdownConfig, string]>([
+			['maxHeight', '400px'],
+			['minHeight', 'auto'],
+			['maxWidth', 'auto'],
+			['minWidth', 'max-content']
+		])('should keep the default %s when only zIndex is overridden', (key, value) => {
+			expect(resolveDropdownConfig({ zIndex: 10 })[key]).toBe(value);
+		});
+	});
+
+	describe('when a config explicitly holds undefined values', () => {
+		it('should not let an undefined override erase a default', () => {
+			expect(resolveDropdownConfig({ zIndex: undefined, minWidth: '240px' }).zIndex).toBe(DEFAULT_DROPDOWN_CONFIG.zIndex);
+		});
+	});
+
+	describe('when the config is fully specified', () => {
+		it('should use every provided value', () => {
+			const config = { zIndex: 10, maxHeight: '10px', minHeight: '1px', maxWidth: '20px', minWidth: '2px' };
+
+			expect(resolveDropdownConfig(config)).toEqual(config);
+		});
+	});
+
+	describe('when it does not mutate its inputs', () => {
+		it('should leave the defaults untouched', () => {
+			resolveDropdownConfig({ zIndex: 10 });
+
+			expect(DEFAULT_DROPDOWN_CONFIG.zIndex).toBe(9004);
+		});
+
+		it('should leave the provided config untouched', () => {
+			const config = { minWidth: '240px' };
+
+			resolveDropdownConfig(config);
+
+			expect(config).toEqual({ minWidth: '240px' });
+		});
+	});
+
+	// The reported failure: one field carries `ui:dropdownConfig: { minWidth: '240px' }`
+	// and a *different* field is a select. FieldTemplate leaked the first field's
+	// options into the shared form context, and the select then resolved its config
+	// from that polluted context.
+	describe('when another field in the same form carries a partial ui:dropdownConfig', () => {
+		it('should still resolve a usable z-index for the select', () => {
+			const formContext: { dropdownConfig?: Record<string, unknown> } = { componentSize: 'large' } as never;
+
+			buildHelperOptions(formContext, { dropdownConfig: { minWidth: '240px' } });
+
+			expect(resolveDropdownConfig(formContext.dropdownConfig).zIndex).toBe(DEFAULT_DROPDOWN_CONFIG.zIndex);
 		});
 	});
 });
