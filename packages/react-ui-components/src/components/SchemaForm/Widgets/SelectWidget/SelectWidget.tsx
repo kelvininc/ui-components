@@ -4,8 +4,8 @@ import { isEmpty } from 'lodash';
 import React, { useCallback, useMemo, useState } from 'react';
 import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../../stencil-generated';
 import styles from './SelectWidget.module.scss';
-import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, searchDropdownOptions } from './utils';
-import { DEFAULT_DROPDOWN_CONFIG, DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
+import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, resolveDropdownConfig, searchDropdownOptions } from './utils';
+import { DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
 import { useFormState } from '../../contexts';
 
 const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
@@ -44,7 +44,8 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		selectAllLabel,
 		maxSelectable
 	} = uiSchema;
-	const { componentSize = EComponentSize.Large, dropdownConfig = DEFAULT_DROPDOWN_CONFIG, allowClearInputs } = formContext as F;
+	const { componentSize = EComponentSize.Large, dropdownConfig: contextDropdownConfig, allowClearInputs } = formContext as F;
+	const dropdownConfig = resolveDropdownConfig(contextDropdownConfig);
 	const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
 	const defaultDropdownOptions = useMemo(

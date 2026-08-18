@@ -1,7 +1,8 @@
 import { asNumber, guessType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import { JSONSchema7 } from 'json-schema';
-import { get, isEmpty, isNil, isString } from 'lodash';
+import { get, isEmpty, isNil, isString, merge } from 'lodash';
 import { EnumOptions, IUIDropdownOptions } from './types';
+import { DEFAULT_DROPDOWN_CONFIG, IDropdownConfig } from './config';
 
 const numericTypes = ['number', 'integer'];
 
@@ -102,3 +103,16 @@ export const searchDropdownOptions = (term: string, options: IUIDropdownOptions)
 		return accumulator;
 	}, {});
 };
+
+/**
+ * Layers a form's `dropdownConfig` over the defaults.
+ *
+ * This used to be a destructuring default — `const { dropdownConfig = DEFAULT_DROPDOWN_CONFIG } = formContext`
+ * — which only fires when the whole config is `undefined`. A consumer passing a
+ * partial config such as `{ minWidth: '240px' }` therefore replaced every default
+ * wholesale, leaving `zIndex` undefined; `kv-portal` wrote the string "undefined"
+ * to `style.zIndex`, the browser discarded it, and the dropdown opened invisible
+ * behind the page. Merging keeps a partial config partial. `merge` also ignores
+ * `undefined` source values, so an explicitly-undefined key cannot erase a default.
+ */
+export const resolveDropdownConfig = (dropdownConfig?: Partial<IDropdownConfig>): IDropdownConfig => merge({}, DEFAULT_DROPDOWN_CONFIG, dropdownConfig);
