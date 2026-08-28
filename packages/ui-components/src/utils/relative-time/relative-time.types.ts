@@ -75,7 +75,11 @@ export enum ERelativeTimeRangeKey {
 	Next_72_H = 'next-72-h',
 
 	// Days - Future
+	Next_3_D = 'next-3-d',
 	Next_7_D = 'next-7-d',
+	Next_14_D = 'next-14-d',
+	Next_30_D = 'next-30-d',
+	Next_60_D = 'next-60-d',
 
 	// Weeks - Future
 	Next_2_W = 'next-2-w',
