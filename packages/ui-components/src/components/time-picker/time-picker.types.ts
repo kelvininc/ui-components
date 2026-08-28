@@ -2,7 +2,7 @@ import { ComputePositionConfig } from '@floating-ui/dom';
 import { ITextField } from '../text-field/text-field.types';
 import { IRelativeTimePickerOption, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
 import { EventEmitter } from '@stencil/core';
-import { ETooltipPosition } from '../../types';
+import { EAbsoluteTimePickerMode, ETooltipPosition } from '../../types';
 
 export interface ITimePicker {
 	/** (optional) Configuration of the dropdown input */
@@ -23,6 +23,10 @@ export interface ITimePicker {
 	displayCustomizeInterval?: boolean;
 	/** (optional) Determines if the timezone dropdown is visible */
 	displayTimezoneDropdown?: boolean;
+	/** (optional) Determines if the "Show Calendar" toggle is visible in the footer. Hiding it does not prevent `showCalendar` from being set programmatically */
+	displayCalendarToggle?: boolean;
+	/** (optional) Defines if the custom interval calendar selects a single date or a range */
+	calendarMode?: EAbsoluteTimePickerMode;
 	/** (optional) Lets the timezone visible but doens't let the user change it */
 	disableTimezoneSelection?: boolean;
 	/** (optional) calendar minimum date to be navigated */
