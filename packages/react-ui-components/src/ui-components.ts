@@ -27,6 +27,7 @@ export {
 	ECopyToClipboardState,
 	ETimePickerView,
 	ERelativeTimeComparisonConfig,
+	ERelativeTimeRangeKey,
 	EUnitReference,
 	EToasterType
 } from '@kelvininc/ui-components';
