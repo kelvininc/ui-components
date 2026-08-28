@@ -131,6 +131,7 @@ export enum EIconName {
 	SmileHappy = 'kv-smile-happy',
 	SmileNeutral = 'kv-smile-neutral',
 	SmileUnhappy = 'kv-smile-unhappy',
+	Snooze = 'kv-snooze',
 	SortAz = 'kv-sort-az',
 	SortHover = 'kv-sort-hover',
 	SortZa = 'kv-sort-za',
