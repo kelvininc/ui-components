@@ -357,7 +357,13 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	}
 
 	private get currentOptions(): ISelectMultiOptions | undefined {
-		return this.filteredOptions ?? selectHelper.searchDropdownOptions(this.searchValue, this.options);
+		if (this.filteredOptions !== undefined) {
+			return this.filteredOptions;
+		}
+
+		// Deliberately gated on `searchable` and not on `isSearchable`: the latter reads `selectOptions`,
+		// which `buildSelectionOptions` populates from this getter and is still undefined on the first build.
+		return this.searchable ? selectHelper.searchDropdownOptions(this.searchValue, this.options) : this.options;
 	}
 
 	render() {

@@ -66,4 +66,20 @@ describe('KvSelectMultiOptions (unit tests)', () => {
 
 		expect(getCurrentOptionValues()).toEqual([]);
 	});
+
+	it('should ignore the search value when the dropdown is not searchable', async () => {
+		element.searchable = false;
+		element.searchValue = 'pump';
+		await page.waitForChanges();
+
+		expect(getCurrentOptionValues()).toEqual(['asset-pump', 'asset-valve', 'sensor-pressure']);
+	});
+
+	it('should still honour externally filtered options when not searchable', async () => {
+		element.searchable = false;
+		element.filteredOptions = { valve: OPTIONS.valve };
+		await page.waitForChanges();
+
+		expect(getCurrentOptionValues()).toEqual(['asset-valve']);
+	});
 });
