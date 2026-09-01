@@ -25,36 +25,16 @@ import {
 const SingleSelectDropdownTemplate: StoryFn<
 	ComponentProps<typeof KvSingleSelectDropdown>
 > = (args) => {
-	const [{ options, searchValue }, updateArgs] = useArgs();
-	const filteredOptions = useMemo(
-		() =>
-			selectHelper.searchDropdownOptions(
-				searchValue ?? "",
-				options ?? {}
-			),
-		[searchValue, options]
-	);
-
-	const onSearchChange = useCallback(
-		({ detail: searchedLabel }: CustomEvent<string>) => {
-			updateArgs({ searchValue: searchedLabel });
-		},
-		[updateArgs]
-	);
+	const [, updateArgs] = useArgs();
 
 	const onOptionSelected = useCallback(
 		({ detail }: CustomEvent<string>) =>
 			updateArgs({ selectedOption: detail }),
-		[]
+		[updateArgs]
 	);
 
 	return (
-		<KvSingleSelectDropdown
-			{...args}
-			filteredOptions={filteredOptions}
-			onSearchChange={onSearchChange}
-			onOptionSelected={onOptionSelected}
-		/>
+		<KvSingleSelectDropdown {...args} onOptionSelected={onOptionSelected} />
 	);
 };
 
@@ -218,15 +198,7 @@ export const ExternalSearch: Story = {
 const AddOptionTemplate: StoryFn<
 	ComponentProps<typeof KvSingleSelectDropdown>
 > = (args) => {
-	const [{ options, searchValue }, updateArgs] = useArgs();
-	const filteredOptions = useMemo(
-		() =>
-			selectHelper.searchDropdownOptions(
-				searchValue ?? "",
-				options ?? {}
-			),
-		[searchValue, options]
-	);
+	const [{ options }, updateArgs] = useArgs();
 
 	const addNewOption = (newOption: string) => {
 		updateArgs({
@@ -241,10 +213,6 @@ const AddOptionTemplate: StoryFn<
 		<KvSingleSelectDropdown
 			{...args}
 			options={options}
-			filteredOptions={filteredOptions}
-			onSearchChange={({ detail: newSearchTerm }) =>
-				updateArgs({ searchValue: newSearchTerm })
-			}
 			onOptionSelected={({ detail: newOption }) =>
 				updateArgs({ selectedOption: newOption })
 			}

@@ -16,7 +16,7 @@ export interface ISingleSelectDropdown extends Omit<IMultiSelectDropdown, 'selec
 	selectedOption?: string;
 	/** (optional) The object with the dropdown options */
 	options?: ISelectSingleOptions;
-	/** (optional) The object with the dropdown options filtered */
+	/** (optional) Externally filtered dropdown options. When defined, these override the default local search results. */
 	filteredOptions?: ISelectSingleOptions;
 	/** (optional) If `false` the search text field is not auto-focused. Default `true`. */
 	autoFocus?: boolean;

@@ -24,7 +24,6 @@ import { buildRelativeTimeSelectOptions, buildTimezonesDropdownOptions, getSelec
 import { CustomCssClass, EComponentSize } from '../../types';
 import { isEmpty } from 'lodash-es';
 import { getClassMap } from '../../utils/css-class.helper';
-import { searchDropdownOptions } from '../../utils/select.helper';
 import { ITimezoneOffset, SelectedTimestamp } from '../time-picker/time-picker.types';
 import { CUSTOM_TIME_RANGE_KEY, DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS } from '../../utils/relative-time';
 
@@ -59,10 +58,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	 * changes
 	 */
 	@State() relativeTimeOptions: IRelativeTimeDropdownOption[][] = [];
-	/** Timezone dropdown management states */
-	@State() timezonesSearchTerm: string = '';
 	@State() timezoneDropdownOptions: ISelectSingleOptions;
-	@State() timezoneFilteredDropdownOptions: ISelectSingleOptions;
 
 	/** State to determine if a scrollbar is needed to display all the options */
 	@State() hasScroll: boolean = false;
@@ -101,11 +97,6 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 		this.timezoneDropdownOptions = buildTimezonesDropdownOptions(timezones);
 	}
 
-	@Watch('timezonesSearchTerm')
-	onTimezoneSearch(searchTerm: string) {
-		this.timezoneFilteredDropdownOptions = searchDropdownOptions(searchTerm, this.timezoneDropdownOptions);
-	}
-
 	@Watch('selectedTimeKey')
 	onSelectedTimeKeyChange(newKey: string) {
 		if (newKey !== CUSTOM_TIME_RANGE_KEY) {
@@ -133,10 +124,6 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	disconnectedCallback() {
 		window.clearInterval(this.intervalID);
 	}
-
-	private onTimezoneSearchTermChange = ({ detail: newSearchTerm }: CustomEvent<string>): void => {
-		this.timezonesSearchTerm = newSearchTerm;
-	};
 
 	private onTimezoneSelected = ({ detail: newSelectedTimezone }: CustomEvent<string>): void => {
 		this.timezoneChange.emit({
@@ -250,9 +237,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 									inputSize={EComponentSize.Small}
 									searchPlaceholder={TIMEZONES_SEARCH_PLACEHOLDER}
 									options={this.timezoneDropdownOptions}
-									filteredOptions={this.timezoneFilteredDropdownOptions}
 									selectedOption={this.getSelectedTimezone()}
-									onSearchChange={this.onTimezoneSearchTermChange}
 									onOptionSelected={this.onTimezoneSelected}
 									onOpenStateChange={this.onTimezoneChange}
 								/>
