@@ -123,7 +123,7 @@ export const getNextHightlightableOption = (options: ISelectOptionWithChildren[]
 	return optionValues[highlightedIndex + 1];
 };
 
-export const searchDropdownOptions = (term: string, options: ISelectSingleOptions | ISelectMultiOptions = {}): ISelectSingleOptions | ISelectMultiOptions => {
+export const searchDropdownOptions = (term: string = '', options: ISelectSingleOptions | ISelectMultiOptions = {}): ISelectSingleOptions | ISelectMultiOptions => {
 	if (isEmpty(term)) {
 		return options;
 	}

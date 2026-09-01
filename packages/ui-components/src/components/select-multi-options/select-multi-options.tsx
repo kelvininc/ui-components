@@ -139,6 +139,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 	@Watch('options')
 	@Watch('filteredOptions')
+	@Watch('searchValue')
 	@Watch('selectedOptions')
 	@Watch('highlightedOption')
 	@Watch('maxSelectable')
@@ -356,7 +357,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	}
 
 	private get currentOptions(): ISelectMultiOptions | undefined {
-		return this.filteredOptions ?? this.options;
+		return this.filteredOptions ?? selectHelper.searchDropdownOptions(this.searchValue, this.options);
 	}
 
 	render() {
