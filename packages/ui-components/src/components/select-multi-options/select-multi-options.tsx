@@ -121,6 +121,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		currentFlatten: ISelectOptionWithChildren[];
 		totalSelectable: ISelectOptionsWithChildren;
 		currentSelectable: ISelectOptionWithChildren[];
+		searchAvailable: boolean;
 	};
 	@State() highlightedOption: string;
 	@State() isCreating: boolean = false;
@@ -139,6 +140,9 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 	@Watch('options')
 	@Watch('filteredOptions')
+	@Watch('searchable')
+	@Watch('minSearchOptions')
+	@Watch('searchValue')
 	@Watch('selectedOptions')
 	@Watch('highlightedOption')
 	@Watch('maxSelectable')
@@ -158,16 +162,19 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 			maxSelectable: this.maxSelectable,
 			selectedCount
 		});
+		const selectSelectableOptions = getSelectableOptions(selectOptions);
+		const selectFlattenOptions = getFlattenSelectOptions(selectOptions);
+		// Derived before the current options are built so that the search input's visibility and the
+		// local filtering can never disagree: both read this single value.
+		const searchAvailable = this.searchable && Object.keys(selectFlattenOptions).length >= this.minSearchOptions;
 		const selectCurrentOptionsArray = buildSelectOptionsArray({
-			options: this.currentOptions,
+			options: this.getCurrentOptions(searchAvailable),
 			allOptions: this.options,
 			selectedOptions: this.selectedOptions,
 			highlightedOption: this.highlightedOption,
 			hasAddItem: this.canAddItems,
 			createInputPlaceholder: this.createOptionPlaceholder
 		});
-		const selectSelectableOptions = getSelectableOptions(selectOptions);
-		const selectFlattenOptions = getFlattenSelectOptions(selectOptions);
 		const selectCurrentFlattenOptions = flattenSelectOptionsArray(selectCurrentOptionsArray);
 		const selectCurrentSelectableOptions = getSelectableOptionsFromArray(selectCurrentFlattenOptions);
 
@@ -175,7 +182,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 			totalFlatten: selectFlattenOptions,
 			currentFlatten: selectCurrentFlattenOptions,
 			totalSelectable: selectSelectableOptions,
-			currentSelectable: selectCurrentSelectableOptions
+			currentSelectable: selectCurrentSelectableOptions,
+			searchAvailable
 		};
 	}
 
@@ -352,11 +360,17 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	};
 
 	private get isSearchable() {
-		return this.searchable && Object.keys(this.selectOptions.totalFlatten).length >= this.minSearchOptions;
+		return this.selectOptions.searchAvailable;
 	}
 
-	private get currentOptions(): ISelectMultiOptions | undefined {
-		return this.filteredOptions ?? this.options;
+	private getCurrentOptions(searchAvailable: boolean): ISelectMultiOptions | undefined {
+		if (this.filteredOptions !== undefined) {
+			return this.filteredOptions;
+		}
+
+		// Only filter locally while the search input is actually reachable, otherwise a term left over
+		// from before it was hidden would narrow the list with no way for the user to clear it.
+		return searchAvailable ? selectHelper.searchDropdownOptions(this.searchValue, this.options) : this.options;
 	}
 
 	render() {

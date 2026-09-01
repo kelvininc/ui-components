@@ -28,7 +28,7 @@ export interface IBuildSelectOptionsParams {
 export interface ISelectMultiOptionsConfig {
 	/** (optional) The object with the dropdown options */
 	options?: ISelectMultiOptions;
-	/** (optional) The object with the dropdown options filtered */
+	/** (optional) Externally filtered dropdown options. When defined, these override the default local search results. */
 	filteredOptions?: ISelectMultiOptions;
 	/** (optional) The object with indexed by the dropdown labels and its selected value */
 	selectedOptions?: Record<string, boolean>;
