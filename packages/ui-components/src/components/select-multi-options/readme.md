@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property                  | Attribute                   | Description                                                                                                                    | Type                                   | Default                                         |
@@ -33,7 +32,6 @@
 | `shortcuts`               | `shortcuts`                 | (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false`              | `boolean`                              | `false`                                         |
 | `showShortcuts`           | `show-shortcuts`            |                                                                                                                                | `boolean`                              | `false`                                         |
 
-
 ## Events
 
 | Event             | Description                                                | Type                                     |
@@ -46,7 +44,6 @@
 | `searchChange`    | Emitted when the user interacts with the search text field | `CustomEvent<string>`                    |
 | `selectAll`       | Emitted when the user clicks on the all items              | `CustomEvent<void>`                      |
 
-
 ## Methods
 
 ### `clearHighlightedOption() => Promise<void>`
@@ -57,8 +54,6 @@ Clears the highlighted option state
 
 Type: `Promise<void>`
 
-
-
 ### `closeCreatePopup() => Promise<void>`
 
 Close create popup
@@ -66,8 +61,6 @@ Close create popup
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `focusSearch() => Promise<void>`
 
@@ -77,15 +70,11 @@ Focuses the search text field
 
 Type: `Promise<void>`
 
-
-
-
 ## Shadow Parts
 
 | Part       | Description           |
 | ---------- | --------------------- |
 | `"select"` | The select container. |
-
 
 ## CSS Custom Properties
 
@@ -96,25 +85,25 @@ Type: `Promise<void>`
 | `--select-list-min-height` | Select list minimum height. |
 | `--select-list-min-width`  | Select list minimum width.  |
 
-
 ## Dependencies
 
 ### Used by
 
- - [kv-multi-select-dropdown](../multi-select-dropdown)
- - [kv-single-select-dropdown](../single-select-dropdown)
+-   [kv-multi-select-dropdown](../multi-select-dropdown)
+-   [kv-single-select-dropdown](../single-select-dropdown)
 
 ### Depends on
 
-- [kv-virtualized-list](../virtualized-list)
-- [kv-select-option](../select-option)
-- [kv-select](../select)
-- [kv-tooltip](../tooltip)
-- [kv-illustration-message](../illustration-message)
-- [kv-select-create-option](../select-create-option)
-- [kv-select-shortcuts-label](../select-shortcuts-label)
+-   [kv-virtualized-list](../virtualized-list)
+-   [kv-select-option](../select-option)
+-   [kv-select](../select)
+-   [kv-tooltip](../tooltip)
+-   [kv-illustration-message](../illustration-message)
+-   [kv-select-create-option](../select-create-option)
+-   [kv-select-shortcuts-label](../select-shortcuts-label)
 
 ### Graph
+
 ```mermaid
 graph TD;
   kv-select-multi-options --> kv-virtualized-list
@@ -158,6 +147,4 @@ graph TD;
   style kv-select-multi-options fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
-
-
+---

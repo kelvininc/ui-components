@@ -1,10 +1,10 @@
 import { EComponentSize, EValidationState } from '@kelvininc/ui-components';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 import { isEmpty } from 'lodash';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../../stencil-generated';
 import styles from './SelectWidget.module.scss';
-import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, searchDropdownOptions } from './utils';
+import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue } from './utils';
 import { DEFAULT_DROPDOWN_CONFIG, DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
 import { useFormState } from '../../contexts';
 
@@ -45,24 +45,13 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		maxSelectable
 	} = uiSchema;
 	const { componentSize = EComponentSize.Large, dropdownConfig = DEFAULT_DROPDOWN_CONFIG, allowClearInputs } = formContext as F;
-	const [searchTerm, setSearchTerm] = useState<string | null>(null);
-
 	const defaultDropdownOptions = useMemo(
 		() => buildDropdownOptions({ options: enumOptions, disabledOptions: enumDisabled, multiSubOptions, schema }),
 		[enumOptions, enumDisabled, multiSubOptions, schema]
 	);
-	const filteredOptions = useMemo(() => {
-		if (searchTerm !== null && searchTerm.length > 0) {
-			return searchDropdownOptions(searchTerm, defaultDropdownOptions);
-		}
-
-		return defaultDropdownOptions;
-	}, [searchTerm, defaultDropdownOptions]);
-
 	const emptyValue = useMemo(() => (multiple ? [] : undefined), [multiple]);
 	const processedValue = processValue(schema, value);
 
-	const onSearchChange = useCallback(({ detail: searchedLabel }: CustomEvent<string>) => setSearchTerm(searchedLabel), []);
 	const onChangeValue = useCallback(
 		(newValue: string | string[]) => {
 			const processedValue = processValue(schema, newValue);
@@ -98,8 +87,6 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		displayValue: typeof processedValue === 'undefined' ? emptyValue : displayValue?.(processedValue, defaultDropdownOptions),
 		displayPrefix,
 		options: defaultDropdownOptions,
-		filteredOptions,
-		onSearchChange,
 		searchable,
 		zIndex: optionZIndex ?? dropdownConfig.zIndex,
 		minHeight: minHeight ?? dropdownConfig.minHeight,
