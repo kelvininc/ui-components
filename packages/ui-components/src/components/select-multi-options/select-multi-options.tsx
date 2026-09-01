@@ -139,6 +139,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 	@Watch('options')
 	@Watch('filteredOptions')
+	@Watch('searchable')
 	@Watch('searchValue')
 	@Watch('selectedOptions')
 	@Watch('highlightedOption')

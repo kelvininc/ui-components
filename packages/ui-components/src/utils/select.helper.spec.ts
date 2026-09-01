@@ -34,6 +34,10 @@ describe('select.helper', () => {
 			expect(searchDropdownOptions('', options)).toBe(options);
 		});
 
+		it('should return the original options when the search term is undefined', () => {
+			expect(searchDropdownOptions(undefined, options)).toBe(options);
+		});
+
 		it('should match option labels case-insensitively', () => {
 			expect(searchDropdownOptions('PUMP', options)).toEqual({ pump: options.pump });
 		});
