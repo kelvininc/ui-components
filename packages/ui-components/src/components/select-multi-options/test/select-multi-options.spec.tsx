@@ -75,6 +75,15 @@ describe('KvSelectMultiOptions (unit tests)', () => {
 		expect(getCurrentOptionValues()).toEqual(['asset-pump', 'asset-valve', 'sensor-pressure']);
 	});
 
+	it('should rebuild the options when searchable is turned off after a search', async () => {
+		element.searchValue = 'pump';
+		await page.waitForChanges();
+		element.searchable = false;
+		await page.waitForChanges();
+
+		expect(getCurrentOptionValues()).toEqual(['asset-pump', 'asset-valve', 'sensor-pressure']);
+	});
+
 	it('should still honour externally filtered options when not searchable', async () => {
 		element.searchable = false;
 		element.filteredOptions = { valve: OPTIONS.valve };
