@@ -84,6 +84,19 @@ describe('KvSelectMultiOptions (unit tests)', () => {
 		expect(getCurrentOptionValues()).toEqual(['asset-pump', 'asset-valve', 'sensor-pressure']);
 	});
 
+	it('should stop filtering locally when the options drop below the search threshold', async () => {
+		element.minSearchOptions = 3;
+		element.searchValue = 'pump';
+		await page.waitForChanges();
+		expect(getCurrentOptionValues()).toEqual(['asset-pump']);
+
+		// The search input is hidden below the threshold, so the leftover term must stop applying.
+		element.options = { valve: OPTIONS.valve, sensor: OPTIONS.sensor };
+		await page.waitForChanges();
+
+		expect(getCurrentOptionValues()).toEqual(['asset-valve', 'sensor-pressure']);
+	});
+
 	it('should still honour externally filtered options when not searchable', async () => {
 		element.searchable = false;
 		element.filteredOptions = { valve: OPTIONS.valve };
