@@ -16,7 +16,7 @@ import { ETimePickerView } from './time-picker.types';
 import { ComputePositionConfig } from '@floating-ui/dom';
 import { EAbsoluteTimePickerMode, EComponentSize, ETooltipPosition, ITimezoneOffset, SelectedRange } from '../../types';
 import { IRelativeTimePickerOption, ITimePickerRelativeTime, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
-import { buildTimezoneByOffset, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date/date.helper';
+import { getDefaultTimezone, getDefaultTimezones, getTimezoneOffset } from '../../utils/date/date.helper';
 import { ITimePicker, ITimePickerEvents, ITimePickerTimeState, ITimePickerTime, SelectedTimestamp } from './time-picker.types';
 import {
 	buildCustomIntervalTimeRange,
@@ -60,7 +60,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) relativeTimePickerOptions?: IRelativeTimePickerOption[][] = DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) timezones?: ITimezoneOffset[] = buildTimezoneByOffset(getTimezonesNames());
+	@Prop({ reflect: false }) timezones?: ITimezoneOffset[] = getDefaultTimezones();
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disableTimezoneSelection?: boolean = false;
 	/** @inheritdoc */
