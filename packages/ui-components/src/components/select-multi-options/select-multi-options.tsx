@@ -290,28 +290,26 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	};
 
 	private onOptionClick = (event: MouseEvent, selectedOptionKey: string): void => {
-		const selectedOption = this.selectOptions.totalFlatten[selectedOptionKey];
-		if (!selectedOption || selectedOption.disabled || selectedOption.selectable === false) {
+		if (!this.selectOption(selectedOptionKey, this.isRangeSelectionEnabled && event.shiftKey)) {
 			return;
 		}
 
-		this.selectOption(selectedOptionKey, this.isRangeSelectionEnabled && event.shiftKey);
 		if (this.shortcuts) {
 			this.highlightedOption = selectedOptionKey;
 		}
 	};
 
-	private selectOption = (selectedOptionKey: string, isShiftClick = false): void => {
+	private selectOption = (selectedOptionKey: string, isShiftClick = false): boolean => {
 		if (selectedOptionKey === ADD_OPTION.value) {
 			this.resetRangeSelection();
 			this.isCreating = true;
 			this.createdOptionValue = this.searchValue;
-			return;
+			return true;
 		}
 
 		const selectedOption = this.selectOptions.totalFlatten[selectedOptionKey];
-		if (!selectedOption) {
-			return;
+		if (!selectedOption || !this.canSelectOption(selectedOption, isShiftClick)) {
+			return false;
 		}
 
 		this.optionSelected.emit(selectedOptionKey);
@@ -319,7 +317,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		// Check if the selected option does not have any children
 		if (isEmpty(selectedOption.options)) {
 			this.selectLeafOption(selectedOptionKey, isShiftClick);
-			return;
+			return true;
 		}
 
 		this.resetRangeSelection();
@@ -338,13 +336,13 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 				if (this.maxSelectable !== undefined) {
 					const currentSelectedCount = getSelectedCount(this.selectedOptions);
 					const partialSelection = buildPartialOptionsSelected(childrenValues, this.maxSelectable, currentSelectedCount);
-					if (!partialSelection) return;
+					if (!partialSelection) return false;
 
 					this.optionsSelected.emit({
 						...this.selectedOptions,
 						...partialSelection
 					});
-					return;
+					return true;
 				}
 
 				this.optionsSelected.emit({
@@ -352,6 +350,29 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 					...buildAllOptionsSelected(childrenValues)
 				});
 		}
+
+		return true;
+	};
+
+	private canSelectOption = (option: ISelectOptionWithChildren, isShiftClick: boolean): boolean => {
+		if (option.selectable === false) {
+			return false;
+		}
+
+		if (option.disabled !== true) {
+			return true;
+		}
+
+		// An option disabled only because maxSelectable is reached is still a valid range
+		// endpoint: the range replaces the listed selection, which frees the slots it needs
+		return isShiftClick && this.isDisabledByMaxSelectable(option.value);
+	};
+
+	private isDisabledByMaxSelectable = (optionValue: string): boolean => {
+		// currentFlatten is built without maxSelectable, so it carries only intrinsic disabled state
+		const listedOption = this.selectOptions.currentFlatten.find(({ value }) => value === optionValue);
+
+		return listedOption !== undefined && listedOption.disabled !== true;
 	};
 
 	private selectLeafOption = (selectedOptionKey: string, isShiftClick: boolean): void => {

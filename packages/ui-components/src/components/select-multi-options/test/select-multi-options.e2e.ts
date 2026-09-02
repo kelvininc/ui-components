@@ -329,6 +329,54 @@ describe('Select Multi Options (end-to-end)', () => {
 		expect(optionsSelectedSpy.lastEvent.detail).toEqual({ 'option-2': true, 'option-4': true });
 	});
 
+	it('should replace a capped selection when shift-clicking a new endpoint', async () => {
+		selectElement.setProperty('maxSelectable', 3);
+		await page.waitForChanges();
+		await clickOption('option-1');
+		await setSelectedOptions({ 'option-1': true });
+		await clickOption('option-2');
+		await setSelectedOptions({ 'option-1': true, 'option-2': true });
+		await clickOption('option-3');
+		await setSelectedOptions({ 'option-1': true, 'option-2': true, 'option-3': true });
+
+		// option-5 is only disabled because the cap is reached, and the range frees the slots
+		await clickOption('option-5', true);
+
+		expect(optionsSelectedSpy.lastEvent.detail).toEqual({
+			'option-3': true,
+			'option-4': true,
+			'option-5': true
+		});
+	});
+
+	it('should not select a capped option on a plain click', async () => {
+		selectElement.setProperty('maxSelectable', 1);
+		await page.waitForChanges();
+		await clickOption('option-1');
+		await setSelectedOptions({ 'option-1': true });
+
+		await clickOption('option-3');
+
+		expect(optionsSelectedSpy).toHaveReceivedEventTimes(1);
+		expect(optionSelectedSpy).toHaveReceivedEventTimes(1);
+	});
+
+	it('should ignore enter on an option that is not selectable', async () => {
+		selectElement.setProperty('options', {
+			...OPTIONS,
+			'option-3': { ...OPTIONS['option-3'], selectable: false }
+		});
+		await enableShortcuts();
+		await pressKey('ArrowDown');
+		await pressKey('ArrowDown');
+		await pressKey('ArrowDown');
+
+		await pressKey('Enter');
+
+		expect(optionsSelectedSpy).toHaveReceivedEventTimes(0);
+		expect(optionSelectedSpy).toHaveReceivedEventTimes(0);
+	});
+
 	it('should treat a shift-click as a normal toggle when range selection is off', async () => {
 		selectElement.setProperty('rangeSelection', false);
 		await page.waitForChanges();
