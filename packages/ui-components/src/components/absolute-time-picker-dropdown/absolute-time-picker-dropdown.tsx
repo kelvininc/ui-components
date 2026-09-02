@@ -1,6 +1,6 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EAbsoluteTimePickerMode, IAbsoluteSelectedRangeDates } from '../absolute-time-picker/absolute-time-picker.types';
-import { buildTimezoneByOffset, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date';
+import { getDefaultTimezone, getDefaultTimezones, getTimezoneOffset } from '../../utils/date';
 import { CALENDAR_MASK, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
 import { buildCustomIntervalTimeRange, buildTooltipText, hasRangeChanged } from '../time-picker/time-picker.helper';
 import { isEmpty, isNumber, merge } from 'lodash-es';
@@ -28,7 +28,7 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 	/** @inheritdoc */
 	@Prop({ reflect: false }) timezone?: ITimePickerTimezone;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) timezones?: ITimezoneOffset[] = buildTimezoneByOffset(getTimezonesNames());
+	@Prop({ reflect: false }) timezones?: ITimezoneOffset[] = getDefaultTimezones();
 	/** @inheritdoc */
 	@Prop({ reflect: false }) disabledDates?: string[] = [];
 	/** @inheritdoc */
