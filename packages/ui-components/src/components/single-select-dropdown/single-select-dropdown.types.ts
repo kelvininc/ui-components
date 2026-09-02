@@ -11,7 +11,7 @@ export interface ISelectSingleOption
 
 export type ISelectSingleOptions = Record<string, ISelectSingleOption>;
 
-export interface ISingleSelectDropdown extends Omit<IMultiSelectDropdown, 'selectedOptions' | 'options' | 'filteredOptions'> {
+export interface ISingleSelectDropdown extends Omit<IMultiSelectDropdown, 'selectedOptions' | 'options' | 'filteredOptions' | 'rangeSelection'> {
 	/** (optional) The value of the selected option */
 	selectedOption?: string;
 	/** (optional) The object with the dropdown options */
