@@ -414,6 +414,9 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 					zIndex={this.zIndex}
 					clickOutsideClose={!this.internalDropdownsOpen}
 				>
+					<slot name="right-slot" slot="right-slot" />
+					<slot name="left-slot" slot="left-slot" />
+					<slot name="dropdown-action" slot="dropdown-action" />
 					<div class="time-range-content">
 						<div
 							class={{
