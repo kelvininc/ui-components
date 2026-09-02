@@ -42,6 +42,13 @@
 	height: var(--size-lg);
 	width: var(--size-lg);
 
+	// Keys written out as text need to grow past the square used by the icon keys
+	&--text {
+		width: auto;
+		min-width: var(--size-lg);
+		padding: 0 var(--spacing-xs);
+	}
+
 	kv-icon {
 		--icon-width: var(--size-default);
 		--icon-height: var(--size-default);
