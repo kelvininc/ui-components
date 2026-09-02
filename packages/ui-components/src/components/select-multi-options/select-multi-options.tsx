@@ -11,12 +11,14 @@ import {
 	ADD_OPTION,
 	DEFAULT_ADD_OPTION_PLACEHOLDER,
 	MINIMUM_SEARCHABLE_OPTIONS,
+	DEFAULT_SEARCH_DEBOUNCE_IN_MS,
 	DEFAULT_NO_DATA_AVAILABLE_ILLUSTRATION_CONFIG,
 	SELECT_OPTION_HEIGHT_IN_PX,
 	DEFAULT_NO_RESULTS_FOUND_ILLUSTRATION_CONFIG
 } from './select-multi-options.config';
 import { EToggleState } from '../select-option/select-option.types';
-import { isEmpty } from 'lodash-es';
+import { debounce, isEmpty } from 'lodash-es';
+import type { DebouncedFunc } from 'lodash-es';
 import {
 	buildAllOptionsSelected,
 	buildPartialOptionsSelected,
@@ -58,6 +60,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Prop({ reflect: true }) searchPlaceholder?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchValue?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) searchDebounce?: number = DEFAULT_SEARCH_DEBOUNCE_IN_MS;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectionClearable?: boolean;
 	/** @inheritdoc */
@@ -134,6 +138,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		searchAvailable: boolean;
 	};
 	@State() highlightedOption: string;
+	@State() debouncedSearchValue: string;
 	@State() isCreating: boolean = false;
 	@State() createdOptionValue: string = '';
 
@@ -149,11 +154,53 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		});
 	};
 
+	private applySearchValue = (searchValue?: string): void => {
+		this.debouncedSearchValue = searchValue;
+	};
+
+	// `debounce` captures its wait on creation, so the debouncer is rebuilt whenever `searchDebounce` changes.
+	private debounceSearchValue: DebouncedFunc<(searchValue?: string) => void> = debounce(this.applySearchValue, DEFAULT_SEARCH_DEBOUNCE_IN_MS);
+
+	private buildSearchDebouncer = (): void => {
+		this.debounceSearchValue.cancel();
+		this.debounceSearchValue = debounce(this.applySearchValue, this.searchDebounce);
+	};
+
+	/**
+	 * Delays the term the local search filters by, so that a fast typist filters the list once
+	 * instead of once per keystroke. Only the filtering waits - `searchValue` still reaches the
+	 * search input immediately, keeping the typed text and the clear action responsive.
+	 */
+	private setDebouncedSearchValue = (searchValue?: string): void => {
+		// Clearing the search restores the full list, which must never lag behind: it also happens
+		// when the dropdown closes, and a pending term would reopen it still filtered. A zero wait
+		// is applied straight away too, since `debounce` would still defer it to a later task.
+		if (!this.searchDebounce || isEmpty(searchValue)) {
+			this.debounceSearchValue.cancel();
+			this.applySearchValue(searchValue);
+
+			return;
+		}
+
+		this.debounceSearchValue(searchValue);
+	};
+
+	@Watch('searchValue')
+	onSearchValueChanged(searchValue: string) {
+		this.setDebouncedSearchValue(searchValue);
+	}
+
+	@Watch('searchDebounce')
+	onSearchDebounceChanged() {
+		this.buildSearchDebouncer();
+		this.setDebouncedSearchValue(this.searchValue);
+	}
+
 	@Watch('options')
 	@Watch('filteredOptions')
 	@Watch('searchable')
 	@Watch('minSearchOptions')
-	@Watch('searchValue')
+	@Watch('debouncedSearchValue')
 	@Watch('selectedOptions')
 	@Watch('highlightedOption')
 	@Watch('maxSelectable')
@@ -244,7 +291,14 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	}
 
 	componentWillLoad() {
+		// Props are assigned after construction, so the debouncer only learns a consumer's wait here.
+		this.buildSearchDebouncer();
+		this.debouncedSearchValue = this.searchValue;
 		this.buildSelectionOptions();
+	}
+
+	disconnectedCallback() {
+		this.debounceSearchValue.cancel();
 	}
 
 	private selectRef?: HTMLKvSelectElement | null;
@@ -479,7 +533,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 		// Only filter locally while the search input is actually reachable, otherwise a term left over
 		// from before it was hidden would narrow the list with no way for the user to clear it.
-		return searchAvailable ? selectHelper.searchDropdownOptions(this.searchValue, this.options) : this.options;
+		return searchAvailable ? selectHelper.searchDropdownOptions(this.debouncedSearchValue, this.options) : this.options;
 	}
 
 	render() {
@@ -594,7 +648,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 					<slot name="select-footer" slot="select-footer">
 						<kv-select-shortcuts-label rangeSelection={this.isRangeSelectionEnabled}>
 							<div class="counter" slot="right-items">
-								{!isEmpty(this.searchValue) && hasCurrentOptions && <span>{pluralize('result', currentOptionsLength, true)}</span>}
+								{!isEmpty(this.debouncedSearchValue) && hasCurrentOptions && <span>{pluralize('result', currentOptionsLength, true)}</span>}
 							</div>
 						</kv-select-shortcuts-label>
 					</slot>
