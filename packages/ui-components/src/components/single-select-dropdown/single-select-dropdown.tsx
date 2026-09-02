@@ -375,6 +375,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							counter={this.counter}
 							shortcuts={this.isOpen && this.shortcuts}
 							showShortcuts={this.showShortcuts}
+							rangeSelection={false}
 							onSearchChange={this.onSearchChange}
 							onClearSelection={this.onClearSelection}
 							onOptionSelected={this.onOptionSelected}
