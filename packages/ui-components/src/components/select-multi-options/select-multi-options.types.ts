@@ -42,6 +42,8 @@ export interface ISelectMultiOptionsConfig {
 	searchPlaceholder?: string;
 	/** (optional) The search value to display */
 	searchValue?: string;
+	/** (optional) The debounce, in milliseconds, applied to the search value before the options are filtered locally. Set to `0` to filter on every keystroke. Defaults to `300`. */
+	searchDebounce?: number;
 	/** (optional) If `true` dropdown items can be cleared */
 	selectionClearable?: boolean;
 	/** (optional) The clear selection action text */

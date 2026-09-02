@@ -3,6 +3,7 @@ import { newSpecPage } from '@stencil/core/testing';
 import type { SpecPage } from '@stencil/core/testing';
 
 import { KvSelectMultiOptions } from '../select-multi-options';
+import { DEFAULT_SEARCH_DEBOUNCE_IN_MS } from '../select-multi-options.config';
 import type { ISelectMultiOptions } from '../select-multi-options.types';
 
 const OPTIONS: ISelectMultiOptions = {
@@ -21,7 +22,7 @@ describe('KvSelectMultiOptions (unit tests)', () => {
 	beforeEach(async () => {
 		page = await newSpecPage({
 			components: [KvSelectMultiOptions],
-			template: () => <kv-select-multi-options options={OPTIONS} minSearchOptions={0} />
+			template: () => <kv-select-multi-options options={OPTIONS} minSearchOptions={0} searchDebounce={0} />
 		});
 		component = page.rootInstance;
 		element = page.root as HTMLKvSelectMultiOptionsElement;
@@ -103,5 +104,128 @@ describe('KvSelectMultiOptions (unit tests)', () => {
 		await page.waitForChanges();
 
 		expect(getCurrentOptionValues()).toEqual(['asset-valve']);
+	});
+
+	describe('search debounce', () => {
+		// The render queue is driven by `process.nextTick`, so only the debounce's clock is faked.
+		const useFakeDebounceClock = () => jest.useFakeTimers({ doNotFake: ['nextTick', 'queueMicrotask'] });
+
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvSelectMultiOptions],
+				template: () => <kv-select-multi-options options={OPTIONS} minSearchOptions={0} />
+			});
+			component = page.rootInstance;
+			element = page.root as HTMLKvSelectMultiOptionsElement;
+
+			useFakeDebounceClock();
+		});
+
+		afterEach(() => {
+			jest.useRealTimers();
+		});
+
+		const advance = async (ms: number): Promise<void> => {
+			jest.advanceTimersByTime(ms);
+			await page.waitForChanges();
+		};
+
+		it('should default the debounce to 300ms', () => {
+			expect(component.searchDebounce).toBe(DEFAULT_SEARCH_DEBOUNCE_IN_MS);
+		});
+
+		it('should keep the options unfiltered until the debounce elapses', async () => {
+			element.searchValue = 'pump';
+			await advance(DEFAULT_SEARCH_DEBOUNCE_IN_MS - 1);
+
+			expect(getCurrentOptionValues()).toEqual(['asset-pump', 'asset-valve', 'sensor-pressure']);
+
+			await advance(1);
+
+			expect(getCurrentOptionValues()).toEqual(['asset-pump']);
+		});
+
+		it('should filter once with the last term typed within the debounce window', async () => {
+			element.searchValue = 'p';
+			await advance(100);
+			element.searchValue = 'pu';
+			await advance(100);
+			element.searchValue = 'valve';
+			await advance(DEFAULT_SEARCH_DEBOUNCE_IN_MS);
+
+			expect(getCurrentOptionValues()).toEqual(['asset-valve']);
+		});
+
+		it('should restore all options immediately when the search is cleared', async () => {
+			element.searchValue = 'pump';
+			await advance(DEFAULT_SEARCH_DEBOUNCE_IN_MS);
+			expect(getCurrentOptionValues()).toEqual(['asset-pump']);
+
+			element.searchValue = '';
+			await advance(0);
+
+			expect(getCurrentOptionValues()).toEqual(['asset-pump', 'asset-valve', 'sensor-pressure']);
+		});
+
+		it('should drop a pending term when the search is cleared before the debounce elapses', async () => {
+			element.searchValue = 'pump';
+			await advance(DEFAULT_SEARCH_DEBOUNCE_IN_MS - 1);
+			element.searchValue = '';
+			await advance(DEFAULT_SEARCH_DEBOUNCE_IN_MS);
+
+			expect(getCurrentOptionValues()).toEqual(['asset-pump', 'asset-valve', 'sensor-pressure']);
+		});
+
+		it('should apply a pending term immediately when the debounce is turned off', async () => {
+			element.searchValue = 'pump';
+			element.searchDebounce = 0;
+			await advance(0);
+
+			expect(getCurrentOptionValues()).toEqual(['asset-pump']);
+		});
+
+		it('should honour a debounce set before the component loads', async () => {
+			jest.useRealTimers();
+			page = await newSpecPage({
+				components: [KvSelectMultiOptions],
+				template: () => <kv-select-multi-options options={OPTIONS} minSearchOptions={0} searchDebounce={1000} />
+			});
+			component = page.rootInstance;
+			element = page.root as HTMLKvSelectMultiOptionsElement;
+			useFakeDebounceClock();
+
+			element.searchValue = 'pump';
+			await advance(DEFAULT_SEARCH_DEBOUNCE_IN_MS);
+
+			expect(getCurrentOptionValues()).toEqual(['asset-pump', 'asset-valve', 'sensor-pressure']);
+
+			await advance(1000 - DEFAULT_SEARCH_DEBOUNCE_IN_MS);
+
+			expect(getCurrentOptionValues()).toEqual(['asset-pump']);
+		});
+
+		it('should restart a pending term on the new wait when the debounce changes', async () => {
+			element.searchValue = 'pump';
+			await advance(DEFAULT_SEARCH_DEBOUNCE_IN_MS - 1);
+			element.searchDebounce = 1000;
+			await advance(DEFAULT_SEARCH_DEBOUNCE_IN_MS);
+
+			expect(getCurrentOptionValues()).toEqual(['asset-pump', 'asset-valve', 'sensor-pressure']);
+
+			await advance(1000 - DEFAULT_SEARCH_DEBOUNCE_IN_MS);
+
+			expect(getCurrentOptionValues()).toEqual(['asset-pump']);
+		});
+
+		it('should filter with the initial search value without waiting for the debounce', async () => {
+			jest.useRealTimers();
+			page = await newSpecPage({
+				components: [KvSelectMultiOptions],
+				template: () => <kv-select-multi-options options={OPTIONS} minSearchOptions={0} searchValue="pump" />
+			});
+			component = page.rootInstance;
+
+			expect(getCurrentOptionValues()).toEqual(['asset-pump']);
+		});
 	});
 });
