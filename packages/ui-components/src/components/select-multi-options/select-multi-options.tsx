@@ -138,7 +138,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		searchAvailable: boolean;
 	};
 	@State() highlightedOption: string;
-	@State() debouncedSearchValue: string;
+	@State() debouncedSearchValue?: string;
 	@State() isCreating: boolean = false;
 	@State() createdOptionValue: string = '';
 
@@ -186,7 +186,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	};
 
 	@Watch('searchValue')
-	onSearchValueChanged(searchValue: string) {
+	onSearchValueChanged(searchValue?: string) {
 		this.setDebouncedSearchValue(searchValue);
 	}
 
