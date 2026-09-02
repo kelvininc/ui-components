@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash-es';
 import { ISelectMultiOptions, ISelectOptionWithChildren, ISelectOptionsWithChildren, ISelectSingleOptions } from '../types';
-import { isSubString } from './string.helper';
+import { isSubString, isValidLabel } from './string.helper';
 
 export const getSelectableOptions = (options: ISelectOptionsWithChildren = {}): ISelectOptionsWithChildren => {
 	return Object.values(options).reduce<ISelectOptionsWithChildren>((accumulator, option) => {
@@ -144,7 +144,14 @@ export const searchDropdownOptions = (term: string = '', options: ISelectSingleO
 			return accumulator;
 		}
 
-		if (isSubString(term, option.label) || isSubString(term, option.value)) {
+		// A blank label is not a searchable identity, so those options are matched by their value alone.
+		if (isValidLabel(option.label) && isSubString(term, option.label)) {
+			accumulator[key] = option;
+
+			return accumulator;
+		}
+
+		if (isSubString(term, option.value)) {
 			accumulator[key] = option;
 		}
 

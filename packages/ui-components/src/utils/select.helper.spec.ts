@@ -58,6 +58,24 @@ describe('select.helper', () => {
 		it('should return an empty object when no options match', () => {
 			expect(searchDropdownOptions('missing', options)).toEqual({});
 		});
+
+		it('should fall back to the value when the label does not match', () => {
+			expect(searchDropdownOptions('asset-pump', options)).toEqual({ pump: options.pump });
+		});
+
+		it('should match a blank labelled option by its value alone', () => {
+			const blankLabelled: ISelectMultiOptions = { blank: { label: '   ', value: 'asset-pump' } };
+
+			expect(searchDropdownOptions('asset-pump', blankLabelled)).toEqual(blankLabelled);
+			expect(searchDropdownOptions(' ', blankLabelled)).toEqual({});
+		});
+
+		it('should match an option without a label by its value alone', () => {
+			const unlabelled = { missingLabel: { value: 'asset-pump' } } as unknown as ISelectMultiOptions;
+
+			expect(searchDropdownOptions('asset-pump', unlabelled)).toEqual(unlabelled);
+			expect(searchDropdownOptions('missing', unlabelled)).toEqual({});
+		});
 	});
 
 	describe('#getFlattenSelectOptionsArray', () => {
