@@ -19,7 +19,7 @@ import {
 } from './relative-time-picker.config';
 import { ISelectSingleOptions } from '../single-select-dropdown/single-select-dropdown.types';
 import { EIconName } from '../icon/icon.types';
-import { buildTimezoneByOffset, formatTimezoneName, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date';
+import { formatTimezoneName, getDefaultTimezone, getDefaultTimezones, getTimezoneOffset } from '../../utils/date';
 import { buildRelativeTimeSelectOptions, buildTimezonesDropdownOptions, getSelectedKeyRange, hasRangeChanged, isScrollNeeded } from './relative-time-picker.helper';
 import { CustomCssClass, EComponentSize } from '../../types';
 import { isEmpty } from 'lodash-es';
@@ -42,7 +42,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	/** @inheritdoc */
 	@Prop({ reflect: false }) selectedTimezone?: string;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) timezones?: ITimezoneOffset[] = buildTimezoneByOffset(getTimezonesNames());
+	@Prop({ reflect: false }) timezones?: ITimezoneOffset[] = getDefaultTimezones();
 	/** @inheritdoc */
 	@Prop({ reflect: false }) customIntervalOptionEnabled?: boolean = true;
 	/** @inheritdoc */

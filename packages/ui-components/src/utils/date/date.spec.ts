@@ -1,5 +1,6 @@
 import {
 	areDatesValid,
+	buildTimezoneByOffset,
 	calculateOffsetDate,
 	formatDate,
 	formatDateTime,
@@ -11,6 +12,7 @@ import {
 	getDateYear,
 	getDatesBetweenRange,
 	getDefaultTimezone,
+	getDefaultTimezones,
 	getFirstWeekdayIndexOfMonth,
 	getMonthName,
 	getNumberOfDaysInMonth,
@@ -24,6 +26,8 @@ import {
 	isDateSame,
 	isDateTimeBefore
 } from './date.helper';
+
+import { ITimezoneOffset } from '../../types';
 
 import MockDate from 'mockdate';
 import dayjs from 'dayjs';
@@ -382,6 +386,26 @@ describe('Date Helper', () => {
 
 			it('should be true', () => {
 				expect(actualResult).toBe(true);
+			});
+		});
+	});
+
+	describe('#getDefaultTimezones', () => {
+		describe('when called repeatedly', () => {
+			let firstResult: ITimezoneOffset[];
+			let secondResult: ITimezoneOffset[];
+
+			beforeEach(() => {
+				firstResult = getDefaultTimezones();
+				secondResult = getDefaultTimezones();
+			});
+
+			it('should build the catalogue only once and share it', () => {
+				expect(secondResult).toBe(firstResult);
+			});
+
+			it('should hold every known timezone, sorted by offset', () => {
+				expect(firstResult).toEqual(buildTimezoneByOffset(getTimezonesNames()));
 			});
 		});
 	});
