@@ -8,6 +8,7 @@ import { getBadgeLabelValue, getDropdownDisplayValue } from './multi-select-drop
 import { CustomCssClass, EComponentSize, IIllustrationMessage } from '../../types';
 import { getCssStyle } from '../utils';
 import { ISelectMultiOptions } from '../select-multi-options/select-multi-options.types';
+import { DEFAULT_SEARCH_DEBOUNCE_IN_MS } from '../select-multi-options/select-multi-options.config';
 import { getClassMap } from '../../utils/css-class.helper';
 import { ComputePositionConfig } from '@floating-ui/dom';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
@@ -29,6 +30,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: true }) searchable?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchPlaceholder?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) searchDebounce?: number = DEFAULT_SEARCH_DEBOUNCE_IN_MS;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectionClearable?: boolean = true;
 	/** @inheritdoc */
@@ -292,6 +295,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 							searchable={this.searchable}
 							minSearchOptions={this.minSearchOptions}
 							searchValue={this._searchValue}
+							searchDebounce={this.searchDebounce}
 							selectionClearable={this.selectionClearable}
 							clearSelectionLabel={this.clearSelectionLabel}
 							selectionAll={this.selectionAll}
