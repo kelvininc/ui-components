@@ -72,6 +72,8 @@ export interface ISelectMultiOptionsConfig {
 	createInputPlaceholder?: string;
 	/** (optional) Maximum number of items that can be selected */
 	maxSelectable?: number;
+	/** (optional) If `true` a contiguous range can be selected by shift-clicking or by holding shift while navigating. Default `true` */
+	rangeSelection?: boolean;
 }
 
 export interface ISelectMultiOptionsEvents extends ISelectEvents {
