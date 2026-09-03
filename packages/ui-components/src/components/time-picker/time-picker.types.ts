@@ -9,6 +9,10 @@ export interface ITimePicker {
 	inputConfig?: Partial<ITextField>;
 	/** (optional) Dropdown possible positions */
 	dropdownPositionOptions?: Partial<ComputePositionConfig>;
+	/** (optional) Defines if the dropdown panel is open. Two-way: the component assigns it as the user opens and closes the panel, and emits `dropdownStateChange` alongside */
+	isOpen?: boolean;
+	/** (optional) The element the panel is positioned against, and which the click-outside check treats as "inside". Defaults to the picker's own action wrapper, which is what a projected `dropdown-action` trigger sits in */
+	actionElement?: HTMLElement | null;
 	/** (optional) Defines if the dropdown is disabled */
 	disabled?: boolean;
 	/** (optional) Determines if the show calendar toggle is enabled */
