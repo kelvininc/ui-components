@@ -129,9 +129,11 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 		this.inputMode = newValue.mode;
 		this.setInputValues(newValue.from, newValue.to);
 		const [from] = this.selectedDates ?? [];
-		const date = newDate(from);
-		if (date.isValid()) {
-			this.displayedMonth = date;
+		if (from) {
+			const date = newDate(from);
+			if (date.isValid()) {
+				this.displayedMonth = date;
+			}
 		}
 	}
 

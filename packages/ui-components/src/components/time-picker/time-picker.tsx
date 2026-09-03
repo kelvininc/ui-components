@@ -48,6 +48,10 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: false }) dropdownPositionOptions?: Partial<ComputePositionConfig> = DEFAULT_TIME_RANGE_DROPDOWN_POSITION_OPTIONS;
 	/** @inheritdoc */
+	@Prop({ reflect: true, mutable: true }) isOpen?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) actionElement?: HTMLElement | null = null;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) showCalendar?: boolean = false;
@@ -80,8 +84,6 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	@State() timePickerView: ETimePickerView = ETimePickerView.RelativeTimePicker;
 	// Current selected option
 	@State() selectedTimeState: ITimePickerTimeState;
-	// Dropdown open state
-	@State() dropdownOpen: boolean = false;
 	// Apply button tooltip text
 	@State() applyButtontooltipText: string = '';
 	// Defines if calendar is locked when the user is in full view and clicked customize interval
@@ -100,11 +102,8 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	@Event() showCalendarStateChange: EventEmitter<boolean>;
 
 	@Watch('selectedTimeOption')
-	handleSelectTimeStateChange(timeState: ITimePickerTimeState | ITimePickerTime) {
-		this.selectedTimeState = {
-			...timeState,
-			timezone: timeState?.timezone ?? this.getSelectedTimezone()
-		};
+	handleSelectTimeStateChange() {
+		this.syncTimeState();
 	}
 
 	@Watch('showCalendar')
@@ -113,16 +112,31 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	}
 
 	componentWillLoad() {
-		if (isEmpty(this.selectedTimeOption)) {
-			this.resetDefaultSelectedTimeState();
-		} else {
-			this.syncTimeStateWithTimeOption();
-		}
+		this.syncTimeState();
 		this.syncShowCalendarViewState(this.showCalendar);
 	}
 
 	private syncShowCalendarViewState(value: boolean) {
 		this.timePickerView = value ? ETimePickerView.FullView : ETimePickerView.RelativeTimePicker;
+	}
+
+	/**
+	 * Keeps `selectedTimeState` coherent with the prop, on mount and on every change.
+	 *
+	 * Clearing the prop resets to the default state rather than spreading nothing. The
+	 * watcher used to assign `{ ...timeState, timezone }` unconditionally, so a consumer
+	 * setting `selectedTimeOption` back to `undefined` left an object with no `range` —
+	 * and everything that reads `selectedTimeState.range` (the calendar range, the
+	 * tooltip, `hasRangeChanged`) then saw `undefined`. The render threw, and because a
+	 * throwing render never patches the vdom, `isOpen` stopped reaching the panel and the
+	 * dropdown could not be opened again for the life of that instance.
+	 */
+	private syncTimeState() {
+		if (isEmpty(this.selectedTimeOption)) {
+			this.resetDefaultSelectedTimeState();
+		} else {
+			this.syncTimeStateWithTimeOption();
+		}
 	}
 
 	private syncTimeStateWithTimeOption() {
@@ -162,7 +176,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	};
 
 	private onDropdownChange = ({ detail: isDropdownOpen }: CustomEvent<boolean>) => {
-		this.dropdownOpen = isDropdownOpen;
+		this.isOpen = isDropdownOpen;
 		this.dropdownStateChange.emit(isDropdownOpen);
 		if (!this.isApplyButtonDisabled() && !isDropdownOpen) {
 			if (isEmpty(this.selectedTimeOption)) {
@@ -219,7 +233,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 		const eventPayload = getTimePickerEventPayload(this.selectedTimeState, this.getSelectedTimezone());
 		this.timeRangeChange.emit(eventPayload);
 		this.dropdownStateChange.emit(false);
-		this.dropdownOpen = false;
+		this.isOpen = false;
 		this.timezoneSelectionContentVisible = false;
 
 		if (this.timePickerView !== ETimePickerView.FullView) {
@@ -236,7 +250,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	private onClickCancel = (event: CustomEvent<MouseEvent>) => {
 		this.undoLastChanges();
 		this.cancelClicked.emit(event);
-		this.dropdownOpen = false;
+		this.isOpen = false;
 		this.timezoneSelectionContentVisible = false;
 	};
 
@@ -406,8 +420,9 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 		return (
 			<Host>
 				<kv-dropdown
-					isOpen={this.dropdownOpen}
+					isOpen={this.isOpen}
 					onOpenStateChange={this.onDropdownChange}
+					actionElement={this.actionElement}
 					inputConfig={inputConfig}
 					options={dropdownPositionConfig}
 					disabled={this.disabled}
