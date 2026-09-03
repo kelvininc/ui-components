@@ -1,4 +1,4 @@
-import { create } from "@storybook/theming";
+import { create } from "storybook/theming";
 import logo from "../../src/assets/kelvin-hero.svg";
 
 export default create({

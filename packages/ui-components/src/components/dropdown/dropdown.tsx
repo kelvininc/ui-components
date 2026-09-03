@@ -55,7 +55,15 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	};
 
 	componentDidRender() {
-		this._actionElement = this.actionElement ?? this.el.querySelector('#dropdown-input').shadowRoot.querySelector('#dropdown-input');
+		// Only the `actionElement` prop can name an action element here. This used to
+		// fall back to `this.el.querySelector('#dropdown-input').shadowRoot.querySelector('#dropdown-input')`,
+		// which could never match: `kv-text-field` gives its inner `<input>` only a
+		// `name` and `part="input-text"`, never `id="dropdown-input"`. The lookup
+		// always produced `null` and `kv-dropdown-base` silently fell back to its own
+		// `div#dropdown-action` — and when a consumer filled the `dropdown-action`
+		// slot the fallback `kv-text-field` was gone, so the unguarded `.shadowRoot`
+		// threw a `TypeError` on every render.
+		this._actionElement = this.actionElement ?? null;
 	}
 
 	render() {

@@ -12,7 +12,7 @@ import {
 } from "@kelvininc/react-ui-components/client";
 import { IChangeEvent } from "@rjsf/core";
 import { ComponentProps, useState } from "react";
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import { FormValidation } from "@rjsf/utils";
 
 import { getDropdownDisplayValue } from "../../../helpers/dropdown.helper";
@@ -69,7 +69,7 @@ export const Default: Story = {
 		disabled: false,
 		formData: {
 			"number-example": 2.3,
-			"integer-example": 1,
+			"integer-example": 0.34,
 			"boolean-example": true,
 			"enum-example": "foo",
 			"string-example": "value",
@@ -88,8 +88,8 @@ export const Default: Story = {
 				"integer-example": {
 					title: "Integer",
 					type: "integer",
-					minimum: -10,
-					maximum: 10
+					minimum: 1,
+					maximum: 40
 				},
 				"boolean-example": {
 					title: "Boolean",
@@ -141,6 +141,9 @@ export const Default: Story = {
 			}
 		},
 		uiSchema: {
+			"integer-example": {
+				useInputMask: true
+			},
 			"multipleChoicesList-example": {
 				searchable: true,
 				selectionClearable: true

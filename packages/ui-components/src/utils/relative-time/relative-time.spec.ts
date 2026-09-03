@@ -1,5 +1,5 @@
 import type { SelectedRange } from '../types';
-import { getAbsoluteTimeRange, getRelativeTimeRangeISO, getRelativeTimeRangeTimestamp } from './relative-time.helper';
+import { getAbsoluteTimeRange, getRelativeTimeRangeISO, getRelativeTimeRangeTimestamp, validateRelativeTimeOffsets } from './relative-time.helper';
 import { ERelativeTimeRangeKey } from './relative-time.types';
 import { newDate } from '../date/date.helper';
 
@@ -136,6 +136,23 @@ describe('Relative Time Spec', () => {
 
 				expect(actualResult).toEqual([expectedStart, expectedEnd]);
 			});
+		});
+	});
+
+	describe('#getRelativeTimeRangeISO with future day keys', () => {
+		it.each([
+			[ERelativeTimeRangeKey.Next_3_D, '2023-03-05T16:20:00.000Z'],
+			[ERelativeTimeRangeKey.Next_14_D, '2023-03-16T16:20:00.000Z'],
+			[ERelativeTimeRangeKey.Next_30_D, '2023-04-01T16:20:00.000Z'],
+			[ERelativeTimeRangeKey.Next_60_D, '2023-05-01T16:20:00.000Z']
+		])('should return a range from the cursor until the future date for %s', (key, expectedEndDate) => {
+			expect(getRelativeTimeRangeISO(key, mockCurrentDate.toISOString())).toEqual([mockCurrentDate.toISOString(), expectedEndDate]);
+		});
+	});
+
+	describe('#validateRelativeTimeOffsets', () => {
+		it('should only contain offsets for known relative time keys', () => {
+			expect(validateRelativeTimeOffsets()).toBe(true);
 		});
 	});
 });

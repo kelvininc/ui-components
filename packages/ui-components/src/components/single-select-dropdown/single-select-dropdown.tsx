@@ -10,6 +10,7 @@ import { getCssStyle } from '../utils';
 import { ComputePositionConfig } from '@floating-ui/dom';
 import { buildSingleSelectOptions, getDropdownCustomCss, getDropdownDisplayIcon } from './single-select-dropdown.helper';
 import { getFlattenSelectOptions } from '../../utils/select.helper';
+import { DEFAULT_SEARCH_DEBOUNCE_IN_MS } from '../select-multi-options/select-multi-options.config';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
 import { merge } from 'lodash-es';
 
@@ -70,6 +71,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Prop({ reflect: true }) searchable?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchPlaceholder?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) searchDebounce?: number = DEFAULT_SEARCH_DEBOUNCE_IN_MS;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectionClearable?: boolean;
 	/** @inheritdoc */
@@ -357,6 +360,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							searchable={this.searchable}
 							minSearchOptions={this.minSearchOptions}
 							searchValue={this._searchValue}
+							searchDebounce={this.searchDebounce}
 							selectionClearable={this.selectionClearable}
 							clearSelectionLabel={this.clearSelectionLabel}
 							selectionAll={this.selectionAll}
@@ -371,6 +375,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							counter={this.counter}
 							shortcuts={this.isOpen && this.shortcuts}
 							showShortcuts={this.showShortcuts}
+							rangeSelection={false}
 							onSearchChange={this.onSearchChange}
 							onClearSelection={this.onClearSelection}
 							onOptionSelected={this.onOptionSelected}

@@ -2,13 +2,17 @@ import { ComputePositionConfig } from '@floating-ui/dom';
 import { ITextField } from '../text-field/text-field.types';
 import { IRelativeTimePickerOption, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
 import { EventEmitter } from '@stencil/core';
-import { ETooltipPosition } from '../../types';
+import { EAbsoluteTimePickerMode, ETooltipPosition } from '../../types';
 
 export interface ITimePicker {
 	/** (optional) Configuration of the dropdown input */
 	inputConfig?: Partial<ITextField>;
 	/** (optional) Dropdown possible positions */
 	dropdownPositionOptions?: Partial<ComputePositionConfig>;
+	/** (optional) Defines if the dropdown panel is open. Two-way: the component assigns it as the user opens and closes the panel, and emits `dropdownStateChange` alongside */
+	isOpen?: boolean;
+	/** (optional) The element the panel is positioned against, and which the click-outside check treats as "inside". Defaults to the picker's own action wrapper, which is what a projected `dropdown-action` trigger sits in */
+	actionElement?: HTMLElement | null;
 	/** (optional) Defines if the dropdown is disabled */
 	disabled?: boolean;
 	/** (optional) Determines if the show calendar toggle is enabled */
@@ -19,11 +23,15 @@ export interface ITimePicker {
 	relativeTimePickerOptions?: IRelativeTimePickerOption[][];
 	/** (optional) Timezones */
 	timezones?: ITimezoneOffset[];
-	/** (optional) Determines if the customize interval otion is visible */
+	/** (optional) Determines if the customize interval option is visible */
 	displayCustomizeInterval?: boolean;
 	/** (optional) Determines if the timezone dropdown is visible */
 	displayTimezoneDropdown?: boolean;
-	/** (optional) Lets the timezone visible but doens't let the user change it */
+	/** (optional) Determines if the "Show Calendar" toggle is visible in the footer. Hiding it does not prevent `showCalendar` from being set programmatically */
+	displayCalendarToggle?: boolean;
+	/** (optional) Defines if the custom interval calendar selects a single date or a range */
+	calendarMode?: EAbsoluteTimePickerMode;
+	/** (optional) Lets the timezone visible but doesn't let the user change it */
 	disableTimezoneSelection?: boolean;
 	/** (optional) calendar minimum date to be navigated */
 	calendarInputMinDate?: number;

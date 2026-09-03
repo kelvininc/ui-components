@@ -1,6 +1,6 @@
 import type { Meta, StoryFn, StoryObj } from "@storybook/react";
 import { KvRange } from "@kelvininc/react-ui-components/client";
-import { useArgs } from "@storybook/preview-api";
+import { useArgs } from "storybook/preview-api";
 import { ComponentProps } from "react";
 
 const RangeTemplate: StoryFn<ComponentProps<typeof KvRange>> = (args) => {
