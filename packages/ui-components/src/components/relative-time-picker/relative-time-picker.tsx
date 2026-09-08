@@ -68,6 +68,8 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	/** @inheritdoc */
 	@Event() selectedRelativeTimeChange: EventEmitter<ITimePickerRelativeTime>;
 	/** @inheritdoc */
+	@Event({ bubbles: false }) relativeTimeOptionClicked: EventEmitter<ITimePickerRelativeTime>;
+	/** @inheritdoc */
 	@Event() customizeIntervalClicked: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event() timezoneChange: EventEmitter<ITimePickerTimezone>;
@@ -134,6 +136,9 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 
 	private onSelectRelativeOption = ({ detail: newOption }: CustomEvent<string>, range: SelectedTimestamp): void => {
 		this.hasSelectedKeyRangeChanged(range, newOption);
+		// Emitted unconditionally: `hasSelectedKeyRangeChanged` stays silent when neither the key nor the
+		// range moved, but re-clicking the selected option is still a deliberate confirmation.
+		this.relativeTimeOptionClicked.emit({ key: newOption, range });
 	};
 
 	private hasSelectedKeyRangeChanged = (newRange: SelectedTimestamp, optionSelected: string): void => {
