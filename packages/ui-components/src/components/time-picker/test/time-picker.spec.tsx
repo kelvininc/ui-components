@@ -16,12 +16,21 @@ const FROM = 1681319856833;
 const TO = 1681406272018;
 
 /**
- * Dispatches the click-intent event on the relative picker. `kv-relative-time-picker` is not registered
- * in these spec pages, so the event is dispatched directly on its element — a non-bubbling event still
- * reaches the listener the vdom attached there.
+ * Simulates a click on a relative option, mirroring `kv-relative-time-picker.onSelectRelativeOption`:
+ * `selectedRelativeTimeChange` fires only when the key or range actually moved, `relativeTimeOptionClicked`
+ * always does. Pass `changed: false` for a re-click on the option that is already selected.
+ *
+ * `kv-relative-time-picker` is not registered in these spec pages, so the events are dispatched directly
+ * on its element — a non-bubbling event still reaches the listener the vdom attached there.
  */
-const clickRelativeOption = (page: SpecPage, key: string, range: SelectedTimestamp): void => {
-	page.root.querySelector('kv-relative-time-picker').dispatchEvent(new CustomEvent<ITimePickerRelativeTime>('relativeTimeOptionClicked', { detail: { key, range } }));
+const clickRelativeOption = (page: SpecPage, key: string, range: SelectedTimestamp, { changed = true }: { changed?: boolean } = {}): void => {
+	const relativePicker = page.root.querySelector('kv-relative-time-picker');
+
+	if (changed) {
+		relativePicker.dispatchEvent(new CustomEvent<ITimePickerRelativeTime>('selectedRelativeTimeChange', { detail: { key, range } }));
+	}
+
+	relativePicker.dispatchEvent(new CustomEvent<ITimePickerRelativeTime>('relativeTimeOptionClicked', { detail: { key, range } }));
 };
 
 describe('KvTimePicker (unit tests)', () => {
@@ -149,7 +158,7 @@ describe('KvTimePicker (option list commits on click)', () => {
 	it('should commit again when the already selected option is clicked', async () => {
 		const { key, range } = component.selectedTimeState;
 
-		clickRelativeOption(page, key, range);
+		clickRelativeOption(page, key, range, { changed: false });
 		await page.waitForChanges();
 
 		expect(timeRangeChange).toHaveBeenCalledTimes(1);
@@ -184,6 +193,47 @@ describe('KvTimePicker (option list commits on click)', () => {
 	});
 });
 
+describe('KvTimePicker (no option preselected)', () => {
+	let page: SpecPage;
+	let component: KvTimePicker;
+	let timeRangeChange: jest.Mock;
+
+	beforeEach(async () => {
+		// Options omitting the default key leave nothing selected, and the timezone dropdown stays on
+		page = await newSpecPage({
+			components: [KvTimePicker],
+			template: () => <kv-time-picker isOpen={true} relativeTimePickerOptions={MOCK_RELATIVE_TIME_OPTIONS_GROUPS} />
+		});
+		component = page.rootInstance;
+		timeRangeChange = jest.fn();
+		page.root.addEventListener('timeRangeChange', timeRangeChange);
+	});
+
+	// An empty range breaks `ITimePickerTime` and would hand a consumer an unusable range
+	it('should not commit a timezone change while no option is selected', async () => {
+		component['onSelectedTimezoneChange']({ detail: TOKYO_TIMEZONE } as CustomEvent<ITimePickerTimezone>);
+		await page.waitForChanges();
+
+		expect(timeRangeChange).not.toHaveBeenCalled();
+		expect(component.isOpen).toBe(true);
+	});
+
+	it('should keep the timezone as draft so the next option click carries it', async () => {
+		component['onSelectedTimezoneChange']({ detail: TOKYO_TIMEZONE } as CustomEvent<ITimePickerTimezone>);
+		await page.waitForChanges();
+
+		expect(component.selectedTimeState.timezone).toEqual(TOKYO_TIMEZONE);
+
+		const [{ value: key }] = MOCK_RELATIVE_TIME_OPTIONS_GROUPS[0];
+		clickRelativeOption(page, key, [FROM, TO]);
+		await page.waitForChanges();
+
+		expect(timeRangeChange).toHaveBeenCalledTimes(1);
+		expect(timeRangeChange.mock.calls[0][0].detail).toEqual({ key, range: [FROM, TO], timezone: TOKYO_TIMEZONE });
+		expect(component.isOpen).toBe(false);
+	});
+});
+
 describe('KvTimePicker (calendar confirms with apply)', () => {
 	let page: SpecPage;
 	let component: KvTimePicker;
@@ -204,13 +254,15 @@ describe('KvTimePicker (calendar confirms with apply)', () => {
 		expect(page.root.querySelector('.actions')).not.toBeNull();
 	});
 
-	it('should not commit on option click', async () => {
+	it('should not commit on option click, leaving apply to confirm the draft', async () => {
 		clickRelativeOption(page, 'today', [FROM, TO]);
 		await page.waitForChanges();
 
 		expect(timeRangeChange).not.toHaveBeenCalled();
 		expect(component.isOpen).toBe(true);
-		expect(component.selectedTimeState.key).toEqual(DEFAULT_SELECTED_TIME_KEY);
+		// the draft still advances, so apply has something valid to confirm
+		expect(component.selectedTimeState.key).toEqual('today');
+		expect(component['isApplyButtonDisabled']()).toBe(false);
 	});
 
 	it('should drop a pending calendar range when the calendar is hidden', async () => {

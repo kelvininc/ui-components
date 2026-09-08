@@ -250,14 +250,17 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 			timezone
 		};
 
-		if (this.isCalendarVisible()) {
-			this.selectedTimeState = timeState;
+		// Committing needs a calendar-free view — there is no Apply button to confirm with — and a
+		// complete selection. When the given options omit the default key nothing is preselected, so the
+		// range can still be empty here, and emitting that would break `ITimePickerTime` and hand a
+		// consumer an unusable range. Either way the panel stays open: the timezone modifies the current
+		// selection rather than being the selection, and is kept as draft until an option makes it valid.
+		if (!this.isCalendarVisible() && validateNewRange(timeState.range, this.getExpectedRangeSize())) {
+			this.emitTimeRangeChange(timeState);
 			return;
 		}
 
-		// There is no Apply button here to confirm with, so commit it — but leave the panel open: the
-		// timezone modifies the current selection rather than being the selection.
-		this.emitTimeRangeChange(timeState);
+		this.selectedTimeState = timeState;
 	};
 
 	/**
