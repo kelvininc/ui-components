@@ -765,6 +765,13 @@
           "prefix": "component_semantics"
         }
       }
+    },
+    "divider": {
+      "default": {
+        "value": "{border.container.impact.neutral.default}",
+        "type": "color",
+        "prefix": "component_semantics"
+      }
     }
   },
   "info-panel": {
@@ -1097,7 +1104,7 @@
     "gap": {
       "horizontal": {
         "horizontal": {
-          "value": "{spacing.md}",
+          "value": "{spacing.xs}",
           "type": "number",
           "prefix": "component_semantics"
         }
@@ -2056,22 +2063,22 @@
     "primary": {
       "background": {
         "default": {
-          "value": "{background.interactive.accent.primary.default}",
+          "value": "{background.interactive.accent.teal.primary.default}",
           "type": "color",
           "prefix": "component_semantics"
         },
         "hover": {
-          "value": "{background.interactive.accent.primary.hover}",
+          "value": "{background.interactive.accent.teal.primary.hover}",
           "type": "color",
           "prefix": "component_semantics"
         },
         "pressed": {
-          "value": "{background.interactive.accent.primary.pressed}",
+          "value": "{background.interactive.accent.teal.primary.pressed}",
           "type": "color",
           "prefix": "component_semantics"
         },
         "disabled": {
-          "value": "{background.interactive.accent.primary.disabled}",
+          "value": "{background.interactive.accent.teal.primary.disabled}",
           "type": "color",
           "prefix": "component_semantics"
         }
@@ -2144,17 +2151,17 @@
       },
       "background": {
         "hover": {
-          "value": "{background.interactive.accent.secondary.hover}",
+          "value": "{background.interactive.accent.teal.secondary.hover}",
           "type": "color",
           "prefix": "component_semantics"
         },
         "pressed": {
-          "value": "{background.interactive.accent.secondary.pressed}",
+          "value": "{background.interactive.accent.teal.secondary.pressed}",
           "type": "color",
           "prefix": "component_semantics"
         },
         "disabled": {
-          "value": "{background.interactive.accent.secondary.disabled}",
+          "value": "{background.interactive.accent.teal.secondary.disabled}",
           "type": "color",
           "prefix": "component_semantics"
         }
@@ -2950,6 +2957,11 @@
         },
         "blocked": {
           "value": "{background.interactive.table-editable-cell.state.blocked}",
+          "type": "color",
+          "prefix": "component_semantics"
+        },
+        "checked": {
+          "value": "{background.interactive.table-editable-cell.state.checked}",
           "type": "color",
           "prefix": "component_semantics"
         }

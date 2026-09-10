@@ -59,9 +59,70 @@ function resolveAlias(variable, allVariables) {
 }
 
 /**
+ * Recursively dereferences VARIABLE_ALIAS chains and returns the raw value.
+ * Uses the referenced variable's first mode value (primitives such as opacity
+ * and base colors live in single-mode collections).
+ */
+function resolveRawValue(value, allVariables, depth = 0) {
+	if (depth > 10) {
+		console.warn('Alias chain too deep, aborting resolution');
+		return null;
+	}
+
+	if (value && typeof value === 'object' && value.type === 'VARIABLE_ALIAS') {
+		const referencedVar = allVariables.find(v => v.id === value.id);
+		if (!referencedVar) {
+			console.warn(`Failed to resolve alias with ID: ${value.id}`);
+			return null;
+		}
+		const modeValues = Object.values(referencedVar.valuesByMode);
+		return resolveRawValue(modeValues[0], allVariables, depth + 1);
+	}
+
+	return value;
+}
+
+/**
+ * Resolves a COMPOSE_COLOR variable expression to a hex color string.
+ * Figma emits these when a color variable's opacity is bound to an opacity
+ * variable: COMPOSE_COLOR(baseColor, alpha), where each argument can be a
+ * literal or a VARIABLE_ALIAS.
+ */
+function resolveComposeColor(expressionArguments, allVariables) {
+	const args = expressionArguments || [];
+
+	const baseColor = resolveRawValue(args[0], allVariables);
+	if (!baseColor || typeof baseColor !== 'object' || !('r' in baseColor)) {
+		console.warn('COMPOSE_COLOR: could not resolve base color', args[0]);
+		return null;
+	}
+
+	let alpha = resolveRawValue(args[1], allVariables);
+	if (typeof alpha !== 'number') {
+		console.warn('COMPOSE_COLOR: could not resolve alpha', args[1]);
+		return null;
+	}
+	// Opacity variables hold 0–100 percentages
+	if (alpha > 1) {
+		alpha = alpha / 100;
+	}
+
+	return rgbaToHex({ r: baseColor.r, g: baseColor.g, b: baseColor.b, a: alpha });
+}
+
+/**
  * Converts a variable value to the appropriate format
  */
 function convertValue(value, resolvedType, allVariables) {
+	// Handle variable expressions (e.g. color composed with an opacity variable)
+	if (value && typeof value === 'object' && value.type === 'VARIABLE_EXPRESSION') {
+		if (value.expressionFunction === 'COMPOSE_COLOR') {
+			return resolveComposeColor(value.expressionArguments, allVariables);
+		}
+		console.warn(`Unsupported variable expression function: ${value.expressionFunction}`);
+		return null;
+	}
+
 	// Handle variable aliases
 	if (value && typeof value === 'object' && 'type' in value && value.type === 'VARIABLE_ALIAS') {
 		const referencedVar = allVariables.find(v => v.id === value.id);
@@ -209,12 +270,13 @@ async function processCollectionMode(collection, mode, allVariables) {
 		const modeValue = variable.valuesByMode[mode.modeId];
 
 		if (modeValue !== undefined) {
-			//Exception for weight tokens - keep as number without px unit
-			const isWeightPath = tokenPath.toLowerCase().includes('weight');
-			const convertedValue = convertValue(modeValue, isWeightPath ? 'NUMBER' : variable.resolvedType, allVariables);
+			//Exception for weight and opacity tokens - keep as number without px unit
+			const lowerPath = tokenPath.toLowerCase();
+			const isUnitlessPath = lowerPath.includes('weight') || lowerPath.includes('opacity');
+			const convertedValue = convertValue(modeValue, isUnitlessPath ? 'NUMBER' : variable.resolvedType, allVariables);
 
-			// Track unresolved aliases
-			if (!convertedValue) {
+			// Track unresolved aliases and expressions
+			if (convertedValue === null || convertedValue === undefined) {
 				issues.push({
 					path: tokenPath,
 					issue: 'Unresolved alias',
