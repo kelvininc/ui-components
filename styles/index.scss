@@ -1,0 +1,24 @@
+///@deprecated Use the design token CSS variables from style-dictionary instead
+// Global Spacing
+@forward 'kv-spacing';
+
+///@deprecated Use the new typography mixin from style-dictionary instead
+// Global Typography
+@forward 'kv-typography';
+
+///@deprecated Use the design token CSS variables from style-dictionary instead
+// Default Theme
+@forward 'kv-theme-default';
+
+/// @deprecated Use the design token CSS variables from style-dictionary instead. e.g. var(--color-primary-base)
+// Global Color Functions
+@forward 'kv-functions-color';
+
+// Global Mixin Functions
+@forward 'kv-mixins';
+
+//New Design Tokens
+//Styles tokens (typography and effects)
+@forward 'style-dictionary/styles-mixins.scss';
+
+@forward 'kv-pre-hydration';
