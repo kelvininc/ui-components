@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { KvWizard, EStepState } from "@kelvininc/react-ui-components/client";
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import { ComponentProps, useState } from "react";
 
 const meta = {

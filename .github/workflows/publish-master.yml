@@ -4,6 +4,14 @@ on:
         branches:
             - master
 
+# Serialize all release workflows (master + alpha/beta pre-releases) so they
+# never run at the same time. A pre-release push while a master release is in
+# flight is queued (cancel-in-progress: false) rather than run in parallel,
+# which prevents a concurrent alpha/beta run from pushing a tag mid-release.
+concurrency:
+    group: release-pipeline
+    cancel-in-progress: false
+
 permissions:
     contents: write # for checkout and tag
     id-token: write # Required for OIDC
@@ -65,6 +73,75 @@ jobs:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_CONFIG_PROVENANCE: true
 
+            - name: Create GitHub Release
+              run: |
+                  # The `v$NEW_VERSION` tag was created and pushed by `lerna publish`.
+                  # Make sure it is available locally before creating the release.
+                  git fetch origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG" --force || true
+                  if gh release view "$RELEASE_TAG" > /dev/null 2>&1; then
+                    echo "Release $RELEASE_TAG already exists — skipping creation."
+                  else
+                    gh release create "$RELEASE_TAG" \
+                      --title "$RELEASE_TAG" \
+                      --generate-notes \
+                      --latest \
+                      --verify-tag
+                  fi
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  RELEASE_TAG: ${{ steps.version.outputs.release-tag }}
+
+            - name: Remove Pre-Release Tags
+              run: |
+                  # Refresh the local tag list from the remote so we operate on the
+                  # complete set of tags (and prune any that were already deleted).
+                  git fetch origin --tags --prune --prune-tags --force
+
+                  # Only remove pre-release tags whose base version (the X.Y.Z before
+                  # the `-alpha`/`-beta` suffix) is <= the version we just released.
+                  #
+                  # This bounds the cleanup to the pre-releases that actually led up to
+                  # this release. Pre-release tags for a *future* version have a higher
+                  # base version and are left untouched — including any pushed by a
+                  # concurrent alpha/beta run while this workflow is in flight (e.g. a
+                  # v1.4.0-alpha.0 pushed while master is releasing v1.3.0), which the
+                  # earlier `--force` fetch would otherwise have pulled in and deleted.
+                  #
+                  # NOTE: we compare *base* versions (plain X.Y.Z) with `sort -V`.
+                  # `sort -V` is not semver-aware for pre-release suffixes — it orders
+                  # "1.3.0-alpha.0" *after* "1.3.0" — so it must never see the suffix.
+                  RELEASED_VERSION="${NEW_VERSION#v}"
+                  if [ -z "$RELEASED_VERSION" ]; then
+                    echo "No released version resolved — skipping pre-release tag cleanup."
+                    exit 0
+                  fi
+
+                  REMOVED=0
+                  for tag in $(git tag -l '*-alpha.*' '*-beta.*'); do
+                    base="${tag#v}"     # strip a leading "v"
+                    base="${base%%-*}"  # strip the -alpha.N / -beta.N suffix -> X.Y.Z
+                    # Keep the tag if its base version is newer than the released one.
+                    highest=$(printf '%s\n%s\n' "$base" "$RELEASED_VERSION" | sort -V | tail -n 1)
+                    if [ "$highest" != "$RELEASED_VERSION" ]; then
+                      echo "Keeping $tag (base $base is newer than released $RELEASED_VERSION)"
+                      continue
+                    fi
+                    echo "Removing $tag"
+                    # `|| true` so a single already-deleted tag never aborts the cleanup.
+                    git push origin ":refs/tags/$tag" || true
+                    git tag -d "$tag" || true
+                    REMOVED=$((REMOVED + 1))
+                  done
+
+                  if [ "$REMOVED" -eq 0 ]; then
+                    echo "No pre-release tags eligible for removal."
+                  else
+                    echo "Removed $REMOVED pre-release tag(s) up to v$RELEASED_VERSION."
+                  fi
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NEW_VERSION: ${{ steps.version.outputs.new-version }}
+
             - name: Publish Alpha & Master Storybook to GitHub Pages
               run: |
                   pnpm storybook:deploy -- -- -- --out='./gp' --dry-run
@@ -98,10 +175,12 @@ jobs:
 
                   | Component | Status |
                   |-----------|---------|
-                  | Publish (Lint + Test + Version + Build + NPM + Storybook) | ${{ needs.publish.result == 'success' && '✅ Success' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
+                  | Publish (Lint + Test + Version + Build + NPM + GitHub Release + Tag Cleanup + Storybook) | ${{ needs.publish.result == 'success' && '✅ Success' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
 
                   ## Release Summary
                   - **Package Release**: ${{ needs.publish.result == 'success' && '📦 Published to NPM (with provenance)' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **GitHub Release**: `${{ needs.publish.outputs.release-tag || 'N/A' }}` ${{ needs.publish.result == 'success' && '🏷️ Created' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Pre-Release Tags**: ${{ needs.publish.result == 'success' && '🧹 `*-alpha.*` / `*-beta.*` up to the released version removed' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
                   - **Master Storybook**: ${{ needs.publish.result == 'success' && '💅 Deployed to /' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
                   - **Alpha (Dev) Storybook**: ${{ needs.publish.result == 'success' && '💅 Deployed to /alpha' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
 

@@ -21,7 +21,7 @@ import { HostAttributes, Method } from '@stencil/core/internal';
 })
 export class KvTextField implements ITextField, ITextFieldEvents {
 	private nativeInput?: HTMLInputElement;
-	private maskInstance: IInputMaskInstanceRef;
+	private maskInstance?: IInputMaskInstanceRef;
 
 	@Element() el!: HTMLKvTextFieldElement;
 	/** @inheritdoc */
@@ -148,6 +148,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		} else {
 			if (this.nativeInput) {
 				Inputmask.remove(this.nativeInput);
+				this.maskInstance = undefined;
 				this.valueChangeHandler(this.value);
 			}
 		}
@@ -169,6 +170,11 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 			this.el.focus();
 			this.nativeInput?.focus();
 		}
+	}
+
+	componentDidRender() {
+		// rendering writes `value` into the input, which the mask can rewrite (e.g. clamping to min/max)
+		this.syncValueWithNativeInput();
 	}
 
 	/** Text field focus state */
@@ -196,7 +202,12 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		this.rightActionClick.emit(event);
 	};
 
+	private isResettingMask = false;
+
 	private onInputHandler = ({ target }: InputEvent) => {
+		// ignore the synthetic input event triggered by the mask reset below
+		if (this.isResettingMask) return;
+
 		const input = target as HTMLInputElement | null;
 
 		if (this.maxLength && getUTF8StringLength(input.value) > this.maxLength) {
@@ -208,6 +219,18 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 
 		if (!isNil(input)) {
 			this.value = input.value || '';
+
+			// Deleting a selection can leave a phantom radix position behind in the mask state
+			// (inputmask 5.0.10 numeric alias), making the next typed digits land on the decimal
+			// part. Re-masking the empty value resets the internal mask state.
+			if (this.maskInstance && input.value === '') {
+				this.isResettingMask = true;
+				try {
+					Inputmask.setValue(input, '');
+				} finally {
+					this.isResettingMask = false;
+				}
+			}
 		}
 
 		this.textChange.emit(this.getValue());
@@ -226,11 +249,40 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	private onBlurHandler = ({ target }: FocusEvent) => {
 		this.textFieldBlur.emit((target as HTMLInputElement).value);
 
+		// the mask blur handler runs after this one and may rewrite the value
+		// (e.g. clamp it to the min/max limits) without emitting an input event
+		setTimeout(this.syncValueWithNativeInput, 0);
+
 		if (this.forcedFocus) {
 			return;
 		}
 
 		this.focused = false;
+	};
+
+	/**
+	 * The input mask can rewrite the displayed value without emitting an input event
+	 * (e.g. clamping blur values to the min/max limits). Adopting the displayed value and
+	 * emitting `textChange` keeps the `value` prop and the input always in sync.
+	 *
+	 * Only masked inputs are synced — native input types (e.g. number, datetime-local)
+	 * normalize or reject values internally and report an empty `value`, which must not be
+	 * propagated back (it would clear the consumer state and fight default re-application).
+	 * For the same reason, an empty display for a non-empty value (a value the mask cannot
+	 * represent) is never adopted.
+	 */
+	private syncValueWithNativeInput = () => {
+		if (!this.nativeInput || !this.maskInstance) {
+			return;
+		}
+
+		const displayValue = this.nativeInput.value;
+		if (displayValue === this.getValue() || displayValue === '') {
+			return;
+		}
+
+		this.value = displayValue;
+		this.textChange.emit(displayValue);
 	};
 
 	private onFocusHandler = () => {
@@ -242,12 +294,21 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	private updateAndEmitValue(newString: string) {
 		this.value = this.maxLength ? newString.substring(0, this.maxLength) : newString;
 
-		if (this.nativeInput && this.nativeInput.value) {
+		const shouldWriteToNativeInput = !!this.nativeInput?.value;
+		if (this.nativeInput && shouldWriteToNativeInput) {
 			this.nativeInput.value = this.value;
 		}
 
 		if (this.value !== newString) {
 			this.textChange.emit(this.value);
+		}
+
+		// Writing to a masked input can rewrite the value (e.g. formatting normalizations).
+		// Only sync when the native input was actually written — otherwise the display still
+		// holds the previous value and syncing would wrongly adopt it (the pending render is
+		// the one that writes the new value, and `componentDidRender` syncs after it).
+		if (shouldWriteToNativeInput) {
+			this.syncValueWithNativeInput();
 		}
 	}
 

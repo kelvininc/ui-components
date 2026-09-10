@@ -6,7 +6,7 @@ import {
 	KvSelectOption
 } from "@kelvininc/react-ui-components/client";
 import type { Meta, StoryObj, StoryFn } from "@storybook/react";
-import { useArgs } from "@storybook/preview-api";
+import { useArgs } from "storybook/preview-api";
 import { ComponentProps } from "react";
 
 const DropdownTemplate: StoryFn<ComponentProps<typeof KvDropdown>> = (args) => {

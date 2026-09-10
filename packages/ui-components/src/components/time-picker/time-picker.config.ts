@@ -36,7 +36,9 @@ export const DEFAULT_TIME_RANGE_DROPDOWN_POSITION_OPTIONS: Partial<ComputePositi
 export const DEFAULT_SELECTED_TIME_KEY = 'last-24-h';
 
 export const FULL_RANGE_SIZE = 2;
+export const SINGLE_RANGE_SIZE = 1;
 export const APPLY_BUTTON_ERROR_TOOLTIP_TEXT = 'Both time inputs must be filled.';
+export const APPLY_BUTTON_SINGLE_ERROR_TOOLTIP_TEXT = 'A date must be selected.';
 
 export const UTC_TIMEZONE_OFFSET: ITimezoneOffset = {
 	name: 'utc',

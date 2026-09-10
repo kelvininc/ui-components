@@ -1,33 +1,16 @@
-import { ComponentProps, useCallback, useMemo } from "react";
-import { useArgs } from "@storybook/preview-api";
+import { ComponentProps, useCallback } from "react";
+import { useArgs } from "storybook/preview-api";
 import {
 	EComponentSize,
 	EIconName,
 	KvMultiSelectDropdown
 } from "@kelvininc/react-ui-components/client";
-import { selectHelper } from "@kelvininc/react-ui-components/client";
 import { Meta, StoryObj, StoryFn } from "@storybook/react";
 
 const MultiSelectDropdownTemplate: StoryFn<
 	ComponentProps<typeof KvMultiSelectDropdown>
 > = (args) => {
-	const [{ options, selectedOptions, searchValue }, updateArgs] = useArgs();
-
-	const filteredOptions = useMemo(
-		() =>
-			selectHelper.searchDropdownOptions(
-				searchValue ?? "",
-				options ?? {}
-			),
-		[searchValue, options]
-	);
-
-	const onSearchChange = useCallback(
-		({ detail: searchedLabel }: CustomEvent<string>) => {
-			updateArgs({ searchValue: searchedLabel });
-		},
-		[updateArgs]
-	);
+	const [{ selectedOptions }, updateArgs] = useArgs();
 
 	const onOptionsSelected = useCallback(
 		({ detail }: CustomEvent<Record<string, boolean>>) => {
@@ -41,8 +24,6 @@ const MultiSelectDropdownTemplate: StoryFn<
 			{...args}
 			selectedOptions={selectedOptions}
 			onOptionsSelected={onOptionsSelected}
-			onSearchChange={onSearchChange}
-			filteredOptions={filteredOptions}
 		/>
 	);
 };

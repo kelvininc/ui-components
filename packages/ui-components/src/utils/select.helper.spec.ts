@@ -1,5 +1,5 @@
-import { getFlattenSelectOptions, getFlattenSelectOptionsArray, getSelectableOptions } from './select.helper';
-import { ISelectOptionsWithChildren } from '../types';
+import { getFlattenSelectOptions, getFlattenSelectOptionsArray, getSelectableOptions, searchDropdownOptions } from './select.helper';
+import type { ISelectMultiOptions, ISelectOptionsWithChildren } from '../types';
 import { EToggleState } from '../components/select-option/select-option.types';
 
 const createOption = (value: string, label: string, options?: ISelectOptionsWithChildren) => ({
@@ -16,6 +16,68 @@ const createOption = (value: string, label: string, options?: ISelectOptionsWith
 });
 
 describe('select.helper', () => {
+	describe('#searchDropdownOptions', () => {
+		const options: ISelectMultiOptions = {
+			pump: { label: 'Main Pump', value: 'asset-pump' },
+			valve: { label: 'Control Valve', value: 'asset-valve' },
+			group: {
+				label: 'Sensors',
+				value: 'sensor-group',
+				options: {
+					pressure: { label: 'Pressure Sensor', value: 'sensor-pressure' },
+					temperature: { label: 'Temperature Sensor', value: 'sensor-temperature' }
+				}
+			}
+		};
+
+		it('should return the original options when the search term is empty', () => {
+			expect(searchDropdownOptions('', options)).toBe(options);
+		});
+
+		it('should return the original options when the search term is undefined', () => {
+			expect(searchDropdownOptions(undefined, options)).toBe(options);
+		});
+
+		it('should match option labels case-insensitively', () => {
+			expect(searchDropdownOptions('PUMP', options)).toEqual({ pump: options.pump });
+		});
+
+		it('should match option values case-insensitively', () => {
+			expect(searchDropdownOptions('ASSET-VALVE', options)).toEqual({ valve: options.valve });
+		});
+
+		it('should retain a parent with only its matching descendants', () => {
+			expect(searchDropdownOptions('pressure', options)).toEqual({
+				group: {
+					...options.group,
+					options: { pressure: options.group.options?.pressure }
+				}
+			});
+		});
+
+		it('should return an empty object when no options match', () => {
+			expect(searchDropdownOptions('missing', options)).toEqual({});
+		});
+
+		it('should fall back to the value when the label does not match', () => {
+			expect(searchDropdownOptions('asset-pump', options)).toEqual({ pump: options.pump });
+		});
+
+		it('should match a blank labelled option by its value alone', () => {
+			const blankLabelled: ISelectMultiOptions = { blank: { label: '   ', value: 'asset-pump' } };
+
+			expect(searchDropdownOptions('asset-pump', blankLabelled)).toEqual(blankLabelled);
+			expect(searchDropdownOptions(' ', blankLabelled)).toEqual({});
+		});
+
+		it('should match an option without a label by its value alone', () => {
+			const unlabelled = { missingLabel: { value: 'asset-pump' } } as unknown as ISelectMultiOptions;
+
+			expect(searchDropdownOptions('asset-pump', unlabelled)).toEqual(unlabelled);
+			expect(searchDropdownOptions('missing', unlabelled)).toEqual({});
+		});
+	});
+
 	describe('#getFlattenSelectOptionsArray', () => {
 		describe('when options is empty', () => {
 			it('should return an empty array', () => {

@@ -9,6 +9,14 @@ on:
     # Allows you to run this workflow manually from the Actions tab
     workflow_dispatch:
 
+# Serialize all release workflows (master + alpha/beta pre-releases) so they
+# never run at the same time. Shares the group with publish-master so a
+# pre-release queues behind an in-flight master release instead of pushing a
+# tag while master's pre-release tag cleanup is running.
+concurrency:
+    group: release-pipeline
+    cancel-in-progress: false
+
 permissions:
     contents: write # for checkout and tag
 

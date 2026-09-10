@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { once } from 'lodash-es';
 import { ITimePickerTimezone, ITimezoneOffset } from '../../types';
 
 import advancedFormat from 'dayjs/plugin/advancedFormat';
@@ -137,3 +138,22 @@ export const buildTimezoneByOffset = (timezones: string[]): ITimezoneOffset[] =>
 		})
 		.sort((name1, name2) => name1.offset - name2.offset);
 };
+
+/**
+ * The offset-sorted catalogue of every timezone the platform knows about, built at
+ * most once per page.
+ *
+ * `buildTimezoneByOffset(getTimezonesNames())` walks ~418 IANA zones and makes two
+ * `dayjs().tz(zone)` calls for each, so a single evaluation costs ~45ms of
+ * `Intl.DateTimeFormat` construction. Use this instead of calling the pair directly
+ * in a `@Prop` initialiser: those run per component instance, so a picker rendered
+ * once per row of a table made mounting (or unmounting) the table a multi-second
+ * blocking task.
+ *
+ * Offsets are resolved for "now", so a page left open across a DST transition keeps
+ * the offsets it started with. That was already true of any instance mounted before
+ * the transition, and one shared snapshot beats paying for a fresh one on every
+ * mount. Callers must treat the result as read-only — it is shared by every
+ * component that defaults to it.
+ */
+export const getDefaultTimezones = once((): ITimezoneOffset[] => buildTimezoneByOffset(getTimezonesNames()));

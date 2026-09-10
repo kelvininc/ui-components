@@ -198,8 +198,24 @@ export const RELATIVE_TIME_OFFSETS: Record<ERelativeTimeRangeKey, RelativeTimeOf
 		offset: 72,
 		unit: 'hours'
 	},
+	[ERelativeTimeRangeKey.Next_3_D]: {
+		offset: 3,
+		unit: 'days'
+	},
 	[ERelativeTimeRangeKey.Next_7_D]: {
 		offset: 7,
+		unit: 'days'
+	},
+	[ERelativeTimeRangeKey.Next_14_D]: {
+		offset: 14,
+		unit: 'days'
+	},
+	[ERelativeTimeRangeKey.Next_30_D]: {
+		offset: 30,
+		unit: 'days'
+	},
+	[ERelativeTimeRangeKey.Next_60_D]: {
+		offset: 60,
 		unit: 'days'
 	},
 	[ERelativeTimeRangeKey.Next_2_W]: {

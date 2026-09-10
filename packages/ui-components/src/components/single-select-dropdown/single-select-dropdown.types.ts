@@ -11,12 +11,12 @@ export interface ISelectSingleOption
 
 export type ISelectSingleOptions = Record<string, ISelectSingleOption>;
 
-export interface ISingleSelectDropdown extends Omit<IMultiSelectDropdown, 'selectedOptions' | 'options' | 'filteredOptions'> {
+export interface ISingleSelectDropdown extends Omit<IMultiSelectDropdown, 'selectedOptions' | 'options' | 'filteredOptions' | 'rangeSelection'> {
 	/** (optional) The value of the selected option */
 	selectedOption?: string;
 	/** (optional) The object with the dropdown options */
 	options?: ISelectSingleOptions;
-	/** (optional) The object with the dropdown options filtered */
+	/** (optional) Externally filtered dropdown options. When defined, these override the default local search results. */
 	filteredOptions?: ISelectSingleOptions;
 	/** (optional) If `false` the search text field is not auto-focused. Default `true`. */
 	autoFocus?: boolean;

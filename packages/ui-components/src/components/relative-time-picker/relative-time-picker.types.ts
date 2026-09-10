@@ -31,6 +31,11 @@ export interface IRelativeTimePicker extends ICustomCss {
 export interface IRelativeTimePickerEvents {
 	/** Emitted when the selected time key changes */
 	selectedRelativeTimeChange: EventEmitter<ITimePickerRelativeTime>;
+	/** Emitted when the user clicks a relative time option. Unlike `selectedRelativeTimeChange`, this fires
+	 * only on a real click — never from the periodic range refresh — and fires even when the clicked option
+	 * is already selected
+	 */
+	relativeTimeOptionClicked: EventEmitter<ITimePickerRelativeTime>;
 	/** Emitted when customize interval is clicked */
 	customizeIntervalClicked: EventEmitter<string>;
 	/** Emitted when selected timezone changes */

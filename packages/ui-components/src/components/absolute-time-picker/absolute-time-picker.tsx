@@ -128,12 +128,38 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 
 		this.inputMode = newValue.mode;
 		this.setInputValues(newValue.from, newValue.to);
-		const [from] = this.selectedDates ?? [];
-		const date = newDate(from);
-		if (date.isValid()) {
-			this.displayedMonth = date;
+		// Only sync the displayed month from selectedDates when initialDate is not explicitly set
+		if (!this.initialDate) {
+			const [from] = this.selectedDates ?? [];
+			if (from) {
+				const date = newDate(from);
+				if (date.isValid()) {
+					this.displayedMonth = date;
+				}
+			}
 		}
 	}
+
+	componentWillLoad() {
+		// Watchers do not run for initial prop values, so sync the inputs and the displayed month with preselected dates
+		if (!isEmpty(this.relativeTimeConfig)) {
+			this.handleRelativeTimeConfigInput(this.relativeTimeConfig);
+		}
+		this.handleSelectedRangeDatesChange(this.selectedDates);
+		this.syncDisplayedMonthWithSelectedDates();
+	}
+
+	private syncDisplayedMonthWithSelectedDates = () => {
+		if (this.initialDate) {
+			return;
+		}
+
+		const [from] = this.selectedDates ?? [];
+		const date = newDate(from);
+		if (from && date.isValid()) {
+			this.displayedMonth = date;
+		}
+	};
 
 	private setDateLimits = (min: string, max: string) => {
 		this.minDate = min;

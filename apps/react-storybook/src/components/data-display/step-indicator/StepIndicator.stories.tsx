@@ -1,7 +1,7 @@
 import type { Meta, StoryFn, StoryObj } from "@storybook/react";
 import { ComponentProps, useMemo } from "react";
 import { KvStepIndicator } from "@kelvininc/react-ui-components/client";
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 
 const StepIndicatorTemplate: StoryFn<ComponentProps<typeof KvStepIndicator>> = (
 	args
