@@ -70,6 +70,35 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "scrub": {
+        "default": {
+          "value": "{color.gray.50}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "strong": {
+          "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "subtle": {
+          "value": "{color.gray.300}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "inline-table": {
+        "subtle": {
+          "value": "{color.gray.100}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "default": {
+          "value": "{color.gray.50}",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "container": {
@@ -503,36 +532,60 @@
         }
       },
       "accent": {
-        "primary": {
-          "default": {
-            "value": "{color.teal.500}",
-            "type": "color",
-            "prefix": "color"
+        "teal": {
+          "primary": {
+            "default": {
+              "value": "{color.teal.500}",
+              "type": "color",
+              "prefix": "color"
+            },
+            "hover": {
+              "value": "{color.teal.600}",
+              "type": "color",
+              "prefix": "color"
+            },
+            "pressed": {
+              "value": "{color.teal.700}",
+              "type": "color",
+              "prefix": "color"
+            },
+            "disabled": {
+              "value": "{color.gray.300}",
+              "type": "color",
+              "prefix": "color"
+            }
           },
-          "hover": {
-            "value": "{color.teal.600}",
-            "type": "color",
-            "prefix": "color"
-          },
-          "pressed": {
-            "value": "{color.teal.700}",
-            "type": "color",
-            "prefix": "color"
-          },
-          "disabled": {
-            "value": "{color.gray.300}",
-            "type": "color",
-            "prefix": "color"
+          "secondary": {
+            "hover": {
+              "value": "{color.teal.600}",
+              "type": "color",
+              "prefix": "color"
+            },
+            "pressed": {
+              "value": "{color.teal.700}",
+              "type": "color",
+              "prefix": "color"
+            },
+            "disabled": {
+              "value": "{color.gray.300}",
+              "type": "color",
+              "prefix": "color"
+            }
           }
         },
-        "secondary": {
+        "purple": {
+          "default": {
+            "value": "{color.purple.500}",
+            "type": "color",
+            "prefix": "color"
+          },
           "hover": {
-            "value": "{color.teal.600}",
+            "value": "{color.purple.600}",
             "type": "color",
             "prefix": "color"
           },
           "pressed": {
-            "value": "{color.teal.700}",
+            "value": "{color.purple.700}",
             "type": "color",
             "prefix": "color"
           },
@@ -647,6 +700,11 @@
           },
           "blocked": {
             "value": "{color.gray.200}",
+            "type": "color",
+            "prefix": "color"
+          },
+          "checked": {
+            "value": "{color.brand.100}",
             "type": "color",
             "prefix": "color"
           }
@@ -1544,6 +1602,13 @@
           "type": "color",
           "prefix": "color"
         }
+      },
+      "scrub": {
+        "default": {
+          "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        }
       }
     },
     "interactive": {
@@ -2128,8 +2193,8 @@
         "type": "color",
         "prefix": "color"
       },
-      "opacity-16": {
-        "value": "#bfbfbf29",
+      "opacity-20": {
+        "value": "#bfbfbf33",
         "type": "color",
         "prefix": "color"
       }
@@ -2303,6 +2368,18 @@
         },
         "subtle": {
           "value": "{color.brand.200}",
+          "type": "color",
+          "prefix": "color"
+        }
+      },
+      "scrub": {
+        "default": {
+          "value": "{color.gray.400}",
+          "type": "color",
+          "prefix": "color"
+        },
+        "subtle": {
+          "value": "{color.gray.50}",
           "type": "color",
           "prefix": "color"
         }
@@ -2892,6 +2969,13 @@
     "thumb": {
       "default": {
         "value": "{color.gray.400}",
+        "type": "color",
+        "prefix": "color"
+      }
+    },
+    "background": {
+      "default": {
+        "value": "{color.gray.50}",
         "type": "color",
         "prefix": "color"
       }
