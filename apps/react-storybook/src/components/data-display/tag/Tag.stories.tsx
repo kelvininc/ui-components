@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import {
+	EComponentSize,
 	EIconName,
 	ETagColor,
 	KvTag
@@ -13,6 +14,10 @@ const meta = {
 		color: {
 			control: { type: "select" },
 			options: Object.values(ETagColor)
+		},
+		size: {
+			control: { type: "select" },
+			options: Object.values(EComponentSize)
 		},
 		icon: {
 			control: { type: "select" },
@@ -28,6 +33,17 @@ type Story = StoryObj<typeof meta>;
 export const Neutral: Story = {
 	args: {
 		color: ETagColor.Neutral,
+		size: EComponentSize.Large,
+		label: "Tag Name",
+		icon: EIconName.Add,
+		badgeLabel: "0"
+	}
+};
+
+export const Small: Story = {
+	args: {
+		color: ETagColor.Neutral,
+		size: EComponentSize.Small,
 		label: "Tag Name",
 		icon: EIconName.Add,
 		badgeLabel: "0"

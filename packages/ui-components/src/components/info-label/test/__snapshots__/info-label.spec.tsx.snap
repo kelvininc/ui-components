@@ -14,9 +14,9 @@ exports[`Info Label (unit tests) when renders with a component should match the 
       </div>
     </div>
   </template>
-  <kv-tag color="neutral" label="Test">
+  <kv-tag color="neutral" label="Test" size="large">
     <template shadowrootmode="open">
-      <div class="tag-container tag-container--color-neutral">
+      <div class="tag-container tag-container--color-neutral tag-container--size-large">
         <slot name="left-slot"></slot>
         <div class="tag-label">
           Test
