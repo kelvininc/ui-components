@@ -23,7 +23,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	formContext
 }: WidgetProps<T, S, F>) => {
 	const { trackFieldChange, markFieldAsTouched, isFieldTouched, displayErrors } = useFormState();
-	const { enumOptions, enumDisabled, placeholder: optionsPlaceholder } = options;
+	const { enumOptions, enumDisabled, enumDescriptions, placeholder: optionsPlaceholder } = options;
 	const {
 		displayValue,
 		searchable,
@@ -48,8 +48,8 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	const dropdownConfig = resolveDropdownConfig(contextDropdownConfig);
 
 	const defaultDropdownOptions = useMemo(
-		() => buildDropdownOptions({ options: enumOptions, disabledOptions: enumDisabled, multiSubOptions, schema }),
-		[enumOptions, enumDisabled, multiSubOptions, schema]
+		() => buildDropdownOptions({ options: enumOptions, disabledOptions: enumDisabled, descriptions: enumDescriptions, multiSubOptions, schema }),
+		[enumOptions, enumDisabled, enumDescriptions, multiSubOptions, schema]
 	);
 	const emptyValue = useMemo(() => (multiple ? [] : undefined), [multiple]);
 	const processedValue = processValue(schema, value);

@@ -13,7 +13,7 @@
 		"build:packages": "lerna run build --scope '{@kelvininc/ui-components,@kelvininc/react-ui-components}'",
 		"lint": "lerna run lint",
 		"lint:fix": "lerna run lint:fix",
-		"test": "lerna run test --scope @kelvininc/ui-components",
+		"test": "lerna run test --scope '{@kelvininc/ui-components,@kelvininc/react-ui-components}'",
 		"storybook": "lerna run dev --scope @kelvininc/react-storybook",
 		"storybook:build": "lerna run build --scope @kelvininc/react-storybook",
 		"storybook:deploy": "lerna run deploy --scope @kelvininc/react-storybook"

@@ -2,7 +2,7 @@ import { EActionButtonType, EComponentSize, KvActionButtonTextCustomEvent } from
 import Form, { FormProps, IChangeEvent, withTheme } from '@rjsf/core';
 import { RJSFSchema, StrictRJSFSchema, FormContextType, createSchemaUtils, deepEquals, getSubmitButtonOptions } from '@rjsf/utils';
 import classNames from 'classnames';
-import { cloneDeep, isEmpty, isEqualWith, merge } from 'lodash';
+import { cloneDeep, isArray, isEmpty, isEqualWith, mergeWith } from 'lodash';
 import React, { ComponentProps, ComponentType, FormEvent, ForwardedRef, forwardRef, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useScroll } from '../../hooks';
 import { KvActionButtonText, KvSwitchButton, KvTooltip } from '../../stencil-generated';
@@ -64,7 +64,14 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const experimental_defaultFormStateBehavior = useMemo(() => buildDefaultFormStateBehavior(applyDefaults), [applyDefaults]);
 	const formValidator = useMemo(() => validatorProp ?? getDefaultValidator<T, S, SchemaFormContext>(), [validatorProp]);
 	const { schema, uiSchema: normalizedUiSchema } = useMemo(() => normalizeSchema(schemaProp), [schemaProp]);
-	const mergedUiSchema = useMemo(() => merge({}, normalizedUiSchema, uiSchema), [normalizedUiSchema, uiSchema]);
+	// `merge` blends arrays index-wise, so a caller's `ui:enumDisabled: ['b']` over a generated
+	// `['a','b','c']` produced `['b','b','c']`, and an empty array - which means "nothing is
+	// disabled" - was ignored entirely. Key the customizer on the SOURCE: returning undefined falls
+	// back to the default merge, so testing the destination would keep the generated array instead.
+	const mergedUiSchema = useMemo(
+		() => mergeWith({}, normalizedUiSchema, uiSchema, (_generated, provided) => (isArray(provided) ? provided : undefined)),
+		[normalizedUiSchema, uiSchema]
+	);
 	const formData = useMemo(() => cloneDeep(getInitialFormData(schema, formDataProp, formValidator, applyDefaults, false)), [formValidator, schema, formDataProp, applyDefaults]);
 	const [hasChanges, setHasChanges] = useState(!isEqualWith(formData, submittedData || {}));
 	const [isShowingAllErrors, setShowingAllErrors] = useState(false);

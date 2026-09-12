@@ -16,7 +16,7 @@ const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends F
 	onChange
 }: WidgetProps<T, S, F>) => {
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
-	const { enumOptions, enumDisabled, inline } = options;
+	const { enumOptions, enumDisabled, enumDescriptions, inline } = options;
 	const inlineMemo = useMemo(() => Boolean(inline), [inline]);
 	const { allowClearInputs } = formContext as F;
 
@@ -36,7 +36,9 @@ const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends F
 					const itemDisabled = Array.isArray(enumDisabled) && enumDisabled.indexOf(option.value) !== -1;
 					const checked = option.value == value;
 					const isDisabled = disabled || itemDisabled || readonly;
-					const description = get(option, 'schema.description', '');
+					// `ui:enumDescriptions` first: normalizeEnums moves a oneOf's per-option descriptions
+					// there, and RJSF only populates `option.schema` for a oneOf that was left intact
+					const description = (Array.isArray(enumDescriptions) ? enumDescriptions[i] : undefined) || get(option, 'schema.description', '');
 
 					return (
 						<KvRadioListItem

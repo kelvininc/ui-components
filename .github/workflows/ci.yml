@@ -30,11 +30,11 @@ jobs:
             - name: 🔍 Run linter
               run: pnpm lint
 
-            - name: 🧪 Run tests
-              run: pnpm test
-
             - name: 🏗️ Build all packages
               run: pnpm build:packages
+
+            - name: 🧪 Run tests
+              run: pnpm test
 
             - name: 💅 Build storybook
               run: pnpm storybook:build
