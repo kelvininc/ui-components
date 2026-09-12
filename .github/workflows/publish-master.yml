@@ -52,7 +52,7 @@ jobs:
               run: pnpm lint
 
             - name: Test
-              run: pnpm test
+              run: pnpm --filter @kelvininc/ui-components test
 
             - name: Generate Versions
               id: version
@@ -64,6 +64,9 @@ jobs:
 
             - name: Build
               run: pnpm build:packages
+
+            - name: Test React
+              run: pnpm --filter @kelvininc/react-ui-components test
 
             - name: Publish to NPM JS
               run: |

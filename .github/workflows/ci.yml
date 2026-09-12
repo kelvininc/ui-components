@@ -30,11 +30,14 @@ jobs:
             - name: 🔍 Run linter
               run: pnpm lint
 
-            - name: 🧪 Run tests
-              run: pnpm test
+            - name: 🧪 Run core tests
+              run: pnpm --filter @kelvininc/ui-components test
 
             - name: 🏗️ Build all packages
               run: pnpm build:packages
+
+            - name: 🧪 Run React tests
+              run: pnpm --filter @kelvininc/react-ui-components test
 
             - name: 💅 Build storybook
               run: pnpm storybook:build

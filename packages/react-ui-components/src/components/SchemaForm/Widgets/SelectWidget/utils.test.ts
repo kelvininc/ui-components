@@ -145,6 +145,39 @@ describe('buildDropdownOptions', () => {
 		expect(result.b.disabled).toBe(true);
 	});
 
+	// normalizeEnums collapses a oneOf into an enum and moves the per-option descriptions to
+	// `ui:enumDescriptions`, which RJSF hands over as `options.enumDescriptions`. Without this the
+	// descriptions disappeared, because RJSF only populates `option.schema` for an intact oneOf.
+	it('should take descriptions from the ones supplied, by index', () => {
+		const options = [
+			{ label: 'A', value: 'a' },
+			{ label: 'B', value: 'b' }
+		];
+
+		const result = buildDropdownOptions({ schema, options, descriptions: ['First', 'Second'] });
+
+		expect(result.a.description).toBe('First');
+		expect(result.b.description).toBe('Second');
+	});
+
+	it('should fall back to the option schema description when none are supplied', () => {
+		const options = [{ label: 'A', value: 'a', schema: { description: 'From the schema' } }];
+
+		expect(buildDropdownOptions({ schema, options }).a.description).toBe('From the schema');
+	});
+
+	it('should fall back per option when only some descriptions are supplied', () => {
+		const options = [
+			{ label: 'A', value: 'a', schema: { description: 'From the schema' } },
+			{ label: 'B', value: 'b' }
+		];
+
+		const result = buildDropdownOptions({ schema, options, descriptions: ['', 'Second'] });
+
+		expect(result.a.description).toBe('From the schema');
+		expect(result.b.description).toBe('Second');
+	});
+
 	it('should prefer multiSubOptions when they are not empty', () => {
 		const multiSubOptions = { a: { value: 'a', label: 'A' } };
 
