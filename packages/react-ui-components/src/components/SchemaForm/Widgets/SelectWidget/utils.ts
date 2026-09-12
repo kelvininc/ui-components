@@ -68,11 +68,13 @@ export const buildDropdownOptions = <S extends StrictRJSFSchema = RJSFSchema>({
 	schema,
 	options,
 	disabledOptions,
+	descriptions,
 	multiSubOptions
 }: {
 	schema: S;
 	options?: EnumOptions;
 	disabledOptions?: EnumOptions;
+	descriptions?: EnumOptions;
 	multiSubOptions?: IUIDropdownOptions;
 }): IUIDropdownOptions => {
 	if (!isEmpty(multiSubOptions)) {
@@ -81,7 +83,9 @@ export const buildDropdownOptions = <S extends StrictRJSFSchema = RJSFSchema>({
 
 	return Array.isArray(options)
 		? options.reduce((acc, { label, value, schema: optionSchema }, index) => {
-				const description = optionSchema?.description;
+				// `ui:enumDescriptions` first: normalizeEnums moves a oneOf's per-option descriptions
+				// there, and RJSF only populates `option.schema` for a oneOf that was left intact
+				const description = (Array.isArray(descriptions) ? descriptions[index] : undefined) || optionSchema?.description;
 				const disabled = Array.isArray(disabledOptions) && disabledOptions.indexOf(value) != -1;
 
 				acc[value] = { value, label, description, disabled };

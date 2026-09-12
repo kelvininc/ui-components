@@ -35,12 +35,15 @@ jobs:
               run: pnpm lint
 
             - name: Test
-              run: pnpm test
+              run: pnpm --filter @kelvininc/ui-components test
 
             - name: Build
               run: pnpm build:packages
               env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Test React
+              run: pnpm --filter @kelvininc/react-ui-components test
 
             - name: Publish Alpha & Master Storybook to GitHub Pages
               run: |
