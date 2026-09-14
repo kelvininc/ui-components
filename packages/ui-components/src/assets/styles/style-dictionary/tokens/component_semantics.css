@@ -124,6 +124,7 @@ body, [data-theme] {
   --tooltip-radius-default: var(--radius-sm);
   --tooltip-padding-x-default: var(--spacing-md);
   --tooltip-padding-y-default: var(--spacing-sm);
+  --tooltip-divider-default: var(--border-container-impact-neutral-default);
   --info-panel-padding-x-default: var(--spacing-md);
   --info-panel-padding-y-default: var(--spacing-md);
   --info-panel-radius-default: var(--radius-md);
@@ -174,7 +175,7 @@ body, [data-theme] {
   --input-text-helper-text-default: var(--text-surface-neutral-tertiary);
   --input-text-helper-text-error: var(--text-container-status-danger-default);
   --input-text-required-default: var(--text-surface-danger-default);
-  --input-gap-horizontal-horizontal: var(--spacing-md);
+  --input-gap-horizontal-horizontal: var(--spacing-xs);
   --input-gap-vertical-default: var(--spacing-xs);
   --input-gap-vertical-small: var(--spacing-2xs);
   --input-height-regular: var(--size-4xl);
@@ -327,10 +328,10 @@ body, [data-theme] {
   --magic-button-gap-compact: var(--spacing-md);
   --magic-button-radius-regular: var(--radius-md);
   --magic-button-radius-compact: var(--radius-md);
-  --magic-button-primary-background-default: var(--background-interactive-accent-primary-default);
-  --magic-button-primary-background-hover: var(--background-interactive-accent-primary-hover);
-  --magic-button-primary-background-pressed: var(--background-interactive-accent-primary-pressed);
-  --magic-button-primary-background-disabled: var(--background-interactive-accent-primary-disabled);
+  --magic-button-primary-background-default: var(--background-interactive-accent-teal-primary-default);
+  --magic-button-primary-background-hover: var(--background-interactive-accent-teal-primary-hover);
+  --magic-button-primary-background-pressed: var(--background-interactive-accent-teal-primary-pressed);
+  --magic-button-primary-background-disabled: var(--background-interactive-accent-teal-primary-disabled);
   --magic-button-primary-label-default: var(--text-on-color-accent-default);
   --magic-button-primary-label-disabled: var(--text-on-color-accent-disabled);
   --magic-button-primary-icon-size-regular: var(--size-default);
@@ -341,9 +342,9 @@ body, [data-theme] {
   --magic-button-secondary-border-color-default: var(--border-interactive-accent-default);
   --magic-button-secondary-border-color-hover: var(--border-interactive-accent-default);
   --magic-button-secondary-border-color-pressed: var(--border-interactive-accent-default);
-  --magic-button-secondary-background-hover: var(--background-interactive-accent-secondary-hover);
-  --magic-button-secondary-background-pressed: var(--background-interactive-accent-secondary-pressed);
-  --magic-button-secondary-background-disabled: var(--background-interactive-accent-secondary-disabled);
+  --magic-button-secondary-background-hover: var(--background-interactive-accent-teal-secondary-hover);
+  --magic-button-secondary-background-pressed: var(--background-interactive-accent-teal-secondary-pressed);
+  --magic-button-secondary-background-disabled: var(--background-interactive-accent-teal-secondary-disabled);
   --magic-button-secondary-label-default: var(--text-surface-accent-default);
   --magic-button-secondary-label-subtle: var(--text-on-color-neutral-secondary);
   --magic-button-secondary-label-disabled: var(--text-on-color-neutral-disabled);
@@ -467,6 +468,7 @@ body, [data-theme] {
   --editable-table-background-state-filled: var(--background-interactive-table-editable-cell-state-filled);
   --editable-table-background-state-selected: var(--background-interactive-table-editable-cell-state-selected);
   --editable-table-background-state-blocked: var(--background-interactive-table-editable-cell-state-blocked);
+  --editable-table-background-state-checked: var(--background-interactive-table-editable-cell-state-checked);
   --editable-table-background-level-subtle: var(--background-interactive-table-editable-cell-level-subtle);
   --editable-table-background-level-strong: var(--background-interactive-table-editable-cell-level-strong);
   --editable-table-text-default: var(--text-container-neutral-default);

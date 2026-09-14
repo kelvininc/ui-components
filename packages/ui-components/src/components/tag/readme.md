@@ -25,12 +25,13 @@ export const TagExample: React.FC = () => (
 
 ## Properties
 
-| Property     | Attribute     | Description                                            | Type                                                                                                                                 | Default             |
-| ------------ | ------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
-| `badgeLabel` | `badge-label` | (optional) Badge label displayed at the end of the tag | `string`                                                                                                                             | `undefined`         |
-| `color`      | `color`       | (optional) Tag color variant                           | `ETagColor.Blue \| ETagColor.Brand \| ETagColor.Green \| ETagColor.Neutral \| ETagColor.Purple \| ETagColor.Red \| ETagColor.Yellow` | `ETagColor.Neutral` |
-| `icon`       | `icon`        | (optional) Icon to display inside the tag              | `EIconName`                                                                                                                          | `undefined`         |
-| `label`      | `label`       | (optional) Tag label                                   | `string`                                                                                                                             | `undefined`         |
+| Property     | Attribute     | Description                                            | Type                                                                                                                                 | Default                |
+| ------------ | ------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- |
+| `badgeLabel` | `badge-label` | (optional) Badge label displayed at the end of the tag | `string`                                                                                                                             | `undefined`            |
+| `color`      | `color`       | (optional) Tag color variant                           | `ETagColor.Blue \| ETagColor.Brand \| ETagColor.Green \| ETagColor.Neutral \| ETagColor.Purple \| ETagColor.Red \| ETagColor.Yellow` | `ETagColor.Neutral`    |
+| `icon`       | `icon`        | (optional) Icon to display inside the tag              | `EIconName`                                                                                                                          | `undefined`            |
+| `label`      | `label`       | (optional) Tag label                                   | `string`                                                                                                                             | `undefined`            |
+| `size`       | `size`        | (optional) Tag size variant                            | `EComponentSize.Large \| EComponentSize.Small`                                                                                       | `EComponentSize.Large` |
 
 
 ## CSS Custom Properties
@@ -44,6 +45,7 @@ export const TagExample: React.FC = () => (
 | `--tag-content-gap`            | Gap between icon, label and badge. |
 | `--tag-content-padding-x`      | Horizontal padding inside the tag. |
 | `--tag-content-padding-y`      | Vertical padding inside the tag.   |
+| `--tag-height`                 | Tag height.                        |
 | `--tag-icon-color`             | Tag icon color.                    |
 | `--tag-label-color`            | Tag label text color.              |
 

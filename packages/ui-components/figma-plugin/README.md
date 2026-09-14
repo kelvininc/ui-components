@@ -10,6 +10,7 @@ Plugin to export Figma variables and styles to DTCG (Design Tokens Community Gro
 - ✅ Exports **effect styles** (shadows and blurs)
 - ✅ Supports multiple modes (light/dark)
 - ✅ Resolves variable references (aliases)
+- ✅ Resolves variable expressions (`COMPOSE_COLOR` — colors with opacity bound to an opacity variable, exported as 8-digit hex)
 - ✅ Generates separate files per collection and mode
 - ✅ Individual download or ZIP with all files
 
