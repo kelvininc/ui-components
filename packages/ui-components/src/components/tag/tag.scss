@@ -11,10 +11,10 @@
 	 * @prop --tag-content-gap: Gap between icon, label and badge.
 	 * @prop --tag-content-padding-x: Horizontal padding inside the tag.
 	 * @prop --tag-content-padding-y: Vertical padding inside the tag.
+	 * @prop --tag-height: Tag height.
 	 */
 
 	--tag-content-gap: var(--spacing-xs);
-	--tag-content-padding-x: var(--spacing-md);
 	--tag-content-padding-y: var(--spacing-none);
 }
 
@@ -25,10 +25,10 @@
 	gap: var(--tag-content-gap);
 	width: fit-content;
 	max-width: stretch;
-	height: var(--size-xl);
+	height: var(--tag-height, var(--_tag-height));
 	box-sizing: border-box;
 	border-radius: var(--radius-md);
-	padding: var(--tag-content-padding-y) var(--tag-content-padding-x);
+	padding: var(--tag-content-padding-y) var(--tag-content-padding-x, var(--_tag-padding-x));
 	background-color: var(--tag-background-color, var(--_tag-bg));
 	border: 1px solid var(--tag-border-color, var(--_tag-border-color));
 
@@ -48,6 +48,17 @@
 	kv-badge {
 		--badge-background-color-secondary: var(--tag-badge-background-color, var(--_tag-badge-bg));
 		--badge-text-color-secondary: var(--tag-badge-color, var(--_tag-badge));
+	}
+
+	// Size variants
+	&--size-large {
+		--_tag-height: var(--size-xl);
+		--_tag-padding-x: var(--spacing-md);
+	}
+
+	&--size-small {
+		--_tag-height: var(--size-lg);
+		--_tag-padding-x: var(--spacing-sm);
 	}
 
 	// Color variants

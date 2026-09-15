@@ -20,7 +20,8 @@ $full-view-width: 779px;
 		transition: all 0.3s ease-in-out;
 
 		&--relative {
-			height: $relative-time-picker-height;
+			/* stylelint-disable-next-line csstools/value-no-unknown-custom-properties -- set inline by kv-time-picker */
+			height: var(--relative-view-height, #{$relative-time-picker-height});
 			width: $relative-time-picker-width;
 		}
 
@@ -40,9 +41,13 @@ $full-view-width: 779px;
 
 		kv-relative-time-picker {
 			--background-color: transparent;
+			// the content wrapper sizes the relative view, so drop the picker's own floor
+			--min-height: 0;
 		}
 
 		&--full-view {
+			// keep the divider spanning the calendar column when the options list is short
+			height: 100%;
 			border-right: 1px solid var(--slider-border-color-default);
 		}
 	}

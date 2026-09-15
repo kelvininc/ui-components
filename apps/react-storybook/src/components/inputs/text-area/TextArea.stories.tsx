@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { EIconName, KvTextArea } from "@kelvininc/react-ui-components/client";
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 
 const meta = {
 	title: "Inputs / Text Area",

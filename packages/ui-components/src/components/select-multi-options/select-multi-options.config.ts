@@ -4,6 +4,7 @@ import { IIllustrationMessage } from '../illustration-message/illustration-messa
 import { ISelectOption } from '../select-option/select-option.types';
 
 export const MINIMUM_SEARCHABLE_OPTIONS = 15;
+export const DEFAULT_SEARCH_DEBOUNCE_IN_MS = 300;
 export const SELECT_OPTION_HEIGHT_IN_PX = 32;
 export const DEFAULT_ADD_OPTION_PLACEHOLDER = 'Add a new option';
 export const ADD_OPTION: ISelectOption = {

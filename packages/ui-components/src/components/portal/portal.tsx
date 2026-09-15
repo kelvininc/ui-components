@@ -94,6 +94,23 @@ export class KvPortal implements IPortal, IPortalEvents {
 		this.elementAppend.emit(this.element);
 	}
 
+	/**
+	 * Resolves the z-index to write to the portal element.
+	 *
+	 * `zIndex` is not guaranteed to hold a number by the time it reaches the DOM:
+	 * the React wrapper assigns every prop with `node[name] = newProps[name]`, so a
+	 * consumer passing `undefined` overwrites this component's `@Prop` default. The
+	 * old code wrote `${this.zIndex}` straight through, and `${undefined}` is the
+	 * string "undefined" — invalid CSS, silently discarded by the browser. The
+	 * portal then kept the `-1` that `createPortal()` sets, leaving its content
+	 * correctly positioned but rendered behind the whole page with nothing logged.
+	 */
+	private getZIndex = (): number => {
+		const zIndex = typeof this.zIndex === 'number' ? this.zIndex : Number.parseFloat(this.zIndex);
+
+		return Number.isFinite(zIndex) ? zIndex : PORTAL_Z_INDEX.show;
+	};
+
 	private getPortalArrowElement = (): HTMLElement | null => {
 		return this.element.shadowRoot.querySelector('#portal-arrow') as HTMLElement | null;
 	};
@@ -121,7 +138,7 @@ export class KvPortal implements IPortal, IPortalEvents {
 				const { referenceHidden } = middlewareData.hide;
 				if (this.show) {
 					this.visible = !referenceHidden;
-					this.portal.style.zIndex = referenceHidden ? `${PORTAL_Z_INDEX.hidden}` : `${this.zIndex}`;
+					this.portal.style.zIndex = referenceHidden ? `${PORTAL_Z_INDEX.hidden}` : `${this.getZIndex()}`;
 				}
 			}
 
@@ -154,7 +171,7 @@ export class KvPortal implements IPortal, IPortalEvents {
 	private showPortalContent() {
 		if (!this.portal) return;
 
-		this.portal.style.zIndex = `${this.zIndex}`;
+		this.portal.style.zIndex = `${this.getZIndex()}`;
 		if (this.delay) {
 			this.timeoutId = window.setTimeout(() => {
 				this.visible = true;

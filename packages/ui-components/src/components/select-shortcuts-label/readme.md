@@ -3,6 +3,13 @@
 <!-- Auto Generated Below -->
 
 
+## Properties
+
+| Property         | Attribute         | Description                                                                          | Type      | Default |
+| ---------------- | ----------------- | ------------------------------------------------------------------------------------ | --------- | ------- |
+| `rangeSelection` | `range-selection` | (optional) If `true` the range selection shortcut hint is displayed. Default `false` | `boolean` | `false` |
+
+
 ## Dependencies
 
 ### Used by

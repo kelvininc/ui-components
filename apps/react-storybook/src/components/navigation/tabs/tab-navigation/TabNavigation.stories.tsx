@@ -6,7 +6,7 @@ import {
 	EIconName,
 	ETagState
 } from "@kelvininc/react-ui-components/client";
-import { useArgs } from "@storybook/preview-api";
+import { useArgs } from "storybook/preview-api";
 
 const meta = {
 	title: "Navigation/Tabs/Tab Navigation",

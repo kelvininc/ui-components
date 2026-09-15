@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
 import { ITimezoneOffset } from '../../types';
 import { CALENDAR_DATE_TIME_MASK, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
-import { ERelativeTimeInputMode, IRelativeTimeInput } from '../absolute-time-picker/absolute-time-picker.types';
+import { EAbsoluteTimePickerMode, ERelativeTimeInputMode, IRelativeTimeInput } from '../absolute-time-picker/absolute-time-picker.types';
 import { ERelativeTimeComparisonConfig, IRelativeTimePickerOption, ITimePickerRelativeTime, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
 import { isEmpty, isNil, isNumber } from 'lodash-es';
-import { UTC_TIMEZONE_OFFSET } from './time-picker.config';
+import { FULL_RANGE_SIZE, SINGLE_RANGE_SIZE, UTC_TIMEZONE_OFFSET } from './time-picker.config';
+import { BOTTOM_OPTIONS_HEIGHT, GROUP_GAP, MAX_HEIGHT, PADDING_SIZE, SELECT_OPTION_HEIGHT } from '../relative-time-picker/relative-time-picker.config';
 import { ITimePickerTime, ITimePickerTimeState, SelectedTimestamp } from './time-picker.types';
 import { newTimezoneDate } from '../../utils/date/date.helper';
 import { CUSTOM_TIME_RANGE_KEY } from '../../utils/relative-time';
@@ -59,18 +60,32 @@ export const createTimestampInTimezoneFromFormattedDate = (date: string, timezon
 /**
  * Transforms the selected timestamp range in formatted dates to be read by the kv-absolute-time-picker component
  * @param selectedOption selected ranges and timezone
+ * @param defaultTimezone timezone used when the selected option has none
+ * @param mode calendar mode; in single mode a relative option resolves to its end date
  * @returns range in the calendar date time format
  */
-export const getAbsoluteTimePickerRangeDates = (selectedOption: ITimePickerTimeState, defaultTimezone: ITimePickerTimezone): string[] => {
+export const getAbsoluteTimePickerRangeDates = (
+	selectedOption: ITimePickerTimeState,
+	defaultTimezone: ITimePickerTimezone,
+	mode: EAbsoluteTimePickerMode = EAbsoluteTimePickerMode.Range
+): string[] => {
 	const [from, to] = selectedOption.range;
 	const timezoneOffset = selectedOption.timezone?.offset ?? defaultTimezone.offset;
 	const timezoneName = selectedOption.timezone?.name ?? defaultTimezone.name;
 
-	if (!from && !to) {
+	const hasFrom = isNumber(from);
+	const hasTo = isNumber(to);
+
+	if (!hasFrom && !hasTo) {
 		return [];
 	}
 
-	if (!to && from) {
+	// A relative option is a [now, target] range; the single date calendar cares about the target
+	if (mode === EAbsoluteTimePickerMode.Single && selectedOption.key !== CUSTOM_TIME_RANGE_KEY && hasFrom && hasTo) {
+		return [dayjs(to).utcOffset(timezoneOffset).format(CALENDAR_DATE_TIME_MASK)];
+	}
+
+	if (!hasTo && hasFrom) {
 		if (selectedOption.key === CUSTOM_TIME_RANGE_KEY) {
 			return [dayjs(from).tz(timezoneName).format(CALENDAR_DATE_TIME_MASK)];
 		}
@@ -115,16 +130,12 @@ export const getRelativeTimeLabel = (relativeTimeValue: string | undefined, rela
 	relativeTimeOptions.flat().find(option => option.value === relativeTimeValue)?.label ?? relativeTimeValue;
 
 export const getTimestampFromDateRange = (range: SelectedTimestamp, previousTimezone: string, newTimezone: string): SelectedTimestamp => {
-	const [from, to] = range;
-	// Load date in the previous timezone
-	const parsedFromDate = createFormattedDateFromTimestampInTimezone(from, previousTimezone);
-	const parsedToDate = createFormattedDateFromTimestampInTimezone(to, previousTimezone);
-
-	// Create new timestamps with the updated timezone
-	const fromDate = createTimestampInTimezoneFromFormattedDate(parsedFromDate, newTimezone);
-	const toDate = createTimestampInTimezoneFromFormattedDate(parsedToDate, newTimezone);
-
-	return [fromDate, toDate];
+	return (range as number[]).map(timestamp => {
+		// Load date in the previous timezone
+		const parsedDate = createFormattedDateFromTimestampInTimezone(timestamp, previousTimezone);
+		// Create new timestamp with the updated timezone
+		return createTimestampInTimezoneFromFormattedDate(parsedDate, newTimezone);
+	}) as SelectedTimestamp;
 };
 
 export const hasRangeChanged = (componentRangeState: SelectedTimestamp, propRangeState: SelectedTimestamp): boolean => {
@@ -145,9 +156,35 @@ export const hasRangeChanged = (componentRangeState: SelectedTimestamp, propRang
 	return newRangeFrom !== currentRangeFrom || newRangeTo !== currentRangeTo;
 };
 
-export const validateNewRange = (range: SelectedTimestamp): boolean => {
+export const validateNewRange = (range: SelectedTimestamp, expectedSize: number = FULL_RANGE_SIZE): boolean => {
+	if (range.length !== expectedSize) {
+		return false;
+	}
+
 	const [from, to] = range;
-	return from && to && dayjs(from).isValid() && dayjs(to).isValid() && dayjs(from).isBefore(to);
+
+	if (expectedSize === SINGLE_RANGE_SIZE) {
+		return isNumber(from) && dayjs(from).isValid();
+	}
+
+	return isNumber(from) && isNumber(to) && dayjs(from).isValid() && dayjs(to).isValid() && dayjs(from).isBefore(to);
+};
+
+/**
+ * Computes the natural height of the relative time view so the dropdown wraps its content instead of
+ * always reserving the maximum height. Mirrors the layout constants used by kv-relative-time-picker.
+ * @param options relative time option groups
+ * @param displayCustomizeInterval whether the customize interval option is rendered
+ * @param displayTimezoneDropdown whether the timezone dropdown is rendered
+ * @returns height in pixels, capped at the relative time picker maximum height
+ */
+export const getRelativeViewHeight = (options: IRelativeTimePickerOption[][] | undefined, displayCustomizeInterval: boolean, displayTimezoneDropdown: boolean): number => {
+	const groups = options ?? [];
+	const optionsHeight = groups.reduce<number>((acc, group) => acc + group.length * SELECT_OPTION_HEIGHT, 0);
+	const gapsHeight = Math.max(groups.length - 1, 0) * GROUP_GAP;
+	const bottomOptionsHeight = (displayCustomizeInterval ? BOTTOM_OPTIONS_HEIGHT : 0) + (displayTimezoneDropdown ? BOTTOM_OPTIONS_HEIGHT : 0);
+
+	return Math.min(optionsHeight + gapsHeight + 2 * PADDING_SIZE + bottomOptionsHeight, MAX_HEIGHT);
 };
 
 export const getTimePickerEventPayload = (timeState: ITimePickerTimeState, timezone: ITimePickerTimezone): ITimePickerTime => {

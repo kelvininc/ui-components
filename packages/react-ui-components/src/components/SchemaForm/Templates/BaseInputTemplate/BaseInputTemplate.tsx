@@ -87,6 +87,11 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 		[schema.examples, schema.default]
 	);
 
+	const shouldUseInputMask = useMemo(
+		() => (uiSchema.useInputMask === undefined && inputType === EInputFieldType.Number ? false : uiSchema.useInputMask),
+		[uiSchema.useInputMask, inputType]
+	);
+
 	// Show errors if the field has been touched OR if the form is set to display errors globally
 	const shouldShowErrors = isFieldTouched(id) || displayErrors;
 	const hasErrors = shouldShowErrors && !isEmpty(rawErrors);
@@ -107,7 +112,7 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 				placeholder={placeholder}
 				type={inputType}
 				state={hasErrors ? EValidationState.Invalid : EValidationState.Valid}
-				useInputMask={useInputMask}
+				useInputMask={shouldUseInputMask}
 				inputMaskRegex={inputMaskRegex}
 				value={value || value === 0 ? value : ''}
 				valuePrefix={valuePrefix}

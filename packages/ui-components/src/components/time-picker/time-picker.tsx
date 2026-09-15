@@ -4,18 +4,20 @@ import { isEmpty, isNumber, merge } from 'lodash-es';
 import { ITextField } from '../text-field/text-field.types';
 import {
 	APPLY_BUTTON_ERROR_TOOLTIP_TEXT,
+	APPLY_BUTTON_SINGLE_ERROR_TOOLTIP_TEXT,
 	DEFAULT_SELECTED_TIME_KEY,
 	DEFAULT_TIME_RANGE_DROPDOWN_POSITION_OPTIONS,
 	DEFAULT_TIME_RANGE_PICKER_INPUT_CONFIG,
 	FULL_RANGE_SIZE,
+	SINGLE_RANGE_SIZE,
 	TIME_PICKER_PORTAL_Z_INDEX
 } from './time-picker.config';
 import { ETimePickerView } from './time-picker.types';
 import { ComputePositionConfig } from '@floating-ui/dom';
 import { EAbsoluteTimePickerMode, EComponentSize, ETooltipPosition, ITimezoneOffset, SelectedRange } from '../../types';
 import { IRelativeTimePickerOption, ITimePickerRelativeTime, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
-import { buildTimezoneByOffset, getDefaultTimezone, getTimezoneOffset, getTimezonesNames } from '../../utils/date/date.helper';
-import { ITimePicker, ITimePickerEvents, ITimePickerTimeState, ITimePickerTime } from './time-picker.types';
+import { getDefaultTimezone, getDefaultTimezones, getTimezoneOffset } from '../../utils/date/date.helper';
+import { ITimePicker, ITimePickerEvents, ITimePickerTimeState, ITimePickerTime, SelectedTimestamp } from './time-picker.types';
 import {
 	buildCustomIntervalTimeRange,
 	buildTooltipText,
@@ -24,6 +26,7 @@ import {
 	getLast24HoursRange,
 	getRelativeTimeInputText,
 	getRelativeTimeLabel,
+	getRelativeViewHeight,
 	getTimePickerEventPayload,
 	getTimestampFromDateRange,
 	hasRangeChanged,
@@ -32,7 +35,7 @@ import {
 import { CALENDAR_DATE_TIME_MASK, DATETIME_INPUT_MASK, DEFAULT_HEADER_TITLE } from '../absolute-time-picker/absolute-time-picker.config';
 import { IRelativeTimeInput, IAbsoluteSelectedRangeDates } from '../absolute-time-picker/absolute-time-picker.types';
 import dayjs from 'dayjs';
-import { CUSTOM_TIME_RANGE_KEY, DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS } from '../../utils/relative-time';
+import { CUSTOM_TIME_RANGE_KEY, DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS, buildOptionRange, buildTimestampRange, getRelativeTimeOption } from '../../utils/relative-time';
 
 @Component({
 	tag: 'kv-time-picker',
@@ -45,6 +48,10 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: false }) dropdownPositionOptions?: Partial<ComputePositionConfig> = DEFAULT_TIME_RANGE_DROPDOWN_POSITION_OPTIONS;
 	/** @inheritdoc */
+	@Prop({ reflect: true, mutable: true }) isOpen?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) actionElement?: HTMLElement | null = null;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) showCalendar?: boolean = false;
@@ -53,13 +60,17 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) relativeTimePickerOptions?: IRelativeTimePickerOption[][] = DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS;
 	/** @inheritdoc */
-	@Prop({ reflect: false }) timezones?: ITimezoneOffset[] = buildTimezoneByOffset(getTimezonesNames());
+	@Prop({ reflect: false }) timezones?: ITimezoneOffset[] = getDefaultTimezones();
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disableTimezoneSelection?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) displayCustomizeInterval?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) displayTimezoneDropdown?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) displayCalendarToggle?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) calendarMode?: EAbsoluteTimePickerMode = EAbsoluteTimePickerMode.Range;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) calendarInputMinDate?: number;
 	/** @inheritdoc */
@@ -73,8 +84,6 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	@State() timePickerView: ETimePickerView = ETimePickerView.RelativeTimePicker;
 	// Current selected option
 	@State() selectedTimeState: ITimePickerTimeState;
-	// Dropdown open state
-	@State() dropdownOpen: boolean = false;
 	// Apply button tooltip text
 	@State() applyButtontooltipText: string = '';
 	// Defines if calendar is locked when the user is in full view and clicked customize interval
@@ -93,29 +102,48 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	@Event() showCalendarStateChange: EventEmitter<boolean>;
 
 	@Watch('selectedTimeOption')
-	handleSelectTimeStateChange(timeState: ITimePickerTimeState | ITimePickerTime) {
-		this.selectedTimeState = {
-			...timeState,
-			timezone: timeState?.timezone ?? this.getSelectedTimezone()
-		};
+	handleSelectTimeStateChange() {
+		this.syncTimeState();
 	}
 
 	@Watch('showCalendar')
 	handleShowCalendarChange(value: boolean) {
 		this.syncShowCalendarViewState(value);
+
+		// Hiding the calendar also hides Apply, so a pending range would be left with no way to confirm it
+		// — and `calendarViewLocked` would stay set, disabling the toggle. Fall back to the committed value.
+		// Order matters: the view is reset first so `undoLastChanges` takes its non-full-view branch.
+		if (!value) {
+			this.undoLastChanges();
+		}
 	}
 
 	componentWillLoad() {
-		if (isEmpty(this.selectedTimeOption)) {
-			this.resetDefaultSelectedTimeState();
-		} else {
-			this.syncTimeStateWithTimeOption();
-		}
+		this.syncTimeState();
 		this.syncShowCalendarViewState(this.showCalendar);
 	}
 
 	private syncShowCalendarViewState(value: boolean) {
 		this.timePickerView = value ? ETimePickerView.FullView : ETimePickerView.RelativeTimePicker;
+	}
+
+	/**
+	 * Keeps `selectedTimeState` coherent with the prop, on mount and on every change.
+	 *
+	 * Clearing the prop resets to the default state rather than spreading nothing. The
+	 * watcher used to assign `{ ...timeState, timezone }` unconditionally, so a consumer
+	 * setting `selectedTimeOption` back to `undefined` left an object with no `range` —
+	 * and everything that reads `selectedTimeState.range` (the calendar range, the
+	 * tooltip, `hasRangeChanged`) then saw `undefined`. The render threw, and because a
+	 * throwing render never patches the vdom, `isOpen` stopped reaching the panel and the
+	 * dropdown could not be opened again for the life of that instance.
+	 */
+	private syncTimeState() {
+		if (isEmpty(this.selectedTimeOption)) {
+			this.resetDefaultSelectedTimeState();
+		} else {
+			this.syncTimeStateWithTimeOption();
+		}
 	}
 
 	private syncTimeStateWithTimeOption() {
@@ -126,11 +154,20 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	}
 
 	private resetDefaultSelectedTimeState = () => {
-		this.selectedTimeState = {
-			key: DEFAULT_SELECTED_TIME_KEY,
-			range: getLast24HoursRange(),
-			timezone: this.getSelectedTimezone()
-		};
+		// Only preselect the default option when the provided options actually contain it
+		const hasDefaultOption = getRelativeTimeOption(DEFAULT_SELECTED_TIME_KEY, this.relativeTimePickerOptions) !== undefined;
+
+		this.selectedTimeState = hasDefaultOption
+			? {
+					key: DEFAULT_SELECTED_TIME_KEY,
+					range: getLast24HoursRange(),
+					timezone: this.getSelectedTimezone()
+				}
+			: {
+					key: '',
+					range: [],
+					timezone: this.getSelectedTimezone()
+				};
 	};
 
 	private getSelectedTimezone = (): ITimePickerTimezone => {
@@ -146,7 +183,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	};
 
 	private onDropdownChange = ({ detail: isDropdownOpen }: CustomEvent<boolean>) => {
-		this.dropdownOpen = isDropdownOpen;
+		this.isOpen = isDropdownOpen;
 		this.dropdownStateChange.emit(isDropdownOpen);
 		if (!this.isApplyButtonDisabled() && !isDropdownOpen) {
 			if (isEmpty(this.selectedTimeOption)) {
@@ -160,6 +197,10 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 		this.timezoneSelectionContentVisible = false;
 	};
 
+	/**
+	 * Syncs the draft selection. Also fires from `kv-relative-time-picker`'s periodic refresh as a
+	 * "now"-relative range moves, so it must never commit — see `onRelativeTimeOptionClicked`.
+	 */
 	private onSelectedRelativeTimeChange = ({ detail: timeOption }: CustomEvent<ITimePickerRelativeTime>) => {
 		this.selectedTimeState = {
 			key: timeOption.key,
@@ -167,6 +208,23 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 			timezone: this.getSelectedTimezone()
 		};
 		this.calendarViewLocked = false;
+	};
+
+	/**
+	 * A click on a relative option is the confirmation, so it commits and closes — unless a calendar is
+	 * on screen, where Apply confirms instead.
+	 */
+	private onRelativeTimeOptionClicked = ({ detail: timeOption }: CustomEvent<ITimePickerRelativeTime>) => {
+		if (this.isCalendarVisible()) {
+			return;
+		}
+
+		this.calendarViewLocked = false;
+		this.commitTimeState({
+			key: timeOption.key,
+			range: timeOption.range,
+			timezone: this.getSelectedTimezone()
+		});
 	};
 
 	private onClickSeeCustomInterval = ({ detail: key }: CustomEvent<string>) => {
@@ -186,24 +244,56 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	};
 
 	private onSelectedTimezoneChange = ({ detail: timezone }: CustomEvent<ITimePickerTimezone>) => {
-		const previousTimezone = this.getSelectedTimezone().name;
-		const range =
-			this.selectedTimeState.key === CUSTOM_TIME_RANGE_KEY && this.selectedTimeState?.range?.length > 0
-				? getTimestampFromDateRange(this.selectedTimeState.range, previousTimezone, timezone.name)
-				: this.selectedTimeState.range;
-
-		this.selectedTimeState = {
+		const timeState: ITimePickerTimeState = {
 			...this.selectedTimeState,
-			range,
+			range: this.getRangeInTimezone(timezone),
 			timezone
 		};
+
+		// Committing needs a calendar-free view — there is no Apply button to confirm with — and a
+		// complete selection. When the given options omit the default key nothing is preselected, so the
+		// range can still be empty here, and emitting that would break `ITimePickerTime` and hand a
+		// consumer an unusable range. Either way the panel stays open: the timezone modifies the current
+		// selection rather than being the selection, and is kept as draft until an option makes it valid.
+		if (!this.isCalendarVisible() && validateNewRange(timeState.range, this.getExpectedRangeSize())) {
+			this.emitTimeRangeChange(timeState);
+			return;
+		}
+
+		this.selectedTimeState = timeState;
+	};
+
+	/**
+	 * Re-anchors the selected range to a newly picked timezone. A custom interval keeps its wall-clock
+	 * dates; a relative option is recomputed from its definition so its boundaries land in the new zone.
+	 */
+	private getRangeInTimezone = (timezone: ITimePickerTimezone): SelectedTimestamp => {
+		const { key, range } = this.selectedTimeState;
+
+		if (key === CUSTOM_TIME_RANGE_KEY) {
+			return range?.length > 0 ? getTimestampFromDateRange(range, this.getSelectedTimezone().name, timezone.name) : range;
+		}
+
+		const option = getRelativeTimeOption(key, this.relativeTimePickerOptions);
+		return option !== undefined ? buildTimestampRange(buildOptionRange(option, timezone.name)) : range;
 	};
 
 	private onClickApply = () => {
-		const eventPayload = getTimePickerEventPayload(this.selectedTimeState, this.getSelectedTimezone());
-		this.timeRangeChange.emit(eventPayload);
+		this.commitTimeState(this.selectedTimeState);
+	};
+
+	/** Publishes a selection without dismissing the panel */
+	private emitTimeRangeChange = (timeState: ITimePickerTimeState) => {
+		// Assigned first so `getSelectedTimezone` resolves against the state being emitted
+		this.selectedTimeState = timeState;
+		this.timeRangeChange.emit(getTimePickerEventPayload(timeState, this.getSelectedTimezone()));
+	};
+
+	/** Publishes a selection and dismisses the panel */
+	private commitTimeState = (timeState: ITimePickerTimeState) => {
+		this.emitTimeRangeChange(timeState);
 		this.dropdownStateChange.emit(false);
-		this.dropdownOpen = false;
+		this.isOpen = false;
 		this.timezoneSelectionContentVisible = false;
 
 		if (this.timePickerView !== ETimePickerView.FullView) {
@@ -220,7 +310,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	private onClickCancel = (event: CustomEvent<MouseEvent>) => {
 		this.undoLastChanges();
 		this.cancelClicked.emit(event);
-		this.dropdownOpen = false;
+		this.isOpen = false;
 		this.timezoneSelectionContentVisible = false;
 	};
 
@@ -245,7 +335,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	};
 
 	private getRelativeTimeInputConfig(): IRelativeTimeInput | undefined {
-		if (this.selectedTimeState?.key !== CUSTOM_TIME_RANGE_KEY) {
+		if (this.calendarMode !== EAbsoluteTimePickerMode.Single && this.selectedTimeState?.key !== CUSTOM_TIME_RANGE_KEY) {
 			return getRelativeTimeInputText(this.relativeTimePickerOptions, this.selectedTimeState, this.getSelectedTimezone().name);
 		}
 	}
@@ -265,15 +355,13 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 			this.calendarViewLocked = true;
 		}
 
-		const [from, to] = range;
 		const timezone = this.getSelectedTimezone();
-		const fromDate = createTimestampInTimezoneFromFormattedDate(from, timezone.name, CALENDAR_DATE_TIME_MASK);
-		const toDate = createTimestampInTimezoneFromFormattedDate(to, timezone.name, CALENDAR_DATE_TIME_MASK);
+		const newRange = range.map(date => createTimestampInTimezoneFromFormattedDate(date, timezone.name, CALENDAR_DATE_TIME_MASK)) as SelectedTimestamp;
 
-		if (hasRangeChanged([fromDate, toDate], this.selectedTimeState.range)) {
+		if (hasRangeChanged(newRange, this.selectedTimeState.range)) {
 			this.selectedTimeState = {
 				key: CUSTOM_TIME_RANGE_KEY,
-				range: range.length === FULL_RANGE_SIZE ? [fromDate, toDate] : [fromDate],
+				range: newRange,
 				timezone
 			};
 
@@ -293,14 +381,40 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	};
 
 	// Components config methods
+
+	/**
+	 * Apply/Cancel exist to confirm a calendar selection, where a half-picked range is not yet a valid
+	 * choice. In the plain option list the click is itself the confirmation, so they are dropped.
+	 */
+	private isCalendarVisible = (): boolean => {
+		return this.timePickerView !== ETimePickerView.RelativeTimePicker;
+	};
+
+	private isCalendarToggleVisible = (): boolean => {
+		return this.displayCalendarToggle && this.timePickerView !== ETimePickerView.AbsoluteTimePicker;
+	};
+
+	private isFooterVisible = (): boolean => {
+		return this.isCalendarToggleVisible() || this.isCalendarVisible();
+	};
+
+	private isSingleCustomInterval = (): boolean => {
+		return this.calendarMode === EAbsoluteTimePickerMode.Single && this.selectedTimeState?.key === CUSTOM_TIME_RANGE_KEY;
+	};
+
+	private getExpectedRangeSize = (): number => {
+		return this.isSingleCustomInterval() ? SINGLE_RANGE_SIZE : FULL_RANGE_SIZE;
+	};
+
 	private isApplyButtonDisabled() {
 		const { range: stateRange, timezone: selectedTimezone } = this.selectedTimeState;
+		const expectedRangeSize = this.getExpectedRangeSize();
 
-		if (stateRange.length > 0 && validateNewRange(stateRange)) {
+		if (stateRange.length > 0 && validateNewRange(stateRange, expectedRangeSize)) {
 			if (this.selectedTimeOption?.range?.length > 0) {
 				const { range: propRange } = this.selectedTimeOption;
 
-				if (stateRange.length === FULL_RANGE_SIZE && hasRangeChanged(stateRange, propRange)) {
+				if (stateRange.length === expectedRangeSize && hasRangeChanged(stateRange, propRange)) {
 					return false;
 				}
 			}
@@ -314,10 +428,10 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	}
 
 	private updateApplyButtonConfig = (range: SelectedRange) => {
-		if (range && range.length === FULL_RANGE_SIZE) {
+		if (range && range.length === this.getExpectedRangeSize()) {
 			this.applyButtontooltipText = '';
 		} else {
-			this.applyButtontooltipText = APPLY_BUTTON_ERROR_TOOLTIP_TEXT;
+			this.applyButtontooltipText = this.isSingleCustomInterval() ? APPLY_BUTTON_SINGLE_ERROR_TOOLTIP_TEXT : APPLY_BUTTON_ERROR_TOOLTIP_TEXT;
 		}
 	};
 
@@ -369,7 +483,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 	 */
 	private getAbsoluteRange = (): string[] => {
 		const defaultTimezone = this.getSelectedTimezone();
-		return getAbsoluteTimePickerRangeDates(this.selectedTimeState, defaultTimezone);
+		return getAbsoluteTimePickerRangeDates(this.selectedTimeState, defaultTimezone, this.calendarMode);
 	};
 
 	private onInternalDropdownsStateChange = ({ detail: openState }: CustomEvent<boolean>) => {
@@ -383,14 +497,18 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 		return (
 			<Host>
 				<kv-dropdown
-					isOpen={this.dropdownOpen}
+					isOpen={this.isOpen}
 					onOpenStateChange={this.onDropdownChange}
+					actionElement={this.actionElement}
 					inputConfig={inputConfig}
 					options={dropdownPositionConfig}
 					disabled={this.disabled}
 					zIndex={this.zIndex}
 					clickOutsideClose={!this.internalDropdownsOpen}
 				>
+					<slot name="right-slot" slot="right-slot" />
+					<slot name="left-slot" slot="left-slot" />
+					<slot name="dropdown-action" slot="dropdown-action" />
 					<div class="time-range-content">
 						<div
 							class={{
@@ -398,6 +516,13 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 								'content-wrapper--relative': this.timePickerView === ETimePickerView.RelativeTimePicker,
 								'content-wrapper--absolute': this.timePickerView === ETimePickerView.AbsoluteTimePicker,
 								'content-wrapper--full-view': this.timePickerView === ETimePickerView.FullView
+							}}
+							style={{
+								['--relative-view-height']: `${getRelativeViewHeight(
+									this.relativeTimePickerOptions,
+									this.displayCustomizeInterval,
+									this.displayTimezoneDropdown
+								)}px`
 							}}
 						>
 							<div
@@ -417,6 +542,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 									disableTimezoneSelection={this.disableTimezoneSelection}
 									onCustomizeIntervalClicked={this.onClickSeeCustomInterval}
 									onSelectedRelativeTimeChange={this.onSelectedRelativeTimeChange}
+									onRelativeTimeOptionClicked={this.onRelativeTimeOptionClicked}
 									onTimezoneChange={this.onSelectedTimezoneChange}
 									onTimezoneInputClicked={this.displayInputWrapperContent}
 									onTimezoneDropdownStateChange={this.onInternalDropdownsStateChange}
@@ -430,7 +556,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 								}}
 							>
 								<kv-absolute-time-picker
-									mode={EAbsoluteTimePickerMode.Range}
+									mode={this.calendarMode}
 									headerTitle={this.getFormattedSelectedTime()}
 									selectedDates={this.getAbsoluteRange()}
 									relativeTimeConfig={this.getRelativeTimeInputConfig()}
@@ -444,33 +570,38 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 								/>
 							</div>
 						</div>
-						<div class="footer">
-							<div class="toggle-wrapper">
-								{this.timePickerView !== ETimePickerView.AbsoluteTimePicker && (
-									<div class="show-calendar-toggle">
-										<kv-switch-button
-											checked={this.showCalendar}
-											size={EComponentSize.Small}
-											onClick={this.onShowCalendarClick}
-											disabled={this.calendarViewLocked}
-										/>
-										<div class="toggle-text">Show Calendar</div>
+						{this.isFooterVisible() && (
+							<div class="footer">
+								{/* Always rendered so `space-between` keeps the actions right-aligned when the toggle is hidden */}
+								<div class="toggle-wrapper">
+									{this.isCalendarToggleVisible() && (
+										<div class="show-calendar-toggle">
+											<kv-switch-button
+												checked={this.showCalendar}
+												size={EComponentSize.Small}
+												onClick={this.onShowCalendarClick}
+												disabled={this.calendarViewLocked}
+											/>
+											<div class="toggle-text">Show Calendar</div>
+										</div>
+									)}
+								</div>
+								{this.isCalendarVisible() && (
+									<div class="actions">
+										<kv-action-button-text type={EActionButtonType.Secondary} size={EComponentSize.Small} text="Cancel" onClickButton={this.onClickCancel} />
+										<kv-tooltip text={this.getApplyButtonTooltipText()} position={ETooltipPosition.TopStart}>
+											<kv-action-button-text
+												type={EActionButtonType.Primary}
+												size={EComponentSize.Small}
+												text="Apply"
+												disabled={this.isApplyButtonDisabled()}
+												onClickButton={this.onClickApply}
+											/>
+										</kv-tooltip>
 									</div>
 								)}
 							</div>
-							<div class="actions">
-								<kv-action-button-text type={EActionButtonType.Tertiary} size={EComponentSize.Small} text="Cancel" onClickButton={this.onClickCancel} />
-								<kv-tooltip text={this.getApplyButtonTooltipText()} position={ETooltipPosition.TopStart}>
-									<kv-action-button-text
-										type={EActionButtonType.Primary}
-										size={EComponentSize.Small}
-										text="Apply"
-										disabled={this.isApplyButtonDisabled()}
-										onClickButton={this.onClickApply}
-									/>
-								</kv-tooltip>
-							</div>
-						</div>
+						)}
 					</div>
 				</kv-dropdown>
 			</Host>

@@ -1,4 +1,4 @@
-import { Component, Host, h } from '@stencil/core';
+import { Component, Host, Prop, h } from '@stencil/core';
 import { EIconName } from '../icon/icon.types';
 
 @Component({
@@ -7,6 +7,9 @@ import { EIconName } from '../icon/icon.types';
 	shadow: false
 })
 export class KvSelectShortcutsLabel {
+	/** (optional) If `true` the range selection shortcut hint is displayed. Default `false` */
+	@Prop({ reflect: true }) rangeSelection?: boolean = false;
+
 	render() {
 		return (
 			<Host>
@@ -31,9 +34,20 @@ export class KvSelectShortcutsLabel {
 							</div>
 							<div class="label">To select</div>
 						</div>
+						{this.rangeSelection && (
+							<div class="group">
+								<div class="icons">
+									<div class="icon icon--text">shift</div>
+									<div class="icon">
+										<kv-icon name={EIconName.Undo} />
+									</div>
+								</div>
+								<div class="label">To select a range</div>
+							</div>
+						)}
 						<div class="group">
 							<div class="icons">
-								<div class="icon">esc</div>
+								<div class="icon icon--text">esc</div>
 							</div>
 							<div class="label">To dismiss</div>
 						</div>

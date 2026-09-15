@@ -1,15 +1,24 @@
-import { Component, Event, EventEmitter, Prop, h, Element, State, Watch, Listen, Method } from '@stencil/core';
-import { ISelectMultiOptions, ISelectMultiOptionsConfig, ISelectMultiOptionsEvents, ISelectOptionWithChildren, ISelectOptionsWithChildren } from './select-multi-options.types';
+import { Component, Element, Event, h, Listen, Method, Prop, State, Watch } from '@stencil/core';
+import type { EventEmitter } from '@stencil/core';
+import type {
+	ISelectMultiOptions,
+	ISelectMultiOptionsConfig,
+	ISelectMultiOptionsEvents,
+	ISelectOptionWithChildren,
+	ISelectOptionsWithChildren
+} from './select-multi-options.types';
 import {
 	ADD_OPTION,
 	DEFAULT_ADD_OPTION_PLACEHOLDER,
 	MINIMUM_SEARCHABLE_OPTIONS,
+	DEFAULT_SEARCH_DEBOUNCE_IN_MS,
 	DEFAULT_NO_DATA_AVAILABLE_ILLUSTRATION_CONFIG,
 	SELECT_OPTION_HEIGHT_IN_PX,
 	DEFAULT_NO_RESULTS_FOUND_ILLUSTRATION_CONFIG
 } from './select-multi-options.config';
 import { EToggleState } from '../select-option/select-option.types';
-import { isEmpty } from 'lodash-es';
+import { debounce, isEmpty } from 'lodash-es';
+import type { DebouncedFunc } from 'lodash-es';
 import {
 	buildAllOptionsSelected,
 	buildPartialOptionsSelected,
@@ -21,10 +30,10 @@ import {
 	getSelectableOptionsFromArray,
 	getSelectedCount
 } from '../../utils/select.helper';
-import { buildNewOption, buildSelectOptions, buildSelectOptionsArray } from './select-multi-options.helper';
+import { buildNewOption, buildRangeSelection, buildSelectOptions, buildSelectOptionsArray, getRangeOptionValues } from './select-multi-options.helper';
 import { selectHelper } from '../../utils';
 import pluralize from 'pluralize';
-import { IIllustrationMessage } from '../illustration-message/illustration-message.types';
+import type { IIllustrationMessage } from '../illustration-message/illustration-message.types';
 
 /**
  * @part select - The select container.
@@ -51,6 +60,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Prop({ reflect: true }) searchPlaceholder?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchValue?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) searchDebounce?: number = DEFAULT_SEARCH_DEBOUNCE_IN_MS;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectionClearable?: boolean;
 	/** @inheritdoc */
@@ -83,6 +94,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Prop({ reflect: true }) maxSelectable?: number;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) showShortcuts?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) rangeSelection?: boolean = true;
 
 	@Element() el: HTMLKvSelectMultiOptionsElement;
 
@@ -107,6 +120,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	}
 	@Listen('clickCreate')
 	clickCreateOptionHandler() {
+		this.resetRangeSelection();
 		this.optionCreated.emit(this.createdOptionValue);
 		this.optionSelected.emit(this.createdOptionValue);
 		this.isCreating = false;
@@ -121,12 +135,15 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		currentFlatten: ISelectOptionWithChildren[];
 		totalSelectable: ISelectOptionsWithChildren;
 		currentSelectable: ISelectOptionWithChildren[];
+		searchAvailable: boolean;
 	};
 	@State() highlightedOption: string;
+	@State() debouncedSearchValue?: string;
 	@State() isCreating: boolean = false;
 	@State() createdOptionValue: string = '';
 
 	private rebuildScheduled = false;
+	private rangeSelectionAnchor?: string;
 
 	private scheduleRebuild = () => {
 		if (this.rebuildScheduled) return;
@@ -137,12 +154,61 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		});
 	};
 
+	private applySearchValue = (searchValue?: string): void => {
+		this.debouncedSearchValue = searchValue;
+	};
+
+	// `debounce` captures its wait on creation, so the debouncer is rebuilt whenever `searchDebounce` changes.
+	private debounceSearchValue: DebouncedFunc<(searchValue?: string) => void> = debounce(this.applySearchValue, DEFAULT_SEARCH_DEBOUNCE_IN_MS);
+
+	private buildSearchDebouncer = (): void => {
+		this.debounceSearchValue.cancel();
+		this.debounceSearchValue = debounce(this.applySearchValue, this.searchDebounce);
+	};
+
+	/**
+	 * Delays the term the local search filters by, so that a fast typist filters the list once
+	 * instead of once per keystroke. Only the filtering waits - `searchValue` still reaches the
+	 * search input immediately, keeping the typed text and the clear action responsive.
+	 */
+	private setDebouncedSearchValue = (searchValue?: string): void => {
+		// Clearing the search restores the full list, which must never lag behind: it also happens
+		// when the dropdown closes, and a pending term would reopen it still filtered. A zero wait
+		// is applied straight away too, since `debounce` would still defer it to a later task.
+		if (!this.searchDebounce || isEmpty(searchValue)) {
+			this.debounceSearchValue.cancel();
+			this.applySearchValue(searchValue);
+
+			return;
+		}
+
+		this.debounceSearchValue(searchValue);
+	};
+
+	@Watch('searchValue')
+	onSearchValueChanged(searchValue?: string) {
+		this.setDebouncedSearchValue(searchValue);
+	}
+
+	@Watch('searchDebounce')
+	onSearchDebounceChanged() {
+		this.buildSearchDebouncer();
+		this.setDebouncedSearchValue(this.searchValue);
+	}
+
 	@Watch('options')
 	@Watch('filteredOptions')
+	@Watch('searchable')
+	@Watch('minSearchOptions')
+	@Watch('debouncedSearchValue')
 	@Watch('selectedOptions')
 	@Watch('highlightedOption')
 	@Watch('maxSelectable')
-	onInputsChanged() {
+	onInputsChanged(_newValue: unknown, _oldValue: unknown, propName: string) {
+		if (propName === 'options') {
+			this.resetRangeSelection();
+		}
+
 		this.scheduleRebuild();
 	}
 
@@ -158,16 +224,19 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 			maxSelectable: this.maxSelectable,
 			selectedCount
 		});
+		const selectSelectableOptions = getSelectableOptions(selectOptions);
+		const selectFlattenOptions = getFlattenSelectOptions(selectOptions);
+		// Derived before the current options are built so that the search input's visibility and the
+		// local filtering can never disagree: both read this single value.
+		const searchAvailable = this.searchable && Object.keys(selectFlattenOptions).length >= this.minSearchOptions;
 		const selectCurrentOptionsArray = buildSelectOptionsArray({
-			options: this.currentOptions,
+			options: this.getCurrentOptions(searchAvailable),
 			allOptions: this.options,
 			selectedOptions: this.selectedOptions,
 			highlightedOption: this.highlightedOption,
 			hasAddItem: this.canAddItems,
 			createInputPlaceholder: this.createOptionPlaceholder
 		});
-		const selectSelectableOptions = getSelectableOptions(selectOptions);
-		const selectFlattenOptions = getFlattenSelectOptions(selectOptions);
 		const selectCurrentFlattenOptions = flattenSelectOptionsArray(selectCurrentOptionsArray);
 		const selectCurrentSelectableOptions = getSelectableOptionsFromArray(selectCurrentFlattenOptions);
 
@@ -175,7 +244,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 			totalFlatten: selectFlattenOptions,
 			currentFlatten: selectCurrentFlattenOptions,
 			totalSelectable: selectSelectableOptions,
-			currentSelectable: selectCurrentSelectableOptions
+			currentSelectable: selectCurrentSelectableOptions,
+			searchAvailable
 		};
 	}
 
@@ -190,7 +260,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 				this.onDismiss();
 				break;
 			case 'Enter':
-				this.onEnter();
+				this.onEnter(event.shiftKey);
 				break;
 			case 'ArrowUp':
 				this.onNavigateUp();
@@ -205,6 +275,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Method()
 	async clearHighlightedOption(): Promise<void> {
 		this.highlightedOption = undefined;
+		this.resetRangeSelection();
 	}
 
 	/** Close create popup */
@@ -220,17 +291,24 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	}
 
 	componentWillLoad() {
+		// Props are assigned after construction, so the debouncer only learns a consumer's wait here.
+		this.buildSearchDebouncer();
+		this.debouncedSearchValue = this.searchValue;
 		this.buildSelectionOptions();
+	}
+
+	disconnectedCallback() {
+		this.debounceSearchValue.cancel();
 	}
 
 	private selectRef?: HTMLKvSelectElement | null;
 
-	private onEnter = (): void => {
+	private onEnter = (isShiftKey: boolean): void => {
 		if (isEmpty(this.highlightedOption)) {
 			return;
 		}
 
-		this.selectOption(this.highlightedOption);
+		this.selectOption(this.highlightedOption, this.isRangeSelectionEnabled && isShiftKey);
 	};
 
 	private onNavigateDown = (): void => {
@@ -243,17 +321,20 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 	private onDismiss = (): void => {
 		this.highlightedOption = undefined;
+		this.resetRangeSelection();
 		this.dismiss.emit();
 	};
 
 	private onSelectAll = (event: CustomEvent<void>): void => {
 		event.stopPropagation();
+		this.resetRangeSelection();
 		this.optionsSelected.emit(selectHelper.buildAllOptionsSelected(selectHelper.getSelectableOptions(this.options)));
 		this.selectAll.emit();
 	};
 
 	private onClearSelection = (event: CustomEvent<void>): void => {
 		event.stopPropagation();
+		this.resetRangeSelection();
 		this.optionsSelected.emit({});
 		this.clearSelection.emit();
 	};
@@ -266,42 +347,48 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		}
 	};
 
-	private selectOption = (selectedOptionKey: string): void => {
-		if (selectedOptionKey === ADD_OPTION.value) {
-			this.isCreating = true;
-			this.createdOptionValue = this.searchValue;
+	private onRenderedItemSelected = (event: CustomEvent<string>): void => {
+		event.stopPropagation();
+	};
+
+	private onOptionClick = (event: MouseEvent, selectedOptionKey: string): void => {
+		if (!this.selectOption(selectedOptionKey, this.isRangeSelectionEnabled && event.shiftKey)) {
 			return;
 		}
 
+		if (this.shortcuts) {
+			this.highlightedOption = selectedOptionKey;
+		}
+	};
+
+	private selectOption = (selectedOptionKey: string, isShiftClick = false): boolean => {
+		if (selectedOptionKey === ADD_OPTION.value) {
+			this.resetRangeSelection();
+			this.isCreating = true;
+			this.createdOptionValue = this.searchValue;
+			return true;
+		}
+
 		const selectedOption = this.selectOptions.totalFlatten[selectedOptionKey];
+		if (!selectedOption || !this.canSelectOption(selectedOption, isShiftClick)) {
+			return false;
+		}
+
 		this.optionSelected.emit(selectedOptionKey);
 
 		// Check if the selected option does not have any children
 		if (isEmpty(selectedOption.options)) {
-			const { [selectedOptionKey]: selectedOptionValue, ...otherSelectedOptions } = this.selectedOptions;
-			if (selectedOptionValue) {
-				this.optionsSelected.emit(otherSelectedOptions);
-			} else {
-				// Check if max selectable limit is reached
-				const selectedCount = getSelectedCount(this.selectedOptions);
-				if (this.maxSelectable !== undefined && selectedCount >= this.maxSelectable) {
-					return;
-				}
-				this.optionsSelected.emit({
-					...otherSelectedOptions,
-					[selectedOptionKey]: true
-				});
-			}
-
-			return;
+			this.selectLeafOption(selectedOptionKey, isShiftClick);
+			return true;
 		}
 
+		this.resetRangeSelection();
 		const childrenValues = getSelectableOptions(selectedOption.options);
 		switch (selectedOption.state) {
 			case EToggleState.Selected:
 			case EToggleState.Indeterminate:
 				// de-select all children
-				const newOptions = this.selectedOptions;
+				const newOptions = { ...(this.selectedOptions ?? {}) };
 				Object.keys(childrenValues).forEach(childrenKey => delete newOptions[childrenKey]);
 				this.optionsSelected.emit({ ...newOptions });
 				break;
@@ -311,13 +398,13 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 				if (this.maxSelectable !== undefined) {
 					const currentSelectedCount = getSelectedCount(this.selectedOptions);
 					const partialSelection = buildPartialOptionsSelected(childrenValues, this.maxSelectable, currentSelectedCount);
-					if (!partialSelection) return;
+					if (!partialSelection) return false;
 
 					this.optionsSelected.emit({
 						...this.selectedOptions,
 						...partialSelection
 					});
-					return;
+					return true;
 				}
 
 				this.optionsSelected.emit({
@@ -325,6 +412,85 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 					...buildAllOptionsSelected(childrenValues)
 				});
 		}
+
+		return true;
+	};
+
+	private canSelectOption = (option: ISelectOptionWithChildren, isShiftClick: boolean): boolean => {
+		if (option.selectable === false) {
+			return false;
+		}
+
+		if (option.disabled !== true) {
+			return true;
+		}
+
+		// An option disabled only because maxSelectable is reached is still a valid range
+		// endpoint: the range replaces the listed selection, which frees the slots it needs
+		return isShiftClick && this.isDisabledByMaxSelectable(option.value);
+	};
+
+	private isDisabledByMaxSelectable = (optionValue: string): boolean => {
+		// currentFlatten is built without maxSelectable, so it carries only intrinsic disabled state
+		const listedOption = this.selectOptions.currentFlatten.find(({ value }) => value === optionValue);
+
+		return listedOption !== undefined && listedOption.disabled !== true;
+	};
+
+	private selectLeafOption = (selectedOptionKey: string, isShiftClick: boolean): void => {
+		const selectedOptions = this.selectedOptions ?? {};
+		const rangeSelectableOptions = this.getRangeSelectableOptions();
+		const isRangeSelectable = rangeSelectableOptions.some(({ value }) => value === selectedOptionKey);
+
+		if (isShiftClick && isRangeSelectable) {
+			const anchorOptionKey = this.getRangeSelectionAnchor(rangeSelectableOptions, selectedOptions);
+			const rangeOptionValues = anchorOptionKey !== undefined ? getRangeOptionValues(rangeSelectableOptions, anchorOptionKey, selectedOptionKey) : [];
+
+			if (rangeOptionValues.length > 0) {
+				this.optionsSelected.emit(
+					buildRangeSelection({
+						optionValues: rangeOptionValues,
+						replaceableOptionValues: rangeSelectableOptions.map(({ value }) => value),
+						selectedOptions,
+						maxSelectable: this.maxSelectable
+					})
+				);
+				// The anchor stays put so consecutive shift-clicks grow and shrink the same range
+				this.rangeSelectionAnchor = anchorOptionKey;
+				return;
+			}
+		}
+
+		const shouldSelect = selectedOptions[selectedOptionKey] !== true;
+		if (shouldSelect && this.maxSelectable !== undefined && getSelectedCount(selectedOptions) >= this.maxSelectable) {
+			return;
+		}
+
+		const newSelectedOptions = { ...selectedOptions };
+		if (shouldSelect) {
+			newSelectedOptions[selectedOptionKey] = true;
+		} else {
+			delete newSelectedOptions[selectedOptionKey];
+		}
+
+		this.optionsSelected.emit(newSelectedOptions);
+		this.rangeSelectionAnchor = isRangeSelectable ? selectedOptionKey : undefined;
+	};
+
+	private getRangeSelectableOptions = (): ISelectOptionWithChildren[] =>
+		this.selectOptions.currentSelectable.filter(({ selectable, value }) => selectable !== false && value !== ADD_OPTION.value);
+
+	private getRangeSelectionAnchor = (rangeSelectableOptions: ISelectOptionWithChildren[], selectedOptions: Record<string, boolean>): string | undefined => {
+		if (this.rangeSelectionAnchor !== undefined && rangeSelectableOptions.some(({ value }) => value === this.rangeSelectionAnchor)) {
+			return this.rangeSelectionAnchor;
+		}
+
+		// Without an anchor from this interaction, fall back to the first listed selected option
+		return rangeSelectableOptions.find(({ value }) => selectedOptions[value] === true)?.value;
+	};
+
+	private resetRangeSelection = (): void => {
+		this.rangeSelectionAnchor = undefined;
 	};
 
 	private renderOptions = (): HTMLKvVirtualizedListElement => {
@@ -339,7 +505,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 					<kv-select-option
 						key={items[index].value}
 						{...items[index]}
-						onItemSelected={this.onItemSelected}
+						onClick={event => this.onOptionClick(event, items[index].value)}
+						onItemSelected={this.onRenderedItemSelected}
 						style={{
 							'--select-option-height': `${SELECT_OPTION_HEIGHT_IN_PX}px`
 						}}
@@ -351,12 +518,22 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		);
 	};
 
-	private get isSearchable() {
-		return this.searchable && Object.keys(this.selectOptions.totalFlatten).length >= this.minSearchOptions;
+	private get isRangeSelectionEnabled(): boolean {
+		return this.rangeSelection !== false;
 	}
 
-	private get currentOptions(): ISelectMultiOptions | undefined {
-		return this.filteredOptions ?? this.options;
+	private get isSearchable() {
+		return this.selectOptions.searchAvailable;
+	}
+
+	private getCurrentOptions(searchAvailable: boolean): ISelectMultiOptions | undefined {
+		if (this.filteredOptions !== undefined) {
+			return this.filteredOptions;
+		}
+
+		// Only filter locally while the search input is actually reachable, otherwise a term left over
+		// from before it was hidden would narrow the list with no way for the user to clear it.
+		return searchAvailable ? selectHelper.searchDropdownOptions(this.debouncedSearchValue, this.options) : this.options;
 	}
 
 	render() {
@@ -469,9 +646,9 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 				)}
 				{this.shortcuts && this.showShortcuts && (
 					<slot name="select-footer" slot="select-footer">
-						<kv-select-shortcuts-label>
+						<kv-select-shortcuts-label rangeSelection={this.isRangeSelectionEnabled}>
 							<div class="counter" slot="right-items">
-								{!isEmpty(this.searchValue) && hasCurrentOptions && <span>{pluralize('result', currentOptionsLength, true)}</span>}
+								{!isEmpty(this.debouncedSearchValue) && hasCurrentOptions && <span>{pluralize('result', currentOptionsLength, true)}</span>}
 							</div>
 						</kv-select-shortcuts-label>
 					</slot>

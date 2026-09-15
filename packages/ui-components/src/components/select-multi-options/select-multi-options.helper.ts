@@ -1,6 +1,62 @@
-import { ISelectMultiOption, ISelectOptionWithChildren, ISelectOptionsWithChildren, type IBuildSelectOptionsParams } from './select-multi-options.types';
-import { EToggleState, ISelectOption } from '../../types';
+import type { IBuildSelectOptionsParams, ISelectMultiOption, ISelectOptionWithChildren, ISelectOptionsWithChildren } from './select-multi-options.types';
+import { EToggleState } from '../../types';
+import type { ISelectOption } from '../../types';
+import { getSelectedCount } from '../../utils/select.helper';
 import { ADD_OPTION } from './select-multi-options.config';
+
+interface IBuildRangeSelectionParams {
+	/** The range to select, ordered from the anchor towards the endpoint */
+	optionValues: string[];
+	/** The options a range selection is allowed to deselect, i.e. the ones currently listed */
+	replaceableOptionValues: string[];
+	selectedOptions?: Record<string, boolean>;
+	maxSelectable?: number;
+}
+
+export const getRangeOptionValues = (options: ISelectOptionWithChildren[], anchorValue: string, endpointValue: string): string[] => {
+	const optionValues = options.map(({ value }) => value);
+	const anchorIndex = optionValues.indexOf(anchorValue);
+	const endpointIndex = optionValues.indexOf(endpointValue);
+
+	if (anchorIndex === -1 || endpointIndex === -1) {
+		return [];
+	}
+
+	if (anchorIndex <= endpointIndex) {
+		return optionValues.slice(anchorIndex, endpointIndex + 1);
+	}
+
+	return optionValues.slice(endpointIndex, anchorIndex + 1).reverse();
+};
+
+export const buildRangeSelection = ({ optionValues, replaceableOptionValues, selectedOptions = {}, maxSelectable }: IBuildRangeSelectionParams): Record<string, boolean> => {
+	const rangeOptionValues = new Set(optionValues);
+	const newSelectedOptions = { ...selectedOptions };
+
+	// A range selection owns the listed options, so anything listed outside the range is deselected.
+	// Selections hidden by the current search are left untouched.
+	for (const optionValue of replaceableOptionValues) {
+		if (!rangeOptionValues.has(optionValue)) {
+			delete newSelectedOptions[optionValue];
+		}
+	}
+
+	let selectedCount = getSelectedCount(newSelectedOptions);
+	for (const optionValue of optionValues) {
+		if (newSelectedOptions[optionValue]) {
+			continue;
+		}
+
+		if (maxSelectable !== undefined && selectedCount >= maxSelectable) {
+			break;
+		}
+
+		newSelectedOptions[optionValue] = true;
+		selectedCount += 1;
+	}
+
+	return newSelectedOptions;
+};
 
 export const buildNewOption = (highlightedOption?: string, createInputPlaceholder?: string): ISelectOption => ({
 	...ADD_OPTION,

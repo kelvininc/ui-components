@@ -16,4 +16,17 @@ describe('Tag (unit tests)', () => {
 			expect(page.root).toMatchSnapshot();
 		});
 	});
+
+	describe('when size is small', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvTag],
+				html: `<kv-tag label="Tag Small" size="small"></kv-tag>`
+			});
+		});
+
+		it('should match the snapshot', () => {
+			expect(page.root).toMatchSnapshot();
+		});
+	});
 });
