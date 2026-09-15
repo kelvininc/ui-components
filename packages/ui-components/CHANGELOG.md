@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/kelvininc/ui-components/compare/v3.0.0...v3.1.0) (2026-09-15)
+
+
+### Bug Fixes
+
+* **dropdown:** drop the unreachable action element lookup ([b65efbd](https://github.com/kelvininc/ui-components/commit/b65efbdb1d301a48f56ecad38bbd5f273c40bc95))
+* **dropdown:** search options locally when no filtered options are given ([3306dd6](https://github.com/kelvininc/ui-components/commit/3306dd6d1b96994fde425b93c1b41b9e9a00b5ab))
+* **portal:** fall back to the default z-index when the value is not a number ([7659fe5](https://github.com/kelvininc/ui-components/commit/7659fe5cd53d30766b0d0f00fcbce44d1aaa587b))
+* **text-field:** stop numeric input mask from silently rewriting the value ([edc0b15](https://github.com/kelvininc/ui-components/commit/edc0b150f0ac56dcd6f4d890aef610d268e5c87e))
+* **time-picker:** require a complete range to commit a timezone change ([306424b](https://github.com/kelvininc/ui-components/commit/306424b569d0f290143bf8bc60f4864c59d617ba))
+
+
+### Features
+
+* **dropdown:** debounce the local option search ([2fa08f5](https://github.com/kelvininc/ui-components/commit/2fa08f562fd90e04e72d2c5766b18fa3d2a1c80e))
+* **globals:** export the portal and dropdown z-index constants ([fb82cfa](https://github.com/kelvininc/ui-components/commit/fb82cfa911b9112196181ee576c0361b7d9136c9))
+* **icons:** add saving icon ([478f27d](https://github.com/kelvininc/ui-components/commit/478f27d51f1b8d734bf12bef67dba201e9de174f))
+* **icons:** add snooze icon ([38ea0d4](https://github.com/kelvininc/ui-components/commit/38ea0d4b1a7c14948d0ea7f0802a698384c2856c))
+* **relative-time:** add 3/14/30/60 day future keys ([1d2fecc](https://github.com/kelvininc/ui-components/commit/1d2fecc29a8feb91a1a19b3e31e83f560ca75c2b))
+* **select-multi-options:** select ranges with shift-click or shift+enter ([df65e66](https://github.com/kelvininc/ui-components/commit/df65e665934f0802abf8d5ce831cc3a0bb4828bf))
+* **tag:** support small and large size variants ([6758cdc](https://github.com/kelvininc/ui-components/commit/6758cdcac78c2ae75b998cc233e2d527078e792d))
+* **time-picker:** apply relative options on click ([1b95f79](https://github.com/kelvininc/ui-components/commit/1b95f7986fb49ff4f88ab3fbd2b09e51fa3c81ee))
+* **time-picker:** enable projection of the dropdown action ([82ecd2f](https://github.com/kelvininc/ui-components/commit/82ecd2fead180a15126732fa0b4e81aab3a6a7e8))
+* **time-picker:** support controlled open state and external action element ([9af2492](https://github.com/kelvininc/ui-components/commit/9af2492ecfb59a8e69dcca7fc29a480daec00871))
+* **time-picker:** support single-date custom interval and hideable calendar toggle ([2b42458](https://github.com/kelvininc/ui-components/commit/2b42458807e10577827668cdf968284517feb084))
+* **tokens:** sync figma tokens and fix opacity color export ([82b27eb](https://github.com/kelvininc/ui-components/commit/82b27ebf0098ed4b522b0e337724085ed04bab82))
+
+
+### Performance Improvements
+
+* **time-picker:** reuse default timezones calculation ([46903a5](https://github.com/kelvininc/ui-components/commit/46903a5368176c8f66196d05611a8ba2ca152314))
+
+
+
+
+
 # [3.0.0](https://github.com/kelvininc/ui-components/compare/v2.1.0...v3.0.0) (2026-07-22)
 
 

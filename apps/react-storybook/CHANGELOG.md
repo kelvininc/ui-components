@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/kelvininc/ui-components/compare/v3.0.0...v3.1.0) (2026-09-15)
+
+
+### Bug Fixes
+
+* **dropdown:** search options locally when no filtered options are given ([3306dd6](https://github.com/kelvininc/ui-components/commit/3306dd6d1b96994fde425b93c1b41b9e9a00b5ab))
+* **text-field:** stop numeric input mask from silently rewriting the value ([edc0b15](https://github.com/kelvininc/ui-components/commit/edc0b150f0ac56dcd6f4d890aef610d268e5c87e))
+
+
+### Features
+
+* **deps:** upgrade to React 19 ([632836a](https://github.com/kelvininc/ui-components/commit/632836aa8f114fc8dbc75122b0b200622821cfff))
+* **tag:** support small and large size variants ([6758cdc](https://github.com/kelvininc/ui-components/commit/6758cdcac78c2ae75b998cc233e2d527078e792d))
+* **time-picker:** support single-date custom interval and hideable calendar toggle ([2b42458](https://github.com/kelvininc/ui-components/commit/2b42458807e10577827668cdf968284517feb084))
+
+
+
+
+
 # [3.0.0](https://github.com/kelvininc/ui-components/compare/v2.1.0...v3.0.0) (2026-07-22)
 
 

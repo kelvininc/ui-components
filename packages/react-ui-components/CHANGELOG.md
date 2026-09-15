@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/kelvininc/ui-components/compare/v3.0.0...v3.1.0) (2026-09-15)
+
+
+### Bug Fixes
+
+* **dropdown:** search options locally when no filtered options are given ([3306dd6](https://github.com/kelvininc/ui-components/commit/3306dd6d1b96994fde425b93c1b41b9e9a00b5ab))
+* **schema-form:** collapse option lists carrying disabled or description [KFE-3322] ([1d07cf1](https://github.com/kelvininc/ui-components/commit/1d07cf10af11fa7ad74a52124d0b7fe86fc9586d))
+* **schema-form:** stop a non-array select value from crashing the form ([8bb1102](https://github.com/kelvininc/ui-components/commit/8bb1102817a9ca5c7b6d88438d2ef61696293e64))
+* **schema-form:** stop a partial dropdownConfig from hiding every select dropdown ([745b826](https://github.com/kelvininc/ui-components/commit/745b8268a2aba3b8dde2edf50317241d031ae3fc))
+* **text-field:** stop numeric input mask from silently rewriting the value ([edc0b15](https://github.com/kelvininc/ui-components/commit/edc0b150f0ac56dcd6f4d890aef610d268e5c87e))
+
+
+### Features
+
+* **deps:** upgrade to React 19 ([632836a](https://github.com/kelvininc/ui-components/commit/632836aa8f114fc8dbc75122b0b200622821cfff))
+* **globals:** export the portal and dropdown z-index constants ([fb82cfa](https://github.com/kelvininc/ui-components/commit/fb82cfa911b9112196181ee576c0361b7d9136c9))
+* **relative-time:** add 3/14/30/60 day future keys ([1d2fecc](https://github.com/kelvininc/ui-components/commit/1d2fecc29a8feb91a1a19b3e31e83f560ca75c2b))
+
+
+
+
+
 # [3.0.0](https://github.com/kelvininc/ui-components/compare/v2.1.0...v3.0.0) (2026-07-22)
 
 
