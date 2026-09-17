@@ -259,11 +259,12 @@ ${{ needs.publish.result == 'success' && '✅ Success'
 - `node-version` — Node.js version to set up (e.g. `24.x`).
 
 **Steps**:
-1. Install pnpm (`pnpm/action-setup@v6`, version `10.33.4`).
+1. Install pnpm (`pnpm/action-setup@v6`) — the version is read from the root `package.json` `packageManager` field, so it is not duplicated here.
 2. Setup Node.js (`actions/setup-node@v7`) with pnpm cache enabled.
 3. `pnpm install` (with `PUPPETEER_SKIP_DOWNLOAD=true` to defer Chrome download).
-4. Cache Puppeteer Chrome binary under `~/.cache/puppeteer/`, keyed by `puppeteer-core` and `puppeteer` source files.
-5. Run `pnpm postinstall` inside `packages/ui-components/node_modules/puppeteer` to materialize the Chrome binary (cache hit or download).
+4. Resolve the installed Puppeteer version — a Puppeteer release pins exactly one Chrome build, so its version is what the Chrome cache is keyed on.
+5. Cache Puppeteer Chrome binary under `~/.cache/puppeteer/`, keyed by `${{ runner.os }}-chrome-puppeteer-<version>`.
+6. Run `pnpm postinstall` inside `packages/ui-components/node_modules/puppeteer` to materialize the Chrome binary (cache hit or download).
 
 **Usage**:
 ```yaml
