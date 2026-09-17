@@ -10,12 +10,12 @@ runs:
     using: "composite"
     steps:
         - name: Install pnpm
-          uses: pnpm/action-setup@v4
+          uses: pnpm/action-setup@v6
           with:
               version: 10.33.4
 
         - name: Setup Node.js
-          uses: actions/setup-node@v4
+          uses: actions/setup-node@v7
           with:
               node-version: ${{ inputs.node-version }}
               cache: "pnpm"
@@ -27,7 +27,7 @@ runs:
               PUPPETEER_SKIP_DOWNLOAD: true
 
         - name: Setup chrome binary cache
-          uses: actions/cache@v3
+          uses: actions/cache@v6
           with:
               path: ~/.cache/puppeteer/
               key: ${{ runner.os }}-chrome-${{ hashFiles('packages/ui-components/node_modules/puppeteer-core/src/revisions.ts') }}-${{ hashFiles('packages/ui-components/node_modules/puppeteer/src/node/install.ts') }}
