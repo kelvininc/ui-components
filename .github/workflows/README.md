@@ -119,7 +119,7 @@ graph TD
 
 **Purpose**: Validates pull requests targeting `dev` or `master` with linting, tests, and full builds.
 
-**Strategy**: **Single sequential `ci` job** on an OS/Node matrix (`ubuntu-22.04` / Node `22.x`), followed by a `summary` job.
+**Strategy**: **Single sequential `ci` job** on an OS/Node matrix (`ubuntu-22.04` / Node `24.x`), followed by a `summary` job.
 
 ```yaml
 Jobs:
@@ -256,7 +256,7 @@ ${{ needs.publish.result == 'success' && '✅ Success'
 **Purpose**: Standardizes the pnpm + Node.js environment (and Puppeteer Chrome cache) across all workflows.
 
 **Inputs**:
-- `node-version` — Node.js version to set up (e.g. `22.x`).
+- `node-version` — Node.js version to set up (e.g. `24.x`).
 
 **Steps**:
 1. Install pnpm (`pnpm/action-setup@v4`, version `10.33.4`).
@@ -270,7 +270,7 @@ ${{ needs.publish.result == 'success' && '✅ Success'
 - name: Setup Node.js
   uses: ./.github/actions/node-setup
   with:
-      node-version: 22.x
+      node-version: 24.x
 ```
 
 ### Branch Types & Workflows

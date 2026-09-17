@@ -36,7 +36,7 @@ ui-components/
 
 ## 🔧 System Requirements
 
-- **Node.js**: >= 22 (specified in engines)
+- **Node.js**: >= 24 (specified in engines)
 - **pnpm**: v10.33.4 (exact version, specified in packageManager)
 - **Operating System**: macOS, Linux, or Windows with WSL
 
