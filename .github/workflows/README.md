@@ -119,7 +119,7 @@ graph TD
 
 **Purpose**: Validates pull requests targeting `dev` or `master` with linting, tests, and full builds.
 
-**Strategy**: **Single sequential `ci` job** on an OS/Node matrix (`ubuntu-22.04` / Node `24.x`), followed by a `summary` job.
+**Strategy**: **Single sequential `ci` job** on an OS/Node matrix (`ubuntu-24.04` / Node `24.x`), followed by a `summary` job.
 
 ```yaml
 Jobs:
@@ -226,7 +226,7 @@ concurrency:
 
 All four workflows end with a `summary` job that:
 
-- Runs on `ubuntu-22.04`
+- Runs on `ubuntu-24.04`
 - Declares `needs: [<primary job>]` so it runs **after** the main job
 - Uses `if: always()` so the summary is written on success, failure, **and** cancelation
 - Appends a Markdown report to `$GITHUB_STEP_SUMMARY`, which GitHub renders on the workflow run page
