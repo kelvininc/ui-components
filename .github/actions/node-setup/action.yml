@@ -9,10 +9,10 @@ inputs:
 runs:
     using: "composite"
     steps:
+        # No `version` input: the action reads the `packageManager` field from
+        # the root package.json, so the pnpm version lives in exactly one place.
         - name: Install pnpm
           uses: pnpm/action-setup@v6
-          with:
-              version: 10.33.4
 
         - name: Setup Node.js
           uses: actions/setup-node@v7
@@ -26,11 +26,19 @@ runs:
           env:
               PUPPETEER_SKIP_DOWNLOAD: true
 
+        # A Puppeteer release pins exactly one Chrome build, so the resolved
+        # version is the correct cache key. Must run after `pnpm install`.
+        - name: Resolve Puppeteer version
+          id: puppeteer
+          shell: bash
+          working-directory: packages/ui-components
+          run: echo "version=$(node -p "require('puppeteer/package.json').version")" >> "$GITHUB_OUTPUT"
+
         - name: Setup chrome binary cache
           uses: actions/cache@v6
           with:
               path: ~/.cache/puppeteer/
-              key: ${{ runner.os }}-chrome-${{ hashFiles('packages/ui-components/node_modules/puppeteer-core/src/revisions.ts') }}-${{ hashFiles('packages/ui-components/node_modules/puppeteer/src/node/install.ts') }}
+              key: ${{ runner.os }}-chrome-puppeteer-${{ steps.puppeteer.outputs.version }}
 
         - name: Download chrome binary
           shell: bash
