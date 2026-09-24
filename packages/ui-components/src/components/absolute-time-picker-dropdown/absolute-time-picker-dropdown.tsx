@@ -1,9 +1,9 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EAbsoluteTimePickerMode, IAbsoluteSelectedRangeDates } from '../absolute-time-picker/absolute-time-picker.types';
 import { getDefaultTimezone, getDefaultTimezones, getTimezoneOffset } from '../../utils/date';
-import { CALENDAR_MASK, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
-import { buildCustomIntervalTimeRange, buildTooltipText, hasRangeChanged } from '../time-picker/time-picker.helper';
-import { isEmpty, isNumber, merge } from 'lodash-es';
+import { CALENDAR_INPUT_MAX_DATE, CALENDAR_INPUT_MIN_DATE, CALENDAR_MASK } from '../absolute-time-picker/absolute-time-picker.config';
+import { buildCustomIntervalTimeRange, buildTooltipText, getCalendarLimitDateFormatted, getCalendarLimits, hasRangeChanged } from '../time-picker/time-picker.helper';
+import { isEmpty, merge } from 'lodash-es';
 import { ITextField } from '../text-field/text-field.types';
 import { DEFAULT_TIME_RANGE_DROPDOWN_POSITION_OPTIONS, DEFAULT_TIME_RANGE_PICKER_INPUT_CONFIG } from '../time-picker/time-picker.config';
 import { ComputePositionConfig } from '@floating-ui/dom';
@@ -52,6 +52,8 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 	@State() calendarInitialDate: string = this.initialDate;
 	// Current selected option
 	@State() selectedDateState: SelectedTimestamp = [];
+	// Set while a date typed in the calendar inputs is incomplete or invalid
+	@State() hasInvalidDateInput: boolean = false;
 
 	/** @inheritdoc */
 	@Event() selectedDatesChange: EventEmitter<[number] | [number, number]>;
@@ -97,11 +99,8 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 		return getFormattedSelectedDates(this.selectedDateState, this.mode, timezoneName);
 	};
 
-	private getCalendarLimitDatesFormatted = (date: number): string | undefined => {
-		if (!isNumber(date)) return;
-
-		const selectedTimezone = this.getSelectedTimezone();
-		return dayjs(date).tz(selectedTimezone.name).format(DATETIME_INPUT_MASK);
+	private onInputValidityChange = ({ detail: isValid }: CustomEvent<boolean>) => {
+		this.hasInvalidDateInput = !isValid;
 	};
 
 	private onDropdownChange = ({ detail: isDropdownOpen }: CustomEvent<boolean>) => {
@@ -151,13 +150,14 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 	render() {
 		const dropdownPositionConfig = this.dropdownPositionOptions;
 		const inputConfig = this.getInputConfig();
-		const error = getAbsoluteTimePickerError(this.selectedDateState, this.mode, { minDate: this.calendarInputMinDate, maxDate: this.calendarInputMaxDate });
+		const { name: timezoneName } = this.getSelectedTimezone();
+		const error = getAbsoluteTimePickerError(this.selectedDateState, this.mode, getCalendarLimits(this.calendarInputMinDate, this.calendarInputMaxDate, timezoneName));
 
 		const isFilled = isAbsoluteTimePickerFilled(this.selectedDateState, this.mode);
 		const isDirty = hasRangeChanged(this.selectedDateState, this.selectedDates);
 		const hasError = error !== undefined;
 
-		const isApplyDisabled = !isFilled || hasError || !isDirty;
+		const isApplyDisabled = !isFilled || hasError || !isDirty || this.hasInvalidDateInput;
 
 		return (
 			<Host>
@@ -176,9 +176,11 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 							disabledDates={this.disabledDates}
 							initialDate={this.calendarInitialDate}
 							onSelectedDatesChange={this.handleAbsoluteDatesChange}
-							calendarInputMinDate={this.getCalendarLimitDatesFormatted(this.calendarInputMinDate)}
-							calendarInputMaxDate={this.getCalendarLimitDatesFormatted(this.calendarInputMaxDate)}
-							error={error}
+							onInputValidityChange={this.onInputValidityChange}
+							calendarInputMinDate={getCalendarLimitDateFormatted(this.calendarInputMinDate, timezoneName, CALENDAR_INPUT_MIN_DATE)}
+							calendarInputMaxDate={getCalendarLimitDateFormatted(this.calendarInputMaxDate, timezoneName, CALENDAR_INPUT_MAX_DATE)}
+							// An emptied or partly typed input is not the date the error is about
+							error={this.hasInvalidDateInput ? undefined : error}
 						/>
 						<div class="footer">
 							<div class="actions">
