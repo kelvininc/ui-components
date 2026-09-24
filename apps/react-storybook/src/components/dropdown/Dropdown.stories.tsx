@@ -7,12 +7,15 @@ import {
 } from "@kelvininc/react-ui-components/client";
 import type { Meta, StoryObj, StoryFn } from "@storybook/react";
 import { useArgs } from "storybook/preview-api";
-import { ComponentProps } from "react";
+import { ComponentProps, useState } from "react";
 
 const DropdownTemplate: StoryFn<ComponentProps<typeof KvDropdown>> = (args) => {
 	const [{ isOpen }, updateArgs] = useArgs();
 	const onDropdownChange = ({ detail: openState }: CustomEvent<boolean>) =>
 		updateArgs({ isOpen: openState });
+	const [searchValue, setSearchValue] = useState<string>();
+	const onSearchChange = ({ detail }: CustomEvent<string>) =>
+		setSearchValue(detail);
 
 	return (
 		<KvDropdown
@@ -20,7 +23,11 @@ const DropdownTemplate: StoryFn<ComponentProps<typeof KvDropdown>> = (args) => {
 			onOpenStateChange={onDropdownChange}
 			{...args}
 		>
-			<KvSelect searchable={true}>
+			<KvSelect
+				searchable={true}
+				searchValue={searchValue}
+				onSearchChange={onSearchChange}
+			>
 				<KvSelectOption
 					label="This select option has a really really really long first label here "
 					value="value-01"
