@@ -9,7 +9,7 @@ export enum EAbsoluteTimePickerMode {
 export interface IAbsoluteTimePicker {
 	/** (optional) Defines if the calendar is in single date or range mode */
 	mode?: EAbsoluteTimePickerMode;
-	/** (optional) Title disaplayed on top of the component */
+	/** (optional) Title displayed on top of the component, "Custom Interval" by default or "Custom Date" in single mode. An empty title hides it */
 	headerTitle?: string;
 	/** (optional) Enables the back button displayed on top */
 	displayBackButton?: boolean;

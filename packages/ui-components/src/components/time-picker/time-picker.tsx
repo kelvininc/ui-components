@@ -35,7 +35,8 @@ import {
 	hasRangeChanged,
 	validateNewRange
 } from './time-picker.helper';
-import { CALENDAR_DATE_TIME_MASK, CALENDAR_INPUT_MAX_DATE, CALENDAR_INPUT_MIN_DATE, DEFAULT_HEADER_TITLE } from '../absolute-time-picker/absolute-time-picker.config';
+import { CALENDAR_DATE_TIME_MASK, CALENDAR_INPUT_MAX_DATE, CALENDAR_INPUT_MIN_DATE } from '../absolute-time-picker/absolute-time-picker.config';
+import { getCustomIntervalTitle } from '../absolute-time-picker/absolute-time-picker.helper';
 import { IRelativeTimeInput, IAbsoluteSelectedRangeDates } from '../absolute-time-picker/absolute-time-picker.types';
 import { getAbsoluteTimePickerError } from '../absolute-time-picker-dropdown/absolute-time-picker-dropdown.utils';
 import { CUSTOM_TIME_RANGE_KEY, DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS, buildOptionRange, buildTimestampRange, getRelativeTimeOption } from '../../utils/relative-time';
@@ -500,7 +501,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 
 	private getFormattedSelectedTime = (): string | undefined => {
 		if (this.selectedTimeState?.key === CUSTOM_TIME_RANGE_KEY) {
-			return DEFAULT_HEADER_TITLE;
+			return getCustomIntervalTitle(this.calendarMode);
 		}
 
 		return getRelativeTimeLabel(this.selectedTimeState?.key, this.relativeTimePickerOptions);
@@ -603,6 +604,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 									selectedTimezone={this.getSelectedTimezone().name}
 									selectedTimeKey={this.selectedTimeState?.key}
 									customIntervalOptionEnabled={this.displayCustomizeInterval}
+									customIntervalOptionLabel={getCustomIntervalTitle(this.calendarMode)}
 									timezoneSelectionEnabled={this.displayTimezoneDropdown}
 									timezoneContentVisible={this.timezoneSelectionContentVisible}
 									disableTimezoneSelection={this.disableTimezoneSelection}

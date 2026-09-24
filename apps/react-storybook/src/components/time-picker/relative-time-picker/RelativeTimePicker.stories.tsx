@@ -43,3 +43,12 @@ export const OnlySliderVisible: Story = {
 		timezoneSelectionEnabled: false
 	}
 };
+
+export const CustomOptionLabel: Story = {
+	args: {
+		selectedTimeKey: "today",
+		customIntervalOptionEnabled: true,
+		customIntervalOptionLabel: "Custom Date",
+		timezoneSelectionEnabled: false
+	}
+};
