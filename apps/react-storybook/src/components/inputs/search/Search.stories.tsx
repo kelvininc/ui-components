@@ -2,16 +2,21 @@ import type { Meta, StoryFn, StoryObj } from "@storybook/react";
 import { ComponentProps, useCallback, useState } from "react";
 import {
 	EComponentSize,
-	KvSearch
+	KvSearch,
+	KvSearchCustomEvent
 } from "@kelvininc/react-ui-components/client";
 
-const SearchTemplate: StoryFn<ComponentProps<typeof KvSearch>> = (args) => {
+const SearchTemplate: StoryFn<ComponentProps<typeof KvSearch>> = ({
+	onTextChange,
+	...args
+}) => {
 	const [searchValue, setSearchValue] = useState("");
 	const onSearchTermChange = useCallback(
-		({ detail }: CustomEvent<string>) => {
-			setSearchValue(detail);
+		(event: KvSearchCustomEvent<string>) => {
+			setSearchValue(event.detail);
+			onTextChange?.(event);
 		},
-		[]
+		[onTextChange]
 	);
 
 	return (
