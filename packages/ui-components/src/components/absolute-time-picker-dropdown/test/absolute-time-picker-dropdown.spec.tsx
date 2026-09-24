@@ -1,5 +1,7 @@
 import { SpecPage, newSpecPage } from '@stencil/core/testing';
 import { KvAbsoluteTimePickerDropdown } from '../absolute-time-picker-dropdown';
+import { getAbsoluteTimePickerError } from '../absolute-time-picker-dropdown.utils';
+import { EAbsoluteTimeError, EAbsoluteTimePickerMode } from '../../../types';
 import { h } from '@stencil/core';
 
 describe('Absolute Time Picker Dropdown (unit tests)', () => {
@@ -78,6 +80,21 @@ describe('Absolute Time Picker Dropdown (unit tests)', () => {
 			await page.waitForChanges();
 
 			expect(isApplyDisabled()).toBe(true);
+		});
+	});
+});
+
+describe('Absolute Time Picker Dropdown helpers', () => {
+	describe('#getAbsoluteTimePickerError', () => {
+		it('should enforce limits at the unix epoch', () => {
+			expect(getAbsoluteTimePickerError([-1000], EAbsoluteTimePickerMode.Single, { minDate: 0 })).toEqual(EAbsoluteTimeError.StartDateBeforeMinimumDate);
+			expect(getAbsoluteTimePickerError([1000], EAbsoluteTimePickerMode.Single, { maxDate: 0 })).toEqual(EAbsoluteTimeError.EndDateAfterMaximumDate);
+			expect(getAbsoluteTimePickerError([-2000, -1000], EAbsoluteTimePickerMode.Range, { minDate: 0 })).toEqual(EAbsoluteTimeError.StartDateBeforeMinimumDate);
+			expect(getAbsoluteTimePickerError([1000, 2000], EAbsoluteTimePickerMode.Range, { maxDate: 0 })).toEqual(EAbsoluteTimeError.EndDateAfterMaximumDate);
+		});
+
+		it('should not check a limit that is not set', () => {
+			expect(getAbsoluteTimePickerError([-1000], EAbsoluteTimePickerMode.Single, {})).toBeUndefined();
 		});
 	});
 });

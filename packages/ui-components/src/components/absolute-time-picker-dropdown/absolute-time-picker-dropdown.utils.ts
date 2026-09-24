@@ -44,11 +44,11 @@ export const getAbsoluteTimePickerError = (range: SelectedTimestamp, mode: EAbso
 	if (mode === EAbsoluteTimePickerMode.Single) {
 		const [date] = range;
 
-		if (limits.minDate && dayjs(date).isBefore(limits.minDate)) {
+		if (isNumber(limits.minDate) && dayjs(date).isBefore(limits.minDate)) {
 			return EAbsoluteTimeError.StartDateBeforeMinimumDate;
 		}
 
-		if (limits.maxDate && dayjs(date).isAfter(limits.maxDate)) {
+		if (isNumber(limits.maxDate) && dayjs(date).isAfter(limits.maxDate)) {
 			return EAbsoluteTimeError.EndDateAfterMaximumDate;
 		}
 
@@ -61,11 +61,11 @@ export const getAbsoluteTimePickerError = (range: SelectedTimestamp, mode: EAbso
 		return EAbsoluteTimeError.EndDateBeforeStartDate;
 	}
 
-	if (limits.minDate && dayjs(startDate).isBefore(limits.minDate)) {
+	if (isNumber(limits.minDate) && dayjs(startDate).isBefore(limits.minDate)) {
 		return EAbsoluteTimeError.StartDateBeforeMinimumDate;
 	}
 
-	if (limits.maxDate && dayjs(endDate).isAfter(limits.maxDate)) {
+	if (isNumber(limits.maxDate) && dayjs(endDate).isAfter(limits.maxDate)) {
 		return EAbsoluteTimeError.EndDateAfterMaximumDate;
 	}
 
