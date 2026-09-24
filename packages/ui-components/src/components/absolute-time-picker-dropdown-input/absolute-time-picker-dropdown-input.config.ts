@@ -16,7 +16,8 @@ export const DEFAULT_RIGHT_INPUT_CONFIG: Omit<Partial<IDateTimeInput>, 'value'> 
 	size: EComponentSize.Large
 };
 
-export const DATE_TIME_INPUT_DATE_FORMAT = 'dd-mm-yyyy HH:MM';
+// Inputmask >= 5.0.10 follows the unicode.org tokens: `MM` is the month and `mm` the minutes
+export const DATE_TIME_INPUT_DATE_FORMAT = 'dd-MM-yyyy HH:mm';
 export const INPUT_MASK_PLACEHOLDER = 'dd-mm-yyyy 00:00';
 export const EMPTY_INPUT_PLACEHOLDER = 'Pick date & time';
 
