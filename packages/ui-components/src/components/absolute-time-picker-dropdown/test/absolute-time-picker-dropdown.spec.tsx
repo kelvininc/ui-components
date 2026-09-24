@@ -62,6 +62,17 @@ describe('Absolute Time Picker Dropdown (unit tests)', () => {
 			expect(isApplyDisabled()).toBe(false);
 		});
 
+		it('should remount the calendar to discard the typed date on cancel', async () => {
+			await setInputValidity(false);
+			const calendar = page.root.querySelector('kv-absolute-time-picker');
+
+			component['onClickCancel'](new CustomEvent('clickButton'));
+			await page.waitForChanges();
+
+			expect(component.hasInvalidDateInput).toBe(false);
+			expect(page.root.querySelector('kv-absolute-time-picker')).not.toBe(calendar);
+		});
+
 		it('should disable apply for a date before the calendar minimum', async () => {
 			component.selectedDateState = [Date.UTC(2017, 0, 1)];
 			await page.waitForChanges();
