@@ -54,6 +54,8 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 	@State() selectedDateState: SelectedTimestamp = [];
 	// Set while a date typed in the calendar inputs is incomplete or invalid
 	@State() hasInvalidDateInput: boolean = false;
+	// Changed to remount the calendar, which discards what was typed in its inputs
+	@State() absoluteTimePickerKey: number = 0;
 
 	/** @inheritdoc */
 	@Event() selectedDatesChange: EventEmitter<[number] | [number, number]>;
@@ -139,7 +141,21 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 		this.dropdownOpen = false;
 	};
 
+	/**
+	 * Discards a date typed in the calendar inputs that is incomplete or invalid. The inputs are only rewritten
+	 * when the selected dates change, so going back to the same dates would leave it on screen: the calendar
+	 * is remounted instead.
+	 */
+	private discardInvalidDateInput = () => {
+		if (this.hasInvalidDateInput) {
+			this.hasInvalidDateInput = false;
+			this.absoluteTimePickerKey++;
+		}
+	};
+
 	private undoLastChanges = () => {
+		this.discardInvalidDateInput();
+
 		if (!isEmpty(this.selectedDates)) {
 			this.selectedDateState = this.selectedDates;
 		} else {
@@ -170,6 +186,7 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 				>
 					<div class="absolute-time-content">
 						<kv-absolute-time-picker
+							key={this.absoluteTimePickerKey}
 							mode={this.mode}
 							headerTitle={this.headerTitle}
 							selectedDates={this.getAbsoluteRange()}
