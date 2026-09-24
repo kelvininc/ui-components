@@ -1,5 +1,5 @@
 import type { Meta, StoryObj, StoryFn } from "@storybook/react";
-import { ComponentProps, FunctionComponent } from "react";
+import { ComponentProps, FunctionComponent, useState } from "react";
 import {
 	EActionButtonType,
 	EComponentSize,
@@ -61,11 +61,21 @@ const Options: FunctionComponent = () => (
 	</>
 );
 
-const SelectTemplate: StoryFn<ComponentProps<typeof KvSelect>> = (args) => (
-	<KvSelect {...args}>
-		<Options />
-	</KvSelect>
-);
+const SelectTemplate: StoryFn<ComponentProps<typeof KvSelect>> = (args) => {
+	const [searchValue, setSearchValue] = useState<string>();
+	const onSearchChange = ({ detail }: CustomEvent<string>) =>
+		setSearchValue(detail);
+
+	return (
+		<KvSelect
+			{...args}
+			searchValue={searchValue}
+			onSearchChange={onSearchChange}
+		>
+			<Options />
+		</KvSelect>
+	);
+};
 
 const HeaderActionsTemplate: StoryFn<ComponentProps<typeof KvSelect>> = (
 	args
