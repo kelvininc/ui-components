@@ -1,7 +1,28 @@
 import { SpecPage, newSpecPage } from '@stencil/core/testing';
 import { KvAbsoluteTimePicker } from '../absolute-time-picker';
 import { h } from '@stencil/core';
-import { EAbsoluteTimePickerMode } from '../absolute-time-picker.types';
+import { EAbsoluteTimePickerMode, ERelativeTimeInputMode, IAbsoluteSelectedRangeDates } from '../absolute-time-picker.types';
+import { getTypedSelection, parseTypedDateTime } from '../absolute-time-picker.helper';
+
+/**
+ * Simulates typing in a date-time input. `kv-date-time-input` is not registered in these spec pages, so
+ * its `textChange` is dispatched directly on the element the vdom attached the listener to.
+ */
+const typeDate = async (page: SpecPage, input: Element, text: string): Promise<void> => {
+	input.dispatchEvent(new CustomEvent<string>('textChange', { detail: text }));
+	await page.waitForChanges();
+};
+
+const getRangeInputs = (page: SpecPage): Element[] => Array.from(page.root.querySelectorAll('kv-date-time-input'));
+
+const spyOnEvents = (page: SpecPage) => {
+	const selectedDatesChange = jest.fn();
+	const inputValidityChange = jest.fn();
+	page.root.addEventListener('selectedDatesChange', (event: CustomEvent<IAbsoluteSelectedRangeDates>) => selectedDatesChange(event.detail.range));
+	page.root.addEventListener('inputValidityChange', (event: CustomEvent<boolean>) => inputValidityChange(event.detail));
+
+	return { selectedDatesChange, inputValidityChange };
+};
 
 describe('Absolute Time Picker (unit tests)', () => {
 	let page: SpecPage;
@@ -69,6 +90,270 @@ describe('Absolute Time Picker (unit tests)', () => {
 			it('should keep the initial date as the displayed month', () => {
 				expect(component.displayedMonth.format('YYYY-MM')).toEqual('2024-01');
 			});
+		});
+	});
+
+	describe('when dates are typed in single mode', () => {
+		let component: KvAbsoluteTimePicker;
+		let events: ReturnType<typeof spyOnEvents>;
+		let input: Element;
+
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvAbsoluteTimePicker],
+				template: () => <kv-absolute-time-picker mode={EAbsoluteTimePickerMode.Single} selectedDates={['2023-03-03 10:30:00']} />
+			});
+			component = page.rootInstance;
+			events = spyOnEvents(page);
+			input = page.root.querySelector('#single-date-input');
+		});
+
+		it('should keep an incomplete date in the input without emitting it', async () => {
+			await typeDate(page, input, '15-03-20yy 00:00:00');
+
+			expect(component.singleInputValue).toEqual('15-03-20yy 00:00:00');
+			expect(events.selectedDatesChange).not.toHaveBeenCalled();
+			expect(events.inputValidityChange.mock.calls).toEqual([[false]]);
+		});
+
+		it('should not roll an impossible date over into another one', async () => {
+			await typeDate(page, input, '31-02-2024 00:00:00');
+
+			expect(events.selectedDatesChange).not.toHaveBeenCalled();
+			expect(events.inputValidityChange.mock.calls).toEqual([[false]]);
+		});
+
+		it('should emit a valid date and report the input as valid again', async () => {
+			await typeDate(page, input, '15-03-20yy 00:00:00');
+			await typeDate(page, input, '15-03-2024 10:30:00');
+
+			expect(events.selectedDatesChange.mock.calls).toEqual([[['2024-03-15 10:30:00']]]);
+			expect(events.inputValidityChange.mock.calls).toEqual([[false], [true]]);
+		});
+
+		it('should emit no dates when the input is cleared', async () => {
+			await typeDate(page, input, '');
+
+			expect(events.selectedDatesChange.mock.calls).toEqual([[[]]]);
+			expect(events.inputValidityChange).not.toHaveBeenCalled();
+		});
+
+		it('should keep the typed text when the same dates are sent again', async () => {
+			await typeDate(page, input, '15-03-20yy 00:00:00');
+			page.root.selectedDates = ['2023-03-03 10:30:00'];
+			await page.waitForChanges();
+
+			expect(component.singleInputValue).toEqual('15-03-20yy 00:00:00');
+		});
+
+		it('should keep the typed text when the emitted dates are sent back', async () => {
+			await typeDate(page, input, '15-03-2024 10:30:00');
+			await typeDate(page, input, '15-03-2024 10:3');
+			page.root.selectedDates = ['2024-03-15 10:30:00'];
+			await page.waitForChanges();
+
+			expect(component.singleInputValue).toEqual('15-03-2024 10:3');
+		});
+
+		it('should replace the typed text when different dates are sent', async () => {
+			await typeDate(page, input, '15-03-20yy 00:00:00');
+			page.root.selectedDates = ['2023-04-01 08:00:00'];
+			await page.waitForChanges();
+
+			expect(component.singleInputValue).toEqual('01-04-2023 08:00:00');
+			expect(events.inputValidityChange.mock.calls).toEqual([[false], [true]]);
+		});
+	});
+
+	describe('when dates are typed in range mode', () => {
+		let component: KvAbsoluteTimePicker;
+		let events: ReturnType<typeof spyOnEvents>;
+		let fromInput: Element;
+		let toInput: Element;
+
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvAbsoluteTimePicker],
+				template: () => <kv-absolute-time-picker selectedDates={['2023-03-03 10:30:00', '2023-03-10 18:00:00']} />
+			});
+			component = page.rootInstance;
+			events = spyOnEvents(page);
+			[fromInput, toInput] = getRangeInputs(page);
+		});
+
+		it('should not emit while the end is incomplete', async () => {
+			await typeDate(page, toInput, '10-03-2023 1');
+
+			expect(component.toInputValue).toEqual('10-03-2023 1');
+			expect(events.selectedDatesChange).not.toHaveBeenCalled();
+			expect(events.inputValidityChange.mock.calls).toEqual([[false]]);
+		});
+
+		it('should not emit a new start while the end is incomplete', async () => {
+			await typeDate(page, toInput, '10-03-2023 1');
+			await typeDate(page, fromInput, '01-03-2023 10:30:00');
+
+			expect(events.selectedDatesChange).not.toHaveBeenCalled();
+		});
+
+		it('should emit both dates once the end is complete again', async () => {
+			await typeDate(page, toInput, '10-03-2023 1');
+			await typeDate(page, fromInput, '01-03-2023 10:30:00');
+			await typeDate(page, toInput, '11-03-2023 18:00:00');
+
+			expect(events.selectedDatesChange.mock.calls).toEqual([[['2023-03-01 10:30:00', '2023-03-11 18:00:00']]]);
+			expect(events.inputValidityChange.mock.calls).toEqual([[false], [true]]);
+		});
+
+		it('should emit only the start when the end is cleared', async () => {
+			await typeDate(page, toInput, '');
+
+			expect(events.selectedDatesChange.mock.calls).toEqual([[['2023-03-03 10:30:00']]]);
+			expect(events.inputValidityChange).not.toHaveBeenCalled();
+		});
+
+		it('should not emit when the start is cleared while the end is filled', async () => {
+			await typeDate(page, fromInput, '');
+
+			expect(events.selectedDatesChange).not.toHaveBeenCalled();
+			expect(events.inputValidityChange.mock.calls).toEqual([[false]]);
+		});
+
+		it('should emit no dates when both inputs are cleared', async () => {
+			await typeDate(page, fromInput, '');
+			await typeDate(page, toInput, '');
+
+			expect(events.selectedDatesChange.mock.calls).toEqual([[[]]]);
+			expect(events.inputValidityChange.mock.calls).toEqual([[false], [true]]);
+		});
+
+		it('should keep the typed text when the same dates are sent again', async () => {
+			await typeDate(page, toInput, '10-03-2023 1');
+			page.root.selectedDates = ['2023-03-03 10:30:00', '2023-03-10 18:00:00'];
+			await page.waitForChanges();
+
+			expect(component.toInputValue).toEqual('10-03-2023 1');
+		});
+	});
+
+	describe('when only the end is typed in range mode', () => {
+		let events: ReturnType<typeof spyOnEvents>;
+
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvAbsoluteTimePicker],
+				template: () => <kv-absolute-time-picker />
+			});
+			events = spyOnEvents(page);
+			const [, toInput] = getRangeInputs(page);
+			await typeDate(page, toInput, '10-03-2023 18:00:00');
+		});
+
+		it('should wait for the start before emitting', () => {
+			expect(events.selectedDatesChange).not.toHaveBeenCalled();
+			expect(events.inputValidityChange.mock.calls).toEqual([[false]]);
+		});
+	});
+
+	describe('when a range without an end is selected', () => {
+		let component: KvAbsoluteTimePicker;
+
+		it('should leave the end input empty for a one-date range', async () => {
+			page = await newSpecPage({
+				components: [KvAbsoluteTimePicker],
+				template: () => <kv-absolute-time-picker selectedDates={['2023-03-03 10:30:00']} />
+			});
+			component = page.rootInstance;
+
+			expect(component.toInputValue).toEqual('');
+		});
+
+		it('should leave the end input empty for an undefined end', async () => {
+			page = await newSpecPage({
+				components: [KvAbsoluteTimePicker],
+				template: () => <kv-absolute-time-picker selectedDates={['2023-03-03 10:30:00', undefined]} />
+			});
+			component = page.rootInstance;
+
+			expect(component.toInputValue).toEqual('');
+		});
+	});
+
+	describe('when the relative time config is cleared along with new selected dates', () => {
+		let component: KvAbsoluteTimePicker;
+
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvAbsoluteTimePicker],
+				template: () => (
+					<kv-absolute-time-picker
+						selectedDates={['2023-03-09 18:00:00', '2023-03-10 18:00:00']}
+						relativeTimeConfig={{ mode: ERelativeTimeInputMode.Text, from: 'Now - 24 hours', to: 'Now' }}
+					/>
+				)
+			});
+			component = page.rootInstance;
+
+			page.root.selectedDates = ['2023-03-03 10:30:00', '2023-03-10 18:00:00'];
+			page.root.relativeTimeConfig = undefined;
+			await page.waitForChanges();
+		});
+
+		it('should show the selected dates instead of the relative texts', () => {
+			expect(component.fromInputValue).toEqual('03-03-2023 10:30:00');
+			expect(component.toInputValue).toEqual('10-03-2023 18:00:00');
+		});
+	});
+
+	describe('when the mode changes', () => {
+		let component: KvAbsoluteTimePicker;
+
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvAbsoluteTimePicker],
+				template: () => <kv-absolute-time-picker selectedDates={['2023-03-03 10:30:00']} />
+			});
+			component = page.rootInstance;
+
+			page.root.mode = EAbsoluteTimePickerMode.Single;
+			await page.waitForChanges();
+		});
+
+		it('should fill the input of the new mode', () => {
+			expect(component.singleInputValue).toEqual('03-03-2023 10:30:00');
+		});
+	});
+});
+
+describe('Absolute Time Picker helpers', () => {
+	describe('#parseTypedDateTime', () => {
+		it('should parse a complete date', () => {
+			expect(parseTypedDateTime('15-03-2024 10:30:45')?.format('YYYY-MM-DD HH:mm:ss')).toEqual('2024-03-15 10:30:45');
+		});
+
+		it.each(['', '15-03-20yy 00:00:00', '31-02-2024 00:00:00', '29-02-2023 00:00:00', '15-13-2024 00:00:00', 'Now - 24 hours'])('should reject %p', text => {
+			expect(parseTypedDateTime(text)).toBeUndefined();
+		});
+	});
+
+	describe('#getTypedSelection', () => {
+		const A = '03-03-2023 10:30:00';
+		const B = '10-03-2023 18:00:00';
+		const format = (dates?: { format: (mask: string) => string }[]) => dates?.map(date => date.format('DD-MM-YYYY HH:mm:ss'));
+
+		it.each([
+			[EAbsoluteTimePickerMode.Single, { from: '', to: '', single: '' }, []],
+			[EAbsoluteTimePickerMode.Single, { from: '', to: '', single: A }, [A]],
+			[EAbsoluteTimePickerMode.Single, { from: '', to: '', single: '03-03-20yy 00:00:00' }, undefined],
+			[undefined, { from: '', to: '', single: A }, [A]],
+			[EAbsoluteTimePickerMode.Range, { from: '', to: '', single: '' }, []],
+			[EAbsoluteTimePickerMode.Range, { from: A, to: '', single: '' }, [A]],
+			[EAbsoluteTimePickerMode.Range, { from: A, to: B, single: '' }, [A, B]],
+			[EAbsoluteTimePickerMode.Range, { from: '', to: B, single: '' }, undefined],
+			[EAbsoluteTimePickerMode.Range, { from: A, to: '10-03-2023 1', single: '' }, undefined],
+			[EAbsoluteTimePickerMode.Range, { from: '03-03-2023 1', to: B, single: '' }, undefined]
+		])('in %s mode with %p should resolve %p', (mode, typedDates, expected) => {
+			expect(format(getTypedSelection(mode, typedDates))).toEqual(expected);
 		});
 	});
 });
