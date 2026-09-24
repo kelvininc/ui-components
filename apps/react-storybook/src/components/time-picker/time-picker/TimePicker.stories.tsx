@@ -33,7 +33,7 @@ const meta = {
 			control: "select",
 			options: Object.values(EAbsoluteTimePickerMode),
 			description:
-				"Defines if the custom interval calendar selects a single date or a range"
+				'Defines if the custom interval calendar selects a single date or a range. In single mode, the custom option and the calendar title read "Custom Date" instead of "Custom Interval"'
 		}
 	}
 } satisfies Meta<typeof KvTimePicker>;

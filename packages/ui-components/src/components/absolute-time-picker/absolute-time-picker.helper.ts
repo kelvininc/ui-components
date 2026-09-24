@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { isEmpty } from 'lodash-es';
-import { CALENDAR_DATE_TIME_MASK, CALENDAR_MASK, DATETIME_INPUT_MASK } from './absolute-time-picker.config';
+import { CALENDAR_DATE_TIME_MASK, CALENDAR_MASK, DATETIME_INPUT_MASK, DEFAULT_HEADER_TITLE, SINGLE_DATE_HEADER_TITLE } from './absolute-time-picker.config';
 import { DateInputState, EAbsoluteTimeError, EValidationState, IAbsoluteTimeLimits, SelectedRange } from '../../types';
 import { EAbsoluteTimePickerMode, ITypedDates } from './absolute-time-picker.types';
 
@@ -79,6 +79,13 @@ export const formatSelectedDate = (date?: string): string => {
 	const parsedDate = dayjs(date, CALENDAR_DATE_TIME_MASK);
 	return !isEmpty(date) && parsedDate.isValid() ? parsedDate.format(DATETIME_INPUT_MASK) : '';
 };
+
+/**
+ * Gets the name of a custom selection. In single mode it is one date, so it is not called an interval.
+ * @param mode calendar mode
+ * @returns custom selection title
+ */
+export const getCustomIntervalTitle = (mode?: EAbsoluteTimePickerMode): string => (mode === EAbsoluteTimePickerMode.Single ? SINGLE_DATE_HEADER_TITLE : DEFAULT_HEADER_TITLE);
 
 export const isEndDateAtStartOfDay = (date: dayjs.Dayjs): boolean => {
 	return date.isValid() && date.hour() === 0 && date.minute() === 0 && date.second() === 0;

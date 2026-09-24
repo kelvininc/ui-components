@@ -1,7 +1,7 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EAbsoluteTimeError, EActionButtonType, EComponentSize, EIconName, EInputSource, SelectedRange } from '../../types';
 import dayjs from 'dayjs';
-import { CALENDAR_INPUT_MAX_DATE, CALENDAR_INPUT_MIN_DATE, CALENDAR_MASK, DATETIME_INPUT_MASK, DATE_INPUT_PLACEHOLDER, DEFAULT_HEADER_TITLE } from './absolute-time-picker.config';
+import { CALENDAR_INPUT_MAX_DATE, CALENDAR_INPUT_MIN_DATE, CALENDAR_MASK, DATETIME_INPUT_MASK, DATE_INPUT_PLACEHOLDER } from './absolute-time-picker.config';
 import { fromDateInput, fromISO, isDateBefore, isDateSame, newDate } from '../../utils/date';
 import { isEmpty, isEqual } from 'lodash-es';
 import {
@@ -22,6 +22,7 @@ import {
 	getMinimumDateFromDayClick,
 	getSecondCalendarInitialDate,
 	getSingleDateTimeInputState,
+	getCustomIntervalTitle,
 	getToDateTimeInputState,
 	getTypedSelection,
 	isEndDateAtStartOfDay,
@@ -37,7 +38,7 @@ import { DATE_FORMAT } from '../calendar/calendar.config';
 })
 export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimePickerEvents {
 	/** @inheritdoc */
-	@Prop({ reflect: false }) headerTitle?: string = DEFAULT_HEADER_TITLE;
+	@Prop({ reflect: false }) headerTitle?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: false }) displayBackButton?: boolean = false;
 	/** @inheritdoc */
@@ -473,6 +474,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 	render() {
 		const fromCalendarInitialDate = getFirstCalendarInitialDate(this.displayedMonth);
 		const toCalendarInitialDate = getSecondCalendarInitialDate(this.displayedMonth);
+		const headerTitle = this.headerTitle ?? getCustomIntervalTitle(this.mode);
 
 		return (
 			<Host>
@@ -482,9 +484,9 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 							<kv-action-button-text text="Back" icon={EIconName.SlimRight} type={EActionButtonType.Text} size={EComponentSize.Small} />
 						</div>
 					)}
-					{this.headerTitle && (
+					{headerTitle && (
 						<div class="header">
-							<div class="title">{this.headerTitle}</div>
+							<div class="title">{headerTitle}</div>
 						</div>
 					)}
 					{this.mode === EAbsoluteTimePickerMode.Range ? (

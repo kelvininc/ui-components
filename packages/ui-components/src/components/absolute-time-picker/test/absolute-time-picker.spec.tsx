@@ -2,7 +2,8 @@ import { SpecPage, newSpecPage } from '@stencil/core/testing';
 import { KvAbsoluteTimePicker } from '../absolute-time-picker';
 import { h } from '@stencil/core';
 import { EAbsoluteTimePickerMode, ERelativeTimeInputMode, IAbsoluteSelectedRangeDates } from '../absolute-time-picker.types';
-import { getTypedSelection, parseTypedDateTime } from '../absolute-time-picker.helper';
+import { getCustomIntervalTitle, getTypedSelection, parseTypedDateTime } from '../absolute-time-picker.helper';
+import { DEFAULT_HEADER_TITLE, SINGLE_DATE_HEADER_TITLE } from '../absolute-time-picker.config';
 
 /**
  * Simulates typing in a date-time input. `kv-date-time-input` is not registered in these spec pages, so
@@ -90,6 +91,37 @@ describe('Absolute Time Picker (unit tests)', () => {
 			it('should keep the initial date as the displayed month', () => {
 				expect(component.displayedMonth.format('YYYY-MM')).toEqual('2024-01');
 			});
+		});
+	});
+
+	describe('when no header title is provided', () => {
+		const getTitle = () => page.root.querySelector('.header .title')?.textContent;
+
+		it('should title a range as an interval', async () => {
+			page = await newSpecPage({
+				components: [KvAbsoluteTimePicker],
+				template: () => <kv-absolute-time-picker initialDate="2023-03-03" />
+			});
+
+			expect(getTitle()).toEqual(DEFAULT_HEADER_TITLE);
+		});
+
+		it('should title a single date as a date', async () => {
+			page = await newSpecPage({
+				components: [KvAbsoluteTimePicker],
+				template: () => <kv-absolute-time-picker initialDate="2023-03-03" mode={EAbsoluteTimePickerMode.Single} />
+			});
+
+			expect(getTitle()).toEqual(SINGLE_DATE_HEADER_TITLE);
+		});
+
+		it('should hide the header for an empty title', async () => {
+			page = await newSpecPage({
+				components: [KvAbsoluteTimePicker],
+				template: () => <kv-absolute-time-picker initialDate="2023-03-03" headerTitle="" />
+			});
+
+			expect(page.root.querySelector('.header')).toBeNull();
 		});
 	});
 
@@ -333,6 +365,14 @@ describe('Absolute Time Picker helpers', () => {
 
 		it.each(['', '15-03-20yy 00:00:00', '31-02-2024 00:00:00', '29-02-2023 00:00:00', '15-13-2024 00:00:00', 'Now - 24 hours'])('should reject %p', text => {
 			expect(parseTypedDateTime(text)).toBeUndefined();
+		});
+	});
+
+	describe('#getCustomIntervalTitle', () => {
+		it('should name a single date a date and anything else an interval', () => {
+			expect(getCustomIntervalTitle(EAbsoluteTimePickerMode.Single)).toEqual(SINGLE_DATE_HEADER_TITLE);
+			expect(getCustomIntervalTitle(EAbsoluteTimePickerMode.Range)).toEqual(DEFAULT_HEADER_TITLE);
+			expect(getCustomIntervalTitle(undefined)).toEqual(DEFAULT_HEADER_TITLE);
 		});
 	});
 
