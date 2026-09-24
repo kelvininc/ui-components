@@ -65,6 +65,18 @@ describe('Date Time Input (end-to-end)', () => {
 			expect(await input.getProperty('value')).toBe('15-03-2024 10:30:45');
 		});
 
+		it('should report the text Inputmask reverts on Escape', async () => {
+			const spyChangeEvent = await (await page.find('kv-date-time-input')).spyOnEvent('textChange');
+			await input.type('15032024103045');
+			await page.waitForChanges();
+			await input.press('Backspace');
+			await input.press('Escape');
+			await page.waitForChanges();
+
+			const value = await input.getProperty('value');
+			expect(spyChangeEvent).toHaveReceivedEventDetail(value);
+		});
+
 		it('should reject a month above 12', async () => {
 			await input.type('1513');
 			await page.waitForChanges();

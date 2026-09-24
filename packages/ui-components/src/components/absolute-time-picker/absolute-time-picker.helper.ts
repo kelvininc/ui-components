@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
+import { isEmpty } from 'lodash-es';
 import { CALENDAR_DATE_TIME_MASK, CALENDAR_MASK, DATETIME_INPUT_MASK } from './absolute-time-picker.config';
 import { DateInputState, EAbsoluteTimeError, EValidationState, IAbsoluteTimeLimits, SelectedRange } from '../../types';
+import { EAbsoluteTimePickerMode, ITypedDates } from './absolute-time-picker.types';
 
 export const buildSelectedDatesEventPayload = (dateA?: dayjs.Dayjs, dateB?: dayjs.Dayjs): SelectedRange => {
 	if (!dateA && !dateB) {
@@ -12,6 +14,70 @@ export const buildSelectedDatesEventPayload = (dateA?: dayjs.Dayjs, dateB?: dayj
 	}
 
 	return [dateA.format(CALENDAR_DATE_TIME_MASK), dateB.format(CALENDAR_DATE_TIME_MASK)];
+};
+
+/**
+ * Parses a date typed in a date-time input. Parsing is strict, so an impossible date (31-02, month 13) or
+ * one still holding mask placeholders is rejected instead of rolling over into another date.
+ * @param text typed text in the DD-MM-YYYY HH:mm:ss format
+ * @returns the parsed date, or undefined when the text is not a complete, valid date
+ */
+export const parseTypedDateTime = (text?: string | null): dayjs.Dayjs | undefined => {
+	// Validated in UTC so a wall-clock time inside the host timezone's DST gap is not rejected
+	if (isEmpty(text) || !dayjs.utc(text, DATETIME_INPUT_MASK, true).isValid()) {
+		return;
+	}
+
+	return dayjs(text, DATETIME_INPUT_MASK);
+};
+
+/**
+ * Resolves the dates typed in the inputs into the selection they describe
+ * @param mode calendar mode, which defines the inputs in use
+ * @param typedDates text of each input
+ * @returns the typed dates, or undefined while an input holds an incomplete or invalid date, or a range
+ * has its end but not its start
+ */
+export const getTypedSelection = (mode: EAbsoluteTimePickerMode | undefined, { from, to, single }: ITypedDates): dayjs.Dayjs[] | undefined => {
+	// Like the component, which renders the single input for any mode other than range
+	if (mode !== EAbsoluteTimePickerMode.Range) {
+		return parseTypedDates([single]);
+	}
+
+	if (isEmpty(from) && !isEmpty(to)) {
+		return;
+	}
+
+	return parseTypedDates([from, to]);
+};
+
+const parseTypedDates = (texts: string[]): dayjs.Dayjs[] | undefined => {
+	const dates: dayjs.Dayjs[] = [];
+
+	for (const text of texts) {
+		if (isEmpty(text)) {
+			continue;
+		}
+
+		const date = parseTypedDateTime(text);
+		if (!date) {
+			return;
+		}
+
+		dates.push(date);
+	}
+
+	return dates;
+};
+
+/**
+ * Formats a selected date to be displayed in a date-time input
+ * @param date date in the calendar date time format
+ * @returns the input text, empty when there is no valid date
+ */
+export const formatSelectedDate = (date?: string): string => {
+	const parsedDate = dayjs(date, CALENDAR_DATE_TIME_MASK);
+	return !isEmpty(date) && parsedDate.isValid() ? parsedDate.format(DATETIME_INPUT_MASK) : '';
 };
 
 export const isEndDateAtStartOfDay = (date: dayjs.Dayjs): boolean => {

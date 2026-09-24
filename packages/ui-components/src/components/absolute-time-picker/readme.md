@@ -54,12 +54,13 @@ export const KvAbsoluteTimePicker: React.FC = () => (
 
 ## Events
 
-| Event                      | Description                                                          | Type                                       |
-| -------------------------- | -------------------------------------------------------------------- | ------------------------------------------ |
-| `backButtonClicked`        | Emitted when the back button is clicked                              | `CustomEvent<MouseEvent>`                  |
-| `relativeTimeConfigChange` | Emitted when there is a change in the relative config                | `CustomEvent<IAbsoluteSelectedRangeDates>` |
-| `relativeTimeConfigReset`  | Emitted when the input is clicked and it were displaying custom text | `CustomEvent<MouseEvent>`                  |
-| `selectedDatesChange`      | Selected dates change                                                | `CustomEvent<IAbsoluteSelectedRangeDates>` |
+| Event                      | Description                                                                                                                                                                                         | Type                                       |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| `backButtonClicked`        | Emitted when the back button is clicked                                                                                                                                                             | `CustomEvent<MouseEvent>`                  |
+| `inputValidityChange`      | Emitted when the typed dates become, or stop being, incomplete or invalid. While `false`, the inputs show something `selectedDatesChange` could not emit, so the last emitted dates are out of date | `CustomEvent<boolean>`                     |
+| `relativeTimeConfigChange` | Emitted when there is a change in the relative config                                                                                                                                               | `CustomEvent<IAbsoluteSelectedRangeDates>` |
+| `relativeTimeConfigReset`  | Emitted when the input is clicked and it were displaying custom text                                                                                                                                | `CustomEvent<MouseEvent>`                  |
+| `selectedDatesChange`      | Selected dates change                                                                                                                                                                               | `CustomEvent<IAbsoluteSelectedRangeDates>` |
 
 
 ## Dependencies
