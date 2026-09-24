@@ -23,12 +23,14 @@ export const buildSelectedDatesEventPayload = (dateA?: dayjs.Dayjs, dateB?: dayj
  * @returns the parsed date, or undefined when the text is not a complete, valid date
  */
 export const parseTypedDateTime = (text?: string | null): dayjs.Dayjs | undefined => {
-	// Validated in UTC so a wall-clock time inside the host timezone's DST gap is not rejected
-	if (isEmpty(text) || !dayjs.utc(text, DATETIME_INPUT_MASK, true).isValid()) {
+	if (isEmpty(text)) {
 		return;
 	}
 
-	return dayjs(text, DATETIME_INPUT_MASK);
+	// Parsed in UTC, which has no DST gap, so the typed wall-clock time is kept as is: the host timezone
+	// would move a time inside its own gap by an hour, or reject it
+	const date = dayjs.utc(text, DATETIME_INPUT_MASK, true);
+	return date.isValid() ? date : undefined;
 };
 
 /**

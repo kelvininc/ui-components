@@ -363,6 +363,14 @@ describe('Absolute Time Picker helpers', () => {
 			expect(parseTypedDateTime('15-03-2024 10:30:45')?.format('YYYY-MM-DD HH:mm:ss')).toEqual('2024-03-15 10:30:45');
 		});
 
+		// A local parse would move 01:30 to 02:30 on a host in Europe/Lisbon, which skips that hour on 31-03-2024
+		it('should keep the typed wall-clock time whatever the host timezone', () => {
+			const date = parseTypedDateTime('31-03-2024 01:30:00');
+
+			expect(date?.isUTC()).toBe(true);
+			expect(date?.format('YYYY-MM-DD HH:mm:ss')).toEqual('2024-03-31 01:30:00');
+		});
+
 		it.each(['', '15-03-20yy 00:00:00', '31-02-2024 00:00:00', '29-02-2023 00:00:00', '15-13-2024 00:00:00', 'Now - 24 hours'])('should reject %p', text => {
 			expect(parseTypedDateTime(text)).toBeUndefined();
 		});
