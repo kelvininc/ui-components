@@ -1,4 +1,5 @@
 import { E2EPage, newE2EPage, EventSpy, E2EElement } from '@stencil/core/testing';
+import { focusMaskedInput } from './date-time-input.utils';
 
 describe('Date Time Input (end-to-end)', () => {
 	let page: E2EPage;
@@ -44,6 +45,31 @@ describe('Date Time Input (end-to-end)', () => {
 			it('should emit blur event', () => {
 				expect(spyBlurEvent).toHaveReceivedEvent();
 			});
+		});
+	});
+
+	describe('when the input mask is enabled', () => {
+		let input: E2EElement;
+
+		beforeEach(async () => {
+			page = await newE2EPage();
+			await page.setContent('<kv-date-time-input use-input-mask></kv-date-time-input>');
+			input = await page.find('input');
+			await focusMaskedInput(page, input);
+		});
+
+		it('should accept minutes above 12', async () => {
+			await input.type('15032024103045');
+			await page.waitForChanges();
+
+			expect(await input.getProperty('value')).toBe('15-03-2024 10:30:45');
+		});
+
+		it('should reject a month above 12', async () => {
+			await input.type('1513');
+			await page.waitForChanges();
+
+			expect(await input.getProperty('value')).not.toContain('15-13');
 		});
 	});
 

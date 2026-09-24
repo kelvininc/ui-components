@@ -2,6 +2,7 @@ import { newSpecPage, SpecPage } from '@stencil/core/testing';
 import { KvAbsoluteTimePickerDropdownInput } from '../absolute-time-picker-dropdown-input';
 import { h } from '@stencil/core';
 import { EAbsoluteTimePickerMode, EIconName } from '../../../types';
+import { DATE_TIME_INPUT_DATE_FORMAT } from '../absolute-time-picker-dropdown-input.config';
 
 describe('Absolute Time Picker Dropdown Input (unit tests)', () => {
 	let page: SpecPage;
@@ -131,7 +132,7 @@ describe('Absolute Time Picker Dropdown Input (unit tests)', () => {
 			expect(toInput.getAttribute('value')).toBe('');
 			expect(fromInput.getAttribute('inputstyletype')).toBe('merged-left');
 			expect(toInput.getAttribute('inputstyletype')).toBe('merged-right');
-			expect(fromInput.getAttribute('dateformat')).toBe('dd-mm-yyyy HH:MM');
+			expect(fromInput.getAttribute('dateformat')).toBe(DATE_TIME_INPUT_DATE_FORMAT);
 		});
 	});
 
