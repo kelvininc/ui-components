@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Date Time Input (unit tests) when has a label should match the snapshot 1`] = `
-<kv-date-time-input date-format="dd-mm-yyyy HH:MM:ss" input-style-type="separated" label="Date Time Label" placeholder="dd-mm-yyyy 00:00:00" state="none" value="">
+<kv-date-time-input date-format="dd-MM-yyyy HH:mm:ss" input-style-type="separated" label="Date Time Label" placeholder="dd-mm-yyyy 00:00:00" state="none" value="">
   <div class="date-time-input-container">
     <kv-form-label label="Date Time Label"></kv-form-label>
     <div class="input-container-wrapper input-container-wrapper--size-large input-container-wrapper--style-separated">
@@ -16,7 +16,7 @@ exports[`Date Time Input (unit tests) when has a label should match the snapshot
 `;
 
 exports[`Date Time Input (unit tests) when uses default props should match the snapshot 1`] = `
-<kv-date-time-input date-format="dd-mm-yyyy HH:MM:ss" input-style-type="separated" placeholder="dd-mm-yyyy 00:00:00" state="none" value="">
+<kv-date-time-input date-format="dd-MM-yyyy HH:mm:ss" input-style-type="separated" placeholder="dd-mm-yyyy 00:00:00" state="none" value="">
   <div class="date-time-input-container">
     <div class="input-container-wrapper input-container-wrapper--size-large input-container-wrapper--style-separated">
       <div class="input-container">
