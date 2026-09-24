@@ -20,6 +20,9 @@ const meta = {
 		},
 		onRelativeTimeConfigChange: {
 			action: "relativeTimeConfigChange"
+		},
+		onInputValidityChange: {
+			action: "inputValidityChange"
 		}
 	}
 } satisfies Meta<typeof KvAbsoluteTimePicker>;
