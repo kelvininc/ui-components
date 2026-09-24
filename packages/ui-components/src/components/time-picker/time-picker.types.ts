@@ -33,9 +33,9 @@ export interface ITimePicker {
 	calendarMode?: EAbsoluteTimePickerMode;
 	/** (optional) Lets the timezone visible but doesn't let the user change it */
 	disableTimezoneSelection?: boolean;
-	/** (optional) calendar minimum date to be navigated */
+	/** (optional) Earliest date, in timestamp, that can be picked or typed in the calendar; Apply is disabled for a custom selection before it. Defaults to 01-01-2018 00:00:00 in the selected timezone */
 	calendarInputMinDate?: number;
-	/** (optional) calendar maximum date to be navigated */
+	/** (optional) Latest date, in timestamp, that can be picked or typed in the calendar; Apply is disabled for a custom selection after it. Defaults to 31-12-3000 23:59:59 in the selected timezone */
 	calendarInputMaxDate?: number;
 	/** (optional) The time picker's z-index (default: 9003) */
 	zIndex?: number;

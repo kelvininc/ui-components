@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import { ITimezoneOffset } from '../../types';
-import { CALENDAR_DATE_TIME_MASK, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
+import { IAbsoluteTimeLimits, ITimezoneOffset } from '../../types';
+import { CALENDAR_DATE_TIME_MASK, CALENDAR_INPUT_MAX_DATE, CALENDAR_INPUT_MIN_DATE, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
 import { EAbsoluteTimePickerMode, ERelativeTimeInputMode, IRelativeTimeInput } from '../absolute-time-picker/absolute-time-picker.types';
 import { ERelativeTimeComparisonConfig, IRelativeTimePickerOption, ITimePickerRelativeTime, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
 import { isEmpty, isNil, isNumber } from 'lodash-es';
@@ -98,6 +98,35 @@ export const getAbsoluteTimePickerRangeDates = (
 	}
 
 	return [dayjs(from).utcOffset(timezoneOffset).format(CALENDAR_DATE_TIME_MASK), dayjs(to).utcOffset(timezoneOffset).format(CALENDAR_DATE_TIME_MASK)];
+};
+
+/**
+ * Formats a calendar limit the way the calendar inputs show dates: whole seconds, in the selected timezone
+ * @param date limit timestamp, if any
+ * @param timezone selected timezone name
+ * @param defaultDate formatted limit used when there is none
+ * @returns limit in the date time input format
+ */
+export const getCalendarLimitDateFormatted = (date: number | undefined, timezone: string, defaultDate: string): string =>
+	isNumber(date) ? createFormattedDateFromTimestampInTimezone(date, timezone) : defaultDate;
+
+/**
+ * Gets the limits a custom selection is checked against. They are read back from the formatted limits the
+ * calendar receives, so a day click clamped to a limit (which drops its milliseconds) is never flagged, and
+ * widened to the given limit, which a DST transition can move the formatted one past.
+ * @param minDate minimum timestamp, if any
+ * @param maxDate maximum timestamp, if any
+ * @param timezone selected timezone name
+ * @returns minimum and maximum timestamps, defaulting to the calendar's own limits
+ */
+export const getCalendarLimits = (minDate: number | undefined, maxDate: number | undefined, timezone: string): IAbsoluteTimeLimits => {
+	const calendarMinDate = createTimestampInTimezoneFromFormattedDate(getCalendarLimitDateFormatted(minDate, timezone, CALENDAR_INPUT_MIN_DATE), timezone);
+	const calendarMaxDate = createTimestampInTimezoneFromFormattedDate(getCalendarLimitDateFormatted(maxDate, timezone, CALENDAR_INPUT_MAX_DATE), timezone);
+
+	return {
+		minDate: isNumber(minDate) ? Math.min(calendarMinDate, Math.floor(minDate / 1000) * 1000) : calendarMinDate,
+		maxDate: isNumber(maxDate) ? Math.max(calendarMaxDate, maxDate) : calendarMaxDate
+	};
 };
 
 export const getLast24HoursRange = (): SelectedTimestamp => {
