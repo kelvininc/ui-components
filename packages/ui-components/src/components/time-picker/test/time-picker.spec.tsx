@@ -6,6 +6,7 @@ import { APPLY_BUTTON_INVALID_DATE_TOOLTIP_TEXT, DEFAULT_SELECTED_TIME_KEY, FULL
 import { getCalendarLimits, getRelativeViewHeight, validateNewRange } from '../time-picker.helper';
 import { EAbsoluteTimePickerMode, IAbsoluteSelectedRangeDates } from '../../absolute-time-picker/absolute-time-picker.types';
 import { EAbsoluteTimeError } from '../../absolute-time-picker-dropdown/absolute-time-picker-dropdown.types';
+import { DEFAULT_HEADER_TITLE, SINGLE_DATE_HEADER_TITLE } from '../../absolute-time-picker/absolute-time-picker.config';
 import { MOCK_RELATIVE_TIME_OPTIONS_GROUPS } from '../../relative-time-picker/test/relative-time-picker.mock';
 import { BOTTOM_OPTIONS_HEIGHT, MAX_HEIGHT, PADDING_SIZE, SELECT_OPTION_HEIGHT } from '../../relative-time-picker/relative-time-picker.config';
 import { CUSTOM_TIME_RANGE_KEY, DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS } from '../../../utils/relative-time';
@@ -279,6 +280,64 @@ describe('KvTimePicker (calendar confirms with apply)', () => {
 		expect(component.selectedTimeState.key).toEqual(DEFAULT_SELECTED_TIME_KEY);
 		expect(component.calendarViewLocked).toBe(false);
 		expect(page.root.querySelector('.actions')).toBeNull();
+	});
+});
+
+describe('KvTimePicker (custom option labels)', () => {
+	let page: SpecPage;
+	let component: KvTimePicker;
+
+	const getOptionLabel = () => page.root.querySelector('kv-relative-time-picker').getAttribute('customintervaloptionlabel');
+	const getCalendarTitle = () => page.root.querySelector('kv-absolute-time-picker').getAttribute('headertitle');
+
+	describe('in range mode', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvTimePicker],
+				template: () => <kv-time-picker isOpen />
+			});
+			component = page.rootInstance;
+		});
+
+		it('should label the custom option as an interval', () => {
+			expect(getOptionLabel()).toEqual(DEFAULT_HEADER_TITLE);
+		});
+
+		it('should title the calendar as an interval once the custom option is picked', async () => {
+			component['onClickSeeCustomInterval']({ detail: CUSTOM_TIME_RANGE_KEY } as CustomEvent<string>);
+			await page.waitForChanges();
+
+			expect(getCalendarTitle()).toEqual(DEFAULT_HEADER_TITLE);
+		});
+	});
+
+	describe('in single mode', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvTimePicker],
+				template: () => <kv-time-picker isOpen calendarMode={EAbsoluteTimePickerMode.Single} />
+			});
+			component = page.rootInstance;
+		});
+
+		it('should label the custom option as a date', () => {
+			expect(getOptionLabel()).toEqual(SINGLE_DATE_HEADER_TITLE);
+		});
+
+		it('should title the calendar as a date once the custom option is picked', async () => {
+			component['onClickSeeCustomInterval']({ detail: CUSTOM_TIME_RANGE_KEY } as CustomEvent<string>);
+			await page.waitForChanges();
+
+			expect(getCalendarTitle()).toEqual(SINGLE_DATE_HEADER_TITLE);
+		});
+
+		it('should title the calendar as a date once a date is picked in it', async () => {
+			page.root.querySelector('kv-absolute-time-picker').dispatchEvent(new CustomEvent('selectedDatesChange', { detail: { range: ['2023-04-15 10:00:00'] } }));
+			await page.waitForChanges();
+
+			expect(component.selectedTimeState.key).toEqual(CUSTOM_TIME_RANGE_KEY);
+			expect(getCalendarTitle()).toEqual(SINGLE_DATE_HEADER_TITLE);
+		});
 	});
 });
 

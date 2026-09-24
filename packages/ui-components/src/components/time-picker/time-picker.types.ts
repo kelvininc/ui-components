@@ -29,7 +29,7 @@ export interface ITimePicker {
 	displayTimezoneDropdown?: boolean;
 	/** (optional) Determines if the "Show Calendar" toggle is visible in the footer. Hiding it does not prevent `showCalendar` from being set programmatically */
 	displayCalendarToggle?: boolean;
-	/** (optional) Defines if the custom interval calendar selects a single date or a range */
+	/** (optional) Defines if the custom interval calendar selects a single date or a range. In single mode, the custom option and the calendar title read "Custom Date" instead of "Custom Interval" */
 	calendarMode?: EAbsoluteTimePickerMode;
 	/** (optional) Lets the timezone visible but doesn't let the user change it */
 	disableTimezoneSelection?: boolean;
