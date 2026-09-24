@@ -236,3 +236,15 @@ export const FutureDurations: Story = {
 	},
 	render: TimePickerFutureDurationsTemplate
 };
+
+const DAY_IN_MS = 24 * 60 * 60 * 1000;
+const NOW = Date.now();
+
+export const WithCalendarLimits: Story = {
+	args: {
+		...FutureDurations.args,
+		calendarInputMinDate: NOW,
+		calendarInputMaxDate: NOW + 30 * DAY_IN_MS
+	},
+	render: TimePickerFutureDurationsTemplate
+};
