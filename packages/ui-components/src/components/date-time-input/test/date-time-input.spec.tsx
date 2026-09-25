@@ -1,9 +1,33 @@
 import { SpecPage } from '@stencil/core/internal';
 import { KvDateTimeInput } from '../date-time-input';
 import { newSpecPage } from '@stencil/core/testing';
+import Inputmask from 'inputmask';
 
 describe('Date Time Input (unit tests)', () => {
 	let page: SpecPage;
+
+	describe('when a positional mask is supplied', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvDateTimeInput],
+				html: '<kv-date-time-input input-mask-pattern="99-99-9999 99:99:99"></kv-date-time-input>'
+			});
+		});
+
+		it.each([
+			['31112026100000', '31-11-2026 10:00:00'],
+			['31022027100000', '31-02-2027 10:00:00'],
+			['10112026100000', '10-11-2026 10:00:00'],
+			['31-11-2026 10:00:00', '31-11-2026 10:00:00'],
+			['29022027100000', '29-02-2027 10:00:00'],
+			['15132026999999', '15-13-2026 99:99:99'],
+			['15032024', '15-03-2024 00:00:00'],
+			['1503', '15-03-yyyy 00:00:00']
+		])('should preserve digits and insert separators when given %s', (text, expected) => {
+			const component: KvDateTimeInput = page.rootInstance;
+			expect(Inputmask.format(text, component['getInputMaskConfig']())).toBe(expected);
+		});
+	});
 
 	describe('when uses default props', () => {
 		beforeEach(async () => {

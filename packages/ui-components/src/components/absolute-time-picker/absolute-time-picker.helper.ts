@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { isEmpty } from 'lodash-es';
+import { isEmpty, isNumber } from 'lodash-es';
 import { CALENDAR_DATE_TIME_MASK, CALENDAR_MASK, DATETIME_INPUT_MASK, DEFAULT_HEADER_TITLE, SINGLE_DATE_HEADER_TITLE } from './absolute-time-picker.config';
 import { DateInputState, EAbsoluteTimeError, EValidationState, IAbsoluteTimeLimits, SelectedRange } from '../../types';
 import { EAbsoluteTimePickerMode, ITypedDates } from './absolute-time-picker.types';
@@ -31,6 +31,15 @@ export const parseTypedDateTime = (text?: string | null): dayjs.Dayjs | undefine
 	// would move a time inside its own gap by an hour, or reject it
 	const date = dayjs.utc(text, DATETIME_INPUT_MASK, true);
 	return date.isValid() ? date : undefined;
+};
+
+/** Invalid typed text takes precedence over errors about the last parsed selection. */
+export const getTypedDateInputState = (text: string | undefined, selectionState?: DateInputState): DateInputState | undefined => {
+	if (!isEmpty(text) && !parseTypedDateTime(text)) {
+		return { state: EValidationState.Invalid, helpText: 'Invalid date' };
+	}
+
+	return selectionState;
 };
 
 /**
@@ -78,7 +87,8 @@ const parseTypedDates = (texts: string[]): dayjs.Dayjs[] | undefined => {
  * @returns the input text, empty when there is no valid date
  */
 export const formatSelectedDate = (date?: string): string => {
-	const parsedDate = dayjs(date, CALENDAR_DATE_TIME_MASK);
+	// These strings carry wall-clock times; the host timezone must not shift them across a DST gap.
+	const parsedDate = dayjs.utc(date, CALENDAR_DATE_TIME_MASK);
 	return !isEmpty(date) && parsedDate.isValid() ? parsedDate.format(DATETIME_INPUT_MASK) : '';
 };
 
@@ -130,7 +140,7 @@ export const getFromDateInputState = (error: EAbsoluteTimeError | undefined, { m
 		return;
 	}
 
-	if (error === EAbsoluteTimeError.StartDateBeforeMinimumDate && minDate) {
+	if (error === EAbsoluteTimeError.StartDateBeforeMinimumDate && isNumber(minDate)) {
 		const min = dayjs(minDate).format(DATETIME_INPUT_MASK);
 		return {
 			state: EValidationState.Invalid,
@@ -146,7 +156,7 @@ export const getToDateTimeInputState = (error: EAbsoluteTimeError | undefined, {
 		return;
 	}
 
-	if (error === EAbsoluteTimeError.EndDateAfterMaximumDate && maxDate) {
+	if (error === EAbsoluteTimeError.EndDateAfterMaximumDate && isNumber(maxDate)) {
 		const max = dayjs(maxDate).format(DATETIME_INPUT_MASK);
 		return {
 			state: EValidationState.Invalid,
@@ -169,7 +179,7 @@ export const getSingleDateTimeInputState = (error: EAbsoluteTimeError | undefine
 		return;
 	}
 
-	if (error === EAbsoluteTimeError.StartDateBeforeMinimumDate && minDate) {
+	if (error === EAbsoluteTimeError.StartDateBeforeMinimumDate && isNumber(minDate)) {
 		const min = dayjs(minDate).format(DATETIME_INPUT_MASK);
 		return {
 			state: EValidationState.Invalid,
@@ -177,7 +187,7 @@ export const getSingleDateTimeInputState = (error: EAbsoluteTimeError | undefine
 		};
 	}
 
-	if (error === EAbsoluteTimeError.EndDateAfterMaximumDate && maxDate) {
+	if (error === EAbsoluteTimeError.EndDateAfterMaximumDate && isNumber(maxDate)) {
 		const max = dayjs(maxDate).format(DATETIME_INPUT_MASK);
 		return {
 			state: EValidationState.Invalid,

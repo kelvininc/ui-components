@@ -33,6 +33,12 @@ jobs:
             - name: 🧪 Run core tests
               run: pnpm --filter @kelvininc/ui-components test
 
+            - name: 🧪 Check time picker across host DST
+              working-directory: packages/ui-components
+              env:
+                  TZ: Europe/Lisbon
+              run: pnpm exec stencil test --spec --no-cache --runInBand --max-workers=0 --coverage=false src/components/time-picker/test/time-picker-timezone.spec.tsx
+
             - name: 🏗️ Build all packages
               run: pnpm build:packages
 

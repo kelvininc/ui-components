@@ -192,6 +192,9 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 
 	private onDropdownChange = ({ detail: isDropdownOpen }: CustomEvent<boolean>) => {
 		this.isOpen = isDropdownOpen;
+		if (!isDropdownOpen) {
+			this.discardInvalidDateInput();
+		}
 		this.dropdownStateChange.emit(isDropdownOpen);
 		if (!this.isApplyButtonDisabled() && !isDropdownOpen) {
 			if (isEmpty(this.selectedTimeOption)) {
@@ -534,7 +537,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 			return '';
 		}
 
-		if (isEmpty(this.applyButtonTooltipText) && this.hasInvalidDateInput) {
+		if (this.hasInvalidDateInput) {
 			return APPLY_BUTTON_INVALID_DATE_TOOLTIP_TEXT;
 		}
 
