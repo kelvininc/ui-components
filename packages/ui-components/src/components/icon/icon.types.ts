@@ -41,6 +41,7 @@ export enum EIconName {
 	ControlChange = 'kv-control-change',
 	Copy = 'kv-copy',
 	CopyClipboard = 'kv-copy-clipboard',
+	CustomAction = 'kv-custom-action',
 	Dashboard = 'kv-dashboard',
 	DataExplorer = 'kv-data-explorer',
 	Datalabel = 'kv-datalabel',
