@@ -4,6 +4,7 @@ import { h } from '@stencil/core';
 import { EAbsoluteTimePickerMode, ERelativeTimeInputMode, IAbsoluteSelectedRangeDates } from '../absolute-time-picker.types';
 import { getCustomIntervalTitle, getTypedSelection, parseTypedDateTime } from '../absolute-time-picker.helper';
 import { DEFAULT_HEADER_TITLE, SINGLE_DATE_HEADER_TITLE } from '../absolute-time-picker.config';
+import { EAbsoluteTimeError } from '../../absolute-time-picker-dropdown/absolute-time-picker-dropdown.types';
 
 /**
  * Simulates typing in a date-time input. `kv-date-time-input` is not registered in these spec pages, so
@@ -153,6 +154,20 @@ describe('Absolute Time Picker (unit tests)', () => {
 
 			expect(events.selectedDatesChange).not.toHaveBeenCalled();
 			expect(events.inputValidityChange.mock.calls).toEqual([[false]]);
+			expect(input.getAttribute('helptext')).toBe('Invalid date');
+			expect(input.getAttribute('state')).toBe('invalid');
+			expect(component.displayedMonth.format('YYYY-MM')).toBe('2023-03');
+		});
+
+		it('should replace a stale limit error with an invalid date error and clear it after correction', async () => {
+			page.root.error = EAbsoluteTimeError.StartDateBeforeMinimumDate;
+			await typeDate(page, input, '31-11-2026 10:00:00');
+			expect(input.getAttribute('helptext')).toBe('Invalid date');
+
+			page.root.error = undefined;
+			await typeDate(page, input, '10-11-2026 10:00:00');
+			expect(input.getAttribute('state')).not.toBe('invalid');
+			expect(input.getAttribute('helptext')).not.toBe('Invalid date');
 		});
 
 		it('should emit a valid date and report the input as valid again', async () => {
@@ -217,6 +232,8 @@ describe('Absolute Time Picker (unit tests)', () => {
 			await typeDate(page, toInput, '10-03-2023 1');
 
 			expect(component.toInputValue).toEqual('10-03-2023 1');
+			expect(toInput.getAttribute('helptext')).toBe('Invalid date');
+			expect(fromInput.getAttribute('helptext')).not.toBe('Invalid date');
 			expect(events.selectedDatesChange).not.toHaveBeenCalled();
 			expect(events.inputValidityChange.mock.calls).toEqual([[false]]);
 		});
@@ -225,6 +242,16 @@ describe('Absolute Time Picker (unit tests)', () => {
 			await typeDate(page, toInput, '10-03-2023 1');
 			await typeDate(page, fromInput, '01-03-2023 10:30:00');
 
+			expect(events.selectedDatesChange).not.toHaveBeenCalled();
+		});
+
+		it('should mark only the invalid start date and keep the calendar unchanged', async () => {
+			const initialMonth = component.displayedMonth.format('YYYY-MM');
+			await typeDate(page, fromInput, '31-11-2026 10:00:00');
+
+			expect(fromInput.getAttribute('helptext')).toBe('Invalid date');
+			expect(toInput.getAttribute('state')).not.toBe('invalid');
+			expect(component.displayedMonth.format('YYYY-MM')).toBe(initialMonth);
 			expect(events.selectedDatesChange).not.toHaveBeenCalled();
 		});
 
@@ -359,6 +386,9 @@ describe('Absolute Time Picker (unit tests)', () => {
 
 describe('Absolute Time Picker helpers', () => {
 	describe('#parseTypedDateTime', () => {
+		it('should accept February 29 in a leap year', () => {
+			expect(parseTypedDateTime('29-02-2028 10:00:00')?.format('YYYY-MM-DD')).toBe('2028-02-29');
+		});
 		it('should parse a complete date', () => {
 			expect(parseTypedDateTime('15-03-2024 10:30:45')?.format('YYYY-MM-DD HH:mm:ss')).toEqual('2024-03-15 10:30:45');
 		});
