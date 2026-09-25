@@ -33,6 +33,15 @@ export const parseTypedDateTime = (text?: string | null): dayjs.Dayjs | undefine
 	return date.isValid() ? date : undefined;
 };
 
+/** Invalid typed text takes precedence over errors about the last parsed selection. */
+export const getTypedDateInputState = (text: string | undefined, selectionState?: DateInputState): DateInputState | undefined => {
+	if (!isEmpty(text) && !parseTypedDateTime(text)) {
+		return { state: EValidationState.Invalid, helpText: 'Invalid date' };
+	}
+
+	return selectionState;
+};
+
 /**
  * Resolves the dates typed in the inputs into the selection they describe
  * @param mode calendar mode, which defines the inputs in use

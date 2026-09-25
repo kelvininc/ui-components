@@ -27,6 +27,8 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) useInputMask: boolean = false;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) inputMaskPattern?: string;
+	/** @inheritdoc */
 	@Prop() size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) forcedFocus: boolean = false;
@@ -100,6 +102,13 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 		}
 	}
 
+	@Watch('inputMaskPattern')
+	handleInputMaskPatternChange() {
+		if (this.useInputMask && this.nativeInput) {
+			this.createInputMaskInstance();
+		}
+	}
+
 	componentWillLoad() {
 		this.focused = this.forcedFocus;
 		this.currentValue = this.toInputValue(this.value);
@@ -109,7 +118,16 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 		this.handleUseInputMask(this.useInputMask);
 	}
 
-	private getInputMaskConfig = () => {
+	private getInputMaskConfig = (): Inputmask.Options => {
+		if (this.inputMaskPattern) {
+			return {
+				mask: this.inputMaskPattern,
+				placeholder: this.placeholder,
+				showMaskOnHover: false,
+				clearMaskOnLostFocus: false
+			};
+		}
+
 		return merge({}, DATE_TIME_INPUTMASK_CONFIG, { inputFormat: this.dateFormat, displayFormat: this.dateFormat, placeholder: this.placeholder });
 	};
 
