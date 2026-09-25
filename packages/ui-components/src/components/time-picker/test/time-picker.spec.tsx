@@ -568,6 +568,80 @@ describe('KvTimePicker (typing in the calendar)', () => {
 	});
 });
 
+describe.each(['UTC', 'Europe/Lisbon'])('KvTimePicker (invalid dates with limits in %s)', timezoneName => {
+	let page: SpecPage;
+	let input: Element;
+	const minDate = Date.UTC(2026, 10, 1, 10);
+	const maxDate = Date.UTC(2027, 2, 1, 10);
+
+	const typeDate = async (text: string): Promise<void> => {
+		input.dispatchEvent(new CustomEvent<string>('textChange', { detail: text }));
+		await page.waitForChanges();
+	};
+
+	beforeEach(async () => {
+		page = await newSpecPage({
+			components: [KvTimePicker, KvAbsoluteTimePicker],
+			template: () => (
+				<kv-time-picker
+					isOpen
+					showCalendar
+					calendarMode={EAbsoluteTimePickerMode.Single}
+					calendarInputMinDate={minDate}
+					calendarInputMaxDate={maxDate}
+					selectedTimeOption={{ key: CUSTOM_TIME_RANGE_KEY, range: [Date.UTC(2026, 10, 9, 10)], timezone: { name: timezoneName, offset: 0 } }}
+				/>
+			)
+		});
+		input = page.root.querySelector('#single-date-input');
+	});
+
+	it.each(['31-11-2026 10:00:00', '31-02-2027 10:00:00', '29-02-2027 10:00:00', '10-13-2026 10:00:00', '10-11-2026 24:00:00', '10-11-20yy 10:00:00'])(
+		'should preserve the selection and show Invalid date when given %s',
+		async text => {
+			const calendar = page.root.querySelector('kv-calendar');
+			const initialMonth = calendar.getAttribute('initialdate');
+			const picker: KvTimePicker = page.rootInstance;
+			const previousRange = [...picker.selectedTimeState.range];
+			await typeDate(text);
+
+			expect(input.getAttribute('value')).toBe(text);
+			expect(input.getAttribute('helptext')).toBe('Invalid date');
+			expect(getApplyButton(page).hasAttribute('disabled')).toBe(true);
+			expect(calendar.getAttribute('initialdate')).toBe(initialMonth);
+			expect(picker.selectedTimeState.range).toEqual(previousRange);
+		}
+	);
+
+	it.each(['01-11-2026 10:00:00', '10-11-2026 10:00:00', '01-03-2027 10:00:00'])('should clear the error and enable Apply when corrected to an allowed date %s', async text => {
+		await typeDate('31-11-2026 10:00:00');
+		await typeDate(text);
+
+		expect(input.getAttribute('state')).not.toBe('invalid');
+		expect(input.getAttribute('helptext')).not.toBe('Invalid date');
+		expect(getApplyButton(page).hasAttribute('disabled')).toBe(false);
+	});
+
+	it.each([
+		['01-11-2026 09:59:59', 'must be after'],
+		['01-03-2027 10:00:01', 'must be before']
+	])('should retain limit validation when the valid date %s is outside the limits', async (text, message) => {
+		await typeDate('31-11-2026 10:00:00');
+		await typeDate(text);
+
+		expect(input.getAttribute('helptext')).toContain(message);
+		expect(getApplyButton(page).hasAttribute('disabled')).toBe(true);
+	});
+
+	it('should clear the inline error and disable Apply when the input is emptied', async () => {
+		await typeDate('31-11-2026 10:00:00');
+		await typeDate('');
+
+		expect(input.getAttribute('helptext')).not.toBe('Invalid date');
+		expect(getApplyButton(page).hasAttribute('disabled')).toBe(true);
+	});
+});
+
 describe('KvTimePicker helpers', () => {
 	describe('#validateNewRange', () => {
 		it('should require an ordered pair by default', () => {
