@@ -29,13 +29,13 @@ export interface ITimePicker {
 	displayTimezoneDropdown?: boolean;
 	/** (optional) Determines if the "Show Calendar" toggle is visible in the footer. Hiding it does not prevent `showCalendar` from being set programmatically */
 	displayCalendarToggle?: boolean;
-	/** (optional) Defines if the custom interval calendar selects a single date or a range */
+	/** (optional) Defines if the custom interval calendar selects a single date or a range. In single mode, the custom option and the calendar title read "Custom Date" instead of "Custom Interval" */
 	calendarMode?: EAbsoluteTimePickerMode;
 	/** (optional) Lets the timezone visible but doesn't let the user change it */
 	disableTimezoneSelection?: boolean;
-	/** (optional) calendar minimum date to be navigated */
+	/** (optional) Earliest date, in timestamp, that can be picked or typed in the calendar; Apply is disabled for a custom selection before it. Defaults to 01-01-2018 00:00:00 in the selected timezone */
 	calendarInputMinDate?: number;
-	/** (optional) calendar maximum date to be navigated */
+	/** (optional) Latest date, in timestamp, that can be picked or typed in the calendar; Apply is disabled for a custom selection after it. Defaults to 31-12-3000 23:59:59 in the selected timezone */
 	calendarInputMaxDate?: number;
 	/** (optional) The time picker's z-index (default: 9003) */
 	zIndex?: number;

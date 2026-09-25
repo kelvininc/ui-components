@@ -14,9 +14,9 @@ export interface IAbsoluteTimePickerDropdown {
 	initialDate?: string;
 	/** (optional) Disabled dates */
 	disabledDates?: string[];
-	/** (optional) calendar minimum date to be navigated in timestamp */
+	/** (optional) Earliest date, in timestamp, that can be picked or typed in the calendar; Apply is disabled for a selection before it. Defaults to 01-01-2018 00:00:00 in the selected timezone */
 	calendarInputMinDate?: number;
-	/** (optional) calendar maximum date to be navigated in timestamp */
+	/** (optional) Latest date, in timestamp, that can be picked or typed in the calendar; Apply is disabled for a selection after it. Defaults to 31-12-3000 23:59:59 in the selected timezone */
 	calendarInputMaxDate?: number;
 	/** (optional) dropdown input config */
 	inputConfig?: Partial<ITextField>;

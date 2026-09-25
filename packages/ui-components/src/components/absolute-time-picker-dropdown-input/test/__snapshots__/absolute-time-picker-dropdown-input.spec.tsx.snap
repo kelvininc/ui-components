@@ -6,8 +6,8 @@ exports[`Absolute Time Picker Dropdown Input (unit tests) when default props and
   <kv-dropdown-base>
     <slot-fb name="dropdown-action" slot="action">
       <div class="time-range-input-container">
-        <kv-date-time-input dateformat="dd-mm-yyyy HH:MM" inputstyletype="merged-left" label="Change On" lefticon="kv-calendar" placeholder="Pick date &amp; time" required="" size="large" state="none" value=""></kv-date-time-input>
-        <kv-date-time-input dateformat="dd-mm-yyyy HH:MM" inputstyletype="merged-right" label="Revert On" placeholder="Pick date &amp; time" required="" righticon="kv-arrow-drop-down" size="large" state="none" value=""></kv-date-time-input>
+        <kv-date-time-input dateformat="dd-MM-yyyy HH:mm" inputstyletype="merged-left" label="Change On" lefticon="kv-calendar" placeholder="Pick date &amp; time" required="" size="large" state="none" value=""></kv-date-time-input>
+        <kv-date-time-input dateformat="dd-MM-yyyy HH:mm" inputstyletype="merged-right" label="Revert On" placeholder="Pick date &amp; time" required="" righticon="kv-arrow-drop-down" size="large" state="none" value=""></kv-date-time-input>
       </div>
     </slot-fb>
     <div slot="list">

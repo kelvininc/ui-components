@@ -3,7 +3,7 @@ import { EventEmitter } from '@stencil/core';
 export interface ISelect {
 	/** (optional) If `true` the list has a search text field */
 	searchable?: boolean;
-	/** (optional) The search value on the list */
+	/** (optional) The search value on the list. The search text field is controlled: when `searchable`, update it from `searchChange` */
 	searchValue?: string;
 	/** (optional) If `true` the list has an action to unselect all items */
 	selectionClearable?: boolean;

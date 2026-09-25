@@ -51,14 +51,14 @@ describe('Search (end-to-end)', () => {
 	describe('when renders with disable', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-search value="Test" disabled></kv-search>');
+			await page.setContent('<kv-search value="Test" input-disabled></kv-search>');
 		});
 
 		describe('when tries to press button', () => {
 			let resetIcon: E2EElement;
 
 			beforeEach(async () => {
-				resetIcon = await page.find('kv-search >>> kv-text-field >>> .right-icon-container >>> kv-icon');
+				resetIcon = await page.find('kv-search >>> kv-text-field >>> .right-slot-container >>> kv-icon');
 			});
 
 			it('should not find button', () => {
@@ -77,12 +77,47 @@ describe('Search (end-to-end)', () => {
 			let resetIcon: E2EElement;
 
 			beforeEach(async () => {
-				resetIcon = await page.find('kv-search >>> kv-text-field >>> .right-icon-container >>> kv-icon');
+				resetIcon = await page.find('kv-search >>> kv-text-field >>> .right-slot-container >>> kv-icon');
 			});
 
 			it('should not find button', () => {
 				expect(resetIcon).toBeNull();
 			});
+		});
+	});
+
+	describe('when value is kept in sync with textChange', () => {
+		let input: E2EElement;
+		let spyTextChange: EventSpy;
+
+		const getResetIcon = () => page.find('kv-search >>> kv-text-field >>> .right-slot-container >>> kv-icon');
+
+		beforeEach(async () => {
+			page = await newE2EPage();
+			await page.setContent('<kv-search value=""></kv-search>');
+			await page.$eval('kv-search', element =>
+				element.addEventListener('textChange', event => ((element as HTMLKvSearchElement).value = (event as CustomEvent<string>).detail))
+			);
+
+			const searchComponent = await page.find('kv-search');
+			spyTextChange = await searchComponent.spyOnEvent('textChange');
+
+			input = await page.find('kv-search >>> kv-text-field >>> input');
+			await input.type('abc');
+			await page.waitForChanges();
+		});
+
+		it('should render the reset icon once text is typed', async () => {
+			expect(await getResetIcon()).not.toBeNull();
+		});
+
+		it('should clear the text when the reset icon is clicked', async () => {
+			await (await getResetIcon()).click();
+			await page.waitForChanges();
+
+			expect(spyTextChange).toHaveReceivedEventDetail('');
+			expect(await input.getProperty('value')).toBe('');
+			expect(await getResetIcon()).toBeNull();
 		});
 	});
 });

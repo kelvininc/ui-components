@@ -39,6 +39,7 @@ export const FULL_RANGE_SIZE = 2;
 export const SINGLE_RANGE_SIZE = 1;
 export const APPLY_BUTTON_ERROR_TOOLTIP_TEXT = 'Both time inputs must be filled.';
 export const APPLY_BUTTON_SINGLE_ERROR_TOOLTIP_TEXT = 'A date must be selected.';
+export const APPLY_BUTTON_INVALID_DATE_TOOLTIP_TEXT = 'The typed date is incomplete or invalid.';
 
 export const UTC_TIMEZONE_OFFSET: ITimezoneOffset = {
 	name: 'utc',

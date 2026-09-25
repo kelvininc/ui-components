@@ -9,7 +9,7 @@ export enum EAbsoluteTimePickerMode {
 export interface IAbsoluteTimePicker {
 	/** (optional) Defines if the calendar is in single date or range mode */
 	mode?: EAbsoluteTimePickerMode;
-	/** (optional) Title disaplayed on top of the component */
+	/** (optional) Title displayed on top of the component, "Custom Interval" by default or "Custom Date" in single mode. An empty title hides it */
 	headerTitle?: string;
 	/** (optional) Enables the back button displayed on top */
 	displayBackButton?: boolean;
@@ -38,6 +38,11 @@ export interface IAbsoluteTimePickerEvents {
 	relativeTimeConfigReset: EventEmitter<MouseEvent>;
 	/** Emitted when there is a change in the relative config */
 	relativeTimeConfigChange: EventEmitter<IAbsoluteSelectedRangeDates>;
+	/**
+	 * Emitted when the typed dates become, or stop being, incomplete or invalid. While `false`, the inputs
+	 * show something `selectedDatesChange` could not emit, so the last emitted dates are out of date
+	 */
+	inputValidityChange: EventEmitter<boolean>;
 }
 
 export interface IAbsoluteSelectedRangeDates {
@@ -53,6 +58,12 @@ export interface IRelativeTimeInput {
 export enum ERelativeTimeInputMode {
 	Text = 'text',
 	Date = 'date'
+}
+
+export interface ITypedDates {
+	from: string;
+	to: string;
+	single: string;
 }
 
 export enum EInputSource {
