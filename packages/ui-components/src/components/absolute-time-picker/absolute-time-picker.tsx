@@ -1,7 +1,14 @@
 import { Component, Event, EventEmitter, Host, Prop, State, Watch, h } from '@stencil/core';
 import { EAbsoluteTimeError, EActionButtonType, EComponentSize, EIconName, EInputSource, SelectedRange } from '../../types';
 import dayjs from 'dayjs';
-import { CALENDAR_INPUT_MAX_DATE, CALENDAR_INPUT_MIN_DATE, CALENDAR_MASK, DATETIME_INPUT_MASK, DATE_INPUT_PLACEHOLDER } from './absolute-time-picker.config';
+import {
+	CALENDAR_INPUT_MAX_DATE,
+	CALENDAR_INPUT_MIN_DATE,
+	CALENDAR_MASK,
+	DATETIME_INPUT_MASK,
+	DATETIME_INPUT_MASK_PATTERN,
+	DATE_INPUT_PLACEHOLDER
+} from './absolute-time-picker.config';
 import { fromDateInput, fromISO, isDateBefore, isDateSame, newDate } from '../../utils/date';
 import { isEmpty, isEqual } from 'lodash-es';
 import {
@@ -25,6 +32,7 @@ import {
 	getCustomIntervalTitle,
 	getToDateTimeInputState,
 	getTypedSelection,
+	getTypedDateInputState,
 	isEndDateAtStartOfDay,
 	parseTypedDateTime
 } from './absolute-time-picker.helper';
@@ -494,6 +502,7 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 							<kv-date-time-input
 								inputName="from-input"
 								useInputMask={this.useInputMask()}
+								inputMaskPattern={DATETIME_INPUT_MASK_PATTERN}
 								label="From"
 								value={this.fromInputValue}
 								size={EComponentSize.Small}
@@ -501,11 +510,15 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 								highlighted={isEmpty(this.fromInputValue) && !this.toInputFocused}
 								onTextChange={ev => this.handleDateChange(ev, EInputSource.From)}
 								onInputFocus={this.handleOnFocusFromInput}
-								{...getFromDateInputState(this.error, this.getCalendarTimestampLimits())}
+								{...getTypedDateInputState(
+									this.useInputMask() ? this.fromInputValue : undefined,
+									getFromDateInputState(this.error, this.getCalendarTimestampLimits())
+								)}
 							/>
 							<kv-date-time-input
 								inputName="to-input"
 								useInputMask={this.useInputMask()}
+								inputMaskPattern={DATETIME_INPUT_MASK_PATTERN}
 								label="To"
 								value={this.toInputValue}
 								size={EComponentSize.Small}
@@ -514,7 +527,10 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 								onTextChange={ev => this.handleDateChange(ev, EInputSource.To)}
 								onDateTimeBlur={this.handleEndDateLostFocus}
 								onInputFocus={this.handleOnFocusToInput}
-								{...getToDateTimeInputState(this.error, this.getCalendarTimestampLimits())}
+								{...getTypedDateInputState(
+									this.useInputMask() ? this.toInputValue : undefined,
+									getToDateTimeInputState(this.error, this.getCalendarTimestampLimits())
+								)}
 							/>
 						</div>
 					) : (
@@ -522,12 +538,13 @@ export class KvAbsoluteTimePicker implements IAbsoluteTimePicker, IAbsoluteTimeP
 							<kv-date-time-input
 								id="single-date-input"
 								useInputMask
+								inputMaskPattern={DATETIME_INPUT_MASK_PATTERN}
 								label="Day & Hour"
 								value={this.singleInputValue}
 								size={EComponentSize.Small}
 								placeholder={DATE_INPUT_PLACEHOLDER}
 								onTextChange={ev => this.handleDateChange(ev, EInputSource.Single)}
-								{...getSingleDateTimeInputState(this.error, this.getCalendarTimestampLimits())}
+								{...getTypedDateInputState(this.singleInputValue, getSingleDateTimeInputState(this.error, this.getCalendarTimestampLimits()))}
 							/>
 						</div>
 					)}

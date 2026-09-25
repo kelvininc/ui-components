@@ -96,4 +96,15 @@ describe('Date Time Input (end-to-end)', () => {
 			expect(labelComponent).toBeTruthy();
 		});
 	});
+
+	it('should keep custom date formats working without a positional mask', async () => {
+		page = await newE2EPage();
+		await page.setContent('<kv-date-time-input use-input-mask date-format="yyyy/MM/dd" placeholder="yyyy/mm/dd"></kv-date-time-input>');
+		const input = await page.find('input');
+		await focusMaskedInput(page, input);
+		await input.type('20261110');
+		await page.waitForChanges();
+
+		expect(await input.getProperty('value')).toBe('2026/11/10');
+	});
 });
