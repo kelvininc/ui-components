@@ -1,0 +1,21 @@
+// Pre-hydration fixes for Kelvin web components.
+//
+// Forwarded by `index.scss`, so it ships through any consumer that `@use`s the styles index
+// (e.g. core-ui's app.scss, loaded in <head>) — present from first paint, before components upgrade.
+//
+// kv-dropdown-base (shadow:false) renders its `slot="list"` panel inside a portal that is only
+// shown when the dropdown is open. Before the component hydrates there is no portal yet, so the
+// un-projected panel renders INLINE — visible and full-size — inflating its container (e.g. a table
+// header). On hydration the panel is moved into its (closed) portal and the container collapses,
+// producing a layout shift (CLS). Hiding the un-projected panel pre-hydration keeps layout stable
+// from first paint; once `.hydrated` is added the rule stops matching and the closed portal keeps
+// the panel hidden.
+//
+// NOTE: this also hides an initially-open (`is-open`) dropdown's list until hydration. Do NOT scope
+// with `:not([is-open])` — closed dropdowns also carry an `is-open` attribute pre-hydration, so that
+// would exempt them too and re-introduce the CLS. A correct scope must key off the attribute value;
+// deferred as a follow-up since the only observed CLS is from closed dropdowns.
+
+kv-dropdown-base:not(.hydrated) > [slot='list'] {
+	display: none;
+}
