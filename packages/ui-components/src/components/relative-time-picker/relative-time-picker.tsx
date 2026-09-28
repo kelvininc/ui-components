@@ -46,6 +46,8 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 	/** @inheritdoc */
 	@Prop({ reflect: false }) customIntervalOptionEnabled?: boolean = true;
 	/** @inheritdoc */
+	@Prop({ reflect: false }) customIntervalOptionLabel?: string = CUSTOMIZE_INTERVAL_LABEL;
+	/** @inheritdoc */
 	@Prop({ reflect: false }) timezoneSelectionEnabled?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) timezoneContentVisible?: boolean = false;
@@ -219,7 +221,7 @@ export class KvRelativeTimePicker implements IRelativeTimePicker, IRelativeTimeP
 						<div class="selectable">
 							<kv-select-option
 								key={CUSTOM_TIME_RANGE_KEY}
-								label={CUSTOMIZE_INTERVAL_LABEL}
+								label={this.customIntervalOptionLabel ?? CUSTOMIZE_INTERVAL_LABEL}
 								value={CUSTOM_TIME_RANGE_KEY}
 								selected={CUSTOM_TIME_RANGE_KEY === this.selectedTimeKey}
 								onItemSelected={this.onSelectCustomizeIntervalOption}

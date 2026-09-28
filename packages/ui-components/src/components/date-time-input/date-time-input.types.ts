@@ -37,6 +37,8 @@ export interface IDateTimeInput {
 	highlighted?: boolean;
 	/** (optional) Use a input mask when the Date time type is a Datetime (default true) */
 	useInputMask?: boolean;
+	/** (optional) Positional Inputmask pattern used instead of date validation when useInputMask is enabled. */
+	inputMaskPattern?: string;
 	/** (optional) Date time input disabled */
 	disabled?: boolean;
 	/** (optional) Date time input required */
