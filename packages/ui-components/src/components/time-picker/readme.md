@@ -108,21 +108,21 @@ graph TD;
   kv-input-wrapper --> kv-icon
   kv-single-select-dropdown --> kv-dropdown
   kv-single-select-dropdown --> kv-select-multi-options
+  kv-select-multi-options --> kv-select-create-option
   kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select
   kv-select-multi-options --> kv-tooltip
   kv-select-multi-options --> kv-illustration-message
-  kv-select-multi-options --> kv-select-create-option
   kv-select-multi-options --> kv-select-shortcuts-label
+  kv-select-create-option --> kv-text-field
+  kv-select-create-option --> kv-action-button-icon
   kv-select --> kv-search
   kv-select --> kv-action-button-text
   kv-search --> kv-text-field
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon
   kv-illustration-message --> kv-illustration
-  kv-select-create-option --> kv-text-field
-  kv-select-create-option --> kv-action-button-icon
   kv-select-shortcuts-label --> kv-icon
   kv-absolute-time-picker --> kv-action-button-text
   kv-absolute-time-picker --> kv-date-time-input

@@ -58,23 +58,33 @@ export const TertiaryState: Story = {
 	}
 };
 
-export const TertiaryLoadingState: Story = {
-	args: {
-		type: EActionButtonType.Tertiary,
-		size: EComponentSize.Large,
-		disabled: false,
-		active: false,
-		loading: true,
-		children: "Action Button"
-	}
-};
-
 export const DangerState: Story = {
 	args: {
 		type: EActionButtonType.Danger,
 		size: EComponentSize.Large,
 		disabled: false,
 		active: false,
+		children: "Action Button"
+	}
+};
+
+export const TextState: Story = {
+	args: {
+		type: EActionButtonType.Text,
+		size: EComponentSize.Large,
+		disabled: false,
+		active: false,
+		children: "Action Button"
+	}
+};
+
+export const LoadingState: Story = {
+	args: {
+		type: EActionButtonType.Primary,
+		size: EComponentSize.Large,
+		disabled: false,
+		active: false,
+		loading: true,
 		children: "Action Button"
 	}
 };
