@@ -57,6 +57,7 @@ export class KvTabItem implements ICustomCss {
 						[this.type]: true,
 						...getClassMap(this.customClass)
 					}}
+					part="container"
 					onClick={this.tabClickThrottler}
 					style={this.customStyle}
 					{...this.customAttributes}
