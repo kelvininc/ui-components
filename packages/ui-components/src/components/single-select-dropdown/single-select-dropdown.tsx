@@ -4,7 +4,7 @@ import { EValidationState, ITextField } from '../text-field/text-field.types';
 import { ISingleSelectDropdown, ISingleSelectDropdownEvents, ISelectSingleOptions } from './single-select-dropdown.types';
 
 import { EMPTY_STRING, INVALID_VALUE_ERROR, MINIMUM_SEARCHABLE_OPTIONS, SINGLE_SELECT_CLEAR_SELECTION_LABEL } from './single-select-dropdown.config';
-import { CustomCssClass, EComponentSize, IIllustrationMessage, ISelectOption } from '../../types';
+import { CustomCssClass, ECreateOptionStatus, EComponentSize, ICreateOptionState, IIllustrationMessage, ISelectCreateOption, ISelectOption } from '../../types';
 import { getClassMap } from '../../utils/css-class.helper';
 import { getCssStyle } from '../utils';
 import { ComputePositionConfig } from '@floating-ui/dom';
@@ -12,7 +12,7 @@ import { buildSingleSelectOptions, getDropdownCustomCss, getDropdownDisplayIcon 
 import { getFlattenSelectOptions } from '../../utils/select.helper';
 import { DEFAULT_SEARCH_DEBOUNCE_IN_MS } from '../select-multi-options/select-multi-options.config';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
-import { merge } from 'lodash-es';
+import { isEmpty, merge } from 'lodash-es';
 
 /**
  * @part select - The select container.
@@ -106,6 +106,10 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) createOptionPlaceholder?: string;
 	/** @inheritdoc */
+	@Prop({ reflect: false }) createOptionConfig?: Partial<Omit<ISelectCreateOption, 'value' | 'loading'>>;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) createOptionState?: ICreateOptionState;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) inputConfig?: Partial<ITextField>;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) autoFocus?: boolean = true; // eslint-disable-line @stencil-community/reserved-member-names
@@ -124,6 +128,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Event() optionCreated: EventEmitter<string>;
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
+	/** @inheritdoc */
+	@Event({ bubbles: false }) createFormToggle: EventEmitter<boolean>;
 
 	@State() _searchValue: string;
 	@State() _selectionDisplayValue: string | undefined;
@@ -137,6 +143,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		flatten: Record<string, ISelectOption>;
 	};
 	@State() highlightedOption?: string;
+	@State() isCreateFormOpen: boolean = false;
 
 	@Watch('options')
 	optionsChangeHandler() {
@@ -157,6 +164,15 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Watch('filteredOptions')
 	filterOptionsChangeHandler() {
 		this.scheduleRebuild();
+	}
+
+	@Watch('isOpen')
+	isOpenChangeHandler(isOpen: boolean) {
+		// Closed through the prop, the dropdown drops its search and create form as its own close does.
+		// Its own close has already done so by the time it sets the prop, which makes this a no-op.
+		if (!isOpen) {
+			this.resetOnClose();
+		}
 	}
 
 	private rebuildScheduled = false;
@@ -201,7 +217,16 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this.setSearch(searchTerm);
 	};
 
-	private onOpenStateChange = ({ detail: state }: CustomEvent<boolean>) => {
+	private onOpenStateChange = (event: CustomEvent<boolean>) => {
+		const { detail: state } = event;
+
+		// A create being submitted holds the dropdown open: neither the trigger nor a click outside closes
+		// it. The request is stopped here too, so that a consumer controlling `isOpen` doesn't act on it.
+		if (!state && this.isCreateBusy) {
+			event.stopPropagation();
+			return;
+		}
+
 		this.setOpenState(state);
 	};
 
@@ -211,8 +236,14 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this.calculateLabelValue();
 	};
 
-	private onOptionCreated = ({ detail: newOptionKey }: CustomEvent<string>): void => {
-		this.optionCreated.emit(newOptionKey);
+	private onOptionCreated = (event: CustomEvent<string>): void => {
+		event.stopPropagation();
+		this.optionCreated.emit(event.detail);
+	};
+
+	private onCreateFormToggle = ({ detail: isOpen }: CustomEvent<boolean>): void => {
+		this.isCreateFormOpen = isOpen;
+		this.createFormToggle.emit(isOpen);
 	};
 
 	private selectOption = (selectedOption: string) => {
@@ -292,6 +323,20 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this.selectRef?.closeCreatePopup();
 	};
 
+	private resetOnClose = (): void => {
+		if (!isEmpty(this._searchValue)) {
+			this.setSearch('');
+		}
+
+		this.closeCreatePopup();
+		this.highlightedOption = undefined;
+		this.clearHighlightedOption();
+	};
+
+	private get isCreateBusy(): boolean {
+		return this.isCreateFormOpen && this.createOptionState?.status === ECreateOptionStatus.Loading;
+	}
+
 	private calculateLabelValue = (): void => {
 		if (this.displayValue?.length) {
 			this._selectionDisplayValue = this.displayValue;
@@ -342,7 +387,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 					onOpenStateChange={this.onOpenStateChange}
 					disabled={this.disabled}
 					options={this.dropdownOptions}
-					clickOutsideClose={this.clickOutsideClose}
+					clickOutsideClose={this.clickOutsideClose && !this.isCreateBusy}
 					actionElement={this.actionElement}
 					zIndex={this.zIndex}
 				>
@@ -368,6 +413,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							searchPlaceholder={this.searchPlaceholder}
 							createInputPlaceholder={this.createInputPlaceholder}
 							createOptionPlaceholder={this.createOptionPlaceholder}
+							createOptionConfig={this.createOptionConfig}
+							createOptionState={this.createOptionState}
 							maxHeight={this.getMaxHeight()}
 							minHeight={this.getMinHeight()}
 							maxWidth={this.getMaxWidth()}
@@ -380,6 +427,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							onClearSelection={this.onClearSelection}
 							onOptionSelected={this.onOptionSelected}
 							onOptionCreated={this.onOptionCreated}
+							onCreateFormToggle={this.onCreateFormToggle}
 							onDismiss={this.onDismiss}
 							canAddItems={this.canAddItems}
 							exportparts="select,select-option-icon"

@@ -7,26 +7,27 @@ import {
 } from "@kelvininc/react-ui-components/client";
 import type { Meta, StoryObj, StoryFn } from "@storybook/react";
 import { useArgs } from "storybook/preview-api";
-import { ComponentProps, useState } from "react";
+import { ComponentProps } from "react";
 
-const DropdownTemplate: StoryFn<ComponentProps<typeof KvDropdown>> = (args) => {
-	const [{ isOpen }, updateArgs] = useArgs();
-	const onDropdownChange = ({ detail: openState }: CustomEvent<boolean>) =>
-		updateArgs({ isOpen: openState });
-	const [searchValue, setSearchValue] = useState<string>();
-	const onSearchChange = ({ detail }: CustomEvent<string>) =>
-		setSearchValue(detail);
+type DropdownArgs = ComponentProps<typeof KvDropdown> & {
+	/** The value of the select's search */
+	searchValue?: string;
+};
+
+const DropdownTemplate: StoryFn<DropdownArgs> = ({ searchValue, ...args }) => {
+	const [, updateArgs] = useArgs<DropdownArgs>();
 
 	return (
 		<KvDropdown
-			isOpen={isOpen}
-			onOpenStateChange={onDropdownChange}
 			{...args}
+			onOpenStateChange={({ detail: isOpen }) => updateArgs({ isOpen })}
 		>
 			<KvSelect
 				searchable={true}
 				searchValue={searchValue}
-				onSearchChange={onSearchChange}
+				onSearchChange={({ detail }) =>
+					updateArgs({ searchValue: detail })
+				}
 			>
 				<KvSelectOption
 					label="This select option has a really really really long first label here "
