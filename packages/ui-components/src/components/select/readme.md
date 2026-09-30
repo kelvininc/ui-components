@@ -70,9 +70,11 @@ Type: `Promise<void>`
 
 ## Shadow Parts
 
-| Part       | Description           |
-| ---------- | --------------------- |
-| `"select"` | The select container. |
+| Part        | Description                                                                        |
+| ----------- | ---------------------------------------------------------------------------------- |
+| `"header"`  | The header container with the search, the selection actions and the header labels. |
+| `"options"` | The container of the options.                                                      |
+| `"select"`  | The select container.                                                              |
 
 
 ## CSS Custom Properties

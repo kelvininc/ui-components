@@ -64,17 +64,6 @@ export const TertiaryState: Story = {
 	}
 };
 
-export const TertiaryLoadingState: Story = {
-	args: {
-		icon: EIconName.Add,
-		type: EActionButtonType.Tertiary,
-		size: EComponentSize.Small,
-		disabled: false,
-		active: false,
-		loading: true
-	}
-};
-
 export const DangerState: Story = {
 	args: {
 		icon: EIconName.Add,
@@ -102,5 +91,16 @@ export const AnchorState: Story = {
 		size: EComponentSize.Small,
 		disabled: false,
 		active: false
+	}
+};
+
+export const LoadingState: Story = {
+	args: {
+		icon: EIconName.Add,
+		type: EActionButtonType.Primary,
+		size: EComponentSize.Small,
+		disabled: false,
+		active: false,
+		loading: true
 	}
 };

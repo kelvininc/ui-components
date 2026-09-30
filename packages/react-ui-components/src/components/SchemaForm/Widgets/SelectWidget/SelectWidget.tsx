@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
 import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../../stencil-generated';
 import styles from './SelectWidget.module.scss';
-import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, resolveDropdownConfig } from './utils';
+import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, resolveDropdownConfig, toOptionKey } from './utils';
 import { DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
 import { useFormState } from '../../contexts';
 
@@ -109,7 +109,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		<div className={styles.InputContainer}>
 			{!multiple && (
 				<KvSingleSelectDropdown
-					selectedOption={processedValue}
+					selectedOption={toOptionKey(processedValue)}
 					onOptionSelected={onChangeOptionSelected}
 					{...props}
 					onFocus={() => markFieldAsTouched(id)}

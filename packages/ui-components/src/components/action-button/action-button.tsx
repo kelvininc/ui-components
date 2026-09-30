@@ -45,7 +45,7 @@ export class KvActionButton implements IButton, IButtonEvents {
 
 	render() {
 		return (
-			<Host aria-disabled={this.disabled} onClick={this.onClickButton}>
+			<Host aria-disabled={this.disabled} aria-busy={this.loading ? 'true' : undefined} onClick={this.onClickButton}>
 				<div
 					class={{
 						'action-button': true,

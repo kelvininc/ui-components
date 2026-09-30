@@ -6,6 +6,9 @@ import { CustomCssClass, EIconName, ICustomCss } from '../../types';
 import { ETabItemType } from './tab-item.types';
 import { getClassMap } from '../../utils/css-class.helper';
 
+/**
+ * @part container - The container element of the tab item.
+ */
 @Component({
 	tag: 'kv-tab-item',
 	styleUrl: 'tab-item.scss',
@@ -57,6 +60,7 @@ export class KvTabItem implements ICustomCss {
 						[this.type]: true,
 						...getClassMap(this.customClass)
 					}}
+					part="container"
 					onClick={this.tabClickThrottler}
 					style={this.customStyle}
 					{...this.customAttributes}
