@@ -1,8 +1,9 @@
 import type { IBuildSelectOptionsParams, ISelectMultiOption, ISelectOptionWithChildren, ISelectOptionsWithChildren } from './select-multi-options.types';
 import { EToggleState } from '../../types';
-import type { ISelectOption } from '../../types';
+import type { IIllustrationMessage, ISelectOption } from '../../types';
 import { getSelectedCount } from '../../utils/select.helper';
 import { ADD_OPTION } from './select-multi-options.config';
+import { isEmpty } from 'lodash-es';
 
 interface IBuildRangeSelectionParams {
 	/** The range to select, ordered from the anchor towards the endpoint */
@@ -57,6 +58,16 @@ export const buildRangeSelection = ({ optionValues, replaceableOptionValues, sel
 
 	return newSelectedOptions;
 };
+
+/** The add option is a row of the list, never one of its options. */
+export const isAddOption = (value?: string): boolean => value === ADD_OPTION.value;
+
+type FocusableInputElement = Element & { focusInput: () => Promise<void> };
+
+export const hasFocusInput = (element: Element | null): element is FocusableInputElement => typeof (element as Partial<FocusableInputElement> | null)?.focusInput === 'function';
+
+/** An empty state with an illustration is shown in the list, and one without it, only its header, in the list header. */
+export const hasEmptyStateIllustration = (config?: IIllustrationMessage): boolean => !isEmpty(config?.illustration);
 
 export const buildNewOption = (highlightedOption?: string, createInputPlaceholder?: string): ISelectOption => ({
 	...ADD_OPTION,

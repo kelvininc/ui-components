@@ -24,7 +24,7 @@
 		--icon-color: #{$btn-default-icon-color};
 	}
 
-	&:hover:not(.action-button--disabled) {
+	&:hover:not(.action-button--disabled):not(.action-button--loading) {
 		color: $btn-hover-text-color;
 
 		::slotted(kv-icon) {
@@ -32,7 +32,7 @@
 		}
 	}
 
-	&:focus:not(.action-button--disabled):not(.action-button--active) {
+	&:focus:not(.action-button--disabled):not(.action-button--loading):not(.action-button--active) {
 		color: $btn-focus-text-color;
 
 		::slotted(kv-icon) {
@@ -48,7 +48,7 @@
 		}
 	}
 
-	&:active:not(.action-button--disabled),
+	&:active:not(.action-button--disabled):not(.action-button--loading),
 	&.action-button--active {
 		color: $btn-active-text-color;
 
@@ -76,11 +76,11 @@
 		border-bottom-color 0.25s ease-in-out,
 		border-left-color 0.25s ease-in-out;
 
-	&:hover:not(.action-button--disabled) {
+	&:hover:not(.action-button--disabled):not(.action-button--loading) {
 		background-position: left top;
 	}
 
-	&:focus:not(.action-button--disabled):not(.action-button--active) {
+	&:focus:not(.action-button--disabled):not(.action-button--loading):not(.action-button--active) {
 		background: $btn-focus-background-color;
 	}
 
@@ -88,7 +88,7 @@
 		background: $btn-disabled-background-color;
 	}
 
-	&:active:not(.action-button--disabled),
+	&:active:not(.action-button--disabled):not(.action-button--loading),
 	&.action-button--active {
 		background: $btn-active-background-color;
 	}
@@ -103,14 +103,14 @@
 
 	border: $btn-border-thickness solid $btn-default-border-color;
 
-	&:hover:not(.action-button--disabled) {
+	&:hover:not(.action-button--disabled):not(.action-button--loading) {
 		border-top-color: $btn-hover-border-color;
 		border-right-color: $btn-hover-border-color;
 		border-bottom-color: $btn-hover-border-color;
 		border-left-color: $btn-hover-border-color;
 	}
 
-	&:focus:not(.action-button--disabled):not(.action-button--active) {
+	&:focus:not(.action-button--disabled):not(.action-button--loading):not(.action-button--active) {
 		&::before {
 			content: '';
 			filter: blur(2px);
@@ -124,7 +124,7 @@
 		border: $btn-border-thickness solid $btn-disabled-border-color;
 	}
 
-	&:active:not(.action-button--disabled),
+	&:active:not(.action-button--disabled):not(.action-button--loading),
 	&.action-button--active {
 		border: $btn-border-thickness solid $btn-active-border-color;
 	}
@@ -134,6 +134,33 @@
 	@include button-text-theme($type);
 	@include button-background-theme($type);
 	@include button-border-theme($type);
+}
+// A rotating sweep behind a transparent border. `isolation` keeps the sweep's `z-index: -1` inside the
+// button, so an opaque surface behind it (e.g. a dropdown panel) doesn't paint over it.
+@mixin button-loading-theme {
+	&.action-button--loading {
+		border-color: transparent;
+		// The sweep runs over what is behind the button: a disabled fill can share its colour
+		background: var(--transparent);
+		overflow: hidden;
+		isolation: isolate;
+
+		&::before {
+			content: '';
+			background-image: conic-gradient(transparent, var(--background-surface-skeleton-base), transparent);
+			width: 150%;
+			aspect-ratio: 1/1;
+
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%) rotate(0deg);
+			animation: loadingrotate 3s infinite linear;
+
+			border-radius: inherit;
+			z-index: -1;
+		}
+	}
 }
 @mixin button-size-theme($size, $type) {
 	height: var(--button-height-#{$size});
@@ -471,27 +498,6 @@
 	&--type-tertiary {
 		@include button-type-theme('tertiary');
 
-		&.action-button--loading {
-			border-color: transparent;
-			overflow: hidden;
-
-			&::before {
-				content: '';
-				background-image: conic-gradient(transparent, var(--background-surface-skeleton-base), transparent);
-				width: 150%;
-				aspect-ratio: 1/1;
-
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%) rotate(0deg);
-				animation: loadingrotate 3s infinite linear;
-
-				border-radius: inherit;
-				z-index: -1;
-			}
-		}
-
 		&.action-button--size-small {
 			@include button-size-theme('small', 'tertiary');
 		}
@@ -529,6 +535,8 @@
 		cursor: not-allowed;
 		user-select: none;
 	}
+
+	@include button-loading-theme;
 }
 
 @keyframes loadingrotate {

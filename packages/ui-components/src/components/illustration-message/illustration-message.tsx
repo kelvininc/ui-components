@@ -14,7 +14,7 @@ import { IIllustrationMessage } from './illustration-message.types';
 })
 export class KvIllustrationMessage implements IIllustrationMessage {
 	/** @inheritdoc */
-	@Prop({ reflect: true }) illustration: EIllustrationName;
+	@Prop({ reflect: true }) illustration?: EIllustrationName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) header: string;
 	/** @inheritdoc */
@@ -23,7 +23,7 @@ export class KvIllustrationMessage implements IIllustrationMessage {
 	render() {
 		return (
 			<div class="illustration-message">
-				<kv-illustration name={this.illustration} class="image" part="illustration" />
+				{this.illustration && <kv-illustration name={this.illustration} class="image" part="illustration" />}
 				<div class="header" part="header">
 					{this.header}
 				</div>

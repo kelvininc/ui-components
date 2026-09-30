@@ -1,0 +1,19 @@
+// The dropdown lays the create row out edge to edge, so the row brings its own inset
+.CreateTagRow {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-md);
+	padding: var(--spacing-xl);
+}
+
+.NewTagSwatch {
+	flex-shrink: 0;
+	width: var(--size-md);
+	height: var(--size-md);
+	border-radius: var(--radius-sm);
+}
+
+.NewTagField {
+	flex: 1;
+	min-width: 0;
+}
