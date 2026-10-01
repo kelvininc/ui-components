@@ -4,6 +4,7 @@ import { ADD_OPTION } from '../../select-multi-options/select-multi-options.conf
 import { ECreateOptionStatus } from '../../select-multi-options/select-multi-options.types';
 import type { ICreateOptionState } from '../../select-multi-options/select-multi-options.types';
 import type { ISelectSingleOptions } from '../single-select-dropdown.types';
+import { DEFAULT_PORTAL_Z_INDEX } from '../../../globals/config';
 
 // None of them matches the name typed to create an option, which leaves the add row as the only row
 const OPTIONS: ISelectSingleOptions = {
@@ -41,6 +42,21 @@ const OUTSIDE_POINT = { x: 700, y: 500 };
 
 const SLOTTED_CREATE_FORM = '<div slot="create-new-option" style="padding: 12px"><kv-select-create-option></kv-select-create-option></div>';
 const EMPTY_SLOT_WRAPPER = '<div slot="create-new-option" style="padding: 12px"></div>';
+// A dropdown of its own in the create form, whose palette is portaled to the body like the dropdown's list
+const SLOTTED_CREATE_FORM_WITH_PICKER = `
+	<div slot="create-new-option" style="display: flex; align-items: center; gap: 8px; padding: 12px">
+		<kv-dropdown-base id="color-picker">
+			<button slot="action" id="color-swatch" style="width: 32px; height: 32px">Colour</button>
+			<div slot="list" id="color-palette" style="padding: 8px; background: white">
+				<button id="color-red" style="width: 32px; height: 32px">Red</button>
+			</div>
+		</kv-dropdown-base>
+		<kv-select-create-option></kv-select-create-option>
+	</div>
+`;
+const PICKER_SWATCH_SELECTOR = '#color-swatch';
+const PICKER_PALETTE_SELECTOR = '#color-palette';
+const PICKER_COLOR_SELECTOR = '#color-red';
 
 type ElementBox = Pick<DOMRect, 'top' | 'right' | 'bottom' | 'left' | 'width' | 'height'>;
 
@@ -434,6 +450,117 @@ describe('Single Select Dropdown (end-to-end)', () => {
 		});
 	});
 
+	describe('with a colour picker in a slotted create form', () => {
+		let pickerElement: E2EElement;
+		let clickOutsideSpy: EventSpy;
+		let openStateChangeSpy: EventSpy;
+
+		const isPickerOpen = (): Promise<boolean> => pickerElement.getProperty('isOpen');
+
+		const openPicker = async (): Promise<void> => {
+			await clickFormButton(PICKER_SWATCH_SELECTOR);
+			expect(await isPickerOpen()).toBe(true);
+			expect(await isVisible(PICKER_PALETTE_SELECTOR)).toBe(true);
+		};
+
+		beforeEach(async () => {
+			await setUpDropdown(SLOTTED_CREATE_FORM_WITH_PICKER);
+			// As a consumer drives its picker: the swatch toggles it, and it closes as it asks to or once a colour is picked
+			await page.evaluate((zIndex: number) => {
+				const picker = document.querySelector<HTMLKvDropdownBaseElement>('#color-picker');
+				picker.zIndex = zIndex;
+				picker.addEventListener('openStateChange', ({ detail: isOpen, target }: CustomEvent<boolean>) => {
+					if (target === picker) {
+						picker.isOpen = isOpen;
+					}
+				});
+				document.querySelector('#color-swatch').addEventListener('click', () => (picker.isOpen = !picker.isOpen));
+				document.querySelector('#color-red').addEventListener('click', () => (picker.isOpen = false));
+			}, DEFAULT_PORTAL_Z_INDEX);
+			pickerElement = await page.find('#color-picker');
+			clickOutsideSpy = await dropdownElement.spyOnEvent('clickOutside');
+			openStateChangeSpy = await dropdownElement.spyOnEvent('openStateChange');
+			await openCreateForm();
+		});
+
+		it('should keep the dropdown and its create form open, without a click outside, when a colour is picked', async () => {
+			await openPicker();
+
+			await clickFormButton(PICKER_COLOR_SELECTOR);
+
+			expect(await isPickerOpen()).toBe(false);
+			expect(clickOutsideSpy).toHaveReceivedEventTimes(0);
+			expect(openStateChangeSpy.events.map(({ detail }) => detail)).toEqual([true]);
+			expect(await isDropdownOpen()).toBe(true);
+			expect(getCreateFormToggles()).toEqual([true]);
+		});
+
+		it('should close the picker and the dropdown when clicked outside both', async () => {
+			await openPicker();
+
+			await clickOutside();
+
+			expect(await isPickerOpen()).toBe(false);
+			expect(clickOutsideSpy).toHaveReceivedEventTimes(1);
+			expect(await isDropdownOpen()).toBe(false);
+			expect(getCreateFormToggles()).toEqual([true, false]);
+		});
+
+		it('should close only the picker on escape, and then the dropdown on a second escape', async () => {
+			await openPicker();
+
+			await pressKey('Escape');
+
+			expect(await isPickerOpen()).toBe(false);
+			expect(await isDropdownOpen()).toBe(true);
+			expect(getCreateFormToggles()).toEqual([true]);
+
+			await pressKey('Escape');
+
+			expect(await isDropdownOpen()).toBe(false);
+			expect(getCreateFormToggles()).toEqual([true, false]);
+		});
+	});
+
+	describe('when escape is pressed with the list open', () => {
+		const getOwnOpenStates = (spy: EventSpy): boolean[] => spy.events.filter(({ target }) => target.tagName === 'KV-SINGLE-SELECT-DROPDOWN').map(({ detail }) => detail);
+
+		beforeEach(async () => {
+			await setUpDropdown();
+		});
+
+		it('should close the dropdown', async () => {
+			const dismissSpy = await dropdownElement.spyOnEvent('dismiss');
+			const openStateChangeSpy = await dropdownElement.spyOnEvent('openStateChange');
+			await openDropdown();
+
+			await pressKey('Escape');
+
+			expect(await isDropdownOpen()).toBe(false);
+			expect(await isVisible(PANEL_SELECTOR)).toBe(false);
+			expect(getOwnOpenStates(openStateChangeSpy)).toEqual([true, false]);
+			expect(dismissSpy).toHaveReceivedEventTimes(0);
+		});
+
+		it('should dismiss and close the dropdown once with the shortcuts on', async () => {
+			dropdownElement.setProperty('shortcuts', true);
+			await page.waitForChanges();
+			const dismissSpy = await dropdownElement.spyOnEvent('dismiss');
+			const openStateChangeSpy = await dropdownElement.spyOnEvent('openStateChange');
+			await openDropdown();
+
+			await pressKey('Escape');
+
+			expect(await isDropdownOpen()).toBe(false);
+			expect(dismissSpy).toHaveReceivedEventTimes(1);
+			// Only the dropdown's own: the list's dismiss marks the escape as handled, so its kv-dropdown-base doesn't ask to close too
+			expect(openStateChangeSpy.events.map(({ target, detail }) => [target.tagName, detail])).toEqual([
+				['KV-SINGLE-SELECT-DROPDOWN', true],
+				['KV-SINGLE-SELECT-DROPDOWN', false]
+			]);
+		});
+	});
+
 	describe('when the creation is asynchronous', () => {
 		let optionCreatedSpy: EventSpy;
 		let optionSelectedSpy: EventSpy;
@@ -500,6 +627,21 @@ describe('Single Select Dropdown (end-to-end)', () => {
 			await page.waitForChanges();
 
 			expect(await page.evaluate(() => (window as RecorderWindow).mirroredOpenStates)).toEqual([]);
+			expect(await isDropdownOpen()).toBe(true);
+			expect(await isVisible(CREATE_FORM_SELECTOR)).toBe(true);
+			expect(getCreateFormToggles()).toEqual([true]);
+		});
+
+		it('should stay open when escape is pressed while the creation is loading', async () => {
+			await submitCreation();
+			await setCreationLoading();
+			const openStateChangeSpy = await dropdownElement.spyOnEvent('openStateChange');
+
+			// From the body, where the focus may have gone as the form locked itself
+			await page.evaluate(() => document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })));
+			await page.waitForChanges();
+
+			expect(openStateChangeSpy).toHaveReceivedEventTimes(0);
 			expect(await isDropdownOpen()).toBe(true);
 			expect(await isVisible(CREATE_FORM_SELECTOR)).toBe(true);
 			expect(getCreateFormToggles()).toEqual([true]);
