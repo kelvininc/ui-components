@@ -1,11 +1,22 @@
-import { ComponentProps, useCallback, useEffect, useMemo, useRef } from "react";
+import {
+	ComponentProps,
+	CSSProperties,
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef
+} from "react";
 import { selectHelper } from "@kelvininc/react-ui-components/client";
 import { useArgs } from "storybook/preview-api";
 import { action } from "storybook/actions";
 import {
+	DEFAULT_PORTAL_Z_INDEX,
+	EActionButtonType,
 	ECreateOptionStatus,
 	EComponentSize,
 	EIconName,
+	KvActionButtonIcon,
+	KvDropdownBase,
 	KvSearch,
 	KvSelectCreateOption,
 	KvSingleSelectDropdown,
@@ -416,6 +427,151 @@ const AddOptionCustomRowTemplate: StoryFn<AddOptionCustomRowArgs> = ({
 
 export const AddOptionCustomRow: StoryObj<AddOptionCustomRowArgs> = {
 	render: AddOptionCustomRowTemplate,
+	args: {
+		...AddOption.args,
+		createOptionState: { status: ECreateOptionStatus.Idle }
+	},
+	parameters: {
+		controls: { exclude: CREATE_STORY_DERIVED_ARGS }
+	}
+};
+
+type AddOptionColorPickerArgs = AddOptionCustomRowArgs & {
+	/** The colour picked for the new tag. Until one is, the next one in turn. */
+	tagColor?: string;
+	/** If `true` the create row's colour picker is open */
+	colorPickerOpen?: boolean;
+};
+
+// The swatch takes its colour from `--swatch-color`
+const getSwatchStyle = (color: string) =>
+	({ "--swatch-color": color }) as CSSProperties;
+
+const AddOptionColorPickerTemplate: StoryFn<AddOptionColorPickerArgs> = ({
+	searchTerm,
+	typedName,
+	tagColor,
+	colorPickerOpen,
+	...args
+}) => {
+	const [, updateArgs] = useArgs<AddOptionColorPickerArgs>();
+	const { options = {}, createOptionState } = args;
+
+	const newTagColor =
+		tagColor ??
+		NEW_TAG_COLORS[Object.keys(options).length % NEW_TAG_COLORS.length];
+
+	// The row starts over, with its picker closed, whenever the form opens or closes
+	const onCreateFormToggle = ({
+		detail: isOpen
+	}: KvSingleSelectDropdownCustomEvent<boolean>) => {
+		action("createFormToggle")(isOpen);
+		updateArgs({
+			typedName: undefined,
+			tagColor: undefined,
+			colorPickerOpen: false
+		});
+	};
+
+	const onOptionCreated = async ({
+		detail: label
+	}: KvSingleSelectDropdownCustomEvent<string>) => {
+		updateArgs({
+			createOptionState: { status: ECreateOptionStatus.Loading }
+		});
+
+		const value = await requestTagCreation();
+
+		updateArgs({
+			options: {
+				...options,
+				[value]: buildTagOption(label, value, newTagColor)
+			},
+			createOptionState: {
+				status: ECreateOptionStatus.Success,
+				optionKey: value
+			}
+		});
+	};
+
+	return (
+		<KvSingleSelectDropdown
+			{...args}
+			createOptionPlaceholder={getCreateTagLabel(searchTerm)}
+			onSearchChange={({ detail }) => updateArgs({ searchTerm: detail })}
+			onCreateFormToggle={onCreateFormToggle}
+			onOptionCreated={onOptionCreated}
+			onOptionSelected={({ detail }) =>
+				updateArgs({ selectedOption: detail })
+			}
+		>
+			{/*
+			 * The picker is a dropdown of its own, whose palette is portaled to the
+			 * body like the dropdown's list: a click in it still counts as inside
+			 * the dropdown, and Escape closes the picker before the dropdown. Its
+			 * palette sits above the dropdown's list. As in the custom row, only
+			 * the Stencil components' events reach the story: plain React handlers
+			 * never fire in portaled content.
+			 */}
+			<div slot="create-new-option" className={styles.CreateTagRow}>
+				<KvDropdownBase
+					isOpen={colorPickerOpen}
+					zIndex={DEFAULT_PORTAL_Z_INDEX}
+					onOpenStateChange={({ detail: isOpen }) =>
+						updateArgs({ colorPickerOpen: isOpen })
+					}
+				>
+					<KvActionButtonIcon
+						slot="action"
+						className={styles.ColorSwatch}
+						style={getSwatchStyle(newTagColor)}
+						icon={EIconName.Square}
+						type={EActionButtonType.Tertiary}
+						size={EComponentSize.Small}
+						active={colorPickerOpen}
+						onClickButton={() =>
+							updateArgs({ colorPickerOpen: !colorPickerOpen })
+						}
+					/>
+					<div slot="list" className={styles.ColorPalette}>
+						{NEW_TAG_COLORS.map((color) => (
+							<KvActionButtonIcon
+								key={color}
+								className={styles.ColorSwatch}
+								style={getSwatchStyle(color)}
+								icon={EIconName.Square}
+								type={EActionButtonType.Tertiary}
+								size={EComponentSize.Small}
+								active={color === newTagColor}
+								onClickButton={() =>
+									updateArgs({
+										tagColor: color,
+										colorPickerOpen: false
+									})
+								}
+							/>
+						))}
+					</div>
+				</KvDropdownBase>
+				<KvSelectCreateOption
+					className={styles.NewTagField}
+					value={typedName ?? searchTerm}
+					loading={
+						createOptionState?.status ===
+						ECreateOptionStatus.Loading
+					}
+					inputConfig={NEW_TAG_INPUT_CONFIG}
+					onValueChanged={({ detail }) =>
+						updateArgs({ typedName: detail })
+					}
+				/>
+			</div>
+		</KvSingleSelectDropdown>
+	);
+};
+
+export const AddOptionColorPicker: StoryObj<AddOptionColorPickerArgs> = {
+	render: AddOptionColorPickerTemplate,
 	args: {
 		...AddOption.args,
 		createOptionState: { status: ECreateOptionStatus.Idle }
