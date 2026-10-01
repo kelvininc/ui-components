@@ -17,3 +17,20 @@
 	flex: 1;
 	min-width: 0;
 }
+
+// An icon button coloured with `--swatch-color` in all its states
+.ColorSwatch {
+	--icon-color-default-tertiary: var(--swatch-color);
+	--icon-color-hover-tertiary: var(--swatch-color);
+	--icon-color-focus-tertiary: var(--swatch-color);
+	--icon-color-active-tertiary: var(--swatch-color);
+}
+
+.ColorPalette {
+	display: flex;
+	gap: var(--spacing-xs);
+	padding: var(--spacing-md);
+	border: 1px solid var(--border-surface-neutral-default);
+	border-radius: var(--radius-md);
+	background: var(--background-container-neutral-default);
+}

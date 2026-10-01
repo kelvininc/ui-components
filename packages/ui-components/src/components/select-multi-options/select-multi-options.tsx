@@ -335,14 +335,25 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 	@Listen('keydown', { target: 'document' })
 	handleKeyDown(event: KeyboardEvent) {
+		const isCreateFormEvent = this.isCreateFormEvent(event);
+
+		// The form closed itself on this Escape, so it handled it: the dropdown must not close on it too. An
+		// Escape the form stays open on is left alone, for what is open inside it, e.g. a colour picker.
+		if (event.key === 'Escape' && isCreateFormEvent && !this.isCreating) {
+			event.preventDefault();
+			return;
+		}
+
 		// The shortcuts drive the list, which the create form replaces. A key from inside the form is
 		// checked by its path too: a custom form may have closed itself on it before this runs.
-		if (!this.shortcuts || this.isCreating || this.isCreateFormEvent(event)) {
+		if (!this.shortcuts || this.isCreating || isCreateFormEvent) {
 			return;
 		}
 
 		switch (event.key) {
 			case 'Escape':
+				// Handled here, so that the dropdown doesn't close on it as well
+				event.preventDefault();
 				this.onDismiss();
 				break;
 			case 'Enter':

@@ -284,7 +284,8 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 
 		return (
 			<Host>
-				<kv-dropdown-base isOpen={this.isDropdownOpen} onClickOutside={this.handleCloseDropdown}>
+				{/* Closed on a click outside only, which commits the typed dates: it doesn't follow openStateChange */}
+				<kv-dropdown-base isOpen={this.isDropdownOpen} escapeClose={false} onClickOutside={this.handleCloseDropdown}>
 					<slot name="dropdown-action" slot="action">
 						{this.mode === EAbsoluteTimePickerMode.Range ? (
 							<div class="time-range-input-container">

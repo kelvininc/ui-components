@@ -627,9 +627,13 @@ describe('KvSelectMultiOptions with canAddItems (unit tests)', () => {
 		await page.waitForChanges();
 	};
 
-	const pressDocumentKey = async (key: string): Promise<void> => {
-		page.doc.dispatchEvent(new KeyboardEvent('keydown', { key }));
+	// Returns the event, which tells whether the key was handled
+	const pressDocumentKey = async (key: string): Promise<KeyboardEvent> => {
+		const event = new KeyboardEvent('keydown', { key, cancelable: true });
+		page.doc.dispatchEvent(event);
 		await page.waitForChanges();
+
+		return event;
 	};
 
 	const highlightAddOption = async (): Promise<void> => {
@@ -1352,22 +1356,57 @@ describe('KvSelectMultiOptions with canAddItems (unit tests)', () => {
 		});
 
 		it('should not dismiss on Escape', async () => {
-			await pressDocumentKey('Escape');
+			const event = await pressDocumentKey('Escape');
 
 			expect(emittedEvents).toEqual([]);
 			expect(component.highlightedOption).toBe('asset-pump');
 			expect(component.createdOptionValue).toBe('Foo');
 			expect(component.isCreating).toBe(true);
+			expect(event.defaultPrevented).toBe(false);
+		});
+
+		it('should leave an Escape from inside the form that keeps it open unhandled', async () => {
+			// As an Escape that closes something open inside the form, e.g. a colour picker
+			const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, composed: true, cancelable: true });
+			getShadowElement('.form-container').dispatchEvent(event);
+			await page.waitForChanges();
+
+			expect(emittedEvents).toEqual([]);
+			expect(component.isCreating).toBe(true);
+			expect(event.defaultPrevented).toBe(false);
+		});
+	});
+
+	describe('when Escape is pressed with the list shown', () => {
+		it('should dismiss and mark the Escape as handled with the shortcuts on', async () => {
+			await renderSelectMultiOptions({ shortcuts: true });
+
+			const event = await pressDocumentKey('Escape');
+
+			expect(emittedEvents).toEqual([['dismiss', undefined]]);
+			expect(event.defaultPrevented).toBe(true);
+		});
+
+		it('should neither dismiss nor mark the Escape as handled with the shortcuts off', async () => {
+			await renderSelectMultiOptions();
+
+			const event = await pressDocumentKey('Escape');
+
+			expect(emittedEvents).toEqual([]);
+			expect(event.defaultPrevented).toBe(false);
 		});
 	});
 
 	describe('when a key from inside the create form closes it', () => {
 		// A form that handles its own keys closes before they reach the document
-		const pressCreateFormKey = async (key: 'Enter' | 'Escape'): Promise<void> => {
+		const pressCreateFormKey = async (key: 'Enter' | 'Escape'): Promise<KeyboardEvent> => {
 			const formContainer = getShadowElement('.form-container');
+			const event = new KeyboardEvent('keydown', { key, bubbles: true, composed: true, cancelable: true });
 			formContainer.addEventListener('keydown', () => dispatchCreateFormEvent(key === 'Enter' ? 'clickCreate' : 'clickCancel'));
-			formContainer.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, composed: true }));
+			formContainer.dispatchEvent(event);
 			await page.waitForChanges();
+
+			return event;
 		};
 
 		beforeEach(async () => {
@@ -1388,12 +1427,14 @@ describe('KvSelectMultiOptions with canAddItems (unit tests)', () => {
 			expect(createFormToggles).toEqual([true, false]);
 		});
 
-		it('should not dismiss on the Escape that cancelled it', async () => {
-			await pressCreateFormKey('Escape');
+		it('should not dismiss on the Escape that cancelled it, but mark it as handled', async () => {
+			const event = await pressCreateFormKey('Escape');
 
 			expect(emittedEvents).toEqual([]);
 			expect(component.isCreating).toBe(false);
 			expect(component.highlightedOption).toBe(ADD_OPTION.value);
+			// So that the dropdown doesn't close on it too
+			expect(event.defaultPrevented).toBe(true);
 		});
 	});
 });

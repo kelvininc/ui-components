@@ -100,7 +100,7 @@ export interface ISelectMultiOptionsEvents extends ISelectEvents {
 	optionsSelected: EventEmitter<Record<string, boolean>>;
 	/** Emitted when an option is selected */
 	optionSelected: EventEmitter<string>;
-	/** Emitted when the 'esc' key is pressed */
+	/** Emitted when Escape is pressed with `shortcuts` on and the create form closed. The Escape is marked as handled, with `preventDefault()`. */
 	dismiss: EventEmitter<void>;
 	/** Emitted when a new option is created */
 	optionCreated: EventEmitter<string>;

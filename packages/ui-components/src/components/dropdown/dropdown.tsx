@@ -30,6 +30,8 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) clickOutsideClose?: boolean = true;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) escapeClose?: boolean = true;
+	/** @inheritdoc */
 	@Prop({ reflect: false }) zIndex?: number = DEFAULT_DROPDOWN_Z_INDEX;
 
 	/** @inheritdoc */
@@ -78,6 +80,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 						actionElement={this._actionElement}
 						listElement={this.listElement}
 						clickOutsideClose={this.clickOutsideClose}
+						escapeClose={this.escapeClose}
 						zIndex={this.zIndex}
 					>
 						<slot name="dropdown-action" slot="action">
