@@ -153,16 +153,16 @@ A `loading` state holds the dropdown open against the trigger and a click outsid
 
 ## Events
 
-| Event              | Description                                                                                    | Type                      |
-| ------------------ | ---------------------------------------------------------------------------------------------- | ------------------------- |
-| `clearSelection`   | Emitted when the user clears the selected items                                                | `CustomEvent<void>`       |
-| `clickOutside`     | Emitted when there's a click outside the dropdown's bondaries                                  | `CustomEvent<MouseEvent>` |
-| `createFormToggle` | Emitted when the create form opens (`true`), once it is rendered, and when it closes (`false`) | `CustomEvent<boolean>`    |
-| `dismiss`          | Emitted when the 'esc' key is pressed                                                          | `CustomEvent<void>`       |
-| `openStateChange`  | Emitted when the dropdown open state changes                                                   | `CustomEvent<boolean>`    |
-| `optionCreated`    | Emitted when a new option is created                                                           | `CustomEvent<string>`     |
-| `optionSelected`   | Emitted when an option is selected                                                             | `CustomEvent<string>`     |
-| `searchChange`     | Emitted when the user interacts with the search text field                                     | `CustomEvent<string>`     |
+| Event              | Description                                                                                                                              | Type                      |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| `clearSelection`   | Emitted when the user clears the selected items                                                                                          | `CustomEvent<void>`       |
+| `clickOutside`     | Emitted when there's a click outside the dropdown's bondaries                                                                            | `CustomEvent<MouseEvent>` |
+| `createFormToggle` | Emitted when the create form opens (`true`), once it is rendered, and when it closes (`false`)                                           | `CustomEvent<boolean>`    |
+| `dismiss`          | Emitted when Escape is pressed with `shortcuts` on and the create form closed. The Escape is marked as handled, with `preventDefault()`. | `CustomEvent<void>`       |
+| `openStateChange`  | Emitted when the dropdown open state changes                                                                                             | `CustomEvent<boolean>`    |
+| `optionCreated`    | Emitted when a new option is created                                                                                                     | `CustomEvent<string>`     |
+| `optionSelected`   | Emitted when an option is selected                                                                                                       | `CustomEvent<string>`     |
+| `searchChange`     | Emitted when the user interacts with the search text field                                                                               | `CustomEvent<string>`     |
 
 
 ## Methods

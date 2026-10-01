@@ -39,16 +39,16 @@
 
 ## Events
 
-| Event              | Description                                                                                    | Type                                     |
-| ------------------ | ---------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| `clearSelection`   | Emitted when the user clears the selected items                                                | `CustomEvent<void>`                      |
-| `createFormToggle` | Emitted when the create form opens (`true`), once it is rendered, and when it closes (`false`) | `CustomEvent<boolean>`                   |
-| `dismiss`          | Emitted when the 'esc' key is pressed                                                          | `CustomEvent<void>`                      |
-| `optionCreated`    | Emitted when a new option is created                                                           | `CustomEvent<string>`                    |
-| `optionSelected`   | Emitted when an option is selected                                                             | `CustomEvent<string>`                    |
-| `optionsSelected`  | Emitted when the selected options change                                                       | `CustomEvent<{ [x: string]: boolean; }>` |
-| `searchChange`     | Emitted when the user interacts with the search text field                                     | `CustomEvent<string>`                    |
-| `selectAll`        | Emitted when the user clicks on the all items                                                  | `CustomEvent<void>`                      |
+| Event              | Description                                                                                                                              | Type                                     |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `clearSelection`   | Emitted when the user clears the selected items                                                                                          | `CustomEvent<void>`                      |
+| `createFormToggle` | Emitted when the create form opens (`true`), once it is rendered, and when it closes (`false`)                                           | `CustomEvent<boolean>`                   |
+| `dismiss`          | Emitted when Escape is pressed with `shortcuts` on and the create form closed. The Escape is marked as handled, with `preventDefault()`. | `CustomEvent<void>`                      |
+| `optionCreated`    | Emitted when a new option is created                                                                                                     | `CustomEvent<string>`                    |
+| `optionSelected`   | Emitted when an option is selected                                                                                                       | `CustomEvent<string>`                    |
+| `optionsSelected`  | Emitted when the selected options change                                                                                                 | `CustomEvent<{ [x: string]: boolean; }>` |
+| `searchChange`     | Emitted when the user interacts with the search text field                                                                               | `CustomEvent<string>`                    |
+| `selectAll`        | Emitted when the user clicks on the all items                                                                                            | `CustomEvent<void>`                      |
 
 
 ## Methods

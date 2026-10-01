@@ -78,15 +78,15 @@ export const KvMultiSelectDropdownExample: React.FC = (props) => (
 
 ## Events
 
-| Event             | Description                                                   | Type                                     |
-| ----------------- | ------------------------------------------------------------- | ---------------------------------------- |
-| `clearSelection`  | Emitted when the user clears the selected items               | `CustomEvent<void>`                      |
-| `clickOutside`    | Emitted when there's a click outside the dropdown's bondaries | `CustomEvent<MouseEvent>`                |
-| `dismiss`         | Emitted when the 'esc' key is pressed                         | `CustomEvent<void>`                      |
-| `openStateChange` | Emitted when the dropdown open state changes                  | `CustomEvent<boolean>`                   |
-| `optionsSelected` | Emitted when the selected options change                      | `CustomEvent<{ [x: string]: boolean; }>` |
-| `searchChange`    | Emitted when the user interacts with the search text field    | `CustomEvent<string>`                    |
-| `selectAll`       | Emitted when the user clicks on the all items                 | `CustomEvent<void>`                      |
+| Event             | Description                                                                                                                              | Type                                     |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `clearSelection`  | Emitted when the user clears the selected items                                                                                          | `CustomEvent<void>`                      |
+| `clickOutside`    | Emitted when there's a click outside the dropdown's bondaries                                                                            | `CustomEvent<MouseEvent>`                |
+| `dismiss`         | Emitted when Escape is pressed with `shortcuts` on and the create form closed. The Escape is marked as handled, with `preventDefault()`. | `CustomEvent<void>`                      |
+| `openStateChange` | Emitted when the dropdown open state changes                                                                                             | `CustomEvent<boolean>`                   |
+| `optionsSelected` | Emitted when the selected options change                                                                                                 | `CustomEvent<{ [x: string]: boolean; }>` |
+| `searchChange`    | Emitted when the user interacts with the search text field                                                                               | `CustomEvent<string>`                    |
+| `selectAll`       | Emitted when the user clicks on the all items                                                                                            | `CustomEvent<void>`                      |
 
 
 ## Methods
