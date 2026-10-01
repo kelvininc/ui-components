@@ -47,3 +47,41 @@ export const isInPortalAnchoredWithin = (path: EventTarget[], ownPortal: HTMLEle
 
 	return false;
 };
+
+// The open dropdowns' host elements, the most recently opened last
+const openDropdowns: HTMLElement[] = [];
+
+export const removeOpenDropdown = (element: HTMLElement): void => {
+	const index = openDropdowns.indexOf(element);
+
+	if (index !== -1) {
+		openDropdowns.splice(index, 1);
+	}
+};
+
+/** Adds a dropdown that has just opened, as the most recently opened one */
+export const addOpenDropdown = (element: HTMLElement): void => {
+	removeOpenDropdown(element);
+	openDropdowns.push(element);
+};
+
+/** Adds a dropdown found open, unless it is known already: one moved while open keeps its place */
+export const trackOpenDropdown = (element: HTMLElement): void => {
+	if (!openDropdowns.includes(element)) {
+		openDropdowns.push(element);
+	}
+};
+
+/**
+ * Whether the dropdown is the most recently opened one that is still in the document: one that has left it is only
+ * dropped once its removal is confirmed, and mock-doc doesn't always disconnect a page's elements before the next.
+ */
+export const isTopmostOpenDropdown = (element: HTMLElement): boolean => {
+	for (let index = openDropdowns.length - 1; index >= 0; index--) {
+		if (openDropdowns[index].isConnected) {
+			return openDropdowns[index] === element;
+		}
+	}
+
+	return false;
+};

@@ -505,6 +505,60 @@ describe('Single Select Dropdown (end-to-end)', () => {
 			expect(await isDropdownOpen()).toBe(false);
 			expect(getCreateFormToggles()).toEqual([true, false]);
 		});
+
+		it('should close only the picker on escape, and then the dropdown on a second escape', async () => {
+			await openPicker();
+
+			await pressKey('Escape');
+
+			expect(await isPickerOpen()).toBe(false);
+			expect(await isDropdownOpen()).toBe(true);
+			expect(getCreateFormToggles()).toEqual([true]);
+
+			await pressKey('Escape');
+
+			expect(await isDropdownOpen()).toBe(false);
+			expect(getCreateFormToggles()).toEqual([true, false]);
+		});
+	});
+
+	describe('when escape is pressed with the list open', () => {
+		const getOwnOpenStates = (spy: EventSpy): boolean[] => spy.events.filter(({ target }) => target.tagName === 'KV-SINGLE-SELECT-DROPDOWN').map(({ detail }) => detail);
+
+		beforeEach(async () => {
+			await setUpDropdown();
+		});
+
+		it('should close the dropdown', async () => {
+			const dismissSpy = await dropdownElement.spyOnEvent('dismiss');
+			const openStateChangeSpy = await dropdownElement.spyOnEvent('openStateChange');
+			await openDropdown();
+
+			await pressKey('Escape');
+
+			expect(await isDropdownOpen()).toBe(false);
+			expect(await isVisible(PANEL_SELECTOR)).toBe(false);
+			expect(getOwnOpenStates(openStateChangeSpy)).toEqual([true, false]);
+			expect(dismissSpy).toHaveReceivedEventTimes(0);
+		});
+
+		it('should dismiss and close the dropdown once with the shortcuts on', async () => {
+			dropdownElement.setProperty('shortcuts', true);
+			await page.waitForChanges();
+			const dismissSpy = await dropdownElement.spyOnEvent('dismiss');
+			const openStateChangeSpy = await dropdownElement.spyOnEvent('openStateChange');
+			await openDropdown();
+
+			await pressKey('Escape');
+
+			expect(await isDropdownOpen()).toBe(false);
+			expect(dismissSpy).toHaveReceivedEventTimes(1);
+			// Only the dropdown's own: the list's dismiss marks the escape as handled, so its kv-dropdown-base doesn't ask to close too
+			expect(openStateChangeSpy.events.map(({ target, detail }) => [target.tagName, detail])).toEqual([
+				['KV-SINGLE-SELECT-DROPDOWN', true],
+				['KV-SINGLE-SELECT-DROPDOWN', false]
+			]);
+		});
 	});
 
 	describe('when the creation is asynchronous', () => {
@@ -573,6 +627,21 @@ describe('Single Select Dropdown (end-to-end)', () => {
 			await page.waitForChanges();
 
 			expect(await page.evaluate(() => (window as RecorderWindow).mirroredOpenStates)).toEqual([]);
+			expect(await isDropdownOpen()).toBe(true);
+			expect(await isVisible(CREATE_FORM_SELECTOR)).toBe(true);
+			expect(getCreateFormToggles()).toEqual([true]);
+		});
+
+		it('should stay open when escape is pressed while the creation is loading', async () => {
+			await submitCreation();
+			await setCreationLoading();
+			const openStateChangeSpy = await dropdownElement.spyOnEvent('openStateChange');
+
+			// From the body, where the focus may have gone as the form locked itself
+			await page.evaluate(() => document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })));
+			await page.waitForChanges();
+
+			expect(openStateChangeSpy).toHaveReceivedEventTimes(0);
 			expect(await isDropdownOpen()).toBe(true);
 			expect(await isVisible(CREATE_FORM_SELECTOR)).toBe(true);
 			expect(getCreateFormToggles()).toEqual([true]);

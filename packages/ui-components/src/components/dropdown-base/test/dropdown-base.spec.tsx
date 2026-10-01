@@ -39,6 +39,44 @@ describe('KvDropdownBase (unit tests)', () => {
 	// The list is moved, with its portal, to the body
 	const getListPortal = (listSelector: string): HTMLKvPortalElement | null => getElement(listSelector)?.closest('kv-portal') ?? null;
 
+	type RecordedEvents = [string, unknown][];
+
+	// The dropdown's own events: an inner dropdown's bubble from its place in the outer list, past the outer list's portal
+	const recordEvents = (selector: string): RecordedEvents => {
+		const events: RecordedEvents = [];
+		const element = getElement(selector);
+		const recordOwnEvent = ({ type, detail, target }: CustomEvent) => {
+			if (target === element) {
+				// clickOutside carries the mouse event, of which only the emission matters here
+				events.push([type, type === 'clickOutside' ? true : detail]);
+			}
+		};
+
+		element.addEventListener('openStateChange', recordOwnEvent);
+		element.addEventListener('clickOutside', recordOwnEvent);
+
+		return events;
+	};
+
+	const setOpen = async (selector: string, isOpen: boolean): Promise<void> => {
+		getElement<HTMLKvDropdownBaseElement>(selector).isOpen = isOpen;
+		await page.waitForChanges();
+	};
+
+	const pressMouse = async (selector: string): Promise<void> => {
+		getElement(selector).dispatchEvent(new MouseEvent('mousedown', { bubbles: true, composed: true }));
+		await page.waitForChanges();
+	};
+
+	// From the body, as a key with nothing focused, so that it reaches the window as it bubbles
+	const pressEscape = async (init: KeyboardEventInit = {}): Promise<KeyboardEvent> => {
+		const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, composed: true, cancelable: true, ...init });
+		page.body.dispatchEvent(event);
+		await page.waitForChanges();
+
+		return event;
+	};
+
 	const expectInnerListKept = (): void => {
 		const innerPortal = getListPortal('#inner-list');
 
@@ -78,36 +116,13 @@ describe('KvDropdownBase (unit tests)', () => {
 	});
 
 	describe('when a dropdown is open in the list of another open one', () => {
-		let outerEvents: [string, unknown][];
-		let innerEvents: [string, unknown][];
-
-		const recordEvents = (selector: string): [string, unknown][] => {
-			const events: [string, unknown][] = [];
-			const element = getElement(selector);
-			// The inner dropdown's own events bubble from its place in the outer list, past the outer list's portal
-			const recordOwnEvent = ({ type, detail, target }: CustomEvent) => {
-				if (target === element) {
-					// clickOutside carries the mouse event, of which only the emission matters here
-					events.push([type, type === 'clickOutside' ? true : detail]);
-				}
-			};
-
-			element.addEventListener('openStateChange', recordOwnEvent);
-			element.addEventListener('clickOutside', recordOwnEvent);
-
-			return events;
-		};
-
-		const pressMouse = async (selector: string): Promise<void> => {
-			getElement(selector).dispatchEvent(new MouseEvent('mousedown', { bubbles: true, composed: true }));
-			await page.waitForChanges();
-		};
+		let outerEvents: RecordedEvents;
+		let innerEvents: RecordedEvents;
 
 		beforeEach(async () => {
 			await renderDropdowns(NESTED_DROPDOWNS);
-			getElement<HTMLKvDropdownBaseElement>('#outer').isOpen = true;
-			getElement<HTMLKvDropdownBaseElement>('#inner').isOpen = true;
-			await page.waitForChanges();
+			await setOpen('#outer', true);
+			await setOpen('#inner', true);
 			outerEvents = recordEvents('#outer');
 			innerEvents = recordEvents('#inner');
 		});
@@ -140,6 +155,112 @@ describe('KvDropdownBase (unit tests)', () => {
 				['openStateChange', false],
 				['clickOutside', true]
 			]);
+		});
+
+		it('should close the inner one only on Escape', async () => {
+			const event = await pressEscape();
+
+			expect(innerEvents).toEqual([['openStateChange', false]]);
+			expect(outerEvents).toEqual([]);
+			expect(event.defaultPrevented).toBe(true);
+		});
+	});
+
+	describe('when Escape is pressed with dropdowns open', () => {
+		let firstEvents: RecordedEvents;
+		let secondEvents: RecordedEvents;
+
+		beforeEach(async () => {
+			await renderDropdowns(`${OUTER_DROPDOWN.replace(/outer/g, 'first')}${OUTER_DROPDOWN.replace(/outer/g, 'second')}`);
+			firstEvents = recordEvents('#first');
+			secondEvents = recordEvents('#second');
+			await setOpen('#first', true);
+			await setOpen('#second', true);
+		});
+
+		it('should only ask the most recently opened one to close, and mark the Escape as handled', async () => {
+			const event = await pressEscape();
+
+			expect(secondEvents).toEqual([['openStateChange', false]]);
+			expect(firstEvents).toEqual([]);
+			expect(event.defaultPrevented).toBe(true);
+		});
+
+		it('should ask the one opened before to close once the last one has closed', async () => {
+			await pressEscape();
+			await setOpen('#second', false);
+
+			await pressEscape();
+
+			expect(secondEvents).toEqual([['openStateChange', false]]);
+			expect(firstEvents).toEqual([['openStateChange', false]]);
+		});
+
+		it('should take the one opened again for the most recently opened', async () => {
+			await setOpen('#first', false);
+			await setOpen('#first', true);
+
+			await pressEscape();
+
+			expect(firstEvents).toEqual([['openStateChange', false]]);
+			expect(secondEvents).toEqual([]);
+		});
+
+		it('should not ask any to close on an Escape handled already', async () => {
+			const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, composed: true, cancelable: true });
+			page.body.addEventListener('keydown', handledEvent => handledEvent.preventDefault());
+			page.body.dispatchEvent(event);
+			await page.waitForChanges();
+
+			expect(firstEvents).toEqual([]);
+			expect(secondEvents).toEqual([]);
+		});
+
+		it('should not ask any to close on an Escape composing a character', async () => {
+			const event = await pressEscape({ isComposing: true });
+
+			expect(firstEvents).toEqual([]);
+			expect(secondEvents).toEqual([]);
+			expect(event.defaultPrevented).toBe(false);
+		});
+
+		it('should not ask any to close on another key', async () => {
+			getElement('#second').dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
+			await page.waitForChanges();
+
+			expect(firstEvents).toEqual([]);
+			expect(secondEvents).toEqual([]);
+		});
+
+		it('should keep the ones opened before open when the last one has escapeClose off', async () => {
+			getElement<HTMLKvDropdownBaseElement>('#second').escapeClose = false;
+			await page.waitForChanges();
+
+			const event = await pressEscape();
+
+			expect(secondEvents).toEqual([]);
+			expect(firstEvents).toEqual([]);
+			expect(event.defaultPrevented).toBe(false);
+		});
+
+		it('should no longer count one that has been removed', async () => {
+			getElement('#second').remove();
+			await page.waitForChanges();
+
+			await pressEscape();
+
+			expect(firstEvents).toEqual([['openStateChange', false]]);
+		});
+	});
+
+	describe('when a dropdown is open from the start', () => {
+		it('should ask it to close on Escape', async () => {
+			await renderDropdowns(OUTER_DROPDOWN.replace('<kv-dropdown-base id="outer">', '<kv-dropdown-base id="outer" is-open>'));
+			const events = recordEvents('#outer');
+
+			await pressEscape();
+
+			expect(events).toEqual([['openStateChange', false]]);
 		});
 	});
 });

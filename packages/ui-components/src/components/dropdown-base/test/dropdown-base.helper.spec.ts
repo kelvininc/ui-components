@@ -1,4 +1,4 @@
-import { getComposedParent, isInPortalAnchoredWithin, isPortal } from '../dropdown-base.helper';
+import { addOpenDropdown, getComposedParent, isInPortalAnchoredWithin, isPortal, isTopmostOpenDropdown, removeOpenDropdown, trackOpenDropdown } from '../dropdown-base.helper';
 
 const createElement = <T extends HTMLElement = HTMLElement>(tagName: string, parent: Node): T => {
 	const element = document.createElement(tagName) as T;
@@ -115,6 +115,78 @@ describe('dropdown-base.helper', () => {
 			const option = createElement('button', firstPortal);
 
 			expect(isInPortalAnchoredWithin(getEventPath(option), null, [container])).toBe(false);
+		});
+	});
+
+	describe('the open dropdowns', () => {
+		let first: HTMLElement;
+		let second: HTMLElement;
+
+		beforeEach(() => {
+			first = createElement('kv-dropdown-base', document.body);
+			second = createElement('kv-dropdown-base', document.body);
+		});
+
+		// The open dropdowns are kept by the module, across tests
+		afterEach(() => {
+			removeOpenDropdown(first);
+			removeOpenDropdown(second);
+		});
+
+		it('should take none for the most recently opened one when none is open', () => {
+			expect(isTopmostOpenDropdown(first)).toBe(false);
+		});
+
+		it('should take the last one opened for the most recently opened one', () => {
+			addOpenDropdown(first);
+			addOpenDropdown(second);
+
+			expect(isTopmostOpenDropdown(second)).toBe(true);
+			expect(isTopmostOpenDropdown(first)).toBe(false);
+		});
+
+		it('should take the one opened before once the last one has closed', () => {
+			addOpenDropdown(first);
+			addOpenDropdown(second);
+
+			removeOpenDropdown(second);
+
+			expect(isTopmostOpenDropdown(first)).toBe(true);
+			expect(isTopmostOpenDropdown(second)).toBe(false);
+		});
+
+		it('should move one opened again to the top', () => {
+			addOpenDropdown(first);
+			addOpenDropdown(second);
+
+			addOpenDropdown(first);
+
+			expect(isTopmostOpenDropdown(first)).toBe(true);
+		});
+
+		it('should keep the place of one tracked again', () => {
+			addOpenDropdown(first);
+			addOpenDropdown(second);
+
+			trackOpenDropdown(first);
+
+			expect(isTopmostOpenDropdown(second)).toBe(true);
+		});
+
+		it('should track one found open', () => {
+			trackOpenDropdown(first);
+
+			expect(isTopmostOpenDropdown(first)).toBe(true);
+		});
+
+		it('should skip one that is no longer in the document', () => {
+			addOpenDropdown(first);
+			addOpenDropdown(second);
+
+			second.remove();
+
+			expect(isTopmostOpenDropdown(first)).toBe(true);
+			expect(isTopmostOpenDropdown(second)).toBe(false);
 		});
 	});
 });
