@@ -70,9 +70,19 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 	};
 
 	disconnectedCallback() {
-		// Requires deleting portal from outside KvPortal because KvPortal is moved to global context
-		// and would only be destroyed when the global context is destroyed.
-		this.portal?.remove();
+		// Stencil also calls this when the element is only moved, which happens to every dropdown inside
+		// another dropdown's list as that list's kv-portal moves itself to the body. So the element is
+		// checked after the move: a browser has already reinserted it by now, but Stencil's mock-doc only
+		// reinserts it once this callback returns.
+		queueMicrotask(() => {
+			if (this.element.isConnected) {
+				return;
+			}
+
+			// Requires deleting portal from outside KvPortal because KvPortal is moved to global context
+			// and would only be destroyed when the global context is destroyed.
+			this.portal?.remove();
+		});
 	}
 
 	render() {
