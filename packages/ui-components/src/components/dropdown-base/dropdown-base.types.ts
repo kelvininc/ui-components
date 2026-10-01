@@ -10,7 +10,10 @@ export interface IDropdownBase {
 	actionElement?: HTMLElement;
 	/** (optional) A reference to the dropdown list element */
 	listElement?: HTMLElement;
-	/** (optional) If `false` clicking outside the dropdown will not trigger state change. Default: true */
+	/**
+	 * (optional) If `false` clicking outside the dropdown will not trigger state change. A click in a portal anchored
+	 * inside the dropdown, as the list of a dropdown or a tooltip opened from it, is not outside. Default: true
+	 */
 	clickOutsideClose?: boolean;
 	/** (optional) the dropdown list z-index (default: 9004) */
 	zIndex?: number;
@@ -19,6 +22,9 @@ export interface IDropdownBase {
 export interface IDropdownBaseEvents {
 	/** Emitted when the dropdown opens state changes */
 	openStateChange: EventEmitter<boolean>;
-	/** Emitted when there's a click outside the dropdown's bondaries */
+	/**
+	 * Emitted when there's a click outside the dropdown's boundaries. A click in a portal anchored inside the
+	 * dropdown, as the list of a dropdown or a tooltip opened from it, is not outside.
+	 */
 	clickOutside: EventEmitter<MouseEvent>;
 }

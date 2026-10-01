@@ -76,4 +76,70 @@ describe('KvDropdownBase (unit tests)', () => {
 			expect(getListPortal('#outer-list').isConnected).toBe(true);
 		});
 	});
+
+	describe('when a dropdown is open in the list of another open one', () => {
+		let outerEvents: [string, unknown][];
+		let innerEvents: [string, unknown][];
+
+		const recordEvents = (selector: string): [string, unknown][] => {
+			const events: [string, unknown][] = [];
+			const element = getElement(selector);
+			// The inner dropdown's own events bubble from its place in the outer list, past the outer list's portal
+			const recordOwnEvent = ({ type, detail, target }: CustomEvent) => {
+				if (target === element) {
+					// clickOutside carries the mouse event, of which only the emission matters here
+					events.push([type, type === 'clickOutside' ? true : detail]);
+				}
+			};
+
+			element.addEventListener('openStateChange', recordOwnEvent);
+			element.addEventListener('clickOutside', recordOwnEvent);
+
+			return events;
+		};
+
+		const pressMouse = async (selector: string): Promise<void> => {
+			getElement(selector).dispatchEvent(new MouseEvent('mousedown', { bubbles: true, composed: true }));
+			await page.waitForChanges();
+		};
+
+		beforeEach(async () => {
+			await renderDropdowns(NESTED_DROPDOWNS);
+			getElement<HTMLKvDropdownBaseElement>('#outer').isOpen = true;
+			getElement<HTMLKvDropdownBaseElement>('#inner').isOpen = true;
+			await page.waitForChanges();
+			outerEvents = recordEvents('#outer');
+			innerEvents = recordEvents('#inner');
+		});
+
+		it('should not take a click in the inner list for a click outside the outer one', async () => {
+			await pressMouse('#inner-option');
+
+			expect(outerEvents).toEqual([]);
+			expect(innerEvents).toEqual([]);
+		});
+
+		it('should close the inner one only on a click elsewhere in the outer list', async () => {
+			await pressMouse('#outer-option');
+
+			expect(outerEvents).toEqual([]);
+			expect(innerEvents).toEqual([
+				['openStateChange', false],
+				['clickOutside', true]
+			]);
+		});
+
+		it('should close both on a click outside them', async () => {
+			await pressMouse('body');
+
+			expect(outerEvents).toEqual([
+				['openStateChange', false],
+				['clickOutside', true]
+			]);
+			expect(innerEvents).toEqual([
+				['openStateChange', false],
+				['clickOutside', true]
+			]);
+		});
+	});
 });

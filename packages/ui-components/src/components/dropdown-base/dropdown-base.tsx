@@ -3,6 +3,7 @@ import { Component, Host, h, Prop, Event, EventEmitter, Listen, Element, State }
 
 import { DEFAULT_POSITION_CONFIG } from './dropdown-base.config';
 import { IDropdownBase, IDropdownBaseEvents } from './dropdown-base.types';
+import { isInPortalAnchoredWithin } from './dropdown-base.helper';
 import { didClickOnElement } from '../../utils/mouse-event.helper';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
 
@@ -34,8 +35,8 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 
 	@Listen('mousedown', { target: 'window' })
 	checkForClickOutside(event: MouseEvent) {
-		// Check if clicked inside the dropdown
-		if (this.didClickOnDropdownAction(event) || this.didClickOnDropdownList(event)) {
+		// Check if clicked inside the dropdown, or in the list of a dropdown opened from inside it
+		if (this.didClickOnDropdownAction(event) || this.didClickOnDropdownList(event) || this.didClickOnPortalAnchoredInside(event)) {
 			return;
 		}
 
@@ -68,6 +69,10 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 
 		return didClickOnElement(dropdownListElement, event);
 	};
+
+	// A dropdown, or a tooltip, opened from inside this one is portaled to the body, outside its list
+	private didClickOnPortalAnchoredInside = (event: MouseEvent): boolean =>
+		isInPortalAnchoredWithin(event.composedPath(), this.portal, [this.getActionElement(), this.getListElement(), this.portal]);
 
 	disconnectedCallback() {
 		// Stencil also calls this when the element is only moved, which happens to every dropdown inside
