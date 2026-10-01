@@ -31,5 +31,46 @@ describe('Action Button (unit tests)', () => {
 		it('should initialize `size` with large', () => {
 			expect(component.size).toBe(EComponentSize.Large);
 		});
+
+		it('should not set `aria-busy`', () => {
+			expect(page.root.hasAttribute('aria-busy')).toBe(false);
+		});
+	});
+
+	describe('when is loading', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvActionButton],
+				html: '<kv-action-button type="secondary" loading></kv-action-button>'
+			});
+		});
+
+		it('should set `aria-busy` to true', () => {
+			expect(page.root.getAttribute('aria-busy')).toBe('true');
+		});
+
+		describe('and it stops loading', () => {
+			beforeEach(async () => {
+				page.root.loading = false;
+				await page.waitForChanges();
+			});
+
+			it('should remove `aria-busy`', () => {
+				expect(page.root.hasAttribute('aria-busy')).toBe(false);
+			});
+		});
+	});
+
+	describe('when is not loading', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvActionButton],
+				html: '<kv-action-button type="secondary" loading="false"></kv-action-button>'
+			});
+		});
+
+		it('should not set `aria-busy`', () => {
+			expect(page.root.hasAttribute('aria-busy')).toBe(false);
+		});
 	});
 });
