@@ -16,5 +16,7 @@ export const NEW_TAG_INPUT_CONFIG = { placeholder: "Tag name" };
 export const CREATE_STORY_DERIVED_ARGS = [
 	"createOptionPlaceholder",
 	"searchTerm",
-	"typedName"
+	"typedName",
+	"tagColor",
+	"colorPickerOpen"
 ];

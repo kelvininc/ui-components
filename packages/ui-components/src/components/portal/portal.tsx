@@ -55,7 +55,6 @@ export class KvPortal implements IPortal, IPortalEvents {
 	}
 
 	private portal: HTMLElement;
-	private moved: boolean = false;
 	private timeoutId: number;
 	private closeAutoUpdate: () => void;
 
@@ -208,12 +207,19 @@ export class KvPortal implements IPortal, IPortalEvents {
 	}
 
 	disconnectedCallback() {
-		if (this.moved) {
-			// The portal is being removed for good (the first disconnect is the element
-			// being moved into the portal, guarded by `moved`). Tear down the floating-ui
-			// autoUpdate loop and any pending delay timeout here too — otherwise a portal
-			// that is unmounted directly, e.g. a conditionally-rendered kv-tooltip that
-			// removes <kv-portal> instead of toggling `show` to false, never runs
+		// Stencil also calls this when the element is only moved: into the portal as it loads, and along with the
+		// list of a dropdown it is inside of, which may move to the body before or after this one has loaded. So
+		// the element is checked after the move: a browser has already reinserted it by now, but Stencil's
+		// mock-doc only reinserts it once this callback returns.
+		queueMicrotask(() => {
+			if (this.element.isConnected) {
+				return;
+			}
+
+			// The portal is being removed for good. Tear down the floating-ui autoUpdate
+			// loop and any pending delay timeout here too — otherwise a portal that is
+			// unmounted directly, e.g. a conditionally-rendered kv-tooltip that removes
+			// <kv-portal> instead of toggling `show` to false, never runs
 			// hidePortalContent() and leaks autoUpdate's scroll/resize listeners +
 			// observers, which retain the detached reference/portal nodes.
 			if (this.timeoutId) {
@@ -224,10 +230,11 @@ export class KvPortal implements IPortal, IPortalEvents {
 				this.closeAutoUpdate();
 				this.closeAutoUpdate = undefined;
 			}
-			this.portal?.remove();
-		} else {
-			this.moved = true;
-		}
+			// Unless it is gone already, as when mock-doc empties the body to reset its document between tests
+			if (this.portal && document.body.contains(this.portal)) {
+				this.portal.remove();
+			}
+		});
 	}
 
 	render() {
