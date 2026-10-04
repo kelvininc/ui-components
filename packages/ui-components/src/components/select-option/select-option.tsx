@@ -21,6 +21,7 @@ import { getClassMap } from '../../utils/css-class.helper';
 })
 export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	@Element() el!: HTMLKvSelectOptionElement;
+	private optionContainer?: HTMLDivElement;
 
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label!: string;
@@ -82,8 +83,8 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	};
 
 	private onCheckboxClick = ({ detail }: CustomEvent<Event>) => {
-		// Mouse clicks reach the option container; keyboard activation has no click to bubble.
-		if (detail.type === 'keydown') this.onItemClick();
+		// Use the same click path for Space so consumers' native click handlers also select the option.
+		if (detail.type === 'keydown' && !this.disabled) this.optionContainer?.click();
 	};
 
 	render() {
@@ -91,6 +92,7 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 			<Host class={getClassMap(this.customClass)} style={{ ...this.customStyle }}>
 				<div part="select-option-content">
 					<div
+						ref={element => (this.optionContainer = element)}
 						class={{
 							'select-option': true,
 							'select-option--selected': this.selected,

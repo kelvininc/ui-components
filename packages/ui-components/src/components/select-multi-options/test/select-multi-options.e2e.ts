@@ -69,6 +69,49 @@ describe('Select Multi Options (end-to-end)', () => {
 		optionSelectedSpy = await selectElement.spyOnEvent('optionSelected');
 	});
 
+	it('selects once on held Space, clears with Space and selects once on a mouse click', async () => {
+		const checkbox = await page.$('aria/Option 2[role="checkbox"]');
+		expect(checkbox).not.toBeNull();
+		await checkbox.focus();
+		await page.keyboard.down('Space');
+		await page.keyboard.down('Space');
+		await page.keyboard.up('Space');
+		await page.waitForChanges();
+		expect(optionsSelectedSpy).toHaveReceivedEventTimes(1);
+		expect(optionSelectedSpy).toHaveReceivedEventTimes(1);
+		expect(optionsSelectedSpy.lastEvent.detail).toEqual({ 'option-2': true });
+		expect(optionSelectedSpy.lastEvent.detail).toBe('option-2');
+
+		await setSelectedOptions({ 'option-2': true });
+		await page.keyboard.press('Space');
+		await page.waitForChanges();
+		expect(optionsSelectedSpy).toHaveReceivedEventTimes(2);
+		expect(optionSelectedSpy).toHaveReceivedEventTimes(2);
+		expect(optionsSelectedSpy.lastEvent.detail).toEqual({});
+
+		await setSelectedOptions({});
+		await checkbox.click();
+		await page.waitForChanges();
+		expect(optionsSelectedSpy).toHaveReceivedEventTimes(3);
+		expect(optionSelectedSpy).toHaveReceivedEventTimes(3);
+		expect(optionsSelectedSpy.lastEvent.detail).toEqual({ 'option-2': true });
+	});
+
+	it('uses a Space selection as the anchor for a subsequent Shift-click range', async () => {
+		await setSelectedOptions({ 'option-1': true });
+		const checkbox = await page.$('aria/Option 2[role="checkbox"]');
+		await checkbox.focus();
+		await page.keyboard.press('Space');
+		await page.waitForChanges();
+		expect(optionsSelectedSpy).toHaveReceivedEventTimes(1);
+		expect(optionsSelectedSpy.lastEvent.detail).toEqual({ 'option-1': true, 'option-2': true });
+		await setSelectedOptions({ 'option-1': true, 'option-2': true });
+		await clickOption('option-5', true);
+		expect(optionsSelectedSpy).toHaveReceivedEventTimes(2);
+		expect(optionSelectedSpy).toHaveReceivedEventTimes(2);
+		expect(optionsSelectedSpy.lastEvent.detail).toEqual({ 'option-2': true, 'option-3': true, 'option-4': true, 'option-5': true });
+	});
+
 	it('should select an inclusive range when shift-clicking after a normal selection', async () => {
 		await clickOption('option-2');
 		await setSelectedOptions({ 'option-2': true });
