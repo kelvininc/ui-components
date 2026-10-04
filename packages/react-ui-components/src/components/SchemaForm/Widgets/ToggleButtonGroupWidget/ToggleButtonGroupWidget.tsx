@@ -1,4 +1,5 @@
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
+import { ERadioControlType } from '@kelvininc/ui-components';
 import { KvToggleButtonGroup } from '../../../../stencil-generated';
 import React, { useCallback, useMemo } from 'react';
 import { buildToggleButtons, buildSelectedToggleButtons, toggleSelectedOptions, buildDisabledToggleButtons, getComponentSize } from './utils';
@@ -43,7 +44,7 @@ const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F e
 	const disabledButtons = useMemo(() => buildDisabledToggleButtons(buttons), [buttons]);
 
 	const onCheckedChange = useCallback(
-		({ detail: selectedOptionValue }: CustomEvent<string>) => {
+		({ detail: selectedOptionValue }: CustomEvent<string | number>) => {
 			const newValue = toggleSelectedOptions(selectedOptionValue, selectedOptions, allOptions, config);
 			const finalValue = isEmpty(newValue) ? undefined : newValue;
 			trackFieldChange(id, finalValue);
@@ -58,6 +59,7 @@ const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F e
 			disabled={disabled}
 			size={getComponentSize(componentSize)}
 			withRadio={withRadio === true}
+			radioControlType={ERadioControlType.Checkbox}
 			disabledButtons={disabledButtons}
 			selectedButtons={selectedButtons}
 			onCheckedChange={onCheckedChange}

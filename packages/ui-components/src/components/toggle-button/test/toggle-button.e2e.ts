@@ -1,5 +1,19 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
 
+describe('toggle radio name and event value', () => {
+	it('names an icon-only radio by its tooltip and emits one value per mouse click', async () => {
+		const page = await newE2EPage();
+		await page.setContent('<kv-toggle-button with-radio value="telemetry" icon="kv-add" tooltip="Telemetry"></kv-toggle-button>');
+		const spy = await (await page.find('kv-toggle-button')).spyOnEvent('checkedChange');
+		const radio = await page.$('aria/Telemetry[role="radio"]');
+		expect(radio).not.toBeNull();
+		await radio.click();
+		await page.waitForChanges();
+		expect(spy.events).toHaveLength(1);
+		expect(spy.lastEvent.detail).toBe('telemetry');
+	});
+});
+
 describe('Toggle Button (end-to-end)', () => {
 	let page: E2EPage;
 

@@ -35,12 +35,14 @@ export const RadioExample: React.FC = () => (
 
 ## Properties
 
-| Property   | Attribute  | Description                                                              | Type                                           | Default                |
-| ---------- | ---------- | ------------------------------------------------------------------------ | ---------------------------------------------- | ---------------------- |
-| `checked`  | `checked`  | (optional) If `true` the radio is with checked state. Default: false     | `boolean`                                      | `false`                |
-| `disabled` | `disabled` | (optional) If `true` the radio is with disabled state. Default: false    | `boolean`                                      | `false`                |
-| `label`    | `label`    | (optional) The label text for the radio.                                 | `string`                                       | `''`                   |
-| `size`     | `size`     | (optional) Sets this component item to a different styling configuration | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Small` |
+| Property          | Attribute          | Description                                                                                                                                                                    | Type                                           | Default                |
+| ----------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------- | ---------------------- |
+| `accessibleLabel` | `accessible-label` | (optional) Accessible name, for when the visible label sits outside the radio (e.g. kv-radio-list-item). Defaults to `label`                                                   | `string`                                       | `undefined`            |
+| `checked`         | `checked`          | (optional) If `true` the radio is with checked state. Default: false                                                                                                           | `boolean`                                      | `false`                |
+| `disabled`        | `disabled`         | (optional) If `true` the radio is with disabled state. Default: false                                                                                                          | `boolean`                                      | `false`                |
+| `label`           | `label`            | (optional) The label text for the radio.                                                                                                                                       | `string`                                       | `''`                   |
+| `size`            | `size`             | (optional) Sets this component item to a different styling configuration                                                                                                       | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Small` |
+| `skipTabStop`     | `skip-tab-stop`    | (optional) If `true` Tab skips this radio. A radio group keeps one Tab stop (its selection, or the first option) and moves between options with the arrow keys. Default: false | `boolean`                                      | `false`                |
 
 
 ## Events
@@ -71,6 +73,7 @@ export const RadioExample: React.FC = () => (
 | `--radio-background-disabled-color` | Radio circle background color when state is disabled. |
 | `--radio-background-hover-color`    | Radio circle background color when state is hovered.  |
 | `--radio-background-pressed-color`  | Radio circle background color when state is pressed.  |
+| `--radio-focus-outline-color`       | Radio keyboard focus outline color.                   |
 | `--radio-input-default-color`       | Radio icon color when state is default.               |
 | `--radio-input-disabled-color`      | Radio icon and label color when state is disabled.    |
 | `--radio-input-large`               | Radio icon size when size is large.                   |

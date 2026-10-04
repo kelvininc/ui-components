@@ -17,10 +17,11 @@ import { getClassMap } from '../../utils/css-class.helper';
 @Component({
 	tag: 'kv-select-option',
 	styleUrl: 'select-option.scss',
-	shadow: true
+	shadow: { delegatesFocus: true }
 })
 export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	@Element() el!: HTMLKvSelectOptionElement;
+	private optionContainer?: HTMLDivElement;
 
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label!: string;
@@ -81,11 +82,17 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 		this.itemSelected.emit(this.value);
 	};
 
+	private onCheckboxClick = ({ detail }: CustomEvent<Event>) => {
+		// Use the same click path for Space so consumers' native click handlers also select the option.
+		if (detail.type === 'keydown' && !this.disabled) this.optionContainer?.click();
+	};
+
 	render() {
 		return (
 			<Host class={getClassMap(this.customClass)} style={{ ...this.customStyle }}>
 				<div part="select-option-content">
 					<div
+						ref={element => (this.optionContainer = element)}
 						class={{
 							'select-option': true,
 							'select-option--selected': this.selected,
@@ -106,6 +113,8 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 								disabled={this.disabled}
 								checked={this.state === EToggleState.Selected}
 								indeterminate={this.state === EToggleState.Indeterminate}
+								accessibleLabel={this.label}
+								onClickCheckbox={this.onCheckboxClick}
 								part="checkbox"
 							/>
 						)}
