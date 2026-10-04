@@ -38,6 +38,52 @@ export const CHOICE_SCHEMAS: readonly { name: string; schema: RJSFSchema; values
 	}
 ];
 
+const ASSET_SELECTION: RJSFSchema = {
+	type: 'array',
+	title: 'Assets',
+	uniqueItems: true,
+	items: {
+		type: 'string',
+		oneOf: [
+			{ const: 'north-line', title: 'North line' },
+			{ const: 'south-line', title: 'South line' }
+		]
+	}
+};
+
+/** Multi-select labels come from normalized schema titles or array UI, including when item UI exists */
+export const MULTI_SELECT_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema: UiSchema; formData: string[]; labels: string[] }[] = [
+	{ name: 'schema titles', schema: ASSET_SELECTION, uiSchema: {}, formData: ['north-line'], labels: ['North line', 'South line'] },
+	{
+		name: 'unrelated item UI',
+		schema: ASSET_SELECTION,
+		uiSchema: { items: { 'ui:placeholder': 'Choose an asset' } },
+		formData: ['north-line'],
+		labels: ['North line', 'South line']
+	},
+	{
+		name: 'array label override with item UI',
+		schema: ASSET_SELECTION,
+		uiSchema: { 'ui:enumNames': ['North production', 'South production'], 'items': {} },
+		formData: ['north-line'],
+		labels: ['North production', 'South production']
+	},
+	{
+		name: 'nested array label override with item UI',
+		schema: ASSET_SELECTION,
+		uiSchema: { 'ui:options': { enumNames: ['North production', 'South production'] }, 'items': { 'ui:placeholder': 'Choose an asset' } },
+		formData: ['north-line'],
+		labels: ['North production', 'South production']
+	},
+	{
+		name: 'empty array label override with item UI',
+		schema: ASSET_SELECTION,
+		uiSchema: { 'ui:enumNames': [], 'items': {} },
+		formData: ['north-line'],
+		labels: ['north-line', 'south-line']
+	}
+];
+
 const NAME: RJSFSchema = { type: 'string', title: 'Name' };
 const VALUE: RJSFSchema = { type: 'string', title: 'Value' };
 const variables = (items: RJSFSchema): RJSFSchema => ({ type: 'array', title: 'Variables', items });
@@ -119,6 +165,19 @@ export const OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; formDat
 	{ name: 'untitled object', schema: { type: 'object', properties: { host: { type: 'string', title: 'Host' } } }, formData: { host: 'broker-1.local' } },
 	{ name: 'additionalProperties true', schema: { type: 'object', title: 'Labels', additionalProperties: true }, formData: { site: 'lisbon' } },
 	{ name: 'additionalProperties schema', schema: { type: 'object', title: 'Labels', additionalProperties: { type: 'string' } }, formData: { site: 'lisbon' } },
+	{
+		name: 'nested optional fields in additional property',
+		schema: {
+			type: 'object',
+			title: 'Plants',
+			additionalProperties: {
+				type: 'object',
+				title: 'Plant',
+				properties: { site: { type: 'string', title: 'Site' }, retries: { type: 'integer', title: 'Retries' } }
+			}
+		},
+		formData: { plant: { site: 'lisbon', retries: 3 } }
+	},
 	{
 		name: 'one below maxProperties',
 		schema: { type: 'object', title: 'Labels', additionalProperties: { type: 'string' }, maxProperties: 2 },
@@ -411,6 +470,7 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 [
 	VALUE_CASES,
 	CHOICE_SCHEMAS,
+	MULTI_SELECT_SHAPES,
 	ARRAY_SHAPES,
 	OBJECT_SHAPES,
 	BROKER_SCHEMA,
