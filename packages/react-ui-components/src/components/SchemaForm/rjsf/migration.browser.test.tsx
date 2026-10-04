@@ -44,6 +44,22 @@ describe.each(ARRAY_SHAPES)('RJSF 6 renders the $name fixture in Chromium', row 
 });
 
 describe('RJSF 6 events with real Kelvin components', () => {
+	it.each(OBJECT_SHAPES.filter(row => row.name.startsWith('additionalProperties')))('commits $name key edits on blur and preserves the value', async row => {
+		const onChange = vi.fn();
+		const screen = await render(<KvSchemaForm {...row} onChange={onChange} />);
+		await whenAllKelvinReady(screen.container);
+		const key = await whenKelvinReady(screen.container.querySelector<HTMLKvTextFieldElement>('kv-text-field#root_site-key'));
+		onChange.mockClear();
+
+		await userEvent.fill(key.shadowRoot!.querySelector('input')!, 'plant');
+		expect(onChange).not.toHaveBeenCalled();
+		await userEvent.tab();
+
+		await expect.poll(() => onChange.mock.lastCall?.[0].formData).toEqual({ plant: 'lisbon' });
+		const renamed = await whenKelvinReady(screen.container.querySelector<HTMLKvTextFieldElement>('kv-text-field#root_plant-key'));
+		expect(renamed.shadowRoot?.querySelector('input')?.value).toBe('plant');
+	});
+
 	it('moves and removes the middle list item', async () => {
 		const row = ARRAY_SHAPES.find(row => row.name === 'string list')!;
 		const onChange = vi.fn();

@@ -22,6 +22,8 @@ const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F 
 		return children;
 	}
 
+	// RJSF's onKeyRenameBlur reads target.value and delegates to onKeyRename.
+	// Stencil supplies that value in detail; keep committing the key change on blur.
 	const handleBlur = (value: CustomEvent<string>) => onKeyRename(value.detail);
 
 	return (
