@@ -1,6 +1,15 @@
 import { FieldTemplateProps, RJSFSchema, UiSchema, WidgetProps } from '@rjsf/utils';
 import React, { ElementType, forwardRef, memo } from 'react';
 
+/** Freezes plain data in place; components (functions, memo and forwardRef objects) stay as they are */
+const deepFreeze = <T,>(value: T): T => {
+	if (value && typeof value === 'object' && !('$$typeof' in value) && !Object.isFrozen(value)) {
+		Object.freeze(value);
+		Object.values(value).forEach(deepFreeze);
+	}
+	return value;
+};
+
 /** Values a field can hold. Only `undefined` means nothing is chosen, so only it shows "Not set" */
 export const VALUE_CASES: readonly { name: string; value: unknown; isUnset: boolean }[] = [
 	{ name: 'undefined', value: undefined, isUnset: true },
@@ -130,22 +139,39 @@ export const BROKER_SCHEMA: RJSFSchema = {
 };
 export const BROKER_FORM_DATA = { site: 'lisbon', port: 1883, brokers: [{ host: 'broker-1.local' }, { host: 'broker-2.local' }] };
 
+/** A message the form must show, and the id of the field it must show under */
+export type ExpectedError = { id: string; message: string };
+
 /**
  * Server error schemas as hosts build them, including shapes RJSF's own helpers mishandle.
- * `messages` is what the form must show; an empty list means it must show nothing and allow Save.
+ * `messages` is what the form must show and where; an empty list means it must show nothing and
+ * allow Save. The ids matter: the undefined hole targets the second broker, and an error that
+ * shows under the first one has lost its index.
  */
-export const ERROR_SHAPES: { name: string; extraErrors: unknown; messages: string[] }[] = [
+export const ERROR_SHAPES: { name: string; extraErrors: unknown; messages: ExpectedError[] }[] = [
 	{ name: 'empty object', extraErrors: {}, messages: [] },
 	{ name: 'empty __errors', extraErrors: { port: { __errors: [] } }, messages: [] },
-	{ name: 'index-keyed item error', extraErrors: { brokers: { 0: { host: { __errors: ['Broker unreachable.'] } } } }, messages: ['Broker unreachable.'] },
+	{
+		name: 'index-keyed item error',
+		extraErrors: { brokers: { 0: { host: { __errors: ['Broker unreachable.'] } } } },
+		messages: [{ id: 'root_brokers_0_host', message: 'Broker unreachable.' }]
+	},
 	// What lodash `set(errors, ['brokers', 0, 'host', '__errors'], [...])` builds
-	{ name: 'array-shaped item error', extraErrors: { brokers: [{ host: { __errors: ['Broker unreachable.'] } }] }, messages: ['Broker unreachable.'] },
-	{ name: 'undefined hole', extraErrors: { brokers: [undefined, { host: { __errors: ['Broker unreachable.'] } }] }, messages: ['Broker unreachable.'] },
+	{
+		name: 'array-shaped item error',
+		extraErrors: { brokers: [{ host: { __errors: ['Broker unreachable.'] } }] },
+		messages: [{ id: 'root_brokers_0_host', message: 'Broker unreachable.' }]
+	},
+	{
+		name: 'undefined hole',
+		extraErrors: { brokers: [undefined, { host: { __errors: ['Broker unreachable.'] } }] },
+		messages: [{ id: 'root_brokers_1_host', message: 'Broker unreachable.' }]
+	},
 	{ name: 'undefined __errors', extraErrors: { port: { __errors: undefined } }, messages: [] },
 	{
 		name: 'array errors next to an empty sibling',
 		extraErrors: { site: { __errors: [] }, brokers: [{ host: { __errors: ['Broker unreachable.'] } }] },
-		messages: ['Broker unreachable.']
+		messages: [{ id: 'root_brokers_0_host', message: 'Broker unreachable.' }]
 	}
 ];
 
@@ -303,3 +329,7 @@ export const FLAT_OBJECT_SHAPES: { name: string; schema: RJSFSchema; uiSchema?: 
 		isFlat: false
 	}
 ];
+
+// Rows share schema objects (TOPICS, ENDPOINTS, NAME), so a test that mutated one would change
+// other rows, and other tests. Frozen, the mutation throws where it happens.
+[VALUE_CASES, CHOICE_SCHEMAS, ARRAY_SHAPES, OBJECT_SHAPES, BROKER_SCHEMA, BROKER_FORM_DATA, ERROR_SHAPES, LIST_OPTIONS, FLAT_OBJECT_SHAPES].forEach(deepFreeze);
