@@ -13,7 +13,7 @@ export type MockProps = {
 };
 
 /** One mounted mock. The object lives as long as the mock does; each render refreshes its key and props */
-type MockInstance = { proxyName: string; tagName: string; key?: string; props: MockProps };
+type MockInstance = { proxyName: string; tagName: string; key?: string; props: MockProps; element?: HTMLElement };
 
 const HANDLER_PROP = /^on[A-Z]/;
 // Attributes tests query by (roles, names, data hooks) keep their names
@@ -85,8 +85,10 @@ const createStencilMock = (proxyName: string) => {
 		useLayoutEffect(() => {
 			const element = elementRef.current;
 			if (!element) return undefined;
+			instance.element = element;
 			instancesByElement.set(element, instance);
 			return () => {
+				instance.element = undefined;
 				if (instancesByElement.get(element) === instance) instancesByElement.delete(element);
 			};
 		}, []);
@@ -175,13 +177,19 @@ export const propsOf = <P extends object = MockProps>(target: StencilMockTarget)
  * to be exact. Wrap it in `act()`.
  */
 export const fireStencilEvent = (target: StencilMockTarget, handlerName: `on${string}`, detail?: unknown) => {
-	const { proxyName, tagName, key, props } = instanceOf(target);
+	const { proxyName, tagName, key, props, element } = instanceOf(target);
 	const handler = props[handlerName];
 	if (typeof handler !== 'function') {
 		throw new Error(`<${tagName}>${key === undefined ? '' : ` "${key}"`} (${proxyName}) has no ${handlerName} handler`);
 	}
 	const eventName = handlerName.charAt(2).toLowerCase() + handlerName.slice(3);
-	handler(new CustomEvent(eventName, { detail }));
+	// Stencil events bubble and cross shadow roots. The handler is called directly, so its errors reach
+	// the test; the event still names the element, since handlers such as RJSF's move buttons read it.
+	const event = new CustomEvent(eventName, { detail, bubbles: true, cancelable: true, composed: true });
+	if (element) {
+		Object.defineProperties(event, { target: { value: element }, currentTarget: { value: element } });
+	}
+	handler(event);
 };
 
 /** Forgets every rendered mock, by key and by element. The unit project's setup file calls it after each test. */

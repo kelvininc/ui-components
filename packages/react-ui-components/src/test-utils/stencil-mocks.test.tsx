@@ -12,7 +12,6 @@ describe('stencilMocks', () => {
 	let root: Root;
 
 	beforeEach(() => {
-		vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true);
 		container = document.createElement('div');
 		document.body.appendChild(container);
 		root = createRoot(container);
@@ -21,7 +20,6 @@ describe('stencilMocks', () => {
 	afterEach(async () => {
 		await act(async () => root.unmount());
 		container.remove();
-		vi.unstubAllGlobals();
 	});
 
 	it("renders the component's tag with other primitive props as data attributes", async () => {
@@ -68,6 +66,21 @@ describe('stencilMocks', () => {
 		expect(event).toBeInstanceOf(CustomEvent);
 		expect(event.type).toBe('textChange');
 		expect(event.detail).toBe('broker-2.local');
+	});
+
+	it('sends the event from the rendered element, bubbling and composed like a Stencil event', async () => {
+		// RJSF's move handler blurs the button that fired it
+		const onClickButton = vi.fn((event: Event) => (event.currentTarget as HTMLElement).blur());
+		await act(async () => root.render(<KvActionButtonIcon id="move-down-1" onClickButton={onClickButton} />));
+
+		await act(async () => fireStencilEvent('move-down-1', 'onClickButton'));
+
+		const [event] = onClickButton.mock.calls[0];
+		const button = container.querySelector('#move-down-1');
+		expect(event.target).toBe(button);
+		expect(event.currentTarget).toBe(button);
+		expect(event.bubbles).toBe(true);
+		expect(event.composed).toBe(true);
 	});
 
 	it('reaches a control with no key through its element', async () => {
@@ -181,10 +194,8 @@ describe('stencilMocks', () => {
 	});
 });
 
-describe('stencilMocks between tests', () => {
-	beforeEach(() => vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true));
-	afterEach(() => vi.unstubAllGlobals());
-
+// These two tests run as a pair, in order: the second checks what the first left behind
+describe('stencilMocks between tests', { shuffle: false }, () => {
 	let leftMounted: Element | null = null;
 
 	it('renders a control and leaves it mounted', async () => {
@@ -197,6 +208,7 @@ describe('stencilMocks between tests', () => {
 	});
 
 	it("doesn't see the control the previous test left mounted, by key or by element", () => {
+		expect(leftMounted, 'run this describe as a whole: the previous test mounts the control').not.toBeNull();
 		expect(() => propsOf('root_left_mounted')).toThrow('No Stencil mock is rendered under "root_left_mounted"');
 		expect(() => propsOf(leftMounted)).toThrow("<kv-text-field> isn't a rendered Stencil mock");
 	});
