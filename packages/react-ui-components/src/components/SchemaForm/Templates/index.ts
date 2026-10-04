@@ -1,7 +1,6 @@
 import DescriptionFieldTemplate from './DescriptionFieldTemplate';
 import TitleFieldTemplate from './TitleFieldTemplate';
 import ArrayFieldItemTemplate from './ArrayFieldItemTemplate';
-import ArrayFieldItemButtonsTemplate from './ArrayFieldItemButtonsTemplate';
 import ArrayFieldTemplate from './ArrayFieldTemplate';
 import BaseInputTemplate from './BaseInputTemplate';
 import ErrorListTemplate from './ErrorListTemplate';
@@ -18,7 +17,6 @@ export function generateTemplates<T = any, S extends StrictRJSFSchema = RJSFSche
 		BaseInputTemplate,
 		ArrayFieldTemplate,
 		ArrayFieldItemTemplate,
-		ArrayFieldItemButtonsTemplate,
 		ErrorListTemplate,
 		WrapIfAdditionalTemplate,
 		DescriptionFieldTemplate,

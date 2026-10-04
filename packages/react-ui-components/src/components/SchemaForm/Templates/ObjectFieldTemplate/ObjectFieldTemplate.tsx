@@ -12,12 +12,11 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 	uiSchema,
 	schema,
 	formData,
-	onAddProperty,
+	onAddClick,
 	disabled,
 	readonly,
-	registry
+	formContext
 }: ObjectFieldTemplateProps<T, S, F>) => {
-	const { formContext } = registry;
 	const { inputConfig = get(uiSchema, ['ui:inline'], false) ? DEFAULT_INPUT_INLINE_CONFIG : DEFAULT_INPUT_CONFIG } = formContext as F;
 	const rowWidth = useMemo(() => get(uiSchema, ['ui:inputWidth']) ?? inputConfig.width, [uiSchema, inputConfig]);
 	const rowMinWidth = useMemo(() => get(uiSchema, ['ui:inputMinWidth']) ?? inputConfig.minWidth, [uiSchema, inputConfig]);
@@ -47,7 +46,7 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 							type={EActionButtonType.Primary}
 							tabIndex={-1}
 							disabled={disabled || readonly}
-							onClickButton={onAddProperty}
+							onClickButton={onAddClick(schema)}
 						/>
 					</div>
 				)}

@@ -26,7 +26,7 @@ export const isJsonSchema = (value: JSONSchema7Definition): value is JSONSchema7
 
 export const getEnumOptions = <S extends StrictRJSFSchema = RJSFSchema>(schema: S, booleanLabels: Record<string, string>): EnumOptionsType<S>[] | undefined => {
 	if (Array.isArray(schema.oneOf)) {
-		return optionsList<any, S>({
+		return optionsList<S>({
 			oneOf: schema.oneOf.reduce<S[]>((accumulator, option) => {
 				if (isJsonSchema(option)) {
 					accumulator.push({

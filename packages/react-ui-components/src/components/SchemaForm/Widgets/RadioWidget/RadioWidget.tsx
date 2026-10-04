@@ -12,10 +12,9 @@ const RadioWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormC
 	value,
 	disabled,
 	readonly,
-	registry,
+	formContext,
 	onChange
 }: WidgetProps<T, S, F>) => {
-	const { formContext } = registry;
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
 	const { enumOptions, enumDisabled, inline } = options;
 	const inlineMemo = useMemo(() => Boolean(inline), [inline]);

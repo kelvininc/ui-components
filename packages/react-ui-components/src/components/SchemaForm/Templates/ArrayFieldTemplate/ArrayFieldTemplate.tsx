@@ -1,10 +1,10 @@
-import { ArrayFieldTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema, getTemplate, getUiOptions } from '@rjsf/utils';
+import { ArrayFieldTemplateItemType, ArrayFieldTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema, getTemplate, getUiOptions } from '@rjsf/utils';
 import React from 'react';
 import AddButton from './AddButton';
 import styles from './ArrayFieldTemplate.module.scss';
 
 const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
-	fieldPathId,
+	idSchema,
 	uiSchema,
 	schema,
 	disabled,
@@ -16,20 +16,21 @@ const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 }: ArrayFieldTemplateProps<T, S, F>) => {
 	const uiOptions = getUiOptions(uiSchema);
 	const ArrayFieldDescriptionTemplate = getTemplate<'ArrayFieldDescriptionTemplate', T, S, F>('ArrayFieldDescriptionTemplate', registry, uiOptions);
+	const ArrayFieldItemTemplate = getTemplate<'ArrayFieldItemTemplate', T, S, F>('ArrayFieldItemTemplate', registry, uiOptions);
 
 	return (
 		<div className={styles.ArrayFieldTemplate}>
 			<div className={styles.ArrayFieldContainer}>
 				<ArrayFieldDescriptionTemplate
-					fieldPathId={fieldPathId}
+					idSchema={idSchema}
 					description={uiOptions.description || schema.description}
 					schema={schema}
 					uiSchema={uiSchema}
 					registry={registry}
 				/>
 
-				<div className={styles.ArrayItemList} key={`array-item-list-${fieldPathId.$id}`}>
-					{items}
+				<div className={styles.ArrayItemList} key={`array-item-list-${idSchema.$id}`}>
+					{items && items.map(({ key, ...itemProps }: ArrayFieldTemplateItemType<T, S, F>) => <ArrayFieldItemTemplate key={key} {...itemProps} />)}
 					{canAdd && AddButton({ canAdd, disabled, readonly, uiSchema, onAddClick })}
 				</div>
 			</div>

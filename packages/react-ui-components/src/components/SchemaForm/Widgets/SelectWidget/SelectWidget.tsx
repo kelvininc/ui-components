@@ -20,9 +20,8 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	placeholder,
 	rawErrors = [],
 	uiSchema = {},
-	registry
+	formContext
 }: WidgetProps<T, S, F>) => {
-	const { formContext } = registry;
 	const { trackFieldChange, markFieldAsTouched, isFieldTouched, displayErrors } = useFormState();
 	const { enumOptions, enumDisabled, enumDescriptions, placeholder: optionsPlaceholder } = options;
 	const {

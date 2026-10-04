@@ -1,4 +1,4 @@
-import { ArrayFieldTemplateProps, FieldTemplateProps, RJSFSchema, UiSchema, WidgetProps } from '@rjsf/utils';
+import { FieldTemplateProps, RJSFSchema, UiSchema, WidgetProps } from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
 
 /** Freezes plain data in place; components (functions, memo and forwardRef objects) stay as they are */
@@ -38,6 +38,52 @@ export const CHOICE_SCHEMAS: readonly { name: string; schema: RJSFSchema; values
 	}
 ];
 
+const ASSET_SELECTION: RJSFSchema = {
+	type: 'array',
+	title: 'Assets',
+	uniqueItems: true,
+	items: {
+		type: 'string',
+		oneOf: [
+			{ const: 'north-line', title: 'North line' },
+			{ const: 'south-line', title: 'South line' }
+		]
+	}
+};
+
+/** Multi-select labels come from normalized schema titles or array UI, including when item UI exists */
+export const MULTI_SELECT_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema: UiSchema; formData: string[]; labels: string[] }[] = [
+	{ name: 'schema titles', schema: ASSET_SELECTION, uiSchema: {}, formData: ['north-line'], labels: ['North line', 'South line'] },
+	{
+		name: 'unrelated item UI',
+		schema: ASSET_SELECTION,
+		uiSchema: { items: { 'ui:placeholder': 'Choose an asset' } },
+		formData: ['north-line'],
+		labels: ['North line', 'South line']
+	},
+	{
+		name: 'array label override with item UI',
+		schema: ASSET_SELECTION,
+		uiSchema: { 'ui:enumNames': ['North production', 'South production'], 'items': {} },
+		formData: ['north-line'],
+		labels: ['North production', 'South production']
+	},
+	{
+		name: 'nested array label override with item UI',
+		schema: ASSET_SELECTION,
+		uiSchema: { 'ui:options': { enumNames: ['North production', 'South production'] }, 'items': { 'ui:placeholder': 'Choose an asset' } },
+		formData: ['north-line'],
+		labels: ['North production', 'South production']
+	},
+	{
+		name: 'empty array label override with item UI',
+		schema: ASSET_SELECTION,
+		uiSchema: { 'ui:enumNames': [], 'items': {} },
+		formData: ['north-line'],
+		labels: ['north-line', 'south-line']
+	}
+];
+
 const NAME: RJSFSchema = { type: 'string', title: 'Name' };
 const VALUE: RJSFSchema = { type: 'string', title: 'Value' };
 const variables = (items: RJSFSchema): RJSFSchema => ({ type: 'array', title: 'Variables', items });
@@ -72,12 +118,6 @@ const GROUPS: RJSFSchema = {
 		properties: { name: { type: 'string', title: 'Name' }, tags: { type: 'array', title: 'Tags', items: { type: 'string', title: 'Tag' } } }
 	}
 };
-const GROUPS_FORM_DATA = [
-	{ name: 'north', tags: ['line-1', 'line-2', 'line-3'] },
-	{ name: 'south', tags: ['line-4', 'line-5', 'line-6'] },
-	{ name: 'east', tags: ['line-7', 'line-8', 'line-9'] }
-];
-const CustomInnerList = ({ items }: ArrayFieldTemplateProps) => <div data-custom-inner-list="">{items}</div>;
 
 export const ARRAY_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema?: UiSchema; formData: unknown[] }[] = [
 	{ name: 'string list', schema: TOPICS, formData: ['telemetry', 'alarms', 'commands'] },
@@ -107,13 +147,11 @@ export const ARRAY_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema
 	{
 		name: 'object list with an inner list',
 		schema: GROUPS,
-		formData: GROUPS_FORM_DATA
-	},
-	{
-		name: 'object list with a custom inner list template',
-		schema: GROUPS,
-		uiSchema: { items: { tags: { 'ui:ArrayFieldTemplate': CustomInnerList } } },
-		formData: GROUPS_FORM_DATA
+		formData: [
+			{ name: 'north', tags: ['line-1', 'line-2', 'line-3'] },
+			{ name: 'south', tags: ['line-4', 'line-5', 'line-6'] },
+			{ name: 'east', tags: ['line-7', 'line-8', 'line-9'] }
+		]
 	},
 	{ name: 'readonly', schema: TOPICS, uiSchema: { 'ui:readonly': true }, formData: ['telemetry', 'alarms', 'commands'] }
 ];
@@ -127,6 +165,19 @@ export const OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; formDat
 	{ name: 'untitled object', schema: { type: 'object', properties: { host: { type: 'string', title: 'Host' } } }, formData: { host: 'broker-1.local' } },
 	{ name: 'additionalProperties true', schema: { type: 'object', title: 'Labels', additionalProperties: true }, formData: { site: 'lisbon' } },
 	{ name: 'additionalProperties schema', schema: { type: 'object', title: 'Labels', additionalProperties: { type: 'string' } }, formData: { site: 'lisbon' } },
+	{
+		name: 'nested optional fields in additional property',
+		schema: {
+			type: 'object',
+			title: 'Plants',
+			additionalProperties: {
+				type: 'object',
+				title: 'Plant',
+				properties: { site: { type: 'string', title: 'Site' }, retries: { type: 'integer', title: 'Retries' } }
+			}
+		},
+		formData: { plant: { site: 'lisbon', retries: 3 } }
+	},
 	{
 		name: 'one below maxProperties',
 		schema: { type: 'object', title: 'Labels', additionalProperties: { type: 'string' }, maxProperties: 2 },
@@ -210,17 +261,12 @@ const ForwardRefFieldLayout = forwardRef<HTMLDivElement, FieldTemplateProps>(({ 
 	</div>
 ));
 ForwardRefFieldLayout.displayName = 'ForwardRefFieldLayout';
-const InputWidget = ({ id, value, onChange }: WidgetProps) => <input id={id} value={value ?? ''} onChange={event => onChange(event.target.value)} />;
-const ForwardRefInputWidget = forwardRef<HTMLInputElement, WidgetProps>(({ id, value, onChange }, ref) => (
-	<input ref={ref} id={id} value={value ?? ''} onChange={event => onChange(event.target.value)} />
-));
-ForwardRefInputWidget.displayName = 'ForwardRefInputWidget';
 
 /** memo and forwardRef components are plain objects, which a deep merge would copy into new component types */
-export const TEMPLATE_COMPONENTS: readonly { name: string; FieldLayout: ComponentType<FieldTemplateProps>; InputWidget: ComponentType<WidgetProps> }[] = [
-	{ name: 'function', FieldLayout, InputWidget },
-	{ name: 'React.memo', FieldLayout: memo(FieldLayout), InputWidget: memo(InputWidget) },
-	{ name: 'forwardRef', FieldLayout: ForwardRefFieldLayout, InputWidget: ForwardRefInputWidget }
+export const TEMPLATE_COMPONENTS: readonly { name: string; FieldLayout: ComponentType<FieldTemplateProps> }[] = [
+	{ name: 'function', FieldLayout },
+	{ name: 'React.memo', FieldLayout: memo(FieldLayout) },
+	{ name: 'forwardRef', FieldLayout: ForwardRefFieldLayout }
 ];
 
 /** The three places a field option such as `allowClearInputs` can come from */
@@ -424,6 +470,7 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 [
 	VALUE_CASES,
 	CHOICE_SCHEMAS,
+	MULTI_SELECT_SHAPES,
 	ARRAY_SHAPES,
 	OBJECT_SHAPES,
 	BROKER_SCHEMA,

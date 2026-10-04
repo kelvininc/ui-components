@@ -9,8 +9,8 @@ const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F 
 	disabled,
 	id,
 	label,
-	onRemoveProperty,
-	onKeyRename,
+	onDropPropertyClick,
+	onKeyChange,
 	readonly,
 	required,
 	schema
@@ -22,9 +22,7 @@ const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F 
 		return children;
 	}
 
-	// RJSF's onKeyRenameBlur reads target.value and delegates to onKeyRename.
-	// Stencil supplies that value in detail; keep committing the key change on blur.
-	const handleBlur = (value: CustomEvent<string>) => onKeyRename(value.detail);
+	const handleBlur = (value: CustomEvent<string>) => onKeyChange(value.detail);
 
 	return (
 		<div key={`${id}-key`} className={styles.NewKeyContainer}>
@@ -47,7 +45,7 @@ const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F 
 					type={EActionButtonType.Danger}
 					tabIndex={-1}
 					disabled={disabled || readonly}
-					onClickButton={onRemoveProperty}
+					onClickButton={onDropPropertyClick(label)}
 				/>
 			</div>
 		</div>

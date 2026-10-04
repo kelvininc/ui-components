@@ -52,11 +52,11 @@ importers:
         specifier: workspace:*
         version: link:../../packages/react-ui-components
       '@rjsf/core':
-        specifier: 6.11.0
-        version: 6.11.0(@rjsf/utils@6.11.0(react@19.2.8))(react@19.2.8)
+        specifier: 5.24.13
+        version: 5.24.13(@rjsf/utils@5.24.13(react@19.2.8))(react@19.2.8)
       '@rjsf/utils':
-        specifier: 6.11.0
-        version: 6.11.0(react@19.2.8)
+        specifier: 5.24.13
+        version: 5.24.13(react@19.2.8)
       lodash-es:
         specifier: ^4.17.21
         version: 4.18.1
@@ -155,14 +155,14 @@ importers:
         specifier: ^4.7.0
         version: 4.7.0(monaco-editor@0.34.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@rjsf/core':
-        specifier: 6.11.0
-        version: 6.11.0(@rjsf/utils@6.11.0(react@19.2.8))(react@19.2.8)
+        specifier: 5.24.13
+        version: 5.24.13(@rjsf/utils@5.24.13(react@19.2.8))(react@19.2.8)
       '@rjsf/utils':
-        specifier: 6.11.0
-        version: 6.11.0(react@19.2.8)
+        specifier: 5.24.13
+        version: 5.24.13(react@19.2.8)
       '@rjsf/validator-ajv8':
-        specifier: 6.11.0
-        version: 6.11.0(@rjsf/utils@6.11.0(react@19.2.8))
+        specifier: 5.24.13
+        version: 5.24.13(@rjsf/utils@5.24.13(react@19.2.8))
       '@stencil/react-output-target':
         specifier: ^0.5.3
         version: 0.5.3(@stencil/core@4.43.5)
@@ -1662,24 +1662,24 @@ packages:
       '@storybook/client-logger': '>= 8.4'
       '@storybook/preview-api': '>= 8.4'
 
-  '@rjsf/core@6.11.0':
-    resolution: {integrity: sha512-8Hp3nd2RysjfmxHKy3/1GJtdAaDBt9VkU/c+pSXrs332BvliJM/Tp/QXTTnHYKYUSi1klFTygnvq1ujSefpcug==}
-    engines: {node: '>=20'}
+  '@rjsf/core@5.24.13':
+    resolution: {integrity: sha512-ONTr14s7LFIjx2VRFLuOpagL76sM/HPy6/OhdBfq6UukINmTIs6+aFN0GgcR0aXQHFDXQ7f/fel0o/SO05Htdg==}
+    engines: {node: '>=14'}
     peerDependencies:
-      '@rjsf/utils': ^6.11.0
-      react: '>=18'
+      '@rjsf/utils': ^5.24.x
+      react: ^16.14.0 || >=17
 
-  '@rjsf/utils@6.11.0':
-    resolution: {integrity: sha512-jWYFXmPR5OVehb66Z2RDJFEgI7b7YSXe0FIco5kb7noqaDmjMOMFu4MnDKXPJLLdOW6YRd3MYZCbIPWvJeua4g==}
-    engines: {node: '>=20'}
+  '@rjsf/utils@5.24.13':
+    resolution: {integrity: sha512-rNF8tDxIwTtXzz5O/U23QU73nlhgQNYJ+Sv5BAwQOIyhIE2Z3S5tUiSVMwZHt0julkv/Ryfwi+qsD4FiE5rOuw==}
+    engines: {node: '>=14'}
     peerDependencies:
-      react: '>=18'
+      react: ^16.14.0 || >=17
 
-  '@rjsf/validator-ajv8@6.11.0':
-    resolution: {integrity: sha512-pTzuYODewEE3qkTC5UwGvVvG0eetq72/h+rP9PsjPhF1lp2KZ5WrR44a29ipSnMTP2vorO80AvC/O9AXvBfVYw==}
-    engines: {node: '>=20'}
+  '@rjsf/validator-ajv8@5.24.13':
+    resolution: {integrity: sha512-oWHP7YK581M8I5cF1t+UXFavnv+bhcqjtL1a7MG/Kaffi0EwhgcYjODrD8SsnrhncsEYMqSECr4ZOEoirnEUWw==}
+    engines: {node: '>=14'}
     peerDependencies:
-      '@rjsf/utils': ^6.11.0
+      '@rjsf/utils': ^5.24.x
 
   '@rolldown/binding-android-arm64@1.1.5':
     resolution: {integrity: sha512-lZg8fqIv2v7FF237bwMgzGZEJvGL79/s5knJ/i6FmsGF4XXlzccZ4jb+TrFIxtSSxFtIpdsgrPZeMk1I9AFcyQ==}
@@ -2720,9 +2720,6 @@ packages:
   '@webassemblyjs/wast-printer@1.14.1':
     resolution: {integrity: sha512-kPSSXE6De1XOR820C90RIo2ogvZG+c3KiHzqUoO/F34Y2shGzesfqv7o57xrxovZJH/MetF5UjroJ/R/3isoiw==}
 
-  '@x0k/json-schema-merge@1.1.0':
-    resolution: {integrity: sha512-QA8fHqP7e+Lvi4ih8X9r1ZnITC2Lo0uhh5qpP8yM7l6HYs7KljtMfoljSRh52jfU55oXSyO4/GhMyjqh8rQjWQ==}
-
   '@xtuc/ieee754@1.2.0':
     resolution: {integrity: sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA==}
 
@@ -3342,6 +3339,12 @@ packages:
   component-emitter@2.0.0:
     resolution: {integrity: sha512-4m5s3Me2xxlVKG9PkZpQqHQR7bgpnN7joDMJ4yvVkVXngjoITG76IaZmzmywSeRTeTpc6N6r3H3+KyUurV8OYw==}
     engines: {node: '>=18'}
+
+  compute-gcd@1.2.1:
+    resolution: {integrity: sha512-TwMbxBNz0l71+8Sc4czv13h4kEqnchV9igQZBi6QUaz09dnz13juGnnaWWJTRsP3brxOoxeB4SA2WELLw1hCtg==}
+
+  compute-lcm@1.1.2:
+    resolution: {integrity: sha512-OFNPdQAXnQhDSKioX8/XYT6sdUlXwpeMjfd6ApxMJfyZ4GxmLR1xvMERctlYhlHwIiz6CSpBc2+qYKjHGZw4TQ==}
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
@@ -4093,10 +4096,6 @@ packages:
   fast-diff@1.3.0:
     resolution: {integrity: sha512-VxPP4NqbUjj6MaAOafWeUn2cXWLcCtljklUtZf0Ind4XQ+QPtmA0b18zZy0jIQx+ExRVCR/ZQpBmik5lXshNsw==}
 
-  fast-equals@6.1.0:
-    resolution: {integrity: sha512-MDA0N5wXvmx0yR0xeOf20qVMbyaEzS2kuxhBrDrIT5w3Gap7bZ/24jtvOvbthbZFmf+7PCC8XCJKGpmhVtvbIg==}
-    engines: {node: '>=6.0.0'}
-
   fast-fifo@1.3.2:
     resolution: {integrity: sha512-/d9sfos4yxzpwkDkuN7k2SqFKtYNmCTzgfEpz82x34IM9/zc8KGxQoXg1liNC/izpRM/MBdt44Nmx41ZWqk+FQ==}
 
@@ -4115,9 +4114,6 @@ packages:
 
   fast-uri@3.1.3:
     resolution: {integrity: sha512-i70LwGWUduXqzicKXWshooq+sWL1K3WUU5rKZNG/0i3a1OSoX3HqhH5WbWwTmqWfor4urUakGPiRQcleRZTwOg==}
-
-  fast-uri@4.2.1:
-    resolution: {integrity: sha512-TmHQgewjHtMq1E5QKA0tOE0yeYGQs25KZC/ziJpubRtWI15W92e6vPFydWOeZBVROSHBYw/QhD9d5OefdD6LDg==}
 
   fastest-levenshtein@1.0.16:
     resolution: {integrity: sha512-eRnCtTTtGZFpQCwhJiUOuxPQWRXVKYDn0b2PeHfXL6/Zi53SLAzAHfVhVWK2AryC/WH05kGfxhFIPvTF0SXQzg==}
@@ -5130,6 +5126,13 @@ packages:
     resolution: {integrity: sha512-ZF1nxZ28VhQouRWhUcVlUIN3qwSgPuswK05s/HIaoetAoE/9tngVmCHjSxmSQPav1nd+lPtTL0YZ/2AFdR/iYQ==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
+  json-schema-compare@0.2.2:
+    resolution: {integrity: sha512-c4WYmDKyJXhs7WWvAWm3uIYnfyWFoIp+JEoX34rctVvEkMYCPGhXtvmFFXiffBbxfZsvQ0RNnV5H7GvDF5HCqQ==}
+
+  json-schema-merge-allof@0.8.1:
+    resolution: {integrity: sha512-CTUKmIlPJbsWfzRRnOXz+0MjIqvnleIXwFTzz+t9T86HnYX/Rozria6ZVGLktAU9e+NygNljveP+yxqtQp/Q4w==}
+    engines: {node: '>=12.0.0'}
+
   json-schema-traverse@0.4.1:
     resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
 
@@ -5423,22 +5426,13 @@ packages:
     resolution: {integrity: sha512-hdN1wVrZbb29eBGiGjJbeP8JbKjq1urkHJ/LIP/NY48MZ1QVXUsQBV1G1zvYFHn1XE06cwjBsOI2K3Ulnj1YXQ==}
     engines: {node: '>=8'}
 
-  markdown-to-jsx@9.10.3:
-    resolution: {integrity: sha512-J5/NCmNYQ0ExsnThzvF3F1fSzNYLgROcW2diUqRqoIoiyhoy8DSI06jLuMYk0c86SQd/FiVYJrV6tIgci9S2tQ==}
-    engines: {node: '>= 18'}
+  markdown-to-jsx@7.7.17:
+    resolution: {integrity: sha512-7mG/1feQ0TX5I7YyMZVDgCC/y2I3CiEhIRQIhyov9nGBP5eoVrOXXHuL5ZP8GRfxVZKRiXWJgwXkb9It+nQZfQ==}
+    engines: {node: '>= 10'}
     peerDependencies:
-      react: '>= 16.0.0'
-      react-native: '*'
-      solid-js: '>=1.0.0'
-      vue: '>=3.0.0'
+      react: '>= 0.14.0'
     peerDependenciesMeta:
       react:
-        optional: true
-      react-native:
-        optional: true
-      solid-js:
-        optional: true
-      vue:
         optional: true
 
   math-intrinsics@1.1.0:
@@ -7740,6 +7734,21 @@ packages:
     resolution: {integrity: sha512-IUoow1YUtvoBBC06dXs8bR8B9vuA3aJfmQNKMoaPG/OFsPmoQvw8xh+6Ye25Gx9DQhoEom3Pcu9MKHerm/NpUQ==}
     engines: {node: ^18.17.0 || >=20.5.0}
 
+  validate.io-array@1.0.6:
+    resolution: {integrity: sha512-DeOy7CnPEziggrOO5CZhVKJw6S3Yi7e9e65R1Nl/RTN1vTQKnzjfvks0/8kQ40FP/dsjRAOd4hxmJ7uLa6vxkg==}
+
+  validate.io-function@1.0.2:
+    resolution: {integrity: sha512-LlFybRJEriSuBnUhQyG5bwglhh50EpTL2ul23MPIuR1odjO7XaMLFV8vHGwp7AZciFxtYOeiSCT5st+XSPONiQ==}
+
+  validate.io-integer-array@1.0.0:
+    resolution: {integrity: sha512-mTrMk/1ytQHtCY0oNO3dztafHYyGU88KL+jRxWuzfOmQb+4qqnWmI+gykvGp8usKZOM0H7keJHEbRaFiYA0VrA==}
+
+  validate.io-integer@1.0.5:
+    resolution: {integrity: sha512-22izsYSLojN/P6bppBqhgUDjCkr5RY2jd+N2a3DCAUey8ydvrZ/OkGvFPR7qfOpwR2LC5p4Ngzxz36g5Vgr/hQ==}
+
+  validate.io-number@1.0.3:
+    resolution: {integrity: sha512-kRAyotcbNaSYoDnXvb4MHg/0a1egJdLwS6oJ38TJY7aw9n93Fl/3blIXdyYvPOp55CNxywooG/3BcrwNrBpcSg==}
+
   varint@6.0.0:
     resolution: {integrity: sha512-cXEIW6cfr15lFv563k4GuVuW/fiwjknytD37jIOLSdSWuOI6WnO/oKwmP2FQTU2l01LP8/M5TSAJpzUaGe3uWg==}
 
@@ -9455,30 +9464,31 @@ snapshots:
       '@storybook/client-logger': 8.6.14(storybook@9.1.20(@testing-library/dom@10.4.0)(prettier@3.9.5)(vite@8.1.4(@types/node@24.13.5)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.49.0)(yaml@2.9.0)))
       '@storybook/preview-api': 8.6.18(storybook@9.1.20(@testing-library/dom@10.4.0)(prettier@3.9.5)(vite@8.1.4(@types/node@24.13.5)(sass-embedded@1.100.0)(sass@1.101.0)(terser@5.49.0)(yaml@2.9.0)))
 
-  '@rjsf/core@6.11.0(@rjsf/utils@6.11.0(react@19.2.8))(react@19.2.8)':
+  '@rjsf/core@5.24.13(@rjsf/utils@5.24.13(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@rjsf/utils': 6.11.0(react@19.2.8)
-      markdown-to-jsx: 9.10.3(react@19.2.8)
+      '@rjsf/utils': 5.24.13(react@19.2.8)
+      lodash: 4.18.1
+      lodash-es: 4.18.1
+      markdown-to-jsx: 7.7.17(react@19.2.8)
+      prop-types: 15.8.1
       react: 19.2.8
-    transitivePeerDependencies:
-      - react-native
-      - solid-js
-      - vue
 
-  '@rjsf/utils@6.11.0(react@19.2.8)':
+  '@rjsf/utils@5.24.13(react@19.2.8)':
     dependencies:
-      '@x0k/json-schema-merge': 1.1.0
-      fast-equals: 6.1.0
-      fast-uri: 4.2.1
+      json-schema-merge-allof: 0.8.1
       jsonpointer: 5.0.1
+      lodash: 4.18.1
+      lodash-es: 4.18.1
       react: 19.2.8
       react-is: 18.3.1
 
-  '@rjsf/validator-ajv8@6.11.0(@rjsf/utils@6.11.0(react@19.2.8))':
+  '@rjsf/validator-ajv8@5.24.13(@rjsf/utils@5.24.13(react@19.2.8))':
     dependencies:
-      '@rjsf/utils': 6.11.0(react@19.2.8)
+      '@rjsf/utils': 5.24.13(react@19.2.8)
       ajv: 8.20.0
       ajv-formats: 2.1.1(ajv@8.20.0)
+      lodash: 4.18.1
+      lodash-es: 4.18.1
 
   '@rolldown/binding-android-arm64@1.1.5':
     optional: true
@@ -10588,10 +10598,6 @@ snapshots:
       '@webassemblyjs/ast': 1.14.1
       '@xtuc/long': 4.2.2
 
-  '@x0k/json-schema-merge@1.1.0':
-    dependencies:
-      '@types/json-schema': 7.0.15
-
   '@xtuc/ieee754@1.2.0': {}
 
   '@xtuc/long@4.2.2': {}
@@ -11229,6 +11235,19 @@ snapshots:
       dot-prop: 5.3.0
 
   component-emitter@2.0.0: {}
+
+  compute-gcd@1.2.1:
+    dependencies:
+      validate.io-array: 1.0.6
+      validate.io-function: 1.0.2
+      validate.io-integer-array: 1.0.0
+
+  compute-lcm@1.1.2:
+    dependencies:
+      compute-gcd: 1.2.1
+      validate.io-array: 1.0.6
+      validate.io-function: 1.0.2
+      validate.io-integer-array: 1.0.0
 
   concat-map@0.0.1: {}
 
@@ -12176,8 +12195,6 @@ snapshots:
 
   fast-diff@1.3.0: {}
 
-  fast-equals@6.1.0: {}
-
   fast-fifo@1.3.2: {}
 
   fast-glob@3.3.3:
@@ -12195,8 +12212,6 @@ snapshots:
   fast-levenshtein@2.0.6: {}
 
   fast-uri@3.1.3: {}
-
-  fast-uri@4.2.1: {}
 
   fastest-levenshtein@1.0.16: {}
 
@@ -13441,6 +13456,16 @@ snapshots:
 
   json-parse-even-better-errors@5.0.0: {}
 
+  json-schema-compare@0.2.2:
+    dependencies:
+      lodash: 4.18.1
+
+  json-schema-merge-allof@0.8.1:
+    dependencies:
+      compute-lcm: 1.1.2
+      json-schema-compare: 0.2.2
+      lodash: 4.18.1
+
   json-schema-traverse@0.4.1: {}
 
   json-schema-traverse@1.0.0: {}
@@ -13804,7 +13829,7 @@ snapshots:
 
   map-obj@4.3.0: {}
 
-  markdown-to-jsx@9.10.3(react@19.2.8):
+  markdown-to-jsx@7.7.17(react@19.2.8):
     optionalDependencies:
       react: 19.2.8
 
@@ -16419,6 +16444,21 @@ snapshots:
       builtins: 1.0.3
 
   validate-npm-package-name@6.0.2: {}
+
+  validate.io-array@1.0.6: {}
+
+  validate.io-function@1.0.2: {}
+
+  validate.io-integer-array@1.0.0:
+    dependencies:
+      validate.io-array: 1.0.6
+      validate.io-integer: 1.0.5
+
+  validate.io-integer@1.0.5:
+    dependencies:
+      validate.io-number: 1.0.3
+
+  validate.io-number@1.0.3: {}
 
   varint@6.0.0: {}
 
