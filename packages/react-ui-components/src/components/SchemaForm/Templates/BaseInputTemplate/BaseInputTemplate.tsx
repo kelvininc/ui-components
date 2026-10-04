@@ -24,9 +24,10 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 	schema,
 	rawErrors = [],
 	uiSchema = {},
-	formContext,
+	registry,
 	type
 }: BaseInputTemplateProps<T, S, F>) => {
+	const { formContext } = registry;
 	const { trackFieldChange, markFieldAsTouched, isFieldTouched, displayErrors } = useFormState();
 
 	const baseType = useMemo(() => type ?? getInputType(schema.type), [type, schema.type]);

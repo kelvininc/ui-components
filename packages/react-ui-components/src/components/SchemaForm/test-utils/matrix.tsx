@@ -1,4 +1,4 @@
-import { FieldTemplateProps, RJSFSchema, UiSchema, WidgetProps } from '@rjsf/utils';
+import { ArrayFieldTemplateProps, FieldTemplateProps, RJSFSchema, UiSchema, WidgetProps } from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
 
 /** Freezes plain data in place; components (functions, memo and forwardRef objects) stay as they are */
@@ -72,6 +72,12 @@ const GROUPS: RJSFSchema = {
 		properties: { name: { type: 'string', title: 'Name' }, tags: { type: 'array', title: 'Tags', items: { type: 'string', title: 'Tag' } } }
 	}
 };
+const GROUPS_FORM_DATA = [
+	{ name: 'north', tags: ['line-1', 'line-2', 'line-3'] },
+	{ name: 'south', tags: ['line-4', 'line-5', 'line-6'] },
+	{ name: 'east', tags: ['line-7', 'line-8', 'line-9'] }
+];
+const CustomInnerList = ({ items }: ArrayFieldTemplateProps) => <div data-custom-inner-list="">{items}</div>;
 
 export const ARRAY_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema?: UiSchema; formData: unknown[] }[] = [
 	{ name: 'string list', schema: TOPICS, formData: ['telemetry', 'alarms', 'commands'] },
@@ -101,11 +107,13 @@ export const ARRAY_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema
 	{
 		name: 'object list with an inner list',
 		schema: GROUPS,
-		formData: [
-			{ name: 'north', tags: ['line-1', 'line-2', 'line-3'] },
-			{ name: 'south', tags: ['line-4', 'line-5', 'line-6'] },
-			{ name: 'east', tags: ['line-7', 'line-8', 'line-9'] }
-		]
+		formData: GROUPS_FORM_DATA
+	},
+	{
+		name: 'object list with a custom inner list template',
+		schema: GROUPS,
+		uiSchema: { items: { tags: { 'ui:ArrayFieldTemplate': CustomInnerList } } },
+		formData: GROUPS_FORM_DATA
 	},
 	{ name: 'readonly', schema: TOPICS, uiSchema: { 'ui:readonly': true }, formData: ['telemetry', 'alarms', 'commands'] }
 ];
@@ -202,12 +210,17 @@ const ForwardRefFieldLayout = forwardRef<HTMLDivElement, FieldTemplateProps>(({ 
 	</div>
 ));
 ForwardRefFieldLayout.displayName = 'ForwardRefFieldLayout';
+const InputWidget = ({ id, value, onChange }: WidgetProps) => <input id={id} value={value ?? ''} onChange={event => onChange(event.target.value)} />;
+const ForwardRefInputWidget = forwardRef<HTMLInputElement, WidgetProps>(({ id, value, onChange }, ref) => (
+	<input ref={ref} id={id} value={value ?? ''} onChange={event => onChange(event.target.value)} />
+));
+ForwardRefInputWidget.displayName = 'ForwardRefInputWidget';
 
 /** memo and forwardRef components are plain objects, which a deep merge would copy into new component types */
-export const TEMPLATE_COMPONENTS: readonly { name: string; FieldLayout: ComponentType<FieldTemplateProps> }[] = [
-	{ name: 'function', FieldLayout },
-	{ name: 'React.memo', FieldLayout: memo(FieldLayout) },
-	{ name: 'forwardRef', FieldLayout: ForwardRefFieldLayout }
+export const TEMPLATE_COMPONENTS: readonly { name: string; FieldLayout: ComponentType<FieldTemplateProps>; InputWidget: ComponentType<WidgetProps> }[] = [
+	{ name: 'function', FieldLayout, InputWidget },
+	{ name: 'React.memo', FieldLayout: memo(FieldLayout), InputWidget: memo(InputWidget) },
+	{ name: 'forwardRef', FieldLayout: ForwardRefFieldLayout, InputWidget: ForwardRefInputWidget }
 ];
 
 /** The three places a field option such as `allowClearInputs` can come from */

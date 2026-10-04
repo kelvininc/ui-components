@@ -18,15 +18,16 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 		classNames: customClasses,
 		disabled,
 		label,
-		onDropPropertyClick,
-		onKeyChange,
+		onRemoveProperty,
+		onKeyRename,
+		onKeyRenameBlur,
 		readonly,
 		required,
 		schema,
 		uiSchema,
-		registry,
-		formContext
+		registry
 	} = props;
+	const { formContext } = registry;
 	const { isFieldTouched, displayErrors } = useFormState();
 	const uiOptions = getUiOptions<T, S, F>(uiSchema);
 	const TitleFieldTemplate = getTemplate<'TitleFieldTemplate', T, S, F>('TitleFieldTemplate', registry, uiOptions);
@@ -49,8 +50,9 @@ const FieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends For
 			disabled={disabled}
 			id={id}
 			label={label}
-			onDropPropertyClick={onDropPropertyClick}
-			onKeyChange={onKeyChange}
+			onRemoveProperty={onRemoveProperty}
+			onKeyRename={onKeyRename}
+			onKeyRenameBlur={onKeyRenameBlur}
 			readonly={readonly}
 			required={required}
 			schema={schema}
