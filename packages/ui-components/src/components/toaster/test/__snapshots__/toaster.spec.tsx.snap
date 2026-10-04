@@ -13,7 +13,7 @@ exports[`Toaster (unit tests) when uses default props and error type should matc
         </span>
       </div>
       <slot></slot>
-      <kv-action-button-text icon="kv-close" size="small" text="" type="text"></kv-action-button-text>
+      <kv-action-button-text accessiblelabel="Close" icon="kv-close" size="small" text="" type="text"></kv-action-button-text>
     </div>
   </template>
 </kv-toaster>

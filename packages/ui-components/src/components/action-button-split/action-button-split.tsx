@@ -3,11 +3,12 @@ import { EActionButtonType } from '../action-button/action-button.types';
 import { EComponentSize } from '../../utils/types';
 import { EIconName } from '../icon/icon.types';
 import { IActionButtonSplitConfig } from './action-button-split.types';
+import { COMPONENT_STRINGS } from '../../strings';
 
 @Component({
 	tag: 'kv-action-button-split',
 	styleUrl: 'action-button-split.scss',
-	shadow: true
+	shadow: { delegatesFocus: true }
 })
 export class KvActionButtonSplit implements IActionButtonSplitConfig {
 	/** @inheritdoc */
@@ -26,6 +27,10 @@ export class KvActionButtonSplit implements IActionButtonSplitConfig {
 	@Prop({ reflect: true }) loading: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
+	/** @inheritdoc */
+	@Prop() accessibleLabel?: string;
+	/** @inheritdoc */
+	@Prop() splitAccessibleLabel: string = COMPONENT_STRINGS.moreOptions;
 
 	/** @inheritdoc */
 	@Event() clickLeftButton: EventEmitter<MouseEvent>;
@@ -66,6 +71,7 @@ export class KvActionButtonSplit implements IActionButtonSplitConfig {
 					<kv-action-button-text
 						type={this.type}
 						text={this.text}
+						accessibleLabel={this.accessibleLabel}
 						icon={this.icon}
 						disabled={this.disabled}
 						size={this.size}
@@ -80,6 +86,7 @@ export class KvActionButtonSplit implements IActionButtonSplitConfig {
 						disabled={this.disabled}
 						size={this.size}
 						loading={this.loading}
+						accessibleLabel={this.splitAccessibleLabel}
 						onClickButton={this.onClickRightButton}
 						onFocusButton={this.onFocusRightButton}
 						onBlurButton={this.onBlurRightButton}

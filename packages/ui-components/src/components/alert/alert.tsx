@@ -1,4 +1,5 @@
 import { Component, Event, EventEmitter, Host, Prop, h } from '@stencil/core';
+import { COMPONENT_STRINGS } from '../../strings';
 import { EAlertType, IAlertConfig, IAlertEvents } from './alert.types';
 import { ALERT_ICON_NAMES } from './alert.config';
 import { EActionButtonType, EComponentSize, EIconName } from '../../types';
@@ -59,6 +60,7 @@ export class KvAlert implements IAlertConfig, IAlertEvents {
 									size={EComponentSize.Small}
 									type={EActionButtonType.Text}
 									icon={EIconName.Close}
+									accessibleLabel={COMPONENT_STRINGS.close}
 									class="close-button"
 									onClick={this.onCloseClick}
 								/>
