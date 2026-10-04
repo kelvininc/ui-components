@@ -20,7 +20,7 @@ export const VALUE_CASES: readonly { name: string; value: unknown; isUnset: bool
 ];
 
 /** Single-choice schemas whose valid values include the falsy ones that reviews kept tripping on */
-export const CHOICE_SCHEMAS: { name: string; schema: RJSFSchema; values: unknown[] }[] = [
+export const CHOICE_SCHEMAS: readonly { name: string; schema: RJSFSchema; values: unknown[] }[] = [
 	{ name: 'boolean', schema: { type: 'boolean', title: 'TLS' }, values: [true, false] },
 	{ name: 'string enum', schema: { type: 'string', title: 'QoS', enum: ['at-most-once', 'at-least-once'] }, values: ['at-most-once', 'at-least-once'] },
 	{ name: 'enum with a null option', schema: { type: ['string', 'null'], title: 'Compression', enum: ['gzip', null] }, values: ['gzip', null] },
@@ -73,7 +73,7 @@ const GROUPS: RJSFSchema = {
 	}
 };
 
-export const ARRAY_SHAPES: { name: string; schema: RJSFSchema; uiSchema?: UiSchema; formData: unknown[] }[] = [
+export const ARRAY_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema?: UiSchema; formData: unknown[] }[] = [
 	{ name: 'string list', schema: TOPICS, formData: ['telemetry'] },
 	{ name: 'object list', schema: BROKERS, formData: [{ host: 'broker-1.local', port: 1883, tls: { enabled: true } }] },
 	// L2 renders this one as a table
@@ -94,7 +94,7 @@ const nestSections = (depth: number): RJSFSchema =>
 	depth === 0 ? { type: 'string', title: 'Endpoint' } : { type: 'object', title: `Level ${depth}`, properties: { child: nestSections(depth - 1) } };
 const nestData = (depth: number): unknown => (depth === 0 ? 'opc.tcp://plant-1:4840' : { child: nestData(depth - 1) });
 
-export const OBJECT_SHAPES: { name: string; schema: RJSFSchema; formData: object }[] = [
+export const OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; formData: object }[] = [
 	{ name: 'titled section', schema: { type: 'object', title: 'Connection', properties: { host: { type: 'string', title: 'Host' } } }, formData: { host: 'broker-1.local' } },
 	{ name: 'untitled object', schema: { type: 'object', properties: { host: { type: 'string', title: 'Host' } } }, formData: { host: 'broker-1.local' } },
 	{ name: 'additionalProperties true', schema: { type: 'object', title: 'Labels', additionalProperties: true }, formData: { site: 'lisbon' } },
@@ -148,7 +148,7 @@ export type ExpectedError = { id: string; message: string };
  * allow Save. The ids matter: the undefined hole targets the second broker, and an error that
  * shows under the first one has lost its index.
  */
-export const ERROR_SHAPES: { name: string; extraErrors: unknown; messages: ExpectedError[] }[] = [
+export const ERROR_SHAPES: readonly { name: string; extraErrors: unknown; messages: ExpectedError[] }[] = [
 	{ name: 'empty object', extraErrors: {}, messages: [] },
 	{ name: 'empty __errors', extraErrors: { port: { __errors: [] } }, messages: [] },
 	{
@@ -184,14 +184,14 @@ const ForwardRefFieldLayout = forwardRef<HTMLDivElement, FieldTemplateProps>(({ 
 ForwardRefFieldLayout.displayName = 'ForwardRefFieldLayout';
 
 /** memo and forwardRef components are plain objects, which a deep merge would copy into new component types */
-export const TEMPLATE_COMPONENTS: { name: string; FieldLayout: ComponentType<FieldTemplateProps> }[] = [
+export const TEMPLATE_COMPONENTS: readonly { name: string; FieldLayout: ComponentType<FieldTemplateProps> }[] = [
 	{ name: 'function', FieldLayout },
 	{ name: 'React.memo', FieldLayout: memo(FieldLayout) },
 	{ name: 'forwardRef', FieldLayout: ForwardRefFieldLayout }
 ];
 
 /** The three places a field option such as `allowClearInputs` can come from */
-export const OPTION_SOURCES: {
+export const OPTION_SOURCES: readonly {
 	name: string;
 	build: (field: string, options: Record<string, unknown>) => { uiSchema: UiSchema; formContext?: Record<string, unknown> };
 }[] = [
@@ -201,7 +201,7 @@ export const OPTION_SOURCES: {
 ];
 
 /** RJSF's array button settings, each turned off on its own, then all at once */
-export const LIST_OPTIONS: { name: string; options: { orderable?: boolean; removable?: boolean; addable?: boolean } }[] = [
+export const LIST_OPTIONS: readonly { name: string; options: { orderable?: boolean; removable?: boolean; addable?: boolean } }[] = [
 	{ name: 'defaults', options: {} },
 	{ name: 'not orderable', options: { orderable: false } },
 	{ name: 'not removable', options: { removable: false } },
@@ -217,7 +217,7 @@ const SecretInput = ({ id, value, onChange }: WidgetProps) => <input id={id} typ
  * each rendering as text, number or select, and no oneOf, anyOf, dependencies or if on the item.
  * The table is automatic, so the rule errs toward sections; these rows pin each boundary.
  */
-export const FLAT_OBJECT_SHAPES: { name: string; schema: RJSFSchema; uiSchema?: UiSchema; formData: object[]; isFlat: boolean }[] = [
+export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema?: UiSchema; formData: object[]; isFlat: boolean }[] = [
 	{
 		name: 'two strings',
 		schema: variables({ type: 'object', properties: { name: NAME, value: VALUE } }),
