@@ -1,5 +1,5 @@
 import { FieldTemplateProps, RJSFSchema, UiSchema, WidgetProps } from '@rjsf/utils';
-import React, { ElementType, forwardRef, memo } from 'react';
+import React, { ComponentType, forwardRef, memo } from 'react';
 
 /** Freezes plain data in place; components (functions, memo and forwardRef objects) stay as they are */
 const deepFreeze = <T,>(value: T): T => {
@@ -184,7 +184,7 @@ const ForwardRefFieldLayout = forwardRef<HTMLDivElement, FieldTemplateProps>(({ 
 ForwardRefFieldLayout.displayName = 'ForwardRefFieldLayout';
 
 /** memo and forwardRef components are plain objects, which a deep merge would copy into new component types */
-export const TEMPLATE_COMPONENTS: { name: string; FieldLayout: ElementType }[] = [
+export const TEMPLATE_COMPONENTS: { name: string; FieldLayout: ComponentType<FieldTemplateProps> }[] = [
 	{ name: 'function', FieldLayout },
 	{ name: 'React.memo', FieldLayout: memo(FieldLayout) },
 	{ name: 'forwardRef', FieldLayout: ForwardRefFieldLayout }
