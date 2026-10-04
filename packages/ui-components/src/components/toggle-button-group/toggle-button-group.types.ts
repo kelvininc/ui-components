@@ -1,5 +1,5 @@
 import { EventEmitter } from '@stencil/core';
-import { EComponentSize, IToggleButton } from '../../types';
+import { EComponentSize, ERadioControlType, IToggleButton } from '../../types';
 
 export interface IToggleButtonGroup<T extends string | number | symbol = string | number | symbol> {
 	/** (optional) List of toggle buttons */
@@ -14,11 +14,13 @@ export interface IToggleButtonGroup<T extends string | number | symbol = string 
 	disabledButtons?: Record<T, boolean>;
 	/** (optional) A record with the button's label/value and the if the respective button is a radio button */
 	radioButtons?: Record<T, boolean>;
+	/** (optional) What the buttons' radios are to assistive tech. Use `checkbox` when pressing a checked button unchecks it, or several buttons can be checked at once. With `radio`, the group is a radio group. A button's own `radioControlType` takes precedence. Default: `radio` */
+	radioControlType?: ERadioControlType;
 	/** (optional) Sets the size for all toggle buttons */
 	size?: EComponentSize;
 }
 
 export interface IToggleButtonGroupEvents {
 	/** When the toggle button selection changes, emit the requested tab's key */
-	checkedChange: EventEmitter<string>;
+	checkedChange: EventEmitter<string | number>;
 }

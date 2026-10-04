@@ -42,6 +42,7 @@ const RadioWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormC
 							<KvRadioListItem
 								size={EComponentSize.Small}
 								optionId={option.label}
+								label={option.label}
 								disabled={isDisabled}
 								checked={checked}
 								onOptionClick={_ => handleChange(option.value, checked)}
