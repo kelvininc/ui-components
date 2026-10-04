@@ -16,7 +16,7 @@ exports[`Alert (unit tests when closable is true should match the snapshot 1`] =
             </div>
           </div>
           <slot name="actions"></slot>
-          <kv-action-button-text class="close-button" icon="kv-close" size="small" type="text"></kv-action-button-text>
+          <kv-action-button-text accessiblelabel="Close" class="close-button" icon="kv-close" size="small" type="text"></kv-action-button-text>
         </div>
         <slot name="alert-content"></slot>
       </div>
