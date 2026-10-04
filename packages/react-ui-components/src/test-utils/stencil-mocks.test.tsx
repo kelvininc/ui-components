@@ -2,7 +2,7 @@
 
 import React, { act, createRef, useState } from 'react';
 import { createRoot, Root } from 'react-dom/client';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { fireStencilEvent, propsOf, stencilMocks } from './stencil-mocks';
 
 const { KvActionButtonIcon, KvTextField, KvTooltip } = stencilMocks;
@@ -81,6 +81,24 @@ describe('stencilMocks', () => {
 		expect(event.currentTarget).toBe(button);
 		expect(event.bubbles).toBe(true);
 		expect(event.composed).toBe(true);
+	});
+
+	it("refuses to fire a disabled control's handler unless forced, as the real component ignores it", async () => {
+		const onClickButton = vi.fn();
+		await act(async () => root.render(<KvActionButtonIcon id="remove-broker-1" disabled onClickButton={onClickButton} />));
+
+		expect(() => fireStencilEvent('remove-broker-1', 'onClickButton')).toThrow('<kv-action-button-icon> "remove-broker-1" (KvActionButtonIcon) is disabled');
+		expect(onClickButton).not.toHaveBeenCalled();
+
+		await act(async () => fireStencilEvent('remove-broker-1', 'onClickButton', undefined, { force: true }));
+		expect(onClickButton).toHaveBeenCalledOnce();
+	});
+
+	it("returns the handler's result, so a test can await an async handler", async () => {
+		const onClickButton = vi.fn(async () => 'saved');
+		await act(async () => root.render(<KvActionButtonIcon id="save" onClickButton={onClickButton} />));
+
+		await expect(fireStencilEvent('save', 'onClickButton')).resolves.toBe('saved');
 	});
 
 	it('reaches a control with no key through its element', async () => {
@@ -211,5 +229,28 @@ describe('stencilMocks between tests', { shuffle: false }, () => {
 		expect(leftMounted, 'run this describe as a whole: the previous test mounts the control').not.toBeNull();
 		expect(() => propsOf('root_left_mounted')).toThrow('No Stencil mock is rendered under "root_left_mounted"');
 		expect(() => propsOf(leftMounted)).toThrow("<kv-text-field> isn't a rendered Stencil mock");
+	});
+});
+
+// In order: only the first test runs right after the beforeAll render; later ones see it after re-rendering
+describe('stencilMocks rendered once for several tests', { shuffle: false }, () => {
+	const onTextChange = vi.fn();
+	const container = document.createElement('div');
+	const root = createRoot(container);
+	const renderForm = () => act(async () => root.render(<KvTextField id="root_site" onTextChange={onTextChange} />));
+
+	beforeAll(renderForm);
+
+	it('reach the control in the first test', async () => {
+		await act(async () => fireStencilEvent('root_site', 'onTextChange', 'lisbon'));
+
+		expect(onTextChange).toHaveBeenLastCalledWith(expect.objectContaining({ detail: 'lisbon' }));
+	});
+
+	it('reach it again once the form re-renders after the reset between tests', async () => {
+		await renderForm();
+		await act(async () => fireStencilEvent('root_site', 'onTextChange', 'porto'));
+
+		expect(onTextChange).toHaveBeenLastCalledWith(expect.objectContaining({ detail: 'porto' }));
 	});
 });

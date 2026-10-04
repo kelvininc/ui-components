@@ -24,7 +24,13 @@ const RENAMED_PROPS: Record<string, string> = { className: 'class', tabIndex: 't
 const instancesByKey = new Map<string, MockInstance[]>();
 let instancesByElement = new WeakMap<Element, MockInstance>();
 
-const register = (key: string, instance: MockInstance) => instancesByKey.set(key, [...(instancesByKey.get(key) ?? []), instance]);
+// Adds a mock under a key once; registering it again keeps its place in the mount order
+const register = (key: string, instance: MockInstance) => {
+	const registered = instancesByKey.get(key) ?? [];
+	if (!registered.includes(instance)) {
+		instancesByKey.set(key, [...registered, instance]);
+	}
+};
 const unregister = (key: string, instance: MockInstance) => {
 	const remaining = (instancesByKey.get(key) ?? []).filter(registered => registered !== instance);
 	if (remaining.length > 0) {
@@ -74,6 +80,10 @@ const createStencilMock = (proxyName: string) => {
 		useLayoutEffect(() => {
 			instance.key = key;
 			instance.props = props;
+			// The reset between tests forgets every mock, including ones a beforeAll rendered and a later
+			// test re-renders: registering again on each commit brings them back
+			if (key !== undefined) register(key, instance);
+			if (instance.element) instancesByElement.set(instance.element, instance);
 		});
 		// Registered while mounted, and moved when the key changes. Re-renders keep the mount order,
 		// so a re-render never makes this mock the one a shared key reaches.
@@ -174,13 +184,18 @@ export const propsOf = <P extends object = MockProps>(target: StencilMockTarget)
  * Calls the handler a mock received, the way the real component's event reaches React:
  * `fireStencilEvent('root_host', 'onTextChange', 'broker-1.local')` stands in for kv-text-field
  * emitting `textChange`. When rendered mocks share a key, the one mounted last wins; pass the element
- * to be exact. Wrap it in `act()`.
+ * to be exact. A disabled mock refuses, as the real component would, unless `force` is set. It
+ * returns what the handler returns, so an async handler can be awaited. Wrap it in `act()`.
  */
-export const fireStencilEvent = (target: StencilMockTarget, handlerName: `on${string}`, detail?: unknown) => {
+export const fireStencilEvent = (target: StencilMockTarget, handlerName: `on${string}`, detail?: unknown, { force = false }: { force?: boolean } = {}) => {
 	const { proxyName, tagName, key, props, element } = instanceOf(target);
+	const name = `<${tagName}>${key === undefined ? '' : ` "${key}"`} (${proxyName})`;
+	if (!force && (props.disabled === true || props.inputDisabled === true)) {
+		throw new Error(`${name} is disabled, so the real component wouldn't emit its event; pass { force: true } to fire it anyway`);
+	}
 	const handler = props[handlerName];
 	if (typeof handler !== 'function') {
-		throw new Error(`<${tagName}>${key === undefined ? '' : ` "${key}"`} (${proxyName}) has no ${handlerName} handler`);
+		throw new Error(`${name} has no ${handlerName} handler`);
 	}
 	const eventName = handlerName.charAt(2).toLowerCase() + handlerName.slice(3);
 	// Stencil events bubble and cross shadow roots. The handler is called directly, so its errors reach
@@ -189,7 +204,7 @@ export const fireStencilEvent = (target: StencilMockTarget, handlerName: `on${st
 	if (element) {
 		Object.defineProperties(event, { target: { value: element }, currentTarget: { value: element } });
 	}
-	handler(event);
+	return handler(event);
 };
 
 /** Forgets every rendered mock, by key and by element. The unit project's setup file calls it after each test. */
