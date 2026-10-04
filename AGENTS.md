@@ -419,14 +419,20 @@ The React package has two Vitest projects:
 | `browser` | `src/**/*.browser.test.{ts,tsx}` | Chromium (Playwright) | Focus, Tab order, keyboard, roles, paste, anything inside a Stencil shadow root |
 
 ```bash
+pnpm build:packages                                         # first: both projects import the built core package
 pnpm --filter @kelvininc/react-ui-components test          # unit
-pnpm --filter @kelvininc/react-ui-components test:browser  # browser; run pnpm build:packages first
-pnpm exec playwright install chromium                       # once per machine
+pnpm --filter @kelvininc/react-ui-components test:browser  # browser
+pnpm exec playwright install --only-shell chromium          # once per machine
 ```
 
-- Unit tests mock the Stencil proxies with the shared `stencilMocks` from `src/test-utils`, never with a per-file mock: `vi.mock('../../stencil-generated', async () => (await import('../../test-utils')).stencilMocks)`.
-- Browser tests render the real components. Call `whenKelvinReady(host)` before reading or focusing anything inside one.
-- SchemaForm tests iterate over the shared edge-case fixtures in `src/components/SchemaForm/test-utils/matrix.tsx` with `describe.each`. Add a row there instead of a one-off case.
+Both projects take `*.test.*` and `*.spec.*` files; browser tests are the ones named `*.browser.test.*` or `*.browser.spec.*`.
+
+- **Unit tests** mock the Stencil proxies with the shared `stencilMocks` from `src/test-utils`, never with a per-file mock: `vi.mock('../../stencil-generated', async () => (await import('../../test-utils')).stencilMocks)`.
+  - Each mock renders the component's tag. `id`, `slot`, `role`, `aria-*` and `data-*` keep their names, `className` becomes `class`, and other primitive props become `data-*` attributes with string values (`data-disabled="false"` still matches `[data-disabled]`).
+  - `fireStencilEvent(target, 'onTextChange', detail)` and `propsOf(target)` take a control's key (`id`, else `accessibleLabel`, `text` or `label`) or its rendered element. Use the element for controls without a key, such as icon buttons.
+  - Mocks are forgotten when they unmount, and after every test.
+- **Browser tests** render the real components. Call `whenKelvinReady(host)` before reading or focusing anything inside one.
+- **SchemaForm tests** iterate over the shared edge-case fixtures in `src/components/SchemaForm/test-utils/matrix.tsx` with `describe.each`. Add a row there instead of a one-off case. The fixtures are frozen, so clone one before changing it.
 
 ### Linting and Formatting
 
@@ -445,13 +451,13 @@ pnpm lint
 ## 🧱 Rules for shared primitives and SchemaForm
 
 - **Changing a primitive means auditing everything that renders it.** Before changing a component that others render (kv-radio, kv-checkbox, kv-action-button, kv-toggle-button and so on), list every consumer, e.g. `grep -rlE "<kv-radio[ >]" packages/ui-components/src/components`, and cover each one in the same PR's tests.
-- **One implementation per keyboard pattern.** Shared keyboard behavior, such as radio-group arrow keys and the single Tab stop, lives in one helper in `packages/ui-components/src/utils/`. React widgets render core components instead of reimplementing them.
-- **React uses component APIs, never shadow DOM.** Interactive components set `shadow: { delegatesFocus: true }` so `host.focus()` reaches their control, or expose a `@Method()`. React code never queries inside a shadow root.
-- **RJSF copies live in `packages/react-ui-components/src/components/SchemaForm/rjsf/`.** Code that reproduces RJSF's own logic goes there, with a contract test that runs the RJSF function it mirrors.
+- **One implementation per keyboard pattern.** When two components need the same keyboard behavior, such as radio-group arrow keys and the single Tab stop, write it once as a helper in `packages/ui-components/src/utils/` instead of copying it. React widgets render core components instead of reimplementing them.
+- **React uses component APIs, never shadow DOM.** New and changed interactive components set `shadow: { delegatesFocus: true }`, so `host.focus()` reaches their control, or expose a `@Method()`. Most existing components don't delegate focus yet, so use their focus method (for example `focusInput()` on kv-text-field). React code never queries inside a shadow root.
+- **RJSF copies go in `packages/react-ui-components/src/components/SchemaForm/rjsf/`.** Code that reproduces RJSF's own logic goes there (create the folder with the first one), with a contract test that runs the RJSF function it mirrors.
 - **Clean up props once, where they enter SchemaForm.** Code downstream trusts the cleaned shape.
 - **Interaction gets tested in a real browser:** Stencil e2e (`*.e2e.ts`) for core, the `browser` Vitest project for React.
 - **One concern per PR, reviewed once against its spec.** Findings outside a PR's scope become tickets. A fix that needs a new mechanism (a prop, a role, a focus strategy, a global listener) goes back to the spec first.
-- **Names that only assistive tech hears use `accessibleLabel`.** `label` renders visible text throughout the library. A label outside a component's shadow root can't name the control inside it, so pass the name as text.
+- **Names that only assistive tech hears use `accessibleLabel`.** `label` renders visible text throughout the library, so when a component needs a name nobody sees, add an `accessibleLabel` prop rather than reusing `label`. A label outside a component's shadow root can't name the control inside it, so pass the name as text.
 
 ## 📝 Important Configuration Files
 
