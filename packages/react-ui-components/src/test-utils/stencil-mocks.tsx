@@ -12,15 +12,27 @@ export type MockProps = {
 	ref?: Ref<HTMLElement>;
 };
 
-type MockRecord = { proxyName: string; tagName: string; key?: string; props: MockProps };
+/** One mounted mock. The object lives as long as the mock does; each render refreshes its key and props */
+type MockInstance = { proxyName: string; tagName: string; key?: string; props: MockProps };
 
 const HANDLER_PROP = /^on[A-Z]/;
 // Attributes tests query by (roles, names, data hooks) keep their names
 const PASS_THROUGH_PROP = /^(aria-|data-)/;
 const RENAMED_PROPS: Record<string, string> = { className: 'class', tabIndex: 'tabindex', id: 'id', slot: 'slot', role: 'role' };
 
-const recordsByKey = new Map<string, MockRecord>();
-const recordsByElement = new WeakMap<Element, MockRecord>();
+// Every mounted mock under each key, in mount order; a lookup takes the last one mounted
+const instancesByKey = new Map<string, MockInstance[]>();
+let instancesByElement = new WeakMap<Element, MockInstance>();
+
+const register = (key: string, instance: MockInstance) => instancesByKey.set(key, [...(instancesByKey.get(key) ?? []), instance]);
+const unregister = (key: string, instance: MockInstance) => {
+	const remaining = (instancesByKey.get(key) ?? []).filter(registered => registered !== instance);
+	if (remaining.length > 0) {
+		instancesByKey.set(key, remaining);
+	} else {
+		instancesByKey.delete(key);
+	}
+};
 
 const keyOf = ({ id, accessibleLabel, text, label }: MockProps) => {
 	const key = id ?? accessibleLabel ?? text ?? label;
@@ -28,8 +40,9 @@ const keyOf = ({ id, accessibleLabel, text, label }: MockProps) => {
 };
 
 /**
- * Pass-through props keep their names, `className` becomes `class`, and any other primitive prop
- * becomes a data attribute (`labelTitle` is `data-label-title`). Values are strings to compare:
+ * `id`, `slot`, `role`, `aria-*` and `data-*` keep their names, `className` becomes `class`,
+ * `tabIndex` becomes `tabindex`, and any other primitive prop becomes a data attribute
+ * (`labelTitle` is `data-label-title`). Values are strings to compare:
  * `data-disabled="false"` still matches `[data-disabled]`. Objects and handlers stay out of the
  * DOM; `propsOf` returns them.
  */
@@ -55,18 +68,28 @@ const createStencilMock = (proxyName: string) => {
 	const tagName = kebabCase(proxyName);
 	const Mock = ({ children, ref, ...props }: MockProps) => {
 		const elementRef = useRef<HTMLElement | null>(null);
-		const record: MockRecord = { proxyName, tagName, key: keyOf(props), props };
-		// Recorded once React commits, and removed when the control unmounts or its key changes,
-		// so fireStencilEvent never reaches a control that's no longer on screen
+		const key = keyOf(props);
+		const instance = useRef<MockInstance>({ proxyName, tagName, key, props }).current;
+		// Lookups read the props of the latest committed render
+		useLayoutEffect(() => {
+			instance.key = key;
+			instance.props = props;
+		});
+		// Registered while mounted, and moved when the key changes. Re-renders keep the mount order,
+		// so a re-render never makes this mock the one a shared key reaches.
+		useLayoutEffect(() => {
+			if (key === undefined) return undefined;
+			register(key, instance);
+			return () => unregister(key, instance);
+		}, [key]);
 		useLayoutEffect(() => {
 			const element = elementRef.current;
-			if (element) recordsByElement.set(element, record);
-			if (record.key !== undefined) recordsByKey.set(record.key, record);
+			if (!element) return undefined;
+			instancesByElement.set(element, instance);
 			return () => {
-				if (element && recordsByElement.get(element) === record) recordsByElement.delete(element);
-				if (record.key !== undefined && recordsByKey.get(record.key) === record) recordsByKey.delete(record.key);
+				if (instancesByElement.get(element) === instance) instancesByElement.delete(element);
 			};
-		});
+		}, []);
 		const setRef = useCallback(
 			(element: HTMLElement | null) => {
 				elementRef.current = element;
@@ -116,32 +139,43 @@ export const stencilMocks = STENCIL_PROXY_NAMES.reduce(
 	{} as Record<StencilProxyName, ReturnType<typeof createStencilMock>>
 );
 
-/** A rendered mock: its key (`id`, else `accessibleLabel`, `text` or `label`) or its element */
-export type StencilMockTarget = string | Element;
+/**
+ * A rendered mock: its key (`id`, else `accessibleLabel`, `text` or `label`) or its element. `null`
+ * is accepted so a `querySelector` result can go straight in; it fails with a clear message.
+ */
+export type StencilMockTarget = string | Element | null;
 
-const recordOf = (target: StencilMockTarget): MockRecord => {
-	const record = typeof target === 'string' ? recordsByKey.get(target) : recordsByElement.get(target);
-	if (!record) {
+const lastOf = <T,>(items: T[] | undefined) => (items ? items[items.length - 1] : undefined);
+
+const instanceOf = (target: StencilMockTarget): MockInstance => {
+	if (target === null) {
+		throw new Error('The query for the element matched nothing');
+	}
+	const instance = typeof target === 'string' ? lastOf(instancesByKey.get(target)) : instancesByElement.get(target);
+	if (!instance) {
 		throw new Error(
 			typeof target === 'string'
 				? `No Stencil mock is rendered under "${target}". Keys come from id, accessibleLabel, text or label; pass the element instead.`
 				: `<${target.localName}> isn't a rendered Stencil mock`
 		);
 	}
-	return record;
+	return instance;
 };
 
-/** The props a mock received on its latest render, including the objects and handlers the DOM doesn't show */
-export const propsOf = (target: StencilMockTarget): MockProps => recordOf(target).props;
+/**
+ * The props a mock received on its latest render, including the objects and handlers the DOM
+ * doesn't show. Pass the component's props type to read them typed: `propsOf<JSX.KvTextField>('root_host')`.
+ */
+export const propsOf = <P extends object = MockProps>(target: StencilMockTarget): P => instanceOf(target).props as P;
 
 /**
  * Calls the handler a mock received, the way the real component's event reaches React:
  * `fireStencilEvent('root_host', 'onTextChange', 'broker-1.local')` stands in for kv-text-field
- * emitting `textChange`. When two rendered mocks share a key, the later one wins; pass the element
+ * emitting `textChange`. When rendered mocks share a key, the one mounted last wins; pass the element
  * to be exact. Wrap it in `act()`.
  */
 export const fireStencilEvent = (target: StencilMockTarget, handlerName: `on${string}`, detail?: unknown) => {
-	const { proxyName, tagName, key, props } = recordOf(target);
+	const { proxyName, tagName, key, props } = instanceOf(target);
 	const handler = props[handlerName];
 	if (typeof handler !== 'function') {
 		throw new Error(`<${tagName}>${key === undefined ? '' : ` "${key}"`} (${proxyName}) has no ${handlerName} handler`);
@@ -150,5 +184,8 @@ export const fireStencilEvent = (target: StencilMockTarget, handlerName: `on${st
 	handler(new CustomEvent(eventName, { detail }));
 };
 
-/** Forgets every rendered mock. The unit project's setup file calls it after each test. */
-export const resetStencilMocks = () => recordsByKey.clear();
+/** Forgets every rendered mock, by key and by element. The unit project's setup file calls it after each test. */
+export const resetStencilMocks = () => {
+	instancesByKey.clear();
+	instancesByElement = new WeakMap();
+};

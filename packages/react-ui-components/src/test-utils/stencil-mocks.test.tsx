@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import React, { act, createRef } from 'react';
+import React, { act, createRef, useState } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { fireStencilEvent, propsOf, stencilMocks } from './stencil-mocks';
@@ -113,6 +113,61 @@ describe('stencilMocks', () => {
 		expect(() => fireStencilEvent('TLS', 'onClickCheckbox')).toThrow('<kv-tooltip> "TLS" (KvTooltip) has no onClickCheckbox handler');
 	});
 
+	it('keeps a control reachable while another with the same key unmounts', async () => {
+		const first = vi.fn();
+		const second = vi.fn();
+		let hideSecond = () => {};
+		const SecondButton = () => {
+			const [isShown, setShown] = useState(true);
+			hideSecond = () => setShown(false);
+			return isShown ? <KvActionButtonIcon label="Remove" onClickButton={second} /> : null;
+		};
+		await act(async () =>
+			root.render(
+				<>
+					<KvActionButtonIcon label="Remove" onClickButton={first} />
+					<SecondButton />
+				</>
+			)
+		);
+
+		await act(async () => hideSecond());
+		await act(async () => fireStencilEvent('Remove', 'onClickButton'));
+
+		expect(first).toHaveBeenCalledOnce();
+		expect(second).not.toHaveBeenCalled();
+	});
+
+	it('reaches the control mounted last under a shared key, even after an earlier one re-renders', async () => {
+		const first = vi.fn();
+		const second = vi.fn();
+		let rerenderFirst = () => {};
+		const FirstButton = () => {
+			const [, setRenders] = useState(0);
+			rerenderFirst = () => setRenders(renders => renders + 1);
+			return <KvActionButtonIcon label="Remove" onClickButton={first} />;
+		};
+		await act(async () =>
+			root.render(
+				<>
+					<FirstButton />
+					<KvActionButtonIcon label="Remove" onClickButton={second} />
+				</>
+			)
+		);
+
+		await act(async () => rerenderFirst());
+		await act(async () => fireStencilEvent('Remove', 'onClickButton'));
+
+		expect(second).toHaveBeenCalledOnce();
+		expect(first).not.toHaveBeenCalled();
+	});
+
+	it('says so when the query for an element matched nothing', () => {
+		expect(() => fireStencilEvent(container.querySelector('kv-text-field'), 'onTextChange')).toThrow('The query for the element matched nothing');
+		expect(() => propsOf(container.querySelector('kv-text-field'))).toThrow('The query for the element matched nothing');
+	});
+
 	it('renders children inside wrapper components', async () => {
 		await act(async () =>
 			root.render(
@@ -130,14 +185,19 @@ describe('stencilMocks between tests', () => {
 	beforeEach(() => vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true));
 	afterEach(() => vi.unstubAllGlobals());
 
+	let leftMounted: Element | null = null;
+
 	it('renders a control and leaves it mounted', async () => {
-		const root = createRoot(document.createElement('div'));
-		await act(async () => root.render(<KvTextField id="root_left_mounted" onTextChange={vi.fn()} />));
+		const container = document.createElement('div');
+		await act(async () => createRoot(container).render(<KvTextField id="root_left_mounted" onTextChange={vi.fn()} />));
+		leftMounted = container.querySelector('kv-text-field');
 
 		expect(propsOf('root_left_mounted').id).toBe('root_left_mounted');
+		expect(propsOf(leftMounted).id).toBe('root_left_mounted');
 	});
 
-	it("doesn't see the control the previous test left mounted", () => {
+	it("doesn't see the control the previous test left mounted, by key or by element", () => {
 		expect(() => propsOf('root_left_mounted')).toThrow('No Stencil mock is rendered under "root_left_mounted"');
+		expect(() => propsOf(leftMounted)).toThrow("<kv-text-field> isn't a rendered Stencil mock");
 	});
 });
