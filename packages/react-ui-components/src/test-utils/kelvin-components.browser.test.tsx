@@ -21,4 +21,10 @@ describe('Kelvin components in the browser project', () => {
 		await userEvent.keyboard('broker-1.local');
 		await expect.poll(() => onTextChange.mock.lastCall?.[0]).toBe('broker-1.local');
 	});
+
+	it('names the element when it never becomes a rendered Kelvin component', async () => {
+		const host = document.createElement('kv-not-a-component');
+
+		await expect(whenKelvinReady(host, 50)).rejects.toThrow("<kv-not-a-component> wasn't defined and rendered within 50ms");
+	});
 });

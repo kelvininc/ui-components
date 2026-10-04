@@ -62,3 +62,7 @@ typings/
 dist
 dist-transpiled
 stencil-generated
+
+# Vitest browser mode saves a screenshot of every failing test
+__screenshots__
+.vitest-attachments
