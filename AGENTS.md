@@ -26,12 +26,12 @@ ui-components/
 ### Key Technologies
 
 - **Core**: StencilJS (web components compiler)
-- **Testing**: Jest + Puppeteer (E2E)
+- **Testing**: Core: Stencil spec (Jest) + Puppeteer e2e. React: Vitest, with jsdom unit tests and browser tests on Playwright Chromium
 - **Styling**: SASS
 - **Design Tokens**: Style Dictionary v5 + Tokens Studio transforms
 - **Build**: Rollup (for React), Stencil CLI (for core)
 - **Monorepo**: Lerna v9 + pnpm workspaces
-- **Documentation**: Storybook v8
+- **Documentation**: Storybook v9 (webpack5 builder)
 - **Commit Conventions**: Conventional Commits (with commitlint)
 
 ## 🔧 System Requirements
@@ -409,6 +409,25 @@ cd packages/ui-components
 pnpm test -- kv-button
 ```
 
+### React package tests
+
+The React package has two Vitest projects:
+
+| Project | Files | Runs in | Use it for |
+|---|---|---|---|
+| `unit` | `src/**/*.test.{ts,tsx}` | Node or jsdom | Logic: helpers, state, what a template decides to render |
+| `browser` | `src/**/*.browser.test.{ts,tsx}` | Chromium (Playwright) | Focus, Tab order, keyboard, roles, paste, anything inside a Stencil shadow root |
+
+```bash
+pnpm --filter @kelvininc/react-ui-components test          # unit
+pnpm --filter @kelvininc/react-ui-components test:browser  # browser; run pnpm build:packages first
+pnpm exec playwright install chromium                       # once per machine
+```
+
+- Unit tests mock the Stencil proxies with the shared `stencilMocks` from `src/test-utils`, never with a per-file mock: `vi.mock('../../stencil-generated', async () => (await import('../../test-utils')).stencilMocks)`.
+- Browser tests render the real components. Call `whenKelvinReady(host)` before reading or focusing anything inside one.
+- SchemaForm tests iterate over the shared edge-case fixtures in `src/components/SchemaForm/test-utils/matrix.tsx` with `describe.each`. Add a row there instead of a one-off case.
+
 ### Linting and Formatting
 
 ```bash
@@ -422,6 +441,17 @@ pnpm lint:fix
 cd packages/ui-components
 pnpm lint
 ```
+
+## 🧱 Rules for shared primitives and SchemaForm
+
+- **Changing a primitive means auditing everything that renders it.** Before changing a component that others render (kv-radio, kv-checkbox, kv-action-button, kv-toggle-button and so on), list every consumer, e.g. `grep -rlE "<kv-radio[ >]" packages/ui-components/src/components`, and cover each one in the same PR's tests.
+- **One implementation per keyboard pattern.** Shared keyboard behavior, such as radio-group arrow keys and the single Tab stop, lives in one helper in `packages/ui-components/src/utils/`. React widgets render core components instead of reimplementing them.
+- **React uses component APIs, never shadow DOM.** Interactive components set `shadow: { delegatesFocus: true }` so `host.focus()` reaches their control, or expose a `@Method()`. React code never queries inside a shadow root.
+- **RJSF copies live in `packages/react-ui-components/src/components/SchemaForm/rjsf/`.** Code that reproduces RJSF's own logic goes there, with a contract test that runs the RJSF function it mirrors.
+- **Clean up props once, where they enter SchemaForm.** Code downstream trusts the cleaned shape.
+- **Interaction gets tested in a real browser:** Stencil e2e (`*.e2e.ts`) for core, the `browser` Vitest project for React.
+- **One concern per PR, reviewed once against its spec.** Findings outside a PR's scope become tickets. A fix that needs a new mechanism (a prop, a role, a focus strategy, a global listener) goes back to the spec first.
+- **Names that only assistive tech hears use `accessibleLabel`.** `label` renders visible text throughout the library. A label outside a component's shadow root can't name the control inside it, so pass the name as text.
 
 ## 📝 Important Configuration Files
 
