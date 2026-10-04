@@ -59,6 +59,9 @@ describe('Select Multi Options (end-to-end)', () => {
 	beforeEach(async () => {
 		page = await newE2EPage();
 		await page.setContent('<kv-select-multi-options></kv-select-multi-options>');
+		// Delegated focus uses the checkbox's real size inside each 32px virtual row.
+		await page.addStyleTag({ url: '/assets/styles/style-dictionary/tokens/index.css' });
+		await page.evaluate(() => document.body.setAttribute('mode', 'night'));
 		selectElement = await page.find('kv-select-multi-options');
 		selectElement.setProperty('options', OPTIONS);
 		await page.waitForChanges();

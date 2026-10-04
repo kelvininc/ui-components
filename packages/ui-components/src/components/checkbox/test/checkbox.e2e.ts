@@ -1,6 +1,21 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
 import { EIconName } from '../../icon/icon.types';
 
+describe('checkbox control semantics', () => {
+	it('exposes its mixed state and name and focuses through the host', async () => {
+		const page = await newE2EPage();
+		await page.setContent('<kv-checkbox accessible-label="TLS" indeterminate></kv-checkbox>');
+		const control = await page.$('aria/TLS[role="checkbox"]');
+		expect(control).not.toBeNull();
+		expect(await control.evaluate(element => element.getAttribute('aria-checked'))).toBe('mixed');
+		const spy = await (await page.find('kv-checkbox')).spyOnEvent('clickCheckbox');
+		await page.evaluate(() => document.querySelector('kv-checkbox').focus());
+		await page.keyboard.press('Space');
+		await page.waitForChanges();
+		expect(spy.events).toHaveLength(1);
+	});
+});
+
 describe('Radio (end-to-end)', () => {
 	let page: E2EPage;
 

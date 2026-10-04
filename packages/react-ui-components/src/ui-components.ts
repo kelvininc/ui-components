@@ -14,6 +14,7 @@ export {
 	EDateTimeInputTypeStyle,
 	EIconName,
 	EInputFieldType,
+	ERadioControlType,
 	EValidationState,
 	EAbsoluteTimePickerMode,
 	ERelativeTimeInputMode,

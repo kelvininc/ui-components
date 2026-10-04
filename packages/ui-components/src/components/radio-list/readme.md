@@ -42,7 +42,7 @@ const RadioListExample: React.FC = () => {
 | ---------------------- | ------------------ | ------------------------------------------------------ | ------------------------------------------------- | ----------- |
 | `disabledOptions`      | `disabled-options` | (optional) The options to show up as disabled          | `{ [x: string]: boolean; [x: number]: boolean; }` | `undefined` |
 | `label`                | `label`            | (optional) Form field label                            | `string`                                          | `undefined` |
-| `options` _(required)_ | `options`          | (required) The configuration for the buttons to render | `IRadioListItem[]`                                | `undefined` |
+| `options` _(required)_ | `options`          | (required) The configuration for the buttons to render | `Omit<IRadioListItem, "skipTabStop">[]`           | `undefined` |
 | `required`             | `required`         | (optional) Form field required                         | `boolean`                                         | `false`     |
 | `selectedOption`       | `selected-option`  | (optional) The desired selected option                 | `number \| string`                                | `undefined` |
 

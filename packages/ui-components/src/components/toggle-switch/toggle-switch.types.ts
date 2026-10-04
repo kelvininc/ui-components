@@ -1,7 +1,7 @@
 import { EventEmitter } from '@stencil/core';
 import { EComponentSize, IToggleButton } from '../../types';
 
-export type IToggleSwitchOption<T = string | number> = Omit<IToggleButton<T>, 'withRadio'>;
+export type IToggleSwitchOption<T = string | number> = Omit<IToggleButton<T>, 'withRadio' | 'radioControlType'>;
 
 export interface IToggleSwitch<T extends string | number | symbol = string | number | symbol> {
 	/** (optional) List of toggle switch options */

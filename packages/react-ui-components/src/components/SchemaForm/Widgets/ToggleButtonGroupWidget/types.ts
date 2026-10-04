@@ -7,4 +7,4 @@ export interface IToggleButtonGroupConfig {
 	readonly?: boolean;
 }
 
-export type ToggleButtonGroupOption = { label: string; value: string };
+export type ToggleButtonGroupOption = { label: string; value: string | number };

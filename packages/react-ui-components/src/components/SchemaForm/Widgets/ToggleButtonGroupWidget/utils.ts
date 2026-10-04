@@ -28,7 +28,7 @@ export const buildToggleButtons = <T extends ToggleButtonGroupOption>(
 	);
 
 export const buildSelectedToggleButtons = <T extends ToggleButtonGroupOption>(
-	selectedOptions: string[],
+	selectedOptions: (string | number)[],
 	allOptions: T[],
 	{ multiple, allButton }: IToggleButtonGroupConfig
 ): { [key: string]: boolean } => {
@@ -62,11 +62,11 @@ export const buildDisabledToggleButtons = (buttons: IToggleButton[]): { [key: st
 };
 
 export const toggleSelectedOptions = <T extends ToggleButtonGroupOption>(
-	selectedOptionValue: string,
-	selectedOptions: string[],
+	selectedOptionValue: string | number,
+	selectedOptions: (string | number)[],
 	allOptions: T[],
 	{ multiple, allButton, minItems, maxItems, required }: IToggleButtonGroupConfig
-): string[] => {
+): (string | number)[] => {
 	if (!multiple) {
 		if (selectedOptions.includes(selectedOptionValue)) {
 			return [];

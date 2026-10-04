@@ -51,6 +51,40 @@ const ASSET_SELECTION: RJSFSchema = {
 	}
 };
 
+/** Toggle groups let users toggle off a selected asset, even when maxItems is one. */
+export const TOGGLE_BUTTON_GROUP_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	formData: string[];
+	nextValue: string;
+	nextSelection?: string[];
+}[] = [
+	{
+		name: 'multiple assets',
+		schema: ASSET_SELECTION,
+		uiSchema: { 'ui:widget': 'toggleButtonGroup', 'ui:options': { withRadio: true } },
+		formData: ['north-line'],
+		nextValue: 'south-line',
+		nextSelection: ['north-line', 'south-line']
+	},
+	{
+		name: 'one asset',
+		schema: { ...ASSET_SELECTION, maxItems: 1 },
+		uiSchema: { 'ui:widget': 'toggleButtonGroup', 'ui:options': { withRadio: true } },
+		formData: ['north-line'],
+		nextValue: 'south-line',
+		nextSelection: ['south-line']
+	},
+	{
+		name: 'one asset with disabled alternatives',
+		schema: { ...ASSET_SELECTION, maxItems: 1 },
+		uiSchema: { 'ui:widget': 'toggleButtonGroup', 'ui:options': { withRadio: true, enumDisabled: ['south-line'] } },
+		formData: ['north-line'],
+		nextValue: 'north-line'
+	}
+];
+
 /** Multi-select labels come from normalized schema titles or array UI, including when item UI exists */
 export const MULTI_SELECT_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema: UiSchema; formData: string[]; labels: string[] }[] = [
 	{ name: 'schema titles', schema: ASSET_SELECTION, uiSchema: {}, formData: ['north-line'], labels: ['North line', 'South line'] },
@@ -471,6 +505,7 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 	VALUE_CASES,
 	CHOICE_SCHEMAS,
 	MULTI_SELECT_SHAPES,
+	TOGGLE_BUTTON_GROUP_SHAPES,
 	ARRAY_SHAPES,
 	OBJECT_SHAPES,
 	BROKER_SCHEMA,

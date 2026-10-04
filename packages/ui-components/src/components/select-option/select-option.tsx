@@ -17,7 +17,7 @@ import { getClassMap } from '../../utils/css-class.helper';
 @Component({
 	tag: 'kv-select-option',
 	styleUrl: 'select-option.scss',
-	shadow: true
+	shadow: { delegatesFocus: true }
 })
 export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 	@Element() el!: HTMLKvSelectOptionElement;
@@ -81,6 +81,11 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 		this.itemSelected.emit(this.value);
 	};
 
+	private onCheckboxClick = ({ detail }: CustomEvent<Event>) => {
+		// Mouse clicks reach the option container; keyboard activation has no click to bubble.
+		if (detail.type === 'keydown') this.onItemClick();
+	};
+
 	render() {
 		return (
 			<Host class={getClassMap(this.customClass)} style={{ ...this.customStyle }}>
@@ -106,6 +111,8 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 								disabled={this.disabled}
 								checked={this.state === EToggleState.Selected}
 								indeterminate={this.state === EToggleState.Indeterminate}
+								accessibleLabel={this.label}
+								onClickCheckbox={this.onCheckboxClick}
 								part="checkbox"
 							/>
 						)}
