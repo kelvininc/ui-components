@@ -40,19 +40,10 @@ jobs:
             - name: 🧪 Run React tests
               run: pnpm --filter @kelvininc/react-ui-components test
 
-            - name: 🎭 Resolve Playwright version
-              id: playwright
-              run: echo "version=$(node -p "require('playwright/package.json').version")" >> "$GITHUB_OUTPUT"
-
-            # Each Playwright release pins its browser builds, so its version is the cache key
-            - name: 🎭 Cache Playwright browsers
-              uses: actions/cache@v6
-              with:
-                  path: ~/.cache/ms-playwright
-                  key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
-
+            # Headless tests only need Chromium's headless shell. It downloads in seconds, so there's
+            # no cache: this workflow only runs on pull requests, whose cache entries other PRs can't reuse
             - name: 🎭 Install Chromium and its system dependencies
-              run: pnpm exec playwright install --with-deps chromium
+              run: pnpm exec playwright install --with-deps --only-shell chromium
 
             - name: 🧪 Run React browser tests
               run: pnpm --filter @kelvininc/react-ui-components test:browser
