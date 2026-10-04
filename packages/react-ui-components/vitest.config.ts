@@ -22,6 +22,13 @@ export default defineConfig({
 				extends: true,
 				// Tests and components must share one React, or hooks fail with "Invalid hook call"
 				resolve: { dedupe: ['react', 'react-dom'] },
+				// SchemaForm's stylesheets `@use 'node_modules/@kelvininc/ui-components/...'`, which rollup
+				// resolves from the package root; the browser project compiles them, so Sass needs that root too
+				css: { preprocessorOptions: { scss: { loadPaths: [import.meta.dirname] } } },
+				// Vite copies the browser console into the terminal, Stencil's dev warnings included, each with the
+				// element and its React internals: over 600 KB for one file of SchemaForm tests. Vitest reports
+				// failures on its own.
+				server: { forwardConsole: false },
 				test: {
 					name: 'browser',
 					include: [BROWSER_TESTS],

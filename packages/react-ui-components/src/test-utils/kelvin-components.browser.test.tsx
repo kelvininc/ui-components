@@ -2,6 +2,8 @@ import React from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
+import { KvSchemaForm } from '../components/SchemaForm/SchemaForm';
+import { BROKER_FORM_DATA, BROKER_SCHEMA } from '../components/SchemaForm/test-utils/matrix';
 import { KvTextField } from '../stencil-generated';
 import { whenKelvinReady } from './browser';
 
@@ -20,6 +22,13 @@ describe('Kelvin components in the browser project', () => {
 
 		await userEvent.keyboard('broker-1.local');
 		await expect.poll(() => onTextChange.mock.lastCall?.[0]).toBe('broker-1.local');
+	});
+
+	it('renders a SchemaForm, styles included, with the real components', async () => {
+		const screen = await render(<KvSchemaForm schema={BROKER_SCHEMA} formData={BROKER_FORM_DATA} />);
+		const host = await whenKelvinReady(screen.container.querySelector<HTMLKvTextFieldElement>('kv-text-field#root_brokers_1_host')!);
+
+		expect(host.shadowRoot?.querySelector('input')?.value).toBe('broker-2.local');
 	});
 
 	it('names the element when it never becomes a rendered Kelvin component', async () => {
