@@ -332,4 +332,16 @@ export const FLAT_OBJECT_SHAPES: { name: string; schema: RJSFSchema; uiSchema?: 
 
 // Rows share schema objects (TOPICS, ENDPOINTS, NAME), so a test that mutated one would change
 // other rows, and other tests. Frozen, the mutation throws where it happens.
-[VALUE_CASES, CHOICE_SCHEMAS, ARRAY_SHAPES, OBJECT_SHAPES, BROKER_SCHEMA, BROKER_FORM_DATA, ERROR_SHAPES, LIST_OPTIONS, FLAT_OBJECT_SHAPES].forEach(deepFreeze);
+[
+	VALUE_CASES,
+	CHOICE_SCHEMAS,
+	ARRAY_SHAPES,
+	OBJECT_SHAPES,
+	BROKER_SCHEMA,
+	BROKER_FORM_DATA,
+	ERROR_SHAPES,
+	TEMPLATE_COMPONENTS,
+	OPTION_SOURCES,
+	LIST_OPTIONS,
+	FLAT_OBJECT_SHAPES
+].forEach(deepFreeze);

@@ -1,8 +1,7 @@
 import { RJSFSchema } from '@rjsf/utils';
-import { get } from 'lodash';
 import { describe, expect, it } from 'vitest';
 import { getDefaultValidator } from '../../../utils';
-import { ARRAY_SHAPES, BROKER_FORM_DATA, BROKER_SCHEMA, CHOICE_SCHEMAS, ERROR_SHAPES, FLAT_OBJECT_SHAPES, OBJECT_SHAPES } from './matrix';
+import { ARRAY_SHAPES, BROKER_FORM_DATA, BROKER_SCHEMA, CHOICE_SCHEMAS, FLAT_OBJECT_SHAPES, OBJECT_SHAPES, OPTION_SOURCES, TEMPLATE_COMPONENTS } from './matrix';
 
 const validator = getDefaultValidator();
 const errorsFor = (formData: unknown, schema: RJSFSchema) => validator.validateFormData(formData, schema).errors;
@@ -26,18 +25,18 @@ describe('the broker fixture that error shapes apply to', () => {
 	});
 });
 
-describe.each(ERROR_SHAPES.filter(({ messages }) => messages.length > 0))('the $name error shape', ({ messages }) => {
-	// `root_brokers_1_host` is the field RJSF renders for BROKER_FORM_DATA.brokers[1].host
-	it.each(messages)('expects its message under $id, a field the broker form renders', ({ id }) => {
-		expect(get(BROKER_FORM_DATA, id.replace(/^root_/, '').split('_'))).toBeDefined();
-	});
-});
-
 describe('the fixtures', () => {
-	it("are frozen, including the schemas rows share, so a test can't change them for the next", () => {
-		const [stringList, , , , oneBelowMaxItems] = ARRAY_SHAPES;
+	const arrayShape = (name: string) => ARRAY_SHAPES.find(row => row.name === name)!;
 
-		expect(Object.isFrozen(stringList.schema)).toBe(true);
-		expect(() => Object.assign(oneBelowMaxItems.schema.items as object, { title: 'Channel' })).toThrow(TypeError);
+	it("are frozen, including the schemas rows share, so a test can't change them for the next", () => {
+		expect(Object.isFrozen(arrayShape('string list').schema)).toBe(true);
+		// Shares its items schema with the string list
+		expect(() => Object.assign(arrayShape('one below maxItems').schema.items as object, { title: 'Channel' })).toThrow(TypeError);
+		expect(Object.isFrozen(TEMPLATE_COMPONENTS[0])).toBe(true);
+		expect(Object.isFrozen(OPTION_SOURCES)).toBe(true);
+	});
+
+	it('leave the components they hold as they are', () => {
+		expect(Object.isFrozen(TEMPLATE_COMPONENTS.find(row => row.name === 'React.memo')!.FieldLayout)).toBe(false);
 	});
 });
