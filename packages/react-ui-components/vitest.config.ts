@@ -29,7 +29,10 @@ export default defineConfig({
 						enabled: true,
 						provider: playwright(),
 						headless: true,
-						instances: [{ browser: 'chromium' }]
+						instances: [{ browser: 'chromium' }],
+						// Screenshots of failing tests go here, ignored by git, apart from the reference images
+						// visual tests keep in __screenshots__ next to each test
+						screenshotDirectory: '.vitest-screenshots'
 					}
 				}
 			}

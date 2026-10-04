@@ -63,6 +63,7 @@ dist
 dist-transpiled
 stencil-generated
 
-# Vitest browser mode saves a screenshot of every failing test
-__screenshots__
+# Screenshots Vitest's browser mode takes of failing tests. Reference images for visual tests
+# live in __screenshots__ and are committed.
+.vitest-screenshots
 .vitest-attachments
