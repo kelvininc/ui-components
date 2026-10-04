@@ -36,6 +36,7 @@
 		"build:watch": "pnpm rollup:watch",
 		"test": "vitest run --project unit",
 		"test:watch": "vitest --project unit",
+		"test:browser": "vitest run --project browser",
 		"postinstall": "node -e \"try{require('./.scripts/copy-icons.js')}catch(e){}\"",
 		"rollup": "rollup -c",
 		"rollup:watch": "rollup -w -c",

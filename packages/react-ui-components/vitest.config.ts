@@ -1,7 +1,8 @@
+import { playwright } from '@vitest/browser-playwright';
 import { configDefaults, defineConfig } from 'vitest/config';
 
-// Interaction tests run in a real browser (the `browser` project, added later in this file);
-// everything else runs here, in Node or jsdom
+// Interaction tests (focus, Tab order, keyboard, roles, paste, anything inside a shadow root) run
+// against the real Stencil components in Chromium; everything else runs in Node or jsdom
 const BROWSER_TESTS = 'src/**/*.browser.test.{ts,tsx}';
 
 export default defineConfig({
@@ -13,6 +14,19 @@ export default defineConfig({
 					name: 'unit',
 					include: ['src/**/*.test.{ts,tsx}'],
 					exclude: [...configDefaults.exclude, BROWSER_TESTS]
+				}
+			},
+			{
+				extends: true,
+				test: {
+					name: 'browser',
+					include: [BROWSER_TESTS],
+					browser: {
+						enabled: true,
+						provider: playwright(),
+						headless: true,
+						instances: [{ browser: 'chromium' }]
+					}
 				}
 			}
 		]
