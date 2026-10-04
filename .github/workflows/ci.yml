@@ -40,6 +40,14 @@ jobs:
             - name: 🧪 Run React tests
               run: pnpm --filter @kelvininc/react-ui-components test
 
+            # Headless tests only need Chromium's headless shell. It downloads in seconds, so there's
+            # no cache: this workflow only runs on pull requests, whose cache entries other PRs can't reuse
+            - name: 🎭 Install Chromium and its system dependencies
+              run: pnpm exec playwright install --with-deps --only-shell chromium
+
+            - name: 🧪 Run React browser tests
+              run: pnpm --filter @kelvininc/react-ui-components test:browser
+
             - name: 💅 Build storybook
               run: pnpm storybook:build
 
