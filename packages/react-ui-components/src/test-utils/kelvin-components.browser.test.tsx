@@ -4,8 +4,9 @@ import { userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 import { KvSchemaForm } from '../components/SchemaForm/SchemaForm';
 import { BROKER_FORM_DATA, BROKER_SCHEMA } from '../components/SchemaForm/test-utils/matrix';
-import { KvTextField } from '../stencil-generated';
-import { whenKelvinReady } from './browser';
+import { EIconName } from '@kelvininc/ui-components';
+import { KvIcon, KvTextField } from '../stencil-generated';
+import { whenAllKelvinReady, whenKelvinReady } from './browser';
 
 // The browser project renders the real Stencil components, so tests here can check what jsdom
 // can't: shadow roots, real focus and real keyboard input
@@ -24,6 +25,30 @@ describe('Kelvin components in the browser project', () => {
 		await expect.poll(() => onTextChange.mock.lastCall?.[0]).toBe('broker-1.local');
 	});
 
+	it('renders with the design tokens, the Night theme and a desktop viewport', () => {
+		expect(getComputedStyle(document.body).getPropertyValue('--color-gray-50').trim()).not.toBe('');
+		expect(document.body.getAttribute('mode')).toBe('night');
+		expect(window.innerWidth).toBe(1280);
+	});
+
+	it('draws icons from the symbols file', async () => {
+		const screen = await render(<KvIcon name={EIconName.Delete} />);
+		const icon = await whenKelvinReady(screen.container.querySelector<HTMLElement>('kv-icon'));
+
+		expect(icon.getBoundingClientRect().width).toBeGreaterThan(0);
+		expect(icon.shadowRoot?.querySelector('use')?.getAttribute('href')).toContain('svg-symbols.svg#kv-delete');
+	});
+
+	it('waits for every Kelvin component in a container', async () => {
+		const screen = await render(<KvSchemaForm schema={BROKER_SCHEMA} formData={BROKER_FORM_DATA} />);
+
+		await whenAllKelvinReady(screen.container);
+
+		const hosts = Array.from(screen.container.querySelectorAll('*')).filter(element => element.localName.startsWith('kv-'));
+		expect(hosts.length).toBeGreaterThan(0);
+		expect(hosts.every(host => host.shadowRoot)).toBe(true);
+	});
+
 	it('renders a SchemaForm, styles included, with the real components', async () => {
 		const screen = await render(<KvSchemaForm schema={BROKER_SCHEMA} formData={BROKER_FORM_DATA} />);
 		const host = await whenKelvinReady(screen.container.querySelector<HTMLKvTextFieldElement>('kv-text-field#root_brokers_1_host')!);
@@ -35,5 +60,9 @@ describe('Kelvin components in the browser project', () => {
 		const host = document.createElement('kv-not-a-component');
 
 		await expect(whenKelvinReady(host, 50)).rejects.toThrow("<kv-not-a-component> wasn't defined and rendered within 50ms");
+	});
+
+	it('says so when the query for the element matched nothing', async () => {
+		await expect(whenKelvinReady(document.querySelector<HTMLElement>('kv-text-field#not-rendered'))).rejects.toThrow('The query for the element matched nothing');
 	});
 });
