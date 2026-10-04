@@ -425,11 +425,13 @@ pnpm --filter @kelvininc/react-ui-components test:browser  # browser
 pnpm exec playwright install chromium                       # once per machine
 ```
 
-CI installs only Chromium's headless shell (`--only-shell`). Install full Chromium locally, so you can also run the browser tests headed while debugging. When a browser test fails, Vitest saves a screenshot in `.vitest-screenshots/`, which git ignores.
+CI installs only Chromium's headless shell (`--only-shell`). Install full Chromium locally, so you can also run the browser tests headed while debugging: add `--browser.headless=false` to `test:browser`. When a browser test fails, Vitest saves a screenshot in `.vitest-screenshots/`, which git ignores.
 
 - **Unit tests** mock the Stencil proxies with the shared `stencilMocks` from `src/test-utils`, never with a per-file mock: `vi.mock('../../stencil-generated', async () => (await import('../../test-utils')).stencilMocks)`.
+  - The unit project runs in Node, so a file that renders starts with `// @vitest-environment jsdom`.
+  - A new proxy needs a mock: add its name to `STENCIL_PROXY_NAMES` in `src/test-utils/stencil-mocks.tsx`, or Vitest fails with "No KvX export is defined on the mock".
   - Each mock renders the component's tag. `id`, `slot`, `role`, `aria-*` and `data-*` keep their names, `className` becomes `class`, `tabIndex` becomes `tabindex`, and other primitive props become `data-*` attributes with string values (`data-disabled="false"` still matches `[data-disabled]`).
-  - `fireStencilEvent(target, 'onTextChange', detail)` and `propsOf(target)` take a control's key (`id`, else `accessibleLabel`, `text` or `label`) or its rendered element. When mocks share a key, the one mounted last answers, so use the element for controls without a unique key, such as icon buttons. `propsOf<JSX.KvTextField>(target)` returns the props typed.
+  - `fireStencilEvent(target, 'onTextChange', detail)` and `propsOf(target)` take a control's key (`id`, else `accessibleLabel`, `text` or `label`) or its rendered element. When mocks share a key, the one mounted last answers, so use the element for controls without a unique key, such as icon buttons. `propsOf<JSX.KvTextField>(target)` returns the props typed. The event `fireStencilEvent` sends bubbles and is composed, like a Stencil event, and its `target` and `currentTarget` are the mock's element.
   - Mocks are forgotten when they unmount, and after every test.
 - **Browser tests** render the real components. Call `whenKelvinReady(host)` before reading or focusing anything inside one.
 - **SchemaForm tests** iterate over the shared edge-case fixtures in `src/components/SchemaForm/test-utils/matrix.tsx` with `describe.each`. Add a row there instead of a one-off case. The fixtures are frozen, so clone one before changing it.
