@@ -4,7 +4,7 @@ import { userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 import { KvSchemaForm } from '../components/SchemaForm/SchemaForm';
 import { BROKER_FORM_DATA, BROKER_SCHEMA } from '../components/SchemaForm/test-utils/matrix';
-import { EIconName } from '@kelvininc/ui-components';
+import { EIconName, EInputFieldType } from '@kelvininc/ui-components';
 import { KvIcon, KvTextField } from '../stencil-generated';
 import { whenAllKelvinReady, whenKelvinReady } from './browser';
 
@@ -25,6 +25,17 @@ describe('Kelvin components in the browser project', () => {
 		await expect.poll(() => onTextChange.mock.lastCall?.[0]).toBe('broker-1.local');
 	});
 
+	it('emits the right action when a password input is disabled', async () => {
+		const onRightActionClick = vi.fn();
+		const screen = await render(<KvTextField type={EInputFieldType.Password} inputDisabled actionIcon={EIconName.Eye} onRightActionClick={onRightActionClick} />);
+		const host = await whenKelvinReady(screen.container.querySelector('kv-text-field'));
+
+		expect(host.shadowRoot?.querySelector('input')?.disabled).toBe(true);
+		await userEvent.click(host.shadowRoot!.querySelector('kv-icon')!);
+
+		expect(onRightActionClick).toHaveBeenCalledOnce();
+	});
+
 	it('renders with the design tokens, the Night theme and a desktop viewport', () => {
 		expect(getComputedStyle(document.body).getPropertyValue('--color-gray-50').trim()).not.toBe('');
 		expect(document.body.getAttribute('mode')).toBe('night');
@@ -35,8 +46,10 @@ describe('Kelvin components in the browser project', () => {
 		const screen = await render(<KvIcon name={EIconName.Delete} />);
 		const icon = await whenKelvinReady(screen.container.querySelector<HTMLElement>('kv-icon'));
 
-		expect(icon.getBoundingClientRect().width).toBeGreaterThan(0);
-		expect(icon.shadowRoot?.querySelector('use')?.getAttribute('href')).toContain('svg-symbols.svg#kv-delete');
+		const symbol = icon.shadowRoot?.querySelector('use');
+		expect(symbol).toBeInstanceOf(SVGUseElement);
+		await expect.poll(() => symbol?.getBBox().width ?? 0).toBeGreaterThan(0);
+		await expect.poll(() => symbol?.getBBox().height ?? 0).toBeGreaterThan(0);
 	});
 
 	it('waits for every Kelvin component in a container', async () => {
@@ -46,7 +59,7 @@ describe('Kelvin components in the browser project', () => {
 
 		const hosts = Array.from(screen.container.querySelectorAll('*')).filter(element => element.localName.startsWith('kv-'));
 		expect(hosts.length).toBeGreaterThan(0);
-		expect(hosts.every(host => host.shadowRoot)).toBe(true);
+		expect(hosts.every(host => host.classList.contains('hydrated'))).toBe(true);
 	});
 
 	it('renders a SchemaForm, styles included, with the real components', async () => {

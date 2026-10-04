@@ -94,6 +94,25 @@ describe('stencilMocks', () => {
 		expect(onClickButton).toHaveBeenCalledOnce();
 	});
 
+	it('fires the right action of an input-disabled password field', async () => {
+		const onRightActionClick = vi.fn();
+		const click = new MouseEvent('click');
+		await act(async () => root.render(<KvTextField id="root_password" type="password" inputDisabled onRightActionClick={onRightActionClick} />));
+
+		await act(async () => fireStencilEvent('root_password', 'onRightActionClick', click));
+
+		expect(onRightActionClick).toHaveBeenCalledOnce();
+		expect(onRightActionClick).toHaveBeenCalledWith(expect.objectContaining({ type: 'rightActionClick', detail: click }));
+	});
+
+	it('refuses text changes from an input-disabled field', async () => {
+		const onTextChange = vi.fn();
+		await act(async () => root.render(<KvTextField id="root_host" inputDisabled onTextChange={onTextChange} />));
+
+		expect(() => fireStencilEvent('root_host', 'onTextChange', 'broker-2.local')).toThrow('<kv-text-field> "root_host" (KvTextField) is disabled');
+		expect(onTextChange).not.toHaveBeenCalled();
+	});
+
 	it("returns the handler's result, so a test can await an async handler", async () => {
 		const onClickButton = vi.fn(async () => 'saved');
 		await act(async () => root.render(<KvActionButtonIcon id="save" onClickButton={onClickButton} />));

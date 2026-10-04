@@ -13,7 +13,7 @@ export type MockProps = {
 };
 
 /** One mounted mock. The object lives as long as the mock does; each render refreshes its key and props */
-type MockInstance = { proxyName: string; tagName: string; key?: string; props: MockProps; element?: HTMLElement };
+type MockInstance = { proxyName: StencilProxyName; tagName: string; key?: string; props: MockProps; element?: HTMLElement };
 
 const HANDLER_PROP = /^on[A-Z]/;
 // Attributes tests query by (roles, names, data hooks) keep their names
@@ -69,7 +69,7 @@ const assignRef = (ref: Ref<HTMLElement> | undefined, element: HTMLElement | nul
 	}
 };
 
-const createStencilMock = (proxyName: string) => {
+const createStencilMock = (proxyName: StencilProxyName) => {
 	// KvTextField renders <kv-text-field>
 	const tagName = kebabCase(proxyName);
 	const Mock = ({ children, ref, ...props }: MockProps) => {
@@ -139,6 +139,11 @@ const STENCIL_PROXY_NAMES = [
 
 export type StencilProxyName = (typeof STENCIL_PROXY_NAMES)[number];
 
+// KvTextField's action icon remains clickable when its input is disabled, including Show password.
+const EVENTS_WHEN_DISABLED: Partial<Record<StencilProxyName, readonly `on${string}`[]>> = {
+	KvTextField: ['onRightActionClick']
+};
+
 /**
  * Stand-ins for the Stencil React proxies, for jsdom unit tests. Each renders a bare element with
  * the component's tag. Tests that need the real component's rendering, focus or keyboard behavior
@@ -184,13 +189,13 @@ export const propsOf = <P extends object = MockProps>(target: StencilMockTarget)
  * Calls the handler a mock received, the way the real component's event reaches React:
  * `fireStencilEvent('root_host', 'onTextChange', 'broker-1.local')` stands in for kv-text-field
  * emitting `textChange`. When rendered mocks share a key, the one mounted last wins; pass the element
- * to be exact. A disabled mock refuses, as the real component would, unless `force` is set. It
- * returns what the handler returns, so an async handler can be awaited. Wrap it in `act()`.
+ * to be exact. A disabled mock refuses unless the event is in `EVENTS_WHEN_DISABLED` or `force`
+ * is set. It returns what the handler returns, so an async handler can be awaited. Wrap it in `act()`.
  */
 export const fireStencilEvent = (target: StencilMockTarget, handlerName: `on${string}`, detail?: unknown, { force = false }: { force?: boolean } = {}) => {
 	const { proxyName, tagName, key, props, element } = instanceOf(target);
 	const name = `<${tagName}>${key === undefined ? '' : ` "${key}"`} (${proxyName})`;
-	if (!force && (props.disabled === true || props.inputDisabled === true)) {
+	if (!force && (props.disabled === true || props.inputDisabled === true) && !EVENTS_WHEN_DISABLED[proxyName]?.includes(handlerName)) {
 		throw new Error(`${name} is disabled, so the real component wouldn't emit its event; pass { force: true } to fire it anyway`);
 	}
 	const handler = props[handlerName];

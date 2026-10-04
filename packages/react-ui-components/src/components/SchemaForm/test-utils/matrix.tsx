@@ -74,20 +74,40 @@ const GROUPS: RJSFSchema = {
 };
 
 export const ARRAY_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema?: UiSchema; formData: unknown[] }[] = [
-	{ name: 'string list', schema: TOPICS, formData: ['telemetry'] },
-	{ name: 'object list', schema: BROKERS, formData: [{ host: 'broker-1.local', port: 1883, tls: { enabled: true } }] },
+	{ name: 'string list', schema: TOPICS, formData: ['telemetry', 'alarms', 'commands'] },
+	{
+		name: 'object list',
+		schema: BROKERS,
+		formData: [
+			{ host: 'broker-1.local', port: 1883, tls: { enabled: true } },
+			{ host: 'broker-2.local', port: 8883, tls: { enabled: false } },
+			{ host: 'broker-3.local', port: 1883, tls: { enabled: true } }
+		]
+	},
 	// L2 renders this one as a table
 	{
 		name: 'flat object list',
 		schema: variables({ type: 'object', title: 'Variable', properties: { name: NAME, value: VALUE } }),
-		formData: [{ name: 'LOG_LEVEL', value: 'info' }]
+		formData: [
+			{ name: 'LOG_LEVEL', value: 'info' },
+			{ name: 'BROKER_HOST', value: 'broker-1.local' },
+			{ name: 'POLL_INTERVAL', value: '30' }
+		]
 	},
-	{ name: 'tuple with additional items', schema: ENDPOINTS, formData: ['primary.local'] },
+	{ name: 'tuple with additional items', schema: ENDPOINTS, formData: ['primary.local', 'backup.local'] },
 	{ name: 'tuple one below maxItems', schema: { ...ENDPOINTS, maxItems: 2 }, formData: ['primary.local'] },
 	{ name: 'one below maxItems', schema: { ...TOPICS, maxItems: 2 }, formData: ['telemetry'] },
 	{ name: 'at minItems', schema: { ...TOPICS, minItems: 1 }, formData: ['telemetry'] },
-	{ name: 'object list with an inner list', schema: GROUPS, formData: [{ name: 'north', tags: ['line-1'] }] },
-	{ name: 'readonly', schema: TOPICS, uiSchema: { 'ui:readonly': true }, formData: ['telemetry'] }
+	{
+		name: 'object list with an inner list',
+		schema: GROUPS,
+		formData: [
+			{ name: 'north', tags: ['line-1', 'line-2', 'line-3'] },
+			{ name: 'south', tags: ['line-4', 'line-5', 'line-6'] },
+			{ name: 'east', tags: ['line-7', 'line-8', 'line-9'] }
+		]
+	},
+	{ name: 'readonly', schema: TOPICS, uiSchema: { 'ui:readonly': true }, formData: ['telemetry', 'alarms', 'commands'] }
 ];
 
 const nestSections = (depth: number): RJSFSchema =>
@@ -221,33 +241,53 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 	{
 		name: 'two strings',
 		schema: variables({ type: 'object', properties: { name: NAME, value: VALUE } }),
-		formData: [{ name: 'LOG_LEVEL', value: 'info' }],
+		formData: [
+			{ name: 'LOG_LEVEL', value: 'info' },
+			{ name: 'BROKER_HOST', value: 'broker-1.local' },
+			{ name: 'POLL_INTERVAL', value: '30' }
+		],
 		isFlat: true
 	},
 	{
 		name: 'a string and an enum',
 		schema: variables({ type: 'object', properties: { name: NAME, level: { type: 'string', title: 'Level', enum: ['info', 'debug'] } } }),
-		formData: [{ name: 'LOG_LEVEL', level: 'info' }],
+		formData: [
+			{ name: 'LOG_LEVEL', level: 'info' },
+			{ name: 'IMPORTER_LOG_LEVEL', level: 'debug' },
+			{ name: 'APP_LOG_LEVEL', level: 'info' }
+		],
 		isFlat: true
 	},
 	{
 		name: 'a string and an integer',
 		schema: variables({ type: 'object', properties: { host: { type: 'string', title: 'Host' }, port: { type: 'integer', title: 'Port' } } }),
-		formData: [{ host: 'broker-1.local', port: 1883 }],
+		formData: [
+			{ host: 'broker-1.local', port: 1883 },
+			{ host: 'broker-2.local', port: 8883 },
+			{ host: 'broker-3.local', port: 1883 }
+		],
 		isFlat: true
 	},
 	{
 		name: 'a hidden property',
 		schema: variables({ type: 'object', properties: { id: { type: 'string' }, name: NAME, value: VALUE } }),
 		uiSchema: { items: { id: { 'ui:widget': 'hidden' } } },
-		formData: [{ id: 'variable-1', name: 'LOG_LEVEL', value: 'info' }],
+		formData: [
+			{ id: 'variable-1', name: 'LOG_LEVEL', value: 'info' },
+			{ id: 'variable-2', name: 'BROKER_HOST', value: 'broker-1.local' },
+			{ id: 'variable-3', name: 'POLL_INTERVAL', value: '30' }
+		],
 		isFlat: true
 	},
 	{
 		// Kelvin's app schema puts regexes in `format`; ajv ignores them, and they don't change the widget
 		name: 'a regex in format',
 		schema: variables({ type: 'object', properties: { name: { type: 'string', title: 'Variable Name', format: '^[A-Za-z_][A-Za-z0-9_]*$' }, value: VALUE } }),
-		formData: [{ name: 'LOG_LEVEL', value: 'info' }],
+		formData: [
+			{ name: 'LOG_LEVEL', value: 'info' },
+			{ name: 'BROKER_HOST', value: 'broker-1.local' },
+			{ name: 'POLL_INTERVAL', value: '30' }
+		],
 		isFlat: true
 	},
 	{
@@ -256,33 +296,53 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 			type: 'object',
 			properties: { name: NAME, value: VALUE, unit: { type: 'string', title: 'Unit', enum: ['ms', 's'] }, scale: { type: 'number', title: 'Scale' } }
 		}),
-		formData: [{ name: 'TIMEOUT', value: '30', unit: 's', scale: 1 }],
+		formData: [
+			{ name: 'TIMEOUT', value: '30', unit: 's', scale: 1 },
+			{ name: 'POLL_INTERVAL', value: '500', unit: 'ms', scale: 1 },
+			{ name: 'RETRY_DELAY', value: '5', unit: 's', scale: 2 }
+		],
 		isFlat: true
 	},
 	{
 		name: 'a boolean',
 		schema: variables({ type: 'object', properties: { name: NAME, enabled: { type: 'boolean', title: 'Enabled' } } }),
-		formData: [{ name: 'DEBUG', enabled: true }],
+		formData: [
+			{ name: 'DEBUG', enabled: true },
+			{ name: 'TRACE', enabled: false },
+			{ name: 'TLS', enabled: true }
+		],
 		isFlat: false
 	},
 	{
 		name: 'a textarea widget',
 		schema: variables({ type: 'object', properties: { name: NAME, value: VALUE } }),
 		uiSchema: { items: { value: { 'ui:widget': 'textarea' } } },
-		formData: [{ name: 'BANNER', value: 'Line one' }],
+		formData: [
+			{ name: 'BANNER', value: 'Line one' },
+			{ name: 'DESCRIPTION', value: 'Telemetry importer' },
+			{ name: 'NOTES', value: 'Read only connection' }
+		],
 		isFlat: false
 	},
 	{
 		name: 'a data-url string',
 		schema: variables({ type: 'object', properties: { name: NAME, certificate: { type: 'string', title: 'Certificate', format: 'data-url' } } }),
-		formData: [{ name: 'CA', certificate: 'data:text/plain;name=ca.pem;base64,Y2E=' }],
+		formData: [
+			{ name: 'CA', certificate: 'data:text/plain;name=ca.pem;base64,Y2E=' },
+			{ name: 'CLIENT_CERT', certificate: 'data:text/plain;name=client.pem;base64,Y2xpZW50' },
+			{ name: 'BROKER_CERT', certificate: 'data:text/plain;name=broker.pem;base64,YnJva2Vy' }
+		],
 		isFlat: false
 	},
 	{
 		name: 'a custom widget',
 		schema: variables({ type: 'object', properties: { name: NAME, value: VALUE } }),
 		uiSchema: { items: { value: { 'ui:widget': SecretInput } } },
-		formData: [{ name: 'API_TOKEN', value: 'token' }],
+		formData: [
+			{ name: 'API_TOKEN', value: 'token' },
+			{ name: 'BROKER_TOKEN', value: 'broker-token' },
+			{ name: 'OPC_TOKEN', value: 'opc-token' }
+		],
 		isFlat: false
 	},
 	{
@@ -297,7 +357,11 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 				note: { type: 'string', title: 'Note' }
 			}
 		}),
-		formData: [{ name: 'TIMEOUT', value: '30', unit: 's', scale: 1, note: 'Per request' }],
+		formData: [
+			{ name: 'TIMEOUT', value: '30', unit: 's', scale: 1, note: 'Per request' },
+			{ name: 'POLL_INTERVAL', value: '500', unit: 'ms', scale: 1, note: 'Between reads' },
+			{ name: 'RETRY_DELAY', value: '5', unit: 's', scale: 2, note: 'After a failure' }
+		],
 		isFlat: false
 	},
 	{
@@ -306,13 +370,21 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 			type: 'object',
 			properties: { name: NAME, tls: { type: 'object', title: 'TLS', properties: { enabled: { type: 'boolean', title: 'Enabled' } } } }
 		}),
-		formData: [{ name: 'broker-1', tls: { enabled: true } }],
+		formData: [
+			{ name: 'broker-1', tls: { enabled: true } },
+			{ name: 'broker-2', tls: { enabled: false } },
+			{ name: 'broker-3', tls: { enabled: true } }
+		],
 		isFlat: false
 	},
 	{
 		name: 'an inner list',
 		schema: variables({ type: 'object', properties: { name: NAME, tags: { type: 'array', title: 'Tags', items: { type: 'string', title: 'Tag' } } } }),
-		formData: [{ name: 'north', tags: ['line-1'] }],
+		formData: [
+			{ name: 'north', tags: ['line-1', 'line-2', 'line-3'] },
+			{ name: 'south', tags: ['line-4', 'line-5', 'line-6'] },
+			{ name: 'east', tags: ['line-7', 'line-8', 'line-9'] }
+		],
 		isFlat: false
 	},
 	{
@@ -325,7 +397,11 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 				{ title: 'Certificate', required: ['certificate'], properties: { certificate: { type: 'string', title: 'Certificate' } } }
 			]
 		}),
-		formData: [{ name: 'broker-1', token: 'broker-token' }],
+		formData: [
+			{ name: 'broker-1', token: 'broker-token' },
+			{ name: 'broker-2', certificate: 'broker-2-cert' },
+			{ name: 'broker-3', token: 'broker-3-token' }
+		],
 		isFlat: false
 	}
 ];

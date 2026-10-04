@@ -8,6 +8,9 @@ const BROWSER_TESTS = 'src/**/*.browser.{test,spec}.{ts,tsx}';
 
 export default defineConfig({
 	test: {
+		// Stencil's dev warnings and dev errors include the element and its React internals.
+		// Vitest reads this filter only from the root config and can strip %c from the styled prefix.
+		onConsoleLog: log => !log.startsWith('STENCIL:') && !log.startsWith('%cstencil') && !log.startsWith('stencil '),
 		projects: [
 			{
 				extends: true,
@@ -34,9 +37,6 @@ export default defineConfig({
 					include: [BROWSER_TESTS],
 					// Tokens, fonts, icons and the Night theme, as in Storybook, so layout assertions measure real styles
 					setupFiles: ['src/test-utils/setup-browser.ts'],
-					// Stencil's dev build warns when props change during load, and Vitest prints each warning with
-					// the element it names: tens of KB per test file, with nothing for a test to act on
-					onConsoleLog: log => !log.startsWith('STENCIL:'),
 					browser: {
 						enabled: true,
 						provider: playwright(),
