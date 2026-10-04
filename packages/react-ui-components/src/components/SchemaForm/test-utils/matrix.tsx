@@ -2,13 +2,13 @@ import { FieldTemplateProps, RJSFSchema, UiSchema, WidgetProps } from '@rjsf/uti
 import React, { ElementType, forwardRef, memo } from 'react';
 
 /** Values a field can hold. Only `undefined` means nothing is chosen, so only it shows "Not set" */
-export const VALUE_CASES = [
+export const VALUE_CASES: readonly { name: string; value: unknown; isUnset: boolean }[] = [
 	{ name: 'undefined', value: undefined, isUnset: true },
 	{ name: 'null', value: null, isUnset: false },
 	{ name: 'false', value: false, isUnset: false },
 	{ name: 'zero', value: 0, isUnset: false },
 	{ name: 'empty string', value: '', isUnset: false }
-] as const;
+];
 
 /** Single-choice schemas whose valid values include the falsy ones that reviews kept tripping on */
 export const CHOICE_SCHEMAS: { name: string; schema: RJSFSchema; values: unknown[] }[] = [
