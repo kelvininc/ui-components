@@ -113,6 +113,75 @@ export const CUSTOM_DROPDOWN_SHAPES = [
 	{ name: 'key resembling an enum index', key: 'choice-0' }
 ] as const;
 
+export const CHOICE_WIDGET_SHAPES: readonly { name: string; widget?: string; kind: 'default' | 'radio' | 'select' | 'checkbox' }[] = [
+	{ name: 'default widget', widget: undefined, kind: 'default' },
+	{ name: 'radio', widget: 'radio', kind: 'radio' },
+	{ name: 'radio list', widget: 'RadioListWidget', kind: 'radio' },
+	{ name: 'select', widget: 'select', kind: 'select' },
+	{ name: 'checkbox', widget: 'checkbox', kind: 'checkbox' }
+];
+
+export const CHOICE_DISPATCH_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema & { 'ui:globalOptions'?: { widget?: string } };
+	formatWidget?: 'radio' | 'custom';
+	expected: 'radio' | 'select' | 'text' | 'email' | 'checkbox' | 'custom';
+}[] = [
+	{ name: 'default string enum', schema: CHOICE_SCHEMAS[1].schema, uiSchema: {}, expected: 'select' },
+	{ name: 'default integer enum', schema: CHOICE_SCHEMAS[3].schema, uiSchema: {}, expected: 'select' },
+	{ name: 'global radio ignored for a string enum', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:globalOptions': { widget: 'radio' } }, expected: 'select' },
+	{
+		name: 'global custom widget ignored for an integer enum',
+		schema: CHOICE_SCHEMAS[3].schema,
+		uiSchema: { 'ui:globalOptions': { widget: 'connectionChoice' } },
+		expected: 'select'
+	},
+	{ name: 'supported email format', schema: { ...CHOICE_SCHEMAS[1].schema, format: 'email' }, uiSchema: {}, expected: 'email' },
+	{ name: 'email format registered as a radio', schema: { ...CHOICE_SCHEMAS[1].schema, format: 'email' }, uiSchema: {}, formatWidget: 'radio', expected: 'radio' },
+	{ name: 'email format registered as custom', schema: { ...CHOICE_SCHEMAS[1].schema, format: 'email' }, uiSchema: {}, formatWidget: 'custom', expected: 'custom' },
+	{ name: 'integer radio format', schema: { ...CHOICE_SCHEMAS[3].schema, format: 'radio' }, uiSchema: {}, expected: 'radio' },
+	{
+		name: 'local widget overrides format',
+		schema: { ...CHOICE_SCHEMAS[1].schema, format: 'email' },
+		uiSchema: { 'ui:widget': 'select' },
+		formatWidget: 'radio',
+		expected: 'select'
+	},
+	{
+		name: 'local options widget overrides global',
+		schema: CHOICE_SCHEMAS[1].schema,
+		uiSchema: { 'ui:options': { widget: 'radio' }, 'ui:globalOptions': { widget: 'select' } },
+		expected: 'radio'
+	},
+	{ name: 'unknown format falls back to select', schema: { ...CHOICE_SCHEMAS[1].schema, format: 'kelvin-connection' }, uiSchema: {}, expected: 'select' },
+	{ name: 'default text field', schema: { type: 'string', title: 'Broker' }, uiSchema: {}, expected: 'text' },
+	{ name: 'default boolean ignores global widget', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:globalOptions': { widget: 'select' } }, expected: 'radio' },
+	{ name: 'boolean uses local checkbox', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'checkbox' }, expected: 'checkbox' }
+];
+
+export const CHOICE_INTERACTION_SHAPES = [
+	{ name: 'editable', disabled: false, readonly: false },
+	{ name: 'disabled', disabled: true, readonly: false },
+	{ name: 'readonly', disabled: false, readonly: true }
+] as const;
+
+export const DEFAULTED_CHOICE_SHAPES: readonly { name: string; schema: RJSFSchema; value: boolean | string }[] = [
+	{ name: 'defaulted boolean', schema: { type: 'boolean', title: 'TLS', default: true }, value: true },
+	{ name: 'defaulted enum', schema: { type: 'string', title: 'QoS', enum: ['at-most-once', 'at-least-once'], default: 'at-least-once' }, value: 'at-least-once' }
+];
+
+export const RADIO_KEYBOARD_SHAPES = [
+	{ name: 'compact radio', widget: 'radio' },
+	{ name: 'described radio list', widget: 'RadioListWidget' }
+] as const;
+
+export const RADIO_FOCUS_SHAPES: readonly { name: string; disabledValues: readonly string[]; expected?: string }[] = [
+	{ name: 'enabled options', disabledValues: [], expected: 'at-most-once' },
+	{ name: 'first option disabled', disabledValues: ['at-most-once'], expected: 'at-least-once' },
+	{ name: 'all options disabled', disabledValues: ['at-most-once', 'at-least-once'], expected: undefined }
+];
+
 /** Names must reach the real control inside its shadow root, including visible overrides. */
 export const CONTROL_NAME_SHAPES: readonly {
 	name: string;
@@ -1017,13 +1086,13 @@ export const R2_ERROR_DESCRIPTION_SHAPES: readonly {
 			tag: 'kv-multi-select-dropdown'
 		},
 		{ name: 'checkbox', schema: { type: 'boolean', title: 'TLS' }, uiSchema: { 'ui:widget': 'checkbox' }, formData: false, tag: 'kv-checkbox' },
-		{ name: 'boolean radios', schema: { type: 'boolean', title: 'TLS' }, uiSchema: {}, formData: false, tag: 'kv-radio-list-item' },
+		{ name: 'boolean radios', schema: { type: 'boolean', title: 'TLS' }, uiSchema: {}, formData: false, tag: 'kv-radio-list' },
 		{
 			name: 'enum radios',
 			schema: { type: 'string', title: 'QoS', enum: ['at-most-once', 'at-least-once'] },
 			uiSchema: { 'ui:widget': 'radio' },
 			formData: 'at-most-once',
-			tag: 'kv-radio-list-item'
+			tag: 'kv-radio-list'
 		},
 		{
 			name: 'toggle choices',
@@ -1888,6 +1957,12 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	CHOICE_VALUE_SHAPES,
 	DEFAULT_FIELD_SHAPES,
 	CUSTOM_DROPDOWN_SHAPES,
+	CHOICE_WIDGET_SHAPES,
+	CHOICE_DISPATCH_SHAPES,
+	CHOICE_INTERACTION_SHAPES,
+	DEFAULTED_CHOICE_SHAPES,
+	RADIO_KEYBOARD_SHAPES,
+	RADIO_FOCUS_SHAPES,
 	CONTROL_NAME_SHAPES,
 	MULTI_SELECT_SHAPES,
 	INPUT_FOCUS_SHAPES,

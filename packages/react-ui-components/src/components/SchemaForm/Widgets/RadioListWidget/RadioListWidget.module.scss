@@ -8,10 +8,9 @@
 
 	&.Inline {
 		flex-direction: row;
-	}
 
-	kv-radio-list-item {
-		display: flex;
-		flex: 1;
+		&::part(items-container) {
+			flex-flow: row wrap;
+		}
 	}
 }

@@ -1,4 +1,6 @@
 export const SCHEMA_FORM_STRINGS = {
+	notSet: 'Not set',
+	clearSelection: 'Clear selection',
 	item: 'Item',
 	moveUp: (name: string) => `Move ${name} up`,
 	moveDown: (name: string) => `Move ${name} down`,
