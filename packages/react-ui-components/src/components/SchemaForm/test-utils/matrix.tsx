@@ -407,6 +407,34 @@ export const ACTION_NAME_SHAPES: readonly {
 	}
 ];
 
+/** CustomForm uses the native submit wrapper that KvSchemaForm's external footer bypasses. */
+export const SUBMIT_BUTTON_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema?: UiSchema;
+	formData: string;
+	label: string;
+	disabled: boolean;
+}[] = [
+	{ name: 'default submit label', schema: NAME, formData: 'plant-broker', label: 'Submit', disabled: false },
+	{
+		name: 'custom submit label',
+		schema: NAME,
+		uiSchema: { 'ui:submitButtonOptions': { submitText: 'Deploy connector' } },
+		formData: 'plant-broker',
+		label: 'Deploy connector',
+		disabled: false
+	},
+	{
+		name: 'disabled submit',
+		schema: NAME,
+		uiSchema: { 'ui:submitButtonOptions': { props: { disabled: true } } },
+		formData: 'plant-broker',
+		label: 'Submit',
+		disabled: true
+	}
+];
+
 /** The form `ERROR_SHAPES` apply to: two brokers, so errors can target either item */
 export const BROKER_SCHEMA: RJSFSchema = {
 	type: 'object',
@@ -680,6 +708,7 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 	ARRAY_SHAPES,
 	OBJECT_SHAPES,
 	ACTION_NAME_SHAPES,
+	SUBMIT_BUTTON_SHAPES,
 	BROKER_SCHEMA,
 	BROKER_FORM_DATA,
 	ERROR_SHAPES,
