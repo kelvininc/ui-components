@@ -1,5 +1,6 @@
 import { FieldTemplateProps, RJSFSchema, UiSchema, WidgetProps } from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
+import type { SchemaFormContext } from '../types';
 
 /** Freezes plain data in place; components (functions, memo and forwardRef objects) stay as they are */
 const deepFreeze = <T,>(value: T): T => {
@@ -435,6 +436,115 @@ export const SUBMIT_BUTTON_SHAPES: readonly {
 	}
 ];
 
+/** C3 preserves the textarea value/callback and forwards RJSF's resolved name. */
+export const TEXTAREA_CONSUMER_SHAPES: readonly {
+	name: string;
+	label: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	formData: string;
+	nextText: string;
+}[] = [
+	{
+		name: 'unlimited notes',
+		label: 'Connection notes',
+		schema: { type: 'string', title: 'Connection notes' },
+		uiSchema: { 'ui:widget': 'textarea' },
+		formData: 'Plant broker',
+		nextText: 'Updated broker notes'
+	},
+	{
+		name: 'limited notes',
+		label: 'Connection notes',
+		schema: { type: 'string', title: 'Connection notes' },
+		uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 60 },
+		formData: 'Plant broker',
+		nextText: 'Updated broker notes'
+	},
+	{
+		name: 'overridden field title',
+		label: 'Operator notes',
+		schema: { type: 'string', title: 'Connection notes' },
+		uiSchema: { 'ui:widget': 'textarea', 'ui:title': 'Operator notes' },
+		formData: 'Plant broker',
+		nextText: 'Updated broker notes'
+	}
+];
+
+export const TEXTAREA_EDITABILITY_SHAPES: readonly {
+	name: string;
+	disabled: boolean;
+	readonly: boolean;
+	editable: boolean;
+}[] = [
+	{ name: 'enabled form', disabled: false, readonly: false, editable: true },
+	{ name: 'disabled form', disabled: true, readonly: false, editable: false },
+	{ name: 'read only form', disabled: false, readonly: true, editable: false },
+	{ name: 'disabled and read only form', disabled: true, readonly: true, editable: false }
+];
+
+const TEXTAREA_VALIDATION_FORM = {
+	schema: { type: 'object', properties: { notes: { type: 'string', title: 'Connection notes' } } } satisfies RJSFSchema,
+	uiSchema: { notes: { 'ui:widget': 'textarea' } } satisfies UiSchema<Record<string, unknown>, RJSFSchema, SchemaFormContext>,
+	formData: { notes: 'Plant broker' }
+};
+
+/** A field shows errors after touch or when the form displays all errors. */
+export const TEXTAREA_VALIDATION_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema<Record<string, unknown>, RJSFSchema, SchemaFormContext>;
+	formData: { notes: string };
+	extraErrors: { notes?: { __errors: string[] } };
+	displayErrors: boolean;
+	initialInvalid: boolean;
+	touchedInvalid: boolean;
+}[] = [
+	{ ...TEXTAREA_VALIDATION_FORM, name: 'clean untouched field', extraErrors: {}, displayErrors: false, initialInvalid: false, touchedInvalid: false },
+	{
+		...TEXTAREA_VALIDATION_FORM,
+		name: 'hidden errors become visible on focus',
+		extraErrors: { notes: { __errors: ['Explain why this connection is needed'] } },
+		displayErrors: false,
+		initialInvalid: false,
+		touchedInvalid: true
+	},
+	{
+		...TEXTAREA_VALIDATION_FORM,
+		name: 'globally displayed errors',
+		extraErrors: { notes: { __errors: ['Explain why this connection is needed'] } },
+		displayErrors: true,
+		initialInvalid: true,
+		touchedInvalid: true
+	},
+	{ ...TEXTAREA_VALIDATION_FORM, name: 'display all with no errors', extraErrors: {}, displayErrors: true, initialInvalid: false, touchedInvalid: false }
+];
+
+/** Field errors, the error list, descriptions and helper text share the core help component. */
+export const HELP_TEXT_CONSUMER_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema<Record<string, unknown>, RJSFSchema, SchemaFormContext>;
+	formData: { broker: string; notes: string };
+	extraErrors: { broker: { __errors: string[] } };
+	regularMessages: string[];
+}[] = [
+	{
+		name: 'field and summary errors with ordinary help',
+		schema: {
+			type: 'object',
+			properties: {
+				broker: { type: 'string', title: 'Broker', default: 'mqtts://broker-1:8883' },
+				notes: { type: 'string', title: 'Notes', description: 'Describe this connection' }
+			}
+		},
+		uiSchema: { broker: { 'ui:showDefaultValueHelper': true, 'ui:defaultValueHelperPrefix': 'Default broker: ' } },
+		formData: { broker: 'mqtts://broker-1:8883', notes: 'Plant broker' },
+		extraErrors: { broker: { __errors: ['Broker unavailable'] } },
+		regularMessages: ['ERRORS LIST:', 'Default broker: mqtts://broker-1:8883', 'Describe this connection']
+	}
+];
+
 /** The form `ERROR_SHAPES` apply to: two brokers, so errors can target either item */
 export const BROKER_SCHEMA: RJSFSchema = {
 	type: 'object',
@@ -709,6 +819,10 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 	OBJECT_SHAPES,
 	ACTION_NAME_SHAPES,
 	SUBMIT_BUTTON_SHAPES,
+	TEXTAREA_CONSUMER_SHAPES,
+	TEXTAREA_EDITABILITY_SHAPES,
+	TEXTAREA_VALIDATION_SHAPES,
+	HELP_TEXT_CONSUMER_SHAPES,
 	BROKER_SCHEMA,
 	BROKER_FORM_DATA,
 	ERROR_SHAPES,

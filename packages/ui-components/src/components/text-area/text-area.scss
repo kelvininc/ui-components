@@ -4,9 +4,17 @@
 	/**
 	* @prop --height-default: The height of the text area when is not focused.
 	* @prop --height-active: The height of the text are when is focused.
+	* @prop --background-color-default: The background color of the text area.
+	* @prop --background-color-disabled: The background color of the text area when disabled.
+	* @prop --border-color-error: Border color when state is invalid.
+	* @prop --border-color-disabled: Border color when the text area is disabled.
 	*/
 	--height-default: var(--text-area-height-default);
 	--height-active: 100px;
+	--background-color-default: var(--input-background-default);
+	--background-color-disabled: var(--input-background-disabled);
+	--border-color-error: var(--input-border-color-error);
+	--border-color-disabled: var(--input-border-color-disabled);
 }
 
 .text-area-container {
@@ -34,6 +42,7 @@
 			padding: var(--text-area-padding-y-default) var(--text-area-padding-x-default);
 			border: var(--text-area-border-thickness-default) solid var(--text-area-border-color-default);
 			border-radius: var(--text-area-radius-default);
+			background-color: var(--background-color-default);
 			height: var(--height-default);
 			overflow: auto;
 			transition: height 0.25s ease-in-out;
@@ -78,6 +87,12 @@
 			&:hover:not(:has(.input:focus)) {
 				cursor: pointer;
 			}
+
+			&.invalid,
+			&.invalid:hover,
+			&.invalid:has(.input:focus) {
+				border-color: var(--border-color-error);
+			}
 		}
 
 		&:has(.input:focus) .character-counter {
@@ -101,7 +116,15 @@
 	}
 
 	&.disabled .text-area .text-area-wrapper {
-		border-color: var(--border-interactive-input-disabled);
+		background-color: var(--background-color-disabled);
+
+		/* Disabled fields keep their disabled border through hover and validation changes. */
+		&,
+		&:hover,
+		&.invalid,
+		&.invalid:hover {
+			border-color: var(--border-color-disabled);
+		}
 
 		.input {
 			color: var(--text-interactive-input-disabled);
