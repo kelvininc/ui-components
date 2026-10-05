@@ -2,6 +2,34 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing
 import { CLIPBOARD_CASES } from './text-area.mock';
 
 describe('text area contracts in Chromium', () => {
+	it.each([false, true])('delegates host focus and keyboard input with disabled=%s', async disabled => {
+		const page = await newE2EPage({ html: `<button id="previous">Previous field</button><kv-text-area text="Broker" disabled="${disabled}"></kv-text-area>` });
+		const host = await page.find('kv-text-area');
+		const changed = await host.spyOnEvent('textChange');
+		await page.focus('#previous');
+		await page.evaluate(() => document.querySelector<HTMLElement>('kv-text-area').focus());
+		expect(await page.evaluate(() => document.querySelector('kv-text-area').shadowRoot.activeElement?.classList.contains('input') ?? false)).toBe(!disabled);
+		await page.keyboard.press('End');
+		await page.keyboard.type(' TLS');
+		await page.waitForChanges();
+		const expected = disabled ? 'Broker' : 'Broker TLS';
+		expect(await page.evaluate(() => (document.querySelector('kv-text-area').shadowRoot.querySelector('.input') as HTMLElement).innerText)).toBe(expected);
+		expect(changed).toHaveReceivedEventTimes(disabled ? 0 : 4);
+		expect(changed.lastEvent?.detail).toBe(disabled ? undefined : expected);
+	});
+
+	it('delegates focus when clicking non-focusable host padding', async () => {
+		const page = await newE2EPage({ html: '<button id="previous">Previous field</button><kv-text-area text="Broker" style="display:block;padding:16px"></kv-text-area>' });
+		await page.focus('#previous');
+		const point = await page.$eval('kv-text-area', host => {
+			const { x, y } = host.getBoundingClientRect();
+			return { x: x + 4, y: y + 4 };
+		});
+		await page.mouse.click(point.x, point.y);
+		await page.waitForChanges();
+		expect(await page.evaluate(() => document.querySelector('kv-text-area').shadowRoot.activeElement?.classList.contains('input') ?? false)).toBe(true);
+	});
+
 	it('exposes its name, placeholder and live validation state', async () => {
 		const page = await newE2EPage({ html: '<kv-text-area accessible-label="Connection notes" placeholder="Describe the broker" state="invalid"></kv-text-area>' });
 		const input = await page.$('aria/Connection notes[role="textbox"]');

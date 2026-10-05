@@ -7,7 +7,7 @@ import { getUTF8StringLength } from '../../utils/string.helper';
 @Component({
 	tag: 'kv-text-area',
 	styleUrl: 'text-area.scss',
-	shadow: true
+	shadow: { delegatesFocus: true }
 })
 export class KvTextArea implements ITextArea, ITextAreaEvents {
 	/** @inheritdoc */

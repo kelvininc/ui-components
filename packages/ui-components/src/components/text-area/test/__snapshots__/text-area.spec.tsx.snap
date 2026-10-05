@@ -2,7 +2,7 @@
 
 exports[`Text Area (unit tests) when initialized with icon should match the snapshot 1`] = `
 <kv-text-area counter="" icon="kv-notes" max-char-length="100" state="none">
-  <template shadowrootmode="open">
+  <template shadowrootmode="open" shadowrootdelegatesfocus>
     <div class="text-area-container">
       <kv-icon name="kv-notes"></kv-icon>
       <div class="text-area">
@@ -20,7 +20,7 @@ exports[`Text Area (unit tests) when initialized with icon should match the snap
 
 exports[`Text Area (unit tests) when initialized with required props should match the snapshot 1`] = `
 <kv-text-area counter="" max-char-length="100" state="none">
-  <template shadowrootmode="open">
+  <template shadowrootmode="open" shadowrootdelegatesfocus>
     <div class="text-area-container">
       <div class="text-area">
         <div class="text-area-wrapper">
@@ -37,7 +37,7 @@ exports[`Text Area (unit tests) when initialized with required props should matc
 
 exports[`Text Area (unit tests) when initialized with text and placeholder should match the snapshot 1`] = `
 <kv-text-area counter="" max-char-length="100" placeholder="Add Description" state="none" text="Hello World">
-  <template shadowrootmode="open">
+  <template shadowrootmode="open" shadowrootdelegatesfocus>
     <div class="text-area-container">
       <div class="text-area">
         <div class="text-area-wrapper">
@@ -56,7 +56,7 @@ exports[`Text Area (unit tests) when initialized with text and placeholder shoul
 
 exports[`Text Area (unit tests) when initialized with text should match the snapshot 1`] = `
 <kv-text-area counter="" max-char-length="100" state="none" text="Hello World">
-  <template shadowrootmode="open">
+  <template shadowrootmode="open" shadowrootdelegatesfocus>
     <div class="text-area-container">
       <div class="text-area">
         <div class="text-area-wrapper">
