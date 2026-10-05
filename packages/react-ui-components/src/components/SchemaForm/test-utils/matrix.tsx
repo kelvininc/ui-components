@@ -1,5 +1,6 @@
 import { FieldTemplateProps, RJSFSchema, UiSchema, WidgetProps } from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
+import type { SchemaFormContext } from '../types';
 
 /** Freezes plain data in place; components (functions, memo and forwardRef objects) stay as they are */
 const deepFreeze = <T,>(value: T): T => {
@@ -435,6 +436,55 @@ export const SUBMIT_BUTTON_SHAPES: readonly {
 	}
 ];
 
+/** C3 preserves the textarea consumer's existing value and change callback. */
+export const TEXTAREA_CONSUMER_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	formData: string;
+	nextText: string;
+}[] = [
+	{
+		name: 'unlimited notes',
+		schema: { type: 'string', title: 'Connection notes' },
+		uiSchema: { 'ui:widget': 'textarea' },
+		formData: 'Plant broker',
+		nextText: 'Updated broker notes'
+	},
+	{
+		name: 'limited notes',
+		schema: { type: 'string', title: 'Connection notes' },
+		uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 60 },
+		formData: 'Plant broker',
+		nextText: 'Updated broker notes'
+	}
+];
+
+/** Field errors, the error list, descriptions and helper text share the core help component. */
+export const HELP_TEXT_CONSUMER_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema<Record<string, unknown>, RJSFSchema, SchemaFormContext>;
+	formData: { broker: string; notes: string };
+	extraErrors: { broker: { __errors: string[] } };
+	regularMessages: string[];
+}[] = [
+	{
+		name: 'field and summary errors with ordinary help',
+		schema: {
+			type: 'object',
+			properties: {
+				broker: { type: 'string', title: 'Broker', default: 'mqtts://broker-1:8883' },
+				notes: { type: 'string', title: 'Notes', description: 'Describe this connection' }
+			}
+		},
+		uiSchema: { broker: { 'ui:showDefaultValueHelper': true, 'ui:defaultValueHelperPrefix': 'Default broker: ' } },
+		formData: { broker: 'mqtts://broker-1:8883', notes: 'Plant broker' },
+		extraErrors: { broker: { __errors: ['Broker unavailable'] } },
+		regularMessages: ['ERRORS LIST:', 'Default broker: mqtts://broker-1:8883', 'Describe this connection']
+	}
+];
+
 /** The form `ERROR_SHAPES` apply to: two brokers, so errors can target either item */
 export const BROKER_SCHEMA: RJSFSchema = {
 	type: 'object',
@@ -709,6 +759,8 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 	OBJECT_SHAPES,
 	ACTION_NAME_SHAPES,
 	SUBMIT_BUTTON_SHAPES,
+	TEXTAREA_CONSUMER_SHAPES,
+	HELP_TEXT_CONSUMER_SHAPES,
 	BROKER_SCHEMA,
 	BROKER_FORM_DATA,
 	ERROR_SHAPES,

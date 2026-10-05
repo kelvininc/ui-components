@@ -1,4 +1,86 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
+import { CLIPBOARD_CASES } from './text-area.mock';
+
+describe('text area contracts in Chromium', () => {
+	it('exposes its name, placeholder and live validation state', async () => {
+		const page = await newE2EPage({ html: '<kv-text-area accessible-label="Connection notes" placeholder="Describe the broker" state="invalid"></kv-text-area>' });
+		const input = await page.$('aria/Connection notes[role="textbox"]');
+		expect(input).not.toBeNull();
+		expect(await input.evaluate(element => [element.getAttribute('aria-multiline'), element.getAttribute('aria-placeholder'), element.getAttribute('aria-invalid')])).toEqual([
+			'true',
+			'Describe the broker',
+			'true'
+		]);
+		const host = await page.find('kv-text-area');
+		for (const state of ['valid', 'none']) {
+			host.setProperty('state', state);
+			await page.waitForChanges();
+			expect(host.getAttribute('state')).toBe(state);
+			expect(await input.evaluate(element => element.getAttribute('aria-invalid'))).toBeNull();
+		}
+	});
+
+	it.each(CLIPBOARD_CASES)('pastes native clipboard HTML as plain text with $name', async row => {
+		const attributes = row.limit === undefined ? '' : `max-char-length="${row.limit}"`;
+		const page = await newE2EPage({ html: `<kv-text-area accessible-label="Connection notes" text="${row.initial}" ${attributes}></kv-text-area>` });
+		const context = page.browserContext();
+		try {
+			await context.overridePermissions(new URL(page.url()).origin, ['clipboard-read', 'clipboard-sanitized-write']);
+			await page.evaluate(
+				async ({ plain, html }) => {
+					await navigator.clipboard.write([
+						new ClipboardItem({
+							'text/plain': new Blob([plain], { type: 'text/plain' }),
+							'text/html': new Blob([html], { type: 'text/html' })
+						})
+					]);
+				},
+				{ plain: row.pasted, html: `<strong>${row.pasted}</strong>` }
+			);
+			const host = await page.find('kv-text-area');
+			const changed = await host.spyOnEvent('textChange');
+			const input = await page.find('kv-text-area >>> .input');
+			await input.focus();
+			await page.keyboard.press('End');
+			if (row.disabled) {
+				host.setProperty('disabled', true);
+				await page.waitForChanges();
+			}
+			await page.keyboard.down('Control');
+			await page.keyboard.press('V');
+			await page.keyboard.up('Control');
+			await page.waitForChanges();
+
+			const expected = row.allowed ? row.initial + row.pasted : row.initial;
+			expect(await page.evaluate(() => (document.querySelector('kv-text-area').shadowRoot.querySelector('.input') as HTMLElement).innerText)).toBe(expected);
+			expect(await page.evaluate(() => document.querySelector('kv-text-area').shadowRoot.querySelector('.input').querySelector('strong, b, span'))).toBeNull();
+			expect(changed).toHaveReceivedEventTimes(row.allowed ? 1 : 0);
+			expect(changed.events.map(event => event.detail)).toEqual(row.allowed ? [expected] : []);
+		} finally {
+			await context.clearPermissionOverrides();
+		}
+	});
+
+	it.each([false, true])('uses custom validation borders through hover and focus with disabled=%s', async disabled => {
+		const page = await newE2EPage({
+			html: `<kv-text-area text="Broker notes" state="invalid"
+				style="--text-area-border-thickness-default:1px;--border-color-error:rgb(210,30,40);--border-color-disabled:rgb(80,90,100)"></kv-text-area>`
+		});
+		const border = () => page.evaluate(() => getComputedStyle(document.querySelector('kv-text-area').shadowRoot.querySelector('.text-area-wrapper')).borderColor);
+		const input = await page.find('kv-text-area >>> .input');
+		await page.mouse.move(700, 500);
+		await input.focus();
+		const host = await page.find('kv-text-area');
+		host.setProperty('disabled', disabled);
+		await page.waitForChanges();
+		const expected = disabled ? 'rgb(80, 90, 100)' : 'rgb(210, 30, 40)';
+		expect(await border()).toBe(expected);
+		await page.hover('kv-text-area');
+		expect(await border()).toBe(expected);
+		await input.focus();
+		expect(await border()).toBe(expected);
+	});
+});
 
 describe('Text Area (end-to-end)', () => {
 	let page: E2EPage;
