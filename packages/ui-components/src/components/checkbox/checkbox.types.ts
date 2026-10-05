@@ -16,6 +16,8 @@ export interface ICheckbox {
 	indeterminate?: boolean;
 	/** (optional) Accessible name, for when the checkbox has no visible label (e.g. a table's row selector). Defaults to `label` */
 	accessibleLabel?: string;
+	/** Elements describing the checkbox, including help in an ancestor tree. Clear with an empty array. */
+	accessibleDescriptionElements?: readonly Element[];
 }
 
 export interface ICheckboxEvents {

@@ -21,6 +21,8 @@ export interface ITextArea {
 	state?: EValidationState;
 	/** (optional) Accessible name for the editable area. A visible label outside the component can't name it across the shadow root, so pass that label's text here */
 	accessibleLabel?: string;
+	/** Elements describing the editable area, including help in an ancestor tree. Clear with an empty array. */
+	accessibleDescriptionElements?: readonly Element[];
 }
 
 export interface ITextAreaEvents {

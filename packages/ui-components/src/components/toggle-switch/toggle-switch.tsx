@@ -37,6 +37,7 @@ export class KvToggleSwitch implements IToggleSwitch, IToggleSwitchEvents {
 							value={option.value}
 							label={option.label}
 							accessibleLabel={option.accessibleLabel}
+							accessibleDescriptionElements={option.accessibleDescriptionElements}
 							tooltip={option.tooltip}
 							size={this.size ?? option.size}
 							preventDefault={option.preventDefault}

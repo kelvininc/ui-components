@@ -12,6 +12,8 @@ export interface IToggleButton<T = string | number> {
 	label?: string;
 	/** (optional) Nonblank accessible name for the control. Takes precedence over label and tooltip. */
 	accessibleLabel?: string;
+	/** Elements describing the button or radio, including help in an ancestor tree. Clear with an empty array. */
+	accessibleDescriptionElements?: readonly Element[];
 	/** (optional) Sets the button's styling to be disabled and disables click events */
 	disabled?: boolean;
 	/** (optional) Sets the button as checked */

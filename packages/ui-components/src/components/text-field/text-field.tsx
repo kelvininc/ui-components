@@ -9,6 +9,7 @@ import { buildInputMask, getValueAsString, isInputMaskCompatibleType } from './t
 import Inputmask from 'inputmask';
 import { getUTF8StringLength, isValidLabel } from '../../utils/string.helper';
 import { HostAttributes, Method } from '@stencil/core/internal';
+import { setAccessibleDescriptionElements } from '../../utils/accessible-description.helper';
 
 /**
  * @part input-container - container that includes the input, right and left slot
@@ -30,6 +31,8 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
 	@Prop() accessibleLabel?: string;
+	/** @inheritdoc */
+	@Prop() accessibleDescriptionElements?: readonly Element[];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) examples?: string[];
 	/** @inheritdoc */
@@ -175,6 +178,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	}
 
 	componentDidRender() {
+		setAccessibleDescriptionElements(this.nativeInput, this.accessibleDescriptionElements);
 		// rendering writes `value` into the input, which the mask can rewrite (e.g. clamping to min/max)
 		this.syncValueWithNativeInput();
 	}
