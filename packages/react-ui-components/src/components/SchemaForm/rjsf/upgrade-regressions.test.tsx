@@ -43,7 +43,7 @@ describe.each(MULTI_SELECT_SHAPES)('RJSF upgrade regression: $name', row => {
 		expect(Object.values(options).map(option => option.label)).toEqual(row.labels);
 
 		await act(async () => {
-			fireStencilEvent(dropdown, 'onOptionsSelected', { 'south-line': true });
+			fireStencilEvent(dropdown, 'onOptionsSelected', { [Object.values(options)[1].value]: true });
 		});
 		expect(onChange.mock.lastCall?.[0].formData).toEqual(['south-line']);
 	});
