@@ -139,7 +139,7 @@ function pinnedValues(node: unknown): unknown[] {
 	return Array.isArray(values) && values.length === 1 ? values : [];
 }
 
-type OptionMetadata = { discriminating: Map<string, unknown[]>; rootPins: unknown[]; complements: Map<string, boolean> };
+type OptionMetadata = { optionCount: number; discriminating: Map<string, unknown[]>; rootPins: unknown[]; complements: Map<string, boolean> };
 function optionMetadata(rootSchema: RJSFSchema, path: string): OptionMetadata | undefined {
 	const options = resolvePointer(rootSchema, path);
 	if (!Array.isArray(options) || !options.length || options.some(option => hasSchemaReference(option))) return undefined;
@@ -150,7 +150,7 @@ function optionMetadata(rootSchema: RJSFSchema, path: string): OptionMetadata | 
 		const values = properties.flatMap(property => pinnedValues(property[name]));
 		if (values.length) discriminating.set(name, values);
 	}
-	return { discriminating, rootPins: options.flatMap(pinnedValues), complements: new Map() };
+	return { optionCount: options.length, discriminating, rootPins: options.flatMap(pinnedValues), complements: new Map() };
 }
 
 /** A negated value identifies a complement only when every exclusion is pinned by an option. */
@@ -186,7 +186,7 @@ type OptionGroup = { selectors: RJSFValidationError[]; branches: Map<string, Opt
 /**
  * Prune option noise only when one branch retains content errors and has no discriminator
  * mismatch. Store each error at its nearest group and inspect nested groups first.
- * Referenced, unresolved and ambiguous options retain their errors, including their selector.
+ * Referenced, unresolved, incomplete and ambiguous options retain their errors, including their selector.
  */
 export function pruneOptionErrors(errors: RJSFValidationError[], rootSchema?: RJSFSchema): RJSFValidationError[] {
 	if (!rootSchema) return errors;
@@ -239,14 +239,26 @@ export function pruneOptionErrors(errors: RJSFValidationError[], rootSchema?: RJ
 			const path = group.selectors[0].schemaPath!;
 			if (!metadata.has(path)) metadata.set(path, optionMetadata(rootSchema, path));
 			const info = metadata.get(path);
-			if (!info || group.selectors.some(error => Array.isArray(error.params?.passingSchemas) && error.params.passingSchemas.length > 1)) continue;
+			// Passing options emit no branch errors, so partial coverage leaves viability unknown.
+			if (
+				!info ||
+				group.branches.size !== info.optionCount ||
+				group.selectors.some(error => Array.isArray(error.params?.passingSchemas) && error.params.passingSchemas.length > 1)
+			)
+				continue;
 			const candidates: string[] = [];
+			let complete = true;
 			for (const [key, branch] of group.branches) {
+				const branchIndex = Number(key);
+				if (branchIndex >= info.optionCount || String(branchIndex) !== key) {
+					complete = false;
+					break;
+				}
 				// A child retains its selector or selected content, so it always contributes an error.
 				if ((branch.errors.length || branch.children.length) && !branch.errors.some(error => isDiscriminatorError(error, `${path}/${key}/`, info, rootSchema)))
 					candidates.push(key);
 			}
-			if (candidates.length !== 1) continue;
+			if (!complete || candidates.length !== 1) continue;
 			group.dropSelector = true;
 			for (const [key, branch] of group.branches) branch.dropped = key !== candidates[0];
 		}

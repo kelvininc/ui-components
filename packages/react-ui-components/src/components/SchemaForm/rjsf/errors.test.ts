@@ -273,6 +273,15 @@ describe('pruneOptionErrors', () => {
 		expect(pruned.map(({ name, property }) => `${name} ${property}`).sort()).toEqual(['required .security.sasl.password', 'required .security.sasl.username']);
 	});
 
+	it('still prunes complete failure coverage when the validator omits selector params', () => {
+		const raw = freeze(validate({ security: { protocol: 'SASL_PLAINTEXT', sasl: {} } }));
+		expect(raw.filter(error => error.name === 'required')).toHaveLength(2);
+		const withoutParams = freeze(raw.map(error => (error.name === 'oneOf' ? { ...error, params: undefined } : error)));
+		for (const input of [withoutParams, freeze([...withoutParams].reverse())]) {
+			expect(pruneOptionErrors(input, securitySchema)).toEqual(input.filter(error => error.name === 'required'));
+		}
+	});
+
 	it('keeps the oneOf error when no option reports anything but discriminator mismatches', () => {
 		const errors = validate({ security: { protocol: 'SSL' } });
 
@@ -873,6 +882,76 @@ describe('pruneOptionErrors with dependencies options', () => {
 		expect(errors.map(({ name }) => name)).toEqual(expect.arrayContaining(['enum', 'oneOf']));
 
 		expect(pruneOptionErrors(errors, undiscriminatedSchema)).toBe(errors);
+	});
+});
+
+describe('pruneOptionErrors with incomplete validator metadata', () => {
+	it.each([
+		{ name: 'passingSchemas omitted', params: {} },
+		{ name: 'selector params omitted', params: undefined },
+		{ name: 'passingSchemas null', params: { passingSchemas: null } },
+		{ name: 'passingSchemas empty', params: { passingSchemas: [] } }
+	])('keeps an ambiguous oneOf selector with $name', ({ params }) => {
+		const schema: RJSFSchema = freeze({
+			type: 'object',
+			properties: { host: { type: 'string' } },
+			oneOf: [{ properties: { host: { minLength: 10 } } }, { properties: { host: { maxLength: 8 } } }, { properties: { host: { pattern: '^[a-z]+$' } } }]
+		});
+		const raw = freeze(validator.validateFormData({ host: 'plant' }, schema).errors);
+		expect(raw).toHaveLength(2);
+		expect(raw.find(error => error.name === 'oneOf')?.params.passingSchemas).toEqual([1, 2]);
+		const incomplete = freeze(raw.map(error => (error.name === 'oneOf' ? { ...error, params } : error)));
+		for (const input of [incomplete, freeze([...incomplete].reverse())]) expect(pruneOptionErrors(input, schema)).toBe(input);
+	});
+
+	it.each(['oneOf', 'anyOf'] as const)('keeps the %s selector when a validator omits a failed branch', keyword => {
+		const schema: RJSFSchema = freeze({
+			type: 'object',
+			[keyword]: [
+				{ properties: { protocol: { const: 'TCP' }, host: { type: 'string' } }, required: ['host'] },
+				{ properties: { protocol: { const: 'TLS' }, certificate: { type: 'string' } }, required: ['certificate'] },
+				{ properties: { protocol: { const: 'UDP' }, port: { type: 'integer' } }, required: ['port'] }
+			]
+		});
+		const raw = freeze(validator.validateFormData({ protocol: 'TLS' }, schema).errors);
+		const retained = raw.filter(error => error.name === 'required' && error.property === 'certificate');
+		expect(retained).toHaveLength(1);
+		expect(pruneOptionErrors(raw, schema)).toEqual(retained);
+		const incomplete = freeze(raw.filter(error => !error.schemaPath?.startsWith(`#/${keyword}/2/`)));
+		expect(incomplete).toHaveLength(raw.length - 2);
+		for (const input of [incomplete, freeze([...incomplete].reverse())]) expect(pruneOptionErrors(input, schema)).toBe(input);
+	});
+
+	it('checks failure coverage independently for complete and ambiguous array items', () => {
+		const schema: RJSFSchema = freeze({
+			type: 'array',
+			items: {
+				type: 'object',
+				oneOf: [
+					{ properties: { kind: { type: 'string' }, host: { type: 'string', minLength: 10 } } },
+					{ properties: { kind: { const: 'plaintext' }, host: { type: 'string', maxLength: 8 } } },
+					{ properties: { kind: { const: 'plaintext' }, host: { type: 'string', pattern: '^[a-z]+$' } } }
+				]
+			}
+		});
+		const raw = freeze(
+			validator.validateFormData(
+				[
+					{ kind: 'secured', host: 'plant' },
+					{ kind: 'plaintext', host: 'plant' }
+				],
+				schema
+			).errors
+		);
+		expect(raw.find(error => error.name === 'oneOf' && error.property === '.0')?.params.passingSchemas).toBeNull();
+		expect(raw.find(error => error.name === 'oneOf' && error.property === '.1')?.params.passingSchemas).toEqual([1, 2]);
+		const withoutParams = freeze(raw.map(error => (error.name === 'oneOf' ? { ...error, params: undefined } : error)));
+		for (const input of [withoutParams, freeze([...withoutParams].reverse())]) {
+			const expected = input.filter(error => error.property !== '.0.kind' && !(error.name === 'oneOf' && error.property === '.0'));
+			const result = pruneOptionErrors(input, schema);
+			expect(result).toEqual(expected);
+			expect(result.filter(error => error.name === 'oneOf').map(error => error.property)).toEqual(['.1']);
+		}
 	});
 });
 
