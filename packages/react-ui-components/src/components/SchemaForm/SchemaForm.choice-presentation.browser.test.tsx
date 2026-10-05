@@ -34,26 +34,30 @@ const clearButton = (host: Element): HTMLButtonElement =>
 const unsetAnnotations = (container: Element) => Array.from(container.querySelectorAll('span')).filter(element => element.textContent === 'Not set');
 
 describe.each(RADIO_STYLE_THEMES)('radio presentation in $name', ({ mode }) => {
-	it.each(RADIO_INLINE_STYLE_SHAPES)('fills compact inline groups for $name', async row => {
-		try {
-			setThemeMode(mode);
-			const screen = await render(
-				<div style={{ width: '600px' }}>
-					<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': 'radio', 'ui:options': { inline: true } } }} />
-				</div>
-			);
-			await whenAllKelvinReady(screen.container);
-			const host = screen.container.querySelector('kv-radio-list')!;
-			const group = host.shadowRoot!.querySelector('[part="items-container"]')!;
-			const items = Array.from(group.querySelectorAll('kv-radio-list-item'));
-			const width = group.getBoundingClientRect().width;
-			const gap = Number.parseFloat(getComputedStyle(group).columnGap);
-			expect(Math.abs(width - host.getBoundingClientRect().width)).toBeLessThan(1);
-			expect(Math.abs(items[0].getBoundingClientRect().width - items[1].getBoundingClientRect().width)).toBeLessThan(1);
-			expect(Math.abs(items[0].getBoundingClientRect().width * 2 + gap - width)).toBeLessThan(1);
-		} finally {
-			setThemeMode(StyleMode.Night);
-		}
+	describe.each(RADIO_KEYBOARD_SHAPES)('inline $name', ({ widget }) => {
+		it.each(RADIO_INLINE_STYLE_SHAPES)('fills groups and stretches cards for $name', async row => {
+			try {
+				setThemeMode(mode);
+				const screen = await render(
+					<div style={{ width: '600px' }}>
+						<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': widget, 'ui:options': { inline: true, enumDescriptions: row.descriptions } } }} />
+					</div>
+				);
+				await whenAllKelvinReady(screen.container);
+				const host = screen.container.querySelector('kv-radio-list')!;
+				const group = host.shadowRoot!.querySelector('[part="items-container"]')!;
+				const items = Array.from(group.querySelectorAll('kv-radio-list-item'));
+				const width = group.getBoundingClientRect().width;
+				const gap = Number.parseFloat(getComputedStyle(group).columnGap);
+				expect(Math.abs(width - host.getBoundingClientRect().width)).toBeLessThan(1);
+				expect(Math.abs(items[0].getBoundingClientRect().width - items[1].getBoundingClientRect().width)).toBeLessThan(1);
+				expect(Math.abs(items[0].getBoundingClientRect().width * 2 + gap - width)).toBeLessThan(1);
+				const cards = items.map(item => item.shadowRoot!.querySelector('.radio-list-item-container')!);
+				expect(Math.abs(cards[0].getBoundingClientRect().height - cards[1].getBoundingClientRect().height)).toBeLessThan(1);
+			} finally {
+				setThemeMode(StyleMode.Night);
+			}
+		});
 	});
 	it.each(RADIO_KEYBOARD_SHAPES)('preserves $name typography and background', async ({ widget }) => {
 		try {
