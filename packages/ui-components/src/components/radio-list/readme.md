@@ -38,13 +38,15 @@ const RadioListExample: React.FC = () => {
 
 ## Properties
 
-| Property               | Attribute          | Description                                            | Type                                              | Default     |
-| ---------------------- | ------------------ | ------------------------------------------------------ | ------------------------------------------------- | ----------- |
-| `disabledOptions`      | `disabled-options` | (optional) The options to show up as disabled          | `{ [x: string]: boolean; [x: number]: boolean; }` | `undefined` |
-| `label`                | `label`            | (optional) Form field label                            | `string`                                          | `undefined` |
-| `options` _(required)_ | `options`          | (required) The configuration for the buttons to render | `Omit<IRadioListItem, "skipTabStop">[]`           | `undefined` |
-| `required`             | `required`         | (optional) Form field required                         | `boolean`                                         | `false`     |
-| `selectedOption`       | `selected-option`  | (optional) The desired selected option                 | `number \| string`                                | `undefined` |
+| Property               | Attribute          | Description                                                                            | Type                                              | Default     |
+| ---------------------- | ------------------ | -------------------------------------------------------------------------------------- | ------------------------------------------------- | ----------- |
+| `accessibleLabel`      | `accessible-label` | Names the radio group without rendering text. Takes precedence over the visible label. | `string`                                          | `undefined` |
+| `disabledOptions`      | `disabled-options` | (optional) The options to show up as disabled                                          | `{ [x: string]: boolean; [x: number]: boolean; }` | `undefined` |
+| `invalid`              | `invalid`          | When true, reports a validation error on the radio group.                              | `boolean`                                         | `undefined` |
+| `label`                | `label`            | (optional) Form field label                                                            | `string`                                          | `undefined` |
+| `options` _(required)_ | `options`          | (required) The configuration for the buttons to render                                 | `Omit<IRadioListItem, "skipTabStop">[]`           | `undefined` |
+| `required`             | `required`         | (optional) Form field required                                                         | `boolean`                                         | `false`     |
+| `selectedOption`       | `selected-option`  | (optional) The desired selected option                                                 | `number \| string`                                | `undefined` |
 
 
 ## Events
