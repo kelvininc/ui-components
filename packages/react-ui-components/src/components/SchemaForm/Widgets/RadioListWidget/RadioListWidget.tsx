@@ -4,7 +4,7 @@ import { KvRadioListItem } from '../../../../stencil-generated';
 import styles from './RadioListWidget.module.scss';
 import classNames from 'classnames';
 import { get } from 'lodash';
-import { useFormState } from '../../contexts';
+import { useFieldDescription, useFormState } from '../../contexts';
 
 const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
@@ -16,6 +16,7 @@ const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends F
 	onChange
 }: WidgetProps<T, S, F>) => {
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
+	const accessibleDescriptionElements = useFieldDescription(id);
 	const { enumOptions, enumDisabled, enumDescriptions, inline } = options;
 	const inlineMemo = useMemo(() => Boolean(inline), [inline]);
 	const { allowClearInputs } = formContext as F;
@@ -47,6 +48,7 @@ const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends F
 							label={option.label}
 							disabled={isDisabled}
 							checked={checked}
+							accessibleDescriptionElements={accessibleDescriptionElements}
 							description={description}
 							onOptionClick={(_value: unknown) => handleChange(option.value, checked)}
 							onFocus={() => markFieldAsTouched(id)}
