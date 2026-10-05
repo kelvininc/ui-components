@@ -1183,6 +1183,29 @@ export const R2_SHARED_FIELD_ID_SHAPES = [
 	}
 ];
 
+/** RJSF 5 keeps the selector suffix fixed while the owner's separator changes. */
+export const R2_SELECTOR_OWNER_SHAPES = (['oneOf', 'anyOf'] as const).flatMap(keyword =>
+	['_', '__', '/'].map(idSeparator => {
+		const base = R2_SHARED_FIELD_ID_SHAPES[0];
+		const { oneOf, ...authentication } = base.schema.properties.authentication;
+		return {
+			name: `${keyword} selector with separator ${idSeparator}`,
+			idSeparator,
+			schema: {
+				...base.schema,
+				properties: { authentication: { ...authentication, [keyword]: oneOf }, audit_mode: { type: 'string', title: 'Audit mode' } }
+			} satisfies RJSFSchema,
+			formData: base.formData,
+			extraErrors: {
+				__errors: ['Connection failed'],
+				authentication: { __errors: ['Authentication failed'] },
+				audit_mode: { __errors: ['Audit mode failed'] }
+			},
+			selectorId: `${['root', 'authentication'].join(idSeparator)}__${keyword.toLowerCase()}_select`
+		};
+	})
+);
+
 const FieldLayout = ({ children }: FieldTemplateProps) => <div data-field-layout="">{children}</div>;
 const ForwardRefFieldLayout = forwardRef<HTMLDivElement, FieldTemplateProps>(({ children }, ref) => (
 	<div ref={ref} data-field-layout="">
@@ -1820,6 +1843,7 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	R2_ABANDONED_RENDER_SHAPES,
 	R2_VALIDATOR_IDENTITY_SHAPES,
 	R2_SHARED_FIELD_ID_SHAPES,
+	R2_SELECTOR_OWNER_SHAPES,
 	R2_NATIVE_SUBMIT_SHAPES,
 	R2_SCALAR_DISCARD_SHAPES,
 	R2_FILE_ERROR_VISIBILITY_SHAPES,

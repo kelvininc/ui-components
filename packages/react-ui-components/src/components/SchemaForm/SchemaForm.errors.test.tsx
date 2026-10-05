@@ -18,7 +18,8 @@ import {
 	R2_SECTION_ERROR_SHAPE,
 	R2_RESET_SHAPES,
 	R2_ERROR_DESCRIPTION_SHAPES,
-	R2_BOUNDARY_TRANSITIONS
+	R2_BOUNDARY_TRANSITIONS,
+	R2_SELECTOR_OWNER_SHAPES
 } from './test-utils/matrix';
 
 vi.mock('../../stencil-generated', async () => (await import('../../test-utils')).stencilMocks);
@@ -212,6 +213,18 @@ it.each(['_', '__'])('shows touched ancestors with separator %s and keeps snake_
 	});
 	expect(errorMessages()).toEqual(['Connection failed', 'TLS failed']);
 	expect(errorMessages()).not.toContain('Version failed');
+});
+
+describe.each(R2_SELECTOR_OWNER_SHAPES)('option-selector ownership: $name', row => {
+	it('uses the actual RJSF id and reveals only its owner and ancestors on focus', async () => {
+		const { name: _name, selectorId, ...props } = row;
+		await renderForm({ ...props, showErrorList: false });
+		expect(container.querySelector(`[id="${selectorId}"]`)).not.toBeNull();
+		expect(errorMessages()).toEqual([]);
+		await act(async () => fireStencilEvent(selectorId, 'onFocus'));
+		expect(errorMessages()).toEqual(expect.arrayContaining(['Connection failed', 'Authentication failed']));
+		expect(errorMessages()).not.toContain('Audit mode failed');
+	});
 });
 
 it('clears touched and submitted visibility on discard and acknowledges new saved data', async () => {

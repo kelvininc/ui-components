@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../test-utils/browser';
 import { KvSchemaForm } from './SchemaForm';
-import { BROKER_FORM_DATA, BROKER_SCHEMA, ERROR_SHAPES, R2_ERROR_DESCRIPTION_SHAPES, R2_SECTION_ERROR_SHAPE } from './test-utils/matrix';
+import { BROKER_FORM_DATA, BROKER_SCHEMA, ERROR_SHAPES, R2_ERROR_DESCRIPTION_SHAPES, R2_SECTION_ERROR_SHAPE, R2_SELECTOR_OWNER_SHAPES } from './test-utils/matrix';
 
 function controlsWithin(host: Element): Element[] {
 	const controls: Element[] = [];
@@ -79,6 +79,23 @@ describe.each(R2_ERROR_DESCRIPTION_SHAPES)('real error description: $name', row 
 			for (const host of screen.container.querySelectorAll(field.tag)) {
 				for (const control of controlsWithin(host)) await expect.poll(() => control.ariaDescribedByElements ?? []).toEqual([]);
 			}
+	});
+});
+
+describe.each(R2_SELECTOR_OWNER_SHAPES)('real option-selector ownership: $name', row => {
+	it('reveals its owner and ancestors when the actual selector is focused', async () => {
+		const { name: _name, selectorId, ...props } = row;
+		const screen = await render(<KvSchemaForm {...props} showErrorList={false} />);
+		await whenAllKelvinReady(screen.container);
+		expect(screen.container.querySelector(`[id="${selectorId}"]`)).not.toBeNull();
+		const messages = () =>
+			Array.from(screen.container.querySelectorAll<HTMLKvFormHelpTextElement>('kv-form-help-text'))
+				.filter(host => host.state === 'invalid')
+				.flatMap(host => host.helpText as string[]);
+		expect(messages()).toEqual([]);
+		await screen.getByRole('textbox', { name: 'Authentication', exact: true }).click();
+		await expect.poll(messages).toEqual(expect.arrayContaining(['Connection failed', 'Authentication failed']));
+		expect(messages()).not.toContain('Audit mode failed');
 	});
 });
 
