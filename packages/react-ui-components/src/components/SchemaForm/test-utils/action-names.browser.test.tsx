@@ -3,8 +3,40 @@ import { describe, expect, it, vi } from 'vitest';
 import { userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../../test-utils/browser';
-import { KvSchemaForm } from '../SchemaForm';
-import { ACTION_NAME_SHAPES } from './matrix';
+import { getDefaultValidator } from '../../../utils';
+import { CustomForm, KvSchemaForm } from '../SchemaForm';
+import { FormStateProvider } from '../contexts';
+import { ACTION_NAME_SHAPES, SUBMIT_BUTTON_SHAPES } from './matrix';
+
+describe.each(SUBMIT_BUTTON_SHAPES)('native form submission: $name', row => {
+	it.each(['{Enter}', ' '])('submits once with %s unless disabled', async key => {
+		const onSubmit = vi.fn();
+		const onError = vi.fn();
+		const screen = await render(
+			<FormStateProvider initialFormData={row.formData}>
+				<CustomForm schema={row.schema} uiSchema={row.uiSchema} formData={row.formData} validator={getDefaultValidator()} onSubmit={onSubmit} onError={onError} />
+			</FormStateProvider>
+		);
+		await whenAllKelvinReady(screen.container);
+		const nativeSubmit = screen.container.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+		const host = nativeSubmit.querySelector<HTMLKvActionButtonTextElement>('kv-action-button-text')!;
+		expect(host.text).toBe(row.label);
+		const submit = vi.fn();
+		screen.container.querySelector('form')!.addEventListener('submit', submit);
+		host.focus();
+		await userEvent.keyboard(key);
+
+		expect(submit).toHaveBeenCalledTimes(row.disabled ? 0 : 1);
+		if (row.disabled) {
+			expect(onSubmit).not.toHaveBeenCalled();
+		} else {
+			await expect.poll(() => onSubmit.mock.calls.length).toBe(1);
+			expect(onSubmit.mock.lastCall?.[0].formData).toEqual(row.formData);
+			expect((submit.mock.lastCall?.[0] as SubmitEvent).submitter).toBe(nativeSubmit);
+		}
+		expect(onError).not.toHaveBeenCalled();
+	});
+});
 
 describe.each(ACTION_NAME_SHAPES)('action names in Chromium: $name', row => {
 	it('finds every action by its name', async () => {

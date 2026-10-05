@@ -25,7 +25,7 @@ describe('action button keyboard', () => {
 		expect(nativeClick).toHaveReceivedEventTimes(2);
 	});
 
-	it.each(ACTION_BUTTON_VARIANTS.flatMap(variant => ['Enter', 'Space'].map(key => ({ ...variant, key }))))(
+	it.each(ACTION_BUTTON_VARIANTS.flatMap(variant => (['Enter', 'Space'] as const).map(key => ({ ...variant, key }))))(
 		'consumes held $key after $name disables on activation',
 		async variant => {
 			const page = await newE2EPage();

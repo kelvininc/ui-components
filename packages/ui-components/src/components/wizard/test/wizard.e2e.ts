@@ -146,18 +146,51 @@ describe('wizard keyboard ownership', () => {
 		expect(activation).toHaveReceivedEventTimes(1);
 	});
 
-	it.each([
-		{ name: 'disabled', props: { disabled: true } },
-		{ name: 'error', props: { currentStepState: { state: EStepState.Error, error: 'Set a broker URL' } } },
-		{ name: 'pending', props: { currentStepState: undefined } }
-	])('keeps a $name step from advancing', async row => {
-		const page = await renderWizard('<input id="owner" aria-label="Connector name" />', 0, row.props);
+	it.each(
+		[
+			{ name: 'disabled', props: { disabled: true } },
+			{ name: 'error', props: { currentStepState: { state: EStepState.Error, error: 'Set a broker URL' } } },
+			{ name: 'pending', props: { currentStepState: undefined } }
+		].flatMap(row => [0, MOCK_STEPS.length - 1].map(step => ({ ...row, step })))
+	)('keeps a $name step $step from advancing or completing', async row => {
+		const page = await renderWizard('<input id="owner" aria-label="Connector name" />', row.step, row.props);
 		const wizard = await page.find('kv-wizard');
 		const goToStep = await wizard.spyOnEvent('goToStep');
+		const complete = await wizard.spyOnEvent('completeClick');
+		await page.evaluate(() =>
+			document.addEventListener('keydown', event => {
+				if (event.key === 'Enter') document.body.dataset.prevented = String(event.defaultPrevented);
+			})
+		);
 		await page.focus('#owner');
 		await page.keyboard.press('Enter');
 		await page.waitForChanges();
 
 		expect(goToStep).not.toHaveReceivedEvent();
+		expect(complete).not.toHaveReceivedEvent();
+		expect(await page.evaluate(() => document.body.dataset.prevented)).toBe(row.name === 'pending' ? 'true' : 'false');
+	});
+
+	it('leaves Enter uncanceled before a footer can initialize', async () => {
+		const page = await newE2EPage();
+		await page.setContent('<kv-wizard><input id="owner" slot="step-content" aria-label="Connector name" /></kv-wizard>');
+		const wizard = await page.find('kv-wizard');
+		const goToStep = await wizard.spyOnEvent('goToStep');
+		const complete = await wizard.spyOnEvent('completeClick');
+		const footer = await page.find('kv-wizard >>> kv-wizard-footer');
+		expect(await footer.getProperty('steps')).toBeUndefined();
+		expect(await footer.getProperty('currentStep')).toBeUndefined();
+		await page.evaluate(() =>
+			document.addEventListener('keydown', event => {
+				if (event.key === 'Enter') document.body.dataset.prevented = String(event.defaultPrevented);
+			})
+		);
+		await page.focus('#owner');
+		await page.keyboard.press('Enter');
+		await page.waitForChanges();
+
+		expect(goToStep).not.toHaveReceivedEvent();
+		expect(complete).not.toHaveReceivedEvent();
+		expect(await page.evaluate(() => document.body.dataset.prevented)).toBe('false');
 	});
 });
