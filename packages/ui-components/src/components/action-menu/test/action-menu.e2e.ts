@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from '@stencil/core/testing';
-import { MENU_ACTIVATION_KEYS, MENU_NAVIGATION_KEYS, MENU_OPEN_KEYS, MENU_ROW_MOVE_STATES, MENU_SHAPES, MENU_TAB_SHAPES } from './action-menu.matrix';
+import { MENU_ACTIVATION_KEYS, MENU_FOCUS_DESTINATIONS, MENU_NAVIGATION_KEYS, MENU_OPEN_KEYS, MENU_ROW_MOVE_STATES, MENU_SHAPES, MENU_TAB_SHAPES } from './action-menu.matrix';
 
 const renderMenu = async (row = MENU_SHAPES[0]) => {
 	const page = await newE2EPage();
@@ -159,6 +159,38 @@ describe('C5 menu activation', () => {
 });
 
 describe('C5 menu focus and state', () => {
+	it.each(MENU_FOCUS_DESTINATIONS)('settles setFocus inside a shadow root before %s', async key => {
+		const page = await newE2EPage({ html: '<div id="topic-shell"></div>' });
+		await page.evaluate(async items => {
+			const root = document.querySelector('#topic-shell').attachShadow({ mode: 'open' });
+			const host = document.createElement('kv-action-menu');
+			host.accessibleLabel = 'Topic 1 actions';
+			host.items = items;
+			const save = document.createElement('button');
+			save.id = 'save';
+			save.type = 'button';
+			save.textContent = 'Save topic';
+			root.append(host, save);
+			await host.componentOnReady();
+		}, MENU_SHAPES[0].items);
+		await page.waitForChanges();
+		const settled = await page.evaluate(async () => {
+			const host = document.querySelector('#topic-shell').shadowRoot.querySelector('kv-action-menu');
+			let done = false;
+			void host.setFocus().then(() => (done = true));
+			await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+			await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+			return done;
+		});
+		expect(settled).toBe(true);
+		expect(await activeControl(page)).toMatchObject({ role: 'button', name: 'Topic 1 actions' });
+		await page.keyboard.press(key);
+		await page.waitForChanges();
+		if (key === 'Enter') await expectMenuFocus(page, 'move-up');
+		expect(await activeControl(page)).toMatchObject(key === 'Tab' ? { id: 'save' } : { role: 'menuitem', id: 'move-up' });
+		expect(await page.evaluate(() => getComputedStyle(document.querySelector('[role="menu"]')).display)).toBe(key === 'Tab' ? 'none' : 'flex');
+	});
+
 	it.each(MENU_ROW_MOVE_STATES)('recreates its portal after a %s row move', async state => {
 		const { page, selected } = await renderMenu();
 		if (state !== 'closed') {

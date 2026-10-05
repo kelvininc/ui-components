@@ -44,6 +44,7 @@
 
 	&:hover:not(:disabled) {
 		background: var(--background-interactive-slider-list-hover);
+		color: var(--text-interactive-slider-list-hover);
 	}
 
 	&:focus-visible {

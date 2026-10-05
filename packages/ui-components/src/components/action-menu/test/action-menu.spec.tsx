@@ -1,3 +1,5 @@
+jest.mock('../action-menu.scss', () => '', { virtual: true });
+
 import { newSpecPage } from '@stencil/core/testing';
 import { KvActionButton } from '../../action-button/action-button';
 import { KvActionButtonIcon } from '../../action-button-icon/action-button-icon';

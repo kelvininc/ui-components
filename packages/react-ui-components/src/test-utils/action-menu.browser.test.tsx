@@ -202,6 +202,9 @@ describe.each(MENU_THEMES)('C5 menu presentation: %s', theme => {
 		const symbol = arrow.shadowRoot!.querySelector('use')!;
 		await expect.poll(() => symbol.getBBox().width).toBeGreaterThan(0);
 		await expect.poll(() => symbol.getBBox().height).toBeGreaterThan(0);
+		await userEvent.hover(up);
+		const ordinaryHover = getComputedStyle(up.element());
+		expect(contrastRatio(ordinaryHover.color, ordinaryHover.backgroundColor)).toBeGreaterThanOrEqual(4.5);
 		await userEvent.hover(remove);
 		const hovered = getComputedStyle(remove.element());
 		expect(contrastRatio(hovered.color, hovered.backgroundColor)).toBeGreaterThanOrEqual(4.5);

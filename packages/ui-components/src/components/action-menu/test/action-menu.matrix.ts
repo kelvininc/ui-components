@@ -29,6 +29,7 @@ export const MENU_NAVIGATION_KEYS = Object.freeze(['ArrowDown', 'ArrowDown', 'Ar
 export const MENU_TAB_SHAPES = Object.freeze(MENU_SHAPES.filter(row => ['all enabled', 'all disabled', 'empty'].includes(row.name)));
 export const MENU_THEMES = Object.freeze(['light', 'night'] as const);
 export const MENU_ROW_MOVE_STATES = Object.freeze(['closed', 'open', 'selection'] as const);
+export const MENU_FOCUS_DESTINATIONS = Object.freeze(['Tab', 'Enter'] as const);
 export const MENU_TRIGGER_VARIANTS = Object.freeze([
 	{ name: 'base', tag: 'kv-action-button', html: '<kv-action-button type="tertiary" accessible-label="Topic 1 actions">Actions</kv-action-button>' },
 	{ name: 'icon', tag: 'kv-action-button-icon', html: '<kv-action-button-icon type="tertiary" icon="kv-more" accessible-label="Topic 1 actions"></kv-action-button-icon>' }

@@ -1,3 +1,4 @@
+/* eslint @stencil-community/required-prefix: "off" -- This rule can't statically evaluate an imported stylesheet. */
 import { Component, Element, Event, EventEmitter, forceUpdate, h, Host, Method, Prop, State, Watch } from '@stencil/core';
 import { EComponentSize } from '../../utils/types';
 import { getNextEnabledIndex } from '../../utils/keyboard-navigation.helper';
@@ -5,10 +6,11 @@ import { EActionButtonType } from '../action-button/action-button.types';
 import { DEFAULT_POSITION_CONFIG } from '../dropdown-base/dropdown-base.config';
 import { EIconName } from '../icon/icon.types';
 import { IActionMenu, IActionMenuEvents, IActionMenuItem } from './action-menu.types';
+import menuStyles from './action-menu.scss';
 
 const FOCUS_WAIT_MS = 1000;
 
-@Component({ tag: 'kv-action-menu', styleUrl: 'action-menu.scss', shadow: false, scoped: true })
+@Component({ tag: 'kv-action-menu', styles: menuStyles, shadow: false, scoped: true })
 export class KvActionMenu implements IActionMenu, IActionMenuEvents {
 	/** @inheritdoc */
 	@Prop() accessibleLabel!: string;
@@ -61,7 +63,7 @@ export class KvActionMenu implements IActionMenu, IActionMenuEvents {
 				if (this.disabled || !this.element.isConnected) return;
 				if (trigger === this.trigger && trigger.isConnected) {
 					trigger.focus();
-					if (document.activeElement === trigger) return;
+					if ((trigger.getRootNode() as Document | ShadowRoot).activeElement === trigger) return;
 				}
 			}
 			await new Promise<void>(resolve => window.requestAnimationFrame(() => resolve()));
@@ -224,6 +226,8 @@ export class KvActionMenu implements IActionMenu, IActionMenuEvents {
 						}}
 						onKeyDown={this.onMenuKeyDown}
 					>
+						{/* Keep scoped styles with the panel when it leaves an enclosing shadow root. */}
+						<style>{menuStyles}</style>
 						{this.actions.map(item => [
 							item.separatorBefore && <div key={`${item.id}-separator`} class="action-menu-separator" role="separator" />,
 							<button
