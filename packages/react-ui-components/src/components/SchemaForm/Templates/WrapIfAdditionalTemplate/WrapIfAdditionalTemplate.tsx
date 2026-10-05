@@ -3,6 +3,7 @@ import { ADDITIONAL_PROPERTY_FLAG, FormContextType, RJSFSchema, StrictRJSFSchema
 import React from 'react';
 import { KvActionButtonIcon, KvTextField } from '../../../../stencil-generated';
 import styles from './WrapIfAdditionalTemplate.module.scss';
+import { SCHEMA_FORM_STRINGS } from '../../strings';
 
 const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	children,
@@ -41,6 +42,7 @@ const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F 
 			<div className={styles.DeleteButton}>
 				<KvActionButtonIcon
 					icon={EIconName.Delete}
+					accessibleLabel={SCHEMA_FORM_STRINGS.remove(label)}
 					size={EComponentSize.Large}
 					type={EActionButtonType.Danger}
 					tabIndex={-1}

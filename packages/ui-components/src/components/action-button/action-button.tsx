@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { EActionButtonType, IButton, IButtonEvents } from './action-button.types';
 import { EComponentSize } from '../../utils/types';
 
@@ -8,7 +8,8 @@ import { EComponentSize } from '../../utils/types';
 @Component({
 	tag: 'kv-action-button',
 	styleUrl: 'action-button.scss',
-	shadow: true
+	// Focusing the host focuses the button inside, so callers can move focus to it
+	shadow: { delegatesFocus: true }
 })
 export class KvActionButton implements IButton, IButtonEvents {
 	/** @inheritdoc */
@@ -21,6 +22,10 @@ export class KvActionButton implements IButton, IButtonEvents {
 	@Prop({ reflect: true }) loading: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
+	/** @inheritdoc */
+	@Prop() accessibleLabel?: string;
+
+	@Element() el: HTMLKvActionButtonElement;
 
 	/** @inheritdoc */
 	@Event() clickButton: EventEmitter<MouseEvent>;
@@ -36,6 +41,19 @@ export class KvActionButton implements IButton, IButtonEvents {
 
 		this.clickButton.emit(event);
 	};
+	// Consume activation keys, including repeats, to prevent scrolling and parent shortcuts.
+	// Clicking the host makes keyboard and mouse activation share the same listener.
+	private onKeyDown = (event: KeyboardEvent) => {
+		if ((event.key !== 'Enter' && event.key !== ' ') || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.target !== event.currentTarget) {
+			return;
+		}
+
+		event.preventDefault();
+		event.stopPropagation();
+		if (!this.disabled && !event.repeat) {
+			this.el.click();
+		}
+	};
 	private onFocusButton = (event: FocusEvent) => {
 		this.focusButton.emit(event);
 	};
@@ -45,7 +63,7 @@ export class KvActionButton implements IButton, IButtonEvents {
 
 	render() {
 		return (
-			<Host aria-disabled={this.disabled} onClick={this.onClickButton}>
+			<Host onClick={this.onClickButton}>
 				<div
 					class={{
 						'action-button': true,
@@ -56,7 +74,11 @@ export class KvActionButton implements IButton, IButtonEvents {
 						[`action-button--size-${this.size}`]: true
 					}}
 					tabIndex={this.disabled ? -1 : 0}
+					role="button"
+					aria-label={this.accessibleLabel || undefined}
+					aria-disabled={this.disabled ? 'true' : undefined}
 					part="button"
+					onKeyDown={this.onKeyDown}
 					onFocus={this.onFocusButton}
 					onBlur={this.onBlurButton}
 				>

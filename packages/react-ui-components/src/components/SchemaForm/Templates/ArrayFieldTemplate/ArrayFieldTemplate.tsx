@@ -31,7 +31,7 @@ const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 
 				<div className={styles.ArrayItemList} key={`array-item-list-${idSchema.$id}`}>
 					{items && items.map(({ key, ...itemProps }: ArrayFieldTemplateItemType<T, S, F>) => <ArrayFieldItemTemplate key={key} {...itemProps} />)}
-					{canAdd && AddButton({ canAdd, disabled, readonly, uiSchema, onAddClick })}
+					{canAdd && AddButton({ canAdd, disabled, readonly, uiSchema, schema, onAddClick })}
 				</div>
 			</div>
 		</div>

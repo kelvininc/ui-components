@@ -8,6 +8,8 @@ export interface IActionButtonSplitConfig extends IButton, IButtonSplitEvents {
 	text: string;
 	/** (optional) Button's left icon symbol name */
 	icon?: EIconName;
+	/** (optional) Accessible name for the right, icon-only button. Default: `More options` */
+	splitAccessibleLabel?: string;
 }
 
 export interface IButtonSplitEvents {

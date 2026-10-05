@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import { FileInfoType } from './types';
 import { extractFileInfo, processFiles } from './utils';
 import { useFormState } from '../../contexts';
+import { SCHEMA_FORM_STRINGS } from '../../strings';
 
 function FileActions({ fileInfo, onDelete, preview = false }: { fileInfo: FileInfoType; onDelete: (filename: string) => void; preview?: boolean }) {
 	const { dataURL, name } = fileInfo;
@@ -20,10 +21,21 @@ function FileActions({ fileInfo, onDelete, preview = false }: { fileInfo: FileIn
 		<div className={styles.ActionsContainer}>
 			{preview && (
 				<a href={dataURL} download={`${name}`} target="_blank" rel="noreferrer">
-					<KvActionButtonIcon icon={EIconName.Download} type={EActionButtonType.Tertiary} size={EComponentSize.Small} />
+					<KvActionButtonIcon
+						icon={EIconName.Download}
+						accessibleLabel={SCHEMA_FORM_STRINGS.download(name)}
+						type={EActionButtonType.Tertiary}
+						size={EComponentSize.Small}
+					/>
 				</a>
 			)}
-			<KvActionButtonIcon icon={EIconName.Delete} type={EActionButtonType.Tertiary} size={EComponentSize.Small} onClickButton={() => onDelete(name)} />
+			<KvActionButtonIcon
+				icon={EIconName.Delete}
+				accessibleLabel={SCHEMA_FORM_STRINGS.remove(name)}
+				type={EActionButtonType.Tertiary}
+				size={EComponentSize.Small}
+				onClickButton={() => onDelete(name)}
+			/>
 		</div>
 	);
 }

@@ -10,6 +10,8 @@ export enum EActionButtonType {
 }
 
 export interface IButton {
+	/** (optional) Accessible name. Required for icon-only buttons; overrides the visible text's name. */
+	accessibleLabel?: string;
 	/** (optional) Button's type */
 	type?: EActionButtonType;
 	/** (optional) If `true` the button is disabled */

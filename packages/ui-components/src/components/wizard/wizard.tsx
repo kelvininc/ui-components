@@ -75,9 +75,24 @@ export class KvWizard implements IWizard, IWizardEvents {
 	@Listen('keydown', { target: 'document' })
 	handleKeyDown(event: KeyboardEvent) {
 		if (event.key === 'Enter') {
-			// Don't handle if focus is on a textarea
-			const activeElement = document.activeElement;
-			if (activeElement instanceof HTMLTextAreaElement || event.target instanceof HTMLTextAreaElement) {
+			if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) {
+				return;
+			}
+
+			// Check the composed path for controls inside shadow roots that own Enter.
+			const ownsEnter = (node: unknown) => {
+				const element = node as HTMLElement | null;
+				return (
+					element?.tagName === 'TEXTAREA' ||
+					element?.tagName === 'BUTTON' ||
+					element?.tagName === 'SUMMARY' ||
+					(element?.tagName === 'INPUT' && ['button', 'submit', 'reset', 'image'].includes((element as HTMLInputElement).type)) ||
+					(element?.tagName === 'A' && element.hasAttribute?.('href')) ||
+					element?.getAttribute?.('role') === 'button' ||
+					element?.isContentEditable === true
+				);
+			};
+			if ([document.activeElement, ...event.composedPath()].some(ownsEnter)) {
 				return;
 			}
 
@@ -97,6 +112,9 @@ export class KvWizard implements IWizard, IWizardEvents {
 			}
 
 			event.preventDefault();
+			if (event.repeat) {
+				return;
+			}
 
 			const { completeEnabled, showCompleteBtn, nextEnabled } = this.currentFooter;
 

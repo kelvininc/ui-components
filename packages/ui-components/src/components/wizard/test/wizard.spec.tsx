@@ -3,6 +3,7 @@ import { h } from '@stencil/core';
 import { MOCK_STEPS } from './wizard.mock';
 import { KvWizard } from '../wizard';
 import { EStepState } from '../wizard.types';
+import { ACTIVATION_MODIFIERS } from '../../action-button/test/action-button.mock';
 
 describe('Wizard (unit tests)', () => {
 	let page: SpecPage;
@@ -210,6 +211,119 @@ describe('Wizard (unit tests)', () => {
 
 			it('should emit to goToStep 1', () => {
 				expect(comp.goToStep.emit).toHaveBeenCalledWith(2);
+			});
+		});
+
+		describe('and Enter is pressed', () => {
+			const pressEnter = ({
+				defaultPrevented = false,
+				path = [] as EventTarget[],
+				...init
+			}: { defaultPrevented?: boolean; path?: EventTarget[] } & KeyboardEventInit = {}) => {
+				jest.spyOn(comp.goToStep, 'emit');
+				const event = { key: 'Enter', defaultPrevented, target: path[0] ?? page.doc.body, composedPath: () => path, preventDefault: jest.fn(), ...init };
+				comp.handleKeyDown(event as unknown as KeyboardEvent);
+				return event;
+			};
+
+			it('should go to the next step', () => {
+				pressEnter();
+
+				expect(comp.goToStep.emit).toHaveBeenCalledWith(2);
+			});
+
+			it('should ignore an Enter a button inside the step already handled', () => {
+				pressEnter({ defaultPrevented: true });
+
+				expect(comp.goToStep.emit).not.toHaveBeenCalled();
+			});
+
+			it('should ignore an Enter typed into editable text', () => {
+				const editor = page.doc.createElement('div');
+				Object.defineProperty(editor, 'isContentEditable', { value: true });
+
+				pressEnter({ path: [editor] });
+
+				expect(comp.goToStep.emit).not.toHaveBeenCalled();
+			});
+
+			it('should ignore an Enter typed into a native textarea', () => {
+				pressEnter({ path: [page.doc.createElement('textarea')] });
+
+				expect(comp.goToStep.emit).not.toHaveBeenCalled();
+			});
+
+			it.each(['button', 'submit', 'reset', 'image'])('should leave Enter to an input of type %s', type => {
+				const input = page.doc.createElement('input');
+				input.type = type;
+				const event = pressEnter({ path: [input] });
+
+				expect(comp.goToStep.emit).not.toHaveBeenCalled();
+				expect(event.preventDefault).not.toHaveBeenCalled();
+			});
+
+			it('should leave Enter to a details summary', () => {
+				const event = pressEnter({ path: [page.doc.createElement('summary')] });
+
+				expect(comp.goToStep.emit).not.toHaveBeenCalled();
+				expect(event.preventDefault).not.toHaveBeenCalled();
+			});
+
+			it.each(ACTIVATION_MODIFIERS)('should leave %s + Enter to a page shortcut', modifier => {
+				const event = pressEnter({ [modifier]: true });
+
+				expect(comp.goToStep.emit).not.toHaveBeenCalled();
+				expect(event.preventDefault).not.toHaveBeenCalled();
+			});
+
+			it('should cancel a held Enter without advancing again', () => {
+				const event = pressEnter({ repeat: true });
+
+				expect(comp.goToStep.emit).not.toHaveBeenCalled();
+				expect(event.preventDefault).toHaveBeenCalledTimes(1);
+			});
+
+			it('should listen on the document: Enter from a text input advances, from a button it does not', async () => {
+				jest.spyOn(comp.goToStep, 'emit');
+				const input = page.doc.createElement('input');
+				const button = page.doc.createElement('button');
+				page.doc.body.append(input, button);
+
+				input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+				expect(comp.goToStep.emit).toHaveBeenCalledTimes(1);
+
+				button.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+				expect(comp.goToStep.emit).toHaveBeenCalledTimes(1);
+			});
+
+			it('should leave Enter to a focused button even when the key is dispatched elsewhere', () => {
+				const button = page.doc.createElement('button');
+				page.doc.body.appendChild(button);
+				Object.defineProperty(page.doc, 'activeElement', { value: button, configurable: true });
+				try {
+					pressEnter();
+				} finally {
+					delete (page.doc as unknown as { activeElement?: Element }).activeElement;
+				}
+
+				expect(comp.goToStep.emit).not.toHaveBeenCalled();
+			});
+
+			it('should still advance on Enter from a link without href, which is not a link to follow', () => {
+				pressEnter({ path: [page.doc.createElement('a')] });
+
+				expect(comp.goToStep.emit).toHaveBeenCalledWith(2);
+			});
+
+			it('should leave an Enter on a focused button or link to that control', () => {
+				const link = page.doc.createElement('a');
+				link.setAttribute('href', '#docs');
+				const roleButton = page.doc.createElement('div');
+				roleButton.setAttribute('role', 'button');
+
+				[page.doc.createElement('button'), link, roleButton].forEach(control => pressEnter({ path: [control] }));
+
+				expect(comp.goToStep.emit).not.toHaveBeenCalled();
 			});
 		});
 	});

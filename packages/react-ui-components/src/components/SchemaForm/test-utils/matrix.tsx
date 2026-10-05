@@ -296,6 +296,145 @@ export const OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; formDat
 	{ name: 'seven nested sections', schema: nestSections(7), formData: nestData(7) as object }
 ];
 
+const CERTIFICATE = 'data:text/plain;name=ca.pem;base64,Y2E=';
+const CLIENT_CERTIFICATE = 'data:text/plain;name=client.pem;base64,Y2xpZW50';
+const LABELS: RJSFSchema = { type: 'object', title: 'Labels', additionalProperties: { type: 'string', default: 'production' } };
+
+/** Existing SchemaForm actions need names as soon as the core exposes button roles. */
+export const ACTION_NAME_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema?: UiSchema;
+	formData: unknown;
+	labels: string[];
+	action: { label: string; nextData: unknown };
+	download?: string;
+}[] = [
+	{
+		name: 'list moves',
+		schema: TOPICS,
+		formData: ARRAY_SHAPES[0].formData,
+		labels: [
+			'Move Topic 1 down',
+			'Move Topic 1 up',
+			'Remove Topic 1',
+			'Move Topic 2 down',
+			'Move Topic 2 up',
+			'Remove Topic 2',
+			'Move Topic 3 down',
+			'Move Topic 3 up',
+			'Remove Topic 3',
+			'Add item to Topics'
+		],
+		action: { label: 'Move Topic 2 up', nextData: ['alarms', 'telemetry', 'commands'] }
+	},
+	{
+		name: 'list prefix',
+		schema: TOPICS,
+		uiSchema: { 'ui:itemPrefix': 'Channel', 'items': { 'ui:itemPrefix': 'Channel' } },
+		formData: ARRAY_SHAPES[0].formData,
+		labels: [
+			'Move Channel 1 down',
+			'Move Channel 1 up',
+			'Remove Channel 1',
+			'Move Channel 2 down',
+			'Move Channel 2 up',
+			'Remove Channel 2',
+			'Move Channel 3 down',
+			'Move Channel 3 up',
+			'Remove Channel 3',
+			'Add Channel'
+		],
+		action: { label: 'Remove Channel 2', nextData: ['telemetry', 'commands'] }
+	},
+	{
+		name: 'untitled list',
+		schema: { type: 'array', items: { type: 'string', default: 'new-topic' } },
+		formData: ARRAY_SHAPES[0].formData,
+		labels: [
+			'Move Item 1 down',
+			'Move Item 1 up',
+			'Remove Item 1',
+			'Move Item 2 down',
+			'Move Item 2 up',
+			'Remove Item 2',
+			'Move Item 3 down',
+			'Move Item 3 up',
+			'Remove Item 3',
+			'Add item'
+		],
+		action: { label: 'Add item', nextData: ['telemetry', 'alarms', 'commands', 'new-topic'] }
+	},
+	{
+		name: 'additional property removal',
+		schema: LABELS,
+		formData: { site: 'lisbon' },
+		labels: ['Remove site', 'Add property to Labels'],
+		action: { label: 'Remove site', nextData: {} }
+	},
+	{
+		name: 'section UI title',
+		schema: LABELS,
+		uiSchema: { 'ui:title': 'Connection labels' },
+		formData: { site: 'lisbon' },
+		labels: ['Remove site', 'Add property to Connection labels'],
+		action: { label: 'Add property to Connection labels', nextData: { site: 'lisbon', newKey: 'production' } }
+	},
+	{
+		name: 'untitled section',
+		schema: { ...LABELS, title: undefined },
+		formData: { site: 'lisbon' },
+		labels: ['Remove site', 'Add property'],
+		action: { label: 'Add property', nextData: { site: 'lisbon', newKey: 'production' } }
+	},
+	{
+		name: 'single file',
+		schema: { type: 'string', title: 'Certificate', format: 'data-url' },
+		uiSchema: { 'ui:options': { filePreview: true } },
+		formData: CERTIFICATE,
+		labels: ['Download ca.pem', 'Remove ca.pem', 'Browse File'],
+		action: { label: 'Remove ca.pem', nextData: undefined },
+		download: 'Download ca.pem'
+	},
+	{
+		name: 'multiple files',
+		schema: { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } },
+		uiSchema: { 'ui:options': { filePreview: true } },
+		formData: [CERTIFICATE, CLIENT_CERTIFICATE],
+		labels: ['Download ca.pem', 'Remove ca.pem', 'Download client.pem', 'Remove client.pem', 'Browse File'],
+		action: { label: 'Remove ca.pem', nextData: [CLIENT_CERTIFICATE] },
+		download: 'Download ca.pem'
+	}
+];
+
+/** CustomForm uses the native submit wrapper that KvSchemaForm's external footer bypasses. */
+export const SUBMIT_BUTTON_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema?: UiSchema;
+	formData: string;
+	label: string;
+	disabled: boolean;
+}[] = [
+	{ name: 'default submit label', schema: NAME, formData: 'plant-broker', label: 'Submit', disabled: false },
+	{
+		name: 'custom submit label',
+		schema: NAME,
+		uiSchema: { 'ui:submitButtonOptions': { submitText: 'Deploy connector' } },
+		formData: 'plant-broker',
+		label: 'Deploy connector',
+		disabled: false
+	},
+	{
+		name: 'disabled submit',
+		schema: NAME,
+		uiSchema: { 'ui:submitButtonOptions': { props: { disabled: true } } },
+		formData: 'plant-broker',
+		label: 'Submit',
+		disabled: true
+	}
+];
+
 /** The form `ERROR_SHAPES` apply to: two brokers, so errors can target either item */
 export const BROKER_SCHEMA: RJSFSchema = {
 	type: 'object',
@@ -568,6 +707,8 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 	TOGGLE_BUTTON_GROUP_SHAPES,
 	ARRAY_SHAPES,
 	OBJECT_SHAPES,
+	ACTION_NAME_SHAPES,
+	SUBMIT_BUTTON_SHAPES,
 	BROKER_SCHEMA,
 	BROKER_FORM_DATA,
 	ERROR_SHAPES,

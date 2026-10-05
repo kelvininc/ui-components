@@ -1,5 +1,6 @@
 import { SpecPage } from '@stencil/core/internal';
 import { KvActionButtonIcon } from '../action-button-icon';
+import { KvActionButton } from '../../action-button/action-button';
 import { newSpecPage } from '@stencil/core/testing';
 import { EComponentSize } from '../../../utils/types';
 
@@ -30,6 +31,18 @@ describe('Action Button Icon (unit tests)', () => {
 
 		it('should initialize `size` with small', () => {
 			expect(component.size).toBe(EComponentSize.Small);
+		});
+	});
+
+	describe('when it has a label', () => {
+		it('should name the inner button with it', async () => {
+			page = await newSpecPage({
+				components: [KvActionButtonIcon, KvActionButton],
+				html: '<kv-action-button-icon type="tertiary" icon="kv-delete" accessible-label="Remove Topic 1"></kv-action-button-icon>'
+			});
+			const innerButton = page.root?.shadowRoot?.querySelector('kv-action-button');
+
+			expect(innerButton?.shadowRoot?.querySelector('[part="button"]')?.getAttribute('aria-label')).toBe('Remove Topic 1');
 		});
 	});
 });

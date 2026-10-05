@@ -12,7 +12,7 @@ import { isEmpty } from 'lodash-es';
 @Component({
 	tag: 'kv-action-button-text',
 	styleUrl: 'action-button-text.scss',
-	shadow: true
+	shadow: { delegatesFocus: true }
 })
 export class KvActionButtonText implements IActionButtonTextConfig {
 	/** @inheritdoc */
@@ -31,6 +31,8 @@ export class KvActionButtonText implements IActionButtonTextConfig {
 	@Prop({ reflect: true }) loading: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
+	/** @inheritdoc */
+	@Prop() accessibleLabel?: string;
 
 	/** @inheritdoc */
 	@Event() clickButton: EventEmitter<MouseEvent>;
@@ -42,7 +44,15 @@ export class KvActionButtonText implements IActionButtonTextConfig {
 	render() {
 		return (
 			<Host>
-				<kv-action-button active={this.active} loading={this.loading} type={this.type} disabled={this.disabled} size={this.size} exportparts="button">
+				<kv-action-button
+					active={this.active}
+					loading={this.loading}
+					type={this.type}
+					disabled={this.disabled}
+					size={this.size}
+					accessibleLabel={this.accessibleLabel}
+					exportparts="button"
+				>
 					{this.icon && <kv-icon name={this.icon} exportparts="icon" />}
 					{!isEmpty(this.text) && (
 						<span

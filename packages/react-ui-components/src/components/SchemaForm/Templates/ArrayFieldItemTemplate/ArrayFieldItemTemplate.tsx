@@ -5,6 +5,7 @@ import { get } from 'lodash';
 import React from 'react';
 import { KvActionButtonIcon } from '../../../../stencil-generated';
 import styles from './ArrayFieldItemTemplate.module.scss';
+import { SCHEMA_FORM_STRINGS } from '../../strings';
 
 const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	children,
@@ -16,10 +17,12 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 	index,
 	onDropIndexClick,
 	onReorderClick,
-	readonly
+	readonly,
+	schema
 }: ArrayFieldTemplateItemType<T, S, F>) => {
 	const fieldset = get(children, ['props', 'uiSchema', 'ui:fieldset'], false);
 	const itemPrefix = get(children, ['props', 'uiSchema', 'ui:itemPrefix']);
+	const itemName = `${itemPrefix || get(children, ['props', 'uiSchema', 'ui:title']) || schema.title || SCHEMA_FORM_STRINGS.item} ${index + 1}`;
 
 	return (
 		<div className={classNames({ [styles.FieldsetStyle]: fieldset })}>
@@ -32,6 +35,7 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 							<>
 								<KvActionButtonIcon
 									icon={EIconName.AlignBottom}
+									accessibleLabel={SCHEMA_FORM_STRINGS.moveDown(itemName)}
 									size={EComponentSize.Large}
 									type={EActionButtonType.Tertiary}
 									tabIndex={-1}
@@ -40,6 +44,7 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 								/>
 								<KvActionButtonIcon
 									icon={EIconName.AlignTop}
+									accessibleLabel={SCHEMA_FORM_STRINGS.moveUp(itemName)}
 									size={EComponentSize.Large}
 									type={EActionButtonType.Tertiary}
 									tabIndex={-1}
@@ -51,6 +56,7 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 						{hasRemove && (
 							<KvActionButtonIcon
 								icon={EIconName.Delete}
+								accessibleLabel={SCHEMA_FORM_STRINGS.remove(itemName)}
 								size={EComponentSize.Large}
 								type={EActionButtonType.Tertiary}
 								tabIndex={-1}
