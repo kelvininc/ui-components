@@ -191,6 +191,37 @@ describe('C5 menu focus and state', () => {
 		expect(await page.evaluate(() => getComputedStyle(document.querySelector('[role="menu"]')).display)).toBe(key === 'Tab' ? 'none' : 'flex');
 	});
 
+	it('waits for the replacement trigger when a row moves during setFocus', async () => {
+		const { page } = await renderMenu();
+		const beforeRender = await page.evaluate(async () => {
+			const host = document.querySelector('kv-action-menu');
+			const original = host.querySelector('kv-action-button-icon');
+			original.dataset.focusGeneration = 'original';
+			let entered: () => void;
+			let release: () => void;
+			const waiting = new Promise<void>(resolve => (entered = resolve));
+			original.componentOnReady = () => {
+				entered();
+				return new Promise<HTMLKvActionButtonIconElement>(resolve => (release = () => resolve(original)));
+			};
+			void host.setFocus().then(() => (host.dataset.focusComplete = 'true'));
+			await waiting;
+			document.querySelector('form').append(document.querySelector('#topic-row'));
+			release();
+			for (let turn = 0; turn < 10; turn++) await Promise.resolve();
+			return {
+				completed: host.dataset.focusComplete === 'true',
+				originalConnected: original.isConnected,
+				originalCurrent: host.querySelector('kv-action-button-icon') === original
+			};
+		});
+		expect(beforeRender).toEqual({ completed: false, originalConnected: true, originalCurrent: true });
+		await page.waitForChanges();
+		await page.waitForFunction(() => document.querySelector('kv-action-menu').dataset.focusComplete === 'true', { timeout: 2500 });
+		expect(await activeControl(page)).toMatchObject({ role: 'button', name: 'Topic 1 actions' });
+		expect(await page.evaluate(() => document.querySelector('kv-action-menu').querySelector('kv-action-button-icon').dataset.focusGeneration)).toBeUndefined();
+	});
+
 	it.each(MENU_ROW_MOVE_STATES)('recreates its portal after a %s row move', async state => {
 		const { page, selected } = await renderMenu();
 		if (state !== 'closed') {

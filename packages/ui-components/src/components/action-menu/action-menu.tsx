@@ -61,7 +61,7 @@ export class KvActionMenu implements IActionMenu, IActionMenuEvents {
 					window.clearTimeout(timer);
 				}
 				if (this.disabled || !this.element.isConnected) return;
-				if (trigger === this.trigger && trigger.isConnected) {
+				if (!this.reconnectPending && trigger === this.trigger && trigger.isConnected) {
 					trigger.focus();
 					if ((trigger.getRootNode() as Document | ShadowRoot).activeElement === trigger) return;
 				}
