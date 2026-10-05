@@ -75,18 +75,24 @@ describe('wizard keyboard ownership', () => {
 		expect(goToStep).not.toHaveReceivedEvent();
 	});
 
-	it('advances an enabled text input once for a held Enter', async () => {
-		const page = await renderWizard('<input id="owner" aria-label="Connector name" />');
+	it.each([
+		{ step: 0, name: 'Next', event: 'goToStep' },
+		{ step: 2, name: 'Complete', event: 'completeClick' }
+	])('activates $name once for a held Enter without submitting the form', async row => {
+		const page = await renderWizard('<form id="connector-form"><input id="owner" aria-label="Connector name" /></form>', row.step);
 		const wizard = await page.find('kv-wizard');
-		const goToStep = await wizard.spyOnEvent('goToStep');
+		const activation = await wizard.spyOnEvent(row.event);
+		const form = await page.find('#connector-form');
+		const submit = await form.spyOnEvent('submit');
+		await page.evaluate(() => document.querySelector('#connector-form').addEventListener('submit', event => event.preventDefault()));
 		await page.focus('#owner');
 		await page.keyboard.down('Enter');
 		await page.keyboard.down('Enter');
 		await page.keyboard.up('Enter');
 		await page.waitForChanges();
 
-		expect(goToStep).toHaveReceivedEventTimes(1);
-		expect(goToStep.lastEvent.detail).toBe(1);
+		expect(activation).toHaveReceivedEventTimes(1);
+		expect(submit).not.toHaveReceivedEvent();
 	});
 
 	it.each(ACTIVATION_MODIFIERS)('leaves %s + Enter from an input to a page shortcut', async modifier => {
