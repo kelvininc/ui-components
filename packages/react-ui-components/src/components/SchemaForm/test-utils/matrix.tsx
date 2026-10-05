@@ -1602,6 +1602,50 @@ export const OPTION_BRANCH_SHAPES = ['oneOf', 'anyOf'].map(keyword => ({
 	values: [{ token: 'broker-token' }, { certificate: 'broker-certificate' }]
 }));
 
+const NativeBrokerHost = ({ id, label, value, onChange, required, disabled, readonly }: WidgetProps<unknown>) => (
+	<input id={id} name={id} aria-label={label} value={value ?? ''} required={required} disabled={disabled} readOnly={readonly} onChange={event => onChange(event.target.value)} />
+);
+const NATIVE_SUBMIT_SCHEMA: RJSFSchema = {
+	type: 'object',
+	title: 'Connection',
+	required: ['host', 'secret'],
+	properties: { host: { type: 'string', title: 'Broker host' }, secret: { type: 'string', title: 'Client secret' } }
+};
+
+export type R2NativeSubmitData = { host: string; secret?: string };
+
+/** Enter and imperative submission must reveal errors on fields the user hasn't touched. */
+export const R2_NATIVE_SUBMIT_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	formData: R2NativeSubmitData;
+	submittedData: R2NativeSubmitData;
+	extraErrors?: R2ExtraErrors;
+	accepted: boolean;
+	message: string;
+}[] = [
+	{
+		name: 'missing client secret fails validation',
+		schema: NATIVE_SUBMIT_SCHEMA,
+		uiSchema: { host: { 'ui:widget': NativeBrokerHost } },
+		formData: { host: 'broker-1.local' },
+		submittedData: { host: 'broker-0.local', secret: 'saved-client-secret' },
+		accepted: false,
+		message: 'This field is required.'
+	},
+	{
+		name: 'valid connection submits with a nonblocking client secret error',
+		schema: NATIVE_SUBMIT_SCHEMA,
+		uiSchema: { host: { 'ui:widget': NativeBrokerHost } },
+		formData: { host: 'broker-1.local', secret: 'plant-client-secret' },
+		submittedData: { host: 'broker-0.local', secret: 'saved-client-secret' },
+		extraErrors: { secret: { __errors: ['Client secret rejected by broker.'] } },
+		accepted: true,
+		message: 'Client secret rejected by broker.'
+	}
+];
+
 // Rows share schema objects (TOPICS, ENDPOINTS, NAME), so a test that mutated one would change
 // other rows, and other tests. Frozen, the mutation throws where it happens.
 [
@@ -1638,6 +1682,7 @@ export const OPTION_BRANCH_SHAPES = ['oneOf', 'anyOf'].map(keyword => ({
 	R2_ABANDONED_RENDER_SHAPES,
 	R2_VALIDATOR_IDENTITY_SHAPES,
 	R2_SHARED_FIELD_ID_SHAPES,
+	R2_NATIVE_SUBMIT_SHAPES,
 	TEMPLATE_COMPONENTS,
 	OPTION_SOURCES,
 	LIST_OPTIONS,

@@ -187,11 +187,19 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	);
 	const onFormSubmit = useCallback<NonNullable<FormProps<T, S, SchemaFormContext>['onSubmit']>>(
 		(data, event) => {
+			setFormSubmitted(true);
 			setDataState(previous => ({ ...previous, edited: data.formData }));
 			syncStatus(data);
 			otherProps.onSubmit?.(data, event);
 		},
 		[syncStatus, otherProps.onSubmit]
+	);
+	const onFormError = useCallback<NonNullable<FormProps<T, S, SchemaFormContext>['onError']>>(
+		errors => {
+			setFormSubmitted(true);
+			otherProps.onError?.(errors);
+		},
+		[otherProps.onError]
 	);
 	const themedProps: FormProps<T, S, SchemaFormContext> = {
 		disabled,
@@ -205,6 +213,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		transformErrors,
 		onChange: onFormChange,
 		onSubmit: onFormSubmit,
+		onError: onFormError,
 		uiSchema: formUiSchema,
 		formContext: {
 			...otherProps.formContext,
