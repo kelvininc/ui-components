@@ -61,7 +61,7 @@ export class KvRadioList implements IRadioList, IRadioListEvents {
 					class="radio-list-items"
 					part="items-container"
 					role="radiogroup"
-					aria-label={this.accessibleLabel ?? this.label}
+					aria-label={this.accessibleLabel || this.label}
 					aria-required={this.required ? 'true' : undefined}
 					aria-invalid={this.invalid ? 'true' : undefined}
 					onKeyDown={this.onKeyDown}

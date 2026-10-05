@@ -68,6 +68,9 @@ describe('radio list keyboard behavior', () => {
 		await page.evaluate(() => Object.assign(document.querySelector('kv-radio-list'), { accessibleLabel: 'Selected topics' }));
 		await page.waitForChanges();
 		expect((await groupSnapshot('Selected topics')).name).toBe('Selected topics');
+		await page.evaluate(() => Object.assign(document.querySelector('kv-radio-list'), { accessibleLabel: '' }));
+		await page.waitForChanges();
+		expect((await groupSnapshot('Topics')).name).toBe('Topics');
 		await page.evaluate(() => Object.assign(document.querySelector('kv-radio-list'), { accessibleLabel: undefined, required: false, invalid: false }));
 		await page.waitForChanges();
 		const group = await groupSnapshot('Topics');
