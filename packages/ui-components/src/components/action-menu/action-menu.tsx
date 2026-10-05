@@ -32,6 +32,7 @@ export class KvActionMenu implements IActionMenu, IActionMenuEvents {
 
 	private hasConnected = false;
 	private reconnectPending = false;
+	private triggerFocusGeneration = 0;
 	private trigger?: HTMLKvActionButtonIconElement;
 	private menu?: HTMLDivElement;
 	private focusFrame?: number;
@@ -47,10 +48,11 @@ export class KvActionMenu implements IActionMenu, IActionMenuEvents {
 	/** Waits for readiness, then focuses the enabled trigger without opening or choosing an action. */
 	@Method()
 	async setFocus(): Promise<void> {
+		const generation = this.triggerFocusGeneration;
 		let deadline: number | undefined;
 		let readyTrigger: HTMLKvActionButtonIconElement | undefined;
 		let ready = false;
-		while (!this.disabled && this.element.isConnected) {
+		while (generation === this.triggerFocusGeneration && !this.disabled && this.element.isConnected) {
 			const trigger = this.trigger;
 			if (!this.reconnectPending && trigger?.isConnected) {
 				if (readyTrigger !== trigger) {
@@ -74,7 +76,10 @@ export class KvActionMenu implements IActionMenu, IActionMenuEvents {
 
 	@Watch('disabled')
 	disabledChanged(disabled: boolean) {
-		if (disabled) this.closeMenu(false);
+		if (disabled) {
+			this.triggerFocusGeneration++;
+			this.closeMenu(false);
+		}
 	}
 	@Watch('items')
 	itemsChanged() {

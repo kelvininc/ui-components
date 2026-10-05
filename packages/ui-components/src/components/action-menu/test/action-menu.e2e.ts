@@ -256,24 +256,37 @@ describe('C5 menu focus and state', () => {
 			const broker = document.querySelector<HTMLElement>('#broker');
 			let entered: () => void;
 			let release: () => void;
+			let completed = false;
 			const waiting = new Promise<void>(resolve => (entered = resolve));
+			const readiness = new Promise<HTMLKvActionButtonIconElement>(resolve => (release = () => resolve(trigger)));
 			trigger.componentOnReady = () => {
 				entered();
-				return new Promise<HTMLKvActionButtonIconElement>(resolve => (release = () => resolve(trigger)));
+				return readiness;
 			};
 			broker.focus();
-			const settled = host.setFocus();
+			const settled = host.setFocus().then(() => (completed = true));
 			await waiting;
-			if (state === 'disabled') host.disabled = true;
-			else host.remove();
-			await settled;
+			if (state === 'unmounted') host.remove();
+			else {
+				host.disabled = true;
+				if (state === 're-enabled') host.disabled = false;
+			}
+			await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+			await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+			const settledWhilePending = completed;
 			const beforeRelease = document.activeElement === broker;
 			release();
+			await settled;
 			await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
 			await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
-			return { beforeRelease, afterRelease: document.activeElement === broker };
+			return { settledWhilePending, beforeRelease, afterRelease: document.activeElement === broker };
 		}, cancellation);
-		expect(focus).toEqual({ beforeRelease: true, afterRelease: true });
+		expect(focus).toEqual({ settledWhilePending: true, beforeRelease: true, afterRelease: true });
+		if (cancellation === 're-enabled') {
+			await page.evaluate(async () => document.querySelector('kv-action-menu').setFocus());
+		}
+		expect(await activeControl(page)).toMatchObject(cancellation === 're-enabled' ? { role: 'button', name: 'Topic 1 actions' } : { id: 'broker' });
+		expect(await page.$('aria/Topic 1 actions[role="menu"]')).toBeNull();
 		expect(selected).not.toHaveReceivedEvent();
 	});
 

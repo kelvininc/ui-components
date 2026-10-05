@@ -31,7 +31,7 @@ export const MENU_THEMES = Object.freeze(['light', 'night'] as const);
 export const MENU_ROW_MOVE_STATES = Object.freeze(['closed', 'open', 'selection'] as const);
 export const MENU_FOCUS_DESTINATIONS = Object.freeze(['Tab', 'Enter'] as const);
 export const MENU_READINESS_STATES = Object.freeze(['released', 'pending', 'delayed-replacement'] as const);
-export const MENU_FOCUS_CANCELLATIONS = Object.freeze(['disabled', 'unmounted'] as const);
+export const MENU_FOCUS_CANCELLATIONS = Object.freeze(['disabled', 'unmounted', 're-enabled'] as const);
 const collisionActions = Object.freeze(
 	[
 		{ id: 'move', label: 'Move down', separatorBefore: true },
