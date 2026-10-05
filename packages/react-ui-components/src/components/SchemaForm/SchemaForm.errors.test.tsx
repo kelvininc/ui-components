@@ -277,11 +277,14 @@ describe.each(R2_ERROR_DESCRIPTION_SHAPES)('error reference: $name', row => {
 					accessibleDescriptionElements: readonly Element[];
 					inputConfig: { accessibleDescriptionElements: readonly Element[] };
 					buttons: { accessibleDescriptionElements: readonly Element[] }[];
+					options: { accessibleDescriptionElements: readonly Element[] }[];
 				}>(host);
 				const references = field.tag.includes('select-dropdown')
 					? props.inputConfig.accessibleDescriptionElements
 					: field.tag === 'kv-toggle-button-group'
 					? props.buttons[0].accessibleDescriptionElements
+					: field.tag === 'kv-radio-list'
+					? props.options[0].accessibleDescriptionElements
 					: props.accessibleDescriptionElements;
 				expect(references).toHaveLength(1);
 				expect(references[0].id).toMatch(/-errors$/);
@@ -297,11 +300,14 @@ describe.each(R2_ERROR_DESCRIPTION_SHAPES)('error reference: $name', row => {
 					accessibleDescriptionElements: readonly Element[];
 					inputConfig: { accessibleDescriptionElements: readonly Element[] };
 					buttons: { accessibleDescriptionElements: readonly Element[] }[];
+					options: { accessibleDescriptionElements: readonly Element[] }[];
 				}>(host);
 				const references = field.tag.includes('select-dropdown')
 					? props.inputConfig.accessibleDescriptionElements
 					: field.tag === 'kv-toggle-button-group'
 					? props.buttons[0].accessibleDescriptionElements
+					: field.tag === 'kv-radio-list'
+					? props.options[0].accessibleDescriptionElements
 					: props.accessibleDescriptionElements;
 				expect(references).toEqual([]);
 			}

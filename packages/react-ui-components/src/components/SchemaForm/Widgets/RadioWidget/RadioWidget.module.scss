@@ -5,20 +5,17 @@
 	flex-flow: column wrap;
 	gap: var(--spacing-3xl);
 
+	&::part(items-container) {
+		gap: var(--spacing-3xl);
+	}
+
 	&.Inline {
 		flex-direction: row;
 		gap: var(--spacing-md);
-	}
 
-	kv-radio-list-item {
-		--radio-list-item-background: var(--input-background-default);
-	}
-
-	.Item {
-		flex: 1;
-	}
-	
-	.Label {
-		@include body-m-semibold;
+		&::part(items-container) {
+			flex-flow: row wrap;
+			gap: var(--spacing-md);
+		}
 	}
 }

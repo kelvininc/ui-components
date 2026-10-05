@@ -10,3 +10,40 @@
 		display: none;
 	}
 }
+
+.ChoiceExtras {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-md);
+	margin-top: var(--spacing-xs);
+}
+
+.NotSet {
+	@include body-m-regular;
+
+	color: var(--text-container-neutral-subtle);
+}
+
+.ClearSelection {
+	@include body-m-regular;
+
+	border: 0;
+	padding: 0;
+	background: transparent;
+	color: var(--button-text-label-default);
+	cursor: pointer;
+
+	&:focus-visible {
+		outline: 2px solid currentcolor;
+		outline-offset: 2px;
+	}
+
+	&:hover:not([aria-disabled='true']) {
+		text-decoration: underline;
+	}
+
+	&[aria-disabled='true'] {
+		color: var(--button-text-label-disabled);
+		cursor: default;
+	}
+}
