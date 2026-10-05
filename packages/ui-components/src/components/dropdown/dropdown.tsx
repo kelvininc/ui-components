@@ -43,7 +43,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	/** Focuses the default trigger or a custom action's focusInput method/native control. */
 	@Method()
 	async setFocus(): Promise<void> {
-		if (this.disabled || this.inputConfig?.inputDisabled || this.inputConfig?.loading) return;
+		if (this.disabled) return;
 		const action =
 			this.actionElement ??
 			Array.from(this.el.querySelectorAll<HTMLElement>('[slot="dropdown-action"]:not(slot)')).find(candidate => {
@@ -57,7 +57,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 			const inputAction = action as HTMLElement & { focusInput?: () => Promise<void> };
 			if (typeof inputAction.focusInput === 'function') await inputAction.focusInput();
 			else action.focus();
-		} else await this.inputRef?.focusInput();
+		} else if (!this.inputConfig?.inputDisabled && !this.inputConfig?.loading) await this.inputRef?.focusInput();
 	}
 
 	/** Toggles the dropdown open state */

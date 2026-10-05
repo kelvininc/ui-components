@@ -1,5 +1,18 @@
 import { E2EPage, newE2EPage } from '@stencil/core/testing';
-import { ACTIVATION_KEYS, CONTROL_NAMES, DROPDOWN_CONSUMERS, DROPDOWN_FOCUS_FLAGS, GROUP_FOCUS, SELECT_CONTROLS, TEXT_FIELD_CONSUMERS, TEXT_FIELD_FOCUS } from './c4-focus.matrix';
+import {
+	ACTIVATION_KEYS,
+	CONTROL_NAMES,
+	CUSTOM_ACTION_FOCUS,
+	DROPDOWN_CONSUMERS,
+	DROPDOWN_FOCUS_FLAGS,
+	GROUP_FOCUS,
+	SELECT_CONTROLS,
+	TEXT_FIELD_CONSUMERS,
+	TEXT_FIELD_FOCUS,
+	TOGGLE_CONTROL_MODES,
+	TOGGLE_NAME_CONSUMERS,
+	TOGGLE_NAMES
+} from './c4-focus.matrix';
 
 const focusName = (page: E2EPage) =>
 	page.evaluate(() => {
@@ -206,6 +219,34 @@ describe.each(DROPDOWN_FOCUS_FLAGS)('C4 generic dropdown focus: $name', row => {
 	});
 });
 
+describe.each(CUSTOM_ACTION_FOCUS)('C4 custom trigger flags: $name', row => {
+	describe.each(['projected', 'configured'])('%s action', actionKind => {
+		describe.each(['button', 'search'])('%s control', controlKind => {
+			it('checks the active trigger state without using fallback input flags', async () => {
+				const page = await newE2EPage();
+				const slot = actionKind === 'projected' ? ' slot="dropdown-action"' : '';
+				const action = controlKind === 'button' ? `<button id="action"${slot}>Choose assets</button>` : `<kv-search id="action" label="Find assets"${slot}></kv-search>`;
+				await page.setContent(
+					`<button id="before">Before</button>${actionKind === 'configured' ? action : ''}<kv-dropdown>${actionKind === 'projected' ? action : ''}</kv-dropdown>`
+				);
+				const host = await page.find('kv-dropdown');
+				host.setProperty('inputConfig', row.config);
+				host.setProperty('disabled', row.disabled);
+				if (actionKind === 'configured') {
+					await page.evaluate(() => (document.querySelector('kv-dropdown').actionElement = document.querySelector<HTMLElement>('#action')));
+				}
+				await page.waitForChanges();
+				const changes = await host.spyOnEvent('openStateChange');
+				await page.focus('#before');
+				await host.callMethod('setFocus');
+				await page.waitForChanges();
+				expect(await focusName(page)).toBe(row.disabled ? 'before' : controlKind === 'button' ? 'action' : 'Find assets');
+				expect(changes.events).toHaveLength(0);
+			});
+		});
+	});
+});
+
 describe('C4 projected trigger ownership', () => {
 	it('focuses the outer default input and the nested custom action independently', async () => {
 		const page = await newE2EPage();
@@ -390,6 +431,64 @@ describe.each(ACTIVATION_KEYS)('C4 plain toggle consumers: %s', key => {
 		expect(changes.events).toHaveLength(1);
 		expect(changes.lastEvent.detail).toBe('telemetry');
 		expect((await page.find('form')).getAttribute('data-submitted')).toBeNull();
+	});
+});
+
+describe.each(TOGGLE_NAMES)('C4 toggle name: $name', row => {
+	describe.each(TOGGLE_CONTROL_MODES)('$name control', mode => {
+		it('names the focusable control and preserves its label and keyboard callback', async () => {
+			const page = await newE2EPage();
+			await page.setContent('<kv-toggle-button icon="kv-add" value="telemetry"></kv-toggle-button>');
+			const host = await page.find('kv-toggle-button');
+			host.setProperty('label', row.label);
+			host.setProperty('tooltip', row.tooltip);
+			host.setProperty('accessibleLabel', row.accessibleLabel);
+			host.setProperty('withRadio', mode.withRadio);
+			host.setProperty('radioControlType', mode.controlType);
+			await page.waitForChanges();
+			const changes = await host.spyOnEvent('checkedChange');
+			expect(await page.$(`aria/${row.expected}[role="${mode.role}"]`)).not.toBeNull();
+			await page.evaluate(() => document.querySelector('kv-toggle-button').focus());
+			expect(await focusName(page)).toBe(row.expected);
+			expect(changes.events).toHaveLength(0);
+			expect(await page.evaluate(() => document.querySelector('kv-toggle-button').shadowRoot.querySelector('[part="toggle-label"]')?.textContent.trim() || null)).toBe(
+				row.label || null
+			);
+			await page.keyboard.press('Space');
+			await page.waitForChanges();
+			await new Promise(resolve => setTimeout(resolve, 300));
+			expect(changes.events).toHaveLength(1);
+			expect(changes.lastEvent.detail).toBe('telemetry');
+		});
+	});
+});
+
+describe.each(TOGGLE_NAME_CONSUMERS)('C4 toggle name forwarding: $name', mode => {
+	it('names an icon-only option and preserves its keyboard callback', async () => {
+		const page = await newE2EPage();
+		await page.setContent(`<${mode.tag}></${mode.tag}>`);
+		await page.evaluate(mode => {
+			const option = { value: 'telemetry', icon: 'kv-add', accessibleLabel: 'Add telemetry' };
+			if (mode.tag === 'kv-toggle-button-group') {
+				const group = document.querySelector('kv-toggle-button-group');
+				group.buttons = [option as (typeof group.buttons)[number]];
+				group.withRadio = mode.withRadio;
+				group.radioControlType = mode.controlType as typeof group.radioControlType;
+			} else document.querySelector('kv-toggle-switch').options = [option as HTMLKvToggleSwitchElement['options'][number]];
+		}, mode);
+		await page.waitForChanges();
+		const host = await page.find(mode.tag);
+		const changes = await host.spyOnEvent('checkedChange');
+		const control = await page.$(`aria/Add telemetry[role="${mode.role}"]`);
+		expect(control).not.toBeNull();
+		await control.focus();
+		expect(await focusName(page)).toBe('Add telemetry');
+		expect(changes.events).toHaveLength(0);
+		await page.keyboard.press('Space');
+		await page.waitForChanges();
+		await new Promise(resolve => setTimeout(resolve, 300));
+		expect(changes.events).toHaveLength(1);
+		expect(changes.lastEvent.detail).toBe('telemetry');
 	});
 });
 

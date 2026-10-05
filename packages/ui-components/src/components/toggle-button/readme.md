@@ -27,7 +27,7 @@ export const ToggleButtonExample: React.FC = () => (
 		<KvToggleButton icon={EIconName.Add} label="Option 1" value="option-1" />
 
 		{/*-- Only Icon --*/}
-		<KvToggleButton icon={EIconName.Add} value="option-1" />
+		<KvToggleButton icon={EIconName.Add} accessibleLabel="Add asset" value="option-1" />
 	</>
 );
 ```
@@ -38,6 +38,7 @@ export const ToggleButtonExample: React.FC = () => (
 
 | Property             | Attribute            | Description                                                                                                                                                            | Type                                                    | Default                   |
 | -------------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- | ------------------------- |
+| `accessibleLabel`    | `accessible-label`   | (optional) Accessible name for the control. Takes precedence over label and tooltip.                                                                                   | `string`                                                | `undefined`               |
 | `checked`            | `checked`            | (optional) Sets the button as checked                                                                                                                                  | `boolean`                                               | `false`                   |
 | `customAttributes`   | `custom-attributes`  | (optional) Custom attributes to be applied to the toggle button element                                                                                                | `{ [x: string]: string; }`                              | `{}`                      |
 | `disabled`           | `disabled`           | (optional) Sets the button's styling to be disabled and disables click events                                                                                          | `boolean`                                               | `false`                   |

@@ -20,6 +20,8 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
+	@Prop() accessibleLabel?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Small;
@@ -76,13 +78,14 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 		const hasLabel = !isEmpty(this.label);
 		const hasIcon = !isEmpty(this.icon);
 		const Control = this.withRadio ? 'div' : 'button';
+		const accessibleLabel = this.accessibleLabel || (hasLabel ? this.label : this.tooltip);
 
 		return (
 			<Host>
 				<kv-tooltip text={this.tooltip}>
 					<Control
 						type={this.withRadio ? undefined : 'button'}
-						aria-label={this.withRadio ? undefined : hasLabel ? this.label : this.tooltip}
+						aria-label={this.withRadio ? undefined : accessibleLabel}
 						aria-pressed={this.withRadio ? undefined : String(!!this.checked)}
 						disabled={this.withRadio ? undefined : this.disabled}
 						class={{
@@ -102,8 +105,7 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 								size={EComponentSize.Small}
 								checked={this.checked}
 								disabled={this.disabled}
-								// An icon-only toggle has no text to name its radio, so its tooltip does
-								accessibleLabel={hasLabel ? this.label : this.tooltip}
+								accessibleLabel={accessibleLabel}
 								controlType={this.radioControlType}
 								skipTabStop={this.skipTabStop}
 								onCheckedChange={this.onRadioCheckedChange}
