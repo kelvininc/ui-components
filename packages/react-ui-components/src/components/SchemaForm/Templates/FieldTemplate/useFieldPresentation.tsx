@@ -1,8 +1,8 @@
 import { EValidationState } from '@kelvininc/ui-components';
 import { FieldTemplateProps, FormContextType, getSchemaType, getTemplate, getUiOptions, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
-import React, { useId } from 'react';
+import React, { useId, useMemo, useState } from 'react';
 import { KvFormHelpText } from '../../../../stencil-generated';
-import { useArrayDescription, useFormState } from '../../contexts';
+import { useArrayDescription, useFieldErrors } from '../../contexts';
 import { EDescriptionPosition } from '../../types';
 import { defaultArrayDescriptionTemplate, getRenderedArrayFieldTemplate } from '../../rjsf/arrayTemplate';
 import DefaultTitleFieldTemplate from '../TitleFieldTemplate/TitleFieldTemplate';
@@ -11,7 +11,9 @@ import buildDefaultHelperText, { buildHelperOptions } from './utils';
 
 export const useFieldPresentation = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: FieldTemplateProps<T, S, F>) => {
 	const { id, rawErrors = [], rawDescription, label, schema, uiSchema, registry, formContext, required } = props;
-	const { isFieldTouched, displayErrors } = useFormState();
+	const hasErrors = useFieldErrors(id, rawErrors);
+	const [errorElement, setErrorElement] = useState<HTMLDivElement | null>(null);
+	const errorDescription = useMemo(() => ({ fieldId: id, elements: errorElement ? [errorElement] : [] }), [id, errorElement]);
 	const owner = useArrayDescription();
 	const instanceId = useId();
 	const titleId = `${instanceId}-title`;
@@ -30,7 +32,7 @@ export const useFieldPresentation = <T, S extends StrictRJSFSchema = RJSFSchema,
 		getRenderedArrayFieldTemplate(schema, uiSchema, registry) === ArrayFieldTemplate &&
 		arrayDescription !== defaultArrayDescriptionTemplate;
 	const description = !customArrayDescription && descriptionPosition !== EDescriptionPosition.None ? uiOptions.description ?? rawDescription : undefined;
-	const errors = isFieldTouched(id) || displayErrors ? rawErrors : [];
+	const errors = hasErrors ? rawErrors : [];
 	const helper = buildDefaultHelperText(buildHelperOptions(formContext, uiOptions), schema.default);
 	return {
 		title,
@@ -40,6 +42,7 @@ export const useFieldPresentation = <T, S extends StrictRJSFSchema = RJSFSchema,
 		errorsId,
 		descriptionPosition,
 		WrapIfAdditionalTemplate,
+		errorDescription,
 		arrayDescriptionContext: { fieldId: id, fieldTemplate: owner?.fieldTemplate, descriptionId: customArrayDescription ? descriptionId : undefined },
 		defaultTitle: Title === DefaultTitleFieldTemplate,
 		titleElement: hasTitle ? (
@@ -51,7 +54,7 @@ export const useFieldPresentation = <T, S extends StrictRJSFSchema = RJSFSchema,
 			</div>
 		) : null,
 		errorsElement: errors.length ? (
-			<div id={errorsId}>
+			<div id={errorsId} ref={setErrorElement}>
 				<KvFormHelpText helpText={errors} state={EValidationState.Invalid} />
 			</div>
 		) : null,

@@ -6,7 +6,7 @@ import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../../stenc
 import styles from './SelectWidget.module.scss';
 import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, resolveDropdownConfig } from './utils';
 import { DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
-import { useFormState } from '../../contexts';
+import { useFieldDescription, useFieldErrors, useFormState } from '../../contexts';
 
 const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	schema,
@@ -23,7 +23,8 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	uiSchema = {},
 	formContext
 }: WidgetProps<T, S, F>) => {
-	const { trackFieldChange, markFieldAsTouched, isFieldTouched, displayErrors } = useFormState();
+	const { trackFieldChange, markFieldAsTouched } = useFormState();
+	const accessibleDescriptionElements = useFieldDescription(id);
 	const { enumOptions, enumDisabled, enumDescriptions, placeholder: optionsPlaceholder } = options;
 	const {
 		displayValue,
@@ -77,13 +78,12 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		[onChangeValue]
 	);
 
-	// Show errors if the field has been touched OR if the form is set to display errors globally
-	const shouldShowErrors = isFieldTouched(id) || displayErrors;
-	const hasErrors = useMemo(() => shouldShowErrors && !isEmpty(rawErrors), [shouldShowErrors, rawErrors]);
+	const hasErrors = useFieldErrors(id, rawErrors);
 
 	const props = {
 		id,
 		accessibleLabel: label,
+		inputConfig: { accessibleDescriptionElements },
 		placeholder: placeholder ? placeholder : optionsPlaceholder,
 		inputSize: !isEmpty(optionComponentSize) ? optionComponentSize : (componentSize as EComponentSize),
 		disabled: disabled || readonly,
