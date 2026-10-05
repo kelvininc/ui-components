@@ -75,11 +75,16 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	render() {
 		const hasLabel = !isEmpty(this.label);
 		const hasIcon = !isEmpty(this.icon);
+		const Control = this.withRadio ? 'div' : 'button';
 
 		return (
 			<Host>
 				<kv-tooltip text={this.tooltip}>
-					<div
+					<Control
+						type={this.withRadio ? undefined : 'button'}
+						aria-label={this.withRadio ? undefined : hasLabel ? this.label : this.tooltip}
+						aria-pressed={this.withRadio ? undefined : String(!!this.checked)}
+						disabled={this.withRadio ? undefined : this.disabled}
 						class={{
 							'toggle-button': true,
 							'toggle-button--checked': !!this.checked,
@@ -114,7 +119,7 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 								{this.label}
 							</div>
 						)}
-					</div>
+					</Control>
 				</kv-tooltip>
 			</Host>
 		);

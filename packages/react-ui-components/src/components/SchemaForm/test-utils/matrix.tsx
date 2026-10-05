@@ -178,6 +178,104 @@ export const MULTI_SELECT_SHAPES: readonly { name: string; schema: RJSFSchema; u
 	}
 ];
 
+/** C4 names the real input while preserving RJSF's resolved title and value contracts. */
+export const INPUT_FOCUS_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	formData: string | number;
+	label: string;
+	nextText: string;
+	nextValue: string | number;
+}[] = [
+	{
+		name: 'text title',
+		schema: { type: 'string', title: 'Broker' },
+		uiSchema: {},
+		formData: 'broker-1.local',
+		label: 'Broker',
+		nextText: 'broker-2.local',
+		nextValue: 'broker-2.local'
+	},
+	{
+		name: 'UI title',
+		schema: { type: 'string', title: 'Broker' },
+		uiSchema: { 'ui:title': 'Plant broker' },
+		formData: 'broker-1.local',
+		label: 'Plant broker',
+		nextText: 'broker-2.local',
+		nextValue: 'broker-2.local'
+	},
+	{ name: 'zero integer', schema: { type: 'integer', title: 'Retries' }, uiSchema: {}, formData: 0, label: 'Retries', nextText: '3', nextValue: 3 },
+	{
+		name: 'password',
+		schema: { type: 'string', title: 'Access token' },
+		uiSchema: { 'ui:widget': 'password' },
+		formData: 'plant-token',
+		label: 'Access token',
+		nextText: 'rotated-token',
+		nextValue: 'rotated-token'
+	}
+];
+
+export const SELECT_FOCUS_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	formData: string | string[];
+	label: string;
+	tag: 'kv-single-select-dropdown' | 'kv-multi-select-dropdown';
+	nextValue: string | string[];
+}[] = [
+	{
+		name: 'single title',
+		schema: { type: 'string', title: 'Assets', oneOf: (ASSET_SELECTION.items as RJSFSchema).oneOf },
+		uiSchema: {},
+		formData: 'north-line',
+		label: 'Assets',
+		tag: 'kv-single-select-dropdown',
+		nextValue: 'south-line'
+	},
+	{
+		name: 'single UI title',
+		schema: { type: 'string', title: 'Assets', oneOf: (ASSET_SELECTION.items as RJSFSchema).oneOf },
+		uiSchema: { 'ui:title': 'Plant assets' },
+		formData: 'north-line',
+		label: 'Plant assets',
+		tag: 'kv-single-select-dropdown',
+		nextValue: 'south-line'
+	},
+	{
+		name: 'multiple title',
+		schema: ASSET_SELECTION,
+		uiSchema: {},
+		formData: ['north-line'],
+		label: 'Assets',
+		tag: 'kv-multi-select-dropdown',
+		nextValue: ['north-line', 'south-line']
+	},
+	{
+		name: 'multiple UI title',
+		schema: ASSET_SELECTION,
+		uiSchema: { 'ui:title': 'Plant assets' },
+		formData: ['north-line'],
+		label: 'Plant assets',
+		tag: 'kv-multi-select-dropdown',
+		nextValue: ['north-line', 'south-line']
+	}
+];
+
+export const FOCUS_EDITING_FLAGS = [
+	{ name: 'enabled', disabled: false, readonly: false, focused: true },
+	{ name: 'disabled', disabled: true, readonly: false, focused: false },
+	{ name: 'readonly', disabled: false, readonly: true, focused: false }
+];
+
+export const TOGGLE_FOCUS_MODES = [
+	{ name: 'checkbox', withRadio: true, role: 'checkbox' as const },
+	{ name: 'plain button', withRadio: false, role: 'button' as const }
+];
+
 const NAME: RJSFSchema = { type: 'string', title: 'Name' };
 const VALUE: RJSFSchema = { type: 'string', title: 'Value' };
 const variables = (items: RJSFSchema): RJSFSchema => ({ type: 'array', title: 'Variables', items });
@@ -814,6 +912,10 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 	CHOICE_SCHEMAS,
 	CONTROL_NAME_SHAPES,
 	MULTI_SELECT_SHAPES,
+	INPUT_FOCUS_SHAPES,
+	SELECT_FOCUS_SHAPES,
+	FOCUS_EDITING_FLAGS,
+	TOGGLE_FOCUS_MODES,
 	TOGGLE_BUTTON_GROUP_SHAPES,
 	ARRAY_SHAPES,
 	OBJECT_SHAPES,

@@ -24,6 +24,19 @@
 | `checkedChange` | When the toggle button selection changes, emit the requested tab's key | `CustomEvent<number \| string>` |
 
 
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Focuses the current radio Tab stop, or the first enabled checkbox/plain button.
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+
 ## Shadow Parts
 
 | Part                        | Description                 |

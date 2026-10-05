@@ -13,9 +13,11 @@ import { ISwitchButton, ISwitchButtonEvents } from './switch-button.types';
 @Component({
 	tag: 'kv-switch-button',
 	styleUrl: 'switch-button.scss',
-	shadow: true
+	shadow: { delegatesFocus: true }
 })
 export class KvSwitchButton implements ISwitchButton, ISwitchButtonEvents {
+	/** @inheritdoc */
+	@Prop() accessibleLabel?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled: boolean = false;
 	/** @inheritdoc */
@@ -44,7 +46,12 @@ export class KvSwitchButton implements ISwitchButton, ISwitchButtonEvents {
 		return (
 			<Host>
 				<slot name="left-slot" />
-				<div
+				<button
+					type="button"
+					role="switch"
+					aria-label={this.accessibleLabel}
+					aria-checked={String(this.checked)}
+					disabled={this.disabled}
 					class={{
 						'switch-button': true,
 						'switch-button--disabled': this.disabled,
@@ -57,7 +64,7 @@ export class KvSwitchButton implements ISwitchButton, ISwitchButtonEvents {
 					<div class="icon-square" part="icon-square">
 						<kv-icon name={EIconName.CheckState} part="icon-svg" />
 					</div>
-				</div>
+				</button>
 				<slot name="right-slot" />
 			</Host>
 		);

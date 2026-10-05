@@ -42,7 +42,7 @@
 
 	--button-padding-large: #{var(--spacing-none) var(--toggle-padding-x-default)};
 	--button-padding-small: #{var(--spacing-none) var(--toggle-padding-x-default)};
-	
+
 	--button-icon-height-large: var(--toggle-icon-size-default);
 	--button-icon-height-small: var(--toggle-icon-size-default);
 	--button-icon-width-large: var(--toggle-icon-size-default);
@@ -82,6 +82,9 @@ kv-tooltip::part(content) {
 }
 
 .toggle-button {
+	appearance: none;
+	margin: 0;
+	text-align: inherit;
 	display: inline-flex;
 	align-items: center;
 	gap: var(--spacing-md);

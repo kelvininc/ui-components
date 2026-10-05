@@ -75,11 +75,12 @@ export class SwichButtonExample {
 
 ## Properties
 
-| Property   | Attribute  | Description                                                  | Type                                           | Default                |
-| ---------- | ---------- | ------------------------------------------------------------ | ---------------------------------------------- | ---------------------- |
-| `checked`  | `checked`  | (optional) If `true` the button is ON. Default `false`       | `boolean`                                      | `false`                |
-| `disabled` | `disabled` | (optional) If `true` the button is disabled. Default `false` | `boolean`                                      | `false`                |
-| `size`     | `size`     | (optional) Button's size. Default `EComponentSize.Large`     | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
+| Property          | Attribute          | Description                                                  | Type                                           | Default                |
+| ----------------- | ------------------ | ------------------------------------------------------------ | ---------------------------------------------- | ---------------------- |
+| `accessibleLabel` | `accessible-label` | Accessible name for the switch control.                      | `string`                                       | `undefined`            |
+| `checked`         | `checked`          | (optional) If `true` the button is ON. Default `false`       | `boolean`                                      | `false`                |
+| `disabled`        | `disabled`         | (optional) If `true` the button is disabled. Default `false` | `boolean`                                      | `false`                |
+| `size`            | `size`             | (optional) Button's size. Default `EComponentSize.Large`     | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
 
 
 ## Events
@@ -106,6 +107,7 @@ export class SwichButtonExample {
 | `--off-background-color`       | Button background color when OFF.                     |
 | `--on-background-color`        | Button background color when ON.                      |
 | `--switch-disabled-icon-color` | Icon square container background color when disabled. |
+| `--switch-focus-outline-color` | Switch keyboard focus outline color.                  |
 | `--switch-height-large`        | Switch height when size is large.                     |
 | `--switch-height-small`        | Switch height when size is small.                     |
 | `--switch-icon-color`          | Icon square container background color.               |

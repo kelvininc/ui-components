@@ -18,6 +18,8 @@ export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptio
 	required?: boolean;
 	/** (optional) The text to display on the dropdown label */
 	label?: string;
+	/** Accessible name for the default trigger when there's no visible label. */
+	accessibleLabel?: string;
 	/** (optional) The text to display on the dropdown  */
 	displayValue?: string;
 	/** (optional) The text to display as a prefix to `displayValue` */
