@@ -49,6 +49,8 @@ export const ActionButtonIconExample: React.FC = () => (
 | `disabled`          | `disabled`         | (optional) If `true` the button is disabled                                                    | `boolean`                                                                                                                                      | `false`                |
 | `icon` _(required)_ | `icon`             | (required) Button's icon symbol name                                                           | `EIconName`                                                                                                                                    | `undefined`            |
 | `loading`           | `loading`          | (optional) If `true` the button is of type loading                                             | `boolean`                                                                                                                                      | `false`                |
+| `menuExpanded`      | `menu-expanded`    | (optional) Menu state. When supplied, marks the control as a menu trigger.                     | `boolean`                                                                                                                                      | `undefined`            |
+| `menuTabIndex`      | `menu-tab-index`   | (optional) Menu trigger Tab index. Disabled controls always use -1.                            | `number`                                                                                                                                       | `undefined`            |
 | `size`              | `size`             | (optional) Button's size                                                                       | `EComponentSize.Large \| EComponentSize.Small`                                                                                                 | `EComponentSize.Small` |
 | `type` _(required)_ | `type`             | (required) Button's type                                                                       | `EActionButtonType.Danger \| EActionButtonType.Primary \| EActionButtonType.Secondary \| EActionButtonType.Tertiary \| EActionButtonType.Text` | `undefined`            |
 
@@ -77,6 +79,7 @@ export const ActionButtonIconExample: React.FC = () => (
 ### Used by
 
  - [kv-action-button-magic](../action-button-magic)
+ - [kv-action-menu](../action-menu)
  - [kv-inline-editable-field](../inline-editable-field)
  - [kv-select-create-option](../select-create-option)
  - [kv-select-option](../select-option)
@@ -92,6 +95,7 @@ graph TD;
   kv-action-button-icon --> kv-action-button
   kv-action-button-icon --> kv-icon
   kv-action-button-magic --> kv-action-button-icon
+  kv-action-menu --> kv-action-button-icon
   kv-inline-editable-field --> kv-action-button-icon
   kv-select-create-option --> kv-action-button-icon
   kv-select-option --> kv-action-button-icon

@@ -1,3 +1,5 @@
+import { getNextEnabledIndex } from './keyboard-navigation.helper';
+
 export interface RadioGroupOption {
 	value: string | number;
 	checked?: boolean;
@@ -30,10 +32,7 @@ export const handleRadioGroupKeyDown = (
 	if (!step || origin?.getAttribute?.('role') !== 'radio' || current < 0 || getRadioGroupTabStop(options) < 0) return;
 
 	event.preventDefault();
-	let next = current;
-	do {
-		next = (next + step + options.length) % options.length;
-	} while (options[next].disabled);
+	const next = getNextEnabledIndex(options, current, step as 1 | -1);
 	onSelect(options[next].value);
 	hosts[next]?.focus();
 };
