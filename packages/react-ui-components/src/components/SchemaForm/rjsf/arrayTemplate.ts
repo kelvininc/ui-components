@@ -19,5 +19,6 @@ export const getRenderedArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJ
 	)
 		return undefined;
 	if (!isFixedItems(schema) && registry.schemaUtils.isFilesArray(schema, uiSchema)) return undefined;
+	// RJSF 5's normal and tuple render paths select templates with local options (see the contract).
 	return getTemplate('ArrayFieldTemplate', registry, getUiOptions(uiSchema));
 };

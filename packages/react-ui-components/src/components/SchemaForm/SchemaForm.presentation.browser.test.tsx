@@ -1,16 +1,65 @@
+import { setThemeMode, StyleMode } from '@kelvininc/ui-components';
 import React from 'react';
 import { describe, expect, it } from 'vitest';
 import { userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../test-utils/browser';
 import { KvSchemaForm } from './SchemaForm';
-import { ADDITIONAL_LAYOUT_SHAPES, ARRAY_SHAPES, FOCUS_EDITING_FLAGS, OBJECT_LAYOUT_SCHEMA, OBJECT_LAYOUT_SHAPES, OBJECT_SHAPES } from './test-utils/matrix';
+import {
+	ADDITIONAL_LAYOUT_SHAPES,
+	ARRAY_SHAPES,
+	FIELDSET_BACKGROUND_SHAPES,
+	FOCUS_EDITING_FLAGS,
+	OBJECT_LAYOUT_SCHEMA,
+	OBJECT_LAYOUT_SHAPES,
+	OBJECT_SHAPES
+} from './test-utils/matrix';
+import styles from './SchemaForm.module.scss';
+import itemStyles from './Templates/ArrayFieldItemTemplate/ArrayFieldItemTemplate.module.scss';
 
 const focusedControl = () => {
 	let active = document.activeElement;
 	while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
 	return active;
 };
+
+describe.each([StyleMode.Light, StyleMode.Night])('fieldset overlays in %s', theme => {
+	it.each(FIELDSET_BACKGROUND_SHAPES)('masks the border on $name', async row => {
+		setThemeMode(theme);
+		try {
+			const list = ARRAY_SHAPES[2];
+			const screen = await render(
+				<div
+					style={
+						{
+							'width': '800px',
+							'backgroundColor': 'var(--background-container-neutral-default)',
+							'--schema-form-background': 'var(--background-container-neutral-default)'
+						} as React.CSSProperties
+					}
+				>
+					<KvSchemaForm schema={list.schema} formData={list.formData} uiSchema={{ items: { 'ui:fieldset': true, 'ui:itemPrefix': 'Variable' } }} />
+				</div>
+			);
+			await whenAllKelvinReady(screen.container);
+			const form = screen.container.querySelector<HTMLElement>(`.${styles.FormContainer}`)!;
+			if (row.background) form.style.setProperty('--schema-form-background', row.background);
+			const background = getComputedStyle(form).backgroundColor;
+			expect(background).not.toBe('rgba(0, 0, 0, 0)');
+			const fieldsets = screen.container.querySelectorAll(`.${itemStyles.FieldsetStyle}`);
+			expect(fieldsets).toHaveLength(list.formData.length);
+			for (const fieldset of fieldsets) {
+				for (const className of [itemStyles.ItemPrefix, itemStyles.ToolbarContainer]) {
+					const overlay = fieldset.querySelector(`.${className}`)!;
+					expect(getComputedStyle(overlay).position).toBe('absolute');
+					expect(getComputedStyle(overlay).backgroundColor).toBe(background);
+				}
+			}
+		} finally {
+			setThemeMode(StyleMode.Night);
+		}
+	});
+});
 
 describe.each([...OBJECT_SHAPES, ...ARRAY_SHAPES.filter(row => row.name.includes('object'))])('R1 layout matrix: $name', row => {
 	it('renders sections and keeps fields within their container', async () => {

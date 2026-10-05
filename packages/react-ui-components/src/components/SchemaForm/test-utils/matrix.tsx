@@ -1,4 +1,4 @@
-import { ArrayFieldTemplateProps, FieldTemplateProps, RJSFSchema, UiSchema, WidgetProps } from '@rjsf/utils';
+import { ArrayFieldTemplateProps, FieldTemplateProps, RJSFSchema, UIOptionsType, UiSchema, WidgetProps } from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
 import type { SchemaFormContext } from '../types';
 
@@ -346,6 +346,11 @@ export const ARRAY_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema
 		]
 	},
 	{ name: 'readonly', schema: TOPICS, uiSchema: { 'ui:readonly': true }, formData: ['telemetry', 'alarms', 'commands'] }
+];
+
+export const FIELDSET_BACKGROUND_SHAPES: readonly { name: string; background?: string }[] = [
+	{ name: 'inherited surface' },
+	{ name: 'custom form background', background: 'rgb(17, 29, 41)' }
 ];
 
 const nestSections = (depth: number): RJSFSchema =>
@@ -1003,10 +1008,22 @@ const CustomArrayLayout = ({ items }: ArrayFieldTemplateProps) => (
 		))}
 	</div>
 );
+const globalArrayDescriptionOptions: UIOptionsType = { ArrayFieldTemplate: CustomArrayLayout, ArrayFieldDescriptionTemplate: ArrayDescription };
+const globalNullArrayDescriptionOptions: UIOptionsType = { ArrayFieldTemplate: CustomArrayLayout, ArrayFieldDescriptionTemplate: NoArrayDescription };
 export const ARRAY_DESCRIPTION_SHAPES: readonly { name: string; schema?: RJSFSchema; uiSchema: UiSchema; description: string | undefined }[] = [
 	{ name: 'default', uiSchema: {}, description: 'Configure connection endpoints.' },
 	{ name: 'custom description', uiSchema: { 'ui:ArrayFieldDescriptionTemplate': ArrayDescription }, description: 'Custom connections description.' },
 	{ name: 'null description', uiSchema: { 'ui:ArrayFieldDescriptionTemplate': NoArrayDescription }, description: undefined },
+	{
+		name: 'global description with ignored global array layout',
+		uiSchema: { 'ui:globalOptions': globalArrayDescriptionOptions },
+		description: 'Custom connections description.'
+	},
+	{
+		name: 'global null description with ignored global array layout',
+		uiSchema: { 'ui:globalOptions': globalNullArrayDescriptionOptions },
+		description: undefined
+	},
 	{ name: 'blank description', uiSchema: { 'ui:description': '' }, description: undefined },
 	{ name: 'custom field layout', uiSchema: { 'ui:FieldTemplate': CustomFieldLayout }, description: 'Configure connection endpoints.' },
 	{
@@ -1059,6 +1076,13 @@ export const ARRAY_TEMPLATE_SHAPES: readonly { name: string; schema: RJSFSchema;
 	{ name: 'custom field', schema: DESCRIBED_CONNECTION_ARRAY, uiSchema: { 'ui:field': CustomConnection }, rendered: false },
 	{ name: 'no items', schema: { type: 'array' }, uiSchema: {}, rendered: false }
 ];
+
+export const ARRAY_TEMPLATE_OPTION_SHAPES = [
+	{ name: 'registry template', global: false, local: false },
+	{ name: 'global template', global: true, local: false },
+	{ name: 'local template', global: false, local: true },
+	{ name: 'local and global templates', global: true, local: true }
+] as const;
 
 export const OBJECT_LAYOUT_SHAPES: readonly { name: string; uiSchema: UiSchema; first: string | undefined; after: string[] }[] = [
 	{ name: 'normal sections', uiSchema: {}, first: 'host', after: ['timeout'] },
@@ -1129,6 +1153,7 @@ export const OPTION_BRANCH_SHAPES = ['oneOf', 'anyOf'].map(keyword => ({
 	TOGGLE_FOCUS_MODES,
 	TOGGLE_BUTTON_GROUP_SHAPES,
 	ARRAY_SHAPES,
+	FIELDSET_BACKGROUND_SHAPES,
 	OBJECT_SHAPES,
 	ACTION_NAME_SHAPES,
 	SUBMIT_BUTTON_SHAPES,
@@ -1151,6 +1176,7 @@ export const OPTION_BRANCH_SHAPES = ['oneOf', 'anyOf'].map(keyword => ({
 	ARRAY_DESCRIPTION_SHAPES,
 	DESCRIBED_CONNECTION_ARRAY,
 	ARRAY_TEMPLATE_SHAPES,
+	ARRAY_TEMPLATE_OPTION_SHAPES,
 	OBJECT_LAYOUT_SHAPES,
 	OBJECT_LAYOUT_SCHEMA,
 	BOOLEAN_PROPERTY_VALUES,

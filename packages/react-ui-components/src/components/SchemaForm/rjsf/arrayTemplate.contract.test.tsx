@@ -2,12 +2,12 @@
 
 import { createRequire } from 'node:module';
 import Form, { getDefaultRegistry } from '@rjsf/core';
-import { ArrayFieldDescriptionProps, ArrayFieldTemplateProps, FieldProps, FieldTemplateProps, IdSchema, UiSchema } from '@rjsf/utils';
+import { ArrayFieldDescriptionProps, ArrayFieldTemplateProps, FieldProps, FieldTemplateProps, IdSchema, UIOptionsType, UiSchema } from '@rjsf/utils';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import { getDefaultValidator } from '../../../utils';
-import { ARRAY_ID_SHAPES, ARRAY_TEMPLATE_SHAPES } from '../test-utils/matrix';
+import { ARRAY_ID_SHAPES, ARRAY_TEMPLATE_OPTION_SHAPES, ARRAY_TEMPLATE_SHAPES } from '../test-utils/matrix';
 import { generateTheme } from '../Theme';
 import { FormStateProvider } from '../contexts';
 import { getRenderedArrayFieldTemplate } from './arrayTemplate';
@@ -36,6 +36,34 @@ describe.each([
 		);
 		expect(markup.includes('data-array-template')).toBe(row.rendered);
 		expect(classified).toBe(row.rendered);
+	});
+
+	describe.each(ARRAY_ID_SHAPES.filter(row => row.name !== 'nested arrays'))('template options for $name', shape => {
+		it.each(ARRAY_TEMPLATE_OPTION_SHAPES)('matches the rendered $name', options => {
+			const RegistryTemplate = () => <div data-array-source="registry" />;
+			const GlobalTemplate = () => <div data-array-source="global" />;
+			const LocalTemplate = () => <div data-array-source="local" />;
+			const globalUiOptions: UIOptionsType = { ArrayFieldTemplate: GlobalTemplate };
+			let classified: unknown;
+			const FieldTemplate = ({ children, registry, uiSchema, schema }: FieldTemplateProps) => {
+				classified = getRenderedArrayFieldTemplate(schema, uiSchema, registry);
+				return <>{children}</>;
+			};
+			const markup = renderToStaticMarkup(
+				<FormComponent
+					schema={shape.schema}
+					uiSchema={{
+						'ui:globalOptions': options.global ? globalUiOptions : undefined,
+						'ui:ArrayFieldTemplate': options.local ? LocalTemplate : undefined
+					}}
+					templates={{ FieldTemplate, ArrayFieldTemplate: RegistryTemplate }}
+					validator={getDefaultValidator()}
+				/>
+			);
+			expect(markup).toContain(`data-array-source="${options.local ? 'local' : 'registry'}"`);
+			expect(markup).not.toContain('data-array-source="global"');
+			expect(classified).toBe(options.local ? LocalTemplate : RegistryTemplate);
+		});
 	});
 
 	describe.each(ARRAY_ID_SHAPES)('custom description props for $name', row => {

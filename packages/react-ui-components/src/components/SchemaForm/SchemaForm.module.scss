@@ -26,6 +26,10 @@
 	position: relative;
 	background-color: var(--schema-form-background);
 
+	div {
+		background-color: inherit;
+	}
+
 	form {
 		width: 100%;
 		display: flex;
