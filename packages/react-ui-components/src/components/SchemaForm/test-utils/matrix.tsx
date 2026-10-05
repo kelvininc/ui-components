@@ -471,6 +471,18 @@ export const TEXTAREA_CONSUMER_SHAPES: readonly {
 	}
 ];
 
+export const TEXTAREA_EDITABILITY_SHAPES: readonly {
+	name: string;
+	disabled: boolean;
+	readonly: boolean;
+	editable: boolean;
+}[] = [
+	{ name: 'enabled form', disabled: false, readonly: false, editable: true },
+	{ name: 'disabled form', disabled: true, readonly: false, editable: false },
+	{ name: 'read only form', disabled: false, readonly: true, editable: false },
+	{ name: 'disabled and read only form', disabled: true, readonly: true, editable: false }
+];
+
 const TEXTAREA_VALIDATION_FORM = {
 	schema: { type: 'object', properties: { notes: { type: 'string', title: 'Connection notes' } } } satisfies RJSFSchema,
 	uiSchema: { notes: { 'ui:widget': 'textarea' } } satisfies UiSchema<Record<string, unknown>, RJSFSchema, SchemaFormContext>,
@@ -808,6 +820,7 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 	ACTION_NAME_SHAPES,
 	SUBMIT_BUTTON_SHAPES,
 	TEXTAREA_CONSUMER_SHAPES,
+	TEXTAREA_EDITABILITY_SHAPES,
 	TEXTAREA_VALIDATION_SHAPES,
 	HELP_TEXT_CONSUMER_SHAPES,
 	BROKER_SCHEMA,

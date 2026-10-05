@@ -1,9 +1,10 @@
 import React from 'react';
 import { describe, expect, it, vi } from 'vitest';
+import { userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../../test-utils/browser';
 import { KvSchemaForm } from '../SchemaForm';
-import { HELP_TEXT_CONSUMER_SHAPES, TEXTAREA_CONSUMER_SHAPES, TEXTAREA_VALIDATION_SHAPES } from './matrix';
+import { HELP_TEXT_CONSUMER_SHAPES, TEXTAREA_CONSUMER_SHAPES, TEXTAREA_EDITABILITY_SHAPES, TEXTAREA_VALIDATION_SHAPES } from './matrix';
 
 describe.each(TEXTAREA_CONSUMER_SHAPES)('C3 textarea consumer: $name', row => {
 	it('preserves the text and emits one existing change callback on fill', async () => {
@@ -17,6 +18,34 @@ describe.each(TEXTAREA_CONSUMER_SHAPES)('C3 textarea consumer: $name', row => {
 		await control.fill(row.nextText);
 		await expect.poll(() => onChange.mock.lastCall?.[0].formData).toBe(row.nextText);
 		expect(onChange).toHaveBeenCalledTimes(1);
+	});
+});
+
+describe.each(TEXTAREA_EDITABILITY_SHAPES)('C3 textarea editing: $name', row => {
+	it('honors form editing flags during host focus and keyboard input', async () => {
+		const fixture = TEXTAREA_CONSUMER_SHAPES[0];
+		const onChange = vi.fn();
+		const screen = await render(
+			<>
+				<button type="button">Previous field</button>
+				<KvSchemaForm schema={fixture.schema} uiSchema={fixture.uiSchema} formData={fixture.formData} disabled={row.disabled} readonly={row.readonly} onChange={onChange} />
+			</>
+		);
+		await whenAllKelvinReady(screen.container);
+		const host = screen.container.querySelector<HTMLKvTextAreaElement>('kv-text-area')!;
+		const control = screen.getByRole('textbox', { name: fixture.label, exact: true });
+		expect(host.disabled).toBe(!row.editable);
+		expect(control.element().getAttribute('contenteditable')).toBe(row.editable ? 'plaintext-only' : 'false');
+		expect(control.element().getAttribute('aria-disabled')).toBe(row.editable ? null : 'true');
+		await screen.getByRole('button', { name: 'Previous field', exact: true }).click();
+		onChange.mockClear();
+		host.focus();
+		await expect.poll(() => host.shadowRoot!.activeElement === control.element()).toBe(row.editable);
+		await userEvent.keyboard('{End}.');
+		const expectedText = fixture.formData + (row.editable ? '.' : '');
+		await expect.poll(() => (control.element() as HTMLElement).innerText).toBe(expectedText);
+		await expect.poll(() => onChange.mock.lastCall?.[0].formData).toBe(row.editable ? expectedText : undefined);
+		expect(onChange).toHaveBeenCalledTimes(row.editable ? 1 : 0);
 	});
 });
 

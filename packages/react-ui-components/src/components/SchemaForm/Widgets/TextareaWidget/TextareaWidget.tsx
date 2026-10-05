@@ -10,6 +10,8 @@ const TextareaWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Fo
 	uiSchema = {},
 	value,
 	placeholder,
+	disabled,
+	readonly,
 	onChange,
 	rawErrors = []
 }: WidgetProps<T, S, F>) => {
@@ -31,6 +33,7 @@ const TextareaWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Fo
 			id={id}
 			accessibleLabel={label}
 			state={hasErrors ? EValidationState.Invalid : EValidationState.None}
+			disabled={disabled || readonly}
 			maxCharLength={maxCharLength}
 			icon={iconName}
 			text={value}
