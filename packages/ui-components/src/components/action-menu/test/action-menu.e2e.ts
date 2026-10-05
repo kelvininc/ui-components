@@ -1,5 +1,14 @@
 import { E2EPage, newE2EPage } from '@stencil/core/testing';
-import { MENU_ACTIVATION_KEYS, MENU_FOCUS_DESTINATIONS, MENU_NAVIGATION_KEYS, MENU_OPEN_KEYS, MENU_ROW_MOVE_STATES, MENU_SHAPES, MENU_TAB_SHAPES } from './action-menu.matrix';
+import {
+	MENU_ACTIVATION_KEYS,
+	MENU_FOCUS_DESTINATIONS,
+	MENU_NAVIGATION_KEYS,
+	MENU_OPEN_KEYS,
+	MENU_READINESS_STATES,
+	MENU_ROW_MOVE_STATES,
+	MENU_SHAPES,
+	MENU_TAB_SHAPES
+} from './action-menu.matrix';
 
 const renderMenu = async (row = MENU_SHAPES[0]) => {
 	const page = await newE2EPage();
@@ -191,9 +200,9 @@ describe('C5 menu focus and state', () => {
 		expect(await page.evaluate(() => getComputedStyle(document.querySelector('[role="menu"]')).display)).toBe(key === 'Tab' ? 'none' : 'flex');
 	});
 
-	it('waits for the replacement trigger when a row moves during setFocus', async () => {
+	it.each(MENU_READINESS_STATES)('waits for the replacement trigger during setFocus; old readiness=%s', async state => {
 		const { page } = await renderMenu();
-		const beforeRender = await page.evaluate(async () => {
+		const beforeRender = await page.evaluate(async oldReadiness => {
 			const host = document.querySelector('kv-action-menu');
 			const original = host.querySelector('kv-action-button-icon');
 			original.dataset.focusGeneration = 'original';
@@ -207,14 +216,14 @@ describe('C5 menu focus and state', () => {
 			void host.setFocus().then(() => (host.dataset.focusComplete = 'true'));
 			await waiting;
 			document.querySelector('form').append(document.querySelector('#topic-row'));
-			release();
+			if (oldReadiness === 'released') release();
 			for (let turn = 0; turn < 10; turn++) await Promise.resolve();
 			return {
 				completed: host.dataset.focusComplete === 'true',
 				originalConnected: original.isConnected,
 				originalCurrent: host.querySelector('kv-action-button-icon') === original
 			};
-		});
+		}, state);
 		expect(beforeRender).toEqual({ completed: false, originalConnected: true, originalCurrent: true });
 		await page.waitForChanges();
 		await page.waitForFunction(() => document.querySelector('kv-action-menu').dataset.focusComplete === 'true', { timeout: 2500 });

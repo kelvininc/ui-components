@@ -48,20 +48,19 @@ export class KvActionMenu implements IActionMenu, IActionMenuEvents {
 	@Method()
 	async setFocus(): Promise<void> {
 		const deadline = performance.now() + FOCUS_WAIT_MS;
+		let readyTrigger: HTMLKvActionButtonIconElement | undefined;
+		let ready = false;
 		while (!this.disabled && this.element.isConnected && performance.now() < deadline) {
 			const trigger = this.trigger;
 			if (!this.reconnectPending && trigger?.isConnected) {
-				let timer: number;
-				try {
-					await Promise.race([
-						trigger.componentOnReady?.(),
-						new Promise<void>(resolve => (timer = window.setTimeout(resolve, Math.max(0, deadline - performance.now()))))
-					]);
-				} finally {
-					window.clearTimeout(timer);
+				if (readyTrigger !== trigger) {
+					readyTrigger = trigger;
+					ready = false;
+					void Promise.resolve(trigger.componentOnReady?.()).then(() => {
+						if (readyTrigger === trigger) ready = true;
+					});
 				}
-				if (this.disabled || !this.element.isConnected) return;
-				if (!this.reconnectPending && trigger === this.trigger && trigger.isConnected) {
+				if (ready) {
 					trigger.focus();
 					if ((trigger.getRootNode() as Document | ShadowRoot).activeElement === trigger) return;
 				}
