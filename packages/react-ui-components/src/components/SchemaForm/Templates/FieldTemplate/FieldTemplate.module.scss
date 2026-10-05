@@ -2,10 +2,11 @@
 
 .FieldWrapper {
 	width: 100%;
+	min-width: 0;
 	display: flex;
 	flex-direction: column;
 
-	.TopDescription {
-		padding-bottom: var(--spacing-2xl);
+	&[hidden] {
+		display: none;
 	}
 }

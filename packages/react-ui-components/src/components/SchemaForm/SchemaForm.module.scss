@@ -7,12 +7,14 @@
 	* @prop --schema-form-max-width: max field width
 	* @prop --schema-form-fields-x-gap: horizontal gap between fields
 	* @prop --schema-form-fields-y-gap: vertical gap between fields
+	* @prop --schema-form-sections-y-gap: vertical spacing around section dividers
 	*/
 	--schema-form-x-padding: 0;
 	--schema-form-y-padding: 0;
 	--schema-form-max-width: 100%;
 	--schema-form-fields-x-gap: var(--spacing-3xl);
-	--schema-form-fields-y-gap: var(--spacing-3xl);
+	--schema-form-fields-y-gap: var(--space-20);
+	--schema-form-sections-y-gap: var(--spacing-5xl);
 	--schema-form-background: inherit;
 
 	width: 100%;
@@ -24,7 +26,7 @@
 	position: relative;
 	background-color: var(--schema-form-background);
 
-	*div {
+	div {
 		background-color: inherit;
 	}
 
@@ -38,7 +40,7 @@
 		background-color: inherit;
 	}
 
-	form > div[class^='FieldTemplate'] {
+	form > [data-schema-form-field] {
 		height: 100%;
 		overflow: hidden auto;
 		box-sizing: border-box;

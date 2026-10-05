@@ -1,5 +1,9 @@
 @use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
+.ArrayDescription:empty {
+	display: none;
+}
+
 .ArrayItemList {
 	display: flex;
 	flex-direction: column;

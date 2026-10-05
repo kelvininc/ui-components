@@ -52,7 +52,7 @@ const expectMenuFocus = async (page: E2EPage, id?: string) => {
 	else expect(active.name).toBe('Topic 1 actions');
 };
 
-const openMenu = async (page: E2EPage, key = 'Enter') => {
+const openMenu = async (page: E2EPage, key: (typeof MENU_OPEN_KEYS)[number] = 'Enter') => {
 	const trigger = await page.$('aria/Topic 1 actions[role="button"]');
 	expect(trigger).not.toBeNull();
 	await trigger.focus();
@@ -120,7 +120,7 @@ describe.each(MENU_TAB_SHAPES)('C5 menu Tab: $name', row => {
 });
 
 describe('C5 menu activation', () => {
-	it.each([...MENU_ACTIVATION_KEYS, 'mouse'])('chooses once with %s and never submits the form', async key => {
+	it.each([...MENU_ACTIVATION_KEYS, 'mouse'] as const)('chooses once with %s and never submits the form', async key => {
 		const { page, selected } = await renderMenu(MENU_SHAPES[1]);
 		await openMenu(page);
 		await expectMenuFocus(page, 'move-down');
