@@ -12,6 +12,7 @@ const getInputType = (type?: JSONSchema7TypeName | JSONSchema7TypeName[]) => (ty
 
 const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
+	label,
 	placeholder,
 	readonly,
 	disabled,
@@ -100,6 +101,7 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 		<div className={styles.InputContainer}>
 			<KvTextField
 				id={id}
+				accessibleLabel={label}
 				size={optionComponentSize ?? componentSize}
 				examples={examples}
 				inputDisabled={disabled || readonly}

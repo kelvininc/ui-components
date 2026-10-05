@@ -4,11 +4,11 @@ exports[`Toggle Button (unit tests) when the component loads with checked prop s
 <kv-toggle-button checked="" label="Option 1" size="small" value="opt1">
   <template shadowrootmode="open" shadowrootdelegatesfocus>
     <kv-tooltip>
-      <div class="toggle-button toggle-button--checked toggle-button--size-small" part="toggle-button">
+      <button aria-label="Option 1" aria-pressed="true" class="toggle-button toggle-button--checked toggle-button--size-small" part="toggle-button" type="button">
         <div class="toggle-button-label" part="toggle-label">
           Option 1
         </div>
-      </div>
+      </button>
     </kv-tooltip>
   </template>
 </kv-toggle-button>
@@ -18,11 +18,11 @@ exports[`Toggle Button (unit tests) when the component loads with disabled prop 
 <kv-toggle-button disabled="" label="Option 1" size="small" value="opt1">
   <template shadowrootmode="open" shadowrootdelegatesfocus>
     <kv-tooltip>
-      <div class="toggle-button toggle-button--disabled toggle-button--size-small" part="toggle-button">
+      <button aria-label="Option 1" aria-pressed="false" class="toggle-button toggle-button--disabled toggle-button--size-small" disabled="" part="toggle-button" type="button">
         <div class="toggle-button-label" part="toggle-label">
           Option 1
         </div>
-      </div>
+      </button>
     </kv-tooltip>
   </template>
 </kv-toggle-button>
@@ -32,11 +32,11 @@ exports[`Toggle Button (unit tests) when the component loads with icon should ma
 <kv-toggle-button icon="kv-add" size="small" value="opt1">
   <template shadowrootmode="open" shadowrootdelegatesfocus>
     <kv-tooltip>
-      <div class="toggle-button toggle-button--only-icon toggle-button--size-small" part="toggle-button">
+      <button aria-pressed="false" class="toggle-button toggle-button--only-icon toggle-button--size-small" part="toggle-button" type="button">
         <div class="toggle-button-icon" part="toggle-icon">
           <kv-icon name="kv-add"></kv-icon>
         </div>
-      </div>
+      </button>
     </kv-tooltip>
   </template>
 </kv-toggle-button>
@@ -46,14 +46,14 @@ exports[`Toggle Button (unit tests) when the component loads with label and icon
 <kv-toggle-button icon="kv-add" label="Add item" size="small" value="opt1">
   <template shadowrootmode="open" shadowrootdelegatesfocus>
     <kv-tooltip>
-      <div class="toggle-button toggle-button--size-small" part="toggle-button">
+      <button aria-label="Add item" aria-pressed="false" class="toggle-button toggle-button--size-small" part="toggle-button" type="button">
         <div class="toggle-button-icon" part="toggle-icon">
           <kv-icon name="kv-add"></kv-icon>
         </div>
         <div class="toggle-button-label" part="toggle-label">
           Add item
         </div>
-      </div>
+      </button>
     </kv-tooltip>
   </template>
 </kv-toggle-button>
@@ -63,11 +63,11 @@ exports[`Toggle Button (unit tests) when the component loads with label should m
 <kv-toggle-button label="Option 1" size="small" value="opt1">
   <template shadowrootmode="open" shadowrootdelegatesfocus>
     <kv-tooltip>
-      <div class="toggle-button toggle-button--size-small" part="toggle-button">
+      <button aria-label="Option 1" aria-pressed="false" class="toggle-button toggle-button--size-small" part="toggle-button" type="button">
         <div class="toggle-button-label" part="toggle-label">
           Option 1
         </div>
-      </div>
+      </button>
     </kv-tooltip>
   </template>
 </kv-toggle-button>
@@ -77,11 +77,11 @@ exports[`Toggle Button (unit tests) when the component loads with preventDefault
 <kv-toggle-button label="Option 1" prevent-default="true" size="small" value="opt1">
   <template shadowrootmode="open" shadowrootdelegatesfocus>
     <kv-tooltip>
-      <div class="toggle-button toggle-button--size-small" part="toggle-button">
+      <button aria-label="Option 1" aria-pressed="false" class="toggle-button toggle-button--size-small" part="toggle-button" type="button">
         <div class="toggle-button-label" part="toggle-label">
           Option 1
         </div>
-      </div>
+      </button>
     </kv-tooltip>
   </template>
 </kv-toggle-button>

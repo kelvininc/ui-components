@@ -11,6 +11,7 @@ import { useFormState } from '../../contexts';
 const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	schema,
 	id,
+	label,
 	options,
 	disabled,
 	readonly,
@@ -82,6 +83,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 
 	const props = {
 		id,
+		accessibleLabel: label,
 		placeholder: placeholder ? placeholder : optionsPlaceholder,
 		inputSize: !isEmpty(optionComponentSize) ? optionComponentSize : (componentSize as EComponentSize),
 		disabled: disabled || readonly,

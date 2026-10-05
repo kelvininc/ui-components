@@ -3,6 +3,7 @@ import { isEmpty, throttle } from 'lodash-es';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { EComponentSize, EIconName, ERadioControlType } from '../../types';
 import { IToggleButton, IToggleButtonEvents } from './toggle-button.types';
+import { isValidLabel } from '../../utils/string.helper';
 /**
  * @part toggle-button - The toggle action.
  * @part toggle-icon - The toggle button's icon container.
@@ -19,6 +20,8 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	@Prop({ reflect: true }) value!: string | number;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
+	/** @inheritdoc */
+	@Prop() accessibleLabel?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName;
 	/** @inheritdoc */
@@ -75,11 +78,16 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	render() {
 		const hasLabel = !isEmpty(this.label);
 		const hasIcon = !isEmpty(this.icon);
+		const Control = this.withRadio ? 'div' : 'button';
+		const accessibleLabel = [this.accessibleLabel, this.label, this.tooltip].find(isValidLabel);
+		const controlAttributes = this.withRadio
+			? this.customAttributes
+			: { ...this.customAttributes, 'type': 'button', 'aria-label': accessibleLabel, 'aria-pressed': String(!!this.checked), 'disabled': this.disabled };
 
 		return (
 			<Host>
 				<kv-tooltip text={this.tooltip}>
-					<div
+					<Control
 						class={{
 							'toggle-button': true,
 							'toggle-button--checked': !!this.checked,
@@ -90,15 +98,14 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 						}}
 						part="toggle-button"
 						onClick={this.onClick}
-						{...this.customAttributes}
+						{...controlAttributes}
 					>
 						{this.withRadio && (
 							<kv-radio
 								size={EComponentSize.Small}
 								checked={this.checked}
 								disabled={this.disabled}
-								// An icon-only toggle has no text to name its radio, so its tooltip does
-								accessibleLabel={hasLabel ? this.label : this.tooltip}
+								accessibleLabel={accessibleLabel}
 								controlType={this.radioControlType}
 								skipTabStop={this.skipTabStop}
 								onCheckedChange={this.onRadioCheckedChange}
@@ -114,7 +121,7 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 								{this.label}
 							</div>
 						)}
-					</div>
+					</Control>
 				</kv-tooltip>
 			</Host>
 		);

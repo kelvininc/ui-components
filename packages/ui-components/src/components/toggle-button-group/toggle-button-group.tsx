@@ -1,8 +1,8 @@
-import { Component, Element, h, Prop, Host, Event, EventEmitter } from '@stencil/core';
+import { Component, Element, h, Prop, Host, Event, EventEmitter, Method } from '@stencil/core';
 import { IToggleButton } from '../toggle-button/toggle-button.types';
 import { IToggleButtonGroup, IToggleButtonGroupEvents } from './toggle-button-group.types';
 import { EComponentSize, ERadioControlType } from '../../types';
-import { getRadioGroupTabStop, handleRadioGroupKeyDown, RadioGroupOption } from '../../utils/radio-group.helper';
+import { focusRadioGroup, getRadioGroupTabStop, handleRadioGroupKeyDown, RadioGroupOption } from '../../utils/radio-group.helper';
 
 /**
  * @part toggle-button-container - Container of toggle button.
@@ -34,6 +34,16 @@ export class KvToggleButtonGroup implements IToggleButtonGroup, IToggleButtonGro
 	/** @inheritdoc */
 	@Event() checkedChange: EventEmitter<string | number>;
 
+	/** Focuses the current radio Tab stop, or the first enabled checkbox/plain button. */
+	@Method()
+	async setFocus(): Promise<void> {
+		const hosts = Array.from(this.el.shadowRoot?.querySelectorAll<HTMLElement>('kv-toggle-button') ?? []);
+		const options = this.isRadioGroup() ? this.getGroupOptions() : this.buttons.map(button => ({ value: button.value, disabled: this.isButtonDisabled(button) }));
+		focusRadioGroup(options, hosts);
+	}
+
+	private isButtonDisabled = (button: IToggleButton) => !!(this.disabled || this.disabledButtons[button.value] || button.disabled);
+
 	private hasRadio = (button: IToggleButton) => !!(this.withRadio || this.radioButtons[button.value] || button.withRadio);
 
 	private getRadioControlType = (button: IToggleButton) => button.radioControlType ?? this.radioControlType ?? ERadioControlType.Radio;
@@ -49,7 +59,7 @@ export class KvToggleButtonGroup implements IToggleButtonGroup, IToggleButtonGro
 		this.buttons.map(button => ({
 			value: button.value,
 			checked: !!(this.selectedButtons[button.value] || button.checked),
-			disabled: !this.hasRadio(button) || !!(this.disabled || this.disabledButtons[button.value] || button.disabled)
+			disabled: !this.hasRadio(button) || this.isButtonDisabled(button)
 		}));
 
 	private onKeyDown = (event: KeyboardEvent) => {
@@ -70,11 +80,12 @@ export class KvToggleButtonGroup implements IToggleButtonGroup, IToggleButtonGro
 						icon={button.icon}
 						value={button.value}
 						label={button.label}
+						accessibleLabel={button.accessibleLabel}
 						tooltip={button.tooltip}
 						size={this.size ?? button.size}
 						preventDefault={button.preventDefault}
 						checked={this.selectedButtons[button.value] || button.checked}
-						disabled={this.disabled || this.disabledButtons[button.value] || button.disabled}
+						disabled={this.isButtonDisabled(button)}
 						withRadio={this.hasRadio(button)}
 						radioControlType={this.getRadioControlType(button)}
 						skipTabStop={isRadioGroup && index !== tabStop}

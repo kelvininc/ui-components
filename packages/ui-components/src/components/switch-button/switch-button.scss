@@ -29,6 +29,7 @@
 	 * @prop --disabled-background-color: Button background color when disabled.
 	 * @prop --switch-icon-color: Icon square container background color.
 	 * @prop --switch-disabled-icon-color: Icon square container background color when disabled.
+	 * @prop --switch-focus-outline-color: Switch keyboard focus outline color.
 	 * @prop --switch-height-large: Switch height when size is large.
 	 * @prop --switch-height-small: Switch height when size is small.
 	 * @prop --switch-width-large: Switch width when size is large.
@@ -44,6 +45,7 @@
 	--disabled-background-color: var(--switch-background-disabled);
 	--switch-icon-color: var(--switch-icon-color-default);
 	--switch-disabled-icon-color: var(--switch-icon-color-disabled);
+	--switch-focus-outline-color: var(--input-border-color-selected);
 
 	// sizing - maps component size names (large/small) to token names (regular/compact)
 	--switch-height-large: var(--switch-height-regular);
@@ -61,21 +63,29 @@
 }
 
 .switch-button {
+	appearance: none;
 	display: flex;
 	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	border: 0;
 	border-radius: var(--switch-radius-default);
 	background-color: var(--off-background-color);
 	transition: background-color 0.3s ease-out;
-	
+
 	cursor: pointer;
-	
+
+	&:focus-visible {
+		outline: var(--border-width-strong) solid var(--switch-focus-outline-color);
+		outline-offset: var(--spacing-2xs);
+	}
 
 	&--disabled {
 		background-color: var(--disabled-background-color);
-		
+
 		cursor: not-allowed;
 		user-select: none;
-	
+
 		.icon-square kv-icon {
 			--icon-color: var(--switch-disabled-icon-color);
 		}

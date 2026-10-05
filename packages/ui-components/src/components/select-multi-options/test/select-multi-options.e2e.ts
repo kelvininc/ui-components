@@ -22,7 +22,10 @@ describe('Select Multi Options (end-to-end)', () => {
 	};
 
 	const clickOption = async (optionValue: string, shiftKey = false): Promise<void> => {
-		const optionLabel = await page.find(`kv-select-multi-options >>> kv-virtualized-list >>> kv-select-option[value="${optionValue}"] >>> .item-label`);
+		const optionLabel = page
+			.locator(`kv-select-multi-options >>> kv-virtualized-list >>> kv-select-option[value="${optionValue}"] >>> .item-label`)
+			.setVisibility('visible')
+			.setTimeout(2500);
 
 		if (shiftKey) {
 			await page.keyboard.down('Shift');

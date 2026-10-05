@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Switch Button (unit tests) when uses default props should match the snapshot 1`] = `
-<kv-switch-button>
-  <template shadowrootmode="open">
+<kv-switch-button accessible-label="Enable telemetry">
+  <template shadowrootmode="open" shadowrootdelegatesfocus>
     <slot name="left-slot"></slot>
-    <div class="switch-button switch-button--large" part="button">
+    <button aria-checked="false" aria-label="Enable telemetry" class="switch-button switch-button--large" part="button" role="switch" type="button">
       <div class="icon-square" part="icon-square">
         <kv-icon name="kv-check-state" part="icon-svg"></kv-icon>
       </div>
-    </div>
+    </button>
     <slot name="right-slot"></slot>
   </template>
 </kv-switch-button>

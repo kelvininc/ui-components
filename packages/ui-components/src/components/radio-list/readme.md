@@ -54,6 +54,19 @@ const RadioListExample: React.FC = () => {
 | `optionSelected` | Emits when an option is selected | `CustomEvent<number \| string>` |
 
 
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Focuses the selected enabled radio, or the first enabled radio when none is selected.
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+
 ## Shadow Parts
 
 | Part                | Description                      |

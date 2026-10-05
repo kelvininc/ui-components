@@ -6,7 +6,7 @@ describe('Switch Button (end-to-end)', () => {
 	describe('when renders with default props', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-switch-button></kv-switch-button>');
+			await page.setContent('<kv-switch-button accessible-label="Enable telemetry"></kv-switch-button>');
 		});
 
 		describe('and user clicks on the button', () => {
@@ -35,7 +35,7 @@ describe('Switch Button (end-to-end)', () => {
 	describe('when is disabled', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-switch-button disabled></kv-switch-button>');
+			await page.setContent('<kv-switch-button accessible-label="Enable telemetry" disabled></kv-switch-button>');
 		});
 
 		describe('and user clicks on the button', () => {
@@ -65,7 +65,7 @@ describe('Switch Button (end-to-end)', () => {
 	describe('when is ON', () => {
 		beforeEach(async () => {
 			page = await newE2EPage();
-			await page.setContent('<kv-switch-button checked></kv-switch-button>');
+			await page.setContent('<kv-switch-button accessible-label="Enable telemetry" checked></kv-switch-button>');
 		});
 
 		describe('and user clicks on the switch', () => {

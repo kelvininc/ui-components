@@ -9,14 +9,14 @@
 
 ```html
 <!-- Default -->
-<kv-switch-button></kv-switch-button>
+<kv-switch-button accessible-label="Enable telemetry"></kv-switch-button>
 
 <!-- Disabled -->
-<kv-switch-button disabled></kv-switch-button>
+<kv-switch-button accessible-label="Enable telemetry" disabled></kv-switch-button>
 
 <!-- ON/OFF -->
-<kv-switch-button state="ON"></kv-switch-button>
-<kv-switch-button state="OFF"></kv-switch-button>
+<kv-switch-button accessible-label="Enable telemetry" checked></kv-switch-button>
+<kv-switch-button accessible-label="Enable telemetry"></kv-switch-button>
 ```
 
 
@@ -28,19 +28,18 @@ import React from 'react';
 import { KvSwitchButton } from '@kelvininc/react-ui-components/client';
 
 export const SwitchButtonExample: React.FC = () => (
-  <>
-    {/*-- Default --*/}
-    <KvSwitchButton/>
+	<>
+		{/*-- Default --*/}
+		<KvSwitchButton accessibleLabel="Enable telemetry" />
 
-	{/*-- Disabled --*/}
-	<KvSwitchButton disabled/>
+		{/*-- Disabled --*/}
+		<KvSwitchButton accessibleLabel="Enable telemetry" disabled />
 
-	{/*-- ON/OFF --*/}
-	<KvSwitchButton state="ON"/>
-	<KvSwitchButton state="OFF"/>
-  </>
+		{/*-- ON/OFF --*/}
+		<KvSwitchButton accessibleLabel="Enable telemetry" checked />
+		<KvSwitchButton accessibleLabel="Enable telemetry" checked={false} />
+	</>
 );
-
 ```
 
 
@@ -50,24 +49,24 @@ export const SwitchButtonExample: React.FC = () => (
 import { Component, h } from '@stencil/core';
 
 @Component({
-  tag: 'switch-button-example',
-  styleUrl: 'switch-button-example.css',
-  shadow: true,
+	tag: 'switch-button-example',
+	styleUrl: 'switch-button-example.css',
+	shadow: true
 })
-export class SwichButtonExample {
-  render() {
-    return [
-      	// Default
-		<kv-switch-button></kv-switch-button>
+export class SwitchButtonExample {
+	render() {
+		return [
+			// Default
+			<kv-switch-button accessibleLabel="Enable telemetry" />,
 
-		// Disabled
-		<kv-switch-button disabled></kv-switch-button>
+			// Disabled
+			<kv-switch-button accessibleLabel="Enable telemetry" disabled />,
 
-		// ON/OFF
-		<kv-switch-button state="ON"></kv-switch-button>
-		<kv-switch-button state="OFF"></kv-switch-button>
-    ];
-  }
+			// ON/OFF
+			<kv-switch-button accessibleLabel="Enable telemetry" checked />,
+			<kv-switch-button accessibleLabel="Enable telemetry" checked={false} />
+		];
+	}
 }
 ```
 
@@ -75,11 +74,12 @@ export class SwichButtonExample {
 
 ## Properties
 
-| Property   | Attribute  | Description                                                  | Type                                           | Default                |
-| ---------- | ---------- | ------------------------------------------------------------ | ---------------------------------------------- | ---------------------- |
-| `checked`  | `checked`  | (optional) If `true` the button is ON. Default `false`       | `boolean`                                      | `false`                |
-| `disabled` | `disabled` | (optional) If `true` the button is disabled. Default `false` | `boolean`                                      | `false`                |
-| `size`     | `size`     | (optional) Button's size. Default `EComponentSize.Large`     | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
+| Property                       | Attribute          | Description                                                  | Type                                           | Default                |
+| ------------------------------ | ------------------ | ------------------------------------------------------------ | ---------------------------------------------- | ---------------------- |
+| `accessibleLabel` _(required)_ | `accessible-label` | (required) Nonblank accessible name for the switch control.  | `string`                                       | `undefined`            |
+| `checked`                      | `checked`          | (optional) If `true` the button is ON. Default `false`       | `boolean`                                      | `false`                |
+| `disabled`                     | `disabled`         | (optional) If `true` the button is disabled. Default `false` | `boolean`                                      | `false`                |
+| `size`                         | `size`             | (optional) Button's size. Default `EComponentSize.Large`     | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
 
 
 ## Events
@@ -106,6 +106,7 @@ export class SwichButtonExample {
 | `--off-background-color`       | Button background color when OFF.                     |
 | `--on-background-color`        | Button background color when ON.                      |
 | `--switch-disabled-icon-color` | Icon square container background color when disabled. |
+| `--switch-focus-outline-color` | Switch keyboard focus outline color.                  |
 | `--switch-height-large`        | Switch height when size is large.                     |
 | `--switch-height-small`        | Switch height when size is small.                     |
 | `--switch-icon-color`          | Icon square container background color.               |

@@ -2,6 +2,8 @@ import { EventEmitter } from '@stencil/core';
 import { EComponentSize } from '../../types';
 
 export interface ISwitchButton {
+	/** (required) Nonblank accessible name for the switch control. */
+	accessibleLabel: string;
 	/** (optional) If `true` the button is disabled. Default `false` */
 	disabled: boolean;
 	/** (optional) If `true` the button is ON. Default `false` */

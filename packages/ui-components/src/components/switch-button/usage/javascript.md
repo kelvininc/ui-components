@@ -1,11 +1,11 @@
 ```html
 <!-- Default -->
-<kv-switch-button></kv-switch-button>
+<kv-switch-button accessible-label="Enable telemetry"></kv-switch-button>
 
 <!-- Disabled -->
-<kv-switch-button disabled></kv-switch-button>
+<kv-switch-button accessible-label="Enable telemetry" disabled></kv-switch-button>
 
 <!-- ON/OFF -->
-<kv-switch-button state="ON"></kv-switch-button>
-<kv-switch-button state="OFF"></kv-switch-button>
+<kv-switch-button accessible-label="Enable telemetry" checked></kv-switch-button>
+<kv-switch-button accessible-label="Enable telemetry"></kv-switch-button>
 ```
