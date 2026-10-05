@@ -6,6 +6,15 @@
 	gap: var(--spacing-md);
 	margin-left: var(--spacing-xs);
 
+	&::part(items-container) {
+		flex: 1;
+	}
+
+	&::part(item) {
+		display: flex;
+		flex: 1;
+	}
+
 	&.Inline {
 		flex-direction: row;
 

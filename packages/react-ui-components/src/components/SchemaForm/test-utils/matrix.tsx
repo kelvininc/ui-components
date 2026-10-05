@@ -182,8 +182,12 @@ export const RADIO_STYLE_THEMES = [
 	{ name: 'Night', mode: StyleMode.Night }
 ] as const;
 
-export const RADIO_INLINE_STYLE_SHAPES: readonly { name: string; schema: RJSFSchema }[] = [
-	{ name: 'unequal security labels', schema: { type: 'string', title: 'Security', enum: ['tls', 'plaintext'], enumNames: ['TLS', 'Plaintext connection'] } }
+export const RADIO_INLINE_STYLE_SHAPES: readonly { name: string; schema: RJSFSchema; descriptions: string[] }[] = [
+	{
+		name: 'unequal security labels and descriptions',
+		schema: { type: 'string', title: 'Security', enum: ['tls', 'plaintext'], enumNames: ['TLS', 'Plaintext connection'] },
+		descriptions: ['Encrypt the connection.', 'Send telemetry without encryption. Use this option only on the isolated test network while checking broker connectivity.']
+	}
 ];
 
 export const CHOICE_CLEAR_NAME_SHAPES = [
