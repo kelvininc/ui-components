@@ -1,5 +1,6 @@
 import { EventEmitter } from '@stencil/core';
 import { EIconName } from '../icon/icon.types';
+import { EValidationState } from '../text-field/text-field.types';
 
 export interface ITextArea {
 	/** (optional) Icon to show to the left of the text field */
@@ -16,6 +17,10 @@ export interface ITextArea {
 	counterAlwaysVisible?: boolean;
 	/** (optional) If `true` the text area is disabled. Default: `false`. */
 	disabled?: boolean;
+	/** (optional) The validation state. Default: `EValidationState.None`. */
+	state?: EValidationState;
+	/** (optional) Accessible name for the editable area. A visible label outside the component can't name it across the shadow root, so pass that label's text here */
+	accessibleLabel?: string;
 }
 
 export interface ITextAreaEvents {

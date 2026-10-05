@@ -1,5 +1,31 @@
 import { E2EPage, newE2EPage } from '@stencil/core/testing';
 
+const HELP_TEXT_CONSUMERS = [
+	{ name: 'direct help text', tag: 'kv-form-help-text' },
+	{ name: 'text field', tag: 'kv-text-field' },
+	{ name: 'date-time input', tag: 'kv-date-time-input' }
+] as const;
+
+const HELP_TEXT_WEIGHT_CASES = [
+	...HELP_TEXT_CONSUMERS.flatMap(row => [false, true].map(invalid => ({ ...row, invalid, errorWeight: 600 }))),
+	{ name: 'direct help text without an override', tag: 'kv-form-help-text', invalid: true, errorWeight: undefined }
+];
+
+describe('help text weight contracts in Chromium', () => {
+	it.each(HELP_TEXT_WEIGHT_CASES)('inherits error weight for $name with invalid=$invalid', async row => {
+		const override = row.errorWeight === undefined ? '' : `--help-text-error-font-weight:${row.errorWeight};`;
+		const page = await newE2EPage({
+			html: `<div style="${override}--font-weight-regular:400"><${row.tag} help-text="Set the broker URL" state="${row.invalid ? 'invalid' : 'none'}"></${row.tag}></div>`
+		});
+		const weight = await page.evaluate(tag => {
+			const host = document.querySelector(tag);
+			const help = tag === 'kv-form-help-text' ? host : (host.shadowRoot ?? host).querySelector('kv-form-help-text');
+			return getComputedStyle(help.shadowRoot.querySelector('.help-text')).fontWeight;
+		}, row.tag);
+		expect(weight).toBe(row.invalid && row.errorWeight !== undefined ? String(row.errorWeight) : '400');
+	});
+});
+
 describe('Form Help Text (end-to-end)', () => {
 	let page: E2EPage;
 

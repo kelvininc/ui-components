@@ -53,15 +53,17 @@ export const TextAreaExample: React.FC = () => (
 
 ## Properties
 
-| Property               | Attribute                | Description                                                                              | Type        | Default     |
-| ---------------------- | ------------------------ | ---------------------------------------------------------------------------------------- | ----------- | ----------- |
-| `counter`              | `counter`                | (optional) If `true` the chars counter is displayed. Default: `true`                     | `boolean`   | `true`      |
-| `counterAlwaysVisible` | `counter-always-visible` | (optional) If `true` the counter is always visible (not only on focus). Default: `false` | `boolean`   | `false`     |
-| `disabled`             | `disabled`               | (optional) If `true` the text area is disabled. Default: `false`.                        | `boolean`   | `false`     |
-| `icon`                 | `icon`                   | (optional) Icon to show to the left of the text field                                    | `EIconName` | `undefined` |
-| `maxCharLength`        | `max-char-length`        | (optional) The maximum number of characters allowed                                      | `number`    | `undefined` |
-| `placeholder`          | `placeholder`            | (optional) The placeholder to show in the text area                                      | `string`    | `undefined` |
-| `text`                 | `text`                   | (optional) The text to show inside the text area                                         | `string`    | `undefined` |
+| Property               | Attribute                | Description                                                                                                                                                  | Type                                                                          | Default                 |
+| ---------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- | ----------------------- |
+| `accessibleLabel`      | `accessible-label`       | (optional) Accessible name for the editable area. A visible label outside the component can't name it across the shadow root, so pass that label's text here | `string`                                                                      | `undefined`             |
+| `counter`              | `counter`                | (optional) If `true` the chars counter is displayed. Default: `true`                                                                                         | `boolean`                                                                     | `true`                  |
+| `counterAlwaysVisible` | `counter-always-visible` | (optional) If `true` the counter is always visible (not only on focus). Default: `false`                                                                     | `boolean`                                                                     | `false`                 |
+| `disabled`             | `disabled`               | (optional) If `true` the text area is disabled. Default: `false`.                                                                                            | `boolean`                                                                     | `false`                 |
+| `icon`                 | `icon`                   | (optional) Icon to show to the left of the text field                                                                                                        | `EIconName`                                                                   | `undefined`             |
+| `maxCharLength`        | `max-char-length`        | (optional) The maximum number of characters allowed                                                                                                          | `number`                                                                      | `undefined`             |
+| `placeholder`          | `placeholder`            | (optional) The placeholder to show in the text area                                                                                                          | `string`                                                                      | `undefined`             |
+| `state`                | `state`                  | (optional) The validation state. Default: `EValidationState.None`.                                                                                           | `EValidationState.Invalid \| EValidationState.None \| EValidationState.Valid` | `EValidationState.None` |
+| `text`                 | `text`                   | (optional) The text to show inside the text area                                                                                                             | `string`                                                                      | `undefined`             |
 
 
 ## Events
@@ -73,10 +75,14 @@ export const TextAreaExample: React.FC = () => (
 
 ## CSS Custom Properties
 
-| Name               | Description                                      |
-| ------------------ | ------------------------------------------------ |
-| `--height-active`  | The height of the text are when is focused.      |
-| `--height-default` | The height of the text area when is not focused. |
+| Name                          | Description                                          |
+| ----------------------------- | ---------------------------------------------------- |
+| `--background-color-default`  | The background color of the text area.               |
+| `--background-color-disabled` | The background color of the text area when disabled. |
+| `--border-color-disabled`     | Border color when the text area is disabled.         |
+| `--border-color-error`        | Border color when state is invalid.                  |
+| `--height-active`             | The height of the text are when is focused.          |
+| `--height-default`            | The height of the text area when is not focused.     |
 
 
 ## Dependencies
