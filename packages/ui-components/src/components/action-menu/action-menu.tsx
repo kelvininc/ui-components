@@ -44,25 +44,28 @@ export class KvActionMenu implements IActionMenu, IActionMenuEvents {
 		return Array.from(this.menu?.querySelectorAll<HTMLButtonElement>('[role="menuitem"]') ?? []);
 	}
 
-	/** Focuses the enabled trigger without opening its menu or choosing an action. */
+	/** Waits for readiness, then focuses the enabled trigger without opening or choosing an action. */
 	@Method()
 	async setFocus(): Promise<void> {
-		const deadline = performance.now() + FOCUS_WAIT_MS;
+		let deadline: number | undefined;
 		let readyTrigger: HTMLKvActionButtonIconElement | undefined;
 		let ready = false;
-		while (!this.disabled && this.element.isConnected && performance.now() < deadline) {
+		while (!this.disabled && this.element.isConnected) {
 			const trigger = this.trigger;
 			if (!this.reconnectPending && trigger?.isConnected) {
 				if (readyTrigger !== trigger) {
 					readyTrigger = trigger;
 					ready = false;
+					deadline = undefined;
 					void Promise.resolve(trigger.componentOnReady?.()).then(() => {
 						if (readyTrigger === trigger) ready = true;
 					});
 				}
 				if (ready) {
+					deadline ??= performance.now() + FOCUS_WAIT_MS;
 					trigger.focus();
 					if ((trigger.getRootNode() as Document | ShadowRoot).activeElement === trigger) return;
+					if (performance.now() >= deadline) return;
 				}
 			}
 			await new Promise<void>(resolve => window.requestAnimationFrame(() => resolve()));
@@ -228,9 +231,9 @@ export class KvActionMenu implements IActionMenu, IActionMenuEvents {
 						{/* Keep scoped styles with the panel when it leaves an enclosing shadow root. */}
 						<style>{menuStyles}</style>
 						{this.actions.map(item => [
-							item.separatorBefore && <div key={`${item.id}-separator`} class="action-menu-separator" role="separator" />,
+							item.separatorBefore && <div key={`separator:${item.id}`} class="action-menu-separator" role="separator" />,
 							<button
-								key={item.id}
+								key={`item:${item.id}`}
 								type="button"
 								role="menuitem"
 								tabIndex={-1}

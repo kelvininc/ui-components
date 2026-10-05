@@ -1,7 +1,10 @@
 import { E2EPage, newE2EPage } from '@stencil/core/testing';
+import { IActionMenuItem } from '../action-menu.types';
 import {
 	MENU_ACTIVATION_KEYS,
+	MENU_FOCUS_CANCELLATIONS,
 	MENU_FOCUS_DESTINATIONS,
+	MENU_ID_COLLISION,
 	MENU_NAVIGATION_KEYS,
 	MENU_OPEN_KEYS,
 	MENU_READINESS_STATES,
@@ -10,7 +13,7 @@ import {
 	MENU_TAB_SHAPES
 } from './action-menu.matrix';
 
-const renderMenu = async (row = MENU_SHAPES[0]) => {
+const renderMenu = async (row: { items: readonly IActionMenuItem[] } = MENU_SHAPES[0]) => {
 	const page = await newE2EPage();
 	await page.setContent(
 		'<form><input id="broker" aria-label="Broker host"><div id="topic-row" style="display:inline-block"><kv-action-menu accessible-label="Topic 1 actions"></kv-action-menu></div><button id="save" type="button">Save topic</button></form>'
@@ -206,6 +209,20 @@ describe('C5 menu focus and state', () => {
 			const host = document.querySelector('kv-action-menu');
 			const original = host.querySelector('kv-action-button-icon');
 			original.dataset.focusGeneration = 'original';
+			if (oldReadiness === 'delayed-replacement') {
+				const prototype = Object.getPrototypeOf(original);
+				const componentReady = prototype.componentOnReady;
+				const delayed = new WeakMap<HTMLKvActionButtonIconElement, Promise<HTMLKvActionButtonIconElement>>();
+				prototype.componentOnReady = function (this: HTMLKvActionButtonIconElement) {
+					if (!delayed.has(this)) {
+						delayed.set(
+							this,
+							componentReady.call(this).then(() => new Promise<HTMLKvActionButtonIconElement>(resolve => window.setTimeout(() => resolve(this), 1200)))
+						);
+					}
+					return delayed.get(this);
+				};
+			}
 			let entered: () => void;
 			let release: () => void;
 			const waiting = new Promise<void>(resolve => (entered = resolve));
@@ -229,6 +246,55 @@ describe('C5 menu focus and state', () => {
 		await page.waitForFunction(() => document.querySelector('kv-action-menu').dataset.focusComplete === 'true', { timeout: 2500 });
 		expect(await activeControl(page)).toMatchObject({ role: 'button', name: 'Topic 1 actions' });
 		expect(await page.evaluate(() => document.querySelector('kv-action-menu').querySelector('kv-action-button-icon').dataset.focusGeneration)).toBeUndefined();
+	});
+
+	it.each(MENU_FOCUS_CANCELLATIONS)('cancels pending readiness when %s without moving focus', async cancellation => {
+		const { page, selected } = await renderMenu();
+		const focus = await page.evaluate(async state => {
+			const host = document.querySelector('kv-action-menu');
+			const trigger = host.querySelector('kv-action-button-icon');
+			const broker = document.querySelector<HTMLElement>('#broker');
+			let entered: () => void;
+			let release: () => void;
+			const waiting = new Promise<void>(resolve => (entered = resolve));
+			trigger.componentOnReady = () => {
+				entered();
+				return new Promise<HTMLKvActionButtonIconElement>(resolve => (release = () => resolve(trigger)));
+			};
+			broker.focus();
+			const settled = host.setFocus();
+			await waiting;
+			if (state === 'disabled') host.disabled = true;
+			else host.remove();
+			await settled;
+			const beforeRelease = document.activeElement === broker;
+			release();
+			await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+			await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+			return { beforeRelease, afterRelease: document.activeElement === broker };
+		}, cancellation);
+		expect(focus).toEqual({ beforeRelease: true, afterRelease: true });
+		expect(selected).not.toHaveReceivedEvent();
+	});
+
+	it('preserves a focused action when valid ids collide with separator keys', async () => {
+		const { page } = await renderMenu({ items: MENU_ID_COLLISION.before });
+		await openMenu(page);
+		await expectMenuFocus(page, 'copy');
+		await page.keyboard.press('ArrowDown');
+		await page.keyboard.press('ArrowDown');
+		await expectMenuFocus(page, 'move-separator');
+		await page.evaluate(items => {
+			const focused = document.querySelector<HTMLElement>('[data-action-id="move-separator"]');
+			focused.dataset.retained = 'true';
+			document.querySelector('kv-action-menu').items = items;
+		}, MENU_ID_COLLISION.after);
+		await page.waitForChanges();
+		await expectMenuFocus(page, 'move-separator');
+		expect(await page.evaluate(() => document.querySelector<HTMLElement>('[data-action-id="move-separator"]').dataset.retained)).toBe('true');
+		expect(await page.evaluate(() => Array.from(document.querySelectorAll('[role="menuitem"]'), item => item.textContent))).toEqual(
+			MENU_ID_COLLISION.after.map(item => item.label)
+		);
 	});
 
 	it.each(MENU_ROW_MOVE_STATES)('recreates its portal after a %s row move', async state => {

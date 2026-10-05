@@ -60,7 +60,7 @@ Enter, Space and ArrowDown open on the first enabled item. ArrowUp/ArrowDown wra
 
 ### `setFocus() => Promise<void>`
 
-Focuses the enabled trigger without opening its menu or choosing an action.
+Waits for readiness, then focuses the enabled trigger without opening or choosing an action.
 
 #### Returns
 
