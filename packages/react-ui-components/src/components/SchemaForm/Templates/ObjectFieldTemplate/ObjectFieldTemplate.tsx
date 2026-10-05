@@ -6,6 +6,7 @@ import React, { useMemo } from 'react';
 import { KvActionButtonIcon } from '../../../../stencil-generated';
 import styles from './ObjectFieldTemplate.module.scss';
 import { DEFAULT_INPUT_CONFIG, DEFAULT_INPUT_INLINE_CONFIG } from './config';
+import { SCHEMA_FORM_STRINGS } from '../../strings';
 
 const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	properties,
@@ -42,6 +43,7 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 					<div className={styles.AddButtonContainer}>
 						<KvActionButtonIcon
 							icon={EIconName.Add}
+							accessibleLabel={SCHEMA_FORM_STRINGS.addProperty(get(uiSchema, ['ui:title']) || schema.title)}
 							size={EComponentSize.Large}
 							type={EActionButtonType.Primary}
 							tabIndex={-1}

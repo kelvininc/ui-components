@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { getDefaultValidator } from '../../../utils';
 import {
 	ARRAY_SHAPES,
+	ACTION_NAME_SHAPES,
 	BROKER_FORM_DATA,
 	BROKER_SCHEMA,
 	CHOICE_SCHEMAS,
@@ -18,11 +19,14 @@ const validator = getDefaultValidator();
 const errorsFor = (formData: unknown, schema: RJSFSchema) => validator.validateFormData(formData, schema).errors;
 
 // Every fixture must be valid on its own, so a failing test points at the code under test
-describe.each([...ARRAY_SHAPES, ...OBJECT_SHAPES, ...FLAT_OBJECT_SHAPES, ...MULTI_SELECT_SHAPES, ...TOGGLE_BUTTON_GROUP_SHAPES])('the $name fixture', ({ schema, formData }) => {
-	it('has sample data that passes its schema', () => {
-		expect(errorsFor(formData, schema)).toEqual([]);
-	});
-});
+describe.each([...ARRAY_SHAPES, ...OBJECT_SHAPES, ...FLAT_OBJECT_SHAPES, ...MULTI_SELECT_SHAPES, ...TOGGLE_BUTTON_GROUP_SHAPES, ...ACTION_NAME_SHAPES])(
+	'the $name fixture',
+	({ schema, formData }) => {
+		it('has sample data that passes its schema', () => {
+			expect(errorsFor(formData, schema)).toEqual([]);
+		});
+	}
+);
 
 describe.each(CHOICE_SCHEMAS)('the $name choice fixture', ({ schema, values }) => {
 	it.each(values.map(value => ({ value })))('accepts $value', ({ value }) => {
