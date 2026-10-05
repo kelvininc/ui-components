@@ -3,6 +3,8 @@
 .TitleContainer {
 	margin-bottom: var(--spacing-xs);
 	display: flex;
+	align-items: center;
+	min-width: 0;
 
 	kv-info-label::part(title) {
 		@include ellipsis;
@@ -12,13 +14,12 @@
 		max-width: 100%;
 	}
 
-	&.GroupTitle {
-		kv-info-label::part(title) {
-			@include body-m-semibold;
+	.GroupHeading {
+		@include heading-s-semibold-caps;
 
-			color: var(--text-container-neutral-default);
-			padding-bottom: var(--spacing-xl);
-		}
+		color: var(--text-container-neutral-default);
+		margin: 0;
+		overflow-wrap: anywhere;
 	}
 
 	.Required {

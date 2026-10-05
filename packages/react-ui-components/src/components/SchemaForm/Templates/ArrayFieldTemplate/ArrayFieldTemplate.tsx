@@ -2,6 +2,8 @@ import { ArrayFieldTemplateItemType, ArrayFieldTemplateProps, FormContextType, R
 import React from 'react';
 import AddButton from './AddButton';
 import styles from './ArrayFieldTemplate.module.scss';
+import { defaultArrayDescriptionTemplate } from '../../rjsf/arrayTemplate';
+import { useArrayDescription } from '../../contexts';
 
 const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	idSchema,
@@ -14,20 +16,27 @@ const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 	registry,
 	onAddClick
 }: ArrayFieldTemplateProps<T, S, F>) => {
-	const uiOptions = getUiOptions(uiSchema);
+	const uiOptions = getUiOptions(uiSchema, registry.globalUiOptions);
 	const ArrayFieldDescriptionTemplate = getTemplate<'ArrayFieldDescriptionTemplate', T, S, F>('ArrayFieldDescriptionTemplate', registry, uiOptions);
 	const ArrayFieldItemTemplate = getTemplate<'ArrayFieldItemTemplate', T, S, F>('ArrayFieldItemTemplate', registry, uiOptions);
+	const descriptionContext = useArrayDescription();
+	const fieldOwnsDescription = descriptionContext?.fieldId === idSchema.$id && getTemplate('FieldTemplate', registry, uiOptions) === descriptionContext?.fieldTemplate;
+	const descriptionId = fieldOwnsDescription && descriptionContext?.fieldId === idSchema.$id ? descriptionContext.descriptionId : undefined;
 
 	return (
 		<div className={styles.ArrayFieldTemplate}>
 			<div className={styles.ArrayFieldContainer}>
-				<ArrayFieldDescriptionTemplate
-					idSchema={idSchema}
-					description={uiOptions.description || schema.description}
-					schema={schema}
-					uiSchema={uiSchema}
-					registry={registry}
-				/>
+				{(!fieldOwnsDescription || ArrayFieldDescriptionTemplate !== defaultArrayDescriptionTemplate) && (
+					<div id={descriptionId} className={styles.ArrayDescription}>
+						<ArrayFieldDescriptionTemplate
+							idSchema={idSchema}
+							description={uiOptions.description ?? schema.description}
+							schema={schema}
+							uiSchema={uiSchema}
+							registry={registry}
+						/>
+					</div>
+				)}
 
 				<div className={styles.ArrayItemList} key={`array-item-list-${idSchema.$id}`}>
 					{items && items.map(({ key, ...itemProps }: ArrayFieldTemplateItemType<T, S, F>) => <ArrayFieldItemTemplate key={key} {...itemProps} />)}
