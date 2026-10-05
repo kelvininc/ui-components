@@ -73,6 +73,8 @@ Type: `Promise<void>`
 
 | Part                | Description                      |
 | ------------------- | -------------------------------- |
+| `"item"`            | Each radio-list item host        |
+| `"item-label"`      | Each item's visible label        |
 | `"items-container"` | The container for the list items |
 
 

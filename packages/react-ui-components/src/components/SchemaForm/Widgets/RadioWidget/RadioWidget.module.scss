@@ -5,7 +5,18 @@
 	flex-flow: column wrap;
 	gap: var(--spacing-3xl);
 
+	&::part(item) {
+		--radio-list-item-background: var(--input-background-default);
+
+		flex: 1;
+	}
+
+	&::part(item-label) {
+		@include body-m-semibold;
+	}
+
 	&::part(items-container) {
+		flex: 1;
 		gap: var(--spacing-3xl);
 	}
 

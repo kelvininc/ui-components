@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { setThemeMode, StyleMode } from '@kelvininc/ui-components';
 import { describe, expect, it, vi } from 'vitest';
 import { userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
@@ -12,6 +13,9 @@ import {
 	CHOICE_VALUE_SHAPES,
 	DEFAULTED_CHOICE_SHAPES,
 	RADIO_KEYBOARD_SHAPES,
+	RADIO_STYLE_THEMES,
+	RADIO_INLINE_STYLE_SHAPES,
+	CHOICE_CLEAR_NAME_SHAPES,
 	RADIO_FOCUS_SHAPES,
 	OPTION_SOURCES,
 	TOGGLE_FOCUS_MODES,
@@ -28,6 +32,59 @@ const focusedControl = () => {
 const clearButton = (host: Element): HTMLButtonElement =>
 	Array.from(host.closest('[data-schema-form-field]')!.querySelectorAll('button')).find(button => button.textContent === 'Clear selection')!;
 const unsetAnnotations = (container: Element) => Array.from(container.querySelectorAll('span')).filter(element => element.textContent === 'Not set');
+
+describe.each(RADIO_STYLE_THEMES)('radio presentation in $name', ({ mode }) => {
+	it.each(RADIO_INLINE_STYLE_SHAPES)('fills compact inline groups for $name', async row => {
+		try {
+			setThemeMode(mode);
+			const screen = await render(
+				<div style={{ width: '600px' }}>
+					<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': 'radio', 'ui:options': { inline: true } } }} />
+				</div>
+			);
+			await whenAllKelvinReady(screen.container);
+			const host = screen.container.querySelector('kv-radio-list')!;
+			const group = host.shadowRoot!.querySelector('[part="items-container"]')!;
+			const items = Array.from(group.querySelectorAll('kv-radio-list-item'));
+			const width = group.getBoundingClientRect().width;
+			const gap = Number.parseFloat(getComputedStyle(group).columnGap);
+			expect(Math.abs(width - host.getBoundingClientRect().width)).toBeLessThan(1);
+			expect(Math.abs(items[0].getBoundingClientRect().width - items[1].getBoundingClientRect().width)).toBeLessThan(1);
+			expect(Math.abs(items[0].getBoundingClientRect().width * 2 + gap - width)).toBeLessThan(1);
+		} finally {
+			setThemeMode(StyleMode.Night);
+		}
+	});
+	it.each(RADIO_KEYBOARD_SHAPES)('preserves $name typography and background', async ({ widget }) => {
+		try {
+			setThemeMode(mode);
+			const screen = await render(<KvSchemaForm schema={choiceForm(CHOICE_SCHEMAS[0])} uiSchema={{ choice: { 'ui:widget': widget } }} />);
+			await whenAllKelvinReady(screen.container);
+			await userEvent.hover(screen.getByRole('button', { name: 'Submit', exact: true }).element());
+			const item = screen.container.querySelector('kv-radio-list')!.shadowRoot!.querySelector('kv-radio-list-item')!;
+			const label = item.shadowRoot!.querySelector('.label')!;
+			const card = item.shadowRoot!.querySelector('.radio-list-item-container')!;
+			const probe = document.createElement('div');
+			probe.style.backgroundColor = widget === 'radio' ? 'var(--input-background-default)' : 'var(--background-container-radio-selector-default)';
+			screen.container.append(probe);
+			expect(getComputedStyle(label).fontSize).toBe(widget === 'radio' ? '14px' : '16px');
+			expect(getComputedStyle(label).lineHeight).toBe(widget === 'radio' ? '20px' : '24px');
+			expect(getComputedStyle(label).fontWeight).toBe('600');
+			expect(getComputedStyle(card).backgroundColor).toBe(getComputedStyle(probe).backgroundColor);
+		} finally {
+			setThemeMode(StyleMode.Night);
+		}
+	});
+});
+
+it.each(CHOICE_CLEAR_NAME_SHAPES)('names the clear action with $name', async ({ uiSchema, expected }) => {
+	const onChange = vi.fn();
+	const screen = await render(<KvSchemaForm schema={choiceForm(CHOICE_SCHEMAS[0])} uiSchema={{ choice: uiSchema }} formData={{ choice: false }} onChange={onChange} />);
+	await whenAllKelvinReady(screen.container);
+	await screen.getByRole('button', { name: expected, exact: true }).click();
+	await expect.poll(() => onChange.mock.lastCall?.[0].formData.choice).toBeUndefined();
+	expect(onChange).toHaveBeenCalledOnce();
+});
 
 describe.each(CHOICE_SCHEMAS)('real choice annotation: $name', row => {
 	for (const widget of CHOICE_WIDGET_SHAPES.filter(widget => widget.kind !== 'checkbox' || row.name === 'boolean')) {
@@ -227,6 +284,8 @@ it('focuses the cleared field without moving another field or another form', asy
 	);
 	await whenAllKelvinReady(screen.container);
 	const cleared = screen.container.querySelector('kv-radio-list#north_audit')!;
+	expect(clearButton(screen.container.querySelector('kv-radio-list#north_tls')!).getAttribute('aria-label')).toBe('Clear selection for TLS');
+	expect(clearButton(cleared).getAttribute('aria-label')).toBe('Clear selection for Audit');
 	await userEvent.click(clearButton(cleared));
 	await expect.poll(() => onChange.mock.lastCall?.[0].formData).toEqual({ tls: false, audit: undefined });
 	const group = (cleared as HTMLKvRadioListElement).shadowRoot!.querySelector('[role="radiogroup"]')!;

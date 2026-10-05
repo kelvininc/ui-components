@@ -1,4 +1,4 @@
-import { FieldTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
+import { FieldTemplateProps, FormContextType, getUiOptions, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ChoiceControlContext, useFormState } from '../../contexts';
 import { SCHEMA_FORM_STRINGS } from '../../strings';
@@ -7,7 +7,8 @@ import { getChoicePresentation } from './utils';
 import styles from './FieldTemplate.module.scss';
 
 const ChoiceExtras = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: FieldTemplateProps<T, S, F>) => {
-	const { id, formData, onChange, required, disabled, readonly, uiSchema, registry } = props;
+	const { id, label, formData, onChange, required, disabled, readonly, uiSchema, registry } = props;
+	const fieldTitle = getUiOptions(uiSchema, registry.globalUiOptions).title ?? label;
 	const hostRef = useContext(ChoiceControlContext);
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
 	const { choice, radio } = getChoicePresentation(props);
@@ -42,6 +43,7 @@ const ChoiceExtras = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 			{canClear && (
 				<button
 					type="button"
+					aria-label={SCHEMA_FORM_STRINGS.clearSelectionFor(fieldTitle.trim() || id)}
 					className={styles.ClearSelection}
 					aria-disabled={unset}
 					tabIndex={unset ? -1 : 0}

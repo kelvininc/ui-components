@@ -8,7 +8,7 @@ exports[`Radio List Item (unit tests) when passing required props and \`checked\
       <div class="content content--size-large">
         <kv-radio accessiblelabel="K3S" checked="" size="small"></kv-radio>
         <div class="info">
-          <div aria-hidden="true" class="label">
+          <div aria-hidden="true" class="label" part="label">
             <slot name="label">
               K3S
             </slot>
@@ -29,7 +29,7 @@ exports[`Radio List Item (unit tests) when passing required props and \`disabled
       <div class="content content--size-large">
         <kv-radio accessiblelabel="K3S" disabled="" size="small"></kv-radio>
         <div class="info">
-          <div aria-hidden="true" class="label">
+          <div aria-hidden="true" class="label" part="label">
             <slot name="label">
               K3S
             </slot>
@@ -50,7 +50,7 @@ exports[`Radio List Item (unit tests) when passing required props and a descript
       <div class="content content--size-large">
         <kv-radio accessiblelabel="K3S" size="small"></kv-radio>
         <div class="info">
-          <div aria-hidden="true" class="label">
+          <div aria-hidden="true" class="label" part="label">
             <slot name="label">
               K3S
             </slot>
@@ -76,7 +76,7 @@ exports[`Radio List Item (unit tests) when passing required props should match t
       <div class="content content--size-large">
         <kv-radio accessiblelabel="K3S" size="small"></kv-radio>
         <div class="info">
-          <div aria-hidden="true" class="label">
+          <div aria-hidden="true" class="label" part="label">
             <slot name="label">
               K3S
             </slot>
