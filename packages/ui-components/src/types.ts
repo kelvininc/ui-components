@@ -7,6 +7,7 @@ export * from './components/absolute-time-picker-dropdown-input/absolute-time-pi
 export * from './components/action-button/action-button.types';
 export * from './components/action-button-split/action-button-split.types';
 export * from './components/action-button-text/action-button-text.types';
+export * from './components/action-menu/action-menu.types';
 export * from './components/alert/alert.types';
 export * from './components/badge/badge.types';
 export * from './components/breadcrumb-item/breadcrumb-item.types';

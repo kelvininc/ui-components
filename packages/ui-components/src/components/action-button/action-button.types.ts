@@ -24,6 +24,13 @@ export interface IButton {
 	size: EComponentSize;
 }
 
+export interface IButtonMenuState {
+	/** (optional) Menu state. When supplied, marks the control as a menu trigger. */
+	menuExpanded?: boolean;
+	/** (optional) Menu trigger Tab index. Disabled controls always use -1. */
+	menuTabIndex?: number;
+}
+
 export interface IButtonEvents {
 	/** Emitted when action button is clicked */
 	clickButton: EventEmitter<MouseEvent>;

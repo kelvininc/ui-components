@@ -24,6 +24,10 @@ export class KvActionButtonIcon implements IActionButtonIconConfig {
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Small;
 	/** @inheritdoc */
 	@Prop() accessibleLabel?: string;
+	/** @inheritdoc */
+	@Prop() menuExpanded?: boolean;
+	/** @inheritdoc */
+	@Prop() menuTabIndex?: number;
 
 	/** @inheritdoc */
 	@Event() clickButton: EventEmitter<MouseEvent>;
@@ -48,6 +52,8 @@ export class KvActionButtonIcon implements IActionButtonIconConfig {
 						size={this.size}
 						disabled={this.disabled}
 						accessibleLabel={this.accessibleLabel}
+						menuExpanded={this.menuExpanded}
+						menuTabIndex={this.menuTabIndex}
 						exportparts="button"
 					>
 						<kv-icon name={this.icon} exportparts="icon" />

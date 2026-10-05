@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
-import { EActionButtonType, IButton, IButtonEvents } from './action-button.types';
+import { EActionButtonType, IButton, IButtonEvents, IButtonMenuState } from './action-button.types';
 import { EComponentSize } from '../../utils/types';
 
 /**
@@ -11,7 +11,7 @@ import { EComponentSize } from '../../utils/types';
 	// Focusing the host focuses the button inside, so callers can move focus to it
 	shadow: { delegatesFocus: true }
 })
-export class KvActionButton implements IButton, IButtonEvents {
+export class KvActionButton implements IButton, IButtonEvents, IButtonMenuState {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) type?: EActionButtonType;
 	/** @inheritdoc */
@@ -24,6 +24,10 @@ export class KvActionButton implements IButton, IButtonEvents {
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop() accessibleLabel?: string;
+	/** @inheritdoc */
+	@Prop() menuExpanded?: boolean;
+	/** @inheritdoc */
+	@Prop() menuTabIndex?: number;
 
 	@Element() el: HTMLKvActionButtonElement;
 
@@ -73,10 +77,12 @@ export class KvActionButton implements IButton, IButtonEvents {
 						[`action-button--type-${this.type}`]: true,
 						[`action-button--size-${this.size}`]: true
 					}}
-					tabIndex={this.disabled ? -1 : 0}
+					tabIndex={this.disabled ? -1 : (this.menuTabIndex ?? 0)}
 					role="button"
 					aria-label={this.accessibleLabel || undefined}
 					aria-disabled={this.disabled ? 'true' : undefined}
+					aria-haspopup={this.menuExpanded === undefined ? undefined : 'menu'}
+					aria-expanded={this.menuExpanded === undefined ? undefined : String(this.menuExpanded)}
 					part="button"
 					onKeyDown={this.onKeyDown}
 					onFocus={this.onFocusButton}
