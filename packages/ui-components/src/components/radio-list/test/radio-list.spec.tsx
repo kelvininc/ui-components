@@ -25,6 +25,9 @@ describe('radio group announcements', () => {
 		page.root.setAttribute('accessible-label', 'Selected topics');
 		await page.waitForChanges();
 		expect(group.getAttribute('aria-label')).toBe('Selected topics');
+		page.root.setAttribute('accessible-label', '');
+		await page.waitForChanges();
+		expect(group.getAttribute('aria-label')).toBe('Topics');
 		page.root.removeAttribute('accessible-label');
 		await page.waitForChanges();
 		expect(group.getAttribute('aria-label')).toBe('Topics');
