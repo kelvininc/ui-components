@@ -75,7 +75,7 @@ export class KvWizard implements IWizard, IWizardEvents {
 	@Listen('keydown', { target: 'document' })
 	handleKeyDown(event: KeyboardEvent) {
 		if (event.key === 'Enter') {
-			if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.repeat) {
+			if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) {
 				return;
 			}
 
@@ -112,6 +112,9 @@ export class KvWizard implements IWizard, IWizardEvents {
 			}
 
 			event.preventDefault();
+			if (event.repeat) {
+				return;
+			}
 
 			const { completeEnabled, showCompleteBtn, nextEnabled } = this.currentFooter;
 

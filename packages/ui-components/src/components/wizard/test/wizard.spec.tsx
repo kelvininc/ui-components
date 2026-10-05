@@ -276,11 +276,11 @@ describe('Wizard (unit tests)', () => {
 				expect(event.preventDefault).not.toHaveBeenCalled();
 			});
 
-			it('should ignore a held Enter', () => {
+			it('should cancel a held Enter without advancing again', () => {
 				const event = pressEnter({ repeat: true });
 
 				expect(comp.goToStep.emit).not.toHaveBeenCalled();
-				expect(event.preventDefault).not.toHaveBeenCalled();
+				expect(event.preventDefault).toHaveBeenCalledTimes(1);
 			});
 
 			it('should listen on the document: Enter from a text input advances, from a button it does not', async () => {
