@@ -50,3 +50,29 @@ describe.each(ACTION_NAME_SHAPES.filter(row => row.download))('download action: 
 		expect(onChange).not.toHaveBeenCalled();
 	});
 });
+
+describe.each(ACTION_NAME_SHAPES.filter(row => row.download))('Browse File action: $name', row => {
+	it.each([
+		{ key: '{Enter}', disabled: false, clicks: 1 },
+		{ key: ' ', disabled: false, clicks: 1 },
+		{ key: '{Enter}', disabled: true, clicks: 0 },
+		{ key: ' ', disabled: true, clicks: 0 }
+	])('forwards $key to the file input with disabled=$disabled', async ({ key, disabled, clicks }) => {
+		const onChange = vi.fn();
+		const screen = await render(<KvSchemaForm schema={row.schema} uiSchema={row.uiSchema} formData={row.formData} disabled={disabled} onChange={onChange} />);
+		await whenAllKelvinReady(screen.container);
+		const input = screen.container.querySelector<HTMLInputElement>('input[type="file"]')!;
+		const clicked = vi.fn((event: MouseEvent) => event.preventDefault());
+		input.addEventListener('click', clicked);
+		const control = screen.getByRole('button', { name: 'Browse File', exact: true });
+		await expect.element(control).toBeVisible();
+		onChange.mockClear();
+		(control.element() as HTMLElement).focus();
+		expect((control.element().getRootNode() as ShadowRoot).activeElement).toBe(control.element());
+		await userEvent.keyboard(key);
+
+		expect(clicked).toHaveBeenCalledTimes(clicks);
+		expect(clicked.mock.calls.map(([event]) => event.target)).toEqual(Array(clicks).fill(input));
+		expect(onChange).not.toHaveBeenCalled();
+	});
+});

@@ -25,6 +25,53 @@ describe('action button keyboard', () => {
 		expect(nativeClick).toHaveReceivedEventTimes(2);
 	});
 
+	it.each(ACTION_BUTTON_VARIANTS.flatMap(variant => ['Enter', 'Space'].map(key => ({ ...variant, key }))))(
+		'consumes held $key after $name disables on activation',
+		async variant => {
+			const page = await newE2EPage();
+			await page.setContent(variant.html);
+			const host = await page.find(variant.tag);
+			const activation = await host.spyOnEvent(variant.event);
+			const nativeClick = await host.spyOnEvent('click');
+			const pageKeyDown = await page.spyOnEvent('keydown');
+			const control = await page.$(`aria/${variant.buttonName}[role="button"]`);
+			expect(control).not.toBeNull();
+			await page.evaluate(({ tag, event }) => {
+				const host = document.querySelector<HTMLElement & { disabled: boolean }>(tag);
+				host.addEventListener(
+					event,
+					() => {
+						host.disabled = true;
+					},
+					{ once: true }
+				);
+			}, variant);
+			await control.evaluate(element =>
+				element.addEventListener('keydown', (event: KeyboardEvent) => {
+					const presses = JSON.parse(document.body.dataset.presses ?? '[]');
+					presses.push({ repeat: event.repeat, prevented: event.defaultPrevented });
+					document.body.dataset.presses = JSON.stringify(presses);
+				})
+			);
+			await control.focus();
+			await page.keyboard.down(variant.key);
+			await page.waitForChanges();
+			expect(await control.evaluate(element => element.getAttribute('aria-disabled'))).toBe('true');
+			expect(await control.evaluate(element => (element.getRootNode() as ShadowRoot).activeElement === element)).toBe(true);
+			await page.keyboard.down(variant.key);
+			await page.keyboard.up(variant.key);
+			await page.waitForChanges();
+
+			expect(await page.evaluate(() => JSON.parse(document.body.dataset.presses))).toEqual([
+				{ repeat: false, prevented: true },
+				{ repeat: true, prevented: true }
+			]);
+			expect(activation).toHaveReceivedEventTimes(1);
+			expect(nativeClick).toHaveReceivedEventTimes(1);
+			expect(pageKeyDown).not.toHaveReceivedEvent();
+		}
+	);
+
 	it('tabs through the button once and skips it when disabled', async () => {
 		const page = await newE2EPage();
 		await page.setContent('<button id="before">Before</button><kv-action-button type="primary">Deploy connector</kv-action-button><button id="after">After</button>');
