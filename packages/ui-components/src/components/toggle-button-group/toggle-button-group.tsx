@@ -81,6 +81,7 @@ export class KvToggleButtonGroup implements IToggleButtonGroup, IToggleButtonGro
 						value={button.value}
 						label={button.label}
 						accessibleLabel={button.accessibleLabel}
+						accessibleDescriptionElements={button.accessibleDescriptionElements}
 						tooltip={button.tooltip}
 						size={this.size ?? button.size}
 						preventDefault={button.preventDefault}

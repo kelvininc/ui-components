@@ -6,6 +6,8 @@ export interface IRadioListItem {
 	optionId: string | number;
 	/** (optional) Visible label and accessible radio name. Set this even when a label is slotted. */
 	label?: string;
+	/** Elements describing the radio, including help in an ancestor tree. Clear with an empty array. */
+	accessibleDescriptionElements?: readonly Element[];
 	/** (optional) The description that can contain links in the [text](url) format */
 	description?: string;
 	/** (optional) Button's size */

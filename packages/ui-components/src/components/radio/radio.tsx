@@ -3,6 +3,7 @@ import { throttle } from 'lodash-es';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { EComponentSize, EIconName } from '../../types';
 import { ERadioControlType, IRadio, IRadioEvents } from './radio.types';
+import { setAccessibleDescriptionElements } from '../../utils/accessible-description.helper';
 
 /**
  * @part icon - The icon element.
@@ -25,6 +26,8 @@ export class KvRadio implements IRadio, IRadioEvents {
 	@Prop({ reflect: true }) disabled?: boolean = false;
 	/** @inheritdoc */
 	@Prop() accessibleLabel?: string;
+	/** @inheritdoc */
+	@Prop() accessibleDescriptionElements?: readonly Element[];
 	/** @internal Configures the checkbox wrapper's control role. */
 	@Prop() controlType?: ERadioControlType = ERadioControlType.Radio;
 	/** @internal Reports the checkbox wrapper's mixed state. */
@@ -48,6 +51,7 @@ export class KvRadio implements IRadio, IRadioEvents {
 	};
 
 	private clickThrottler: (event: MouseEvent) => void;
+	private control?: HTMLDivElement;
 	private onCheck = (event: Event) => {
 		if (!this.disabled) {
 			this.checkedChange.emit(event);
@@ -66,6 +70,10 @@ export class KvRadio implements IRadio, IRadioEvents {
 		this.clickThrottler = throttle((event: MouseEvent) => this.onCheck(event), DEFAULT_THROTTLE_WAIT);
 	}
 
+	componentDidRender() {
+		setAccessibleDescriptionElements(this.control, this.accessibleDescriptionElements);
+	}
+
 	render() {
 		return (
 			<Host>
@@ -80,6 +88,7 @@ export class KvRadio implements IRadio, IRadioEvents {
 				>
 					<div
 						class="circle"
+						ref={element => (this.control = element)}
 						tabIndex={this.disabled || this.skipTabStop ? -1 : 0}
 						role={this.controlType ?? ERadioControlType.Radio}
 						aria-checked={this.getAriaChecked()}

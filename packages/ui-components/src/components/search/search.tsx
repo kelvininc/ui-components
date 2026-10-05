@@ -16,6 +16,8 @@ export class KvSearch implements ISearch, ISearchEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
+	@Prop() accessibleDescriptionElements?: readonly Element[];
+	/** @inheritdoc */
 	@Prop({ reflect: true }) examples?: string[];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) inputName?: string;
@@ -99,6 +101,7 @@ export class KvSearch implements ISearch, ISearchEvents {
 					onRightActionClick={this.onResetClick}
 					type={this.type}
 					label={this.label}
+					accessibleDescriptionElements={this.accessibleDescriptionElements}
 					examples={this.examples}
 					icon={EIconName.Search}
 					inputName={this.inputName}
