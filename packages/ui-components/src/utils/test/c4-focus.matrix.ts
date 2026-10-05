@@ -21,7 +21,14 @@ export const TOGGLE_NAMES = Object.freeze([
 	{ name: 'explicit label wins', label: 'Telemetry', tooltip: 'Choose a topic', accessibleLabel: 'Telemetry topic', expected: 'Telemetry topic' },
 	{ name: 'visible label fallback', label: 'Telemetry', tooltip: 'Choose a topic', accessibleLabel: undefined, expected: 'Telemetry' },
 	{ name: 'tooltip fallback', label: undefined, tooltip: 'Add telemetry', accessibleLabel: undefined, expected: 'Add telemetry' },
-	{ name: 'empty accessible label fallback', label: 'Telemetry', tooltip: undefined, accessibleLabel: '', expected: 'Telemetry' }
+	{ name: 'empty accessible label fallback', label: 'Telemetry', tooltip: undefined, accessibleLabel: '', expected: 'Telemetry' },
+	{ name: 'whitespace accessible label fallback', label: 'Telemetry', tooltip: 'Choose a topic', accessibleLabel: ' \t ', expected: 'Telemetry' },
+	{ name: 'whitespace labels use tooltip', label: '   ', tooltip: 'Telemetry', accessibleLabel: ' \t ', expected: 'Telemetry' }
+]);
+
+export const TOGGLE_ATTRIBUTE_STATES = Object.freeze([
+	{ name: 'enabled', disabled: false },
+	{ name: 'disabled', disabled: true }
 ]);
 
 export const TOGGLE_CONTROL_MODES = Object.freeze([
@@ -86,6 +93,7 @@ export const DROPDOWN_CONSUMERS = Object.freeze([
 	...DROPDOWN_FOCUS_FLAGS,
 	...CUSTOM_ACTION_FOCUS,
 	...TOGGLE_NAMES,
+	...TOGGLE_ATTRIBUTE_STATES,
 	...TOGGLE_CONTROL_MODES,
 	...TOGGLE_NAME_CONSUMERS
 ].forEach(row => {

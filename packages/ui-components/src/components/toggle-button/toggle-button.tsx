@@ -3,6 +3,7 @@ import { isEmpty, throttle } from 'lodash-es';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { EComponentSize, EIconName, ERadioControlType } from '../../types';
 import { IToggleButton, IToggleButtonEvents } from './toggle-button.types';
+import { isValidLabel } from '../../utils/string.helper';
 /**
  * @part toggle-button - The toggle action.
  * @part toggle-icon - The toggle button's icon container.
@@ -78,16 +79,15 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 		const hasLabel = !isEmpty(this.label);
 		const hasIcon = !isEmpty(this.icon);
 		const Control = this.withRadio ? 'div' : 'button';
-		const accessibleLabel = this.accessibleLabel || (hasLabel ? this.label : this.tooltip);
+		const accessibleLabel = [this.accessibleLabel, this.label, this.tooltip].find(isValidLabel);
+		const controlAttributes = this.withRadio
+			? this.customAttributes
+			: { ...this.customAttributes, 'type': 'button', 'aria-label': accessibleLabel, 'aria-pressed': String(!!this.checked), 'disabled': this.disabled };
 
 		return (
 			<Host>
 				<kv-tooltip text={this.tooltip}>
 					<Control
-						type={this.withRadio ? undefined : 'button'}
-						aria-label={this.withRadio ? undefined : accessibleLabel}
-						aria-pressed={this.withRadio ? undefined : String(!!this.checked)}
-						disabled={this.withRadio ? undefined : this.disabled}
 						class={{
 							'toggle-button': true,
 							'toggle-button--checked': !!this.checked,
@@ -98,7 +98,7 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 						}}
 						part="toggle-button"
 						onClick={this.onClick}
-						{...this.customAttributes}
+						{...controlAttributes}
 					>
 						{this.withRadio && (
 							<kv-radio

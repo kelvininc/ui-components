@@ -17,7 +17,7 @@ import { ISwitchButton, ISwitchButtonEvents } from './switch-button.types';
 })
 export class KvSwitchButton implements ISwitchButton, ISwitchButtonEvents {
 	/** @inheritdoc */
-	@Prop() accessibleLabel?: string;
+	@Prop() accessibleLabel!: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled: boolean = false;
 	/** @inheritdoc */

@@ -9,6 +9,7 @@ import {
 	SELECT_CONTROLS,
 	TEXT_FIELD_CONSUMERS,
 	TEXT_FIELD_FOCUS,
+	TOGGLE_ATTRIBUTE_STATES,
 	TOGGLE_CONTROL_MODES,
 	TOGGLE_NAME_CONSUMERS,
 	TOGGLE_NAMES
@@ -452,7 +453,7 @@ describe.each(TOGGLE_NAMES)('C4 toggle name: $name', row => {
 			expect(await focusName(page)).toBe(row.expected);
 			expect(changes.events).toHaveLength(0);
 			expect(await page.evaluate(() => document.querySelector('kv-toggle-button').shadowRoot.querySelector('[part="toggle-label"]')?.textContent.trim() || null)).toBe(
-				row.label || null
+				row.label?.trim() || null
 			);
 			await page.keyboard.press('Space');
 			await page.waitForChanges();
@@ -489,6 +490,38 @@ describe.each(TOGGLE_NAME_CONSUMERS)('C4 toggle name forwarding: $name', mode =>
 		await new Promise(resolve => setTimeout(resolve, 300));
 		expect(changes.events).toHaveLength(1);
 		expect(changes.lastEvent.detail).toBe('telemetry');
+	});
+});
+
+describe.each(TOGGLE_ATTRIBUTE_STATES)('C4 toggle native attributes: $name', row => {
+	it('keeps component state and non-submit behavior while preserving custom data attributes', async () => {
+		const page = await newE2EPage();
+		await page.setContent('<form><button id="before" type="button">Before</button><kv-toggle-button value="telemetry" accessible-label="Telemetry"></kv-toggle-button></form>');
+		const host = await page.find('kv-toggle-button');
+		host.setProperty('disabled', row.disabled);
+		host.setProperty('customAttributes', { 'type': 'submit', 'disabled': 'false', 'aria-pressed': 'true', 'aria-label': 'Wrong name', 'data-topic': 'telemetry' });
+		await page.waitForChanges();
+		await page.evaluate(() =>
+			document.querySelector('form').addEventListener('submit', event => {
+				event.preventDefault();
+				document.querySelector('form').dataset.submitted = 'true';
+			})
+		);
+		const control = await page.find('kv-toggle-button >>> button');
+		expect(control.getAttribute('type')).toBe('button');
+		expect(await control.getProperty('disabled')).toBe(row.disabled);
+		expect(control.getAttribute('aria-pressed')).toBe('false');
+		expect(control.getAttribute('aria-label')).toBe('Telemetry');
+		expect(control.getAttribute('data-topic')).toBe('telemetry');
+		const changes = await host.spyOnEvent('checkedChange');
+		await page.focus('#before');
+		await page.evaluate(() => document.querySelector('kv-toggle-button').focus());
+		expect(await focusName(page)).toBe(row.disabled ? 'before' : 'Telemetry');
+		await page.keyboard.press('Space');
+		await page.waitForChanges();
+		await new Promise(resolve => setTimeout(resolve, 300));
+		expect(changes.events).toHaveLength(row.disabled ? 0 : 1);
+		expect((await page.find('form')).getAttribute('data-submitted')).toBeNull();
 	});
 });
 

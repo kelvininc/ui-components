@@ -11,7 +11,7 @@ describe('Switch Button (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvSwitchButton],
-				html: `<kv-switch-button></kv-switch-button>`
+				html: `<kv-switch-button accessible-label="Enable telemetry"></kv-switch-button>`
 			});
 			component = page.rootInstance;
 		});
