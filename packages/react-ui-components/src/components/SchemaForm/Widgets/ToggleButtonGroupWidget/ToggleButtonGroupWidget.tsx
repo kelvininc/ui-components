@@ -5,7 +5,7 @@ import React, { useCallback, useMemo } from 'react';
 import { buildToggleButtons, buildSelectedToggleButtons, toggleSelectedOptions, buildDisabledToggleButtons, getComponentSize } from './utils';
 import { IToggleButtonGroupConfig } from './types';
 import { isEmpty } from 'lodash';
-import { useFormState } from '../../contexts';
+import { useFieldDescription, useFormState } from '../../contexts';
 
 const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
@@ -18,6 +18,7 @@ const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F e
 	onChange
 }: WidgetProps<T, S, F>) => {
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
+	const accessibleDescriptionElements = useFieldDescription(id);
 	const { enumOptions, enumDisabled, allButton, componentSize, withRadio } = options;
 	const { maxItems, minItems } = schema;
 
@@ -55,7 +56,7 @@ const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F e
 
 	return (
 		<KvToggleButtonGroup
-			buttons={buttons}
+			buttons={buttons.map(button => ({ ...button, accessibleDescriptionElements }))}
 			disabled={disabled}
 			size={getComponentSize(componentSize)}
 			withRadio={withRadio === true}

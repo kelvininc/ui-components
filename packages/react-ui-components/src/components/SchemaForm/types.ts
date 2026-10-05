@@ -75,4 +75,6 @@ export interface SchemaFormProps<T, S extends StrictRJSFSchema = RJSFSchema, F e
 	 * Default: `false`, meaning that the switch will not be displayed.
 	 */
 	showErrorsSwitch?: boolean;
+	/** Rewrite validator messages into readable sentences. Defaults to true. */
+	humanizeErrors?: boolean;
 }

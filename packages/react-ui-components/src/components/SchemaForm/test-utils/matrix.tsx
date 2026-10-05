@@ -1,6 +1,6 @@
-import { ArrayFieldTemplateProps, FieldTemplateProps, RJSFSchema, UIOptionsType, UiSchema, WidgetProps } from '@rjsf/utils';
+import { ArrayFieldTemplateProps, CustomValidator, ErrorSchema, ErrorTransformer, FieldTemplateProps, RJSFSchema, UIOptionsType, UiSchema, WidgetProps } from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
-import type { SchemaFormContext } from '../types';
+import { EApplyDefaults, SchemaFormContext } from '../types';
 
 /** Freezes plain data in place; components (functions, memo and forwardRef objects) stay as they are */
 const deepFreeze = <T,>(value: T): T => {
@@ -673,6 +673,9 @@ export type ExpectedError = { id: string; message: string };
  * shows under the first one has lost its index.
  */
 export const ERROR_SHAPES: readonly { name: string; extraErrors: unknown; messages: ExpectedError[] }[] = [
+	{ name: 'undefined tree', extraErrors: undefined, messages: [] },
+	{ name: 'null tree', extraErrors: null, messages: [] },
+	{ name: 'primitive tree', extraErrors: 'Broker unreachable.', messages: [] },
 	{ name: 'empty object', extraErrors: {}, messages: [] },
 	{ name: 'empty __errors', extraErrors: { port: { __errors: [] } }, messages: [] },
 	{
@@ -691,11 +694,470 @@ export const ERROR_SHAPES: readonly { name: string; extraErrors: unknown; messag
 		extraErrors: { brokers: [undefined, { host: { __errors: ['Broker unreachable.'] } }] },
 		messages: [{ id: 'root_brokers_1_host', message: 'Broker unreachable.' }]
 	},
+	{
+		name: 'sparse array hole',
+		extraErrors: { brokers: [, { host: { __errors: ['Broker unreachable.'] } }] },
+		messages: [{ id: 'root_brokers_1_host', message: 'Broker unreachable.' }]
+	},
 	{ name: 'undefined __errors', extraErrors: { port: { __errors: undefined } }, messages: [] },
+	{ name: 'null __errors', extraErrors: { port: { __errors: null } }, messages: [] },
+	{ name: 'string __errors', extraErrors: { port: { __errors: 'Port unavailable.' } }, messages: [] },
+	{ name: 'mixed __errors', extraErrors: { port: { __errors: ['Port unavailable.', 1883] } }, messages: [] },
+	{
+		name: 'invalid branches next to a valid error',
+		extraErrors: { site: undefined, port: null, obsolete: 1883, brokers: { 1: { host: { __errors: ['Broker unreachable.'] } } } },
+		messages: [{ id: 'root_brokers_1_host', message: 'Broker unreachable.' }]
+	},
 	{
 		name: 'array errors next to an empty sibling',
 		extraErrors: { site: { __errors: [] }, brokers: [{ host: { __errors: ['Broker unreachable.'] } }] },
 		messages: [{ id: 'root_brokers_0_host', message: 'Broker unreachable.' }]
+	},
+	{
+		name: 'root and nested server errors',
+		extraErrors: { __errors: ['Connection rejected.'], brokers: { 0: { host: { __errors: ['Broker unreachable.'] } } } },
+		messages: [
+			{ id: 'root', message: 'Connection rejected.' },
+			{ id: 'root_brokers_0_host', message: 'Broker unreachable.' }
+		]
+	},
+	{
+		name: 'duplicate server messages',
+		extraErrors: { port: { __errors: ['Port unavailable.', 'Port unavailable.'] } },
+		messages: [
+			{ id: 'root_port', message: 'Port unavailable.' },
+			{ id: 'root_port', message: 'Port unavailable.' }
+		]
+	}
+];
+
+export const R2_SUBMIT_SCHEMA: RJSFSchema = {
+	type: 'object',
+	required: ['host'],
+	properties: { host: { type: 'string', title: 'Host', minLength: 3 } }
+};
+
+type R2SubmitData = { host: string; legacy?: string };
+type R2ExtraErrors = ErrorSchema<unknown> & Record<string, unknown>;
+export type R2SubmitCase = {
+	name: string;
+	schema: RJSFSchema;
+	formData: R2SubmitData;
+	nextHost: string;
+	omitExtraData: boolean;
+	liveOmit: boolean;
+	noValidate: boolean;
+	extraErrorsBlockSubmit: boolean;
+	extraErrors?: R2ExtraErrors;
+	customValidate?: CustomValidator<R2SubmitData>;
+	transformErrors?: ErrorTransformer<R2SubmitData>;
+	submitted: boolean;
+	wrapperSubmitted?: boolean;
+	validatorMessages: string[];
+	serverMessages: string[];
+	changedData: R2SubmitData;
+	submittedData: R2SubmitData;
+};
+
+const SUBMIT_FORM_DATA = { host: 'broker-1.local', legacy: 'obsolete connection setting' };
+const SUBMIT_EXTRA_ERRORS = { host: { __errors: ['Broker unavailable.'] } };
+
+/** Real RJSF submit contracts, including the raw empty-tree behavior our boundary sanitizes. */
+export const R2_SUBMIT_CASES: readonly R2SubmitCase[] = [
+	...[false, true].flatMap(omitExtraData =>
+		[false, true].flatMap(liveOmit =>
+			[false, true].flatMap(noValidate =>
+				[false, true].flatMap(extraErrorsBlockSubmit =>
+					[
+						{ name: 'valid', nextHost: 'broker-2.local', valid: true },
+						{ name: 'invalid', nextHost: 'x', valid: false }
+					].map(({ name, nextHost, valid }) => ({
+						name: `${name}; omit=${omitExtraData}; liveOmit=${liveOmit}; noValidate=${noValidate}; block=${extraErrorsBlockSubmit}`,
+						schema: R2_SUBMIT_SCHEMA,
+						formData: SUBMIT_FORM_DATA,
+						nextHost,
+						omitExtraData,
+						liveOmit,
+						noValidate,
+						extraErrorsBlockSubmit,
+						extraErrors: SUBMIT_EXTRA_ERRORS,
+						submitted: noValidate || (valid && !extraErrorsBlockSubmit),
+						validatorMessages: valid ? [] : ['must NOT have fewer than 3 characters'],
+						serverMessages: ['Broker unavailable.'],
+						changedData: omitExtraData && liveOmit ? { host: nextHost } : { ...SUBMIT_FORM_DATA, host: nextHost },
+						submittedData: omitExtraData ? { host: nextHost } : { ...SUBMIT_FORM_DATA, host: nextHost }
+					}))
+				)
+			)
+		)
+	),
+	...[
+		{ name: 'valid without server errors', nextHost: 'broker-2.local', submitted: true },
+		{ name: 'invalid without server errors', nextHost: 'x', submitted: false }
+	].map(({ name, nextHost, submitted }) => ({
+		name,
+		schema: R2_SUBMIT_SCHEMA,
+		formData: SUBMIT_FORM_DATA,
+		nextHost,
+		omitExtraData: false,
+		liveOmit: false,
+		noValidate: false,
+		extraErrorsBlockSubmit: true,
+		submitted,
+		validatorMessages: submitted ? [] : ['must NOT have fewer than 3 characters'],
+		serverMessages: [] as string[],
+		changedData: { ...SUBMIT_FORM_DATA, host: nextHost },
+		submittedData: { ...SUBMIT_FORM_DATA, host: nextHost }
+	})),
+	...[false, true].map(noValidate => ({
+		name: `empty blocking server tree; noValidate=${noValidate}`,
+		schema: R2_SUBMIT_SCHEMA,
+		formData: SUBMIT_FORM_DATA,
+		nextHost: 'broker-2.local',
+		omitExtraData: false,
+		liveOmit: false,
+		noValidate,
+		extraErrorsBlockSubmit: true,
+		extraErrors: {},
+		submitted: noValidate,
+		wrapperSubmitted: true,
+		validatorMessages: [] as string[],
+		serverMessages: [] as string[],
+		changedData: { ...SUBMIT_FORM_DATA, host: 'broker-2.local' },
+		submittedData: { ...SUBMIT_FORM_DATA, host: 'broker-2.local' }
+	})),
+	...[false, true].map(transform => ({
+		name: transform ? 'transformErrors precedes customValidate' : 'customValidate rejects schema-valid data',
+		schema: R2_SUBMIT_SCHEMA,
+		formData: SUBMIT_FORM_DATA,
+		nextHost: transform ? 'x' : 'broker-2.local',
+		omitExtraData: false,
+		liveOmit: false,
+		noValidate: false,
+		extraErrorsBlockSubmit: false,
+		customValidate: ((_data, errors) => {
+			errors.host.addError('Broker rejected by connection policy.');
+			return errors;
+		}) as CustomValidator<R2SubmitData>,
+		transformErrors: transform
+			? ((errors =>
+					errors.map(error => ({
+						...error,
+						message: 'Use at least three host characters.',
+						stack: 'Host: use at least three host characters.'
+					}))) as ErrorTransformer<R2SubmitData>)
+			: undefined,
+		submitted: false,
+		validatorMessages: transform ? ['Use at least three host characters.', 'Broker rejected by connection policy.'] : ['Broker rejected by connection policy.'],
+		serverMessages: [] as string[],
+		changedData: { ...SUBMIT_FORM_DATA, host: transform ? 'x' : 'broker-2.local' },
+		submittedData: { ...SUBMIT_FORM_DATA, host: transform ? 'x' : 'broker-2.local' }
+	}))
+];
+
+/** Initial Save gating and saved-data comparison; applied defaults keep counting as changes. */
+export const R2_VALIDATION_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	formData: unknown;
+	submittedData: unknown;
+	expectedFormData: unknown;
+	valid: boolean;
+	hasChanges: boolean;
+}[] = [
+	{
+		name: 'valid dirty object',
+		schema: R2_SUBMIT_SCHEMA,
+		formData: { host: 'broker-2.local' },
+		submittedData: { host: 'broker-1.local' },
+		expectedFormData: { host: 'broker-2.local' },
+		valid: true,
+		hasChanges: true
+	},
+	{
+		name: 'valid saved object',
+		schema: R2_SUBMIT_SCHEMA,
+		formData: { host: 'broker-1.local' },
+		submittedData: { host: 'broker-1.local' },
+		expectedFormData: { host: 'broker-1.local' },
+		valid: true,
+		hasChanges: false
+	},
+	{
+		name: 'invalid dirty object',
+		schema: R2_SUBMIT_SCHEMA,
+		formData: { host: 'x' },
+		submittedData: { host: 'broker-1.local' },
+		expectedFormData: { host: 'x' },
+		valid: false,
+		hasChanges: true
+	},
+	{ name: 'missing saved data', schema: { type: 'object', properties: {} }, formData: {}, submittedData: undefined, expectedFormData: {}, valid: true, hasChanges: false },
+	...[
+		{ name: 'false', schema: { type: 'boolean', title: 'TLS' }, value: false, previous: true },
+		{ name: 'zero', schema: { type: 'integer', title: 'Retries' }, value: 0, previous: 3 },
+		{ name: 'empty string', schema: { type: 'string', title: 'Connection notes' }, value: '', previous: 'Plant broker' },
+		{ name: 'null', schema: { type: ['string', 'null'], title: 'Compression', enum: ['gzip', null] }, value: null, previous: 'gzip' }
+	].flatMap(({ name, schema, value, previous }) =>
+		[false, true].map(hasChanges => ({
+			name: `${name}; ${hasChanges ? 'dirty' : 'saved'}`,
+			schema: schema as RJSFSchema,
+			formData: value,
+			submittedData: hasChanges ? previous : value,
+			expectedFormData: value,
+			valid: true,
+			hasChanges
+		}))
+	),
+	{
+		name: 'inserted default differs from raw saved data',
+		schema: { ...R2_SUBMIT_SCHEMA, properties: { ...R2_SUBMIT_SCHEMA.properties, port: { type: 'integer', title: 'Port', default: 1883 } } },
+		formData: { host: 'broker-1.local' },
+		submittedData: { host: 'broker-1.local' },
+		expectedFormData: { host: 'broker-1.local', port: 1883 },
+		valid: true,
+		hasChanges: true
+	}
+];
+
+/** Error help must describe its own control, including groups and repeated array-item fields. */
+export const R2_ERROR_DESCRIPTION_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	formData: unknown;
+	extraErrors: R2ExtraErrors;
+	fields: { id: string; label: string; tag: string; message: string }[];
+}[] = [
+	...[
+		{ name: 'text', schema: { type: 'string', title: 'Broker' }, uiSchema: {}, formData: 'broker-1.local', tag: 'kv-text-field' },
+		{ name: 'integer', schema: { type: 'integer', title: 'Port' }, uiSchema: {}, formData: 1883, tag: 'kv-text-field' },
+		{ name: 'password', schema: { type: 'string', title: 'Access token' }, uiSchema: { 'ui:widget': 'password' }, formData: 'plant-token', tag: 'kv-text-field' },
+		{ name: 'textarea', schema: { type: 'string', title: 'Connection notes' }, uiSchema: { 'ui:widget': 'textarea' }, formData: 'Plant broker', tag: 'kv-text-area' },
+		{ name: 'single select', schema: { type: 'string', title: 'Compression', enum: ['gzip', 'none'] }, uiSchema: {}, formData: 'gzip', tag: 'kv-single-select-dropdown' },
+		{
+			name: 'multi select',
+			schema: { type: 'array', title: 'Assets', uniqueItems: true, items: { type: 'string', enum: ['north-line', 'south-line'] } },
+			uiSchema: {},
+			formData: ['north-line'],
+			tag: 'kv-multi-select-dropdown'
+		},
+		{ name: 'checkbox', schema: { type: 'boolean', title: 'TLS' }, uiSchema: { 'ui:widget': 'checkbox' }, formData: false, tag: 'kv-checkbox' },
+		{ name: 'boolean radios', schema: { type: 'boolean', title: 'TLS' }, uiSchema: {}, formData: false, tag: 'kv-radio-list-item' },
+		{
+			name: 'enum radios',
+			schema: { type: 'string', title: 'QoS', enum: ['at-most-once', 'at-least-once'] },
+			uiSchema: { 'ui:widget': 'radio' },
+			formData: 'at-most-once',
+			tag: 'kv-radio-list-item'
+		},
+		{
+			name: 'toggle choices',
+			schema: { type: 'array', title: 'Assets', uniqueItems: true, items: { type: 'string', enum: ['north-line', 'south-line'] } },
+			uiSchema: { 'ui:widget': 'toggleButtonGroup', 'ui:options': { withRadio: true } },
+			formData: ['north-line'],
+			tag: 'kv-toggle-button-group'
+		}
+	].map(({ name, schema, uiSchema, formData, tag }) => ({
+		name,
+		schema: schema as RJSFSchema,
+		uiSchema: uiSchema as UiSchema,
+		formData,
+		extraErrors: { __errors: ['Review this connection setting.'] },
+		fields: [{ id: 'root', label: schema.title!, tag, message: 'Review this connection setting.' }]
+	})),
+	{
+		name: 'errors stay with their array item',
+		schema: BROKER_SCHEMA,
+		uiSchema: {},
+		formData: BROKER_FORM_DATA,
+		extraErrors: { brokers: { 0: { host: { __errors: ['Primary broker unavailable.'] } }, 1: { host: { __errors: ['Backup broker unavailable.'] } } } },
+		fields: [
+			{ id: 'root_brokers_0_host', label: 'Host', tag: 'kv-text-field', message: 'Primary broker unavailable.' },
+			{ id: 'root_brokers_1_host', label: 'Host', tag: 'kv-text-field', message: 'Backup broker unavailable.' }
+		]
+	}
+];
+
+const MIXED_ERROR_SCHEMA: RJSFSchema = {
+	...BROKER_SCHEMA,
+	properties: {
+		...BROKER_SCHEMA.properties,
+		brokers: { ...(BROKER_SCHEMA.properties!.brokers as RJSFSchema), items: { type: 'object', properties: { host: { type: 'string', title: 'Host', minLength: 3 } } } }
+	}
+};
+
+/** Server and validator errors remain separate even on the same field with the same message. */
+export const R2_MIXED_ERROR_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	formData: typeof BROKER_FORM_DATA;
+	extraErrors: R2ExtraErrors;
+	validatorMessage: string;
+	serverMessage: string;
+	fieldId: string;
+	property: string;
+}[] = [
+	{ name: 'distinct messages on one array item', serverMessage: 'Backup broker unavailable.' },
+	{ name: 'identical messages on one array item', serverMessage: 'must NOT have fewer than 3 characters' }
+].map(({ name, serverMessage }) => ({
+	name,
+	schema: MIXED_ERROR_SCHEMA,
+	formData: { ...BROKER_FORM_DATA, brokers: [{ host: 'broker-1.local' }, { host: 'x' }] },
+	extraErrors: { brokers: { 1: { host: { __errors: [serverMessage] } } } },
+	validatorMessage: 'must NOT have fewer than 3 characters',
+	serverMessage,
+	fieldId: 'root_brokers_1_host',
+	property: '.brokers.1.host'
+}));
+
+/** An underscore in a sibling's name must not make it a descendant of the TLS section. */
+export const R2_SECTION_ERROR_SHAPE = {
+	schema: {
+		type: 'object',
+		title: 'Connection',
+		properties: {
+			tls: { type: 'object', title: 'TLS', properties: { host: { type: 'string', title: 'Host' } } },
+			tls_version: { type: 'string', title: 'TLS version' }
+		}
+	} satisfies RJSFSchema,
+	formData: { tls: { host: 'broker-1.local' }, tls_version: '1.3' },
+	extraErrors: { __errors: ['Connection failed'], tls: { __errors: ['TLS failed'] }, tls_version: { __errors: ['Version failed'] } }
+};
+
+export const R2_RESET_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	formData: { host: string };
+	submittedData: Record<string, never>;
+	expectedFormData: { host: string };
+	expectedValid: boolean;
+}[] = [false, true].map(expectedValid => ({
+	name: expectedValid ? 'valid default replaces invalid data' : 'invalid default replaces valid data',
+	schema: { type: 'object', properties: { host: { type: 'string', title: 'Host', minLength: 5, default: expectedValid ? 'broker-1.local' : 'a' } } },
+	formData: { host: expectedValid ? 'a' : 'broker-2.local' },
+	submittedData: {},
+	expectedFormData: { host: expectedValid ? 'broker-1.local' : 'a' },
+	expectedValid
+}));
+
+export const R2_BOUNDARY_TRANSITIONS = [
+	{
+		name: 'default policy changes',
+		schema: { type: 'object', properties: { port: { type: 'integer', default: 1883 } } } as RJSFSchema,
+		nextSchema: { type: 'object', properties: { port: { type: 'integer', default: 1883 } } } as RJSFSchema,
+		nextApplyDefaults: EApplyDefaults.Never,
+		expectedData: {}
+	},
+	{
+		name: 'schema default changes',
+		schema: { type: 'object', properties: { port: { type: 'integer', default: 1883 } } } as RJSFSchema,
+		nextSchema: { type: 'object', properties: { port: { type: 'integer', default: 8883 } } } as RJSFSchema,
+		nextApplyDefaults: EApplyDefaults.All,
+		expectedData: { port: 8883 }
+	}
+];
+
+const BROKER_WIDGET_ERROR = 'Broker unreachable.';
+const BrokerErrorInput = ({ id, label, value, onChange }: WidgetProps<unknown>) => (
+	<input id={id} aria-label={label} value={value ?? ''} onChange={event => onChange(event.target.value, { __errors: [BROKER_WIDGET_ERROR] })} />
+);
+
+/** Widget errors belong to the edited field until an external validation setting refreshes it. */
+export const R2_WIDGET_ERROR_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	formData: { host: string };
+	nextHost: string;
+	message: string;
+}[] = [
+	{
+		name: 'native broker widget rejects an otherwise valid host',
+		schema: R2_SUBMIT_SCHEMA,
+		uiSchema: { host: { 'ui:widget': BrokerErrorInput } },
+		formData: { host: 'broker-1.local' },
+		nextHost: 'broker-2.local',
+		message: BROKER_WIDGET_ERROR
+	}
+];
+
+/** A suspended external update must not replace edits in the render that stays committed. */
+export const R2_ABANDONED_RENDER_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	formData: { host: string };
+	editedData: { host: string };
+	pendingData: { host: string };
+}[] = [
+	{
+		name: 'broker configuration update is abandoned after the form renders',
+		schema: R2_SUBMIT_SCHEMA,
+		formData: { host: 'broker-1.local' },
+		editedData: { host: 'broker-2.local' },
+		pendingData: { host: 'broker-3.local' }
+	}
+];
+
+/** Instances with private policy state can compare equal while validating the same data differently. */
+export const R2_VALIDATOR_IDENTITY_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	formData: { host: string };
+	editedData: { host: string };
+	firstRejects: boolean;
+	nextRejects: boolean;
+	message: string;
+}[] = [false, true].map(firstRejects => ({
+	name: firstRejects ? 'replacement private policy accepts the broker' : 'replacement private policy rejects the broker',
+	schema: R2_SUBMIT_SCHEMA,
+	formData: { host: 'broker-1.local' },
+	editedData: { host: 'broker-2.local' },
+	firstRejects,
+	nextRejects: !firstRejects,
+	message: 'Broker rejected by connection policy.'
+}));
+
+/** The base schema and selected oneOf branch can mount the same field id at the same time. */
+export const R2_SHARED_FIELD_ID_SHAPES = [
+	{
+		name: 'switching authentication removes the duplicate branch host',
+		schema: {
+			type: 'object',
+			title: 'Connection',
+			properties: {
+				authentication: {
+					type: 'object',
+					title: 'Authentication',
+					properties: { host: { type: 'string', title: 'Host' } },
+					oneOf: [
+						{
+							type: 'object',
+							title: 'Password',
+							required: ['method'],
+							properties: {
+								method: { type: 'string', const: 'password' },
+								host: { type: 'string', title: 'Host' },
+								password: { type: 'string', title: 'Password' }
+							}
+						},
+						{
+							type: 'object',
+							title: 'Certificate',
+							required: ['method'],
+							properties: { method: { type: 'string', const: 'certificate' }, certificate: { type: 'string', title: 'Certificate' } }
+						}
+					]
+				}
+			}
+		} satisfies RJSFSchema,
+		formData: { authentication: { host: 'broker-1.local', method: 'password', password: 'plant-token' } },
+		extraErrors: { __errors: ['Connection failed'] },
+		fieldId: 'root_authentication_host',
+		parentId: 'root_authentication',
+		selectorId: 'root_authentication__oneof_select',
+		nextOption: '1',
+		message: 'Connection failed'
 	}
 ];
 
@@ -1164,6 +1626,18 @@ export const OPTION_BRANCH_SHAPES = ['oneOf', 'anyOf'].map(keyword => ({
 	BROKER_SCHEMA,
 	BROKER_FORM_DATA,
 	ERROR_SHAPES,
+	R2_SUBMIT_SCHEMA,
+	R2_SUBMIT_CASES,
+	R2_VALIDATION_SHAPES,
+	R2_ERROR_DESCRIPTION_SHAPES,
+	R2_MIXED_ERROR_SHAPES,
+	R2_SECTION_ERROR_SHAPE,
+	R2_RESET_SHAPES,
+	R2_BOUNDARY_TRANSITIONS,
+	R2_WIDGET_ERROR_SHAPES,
+	R2_ABANDONED_RENDER_SHAPES,
+	R2_VALIDATOR_IDENTITY_SHAPES,
+	R2_SHARED_FIELD_ID_SHAPES,
 	TEMPLATE_COMPONENTS,
 	OPTION_SOURCES,
 	LIST_OPTIONS,

@@ -1,9 +1,19 @@
-import { EActionButtonType, EComponentSize, KvActionButtonTextCustomEvent } from '@kelvininc/ui-components';
-import Form, { FormProps, IChangeEvent, withTheme } from '@rjsf/core';
-import { RJSFSchema, StrictRJSFSchema, FormContextType, createSchemaUtils, deepEquals, getSubmitButtonOptions } from '@rjsf/utils';
+import { EActionButtonType, EComponentSize } from '@kelvininc/ui-components';
+import Form, { FormProps, FormState, IChangeEvent, withTheme } from '@rjsf/core';
+import {
+	RJSFSchema,
+	StrictRJSFSchema,
+	FormContextType,
+	ValidationData,
+	createSchemaUtils,
+	deepEquals,
+	getSubmitButtonOptions,
+	toErrorList,
+	validationDataMerge
+} from '@rjsf/utils';
 import classNames from 'classnames';
-import { cloneDeep, isArray, isEmpty, isEqualWith, mergeWith } from 'lodash';
-import React, { ComponentProps, ComponentType, FormEvent, ForwardedRef, forwardRef, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { cloneDeep, isArray, isEmpty, isEqual, mergeWith } from 'lodash';
+import React, { ComponentProps, ComponentType, ForwardedRef, forwardRef, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useScroll } from '../../hooks';
 import { KvActionButtonText, KvSwitchButton, KvTooltip } from '../../stencil-generated';
 import { SCROLL_OFFSET } from './config';
@@ -13,6 +23,16 @@ import styles from './SchemaForm.module.scss';
 import { generateTheme } from './Theme';
 import { EApplyDefaults, SchemaFormContext, SchemaFormProps } from './types';
 import { buildDefaultFormStateBehavior, getDefaultValidator, getInitialFormData, normalizeSchema } from '../../utils';
+import { humanizeSchemaErrors, pruneOptionErrors, sanitizeExtraErrors } from './rjsf/errors';
+
+function useStableValue<V>(value: V, equal: (previous: V, next: V) => boolean = isEqual): V {
+	const [previous, setPrevious] = useState(value);
+	if (!equal(previous, value)) {
+		setPrevious(() => value);
+		return value;
+	}
+	return previous;
+}
 
 // Custom Theme
 export function generateForm<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(): ComponentType<FormProps<T, S, F>> {
@@ -36,7 +56,7 @@ const CustomFormWithRef = typedMemo(
 	forwardRef(CustomForm) as <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(
 		props: PropsWithChildren<FormProps<T, S, F>> & { ref?: ForwardedRef<Form<T, S, F>> }
 	) => ReturnType<typeof CustomForm<T, S, F>>,
-	(previousProps, nextProps) => deepEquals(previousProps, nextProps)
+	(previousProps, nextProps) => previousProps.validator === nextProps.validator && isEqual(previousProps, nextProps)
 );
 
 export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
@@ -57,103 +77,214 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	liveOmit = true,
 	displayErrors,
 	showErrorsSwitch = false,
+	extraErrors: extraErrorsProp,
+	extraErrorsBlockSubmit,
+	transformErrors: transformErrorsProp,
+	humanizeErrors = true,
 	...otherProps
 }: SchemaFormProps<T, S, SchemaFormContext>) {
 	const [isValid, setValid] = useState(!liveValidate);
 	const [isFormSubmitted, setFormSubmitted] = useState(false);
+	const [fieldStatesResetKey, setFieldStatesResetKey] = useState(0);
+	const sanitized = useMemo(() => sanitizeExtraErrors<T>(extraErrorsProp), [extraErrorsProp]);
+	const extraErrors = useStableValue(sanitized);
+	const serverErrors = useMemo(() => toErrorList(extraErrors), [extraErrors]);
 	const experimental_defaultFormStateBehavior = useMemo(() => buildDefaultFormStateBehavior(applyDefaults), [applyDefaults]);
 	const formValidator = useMemo(() => validatorProp ?? getDefaultValidator<T, S, SchemaFormContext>(), [validatorProp]);
-	const { schema, uiSchema: normalizedUiSchema } = useMemo(() => normalizeSchema(schemaProp), [schemaProp]);
+	const { schema: normalizedSchema, uiSchema: normalizedUiSchema } = useMemo(() => normalizeSchema(schemaProp), [schemaProp]);
+	const schema = useStableValue(normalizedSchema);
+	const transformErrors = useCallback<NonNullable<FormProps<T, S, SchemaFormContext>['transformErrors']>>(
+		(errors, errorsUiSchema) => {
+			const pruned = pruneOptionErrors(errors, schema);
+			const messages = humanizeErrors ? humanizeSchemaErrors(pruned) : pruned;
+			return transformErrorsProp?.(messages, errorsUiSchema) ?? messages;
+		},
+		[schema, humanizeErrors, transformErrorsProp]
+	);
 	// `merge` blends arrays index-wise, so a caller's `ui:enumDisabled: ['b']` over a generated
 	// `['a','b','c']` produced `['b','b','c']`, and an empty array - which means "nothing is
 	// disabled" - was ignored entirely. Key the customizer on the SOURCE: returning undefined falls
 	// back to the default merge, so testing the destination would keep the generated array instead.
-	const mergedUiSchema = useMemo(
-		() => mergeWith({}, normalizedUiSchema, uiSchema, (_generated, provided) => (isArray(provided) ? provided : undefined)),
-		[normalizedUiSchema, uiSchema]
+	const mergedUiSchema = useStableValue(
+		useMemo(() => mergeWith({}, normalizedUiSchema, uiSchema, (_generated, provided) => (isArray(provided) ? provided : undefined)), [normalizedUiSchema, uiSchema])
 	);
+	const formUiSchema = useStableValue({ ...mergedUiSchema, 'ui:submitButtonOptions': { props: { disabled: false }, norender: true, submitText: '' } });
 	const formData = useMemo(() => cloneDeep(getInitialFormData(schema, formDataProp, formValidator, applyDefaults, false)), [formValidator, schema, formDataProp, applyDefaults]);
-	const [hasChanges, setHasChanges] = useState(!isEqualWith(formData, submittedData || {}));
+	// Preserve current edits across settings updates. Ordinary widget changes stay inside
+	// RJSF, so echoing props doesn't erase the errors those widgets raise through onChange.
+	const inputs = useStableValue(
+		{
+			...otherProps,
+			onChange,
+			submittedData,
+			schema,
+			uiSchema: formUiSchema,
+			formData: formDataProp,
+			validator: formValidator,
+			transformErrors,
+			liveValidate,
+			disabled,
+			omitExtraData,
+			liveOmit,
+			extraErrors,
+			extraErrorsBlockSubmit,
+			experimental_defaultFormStateBehavior
+		},
+		(previous, next) => previous.validator === next.validator && isEqual(previous, next)
+	);
+	const [dataState, setDataState] = useState({ inputs, boundary: formData, edited: formData, formData });
+	let currentFormData = dataState.formData;
+	if (dataState.inputs !== inputs) {
+		const externalChanged = !deepEquals(dataState.inputs.formData, formDataProp);
+		const pristine = deepEquals(dataState.edited, dataState.boundary);
+		currentFormData = externalChanged || pristine ? formData : dataState.edited;
+		setDataState({ inputs, boundary: formData, edited: currentFormData, formData: currentFormData });
+	}
+
+	const savedData = submittedData === undefined ? ({} as T) : submittedData;
+	const [hasChanges, setHasChanges] = useState(!deepEquals(formData, savedData));
 	const [isShowingAllErrors, setShowingAllErrors] = useState(false);
 
-	const formRef = formReference ?? useRef<Form<T, S, SchemaFormContext>>(null);
+	const localFormRef = useRef<Form<T, S, SchemaFormContext>>(null);
+	const formRef = formReference ?? localFormRef;
 	const fieldTemplate = useFieldTemplateElement(formRef);
 	const { scrollTop } = useScroll(fieldTemplate);
 	const isScrolling = useMemo(() => scrollTop - SCROLL_OFFSET > 0, [scrollTop]);
 	const { submitText, norender, props: submitButtonProps } = getSubmitButtonOptions(uiSchema);
-	const hasFooter = useMemo(() => allowDiscardChanges || allowResetToDefaults || !norender, [allowDiscardChanges, norender]);
+	const hasFooter = allowDiscardChanges || allowResetToDefaults || !norender;
 	const defaults = useMemo<T>(() => {
 		const schemaUtils = createSchemaUtils(formValidator, schema);
 		return schemaUtils.getDefaultFormState(schema) as T;
 	}, [formValidator, schema]);
-	const [hasDefaults, setHasDefaults] = useState(!isEmpty(defaults) && !isEqualWith(defaults, formData || {}) && !isEqualWith(defaults, submittedData || {}));
+	const [hasDefaults, setHasDefaults] = useState(!isEmpty(defaults) && !deepEquals(defaults, formData));
+	const syncStatus = useCallback(
+		(data: IChangeEvent<T, S, SchemaFormContext> & Partial<Pick<FormState<T, S, SchemaFormContext>, 'schemaValidationErrors'>>) => {
+			const changed = !deepEquals(data.formData, submittedData === undefined ? {} : submittedData);
+			// Count server messages individually: an identical validator message still blocks.
+			const counts = new Map<string, number>();
+			const key = ({ property, message }: (typeof serverErrors)[number]) => JSON.stringify([property, message]);
+			serverErrors.forEach(error => counts.set(key(error), (counts.get(key(error)) ?? 0) + 1));
+			const hasFieldErrors = toErrorList(data.errorSchema).some(error => {
+				const count = counts.get(key(error)) ?? 0;
+				if (count) counts.set(key(error), count - 1);
+				return !count;
+			});
+			const blocked = Boolean(data.schemaValidationErrors?.length || hasFieldErrors || (extraErrorsBlockSubmit && serverErrors.length));
+			setHasChanges(changed);
+			setHasDefaults(!isEmpty(defaults) && !deepEquals(defaults, data.formData));
+			setValid(!liveValidate || (changed && (otherProps.noValidate || !blocked)));
+		},
+		[submittedData, defaults, liveValidate, otherProps.noValidate, serverErrors, extraErrorsBlockSubmit]
+	);
 
 	const onFormChange = useCallback(
 		(data: IChangeEvent<T, S, SchemaFormContext>, id?: string) => {
-			const { formData: dataFormData = {} as T, errors } = data;
-			const hasNewChanges = !isEqualWith(dataFormData, submittedData);
-			setHasChanges(hasNewChanges);
-			setValid(liveValidate ? hasNewChanges && isEmpty(errors) : true);
+			setDataState(previous => ({ ...previous, edited: data.formData }));
+			syncStatus(data);
 			onChange?.(data, id);
 		},
-		[submittedData, onChange, setValid, setHasChanges]
+		[onChange, syncStatus]
+	);
+	const onFormSubmit = useCallback<NonNullable<FormProps<T, S, SchemaFormContext>['onSubmit']>>(
+		(data, event) => {
+			setDataState(previous => ({ ...previous, edited: data.formData }));
+			syncStatus(data);
+			otherProps.onSubmit?.(data, event);
+		},
+		[syncStatus, otherProps.onSubmit]
 	);
 	const themedProps: FormProps<T, S, SchemaFormContext> = {
 		disabled,
 		liveValidate,
 		schema,
 		...otherProps,
+		omitExtraData,
+		liveOmit,
+		extraErrors,
+		extraErrorsBlockSubmit,
+		transformErrors,
 		onChange: onFormChange,
-		uiSchema: {
-			...mergedUiSchema,
-			'ui:submitButtonOptions': {
-				props: { disabled: false },
-				norender: true,
-				submitText: ''
-			}
-		},
+		onSubmit: onFormSubmit,
+		uiSchema: formUiSchema,
 		formContext: {
 			...otherProps.formContext,
 			...uiSchema['ui:options']
 		} as SchemaFormContext,
-		formData: formData,
+		formData: currentFormData,
 		validator: formValidator,
 		experimental_defaultFormStateBehavior
 	};
 
-	const onSubmitClick = (event: KvActionButtonTextCustomEvent<MouseEvent>) => {
+	const stableThemedProps = useStableValue(themedProps, (previous, next) => previous.validator === next.validator && isEqual(previous, next));
+
+	const onSubmitClick = () => {
 		setFormSubmitted(true);
-		if (formRef?.current) {
-			otherProps.onSubmit?.(formRef.current.state, event as unknown as FormEvent<any>);
-		}
+		formRef.current?.submit();
 	};
 
 	const discardChanges = () => {
+		setDataState(previous => ({ ...previous, edited: savedData, formData: savedData }));
 		setValid(!liveValidate);
 		setHasChanges(false);
-		onChange?.({ formData: submittedData } as IChangeEvent<T, S, SchemaFormContext>);
+		setFormSubmitted(false);
+		setFieldStatesResetKey(key => key + 1);
+		onChange?.({ formData: savedData } as IChangeEvent<T, S, SchemaFormContext>);
 	};
 
 	const resetToDefaults = () => {
 		if (formRef.current) {
-			onFormChange({ ...formRef.current.state, formData: defaults } as IChangeEvent<T, S, SchemaFormContext>);
+			setDataState(previous => ({ ...previous, edited: defaults, formData: defaults }));
+			const validation: ValidationData<T> = otherProps.noValidate ? { errors: [], errorSchema: {} } : formRef.current.validate(defaults);
+			onFormChange({
+				...formRef.current.state,
+				formData: defaults,
+				schemaValidationErrors: validation.errors,
+				schemaValidationErrorSchema: validation.errorSchema,
+				...validationDataMerge(validation, extraErrors)
+			} as IChangeEvent<T, S, SchemaFormContext>);
 		}
 	};
 
+	const previousSubmittedData = useRef(submittedData);
 	useEffect(() => {
-		const hasNewChanges = !isEqualWith(formData, submittedData || {});
-		setHasChanges(hasNewChanges);
-
-		setValid(liveValidate ? hasNewChanges && isValid : true);
+		if (!deepEquals(previousSubmittedData.current, submittedData)) {
+			previousSubmittedData.current = submittedData;
+			setFormSubmitted(false);
+		}
 	}, [submittedData]);
 
+	/** Refresh from committed props and current edits, without RJSF's cached retrievedSchema.
+	 * That cache merges old error trees, retaining cleared server errors. Refreshing drops
+	 * errors custom widgets supply through onChange; schema and server errors are rebuilt.
+	 */
 	useEffect(() => {
-		const hasDefaultsToApply = !isEmpty(defaults) && !isEqualWith(defaults, formData || {});
-		setHasDefaults(hasDefaultsToApply);
-	}, [defaults, formData, setHasDefaults]);
+		const form = formRef.current;
+		if (!form) return;
+		let active = true;
+		const isCurrent = (props: FormProps<T, S, SchemaFormContext>) =>
+			props.validator === formValidator &&
+			props.transformErrors === transformErrors &&
+			props.customValidate === otherProps.customValidate &&
+			props.liveValidate === liveValidate &&
+			props.noValidate === otherProps.noValidate &&
+			props.extraErrorsBlockSubmit === extraErrorsBlockSubmit &&
+			deepEquals(props.extraErrors, extraErrors) &&
+			deepEquals(props.schema, schema) &&
+			isEqual(props.uiSchema, formUiSchema) &&
+			deepEquals(props.formData, currentFormData);
+		form.setState(
+			(state, props) => (active && isCurrent(props) ? form.getStateFromProps(props, state.formData) : null),
+			() => {
+				if (active && isCurrent(form.props)) syncStatus(form.state as IChangeEvent<T, S, SchemaFormContext>);
+			}
+		);
+		return () => {
+			active = false;
+		};
+	}, [formRef, stableThemedProps, syncStatus]);
 
 	return (
-		<FormStateProvider initialFormData={formData} displayErrors={isFormSubmitted || displayErrors || isShowingAllErrors}>
+		<FormStateProvider initialFormData={formData} displayErrors={isFormSubmitted || displayErrors || isShowingAllErrors} resetKey={fieldStatesResetKey}>
 			<div className={classNames(styles.FormContainer, customClass)}>
 				{showErrorsSwitch && (
 					<div className={styles.Action}>
@@ -166,7 +297,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 						<div className={styles.Text}>Show All Errors</div>
 					</div>
 				)}
-				<CustomFormWithRef<T, S, SchemaFormContext> ref={formRef} {...themedProps} />
+				<CustomFormWithRef<T, S, SchemaFormContext> ref={formRef} {...stableThemedProps} />
 				{hasFooter && (
 					<div className={classNames(styles.FormFooter, { [styles.Scrolling]: isScrolling })}>
 						<div className={styles.LeftFooter}>
