@@ -143,6 +143,30 @@ describe('Action Button (unit tests)', () => {
 			expect(onNativeClick).toHaveBeenCalledTimes(1);
 		});
 
+		it.each([' ', 'Enter'])('should consume repeated %p after activation disables the button', async key => {
+			const { button, onClickButton, onNativeClick } = await render();
+			const onKeyDownAbove = jest.fn();
+			page.root?.addEventListener('keydown', onKeyDownAbove);
+			page.root?.addEventListener(
+				'clickButton',
+				() => {
+					page.rootInstance.disabled = true;
+				},
+				{ once: true }
+			);
+			press(button, { key });
+			await page.waitForChanges();
+			const repeated = new KeyboardEvent('keydown', { key, repeat: true, bubbles: true, composed: true, cancelable: true });
+
+			button.dispatchEvent(repeated);
+
+			expect(button.getAttribute('aria-disabled')).toBe('true');
+			expect(repeated.defaultPrevented).toBe(true);
+			expect(onKeyDownAbove).not.toHaveBeenCalled();
+			expect(onClickButton).toHaveBeenCalledTimes(1);
+			expect(onNativeClick).toHaveBeenCalledTimes(1);
+		});
+
 		it.each([' ', 'Enter'])('should honor a previously canceled %p', async key => {
 			const { button, onClickButton, onNativeClick } = await render();
 			const event = new KeyboardEvent('keydown', { key, bubbles: true, composed: true, cancelable: true });

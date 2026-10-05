@@ -44,21 +44,13 @@ export class KvActionButton implements IButton, IButtonEvents {
 	// Consume activation keys, including repeats, to prevent scrolling and parent shortcuts.
 	// Clicking the host makes keyboard and mouse activation share the same listener.
 	private onKeyDown = (event: KeyboardEvent) => {
-		if (
-			(event.key !== 'Enter' && event.key !== ' ') ||
-			event.defaultPrevented ||
-			event.altKey ||
-			event.ctrlKey ||
-			event.metaKey ||
-			this.disabled ||
-			event.target !== event.currentTarget
-		) {
+		if ((event.key !== 'Enter' && event.key !== ' ') || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.target !== event.currentTarget) {
 			return;
 		}
 
 		event.preventDefault();
 		event.stopPropagation();
-		if (!event.repeat) {
+		if (!this.disabled && !event.repeat) {
 			this.el.click();
 		}
 	};
