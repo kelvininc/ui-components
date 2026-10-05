@@ -1,7 +1,7 @@
-import { Component, Element, Event, EventEmitter, Host, Prop, h } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, Host, Method, Prop, h } from '@stencil/core';
 import { IRadioList, IRadioListEvents } from './radio-list.types';
 import { IRadioListItem } from '../radio-list-item/radio-list-item.types';
-import { getRadioGroupTabStop, handleRadioGroupKeyDown, RadioGroupOption } from '../../utils/radio-group.helper';
+import { focusRadioGroup, getRadioGroupTabStop, handleRadioGroupKeyDown, RadioGroupOption } from '../../utils/radio-group.helper';
 /**
  * @part items-container - The container for the list items
  */
@@ -26,6 +26,13 @@ export class KvRadioList implements IRadioList, IRadioListEvents {
 
 	/** @inheritdoc */
 	@Event() optionSelected: EventEmitter<string | number>;
+
+	/** Focuses the selected enabled radio, or the first enabled radio when none is selected. */
+	@Method()
+	async setFocus(): Promise<void> {
+		const hosts = Array.from(this.el.shadowRoot?.querySelectorAll<HTMLElement>('kv-radio-list-item') ?? []);
+		focusRadioGroup(this.getGroupOptions(), hosts);
+	}
 
 	private onOptionClick = ({ detail }: CustomEvent<string | number>) => {
 		this.optionSelected.emit(detail);

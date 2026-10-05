@@ -652,6 +652,7 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 									{this.isCalendarToggleVisible() && (
 										<div class="show-calendar-toggle">
 											<kv-switch-button
+												accessibleLabel="Show Calendar"
 												checked={this.showCalendar}
 												size={EComponentSize.Small}
 												onClick={this.onShowCalendarClick}

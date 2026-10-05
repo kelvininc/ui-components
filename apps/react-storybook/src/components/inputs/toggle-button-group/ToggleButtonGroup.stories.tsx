@@ -90,14 +90,17 @@ export const IconButtonsState: Story = {
 		buttons: [
 			{
 				icon: EIconName.DensityLow,
+				accessibleLabel: "Low density",
 				value: "low"
 			},
 			{
 				icon: EIconName.DensityMedium,
+				accessibleLabel: "Medium density",
 				value: "medium"
 			},
 			{
 				icon: EIconName.DensityHigh,
+				accessibleLabel: "High density",
 				value: "high"
 			}
 		],

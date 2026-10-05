@@ -10,6 +10,8 @@ export interface IToggleButton<T = string | number> {
 	icon?: EIconName;
 	/** (optional) The button's label. Only valid for toggle button text */
 	label?: string;
+	/** (optional) Nonblank accessible name for the control. Takes precedence over label and tooltip. */
+	accessibleLabel?: string;
 	/** (optional) Sets the button's styling to be disabled and disables click events */
 	disabled?: boolean;
 	/** (optional) Sets the button as checked */
@@ -26,7 +28,7 @@ export interface IToggleButton<T = string | number> {
 	size?: EComponentSize;
 	/** (optional) Tooltip text */
 	tooltip?: string;
-	/** (optional) Custom attributes to be applied to the toggle button element */
+	/** (optional) Custom attributes on the toggle element. A plain button's type, disabled, aria-label and aria-pressed come from component props. */
 	customAttributes?: Record<string, string>;
 }
 
