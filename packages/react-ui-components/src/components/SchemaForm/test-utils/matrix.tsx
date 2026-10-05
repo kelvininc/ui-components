@@ -1071,6 +1071,8 @@ export const R2_WIDGET_ERROR_SHAPES: readonly {
 	formData: { host: string };
 	nextHost: string;
 	message: string;
+	externalData: { host: string };
+	externalMessage: string;
 }[] = [
 	{
 		name: 'native broker widget rejects an otherwise valid host',
@@ -1078,9 +1080,29 @@ export const R2_WIDGET_ERROR_SHAPES: readonly {
 		uiSchema: { host: { 'ui:widget': BrokerErrorInput } },
 		formData: { host: 'broker-1.local' },
 		nextHost: 'broker-2.local',
-		message: BROKER_WIDGET_ERROR
+		message: BROKER_WIDGET_ERROR,
+		externalData: { host: 'x' },
+		externalMessage: 'Must be at least 3 characters.'
 	}
 ];
+
+export const R2_WIDGET_ERROR_POLICIES: readonly { name: string; liveValidate: boolean }[] = [
+	{ name: 'live validation', liveValidate: true },
+	{ name: 'submit validation', liveValidate: false }
+];
+
+/** Controlled echoes and presentation callbacks leave widget errors attached to the edit. */
+export const R2_WIDGET_ERROR_TRANSITIONS: readonly {
+	name: string;
+	controlled: boolean;
+	change: 'none' | 'className' | 'submitCallback';
+}[] = [false, true].flatMap(controlled =>
+	(['none', 'className', 'submitCallback'] as const).map(change => ({
+		name: `${controlled ? 'controlled' : 'uncontrolled'} ${change === 'none' ? 'edit' : change === 'className' ? 'form class change' : 'submit callback replacement'}`,
+		controlled,
+		change
+	}))
+);
 
 /** A suspended external update must not replace edits in the render that stays committed. */
 export const R2_ABANDONED_RENDER_SHAPES: readonly {
@@ -1646,6 +1668,120 @@ export const R2_NATIVE_SUBMIT_SHAPES: readonly {
 	}
 ];
 
+export type R2ScalarValue = string | number | boolean | null;
+
+/** Discard emits the saved scalar verbatim; an omitted value uses the field's normal defaults. */
+export const R2_SCALAR_DISCARD_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema?: UiSchema;
+	formData: R2ScalarValue;
+	submittedData?: R2ScalarValue;
+	label: string;
+	control: 'input' | 'checkbox';
+}[] = [
+	{
+		name: 'missing saved broker host without a default',
+		schema: { type: 'string', title: 'Broker host' },
+		formData: 'broker-2.local',
+		label: 'Broker host',
+		control: 'input'
+	},
+	{
+		name: 'missing saved port without a default',
+		schema: { type: 'integer', title: 'Port' },
+		formData: 8883,
+		label: 'Port',
+		control: 'input'
+	},
+	{
+		name: 'missing saved TLS setting without a default',
+		schema: { type: 'boolean', title: 'TLS' },
+		uiSchema: { 'ui:widget': 'checkbox' },
+		formData: true,
+		label: 'TLS',
+		control: 'checkbox'
+	},
+	{
+		name: 'missing saved broker host restores its default',
+		schema: { type: 'string', title: 'Broker host', default: 'broker-0.local' },
+		formData: 'broker-2.local',
+		label: 'Broker host',
+		control: 'input'
+	},
+	{
+		name: 'missing saved port restores its zero default',
+		schema: { type: 'integer', title: 'Port', default: 0 },
+		formData: 8883,
+		label: 'Port',
+		control: 'input'
+	},
+	{
+		name: 'missing saved TLS setting restores its false default',
+		schema: { type: 'boolean', title: 'TLS', default: false },
+		uiSchema: { 'ui:widget': 'checkbox' },
+		formData: true,
+		label: 'TLS',
+		control: 'checkbox'
+	},
+	{
+		name: 'saved false overrides a true TLS default',
+		schema: { type: 'boolean', title: 'TLS', default: true },
+		uiSchema: { 'ui:widget': 'checkbox' },
+		formData: true,
+		submittedData: false,
+		label: 'TLS',
+		control: 'checkbox'
+	},
+	{
+		name: 'saved zero overrides the retry default',
+		schema: { type: 'integer', title: 'Retries', default: 3 },
+		formData: 3,
+		submittedData: 0,
+		label: 'Retries',
+		control: 'input'
+	},
+	{
+		name: 'saved empty name overrides the connection name default',
+		schema: { type: 'string', title: 'Connection name', default: 'Plant broker' },
+		formData: 'Plant broker',
+		submittedData: '',
+		label: 'Connection name',
+		control: 'input'
+	},
+	{
+		name: 'saved null overrides the nullable compression default',
+		schema: { type: ['string', 'null'], title: 'Compression', default: 'gzip' },
+		formData: 'gzip',
+		submittedData: null,
+		label: 'Compression',
+		control: 'input'
+	}
+];
+
+/** Keeping certificate data unchanged isolates file error visibility from file-list synchronization. */
+export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	formData: { certificate: unknown; host: string };
+	submittedData: { certificate: unknown; host: string };
+	extraErrors: R2ExtraErrors;
+	fieldId: string;
+	message: string;
+	rowCount: number;
+}[] = ACTION_NAME_SHAPES.filter(row => row.download).map(row => ({
+	name: row.name,
+	schema: { type: 'object', title: 'Connection', properties: { certificate: row.schema, host: { type: 'string', title: 'Host' } } },
+	uiSchema: { certificate: row.uiSchema },
+	formData: { certificate: row.formData, host: 'edited-broker.local' },
+	submittedData: { certificate: row.formData, host: 'saved-broker.local' },
+	extraErrors: { certificate: { __errors: ['Review this certificate.'] } },
+	fieldId: 'root_certificate',
+	message: 'Review this certificate.',
+	rowCount: Array.isArray(row.formData) ? row.formData.length : 1
+}));
+
 // Rows share schema objects (TOPICS, ENDPOINTS, NAME), so a test that mutated one would change
 // other rows, and other tests. Frozen, the mutation throws where it happens.
 [
@@ -1679,10 +1815,14 @@ export const R2_NATIVE_SUBMIT_SHAPES: readonly {
 	R2_RESET_SHAPES,
 	R2_BOUNDARY_TRANSITIONS,
 	R2_WIDGET_ERROR_SHAPES,
+	R2_WIDGET_ERROR_POLICIES,
+	R2_WIDGET_ERROR_TRANSITIONS,
 	R2_ABANDONED_RENDER_SHAPES,
 	R2_VALIDATOR_IDENTITY_SHAPES,
 	R2_SHARED_FIELD_ID_SHAPES,
 	R2_NATIVE_SUBMIT_SHAPES,
+	R2_SCALAR_DISCARD_SHAPES,
+	R2_FILE_ERROR_VISIBILITY_SHAPES,
 	TEMPLATE_COMPONENTS,
 	OPTION_SOURCES,
 	LIST_OPTIONS,

@@ -24,6 +24,8 @@ import { generateTheme } from './Theme';
 import { EApplyDefaults, SchemaFormContext, SchemaFormProps } from './types';
 import { buildDefaultFormStateBehavior, getDefaultValidator, getInitialFormData, normalizeSchema } from '../../utils';
 import { humanizeSchemaErrors, pruneOptionErrors, sanitizeExtraErrors } from './rjsf/errors';
+import { areValidationConfigsEqual, getValidationConfig } from './rjsf/Form';
+import withGuardedTheme from './rjsf/withTheme';
 
 function useStableValue<V>(value: V, equal: (previous: V, next: V) => boolean = isEqual): V {
 	const [previous, setPrevious] = useState(value);
@@ -50,10 +52,14 @@ export function CustomForm<T = any, S extends StrictRJSFSchema = RJSFSchema, F e
 		</ThemedForm>
 	);
 }
+function StatefulCustomForm<T, S extends StrictRJSFSchema, F extends FormContextType>(props: FormProps<T, S, F>, ref: ForwardedRef<Form<T, S, F>>) {
+	const ThemedForm = useMemo(() => withGuardedTheme<T, S, F>(generateTheme<T, S, F>()), []);
+	return <ThemedForm {...props} ref={ref} />;
+}
 // Wrapping the component to avoid unnecessary re-rendering and to reduce the number of times the validator will run
 const typedMemo: <K extends ComponentType<any>>(c: K, areEqual?: (prev: ComponentProps<K>, next: ComponentProps<K>) => boolean) => K = React.memo;
 const CustomFormWithRef = typedMemo(
-	forwardRef(CustomForm) as <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(
+	forwardRef(StatefulCustomForm) as <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(
 		props: PropsWithChildren<FormProps<T, S, F>> & { ref?: ForwardedRef<Form<T, S, F>> }
 	) => ReturnType<typeof CustomForm<T, S, F>>,
 	(previousProps, nextProps) => previousProps.validator === nextProps.validator && isEqual(previousProps, nextProps)
@@ -225,6 +231,8 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	};
 
 	const stableThemedProps = useStableValue(themedProps, (previous, next) => previous.validator === next.validator && isEqual(previous, next));
+	const validationConfig = useStableValue(getValidationConfig(stableThemedProps), areValidationConfigsEqual);
+	const committedValidationConfig = useRef(validationConfig);
 
 	const onSubmitClick = () => {
 		setFormSubmitted(true);
@@ -232,12 +240,13 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	};
 
 	const discardChanges = () => {
-		setDataState(previous => ({ ...previous, edited: savedData, formData: savedData }));
+		const restoredData = cloneDeep(getInitialFormData(schema, submittedData, formValidator, applyDefaults, false));
+		setDataState(previous => ({ ...previous, edited: restoredData, formData: restoredData }));
 		setValid(!liveValidate);
 		setHasChanges(false);
 		setFormSubmitted(false);
 		setFieldStatesResetKey(key => key + 1);
-		onChange?.({ formData: savedData } as IChangeEvent<T, S, SchemaFormContext>);
+		onChange?.({ formData: submittedData } as IChangeEvent<T, S, SchemaFormContext>);
 	};
 
 	const resetToDefaults = () => {
@@ -269,28 +278,23 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	useEffect(() => {
 		const form = formRef.current;
 		if (!form) return;
+		const refreshValidation = !areValidationConfigsEqual(committedValidationConfig.current, validationConfig);
 		let active = true;
 		const isCurrent = (props: FormProps<T, S, SchemaFormContext>) =>
-			props.validator === formValidator &&
-			props.transformErrors === transformErrors &&
-			props.customValidate === otherProps.customValidate &&
-			props.liveValidate === liveValidate &&
-			props.noValidate === otherProps.noValidate &&
-			props.extraErrorsBlockSubmit === extraErrorsBlockSubmit &&
-			deepEquals(props.extraErrors, extraErrors) &&
-			deepEquals(props.schema, schema) &&
-			isEqual(props.uiSchema, formUiSchema) &&
-			deepEquals(props.formData, currentFormData);
+			areValidationConfigsEqual(getValidationConfig(props), validationConfig) && deepEquals(props.formData, currentFormData);
 		form.setState(
-			(state, props) => (active && isCurrent(props) ? form.getStateFromProps(props, state.formData) : null),
+			(state, props) => (active && isCurrent(props) && refreshValidation ? form.getStateFromProps(props, state.formData) : null),
 			() => {
-				if (active && isCurrent(form.props)) syncStatus(form.state as IChangeEvent<T, S, SchemaFormContext>);
+				if (active && isCurrent(form.props)) {
+					committedValidationConfig.current = validationConfig;
+					syncStatus(form.state as IChangeEvent<T, S, SchemaFormContext>);
+				}
 			}
 		);
 		return () => {
 			active = false;
 		};
-	}, [formRef, stableThemedProps, syncStatus]);
+	}, [formRef, stableThemedProps, validationConfig, syncStatus]);
 
 	return (
 		<FormStateProvider initialFormData={formData} displayErrors={isFormSubmitted || displayErrors || isShowingAllErrors} resetKey={fieldStatesResetKey}>
