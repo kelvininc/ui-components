@@ -1,4 +1,5 @@
 import { newSpecPage } from '@stencil/core/testing';
+import { KvAbsoluteTimePickerDropdown } from '../../components/absolute-time-picker-dropdown/absolute-time-picker-dropdown';
 import { KvCheckbox } from '../../components/checkbox/checkbox';
 import { KvDropdown } from '../../components/dropdown/dropdown';
 import { KvMultiSelectDropdown } from '../../components/multi-select-dropdown/multi-select-dropdown';
@@ -11,12 +12,14 @@ import { KvSelectCreateOption } from '../../components/select-create-option/sele
 import { KvSingleSelectDropdown } from '../../components/single-select-dropdown/single-select-dropdown';
 import { KvTextArea } from '../../components/text-area/text-area';
 import { KvTextField } from '../../components/text-field/text-field';
+import { KvTimePicker } from '../../components/time-picker/time-picker';
 import { KvToggleButton } from '../../components/toggle-button/toggle-button';
 import { KvToggleButtonGroup } from '../../components/toggle-button-group/toggle-button-group';
 import { KvToggleSwitch } from '../../components/toggle-switch/toggle-switch';
 import { DESCRIPTION_CONSUMERS } from './accessible-description.matrix';
 
 const components = [
+	KvAbsoluteTimePickerDropdown,
 	KvCheckbox,
 	KvDropdown,
 	KvMultiSelectDropdown,
@@ -28,6 +31,7 @@ const components = [
 	KvSingleSelectDropdown,
 	KvTextArea,
 	KvTextField,
+	KvTimePicker,
 	KvToggleButton,
 	KvToggleButtonGroup,
 	KvToggleSwitch
@@ -49,7 +53,7 @@ describe.each(DESCRIPTION_CONSUMERS)('description configuration: $name', row => 
 		const page = await newSpecPage({ components, html: row.markup });
 		const references = Object.freeze([document.createElement('div')]);
 		const configure = (elements?: readonly Element[]) => {
-			if (row.mode === 'input') page.root.inputConfig = { accessibleLabel: 'Broker', accessibleDescriptionElements: elements };
+			if (row.mode === 'input') page.root.inputConfig = { accessibleLabel: row.label, accessibleDescriptionElements: elements };
 			else if (row.mode === 'buttons') page.root.buttons = [{ value: 'telemetry', label: 'Telemetry', accessibleDescriptionElements: elements }];
 			else if (row.mode === 'options') {
 				page.root.options = [

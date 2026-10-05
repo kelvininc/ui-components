@@ -5,11 +5,11 @@ type Consumer = (typeof DESCRIPTION_CONSUMERS)[number];
 
 const setDescription = (page: E2EPage, row: Consumer, id?: string, empty = false) =>
 	page.evaluate(
-		({ tag, mode, id, empty }) => {
+		({ tag, mode, label, id, empty }) => {
 			const references = id ? [document.getElementById(id)] : empty ? [] : undefined;
 			const host = document.querySelector(tag);
 			if (mode === 'input') {
-				(host as HTMLKvDropdownElement).inputConfig = { accessibleLabel: 'Broker', accessibleDescriptionElements: references };
+				(host as HTMLKvDropdownElement).inputConfig = { accessibleLabel: label, accessibleDescriptionElements: references };
 			} else if (mode === 'buttons') {
 				(host as HTMLKvToggleButtonGroupElement).buttons = [{ value: 'telemetry', label: 'Telemetry', accessibleDescriptionElements: references }];
 			} else if (mode === 'options') {
@@ -22,7 +22,7 @@ const setDescription = (page: E2EPage, row: Consumer, id?: string, empty = false
 				(host as HTMLKvTextFieldElement).accessibleDescriptionElements = references;
 			}
 		},
-		{ tag: row.tag, mode: row.mode, id, empty }
+		{ tag: row.tag, mode: row.mode, label: row.label, id, empty }
 	);
 
 const expectDescription = async (page: E2EPage, row: Consumer, id?: string) => {
@@ -43,7 +43,7 @@ describe.each(DESCRIPTION_CONSUMERS)('accessible description consumer: $name', r
 	it('updates and clears the actual control reference and native AX description', async () => {
 		const page = await newE2EPage();
 		await page.setContent(`<div id="errors"><kv-form-help-text></kv-form-help-text></div><p id="replacement">Broker host is unavailable.</p>${row.markup}`);
-		await page.evaluate(() => (document.querySelector('kv-form-help-text').helpText = ['Broker host is required.']));
+		await page.evaluate(() => (document.querySelector<HTMLKvFormHelpTextElement>('#errors kv-form-help-text').helpText = ['Broker host is required.']));
 		await setDescription(page, row, 'errors');
 		await page.waitForChanges();
 		await expectDescription(page, row, 'errors');

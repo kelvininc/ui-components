@@ -37,6 +37,22 @@ export const DESCRIPTION_CONSUMERS = Object.freeze([
 	},
 	{ name: 'search', tag: 'kv-search', markup: '<kv-search label="Broker"></kv-search>', mode: 'direct', role: 'textbox', label: 'Broker' },
 	{ name: 'dropdown', tag: 'kv-dropdown', markup: '<kv-dropdown></kv-dropdown>', mode: 'input', role: 'textbox', label: 'Broker' },
+	{
+		name: 'time picker',
+		tag: 'kv-time-picker',
+		markup: '<kv-time-picker display-timezone-dropdown="false" display-calendar-toggle="false" display-customize-interval="false"></kv-time-picker>',
+		mode: 'input',
+		role: 'textbox',
+		label: 'Time range'
+	},
+	{
+		name: 'absolute time picker dropdown',
+		tag: 'kv-absolute-time-picker-dropdown',
+		markup: '<kv-absolute-time-picker-dropdown></kv-absolute-time-picker-dropdown>',
+		mode: 'input',
+		role: 'textbox',
+		label: 'Start date'
+	},
 	{ name: 'create option', tag: 'kv-select-create-option', markup: '<kv-select-create-option></kv-select-create-option>', mode: 'input', role: 'textbox', label: 'Broker' },
 	{
 		name: 'single select',
