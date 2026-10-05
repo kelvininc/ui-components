@@ -13,6 +13,22 @@
 		flex-flow: row wrap;
 	}
 
+	.PropRow {
+		min-width: 0;
+		box-sizing: border-box;
+	}
+
+	&:not(.Inline) > .PropRow:not([data-schema-form-first-row]) {
+		&.SectionRow,
+		&[data-schema-form-after-section] {
+			border-top: var(--border-width-default) solid var(--border-container-divider-default);
+			/* stylelint-disable csstools/value-no-unknown-custom-properties -- vars defined by SchemaForm */
+			margin-top: max(0px, calc(var(--schema-form-sections-y-gap) - var(--schema-form-fields-y-gap)));
+			padding-top: var(--schema-form-sections-y-gap);
+			/* stylelint-enable csstools/value-no-unknown-custom-properties */
+		}
+	}
+
 	.PropRow.Hidden {
 		display: none;
 	}

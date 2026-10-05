@@ -45,7 +45,6 @@ const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F 
 					accessibleLabel={SCHEMA_FORM_STRINGS.remove(label)}
 					size={EComponentSize.Large}
 					type={EActionButtonType.Danger}
-					tabIndex={-1}
 					disabled={disabled || readonly}
 					onClickButton={onDropPropertyClick(label)}
 				/>

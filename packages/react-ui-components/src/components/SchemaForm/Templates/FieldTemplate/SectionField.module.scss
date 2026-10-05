@@ -1,12 +1,9 @@
 @use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
-.FieldWrapper {
+.SectionField {
 	width: 100%;
 	min-width: 0;
 	display: flex;
 	flex-direction: column;
-
-	&[hidden] {
-		display: none;
-	}
+	gap: var(--spacing-xl);
 }

@@ -273,7 +273,10 @@ export const normalizeEnums = <S extends StrictRJSFSchema = RJSFSchema>(schema: 
 			if (key === 'properties' && value && typeof value === 'object') {
 				const normalizedProperties: Record<string, unknown> = {};
 				for (const propKey of Object.keys(value as Record<string, unknown>)) {
-					defineOwnProperty(normalizedProperties, propKey, normalize((value as Record<string, unknown>)[propKey], [...path, propKey], addressable));
+					const property = (value as Record<string, unknown>)[propKey];
+					// RJSF 5's path traversal requires object schemas. These preserve boolean validation.
+					const propertySchema = typeof property === 'boolean' ? (property ? {} : { not: {} }) : property;
+					defineOwnProperty(normalizedProperties, propKey, normalize(propertySchema, [...path, propKey], addressable));
 				}
 				defineOwnProperty(result, key, normalizedProperties);
 				continue;

@@ -49,14 +49,33 @@ export const SchemaFormExample: React.FC = () => {
 };
 ```
 
+## Section layout
+
+Object fields and homogeneous object lists render open sections. Their titles use native headings,
+starting at `h2`; each titled section increases the level, up to `h6`. Blank titles and
+`ui:options.label: false` suppress the heading. Custom fields, tuples and multi-selects use control layout.
+
+Section groups use unique heading ids and link their mounted descriptions and visible errors through
+`aria-describedby`. Custom title templates receive a unique `id`; the group also has a text name so a
+template that omits that id still names the section. Field errors keep the existing visibility rules.
+
+Fields have a 20px vertical gap. Object sections have dividers, and configured field widths fit the
+available space. Additional-property key/value rows wrap in narrow containers, and their enabled remove
+buttons participate in Tab order. The internal `data-schema-form-*` markers identify layout elements
+independently of generated CSS module names.
+
+RJSF 5 requires object schemas during path traversal. SchemaForm converts boolean property schemas to
+validation-equivalent `{}` and `{not:{}}` schemas. Unconstrained properties have no inferred input type;
+forbidden properties use RJSF's unsupported-field presentation. `additionalProperties` flags stay literal.
+
 ## Properties:
 
 You can use any of the properties available in the react-jsonschema-form [&lt;Form /> props](https://react-jsonschema-form.readthedocs.io/en/latest/api-reference/form-props/).
 
-## Extra properties: 
+## Extra properties:
 
-### _allowDiscardChanges(boolean)_ 
+### _allowDiscardChanges(boolean)_
+
 Allow discard the changes in the form.
 
-
-> **Note**: The form is always reset to the values provided in the `submittedData` property. <br/>You need update the `submittedData` property after a success submit.  
+> **Note**: The form is always reset to the values provided in the `submittedData` property. <br/>You need update the `submittedData` property after a success submit.

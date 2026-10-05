@@ -1,4 +1,4 @@
-import { FieldTemplateProps, RJSFSchema, UiSchema, WidgetProps } from '@rjsf/utils';
+import { ArrayFieldTemplateProps, FieldTemplateProps, RJSFSchema, UiSchema, WidgetProps } from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
 import type { SchemaFormContext } from '../types';
 
@@ -905,6 +905,217 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 	}
 ];
 
+const CustomConnection = () => <span data-custom-field="connection">Custom connection</span>;
+const MemoConnection = memo(CustomConnection);
+export const CUSTOM_FIELD_SHAPES = [
+	{ name: 'function', uiSchema: { 'ui:field': CustomConnection }, custom: true },
+	{ name: 'registered name', uiSchema: { 'ui:field': 'Connection' }, custom: true },
+	{ name: 'unknown name', uiSchema: { 'ui:field': 'MissingConnection' }, custom: false },
+	{ name: 'memo object', uiSchema: { 'ui:field': MemoConnection }, custom: false },
+	{ name: 'global function', uiSchema: {}, globalUiOptions: { label: true, field: CustomConnection }, custom: true }
+] as const;
+export const CUSTOM_FIELDS = { Connection: CustomConnection };
+
+export const FIELD_WIDTH_SHAPES: readonly { name: string; value: unknown; fitted: string | undefined }[] = [
+	{ name: 'absent', value: undefined, fitted: undefined },
+	{ name: 'number', value: 640, fitted: 'min(640px, 100%)' },
+	{ name: 'numeric string', value: ' 640 ', fitted: 'min(640px, 100%)' },
+	{ name: 'pixels', value: '640px', fitted: 'min(640px, 100%)' },
+	{ name: 'percentage', value: '80%', fitted: 'min(80%, 100%)' },
+	{ name: 'expression', value: 'calc(100% - 20px)', fitted: 'min(calc(100% - 20px), 100%)' },
+	{ name: 'keyword', value: 'unset', fitted: 'unset' },
+	{ name: 'empty', value: '', fitted: '' },
+	{ name: 'invalid object', value: { width: 640 }, fitted: undefined },
+	{ name: 'boolean', value: true, fitted: undefined }
+] as const;
+
+const CONNECTION: RJSFSchema = { type: 'object', title: 'Connection', description: 'Configure the broker connection.', properties: { host: { type: 'string', title: 'Host' } } };
+const CustomTitle = ({ title }: { title: string }) => <strong>{title}</strong>;
+export const SECTION_HEADING_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema?: UiSchema;
+	formData?: unknown;
+	headings: { title: string; level: number }[];
+}[] = [
+	{ name: 'titled root', schema: CONNECTION, formData: { host: 'broker-1.local' }, headings: [{ title: 'Connection', level: 2 }] },
+	{ name: 'UI title', schema: CONNECTION, uiSchema: { 'ui:title': 'Broker settings' }, headings: [{ title: 'Broker settings', level: 2 }] },
+	{ name: 'option title', schema: CONNECTION, uiSchema: { 'ui:options': { title: 'Broker settings' } }, headings: [{ title: 'Broker settings', level: 2 }] },
+	{ name: 'blank title', schema: CONNECTION, uiSchema: { 'ui:title': '' }, headings: [] },
+	{ name: 'suppressed label', schema: CONNECTION, uiSchema: { 'ui:options': { label: false } }, headings: [] },
+	{ name: 'untitled root', schema: { type: 'object', properties: { connection: CONNECTION } }, headings: [{ title: 'Connection', level: 2 }] },
+	{
+		name: 'untitled middle',
+		schema: { type: 'object', title: 'Plant', properties: { settings: { type: 'object', properties: { connection: CONNECTION } } } },
+		uiSchema: { settings: { 'ui:title': '' } },
+		headings: [
+			{ title: 'Plant', level: 2 },
+			{ title: 'Connection', level: 3 }
+		]
+	},
+	{
+		name: 'deep sections',
+		schema: OBJECT_SHAPES[8].schema,
+		formData: OBJECT_SHAPES[8].formData,
+		headings: Array.from({ length: 7 }, (_, i) => ({ title: `Level ${7 - i}`, level: Math.min(2 + i, 6) }))
+	},
+	{ name: 'object list', schema: { type: 'array', title: 'Connections', items: CONNECTION }, formData: [], headings: [{ title: 'Connections', level: 2 }] },
+	{
+		name: 'referenced object list',
+		schema: { type: 'array', title: 'Connections', definitions: { connection: CONNECTION }, items: { $ref: '#/definitions/connection' } },
+		formData: [],
+		headings: [{ title: 'Connections', level: 2 }]
+	},
+	{ name: 'tuple', schema: { type: 'array', title: 'Endpoint', items: [{ type: 'string' }, { type: 'integer' }] }, formData: ['broker-1.local', 1883], headings: [] },
+	{ name: 'custom object field', schema: CONNECTION, uiSchema: { 'ui:field': CustomConnection }, headings: [] },
+	{
+		name: 'hidden primitive',
+		schema: { type: 'string', title: 'Secret', description: 'Hidden description.' },
+		uiSchema: { 'ui:widget': 'hidden' },
+		formData: 'token',
+		headings: []
+	},
+	{ name: 'hidden custom object', schema: CONNECTION, uiSchema: { 'ui:widget': 'hidden', 'ui:field': CustomConnection }, headings: [] },
+	{ name: 'global label suppressed', schema: CONNECTION, uiSchema: { 'ui:globalOptions': { label: false } }, headings: [] },
+	{ name: 'registered schema id', schema: { ...CONNECTION, $id: 'Connection' }, headings: [] },
+	{
+		name: 'object multi-select',
+		schema: { type: 'array', title: 'Sites', uniqueItems: true, items: { type: 'object', enum: [{ region: 'lisbon' }, { region: 'berlin' }] } },
+		formData: [],
+		headings: []
+	}
+];
+
+export const SECTION_DESCRIPTION_SHAPES: readonly { name: string; uiSchema: UiSchema; position: string; description: string | undefined }[] = [
+	{ name: 'default top', uiSchema: {}, position: 'top', description: CONNECTION.description },
+	{ name: 'bottom', uiSchema: { 'ui:options': { descriptionPosition: 'bottom' } }, position: 'bottom', description: CONNECTION.description },
+	{ name: 'blank override', uiSchema: { 'ui:description': '' }, position: 'top', description: undefined },
+	{ name: 'none', uiSchema: { 'ui:options': { descriptionPosition: 'none' } }, position: 'none', description: undefined },
+	{ name: 'custom title', uiSchema: { 'ui:TitleFieldTemplate': CustomTitle }, position: 'top', description: CONNECTION.description }
+] as const;
+const ArrayDescription = () => <p>Custom connections description.</p>;
+const NoArrayDescription = (): null => null;
+const CustomFieldLayout = ({ children }: FieldTemplateProps) => <div data-field-layout>{children}</div>;
+const CustomArrayLayout = ({ items }: ArrayFieldTemplateProps) => (
+	<div>
+		{items.map(item => (
+			<div key={item.key}>{item.children}</div>
+		))}
+	</div>
+);
+export const ARRAY_DESCRIPTION_SHAPES: readonly { name: string; schema?: RJSFSchema; uiSchema: UiSchema; description: string | undefined }[] = [
+	{ name: 'default', uiSchema: {}, description: 'Configure connection endpoints.' },
+	{ name: 'custom description', uiSchema: { 'ui:ArrayFieldDescriptionTemplate': ArrayDescription }, description: 'Custom connections description.' },
+	{ name: 'null description', uiSchema: { 'ui:ArrayFieldDescriptionTemplate': NoArrayDescription }, description: undefined },
+	{ name: 'blank description', uiSchema: { 'ui:description': '' }, description: undefined },
+	{ name: 'custom field layout', uiSchema: { 'ui:FieldTemplate': CustomFieldLayout }, description: 'Configure connection endpoints.' },
+	{
+		name: 'custom array layout',
+		uiSchema: { 'ui:ArrayFieldTemplate': CustomArrayLayout, 'ui:ArrayFieldDescriptionTemplate': ArrayDescription },
+		description: 'Configure connection endpoints.'
+	},
+	{
+		name: 'nullable custom description',
+		schema: { type: ['array', 'null'], title: 'Connections', description: 'Configure connection endpoints.', items: CONNECTION },
+		uiSchema: { 'ui:ArrayFieldDescriptionTemplate': ArrayDescription },
+		description: 'Custom connections description.'
+	},
+	{
+		name: 'nullable null description',
+		schema: { type: ['array', 'null'], title: 'Connections', description: 'Configure connection endpoints.', items: CONNECTION },
+		uiSchema: { 'ui:ArrayFieldDescriptionTemplate': NoArrayDescription },
+		description: undefined
+	}
+] as const;
+export const DESCRIBED_CONNECTION_ARRAY: RJSFSchema = {
+	type: 'array',
+	title: 'Connections',
+	description: 'Configure connection endpoints.',
+	items: { ...CONNECTION, description: undefined }
+};
+
+export const ARRAY_ID_SHAPES = [
+	{ name: 'object items', schema: DESCRIBED_CONNECTION_ARRAY },
+	{ name: 'referenced items', schema: SECTION_HEADING_SHAPES[9].schema },
+	{ name: 'tuple', schema: SECTION_HEADING_SHAPES[10].schema },
+	{ name: 'nested arrays', schema: { type: 'array', title: 'Connections', items: DESCRIBED_CONNECTION_ARRAY } as RJSFSchema }
+] as const;
+export const ADDITIONAL_NAME_SHAPES = [
+	{
+		name: 'named connections',
+		schema: { type: 'object', additionalProperties: CONNECTION } as RJSFSchema,
+		formData: { backup: { host: 'broker-2.local' }, failover: { host: 'broker-3.local' } },
+		names: ['backup', 'failover'],
+		renamed: 'secondary'
+	}
+] as const;
+
+export const ARRAY_TEMPLATE_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema: UiSchema; rendered: boolean }[] = [
+	{ name: 'normal list', schema: DESCRIBED_CONNECTION_ARRAY, uiSchema: {}, rendered: true },
+	{ name: 'tuple', schema: SECTION_HEADING_SHAPES[10].schema, uiSchema: {}, rendered: true },
+	{ name: 'multi-select', schema: ASSET_SELECTION, uiSchema: {}, rendered: false },
+	{ name: 'custom widget', schema: DESCRIBED_CONNECTION_ARRAY, uiSchema: { 'ui:widget': () => <span>Connection widget</span> }, rendered: false },
+	{ name: 'files', schema: { type: 'array', items: { type: 'string', format: 'data-url' } }, uiSchema: {}, rendered: false },
+	{ name: 'custom field', schema: DESCRIBED_CONNECTION_ARRAY, uiSchema: { 'ui:field': CustomConnection }, rendered: false },
+	{ name: 'no items', schema: { type: 'array' }, uiSchema: {}, rendered: false }
+];
+
+export const OBJECT_LAYOUT_SHAPES: readonly { name: string; uiSchema: UiSchema; first: string | undefined; after: string[] }[] = [
+	{ name: 'normal sections', uiSchema: {}, first: 'host', after: ['timeout'] },
+	{ name: 'leading hidden', uiSchema: { host: { 'ui:widget': 'hidden' } }, first: 'connection', after: ['timeout'] },
+	{ name: 'hidden between sections', uiSchema: { timeout: { 'ui:widget': 'hidden' } }, first: 'host', after: ['region'] },
+	{ name: 'inline', uiSchema: { 'ui:inline': true }, first: undefined, after: ['timeout'] }
+] as const;
+export const OBJECT_LAYOUT_SCHEMA: RJSFSchema = {
+	type: 'object',
+	properties: { host: { type: 'string', title: 'Host' }, connection: CONNECTION, timeout: { type: 'integer', title: 'Timeout' }, region: { type: 'string', title: 'Region' } }
+};
+export const ADDITIONAL_LAYOUT_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema: UiSchema; formData: object; section: boolean }[] = [
+	{
+		name: 'default object',
+		schema: { type: 'object', properties: { host: { type: 'string' } }, additionalProperties: CONNECTION },
+		uiSchema: {},
+		formData: { host: 'broker-1.local', backup: { host: 'broker-2.local' } },
+		section: true
+	},
+	{
+		name: 'custom object field',
+		schema: { type: 'object', properties: { host: { type: 'string' } }, additionalProperties: CONNECTION },
+		uiSchema: { additionalProperties: { 'ui:field': CustomConnection } },
+		formData: { host: 'broker-1.local', backup: { host: 'broker-2.local' } },
+		section: false
+	},
+	{
+		name: 'custom array widget',
+		schema: { type: 'object', properties: { host: { type: 'string' } }, additionalProperties: DESCRIBED_CONNECTION_ARRAY },
+		uiSchema: { additionalProperties: { 'ui:widget': () => <span>Connection widget</span> } },
+		formData: { host: 'broker-1.local', backup: [] },
+		section: false
+	}
+];
+export const BOOLEAN_PROPERTY_VALUES: readonly { name: string; data: { host: string; legacy?: unknown; removed?: string }; valid: boolean }[] = [
+	{ name: 'absent', data: { host: 'broker-1.local' }, valid: true },
+	{ name: 'string', data: { host: 'broker-1.local', legacy: 'broker-token' }, valid: true },
+	{ name: 'zero', data: { host: 'broker-1.local', legacy: 0 }, valid: true },
+	{ name: 'false', data: { host: 'broker-1.local', legacy: false }, valid: true },
+	{ name: 'null', data: { host: 'broker-1.local', legacy: null }, valid: true },
+	{ name: 'object', data: { host: 'broker-1.local', legacy: { region: 'lisbon' } }, valid: true },
+	{ name: 'forbidden', data: { host: 'broker-1.local', removed: 'old-value' }, valid: false }
+] as const;
+
+export const OPTION_BRANCH_SHAPES = ['oneOf', 'anyOf'].map(keyword => ({
+	name: keyword,
+	schema: {
+		type: 'object',
+		title: 'Authentication',
+		[keyword]: [
+			{ type: 'object', title: 'Token', properties: { token: { type: 'string', title: 'Token value' } } },
+			{ type: 'object', title: 'Certificate', properties: { certificate: { type: 'string', title: 'Certificate value' } } }
+		]
+	} as RJSFSchema,
+	values: [{ token: 'broker-token' }, { certificate: 'broker-certificate' }]
+}));
+
 // Rows share schema objects (TOPICS, ENDPOINTS, NAME), so a test that mutated one would change
 // other rows, and other tests. Frozen, the mutation throws where it happens.
 [
@@ -931,5 +1142,20 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 	TEMPLATE_COMPONENTS,
 	OPTION_SOURCES,
 	LIST_OPTIONS,
-	FLAT_OBJECT_SHAPES
+	FLAT_OBJECT_SHAPES,
+	CUSTOM_FIELD_SHAPES,
+	CUSTOM_FIELDS,
+	FIELD_WIDTH_SHAPES,
+	SECTION_HEADING_SHAPES,
+	SECTION_DESCRIPTION_SHAPES,
+	ARRAY_DESCRIPTION_SHAPES,
+	DESCRIBED_CONNECTION_ARRAY,
+	ARRAY_TEMPLATE_SHAPES,
+	OBJECT_LAYOUT_SHAPES,
+	OBJECT_LAYOUT_SCHEMA,
+	BOOLEAN_PROPERTY_VALUES,
+	OPTION_BRANCH_SHAPES,
+	ADDITIONAL_LAYOUT_SHAPES,
+	ARRAY_ID_SHAPES,
+	ADDITIONAL_NAME_SHAPES
 ].forEach(deepFreeze);
