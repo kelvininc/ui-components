@@ -1,5 +1,6 @@
 import { ArrayFieldTemplateProps, CustomValidator, ErrorSchema, ErrorTransformer, FieldTemplateProps, RJSFSchema, UIOptionsType, UiSchema, WidgetProps } from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
+import { StyleMode } from '@kelvininc/ui-components';
 import { EApplyDefaults, SchemaFormContext } from '../types';
 
 /** Freezes plain data in place; components (functions, memo and forwardRef objects) stay as they are */
@@ -174,6 +175,21 @@ export const DEFAULTED_CHOICE_SHAPES: readonly { name: string; schema: RJSFSchem
 export const RADIO_KEYBOARD_SHAPES = [
 	{ name: 'compact radio', widget: 'radio' },
 	{ name: 'described radio list', widget: 'RadioListWidget' }
+] as const;
+
+export const RADIO_STYLE_THEMES = [
+	{ name: 'Light', mode: StyleMode.Light },
+	{ name: 'Night', mode: StyleMode.Night }
+] as const;
+
+export const RADIO_INLINE_STYLE_SHAPES: readonly { name: string; schema: RJSFSchema }[] = [
+	{ name: 'unequal security labels', schema: { type: 'string', title: 'Security', enum: ['tls', 'plaintext'], enumNames: ['TLS', 'Plaintext connection'] } }
+];
+
+export const CHOICE_CLEAR_NAME_SHAPES = [
+	{ name: 'field title', uiSchema: {}, expected: 'Clear selection for TLS' },
+	{ name: 'ui title override', uiSchema: { 'ui:title': 'Transport security' }, expected: 'Clear selection for Transport security' },
+	{ name: 'blank title fallback', uiSchema: { 'ui:title': ' ' }, expected: 'Clear selection for root_choice' }
 ] as const;
 
 export const RADIO_FOCUS_SHAPES: readonly { name: string; disabledValues: readonly string[]; expected?: string }[] = [
@@ -1962,6 +1978,9 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	CHOICE_INTERACTION_SHAPES,
 	DEFAULTED_CHOICE_SHAPES,
 	RADIO_KEYBOARD_SHAPES,
+	RADIO_STYLE_THEMES,
+	RADIO_INLINE_STYLE_SHAPES,
+	CHOICE_CLEAR_NAME_SHAPES,
 	RADIO_FOCUS_SHAPES,
 	CONTROL_NAME_SHAPES,
 	MULTI_SELECT_SHAPES,

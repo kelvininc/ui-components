@@ -4,8 +4,8 @@ exports[`Radio List (unit tests) when passing required props and \`disabledOptio
 <kv-radio-list>
   <template shadowrootmode="open">
     <div class="radio-list-items" part="items-container" role="radiogroup">
-      <kv-radio-list-item class="radio-list-item" description="To create an edge cluster, use the Kelvin installation script for K3S. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." disabled="" label="K3S" optionid="k3s" skiptabstop=""></kv-radio-list-item>
-      <kv-radio-list-item class="radio-list-item" description="To use, either choose an already existing cloud hosted or a generic Kubernetes cluster. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="Kubernetes" optionid="kubernetes"></kv-radio-list-item>
+      <kv-radio-list-item class="radio-list-item" description="To create an edge cluster, use the Kelvin installation script for K3S. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." disabled="" exportparts="label: item-label" label="K3S" optionid="k3s" part="item" skiptabstop=""></kv-radio-list-item>
+      <kv-radio-list-item class="radio-list-item" description="To use, either choose an already existing cloud hosted or a generic Kubernetes cluster. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." exportparts="label: item-label" label="Kubernetes" optionid="kubernetes" part="item"></kv-radio-list-item>
     </div>
   </template>
 </kv-radio-list>
@@ -15,8 +15,8 @@ exports[`Radio List (unit tests) when passing required props and \`selectedOptio
 <kv-radio-list selected-option="k3s">
   <template shadowrootmode="open">
     <div class="radio-list-items" part="items-container" role="radiogroup">
-      <kv-radio-list-item checked="" class="radio-list-item" description="To create an edge cluster, use the Kelvin installation script for K3S. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="K3S" optionid="k3s"></kv-radio-list-item>
-      <kv-radio-list-item class="radio-list-item" description="To use, either choose an already existing cloud hosted or a generic Kubernetes cluster. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="Kubernetes" optionid="kubernetes" skiptabstop=""></kv-radio-list-item>
+      <kv-radio-list-item checked="" class="radio-list-item" description="To create an edge cluster, use the Kelvin installation script for K3S. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." exportparts="label: item-label" label="K3S" optionid="k3s" part="item"></kv-radio-list-item>
+      <kv-radio-list-item class="radio-list-item" description="To use, either choose an already existing cloud hosted or a generic Kubernetes cluster. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." exportparts="label: item-label" label="Kubernetes" optionid="kubernetes" part="item" skiptabstop=""></kv-radio-list-item>
     </div>
   </template>
 </kv-radio-list>
@@ -27,8 +27,8 @@ exports[`Radio List (unit tests) when passing required props and form label shou
   <template shadowrootmode="open">
     <kv-form-label label="Choose an option" required=""></kv-form-label>
     <div aria-label="Choose an option" aria-required="true" class="radio-list-items" part="items-container" role="radiogroup">
-      <kv-radio-list-item class="radio-list-item" description="To create an edge cluster, use the Kelvin installation script for K3S. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="K3S" optionid="k3s"></kv-radio-list-item>
-      <kv-radio-list-item class="radio-list-item" description="To use, either choose an already existing cloud hosted or a generic Kubernetes cluster. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="Kubernetes" optionid="kubernetes" skiptabstop=""></kv-radio-list-item>
+      <kv-radio-list-item class="radio-list-item" description="To create an edge cluster, use the Kelvin installation script for K3S. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." exportparts="label: item-label" label="K3S" optionid="k3s" part="item"></kv-radio-list-item>
+      <kv-radio-list-item class="radio-list-item" description="To use, either choose an already existing cloud hosted or a generic Kubernetes cluster. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." exportparts="label: item-label" label="Kubernetes" optionid="kubernetes" part="item" skiptabstop=""></kv-radio-list-item>
     </div>
   </template>
 </kv-radio-list>
@@ -38,8 +38,8 @@ exports[`Radio List (unit tests) when passing required props should match the sn
 <kv-radio-list>
   <template shadowrootmode="open">
     <div class="radio-list-items" part="items-container" role="radiogroup">
-      <kv-radio-list-item class="radio-list-item" description="To create an edge cluster, use the Kelvin installation script for K3S. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="K3S" optionid="k3s"></kv-radio-list-item>
-      <kv-radio-list-item class="radio-list-item" description="To use, either choose an already existing cloud hosted or a generic Kubernetes cluster. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." label="Kubernetes" optionid="kubernetes" skiptabstop=""></kv-radio-list-item>
+      <kv-radio-list-item class="radio-list-item" description="To create an edge cluster, use the Kelvin installation script for K3S. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." exportparts="label: item-label" label="K3S" optionid="k3s" part="item"></kv-radio-list-item>
+      <kv-radio-list-item class="radio-list-item" description="To use, either choose an already existing cloud hosted or a generic Kubernetes cluster. For more information, see the [documentation](https://docs.kelvininc.com/4.10.2/) here." exportparts="label: item-label" label="Kubernetes" optionid="kubernetes" part="item" skiptabstop=""></kv-radio-list-item>
     </div>
   </template>
 </kv-radio-list>

@@ -12,6 +12,7 @@ import {
 	CHOICE_INTERACTION_SHAPES,
 	DEFAULTED_CHOICE_SHAPES,
 	RADIO_KEYBOARD_SHAPES,
+	CHOICE_CLEAR_NAME_SHAPES,
 	OPTION_SOURCES,
 	VALUE_CASES,
 	CUSTOM_FIELDS,
@@ -197,6 +198,11 @@ describe.each(RADIO_KEYBOARD_SHAPES)('radio error policy: $name', ({ widget }) =
 		await act(async () => root.render(<KvSchemaForm {...base} uiSchema={{ choice: { 'ui:widget': widget, 'ui:hideError': true } }} displayErrors />));
 		expect(propsOf<RadioProps>('root_choice').invalid).toBe(false);
 	});
+});
+
+it.each(CHOICE_CLEAR_NAME_SHAPES)('names the clear action with $name', async ({ uiSchema, expected }) => {
+	await act(async () => root.render(<KvSchemaForm schema={choiceForm(CHOICE_SCHEMAS[0])} uiSchema={{ choice: uiSchema }} formData={{ choice: false }} />));
+	expect(clearActions()[0].getAttribute('aria-label')).toBe(expected);
 });
 
 it('leaves an arbitrary custom widget in charge of its unset value', async () => {
