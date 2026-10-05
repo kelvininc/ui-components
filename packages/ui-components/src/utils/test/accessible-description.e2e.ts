@@ -2,6 +2,7 @@ import { E2EPage, newE2EPage } from '@stencil/core/testing';
 import { DESCRIPTION_CONSUMERS } from './accessible-description.matrix';
 
 type Consumer = (typeof DESCRIPTION_CONSUMERS)[number];
+type DescribedElement = Element & { ariaDescribedByElements: readonly Element[] | null };
 
 const setDescription = (page: E2EPage, row: Consumer, id?: string, empty = false) =>
 	page.evaluate(
@@ -31,7 +32,7 @@ const expectDescription = async (page: E2EPage, row: Consumer, id?: string) => {
 	expect(
 		await control.evaluate((element, id) => {
 			const expected = id ? document.getElementById(id) : undefined;
-			const references = element.ariaDescribedByElements ?? [];
+			const references = (element as DescribedElement).ariaDescribedByElements ?? [];
 			return references.length === (expected ? 1 : 0) && (!expected || references[0] === expected);
 		}, id)
 	).toBe(true);
@@ -68,7 +69,7 @@ describe('accessible description control lifetime', () => {
 		await page.evaluate(() => (document.querySelector('kv-text-field').accessibleDescriptionElements = [document.querySelector('p')]));
 		await page.waitForChanges();
 		const control = await page.$('aria/Broker[role="textbox"]');
-		expect(await control.evaluate(element => element.ariaDescribedByElements[0] === document.querySelector('p'))).toBe(true);
+		expect(await control.evaluate(element => (element as DescribedElement).ariaDescribedByElements[0] === document.querySelector('p'))).toBe(true);
 		expect((await page.accessibility.snapshot({ root: control }))?.description).toBe('Broker host is required.');
 	});
 
@@ -122,7 +123,7 @@ describe('accessible description baseline: searchable select', () => {
 		expect(snapshot?.name).toBe('Find assets');
 		expect(snapshot?.description).toBeUndefined();
 		expect(await input.evaluate(element => element.getAttribute('aria-label'))).toBeNull();
-		expect(await input.evaluate(element => element.ariaDescribedByElements?.length ?? 0)).toBe(0);
+		expect(await input.evaluate(element => (element as DescribedElement).ariaDescribedByElements?.length ?? 0)).toBe(0);
 		await select.callMethod('focusSearch');
 		expect(await input.evaluate(element => (element.getRootNode() as ShadowRoot).activeElement === element)).toBe(true);
 		await page.keyboard.down('Control');
@@ -134,12 +135,57 @@ describe('accessible description baseline: searchable select', () => {
 		expect(await select.getProperty('searchValue')).toBe('telemetry');
 		expect(await input.evaluate(element => (element as HTMLInputElement).value)).toBe('telemetry');
 		expect((await page.accessibility.snapshot({ root: input }))?.description).toBeUndefined();
-		expect(await input.evaluate(element => element.ariaDescribedByElements?.length ?? 0)).toBe(0);
+		expect(await input.evaluate(element => (element as DescribedElement).ariaDescribedByElements?.length ?? 0)).toBe(0);
 		const option = await page.$('aria/Telemetry[role="checkbox"]');
 		await option.focus();
 		await page.keyboard.press('Space');
 		await page.waitForChanges();
 		expect(selected.events).toHaveLength(1);
 		expect(selected.lastEvent.detail).toBe('telemetry');
+	});
+});
+
+describe('accessible description caller relationship', () => {
+	it.each([false, true])('restores a toggle ID description after temporary references (caller updates: %p)', async updateCaller => {
+		const page = await newE2EPage();
+		await page.setContent('<p id="errors">Broker host is required.</p><kv-toggle-button value="telemetry" label="Telemetry"></kv-toggle-button>');
+		await page.evaluate(() => {
+			const host = document.querySelector('kv-toggle-button');
+			const help = document.createElement('span');
+			help.id = 'telemetry-help';
+			help.textContent = 'Telemetry connects to the plant broker.';
+			const replacement = document.createElement('span');
+			replacement.id = 'telemetry-replacement';
+			replacement.textContent = 'Telemetry uses the backup broker.';
+			host.shadowRoot.append(help, replacement);
+			host.customAttributes = { 'aria-describedby': help.id };
+		});
+		await page.waitForChanges();
+		const control = await page.$('aria/Telemetry[role="button"]');
+		expect((await page.accessibility.snapshot({ root: control }))?.description).toBe('Telemetry connects to the plant broker.');
+		await page.evaluate(() => (document.querySelector('kv-toggle-button').accessibleDescriptionElements = [document.getElementById('errors')]));
+		await page.waitForChanges();
+		expect((await page.accessibility.snapshot({ root: control }))?.description).toBe('Broker host is required.');
+		if (updateCaller) {
+			await page.evaluate(() => (document.querySelector('kv-toggle-button').customAttributes = { 'aria-describedby': 'telemetry-replacement' }));
+			await page.waitForChanges();
+		}
+		expect((await page.accessibility.snapshot({ root: control }))?.description).toBe('Broker host is required.');
+		await page.evaluate(() => (document.querySelector('kv-toggle-button').accessibleDescriptionElements = []));
+		await page.waitForChanges();
+		expect((await page.accessibility.snapshot({ root: control }))?.description ?? '').toBe('');
+		await page.evaluate(() => (document.querySelector('kv-toggle-button').accessibleDescriptionElements = undefined));
+		await page.waitForChanges();
+		const expectedId = updateCaller ? 'telemetry-replacement' : 'telemetry-help';
+		expect(await control.evaluate(element => element.getAttribute('aria-describedby'))).toBe(expectedId);
+		expect(
+			await control.evaluate(
+				(element, id) => (element as DescribedElement).ariaDescribedByElements[0] === (element.getRootNode() as ShadowRoot).querySelector(`#${id}`),
+				expectedId
+			)
+		).toBe(true);
+		expect((await page.accessibility.snapshot({ root: control }))?.description).toBe(
+			updateCaller ? 'Telemetry uses the backup broker.' : 'Telemetry connects to the plant broker.'
+		);
 	});
 });

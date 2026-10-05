@@ -1,5 +1,7 @@
 import { setAccessibleDescriptionElements } from './accessible-description.helper';
 
+type DescribedInput = HTMLInputElement & { ariaDescribedByElements: readonly Element[] | null };
+
 const reflectedControl = () => {
 	const control = document.createElement('input');
 	let references: readonly Element[] | null = null;
@@ -11,7 +13,7 @@ const reflectedControl = () => {
 			else control.setAttribute('aria-describedby', '');
 		}
 	});
-	return control;
+	return control as DescribedInput;
 };
 
 describe('accessible description ownership', () => {
@@ -44,10 +46,44 @@ describe('accessible description ownership', () => {
 
 	it('preserves a new caller ID relationship after its element references clear', () => {
 		const control = reflectedControl();
+		control.setAttribute('aria-describedby', 'previous-help');
 		setAccessibleDescriptionElements(control, [document.createElement('div')]);
 		control.setAttribute('aria-describedby', 'connection-help');
 		setAccessibleDescriptionElements(control);
 		expect(control.getAttribute('aria-describedby')).toBe('connection-help');
+	});
+
+	it.each(['connection-help', ''])('restores the original ID attribute %p after reference updates and clearing', description => {
+		const control = reflectedControl();
+		control.setAttribute('aria-describedby', description);
+		setAccessibleDescriptionElements(control, [document.createElement('div')]);
+		setAccessibleDescriptionElements(control, [document.createElement('div')]);
+		setAccessibleDescriptionElements(control, []);
+		setAccessibleDescriptionElements(control);
+		expect(control.getAttribute('aria-describedby')).toBe(description);
+	});
+
+	it('restores a new caller ID after another element-reference update', () => {
+		const control = reflectedControl();
+		control.setAttribute('aria-describedby', 'previous-help');
+		setAccessibleDescriptionElements(control, [document.createElement('div')]);
+		control.setAttribute('aria-describedby', 'connection-help');
+		setAccessibleDescriptionElements(control, [document.createElement('div')]);
+		setAccessibleDescriptionElements(control);
+		expect(control.getAttribute('aria-describedby')).toBe('connection-help');
+		setAccessibleDescriptionElements(control, []);
+		setAccessibleDescriptionElements(control);
+		expect(control.getAttribute('aria-describedby')).toBe('connection-help');
+	});
+
+	it('preserves a caller removal across another element-reference update', () => {
+		const control = reflectedControl();
+		control.setAttribute('aria-describedby', 'previous-help');
+		setAccessibleDescriptionElements(control, [document.createElement('div')]);
+		control.removeAttribute('aria-describedby');
+		setAccessibleDescriptionElements(control, []);
+		setAccessibleDescriptionElements(control);
+		expect(control.hasAttribute('aria-describedby')).toBe(false);
 	});
 
 	it('tolerates an absent control and a platform without reflected element references', () => {
