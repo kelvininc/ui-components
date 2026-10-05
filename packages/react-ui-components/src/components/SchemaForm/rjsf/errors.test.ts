@@ -331,6 +331,208 @@ describe('pruneOptionErrors', () => {
 	});
 });
 
+describe('pruneOptionErrors with ambiguous field constraints', () => {
+	it.each(['oneOf', 'anyOf'] as const)('keeps %s errors when a shared value only has a not constraint', keyword => {
+		const schema: RJSFSchema = freeze({
+			type: 'object',
+			[keyword]: [
+				{
+					properties: { kind: { const: 'certificate' }, value: { not: { const: 'bad' } }, certificate: { type: 'string' } },
+					required: ['certificate']
+				},
+				{ properties: { kind: { type: 'string' }, value: { type: 'string' }, host: { type: 'string' } }, required: ['host'] }
+			]
+		});
+		const raw = freeze(validator.validateFormData({ kind: 'certificate', value: 'bad' }, schema).errors);
+		expect(raw.map(({ name, property }) => `${name} ${property}`)).toEqual(expect.arrayContaining(['not .value', 'required certificate', 'required host', `${keyword} `]));
+		for (const input of [raw, freeze([...raw].reverse())]) expect(pruneOptionErrors(input, schema)).toBe(input);
+	});
+
+	it.each(['oneOf', 'anyOf'] as const)('keeps %s errors when one unit enum has multiple values and another pins it', keyword => {
+		const schema: RJSFSchema = freeze({
+			type: 'object',
+			[keyword]: [
+				{ properties: { kind: { const: 'metric' }, unit: { enum: ['m', 'cm'] } } },
+				{ properties: { kind: { const: 'imperial' }, unit: { const: 'yd' } } },
+				{ properties: { kind: { type: 'string' }, unit: { type: 'string' }, host: { type: 'string' } }, required: ['host'] }
+			]
+		});
+		const raw = freeze(validator.validateFormData({ kind: 'metric', unit: 'ft' }, schema).errors);
+		expect(raw.map(({ name, property }) => `${name} ${property}`)).toEqual(expect.arrayContaining(['enum .unit', 'required host', `${keyword} `]));
+		for (const input of [raw, freeze([...raw].reverse())]) expect(pruneOptionErrors(input, schema)).toBe(input);
+	});
+});
+
+describe('pruneOptionErrors with ambiguous root constraints', () => {
+	it.each(['oneOf', 'anyOf'] as const)('keeps %s errors when a root not constrains the identified option', keyword => {
+		const schema: RJSFSchema = freeze({
+			type: 'object',
+			[keyword]: [
+				{
+					type: 'object',
+					properties: { kind: { const: 'password' } },
+					not: { properties: { value: { const: 'bad' } }, required: ['value'] },
+					required: ['certificate']
+				},
+				{ type: 'object', properties: { kind: { type: 'string' } }, required: ['host'] }
+			]
+		});
+		const raw = freeze(validator.validateFormData({ kind: 'password', value: 'bad' }, schema).errors);
+		expect(raw.map(({ name, property }) => `${name} ${property}`)).toEqual(expect.arrayContaining(['not ', 'required certificate', 'required host', `${keyword} `]));
+		for (const input of [raw, freeze([...raw].reverse())]) expect(pruneOptionErrors(input, schema)).toBe(input);
+	});
+
+	it.each(['oneOf', 'anyOf'] as const)('keeps %s errors when a root enum contains multiple complete values', keyword => {
+		const schema: RJSFSchema = freeze({
+			type: 'object',
+			[keyword]: [
+				{
+					type: 'object',
+					properties: { kind: { const: 'metric' } },
+					enum: [
+						{ kind: 'metric', unit: 'm' },
+						{ kind: 'metric', unit: 'cm' }
+					]
+				},
+				{ type: 'object', properties: { kind: { type: 'string' } }, required: ['host'] }
+			]
+		});
+		const raw = freeze(validator.validateFormData({ kind: 'metric', unit: 'ft' }, schema).errors);
+		expect(raw.map(({ name, property }) => `${name} ${property}`)).toEqual(expect.arrayContaining(['enum ', 'required host', `${keyword} `]));
+		for (const input of [raw, freeze([...raw].reverse())]) expect(pruneOptionErrors(input, schema)).toBe(input);
+	});
+});
+
+describe('pruneOptionErrors with unrelated pins', () => {
+	it.each(['oneOf', 'anyOf'] as const)('keeps %s complex root not errors beside an unrelated root const', keyword => {
+		const schema: RJSFSchema = freeze({
+			type: 'object',
+			[keyword]: [
+				{
+					properties: { kind: { const: 'certificate' } },
+					not: { properties: { value: { const: 'bad' } }, required: ['value'] },
+					required: ['certificate']
+				},
+				{ properties: { kind: { type: 'string' } }, required: ['host'] },
+				{ const: { kind: 'plaintext' }, properties: { kind: { const: 'plaintext' } } }
+			]
+		});
+		const raw = freeze(validator.validateFormData({ kind: 'certificate', value: 'bad' }, schema).errors);
+		expect(raw.map(({ name, property }) => `${name} ${property}`)).toEqual(expect.arrayContaining(['not ', 'required certificate', 'required host', `${keyword} `]));
+		for (const input of [raw, freeze([...raw].reverse())]) expect(pruneOptionErrors(input, schema)).toBe(input);
+	});
+
+	it.each(['oneOf', 'anyOf'] as const)('keeps %s root not errors when their excluded literal differs from the root pin', keyword => {
+		const schema: RJSFSchema = freeze({
+			type: 'object',
+			[keyword]: [
+				{ properties: { kind: { const: 'certificate' } }, not: { const: { kind: 'certificate', value: 'bad' } }, required: ['certificate'] },
+				{ properties: { kind: { type: 'string' } }, required: ['host'] },
+				{ const: { kind: 'plaintext' }, properties: { kind: { const: 'plaintext' } } }
+			]
+		});
+		const raw = freeze(validator.validateFormData({ kind: 'certificate', value: 'bad' }, schema).errors);
+		expect(raw.map(({ name, property }) => `${name} ${property}`)).toEqual(expect.arrayContaining(['not ', 'required certificate', 'required host', `${keyword} `]));
+		for (const input of [raw, freeze([...raw].reverse())]) expect(pruneOptionErrors(input, schema)).toBe(input);
+	});
+
+	describe.each([
+		{ name: 'a different excluded literal', negated: { const: 'bad' } },
+		{ name: 'an enum with an unpinned excluded value', negated: { enum: ['yd', 'bad'] } },
+		{ name: 'a complex excluded constraint', negated: { minLength: 2 } }
+	])('field not with $name', ({ negated }) => {
+		it.each(['oneOf', 'anyOf'] as const)('keeps %s errors when a sibling pins an unrelated unit', keyword => {
+			const schema: RJSFSchema = freeze({
+				type: 'object',
+				[keyword]: [
+					{ properties: { kind: { const: 'metric' }, unit: { not: negated } }, required: ['certificate'] },
+					{ properties: { kind: { const: 'imperial' }, unit: { const: 'yd' } } },
+					{ properties: { kind: { type: 'string' }, unit: { type: 'string' } }, required: ['host'] }
+				]
+			});
+			const raw = freeze(validator.validateFormData({ kind: 'metric', unit: 'bad' }, schema).errors);
+			expect(raw.map(({ name, property }) => `${name} ${property}`)).toEqual(expect.arrayContaining(['not .unit', 'required certificate', 'required host', `${keyword} `]));
+			for (const input of [raw, freeze([...raw].reverse())]) expect(pruneOptionErrors(input, schema)).toBe(input);
+		});
+	});
+});
+
+describe('pruneOptionErrors with positive enum and complement guards', () => {
+	it.each(['oneOf', 'anyOf'] as const)('matches %s shared-field complement literals by value', keyword => {
+		const schema: RJSFSchema = freeze({
+			type: 'object',
+			[keyword]: [
+				{ properties: { method: { const: { kind: 'certificate' } } }, required: ['certificate'] },
+				{ properties: { method: { const: { kind: 'password' } } }, required: ['password'] },
+				{ properties: { method: { not: { enum: [{ kind: 'certificate' }, { kind: 'password' }] } } }, required: ['host'] }
+			]
+		});
+		const raw = freeze(validator.validateFormData({ method: { kind: 'certificate' } }, schema).errors);
+		expect(raw.map(({ name }) => name)).toEqual(expect.arrayContaining(['const', 'not', 'required', keyword]));
+		const retained = raw.filter(error => error.name === 'required' && error.property === 'certificate');
+		expect(retained).toHaveLength(1);
+		expect(pruneOptionErrors(raw, schema)).toEqual(retained);
+	});
+
+	describe.each([
+		{ name: 'const', pin: { const: { certificate: 'ca' } }, complement: { const: { certificate: 'ca' } } },
+		{ name: 'singleton enum', pin: { enum: [{ certificate: 'ca' }] }, complement: { enum: [{ certificate: 'ca' }] } }
+	])('root object $name complement guards', ({ pin, complement }) => {
+		it.each(['oneOf', 'anyOf'] as const)('matches %s separately allocated object literals by value', keyword => {
+			const schema: RJSFSchema = freeze({
+				type: 'object',
+				[keyword]: [{ ...pin, properties: { certificate: { type: 'string', minLength: 3 } } }, { not: complement }]
+			});
+			const raw = freeze(validator.validateFormData({ certificate: 'ca' }, schema).errors);
+			expect(raw.map(({ name }) => name)).toEqual(expect.arrayContaining(['not', 'minLength', keyword]));
+			const retained = raw.filter(error => error.name === 'minLength');
+			expect(retained).toHaveLength(1);
+			expect(pruneOptionErrors(raw, schema)).toEqual(retained);
+		});
+	});
+
+	it.each(['oneOf', 'anyOf'] as const)('prunes %s singleton field mismatches and their complement', keyword => {
+		const schema: RJSFSchema = freeze({
+			type: 'object',
+			[keyword]: [
+				{ properties: { method: { enum: ['password'] }, password: { type: 'string' } }, required: ['password'] },
+				{ properties: { method: { enum: ['certificate'] }, certificate: { type: 'string' } }, required: ['certificate'] },
+				{ properties: { method: { not: { enum: ['password', 'certificate'] } }, host: { type: 'string' } }, required: ['host'] }
+			]
+		});
+		const raw = freeze(validator.validateFormData({ method: 'certificate' }, schema).errors);
+		expect(raw.map(({ name }) => name)).toEqual(expect.arrayContaining(['enum', 'not', 'required', keyword]));
+		const retained = raw.filter(error => error.name === 'required' && error.property === 'certificate');
+		expect(retained).toHaveLength(1);
+		const withoutEnumParams = freeze(raw.map(error => (error.name === 'enum' ? { ...error, params: undefined } : error)));
+		for (const input of [raw, withoutEnumParams]) expect(pruneOptionErrors(input, schema)).toEqual(retained);
+	});
+
+	it.each(['oneOf', 'anyOf'] as const)('prunes %s singleton root enum mismatches without requiring validator params', keyword => {
+		const schema: RJSFSchema = freeze({ type: 'string', [keyword]: [{ enum: ['TLS'] }, { minLength: 5 }] });
+		const raw = freeze(validator.validateFormData('SSL', schema).errors);
+		expect(raw.map(({ name }) => name)).toEqual(expect.arrayContaining(['enum', 'minLength', keyword]));
+		const retained = raw.filter(error => error.name === 'minLength');
+		expect(retained).toHaveLength(1);
+		const withoutEnumParams = freeze(raw.map(error => (error.name === 'enum' ? { ...error, params: undefined } : error)));
+		for (const input of [raw, withoutEnumParams]) expect(pruneOptionErrors(input, schema)).toEqual(retained);
+	});
+
+	describe.each([
+		{ name: 'const', pin: { const: 'TLS' } },
+		{ name: 'singleton enum', pin: { enum: ['TLS'] } }
+	])('root $name complement guards', ({ pin }) => {
+		it.each(['oneOf', 'anyOf'] as const)('prunes %s complement noise while retaining the pinned value content error', keyword => {
+			const schema: RJSFSchema = freeze({ type: 'string', [keyword]: [{ ...pin, minLength: 4 }, { not: pin }] });
+			const raw = freeze(validator.validateFormData('TLS', schema).errors);
+			expect(raw.map(({ name }) => name)).toEqual(expect.arrayContaining(['not', 'minLength', keyword]));
+			const retained = raw.filter(error => error.name === 'minLength');
+			expect(retained).toHaveLength(1);
+			expect(pruneOptionErrors(raw, schema)).toEqual(retained);
+		});
+	});
+});
+
 describe('pruneOptionErrors on nested, repeated and referenced options', () => {
 	const summarize = (errors: RJSFValidationError[]) => errors.map(({ name, property }) => `${name} ${property}`).sort();
 

@@ -1,5 +1,5 @@
 import { ERRORS_KEY, ErrorSchema, RJSFSchema, RJSFValidationError, findSchemaDefinition } from '@rjsf/utils';
-import { get, isPlainObject, upperFirst } from 'lodash';
+import { get, isEqual, isPlainObject, upperFirst } from 'lodash';
 
 /** Copy server errors into RJSF's object tree, preserving sparse array indexes. */
 export function sanitizeExtraErrors<T = unknown>(node: unknown): ErrorSchema<T> | undefined {
@@ -132,28 +132,52 @@ function resolvePointer(rootSchema: RJSFSchema, pointer: string): unknown {
 		.reduce<unknown>((node, segment) => get(followRefs(rootSchema, node), [decodePointer(segment)]), rootSchema);
 }
 
-function isPinned(node: unknown): boolean {
+function pinnedValues(node: unknown): unknown[] {
+	if (!isPlainObject(node)) return [];
+	if (Object.prototype.hasOwnProperty.call(node, 'const')) return [get(node, 'const')];
 	const values = get(node, 'enum') as unknown;
-	return isPlainObject(node) && ('const' in (node as object) || 'not' in (node as object) || (Array.isArray(values) && values.length === 1));
+	return Array.isArray(values) && values.length === 1 ? values : [];
 }
 
-type OptionMetadata = { discriminating: Set<string> };
+type OptionMetadata = { discriminating: Map<string, unknown[]>; rootPins: unknown[]; complements: Map<string, boolean> };
 function optionMetadata(rootSchema: RJSFSchema, path: string): OptionMetadata | undefined {
 	const options = resolvePointer(rootSchema, path);
 	if (!Array.isArray(options) || !options.length || options.some(option => hasSchemaReference(option))) return undefined;
 	const properties = options.map(option => (isPlainObject(get(option, 'properties')) ? get(option, 'properties') : {}) as Record<string, unknown>);
-	const discriminating = new Set(
-		Object.keys(properties[0]).filter(
-			name => properties.every(property => Object.prototype.hasOwnProperty.call(property, name)) && properties.some(property => isPinned(property[name]))
-		)
-	);
-	return { discriminating };
+	const discriminating = new Map<string, unknown[]>();
+	for (const name of Object.keys(properties[0])) {
+		if (!properties.every(property => Object.prototype.hasOwnProperty.call(property, name))) continue;
+		const values = properties.flatMap(property => pinnedValues(property[name]));
+		if (values.length) discriminating.set(name, values);
+	}
+	return { discriminating, rootPins: options.flatMap(pinnedValues), complements: new Map() };
 }
 
-function isDiscriminatorError(error: RJSFValidationError, branchPath: string, discriminating: Set<string>): boolean {
-	if (!DISCRIMINATOR_KEYWORDS.has(error.name ?? '')) return false;
-	const segments = error.schemaPath!.slice(branchPath.length).split('/');
-	return segments.length === 1 || (segments.length === 3 && segments[0] === 'properties' && discriminating.has(decodePointer(segments[1])));
+/** A negated value identifies a complement only when every exclusion is pinned by an option. */
+function isComplementGuard(node: unknown, pins: unknown[] | undefined): boolean {
+	if (!pins?.length || !isPlainObject(node) || Object.keys(node as object).length !== 1) return false;
+	const values = Object.prototype.hasOwnProperty.call(node, 'const') ? [get(node, 'const')] : (get(node, 'enum') as unknown);
+	return Array.isArray(values) && values.length > 0 && values.every(value => pins.some(pin => isEqual(value, pin)));
+}
+
+function isDiscriminatorError(error: RJSFValidationError, branchPath: string, metadata: OptionMetadata, rootSchema: RJSFSchema): boolean {
+	if (!DISCRIMINATOR_KEYWORDS.has(error.name ?? '') || !error.schemaPath?.startsWith(branchPath)) return false;
+	if (error.name === 'enum') {
+		const values = Array.isArray(error.params?.allowedValues) ? error.params.allowedValues : resolvePointer(rootSchema, error.schemaPath);
+		if (!Array.isArray(values) || values.length !== 1) return false;
+	}
+	const segments = error.schemaPath.slice(branchPath.length).split('/');
+	const rootError = segments.length === 1;
+	const pins = rootError ? metadata.rootPins : segments.length === 3 && segments[0] === 'properties' ? metadata.discriminating.get(decodePointer(segments[1])) : undefined;
+	if (!rootError && !pins) return false;
+	if (error.name !== 'not') return true;
+	// Each schema constraint is classified once, including across repeated array items.
+	let complement = metadata.complements.get(error.schemaPath);
+	if (complement === undefined) {
+		complement = isComplementGuard(resolvePointer(rootSchema, error.schemaPath), pins);
+		metadata.complements.set(error.schemaPath, complement);
+	}
+	return complement;
 }
 
 type OptionBranch = { errors: RJSFValidationError[]; children: OptionGroup[]; dropped?: boolean };
@@ -219,7 +243,7 @@ export function pruneOptionErrors(errors: RJSFValidationError[], rootSchema?: RJ
 			const candidates: string[] = [];
 			for (const [key, branch] of group.branches) {
 				// A child retains its selector or selected content, so it always contributes an error.
-				if ((branch.errors.length || branch.children.length) && !branch.errors.some(error => isDiscriminatorError(error, `${path}/${key}/`, info.discriminating)))
+				if ((branch.errors.length || branch.children.length) && !branch.errors.some(error => isDiscriminatorError(error, `${path}/${key}/`, info, rootSchema)))
 					candidates.push(key);
 			}
 			if (candidates.length !== 1) continue;
