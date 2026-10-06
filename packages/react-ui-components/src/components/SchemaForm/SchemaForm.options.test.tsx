@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import Form from '@rjsf/core';
-import { FieldTemplateProps, getUiOptions, UiSchema } from '@rjsf/utils';
+import { FieldTemplateProps, getSubmitButtonOptions, getUiOptions, UiSchema } from '@rjsf/utils';
 import { cloneDeepWith } from 'lodash';
 import React, { act, createRef, forwardRef, memo } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -13,13 +13,17 @@ import {
 	CUSTOM_FIELDS,
 	R2_WIDGET_ERROR_SHAPES,
 	R4_BRANCH_LABEL_SHAPES,
+	R4_CLASS_SETTING_SHAPES,
+	R4_HETEROGENEOUS_ORDER_SHAPES,
 	R4_OPTION_ERROR_SHAPES,
 	R4_OPTION_PAYLOAD_SHAPE,
 	R4_OPTION_SHAPES,
 	R4_ORDER_SHAPES,
 	R4_SAME_RENDER_TEMPLATES,
+	R4_SUBMIT_UI_SHAPES,
 	R4_TEMPLATE_PLACEMENTS,
 	R4_UI_SETTING_SHAPES,
+	SUBMIT_BUTTON_SHAPES,
 	TEMPLATE_COMPONENTS
 } from './test-utils/matrix';
 
@@ -206,6 +210,50 @@ describe.each(R4_OPTION_SHAPES)('$name UI inheritance', row => {
 		const branch = container.querySelector('[data-schema-form-row="auth"] [data-schema-form-object]')!;
 		expect(branch).not.toBeNull();
 		expect(Array.from(branch.querySelectorAll(':scope > [data-schema-form-row]')).map(element => element.getAttribute('data-schema-form-row'))).toEqual(order.expected);
+	});
+
+	it.each(R4_CLASS_SETTING_SHAPES)('scopes $name to the selector while retaining explicit branch classes', async ({ build }) => {
+		let branchClasses = '';
+		const Capture = (props: FieldTemplateProps) => {
+			branchClasses = props.classNames;
+			return <div className={props.classNames}>{props.children}</div>;
+		};
+		await renderForm({ ...build({ classNames: 'selector-only' }), [row.keyword]: [{ 'ui:FieldTemplate': Capture }, {}] });
+		expect(branchClasses.split(' ')).not.toContain('selector-only');
+		expect(container.querySelectorAll('.selector-only')).toHaveLength(1);
+		await renderForm({ ...build({ classNames: 'selector-only' }), [row.keyword]: [{ ...build({ classNames: 'branch-only' }), 'ui:FieldTemplate': Capture }, {}] });
+		expect(branchClasses.split(' ')).toContain('branch-only');
+		expect(container.querySelectorAll('.selector-only')).toHaveLength(1);
+	});
+});
+
+describe.each(R4_HETEROGENEOUS_ORDER_SHAPES)('$name heterogeneous inherited ordering', row => {
+	describe.each(R4_UI_SETTING_SHAPES)('$name', ({ build }) => {
+		it.each(row.branches)('orders the branch as $expected without copying RJSF filtering', async branch => {
+			await act(async () =>
+				root.render(<KvSchemaForm schema={row.schema} uiSchema={{ auth: build({ order: row.order }) }} formData={branch.formData} applyDefaults={EApplyDefaults.Never} />)
+			);
+			const object = container.querySelector('[data-schema-form-row="auth"] [data-schema-form-object]')!;
+			expect(object).not.toBeNull();
+			expect(Array.from(object.querySelectorAll(':scope > [data-schema-form-row]')).map(element => element.getAttribute('data-schema-form-row'))).toEqual(branch.expected);
+			expect(row.order).toEqual(['port', 'username', 'host']);
+		});
+	});
+});
+
+describe.each(R4_SUBMIT_UI_SHAPES)('$name submit UI', ({ build }) => {
+	it.each(SUBMIT_BUTTON_SHAPES)('keeps one external footer for $name', async row => {
+		const ref = createRef<Form>();
+		await act(async () =>
+			root.render(
+				<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={build({ submitButtonOptions: getSubmitButtonOptions(row.uiSchema) })} formReference={ref} />
+			)
+		);
+		expect(getSubmitButtonOptions(ref.current!.state.uiSchema).norender).toBe(true);
+		expect(container.querySelector('form button[type="submit"]')).toBeNull();
+		const buttons = container.querySelectorAll('kv-action-button-text');
+		expect(buttons).toHaveLength(1);
+		expect(propsOf(buttons[0])).toMatchObject({ text: row.label, disabled: row.disabled });
 	});
 });
 

@@ -1,5 +1,5 @@
 import { setThemeMode, StyleMode } from '@kelvininc/ui-components';
-import { RJSFSchema, UiSchema } from '@rjsf/utils';
+import { getSubmitButtonOptions, RJSFSchema, UiSchema } from '@rjsf/utils';
 import React, { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { userEvent } from 'vitest/browser';
@@ -7,7 +7,17 @@ import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../test-utils/browser';
 import { KvSchemaForm } from './SchemaForm';
 import { EApplyDefaults } from './types';
-import { R4_BRANCH_PRESENTATIONS, R4_OPTION_SHAPES, R4_REPORT_SCOPE_SHAPES, R4_TEMPLATE_PLACEMENTS, TEMPLATE_COMPONENTS } from './test-utils/matrix';
+import {
+	R4_BRANCH_PRESENTATIONS,
+	R4_EMPTY_BRANCH_TEMPLATES,
+	R4_OPTION_SHAPES,
+	R4_RAIL_VISIBILITY_SHAPES,
+	R4_REPORT_SCOPE_SHAPES,
+	R4_SUBMIT_UI_SHAPES,
+	R4_TEMPLATE_PLACEMENTS,
+	SUBMIT_BUTTON_SHAPES,
+	TEMPLATE_COMPONENTS
+} from './test-utils/matrix';
 
 const borders = (container: HTMLElement) => ['auth', 'audit'].map(name => getComputedStyle(container.querySelector(`[data-schema-form-row="${name}"]`)!).borderTopWidth);
 const focusedControl = () => {
@@ -79,6 +89,61 @@ describe.each(R4_OPTION_SHAPES)('$name selected branch layout', row => {
 		expect(borders(screen.container)).toEqual(['1px', '1px']);
 	});
 
+	it.each(R4_RAIL_VISIBILITY_SHAPES)('gives the $name branch the expected rail visibility', async shape => {
+		const schema: RJSFSchema = {
+			type: 'object',
+			properties: {
+				auth: {
+					title: 'Authentication',
+					[row.keyword]: [
+						{ type: 'string', title: 'Token' },
+						{ type: 'object', title: 'Broker address', properties: shape.properties }
+					]
+				}
+			}
+		};
+		const screen = await render(
+			<KvSchemaForm schema={schema} formData={{ auth: 'broker-token' }} uiSchema={{ auth: { [row.keyword]: [{}, shape.uiSchema] } }} applyDefaults={EApplyDefaults.Never} />
+		);
+		await whenAllKelvinReady(screen.container);
+		await screen.getByRole('textbox', { name: 'Authentication', exact: true }).click();
+		await chooseOption('Broker address');
+		await whenAllKelvinReady(screen.container);
+		const branch = screen.container.querySelector<HTMLElement>('[data-schema-form-option-branch]')!;
+		expect(branch).not.toBeNull();
+		expect(getComputedStyle(branch).display === 'none').toBe(!shape.visible);
+	});
+
+	it.each(R4_EMPTY_BRANCH_TEMPLATES)('preserves custom $name output', async template => {
+		const schema: RJSFSchema = {
+			type: 'object',
+			properties: {
+				auth: {
+					title: 'Authentication',
+					[row.keyword]: [
+						{ type: 'string', title: 'Token' },
+						{ type: 'object', title: 'Broker address', properties: {} }
+					]
+				}
+			}
+		};
+		const screen = await render(
+			<KvSchemaForm
+				schema={schema}
+				formData={{ auth: 'broker-token' }}
+				uiSchema={{ auth: { [row.keyword]: [{}, { 'ui:FieldTemplate': template.FieldLayout }] } }}
+				applyDefaults={EApplyDefaults.Never}
+			/>
+		);
+		await whenAllKelvinReady(screen.container);
+		await screen.getByRole('textbox', { name: 'Authentication', exact: true }).click();
+		await chooseOption('Broker address');
+		await whenAllKelvinReady(screen.container);
+		const branch = screen.container.querySelector<HTMLElement>('[data-schema-form-option-branch]')!;
+		expect(getComputedStyle(branch).display === 'none').toBe(!template.visible);
+		if (template.visible) await expect.element(screen.getByText('No authentication required', { exact: true })).toBeVisible();
+	});
+
 	it.each(R4_REPORT_SCOPE_SHAPES)('keeps branch reports local to $name', async scope => {
 		const uiSchema: UiSchema = { primary: row.uiSchema, backup: row.uiSchema };
 		const schema: RJSFSchema = { type: 'object', properties: { primary: row.schema, backup: row.schema } };
@@ -140,12 +205,43 @@ describe.each([StyleMode.Light, StyleMode.Night])('option rail in %s', theme => 
 		try {
 			const screen = await render(<KvSchemaForm schema={row.schema} uiSchema={row.uiSchema} formData={{ auth: row.values[1] }} />);
 			await whenAllKelvinReady(screen.container);
-			const branch = screen.container.querySelector('[data-schema-form-row="auth"] [data-schema-form-field="section"]')!;
+			const branch = screen.container.querySelector('[data-schema-form-option-branch]')!;
 			expect(getComputedStyle(branch).borderLeftWidth).toBe('1px');
 			expect(getComputedStyle(branch).paddingLeft).toBe('16px');
 			expect(getComputedStyle(branch.parentElement!).rowGap).toBe('20px');
 		} finally {
 			setThemeMode(StyleMode.Night);
 		}
+	});
+
+	describe.each(TEMPLATE_COMPONENTS)('$name branch template', ({ FieldLayout }) => {
+		it.each(R4_OPTION_SHAPES)('keeps the rail and indentation with a custom $name branch template', async row => {
+			setThemeMode(theme);
+			try {
+				const screen = await render(
+					<KvSchemaForm schema={row.schema} formData={{ auth: row.values[1] }} uiSchema={{ auth: { [row.keyword]: [{}, { 'ui:FieldTemplate': FieldLayout }] } }} />
+				);
+				await whenAllKelvinReady(screen.container);
+				const template = screen.container.querySelector('[data-schema-form-row="auth"] [data-field-layout]')!;
+				expect(template).not.toBeNull();
+				const branch = template.closest('[data-schema-form-option-branch]') ?? template;
+				expect(getComputedStyle(branch).borderLeftWidth).toBe('1px');
+				expect(getComputedStyle(branch).paddingLeft).toBe('16px');
+			} finally {
+				setThemeMode(StyleMode.Night);
+			}
+		});
+	});
+});
+
+describe.each(R4_SUBMIT_UI_SHAPES)('$name external submit footer', ({ build }) => {
+	it.each(SUBMIT_BUTTON_SHAPES)('shows one correctly configured submit control for $name', async row => {
+		const screen = await render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={build({ submitButtonOptions: getSubmitButtonOptions(row.uiSchema) })} />);
+		await whenAllKelvinReady(screen.container);
+		expect(screen.container.querySelector('form button[type="submit"]')).toBeNull();
+		const control = screen.getByRole('button', { name: row.label, exact: true });
+		await expect.element(control).toBeVisible();
+		if (row.disabled) await expect.element(control).toBeDisabled();
+		else await expect.element(control).toBeEnabled();
 	});
 });

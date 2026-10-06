@@ -1859,6 +1859,85 @@ export const R4_UI_SETTING_SHAPES = [
 	{ name: 'ui options', build: (settings: UIOptionsType): UiSchema => ({ 'ui:options': settings }) }
 ];
 
+export const R4_CLASS_SETTING_SHAPES = [...R4_UI_SETTING_SHAPES, { name: 'legacy classNames', build: ({ classNames }: UIOptionsType): UiSchema => ({ classNames }) }];
+export const R4_SUBMIT_UI_SHAPES = [
+	...R4_UI_SETTING_SHAPES,
+	{ name: 'direct then options', build: (settings: UIOptionsType): UiSchema => ({ ...R4_UI_SETTING_SHAPES[0].build(settings), 'ui:options': {} }) },
+	{ name: 'options then direct', build: (settings: UIOptionsType): UiSchema => ({ 'ui:options': {}, ...R4_UI_SETTING_SHAPES[0].build(settings) }) }
+];
+
+export const R4_HETEROGENEOUS_ORDER_SHAPES = (['oneOf', 'anyOf'] as const).map(keyword => ({
+	name: keyword,
+	keyword,
+	schema: {
+		type: 'object',
+		properties: {
+			auth: {
+				[keyword]: [
+					{ type: 'object', title: 'Broker address', properties: { host: { type: 'string' }, port: { type: 'integer' }, region: { type: 'string' } } },
+					{ type: 'object', title: 'Credentials', properties: { username: { type: 'string' }, password: { type: 'string' } } }
+				]
+			}
+		}
+	} as RJSFSchema,
+	order: ['port', 'username', 'host'],
+	branches: [
+		{ formData: { auth: { host: 'broker.local', port: 1883, region: 'lisbon' } }, expected: ['port', 'host', 'region'] },
+		{ formData: { auth: { username: 'broker-admin', password: 'broker-token' } }, expected: ['username', 'password'] }
+	]
+}));
+
+export const R4_RAIL_VISIBILITY_SHAPES: readonly { name: string; properties: RJSFSchema['properties']; uiSchema: UiSchema; visible: boolean }[] = [
+	{ name: 'bare empty object', properties: {}, uiSchema: {}, visible: false },
+	{ name: 'titled empty object', properties: {}, uiSchema: { 'ui:label': true }, visible: true },
+	{ name: 'hidden object', properties: { host: { type: 'string', title: 'Host' } }, uiSchema: { 'ui:widget': 'hidden' }, visible: false }
+];
+
+export const R4_EMPTY_BRANCH_TEMPLATES = [
+	{
+		name: 'heading beside empty object',
+		FieldLayout: ({ children }: FieldTemplateProps) => (
+			<>
+				<h3>No authentication required</h3>
+				<div>{children}</div>
+			</>
+		),
+		visible: true
+	},
+	{
+		name: 'text beside empty object',
+		FieldLayout: ({ children }: FieldTemplateProps) => <div>No authentication required{children}</div>,
+		visible: true
+	},
+	{
+		name: 'heading beside default template',
+		FieldLayout: (props: FieldTemplateProps) => {
+			const Default = props.registry.templates.FieldTemplate;
+			return (
+				<>
+					<h3>No authentication required</h3>
+					<Default {...props} />
+				</>
+			);
+		},
+		visible: true
+	},
+	{
+		name: 'text beside default template',
+		FieldLayout: (props: FieldTemplateProps) => {
+			const Default = props.registry.templates.FieldTemplate;
+			return (
+				<>
+					No authentication required
+					<Default {...props} />
+				</>
+			);
+		},
+		visible: true
+	},
+	{ name: 'empty custom template', FieldLayout: (): null => null, visible: false }
+];
+
 const R4_EMPTY_CHOICE = { 'ui:title': 'None', 'broker': { 'ui:options': { region: 'lisbon' } } };
 const R4_SAVED_CHOICE = { 'ui:title': 'Plant broker' };
 export const R4_OPTION_PAYLOAD_SHAPE = {
@@ -2165,6 +2244,11 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	OPTION_BRANCH_SHAPES,
 	R4_OPTION_SHAPES,
 	R4_UI_SETTING_SHAPES,
+	R4_CLASS_SETTING_SHAPES,
+	R4_SUBMIT_UI_SHAPES,
+	R4_HETEROGENEOUS_ORDER_SHAPES,
+	R4_RAIL_VISIBILITY_SHAPES,
+	R4_EMPTY_BRANCH_TEMPLATES,
 	R4_OPTION_PAYLOAD_SHAPE,
 	R4_TEMPLATE_PLACEMENTS,
 	R4_SAME_RENDER_TEMPLATES,

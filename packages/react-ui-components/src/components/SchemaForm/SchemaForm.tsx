@@ -112,7 +112,12 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const mergedUiSchema = useStableValue(
 		useMemo(() => mergeUiSchemas<T, S, SchemaFormContext>(normalizedUiSchema as UiSchema<T, S, SchemaFormContext>, uiSchema), [normalizedUiSchema, uiSchema])
 	);
-	const formUiSchema = useStableValue({ ...mergedUiSchema, 'ui:submitButtonOptions': { props: { disabled: false }, norender: true, submitText: '' } });
+	const formUiSchema = useStableValue(
+		useMemo(
+			() => mergeUiSchemas<T, S, SchemaFormContext>(mergedUiSchema, { 'ui:submitButtonOptions': { props: { disabled: false }, norender: true, submitText: '' } }),
+			[mergedUiSchema]
+		)
+	);
 	const formData = useMemo(() => cloneDeep(getInitialFormData(schema, formDataProp, formValidator, applyDefaults, false)), [formValidator, schema, formDataProp, applyDefaults]);
 	// Preserve current edits across settings updates. Ordinary widget changes stay inside
 	// RJSF, so echoing props doesn't erase the errors those widgets raise through onChange.

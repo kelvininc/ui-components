@@ -1,9 +1,10 @@
 import { getDefaultRegistry } from '@rjsf/core';
-import { FieldProps, FormContextType, getUiOptions, Registry, RJSFSchema, StrictRJSFSchema, UiSchema } from '@rjsf/utils';
+import { FieldProps, FormContextType, getTemplate, getUiOptions, Registry, RJSFSchema, StrictRJSFSchema, UiSchema } from '@rjsf/utils';
 import { get, omit } from 'lodash';
 import React, { createContext, useContext, useLayoutEffect, useMemo, useState } from 'react';
 import { OptionSectionContext } from '../../contexts';
 import { mergeUiSchemas } from '../../rjsf/merge';
+import FieldTemplate from '../../Templates/FieldTemplate';
 import { isSectionField } from '../../Templates/utils';
 import styles from './OptionsField.module.scss';
 
@@ -15,14 +16,21 @@ const SelectedBranchContext = createContext<{ registry: Registry; instance: symb
 const SelectedBranchField = (props: FieldProps) => {
 	const { registry, instance } = useContext(SelectedBranchContext)!;
 	const report = useContext(OptionSectionContext);
-	const section = getUiOptions(props.uiSchema, registry.globalUiOptions).widget !== 'hidden' && isSectionField(props.schema, props.uiSchema, registry);
+	const uiOptions = getUiOptions(props.uiSchema, registry.globalUiOptions);
+	const hidden = uiOptions.widget === 'hidden';
+	const defaultTemplate = getTemplate('FieldTemplate', registry, uiOptions) === FieldTemplate;
+	const section = !hidden && isSectionField(props.schema, props.uiSchema, registry);
 	const id = props.idSchema.$id;
 	useLayoutEffect(() => {
 		report?.(id, instance, section);
 		return () => report?.(id, instance, undefined);
 	}, [report, id, instance, section]);
 	const SchemaField = registry.fields.SchemaField;
-	return <SchemaField {...props} registry={registry} />;
+	return (
+		<div data-schema-form-option-branch data-schema-form-default-template={defaultTemplate || undefined} hidden={hidden}>
+			<SchemaField {...props} registry={registry} />
+		</div>
+	);
 };
 
 // These settings name or configure the selector. A branch can supply its own.
@@ -36,9 +44,10 @@ const SELECTOR_OPTIONS = [
 	'widget',
 	'field',
 	'enumDisabled',
+	'classNames',
 	...Object.keys(getDefaultRegistry().templates)
 ];
-const SELECTOR_KEYS = ['oneOf', 'anyOf', ...SELECTOR_OPTIONS.map(option => `ui:${option}`)];
+const SELECTOR_KEYS = ['oneOf', 'anyOf', 'classNames', ...SELECTOR_OPTIONS.map(option => `ui:${option}`)];
 
 export const buildOptionsUiSchemas = <T, S extends StrictRJSFSchema, F extends FormContextType>(
 	uiSchema: UiSchema<T, S, F> | undefined,

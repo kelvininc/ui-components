@@ -71,13 +71,14 @@ forbidden properties use RJSF's unsupported-field presentation. `additionalPrope
 ## oneOf and anyOf
 
 Selected branches inherit child-property settings from their parent field. Selector settings such as
-title, description, help, placeholder, autofocus, widget, field, disabled enum options and template
-overrides stay on the parent. Set those explicitly in `uiSchema.oneOf[index]` or
+title, description, help, placeholder, autofocus, widget, field, class names, disabled enum options
+and template overrides stay on the parent. Set those explicitly in `uiSchema.oneOf[index]` or
 `uiSchema.anyOf[index]` to apply them to a branch.
 
 Branches hide their repeated title by default; set `ui:options.label: true` on a branch to show it.
-The selector and branch use the standard field gap, with an indented rail beside the branch. A selected
-object branch also gives its parent property row and the following visible row section dividers.
+The selector and branch use the standard field gap, with an indented rail beside the branch,
+including custom branch templates. A selected object branch also gives its parent property row
+and the following visible row section dividers.
 Inline objects keep their existing divider-free layout.
 
 Parent `ui:order` passes to branches with `'*'` appended for remaining properties. An explicit branch
