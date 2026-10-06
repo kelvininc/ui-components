@@ -16,6 +16,7 @@ import {
 	RADIO_STYLE_THEMES,
 	RADIO_INLINE_STYLE_SHAPES,
 	CHOICE_CLEAR_NAME_SHAPES,
+	CHOICE_GROUP_NAME_SHAPES,
 	RADIO_FOCUS_SHAPES,
 	OPTION_SOURCES,
 	TOGGLE_FOCUS_MODES,
@@ -136,6 +137,14 @@ describe.each(CHOICE_VALUE_SHAPES.filter(row => !row.multiple))('real raw radio:
 });
 
 describe.each(RADIO_KEYBOARD_SHAPES)('real grouped keyboard: $name', ({ widget }) => {
+	it.each(CHOICE_GROUP_NAME_SHAPES)('names the radiogroup with $name', async row => {
+		const screen = await render(<KvSchemaForm schema={choiceForm(CHOICE_SCHEMAS[0])} uiSchema={{ choice: { ...row.uiSchema, 'ui:widget': widget } }} />);
+		await whenAllKelvinReady(screen.container);
+		const group = screen.getByRole('radiogroup', { name: row.expected, exact: true });
+		await expect.element(group).toBeVisible();
+		await expect.element(group).toHaveAttribute('aria-label', row.expected);
+	});
+
 	it('keeps one radio Tab stop, wraps arrows and skips a disabled option', async () => {
 		const schema = { type: 'string' as const, title: 'Topics', enum: ['telemetry', 'alarms', 'commands'], enumNames: ['Telemetry', 'Alarms', 'Commands'] };
 		const onChange = vi.fn();
@@ -365,16 +374,18 @@ it.each(CHOICE_DISPATCH_SHAPES)('renders extras for the actual $name widget', as
 });
 
 describe.each(TOGGLE_FOCUS_MODES)('real named toggle group: $name', ({ withRadio }) => {
-	it('exposes the widget label on a native group wrapper', async () => {
+	it.each(CHOICE_GROUP_NAME_SHAPES)('names the toggle group with $name', async row => {
 		const schema = { type: 'array' as const, title: 'Assets', uniqueItems: true, items: { type: 'string' as const, enum: ['north-line', 'south-line'] } };
 		const screen = await render(
 			<KvSchemaForm
 				schema={choiceForm({ schema })}
-				uiSchema={{ choice: { 'ui:widget': 'toggleButtonGroup', 'ui:options': { withRadio }, 'ui:title': 'Plant assets' } }}
+				uiSchema={{ choice: { ...row.uiSchema, 'ui:widget': 'toggleButtonGroup', 'ui:options': { withRadio } } }}
 				formData={{ choice: ['north-line'] }}
 			/>
 		);
 		await whenAllKelvinReady(screen.container);
-		await expect.element(screen.getByRole('group', { name: 'Plant assets', exact: true })).toBeVisible();
+		const group = screen.getByRole('group', { name: row.expected, exact: true });
+		await expect.element(group).toBeVisible();
+		await expect.element(group).toHaveAttribute('aria-label', row.expected);
 	});
 });

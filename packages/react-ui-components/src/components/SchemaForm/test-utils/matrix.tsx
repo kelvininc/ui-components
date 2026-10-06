@@ -203,6 +203,13 @@ export const CHOICE_CLEAR_NAME_SHAPES = [
 	{ name: 'blank title fallback', uiSchema: { 'ui:title': ' ' }, expected: 'Clear selection for root_choice' }
 ] as const;
 
+export const CHOICE_GROUP_NAME_SHAPES: readonly { name: string; uiSchema: UiSchema; expected: string }[] = [
+	{ name: 'UI title override', uiSchema: { 'ui:title': 'Connection choices' }, expected: 'Connection choices' },
+	{ name: 'empty UI title', uiSchema: { 'ui:title': '' }, expected: 'root_choice' },
+	{ name: 'whitespace UI title', uiSchema: { 'ui:title': ' \t ' }, expected: 'root_choice' },
+	{ name: 'padded UI title', uiSchema: { 'ui:title': ' Connection choices ' }, expected: 'Connection choices' }
+];
+
 export const RADIO_FOCUS_SHAPES: readonly { name: string; disabledValues: readonly string[]; expected?: string }[] = [
 	{ name: 'enabled options', disabledValues: [], expected: 'at-most-once' },
 	{ name: 'first option disabled', disabledValues: ['at-most-once'], expected: 'at-least-once' },
@@ -1992,6 +1999,7 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	RADIO_STYLE_THEMES,
 	RADIO_INLINE_STYLE_SHAPES,
 	CHOICE_CLEAR_NAME_SHAPES,
+	CHOICE_GROUP_NAME_SHAPES,
 	RADIO_FOCUS_SHAPES,
 	CONTROL_NAME_SHAPES,
 	MULTI_SELECT_SHAPES,
