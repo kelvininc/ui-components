@@ -4,6 +4,48 @@ import { KvRadioList } from '../radio-list';
 import { KvRadioListItem } from '../../radio-list-item/radio-list-item';
 import { DISABLED_OPTIONS_MOCK, OPTIONS_MOCK } from './radio-list.mock';
 
+describe('radio group announcements', () => {
+	it.each([
+		{ name: 'visible fallback', label: 'Topics', accessibleLabel: undefined, expected: 'Topics' },
+		{ name: 'assistive only', label: undefined, accessibleLabel: 'Connection topics', expected: 'Connection topics' },
+		{ name: 'assistive override', label: 'Topics', accessibleLabel: 'Connection topics', expected: 'Connection topics' }
+	])('names the native group through $name', async ({ label, accessibleLabel, expected }) => {
+		const page = await newSpecPage({
+			components: [KvRadioList],
+			html: `<kv-radio-list ${label ? `label="${label}"` : ''} ${accessibleLabel ? `accessible-label="${accessibleLabel}"` : ''}></kv-radio-list>`
+		});
+		expect(page.root.shadowRoot.querySelector('[role="radiogroup"]').getAttribute('aria-label')).toBe(expected);
+		expect(Boolean(page.root.shadowRoot.querySelector('kv-form-label'))).toBe(Boolean(label));
+		expect(page.root.shadowRoot.querySelector('kv-form-label')?.getAttribute('label')).toBe(label);
+	});
+
+	it('updates an assistive name and restores the visible name when cleared', async () => {
+		const page = await newSpecPage({ components: [KvRadioList], html: '<kv-radio-list label="Topics" accessible-label="Connection topics"></kv-radio-list>' });
+		const group = page.root.shadowRoot.querySelector('[role="radiogroup"]');
+		page.root.setAttribute('accessible-label', 'Selected topics');
+		await page.waitForChanges();
+		expect(group.getAttribute('aria-label')).toBe('Selected topics');
+		page.root.setAttribute('accessible-label', '');
+		await page.waitForChanges();
+		expect(group.getAttribute('aria-label')).toBe('Topics');
+		page.root.removeAttribute('accessible-label');
+		await page.waitForChanges();
+		expect(group.getAttribute('aria-label')).toBe('Topics');
+	});
+
+	it('announces required and invalid on the group and clears both states', async () => {
+		const page = await newSpecPage({ components: [KvRadioList], html: '<kv-radio-list accessible-label="Connection topics" required invalid></kv-radio-list>' });
+		const group = page.root.shadowRoot.querySelector('[role="radiogroup"]');
+		expect(group.getAttribute('aria-required')).toBe('true');
+		expect(group.getAttribute('aria-invalid')).toBe('true');
+		page.root.removeAttribute('required');
+		page.root.removeAttribute('invalid');
+		await page.waitForChanges();
+		expect(group.hasAttribute('aria-required')).toBe(false);
+		expect(group.hasAttribute('aria-invalid')).toBe(false);
+	});
+});
+
 describe('radio group Tab policy', () => {
 	it.each([
 		{ name: 'selected enabled', selected: 'alarms', disabled: {}, stops: [true, false, true] },

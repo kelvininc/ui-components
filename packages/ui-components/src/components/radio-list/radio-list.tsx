@@ -16,6 +16,10 @@ export class KvRadioList implements IRadioList, IRadioListEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) accessibleLabel?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) invalid?: boolean;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) options!: Omit<IRadioListItem, 'skipTabStop'>[];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) selectedOption?: string | number;
@@ -57,8 +61,9 @@ export class KvRadioList implements IRadioList, IRadioListEvents {
 					class="radio-list-items"
 					part="items-container"
 					role="radiogroup"
-					aria-label={this.label}
+					aria-label={this.accessibleLabel || this.label}
 					aria-required={this.required ? 'true' : undefined}
+					aria-invalid={this.invalid ? 'true' : undefined}
 					onKeyDown={this.onKeyDown}
 				>
 					{(this.options ?? []).map((item, index) => {
