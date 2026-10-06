@@ -1,12 +1,13 @@
 import { FormContextType, RJSFSchema, StrictRJSFSchema, TitleFieldProps, getUiOptions } from '@rjsf/utils';
 import { get } from 'lodash';
 import React from 'react';
-import { KvIcon, KvInfoLabel, KvToggleTip, KvTooltip } from '../../../../stencil-generated';
-import { EIconName, ETooltipPosition, stringHelper } from '@kelvininc/ui-components';
+import { KvInfoLabel, KvTooltip } from '../../../../stencil-generated';
+import { stringHelper } from '@kelvininc/ui-components';
 import styles from './TitleFieldTemplate.module.scss';
 import classNames from 'classnames';
 import { getSectionHeadingLevel, useSectionDepth } from '../../contexts';
 import { isSectionField } from '../utils';
+import FieldHelp from './FieldHelp';
 
 const TitleFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
@@ -34,11 +35,7 @@ const TitleFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 						<KvInfoLabel labelTitle={titleToShow || ''} />
 					</KvTooltip>
 				)}
-				{uiOptions.help && (
-					<KvToggleTip className={styles.ToggleTip} text={uiOptions.help} position={ETooltipPosition.Right}>
-						<KvIcon name={EIconName.Info} slot="open-element-slot" />
-					</KvToggleTip>
-				)}
+				<FieldHelp className={styles.ToggleTip} help={uiOptions.help} />
 			</div>
 		)
 	);

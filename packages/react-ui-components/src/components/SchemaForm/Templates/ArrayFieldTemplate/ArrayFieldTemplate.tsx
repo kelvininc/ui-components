@@ -24,7 +24,7 @@ const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 	const descriptionId = fieldOwnsDescription && descriptionContext?.fieldId === idSchema.$id ? descriptionContext.descriptionId : undefined;
 
 	return (
-		<div className={styles.ArrayFieldTemplate}>
+		<div className={styles.ArrayFieldTemplate} data-schema-form-list={idSchema.$id}>
 			<div className={styles.ArrayFieldContainer}>
 				{(!fieldOwnsDescription || ArrayFieldDescriptionTemplate !== defaultArrayDescriptionTemplate) && (
 					<div id={descriptionId} className={styles.ArrayDescription}>
@@ -40,7 +40,7 @@ const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 
 				<div className={styles.ArrayItemList} key={`array-item-list-${idSchema.$id}`}>
 					{items && items.map(({ key, ...itemProps }: ArrayFieldTemplateItemType<T, S, F>) => <ArrayFieldItemTemplate key={key} {...itemProps} />)}
-					{canAdd && AddButton({ canAdd, disabled, readonly, uiSchema, schema, onAddClick })}
+					{canAdd && <AddButton disabled={disabled} readonly={readonly} uiSchema={uiSchema} schema={schema} registry={registry} onAddClick={onAddClick} />}
 				</div>
 			</div>
 		</div>
