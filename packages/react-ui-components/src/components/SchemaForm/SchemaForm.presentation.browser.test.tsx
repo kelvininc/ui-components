@@ -49,11 +49,10 @@ describe.each([StyleMode.Light, StyleMode.Night])('fieldset overlays in %s', the
 			const fieldsets = screen.container.querySelectorAll(`.${itemStyles.FieldsetStyle}`);
 			expect(fieldsets).toHaveLength(list.formData.length);
 			for (const fieldset of fieldsets) {
-				for (const className of [itemStyles.ItemPrefix, itemStyles.ToolbarContainer]) {
-					const overlay = fieldset.querySelector(`.${className}`)!;
-					expect(getComputedStyle(overlay).position).toBe('absolute');
-					expect(getComputedStyle(overlay).backgroundColor).toBe(background);
-				}
+				const overlay = fieldset.querySelector('[data-schema-form-item-header]')!;
+				expect(overlay).not.toBeNull();
+				expect(getComputedStyle(overlay).transform).not.toBe('none');
+				expect(getComputedStyle(overlay).backgroundColor).toBe(background);
 			}
 		} finally {
 			setThemeMode(StyleMode.Night);

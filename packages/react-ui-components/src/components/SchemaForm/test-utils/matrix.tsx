@@ -1,4 +1,15 @@
-import { ArrayFieldTemplateProps, CustomValidator, ErrorSchema, ErrorTransformer, FieldTemplateProps, RJSFSchema, UIOptionsType, UiSchema, WidgetProps } from '@rjsf/utils';
+import {
+	ArrayFieldTemplateProps,
+	CustomValidator,
+	ErrorSchema,
+	ErrorTransformer,
+	FieldProps,
+	FieldTemplateProps,
+	RJSFSchema,
+	UIOptionsType,
+	UiSchema,
+	WidgetProps
+} from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
 import { StyleMode } from '@kelvininc/ui-components';
 import { EApplyDefaults, SchemaFormContext } from '../types';
@@ -588,62 +599,29 @@ export const ACTION_NAME_SHAPES: readonly {
 	uiSchema?: UiSchema;
 	formData: unknown;
 	labels: string[];
-	action: { label: string; nextData: unknown };
+	action: { label: string; nextData: unknown; menu?: string; menuAction?: string };
 	download?: string;
 }[] = [
 	{
 		name: 'list moves',
 		schema: TOPICS,
 		formData: ARRAY_SHAPES[0].formData,
-		labels: [
-			'Move Topic 1 down',
-			'Move Topic 1 up',
-			'Remove Topic 1',
-			'Move Topic 2 down',
-			'Move Topic 2 up',
-			'Remove Topic 2',
-			'Move Topic 3 down',
-			'Move Topic 3 up',
-			'Remove Topic 3',
-			'Add item to Topics'
-		],
-		action: { label: 'Move Topic 2 up', nextData: ['alarms', 'telemetry', 'commands'] }
+		labels: ['Reorder Topic 1', 'Remove Topic 1', 'Reorder Topic 2', 'Remove Topic 2', 'Reorder Topic 3', 'Remove Topic 3', 'Add item to Topics'],
+		action: { label: 'Move up', menu: 'Reorder Topic 2', menuAction: 'move-up', nextData: ['alarms', 'telemetry', 'commands'] }
 	},
 	{
 		name: 'list prefix',
 		schema: TOPICS,
 		uiSchema: { 'ui:itemPrefix': 'Channel', 'items': { 'ui:itemPrefix': 'Channel' } },
 		formData: ARRAY_SHAPES[0].formData,
-		labels: [
-			'Move Channel 1 down',
-			'Move Channel 1 up',
-			'Remove Channel 1',
-			'Move Channel 2 down',
-			'Move Channel 2 up',
-			'Remove Channel 2',
-			'Move Channel 3 down',
-			'Move Channel 3 up',
-			'Remove Channel 3',
-			'Add Channel'
-		],
+		labels: ['Reorder Channel 1', 'Remove Channel 1', 'Reorder Channel 2', 'Remove Channel 2', 'Reorder Channel 3', 'Remove Channel 3', 'Add Channel'],
 		action: { label: 'Remove Channel 2', nextData: ['telemetry', 'commands'] }
 	},
 	{
 		name: 'untitled list',
 		schema: { type: 'array', items: { type: 'string', default: 'new-topic' } },
 		formData: ARRAY_SHAPES[0].formData,
-		labels: [
-			'Move Item 1 down',
-			'Move Item 1 up',
-			'Remove Item 1',
-			'Move Item 2 down',
-			'Move Item 2 up',
-			'Remove Item 2',
-			'Move Item 3 down',
-			'Move Item 3 up',
-			'Remove Item 3',
-			'Add item'
-		],
+		labels: ['Reorder Item 1', 'Remove Item 1', 'Reorder Item 2', 'Remove Item 2', 'Reorder Item 3', 'Remove Item 3', 'Add item'],
 		action: { label: 'Add item', nextData: ['telemetry', 'alarms', 'commands', 'new-topic'] }
 	},
 	{
@@ -1416,6 +1394,135 @@ export const LIST_OPTIONS: readonly { name: string; options: { orderable?: boole
 	{ name: 'not removable', options: { removable: false } },
 	{ name: 'not addable', options: { addable: false } },
 	{ name: 'no buttons', options: { orderable: false, removable: false, addable: false } }
+];
+
+export const L1_SCALAR_LIST_SHAPES = [
+	{ name: 'strings', schema: TOPICS, formData: ['telemetry', 'alarms', 'commands'], itemName: 'Topic' },
+	{ name: 'numbers', schema: { type: 'array', title: 'Intervals', items: { type: 'number', title: 'Interval' } } as RJSFSchema, formData: [0.5, 1.5, 2.5], itemName: 'Interval' },
+	{ name: 'integers', schema: { type: 'array', title: 'Retries', items: { type: 'integer', title: 'Retry' } } as RJSFSchema, formData: [0, 1, 2], itemName: 'Retry' },
+	{
+		name: 'enums',
+		schema: { type: 'array', title: 'Regions', items: { type: 'string', title: 'Region', enum: ['lisbon', 'berlin', 'austin'] } } as RJSFSchema,
+		formData: ['lisbon', 'berlin', 'austin'],
+		itemName: 'Region'
+	}
+];
+
+export const L1_PREFIX_SHAPES = [
+	{ name: 'item prefix', uiSchema: { items: { 'ui:itemPrefix': 'Broker' } } },
+	{ name: 'array prefix', uiSchema: { 'ui:itemPrefix': 'Broker' } },
+	{ name: 'options prefix', uiSchema: { 'ui:options': { itemPrefix: 'Broker' } } },
+	{ name: 'item options prefix', uiSchema: { items: { 'ui:options': { itemPrefix: 'Broker' } } } }
+];
+
+export const L1_TUPLE_SHAPES = [
+	{ name: 'schema titles', uiSchema: {}, labels: ['Primary', 'Backup 2'] },
+	{
+		name: 'position prefixes',
+		uiSchema: { items: [{ 'ui:itemPrefix': 'Primary broker' }], additionalItems: { 'ui:itemPrefix': 'Backup broker' } },
+		labels: ['Primary broker', 'Backup broker 2']
+	},
+	{
+		name: 'options prefixes',
+		uiSchema: { items: [{ 'ui:options': { itemPrefix: 'Primary broker' } }], additionalItems: { 'ui:options': { itemPrefix: 'Backup broker' } } },
+		labels: ['Primary broker', 'Backup broker 2']
+	},
+	{ name: 'array prefix preserves fixed title', uiSchema: { 'ui:itemPrefix': 'Broker' }, labels: ['Primary', 'Broker 2'] }
+] satisfies { name: string; uiSchema: UiSchema; labels: string[] }[];
+
+export const L1_ALIGNMENT_SHAPES: {
+	name: string;
+	uiSchema: UiSchema<Record<number, unknown>, RJSFSchema, SchemaFormContext>;
+	extraErrors?: ErrorSchema<Record<number, unknown>>;
+	message?: string;
+	defaultHelper?: boolean;
+}[] = [
+	{ name: 'plain', uiSchema: {}, extraErrors: undefined },
+	{ name: 'bottom description', uiSchema: { items: { 'ui:description': 'The plant topic to receive.' } }, message: 'The plant topic to receive.' },
+	{ name: 'top description', uiSchema: { items: { 'ui:description': 'The plant topic to receive.', 'ui:descriptionPosition': 'top' } }, message: 'The plant topic to receive.' },
+	{ name: 'visible errors', uiSchema: {}, extraErrors: { 0: { __errors: ['Topic is unavailable.'] } }, message: 'Topic is unavailable.' },
+	{ name: 'help tip', uiSchema: { items: { 'ui:help': 'Use the plant topic name.' } }, message: 'Use the plant topic name.' },
+	{ name: 'default helper', uiSchema: { items: { 'ui:showDefaultValueHelper': true } }, defaultHelper: true, message: 'Default value is: ' }
+];
+
+export const L1_HIDDEN_ITEM_HEADINGS = [
+	{ name: 'blank title', uiSchema: { items: { 'ui:title': '' } } },
+	{ name: 'blank options title', uiSchema: { items: { 'ui:options': { title: '' } } } },
+	{ name: 'hidden label', uiSchema: { items: { 'ui:label': false } } }
+];
+
+const ItemArrayLayout = ({ items, registry, idSchema }: ArrayFieldTemplateProps) => {
+	const Item = registry.templates.ArrayFieldItemTemplate;
+	return (
+		<div data-custom-array-layout={idSchema.$id}>
+			{items.map(({ key, ...item }) => (
+				<Item key={key} {...item} />
+			))}
+		</div>
+	);
+};
+export const L1_ARRAY_TEMPLATE_SHAPES = [
+	{ name: 'custom ordered list', row: ARRAY_SHAPES[0], uiSchema: {}, menus: 3, labels: [] },
+	{ name: 'custom unordered list', row: ARRAY_SHAPES[0], uiSchema: { 'ui:options': { orderable: false } }, menus: 0, labels: [] },
+	{ name: 'custom tuple', row: ARRAY_SHAPES[3], uiSchema: {}, menus: 1, labels: ['Primary', 'Backup 2'] },
+	{
+		name: 'nested custom arrays keep their own ordering and names',
+		row: ARRAY_SHAPES[7],
+		uiSchema: { 'ui:options': { orderable: false, itemPrefix: 'Zone' }, 'items': { tags: { 'ui:options': { orderable: true, itemPrefix: 'Tag' } } } },
+		menus: 12,
+		labels: []
+	}
+].map(row => ({ ...row, ArrayTemplate: ItemArrayLayout }));
+
+export const L1_UNION_LIST_SHAPES = (['oneOf', 'anyOf'] as const).flatMap(keyword => [
+	{
+		name: `${keyword} object items`,
+		schema: {
+			type: 'array',
+			title: 'Connections',
+			items: {
+				type: 'object',
+				title: 'Connection',
+				[keyword]: [
+					{ type: 'object', title: 'Token', required: ['token'], properties: { token: { type: 'string', title: 'Token' } } },
+					{ type: 'object', title: 'Certificate', required: ['certificate'], properties: { certificate: { type: 'string', title: 'Certificate' } } }
+				]
+			}
+		} as RJSFSchema,
+		formData: [{ token: 'plant-token' }, { certificate: 'plant-certificate' }],
+		section: true,
+		itemName: 'Connection'
+	},
+	{
+		name: `${keyword} scalar items`,
+		schema: {
+			type: 'array',
+			title: 'Broker addresses',
+			items: {
+				title: 'Address',
+				[keyword]: [
+					{ type: 'string', title: 'Host' },
+					{ type: 'integer', title: 'Port' }
+				]
+			}
+		} as RJSFSchema,
+		formData: ['broker-1.local', 1883],
+		section: false,
+		itemName: 'Address'
+	}
+]);
+
+const ArrayItemInput = ({ idSchema, title, formData, onChange }: FieldProps) => (
+	<input data-array-item-input id={idSchema.$id} aria-label={title} value={formData ?? ''} onChange={event => onChange(event.target.value)} />
+);
+const ForwardRefArrayItemInput = forwardRef<HTMLInputElement, FieldProps>(({ idSchema, title, formData, onChange }, ref) => (
+	<input ref={ref} data-array-item-input id={idSchema.$id} aria-label={title} value={formData ?? ''} onChange={event => onChange(event.target.value)} />
+));
+ForwardRefArrayItemInput.displayName = 'ForwardRefArrayItemInput';
+export const L1_ITEM_FIELD_COMPONENTS = [
+	{ name: 'function', ItemField: ArrayItemInput },
+	{ name: 'React.memo', ItemField: memo(ArrayItemInput) },
+	{ name: 'forwardRef', ItemField: ForwardRefArrayItemInput }
 ];
 
 /** A custom widget: L2 can't tell how wide it renders, so a list using it stays in sections */
@@ -2280,6 +2387,14 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	TEMPLATE_COMPONENTS,
 	OPTION_SOURCES,
 	LIST_OPTIONS,
+	L1_SCALAR_LIST_SHAPES,
+	L1_PREFIX_SHAPES,
+	L1_TUPLE_SHAPES,
+	L1_ALIGNMENT_SHAPES,
+	L1_HIDDEN_ITEM_HEADINGS,
+	L1_ARRAY_TEMPLATE_SHAPES,
+	L1_UNION_LIST_SHAPES,
+	L1_ITEM_FIELD_COMPONENTS,
 	FLAT_OBJECT_SHAPES,
 	CUSTOM_FIELD_SHAPES,
 	CUSTOM_FIELDS,

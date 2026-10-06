@@ -1,13 +1,16 @@
 import { FieldTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import classNames from 'classnames';
-import React from 'react';
-import { ArrayDescriptionContext, SectionDepthContext, useSectionDepth } from '../../contexts';
+import React, { useContext } from 'react';
+import { ArrayDescriptionContext, ArrayItemControlsContext, SectionDepthContext, useSectionDepth } from '../../contexts';
 import { EDescriptionPosition } from '../../types';
 import { useFieldPresentation } from './useFieldPresentation';
 import styles from './SectionField.module.scss';
 
 const SectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: FieldTemplateProps<T, S, F>) => {
 	const depth = useSectionDepth();
+	const controls = useContext(ArrayItemControlsContext);
+	const itemControls = controls?.fieldId === props.id ? controls : null;
+	const itemHeader = itemControls?.header;
 	const {
 		WrapIfAdditionalTemplate,
 		arrayDescriptionContext,
@@ -33,11 +36,20 @@ const SectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 				aria-label={hasTitle && !defaultTitle ? title : undefined}
 				aria-describedby={describedBy}
 			>
-				{titleElement}
+				{itemHeader ? (
+					<div className={styles.ItemHeader} data-schema-form-item-header>
+						{titleElement}
+						{itemHeader}
+					</div>
+				) : (
+					titleElement
+				)}
 				{descriptionPosition === EDescriptionPosition.Top && descriptionElement}
 				{errorsElement}
 				<SectionDepthContext.Provider value={depth + Number(hasTitle)}>
-					<ArrayDescriptionContext.Provider value={arrayDescriptionContext}>{props.children}</ArrayDescriptionContext.Provider>
+					<ArrayDescriptionContext.Provider value={arrayDescriptionContext}>
+						<ArrayItemControlsContext.Provider value={itemControls ? null : controls}>{props.children}</ArrayItemControlsContext.Provider>
+					</ArrayDescriptionContext.Provider>
 				</SectionDepthContext.Provider>
 				{descriptionPosition === EDescriptionPosition.Bottom && descriptionElement}
 				{helperElement}

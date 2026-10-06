@@ -1,4 +1,12 @@
+@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
+
 .AddButtonContainer {
 	display: flex;
-	justify-content: end;
+	justify-content: flex-start;
+}
+
+.AddButtonText {
+	@include body-m-semibold;
+
+	white-space: nowrap;
 }

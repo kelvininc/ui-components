@@ -4,3 +4,4 @@ export * from './ArrayDescriptionContext';
 export * from './FieldDescriptionContext';
 export * from './ChoiceControlContext';
 export * from './OptionSectionContext';
+export * from './ArrayItemContext';

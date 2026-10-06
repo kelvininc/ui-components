@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import { userEvent } from 'vitest/browser';
+import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../../test-utils/browser';
 import { getDefaultValidator } from '../../../utils';
@@ -52,7 +52,8 @@ describe.each(ACTION_NAME_SHAPES)('action names in Chromium: $name', row => {
 		const onChange = vi.fn();
 		const screen = await render(<KvSchemaForm schema={row.schema} uiSchema={row.uiSchema} formData={row.formData} onChange={onChange} />);
 		await whenAllKelvinReady(screen.container);
-		const control = screen.getByRole('button', { name: row.action.label, exact: true });
+		if (row.action.menu) await screen.getByRole('button', { name: row.action.menu, exact: true }).click();
+		const control = row.action.menu ? page.getByRole('menuitem', { name: row.action.label, exact: true }) : screen.getByRole('button', { name: row.action.label, exact: true });
 		await expect.element(control).toBeVisible();
 		onChange.mockClear();
 		(control.element() as HTMLElement).focus();

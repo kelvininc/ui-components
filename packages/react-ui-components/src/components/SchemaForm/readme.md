@@ -68,6 +68,27 @@ RJSF 5 requires object schemas during path traversal. SchemaForm converts boolea
 validation-equivalent `{}` and `{not:{}}` schemas. Unconstrained properties have no inferred input type;
 forbidden properties use RJSF's unsupported-field presentation. `additionalProperties` flags stay literal.
 
+## List items
+
+Single-value lists render one input row per item with a trash button on the right. Orderable lists
+have a grip on the left that opens a Move up/Move down menu. The generated per-item labels are hidden;
+`ui:itemPrefix` on the array or its items names the inputs and actions, such as "Broker 2".
+Item titles supply the name when no prefix exists, with "Item" as the fallback.
+
+Fixed tuple positions keep a visible label from their item prefix or schema title. Additional tuple
+items use their prefix or title with their position number, such as "Backup 2". Fixed positions keep
+RJSF's move and removal restrictions. Reserved action space keeps tuple inputs aligned.
+
+Object items render numbered section headings and a left rail. One menu beside each heading holds
+the allowed move actions and a destructive Remove action. Boundary moves stay visible and disabled.
+Readonly and disabled lists keep disabled controls. Add always renders a left-aligned text button,
+"Add <prefix>" or "Add item", with a plus icon.
+
+Item actions and Add have negative Tab indices. Menus support mouse and keyboard interaction when
+focused. Scalar help tips stay beside the input; descriptions, errors and default helpers stay above
+or below it. Custom item fields and field templates retain controls beside their content. Custom array
+templates receive their own list settings. List item markup, move controls and scalar labels change in v4.
+
 ## oneOf and anyOf
 
 Selected branches inherit child-property settings from their parent field. Selector settings such as

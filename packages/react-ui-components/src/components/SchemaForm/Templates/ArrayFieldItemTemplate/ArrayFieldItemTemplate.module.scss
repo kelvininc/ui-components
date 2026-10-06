@@ -1,67 +1,35 @@
-@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
-
-.ArrayItemContainer [class*='ArrayFieldTemplate_ArrayFieldTemplate'] {
-	border: 1px solid var(--border-container-divider-default);
-	border-width: 0 1px;
-	padding: 0 var(--spacing-3xl);
-	margin-left: var(--spacing-md);
+.ObjectItem {
+	box-sizing: border-box;
+	padding-left: var(--spacing-2xl);
+	border-left: var(--border-width-default) solid var(--border-container-divider-default);
 }
 
-.ArrayItemContainer {
-	width: 100%;
+.ActionSlot {
+	flex: 0 0 var(--icon-button-height-regular);
+	width: var(--icon-button-height-regular);
 	display: flex;
 	align-items: center;
+	justify-content: center;
+}
 
-	.ItemPrefix {
-		@include body-m-semibold;
-		
-		margin-right: var(--spacing-4xl);
-		white-space: nowrap;
-	}
+.FallbackRow {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-md);
+}
 
-	.ToolbarContainer {
-		display: flex;
-		padding-left: var(--spacing-3xl);
-		gap: var(--spacing-xs);
-	}
+.ItemBody {
+	flex: 1;
+	min-width: 0;
 }
 
 .FieldsetStyle {
-	padding: var(--spacing-4xl) var(--spacing-xl) var(--spacing-xl);
+	padding: 0 var(--spacing-xl) var(--spacing-xl);
 	margin-top: var(--spacing-4xl);
-	border: 1px solid var(--border-container-divider-default);
-	position: relative;
+	border: var(--border-width-default) solid var(--border-container-divider-default);
 
-	.ArrayItemContainer {
-		.ItemPrefix {
-			position: absolute;
-			top: 0;
-			left: var(--spacing-xl);
-			transform: translateY(-50%);
-			background-color: inherit;
-			padding: 0 var(--spacing-xs);
-			margin: 0;
-		}
-
-		.ToolbarContainer {
-			position: absolute;
-			top: 0;
-			right: var(--spacing-xl);
-			transform: translateY(-50%);
-			background-color: inherit;
-			padding: 0 var(--spacing-xs);
-			margin: 0;
-		}
-	}
-}
-
-body {
-	.ArrayItemContainer [class*='ArrayFieldTemplate_ArrayFieldTemplate'] {
-		border-color: var(--border-container-divider-default);
-	}
-
-	/* stylelint-disable-next-line no-descending-specificity */
-	.ArrayItemContainer .ItemPrefix {
-		color: var(--text-container-neutral-default);
+	[data-schema-form-item-header] {
+		transform: translateY(-50%);
+		margin-bottom: calc(-1 * var(--spacing-2xl));
 	}
 }
