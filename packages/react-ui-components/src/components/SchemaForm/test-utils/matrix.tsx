@@ -182,11 +182,18 @@ export const RADIO_STYLE_THEMES = [
 	{ name: 'Night', mode: StyleMode.Night }
 ] as const;
 
-export const RADIO_INLINE_STYLE_SHAPES: readonly { name: string; schema: RJSFSchema; descriptions: string[] }[] = [
+export const RADIO_INLINE_STYLE_SHAPES: readonly { name: string; schema: RJSFSchema; descriptions: string[]; value?: string; enumDisabled?: string[] }[] = [
 	{
 		name: 'unequal security labels and descriptions',
 		schema: { type: 'string', title: 'Security', enum: ['tls', 'plaintext'], enumNames: ['TLS', 'Plaintext connection'] },
 		descriptions: ['Encrypt the connection.', 'Send telemetry without encryption. Use this option only on the isolated test network while checking broker connectivity.']
+	},
+	{
+		name: 'selected retry strategy with a disabled option',
+		schema: { type: 'string', title: 'Retry strategy', enum: ['backoff', 'fixed'], enumNames: ['Exponential backoff', 'Fixed interval'] },
+		descriptions: ['Increase the delay after each failed connection.', 'Reconnect every 30 seconds.'],
+		value: 'backoff',
+		enumDisabled: ['fixed']
 	}
 ];
 

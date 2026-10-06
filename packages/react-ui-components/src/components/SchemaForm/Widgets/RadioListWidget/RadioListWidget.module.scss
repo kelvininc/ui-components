@@ -11,7 +11,7 @@
 	}
 
 	&::part(item) {
-		display: flex;
+		display: grid;
 		flex: 1;
 	}
 

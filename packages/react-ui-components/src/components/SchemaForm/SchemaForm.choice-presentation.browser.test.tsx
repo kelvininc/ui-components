@@ -40,7 +40,11 @@ describe.each(RADIO_STYLE_THEMES)('radio presentation in $name', ({ mode }) => {
 				setThemeMode(mode);
 				const screen = await render(
 					<div style={{ width: '600px' }}>
-						<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': widget, 'ui:options': { inline: true, enumDescriptions: row.descriptions } } }} />
+						<KvSchemaForm
+							schema={choiceForm(row)}
+							uiSchema={{ choice: { 'ui:widget': widget, 'ui:options': { inline: true, enumDescriptions: row.descriptions, enumDisabled: row.enumDisabled } } }}
+							formData={{ choice: row.value }}
+						/>
 					</div>
 				);
 				await whenAllKelvinReady(screen.container);
@@ -54,6 +58,12 @@ describe.each(RADIO_STYLE_THEMES)('radio presentation in $name', ({ mode }) => {
 				expect(Math.abs(items[0].getBoundingClientRect().width * 2 + gap - width)).toBeLessThan(1);
 				const cards = items.map(item => item.shadowRoot!.querySelector('.radio-list-item-container')!);
 				expect(Math.abs(cards[0].getBoundingClientRect().height - cards[1].getBoundingClientRect().height)).toBeLessThan(1);
+				cards.forEach((card, index) => {
+					const bounds = card.getBoundingClientRect();
+					const itemBounds = items[index].getBoundingClientRect();
+					expect(Math.abs(bounds.width - itemBounds.width)).toBeLessThan(1);
+					expect(Math.abs(bounds.height - itemBounds.height)).toBeLessThan(1);
+				});
 			} finally {
 				setThemeMode(StyleMode.Night);
 			}
