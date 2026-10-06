@@ -40,10 +40,13 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	@Element() el: HTMLKvDropdownElement;
 	private inputRef?: HTMLKvTextFieldElement;
 
-	/** Focuses the default trigger or a custom action's focusInput method/native control. */
+	/**
+	 * Focuses the default trigger or a custom action's focusInput method/native control.
+	 * @param canFocus Optional live check passed to the trigger's focusInput method.
+	 */
 	@Method()
-	async setFocus(): Promise<void> {
-		if (this.disabled) return;
+	async setFocus(canFocus?: () => boolean): Promise<void> {
+		if (this.disabled || canFocus?.() === false) return;
 		const action =
 			this.actionElement ??
 			Array.from(this.el.querySelectorAll<HTMLElement>('[slot="dropdown-action"]:not(slot)')).find(candidate => {
@@ -54,10 +57,10 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 				return true;
 			});
 		if (action) {
-			const inputAction = action as HTMLElement & { focusInput?: () => Promise<void> };
-			if (typeof inputAction.focusInput === 'function') await inputAction.focusInput();
+			const inputAction = action as HTMLElement & { focusInput?: (canFocus?: () => boolean) => Promise<void> };
+			if (typeof inputAction.focusInput === 'function') await inputAction.focusInput(canFocus);
 			else action.focus();
-		} else if (!this.inputConfig?.inputDisabled && !this.inputConfig?.loading) await this.inputRef?.focusInput();
+		} else if (!this.inputConfig?.inputDisabled && !this.inputConfig?.loading) await this.inputRef?.focusInput(canFocus);
 	}
 
 	/** Toggles the dropdown open state */

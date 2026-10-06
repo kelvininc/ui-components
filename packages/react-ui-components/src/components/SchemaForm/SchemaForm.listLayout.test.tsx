@@ -230,8 +230,8 @@ describe.each(ARRAY_SHAPES)('L1 array controls: $name', row => {
 			if (option.options.addable !== false) {
 				expect(add).not.toBeNull();
 				expect(add!.textContent).toBe('Add item');
-				expect(propsOf(add!).tabIndex).toBe(-1);
-				expect(propsOf(add!).menuTabIndex).toBe(-1);
+				expect(propsOf(add!).tabIndex).toBe(0);
+				expect(propsOf(add!).menuTabIndex).toBe(0);
 			} else expect(add).toBeNull();
 			const rootMenus = Array.from(list.querySelectorAll('kv-action-menu')).filter(menu => menu.closest('[data-schema-form-list]') === list);
 			const fixedItems = Array.isArray(row.schema.items) ? row.schema.items.length : 0;
@@ -245,7 +245,7 @@ describe.each(ARRAY_SHAPES)('L1 array controls: $name', row => {
 			for (const button of trash) expect(propsOf(button).disabled).toBe(readonly || row.name === 'readonly');
 			for (const menu of rootMenus) {
 				const props = propsOf<JSX.KvActionMenu>(menu);
-				expect(props.triggerTabIndex).toBe(-1);
+				expect(props.triggerTabIndex).toBe(0);
 				expect(props.accessibleLabel?.trim()).toBeTruthy();
 				expect(props.disabled).toBe(readonly || row.name === 'readonly');
 				if (option.options.orderable === false) expect(props.items?.some(item => item.id.startsWith('move-'))).toBe(false);

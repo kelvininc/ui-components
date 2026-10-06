@@ -58,9 +58,15 @@ const RadioListExample: React.FC = () => {
 
 ## Methods
 
-### `setFocus() => Promise<void>`
+### `setFocus(canFocus?: () => boolean) => Promise<void>`
 
 Focuses the selected enabled radio, or the first enabled radio when none is selected.
+
+#### Parameters
+
+| Name       | Type            | Description                                                                 |
+| ---------- | --------------- | --------------------------------------------------------------------------- |
+| `canFocus` | `() => boolean` | Optional live check; returning false cancels focus after queued invocation. |
 
 #### Returns
 

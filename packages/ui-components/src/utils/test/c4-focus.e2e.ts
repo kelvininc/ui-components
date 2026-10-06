@@ -6,6 +6,7 @@ import {
 	DROPDOWN_CONSUMERS,
 	DROPDOWN_FOCUS_FLAGS,
 	GROUP_FOCUS,
+	GUARDED_FOCUS_CONTROLS,
 	SELECT_CONTROLS,
 	TEXT_FIELD_CONSUMERS,
 	TEXT_FIELD_FOCUS,
@@ -21,6 +22,33 @@ const focusName = (page: E2EPage) =>
 		while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
 		return active?.getAttribute('aria-label') || active?.id;
 	});
+
+describe.each(GUARDED_FOCUS_CONTROLS)('R5 guarded public focus: $tag', row => {
+	it.each([true, false])('honors a live focus predicate returning %s', async allowed => {
+		const page = await newE2EPage();
+		await page.setContent(`<button id="before">Before</button><${row.tag} accessible-label="Broker"></${row.tag}>`);
+		await page.evaluate(tag => {
+			const host = document.querySelector(tag);
+			if (tag === 'kv-dropdown') (host as HTMLKvDropdownElement).inputConfig = { accessibleLabel: 'Broker' };
+			if (tag === 'kv-radio-list') (host as HTMLKvRadioListElement).options = [{ optionId: 'broker', label: 'Broker' }];
+			if (tag === 'kv-toggle-button-group') (host as HTMLKvToggleButtonGroupElement).buttons = [{ value: 'broker', label: 'Broker' }];
+		}, row.tag);
+		await page.waitForChanges();
+		await page.focus('#before');
+		await page.evaluate(
+			async ({ tag, method, allowed }) => {
+				const host = document.querySelector(tag) as HTMLElement & {
+					setFocus?: (canFocus?: () => boolean) => Promise<void>;
+					focusInput?: (canFocus?: () => boolean) => Promise<void>;
+				};
+				await host[method](() => allowed);
+			},
+			{ ...row, allowed }
+		);
+		await page.waitForChanges();
+		expect(await focusName(page)).toBe(allowed ? 'Broker' : 'before');
+	});
+});
 
 describe.each(TEXT_FIELD_FOCUS)('C4 text field focus: $name', row => {
 	it('supports host and explicit focus while preserving editing flags', async () => {

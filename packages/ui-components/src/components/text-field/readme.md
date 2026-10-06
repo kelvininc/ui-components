@@ -79,9 +79,15 @@ export const TextFieldExample: React.FC = () => (
 
 ## Methods
 
-### `focusInput() => Promise<void>`
+### `focusInput(canFocus?: () => boolean) => Promise<void>`
 
-Focuses the input
+Focuses the input.
+
+#### Parameters
+
+| Name       | Type            | Description                                                                 |
+| ---------- | --------------- | --------------------------------------------------------------------------- |
+| `canFocus` | `() => boolean` | Optional live check; returning false cancels focus after queued invocation. |
 
 #### Returns
 

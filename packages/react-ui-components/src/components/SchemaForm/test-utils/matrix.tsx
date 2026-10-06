@@ -15,6 +15,8 @@ import {
 import React, { ComponentType, forwardRef, memo } from 'react';
 import { StyleMode } from '@kelvininc/ui-components';
 import { EApplyDefaults, SchemaFormContext } from '../types';
+import { useSchemaFormFocusRef } from '../hooks/entryFocus';
+import DefaultFieldTemplate from '../Templates/FieldTemplate';
 
 /** Freezes plain data in place; components (functions, memo and forwardRef objects) stay as they are */
 const deepFreeze = <T,>(value: T): T => {
@@ -537,6 +539,86 @@ export const ARRAY_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema
 	},
 	{ name: 'readonly', schema: TOPICS, uiSchema: { 'ui:readonly': true }, formData: ['telemetry', 'alarms', 'commands'] }
 ];
+
+export const R5_ARRAY_ACTIONS = [
+	{ name: 'add below limit', action: 'add', count: 4, canAdd: true, index: 3, target: { kind: 'add' } },
+	{ name: 'add at limit', action: 'add', count: 4, canAdd: false, index: 3, target: { kind: 'item', index: 3, control: true } },
+	{ name: 'remove middle', action: 'remove', count: 2, canAdd: true, index: 1, target: { kind: 'item', index: 1, control: false } },
+	{ name: 'remove last', action: 'remove', count: 2, canAdd: true, index: 2, target: { kind: 'item', index: 1, control: false } },
+	{ name: 'move up', action: 'move-up', count: 3, canAdd: true, index: 2, target: { kind: 'item', index: 1, control: false } },
+	{ name: 'move down', action: 'move-down', count: 3, canAdd: true, index: 0, target: { kind: 'item', index: 1, control: false } },
+	{ name: 'remove final with Add', action: 'remove', count: 0, canAdd: true, index: 0, target: { kind: 'add' } },
+	{ name: 'remove final without Add', action: 'remove', count: 0, canAdd: false, index: 0, target: { kind: 'list' } }
+] as const;
+
+export const R5_FOCUS_ARRAY_SHAPES = ARRAY_SHAPES.map(row => {
+	const fixed = Array.isArray(row.schema.items) ? row.schema.items.length : 0;
+	const formData = [...row.formData];
+	while (formData.length < fixed + 3) formData.push(row.formData[row.formData.length - 1]);
+	return { ...row, formData, fixed };
+});
+
+export const R5_TUPLE_FOCUS_CASES = [
+	{ name: 'last additional with Add', index: 1, count: 1, fixed: 1, canAdd: true, target: { kind: 'add' } },
+	{ name: 'last additional without Add', index: 1, count: 1, fixed: 1, canAdd: false, target: { kind: 'list' } },
+	{ name: 'next additional', index: 2, count: 3, fixed: 1, canAdd: true, target: { kind: 'item', index: 2, control: false } },
+	{ name: 'previous additional', index: 3, count: 3, fixed: 2, canAdd: true, target: { kind: 'item', index: 2, control: false } }
+] as const;
+export const R5_FOCUS_CANCELLATIONS = ['user leaves', 'readonly', 'unmounted'] as const;
+
+export const R5_PROPERTY_SHAPES = [
+	{ name: 'untyped additional property', additionalProperties: true },
+	{ name: 'string additional property', additionalProperties: { type: 'string' } },
+	{ name: 'object additional property', additionalProperties: { type: 'object', properties: { host: { type: 'string' } } } }
+] as const;
+const R5WrappedField = (props: FieldTemplateProps) => (
+	<aside data-r5-field-template>
+		<DefaultFieldTemplate {...props} />
+	</aside>
+);
+export const R5_PROPERTY_TEMPLATES = [
+	{ name: 'default field template', templates: undefined },
+	{ name: 'custom wrapping template', templates: { FieldTemplate: R5WrappedField } }
+];
+export const R5_ADD_LIMITS = [
+	{ name: 'below limit', max: 3, intoEntry: false },
+	{ name: 'at limit', max: 2, intoEntry: true }
+] as const;
+
+const RegisteredBrokerWidget = ({ disabled, readonly, value, onChange }: WidgetProps) => {
+	const ref = useSchemaFormFocusRef<HTMLInputElement>(disabled || readonly);
+	return <input ref={ref} aria-label="Broker host" disabled={disabled || readonly} value={value ?? ''} onChange={event => onChange(event.target.value)} />;
+};
+export const R5_ENTRY_WIDGETS: readonly { name: string; schema: RJSFSchema; uiSchema?: UiSchema; selector: string }[] = [
+	{ name: 'text', schema: { type: 'string' }, selector: 'kv-text-field' },
+	{ name: 'integer', schema: { type: 'integer' }, selector: 'kv-text-field' },
+	{ name: 'password', schema: { type: 'string' }, uiSchema: { 'ui:widget': 'password' }, selector: 'kv-text-field' },
+	{ name: 'textarea', schema: { type: 'string' }, uiSchema: { 'ui:widget': 'textarea' }, selector: 'kv-text-area' },
+	{ name: 'select', schema: { type: 'string', enum: ['telemetry', 'alarms'] }, selector: 'kv-single-select-dropdown' },
+	{ name: 'radio', schema: { type: 'string', enum: ['telemetry', 'alarms'] }, uiSchema: { 'ui:widget': 'radio' }, selector: 'kv-radio-list' },
+	{ name: 'boolean', schema: { type: 'boolean' }, selector: 'kv-radio-list' },
+	{ name: 'checkbox', schema: { type: 'boolean' }, uiSchema: { 'ui:widget': 'checkbox' }, selector: 'kv-checkbox' },
+	{ name: 'multi-select', schema: { type: 'array', uniqueItems: true, items: { type: 'string', enum: ['telemetry', 'alarms'] } }, selector: 'kv-multi-select-dropdown' },
+	{
+		name: 'toggle group',
+		schema: { type: 'array', uniqueItems: true, items: { type: 'string', enum: ['telemetry', 'alarms'] } },
+		uiSchema: { 'ui:widget': 'toggleButtonGroup' },
+		selector: 'kv-toggle-button-group'
+	},
+	{ name: 'file', schema: { type: 'object', properties: { certificate: { type: 'string', format: 'data-url' } } }, selector: 'kv-action-button-text' },
+	{ name: 'registered custom widget', schema: { type: 'string' }, uiSchema: { 'ui:widget': RegisteredBrokerWidget }, selector: 'input' }
+];
+
+export const R5_FALLBACK_SHAPES = [
+	{ name: 'empty schema with actions', schema: { type: 'array', title: 'Topics', items: {} }, uiSchema: {}, itemTarget: true },
+	{ name: 'hidden widget with actions', schema: { type: 'array', title: 'Topics', items: { type: 'string' } }, uiSchema: { items: { 'ui:widget': 'hidden' } }, itemTarget: true },
+	{
+		name: 'empty object without actions',
+		schema: { type: 'array', title: 'Brokers', items: { type: 'object', title: 'Broker', properties: {} } },
+		uiSchema: { 'ui:options': { orderable: false, removable: false } },
+		itemTarget: false
+	}
+] as const;
 
 export const FIELDSET_BACKGROUND_SHAPES: readonly { name: string; background?: string }[] = [
 	{ name: 'inherited surface' },
@@ -2483,6 +2565,15 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	TOGGLE_FOCUS_MODES,
 	TOGGLE_BUTTON_GROUP_SHAPES,
 	ARRAY_SHAPES,
+	R5_ARRAY_ACTIONS,
+	R5_FOCUS_ARRAY_SHAPES,
+	R5_TUPLE_FOCUS_CASES,
+	R5_FOCUS_CANCELLATIONS,
+	R5_PROPERTY_SHAPES,
+	R5_PROPERTY_TEMPLATES,
+	R5_ADD_LIMITS,
+	R5_ENTRY_WIDGETS,
+	R5_FALLBACK_SHAPES,
 	FIELDSET_BACKGROUND_SHAPES,
 	OBJECT_SHAPES,
 	ACTION_NAME_SHAPES,

@@ -101,9 +101,15 @@ Type: `Promise<void>`
 
 
 
-### `setFocus() => Promise<void>`
+### `setFocus(canFocus?: () => boolean) => Promise<void>`
 
 Focuses the dropdown trigger without changing its open state or selection.
+
+#### Parameters
+
+| Name       | Type            | Description                                                       |
+| ---------- | --------------- | ----------------------------------------------------------------- |
+| `canFocus` | `() => boolean` | Optional live check passed through to the trigger's focus method. |
 
 #### Returns
 

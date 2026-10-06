@@ -33,9 +33,13 @@ export class KvRadioList implements IRadioList, IRadioListEvents {
 	/** @inheritdoc */
 	@Event() optionSelected: EventEmitter<string | number>;
 
-	/** Focuses the selected enabled radio, or the first enabled radio when none is selected. */
+	/**
+	 * Focuses the selected enabled radio, or the first enabled radio when none is selected.
+	 * @param canFocus Optional live check; returning false cancels focus after queued invocation.
+	 */
 	@Method()
-	async setFocus(): Promise<void> {
+	async setFocus(canFocus?: () => boolean): Promise<void> {
+		if (canFocus?.() === false) return;
 		const hosts = Array.from(this.el.shadowRoot?.querySelectorAll<HTMLElement>('kv-radio-list-item') ?? []);
 		focusRadioGroup(this.getGroupOptions(), hosts);
 	}

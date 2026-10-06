@@ -10,6 +10,7 @@ import { FileInfoType } from './types';
 import { extractFileInfo, processFiles } from './utils';
 import { useFieldErrors, useFormState } from '../../contexts';
 import { SCHEMA_FORM_STRINGS } from '../../strings';
+import { useSchemaFormFocusRef } from '../../hooks/entryFocus';
 
 function FileActions({ fileInfo, onDelete, preview = false }: { fileInfo: FileInfoType; onDelete: (filename: string) => void; preview?: boolean }) {
 	const { dataURL, name } = fileInfo;
@@ -92,6 +93,7 @@ function FilesInfo({
 function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: WidgetProps<T, S, F>) {
 	const { id, disabled, readonly, required, multiple, onChange, value, options, uiSchema, schema, label, name, rawErrors = [] } = props;
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
+	const focusRef = useSchemaFormFocusRef<HTMLKvActionButtonTextElement>(disabled || readonly);
 	const hasVisibleErrors = useFieldErrors(id, rawErrors);
 
 	const [filesInfo, setFilesInfo] = useState<FileInfoType[]>(extractFileInfo(value));
@@ -141,6 +143,7 @@ function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends 
 			<div className={styles.BrowseFilesButton}>
 				<label htmlFor={`file_${name}`}>
 					<KvActionButtonText
+						ref={focusRef}
 						type={EActionButtonType.Tertiary}
 						size={EComponentSize.Small}
 						text="Browse File"

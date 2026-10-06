@@ -173,10 +173,13 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		});
 	};
 
-	/** Focuses the dropdown trigger without changing its open state or selection. */
+	/**
+	 * Focuses the dropdown trigger without changing its open state or selection.
+	 * @param canFocus Optional live check passed through to the trigger's focus method.
+	 */
 	@Method()
-	async setFocus(): Promise<void> {
-		await this.dropdownRef?.setFocus();
+	async setFocus(canFocus?: () => boolean): Promise<void> {
+		if (canFocus?.() !== false) await this.dropdownRef?.setFocus(canFocus);
 	}
 
 	/** Focuses the search text field */

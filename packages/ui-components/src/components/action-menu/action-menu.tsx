@@ -45,14 +45,17 @@ export class KvActionMenu implements IActionMenu, IActionMenuEvents {
 		return Array.from(this.menu?.querySelectorAll<HTMLButtonElement>('[role="menuitem"]') ?? []);
 	}
 
-	/** Waits for readiness, then focuses the enabled trigger without opening or choosing an action. */
+	/**
+	 * Waits for readiness, then focuses the enabled trigger without opening or choosing an action.
+	 * @param canFocus Optional live check; returning false cancels the readiness wait and focus.
+	 */
 	@Method()
-	async setFocus(): Promise<void> {
+	async setFocus(canFocus?: () => boolean): Promise<void> {
 		const generation = this.triggerFocusGeneration;
 		let deadline: number | undefined;
 		let readyTrigger: HTMLKvActionButtonIconElement | undefined;
 		let ready = false;
-		while (generation === this.triggerFocusGeneration && !this.disabled && this.element.isConnected) {
+		while (generation === this.triggerFocusGeneration && !this.disabled && this.element.isConnected && canFocus?.() !== false) {
 			const trigger = this.trigger;
 			if (!this.reconnectPending && trigger?.isConnected) {
 				if (readyTrigger !== trigger) {
