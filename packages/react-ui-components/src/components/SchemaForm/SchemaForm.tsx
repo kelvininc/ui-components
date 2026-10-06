@@ -4,6 +4,7 @@ import {
 	RJSFSchema,
 	StrictRJSFSchema,
 	FormContextType,
+	UiSchema,
 	ValidationData,
 	createSchemaUtils,
 	deepEquals,
@@ -12,7 +13,7 @@ import {
 	validationDataMerge
 } from '@rjsf/utils';
 import classNames from 'classnames';
-import { cloneDeep, isArray, isEmpty, isEqual, mergeWith } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 import React, { ComponentProps, ComponentType, ForwardedRef, forwardRef, PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useScroll } from '../../hooks';
 import { KvActionButtonText, KvSwitchButton, KvTooltip } from '../../stencil-generated';
@@ -26,8 +27,9 @@ import { buildDefaultFormStateBehavior, getDefaultValidator, getInitialFormData,
 import { humanizeSchemaErrors, pruneOptionErrors, sanitizeExtraErrors } from './rjsf/errors';
 import { areValidationConfigsEqual, getValidationConfig } from './rjsf/Form';
 import withGuardedTheme from './rjsf/withTheme';
+import { areSettingsEqual, mergeUiSchemas } from './rjsf/merge';
 
-function useStableValue<V>(value: V, equal: (previous: V, next: V) => boolean = isEqual): V {
+function useStableValue<V>(value: V, equal: (previous: V, next: V) => boolean = areSettingsEqual): V {
 	const [previous, setPrevious] = useState(value);
 	if (!equal(previous, value)) {
 		setPrevious(() => value);
@@ -62,7 +64,7 @@ const CustomFormWithRef = typedMemo(
 	forwardRef(StatefulCustomForm) as <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(
 		props: PropsWithChildren<FormProps<T, S, F>> & { ref?: ForwardedRef<Form<T, S, F>> }
 	) => ReturnType<typeof CustomForm<T, S, F>>,
-	(previousProps, nextProps) => previousProps.validator === nextProps.validator && isEqual(previousProps, nextProps)
+	(previousProps, nextProps) => previousProps.validator === nextProps.validator && areSettingsEqual(previousProps, nextProps)
 );
 
 export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
@@ -107,14 +109,15 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		},
 		[schema, humanizeErrors, transformErrorsProp]
 	);
-	// `merge` blends arrays index-wise, so a caller's `ui:enumDisabled: ['b']` over a generated
-	// `['a','b','c']` produced `['b','b','c']`, and an empty array - which means "nothing is
-	// disabled" - was ignored entirely. Key the customizer on the SOURCE: returning undefined falls
-	// back to the default merge, so testing the destination would keep the generated array instead.
 	const mergedUiSchema = useStableValue(
-		useMemo(() => mergeWith({}, normalizedUiSchema, uiSchema, (_generated, provided) => (isArray(provided) ? provided : undefined)), [normalizedUiSchema, uiSchema])
+		useMemo(() => mergeUiSchemas<T, S, SchemaFormContext>(normalizedUiSchema as UiSchema<T, S, SchemaFormContext>, uiSchema), [normalizedUiSchema, uiSchema])
 	);
-	const formUiSchema = useStableValue({ ...mergedUiSchema, 'ui:submitButtonOptions': { props: { disabled: false }, norender: true, submitText: '' } });
+	const formUiSchema = useStableValue(
+		useMemo(
+			() => mergeUiSchemas<T, S, SchemaFormContext>(mergedUiSchema, { 'ui:submitButtonOptions': { props: { disabled: false }, norender: true, submitText: '' } }),
+			[mergedUiSchema]
+		)
+	);
 	const formData = useMemo(() => cloneDeep(getInitialFormData(schema, formDataProp, formValidator, applyDefaults, false)), [formValidator, schema, formDataProp, applyDefaults]);
 	// Preserve current edits across settings updates. Ordinary widget changes stay inside
 	// RJSF, so echoing props doesn't erase the errors those widgets raise through onChange.
@@ -136,7 +139,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 			extraErrorsBlockSubmit,
 			experimental_defaultFormStateBehavior
 		},
-		(previous, next) => previous.validator === next.validator && isEqual(previous, next)
+		(previous, next) => previous.validator === next.validator && areSettingsEqual(previous, next)
 	);
 	const [dataState, setDataState] = useState({ inputs, boundary: formData, edited: formData, formData });
 	let currentFormData = dataState.formData;
@@ -230,7 +233,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		experimental_defaultFormStateBehavior
 	};
 
-	const stableThemedProps = useStableValue(themedProps, (previous, next) => previous.validator === next.validator && isEqual(previous, next));
+	const stableThemedProps = useStableValue(themedProps, (previous, next) => previous.validator === next.validator && areSettingsEqual(previous, next));
 	const validationConfig = useStableValue(getValidationConfig(stableThemedProps), areValidationConfigsEqual);
 	const committedValidationConfig = useRef(validationConfig);
 
