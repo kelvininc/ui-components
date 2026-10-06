@@ -1,6 +1,7 @@
 import Form, { FormProps, FormState } from '@rjsf/core';
 import { deepEquals, FormContextType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import { isEqual } from 'lodash';
+import { areSettingsEqual } from './merge';
 
 export type ValidationConfig<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any> = Pick<
 	FormProps<T, S, F>,
@@ -55,9 +56,17 @@ export function areValidationConfigsEqual<T, S extends StrictRJSFSchema, F exten
 
 /** RJSF 5 compares incoming data with the previous prop, which can precede the current edit. */
 export default class GuardedForm<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any> extends Form<T, S, F> {
+	shouldComponentUpdate(nextProps: FormProps<T, S, F>, nextState: FormState<T, S, F>): boolean {
+		return !areSettingsEqual(this.props, nextProps) || !areSettingsEqual(this.state, nextState);
+	}
+
 	getSnapshotBeforeUpdate(prevProps: FormProps<T, S, F>, prevState: FormState<T, S, F>): ReturnType<Form<T, S, F>['getSnapshotBeforeUpdate']> {
 		const preserveErrors = deepEquals(this.props.formData, this.state.formData) && areValidationConfigsEqual(getValidationConfig(prevProps), getValidationConfig(this.props));
-		if (preserveErrors && prevProps.idPrefix === this.props.idPrefix && prevProps.idSeparator === this.props.idSeparator) return { shouldUpdate: false };
+		if (preserveErrors && prevProps.idPrefix === this.props.idPrefix && prevProps.idSeparator === this.props.idSeparator) {
+			const uiSchema = this.props.uiSchema ?? {};
+			// Equivalent validation settings can still contain a replacement React component type.
+			return areSettingsEqual(this.state.uiSchema, uiSchema) ? { shouldUpdate: false } : { nextState: { ...this.state, uiSchema }, shouldUpdate: true };
+		}
 		const snapshot = super.getSnapshotBeforeUpdate(prevProps, prevState);
 		if (!preserveErrors || !snapshot.shouldUpdate) return snapshot;
 		// Let upstream derive new ids without replacing the current native error state.
