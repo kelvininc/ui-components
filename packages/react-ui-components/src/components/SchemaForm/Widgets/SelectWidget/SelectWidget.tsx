@@ -9,6 +9,7 @@ import { getSelectedOptionIndex, resolveAllowClearInputs } from '../utils';
 import { DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
 import { useSchemaFormFocusRef } from '../../hooks/entryFocus';
 import { useFieldDescription, useFieldErrors, useFormState } from '../../contexts';
+import { useTableCell } from '../../contexts/TableContext';
 
 const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	schema,
@@ -28,6 +29,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	registry
 }: WidgetProps<T, S, F>) => {
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
+	const cell = useTableCell(id);
 	const accessibleDescriptionElements = useFieldDescription(id);
 	const focusRef = useSchemaFormFocusRef<HTMLKvSingleSelectDropdownElement | HTMLKvMultiSelectDropdownElement>(disabled || readonly);
 	const { enumOptions, enumDisabled, enumDescriptions, placeholder: optionsPlaceholder } = options;
@@ -107,7 +109,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 
 	const props = {
 		id,
-		accessibleLabel: label,
+		accessibleLabel: cell?.accessibleLabel ?? label,
 		required,
 		inputConfig: { accessibleDescriptionElements },
 		placeholder: placeholder ? placeholder : optionsPlaceholder,

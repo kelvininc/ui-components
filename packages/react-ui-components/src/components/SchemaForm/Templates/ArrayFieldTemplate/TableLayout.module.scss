@@ -1,0 +1,125 @@
+@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
+
+.TableContainer {
+	container-type: inline-size;
+}
+
+.TableContainer .TableList {
+	gap: var(--spacing-md);
+}
+
+.TableContainer .TableList + div {
+	margin-top: var(--spacing-md);
+}
+
+.TableHeader,
+.TableRow {
+	display: grid;
+	/* stylelint-disable-next-line csstools/value-no-unknown-custom-properties -- column count and action width come from tableStyle */
+	grid-template-columns: repeat(var(--schema-form-table-columns), minmax(0, 1fr)) var(--schema-form-table-actions-width);
+	gap: var(--spacing-md);
+	align-items: start;
+	position: relative;
+	min-width: 0;
+
+	&[data-grip] {
+		padding-left: calc(var(--icon-button-height-regular) + var(--spacing-md));
+	}
+}
+
+.TableCell {
+	min-width: 0;
+}
+
+.ColumnHeader,
+.CellLabel {
+	@include heading-xs-regular-caps;
+
+	color: var(--input-text-label-default);
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-xs);
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.Required {
+	color: var(--input-text-required-default);
+}
+
+.CellLabel {
+	display: none;
+	min-height: var(--icon-button-height-compact);
+	margin-bottom: var(--spacing-xs);
+}
+
+.TableActions {
+	display: flex;
+	grid-column: -2 / -1;
+	grid-row: 1;
+	align-items: center;
+	padding-top: calc((var(--input-height-regular) - var(--icon-button-height-regular)) / 2);
+}
+
+.TableGrip {
+	position: absolute;
+	top: calc((var(--input-height-regular) - var(--icon-button-height-regular)) / 2);
+	left: 0;
+}
+
+.Hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.RowErrors {
+	grid-column: 1 / -1;
+
+	&:empty {
+		display: none;
+	}
+}
+
+@container (width < 480px) {
+	.HeaderHelp {
+		display: none;
+	}
+
+	.TableHeader {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+	}
+
+	.TableRow {
+		grid-template-columns: minmax(0, 1fr) auto;
+		padding-bottom: var(--spacing-md);
+		border-bottom: var(--border-width-default) solid var(--border-container-divider-default);
+	}
+
+	.TableCell {
+		grid-column: 1;
+	}
+
+	.CellLabel {
+		display: flex;
+	}
+
+	.TableActions {
+		grid-column: 2;
+		grid-row: 1;
+		padding-top: calc(var(--icon-button-height-compact) + var(--spacing-xs) + (var(--input-height-regular) - var(--icon-button-height-regular)) / 2);
+	}
+
+	.TableGrip {
+		top: calc(var(--icon-button-height-compact) + var(--spacing-xs) + (var(--input-height-regular) - var(--icon-button-height-regular)) / 2);
+	}
+}

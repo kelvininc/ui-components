@@ -270,7 +270,7 @@ describe.each(ARRAY_SHAPES)('L1 list matrix in Chromium: $name', row => {
 				else await expect.element(trigger).toBeEnabled();
 			}
 			expect(screen.getByRole('button', { name: '', exact: true }).query()).toBeNull();
-			const add = list.querySelector<HTMLKvActionButtonElement>(':scope > div > div > div > kv-action-button');
+			const add = list.querySelector<HTMLKvActionButtonElement>(':scope > div > div > kv-action-button, :scope > div > div > div > kv-action-button');
 			if (option.options.addable !== false) {
 				expect(add?.textContent).toBe('Add item');
 				const button = screen.getByRole('button', { name: add!.accessibleLabel, exact: true }).element();

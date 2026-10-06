@@ -51,7 +51,7 @@ export const SchemaFormExample: React.FC = () => {
 
 ## Section layout
 
-Object fields and homogeneous object lists render open sections. Their titles use native headings,
+Object fields and object lists that don't qualify for tables render open sections. Their titles use native headings,
 starting at `h2`; each titled section increases the level, up to `h6`. Blank titles and
 `ui:options.label: false` suppress the heading. Custom fields, tuples and multi-selects use control layout.
 
@@ -114,6 +114,43 @@ function BrokerHost({ value, onChange, disabled, readonly }: WidgetProps) {
 Registered hosts that implement asynchronous `focusInput` or `setFocus` receive an optional
 `canFocus: () => boolean` argument. Check it immediately before moving focus after any wait, so a
 pending call respects the user moving elsewhere, a newer action, or the form becoming readonly.
+
+## Flat object tables
+
+Lists with one to four visible text, number or select properties render as tables automatically.
+Nested objects, inner lists, conditional items, expandable objects, custom controls and custom layout
+templates keep sections. Visible fields with suppressed labels or blank UI titles keep sections too.
+Lists with visible item descriptions, item help or default-value helpers also
+keep sections so their guidance stays visible. Hidden properties retain their values and don't count
+toward the column limit.
+Text formats such as `email` and Kelvin's regex formats can use tables; file, date, time and color controls
+keep sections.
+
+Headers follow the items' `ui:order`. Each header shows its title, required marker and one info tip for
+the property's description or help. `descriptionPosition: 'none'` hides descriptions, including a global
+setting; explicit `ui:help` still appears in the tip. Cells show their own errors below the control. Below a 480px
+container, each row stacks its cells and shows small local labels with help tips. The header's help
+triggers hide at this width while its column names remain available to screen readers. Resizing preserves
+the controls and current focus. Table help uses labelled buttons that open and close with Enter or Space.
+Header help participates in Tab order at 480px and above; stacked help sits before its cell input.
+
+The table uses column headers and a hidden row header, such as "Variable 2". Controls receive names such
+as "Name, Variable 2" through `accessibleLabel`. The row name comes from `ui:itemPrefix`, the items' title,
+then "row". Tab visits each row's cell help and inputs before its reorder grip, remove button and next row.
+Move, remove and Add use the focus policy described above.
+
+Use `layout: 'sections'` on the array to retain sections. For unordered environment variables:
+
+```tsx
+const uiSchema = {
+	environment: {
+		'ui:options': { layout: 'sections', itemPrefix: 'Variable', orderable: false }
+	}
+};
+```
+
+Omit `layout` to use the automatic table; `orderable: false` hides the grip while keeping the trash
+button. `removable: false`, `addable: false`, `readonly` and `disabled` keep their existing behavior.
 
 ## oneOf and anyOf
 

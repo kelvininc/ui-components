@@ -50,7 +50,9 @@ describe.each(R5_FOCUS_ARRAY_SHAPES)('R5 keyboard focus: $name', row => {
 				!adding && !menu?.accessibleLabel.startsWith('Actions for')
 					? Array.from(item.querySelectorAll('kv-action-button-icon')).find(host => !host.closest('kv-action-menu'))!
 					: null;
-			const add = screen.container.querySelector<HTMLKvActionButtonElement>('[data-schema-form-list="root"] > div > div > div > kv-action-button');
+			const add = screen.container.querySelector<HTMLKvActionButtonElement>(
+				'[data-schema-form-list="root"] > div > div > kv-action-button, [data-schema-form-list="root"] > div > div > div > kv-action-button'
+			);
 			if (inactive) {
 				const target = adding
 					? screen.getByRole('button', { name: add!.accessibleLabel, exact: true })
@@ -333,7 +335,7 @@ describe('R5 array focus in Chromium', () => {
 	});
 	it('tabs through an object header action, its fields, then the next item', async () => {
 		const row = ARRAY_SHAPES[2];
-		const screen = await render(<KvSchemaForm schema={row.schema} formData={row.formData} />);
+		const screen = await render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={{ 'ui:options': { layout: 'sections' } }} />);
 		await whenAllKelvinReady(screen.container);
 		await menuOf(itemsOf(screen.container)[0]).setFocus();
 		await userEvent.tab();

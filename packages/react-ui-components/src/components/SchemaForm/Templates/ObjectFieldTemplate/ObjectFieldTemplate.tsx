@@ -2,7 +2,7 @@ import { EActionButtonType, EComponentSize, EIconName } from '@kelvininc/ui-comp
 import { ADDITIONAL_PROPERTY_FLAG, FormContextType, ObjectFieldTemplateProps, RJSFSchema, StrictRJSFSchema, UiSchema, canExpand, getUiOptions } from '@rjsf/utils';
 import classNames from 'classnames';
 import { get } from 'lodash';
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { OptionSectionContext, ReportOptionSection } from '../../contexts';
 import { KvActionButtonIcon } from '../../../../stencil-generated';
 import styles from './ObjectFieldTemplate.module.scss';
@@ -12,6 +12,8 @@ import { isSectionField } from '../utils';
 import { fitWidth } from './utils';
 import { SchemaFormContext } from '../../types';
 import { FocusEntry, FocusEntryHandle, focusFromHolder, focusHost } from '../../hooks/entryFocus';
+import { TableRowContext } from '../../contexts/TableContext';
+import { TableObjectCells } from '../ArrayFieldTemplate/TableLayout';
 
 const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	properties,
@@ -25,6 +27,7 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 	idSchema,
 	registry
 }: ObjectFieldTemplateProps<T, S, F>) => {
+	const tableRow = useContext(TableRowContext);
 	const [optionSections, setOptionSections] = useState(new Map<string, Map<symbol, boolean>>());
 	const objectRef = useRef<HTMLDivElement>(null);
 	const addRef = useRef<HTMLKvActionButtonIconElement>(null);
@@ -86,6 +89,7 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 	);
 	const firstVisibleIndex = inline ? -1 : properties.findIndex(property => !property.hidden);
 	let previousIsSection = false;
+	if (tableRow?.fieldId === idSchema.$id) return <TableObjectCells properties={properties} idSchema={idSchema} />;
 	return (
 		<OptionSectionContext.Provider value={reportSection}>
 			<div ref={objectRef} data-schema-form-object data-schema-form-inline={inline || undefined} className={classNames(styles.PropsContainer, { [styles.Inline]: inline })}>
