@@ -6,12 +6,20 @@
 	gap: var(--spacing-md);
 	margin-left: var(--spacing-xs);
 
-	&.Inline {
-		flex-direction: row;
+	&::part(items-container) {
+		flex: 1;
 	}
 
-	kv-radio-list-item {
-		display: flex;
+	&::part(item) {
+		display: grid;
 		flex: 1;
+	}
+
+	&.Inline {
+		flex-direction: row;
+
+		&::part(items-container) {
+			flex-flow: row wrap;
+		}
 	}
 }

@@ -16,10 +16,12 @@ describe.each(CONTROL_NAME_SHAPES)('choice control names: $name', row => {
 		const onChange = vi.fn();
 		try {
 			await act(async () => root.render(<KvSchemaForm schema={row.schema} uiSchema={row.uiSchema} formData={row.formData} onChange={onChange} />));
-			const controls = Array.from(container.querySelectorAll(row.role === 'checkbox' ? 'kv-checkbox' : 'kv-radio-list-item'));
-			expect(controls.map(control => propsOf(control)[row.role === 'checkbox' ? 'accessibleLabel' : 'label'])).toEqual(row.labels);
+			const control = container.querySelector(row.role === 'checkbox' ? 'kv-checkbox' : 'kv-radio-list')!;
+			const props = propsOf<{ accessibleLabel: string; options: { label: string; optionId: string }[] }>(control);
+			expect(row.role === 'checkbox' ? [props.accessibleLabel] : props.options.map(option => option.label)).toEqual(row.labels);
 			await act(async () => {
-				fireStencilEvent(controls[0], row.role === 'checkbox' ? 'onClickCheckbox' : 'onOptionClick');
+				if (row.role === 'checkbox') fireStencilEvent(control, 'onClickCheckbox');
+				else fireStencilEvent(control, 'onOptionSelected', props.options[0].optionId);
 			});
 			expect(onChange.mock.lastCall?.[0].formData).toEqual(row.nextValue);
 		} finally {

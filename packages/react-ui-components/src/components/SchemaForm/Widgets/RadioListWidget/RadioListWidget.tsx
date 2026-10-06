@@ -1,63 +1,10 @@
-import React, { useCallback, useMemo } from 'react';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
-import { KvRadioListItem } from '../../../../stencil-generated';
-import styles from './RadioListWidget.module.scss';
 import classNames from 'classnames';
-import { get } from 'lodash';
-import { useFieldDescription, useFormState } from '../../contexts';
+import React from 'react';
+import { RadioChoice } from '../RadioChoice';
+import styles from './RadioListWidget.module.scss';
 
-const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
-	id,
-	options,
-	value,
-	disabled,
-	readonly,
-	formContext,
-	onChange
-}: WidgetProps<T, S, F>) => {
-	const { trackFieldChange, markFieldAsTouched } = useFormState();
-	const accessibleDescriptionElements = useFieldDescription(id);
-	const { enumOptions, enumDisabled, enumDescriptions, inline } = options;
-	const inlineMemo = useMemo(() => Boolean(inline), [inline]);
-	const { allowClearInputs } = formContext as F;
-
-	const handleChange = useCallback(
-		(optionValue: any, checked: boolean) => {
-			const newValue = allowClearInputs && checked ? undefined : optionValue;
-			trackFieldChange(id, newValue);
-			onChange(newValue);
-		},
-		[onChange, allowClearInputs, trackFieldChange, id]
-	);
-
-	return (
-		<div className={classNames(styles.RadioListContainer, { [styles.Inline]: inlineMemo })}>
-			{Array.isArray(enumOptions) &&
-				enumOptions.map((option, i: number) => {
-					const itemDisabled = Array.isArray(enumDisabled) && enumDisabled.indexOf(option.value) !== -1;
-					const checked = option.value == value;
-					const isDisabled = disabled || itemDisabled || readonly;
-					// `ui:enumDescriptions` first: normalizeEnums moves a oneOf's per-option descriptions
-					// there, and RJSF only populates `option.schema` for a oneOf that was left intact
-					const description = (Array.isArray(enumDescriptions) ? enumDescriptions[i] : undefined) || get(option, 'schema.description', '');
-
-					return (
-						<KvRadioListItem
-							key={i}
-							optionId={option.label}
-							label={option.label}
-							disabled={isDisabled}
-							checked={checked}
-							accessibleDescriptionElements={accessibleDescriptionElements}
-							description={description}
-							onOptionClick={(_value: unknown) => handleChange(option.value, checked)}
-							onFocus={() => markFieldAsTouched(id)}
-							onBlur={() => markFieldAsTouched(id)}
-						/>
-					);
-				})}
-		</div>
-	);
-};
-
+const RadioListWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: WidgetProps<T, S, F>) => (
+	<RadioChoice {...props} descriptions className={classNames(styles.RadioListContainer, { [styles.Inline]: Boolean(props.options.inline) })} />
+);
 export default RadioListWidget;

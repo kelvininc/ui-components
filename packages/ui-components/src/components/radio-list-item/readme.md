@@ -72,6 +72,13 @@ export const RadioListItemExample: React.FC = () => (
 | `optionClick` | Emits when this option is clicked | `CustomEvent<number \| string>` |
 
 
+## Shadow Parts
+
+| Part      | Description                |
+| --------- | -------------------------- |
+| `"label"` | The option's visible label |
+
+
 ## CSS Custom Properties
 
 | Name                                           | Description                                            |
