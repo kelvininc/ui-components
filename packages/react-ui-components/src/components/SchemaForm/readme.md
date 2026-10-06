@@ -68,6 +68,23 @@ RJSF 5 requires object schemas during path traversal. SchemaForm converts boolea
 validation-equivalent `{}` and `{not:{}}` schemas. Unconstrained properties have no inferred input type;
 forbidden properties use RJSF's unsupported-field presentation. `additionalProperties` flags stay literal.
 
+## oneOf and anyOf
+
+Selected branches inherit child-property settings from their parent field. Selector settings such as
+title, description, help, placeholder, autofocus, widget, field, disabled enum options and template
+overrides stay on the parent. Set those explicitly in `uiSchema.oneOf[index]` or
+`uiSchema.anyOf[index]` to apply them to a branch.
+
+Branches hide their repeated title by default; set `ui:options.label: true` on a branch to show it.
+The selector and branch use the standard field gap, with an indented rail beside the branch. A selected
+object branch also gives its parent property row and the following visible row section dividers.
+Inline objects keep their existing divider-free layout.
+
+Parent `ui:order` passes to branches with `'*'` appended for remaining properties. An explicit branch
+order overrides it, including when supplied through `ui:options.order`. Arrays replace whole arrays.
+SchemaForm preserves function, memo and forwardRef component references while merging UI settings,
+and applies template replacements to mounted forms without modifying the caller's uiSchema.
+
 ## Properties:
 
 You can use any of the properties available in the react-jsonschema-form [&lt;Form /> props](https://react-jsonschema-form.readthedocs.io/en/latest/api-reference/form-props/).

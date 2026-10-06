@@ -1384,11 +1384,12 @@ export const R2_SELECTOR_OWNER_SHAPES = (['oneOf', 'anyOf'] as const).flatMap(ke
 );
 
 const FieldLayout = ({ children }: FieldTemplateProps) => <div data-field-layout="">{children}</div>;
-const ForwardRefFieldLayout = forwardRef<HTMLDivElement, FieldTemplateProps>(({ children }, ref) => (
+const renderForwardLayout = ({ children }: FieldTemplateProps, ref: React.ForwardedRef<HTMLDivElement>) => (
 	<div ref={ref} data-field-layout="">
 		{children}
 	</div>
-));
+);
+const ForwardRefFieldLayout = forwardRef<HTMLDivElement, FieldTemplateProps>(renderForwardLayout);
 ForwardRefFieldLayout.displayName = 'ForwardRefFieldLayout';
 
 /** memo and forwardRef components are plain objects, which a deep merge would copy into new component types */
@@ -1825,6 +1826,113 @@ export const OPTION_BRANCH_SHAPES = ['oneOf', 'anyOf'].map(keyword => ({
 	values: [{ token: 'broker-token' }, { certificate: 'broker-certificate' }]
 }));
 
+export const R4_OPTION_SHAPES = (['oneOf', 'anyOf'] as const).map(keyword => ({
+	name: keyword,
+	keyword,
+	selectorId: `root_auth__${keyword.toLowerCase()}_select`,
+	schema: {
+		type: 'object',
+		title: 'Broker connection',
+		properties: {
+			name: { type: 'string', title: 'Connection name' },
+			auth: {
+				title: 'Authentication',
+				[keyword]: [
+					{ type: 'string', title: 'Token' },
+					{
+						type: 'object',
+						title: 'Broker address',
+						properties: { host: { type: 'string', title: 'Host' }, port: { type: 'integer', title: 'Port' }, region: { type: 'string', title: 'Region' } }
+					}
+				]
+			},
+			hidden: { type: 'string', title: 'Internal label' },
+			audit: { type: 'string', title: 'Audit mode' }
+		}
+	} as RJSFSchema,
+	uiSchema: { hidden: { 'ui:widget': 'hidden' } } satisfies UiSchema,
+	values: ['broker-token', { host: 'broker.local', port: 1883, region: 'lisbon' }]
+}));
+
+export const R4_UI_SETTING_SHAPES = [
+	{ name: 'ui keys', build: (settings: UIOptionsType): UiSchema => Object.fromEntries(Object.entries(settings).map(([key, value]) => [`ui:${key}`, value])) },
+	{ name: 'ui options', build: (settings: UIOptionsType): UiSchema => ({ 'ui:options': settings }) }
+];
+
+const R4_EMPTY_CHOICE = { 'ui:title': 'None', 'broker': { 'ui:options': { region: 'lisbon' } } };
+const R4_SAVED_CHOICE = { 'ui:title': 'Plant broker' };
+export const R4_OPTION_PAYLOAD_SHAPE = {
+	schema: { type: 'object', properties: { broker: { title: 'Broker profile', enum: [R4_EMPTY_CHOICE, R4_SAVED_CHOICE] } } } as RJSFSchema,
+	formData: { broker: R4_SAVED_CHOICE },
+	emptyValue: R4_EMPTY_CHOICE,
+	customOptions: { 'ui:placeholder': 'Broker address' }
+};
+
+export const R4_TEMPLATE_PLACEMENTS = ['field', 'branch', 'inherited child'] as const;
+export const R4_SAME_RENDER_TEMPLATES = [
+	{ name: 'memo around the same function', build: () => memo(FieldLayout) },
+	{ name: 'forwardRef around the same function', build: () => forwardRef<HTMLDivElement, FieldTemplateProps>(renderForwardLayout) }
+];
+export const R4_BRANCH_LABEL_SHAPES = [
+	{ name: 'default hidden title', parent: true, branch: undefined, expected: false },
+	{ name: 'explicit shown branch title', parent: false, branch: true, expected: true },
+	{ name: 'explicit hidden branch title', parent: true, branch: false, expected: false }
+];
+export const R4_REPORT_SCOPE_SHAPES = [
+	{ name: 'independent forms', nested: false },
+	{ name: 'nested objects', nested: true }
+] as const;
+
+export const R4_ORDER_SHAPES: readonly { name: string; parent: UiSchema; branch: UiSchema; expected: string[] }[] = [
+	{ name: 'parent order', parent: { 'ui:order': ['port', 'host'] }, branch: {}, expected: ['port', 'host', 'region'] },
+	{ name: 'parent option order', parent: { 'ui:options': { order: ['port', 'host'] } }, branch: {}, expected: ['port', 'host', 'region'] },
+	{ name: 'existing wildcard', parent: { 'ui:order': ['port', '*'] }, branch: {}, expected: ['port', 'host', 'region'] },
+	{ name: 'branch order', parent: { 'ui:order': ['port', 'host'] }, branch: { 'ui:order': ['region'] }, expected: ['region', 'host', 'port'] },
+	{ name: 'branch option order', parent: { 'ui:order': ['port', 'host'] }, branch: { 'ui:options': { order: ['region'] } }, expected: ['region', 'host', 'port'] },
+	{ name: 'empty branch order', parent: { 'ui:order': ['port', 'host'] }, branch: { 'ui:order': [] }, expected: ['host', 'port', 'region'] }
+];
+
+export const R4_BRANCH_PRESENTATIONS: readonly { name: string; uiSchema: UiSchema; section: boolean; inline?: boolean }[] = [
+	{ name: 'standard object', uiSchema: {}, section: true },
+	{ name: 'branch UI title', uiSchema: { 'ui:title': 'Configured broker' }, section: true },
+	{ name: 'hidden branch', uiSchema: { 'ui:widget': 'hidden' }, section: false },
+	{ name: 'branch custom field', uiSchema: { 'ui:field': CustomConnection }, section: false },
+	{ name: 'branch custom field in options', uiSchema: { 'ui:options': { field: CustomConnection } }, section: false },
+	{ name: 'inline parent', uiSchema: {}, section: true, inline: true }
+];
+
+export const R4_OPTION_ERROR_SHAPES = (['oneOf', 'anyOf'] as const).map(keyword => ({
+	name: keyword,
+	schema: {
+		type: 'object',
+		properties: {
+			security: {
+				type: 'object',
+				title: 'Security',
+				[keyword]: [
+					{ title: 'Plaintext', properties: { protocol: { const: 'PLAINTEXT', default: 'PLAINTEXT' } }, required: ['protocol'] },
+					{
+						title: 'SASL',
+						properties: {
+							protocol: { const: 'SASL_PLAINTEXT', default: 'SASL_PLAINTEXT' },
+							sasl: {
+								type: 'object',
+								title: 'SASL Authentication',
+								properties: { username: { type: 'string', title: 'Username' }, password: { type: 'string', title: 'Password' } },
+								required: ['username', 'password']
+							}
+						},
+						required: ['protocol', 'sasl']
+					}
+				]
+			}
+		}
+	} satisfies RJSFSchema,
+	formData: { security: { protocol: 'SASL_PLAINTEXT', sasl: {} } },
+	uiSchema: { security: { protocol: { 'ui:widget': 'hidden' } } } satisfies UiSchema,
+	selectorId: `root_security__${keyword.toLowerCase()}_select`
+}));
+
 const NativeBrokerHost = ({ id, label, value, onChange, required, disabled, readonly }: WidgetProps<unknown>) => (
 	<input id={id} name={id} aria-label={label} value={value ?? ''} required={required} disabled={disabled} readOnly={readonly} onChange={event => onChange(event.target.value)} />
 );
@@ -2055,6 +2163,16 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	OBJECT_LAYOUT_SCHEMA,
 	BOOLEAN_PROPERTY_VALUES,
 	OPTION_BRANCH_SHAPES,
+	R4_OPTION_SHAPES,
+	R4_UI_SETTING_SHAPES,
+	R4_OPTION_PAYLOAD_SHAPE,
+	R4_TEMPLATE_PLACEMENTS,
+	R4_SAME_RENDER_TEMPLATES,
+	R4_BRANCH_LABEL_SHAPES,
+	R4_REPORT_SCOPE_SHAPES,
+	R4_ORDER_SHAPES,
+	R4_BRANCH_PRESENTATIONS,
+	R4_OPTION_ERROR_SHAPES,
 	ADDITIONAL_LAYOUT_SHAPES,
 	ARRAY_ID_SHAPES,
 	ADDITIONAL_NAME_SHAPES

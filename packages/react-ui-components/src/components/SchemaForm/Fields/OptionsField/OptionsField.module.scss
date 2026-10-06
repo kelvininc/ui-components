@@ -1,0 +1,19 @@
+.OptionsContainer {
+	/* stylelint-disable csstools/value-no-unknown-custom-properties -- vars defined by SchemaForm */
+	> div {
+		display: flex;
+		flex-direction: column;
+		gap: var(--schema-form-fields-y-gap);
+	}
+	/* stylelint-enable csstools/value-no-unknown-custom-properties */
+
+	> div > [data-schema-form-field] {
+		box-sizing: border-box;
+		padding-left: var(--spacing-2xl);
+		border-left: var(--border-width-default) solid var(--border-container-divider-default);
+
+		&:has(> div > [data-schema-form-object]:only-child:empty) {
+			display: none;
+		}
+	}
+}

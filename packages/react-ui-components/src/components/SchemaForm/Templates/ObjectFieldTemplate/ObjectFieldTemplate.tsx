@@ -2,7 +2,8 @@ import { EActionButtonType, EComponentSize, EIconName } from '@kelvininc/ui-comp
 import { ADDITIONAL_PROPERTY_FLAG, FormContextType, ObjectFieldTemplateProps, RJSFSchema, StrictRJSFSchema, UiSchema, canExpand, getUiOptions } from '@rjsf/utils';
 import classNames from 'classnames';
 import { get } from 'lodash';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
+import { OptionSectionContext, ReportOptionSection } from '../../contexts';
 import { KvActionButtonIcon } from '../../../../stencil-generated';
 import styles from './ObjectFieldTemplate.module.scss';
 import { DEFAULT_INPUT_CONFIG, DEFAULT_INPUT_INLINE_CONFIG } from './config';
@@ -20,8 +21,22 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 	disabled,
 	readonly,
 	formContext,
+	idSchema,
 	registry
 }: ObjectFieldTemplateProps<T, S, F>) => {
+	const [optionSections, setOptionSections] = useState(new Map<string, Map<symbol, boolean>>());
+	const reportSection = useCallback<ReportOptionSection>((id, instance, section) => {
+		setOptionSections(previous => {
+			if (previous.get(id)?.get(instance) === section) return previous;
+			const next = new Map(previous);
+			const instances = new Map(next.get(id));
+			if (section === undefined) instances.delete(instance);
+			else instances.set(instance, section);
+			if (instances.size) next.set(id, instances);
+			else next.delete(id);
+			return next;
+		});
+	}, []);
 	const uiOptions = getUiOptions(uiSchema, registry.globalUiOptions);
 	const inline = Boolean(uiOptions.inline);
 	const { inputConfig = inline ? DEFAULT_INPUT_INLINE_CONFIG : DEFAULT_INPUT_CONFIG } = (formContext ?? {}) as SchemaFormContext;
@@ -40,7 +55,7 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 	const firstVisibleIndex = inline ? -1 : properties.findIndex(property => !property.hidden);
 	let previousIsSection = false;
 	return (
-		<>
+		<OptionSectionContext.Provider value={reportSection}>
 			<div data-schema-form-object data-schema-form-inline={inline || undefined} className={classNames(styles.PropsContainer, { [styles.Inline]: inline })}>
 				{properties.map((element, index) => {
 					const propertySchema = schema.properties?.[element.name] ?? {};
@@ -48,7 +63,8 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 					const resolved = composed ? registry.schemaUtils.retrieveSchema(propertySchema as S, get(formData, [element.name])) : propertySchema;
 					const propertyUiSchema =
 						typeof propertySchema !== 'boolean' && ADDITIONAL_PROPERTY_FLAG in propertySchema ? uiSchema?.additionalProperties : uiSchema?.[element.name];
-					const section = typeof resolved !== 'boolean' && isSectionField(resolved as S, propertyUiSchema as UiSchema<T, S, F>, registry);
+					const branchSection = Array.from(optionSections.get(get(idSchema, [element.name, '$id']))?.values() ?? []).some(Boolean);
+					const section = branchSection || (typeof resolved !== 'boolean' && isSectionField(resolved as S, propertyUiSchema as UiSchema<T, S, F>, registry));
 					const afterSection = !element.hidden && previousIsSection;
 					if (!element.hidden) previousIsSection = section;
 					return (
@@ -78,7 +94,7 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 					</div>
 				)}
 			</div>
-		</>
+		</OptionSectionContext.Provider>
 	);
 };
 
