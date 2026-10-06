@@ -9,6 +9,7 @@ import { KvSchemaForm } from './SchemaForm';
 import { EApplyDefaults } from './types';
 import {
 	R4_BRANCH_PRESENTATIONS,
+	R4_COMPOSED_BRANCH_SHAPES,
 	R4_EMPTY_BRANCH_TEMPLATES,
 	R4_OPTION_SHAPES,
 	R4_RAIL_VISIBILITY_SHAPES,
@@ -69,6 +70,26 @@ describe.each(R4_OPTION_SHAPES)('$name selected branch layout', row => {
 		await expect.element(screen.getByRole('textbox', { name: 'Host', exact: true })).toBeVisible();
 		expect(onChange).toHaveBeenCalledOnce();
 		expect(onChange.mock.lastCall?.[0].formData.auth).toBeUndefined();
+		expect(borders(screen.container)).toEqual(['1px', '1px']);
+		await screen.getByRole('textbox', { name: 'Authentication', exact: true }).click();
+		await chooseOption('Token');
+		await whenAllKelvinReady(screen.container);
+		expect(borders(screen.container)).toEqual(['0px', '0px']);
+	});
+
+	it.each(R4_COMPOSED_BRANCH_SHAPES)('divides the selected $name branch and following row', async shape => {
+		const schema: RJSFSchema = {
+			...row.schema,
+			definitions: shape.definitions,
+			properties: { ...row.schema.properties, auth: { title: 'Authentication', [row.keyword]: [{ type: 'string', title: 'Token' }, shape.branch] } }
+		};
+		const screen = await render(<KvSchemaForm schema={schema} uiSchema={row.uiSchema} formData={{ auth: row.values[0] }} applyDefaults={EApplyDefaults.Never} />);
+		await whenAllKelvinReady(screen.container);
+		expect(borders(screen.container)).toEqual(['0px', '0px']);
+		await screen.getByRole('textbox', { name: 'Authentication', exact: true }).click();
+		await chooseOption('Broker address');
+		await whenAllKelvinReady(screen.container);
+		await expect.element(screen.getByRole('textbox', { name: 'Host', exact: true })).toBeVisible();
 		expect(borders(screen.container)).toEqual(['1px', '1px']);
 		await screen.getByRole('textbox', { name: 'Authentication', exact: true }).click();
 		await chooseOption('Token');

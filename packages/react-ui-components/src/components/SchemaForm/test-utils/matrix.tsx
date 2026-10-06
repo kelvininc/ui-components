@@ -1962,6 +1962,24 @@ export const R4_REPORT_SCOPE_SHAPES = [
 	{ name: 'nested objects', nested: true }
 ] as const;
 
+const R4_REFERENCED_ADDRESS = {
+	type: 'object',
+	title: 'Broker address',
+	properties: { host: { type: 'string', title: 'Host' }, port: { type: 'integer', title: 'Port' } }
+} satisfies RJSFSchema;
+export const R4_COMPOSED_BRANCH_SHAPES = [
+	{
+		name: 'referenced object',
+		definitions: { BrokerAddress: R4_REFERENCED_ADDRESS },
+		branch: { $ref: '#/definitions/BrokerAddress' }
+	},
+	{
+		name: 'allOf object',
+		definitions: { BrokerAddress: R4_REFERENCED_ADDRESS },
+		branch: { allOf: [{ $ref: '#/definitions/BrokerAddress' }, { properties: { region: { type: 'string', title: 'Region' } } }] }
+	}
+];
+
 export const R4_ORDER_SHAPES: readonly { name: string; parent: UiSchema; branch: UiSchema; expected: string[] }[] = [
 	{ name: 'parent order', parent: { 'ui:order': ['port', 'host'] }, branch: {}, expected: ['port', 'host', 'region'] },
 	{ name: 'parent option order', parent: { 'ui:options': { order: ['port', 'host'] } }, branch: {}, expected: ['port', 'host', 'region'] },
@@ -2254,6 +2272,7 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	R4_SAME_RENDER_TEMPLATES,
 	R4_BRANCH_LABEL_SHAPES,
 	R4_REPORT_SCOPE_SHAPES,
+	R4_COMPOSED_BRANCH_SHAPES,
 	R4_ORDER_SHAPES,
 	R4_BRANCH_PRESENTATIONS,
 	R4_OPTION_ERROR_SHAPES,
