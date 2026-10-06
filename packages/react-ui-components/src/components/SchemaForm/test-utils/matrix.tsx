@@ -6,8 +6,10 @@ import {
 	FieldProps,
 	FieldTemplateProps,
 	RJSFSchema,
+	TemplatesType,
 	UIOptionsType,
 	UiSchema,
+	WrapIfAdditionalTemplateProps,
 	WidgetProps
 } from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
@@ -1451,6 +1453,82 @@ export const L1_HIDDEN_ITEM_HEADINGS = [
 	{ name: 'hidden label', uiSchema: { items: { 'ui:label': false } } }
 ];
 
+const WrappedItem = ({ children }: WrapIfAdditionalTemplateProps) => <div data-custom-item-wrap>{children}</div>;
+const nestedBrokers = {
+	schema: {
+		type: 'array',
+		title: 'Groups',
+		items: {
+			type: 'object',
+			title: 'Group',
+			properties: {
+				name: NAME,
+				brokers: { type: 'array', title: 'Brokers', items: { type: 'object', title: 'Broker', properties: { host: { type: 'string', title: 'Host' } } } }
+			}
+		}
+	} as RJSFSchema,
+	formData: ['north', 'south', 'east'].map((name, index) => ({ name, brokers: [{ host: `broker-${index * 2 + 1}.local` }, { host: `broker-${index * 2 + 2}.local` }] }))
+};
+export const L1_FIELDSET_SHAPES: {
+	name: string;
+	row: { schema: RJSFSchema; formData: unknown[] };
+	uiSchema: UiSchema;
+	templates?: Partial<TemplatesType>;
+	headers: number;
+	overlays: number;
+	menus: number;
+}[] = [
+	{ name: 'item actions', row: ARRAY_SHAPES[2], uiSchema: { items: { 'ui:fieldset': true } }, headers: 3, overlays: 3, menus: 3 },
+	{
+		name: 'no item actions',
+		row: ARRAY_SHAPES[2],
+		uiSchema: { 'ui:options': { orderable: false, removable: false }, 'items': { 'ui:fieldset': true } },
+		headers: 3,
+		overlays: 3,
+		menus: 0
+	},
+	{
+		name: 'blank title without actions',
+		row: ARRAY_SHAPES[2],
+		uiSchema: { 'ui:options': { orderable: false, removable: false }, 'items': { 'ui:fieldset': true, 'ui:title': '' } },
+		headers: 0,
+		overlays: 0,
+		menus: 0
+	},
+	{
+		name: 'hidden label without actions',
+		row: ARRAY_SHAPES[2],
+		uiSchema: { 'ui:options': { orderable: false, removable: false }, 'items': { 'ui:fieldset': true, 'ui:label': false } },
+		headers: 0,
+		overlays: 0,
+		menus: 0
+	},
+	{
+		name: 'custom wrapping template without actions',
+		row: ARRAY_SHAPES[2],
+		uiSchema: { 'ui:options': { orderable: false, removable: false }, 'items': { 'ui:fieldset': true } },
+		templates: { WrapIfAdditionalTemplate: WrappedItem },
+		headers: 3,
+		overlays: 3,
+		menus: 0
+	},
+	{ name: 'nested plain items', row: nestedBrokers, uiSchema: { items: { 'ui:fieldset': true } }, headers: 9, overlays: 3, menus: 9 },
+	{
+		name: 'nested fieldset items',
+		row: nestedBrokers,
+		uiSchema: { items: { 'ui:fieldset': true, 'brokers': { items: { 'ui:fieldset': true } } } },
+		headers: 9,
+		overlays: 9,
+		menus: 9
+	}
+];
+
+// RJSF 5 renders no fields for these schemas; existing items must still be movable and removable.
+export const L1_EMPTY_ITEM_SCHEMAS = [
+	{ name: 'unconstrained items', schema: { type: 'array', title: 'Brokers', items: {} } as RJSFSchema },
+	{ name: 'empty fixed-item tuple', schema: { type: 'array', title: 'Brokers', items: [], additionalItems: { type: 'string', title: 'Backup' } } as RJSFSchema }
+].map(row => ({ ...row, formData: ['broker-1.local', 'broker-2.local', 'broker-3.local'], uiSchema: { 'ui:itemPrefix': 'Broker' } }));
+
 const ItemArrayLayout = ({ items, registry, idSchema }: ArrayFieldTemplateProps) => {
 	const Item = registry.templates.ArrayFieldItemTemplate;
 	return (
@@ -2392,6 +2470,8 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	L1_TUPLE_SHAPES,
 	L1_ALIGNMENT_SHAPES,
 	L1_HIDDEN_ITEM_HEADINGS,
+	L1_FIELDSET_SHAPES,
+	L1_EMPTY_ITEM_SCHEMAS,
 	L1_ARRAY_TEMPLATE_SHAPES,
 	L1_UNION_LIST_SHAPES,
 	L1_ITEM_FIELD_COMPONENTS,

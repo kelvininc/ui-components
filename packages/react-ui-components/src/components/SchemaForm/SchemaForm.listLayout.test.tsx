@@ -7,9 +7,11 @@ import { fireStencilEvent, propsOf } from '../../test-utils';
 import { KvSchemaForm } from './SchemaForm';
 import {
 	ARRAY_SHAPES,
+	FOCUS_EDITING_FLAGS,
 	LIST_OPTIONS,
 	L1_ALIGNMENT_SHAPES,
 	L1_ARRAY_TEMPLATE_SHAPES,
+	L1_EMPTY_ITEM_SCHEMAS,
 	L1_HIDDEN_ITEM_HEADINGS,
 	L1_ITEM_FIELD_COMPONENTS,
 	L1_PREFIX_SHAPES,
@@ -35,6 +37,37 @@ afterEach(() => {
 		act(() => root.unmount());
 		container.remove();
 	}
+});
+
+describe.each(L1_EMPTY_ITEM_SCHEMAS)('L1 empty item schemas: $name', row => {
+	describe.each(LIST_OPTIONS)('$name', option => {
+		it.each(FOCUS_EDITING_FLAGS)('keeps available item controls when $name', flags => {
+			const onChange = vi.fn();
+			const screen = render(
+				<KvSchemaForm
+					schema={row.schema}
+					formData={row.formData}
+					uiSchema={{ ...row.uiSchema, 'ui:options': option.options }}
+					disabled={flags.disabled}
+					readonly={flags.readonly}
+					onChange={onChange}
+				/>
+			);
+			expect(screen.container.querySelectorAll('[data-schema-form-list-item]')).toHaveLength(3);
+			expect(screen.container.querySelectorAll('[data-schema-form-list-item] kv-text-field,[data-schema-form-list-item] kv-info-label')).toHaveLength(0);
+			const menus = screen.container.querySelectorAll('kv-action-menu');
+			const remove = screen.container.querySelectorAll('kv-action-button-icon');
+			expect(menus).toHaveLength(option.options.orderable === false ? 0 : 3);
+			expect(remove).toHaveLength(option.options.removable === false ? 0 : 3);
+			for (const control of [...menus, ...remove]) expect(propsOf(control).disabled).toBe(!flags.focused);
+			if (menus.length) {
+				expect(propsOf<JSX.KvActionMenu>(menus[0]).accessibleLabel).toBe('Reorder Broker 1');
+				act(() => fireStencilEvent(menus[0], 'onItemSelected', 'move-down', { force: true }));
+				if (flags.focused) expect(onChange.mock.lastCall?.[0].formData).toEqual([row.formData[1], row.formData[0], row.formData[2]]);
+				else expect(onChange).not.toHaveBeenCalled();
+			}
+		});
+	});
 });
 
 describe.each(L1_UNION_LIST_SHAPES)('L1 union ownership: $name', row => {

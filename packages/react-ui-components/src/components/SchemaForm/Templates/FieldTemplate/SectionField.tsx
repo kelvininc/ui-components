@@ -36,8 +36,8 @@ const SectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 				aria-label={hasTitle && !defaultTitle ? title : undefined}
 				aria-describedby={describedBy}
 			>
-				{itemHeader ? (
-					<div className={styles.ItemHeader} data-schema-form-item-header>
+				{itemControls && (titleElement || itemHeader) ? (
+					<div className={classNames(styles.ItemHeader, { [styles.FieldsetHeader]: itemControls.fieldset })} data-schema-form-item-header>
 						{titleElement}
 						{itemHeader}
 					</div>

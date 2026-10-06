@@ -23,3 +23,8 @@
 		margin-inline-start: auto;
 	}
 }
+
+.FieldsetHeader {
+	transform: translateY(-50%);
+	margin-bottom: calc(-1 * var(--spacing-2xl));
+}

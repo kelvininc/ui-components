@@ -35,7 +35,8 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 	const itemName = fixedPosition ? name : `${name} ${index + 1}`;
 	const section = isSectionField(schema, uiSchema, registry);
 	const field = children as React.ReactElement<FieldProps<T, S, F>>;
-	const defaultTemplate = getTemplate('FieldTemplate', registry, options) === FieldTemplate && isBuiltinSchemaField(field.type);
+	// Native SchemaField returns null for an empty schema, so those rows need the fallback controls.
+	const defaultTemplate = Object.keys(schema).length > 0 && getTemplate('FieldTemplate', registry, options) === FieldTemplate && isBuiltinSchemaField(field.type);
 	const inactive = Boolean(disabled || readonly);
 	const moves = layout ? layout.orderable && !fixedPosition : hasMoveUp || hasMoveDown;
 	const actions: IActionMenuItem[] = [
@@ -90,7 +91,7 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 		...(!section ? { 'ui:label': options.label !== false && (fixedPosition || (layout?.fixedItems ?? 0) > 0) } : {})
 	});
 	const body = layout ? React.cloneElement(field, { uiSchema: itemUiSchema, title: itemName }) : field;
-	const controls = { fieldId: field.props.idSchema.$id, before, after, header: section ? menu : undefined };
+	const controls = { fieldId: field.props.idSchema.$id, fieldset: Boolean(options.fieldset), before, after, header: section ? menu : undefined };
 
 	return (
 		<div

@@ -27,9 +27,4 @@
 	padding: 0 var(--spacing-xl) var(--spacing-xl);
 	margin-top: var(--spacing-4xl);
 	border: var(--border-width-default) solid var(--border-container-divider-default);
-
-	[data-schema-form-item-header] {
-		transform: translateY(-50%);
-		margin-bottom: calc(-1 * var(--spacing-2xl));
-	}
 }

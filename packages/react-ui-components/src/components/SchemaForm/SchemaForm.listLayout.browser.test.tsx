@@ -7,9 +7,11 @@ import { whenAllKelvinReady } from '../../test-utils/browser';
 import { KvSchemaForm } from './SchemaForm';
 import {
 	ARRAY_SHAPES,
+	FOCUS_EDITING_FLAGS,
 	LIST_OPTIONS,
 	L1_ALIGNMENT_SHAPES,
 	L1_ARRAY_TEMPLATE_SHAPES,
+	L1_EMPTY_ITEM_SCHEMAS,
 	L1_HIDDEN_ITEM_HEADINGS,
 	L1_ITEM_FIELD_COMPONENTS,
 	L1_PREFIX_SHAPES,
@@ -23,6 +25,42 @@ const center = (element: Element) => {
 	return bounds.y + bounds.height / 2;
 };
 const rootItems = (container: HTMLElement) => Array.from(container.querySelectorAll<HTMLElement>('[data-schema-form-list="root"] > div > div > [data-schema-form-list-item]'));
+
+describe.each(L1_EMPTY_ITEM_SCHEMAS)('L1 empty item schemas in Chromium: $name', row => {
+	it.each(FOCUS_EDITING_FLAGS)('keeps named item controls when $name', async flags => {
+		const screen = await render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={row.uiSchema} disabled={flags.disabled} readonly={flags.readonly} />);
+		await whenAllKelvinReady(screen.container);
+		expect(rootItems(screen.container)).toHaveLength(3);
+		expect(screen.container.querySelectorAll('[data-schema-form-list-item] kv-text-field,[data-schema-form-list-item] kv-info-label')).toHaveLength(0);
+		for (let position = 1; position <= 3; position++) {
+			for (const name of [`Reorder Broker ${position}`, `Remove Broker ${position}`]) {
+				const button = screen.getByRole('button', { name, exact: true });
+				await expect.element(button).toBeVisible();
+				expect((button.element() as HTMLElement).tabIndex).toBe(-1);
+				if (flags.focused) await expect.element(button).toBeEnabled();
+				else await expect.element(button).toBeDisabled();
+			}
+		}
+	});
+	it('keeps boundary restrictions and real move/remove callbacks without an item field', async () => {
+		const onChange = vi.fn();
+		const screen = await render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={row.uiSchema} onChange={onChange} />);
+		await whenAllKelvinReady(screen.container);
+		await screen.getByRole('button', { name: 'Reorder Broker 1', exact: true }).click();
+		await expect.element(page.getByRole('menuitem', { name: 'Move up', exact: true })).toBeDisabled();
+		await expect.element(page.getByRole('menuitem', { name: 'Move down', exact: true })).toBeEnabled();
+		await userEvent.keyboard('{Escape}');
+		await screen.getByRole('button', { name: 'Reorder Broker 3', exact: true }).click();
+		await expect.element(page.getByRole('menuitem', { name: 'Move down', exact: true })).toBeDisabled();
+		await page.getByRole('menuitem', { name: 'Move up', exact: true }).click();
+		await expect.poll(() => onChange.mock.calls.length).toBe(1);
+		expect(onChange.mock.lastCall?.[0].formData).toEqual([row.formData[0], row.formData[2], row.formData[1]]);
+		onChange.mockClear();
+		await screen.getByRole('button', { name: 'Remove Broker 2', exact: true }).click();
+		await expect.poll(() => onChange.mock.calls.length).toBe(1);
+		expect(onChange.mock.lastCall?.[0].formData).toEqual([row.formData[0], row.formData[1]]);
+	});
+});
 
 describe.each(L1_SCALAR_LIST_SHAPES)('L1 scalar alignment: $name', row => {
 	it.each(L1_ALIGNMENT_SHAPES)('centers actions on inputs with $name', async presentation => {
