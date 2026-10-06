@@ -34,9 +34,13 @@ export class KvToggleButtonGroup implements IToggleButtonGroup, IToggleButtonGro
 	/** @inheritdoc */
 	@Event() checkedChange: EventEmitter<string | number>;
 
-	/** Focuses the current radio Tab stop, or the first enabled checkbox/plain button. */
+	/**
+	 * Focuses the current radio Tab stop, or the first enabled checkbox/plain button.
+	 * @param canFocus Optional live check; returning false cancels focus after queued invocation.
+	 */
 	@Method()
-	async setFocus(): Promise<void> {
+	async setFocus(canFocus?: () => boolean): Promise<void> {
+		if (canFocus?.() === false) return;
 		const hosts = Array.from(this.el.shadowRoot?.querySelectorAll<HTMLElement>('kv-toggle-button') ?? []);
 		const options = this.isRadioGroup() ? this.getGroupOptions() : this.buttons.map(button => ({ value: button.value, disabled: this.isButtonDisabled(button) }));
 		focusRadioGroup(options, hosts);

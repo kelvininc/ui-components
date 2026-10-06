@@ -58,9 +58,15 @@ Enter, Space and ArrowDown open on the first enabled item. ArrowUp/ArrowDown wra
 
 ## Methods
 
-### `setFocus() => Promise<void>`
+### `setFocus(canFocus?: () => boolean) => Promise<void>`
 
 Waits for readiness, then focuses the enabled trigger without opening or choosing an action.
+
+#### Parameters
+
+| Name       | Type            | Description                                                                |
+| ---------- | --------------- | -------------------------------------------------------------------------- |
+| `canFocus` | `() => boolean` | Optional live check; returning false cancels the readiness wait and focus. |
 
 #### Returns
 

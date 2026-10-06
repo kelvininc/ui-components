@@ -122,9 +122,15 @@ Type: `Promise<void>`
 
 
 
-### `setFocus() => Promise<void>`
+### `setFocus(canFocus?: () => boolean) => Promise<void>`
 
 Focuses the default trigger or a custom action's focusInput method/native control.
+
+#### Parameters
+
+| Name       | Type            | Description                                                    |
+| ---------- | --------------- | -------------------------------------------------------------- |
+| `canFocus` | `() => boolean` | Optional live check passed to the trigger's focusInput method. |
 
 #### Returns
 

@@ -171,6 +171,31 @@ describe('C5 menu activation', () => {
 });
 
 describe('C5 menu focus and state', () => {
+	it('cancels trigger readiness when its caller moves focus elsewhere', async () => {
+		const { page } = await renderMenu();
+		const result = await page.evaluate(async () => {
+			const host = document.querySelector('kv-action-menu');
+			const trigger = host.querySelector('kv-action-button-icon');
+			const origin = document.querySelector<HTMLElement>('#broker');
+			const outside = document.querySelector<HTMLElement>('#save');
+			let release: () => void;
+			let entered: () => void;
+			const waiting = new Promise<void>(resolve => (entered = resolve));
+			trigger.componentOnReady = () => {
+				entered();
+				return new Promise<HTMLKvActionButtonIconElement>(resolve => (release = () => resolve(trigger)));
+			};
+			origin.focus();
+			const pending = host.setFocus(() => document.activeElement === origin);
+			await waiting;
+			outside.focus();
+			await pending;
+			release();
+			await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+			return document.activeElement === outside;
+		});
+		expect(result).toBe(true);
+	});
 	it.each(MENU_FOCUS_DESTINATIONS)('settles setFocus inside a shadow root before %s', async key => {
 		const page = await newE2EPage({ html: '<div id="topic-shell"></div>' });
 		await page.evaluate(async items => {

@@ -6,6 +6,7 @@ import { buildToggleButtons, buildSelectedToggleButtons, toggleSelectedOptions, 
 import { IToggleButtonGroupConfig } from './types';
 import { isEmpty } from 'lodash';
 import { useFieldDescription, useFormState } from '../../contexts';
+import { useSchemaFormFocusRef } from '../../hooks/entryFocus';
 
 const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
@@ -20,6 +21,7 @@ const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F e
 }: WidgetProps<T, S, F>) => {
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
 	const accessibleDescriptionElements = useFieldDescription(id);
+	const focusRef = useSchemaFormFocusRef<HTMLKvToggleButtonGroupElement>(disabled || readonly);
 	const { enumOptions, enumDisabled, allButton, componentSize, withRadio } = options;
 	const { maxItems, minItems } = schema;
 
@@ -58,6 +60,7 @@ const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F e
 	return (
 		<div role="group" aria-label={label.trim() || id}>
 			<KvToggleButtonGroup
+				ref={focusRef}
 				buttons={buttons.map(button => ({ ...button, accessibleDescriptionElements }))}
 				disabled={disabled}
 				size={getComponentSize(componentSize)}
