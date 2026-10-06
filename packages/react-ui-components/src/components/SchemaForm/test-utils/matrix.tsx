@@ -39,6 +39,80 @@ export const CHOICE_SCHEMAS: readonly { name: string; schema: RJSFSchema; values
 	}
 ];
 
+export const choiceForm = (row: { schema: RJSFSchema }, { required = false } = {}): RJSFSchema => ({
+	type: 'object',
+	title: 'Connection',
+	properties: { choice: row.schema },
+	required: required ? ['choice'] : []
+});
+
+/** Enum values keep their JSON types through the dropdown's string keys. */
+export const CHOICE_VALUE_SHAPES: readonly { name: string; schema: RJSFSchema; values: unknown[]; labels: string[]; multiple?: boolean }[] = [
+	{
+		name: 'numeric and string keys',
+		schema: { type: ['string', 'integer'], title: 'QoS', enum: [1, '1'], enumNames: ['Numeric QoS', 'Text QoS'] },
+		values: [1, '1'],
+		labels: ['Numeric QoS', 'Text QoS']
+	},
+	{
+		name: 'null option',
+		schema: { type: ['string', 'null'], title: 'Compression', enum: [null, 'gzip'], enumNames: ['None', 'Gzip'] },
+		values: [null, 'gzip'],
+		labels: ['None', 'Gzip']
+	},
+	{ name: 'boolean options', schema: { type: 'boolean', title: 'TLS', enum: [false, true] }, values: [false, true], labels: ['No', 'Yes'] },
+	{ name: 'zero option', schema: { type: 'integer', title: 'Retries', enum: [0, 3], enumNames: ['None', 'Three'] }, values: [0, 3], labels: ['None', 'Three'] },
+	{ name: 'empty string option', schema: { type: 'string', title: 'Security', enum: ['', 'tls'], enumNames: ['None', 'TLS'] }, values: ['', 'tls'], labels: ['None', 'TLS'] },
+	{
+		name: 'cloned object selections',
+		schema: {
+			type: 'array',
+			title: 'Assets',
+			uniqueItems: true,
+			items: {
+				type: 'object',
+				properties: { asset: { type: 'string' } },
+				enum: [{ asset: 'north' }, { asset: 'south' }],
+				enumNames: ['North line', 'South line']
+			} as RJSFSchema
+		},
+		values: [{ asset: 'north' }, { asset: 'south' }],
+		labels: ['North line', 'South line'],
+		multiple: true
+	},
+	{
+		name: 'cloned array selections',
+		schema: {
+			type: 'array',
+			title: 'Asset groups',
+			uniqueItems: true,
+			items: { type: 'array', enum: [['north'], ['south']], enumNames: ['North group', 'South group'] } as RJSFSchema
+		},
+		values: [['north'], ['south']],
+		labels: ['North group', 'South group'],
+		multiple: true
+	}
+];
+
+export const DEFAULT_FIELD_SHAPES: readonly { name: string; schema: RJSFSchema; field: string }[] = [
+	{ name: 'boolean', schema: { type: 'boolean', title: 'TLS' }, field: 'BooleanField' },
+	{ name: 'string', schema: { type: 'string', title: 'Host' }, field: 'StringField' },
+	{ name: 'number', schema: { type: 'number', title: 'Temperature' }, field: 'NumberField' },
+	{ name: 'integer', schema: { type: 'integer', title: 'Retries' }, field: 'NumberField' },
+	{ name: 'object', schema: { type: 'object', title: 'Connection' }, field: 'ObjectField' },
+	{ name: 'array', schema: { type: 'array', title: 'Topics', items: { type: 'string' } }, field: 'ArrayField' },
+	{ name: 'null', schema: { type: 'null', title: 'Compression' }, field: 'NullField' },
+	{ name: 'nullable string', schema: { type: ['string', 'null'], title: 'Compression' }, field: 'StringField' },
+	{ name: 'nullable boolean', schema: { type: ['null', 'boolean'], title: 'TLS' }, field: 'BooleanField' },
+	{ name: 'inferred object', schema: { title: 'Connection', properties: { host: { type: 'string' } } }, field: 'ObjectField' },
+	{ name: 'inferred enum', schema: { title: 'QoS', enum: ['at-most-once', 'at-least-once'] }, field: 'StringField' }
+];
+
+export const CUSTOM_DROPDOWN_SHAPES = [
+	{ name: 'plain key', key: 'north-line' },
+	{ name: 'key resembling an enum index', key: 'choice-0' }
+] as const;
+
 /** Names must reach the real control inside its shadow root, including visible overrides. */
 export const CONTROL_NAME_SHAPES: readonly {
 	name: string;
@@ -77,7 +151,7 @@ export const CONTROL_NAME_SHAPES: readonly {
 		labels: ['Connection security'],
 		nextValue: true
 	},
-	{ name: 'default boolean radios', schema: CHOICE_SCHEMAS[0].schema, uiSchema: {}, formData: false, role: 'radio', labels: ['True', 'False'], nextValue: true },
+	{ name: 'default boolean radios', schema: CHOICE_SCHEMAS[0].schema, uiSchema: {}, formData: false, role: 'radio', labels: ['Yes', 'No'], nextValue: true },
 	{
 		name: 'custom boolean radio labels',
 		schema: CHOICE_SCHEMAS[0].schema,
@@ -1420,6 +1494,7 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 const CustomConnection = () => <span data-custom-field="connection">Custom connection</span>;
 const MemoConnection = memo(CustomConnection);
 export const CUSTOM_FIELD_SHAPES = [
+	{ name: 'default field name', uiSchema: { 'ui:field': 'ObjectField' }, custom: false },
 	{ name: 'function', uiSchema: { 'ui:field': CustomConnection }, custom: true },
 	{ name: 'registered name', uiSchema: { 'ui:field': 'Connection' }, custom: true },
 	{ name: 'unknown name', uiSchema: { 'ui:field': 'MissingConnection' }, custom: false },
@@ -1810,6 +1885,9 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 [
 	VALUE_CASES,
 	CHOICE_SCHEMAS,
+	CHOICE_VALUE_SHAPES,
+	DEFAULT_FIELD_SHAPES,
+	CUSTOM_DROPDOWN_SHAPES,
 	CONTROL_NAME_SHAPES,
 	MULTI_SELECT_SHAPES,
 	INPUT_FOCUS_SHAPES,

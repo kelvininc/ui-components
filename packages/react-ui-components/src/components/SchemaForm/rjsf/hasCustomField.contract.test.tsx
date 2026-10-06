@@ -7,7 +7,7 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { getDefaultValidator } from '../../../utils';
-import { CUSTOM_FIELDS, CUSTOM_FIELD_SHAPES } from '../test-utils/matrix';
+import { CUSTOM_FIELDS, CUSTOM_FIELD_SHAPES, DEFAULT_FIELD_SHAPES } from '../test-utils/matrix';
 import { hasCustomField } from './hasCustomField';
 
 const CommonJsForm = createRequire(import.meta.url)('@rjsf/core').default as typeof Form;
@@ -15,6 +15,30 @@ describe.each([
 	{ name: 'import', FormComponent: Form },
 	{ name: 'require', FormComponent: CommonJsForm }
 ])('custom field contract through $name', ({ FormComponent }) => {
+	describe.each(DEFAULT_FIELD_SHAPES)('default $name field', row => {
+		it('recognizes the actual default component by name and identity', () => {
+			let classified: boolean | undefined;
+			let defaultField: unknown;
+			const FieldTemplate = ({ children, id, registry, uiSchema, schema }: FieldTemplateProps) => {
+				if (id === 'root') {
+					classified = hasCustomField(uiSchema, registry, schema);
+					defaultField = registry.fields[row.field];
+				}
+				return <>{children}</>;
+			};
+			const renderField = (field?: unknown) =>
+				renderToStaticMarkup(
+					<FormComponent schema={row.schema} uiSchema={{ 'ui:field': field } as never} templates={{ FieldTemplate }} validator={getDefaultValidator()} />
+				);
+			const baseline = renderField();
+			expect(classified).toBe(false);
+			expect(typeof defaultField).toBe('function');
+			expect(renderField(row.field)).toBe(baseline);
+			expect(classified).toBe(false);
+			expect(renderField(defaultField)).toBe(baseline);
+			expect(classified).toBe(false);
+		});
+	});
 	it.each(CUSTOM_FIELD_SHAPES)('matches SchemaField for $name', row => {
 		let classified: boolean | undefined;
 		const FieldTemplate = ({ children, registry, uiSchema, schema }: FieldTemplateProps) => {

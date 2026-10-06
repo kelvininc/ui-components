@@ -42,7 +42,9 @@ export const processValue = (schema: JSONSchema7, value: any) => {
 	return value;
 };
 
-export const getSelectedOptions = (selectedOptionsMap: Record<string, boolean>): string[] => Object.keys(selectedOptionsMap);
+export const getSelectedOptions = (selectedOptionsMap: Record<string, boolean>): string[] => Object.keys(selectedOptionsMap ?? {}).filter(key => selectedOptionsMap[key]);
+
+export const getOptionKey = (index: number): string => `choice-${index}`;
 
 /**
  * Maps the selected values onto the map `KvMultiSelectDropdown` expects.
@@ -58,7 +60,7 @@ export const getSelectedOptions = (selectedOptionsMap: Record<string, boolean>):
 export const buildSelectedOptions = (selectedOptions?: string[] | null): Record<string, boolean> =>
 	Array.isArray(selectedOptions)
 		? selectedOptions.reduce<Record<string, boolean>>((accumulator, selectOptionKey) => {
-				accumulator[selectOptionKey] = true;
+				if (!isNil(selectOptionKey)) accumulator[selectOptionKey] = true;
 
 				return accumulator;
 		  }, {})
@@ -69,13 +71,15 @@ export const buildDropdownOptions = <S extends StrictRJSFSchema = RJSFSchema>({
 	options,
 	disabledOptions,
 	descriptions,
-	multiSubOptions
+	multiSubOptions,
+	legacyKeys = false
 }: {
 	schema: S;
 	options?: EnumOptions;
 	disabledOptions?: EnumOptions;
 	descriptions?: EnumOptions;
 	multiSubOptions?: IUIDropdownOptions;
+	legacyKeys?: boolean;
 }): IUIDropdownOptions => {
 	if (!isEmpty(multiSubOptions)) {
 		return multiSubOptions;
@@ -88,7 +92,8 @@ export const buildDropdownOptions = <S extends StrictRJSFSchema = RJSFSchema>({
 				const description = (Array.isArray(descriptions) ? descriptions[index] : undefined) || optionSchema?.description;
 				const disabled = Array.isArray(disabledOptions) && disabledOptions.indexOf(value) != -1;
 
-				acc[value] = { value, label, description, disabled };
+				const key = legacyKeys ? value : getOptionKey(index);
+				acc[key] = { value: legacyKeys ? value : key, label, description, disabled };
 				return acc;
 		  }, {})
 		: {};

@@ -250,7 +250,8 @@ describe.each(R2_SHARED_FIELD_ID_SHAPES)('shared field registration: $name', row
 		expect(container.querySelectorAll(`input[id="${row.fieldId}"]`)).toHaveLength(2);
 		expect(errorMessages()).toEqual([]);
 		await act(async () => {
-			fireStencilEvent(row.selectorId, 'onOptionSelected', row.nextOption);
+			const options = propsOf(row.selectorId).options as Record<string, { value: string }>;
+			fireStencilEvent(row.selectorId, 'onOptionSelected', Object.values(options)[Number(row.nextOption)].value);
 		});
 		expect(container.querySelectorAll(`input[id="${row.fieldId}"]`)).toHaveLength(1);
 		expect(onChange).toHaveBeenCalled();

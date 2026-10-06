@@ -4,7 +4,8 @@ import { isEmpty } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
 import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../../stencil-generated';
 import styles from './SelectWidget.module.scss';
-import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, resolveDropdownConfig } from './utils';
+import { buildDropdownOptions, buildSelectedOptions, getOptionKey, getSelectedOptions, processValue, resolveDropdownConfig } from './utils';
+import { getSelectedOptionIndex, resolveAllowClearInputs } from '../utils';
 import { DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
 import { useFieldDescription, useFieldErrors, useFormState } from '../../contexts';
 
@@ -12,6 +13,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	schema,
 	id,
 	label,
+	required,
 	options,
 	disabled,
 	readonly,
@@ -21,7 +23,8 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	placeholder,
 	rawErrors = [],
 	uiSchema = {},
-	formContext
+	formContext,
+	registry
 }: WidgetProps<T, S, F>) => {
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
 	const accessibleDescriptionElements = useFieldDescription(id);
@@ -46,36 +49,56 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		selectAllLabel,
 		maxSelectable
 	} = uiSchema;
-	const { componentSize = EComponentSize.Large, dropdownConfig: contextDropdownConfig, allowClearInputs } = formContext as F;
+	const { componentSize = EComponentSize.Large, dropdownConfig: contextDropdownConfig } = formContext as F;
 	const dropdownConfig = resolveDropdownConfig(contextDropdownConfig);
+	const customTree = !isEmpty(multiSubOptions);
+	const optionValues = useMemo(() => (Array.isArray(enumOptions) ? enumOptions.map(option => option.value) : []), [enumOptions]);
+	const valuesByKey = useMemo(() => Object.fromEntries(optionValues.map((value, index) => [getOptionKey(index), value])), [optionValues]);
 
 	const defaultDropdownOptions = useMemo(
 		() => buildDropdownOptions({ options: enumOptions, disabledOptions: enumDisabled, descriptions: enumDescriptions, multiSubOptions, schema }),
 		[enumOptions, enumDisabled, enumDescriptions, multiSubOptions, schema]
 	);
-	const emptyValue = useMemo(() => (multiple ? [] : undefined), [multiple]);
-	const processedValue = processValue(schema, value);
+	const displayOptions = useMemo(
+		() =>
+			displayValue
+				? buildDropdownOptions({ options: enumOptions, disabledOptions: enumDisabled, descriptions: enumDescriptions, multiSubOptions, schema, legacyKeys: true })
+				: defaultDropdownOptions,
+		[displayValue, enumOptions, enumDisabled, enumDescriptions, multiSubOptions, schema, defaultDropdownOptions]
+	);
+	const emptyValue = Object.prototype.hasOwnProperty.call(options, 'emptyValue') ? options.emptyValue : multiple ? [] : undefined;
+	const processedValue = customTree ? processValue(schema, value) : value;
+	const selectedKey = (value: unknown) => {
+		const index = getSelectedOptionIndex(optionValues, value);
+		return index === -1 ? undefined : getOptionKey(index);
+	};
+	const selectedOption = customTree ? processedValue : selectedKey(value);
+	const selectedKeys = customTree ? processedValue : Array.isArray(value) ? value.map(selectedKey).filter(key => key !== undefined) : [];
 
 	const onChangeValue = useCallback(
-		(newValue: string | string[]) => {
-			const processedValue = processValue(schema, newValue);
-			trackFieldChange(id, processedValue);
-			onChange(processedValue);
+		(newValue: unknown) => {
+			trackFieldChange(id, newValue);
+			onChange(newValue);
 		},
-		[schema, id, onChange, trackFieldChange]
+		[id, onChange, trackFieldChange]
 	);
 	const onChangeOptionSelected = useCallback(
 		({ detail: selectedOption }: CustomEvent<string>) => {
-			onChangeValue(selectedOption);
+			if (selectedOption == null) onChangeValue(emptyValue);
+			else if (customTree) onChangeValue(processValue(schema, selectedOption));
+			else if (Object.prototype.hasOwnProperty.call(valuesByKey, selectedOption)) onChangeValue(valuesByKey[selectedOption]);
 		},
-		[onChangeValue]
+		[onChangeValue, emptyValue, customTree, schema, valuesByKey]
 	);
 	const onChangeOptionsSelected = useCallback(
 		({ detail: selectedOptionsMap }: CustomEvent<{ [key: string]: boolean }>) => {
 			const selectedOptions = getSelectedOptions(selectedOptionsMap);
-			onChangeValue(selectedOptions);
+			const values = customTree
+				? processValue(schema, selectedOptions)
+				: selectedOptions.filter(key => Object.prototype.hasOwnProperty.call(valuesByKey, key)).map(key => valuesByKey[key]);
+			onChangeValue(values.length ? values : emptyValue);
 		},
-		[onChangeValue]
+		[onChangeValue, emptyValue, customTree, schema, valuesByKey]
 	);
 
 	const hasErrors = useFieldErrors(id, rawErrors);
@@ -83,12 +106,13 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	const props = {
 		id,
 		accessibleLabel: label,
+		required,
 		inputConfig: { accessibleDescriptionElements },
 		placeholder: placeholder ? placeholder : optionsPlaceholder,
 		inputSize: !isEmpty(optionComponentSize) ? optionComponentSize : (componentSize as EComponentSize),
 		disabled: disabled || readonly,
 		errorState: hasErrors ? EValidationState.Invalid : EValidationState.Valid,
-		displayValue: typeof processedValue === 'undefined' ? emptyValue : displayValue?.(processedValue, defaultDropdownOptions),
+		displayValue: typeof processedValue === 'undefined' ? undefined : displayValue?.(processedValue, displayOptions),
 		displayPrefix,
 		options: defaultDropdownOptions,
 		searchable,
@@ -99,7 +123,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		maxWidth: maxWidth ?? dropdownConfig.maxWidth,
 		icon: icon ?? dropdownConfig.icon,
 		badge,
-		selectionClearable: allowClearInputs ?? selectionClearable,
+		selectionClearable: (options.allowClearInputs as boolean | undefined) ?? resolveAllowClearInputs(uiSchema, registry) ?? selectionClearable,
 		clearSelectionLabel,
 		selectionAll,
 		selectAllLabel,
@@ -111,7 +135,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		<div className={styles.InputContainer}>
 			{!multiple && (
 				<KvSingleSelectDropdown
-					selectedOption={processedValue}
+					selectedOption={selectedOption}
 					onOptionSelected={onChangeOptionSelected}
 					{...props}
 					onFocus={() => markFieldAsTouched(id)}
@@ -120,7 +144,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 			)}
 			{multiple && (
 				<KvMultiSelectDropdown
-					selectedOptions={buildSelectedOptions(processedValue)}
+					selectedOptions={buildSelectedOptions(selectedKeys)}
 					onOptionsSelected={onChangeOptionsSelected}
 					{...props}
 					onFocus={() => markFieldAsTouched(id)}
