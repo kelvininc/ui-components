@@ -84,10 +84,36 @@ the allowed move actions and a destructive Remove action. Boundary moves stay vi
 Readonly and disabled lists keep disabled controls. Add always renders a left-aligned text button,
 "Add <prefix>" or "Add item", with a plus icon.
 
-Item actions and Add have negative Tab indices. Menus support mouse and keyboard interaction when
-focused. Scalar help tips stay beside the input; descriptions, errors and default helpers stay above
+Enabled item actions and Add participate in Tab order. Menus support mouse and keyboard interaction.
+Scalar help tips stay beside the input; descriptions, errors and default helpers stay above
 or below it. Custom item fields and field templates retain controls beside their content. Custom array
 templates receive their own list settings. List item markup, move controls and scalar labels change in v4.
+
+After a move, focus follows the item's menu trigger. Removing an item focuses the next item's trigger,
+then the previous one, then Add. Unordered scalar lists use their Remove button. Add keeps focus while
+more items are allowed; at `maxItems`, focus enters the new item's first editable control. At
+`maxProperties`, Add property focuses the new key. Empty entries fall back to their item action or a
+named group. These groups hold a negative Tab index only while focused.
+
+A tuple's Add button uses the `additionalItems` prefix, then the array prefix. Kelvin's default list
+templates don't render copy actions for `ui:options.copyable`; supply a custom item template to add them.
+Fully replaced array and item templates manage their own action focus.
+
+Custom widgets and fields can register their editable control for focus after an add:
+
+```tsx
+import { useSchemaFormFocusRef } from '@kelvininc/react-ui-components/client';
+import type { WidgetProps } from '@rjsf/utils';
+
+function BrokerHost({ value, onChange, disabled, readonly }: WidgetProps) {
+	const focusRef = useSchemaFormFocusRef<HTMLInputElement>(disabled || readonly);
+	return <input ref={focusRef} aria-label="Broker host" disabled={disabled || readonly} value={value ?? ''} onChange={event => onChange(event.target.value)} />;
+}
+```
+
+Registered hosts that implement asynchronous `focusInput` or `setFocus` receive an optional
+`canFocus: () => boolean` argument. Check it immediately before moving focus after any wait, so a
+pending call respects the user moving elsewhere, a newer action, or the form becoming readonly.
 
 ## oneOf and anyOf
 

@@ -44,7 +44,7 @@ describe.each(L1_HIDDEN_ITEM_WIDGETS)('L1 hidden item widgets in Chromium: $name
 			for (const name of controls) {
 				const button = screen.getByRole('button', { name, exact: true });
 				await expect.element(button).toBeVisible();
-				expect((button.element() as HTMLElement).tabIndex).toBe(-1);
+				expect((button.element() as HTMLElement).tabIndex).toBe(flags.focused ? 0 : -1);
 				if (flags.focused) await expect.element(button).toBeEnabled();
 				else await expect.element(button).toBeDisabled();
 			}
@@ -67,10 +67,11 @@ describe.each(L1_HIDDEN_ITEM_WIDGETS)('L1 hidden item widgets in Chromium: $name
 		expect(onChange.mock.lastCall?.[0].formData).toEqual([row.formData[0], row.formData[2], row.formData[1]]);
 		onChange.mockClear();
 		const removeName = `Remove ${itemNames[1]}`;
+		const movedItem = page.elementLocator(rootItems(screen.container)[1]);
 		if (section) {
-			await screen.getByRole('button', { name: triggerName(1), exact: true }).click();
+			await movedItem.getByRole('button', { name: triggerName(1), exact: true }).click();
 			await page.getByRole('menuitem', { name: removeName, exact: true }).click();
-		} else await screen.getByRole('button', { name: removeName, exact: true }).click();
+		} else await movedItem.getByRole('button', { name: removeName, exact: true }).click();
 		await expect.poll(() => onChange.mock.calls.length).toBe(1);
 		expect(onChange.mock.lastCall?.[0].formData).toEqual([row.formData[0], row.formData[1]]);
 	});
@@ -86,7 +87,7 @@ describe.each(L1_EMPTY_ITEM_SCHEMAS)('L1 empty item schemas in Chromium: $name',
 			for (const name of [`Reorder Broker ${position}`, `Remove Broker ${position}`]) {
 				const button = screen.getByRole('button', { name, exact: true });
 				await expect.element(button).toBeVisible();
-				expect((button.element() as HTMLElement).tabIndex).toBe(-1);
+				expect((button.element() as HTMLElement).tabIndex).toBe(flags.focused ? 0 : -1);
 				if (flags.focused) await expect.element(button).toBeEnabled();
 				else await expect.element(button).toBeDisabled();
 			}
@@ -106,7 +107,7 @@ describe.each(L1_EMPTY_ITEM_SCHEMAS)('L1 empty item schemas in Chromium: $name',
 		await expect.poll(() => onChange.mock.calls.length).toBe(1);
 		expect(onChange.mock.lastCall?.[0].formData).toEqual([row.formData[0], row.formData[2], row.formData[1]]);
 		onChange.mockClear();
-		await screen.getByRole('button', { name: 'Remove Broker 2', exact: true }).click();
+		await page.elementLocator(rootItems(screen.container)[1]).getByRole('button', { name: 'Remove Broker 2', exact: true }).click();
 		await expect.poll(() => onChange.mock.calls.length).toBe(1);
 		expect(onChange.mock.lastCall?.[0].formData).toEqual([row.formData[0], row.formData[1]]);
 	});
@@ -257,14 +258,14 @@ describe.each(ARRAY_SHAPES)('L1 list matrix in Chromium: $name', row => {
 			expect(trash).toHaveLength(!section && option.options.removable !== false ? removableItems : 0);
 			for (const host of trash) {
 				const button = screen.getByRole('button', { name: host.accessibleLabel, exact: true });
-				expect((button.element() as HTMLElement).tabIndex).toBe(-1);
+				expect((button.element() as HTMLElement).tabIndex).toBe(readonly || row.name === 'readonly' ? -1 : 0);
 				if (readonly || row.name === 'readonly') await expect.element(button).toBeDisabled();
 				else await expect.element(button).toBeEnabled();
 			}
 			for (const host of menus) {
 				const trigger = screen.getByRole('button', { name: host.accessibleLabel, exact: true });
 				await expect.element(trigger).toBeVisible();
-				expect((trigger.element() as HTMLButtonElement).tabIndex).toBe(-1);
+				expect((trigger.element() as HTMLButtonElement).tabIndex).toBe(readonly || row.name === 'readonly' ? -1 : 0);
 				if (readonly || row.name === 'readonly') await expect.element(trigger).toBeDisabled();
 				else await expect.element(trigger).toBeEnabled();
 			}
@@ -273,7 +274,7 @@ describe.each(ARRAY_SHAPES)('L1 list matrix in Chromium: $name', row => {
 			if (option.options.addable !== false) {
 				expect(add?.textContent).toBe('Add item');
 				const button = screen.getByRole('button', { name: add!.accessibleLabel, exact: true }).element();
-				expect((button as HTMLButtonElement).tabIndex).toBe(-1);
+				expect((button as HTMLButtonElement).tabIndex).toBe(readonly || row.name === 'readonly' ? -1 : 0);
 				expect(add!.getBoundingClientRect().x).toBeCloseTo(list.getBoundingClientRect().x, 0);
 			} else expect(add).toBeNull();
 		});

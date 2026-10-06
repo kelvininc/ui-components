@@ -3,6 +3,7 @@ import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjs
 import { EValidationState } from '@kelvininc/ui-components';
 import { KvTextArea } from '../../../../stencil-generated';
 import { useFieldDescription, useFieldErrors, useFormState } from '../../contexts';
+import { useSchemaFormFocusRef } from '../../hooks/entryFocus';
 
 const TextareaWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
@@ -17,6 +18,7 @@ const TextareaWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Fo
 }: WidgetProps<T, S, F>) => {
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
 	const accessibleDescriptionElements = useFieldDescription(id);
+	const focusRef = useSchemaFormFocusRef<HTMLKvTextAreaElement>(disabled || readonly);
 	const { maxCharLength, iconName } = uiSchema;
 	const hasErrors = useFieldErrors(id, rawErrors);
 
@@ -30,6 +32,7 @@ const TextareaWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Fo
 
 	return (
 		<KvTextArea
+			ref={focusRef}
 			id={id}
 			accessibleLabel={label}
 			accessibleDescriptionElements={accessibleDescriptionElements}

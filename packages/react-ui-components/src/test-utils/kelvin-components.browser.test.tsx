@@ -59,7 +59,28 @@ describe('Kelvin components in the browser project', () => {
 
 		const hosts = Array.from(screen.container.querySelectorAll('*')).filter(element => element.localName.startsWith('kv-'));
 		expect(hosts.length).toBeGreaterThan(0);
-		expect(hosts.every(host => host.classList.contains('hydrated'))).toBe(true);
+		expect(hosts.filter(host => !host.classList.contains('hydrated')).map(host => host.outerHTML)).toEqual([]);
+	});
+
+	it('waits for a child added while its parent becomes ready', async () => {
+		const screen = await render(<KvTextField accessibleLabel="Broker host" />);
+		const parent = screen.container.querySelector('kv-text-field')!;
+		const child = document.createElement('kv-text-field');
+		child.accessibleLabel = 'Client identifier';
+		const original = parent.componentOnReady;
+		parent.componentOnReady = async () => {
+			const host = await original.call(parent);
+			parent.append(child);
+			return host;
+		};
+		try {
+			await whenAllKelvinReady(screen.container);
+			expect(parent.classList.contains('hydrated')).toBe(true);
+			expect(child.classList.contains('hydrated')).toBe(true);
+			expect(child.shadowRoot?.querySelector('input')).toBeInstanceOf(HTMLInputElement);
+		} finally {
+			parent.componentOnReady = original;
+		}
 	});
 
 	it('renders a SchemaForm, styles included, with the real components', async () => {

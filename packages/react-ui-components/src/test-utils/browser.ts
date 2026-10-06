@@ -42,9 +42,17 @@ export const whenKelvinReady = async <E extends KelvinElement>(host: E | null, t
 	}
 };
 
-/** Waits for every Kelvin component rendered in `container`'s light DOM, as `whenKelvinReady` does for one */
+/** Waits for current and newly rendered Kelvin hosts in `container`'s light DOM within one deadline. */
 export const whenAllKelvinReady = async <C extends ParentNode>(container: C, timeoutMs = READY_TIMEOUT_MS): Promise<C> => {
-	const hosts = Array.from(container.querySelectorAll<HTMLElement>('*')).filter(element => element.localName.startsWith('kv-'));
-	await Promise.all(hosts.map(host => whenKelvinReady(host, timeoutMs)));
-	return container;
+	const ready = new Set<HTMLElement>();
+	const deadline = Date.now() + timeoutMs;
+	for (;;) {
+		const hosts = Array.from(container.querySelectorAll<HTMLElement>('*')).filter(element => element.localName.startsWith('kv-') && !ready.has(element));
+		if (!hosts.length) return container;
+		const remaining = deadline - Date.now();
+		if (remaining <= 0) throw new Error(`<${hosts[0].localName}> appeared after the container's ${timeoutMs}ms readiness deadline`);
+		await Promise.all(hosts.map(host => whenKelvinReady(host, remaining)));
+		hosts.forEach(host => ready.add(host));
+		// A Stencil render can add light-DOM children, such as an action menu's trigger.
+	}
 };

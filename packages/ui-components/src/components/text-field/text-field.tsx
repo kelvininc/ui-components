@@ -90,10 +90,13 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) hideBadge?: boolean = false;
 
-	/** Focuses the input */
+	/**
+	 * Focuses the input.
+	 * @param canFocus Optional live check; returning false cancels focus after queued invocation.
+	 */
 	@Method()
-	async focusInput() {
-		this.nativeInput?.focus();
+	async focusInput(canFocus?: () => boolean) {
+		if (canFocus?.() !== false) this.nativeInput?.focus();
 	}
 
 	/** Watch `value` property for changes and update native input element accordingly */

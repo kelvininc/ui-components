@@ -1,9 +1,10 @@
 import { EComponentSize } from '@kelvininc/ui-components';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { KvRadioList } from '../../../stencil-generated';
 import { ChoiceControlContext, useFieldDescription, useFieldErrors, useFormState } from '../contexts';
 import { getSelectedOptionIndex } from './utils';
+import { useSchemaFormFocusRef } from '../hooks/entryFocus';
 
 export const RadioChoice = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
@@ -21,6 +22,14 @@ export const RadioChoice = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 	className
 }: WidgetProps<T, S, F> & { descriptions?: boolean; size?: EComponentSize; className?: string }) => {
 	const host = useContext(ChoiceControlContext);
+	const focusRef = useSchemaFormFocusRef<HTMLKvRadioListElement>(disabled || readonly);
+	const setHost = useCallback(
+		(element: HTMLKvRadioListElement | null) => {
+			if (host) host.current = element;
+			focusRef(element);
+		},
+		[host, focusRef]
+	);
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
 	const accessibleDescriptionElements = useFieldDescription(id);
 	const invalid = useFieldErrors(id, rawErrors) && !hideError;
@@ -39,7 +48,7 @@ export const RadioChoice = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 	}));
 	return (
 		<KvRadioList
-			ref={host ?? undefined}
+			ref={setHost}
 			id={id}
 			className={className}
 			accessibleLabel={label.trim() || id}
