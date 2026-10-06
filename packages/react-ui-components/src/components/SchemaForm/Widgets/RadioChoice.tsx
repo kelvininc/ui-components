@@ -42,7 +42,7 @@ export const RadioChoice = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 			ref={host ?? undefined}
 			id={id}
 			className={className}
-			accessibleLabel={label}
+			accessibleLabel={label.trim() || id}
 			required={required}
 			invalid={invalid}
 			options={items}

@@ -56,7 +56,7 @@ const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F e
 	);
 
 	return (
-		<div role="group" aria-label={label}>
+		<div role="group" aria-label={label.trim() || id}>
 			<KvToggleButtonGroup
 				buttons={buttons.map(button => ({ ...button, accessibleDescriptionElements }))}
 				disabled={disabled}
