@@ -2,7 +2,7 @@ import { setThemeMode, StyleMode } from '@kelvininc/ui-components';
 import { getSubmitButtonOptions, RJSFSchema, UiSchema } from '@rjsf/utils';
 import React, { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import { userEvent } from 'vitest/browser';
+import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../test-utils/browser';
 import { KvSchemaForm } from './SchemaForm';
@@ -12,10 +12,14 @@ import {
 	R4_COMPOSED_BRANCH_SHAPES,
 	R4_EMPTY_BRANCH_TEMPLATES,
 	R4_OPTION_SHAPES,
+	R4_OPTION_PAYLOAD_SHAPE,
+	R4_OPTION_PAYLOAD_UNIONS,
+	R4_OPTION_OVERRIDE_SHAPES,
 	R4_RAIL_VISIBILITY_SHAPES,
 	R4_REPORT_SCOPE_SHAPES,
 	R4_SUBMIT_UI_SHAPES,
 	R4_TEMPLATE_PLACEMENTS,
+	R4_UI_SETTING_SHAPES,
 	SUBMIT_BUTTON_SHAPES,
 	TEMPLATE_COMPONENTS
 } from './test-utils/matrix';
@@ -216,6 +220,41 @@ describe.each(R4_OPTION_SHAPES)('$name selected branch layout', row => {
 				await expect.poll(focusedControl).toBe(input);
 			}
 			await expect.element(control).toHaveValue((placement === 'inherited child' ? 'broker.local' : 'broker-token') + 'xxxxxxxxxx');
+		});
+	});
+});
+
+describe.each(R4_OPTION_PAYLOAD_UNIONS)('$name real branch empty values', row => {
+	describe.each(R4_UI_SETTING_SHAPES)('inherited $name', inherited => {
+		it.each(R4_UI_SETTING_SHAPES)('clears to the exact $name branch override', async provided => {
+			const value = R4_OPTION_PAYLOAD_SHAPE;
+			const onChange = vi.fn();
+			const screen = await render(
+				<KvSchemaForm
+					schema={row.schema}
+					formData={value.formData}
+					uiSchema={{
+						broker: {
+							...inherited.build({ emptyValue: R4_OPTION_OVERRIDE_SHAPES[0].inherited }),
+							[row.keyword]: [
+								{ ...provided.build({ emptyValue: value.emptyValue, label: true, allowClearInputs: true }), clearSelectionLabel: 'Clear broker profile' },
+								{}
+							]
+						}
+					}}
+					onChange={onChange}
+					omitExtraData={false}
+					liveOmit={false}
+					liveValidate
+					applyDefaults={EApplyDefaults.Never}
+				/>
+			);
+			await whenAllKelvinReady(screen.container);
+			await screen.getByRole('textbox', { name: 'Broker profile', exact: true }).click();
+			await page.getByRole('button', { name: 'Clear broker profile', exact: true }).click();
+			await expect.poll(() => onChange.mock.lastCall?.[0].formData).toEqual({ broker: value.emptyValue });
+			expect(onChange).toHaveBeenCalledOnce();
+			expect(onChange.mock.lastCall?.[0].errors).toEqual([]);
 		});
 	});
 });

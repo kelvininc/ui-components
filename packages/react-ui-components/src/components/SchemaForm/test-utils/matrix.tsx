@@ -1947,6 +1947,40 @@ export const R4_OPTION_PAYLOAD_SHAPE = {
 	customOptions: { 'ui:placeholder': 'Broker address' }
 };
 
+export const R4_OPTION_OVERRIDE_SHAPES = [
+	{ name: 'empty enum value', option: 'emptyValue', inherited: { ...R4_EMPTY_CHOICE, region: 'lisbon' }, provided: R4_EMPTY_CHOICE, expected: R4_EMPTY_CHOICE },
+	{
+		name: 'custom widget configuration',
+		option: 'customOptions',
+		inherited: { 'ui:placeholder': 'Old broker', 'region': 'lisbon' },
+		provided: R4_OPTION_PAYLOAD_SHAPE.customOptions,
+		expected: { ...R4_OPTION_PAYLOAD_SHAPE.customOptions, region: 'lisbon' }
+	},
+	{
+		name: 'submit button configuration',
+		option: 'submitButtonOptions',
+		inherited: { submitText: 'Save connection', props: { disabled: true } },
+		provided: { submitText: 'Connect broker' },
+		expected: { submitText: 'Connect broker', props: { disabled: true } }
+	}
+];
+export const R4_OPTION_PAYLOAD_UNIONS = (['oneOf', 'anyOf'] as const).map(keyword => ({
+	name: keyword,
+	keyword,
+	schema: {
+		type: 'object',
+		properties: {
+			broker: {
+				title: 'Broker connection',
+				[keyword]: [
+					{ title: 'Broker profile', enum: [R4_EMPTY_CHOICE, R4_SAVED_CHOICE] },
+					{ type: 'boolean', title: 'Skip broker' }
+				]
+			}
+		}
+	} as RJSFSchema
+}));
+
 export const R4_TEMPLATE_PLACEMENTS = ['field', 'branch', 'inherited child'] as const;
 export const R4_SAME_RENDER_TEMPLATES = [
 	{ name: 'memo around the same function', build: () => memo(FieldLayout) },
@@ -2268,6 +2302,8 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	R4_RAIL_VISIBILITY_SHAPES,
 	R4_EMPTY_BRANCH_TEMPLATES,
 	R4_OPTION_PAYLOAD_SHAPE,
+	R4_OPTION_OVERRIDE_SHAPES,
+	R4_OPTION_PAYLOAD_UNIONS,
 	R4_TEMPLATE_PLACEMENTS,
 	R4_SAME_RENDER_TEMPLATES,
 	R4_BRANCH_LABEL_SHAPES,

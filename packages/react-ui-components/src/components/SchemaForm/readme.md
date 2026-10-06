@@ -83,6 +83,8 @@ Inline objects keep their existing divider-free layout.
 
 Parent `ui:order` passes to branches with `'*'` appended for remaining properties. An explicit branch
 order overrides it, including when supplied through `ui:options.order`. Arrays replace whole arrays.
+Plain settings support partial overrides. An explicit `ui:emptyValue` replaces the entire inherited
+JSON value, including when supplied as `undefined` or through `ui:options.emptyValue`.
 SchemaForm preserves function, memo and forwardRef component references while merging UI settings,
 and applies template replacements to mounted forms without modifying the caller's uiSchema.
 

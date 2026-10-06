@@ -17,6 +17,8 @@ import {
 	R4_HETEROGENEOUS_ORDER_SHAPES,
 	R4_OPTION_ERROR_SHAPES,
 	R4_OPTION_PAYLOAD_SHAPE,
+	R4_OPTION_PAYLOAD_UNIONS,
+	R4_OPTION_OVERRIDE_SHAPES,
 	R4_OPTION_SHAPES,
 	R4_ORDER_SHAPES,
 	R4_SAME_RENDER_TEMPLATES,
@@ -281,6 +283,40 @@ describe.each(R4_UI_SETTING_SHAPES)('$name JSON options', ({ build }) => {
 		await act(async () => fireStencilEvent('root_broker', 'onOptionSelected', undefined));
 		expect(onChange.mock.lastCall![0].formData).toEqual({ broker: row.emptyValue });
 		expect(ref.current!.state.errors).toEqual([]);
+	});
+});
+
+describe.each(R4_OPTION_PAYLOAD_UNIONS)('$name branch option values', row => {
+	describe.each(R4_UI_SETTING_SHAPES)('inherited $name', inherited => {
+		it.each(R4_UI_SETTING_SHAPES)('clears to the exact $name branch override without inherited keys', async provided => {
+			const value = R4_OPTION_PAYLOAD_SHAPE;
+			const ref = createRef<Form>();
+			const onChange = vi.fn();
+			await act(async () =>
+				root.render(
+					<KvSchemaForm
+						schema={row.schema}
+						formData={value.formData}
+						uiSchema={{
+							broker: {
+								...inherited.build({ emptyValue: R4_OPTION_OVERRIDE_SHAPES[0].inherited }),
+								[row.keyword]: [provided.build({ emptyValue: value.emptyValue }), {}]
+							}
+						}}
+						formReference={ref}
+						onChange={onChange}
+						omitExtraData={false}
+						liveOmit={false}
+						liveValidate
+						applyDefaults={EApplyDefaults.Never}
+					/>
+				)
+			);
+			expect(ref.current!.state.errors).toEqual([]);
+			await act(async () => fireStencilEvent('root_broker', 'onOptionSelected', undefined));
+			expect(onChange.mock.lastCall![0].formData).toEqual({ broker: value.emptyValue });
+			expect(ref.current!.state.errors).toEqual([]);
+		});
 	});
 });
 

@@ -1,8 +1,22 @@
 import { getUiOptions } from '@rjsf/utils';
 import { mergeWith } from 'lodash';
 import { describe, expect, it } from 'vitest';
-import { R4_OPTION_PAYLOAD_SHAPE, R4_UI_SETTING_SHAPES, TEMPLATE_COMPONENTS } from '../test-utils/matrix';
+import { R4_OPTION_OVERRIDE_SHAPES, R4_OPTION_PAYLOAD_SHAPE, R4_UI_SETTING_SHAPES, TEMPLATE_COMPONENTS } from '../test-utils/matrix';
 import { areSettingsEqual, keepUnlessSettings, mergeUiSchemas } from './merge';
+
+it('keeps Object.prototype unchanged for a JSON __proto__ UI key', () => {
+	const keys = ['ui:emptyValue', 'ui:options'];
+	const descriptors = keys.map(key => Object.getOwnPropertyDescriptor(Object.prototype, key));
+	try {
+		mergeUiSchemas(JSON.parse('{"__proto__":{"ui:emptyValue":"broker.local"}}'));
+		expect(keys.map(key => Object.getOwnPropertyDescriptor(Object.prototype, key))).toEqual(descriptors);
+	} finally {
+		keys.forEach((key, index) => {
+			if (descriptors[index]) Object.defineProperty(Object.prototype, key, descriptors[index]!);
+			else delete (Object.prototype as Record<string, unknown>)[key];
+		});
+	}
+});
 
 describe.each(TEMPLATE_COMPONENTS)('$name settings merge', ({ FieldLayout }) => {
 	it('preserves component identity inside copied settings', () => {
@@ -77,4 +91,27 @@ it.each(R4_UI_SETTING_SHAPES)('preserves JSON option payloads supplied through $
 	const result = mergeUiSchemas({ host: build({ emptyValue, customOptions }) });
 	expect(getUiOptions(result.host).emptyValue).toEqual(emptyValue);
 	expect(getUiOptions(result.host).customOptions).toEqual(customOptions);
+});
+
+describe.each(R4_UI_SETTING_SHAPES)('inherited $name option values', inherited => {
+	describe.each(R4_UI_SETTING_SHAPES)('provided $name option values', provided => {
+		it.each(R4_OPTION_OVERRIDE_SHAPES)('merges $name according to its value or settings contract', row => {
+			const source = { broker: inherited.build({ [row.option]: row.inherited, disabled: false }) };
+			const override = { broker: provided.build({ [row.option]: row.provided }) };
+			const result = mergeUiSchemas(source, override);
+			expect(getUiOptions(result.broker)).toMatchObject({ [row.option]: row.expected, disabled: false });
+			expect(getUiOptions(result.broker)[row.option]).toEqual(row.expected);
+			expect(result.broker[`ui:${row.option}`]).toEqual(row.expected);
+			expect(result.broker['ui:options'][row.option]).toEqual(row.expected);
+			expect(getUiOptions(source.broker)[row.option]).toEqual(row.inherited);
+			expect(getUiOptions(override.broker)[row.option]).toEqual(row.provided);
+		});
+		it('allows an explicit undefined empty value to replace an inherited object', () => {
+			const result = mergeUiSchemas(inherited.build({ emptyValue: R4_OPTION_OVERRIDE_SHAPES[0].inherited }), provided.build({ emptyValue: undefined }));
+			expect(Object.prototype.hasOwnProperty.call(result, 'ui:emptyValue')).toBe(true);
+			expect(result['ui:emptyValue']).toBeUndefined();
+			expect(Object.prototype.hasOwnProperty.call(result['ui:options'], 'emptyValue')).toBe(true);
+			expect(getUiOptions(result).emptyValue).toBeUndefined();
+		});
+	});
 });
