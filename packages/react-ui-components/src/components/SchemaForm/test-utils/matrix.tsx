@@ -1529,6 +1529,56 @@ export const L1_EMPTY_ITEM_SCHEMAS = [
 	{ name: 'empty fixed-item tuple', schema: { type: 'array', title: 'Brokers', items: [], additionalItems: { type: 'string', title: 'Backup' } } as RJSFSchema }
 ].map(row => ({ ...row, formData: ['broker-1.local', 'broker-2.local', 'broker-3.local'], uiSchema: { 'ui:itemPrefix': 'Broker' } }));
 
+export const L1_HIDDEN_ITEM_WIDGETS: {
+	name: string;
+	row: { schema: RJSFSchema; formData: unknown[] };
+	uiSchema: UiSchema;
+	itemNames: string[];
+	hiddenPositions: number[];
+	section: boolean;
+}[] = [
+	{
+		name: 'hidden strings',
+		row: ARRAY_SHAPES[0],
+		uiSchema: { items: { 'ui:widget': 'hidden' } },
+		itemNames: ['Topic 1', 'Topic 2', 'Topic 3'],
+		hiddenPositions: [0, 1, 2],
+		section: false
+	},
+	{
+		name: 'hidden widget in options',
+		row: ARRAY_SHAPES[0],
+		uiSchema: { items: { 'ui:options': { widget: 'hidden' } } },
+		itemNames: ['Topic 1', 'Topic 2', 'Topic 3'],
+		hiddenPositions: [0, 1, 2],
+		section: false
+	},
+	{
+		name: 'hidden additional tuple positions',
+		row: { schema: ENDPOINTS, formData: ['primary.local', 'backup-1.local', 'backup-2.local'] },
+		uiSchema: { additionalItems: { 'ui:widget': 'hidden' } },
+		itemNames: ['Primary', 'Backup 2', 'Backup 3'],
+		hiddenPositions: [1, 2],
+		section: false
+	},
+	{
+		name: 'hidden fixed and additional tuple positions',
+		row: { schema: ENDPOINTS, formData: ['primary.local', 'backup-1.local', 'backup-2.local'] },
+		uiSchema: { items: [{ 'ui:widget': 'hidden' }], additionalItems: { 'ui:widget': 'hidden' } },
+		itemNames: ['Primary', 'Backup 2', 'Backup 3'],
+		hiddenPositions: [0, 1, 2],
+		section: false
+	},
+	{
+		name: 'hidden objects with nested lists',
+		row: ARRAY_SHAPES[7],
+		uiSchema: { items: { 'ui:widget': 'hidden' } },
+		itemNames: ['Group 1', 'Group 2', 'Group 3'],
+		hiddenPositions: [0, 1, 2],
+		section: true
+	}
+];
+
 const ItemArrayLayout = ({ items, registry, idSchema }: ArrayFieldTemplateProps) => {
 	const Item = registry.templates.ArrayFieldItemTemplate;
 	return (
@@ -2472,6 +2522,7 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	L1_HIDDEN_ITEM_HEADINGS,
 	L1_FIELDSET_SHAPES,
 	L1_EMPTY_ITEM_SCHEMAS,
+	L1_HIDDEN_ITEM_WIDGETS,
 	L1_ARRAY_TEMPLATE_SHAPES,
 	L1_UNION_LIST_SHAPES,
 	L1_ITEM_FIELD_COMPONENTS,

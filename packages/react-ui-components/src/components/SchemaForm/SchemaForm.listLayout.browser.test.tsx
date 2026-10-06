@@ -13,6 +13,7 @@ import {
 	L1_ARRAY_TEMPLATE_SHAPES,
 	L1_EMPTY_ITEM_SCHEMAS,
 	L1_HIDDEN_ITEM_HEADINGS,
+	L1_HIDDEN_ITEM_WIDGETS,
 	L1_ITEM_FIELD_COMPONENTS,
 	L1_PREFIX_SHAPES,
 	L1_SCALAR_LIST_SHAPES,
@@ -25,6 +26,55 @@ const center = (element: Element) => {
 	return bounds.y + bounds.height / 2;
 };
 const rootItems = (container: HTMLElement) => Array.from(container.querySelectorAll<HTMLElement>('[data-schema-form-list="root"] > div > div > [data-schema-form-list-item]'));
+
+describe.each(L1_HIDDEN_ITEM_WIDGETS)('L1 hidden item widgets in Chromium: $name', ({ row, uiSchema, itemNames, hiddenPositions, section }) => {
+	it.each(FOCUS_EDITING_FLAGS)('keeps actions visible while the field stays hidden when $name', async flags => {
+		const screen = await render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={uiSchema} disabled={flags.disabled} readonly={flags.readonly} />);
+		await whenAllKelvinReady(screen.container);
+		const items = rootItems(screen.container);
+		expect(items).toHaveLength(3);
+		const fixed = Array.isArray(row.schema.items) ? row.schema.items.length : 0;
+		for (const [index, item] of items.entries()) {
+			const field = item.querySelector<HTMLElement>('[data-schema-form-field]')!;
+			if (hiddenPositions.includes(index)) await expect.element(field).not.toBeVisible();
+			else await expect.element(field).toBeVisible();
+			const menus = Array.from(item.querySelectorAll('kv-action-menu')).filter(menu => menu.closest('[data-schema-form-list-item]') === item);
+			expect(menus).toHaveLength(index < fixed ? 0 : 1);
+			const controls = index < fixed ? [] : [`${section ? 'Actions for' : 'Reorder'} ${itemNames[index]}`, ...(!section ? [`Remove ${itemNames[index]}`] : [])];
+			for (const name of controls) {
+				const button = screen.getByRole('button', { name, exact: true });
+				await expect.element(button).toBeVisible();
+				expect((button.element() as HTMLElement).tabIndex).toBe(-1);
+				if (flags.focused) await expect.element(button).toBeEnabled();
+				else await expect.element(button).toBeDisabled();
+			}
+		}
+	});
+	it('keeps fixed positions and boundary restrictions while moving and removing hidden items', async () => {
+		const onChange = vi.fn();
+		const screen = await render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={uiSchema} onChange={onChange} />);
+		await whenAllKelvinReady(screen.container);
+		const fixed = Array.isArray(row.schema.items) ? row.schema.items.length : 0;
+		const triggerName = (index: number) => `${section ? 'Actions for' : 'Reorder'} ${itemNames[index]}`;
+		await screen.getByRole('button', { name: triggerName(fixed), exact: true }).click();
+		await expect.element(page.getByRole('menuitem', { name: 'Move up', exact: true })).toBeDisabled();
+		await expect.element(page.getByRole('menuitem', { name: 'Move down', exact: true })).toBeEnabled();
+		await userEvent.keyboard('{Escape}');
+		await screen.getByRole('button', { name: triggerName(2), exact: true }).click();
+		await expect.element(page.getByRole('menuitem', { name: 'Move down', exact: true })).toBeDisabled();
+		await page.getByRole('menuitem', { name: 'Move up', exact: true }).click();
+		await expect.poll(() => onChange.mock.calls.length).toBe(1);
+		expect(onChange.mock.lastCall?.[0].formData).toEqual([row.formData[0], row.formData[2], row.formData[1]]);
+		onChange.mockClear();
+		const removeName = `Remove ${itemNames[1]}`;
+		if (section) {
+			await screen.getByRole('button', { name: triggerName(1), exact: true }).click();
+			await page.getByRole('menuitem', { name: removeName, exact: true }).click();
+		} else await screen.getByRole('button', { name: removeName, exact: true }).click();
+		await expect.poll(() => onChange.mock.calls.length).toBe(1);
+		expect(onChange.mock.lastCall?.[0].formData).toEqual([row.formData[0], row.formData[1]]);
+	});
+});
 
 describe.each(L1_EMPTY_ITEM_SCHEMAS)('L1 empty item schemas in Chromium: $name', row => {
 	it.each(FOCUS_EDITING_FLAGS)('keeps named item controls when $name', async flags => {

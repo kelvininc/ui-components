@@ -35,8 +35,9 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 	const itemName = fixedPosition ? name : `${name} ${index + 1}`;
 	const section = isSectionField(schema, uiSchema, registry);
 	const field = children as React.ReactElement<FieldProps<T, S, F>>;
-	// Native SchemaField returns null for an empty schema, so those rows need the fallback controls.
-	const defaultTemplate = Object.keys(schema).length > 0 && getTemplate('FieldTemplate', registry, options) === FieldTemplate && isBuiltinSchemaField(field.type);
+	// Empty schemas and hidden widgets bypass the field layout, so they need the fallback controls.
+	const defaultTemplate =
+		Object.keys(schema).length > 0 && options.widget !== 'hidden' && getTemplate('FieldTemplate', registry, options) === FieldTemplate && isBuiltinSchemaField(field.type);
 	const inactive = Boolean(disabled || readonly);
 	const moves = layout ? layout.orderable && !fixedPosition : hasMoveUp || hasMoveDown;
 	const actions: IActionMenuItem[] = [

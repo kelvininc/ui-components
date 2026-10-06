@@ -13,6 +13,7 @@ import {
 	L1_ARRAY_TEMPLATE_SHAPES,
 	L1_EMPTY_ITEM_SCHEMAS,
 	L1_HIDDEN_ITEM_HEADINGS,
+	L1_HIDDEN_ITEM_WIDGETS,
 	L1_ITEM_FIELD_COMPONENTS,
 	L1_PREFIX_SHAPES,
 	L1_SCALAR_LIST_SHAPES,
@@ -37,6 +38,59 @@ afterEach(() => {
 		act(() => root.unmount());
 		container.remove();
 	}
+});
+
+describe.each(L1_HIDDEN_ITEM_WIDGETS)('L1 hidden item widgets: $name', ({ row, uiSchema, itemNames, hiddenPositions, section }) => {
+	describe.each(LIST_OPTIONS)('$name', option => {
+		it.each(FOCUS_EDITING_FLAGS)('keeps available actions outside the hidden field when $name', flags => {
+			const onChange = vi.fn();
+			const screen = render(
+				<KvSchemaForm
+					schema={row.schema}
+					formData={row.formData}
+					uiSchema={{ ...uiSchema, 'ui:options': option.options }}
+					disabled={flags.disabled}
+					readonly={flags.readonly}
+					onChange={onChange}
+				/>
+			);
+			const items = Array.from(screen.container.querySelectorAll('[data-schema-form-list="root"] > div > div > [data-schema-form-list-item]'));
+			expect(items).toHaveLength(3);
+			const menus: Element[] = [];
+			const remove: Element[] = [];
+			for (const [index, item] of items.entries()) {
+				expect(item.querySelector('[data-schema-form-field]')!.hasAttribute('hidden')).toBe(hiddenPositions.includes(index));
+				for (const menu of item.querySelectorAll('kv-action-menu'))
+					if (menu.closest('[data-schema-form-list-item]') === item) {
+						menus.push(menu);
+						expect(propsOf(menu).accessibleLabel).toBe(`${section ? 'Actions for' : 'Reorder'} ${itemNames[index]}`);
+						expect(menu.closest('[hidden]')).toBeNull();
+					}
+				for (const button of item.querySelectorAll('kv-action-button-icon'))
+					if (button.closest('[data-schema-form-list-item]') === item) {
+						remove.push(button);
+						expect(propsOf(button).accessibleLabel).toBe(`Remove ${itemNames[index]}`);
+						expect(button.closest('[hidden]')).toBeNull();
+					}
+			}
+			const fixed = Array.isArray(row.schema.items) ? row.schema.items.length : 0;
+			const available = 3 - fixed;
+			expect(menus).toHaveLength(option.options.orderable !== false || (section && option.options.removable !== false) ? available : 0);
+			expect(remove).toHaveLength(!section && option.options.removable !== false ? available : 0);
+			for (const control of [...menus, ...remove]) expect(propsOf(control).disabled).toBe(!flags.focused);
+			if (menus.length && option.options.orderable !== false) {
+				act(() => fireStencilEvent(menus[0], 'onItemSelected', 'move-down', { force: true }));
+				if (flags.focused)
+					expect(onChange.mock.lastCall?.[0].formData).toEqual([
+						...row.formData.slice(0, fixed),
+						row.formData[fixed + 1],
+						row.formData[fixed],
+						...row.formData.slice(fixed + 2)
+					]);
+				else expect(onChange).not.toHaveBeenCalled();
+			}
+		});
+	});
 });
 
 describe.each(L1_EMPTY_ITEM_SCHEMAS)('L1 empty item schemas: $name', row => {
