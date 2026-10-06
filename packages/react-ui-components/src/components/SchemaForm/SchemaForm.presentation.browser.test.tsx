@@ -10,6 +10,7 @@ import {
 	ARRAY_SHAPES,
 	FIELDSET_BACKGROUND_SHAPES,
 	FOCUS_EDITING_FLAGS,
+	L1_FIELDSET_SHAPES,
 	OBJECT_LAYOUT_SCHEMA,
 	OBJECT_LAYOUT_SHAPES,
 	OBJECT_SHAPES
@@ -24,40 +25,62 @@ const focusedControl = () => {
 };
 
 describe.each([StyleMode.Light, StyleMode.Night])('fieldset overlays in %s', theme => {
-	it.each(FIELDSET_BACKGROUND_SHAPES)('masks the border on $name', async row => {
-		setThemeMode(theme);
-		try {
-			const list = ARRAY_SHAPES[2];
-			const screen = await render(
-				<div
-					style={
-						{
-							'width': '800px',
-							'backgroundColor': 'var(--background-container-neutral-default)',
-							'--schema-form-background': 'var(--background-container-neutral-default)'
-						} as React.CSSProperties
+	describe.each(FIELDSET_BACKGROUND_SHAPES)('$name', backgroundRow => {
+		it.each(L1_FIELDSET_SHAPES)('owns the overlay for $name', async ({ row: list, uiSchema, templates, headers, overlays, menus }) => {
+			setThemeMode(theme);
+			try {
+				const screen = await render(
+					<div
+						style={
+							{
+								'width': '800px',
+								'backgroundColor': 'var(--background-container-neutral-default)',
+								'--schema-form-background': 'var(--background-container-neutral-default)'
+							} as React.CSSProperties
+						}
+					>
+						<KvSchemaForm schema={list.schema} formData={list.formData} uiSchema={uiSchema} templates={templates} />
+					</div>
+				);
+				await whenAllKelvinReady(screen.container);
+				const form = screen.container.querySelector<HTMLElement>(`.${styles.FormContainer}`)!;
+				if (backgroundRow.background) form.style.setProperty('--schema-form-background', backgroundRow.background);
+				const background = getComputedStyle(form).backgroundColor;
+				expect(background).not.toBe('rgba(0, 0, 0, 0)');
+				const fieldsets = screen.container.querySelectorAll(`.${itemStyles.FieldsetStyle}`);
+				expect(fieldsets).toHaveLength(Math.max(list.formData.length, overlays));
+				expect(screen.container.querySelectorAll('kv-action-menu')).toHaveLength(menus);
+				const itemHeaders = screen.container.querySelectorAll('[data-schema-form-item-header]');
+				expect(itemHeaders).toHaveLength(headers);
+				let actualOverlays = 0;
+				for (const header of itemHeaders) {
+					const item = header.closest(`.${itemStyles.FieldsetStyle}`)!;
+					const owner = header.closest('[data-schema-form-list-item]')!;
+					const headerStyle = getComputedStyle(header);
+					if (owner === item) {
+						actualOverlays++;
+						expect(headerStyle.transform).not.toBe('none');
+						expect(headerStyle.backgroundColor).toBe(background);
+						expect(header.getBoundingClientRect().top).toBeLessThan(item.getBoundingClientRect().top);
+						expect(header.getBoundingClientRect().bottom).toBeGreaterThan(item.getBoundingClientRect().top);
+					} else {
+						expect(headerStyle.transform).toBe('none');
+						expect(headerStyle.marginBottom).toBe('0px');
 					}
-				>
-					<KvSchemaForm schema={list.schema} formData={list.formData} uiSchema={{ items: { 'ui:fieldset': true, 'ui:itemPrefix': 'Variable' } }} />
-				</div>
-			);
-			await whenAllKelvinReady(screen.container);
-			const form = screen.container.querySelector<HTMLElement>(`.${styles.FormContainer}`)!;
-			if (row.background) form.style.setProperty('--schema-form-background', row.background);
-			const background = getComputedStyle(form).backgroundColor;
-			expect(background).not.toBe('rgba(0, 0, 0, 0)');
-			const fieldsets = screen.container.querySelectorAll(`.${itemStyles.FieldsetStyle}`);
-			expect(fieldsets).toHaveLength(list.formData.length);
-			for (const fieldset of fieldsets) {
-				for (const className of [itemStyles.ItemPrefix, itemStyles.ToolbarContainer]) {
-					const overlay = fieldset.querySelector(`.${className}`)!;
-					expect(getComputedStyle(overlay).position).toBe('absolute');
-					expect(getComputedStyle(overlay).backgroundColor).toBe(background);
 				}
+				expect(actualOverlays).toBe(overlays);
+				for (const fieldset of fieldsets) {
+					const ownedHeaders = Array.from(fieldset.querySelectorAll('[data-schema-form-item-header]')).filter(
+						header => header.closest('[data-schema-form-list-item]') === fieldset
+					);
+					expect(ownedHeaders).toHaveLength(headers ? 1 : 0);
+					if (ownedHeaders.length) expect(ownedHeaders[0].querySelector('h2,h3,h4,h5,h6')).not.toBeNull();
+					if (templates) expect(fieldset.querySelector('[data-custom-item-wrap]')).not.toBeNull();
+				}
+			} finally {
+				setThemeMode(StyleMode.Night);
 			}
-		} finally {
-			setThemeMode(StyleMode.Night);
-		}
+		});
 	});
 });
 

@@ -7,3 +7,24 @@
 	flex-direction: column;
 	gap: var(--spacing-xl);
 }
+
+.ItemHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--spacing-md);
+
+	> :first-child {
+		margin-bottom: 0;
+	}
+
+	kv-action-menu {
+		flex-shrink: 0;
+		margin-inline-start: auto;
+	}
+}
+
+.FieldsetHeader {
+	transform: translateY(-50%);
+	margin-bottom: calc(-1 * var(--spacing-2xl));
+}
