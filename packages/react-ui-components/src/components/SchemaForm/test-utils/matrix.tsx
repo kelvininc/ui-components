@@ -3032,7 +3032,16 @@ export const R6_FILE_SHAPES = [false, true].flatMap(multiple =>
 		}))
 	)
 );
-export const R6_FILE_READ_CANCELLATIONS = ['unmount', 'readonly', 'disabled', 'readonly then editable', 'disabled then editable', 'external value', 'discard'] as const;
+export const R6_FILE_READ_CANCELLATIONS = [
+	'unmount',
+	'readonly',
+	'disabled',
+	'readonly then editable',
+	'disabled then editable',
+	'external value',
+	'discard',
+	'reset defaults'
+] as const;
 export const R6_FILE_READ_FAILURES = [
 	{ name: 'earlier read succeeds', earlierFails: false },
 	{ name: 'earlier read fails', earlierFails: true }

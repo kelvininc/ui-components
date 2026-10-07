@@ -8,7 +8,7 @@ import { extractFileInfo, processFiles } from './utils';
 type FileValueProps = Pick<WidgetProps, 'id' | 'value' | 'multiple' | 'readonly' | 'disabled' | 'onChange'>;
 
 export const useFileValue = ({ id, value, multiple, readonly, disabled, onChange }: FileValueProps) => {
-	const { trackFieldChange, markFieldAsTouched, resetKey } = useFormState();
+	const { trackFieldChange, markFieldAsTouched, valueResetKey } = useFormState();
 	const filesInfo = useMemo(() => extractFileInfo(value), [value]);
 	const [readError, setReadError] = useState<string>();
 	const inactive = Boolean(disabled || readonly);
@@ -18,7 +18,7 @@ export const useFileValue = ({ id, value, multiple, readonly, disabled, onChange
 		id,
 		multiple: Boolean(multiple),
 		inactive,
-		resetKey,
+		valueResetKey,
 		sequence: 0,
 		selection: 0,
 		failedSelection: 0,
@@ -36,12 +36,18 @@ export const useFileValue = ({ id, value, multiple, readonly, disabled, onChange
 		const state = current.current;
 		const values = filesInfo.map(file => file.value);
 		const changed = !isEqual(value, state.propValue);
-		if (state.id !== id || state.multiple !== Boolean(multiple) || state.inactive !== inactive || state.resetKey !== resetKey || (changed && !isEqual(values, state.values))) {
+		if (
+			state.id !== id ||
+			state.multiple !== Boolean(multiple) ||
+			state.inactive !== inactive ||
+			state.valueResetKey !== valueResetKey ||
+			(changed && !isEqual(values, state.values))
+		) {
 			invalidate();
 			state.values = values;
 			setReadError(undefined);
 		} else if (changed) state.values = values;
-		Object.assign(state, { propValue: value, id, multiple: Boolean(multiple), inactive, resetKey });
+		Object.assign(state, { propValue: value, id, multiple: Boolean(multiple), inactive, valueResetKey });
 		state.commit = values => {
 			state.values = values;
 			const result = state.multiple ? values : values[0];

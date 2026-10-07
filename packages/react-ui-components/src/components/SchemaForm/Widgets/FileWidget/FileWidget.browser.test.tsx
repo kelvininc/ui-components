@@ -128,8 +128,8 @@ function delayReads(source: File, failedSource?: File) {
 const raceSchema = {
 	type: 'object' as const,
 	properties: {
-		certificate: { type: 'array' as const, title: 'Certificates', items: { type: 'string' as const, format: 'data-url' } },
-		host: { type: 'string' as const, title: 'Host' }
+		certificate: { type: 'array' as const, title: 'Certificates', default: [certificate], items: { type: 'string' as const, format: 'data-url' } },
+		host: { type: 'string' as const, title: 'Host', default: 'default-broker.local' }
 	}
 };
 const raceData = { certificate: [certificate], host: 'edited-broker.local' };
@@ -161,7 +161,7 @@ describe.each(R6_FILE_READ_CANCELLATIONS)('Chromium upload cancellation: %s', re
 	it('drops the old real file read and lets a new selection finish', async () => {
 		const onChange = vi.fn();
 		const form = (flags = {}, formData = raceData) => (
-			<KvSchemaForm schema={raceSchema} formData={formData} submittedData={savedData} allowDiscardChanges onChange={onChange} {...flags} />
+			<KvSchemaForm schema={raceSchema} formData={formData} submittedData={savedData} allowDiscardChanges allowResetToDefaults onChange={onChange} {...flags} />
 		);
 		const screen = await render(form());
 		await whenAllKelvinReady(screen.container);
@@ -172,6 +172,7 @@ describe.each(R6_FILE_READ_CANCELLATIONS)('Chromium upload cancellation: %s', re
 		if (reason === 'unmount') await screen.rerender(<div />);
 		else if (reason === 'external value') await screen.rerender(form({}, { ...raceData, certificate: [uploaded] }));
 		else if (reason === 'discard') await screen.getByRole('button', { name: 'Discard Changes', exact: true }).click();
+		else if (reason === 'reset defaults') await screen.getByRole('button', { name: 'Reset to Default', exact: true }).click();
 		else {
 			await screen.rerender(form(reason.startsWith('readonly') ? { readonly: true } : { disabled: true }));
 			if (reason.endsWith('editable')) await screen.rerender(form());
@@ -311,6 +312,24 @@ it('restores touched Browse descriptions to empty when Discard restores an uncha
 	await expect.poll(() => nativeDescription('Browse File for Certificates')).toBe('Review the certificates.');
 	await screen.getByRole('button', { name: 'Discard Changes', exact: true }).click();
 	await expect.poll(() => nativeDescription('Browse File for Certificates')).toBe('');
+});
+
+it('preserves touched Browse errors when Reset to Default restores the same file', async () => {
+	const screen = await render(
+		<KvSchemaForm<typeof raceData>
+			schema={raceSchema}
+			formData={raceData}
+			allowResetToDefaults
+			extraErrors={{ certificate: { __errors: ['Review the certificates.'] } }}
+			showErrorList={false}
+		/>
+	);
+	await whenAllKelvinReady(screen.container);
+	(screen.getByRole('button', { name: 'Browse File for Certificates', exact: true }).element() as HTMLElement).focus();
+	await expect.poll(() => nativeDescription('Browse File for Certificates')).toBe('Review the certificates.');
+	await screen.getByRole('button', { name: 'Reset to Default', exact: true }).click();
+	expect(names(screen.container)).toEqual(['ca.pem']);
+	await expect.poll(() => nativeDescription('Browse File for Certificates')).toBe('Review the certificates.');
 });
 
 it('keeps nested array input ids unique and routes Browse to the matching file input', async () => {
