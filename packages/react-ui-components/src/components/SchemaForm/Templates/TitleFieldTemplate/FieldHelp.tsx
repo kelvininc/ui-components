@@ -1,11 +1,21 @@
-import { EIconName, ETooltipPosition } from '@kelvininc/ui-components';
+import { EActionButtonType, EComponentSize, EIconName, ETooltipPosition } from '@kelvininc/ui-components';
 import React from 'react';
-import { KvIcon, KvToggleTip } from '../../../../stencil-generated';
+import { KvActionButtonIcon, KvIcon, KvToggleTip } from '../../../../stencil-generated';
 
-const FieldHelp = ({ help, className }: { help?: string; className?: string }) =>
+const FieldHelp = ({ help, className, accessibleLabel }: { help?: string; className?: string; accessibleLabel?: string }) =>
 	help ? (
 		<KvToggleTip className={className} text={help} position={ETooltipPosition.Right}>
-			<KvIcon name={EIconName.Info} slot="open-element-slot" />
+			{accessibleLabel ? (
+				<KvActionButtonIcon
+					icon={EIconName.InfoOutline}
+					type={EActionButtonType.Tertiary}
+					size={EComponentSize.Small}
+					accessibleLabel={accessibleLabel}
+					slot="open-element-slot"
+				/>
+			) : (
+				<KvIcon name={EIconName.Info} slot="open-element-slot" />
+			)}
 		</KvToggleTip>
 	) : null;
 

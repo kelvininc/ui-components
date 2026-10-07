@@ -7,9 +7,13 @@ import { useFieldPresentation } from './useFieldPresentation';
 import styles from './FieldTemplate.module.scss';
 import ChoiceExtras from './ChoiceExtras';
 import FieldHelp from '../TitleFieldTemplate/FieldHelp';
+import { useTableCell } from '../../contexts/TableContext';
+import tableStyles from '../ArrayFieldTemplate/TableLayout.module.scss';
+import { SCHEMA_FORM_STRINGS } from '../../strings';
 
 const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: FieldTemplateProps<T, S, F>) => {
 	const choiceHost = useRef<HTMLKvRadioListElement | null>(null);
+	const cell = useTableCell(props.id);
 	const controls = useContext(ArrayItemControlsContext);
 	const itemControls = controls?.fieldId === props.id ? controls : null;
 	const { WrapIfAdditionalTemplate, arrayDescriptionContext, errorDescription, descriptionPosition, titleElement, descriptionElement, errorsElement, helperElement } =
@@ -18,8 +22,20 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	return (
 		<WrapIfAdditionalTemplate {...props}>
 			<div className={classNames(styles.FieldWrapper, props.classNames)}>
-				{titleElement}
-				{descriptionPosition === EDescriptionPosition.Top && help}
+				{cell ? (
+					<div className={tableStyles.CellLabel}>
+						<span aria-hidden="true">{cell.column.title}</span>
+						{cell.column.required && (
+							<span className={tableStyles.Required} aria-hidden="true">
+								*
+							</span>
+						)}
+						<FieldHelp help={cell.column.description} accessibleLabel={SCHEMA_FORM_STRINGS.helpFor(cell.accessibleLabel)} />
+					</div>
+				) : (
+					titleElement
+				)}
+				{!cell && descriptionPosition === EDescriptionPosition.Top && help}
 				<ChoiceControlContext.Provider value={choiceHost}>
 					<FieldDescriptionContext.Provider value={errorDescription}>
 						<ArrayDescriptionContext.Provider value={arrayDescriptionContext}>
@@ -39,8 +55,8 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 					</FieldDescriptionContext.Provider>
 					<ChoiceExtras {...props} />
 				</ChoiceControlContext.Provider>
-				{descriptionPosition !== EDescriptionPosition.Top && help}
-				{helperElement}
+				{cell ? errorsElement : descriptionPosition !== EDescriptionPosition.Top && help}
+				{!cell && helperElement}
 			</div>
 		</WrapIfAdditionalTemplate>
 	);

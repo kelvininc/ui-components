@@ -83,6 +83,7 @@ export enum EIconName {
 	Included = 'kv-included',
 	IndeterminateState = 'kv-indeterminate-state',
 	Info = 'kv-info',
+	InfoOutline = 'kv-info-outline',
 	Layer = 'kv-layer',
 	Link = 'kv-link',
 	List = 'kv-list',

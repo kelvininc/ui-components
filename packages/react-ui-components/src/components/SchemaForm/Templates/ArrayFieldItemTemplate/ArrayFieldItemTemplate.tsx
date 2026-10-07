@@ -11,6 +11,9 @@ import { SCHEMA_FORM_STRINGS } from '../../strings';
 import FieldTemplate from '../FieldTemplate';
 import { isSectionField } from '../utils';
 import styles from './ArrayFieldItemTemplate.module.scss';
+import { TableContext, TableRowContext } from '../../contexts/TableContext';
+import { tableStyle } from '../ArrayFieldTemplate/TableLayout';
+import tableStyles from '../ArrayFieldTemplate/TableLayout.module.scss';
 
 const validName = (value: unknown) => (typeof value === 'string' && value.trim() ? value : undefined);
 
@@ -29,6 +32,7 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 	uiSchema
 }: ArrayFieldTemplateItemType<T, S, F>) => {
 	const layout = useContext(ArrayItemLayoutContext);
+	const table = useContext(TableContext);
 	const arrayFocus = useContext(ArrayItemsContext);
 	const entry = useEntryFocus();
 	const menuRef = useRef<HTMLKvActionMenuElement>(null);
@@ -37,9 +41,9 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 	const options = getUiOptions(uiSchema, registry.globalUiOptions);
 	const fixedPosition = index < (layout?.fixedItems ?? 0);
 	const prefix = validName(options.itemPrefix) || (!fixedPosition ? layout?.itemPrefix : undefined);
-	const name = prefix || validName(options.title) || validName(schema.title) || SCHEMA_FORM_STRINGS.item;
+	const name = prefix || validName(options.title) || validName(schema.title) || (table ? SCHEMA_FORM_STRINGS.row : SCHEMA_FORM_STRINGS.item);
 	const itemName = fixedPosition ? name : `${name} ${index + 1}`;
-	const section = isSectionField(schema, uiSchema, registry);
+	const section = !table && isSectionField(schema, uiSchema, registry);
 	const field = children as React.ReactElement<FieldProps<T, S, F>>;
 	// Empty schemas and hidden widgets bypass the field layout, so they need the fallback controls.
 	const defaultTemplate =
@@ -92,13 +96,13 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 			accessibleLabel={section ? SCHEMA_FORM_STRINGS.itemActions(itemName) : SCHEMA_FORM_STRINGS.reorder(itemName)}
 			items={actions}
 			icon={section ? EIconName.More : EIconName.DragDrop}
-			size={EComponentSize.Large}
+			size={table?.size ?? EComponentSize.Large}
 			triggerTabIndex={0}
 			disabled={inactive}
 			onItemSelected={onItemSelected}
 		/>
 	) : null;
-	const before = !section && (layout?.reserveGrip ?? moves) ? <div className={styles.ActionSlot}>{menu}</div> : undefined;
+	const before = !table && !section && (layout?.reserveGrip ?? moves) ? <div className={styles.ActionSlot}>{menu}</div> : undefined;
 	const after =
 		!section && (layout?.removable ?? hasRemove) ? (
 			<div className={styles.ActionSlot}>
@@ -107,7 +111,7 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 						ref={removeRef}
 						icon={EIconName.Delete}
 						accessibleLabel={SCHEMA_FORM_STRINGS.remove(itemName)}
-						size={EComponentSize.Large}
+						size={table?.size ?? EComponentSize.Large}
 						type={EActionButtonType.Tertiary}
 						tabIndex={0}
 						menuTabIndex={0}
@@ -128,26 +132,53 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 	});
 	const body = layout ? React.cloneElement(field, { uiSchema: itemUiSchema, title: itemName }) : field;
 	const controls = { fieldId: field.props.idSchema.$id, fieldset: Boolean(options.fieldset), before, after, header: section ? menu : undefined };
+	const rowHeaderId = table ? `${table.id}-row-${index}` : '';
 
 	return (
 		<div
 			ref={itemRef}
-			className={classNames({ [styles.ObjectItem]: section, [styles.FieldsetStyle]: options.fieldset })}
+			className={classNames({ [styles.ObjectItem]: section, [styles.FieldsetStyle]: options.fieldset && !table, [tableStyles.TableRow]: table })}
+			role={table ? 'row' : undefined}
+			aria-describedby={table ? `${rowHeaderId}-errors` : undefined}
+			style={table ? tableStyle(table) : undefined}
+			data-grip={table?.reserveGrip || undefined}
 			data-schema-form-list-item={index}
-			data-schema-form-item-kind={section ? 'section' : 'control'}
+			data-schema-form-item-kind={table ? 'table' : section ? 'section' : 'control'}
 		>
+			{table && (
+				<span id={rowHeaderId} role="rowheader" aria-colindex={1} className={tableStyles.Hidden}>
+					{itemName}
+				</span>
+			)}
 			<EntryFocusProvider value={entry.register}>
 				<ArrayItemsContext.Provider value={null}>
 					<ArrayItemLayoutContext.Provider value={null}>
-						{defaultTemplate ? (
-							<ArrayItemControlsContext.Provider value={controls}>{body}</ArrayItemControlsContext.Provider>
-						) : (
-							<div className={styles.FallbackRow}>
-								{before}
-								<div className={styles.ItemBody}>{body}</div>
-								{section ? menu : after}
-							</div>
-						)}
+						<TableContext.Provider value={null}>
+							<TableRowContext.Provider value={table ? { fieldId: field.props.idSchema.$id, itemName, rowHeaderId, table } : null}>
+								{table ? (
+									<>
+										{body}
+										<div
+											role="cell"
+											aria-colindex={table.columns.length + 2}
+											aria-labelledby={`${table.id}-actions ${rowHeaderId}`}
+											className={tableStyles.TableActions}
+										>
+											{menu && <div className={tableStyles.TableGrip}>{menu}</div>}
+											{after}
+										</div>
+									</>
+								) : defaultTemplate ? (
+									<ArrayItemControlsContext.Provider value={controls}>{body}</ArrayItemControlsContext.Provider>
+								) : (
+									<div className={styles.FallbackRow}>
+										{before}
+										<div className={styles.ItemBody}>{body}</div>
+										{section ? menu : after}
+									</div>
+								)}
+							</TableRowContext.Provider>
+						</TableContext.Provider>
 					</ArrayItemLayoutContext.Provider>
 				</ArrayItemsContext.Provider>
 			</EntryFocusProvider>

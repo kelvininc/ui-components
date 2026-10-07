@@ -226,7 +226,7 @@ describe.each(ARRAY_SHAPES)('L1 array controls: $name', row => {
 			expect(list).not.toBeNull();
 			const items = list.querySelectorAll(':scope > div > div > [data-schema-form-list-item]');
 			expect(items).toHaveLength(row.formData.length);
-			const add = list.querySelector(':scope > div > div > div > kv-action-button');
+			const add = list.querySelector(':scope > div > div > kv-action-button, :scope > div > div > div > kv-action-button');
 			if (option.options.addable !== false) {
 				expect(add).not.toBeNull();
 				expect(add!.textContent).toBe('Add item');
