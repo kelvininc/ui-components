@@ -168,6 +168,12 @@
 			d="M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2 2 6.48 2 12s4.48 10 10 10zM11 7h2v2h-2V7zm0 4h2v6h-2v-6z" />
 	</symbol>
 
+	<symbol id="kv-info-outline"
+		xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+		<circle cx="12" cy="12" r="9" fill="none" stroke="var(--icon-color)" stroke-width="2" />
+		<path d="M11 7h2v2h-2zm0 4h2v6h-2z" />
+	</symbol>
+
 	<symbol id="kv-warning"
 		xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 		<path

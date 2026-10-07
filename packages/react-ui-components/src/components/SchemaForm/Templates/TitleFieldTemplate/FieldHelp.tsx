@@ -7,7 +7,7 @@ const FieldHelp = ({ help, className, accessibleLabel }: { help?: string; classN
 		<KvToggleTip className={className} text={help} position={ETooltipPosition.Right}>
 			{accessibleLabel ? (
 				<KvActionButtonIcon
-					icon={EIconName.Info}
+					icon={EIconName.InfoOutline}
 					type={EActionButtonType.Tertiary}
 					size={EComponentSize.Small}
 					accessibleLabel={accessibleLabel}

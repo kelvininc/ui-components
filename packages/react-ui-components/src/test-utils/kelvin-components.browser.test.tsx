@@ -42,8 +42,8 @@ describe('Kelvin components in the browser project', () => {
 		expect(window.innerWidth).toBe(1280);
 	});
 
-	it('draws icons from the symbols file', async () => {
-		const screen = await render(<KvIcon name={EIconName.Delete} />);
+	it.each([EIconName.Delete, EIconName.InfoOutline])('draws %s from the symbols file', async name => {
+		const screen = await render(<KvIcon name={name} />);
 		const icon = await whenKelvinReady(screen.container.querySelector<HTMLElement>('kv-icon'));
 
 		const symbol = icon.shadowRoot?.querySelector('use');

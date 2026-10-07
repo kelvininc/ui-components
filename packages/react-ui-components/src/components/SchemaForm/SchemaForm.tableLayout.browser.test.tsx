@@ -120,6 +120,11 @@ it.each(L2_PRESENTATION_SHAPES)('L2 header presentation: $name', async row => {
 	const headers = screen.container.querySelectorAll('[role="columnheader"]');
 	expect(headers[1].textContent).toBe('Value');
 	expect(headers[2].textContent).toBe(row.name === 'required' ? 'Name*' : 'Name');
+	const labelCenter = (header: Element) => {
+		const label = header.querySelector('span')!.getBoundingClientRect();
+		return label.top + label.height / 2;
+	};
+	expect(labelCenter(headers[1])).toBeCloseTo(labelCenter(headers[2]), 0);
 	expect(
 		Array.from(screen.container.querySelectorAll<HTMLElement>('[data-table-cell] kv-info-label,[data-table-cell] kv-toggle-tip,[data-table-cell] kv-form-help-text')).filter(
 			element => element.checkVisibility({ checkVisibilityCSS: true })

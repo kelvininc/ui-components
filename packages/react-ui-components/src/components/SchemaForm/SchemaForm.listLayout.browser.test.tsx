@@ -250,7 +250,9 @@ describe.each(ARRAY_SHAPES)('L1 list matrix in Chromium: $name', row => {
 			const movableItems = Math.max(0, row.formData.length - fixedItems);
 			// RJSF 5 validates minItems after removal; only fixed tuple positions block removal.
 			const removableItems = movableItems;
-			const section = rootItems(screen.container)[0].getAttribute('data-schema-form-item-kind') === 'section';
+			const firstItem = rootItems(screen.container)[0];
+			const section = firstItem.getAttribute('data-schema-form-item-kind') === 'section';
+			const addAlignment = firstItem.getAttribute('data-schema-form-item-kind') === 'table' ? firstItem.querySelector('[data-table-cell]')! : list;
 			expect(menus).toHaveLength(option.options.orderable !== false ? movableItems : section && option.options.removable !== false ? removableItems : 0);
 			const trash = Array.from(list.querySelectorAll<HTMLKvActionButtonIconElement>('kv-action-button-icon')).filter(
 				host => !host.closest('kv-action-menu') && host.closest('[data-schema-form-list]') === list
@@ -275,7 +277,7 @@ describe.each(ARRAY_SHAPES)('L1 list matrix in Chromium: $name', row => {
 				expect(add?.textContent).toBe('Add item');
 				const button = screen.getByRole('button', { name: add!.accessibleLabel, exact: true }).element();
 				expect((button as HTMLButtonElement).tabIndex).toBe(readonly || row.name === 'readonly' ? -1 : 0);
-				expect(add!.getBoundingClientRect().x).toBeCloseTo(list.getBoundingClientRect().x, 0);
+				expect(add!.getBoundingClientRect().x).toBeCloseTo(addAlignment.getBoundingClientRect().x, 0);
 			} else expect(add).toBeNull();
 		});
 	});
