@@ -2,9 +2,22 @@ import { SpecPage } from '@stencil/core/internal';
 import { newSpecPage } from '@stencil/core/testing';
 import { KvTextArea } from '../text-area';
 import { EValidationState } from '../../text-field/text-field.types';
-import { PASTE_CASES } from './text-area.mock';
+import { CONTROLLED_TEXT_CASES, PASTE_CASES } from './text-area.mock';
 
 describe('text area contracts', () => {
+	it.each(CONTROLLED_TEXT_CASES)('synchronizes external text with $name without emitting input', async row => {
+		const page = await newSpecPage({ components: [KvTextArea], html: `<kv-text-area text="Broker" max-char-length="100" disabled="${row.disabled}"></kv-text-area>` });
+		const changed = jest.fn();
+		page.root.addEventListener('textChange', changed);
+		page.root.text = row.text;
+		await page.waitForChanges();
+		const input = page.root.shadowRoot.querySelector<HTMLElement>('.input');
+		expect(input.innerText).toBe(row.expected);
+		expect(input.classList.contains('placeholder')).toBe(row.expected === '');
+		expect(page.root.shadowRoot.querySelector('.character-counter').textContent).toContain(`${[...row.expected].length}/100`);
+		expect(changed).not.toHaveBeenCalled();
+	});
+
 	it.each(PASTE_CASES)('handles paste with $name', async row => {
 		const attributes = row.limit === undefined ? '' : `max-char-length="${row.limit}"`;
 		const page = await newSpecPage({ components: [KvTextArea], html: `<kv-text-area text="${row.initial}" ${attributes}></kv-text-area>` });

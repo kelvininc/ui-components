@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, Host, Listen, Prop, State, h } from '@stencil/core';
+import { Component, Event, EventEmitter, Host, Listen, Prop, State, Watch, h } from '@stencil/core';
 import { ITextArea, ITextAreaEvents } from './types';
 import { EIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
@@ -49,6 +49,15 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	@State() curCharLength = getUTF8StringLength(this.text);
 	@State() showPlaceholder = !this.text ? true : false;
 
+	@Watch('text')
+	onTextChanged(text?: string) {
+		const nextText = text ?? '';
+		// Controlled echoes must keep the user's caret where it is.
+		if (this.inputRef && this.inputRef.innerText !== nextText) {
+			this.syncTextValues(nextText);
+		}
+	}
+
 	private syncTextValues(text?: string) {
 		if (text != null) {
 			this.inputRef.innerText = text;
@@ -64,6 +73,10 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	};
 
 	private onInput = () => {
+		// Chromium leaves a sole BR as the editing placeholder after clearing.
+		if (this.inputRef.childNodes.length === 1 && this.inputRef.firstChild.nodeName === 'BR') {
+			this.inputRef.innerText = '';
+		}
 		this.syncTextValues();
 		this.textChange.emit(this.inputRef.innerText);
 	};

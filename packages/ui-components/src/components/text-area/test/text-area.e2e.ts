@@ -1,7 +1,77 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
-import { CLIPBOARD_CASES } from './text-area.mock';
+import { CLIPBOARD_CASES, CONTROLLED_TEXT_CASES } from './text-area.mock';
+
+const readText = (page: E2EPage) => page.evaluate(() => (document.querySelector('kv-text-area').shadowRoot.querySelector('.input') as HTMLElement).innerText);
 
 describe('text area contracts in Chromium', () => {
+	it.each(CONTROLLED_TEXT_CASES)('synchronizes external text with $name without emitting input', async row => {
+		const page = await newE2EPage({ html: `<kv-text-area text="Broker" max-char-length="100" disabled="${row.disabled}"></kv-text-area>` });
+		const host = await page.find('kv-text-area');
+		const changed = await host.spyOnEvent('textChange');
+		host.setProperty('text', row.text);
+		await page.waitForChanges();
+		const input = await page.find('kv-text-area >>> .input');
+		expect(await readText(page)).toBe(row.expected);
+		expect(input.classList.contains('placeholder')).toBe(row.expected === '');
+		const counter = await page.find('kv-text-area >>> .character-counter');
+		expect(await counter.innerText).toContain(`${[...row.expected].length}/100`);
+		expect(changed).toHaveReceivedEventTimes(0);
+	});
+
+	it('emits an empty string and restores the placeholder and counter after native clearing', async () => {
+		const page = await newE2EPage({ html: '<kv-text-area text="Broker" placeholder="Connection notes" max-char-length="10"></kv-text-area>' });
+		const host = await page.find('kv-text-area');
+		const changed = await host.spyOnEvent('textChange');
+		await host.focus();
+		await page.keyboard.down('Control');
+		await page.keyboard.press('A');
+		await page.keyboard.up('Control');
+		await page.keyboard.press('Backspace');
+		await page.waitForChanges();
+		expect(changed).toHaveReceivedEventTimes(1);
+		expect(changed.lastEvent.detail).toBe('');
+		const input = await page.find('kv-text-area >>> .input');
+		expect(await readText(page)).toBe('');
+		expect(input.classList.contains('placeholder')).toBe(true);
+		const counter = await page.find('kv-text-area >>> .character-counter');
+		expect(await counter.innerText).toContain('0/10');
+	});
+
+	it('preserves intentional blank lines during native editing', async () => {
+		const page = await newE2EPage({ html: '<kv-text-area accessible-label="Connection notes"></kv-text-area>' });
+		const host = await page.find('kv-text-area');
+		const changed = await host.spyOnEvent('textChange');
+		await host.focus();
+		await page.keyboard.press('Enter');
+		await page.waitForChanges();
+		expect(changed).toHaveReceivedEventTimes(1);
+		expect(changed.lastEvent.detail).toContain('\n');
+		const input = await page.find('kv-text-area >>> .input');
+		expect(await readText(page)).toBe(changed.lastEvent.detail);
+		expect(input.classList.contains('placeholder')).toBe(false);
+	});
+
+	it('preserves the caret while a consumer echoes every edit through the text prop', async () => {
+		const page = await newE2EPage({ html: '<kv-text-area text="Broker"></kv-text-area>' });
+		await page.evaluate(() => {
+			const host = document.querySelector('kv-text-area');
+			host.addEventListener('textChange', (event: CustomEvent<string>) => {
+				host.text = event.detail;
+			});
+			host.focus();
+		});
+		await page.keyboard.press('Home');
+		await page.keyboard.press('ArrowRight');
+		await page.keyboard.type('é🚀');
+		await page.waitForChanges();
+		const host = await page.find('kv-text-area');
+		expect(await readText(page)).toBe('Bé🚀roker');
+		expect(await host.getProperty('text')).toBe('Bé🚀roker');
+		await page.keyboard.type('T');
+		await page.waitForChanges();
+		expect(await readText(page)).toBe('Bé🚀Troker');
+	});
+
 	it.each([false, true])('delegates host focus and keyboard input with disabled=%s', async disabled => {
 		const page = await newE2EPage({ html: `<button id="previous">Previous field</button><kv-text-area text="Broker" disabled="${disabled}"></kv-text-area>` });
 		const host = await page.find('kv-text-area');

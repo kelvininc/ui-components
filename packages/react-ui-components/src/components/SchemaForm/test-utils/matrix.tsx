@@ -866,6 +866,100 @@ export const TEXTAREA_VALIDATION_SHAPES: readonly {
 	{ ...TEXTAREA_VALIDATION_FORM, name: 'display all with no errors', extraErrors: {}, displayErrors: true, initialInvalid: false, touchedInvalid: false }
 ];
 
+const R7_TEXTAREA_SCHEMA: RJSFSchema = { type: 'string', title: 'Connection notes' };
+export const R7_TEXTAREA_EMPTY_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema<Record<string, unknown>, RJSFSchema, SchemaFormContext>;
+	expected: unknown;
+	displayText: string;
+}[] = [
+	{
+		name: 'omitted empty value',
+		schema: { type: 'object', properties: { notes: R7_TEXTAREA_SCHEMA } },
+		uiSchema: { notes: { 'ui:widget': 'textarea' } },
+		expected: undefined,
+		displayText: ''
+	},
+	...[...VALUE_CASES, { name: 'string sentinel', value: 'No connection notes' }].flatMap(({ name, value }) =>
+		[false, true].map(inOptions => ({
+			name: `${name} in ${inOptions ? 'ui:options' : 'ui:emptyValue'}`,
+			schema: { type: 'object' as const, properties: { notes: R7_TEXTAREA_SCHEMA } },
+			uiSchema: { notes: { 'ui:widget': 'textarea', ...(inOptions ? { 'ui:options': { emptyValue: value as UIOptionsType['emptyValue'] } } : { 'ui:emptyValue': value }) } },
+			expected: value,
+			displayText: value ? String(value) : ''
+		}))
+	)
+];
+export const R7_TEXTAREA_LIMIT_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	limit?: number;
+	expectedText: string;
+}[] = [
+	{ name: 'unlimited', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea' }, expectedText: 'é🚀ABC' },
+	{ name: 'schema limit', schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 3 }, uiSchema: { 'ui:widget': 'textarea' }, limit: 3, expectedText: 'é🚀A' },
+	{ name: 'UI-only limit', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 3 }, limit: 3, expectedText: 'é🚀A' },
+	{
+		name: 'UI below schema',
+		schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 3 },
+		uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 2 },
+		limit: 2,
+		expectedText: 'é🚀'
+	},
+	{
+		name: 'UI above schema',
+		schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 2 },
+		uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 4 },
+		limit: 4,
+		expectedText: 'é🚀AB'
+	},
+	{
+		name: 'UI zero stays unlimited',
+		schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 2 },
+		uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 0 },
+		limit: 0,
+		expectedText: 'é🚀ABC'
+	},
+	{ name: 'schema zero', schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 0 }, uiSchema: { 'ui:widget': 'textarea' }, limit: 0, expectedText: 'é🚀ABC' },
+	{
+		name: 'undefined UI limit uses schema',
+		schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 3 },
+		uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': undefined },
+		limit: 3,
+		expectedText: 'é🚀A'
+	}
+];
+export const R7_TEXTAREA_PASTE_SHAPES = [
+	{ name: 'unlimited plain text', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea' }, initial: 'Ops: ', pasted: 'Use TLS\nKeepalive enabled', allowed: true },
+	{ name: 'blank line stays text', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea' }, initial: '', pasted: '\n', allowed: true },
+	{ name: 'spaces stay text', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea' }, initial: '', pasted: '  ', allowed: true },
+	{ name: 'schema rejects overflow', schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 4 }, uiSchema: { 'ui:widget': 'textarea' }, initial: 'CA', pasted: 'cert', allowed: false },
+	{ name: 'Unicode at schema boundary', schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 4 }, uiSchema: { 'ui:widget': 'textarea' }, initial: 'CA', pasted: '🚀é', allowed: true },
+	{ name: 'UI override rejects overflow', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 4 }, initial: 'CA', pasted: 'cert', allowed: false }
+];
+export const R7_TEXTAREA_RESET_SHAPES: readonly {
+	name: string;
+	action: 'external' | 'discard' | 'defaults';
+	schema: RJSFSchema;
+	uiSchema: UiSchema<Record<string, unknown>, RJSFSchema, SchemaFormContext>;
+	emptyData: Record<string, unknown>;
+}[] = [
+	...[
+		{ name: 'external undefined', action: 'external' as const, value: undefined },
+		{ name: 'external null', action: 'external' as const, value: null },
+		{ name: 'discard to undefined', action: 'discard' as const, value: undefined },
+		{ name: 'reset to empty default', action: 'defaults' as const, value: '' }
+	].map(row => ({
+		name: row.name,
+		action: row.action,
+		schema: { type: 'object' as const, properties: { notes: { ...R7_TEXTAREA_SCHEMA, ...(row.action === 'defaults' ? { default: '' } : {}) } } },
+		uiSchema: { notes: { 'ui:widget': 'textarea' } },
+		emptyData: { notes: row.value }
+	}))
+];
+
 /** Field errors, the error list, descriptions and helper text share the core help component. */
 export const HELP_TEXT_CONSUMER_SHAPES: readonly {
 	name: string;
@@ -3232,6 +3326,10 @@ export const R6_FILE_LAYOUT_SHAPES = [
 	TEXTAREA_CONSUMER_SHAPES,
 	TEXTAREA_EDITABILITY_SHAPES,
 	TEXTAREA_VALIDATION_SHAPES,
+	R7_TEXTAREA_EMPTY_SHAPES,
+	R7_TEXTAREA_LIMIT_SHAPES,
+	R7_TEXTAREA_PASTE_SHAPES,
+	R7_TEXTAREA_RESET_SHAPES,
 	HELP_TEXT_CONSUMER_SHAPES,
 	BROKER_SCHEMA,
 	BROKER_FORM_DATA,
