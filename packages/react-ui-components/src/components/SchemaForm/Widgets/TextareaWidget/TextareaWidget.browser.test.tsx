@@ -6,7 +6,9 @@ import { cdp, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../../../test-utils/browser';
 import { KvSchemaForm } from '../../SchemaForm';
-import { R7_TEXTAREA_EMPTY_SHAPES, R7_TEXTAREA_LIMIT_SHAPES, R7_TEXTAREA_PASTE_SHAPES, R7_TEXTAREA_RESET_SHAPES } from '../../test-utils/matrix';
+import { R7_TEXTAREA_EMPTY_SHAPES, R7_TEXTAREA_LIMIT_SHAPES, R7_TEXTAREA_PASTE_SHAPES, R7_TEXTAREA_REPLACEMENT_SHAPES, R7_TEXTAREA_RESET_SHAPES } from '../../test-utils/matrix';
+
+const selectText = (selection?: string) => userEvent.keyboard(selection === 'all' ? '{Control>}a{/Control}' : selection === 'last' ? '{End}{Shift>}{ArrowLeft}{/Shift}' : '{End}');
 
 describe.each(R7_TEXTAREA_EMPTY_SHAPES)('textarea empty value in Chromium: $name', row => {
 	it('clears the named textbox and commits the configured value once', async () => {
@@ -68,8 +70,9 @@ describe.each(R7_TEXTAREA_PASTE_SHAPES)('textarea native paste in Chromium: $nam
 				})
 			]);
 			onChange.mockClear();
-			await userEvent.keyboard('{End}{Control>}v{/Control}');
-			const expectedText = row.initial + (row.allowed ? row.pasted : '');
+			await selectText(row.selection);
+			await userEvent.keyboard('{Control>}v{/Control}');
+			const expectedText = row.expectedText ?? row.initial + (row.allowed ? row.pasted : '');
 			await expect.poll(() => (control.element() as HTMLElement).innerText).toBe(expectedText);
 			expect(control.element().querySelector('strong, b, span')).toBeNull();
 			expect(onChange).toHaveBeenCalledTimes(row.allowed ? 1 : 0);
@@ -77,6 +80,25 @@ describe.each(R7_TEXTAREA_PASTE_SHAPES)('textarea native paste in Chromium: $nam
 		} finally {
 			await session.send('Browser.resetPermissions', { browserContextId: targetInfo.browserContextId });
 		}
+	});
+});
+
+describe.each(R7_TEXTAREA_REPLACEMENT_SHAPES)('textarea keyboard replacement in Chromium: $name', row => {
+	it('allows selected replacement up to the schema limit', async () => {
+		const onChange = vi.fn();
+		const screen = await render(<KvSchemaForm schema={row.schema} uiSchema={row.uiSchema} formData={row.initial} onChange={onChange} />);
+		await whenAllKelvinReady(screen.container);
+		const control = screen.getByRole('textbox', { name: 'Connection notes', exact: true });
+		(control.element() as HTMLElement).focus();
+		onChange.mockClear();
+		await selectText(row.selection);
+		for (const character of row.replacement) {
+			// Vitest's keyboard parser splits surrogate pairs; send those through native text input.
+			if (character.length > 1) await cdp().send('Input.insertText', { text: character });
+			else await userEvent.keyboard(character);
+		}
+		await expect.poll(() => (control.element() as HTMLElement).innerText).toBe(row.typed);
+		expect(onChange.mock.lastCall?.[0].formData).toBe(row.typed);
 	});
 });
 

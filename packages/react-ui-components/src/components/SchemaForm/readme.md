@@ -189,6 +189,9 @@ A textarea uses `schema.maxLength` as its default character limit. The existing 
 or explicit zero allows editing without a live cap. Schema validation applies independently,
 including when an override exceeds the schema limit or `schema.maxLength` is zero.
 Pasting formatted clipboard content inserts plain text.
+Typing and paste count the proposed value after replacing the selection, so a full field remains
+editable. A replacement that would still exceed the cap stays blocked.
+Programmatic values preserve line breaks and consecutive spaces in the displayed textarea.
 
 ## File action labels
 

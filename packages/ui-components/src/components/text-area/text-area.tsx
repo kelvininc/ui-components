@@ -5,6 +5,11 @@ import { EValidationState } from '../text-field/text-field.types';
 import { getUTF8StringLength } from '../../utils/string.helper';
 import { setAccessibleDescriptionElements } from '../../utils/accessible-description.helper';
 
+// Stencil's bundled DOM types predate composed selection ranges.
+type ComposedSelection = Selection & {
+	getComposedRanges?: (options: { shadowRoots: ShadowRoot[] }) => StaticRange[];
+};
+
 @Component({
 	tag: 'kv-text-area',
 	styleUrl: 'text-area.scss',
@@ -60,7 +65,7 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 
 	private syncTextValues(text?: string) {
 		if (text != null) {
-			this.inputRef.innerText = text;
+			this.inputRef.textContent = text;
 		}
 
 		const textValue = this.inputRef.innerText;
@@ -68,8 +73,14 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 		this.curCharLength = getUTF8StringLength(textValue);
 	}
 
-	private getTextLength = () => {
-		return getUTF8StringLength(this.inputRef.innerText);
+	private getTextLengthAfterSelection = () => {
+		const selection = this.inputRef.ownerDocument.getSelection?.() as ComposedSelection | null;
+		// Composed ranges expose endpoints inside this control's shadow root.
+		const range = selection?.getComposedRanges?.({ shadowRoots: [this.inputRef.getRootNode() as ShadowRoot] })?.[0];
+		const start = range?.startContainer ?? selection?.anchorNode;
+		const end = range?.endContainer ?? selection?.focusNode;
+		const selectedText = selection && this.inputRef.contains(start) && this.inputRef.contains(end) ? selection.toString() : '';
+		return getUTF8StringLength(this.inputRef.innerText) - getUTF8StringLength(selectedText);
 	};
 
 	private onInput = () => {
@@ -82,14 +93,15 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	};
 
 	private onKeyPress = (event: KeyboardEvent) => {
-		const textLength = this.getTextLength();
-		if (this.maxCharLength && this.maxCharLength <= textLength) {
+		const textLength = this.getTextLengthAfterSelection();
+		const insertedLength = getUTF8StringLength(event.key === 'Enter' ? '\n' : event.key);
+		if (this.maxCharLength && textLength + insertedLength > this.maxCharLength) {
 			event.preventDefault();
 		}
 	};
 
 	private onClipboardPaste = (event: ClipboardEvent) => {
-		const textLength = this.getTextLength();
+		const textLength = this.getTextLengthAfterSelection();
 		const pasteData = event.clipboardData.getData('text/plain');
 		// A missing or zero limit allows the native paste.
 		const exceedsLimit = this.maxCharLength > 0 && textLength + getUTF8StringLength(pasteData) > this.maxCharLength;

@@ -1,9 +1,52 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
-import { CLIPBOARD_CASES, CONTROLLED_TEXT_CASES } from './text-area.mock';
+import { CLIPBOARD_CASES, CONTROLLED_TEXT_CASES, REPLACEMENT_CASES } from './text-area.mock';
 
 const readText = (page: E2EPage) => page.evaluate(() => (document.querySelector('kv-text-area').shadowRoot.querySelector('.input') as HTMLElement).innerText);
 
 describe('text area contracts in Chromium', () => {
+	describe.each(REPLACEMENT_CASES)('selected replacement: $name', row => {
+		it.each(['keyboard', 'paste'])('applies the prospective limit during %s replacement', async mode => {
+			const page = await newE2EPage({ html: `<kv-text-area max-char-length="${row.limit}"></kv-text-area>` });
+			const host = await page.find('kv-text-area');
+			host.setProperty('text', row.initial);
+			await page.waitForChanges();
+			const context = page.browserContext();
+			try {
+				if (mode === 'paste') {
+					await context.overridePermissions(new URL(page.url()).origin, ['clipboard-read', 'clipboard-sanitized-write']);
+					await page.evaluate(async text => {
+						await navigator.clipboard.writeText(text);
+					}, row.replacement);
+				}
+				const changed = await host.spyOnEvent('textChange');
+				await host.focus();
+				if (row.selection === 'all') {
+					await page.keyboard.down('Control');
+					await page.keyboard.press('A');
+					await page.keyboard.up('Control');
+				} else {
+					await page.keyboard.press('End');
+					await page.keyboard.down('Shift');
+					await page.keyboard.press('ArrowLeft');
+					await page.keyboard.up('Shift');
+				}
+				if (mode === 'keyboard') await page.keyboard.type(row.replacement);
+				else {
+					await page.keyboard.down('Control');
+					await page.keyboard.press('V');
+					await page.keyboard.up('Control');
+				}
+				await page.waitForChanges();
+				const expected = mode === 'keyboard' ? row.typed : row.pasted;
+				expect(await readText(page)).toBe(expected);
+				expect(changed.events.length > 0).toBe(expected !== row.initial);
+				expect(changed.lastEvent?.detail).toBe(expected === row.initial ? undefined : expected);
+			} finally {
+				await context.clearPermissionOverrides();
+			}
+		});
+	});
+
 	it.each(CONTROLLED_TEXT_CASES)('synchronizes external text with $name without emitting input', async row => {
 		const page = await newE2EPage({ html: `<kv-text-area text="Broker" max-char-length="100" disabled="${row.disabled}"></kv-text-area>` });
 		const host = await page.find('kv-text-area');

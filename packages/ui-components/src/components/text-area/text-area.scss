@@ -53,6 +53,7 @@
 				height: inherit;
 				color: var(--text-area-text-default);
 				overflow-wrap: anywhere;
+				white-space: pre-wrap;
 
 				&.placeholder::before {
 					content: attr(data-placeholder);

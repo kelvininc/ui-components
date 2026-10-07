@@ -931,13 +931,41 @@ export const R7_TEXTAREA_LIMIT_SHAPES: readonly {
 		expectedText: 'é🚀A'
 	}
 ];
-export const R7_TEXTAREA_PASTE_SHAPES = [
+export const R7_TEXTAREA_REPLACEMENT_SHAPES = [
+	{ name: 'whole field at the limit', initial: 'CAB', selection: 'all', replacement: 'TLS', limit: 3, typed: 'TLS', pasted: 'TLS' },
+	{ name: 'last character at the limit', initial: 'CAB', selection: 'last', replacement: 'X', limit: 3, typed: 'CAX', pasted: 'CAX' },
+	{ name: 'selected Unicode code point', initial: 'Aé🚀', selection: 'last', replacement: 'Z', limit: 3, typed: 'AéZ', pasted: 'AéZ' },
+	{ name: 'partial replacement overflow', initial: 'CAB', selection: 'last', replacement: 'XY', limit: 3, typed: 'CAX', pasted: 'CAB' },
+	{ name: 'whole replacement overflow', initial: 'CAB', selection: 'all', replacement: 'TLSX', limit: 3, typed: 'TLS', pasted: 'CAB' },
+	{ name: 'Unicode replacement at the limit', initial: 'CAB', selection: 'all', replacement: 'é🚀A', limit: 3, typed: 'é🚀A', pasted: 'é🚀A' },
+	{ name: 'selected multiline text', initial: 'CA\nB', selection: 'all', replacement: 'TLS', limit: 4, typed: 'TLS', pasted: 'TLS' }
+].map(row => ({ ...row, schema: { ...R7_TEXTAREA_SCHEMA, maxLength: row.limit }, uiSchema: { 'ui:widget': 'textarea' } }));
+export const R7_TEXTAREA_PASTE_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	initial: string;
+	pasted: string;
+	allowed: boolean;
+	selection?: string;
+	expectedText?: string;
+}[] = [
 	{ name: 'unlimited plain text', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea' }, initial: 'Ops: ', pasted: 'Use TLS\nKeepalive enabled', allowed: true },
 	{ name: 'blank line stays text', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea' }, initial: '', pasted: '\n', allowed: true },
 	{ name: 'spaces stay text', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea' }, initial: '', pasted: '  ', allowed: true },
 	{ name: 'schema rejects overflow', schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 4 }, uiSchema: { 'ui:widget': 'textarea' }, initial: 'CA', pasted: 'cert', allowed: false },
 	{ name: 'Unicode at schema boundary', schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 4 }, uiSchema: { 'ui:widget': 'textarea' }, initial: 'CA', pasted: '🚀é', allowed: true },
-	{ name: 'UI override rejects overflow', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 4 }, initial: 'CA', pasted: 'cert', allowed: false }
+	{ name: 'UI override rejects overflow', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 4 }, initial: 'CA', pasted: 'cert', allowed: false },
+	...R7_TEXTAREA_REPLACEMENT_SHAPES.map(row => ({
+		name: row.name,
+		schema: row.schema,
+		uiSchema: row.uiSchema,
+		initial: row.initial,
+		pasted: row.replacement,
+		selection: row.selection,
+		allowed: row.pasted !== row.initial,
+		expectedText: row.pasted
+	}))
 ];
 export const R7_TEXTAREA_RESET_SHAPES: readonly {
 	name: string;
@@ -3329,6 +3357,7 @@ export const R6_FILE_LAYOUT_SHAPES = [
 	R7_TEXTAREA_EMPTY_SHAPES,
 	R7_TEXTAREA_LIMIT_SHAPES,
 	R7_TEXTAREA_PASTE_SHAPES,
+	R7_TEXTAREA_REPLACEMENT_SHAPES,
 	R7_TEXTAREA_RESET_SHAPES,
 	HELP_TEXT_CONSUMER_SHAPES,
 	BROKER_SCHEMA,

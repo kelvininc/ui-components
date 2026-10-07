@@ -2,9 +2,43 @@ import { SpecPage } from '@stencil/core/internal';
 import { newSpecPage } from '@stencil/core/testing';
 import { KvTextArea } from '../text-area';
 import { EValidationState } from '../../text-field/text-field.types';
-import { CONTROLLED_TEXT_CASES, PASTE_CASES } from './text-area.mock';
+import { CONTROLLED_TEXT_CASES, PASTE_CASES, SELECTION_SCOPE_CASES } from './text-area.mock';
 
 describe('text area contracts', () => {
+	it.each(SELECTION_SCOPE_CASES)('enforces the limit with $name', async row => {
+		const page = await newSpecPage({ components: [KvTextArea], html: '<kv-text-area text="CAB" max-char-length="3"></kv-text-area>' });
+		const input = page.root.shadowRoot.querySelector<HTMLElement>('.input');
+		const outside = page.doc.createElement('div');
+		const original = Object.getOwnPropertyDescriptor(page.doc, 'getSelection');
+		Object.defineProperty(page.doc, 'getSelection', {
+			configurable: true,
+			value: () =>
+				row.selected
+					? {
+							anchorNode: !row.composed && row.anchorInside ? input : outside,
+							focusNode: !row.composed && row.focusInside ? input : outside,
+							getComposedRanges: row.composed
+								? () => [{ startContainer: row.anchorInside ? input : outside, endContainer: row.focusInside ? input : outside }]
+								: undefined,
+							toString: () => 'CAB'
+						}
+					: null
+		});
+		try {
+			const key = new Event('keypress', { bubbles: true, cancelable: true });
+			Object.defineProperty(key, 'key', { value: 'X' });
+			input.dispatchEvent(key);
+			expect(key.defaultPrevented).toBe(!row.allowed);
+			const paste = new Event('paste', { bubbles: true, cancelable: true });
+			Object.defineProperty(paste, 'clipboardData', { value: { getData: () => 'TLS' } });
+			input.dispatchEvent(paste);
+			expect(paste.defaultPrevented).toBe(!row.allowed);
+		} finally {
+			if (original) Object.defineProperty(page.doc, 'getSelection', original);
+			else Reflect.deleteProperty(page.doc, 'getSelection');
+		}
+	});
+
 	it.each(CONTROLLED_TEXT_CASES)('synchronizes external text with $name without emitting input', async row => {
 		const page = await newSpecPage({ components: [KvTextArea], html: `<kv-text-area text="Broker" max-char-length="100" disabled="${row.disabled}"></kv-text-area>` });
 		const changed = jest.fn();
