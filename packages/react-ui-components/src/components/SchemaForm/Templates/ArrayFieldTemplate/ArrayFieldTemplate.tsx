@@ -60,7 +60,11 @@ const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 	);
 
 	return (
-		<div className={classNames(styles.ArrayFieldTemplate, { [tableStyles.TableContainer]: table })} data-schema-form-list={idSchema.$id}>
+		<div
+			className={classNames(styles.ArrayFieldTemplate, { [tableStyles.TableContainer]: table })}
+			data-schema-form-list={idSchema.$id}
+			data-table-grip={table?.reserveGrip || undefined}
+		>
 			<div className={styles.ArrayFieldContainer}>
 				{(!fieldOwnsDescription || ArrayFieldDescriptionTemplate !== defaultArrayDescriptionTemplate) && (
 					<div id={descriptionId} className={styles.ArrayDescription}>

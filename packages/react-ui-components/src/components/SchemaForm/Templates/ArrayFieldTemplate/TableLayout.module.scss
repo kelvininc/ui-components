@@ -9,7 +9,15 @@
 }
 
 .TableContainer .TableList + div {
-	margin-top: var(--spacing-md);
+	margin-top: var(--spacing-2xl);
+
+	kv-action-button {
+		--button-padding-x-large: 0;
+	}
+}
+
+.TableContainer[data-table-grip] .TableList + div {
+	padding-left: calc(var(--icon-button-height-regular) + var(--spacing-md));
 }
 
 .TableHeader,
@@ -40,7 +48,13 @@
 	align-items: center;
 	gap: var(--spacing-xs);
 	min-width: 0;
+	min-height: var(--icon-button-height-compact);
 	overflow-wrap: anywhere;
+}
+
+.HeaderHelp kv-action-button-icon,
+.CellLabel kv-action-button-icon {
+	--button-icon-small-size: var(--size-sm);
 }
 
 .Required {
@@ -101,8 +115,12 @@
 
 	.TableRow {
 		grid-template-columns: minmax(0, 1fr) auto;
-		padding-bottom: var(--spacing-md);
+		padding-bottom: var(--spacing-2xl);
 		border-bottom: var(--border-width-default) solid var(--border-container-divider-default);
+
+		& + .TableRow {
+			margin-top: var(--spacing-md);
+		}
 	}
 
 	.TableCell {
