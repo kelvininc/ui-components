@@ -3090,6 +3090,17 @@ export const R6_FILE_ERROR_SHAPES = [
 	}
 ] as const;
 
+export const R6_FILE_LAYOUT_SHAPES = [
+	{ name: 'empty single field', source: 'single empty, editable' },
+	{ name: 'single secret reference', source: 'single secret reference, editable' },
+	{ name: 'multiple files', source: 'multiple duplicate names, editable' },
+	{
+		name: 'multiple files with row error',
+		source: 'multiple duplicate names, editable',
+		extraErrors: { 1: { __errors: ['Client certificate expired.'] } }
+	}
+].map(({ source, ...row }) => ({ ...R6_FILE_SHAPES.find(shape => shape.name === source)!, ...row }));
+
 // Rows share schema objects (TOPICS, ENDPOINTS, NAME), so a test that mutated one would change
 // other rows, and other tests. Frozen, the mutation throws where it happens.
 [
@@ -3163,6 +3174,7 @@ export const R6_FILE_ERROR_SHAPES = [
 	R6_FILE_READ_FAILURES,
 	R6_FILE_LABEL_SHAPES,
 	R6_FILE_ERROR_SHAPES,
+	R6_FILE_LAYOUT_SHAPES,
 	TEMPLATE_COMPONENTS,
 	OPTION_SOURCES,
 	LIST_OPTIONS,
