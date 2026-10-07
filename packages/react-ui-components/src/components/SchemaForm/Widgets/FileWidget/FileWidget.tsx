@@ -1,169 +1,159 @@
-import { EComponentSize, EActionButtonType, EIconName } from '@kelvininc/ui-components';
-import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
-
-import { KvActionButtonIcon, KvActionButtonText, KvIcon } from '../../../../stencil-generated';
-import React, { ChangeEvent, useCallback, useMemo, useState } from 'react';
-import styles from './FileWidget.module.scss';
-import { get, isEmpty } from 'lodash';
+import { EComponentSize, EActionButtonType, EIconName, EValidationState } from '@kelvininc/ui-components';
+import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps, getUiOptions } from '@rjsf/utils';
+import { KvActionButtonIcon, KvActionButtonText, KvFormHelpText, KvIcon } from '../../../../stencil-generated';
+import React, { useContext, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
+import styles from './FileWidget.module.scss';
 import { FileInfoType } from './types';
-import { extractFileInfo, processFiles } from './utils';
-import { useFieldErrors, useFormState } from '../../contexts';
+import { FileArrayErrorsContext, useFieldDescription, useFieldErrors, useFormState } from '../../contexts';
 import { SCHEMA_FORM_STRINGS } from '../../strings';
 import { useSchemaFormFocusRef } from '../../hooks/entryFocus';
+import { useFileValue } from './useFileValue';
 
-function FileActions({ fileInfo, onDelete, preview = false }: { fileInfo: FileInfoType; onDelete: (filename: string) => void; preview?: boolean }) {
-	const { dataURL, name } = fileInfo;
-	if (!dataURL) {
-		return null;
-	}
+const downloadFile = (dataURL: string, name: string) => {
+	const link = document.createElement('a');
+	link.href = dataURL;
+	link.download = name;
+	document.body.append(link);
+	link.click();
+	link.remove();
+};
 
-	return (
-		<div className={styles.ActionsContainer}>
-			{preview && (
-				<a href={dataURL} download={`${name}`} target="_blank" rel="noreferrer">
-					<KvActionButtonIcon
-						icon={EIconName.Download}
-						accessibleLabel={SCHEMA_FORM_STRINGS.download(name)}
-						type={EActionButtonType.Tertiary}
-						size={EComponentSize.Small}
-					/>
-				</a>
-			)}
-			<KvActionButtonIcon
-				icon={EIconName.Delete}
-				accessibleLabel={SCHEMA_FORM_STRINGS.remove(name)}
-				type={EActionButtonType.Tertiary}
-				size={EComponentSize.Small}
-				onClickButton={() => onDelete(name)}
-			/>
-		</div>
-	);
-}
-
-function FilesInfo({
+function FileRow({
+	fileInfo,
 	displayLabel,
-	filesInfo = [],
-	preview = false,
-	hasError = false,
+	preview,
+	disabled,
+	hasError,
+	errors,
 	onDelete
 }: {
+	fileInfo?: FileInfoType;
 	displayLabel: string;
-	filesInfo: FileInfoType[];
-	onDelete: (filename: string) => void;
-	preview?: boolean;
-	hasError?: boolean;
+	preview: boolean;
+	disabled: boolean;
+	hasError: boolean;
+	errors: string[];
+	onDelete: () => void;
 }) {
+	const [errorElement, setErrorElement] = useState<HTMLDivElement | null>(null);
+	const description = useMemo(() => (errors.length && errorElement ? [errorElement] : []), [errors.length, errorElement]);
+	const name = fileInfo?.name ?? SCHEMA_FORM_STRINGS.emptyFile;
 	return (
-		<div className={styles.FileInfoContainer}>
-			{filesInfo.map((fileInfo, key) => {
-				const { name } = fileInfo;
-				return (
-					<div className={classNames(styles.FileInfo, styles.HasValue, { [styles.HasError]: hasError })} key={key}>
-						<div className={styles.LeftContent}>
-							<KvIcon name={EIconName.File} />
-							<div className={styles.FileDetails}>
-								<span className={styles.Label}>{displayLabel}</span>
-								<span className={styles.FileName}>{name}</span>
-							</div>
-						</div>
-						<FileActions fileInfo={fileInfo} preview={preview} onDelete={onDelete} />
-					</div>
-				);
-			})}
-			{isEmpty(filesInfo) && (
-				<div className={classNames(styles.FileInfo, { [styles.HasError]: hasError })}>
-					<div className={styles.LeftContent}>
-						<KvIcon name={EIconName.File} />
-						<div className={styles.FileDetails}>
-							<span className={styles.Label}>{displayLabel}</span>
-							<span className={styles.FileName}>Empty</span>
-						</div>
+		<>
+			<div className={classNames(styles.FileInfo, { [styles.HasValue]: Boolean(fileInfo), [styles.HasError]: hasError || errors.length > 0 })}>
+				<div className={styles.LeftContent}>
+					<KvIcon name={EIconName.File} />
+					<div className={styles.FileDetails}>
+						<span className={styles.Label}>{displayLabel}</span>
+						<span className={styles.FileName} title={fileInfo?.name}>
+							{name}
+						</span>
 					</div>
 				</div>
+				{fileInfo && (
+					<div className={styles.ActionsContainer}>
+						{preview && fileInfo.dataURL && (
+							<KvActionButtonIcon
+								icon={EIconName.Download}
+								accessibleLabel={SCHEMA_FORM_STRINGS.download(name)}
+								type={EActionButtonType.Tertiary}
+								size={EComponentSize.Small}
+								onClickButton={() => downloadFile(fileInfo.dataURL!, name)}
+							/>
+						)}
+						<KvActionButtonIcon
+							icon={EIconName.Delete}
+							accessibleLabel={SCHEMA_FORM_STRINGS.remove(name)}
+							type={EActionButtonType.Tertiary}
+							size={EComponentSize.Small}
+							disabled={disabled}
+							accessibleDescriptionElements={description}
+							onClickButton={onDelete}
+						/>
+					</div>
+				)}
+			</div>
+			{errors.length > 0 && (
+				<div ref={setErrorElement}>
+					<KvFormHelpText helpText={errors} state={EValidationState.Invalid} />
+				</div>
 			)}
-		</div>
+		</>
 	);
 }
 
-/**
- *  The `FileWidget` is a widget for rendering file upload fields.
- *  It is typically used with a string property with data-url format.
- */
+/** File values remain controlled by the form; reads and row actions share the latest committed list. */
 function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: WidgetProps<T, S, F>) {
-	const { id, disabled, readonly, required, multiple, onChange, value, options, uiSchema, schema, label, name, rawErrors = [] } = props;
-	const { trackFieldChange, markFieldAsTouched } = useFormState();
-	const focusRef = useSchemaFormFocusRef<HTMLKvActionButtonTextElement>(disabled || readonly);
+	const { id, disabled, readonly, required, multiple, options, uiSchema, schema, label, registry, rawErrors = [] } = props;
+	const { markFieldAsTouched } = useFormState();
+	const { filesInfo, removeFile, handleChange, readError } = useFileValue(props);
+	const inactive = Boolean(disabled || readonly);
+	const focusRef = useSchemaFormFocusRef<HTMLKvActionButtonTextElement>(inactive);
+	const inputRef = useRef<HTMLInputElement>(null);
+	const fileErrors = useContext(FileArrayErrorsContext);
+	const itemErrors = filesInfo.map((_, index) => (fileErrors?.fieldId === id ? fileErrors.errorSchema?.[index]?.__errors ?? [] : []));
 	const hasVisibleErrors = useFieldErrors(id, rawErrors);
-
-	const [filesInfo, setFilesInfo] = useState<FileInfoType[]>(extractFileInfo(value));
-
-	const displayedLabel = useMemo(() => get(uiSchema, ['ui:title']) || schema.title || label, [uiSchema, schema.title, label]);
-
-	const removeFile = useCallback(
-		(filename: string) => {
-			const newValue = filesInfo.filter(fileInfo => fileInfo.name !== filename);
-			setFilesInfo(newValue);
-			const finalValue = multiple ? newValue.map(fileInfo => fileInfo.dataURL) : newValue[0];
-			trackFieldChange(id, finalValue);
-			onChange(finalValue);
-		},
-		[filesInfo, setFilesInfo, onChange, trackFieldChange, id, multiple]
-	);
-
-	const handleChange = useCallback(
-		(event: ChangeEvent<HTMLInputElement>) => {
-			if (!event.target.files) {
-				return;
-			}
-
-			markFieldAsTouched(id);
-			processFiles(event.target.files).then(filesInfoEvent => {
-				const newValue = filesInfoEvent.map(fileInfo => fileInfo.dataURL);
-				let finalValue;
-				if (multiple) {
-					setFilesInfo(filesInfo.concat(filesInfoEvent));
-					finalValue = value.concat(newValue);
-				} else {
-					setFilesInfo(filesInfoEvent);
-					finalValue = newValue[0];
-				}
-				trackFieldChange(id, finalValue);
-				onChange(finalValue);
-			});
-		},
-		[multiple, value, filesInfo, onChange, trackFieldChange, markFieldAsTouched, id]
-	);
-
+	const hasVisibleItemErrors = useFieldErrors(id, itemErrors.flat());
+	const fieldDescription = useFieldDescription(id);
+	const [readErrorElement, setReadErrorElement] = useState<HTMLDivElement | null>(null);
+	const description = useMemo(() => [...(fieldDescription ?? []), ...(readError && readErrorElement ? [readErrorElement] : [])], [fieldDescription, readError, readErrorElement]);
+	const displayedLabel = getUiOptions(uiSchema, registry.globalUiOptions).title ?? schema.title ?? label;
+	const browseName = typeof displayedLabel === 'string' && displayedLabel.trim() ? displayedLabel : id;
 	return (
 		<div className={styles.FileWidgetContainer}>
 			<div className={styles.FilesInfo}>
-				<FilesInfo filesInfo={filesInfo} displayLabel={displayedLabel} preview={options.filePreview} hasError={hasVisibleErrors} onDelete={removeFile} />
+				<div className={styles.FileInfoContainer}>
+					{filesInfo.map((fileInfo, index) => (
+						<div data-file-index={index} key={index}>
+							<FileRow
+								fileInfo={fileInfo}
+								displayLabel={String(displayedLabel ?? '')}
+								preview={Boolean(options.filePreview)}
+								disabled={inactive}
+								hasError={hasVisibleErrors}
+								errors={hasVisibleItemErrors ? itemErrors[index] : []}
+								onDelete={() => removeFile(index)}
+							/>
+						</div>
+					))}
+					{!filesInfo.length && (
+						<FileRow displayLabel={String(displayedLabel ?? '')} preview={false} disabled={inactive} hasError={hasVisibleErrors} errors={[]} onDelete={() => {}} />
+					)}
+				</div>
+				{readError && (
+					<div ref={setReadErrorElement}>
+						<KvFormHelpText helpText={readError} state={EValidationState.Invalid} />
+					</div>
+				)}
 			</div>
 			<div className={styles.BrowseFilesButton}>
-				<label htmlFor={`file_${name}`}>
-					<KvActionButtonText
-						ref={focusRef}
-						type={EActionButtonType.Tertiary}
-						size={EComponentSize.Small}
-						text="Browse File"
-						disabled={disabled}
-						onFocusButton={() => markFieldAsTouched(id)}
-						onBlurButton={() => markFieldAsTouched(id)}
-					></KvActionButtonText>
-				</label>
+				<KvActionButtonText
+					id={id}
+					ref={focusRef}
+					type={EActionButtonType.Tertiary}
+					size={EComponentSize.Small}
+					text={SCHEMA_FORM_STRINGS.browseFile}
+					accessibleLabel={SCHEMA_FORM_STRINGS.browseFileFor(browseName)}
+					accessibleDescriptionElements={description}
+					disabled={inactive}
+					onClickButton={() => {
+						if (!inactive) inputRef.current?.click();
+					}}
+					onFocusButton={() => markFieldAsTouched(id)}
+					onBlurButton={() => markFieldAsTouched(id)}
+				/>
 				<input
-					id={`file_${name}`}
+					ref={inputRef}
+					id={`file_${id}`}
 					type="file"
 					value=""
 					onChange={handleChange}
-					required={value ? false : required}
-					readOnly={readonly}
+					required={!filesInfo.length && required}
+					disabled={inactive}
 					accept={options.accept ? String(options.accept) : undefined}
 					style={{ display: 'none' }}
 					multiple={multiple}
-					onFocus={() => markFieldAsTouched(id)}
-					onBlur={() => markFieldAsTouched(id)}
 				/>
 			</div>
 		</div>

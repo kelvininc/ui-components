@@ -1,6 +1,7 @@
 import { customizeValidator, CustomValidatorOptionsType } from '@rjsf/validator-ajv8';
 import { EApplyDefaults } from '../../components/SchemaForm/types';
 import { ExperimentalAllOf, ExperimentalArrayMinItems, ExperimentalConstAsDefaults, ExperimentalEmptyObjectFields } from './types';
+import { isFileValue } from './file-format';
 
 export const APPLY_DEFAULTS_TO_EXPERIMENTAL_DEFAULT_FORM_OBJECT: Record<EApplyDefaults, ExperimentalEmptyObjectFields> = {
 	[EApplyDefaults.All]: 'populateAllDefaults',
@@ -41,4 +42,8 @@ export const AJV_FORMAT_OPTIONS: CustomValidatorOptionsType['ajvFormatOptions'] 
 // getDefaultFormState/validate call (e.g. ~8-10x per table column reorder via the
 // view dirty-check). Sharing one instance compiles each unique schema once,
 // process-wide. Generics are erased at runtime, so one instance serves all callers.
-export const DEFAULT_VALIDATOR = customizeValidator({ ajvOptionsOverrides: AJV_OPTIONS_OVERRIDES, ajvFormatOptions: AJV_FORMAT_OPTIONS });
+export const DEFAULT_VALIDATOR = customizeValidator({
+	ajvOptionsOverrides: AJV_OPTIONS_OVERRIDES,
+	ajvFormatOptions: AJV_FORMAT_OPTIONS,
+	customFormats: { 'data-url': isFileValue }
+});

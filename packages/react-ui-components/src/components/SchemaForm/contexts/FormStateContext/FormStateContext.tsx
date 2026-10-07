@@ -16,6 +16,7 @@ export interface FormStateContextValue {
 	resetFieldState: (fieldId: string) => void;
 	resetAllFieldStates: () => void;
 	displayErrors: boolean;
+	resetKey?: number;
 }
 
 export interface FormStateProviderProps {
@@ -126,7 +127,8 @@ export const FormStateProvider = ({ children, initialFormData, displayErrors = f
 			isFieldDirty,
 			resetFieldState,
 			resetAllFieldStates,
-			displayErrors
+			displayErrors,
+			resetKey
 		}),
 		[
 			fieldStates,
@@ -138,7 +140,8 @@ export const FormStateProvider = ({ children, initialFormData, displayErrors = f
 			isFieldDirty,
 			resetFieldState,
 			resetAllFieldStates,
-			displayErrors
+			displayErrors,
+			resetKey
 		]
 	);
 

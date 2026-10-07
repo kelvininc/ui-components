@@ -64,20 +64,27 @@ describe.each(ACTION_NAME_SHAPES)('action names in Chromium: $name', row => {
 });
 
 describe.each(ACTION_NAME_SHAPES.filter(row => row.download))('download action: $name', row => {
-	it.each(['{Enter}', ' '])('uses the anchor click path once with %s', async key => {
+	it.each(['{Enter}', ' '])('downloads through one temporary anchor with %s', async key => {
 		const onChange = vi.fn();
 		const screen = await render(<KvSchemaForm schema={row.schema} uiSchema={row.uiSchema} formData={row.formData} onChange={onChange} />);
 		await whenAllKelvinReady(screen.container);
-		const clicked = vi.fn((event: MouseEvent) => event.preventDefault());
-		const anchor = screen.container.querySelector<HTMLAnchorElement>('a[download]')!;
-		anchor.addEventListener('click', clicked);
+		const clicked = vi.fn((event: MouseEvent) => {
+			if (event.target instanceof HTMLAnchorElement && event.target.hasAttribute('download')) event.preventDefault();
+		});
+		document.addEventListener('click', clicked);
 		const control = screen.getByRole('button', { name: row.download, exact: true });
 		await expect.element(control).toBeVisible();
 		onChange.mockClear();
 		(control.element() as HTMLElement).focus();
 		await userEvent.keyboard(key);
-		expect(clicked).toHaveBeenCalledTimes(1);
-		expect(clicked.mock.calls[0][0]).toBeInstanceOf(MouseEvent);
+		document.removeEventListener('click', clicked);
+		const downloads = clicked.mock.calls
+			.map(([event]) => event.target)
+			.filter((target): target is HTMLAnchorElement => target instanceof HTMLAnchorElement && target.hasAttribute('download'));
+		expect(downloads).toHaveLength(1);
+		const [anchor] = downloads;
+		expect(anchor.isConnected).toBe(false);
+		expect(screen.container.querySelector('a[download]')).toBeNull();
 		expect(anchor.download).toBe('ca.pem');
 		expect(anchor.href).toBe(row.name === 'single file' ? row.formData : (row.formData as string[])[0]);
 		expect(onChange).not.toHaveBeenCalled();
@@ -97,7 +104,7 @@ describe.each(ACTION_NAME_SHAPES.filter(row => row.download))('Browse File actio
 		const input = screen.container.querySelector<HTMLInputElement>('input[type="file"]')!;
 		const clicked = vi.fn((event: MouseEvent) => event.preventDefault());
 		input.addEventListener('click', clicked);
-		const control = screen.getByRole('button', { name: 'Browse File', exact: true });
+		const control = screen.getByRole('button', { name: row.labels[row.labels.length - 1], exact: true });
 		await expect.element(control).toBeVisible();
 		onChange.mockClear();
 		(control.element() as HTMLElement).focus();
