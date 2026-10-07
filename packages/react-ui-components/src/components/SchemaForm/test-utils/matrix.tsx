@@ -940,6 +940,23 @@ export const R7_TEXTAREA_REPLACEMENT_SHAPES = [
 	{ name: 'Unicode replacement at the limit', initial: 'CAB', selection: 'all', replacement: 'é🚀A', limit: 3, typed: 'é🚀A', pasted: 'é🚀A' },
 	{ name: 'selected multiline text', initial: 'CA\nB', selection: 'all', replacement: 'TLS', limit: 4, typed: 'TLS', pasted: 'TLS' }
 ].map(row => ({ ...row, schema: { ...R7_TEXTAREA_SCHEMA, maxLength: row.limit }, uiSchema: { 'ui:widget': 'textarea' } }));
+export const R7_TEXTAREA_NATIVE_INPUT_SHAPES = [
+	{ name: 'Unicode insertion overflow', initial: 'AB', selection: 'end', inserted: '🚀X', limit: 3, expected: 'AB' },
+	{ name: 'Unicode insertion at the limit', initial: 'AB', selection: 'end', inserted: '🚀', limit: 3, expected: 'AB🚀' },
+	{ name: 'Unicode whole-field replacement', initial: 'CAB', selection: 'all', inserted: 'é🚀A', limit: 3, expected: 'é🚀A' },
+	{ name: 'partial native replacement overflow', initial: 'CAB', selection: 'last', inserted: '🚀X', limit: 3, expected: 'CAB' },
+	{ name: 'whole native replacement overflow', initial: 'CAB', selection: 'all', inserted: 'é🚀AB', limit: 3, expected: 'CAB' },
+	{ name: 'unlimited native insertion', initial: 'AB', selection: 'end', inserted: '🚀X', limit: undefined, expected: 'AB🚀X' },
+	{ name: 'zero native limit', initial: 'AB', selection: 'end', inserted: '🚀X', limit: 0, expected: 'AB🚀X' }
+].map(row => ({ ...row, schema: { ...R7_TEXTAREA_SCHEMA, maxLength: row.limit }, uiSchema: { 'ui:widget': 'textarea' } }));
+export const R7_TEXTAREA_COMPOSITION_SHAPES = [
+	{ name: 'draft exceeds cap before a valid commit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日', limit: 3, expected: 'AB日' },
+	{ name: 'overflowing IME commit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日本', limit: 3, expected: 'AB' },
+	{ name: 'IME replaces the whole field', initial: 'CAB', selection: 'all', draft: 'にほんご', committed: '日本語', limit: 3, expected: '日本語' },
+	{ name: 'canceled IME draft', initial: 'AB', selection: 'end', draft: 'にほん', committed: '', limit: 3, expected: 'AB' },
+	{ name: 'unlimited IME commit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日本', limit: undefined, expected: 'AB日本' },
+	{ name: 'zero IME limit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日本', limit: 0, expected: 'AB日本' }
+].map(row => ({ ...row, schema: { ...R7_TEXTAREA_SCHEMA, maxLength: row.limit }, uiSchema: { 'ui:widget': 'textarea' } }));
 export const R7_TEXTAREA_PASTE_SHAPES: readonly {
 	name: string;
 	schema: RJSFSchema;
@@ -3358,6 +3375,8 @@ export const R6_FILE_LAYOUT_SHAPES = [
 	R7_TEXTAREA_LIMIT_SHAPES,
 	R7_TEXTAREA_PASTE_SHAPES,
 	R7_TEXTAREA_REPLACEMENT_SHAPES,
+	R7_TEXTAREA_NATIVE_INPUT_SHAPES,
+	R7_TEXTAREA_COMPOSITION_SHAPES,
 	R7_TEXTAREA_RESET_SHAPES,
 	HELP_TEXT_CONSUMER_SHAPES,
 	BROKER_SCHEMA,

@@ -60,3 +60,35 @@ export const SELECTION_SCOPE_CASES = Object.freeze([
 	Object.freeze({ name: 'composed selection ending outside the control', composed: true, anchorInside: true, focusInside: false, selected: true, allowed: false }),
 	Object.freeze({ name: 'composed selection starting outside the control', composed: true, anchorInside: false, focusInside: true, selected: true, allowed: false })
 ]);
+
+export const NATIVE_INPUT_CASES = Object.freeze(
+	[
+		{ name: 'Unicode insertion overflow', initial: 'AB', selection: 'end', inserted: '🚀X', limit: 3, expected: 'AB' },
+		{ name: 'Unicode insertion at the limit', initial: 'AB', selection: 'end', inserted: '🚀', limit: 3, expected: 'AB🚀' },
+		{ name: 'Unicode whole-field replacement', initial: 'CAB', selection: 'all', inserted: 'é🚀A', limit: 3, expected: 'é🚀A' },
+		{ name: 'partial native replacement overflow', initial: 'CAB', selection: 'last', inserted: '🚀X', limit: 3, expected: 'CAB' },
+		{ name: 'whole native replacement overflow', initial: 'CAB', selection: 'all', inserted: 'é🚀AB', limit: 3, expected: 'CAB' },
+		{ name: 'unlimited native insertion', initial: 'AB', selection: 'end', inserted: '🚀X', limit: undefined, expected: 'AB🚀X' },
+		{ name: 'zero native limit', initial: 'AB', selection: 'end', inserted: '🚀X', limit: 0, expected: 'AB🚀X' }
+	].map(row => Object.freeze(row))
+);
+
+export const COMPOSITION_CASES = Object.freeze(
+	[
+		{ name: 'draft exceeds cap before a valid commit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日', limit: 3, expected: 'AB日' },
+		{ name: 'overflowing IME commit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日本', limit: 3, expected: 'AB' },
+		{ name: 'IME replaces the whole field', initial: 'CAB', selection: 'all', draft: 'にほんご', committed: '日本語', limit: 3, expected: '日本語' },
+		{ name: 'canceled IME draft', initial: 'AB', selection: 'end', draft: 'にほん', committed: '', limit: 3, expected: 'AB' },
+		{ name: 'unlimited IME commit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日本', limit: undefined, expected: 'AB日本' },
+		{ name: 'zero IME limit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日本', limit: 0, expected: 'AB日本' }
+	].map(row => Object.freeze(row))
+);
+
+export const INPUT_FALLBACK_CASES = Object.freeze(
+	[
+		{ name: 'non-cancelable insertion overflow', initial: 'AB', incoming: 'AB🚀X', inputType: 'insertText', expected: 'AB' },
+		{ name: 'non-cancelable insertion at the limit', initial: 'AB', incoming: 'AB🚀', inputType: 'insertText', expected: 'AB🚀' },
+		{ name: 'deleting from an external over-limit value', initial: 'CABDX', incoming: 'CABD', inputType: 'deleteContentBackward', expected: 'CABD' },
+		{ name: 'inserting into an external over-limit value', initial: 'CABD', incoming: 'CABDX', inputType: 'insertText', expected: 'CABD' }
+	].map(row => Object.freeze(row))
+);

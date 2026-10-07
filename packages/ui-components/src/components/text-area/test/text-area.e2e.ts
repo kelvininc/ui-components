@@ -1,9 +1,89 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
-import { CLIPBOARD_CASES, CONTROLLED_TEXT_CASES, REPLACEMENT_CASES } from './text-area.mock';
+import { CLIPBOARD_CASES, COMPOSITION_CASES, CONTROLLED_TEXT_CASES, NATIVE_INPUT_CASES, REPLACEMENT_CASES } from './text-area.mock';
 
 const readText = (page: E2EPage) => page.evaluate(() => (document.querySelector('kv-text-area').shadowRoot.querySelector('.input') as HTMLElement).innerText);
 
 describe('text area contracts in Chromium', () => {
+	it.each(NATIVE_INPUT_CASES)('enforces native input with $name', async row => {
+		const attributes = row.limit === undefined ? '' : `max-char-length="${row.limit}"`;
+		const page = await newE2EPage({ html: `<kv-text-area text="${row.initial}" ${attributes}></kv-text-area>` });
+		const host = await page.find('kv-text-area');
+		await host.focus();
+		if (row.selection === 'all') {
+			await page.keyboard.down('Control');
+			await page.keyboard.press('A');
+			await page.keyboard.up('Control');
+		} else {
+			await page.keyboard.press('End');
+			if (row.selection === 'last') {
+				await page.keyboard.down('Shift');
+				await page.keyboard.press('ArrowLeft');
+				await page.keyboard.up('Shift');
+			}
+		}
+		const changed = await host.spyOnEvent('textChange');
+		const session = await page.createCDPSession();
+		try {
+			await session.send('Input.insertText', { text: row.inserted });
+			await page.waitForChanges();
+			expect(await readText(page)).toBe(row.expected);
+			expect(changed.events.length).toBe(row.expected === row.initial ? 0 : 1);
+		} finally {
+			await session.detach();
+		}
+	});
+
+	it.each(COMPOSITION_CASES)('handles real IME input with $name', async row => {
+		const attributes = row.limit === undefined ? '' : `max-char-length="${row.limit}"`;
+		const page = await newE2EPage({ html: `<kv-text-area text="${row.initial}" ${attributes}></kv-text-area>` });
+		const host = await page.find('kv-text-area');
+		await host.focus();
+		await page.keyboard.press('End');
+		if (row.selection === 'all') {
+			await page.keyboard.down('Control');
+			await page.keyboard.press('A');
+			await page.keyboard.up('Control');
+		}
+		const changed = await host.spyOnEvent('textChange');
+		const session = await page.createCDPSession();
+		try {
+			await session.send('Input.imeSetComposition', { text: row.draft, selectionStart: row.draft.length, selectionEnd: row.draft.length });
+			await page.waitForChanges();
+			expect(await readText(page)).toBe((row.selection === 'all' ? '' : row.initial) + row.draft);
+			expect(changed.events).toHaveLength(0);
+			if (row.committed) await session.send('Input.insertText', { text: row.committed });
+			else await session.send('Input.imeSetComposition', { text: '', selectionStart: 0, selectionEnd: 0 });
+			await page.waitForChanges();
+			expect(await readText(page)).toBe(row.expected);
+			expect(changed.events.length).toBe(row.expected === row.initial ? 0 : 1);
+		} finally {
+			await session.detach();
+		}
+	});
+
+	it('keeps focus and a usable caret after restoring an overflowing IME commit', async () => {
+		const page = await newE2EPage({ html: '<kv-text-area text="AB" max-char-length="3"></kv-text-area>' });
+		const host = await page.find('kv-text-area');
+		await host.focus();
+		await page.keyboard.press('End');
+		const changed = await host.spyOnEvent('textChange');
+		const session = await page.createCDPSession();
+		try {
+			await session.send('Input.imeSetComposition', { text: 'にほん', selectionStart: 3, selectionEnd: 3 });
+			await session.send('Input.insertText', { text: '日本' });
+			await page.waitForChanges();
+			expect(await readText(page)).toBe('AB');
+			expect(changed.events).toHaveLength(0);
+			await page.keyboard.press('ArrowLeft');
+			await page.keyboard.press('Backspace');
+			await page.waitForChanges();
+			expect(await readText(page)).toBe('B');
+			expect(changed.lastEvent.detail).toBe('B');
+		} finally {
+			await session.detach();
+		}
+	});
+
 	describe.each(REPLACEMENT_CASES)('selected replacement: $name', row => {
 		it.each(['keyboard', 'paste'])('applies the prospective limit during %s replacement', async mode => {
 			const page = await newE2EPage({ html: `<kv-text-area max-char-length="${row.limit}"></kv-text-area>` });

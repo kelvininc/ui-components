@@ -49,7 +49,27 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 		}
 	}
 
+	@Listen('compositionstart')
+	handleCompositionStart() {
+		this.composing = true;
+	}
+
+	@Listen('compositionend')
+	handleCompositionEnd() {
+		this.composing = false;
+		this.onInput();
+	}
+
+	@Listen('beforeinput', { passive: false })
+	handleBeforeInput(event: InputEvent) {
+		if (this.composing || event.isComposing || !event.cancelable || !(this.maxCharLength > 0)) return;
+		const insertedText = event.inputType === 'insertText' ? event.data : ['insertParagraph', 'insertLineBreak'].includes(event.inputType) ? '\n' : null;
+		if (insertedText != null && this.getTextLengthAfterSelection() + getUTF8StringLength(insertedText) > this.maxCharLength) event.preventDefault();
+	}
+
 	private inputRef: HTMLDivElement;
+	private committedText = '';
+	private composing = false;
 
 	@State() curCharLength = getUTF8StringLength(this.text);
 	@State() showPlaceholder = !this.text ? true : false;
@@ -69,6 +89,7 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 		}
 
 		const textValue = this.inputRef.innerText;
+		this.committedText = textValue;
 		this.showPlaceholder = textValue.length === 0 ? true : false;
 		this.curCharLength = getUTF8StringLength(textValue);
 	}
@@ -83,16 +104,27 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 		return getUTF8StringLength(this.inputRef.innerText) - getUTF8StringLength(selectedText);
 	};
 
-	private onInput = () => {
+	private onInput = (event?: InputEvent) => {
+		// Let the browser finish its IME draft before committing or restoring text.
+		if (this.composing || event?.isComposing) return;
 		// Chromium leaves a sole BR as the editing placeholder after clearing.
 		if (this.inputRef.childNodes.length === 1 && this.inputRef.firstChild.nodeName === 'BR') {
 			this.inputRef.innerText = '';
 		}
+		const textValue = this.inputRef.innerText;
+		const changed = textValue !== this.committedText;
+		const exceedsLimit = this.maxCharLength > 0 && getUTF8StringLength(textValue) > this.maxCharLength;
+		if (changed && exceedsLimit && !event?.inputType?.startsWith('delete')) {
+			this.syncTextValues(this.committedText);
+			this.inputRef.ownerDocument.getSelection?.()?.collapse(this.inputRef, this.inputRef.childNodes.length);
+			return;
+		}
 		this.syncTextValues();
-		this.textChange.emit(this.inputRef.innerText);
+		if (changed) this.textChange.emit(textValue);
 	};
 
 	private onKeyPress = (event: KeyboardEvent) => {
+		if (this.composing || event.isComposing) return;
 		const textLength = this.getTextLengthAfterSelection();
 		const insertedLength = getUTF8StringLength(event.key === 'Enter' ? '\n' : event.key);
 		if (this.maxCharLength && textLength + insertedLength > this.maxCharLength) {

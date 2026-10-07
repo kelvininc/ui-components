@@ -2,9 +2,23 @@ import { SpecPage } from '@stencil/core/internal';
 import { newSpecPage } from '@stencil/core/testing';
 import { KvTextArea } from '../text-area';
 import { EValidationState } from '../../text-field/text-field.types';
-import { CONTROLLED_TEXT_CASES, PASTE_CASES, SELECTION_SCOPE_CASES } from './text-area.mock';
+import { CONTROLLED_TEXT_CASES, INPUT_FALLBACK_CASES, PASTE_CASES, SELECTION_SCOPE_CASES } from './text-area.mock';
 
 describe('text area contracts', () => {
+	it.each(INPUT_FALLBACK_CASES)('handles $name after native input', async row => {
+		const page = await newSpecPage({ components: [KvTextArea], html: `<kv-text-area text="${row.initial}" max-char-length="3"></kv-text-area>` });
+		const input = page.root.shadowRoot.querySelector<HTMLElement>('.input');
+		const changed = jest.fn();
+		page.root.addEventListener('textChange', changed);
+		input.innerText = row.incoming;
+		const event = new Event('input', { bubbles: true });
+		Object.defineProperty(event, 'inputType', { value: row.inputType });
+		input.dispatchEvent(event);
+		await page.waitForChanges();
+		expect(input.innerText).toBe(row.expected);
+		expect(changed).toHaveBeenCalledTimes(row.expected === row.initial ? 0 : 1);
+	});
+
 	it.each(SELECTION_SCOPE_CASES)('enforces the limit with $name', async row => {
 		const page = await newSpecPage({ components: [KvTextArea], html: '<kv-text-area text="CAB" max-char-length="3"></kv-text-area>' });
 		const input = page.root.shadowRoot.querySelector<HTMLElement>('.input');

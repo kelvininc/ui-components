@@ -6,9 +6,56 @@ import { cdp, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../../../test-utils/browser';
 import { KvSchemaForm } from '../../SchemaForm';
-import { R7_TEXTAREA_EMPTY_SHAPES, R7_TEXTAREA_LIMIT_SHAPES, R7_TEXTAREA_PASTE_SHAPES, R7_TEXTAREA_REPLACEMENT_SHAPES, R7_TEXTAREA_RESET_SHAPES } from '../../test-utils/matrix';
+import {
+	R7_TEXTAREA_COMPOSITION_SHAPES,
+	R7_TEXTAREA_EMPTY_SHAPES,
+	R7_TEXTAREA_LIMIT_SHAPES,
+	R7_TEXTAREA_NATIVE_INPUT_SHAPES,
+	R7_TEXTAREA_PASTE_SHAPES,
+	R7_TEXTAREA_REPLACEMENT_SHAPES,
+	R7_TEXTAREA_RESET_SHAPES
+} from '../../test-utils/matrix';
 
 const selectText = (selection?: string) => userEvent.keyboard(selection === 'all' ? '{Control>}a{/Control}' : selection === 'last' ? '{End}{Shift>}{ArrowLeft}{/Shift}' : '{End}');
+
+describe.each(R7_TEXTAREA_NATIVE_INPUT_SHAPES)('textarea native insertion in Chromium: $name', row => {
+	it('enforces the cap without relying on keypress', async () => {
+		const onChange = vi.fn();
+		const screen = await render(<KvSchemaForm schema={row.schema} uiSchema={row.uiSchema} formData={row.initial} onChange={onChange} />);
+		await whenAllKelvinReady(screen.container);
+		const control = screen.getByRole('textbox', { name: 'Connection notes', exact: true });
+		(control.element() as HTMLElement).focus();
+		await selectText(row.selection);
+		onChange.mockClear();
+		await cdp().send('Input.insertText', { text: row.inserted });
+		await expect.poll(() => (control.element() as HTMLElement).innerText).toBe(row.expected);
+		expect(onChange).toHaveBeenCalledTimes(row.expected === row.initial ? 0 : 1);
+		expect(onChange.mock.lastCall?.[0].formData).toBe(row.expected === row.initial ? undefined : row.expected);
+		await expect.poll(() => (control.element().getRootNode() as ShadowRoot).activeElement === control.element()).toBe(true);
+	});
+});
+
+describe.each(R7_TEXTAREA_COMPOSITION_SHAPES)('textarea IME in Chromium: $name', row => {
+	it('keeps the browser draft and commits one value within the cap', async () => {
+		const onChange = vi.fn();
+		const screen = await render(<KvSchemaForm schema={row.schema} uiSchema={row.uiSchema} formData={row.initial} onChange={onChange} />);
+		await whenAllKelvinReady(screen.container);
+		const control = screen.getByRole('textbox', { name: 'Connection notes', exact: true });
+		(control.element() as HTMLElement).focus();
+		await selectText(row.selection);
+		onChange.mockClear();
+		const session = cdp();
+		await session.send('Input.imeSetComposition', { text: row.draft, selectionStart: row.draft.length, selectionEnd: row.draft.length });
+		expect((control.element() as HTMLElement).innerText).toBe((row.selection === 'all' ? '' : row.initial) + row.draft);
+		expect(onChange).not.toHaveBeenCalled();
+		if (row.committed) await session.send('Input.insertText', { text: row.committed });
+		else await session.send('Input.imeSetComposition', { text: '', selectionStart: 0, selectionEnd: 0 });
+		await expect.poll(() => (control.element() as HTMLElement).innerText).toBe(row.expected);
+		expect(onChange).toHaveBeenCalledTimes(row.expected === row.initial ? 0 : 1);
+		expect(onChange.mock.lastCall?.[0].formData).toBe(row.expected === row.initial ? undefined : row.expected);
+		await expect.poll(() => (control.element().getRootNode() as ShadowRoot).activeElement === control.element()).toBe(true);
+	});
+});
 
 describe.each(R7_TEXTAREA_EMPTY_SHAPES)('textarea empty value in Chromium: $name', row => {
 	it('clears the named textbox and commits the configured value once', async () => {

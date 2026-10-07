@@ -192,6 +192,9 @@ Pasting formatted clipboard content inserts plain text.
 Typing and paste count the proposed value after replacing the selection, so a full field remains
 editable. A replacement that would still exceed the cap stays blocked.
 Programmatic values preserve line breaks and consecutive spaces in the displayed textarea.
+Native text insertion and committed IME text obey the same cap. Composition drafts stay in the
+browser until they finish; a rejected commit restores the previous value without emitting a change.
+Caller-supplied values above the cap stay visible and can still be shortened by deletion.
 
 ## File action labels
 
