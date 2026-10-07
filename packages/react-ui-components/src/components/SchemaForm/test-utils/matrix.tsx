@@ -13,7 +13,7 @@ import {
 	WidgetProps
 } from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
-import { StyleMode } from '@kelvininc/ui-components';
+import { EComponentSize, StyleMode } from '@kelvininc/ui-components';
 import { EApplyDefaults, SchemaFormContext } from '../types';
 import { useSchemaFormFocusRef } from '../hooks/entryFocus';
 import DefaultFieldTemplate from '../Templates/FieldTemplate';
@@ -1983,6 +1983,15 @@ export const L2_ELIGIBILITY_SHAPES = [
 		formData: [{ port: 1883 }, { port: 8883 }],
 		isFlat: true
 	})),
+	...['email', 'uri'].flatMap(format =>
+		[false, true].map(explicit => ({
+			name: `${explicit ? 'explicit widget' : 'implicit format'} ${format}`,
+			schema: variables({ type: 'object', properties: { address: { type: 'string', title: 'Address', format } } }),
+			uiSchema: { items: { address: explicit ? { 'ui:widget': format } : {} } } as UiSchema,
+			formData: [{ address: format === 'email' ? 'operations@kelvininc.com' : 'https://kelvininc.com' }],
+			isFlat: !explicit
+		}))
+	),
 	...['data-url', 'date', 'date-time', 'time', 'color'].map(format => ({
 		name: `special format ${format}`,
 		schema: variables({ type: 'object', properties: { value: { type: 'string', format } } }),
@@ -2135,6 +2144,32 @@ export const L2_PRESENTATION_SHAPES = ['description', 'help', 'default helper', 
 		}
 	} as UiSchema,
 	formData: FLAT_OBJECT_SHAPES[0].formData
+}));
+
+export const L2_SIZE_SHAPES = [
+	{ name: 'default large controls', formContext: {}, uiSchema: {}, actionSize: EComponentSize.Large },
+	{ name: 'global compact controls', formContext: { componentSize: EComponentSize.Small }, uiSchema: {}, actionSize: EComponentSize.Small },
+	{ name: 'local compact first control', formContext: {}, uiSchema: { items: { name: { componentSize: EComponentSize.Small } } }, actionSize: EComponentSize.Small },
+	{
+		name: 'local large overrides compact context',
+		formContext: { componentSize: EComponentSize.Small },
+		uiSchema: { items: { name: { componentSize: EComponentSize.Large } } },
+		actionSize: EComponentSize.Large
+	},
+	{ name: 'compact second control', formContext: {}, uiSchema: { items: { value: { componentSize: EComponentSize.Small } } }, actionSize: EComponentSize.Large },
+	{
+		name: 'reordered compact select first',
+		formContext: {},
+		uiSchema: { items: { 'ui:order': ['level', 'name'], 'level': { componentSize: EComponentSize.Small } } },
+		actionSize: EComponentSize.Small,
+		select: true
+	}
+].map(({ select = false, ...row }) => ({
+	...row,
+	uiSchema: row.uiSchema as UiSchema,
+	formContext: row.formContext as SchemaFormContext,
+	schema: FLAT_OBJECT_SHAPES[select ? 1 : 0].schema,
+	formData: FLAT_OBJECT_SHAPES[select ? 1 : 0].formData
 }));
 
 export const L2_LABEL_SHAPES = [
@@ -3016,6 +3051,7 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	FLAT_OBJECT_SHAPES,
 	L2_ELIGIBILITY_SHAPES,
 	L2_PRESENTATION_SHAPES,
+	L2_SIZE_SHAPES,
 	L2_LABEL_SHAPES,
 	L2_ITEM_GUIDANCE_SHAPES,
 	L2_DESCRIPTION_SHAPES,

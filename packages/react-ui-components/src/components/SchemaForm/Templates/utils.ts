@@ -47,6 +47,7 @@ export const isSectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F ext
 	(getSchemaType(schema) !== 'array' || Boolean(getRenderedArrayFieldTemplate(schema, uiSchema, registry)));
 
 export type TableColumn = { name: string; title: string; description?: string; required: boolean };
+// Explicit choices follow L2's text/updown/select contract; format-selected inputs are checked below.
 const CELL_WIDGETS = ['text', 'TextWidget', 'updown', 'UpDownWidget', 'select', 'SelectWidget'];
 const WIDGET_FORMATS = ['data-url', 'date', 'date-time', 'time', 'color'];
 

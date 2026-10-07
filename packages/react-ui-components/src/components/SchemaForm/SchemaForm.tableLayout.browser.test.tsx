@@ -1,6 +1,7 @@
 import React from 'react';
 import type { ErrorSchema } from '@rjsf/utils';
 import { describe, expect, it, vi } from 'vitest';
+import { EComponentSize, setThemeMode, StyleMode } from '@kelvininc/ui-components';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../test-utils/browser';
@@ -12,6 +13,7 @@ import {
 	FLAT_OBJECT_SHAPES,
 	L2_ELIGIBILITY_SHAPES,
 	L2_PRESENTATION_SHAPES,
+	L2_SIZE_SHAPES,
 	L2_LABEL_SHAPES,
 	L2_DESCRIPTION_SHAPES,
 	L2_ITEM_GUIDANCE_SHAPES,
@@ -94,6 +96,57 @@ it.each(L2_ELIGIBILITY_SHAPES)('L2 real widget eligibility: $name', async row =>
 	const screen = await render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={'uiSchema' in row ? row.uiSchema : undefined} />);
 	await whenAllKelvinReady(screen.container);
 	expect(Boolean(screen.container.querySelector('[role="table"]'))).toBe(row.isFlat);
+});
+
+describe.each(L2_SIZE_SHAPES)('L2 action sizing: $name', row => {
+	describe.each([StyleMode.Light, StyleMode.Night])('theme=%s', theme => {
+		it.each([479, 480])('aligns actions with the first visible control at %ipx', async width => {
+			setThemeMode(theme);
+			try {
+				const screen = await render(
+					<div style={{ width: `${width}px` }}>
+						<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={row.uiSchema} formContext={row.formContext} />
+					</div>
+				);
+				await whenAllKelvinReady(screen.container);
+				await document.fonts.ready;
+				const center = (element: Element) => {
+					const rect = element.getBoundingClientRect();
+					return rect.top + rect.height / 2;
+				};
+				const rows = rootRows(screen.container);
+				for (const item of rows) {
+					const first = controls(item)[0];
+					const name = item.querySelector('[role="rowheader"]')!.textContent!;
+					for (const label of [`Reorder ${name}`, `Remove ${name}`]) {
+						const action = screen.getByRole('button', { name: label, exact: true }).element();
+						expect(action.getBoundingClientRect().height).toBe(row.actionSize === EComponentSize.Small ? 32 : 40);
+						expect(Math.abs(center(action) - center(first))).toBeLessThanOrEqual(1);
+					}
+				}
+				const firstCell = rows[0].querySelector('[data-table-cell]')!;
+				expect(screen.container.querySelector('kv-action-button')!.getBoundingClientRect().left).toBeCloseTo(firstCell.getBoundingClientRect().left, 0);
+				if (width >= 480)
+					expect(screen.container.querySelector('[role="columnheader"][aria-colindex="2"]')!.getBoundingClientRect().left).toBeCloseTo(
+						firstCell.getBoundingClientRect().left,
+						0
+					);
+				const inputs = controls(rows[0]);
+				const native = (host: HTMLElement) => screen.getByLabelText((host as HTMLKvTextFieldElement).accessibleLabel, { exact: true }).element() as HTMLElement;
+				native(inputs[0]).focus();
+				await userEvent.keyboard('{Tab}');
+				expect(native(inputs[1]).matches(':focus')).toBe(true);
+				for (const name of ['Reorder row 1', 'Remove row 1']) {
+					await userEvent.keyboard('{Tab}');
+					expect(screen.getByRole('button', { name, exact: true }).element().matches(':focus')).toBe(true);
+				}
+				await userEvent.keyboard('{Tab}');
+				expect(native(controls(rows[1])[0]).matches(':focus')).toBe(true);
+			} finally {
+				setThemeMode(StyleMode.Night);
+			}
+		});
+	});
 });
 
 it.each(L2_REGISTRY_OVERRIDES)('L2 real registered override: $name', async ({ name: _name, ...overrides }) => {

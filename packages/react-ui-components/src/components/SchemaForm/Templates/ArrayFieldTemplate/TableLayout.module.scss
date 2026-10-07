@@ -1,11 +1,19 @@
 @use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
 .TableContainer {
+	--schema-form-table-action-height: var(--icon-button-height-regular);
+	--schema-form-table-input-height: var(--input-height-regular);
+
 	container-type: inline-size;
 }
 
 .TableContainer .TableList {
 	gap: var(--spacing-md);
+}
+
+.TableActions > div {
+	flex-basis: var(--schema-form-table-action-height);
+	width: var(--schema-form-table-action-height);
 }
 
 .TableContainer .TableList + div {
@@ -17,7 +25,7 @@
 }
 
 .TableContainer[data-table-grip] .TableList + div {
-	padding-left: calc(var(--icon-button-height-regular) + var(--spacing-md));
+	padding-left: calc(var(--schema-form-table-action-height) + var(--spacing-md));
 }
 
 .TableHeader,
@@ -31,7 +39,7 @@
 	min-width: 0;
 
 	&[data-grip] {
-		padding-left: calc(var(--icon-button-height-regular) + var(--spacing-md));
+		padding-left: calc(var(--schema-form-table-action-height) + var(--spacing-md));
 	}
 }
 
@@ -79,12 +87,12 @@
 	grid-column: -2 / -1;
 	grid-row: 1;
 	align-items: center;
-	padding-top: calc((var(--input-height-regular) - var(--icon-button-height-regular)) / 2);
+	padding-top: calc((var(--schema-form-table-input-height) - var(--schema-form-table-action-height)) / 2);
 }
 
 .TableGrip {
 	position: absolute;
-	top: calc((var(--input-height-regular) - var(--icon-button-height-regular)) / 2);
+	top: calc((var(--schema-form-table-input-height) - var(--schema-form-table-action-height)) / 2);
 	left: 0;
 }
 
@@ -141,10 +149,10 @@
 	.TableActions {
 		grid-column: 2;
 		grid-row: 1;
-		padding-top: calc(var(--icon-button-height-compact) + var(--spacing-xs) + (var(--input-height-regular) - var(--icon-button-height-regular)) / 2);
+		padding-top: calc(var(--icon-button-height-compact) + var(--spacing-xs) + (var(--schema-form-table-input-height) - var(--schema-form-table-action-height)) / 2);
 	}
 
 	.TableGrip {
-		top: calc(var(--icon-button-height-compact) + var(--spacing-xs) + (var(--input-height-regular) - var(--icon-button-height-regular)) / 2);
+		top: calc(var(--icon-button-height-compact) + var(--spacing-xs) + (var(--schema-form-table-input-height) - var(--schema-form-table-action-height)) / 2);
 	}
 }

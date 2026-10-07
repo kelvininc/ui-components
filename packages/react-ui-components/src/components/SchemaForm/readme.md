@@ -123,8 +123,9 @@ templates keep sections. Visible fields with suppressed labels or blank UI title
 Lists with visible item descriptions, item help or default-value helpers also
 keep sections so their guidance stays visible. Hidden properties retain their values and don't count
 toward the column limit.
-Text formats such as `email` and Kelvin's regex formats can use tables; file, date, time and color controls
-keep sections.
+Text formats such as `email`, `uri` and Kelvin's regex formats can use tables; file, date, time and color
+controls keep sections. An explicit `ui:widget` qualifies only when it selects a built-in text, updown
+or select widget, including their named aliases. Explicit email and URI widgets keep sections.
 
 Headers follow the items' `ui:order`. Each header shows its title, required marker and one info tip for
 the property's description or help. `descriptionPosition: 'none'` hides descriptions, including a global
@@ -138,6 +139,8 @@ The table uses column headers and a hidden row header, such as "Variable 2". Con
 as "Name, Variable 2" through `accessibleLabel`. The row name comes from `ui:itemPrefix`, the items' title,
 then "row". Tab visits each row's cell help and inputs before its reorder grip, remove button and next row.
 Move, remove and Add use the focus policy described above.
+The reorder and remove buttons match the first visible cell's size. Its `componentSize` overrides
+`formContext.componentSize`; the default is large.
 
 Use `layout: 'sections'` on the array to retain sections. For unordered environment variables:
 

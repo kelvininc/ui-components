@@ -1,14 +1,22 @@
 import { FieldTemplateProps, FormContextType, ObjectFieldTemplateProps, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import React, { CSSProperties, useContext } from 'react';
 import { get } from 'lodash';
+import { EComponentSize } from '@kelvininc/ui-components';
 import { TableCellContext, TableLayout, TableRowContext } from '../../contexts/TableContext';
 import { SCHEMA_FORM_STRINGS } from '../../strings';
 import FieldHelp from '../TitleFieldTemplate/FieldHelp';
 import { useFieldPresentation } from '../FieldTemplate/useFieldPresentation';
 import styles from './TableLayout.module.scss';
 
-export const tableStyle = (table: TableLayout): CSSProperties =>
-	({ '--schema-form-table-columns': table.columns.length, '--schema-form-table-actions-width': table.removable ? 'var(--icon-button-height-regular)' : '0px' } as CSSProperties);
+export const tableStyle = (table: TableLayout): CSSProperties => {
+	const density = table.size === EComponentSize.Small ? 'compact' : 'regular';
+	return {
+		'--schema-form-table-columns': table.columns.length,
+		'--schema-form-table-actions-width': table.removable ? `var(--icon-button-height-${density})` : '0px',
+		'--schema-form-table-action-height': `var(--icon-button-height-${density})`,
+		'--schema-form-table-input-height': `var(--input-height-${density})`
+	} as CSSProperties;
+};
 
 export const TableHeader = ({ table }: { table: TableLayout }) => (
 	<div role="row" className={styles.TableHeader} style={tableStyle(table)} data-grip={table.reserveGrip || undefined}>

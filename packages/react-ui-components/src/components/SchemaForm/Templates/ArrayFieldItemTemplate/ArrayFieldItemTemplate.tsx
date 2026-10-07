@@ -96,7 +96,7 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 			accessibleLabel={section ? SCHEMA_FORM_STRINGS.itemActions(itemName) : SCHEMA_FORM_STRINGS.reorder(itemName)}
 			items={actions}
 			icon={section ? EIconName.More : EIconName.DragDrop}
-			size={EComponentSize.Large}
+			size={table?.size ?? EComponentSize.Large}
 			triggerTabIndex={0}
 			disabled={inactive}
 			onItemSelected={onItemSelected}
@@ -111,7 +111,7 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 						ref={removeRef}
 						icon={EIconName.Delete}
 						accessibleLabel={SCHEMA_FORM_STRINGS.remove(itemName)}
-						size={EComponentSize.Large}
+						size={table?.size ?? EComponentSize.Large}
 						type={EActionButtonType.Tertiary}
 						tabIndex={0}
 						menuTabIndex={0}

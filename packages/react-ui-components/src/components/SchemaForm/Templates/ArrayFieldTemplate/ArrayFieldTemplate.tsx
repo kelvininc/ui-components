@@ -1,5 +1,6 @@
 import { ArrayFieldTemplateItemType, ArrayFieldTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema, getTemplate, getUiOptions } from '@rjsf/utils';
 import React, { useId } from 'react';
+import { EComponentSize } from '@kelvininc/ui-components';
 import classNames from 'classnames';
 import AddButton from './AddButton';
 import styles from './ArrayFieldTemplate.module.scss';
@@ -9,7 +10,7 @@ import { useArrayFocus } from '../../hooks/useArrayFocus';
 import { TableContext } from '../../contexts/TableContext';
 import { getTableColumns } from '../utils';
 import DefaultArrayFieldItemTemplate from '../ArrayFieldItemTemplate';
-import { TableHeader } from './TableLayout';
+import { tableStyle, TableHeader } from './TableLayout';
 import tableStyles from './TableLayout.module.scss';
 
 const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
@@ -38,7 +39,8 @@ const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 		ArrayFieldItemTemplate === DefaultArrayFieldItemTemplate
 			? getTableColumns(schema.items as S, uiSchema?.items, registry)
 			: undefined;
-	const table = columns ? { id: tableId, columns, reserveGrip: uiOptions.orderable !== false, removable: uiOptions.removable !== false } : null;
+	const size = uiSchema?.items?.[columns?.[0].name ?? '']?.componentSize ?? registry.formContext.componentSize ?? EComponentSize.Large;
+	const table = columns ? { id: tableId, columns, reserveGrip: uiOptions.orderable !== false, removable: uiOptions.removable !== false, size } : null;
 	const descriptionContext = useArrayDescription();
 	const fieldOwnsDescription = descriptionContext?.fieldId === idSchema.$id && getTemplate('FieldTemplate', registry, uiOptions) === descriptionContext?.fieldTemplate;
 	const descriptionId = fieldOwnsDescription && descriptionContext?.fieldId === idSchema.$id ? descriptionContext.descriptionId : undefined;
@@ -62,6 +64,7 @@ const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 	return (
 		<div
 			className={classNames(styles.ArrayFieldTemplate, { [tableStyles.TableContainer]: table })}
+			style={table ? tableStyle(table) : undefined}
 			data-schema-form-list={idSchema.$id}
 			data-table-grip={table?.reserveGrip || undefined}
 		>

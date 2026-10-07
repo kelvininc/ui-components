@@ -52,6 +52,41 @@ describe('Kelvin components in the browser project', () => {
 		await expect.poll(() => symbol?.getBBox().height ?? 0).toBeGreaterThan(0);
 	});
 
+	it.each([
+		{ color: '#c00000', rgb: [192, 0, 0] },
+		{ color: '#00c000', rgb: [0, 192, 0] }
+	])('paints the outline and glyph with customColor=$color', async ({ color, rgb }) => {
+		const screen = await render(<KvIcon name={EIconName.InfoOutline} customColor={color} />);
+		const icon = await whenKelvinReady(screen.container.querySelector<HTMLElement>('kv-icon'));
+		const svg = icon.shadowRoot!.querySelector('svg')!;
+		const href = svg.querySelector('use')!.getAttribute('href')!;
+		const [url, id] = href.split('#');
+		const response = await fetch(url);
+		expect(response.ok).toBe(true);
+		const sprite = new DOMParser().parseFromString(await response.text(), 'image/svg+xml');
+		const symbol = sprite.getElementById(id)!;
+		const fill = getComputedStyle(svg).fill;
+		const iconColor = getComputedStyle(icon).getPropertyValue('--icon-color');
+		// Rasterize the production symbol with the real KvIcon's computed paint.
+		const image = new Image();
+		image.src = `data:image/svg+xml,${encodeURIComponent(
+			`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="${symbol.getAttribute('viewBox')}" style="fill:${fill};--icon-color:${iconColor}">${
+				symbol.innerHTML
+			}</svg>`
+		)}`;
+		await image.decode();
+		const canvas = document.createElement('canvas');
+		canvas.width = canvas.height = 24;
+		const context = canvas.getContext('2d')!;
+		context.drawImage(image, 0, 0);
+		for (const [x, y] of [
+			[12, 3],
+			[12, 13]
+		])
+			expect(Array.from(context.getImageData(x, y, 1, 1).data)).toEqual([...rgb, 255]);
+		expect(context.getImageData(12, 5, 1, 1).data[3]).toBe(0);
+	});
+
 	it('waits for every Kelvin component in a container', async () => {
 		const screen = await render(<KvSchemaForm schema={BROKER_SCHEMA} formData={BROKER_FORM_DATA} />);
 
