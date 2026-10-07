@@ -24,7 +24,7 @@ export const useFileValue = ({ id, value, multiple, readonly, disabled, onChange
 		failedSelection: 0,
 		mounted: false,
 		pending: Promise.resolve(),
-		commit: (_values: string[]) => {}
+		commit: (_values: unknown[]) => {}
 	});
 	const invalidate = () => {
 		current.current.sequence++;

@@ -10,6 +10,7 @@ import { KvSchemaForm } from '../../SchemaForm';
 import {
 	R6_FILE_ACTION_LABEL_SHAPES,
 	R6_FILE_ACTION_TRANSITIONS,
+	R6_FILE_ARRAY_ENTRY_SHAPES,
 	R6_FILE_EMPTY_RESET_SHAPE,
 	R6_FILE_ERROR_SHAPES,
 	R6_FILE_LABEL_SHAPES,
@@ -345,6 +346,43 @@ async function nativeDescription(name: string) {
 	expect(controls).toHaveLength(1);
 	return controls[0].description?.value ?? '';
 }
+
+describe.each(R6_FILE_ARRAY_ENTRY_SHAPES)('invalid stored file entry in Chromium: $name', row => {
+	it('keeps indexed errors and exact values through upload and row removal', async () => {
+		const onChange = vi.fn();
+		const screen = await render(
+			<KvSchemaForm<unknown>
+				schema={R6_FILE_SHAPES.find(shape => shape.multiple)!.schema}
+				uiSchema={{ 'ui:options': { filePreview: true } }}
+				formData={[...row.formData]}
+				omitExtraData={row.omitExtraData}
+				onChange={onChange}
+				liveValidate
+				displayErrors
+				humanizeErrors={false}
+				showErrorList={false}
+			/>
+		);
+		await whenAllKelvinReady(screen.container);
+		expect(names(screen.container)).toEqual(row.formData.map((_, index) => (index === row.invalidIndex ? 'Empty' : 'ca.pem')));
+		const rows = Array.from(screen.container.querySelectorAll('[data-file-index]'));
+		expect(rows.map(file => Array.from(file.querySelectorAll<HTMLKvFormHelpTextElement>('kv-form-help-text')).flatMap(help => help.helpText ?? []))).toEqual(
+			row.formData.map((_, index) => (index === row.invalidIndex ? [row.message] : []))
+		);
+		await expect.poll(() => nativeDescription('Remove Empty')).toBe(row.message);
+		if (row.formData.length > 1) expect(await nativeDescription('Remove ca.pem')).toBe('');
+		const downloads = Array.from(screen.container.querySelectorAll<HTMLKvActionButtonIconElement>('kv-action-button-icon')).filter(host => host.icon === EIconName.Download);
+		expect(downloads).toHaveLength(row.formData.length - 1);
+		await userEvent.upload(input(screen.container), uploadFile());
+		await expect.poll(() => onChange.mock.lastCall?.[0].formData).toEqual([...row.formData, uploaded]);
+		await whenAllKelvinReady(screen.container);
+		await screen.getByRole('button', { name: 'Remove client.pem', exact: true }).click();
+		await expect.poll(() => onChange.mock.lastCall?.[0].formData).toEqual(row.formData);
+		await screen.getByRole('button', { name: 'Remove Empty', exact: true }).click();
+		await expect.poll(() => onChange.mock.lastCall?.[0].formData).toEqual(row.formData.filter((_, index) => index !== row.invalidIndex));
+		expect(screen.container.querySelector('kv-form-help-text')).toBeNull();
+	});
+});
 
 it('gives two file action buttons independent native AX descriptions and clears them on hide and clear', async () => {
 	const schema = {

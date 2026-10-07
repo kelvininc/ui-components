@@ -3163,6 +3163,22 @@ export const R6_FILE_ERROR_SHAPES = [
 	}
 ] as const;
 
+export const R6_FILE_ARRAY_ENTRY_SHAPES: readonly {
+	name: string;
+	formData: readonly unknown[];
+	invalidIndex: number;
+	message: string;
+	omitExtraData?: false;
+}[] = [
+	{ name: 'blank before certificate', formData: ['', CERTIFICATE], invalidIndex: 0, message: 'must match format "data-url"' },
+	{ name: 'blank after certificate', formData: [CERTIFICATE, ''], invalidIndex: 1, message: 'must match format "data-url"' },
+	{ name: 'only blank entry', formData: [''], invalidIndex: 0, message: 'must match format "data-url"' },
+	{ name: 'null before certificate', formData: [null, CERTIFICATE], invalidIndex: 0, message: 'must be string' },
+	{ name: 'undefined before certificate', formData: [undefined, CERTIFICATE], invalidIndex: 0, message: 'must be string' },
+	{ name: 'number after certificate', formData: [CERTIFICATE, 42], invalidIndex: 1, message: 'must be string' },
+	{ name: 'retained object before certificate', formData: [{ path: 'certificates/plant-ca.pem' }, CERTIFICATE], invalidIndex: 0, message: 'must be string', omitExtraData: false }
+];
+
 export const R6_FILE_LAYOUT_SHAPES = [
 	{ name: 'empty single field', source: 'single empty, editable' },
 	{ name: 'single secret reference', source: 'single secret reference, editable' },
@@ -3250,6 +3266,7 @@ export const R6_FILE_LAYOUT_SHAPES = [
 	R6_FILE_READ_FAILURES,
 	R6_FILE_LABEL_SHAPES,
 	R6_FILE_ERROR_SHAPES,
+	R6_FILE_ARRAY_ENTRY_SHAPES,
 	R6_FILE_LAYOUT_SHAPES,
 	TEMPLATE_COMPONENTS,
 	OPTION_SOURCES,

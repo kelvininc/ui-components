@@ -1,5 +1,6 @@
 import { dataURItoBlob } from '@rjsf/utils';
 import { FileInfoType } from './types';
+import { SCHEMA_FORM_STRINGS } from '../../strings';
 
 const processFile = (file: File): Promise<FileInfoType> =>
 	new Promise((resolve, reject) => {
@@ -19,7 +20,8 @@ const processFile = (file: File): Promise<FileInfoType> =>
 
 export const processFiles = (files: FileList | readonly File[]): Promise<FileInfoType[]> => Promise.all(Array.from(files).map(processFile));
 
-const fileInfo = (value: string): FileInfoType => {
+const fileInfo = (value: unknown): FileInfoType => {
+	if (typeof value !== 'string' || value === '') return { value, name: SCHEMA_FORM_STRINGS.emptyFile, size: 0, type: '' };
 	try {
 		if (!value.startsWith('data:')) throw new Error('Not a data URL');
 		const { blob, name } = dataURItoBlob(value);
@@ -31,6 +33,5 @@ const fileInfo = (value: string): FileInfoType => {
 	}
 };
 
-/** Preserve unsupported stored strings so they can be inspected and removed without decoding them. */
-export const extractFileInfo = (data: unknown): FileInfoType[] =>
-	(Array.isArray(data) ? data : [data]).filter((value): value is string => typeof value === 'string' && value !== '').map(fileInfo);
+/** Keep array positions intact so validation errors and row actions refer to the original values. */
+export const extractFileInfo = (data: unknown): FileInfoType[] => (Array.isArray(data) ? data : typeof data === 'string' && data !== '' ? [data] : []).map(fileInfo);

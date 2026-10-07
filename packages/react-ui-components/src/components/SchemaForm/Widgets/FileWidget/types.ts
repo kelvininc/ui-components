@@ -1,5 +1,5 @@
 export type FileInfoType = {
-	value: string;
+	value: unknown;
 	dataURL?: string | null;
 	name: string;
 	size: number;

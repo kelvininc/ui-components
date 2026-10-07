@@ -10,6 +10,7 @@ import { KvSchemaForm } from '../../SchemaForm';
 import {
 	R6_FILE_ACTION_LABEL_SHAPES,
 	R6_FILE_ACTION_TRANSITIONS,
+	R6_FILE_ARRAY_ENTRY_SHAPES,
 	R6_FILE_EMPTY_RESET_SHAPE,
 	R6_FILE_ERROR_SHAPES,
 	R6_FILE_LABEL_SHAPES,
@@ -395,6 +396,45 @@ it('renders the validator error at the invalid array item', async () => {
 	const rows = Array.from(container.querySelectorAll('[data-file-index]'));
 	expect(rows[0].querySelector('kv-form-help-text')).toBeNull();
 	expect(propsOf(rows[1].querySelector('kv-form-help-text')!).helpText).toEqual(['must match format "data-url"']);
+});
+
+describe.each(R6_FILE_ARRAY_ENTRY_SHAPES)('invalid stored file entry: $name', row => {
+	const form = (onChange = vi.fn()) => (
+		<KvSchemaForm<unknown>
+			schema={R6_FILE_SHAPES.find(shape => shape.multiple)!.schema}
+			formData={[...row.formData]}
+			omitExtraData={row.omitExtraData}
+			onChange={onChange}
+			liveValidate
+			displayErrors
+			humanizeErrors={false}
+			showErrorList={false}
+		/>
+	);
+	it('keeps each row and its own error, then removes only the invalid entry', async () => {
+		const onChange = vi.fn();
+		await renderForm(form(onChange));
+		const rows = Array.from(container.querySelectorAll('[data-file-index]'));
+		expect(names()).toEqual(row.formData.map((_, index) => (index === row.invalidIndex ? 'Empty' : 'ca.pem')));
+		expect(rows.map(file => Array.from(file.querySelectorAll('kv-form-help-text')).flatMap(help => propsOf(help).helpText ?? []))).toEqual(
+			row.formData.map((_, index) => (index === row.invalidIndex ? [row.message] : []))
+		);
+		const remove = rows[row.invalidIndex].querySelector('kv-action-button-icon')!;
+		expect(propsOf(remove).accessibleLabel).toBe('Remove Empty');
+		await act(async () => fireStencilEvent(remove, 'onClickButton'));
+		expect(onChange.mock.lastCall?.[0].formData).toEqual(row.formData.filter((_, index) => index !== row.invalidIndex));
+		expect(container.querySelector('kv-form-help-text')).toBeNull();
+	});
+	it('preserves invalid entries when appending a file or removing another row', async () => {
+		const onChange = vi.fn();
+		await renderForm(form(onChange));
+		vi.mocked(processFiles).mockResolvedValue(extractFileInfo(uploaded));
+		await upload();
+		expect(onChange.mock.lastCall?.[0].formData).toEqual([...row.formData, uploaded]);
+		const buttons = removes();
+		await act(async () => fireStencilEvent(buttons[buttons.length - 1], 'onClickButton'));
+		expect(onChange.mock.lastCall?.[0].formData).toEqual(row.formData);
+	});
 });
 
 it('does not show file-item errors when the field suppresses errors', async () => {

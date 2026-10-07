@@ -197,6 +197,15 @@ blank or non-string values. A valid override stays in effect in every state; upd
 your product needs different custom text after selection. This option controls the picker action;
 file rows keep their existing Download and Remove labels.
 
+Set `ui:options.filePreview` to `true` to show Download for decodable data URLs in both single and
+multiple fields. Secret references and stored paths contain no file contents, so their rows only
+offer Remove. Download stays available when the field is readonly or disabled.
+
+File arrays keep empty and invalid entries at their original positions. Empty or non-string entries
+show an Empty row with its own validation errors and Remove action. Uploading or removing another
+row preserves those values until you remove them.
+RJSF's defaulting and extra-data settings still apply to form values.
+
 The accessible name combines the resolved action text and effective field title, such as
 "Upload certificate: CA certificate". Untitled fields use their field id. The colon keeps the
 visible text in the accessible name without adding an English connective to translated text.
