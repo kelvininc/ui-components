@@ -91,7 +91,7 @@ describe.each(ACTION_NAME_SHAPES.filter(row => row.download))('download action: 
 	});
 });
 
-describe.each(ACTION_NAME_SHAPES.filter(row => row.download))('Browse File action: $name', row => {
+describe.each(ACTION_NAME_SHAPES.filter(row => row.download))('file picker action: $name', row => {
 	it.each([
 		{ key: '{Enter}', disabled: false, clicks: 1 },
 		{ key: ' ', disabled: false, clicks: 1 },

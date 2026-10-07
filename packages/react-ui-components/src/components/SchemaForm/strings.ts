@@ -1,7 +1,9 @@
 export const SCHEMA_FORM_STRINGS = {
 	notSet: 'Not set',
-	browseFile: 'Browse File',
-	browseFileFor: (name: string) => `Browse File for ${name}`,
+	chooseFile: 'Choose file',
+	replaceFile: 'Replace file',
+	addFiles: 'Add files',
+	fileActionFor: (action: string, name: string) => `${action}: ${name}`,
 	emptyFile: 'Empty',
 	fileReadFailed: 'Could not read the selected file. Try again.',
 	clearSelection: 'Clear selection',

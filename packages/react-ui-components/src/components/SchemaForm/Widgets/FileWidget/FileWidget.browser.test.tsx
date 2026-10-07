@@ -7,7 +7,17 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../../../test-utils/browser';
 import { KvSchemaForm } from '../../SchemaForm';
-import { R6_FILE_ERROR_SHAPES, R6_FILE_LABEL_SHAPES, R6_FILE_READ_CANCELLATIONS, R6_FILE_REFERENCE_FORMS, R6_FILE_SHAPES, R6_FILE_VALUES } from '../../test-utils/matrix';
+import {
+	R6_FILE_ACTION_LABEL_SHAPES,
+	R6_FILE_ACTION_TRANSITIONS,
+	R6_FILE_EMPTY_RESET_SHAPE,
+	R6_FILE_ERROR_SHAPES,
+	R6_FILE_LABEL_SHAPES,
+	R6_FILE_READ_CANCELLATIONS,
+	R6_FILE_REFERENCE_FORMS,
+	R6_FILE_SHAPES,
+	R6_FILE_VALUES
+} from '../../test-utils/matrix';
 import styles from './FileWidget.module.scss';
 
 const certificate = R6_FILE_VALUES[1].values[0];
@@ -15,6 +25,7 @@ const uploaded = 'data:text/plain;name=client.pem;base64,Y2xpZW50';
 const uploadFile = () => new File(['client'], 'client.pem', { type: 'text/plain' });
 const input = (container: Element) => container.querySelector<HTMLInputElement>('input[type="file"]')!;
 const names = (container: Element) => Array.from(container.querySelectorAll(`.${styles.FileName}`)).map(element => element.textContent);
+const actionText = (container: Element) => container.querySelector('kv-action-button-text')!.shadowRoot!.querySelector<HTMLElement>('[part="button-text"]')!;
 const NativeReader = window.FileReader;
 afterEach(() => {
 	window.FileReader = NativeReader;
@@ -37,11 +48,80 @@ describe.each(R6_FILE_REFERENCE_FORMS)('file reference submission in Chromium: $
 });
 
 describe.each(R6_FILE_LABEL_SHAPES)('file label in Chromium: $name', row => {
-	it('names the actual Browse control using its field title or id', async () => {
+	it('names the actual file action using its field title or id', async () => {
 		const screen = await render(<KvSchemaForm schema={row.schema} uiSchema={row.uiSchema} formData={certificate} />);
 		await whenAllKelvinReady(screen.container);
 		await expect.element(screen.getByRole('button', { name: row.expected, exact: true })).toBeVisible();
 	});
+});
+
+describe.each(R6_FILE_ACTION_LABEL_SHAPES)('consumer file action in Chromium: $name', row => {
+	it('uses the resolved text and opens its own input', async () => {
+		const screen = await render(<KvSchemaForm {...row} showErrorList={false} />);
+		await whenAllKelvinReady(screen.container);
+		const action = screen.getByRole('button', { name: row.actionName, exact: true });
+		await expect.element(action).toBeVisible();
+		await expect.element(actionText(screen.container)).toHaveTextContent(row.actionLabel);
+		const clicked = vi.fn((event: MouseEvent) => event.preventDefault());
+		input(screen.container).addEventListener('click', clicked);
+		await action.click();
+		expect(clicked).toHaveBeenCalledOnce();
+	});
+});
+
+describe.each(R6_FILE_ACTION_TRANSITIONS)('file action transitions in Chromium: $name', row => {
+	it('tracks upload and removal while retaining a consumer override', async () => {
+		const onChange = vi.fn();
+		const screen = await render(<KvSchemaForm {...row} onChange={onChange} showErrorList={false} />);
+		await whenAllKelvinReady(screen.container);
+		await expect.element(screen.getByRole('button', { name: `${row.initialLabel}: ${row.fieldName}`, exact: true })).toBeVisible();
+		await expect.element(actionText(screen.container)).toHaveTextContent(row.initialLabel);
+		await userEvent.upload(input(screen.container), uploadFile());
+		await expect.poll(() => onChange.mock.lastCall?.[0].formData).toEqual(row.multiple ? [uploaded] : uploaded);
+		await whenAllKelvinReady(screen.container);
+		await expect.element(screen.getByRole('button', { name: `${row.selectedLabel}: ${row.fieldName}`, exact: true })).toBeVisible();
+		await expect.element(actionText(screen.container)).toHaveTextContent(row.selectedLabel);
+		await screen.getByRole('button', { name: 'Remove client.pem', exact: true }).click();
+		await expect.poll(() => onChange.mock.lastCall?.[0].formData).toEqual(row.multiple ? [] : undefined);
+		await expect.element(screen.getByRole('button', { name: `${row.initialLabel}: ${row.fieldName}`, exact: true })).toBeVisible();
+		await expect.element(actionText(screen.container)).toHaveTextContent(row.initialLabel);
+	});
+});
+
+it('updates the action name after external changes and Discard', async () => {
+	const row = R6_FILE_ACTION_TRANSITIONS[0];
+	const form = (formData: string) => <KvSchemaForm {...row} formData={formData} submittedData={certificate} allowDiscardChanges showErrorList={false} />;
+	const screen = await render(form(certificate));
+	await whenAllKelvinReady(screen.container);
+	await expect.element(screen.getByRole('button', { name: 'Replace file: Certificate', exact: true })).toBeVisible();
+	await screen.rerender(form(''));
+	await expect.element(screen.getByRole('button', { name: 'Choose file: Certificate', exact: true })).toBeVisible();
+	await screen.rerender(form(uploaded));
+	await expect.element(screen.getByRole('button', { name: 'Replace file: Certificate', exact: true })).toBeVisible();
+	await screen.getByRole('button', { name: 'Discard Changes', exact: true }).click();
+	expect(names(screen.container)).toEqual(['ca.pem']);
+	await expect.element(screen.getByRole('button', { name: 'Replace file: Certificate', exact: true })).toBeVisible();
+});
+
+it('restores the empty single-file label on Reset to Default', async () => {
+	const screen = await render(<KvSchemaForm {...R6_FILE_EMPTY_RESET_SHAPE} allowResetToDefaults showErrorList={false} />);
+	await userEvent.upload(input(screen.container), uploadFile());
+	await whenAllKelvinReady(screen.container);
+	await expect.element(screen.getByRole('button', { name: 'Replace file: Certificate', exact: true })).toBeVisible();
+	await screen.getByRole('button', { name: 'Reset to Default', exact: true }).click();
+	expect(names(screen.container)).toEqual(['Empty']);
+	await expect.element(screen.getByRole('button', { name: 'Choose file: Certificate', exact: true })).toBeVisible();
+});
+
+it('applies a changed consumer label without changing the selected file', async () => {
+	const row = R6_FILE_ACTION_TRANSITIONS[0];
+	const form = (fileActionLabel: string) => <KvSchemaForm {...row} formData={certificate} uiSchema={{ 'ui:options': { fileActionLabel } }} />;
+	const screen = await render(form('Upload certificate'));
+	await whenAllKelvinReady(screen.container);
+	await screen.rerender(form('Selecionar ficheiro'));
+	await expect.element(screen.getByRole('button', { name: 'Selecionar ficheiro: Certificate', exact: true })).toBeVisible();
+	await expect.element(actionText(screen.container)).toHaveTextContent('Selecionar ficheiro');
+	expect(names(screen.container)).toEqual(['ca.pem']);
 });
 
 describe.each(R6_FILE_SHAPES)('file controls in Chromium: $name', row => {
@@ -53,8 +133,9 @@ describe.each(R6_FILE_SHAPES)('file controls in Chromium: $name', row => {
 		for (const [index, file] of Array.from(screen.container.querySelectorAll(`.${styles.FileName}`)).entries()) {
 			if (row.labels.length) expect(file.getAttribute('title')).toBe(row.labels[index]);
 		}
-		const browse = screen.getByRole('button', { name: row.browseName, exact: true });
+		const browse = screen.getByRole('button', { name: row.actionName, exact: true });
 		await expect.element(browse).toBeVisible();
+		await expect.element(actionText(screen.container)).toHaveTextContent(row.actionLabel);
 		if (row.disabled || row.readonly) await expect.element(browse).toBeDisabled();
 		else await expect.element(browse).toBeEnabled();
 		expect(input(screen.container).id).toBe('file_root');
@@ -135,7 +216,7 @@ const raceSchema = {
 const raceData = { certificate: [certificate], host: 'edited-broker.local' };
 const savedData = { ...raceData, host: 'saved-broker.local' };
 
-it('shows a later read failure immediately in Browse while an earlier real upload is pending', async () => {
+it('shows a later read failure immediately in the file action while an earlier real upload is pending', async () => {
 	const onChange = vi.fn();
 	const screen = await render(<KvSchemaForm schema={raceSchema} formData={raceData} onChange={onChange} showErrorList={false} />);
 	await whenAllKelvinReady(screen.container);
@@ -146,15 +227,15 @@ it('shows a later read failure immediately in Browse while an earlier real uploa
 	await reads.wait();
 	onChange.mockClear();
 	await userEvent.upload(input(screen.container), failure);
-	await expect.poll(() => nativeDescription('Browse File for Certificates')).toBe('Could not read the selected file. Try again.');
+	await expect.poll(() => nativeDescription('Add files: Certificates')).toBe('Could not read the selected file. Try again.');
 	expect(onChange).not.toHaveBeenCalled();
 	await reads.release();
 	await expect.poll(() => onChange.mock.lastCall?.[0].formData.certificate).toEqual([certificate, uploaded]);
-	expect(await nativeDescription('Browse File for Certificates')).toBe('Could not read the selected file. Try again.');
+	expect(await nativeDescription('Add files: Certificates')).toBe('Could not read the selected file. Try again.');
 	window.FileReader = NativeReader;
 	await userEvent.upload(input(screen.container), uploadFile());
 	await expect.poll(() => onChange.mock.lastCall?.[0].formData.certificate).toEqual([certificate, uploaded, uploaded]);
-	await expect.poll(() => nativeDescription('Browse File for Certificates')).toBe('');
+	await expect.poll(() => nativeDescription('Add files: Certificates')).toBe('');
 });
 
 describe.each(R6_FILE_READ_CANCELLATIONS)('Chromium upload cancellation: %s', reason => {
@@ -220,7 +301,7 @@ describe.each(R6_FILE_ERROR_SHAPES)('per-file errors in Chromium: $name', row =>
 				Array.from(file.querySelectorAll<HTMLKvFormHelpTextElement>('kv-form-help-text')).flatMap(help => help.helpText)
 			);
 		expect(messages()).toEqual([[], []]);
-		(screen.getByRole('button', { name: 'Browse File for Certificates', exact: true }).element() as HTMLElement).focus();
+		(screen.getByRole('button', { name: 'Add files: Certificates', exact: true }).element() as HTMLElement).focus();
 		await expect.poll(messages).toEqual(row.messages.map(message => (message ? [message] : [])));
 		for (const [index, file] of Array.from(screen.container.querySelectorAll('[data-file-index]')).entries()) {
 			const host = Array.from(file.querySelectorAll<HTMLKvActionButtonIconElement>('kv-action-button-icon')).find(host => host.icon === EIconName.Delete)!;
@@ -265,7 +346,7 @@ async function nativeDescription(name: string) {
 	return controls[0].description?.value ?? '';
 }
 
-it('gives two Browse buttons independent native AX descriptions and clears them on hide and clear', async () => {
+it('gives two file action buttons independent native AX descriptions and clears them on hide and clear', async () => {
 	const schema = {
 		type: 'object' as const,
 		properties: {
@@ -279,23 +360,23 @@ it('gives two Browse buttons independent native AX descriptions and clears them 
 	);
 	const screen = await render(form());
 	await whenAllKelvinReady(screen.container);
-	for (const name of ['CA certificate', 'Client certificate']) expect(await nativeDescription(`Browse File for ${name}`)).toBe('');
+	for (const name of ['CA certificate', 'Client certificate']) expect(await nativeDescription(`Replace file: ${name}`)).toBe('');
 	await screen.rerender(form(true));
 	await whenAllKelvinReady(screen.container);
-	await expect.poll(() => nativeDescription('Browse File for CA certificate')).toBe('Review the CA certificate.');
-	await expect.poll(() => nativeDescription('Browse File for Client certificate')).toBe('Review the client certificate.');
+	await expect.poll(() => nativeDescription('Replace file: CA certificate')).toBe('Review the CA certificate.');
+	await expect.poll(() => nativeDescription('Replace file: Client certificate')).toBe('Review the client certificate.');
 	await screen.rerender(form(true, { ca: { __errors: ['CA certificate expired.'] }, client: { __errors: ['Client certificate expired.'] } }));
-	await expect.poll(() => nativeDescription('Browse File for CA certificate')).toBe('CA certificate expired.');
-	await expect.poll(() => nativeDescription('Browse File for Client certificate')).toBe('Client certificate expired.');
+	await expect.poll(() => nativeDescription('Replace file: CA certificate')).toBe('CA certificate expired.');
+	await expect.poll(() => nativeDescription('Replace file: Client certificate')).toBe('Client certificate expired.');
 	await screen.rerender(form());
-	await expect.poll(() => nativeDescription('Browse File for CA certificate')).toBe('');
-	await expect.poll(() => nativeDescription('Browse File for Client certificate')).toBe('');
+	await expect.poll(() => nativeDescription('Replace file: CA certificate')).toBe('');
+	await expect.poll(() => nativeDescription('Replace file: Client certificate')).toBe('');
 	await screen.rerender(form(true, { ca: { __errors: [] }, client: { __errors: [] } }));
-	await expect.poll(() => nativeDescription('Browse File for CA certificate')).toBe('');
-	await expect.poll(() => nativeDescription('Browse File for Client certificate')).toBe('');
+	await expect.poll(() => nativeDescription('Replace file: CA certificate')).toBe('');
+	await expect.poll(() => nativeDescription('Replace file: Client certificate')).toBe('');
 });
 
-it('restores touched Browse descriptions to empty when Discard restores an unchanged file', async () => {
+it('restores touched file action descriptions to empty when Discard restores an unchanged file', async () => {
 	const form = (
 		<KvSchemaForm<Record<string, unknown>>
 			schema={raceSchema}
@@ -308,13 +389,13 @@ it('restores touched Browse descriptions to empty when Discard restores an uncha
 	);
 	const screen = await render(form);
 	await whenAllKelvinReady(screen.container);
-	(screen.getByRole('button', { name: 'Browse File for Certificates', exact: true }).element() as HTMLElement).focus();
-	await expect.poll(() => nativeDescription('Browse File for Certificates')).toBe('Review the certificates.');
+	(screen.getByRole('button', { name: 'Add files: Certificates', exact: true }).element() as HTMLElement).focus();
+	await expect.poll(() => nativeDescription('Add files: Certificates')).toBe('Review the certificates.');
 	await screen.getByRole('button', { name: 'Discard Changes', exact: true }).click();
-	await expect.poll(() => nativeDescription('Browse File for Certificates')).toBe('');
+	await expect.poll(() => nativeDescription('Add files: Certificates')).toBe('');
 });
 
-it('preserves touched Browse errors when Reset to Default restores the same file', async () => {
+it('preserves touched file action errors when Reset to Default restores the same file', async () => {
 	const screen = await render(
 		<KvSchemaForm<Record<string, unknown>>
 			schema={raceSchema}
@@ -325,14 +406,14 @@ it('preserves touched Browse errors when Reset to Default restores the same file
 		/>
 	);
 	await whenAllKelvinReady(screen.container);
-	(screen.getByRole('button', { name: 'Browse File for Certificates', exact: true }).element() as HTMLElement).focus();
-	await expect.poll(() => nativeDescription('Browse File for Certificates')).toBe('Review the certificates.');
+	(screen.getByRole('button', { name: 'Add files: Certificates', exact: true }).element() as HTMLElement).focus();
+	await expect.poll(() => nativeDescription('Add files: Certificates')).toBe('Review the certificates.');
 	await screen.getByRole('button', { name: 'Reset to Default', exact: true }).click();
 	expect(names(screen.container)).toEqual(['ca.pem']);
-	await expect.poll(() => nativeDescription('Browse File for Certificates')).toBe('Review the certificates.');
+	await expect.poll(() => nativeDescription('Add files: Certificates')).toBe('Review the certificates.');
 });
 
-it('keeps nested array input ids unique and routes Browse to the matching file input', async () => {
+it('keeps nested array input ids unique and routes the file action to the matching file input', async () => {
 	const schema = {
 		type: 'array' as const,
 		title: 'Connections',
@@ -347,12 +428,12 @@ it('keeps nested array input ids unique and routes Browse to the matching file i
 		control.addEventListener('click', clicked);
 		return clicked;
 	});
-	const controls = screen.getByRole('button', { name: 'Browse File for Certificate', exact: true });
+	const controls = screen.getByRole('button', { name: 'Replace file: Certificate', exact: true });
 	await controls.nth(1).click();
 	expect(clicks.map(click => click.mock.calls.length)).toEqual([0, 1]);
 });
 
-it('keeps each file action and Browse to a single Tab stop, including readonly downloads', async () => {
+it('keeps each file action to a single Tab stop, including readonly downloads', async () => {
 	const row = R6_FILE_SHAPES.find(row => !row.multiple && row.values.length === 1 && row.labels[0] === 'ca.pem' && !row.disabled && !row.readonly)!;
 	const form = (readonly = false) => (
 		<div>
@@ -364,7 +445,7 @@ it('keeps each file action and Browse to a single Tab stop, including readonly d
 	const screen = await render(form());
 	await whenAllKelvinReady(screen.container);
 	await screen.getByRole('button', { name: 'Before files', exact: true }).click();
-	for (const name of ['Download ca.pem', 'Remove ca.pem', 'Browse File for Certificate', 'Submit', 'After files']) {
+	for (const name of ['Download ca.pem', 'Remove ca.pem', 'Replace file: Certificate', 'Submit', 'After files']) {
 		await userEvent.tab();
 		expect(screen.getByRole('button', { name, exact: true }).element().matches(':focus')).toBe(true);
 	}

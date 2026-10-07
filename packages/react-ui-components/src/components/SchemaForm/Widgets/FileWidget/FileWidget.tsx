@@ -98,8 +98,11 @@ function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends 
 	const fieldDescription = useFieldDescription(id);
 	const [readErrorElement, setReadErrorElement] = useState<HTMLDivElement | null>(null);
 	const description = useMemo(() => [...(fieldDescription ?? []), ...(readError && readErrorElement ? [readErrorElement] : [])], [fieldDescription, readError, readErrorElement]);
-	const displayedLabel = getUiOptions(uiSchema, registry.globalUiOptions).title ?? schema.title ?? label;
-	const browseName = typeof displayedLabel === 'string' && displayedLabel.trim() ? displayedLabel : id;
+	const uiOptions = getUiOptions(uiSchema, registry.globalUiOptions);
+	const displayedLabel = uiOptions.title ?? schema.title ?? label;
+	const fieldName = typeof displayedLabel === 'string' && displayedLabel.trim() ? displayedLabel : id;
+	const defaultActionLabel = multiple ? SCHEMA_FORM_STRINGS.addFiles : filesInfo.length ? SCHEMA_FORM_STRINGS.replaceFile : SCHEMA_FORM_STRINGS.chooseFile;
+	const actionLabel = typeof uiOptions.fileActionLabel === 'string' && uiOptions.fileActionLabel.trim() ? uiOptions.fileActionLabel.trim() : defaultActionLabel;
 	return (
 		<div className={styles.FileWidgetContainer}>
 			<div className={styles.FilesInfo}>
@@ -133,8 +136,8 @@ function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends 
 					ref={focusRef}
 					type={EActionButtonType.Tertiary}
 					size={EComponentSize.Small}
-					text={SCHEMA_FORM_STRINGS.browseFile}
-					accessibleLabel={SCHEMA_FORM_STRINGS.browseFileFor(browseName)}
+					text={actionLabel}
+					accessibleLabel={SCHEMA_FORM_STRINGS.fileActionFor(actionLabel, fieldName)}
 					accessibleDescriptionElements={description}
 					disabled={inactive}
 					onClickButton={() => {

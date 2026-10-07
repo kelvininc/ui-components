@@ -739,7 +739,7 @@ export const ACTION_NAME_SHAPES: readonly {
 		schema: { type: 'string', title: 'Certificate', format: 'data-url' },
 		uiSchema: { 'ui:options': { filePreview: true } },
 		formData: CERTIFICATE,
-		labels: ['Download ca.pem', 'Remove ca.pem', 'Browse File for Certificate'],
+		labels: ['Download ca.pem', 'Remove ca.pem', 'Replace file: Certificate'],
 		action: { label: 'Remove ca.pem', nextData: undefined },
 		download: 'Download ca.pem'
 	},
@@ -748,7 +748,7 @@ export const ACTION_NAME_SHAPES: readonly {
 		schema: { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } },
 		uiSchema: { 'ui:options': { filePreview: true } },
 		formData: [CERTIFICATE, CLIENT_CERTIFICATE],
-		labels: ['Download ca.pem', 'Remove ca.pem', 'Download client.pem', 'Remove client.pem', 'Browse File for Certificates'],
+		labels: ['Download ca.pem', 'Remove ca.pem', 'Download client.pem', 'Remove client.pem', 'Add files: Certificates'],
 		action: { label: 'Remove ca.pem', nextData: [CLIENT_CERTIFICATE] },
 		download: 'Download ca.pem'
 	}
@@ -3017,21 +3017,94 @@ export const R6_FILE_REFERENCE_FORMS = [false, true].flatMap(multiple =>
 );
 export const R6_FILE_SHAPES = [false, true].flatMap(multiple =>
 	R6_FILE_VALUES.flatMap(row =>
-		R6_FILE_STATES.map(state => ({
-			...row,
-			...state,
-			name: `${multiple ? 'multiple' : 'single'} ${row.name}, ${state.name}`,
-			multiple,
-			// Legacy single fields can contain an array. Keep both rows visible until an edit normalizes it.
-			formData: multiple || row.values.length > 1 ? row.values : row.values[0],
-			schema: (multiple
-				? { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } }
-				: { type: 'string', title: 'Certificate', format: 'data-url' }) as RJSFSchema,
-			uiSchema: { 'ui:options': { filePreview: true } },
-			browseName: `Browse File for ${multiple ? 'Certificates' : 'Certificate'}`
-		}))
+		R6_FILE_STATES.map(state => {
+			const actionLabel = multiple ? 'Add files' : row.values.length ? 'Replace file' : 'Choose file';
+			return {
+				...row,
+				...state,
+				name: `${multiple ? 'multiple' : 'single'} ${row.name}, ${state.name}`,
+				multiple,
+				// Legacy single fields can contain an array. Keep both rows visible until an edit normalizes it.
+				formData: multiple || row.values.length > 1 ? row.values : row.values[0],
+				schema: (multiple
+					? { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } }
+					: { type: 'string', title: 'Certificate', format: 'data-url' }) as RJSFSchema,
+				uiSchema: { 'ui:options': { filePreview: true } },
+				actionLabel,
+				actionName: `${actionLabel}: ${multiple ? 'Certificates' : 'Certificate'}`
+			};
+		})
 	)
 );
+
+export const R6_FILE_ACTION_LABEL_SHAPES = [
+	{ name: 'custom empty single', uiSchema: { 'ui:options': { fileActionLabel: 'Upload certificate' } }, actionLabel: 'Upload certificate' },
+	{ name: 'custom populated single', populated: true, uiSchema: { 'ui:options': { fileActionLabel: 'Upload certificate' } }, actionLabel: 'Upload certificate' },
+	{ name: 'custom multiple', multiple: true, uiSchema: { 'ui:options': { fileActionLabel: 'Attach certificates' } }, actionLabel: 'Attach certificates' },
+	{
+		name: 'translated global label and title',
+		multiple: true,
+		uiSchema: { 'ui:globalOptions': { fileActionLabel: 'Adicionar ficheiros', title: 'Certificados' } },
+		actionLabel: 'Adicionar ficheiros',
+		fieldName: 'Certificados'
+	},
+	{
+		name: 'local label over global label',
+		uiSchema: { 'ui:globalOptions': { fileActionLabel: 'Attach file' }, 'ui:options': { fileActionLabel: 'Upload certificate' } },
+		actionLabel: 'Upload certificate'
+	},
+	{ name: 'trimmed custom text', uiSchema: { 'ui:options': { fileActionLabel: '  Upload certificate  ' } }, actionLabel: 'Upload certificate' },
+	{ name: 'empty text', uiSchema: { 'ui:options': { fileActionLabel: '' } }, actionLabel: 'Choose file' },
+	{ name: 'blank populated single', populated: true, uiSchema: { 'ui:options': { fileActionLabel: '  ' } }, actionLabel: 'Replace file' },
+	{
+		name: 'blank local label overrides global label',
+		uiSchema: { 'ui:globalOptions': { fileActionLabel: 'Attach file' }, 'ui:options': { fileActionLabel: '  ' } },
+		actionLabel: 'Choose file'
+	},
+	{ name: 'numeric text', uiSchema: { 'ui:options': { fileActionLabel: 42 } }, actionLabel: 'Choose file' },
+	{ name: 'object text', multiple: true, uiSchema: { 'ui:options': { fileActionLabel: { add: 'Attach files' } } }, actionLabel: 'Add files' },
+	{ name: 'blank global text', multiple: true, uiSchema: { 'ui:globalOptions': { fileActionLabel: ' ' } }, actionLabel: 'Add files' }
+].map(({ multiple = false, populated = false, fieldName, ...row }) => ({
+	...row,
+	multiple,
+	schema: (multiple
+		? { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } }
+		: { type: 'string', title: 'Certificate', format: 'data-url' }) as RJSFSchema,
+	uiSchema: row.uiSchema as UiSchema,
+	formData: populated ? CERTIFICATE : multiple ? ([] as string[]) : undefined,
+	actionName: `${row.actionLabel}: ${fieldName ?? (multiple ? 'Certificates' : 'Certificate')}`
+}));
+
+export const R6_FILE_ACTION_TRANSITIONS = [
+	{ name: 'single defaults', multiple: false, initialLabel: 'Choose file', selectedLabel: 'Replace file', uiSchema: {} },
+	{ name: 'multiple defaults', multiple: true, initialLabel: 'Add files', selectedLabel: 'Add files', uiSchema: {} },
+	{
+		name: 'custom single label',
+		multiple: false,
+		initialLabel: 'Upload certificate',
+		selectedLabel: 'Upload certificate',
+		uiSchema: { 'ui:options': { fileActionLabel: 'Upload certificate' } }
+	}
+].map(row => ({
+	...row,
+	schema: (row.multiple
+		? { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } }
+		: { type: 'string', title: 'Certificate', format: 'data-url' }) as RJSFSchema,
+	uiSchema: row.uiSchema as UiSchema,
+	formData: row.multiple ? ([] as string[]) : undefined,
+	fieldName: row.multiple ? 'Certificates' : 'Certificate'
+}));
+
+export const R6_FILE_EMPTY_RESET_SHAPE = {
+	schema: {
+		type: 'object',
+		properties: {
+			certificate: R6_FILE_ACTION_TRANSITIONS[0].schema,
+			host: { type: 'string', title: 'Host', default: 'default-broker.local' }
+		}
+	} as RJSFSchema,
+	formData: { host: 'edited-broker.local' }
+};
 export const R6_FILE_READ_CANCELLATIONS = [
 	'unmount',
 	'readonly',
@@ -3047,33 +3120,33 @@ export const R6_FILE_READ_FAILURES = [
 	{ name: 'earlier read fails', earlierFails: true }
 ];
 export const R6_FILE_LABEL_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema?: UiSchema; expected: string }[] = [
-	{ name: 'schema title', schema: { type: 'string', format: 'data-url', title: 'CA certificate' }, expected: 'Browse File for CA certificate' },
+	{ name: 'schema title', schema: { type: 'string', format: 'data-url', title: 'CA certificate' }, expected: 'Replace file: CA certificate' },
 	{
 		name: 'UI title',
 		schema: { type: 'string', format: 'data-url', title: 'Certificate' },
 		uiSchema: { 'ui:title': 'CA certificate' },
-		expected: 'Browse File for CA certificate'
+		expected: 'Replace file: CA certificate'
 	},
 	{
 		name: 'UI options title',
 		schema: { type: 'string', format: 'data-url', title: 'Certificate' },
 		uiSchema: { 'ui:options': { title: 'CA certificate' } },
-		expected: 'Browse File for CA certificate'
+		expected: 'Replace file: CA certificate'
 	},
 	{
 		name: 'global title',
 		schema: { type: 'string', format: 'data-url', title: 'Certificate' },
 		uiSchema: { 'ui:globalOptions': { title: 'CA certificate' } } as UiSchema,
-		expected: 'Browse File for CA certificate'
+		expected: 'Replace file: CA certificate'
 	},
 	{
 		name: 'local title over global title',
 		schema: { type: 'string', format: 'data-url', title: 'Certificate' },
 		uiSchema: { 'ui:globalOptions': { title: 'Client certificate' }, 'ui:title': 'CA certificate' } as UiSchema,
-		expected: 'Browse File for CA certificate'
+		expected: 'Replace file: CA certificate'
 	},
-	{ name: 'untitled field', schema: { type: 'string', format: 'data-url' }, expected: 'Browse File for root' },
-	{ name: 'suppressed title', schema: { type: 'string', format: 'data-url', title: 'Certificate' }, uiSchema: { 'ui:title': ' ' }, expected: 'Browse File for root' }
+	{ name: 'untitled field', schema: { type: 'string', format: 'data-url' }, expected: 'Replace file: root' },
+	{ name: 'suppressed title', schema: { type: 'string', format: 'data-url', title: 'Certificate' }, uiSchema: { 'ui:title': ' ' }, expected: 'Replace file: root' }
 ];
 export const R6_FILE_ERROR_SHAPES = [
 	{
@@ -3170,6 +3243,9 @@ export const R6_FILE_LAYOUT_SHAPES = [
 	R6_FILE_REFERENCE_SHAPES,
 	R6_FILE_REFERENCE_FORMS,
 	R6_FILE_SHAPES,
+	R6_FILE_ACTION_LABEL_SHAPES,
+	R6_FILE_ACTION_TRANSITIONS,
+	R6_FILE_EMPTY_RESET_SHAPE,
 	R6_FILE_READ_CANCELLATIONS,
 	R6_FILE_READ_FAILURES,
 	R6_FILE_LABEL_SHAPES,

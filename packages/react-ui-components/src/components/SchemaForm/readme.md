@@ -175,6 +175,32 @@ JSON value, including when supplied as `undefined` or through `ui:options.emptyV
 SchemaForm preserves function, memo and forwardRef component references while merging UI settings,
 and applies template replacements to mounted forms without modifying the caller's uiSchema.
 
+## File action labels
+
+SchemaForm labels its file picker action "Choose file" for an empty single field, "Replace file" for
+a populated single field, and "Add files" for a multiple field. Stored paths and secret references
+count as populated. The label follows uploads, removal, external values and form resets.
+
+Set `fileActionLabel` in the field's `ui:options` to supply product wording or translated text:
+
+```tsx
+const uiSchema = {
+	ca: {
+		'ui:options': { fileActionLabel: 'Upload certificate' }
+	}
+};
+```
+
+Set the same key in root `ui:globalOptions` to apply it to file fields throughout the form. A field's
+setting takes precedence. SchemaForm trims string overrides and uses the state-based default for
+blank or non-string values. A valid override stays in effect in every state; update uiSchema when
+your product needs different custom text after selection. This option controls the picker action;
+file rows keep their existing Download and Remove labels.
+
+The accessible name combines the resolved action text and effective field title, such as
+"Upload certificate: CA certificate". Untitled fields use their field id. The colon keeps the
+visible text in the accessible name without adding an English connective to translated text.
+
 ## Properties:
 
 You can use any of the properties available in the react-jsonschema-form [&lt;Form /> props](https://react-jsonschema-form.readthedocs.io/en/latest/api-reference/form-props/).

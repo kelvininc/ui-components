@@ -8,6 +8,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { fireStencilEvent, propsOf } from '../../../../test-utils';
 import { KvSchemaForm } from '../../SchemaForm';
 import {
+	R6_FILE_ACTION_LABEL_SHAPES,
+	R6_FILE_ACTION_TRANSITIONS,
+	R6_FILE_EMPTY_RESET_SHAPE,
 	R6_FILE_ERROR_SHAPES,
 	R6_FILE_LABEL_SHAPES,
 	R6_FILE_READ_CANCELLATIONS,
@@ -76,6 +79,19 @@ describe.each(R6_FILE_LABEL_SHAPES)('file label: $name', row => {
 		expect(propsOf(container.querySelector('kv-action-button-text')!).accessibleLabel).toBe(row.expected);
 	});
 });
+
+describe.each(R6_FILE_ACTION_LABEL_SHAPES)('consumer file action: $name', row => {
+	it('uses the resolved text and opens its own input', async () => {
+		await renderForm(<KvSchemaForm {...row} showErrorList={false} />);
+		const action = container.querySelector('kv-action-button-text')!;
+		expect(propsOf(action).text).toBe(row.actionLabel);
+		expect(propsOf(action).accessibleLabel).toBe(row.actionName);
+		const clicked = vi.spyOn(input(), 'click').mockImplementation(() => {});
+		await act(async () => fireStencilEvent(action, 'onClickButton'));
+		expect(clicked).toHaveBeenCalledOnce();
+	});
+});
+
 const deferredRead = () => {
 	let resolve!: (files: FileInfoType[]) => void;
 	let reject!: (error: Error) => void;
@@ -91,14 +107,36 @@ const deferredRead = () => {
 	};
 };
 
+describe.each(R6_FILE_ACTION_TRANSITIONS)('file action transitions: $name', row => {
+	it('tracks upload and removal while retaining a consumer override', async () => {
+		const onChange = vi.fn();
+		await renderForm(<KvSchemaForm {...row} onChange={onChange} showErrorList={false} />);
+		const action = () => propsOf(container.querySelector('kv-action-button-text')!);
+		expect(action().text).toBe(row.initialLabel);
+		expect(action().accessibleLabel).toBe(`${row.initialLabel}: ${row.fieldName}`);
+		const read = deferredRead();
+		await upload();
+		await read.resolve();
+		expect(onChange.mock.lastCall?.[0].formData).toEqual(row.multiple ? [uploaded] : uploaded);
+		expect(action().text).toBe(row.selectedLabel);
+		expect(action().accessibleLabel).toBe(`${row.selectedLabel}: ${row.fieldName}`);
+		await act(async () => fireStencilEvent(removes()[0], 'onClickButton'));
+		expect(onChange.mock.lastCall?.[0].formData).toEqual(row.multiple ? [] : undefined);
+		expect(action().text).toBe(row.initialLabel);
+		expect(action().accessibleLabel).toBe(`${row.initialLabel}: ${row.fieldName}`);
+	});
+});
+
 describe.each(R6_FILE_SHAPES)('file values: $name', row => {
-	it('renders every stored value with a title and its own Browse name and id', async () => {
+	it('renders every stored value with a title and its own file action name and id', async () => {
 		await renderForm(<KvSchemaForm {...row} showErrorList={false} />);
 		expect(names()).toEqual(row.labels.length ? row.labels : ['Empty']);
 		for (const [index, element] of Array.from(container.querySelectorAll(`.${styles.FileName}`)).entries()) {
 			if (row.labels.length) expect(element.getAttribute('title')).toBe(row.labels[index]);
 		}
-		expect(propsOf(container.querySelector('kv-action-button-text')!).accessibleLabel).toBe(row.browseName);
+		const action = propsOf(container.querySelector('kv-action-button-text')!);
+		expect(action.text).toBe(row.actionLabel);
+		expect(action.accessibleLabel).toBe(row.actionName);
 		expect(input().id).toBe('file_root');
 		expect(input().disabled).toBe(row.disabled || row.readonly);
 	});
@@ -125,11 +163,28 @@ describe.each(R6_FILE_SHAPES)('file values: $name', row => {
 
 it('shows externally replaced values and filenames after Discard', async () => {
 	const schema = { type: 'string' as const, format: 'data-url', title: 'Certificate' };
+	const action = () => propsOf(container.querySelector('kv-action-button-text')!);
 	await renderForm(<KvSchemaForm schema={schema} formData={certificate} submittedData={certificate} allowDiscardChanges />);
+	expect(action().accessibleLabel).toBe('Replace file: Certificate');
+	await renderForm(<KvSchemaForm schema={schema} formData="" submittedData={certificate} allowDiscardChanges />);
+	expect(action().accessibleLabel).toBe('Choose file: Certificate');
 	await renderForm(<KvSchemaForm schema={schema} formData={uploaded} submittedData={certificate} allowDiscardChanges />);
 	expect(names()).toEqual(['client.pem']);
+	expect(action().accessibleLabel).toBe('Replace file: Certificate');
 	await act(async () => fireStencilEvent('Discard Changes', 'onClickButton'));
 	expect(names()).toEqual(['ca.pem']);
+	expect(action().accessibleLabel).toBe('Replace file: Certificate');
+});
+
+it('restores the empty single-file label on Reset to Default', async () => {
+	await renderForm(<KvSchemaForm {...R6_FILE_EMPTY_RESET_SHAPE} allowResetToDefaults showErrorList={false} />);
+	const read = deferredRead();
+	await upload();
+	await read.resolve();
+	expect(propsOf(container.querySelector('kv-action-button-text')!).accessibleLabel).toBe('Replace file: Certificate');
+	await act(async () => fireStencilEvent('Reset to Default', 'onClickButton'));
+	expect(names()).toEqual(['Empty']);
+	expect(propsOf(container.querySelector('kv-action-button-text')!).accessibleLabel).toBe('Choose file: Certificate');
 });
 
 const raceSchema = {
