@@ -33,6 +33,8 @@ export class KvActionButtonText implements IActionButtonTextConfig {
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop() accessibleLabel?: string;
+	/** @inheritdoc */
+	@Prop() accessibleDescriptionElements?: readonly Element[];
 
 	/** @inheritdoc */
 	@Event() clickButton: EventEmitter<MouseEvent>;
@@ -51,6 +53,7 @@ export class KvActionButtonText implements IActionButtonTextConfig {
 					disabled={this.disabled}
 					size={this.size}
 					accessibleLabel={this.accessibleLabel}
+					accessibleDescriptionElements={this.accessibleDescriptionElements}
 					exportparts="button"
 				>
 					{this.icon && <kv-icon name={this.icon} exportparts="icon" />}

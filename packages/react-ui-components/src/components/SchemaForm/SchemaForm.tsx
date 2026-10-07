@@ -94,6 +94,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const [isValid, setValid] = useState(!liveValidate);
 	const [isFormSubmitted, setFormSubmitted] = useState(false);
 	const [fieldStatesResetKey, setFieldStatesResetKey] = useState(0);
+	const [valueResetKey, setValueResetKey] = useState(0);
 	const sanitized = useMemo(() => sanitizeExtraErrors<T>(extraErrorsProp), [extraErrorsProp]);
 	const extraErrors = useStableValue(sanitized);
 	const serverErrors = useMemo(() => toErrorList(extraErrors), [extraErrors]);
@@ -249,11 +250,13 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		setHasChanges(false);
 		setFormSubmitted(false);
 		setFieldStatesResetKey(key => key + 1);
+		setValueResetKey(key => key + 1);
 		onChange?.({ formData: submittedData } as IChangeEvent<T, S, SchemaFormContext>);
 	};
 
 	const resetToDefaults = () => {
 		if (formRef.current) {
+			setValueResetKey(key => key + 1);
 			setDataState(previous => ({ ...previous, edited: defaults, formData: defaults }));
 			const validation: ValidationData<T> = otherProps.noValidate ? { errors: [], errorSchema: {} } : formRef.current.validate(defaults);
 			onFormChange({
@@ -300,7 +303,12 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	}, [formRef, stableThemedProps, validationConfig, syncStatus]);
 
 	return (
-		<FormStateProvider initialFormData={formData} displayErrors={isFormSubmitted || displayErrors || isShowingAllErrors} resetKey={fieldStatesResetKey}>
+		<FormStateProvider
+			initialFormData={formData}
+			displayErrors={isFormSubmitted || displayErrors || isShowingAllErrors}
+			resetKey={fieldStatesResetKey}
+			valueResetKey={valueResetKey}
+		>
 			<div className={classNames(styles.FormContainer, customClass)}>
 				{showErrorsSwitch && (
 					<div className={styles.Action}>

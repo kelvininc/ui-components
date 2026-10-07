@@ -1,4 +1,9 @@
 import { newSpecPage } from '@stencil/core/testing';
+import { KvActionButton } from '../../components/action-button/action-button';
+import { KvActionButtonIcon } from '../../components/action-button-icon/action-button-icon';
+import { KvActionButtonText } from '../../components/action-button-text/action-button-text';
+import { KvActionButtonMagic } from '../../components/action-button-magic/action-button-magic';
+import { KvActionButtonSplit } from '../../components/action-button-split/action-button-split';
 import { KvAbsoluteTimePickerDropdown } from '../../components/absolute-time-picker-dropdown/absolute-time-picker-dropdown';
 import { KvCheckbox } from '../../components/checkbox/checkbox';
 import { KvDropdown } from '../../components/dropdown/dropdown';
@@ -19,6 +24,11 @@ import { KvToggleSwitch } from '../../components/toggle-switch/toggle-switch';
 import { DESCRIPTION_CONSUMERS } from './accessible-description.matrix';
 
 const components = [
+	KvActionButton,
+	KvActionButtonIcon,
+	KvActionButtonText,
+	KvActionButtonMagic,
+	KvActionButtonSplit,
 	KvAbsoluteTimePickerDropdown,
 	KvCheckbox,
 	KvDropdown,
@@ -38,7 +48,10 @@ const components = [
 ];
 
 const valueControl = (host: HTMLElement): HTMLKvTextFieldElement => {
-	if (['kv-text-field', 'kv-text-area', 'kv-radio'].includes(host.localName) || (host.localName === 'kv-toggle-button' && !(host as HTMLKvToggleButtonElement).withRadio)) {
+	if (
+		['kv-action-button', 'kv-text-field', 'kv-text-area', 'kv-radio'].includes(host.localName) ||
+		(host.localName === 'kv-toggle-button' && !(host as HTMLKvToggleButtonElement).withRadio)
+	) {
 		return host as HTMLKvTextFieldElement;
 	}
 	for (const child of Array.from(host.shadowRoot?.children ?? host.children)) {

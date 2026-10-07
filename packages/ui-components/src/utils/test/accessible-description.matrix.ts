@@ -1,4 +1,52 @@
 export const DESCRIPTION_CONSUMERS = Object.freeze([
+	{
+		name: 'action button',
+		tag: 'kv-action-button',
+		markup: '<kv-action-button accessible-label="Browse File for Certificate">Browse File</kv-action-button>',
+		mode: 'direct',
+		role: 'button',
+		label: 'Browse File for Certificate'
+	},
+	{
+		name: 'action icon',
+		tag: 'kv-action-button-icon',
+		markup: '<kv-action-button-icon icon="kv-delete" accessible-label="Remove certificate"></kv-action-button-icon>',
+		mode: 'direct',
+		role: 'button',
+		label: 'Remove certificate'
+	},
+	{
+		name: 'action text',
+		tag: 'kv-action-button-text',
+		markup: '<kv-action-button-text text="Browse File" accessible-label="Browse File for Certificate"></kv-action-button-text>',
+		mode: 'direct',
+		role: 'button',
+		label: 'Browse File for Certificate'
+	},
+	{
+		name: 'magic text',
+		tag: 'kv-action-button-magic',
+		markup: '<kv-action-button-magic text="Browse File" accessible-label="Browse File for Certificate"></kv-action-button-magic>',
+		mode: 'direct',
+		role: 'button',
+		label: 'Browse File for Certificate'
+	},
+	{
+		name: 'magic icon',
+		tag: 'kv-action-button-magic',
+		markup: '<kv-action-button-magic icon="kv-delete" accessible-label="Remove certificate"></kv-action-button-magic>',
+		mode: 'direct',
+		role: 'button',
+		label: 'Remove certificate'
+	},
+	{
+		name: 'split primary',
+		tag: 'kv-action-button-split',
+		markup: '<kv-action-button-split text="Save connection" split-accessible-label="Connection options"></kv-action-button-split>',
+		mode: 'direct',
+		role: 'button',
+		label: 'Save connection'
+	},
 	{ name: 'text field', tag: 'kv-text-field', markup: '<kv-text-field accessible-label="Broker"></kv-text-field>', mode: 'direct', role: 'textbox', label: 'Broker' },
 	{ name: 'text area', tag: 'kv-text-area', markup: '<kv-text-area accessible-label="Notes"></kv-text-area>', mode: 'direct', role: 'textbox', label: 'Notes' },
 	{ name: 'radio', tag: 'kv-radio', markup: '<kv-radio label="Telemetry"></kv-radio>', mode: 'direct', role: 'radio', label: 'Telemetry' },

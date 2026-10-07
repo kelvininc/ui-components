@@ -739,7 +739,7 @@ export const ACTION_NAME_SHAPES: readonly {
 		schema: { type: 'string', title: 'Certificate', format: 'data-url' },
 		uiSchema: { 'ui:options': { filePreview: true } },
 		formData: CERTIFICATE,
-		labels: ['Download ca.pem', 'Remove ca.pem', 'Browse File'],
+		labels: ['Download ca.pem', 'Remove ca.pem', 'Replace file: Certificate'],
 		action: { label: 'Remove ca.pem', nextData: undefined },
 		download: 'Download ca.pem'
 	},
@@ -748,7 +748,7 @@ export const ACTION_NAME_SHAPES: readonly {
 		schema: { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } },
 		uiSchema: { 'ui:options': { filePreview: true } },
 		formData: [CERTIFICATE, CLIENT_CERTIFICATE],
-		labels: ['Download ca.pem', 'Remove ca.pem', 'Download client.pem', 'Remove client.pem', 'Browse File'],
+		labels: ['Download ca.pem', 'Remove ca.pem', 'Download client.pem', 'Remove client.pem', 'Add files: Certificates'],
 		action: { label: 'Remove ca.pem', nextData: [CLIENT_CERTIFICATE] },
 		download: 'Download ca.pem'
 	}
@@ -2970,6 +2970,226 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	rowCount: Array.isArray(row.formData) ? row.formData.length : 1
 }));
 
+export const R6_FILE_VALUES = Object.freeze([
+	{ name: 'empty', values: [] as string[], labels: [] as string[] },
+	{ name: 'one file', values: [CERTIFICATE], labels: ['ca.pem'] },
+	{ name: 'duplicate names', values: [CERTIFICATE, 'data:text/plain;name=ca.pem;base64,YmFja3Vw'], labels: ['ca.pem', 'ca.pem'] },
+	{ name: 'nameless legacy file', values: ['data:text/plain;base64,Y2E='], labels: ['unknown'] },
+	{ name: 'stored path', values: ['certificates/plant-ca.pem'], labels: ['certificates/plant-ca.pem'] },
+	{ name: 'secret reference', values: ['<% secrets.ca %>'], labels: ['<% secrets.ca %>'] },
+	{ name: 'malformed data URL', values: ['data:text/plain;name=ca.pem;base64,%%%'], labels: ['data:text/plain;name=ca.pem;base64,%%%'] },
+	{ name: 'encoded filename', values: ['data:text/plain;name=plant%20CA%20%23%201.pem;base64,Y2E='], labels: ['plant CA # 1.pem'] }
+]);
+export const R6_FILE_STATES = Object.freeze([
+	{ name: 'editable', readonly: false, disabled: false },
+	{ name: 'readonly', readonly: true, disabled: false },
+	{ name: 'disabled', readonly: false, disabled: true },
+	{ name: 'readonly and disabled', readonly: true, disabled: true }
+]);
+export const R6_FILE_REFERENCE_SHAPES = [
+	{ name: 'CA reference', value: '<% secrets.ca %>', valid: true },
+	{ name: 'compact reference', value: '<%secrets.ca%>', valid: true },
+	{ name: 'nested reference', value: '<% secrets.plant.ca %>', valid: true },
+	{ name: 'key punctuation', value: '<% secrets.plant_1.ca-certificate %>', valid: true },
+	{ name: 'delimiter whitespace', value: '<%\tsecrets.ca\n%>', valid: true },
+	{ name: 'other namespace', value: '<% environment.ca %>', valid: false },
+	{ name: 'missing key', value: '<% secrets. %>', valid: false },
+	{ name: 'empty key segment', value: '<% secrets.plant..ca %>', valid: false },
+	{ name: 'space in key', value: '<% secrets.plant ca %>', valid: false },
+	{ name: 'trailing key separator', value: '<% secrets.ca. %>', valid: false },
+	{ name: 'expression', value: '<% secrets.ca + secrets.client %>', valid: false },
+	{ name: 'prefixed reference', value: 'certificate: <% secrets.ca %>', valid: false },
+	{ name: 'suffixed reference', value: '<% secrets.ca %>.pem', valid: false },
+	{ name: 'newline outside delimiters', value: '<% secrets.ca %>\n', valid: false },
+	{ name: 'unfinished reference', value: '<% secrets.ca', valid: false }
+];
+export const R6_FILE_REFERENCE_FORMS = [false, true].flatMap(multiple =>
+	[false, true].map(readonly => ({
+		name: `${multiple ? 'multiple' : 'single'} ${readonly ? 'readonly' : 'editable'} references`,
+		multiple,
+		readonly,
+		formData: multiple ? ['<% secrets.ca %>', CERTIFICATE] : '<% secrets.ca %>',
+		schema: (multiple
+			? { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } }
+			: { type: 'string', title: 'Certificate', format: 'data-url' }) as RJSFSchema,
+		uiSchema: { 'ui:options': { filePreview: true } }
+	}))
+);
+export const R6_FILE_SHAPES = [false, true].flatMap(multiple =>
+	R6_FILE_VALUES.flatMap(row =>
+		R6_FILE_STATES.map(state => {
+			const actionLabel = multiple ? 'Add files' : row.values.length ? 'Replace file' : 'Choose file';
+			return {
+				...row,
+				...state,
+				name: `${multiple ? 'multiple' : 'single'} ${row.name}, ${state.name}`,
+				multiple,
+				// Legacy single fields can contain an array. Keep both rows visible until an edit normalizes it.
+				formData: multiple || row.values.length > 1 ? row.values : row.values[0],
+				schema: (multiple
+					? { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } }
+					: { type: 'string', title: 'Certificate', format: 'data-url' }) as RJSFSchema,
+				uiSchema: { 'ui:options': { filePreview: true } },
+				actionLabel,
+				actionName: `${actionLabel}: ${multiple ? 'Certificates' : 'Certificate'}`
+			};
+		})
+	)
+);
+
+export const R6_FILE_ACTION_LABEL_SHAPES = [
+	{ name: 'custom empty single', uiSchema: { 'ui:options': { fileActionLabel: 'Upload certificate' } }, actionLabel: 'Upload certificate' },
+	{ name: 'custom populated single', populated: true, uiSchema: { 'ui:options': { fileActionLabel: 'Upload certificate' } }, actionLabel: 'Upload certificate' },
+	{ name: 'custom multiple', multiple: true, uiSchema: { 'ui:options': { fileActionLabel: 'Attach certificates' } }, actionLabel: 'Attach certificates' },
+	{
+		name: 'translated global label and title',
+		multiple: true,
+		uiSchema: { 'ui:globalOptions': { fileActionLabel: 'Adicionar ficheiros', title: 'Certificados' } },
+		actionLabel: 'Adicionar ficheiros',
+		fieldName: 'Certificados'
+	},
+	{
+		name: 'local label over global label',
+		uiSchema: { 'ui:globalOptions': { fileActionLabel: 'Attach file' }, 'ui:options': { fileActionLabel: 'Upload certificate' } },
+		actionLabel: 'Upload certificate'
+	},
+	{ name: 'trimmed custom text', uiSchema: { 'ui:options': { fileActionLabel: '  Upload certificate  ' } }, actionLabel: 'Upload certificate' },
+	{ name: 'empty text', uiSchema: { 'ui:options': { fileActionLabel: '' } }, actionLabel: 'Choose file' },
+	{ name: 'blank populated single', populated: true, uiSchema: { 'ui:options': { fileActionLabel: '  ' } }, actionLabel: 'Replace file' },
+	{
+		name: 'blank local label overrides global label',
+		uiSchema: { 'ui:globalOptions': { fileActionLabel: 'Attach file' }, 'ui:options': { fileActionLabel: '  ' } },
+		actionLabel: 'Choose file'
+	},
+	{ name: 'numeric text', uiSchema: { 'ui:options': { fileActionLabel: 42 } }, actionLabel: 'Choose file' },
+	{ name: 'object text', multiple: true, uiSchema: { 'ui:options': { fileActionLabel: { add: 'Attach files' } } }, actionLabel: 'Add files' },
+	{ name: 'blank global text', multiple: true, uiSchema: { 'ui:globalOptions': { fileActionLabel: ' ' } }, actionLabel: 'Add files' }
+].map(({ multiple = false, populated = false, fieldName, ...row }) => ({
+	...row,
+	multiple,
+	schema: (multiple
+		? { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } }
+		: { type: 'string', title: 'Certificate', format: 'data-url' }) as RJSFSchema,
+	uiSchema: row.uiSchema as UiSchema,
+	formData: populated ? CERTIFICATE : multiple ? ([] as string[]) : undefined,
+	actionName: `${row.actionLabel}: ${fieldName ?? (multiple ? 'Certificates' : 'Certificate')}`
+}));
+
+export const R6_FILE_ACTION_TRANSITIONS = [
+	{ name: 'single defaults', multiple: false, initialLabel: 'Choose file', selectedLabel: 'Replace file', uiSchema: {} },
+	{ name: 'multiple defaults', multiple: true, initialLabel: 'Add files', selectedLabel: 'Add files', uiSchema: {} },
+	{
+		name: 'custom single label',
+		multiple: false,
+		initialLabel: 'Upload certificate',
+		selectedLabel: 'Upload certificate',
+		uiSchema: { 'ui:options': { fileActionLabel: 'Upload certificate' } }
+	}
+].map(row => ({
+	...row,
+	schema: (row.multiple
+		? { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } }
+		: { type: 'string', title: 'Certificate', format: 'data-url' }) as RJSFSchema,
+	uiSchema: row.uiSchema as UiSchema,
+	formData: row.multiple ? ([] as string[]) : undefined,
+	fieldName: row.multiple ? 'Certificates' : 'Certificate'
+}));
+
+export const R6_FILE_EMPTY_RESET_SHAPE = {
+	schema: {
+		type: 'object',
+		properties: {
+			certificate: R6_FILE_ACTION_TRANSITIONS[0].schema,
+			host: { type: 'string', title: 'Host', default: 'default-broker.local' }
+		}
+	} as RJSFSchema,
+	formData: { host: 'edited-broker.local' }
+};
+export const R6_FILE_READ_CANCELLATIONS = [
+	'unmount',
+	'readonly',
+	'disabled',
+	'readonly then editable',
+	'disabled then editable',
+	'external value',
+	'discard',
+	'reset defaults'
+] as const;
+export const R6_FILE_READ_FAILURES = [
+	{ name: 'earlier read succeeds', earlierFails: false },
+	{ name: 'earlier read fails', earlierFails: true }
+];
+export const R6_FILE_LABEL_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema?: UiSchema; expected: string }[] = [
+	{ name: 'schema title', schema: { type: 'string', format: 'data-url', title: 'CA certificate' }, expected: 'Replace file: CA certificate' },
+	{
+		name: 'UI title',
+		schema: { type: 'string', format: 'data-url', title: 'Certificate' },
+		uiSchema: { 'ui:title': 'CA certificate' },
+		expected: 'Replace file: CA certificate'
+	},
+	{
+		name: 'UI options title',
+		schema: { type: 'string', format: 'data-url', title: 'Certificate' },
+		uiSchema: { 'ui:options': { title: 'CA certificate' } },
+		expected: 'Replace file: CA certificate'
+	},
+	{
+		name: 'global title',
+		schema: { type: 'string', format: 'data-url', title: 'Certificate' },
+		uiSchema: { 'ui:globalOptions': { title: 'CA certificate' } } as UiSchema,
+		expected: 'Replace file: CA certificate'
+	},
+	{
+		name: 'local title over global title',
+		schema: { type: 'string', format: 'data-url', title: 'Certificate' },
+		uiSchema: { 'ui:globalOptions': { title: 'Client certificate' }, 'ui:title': 'CA certificate' } as UiSchema,
+		expected: 'Replace file: CA certificate'
+	},
+	{ name: 'untitled field', schema: { type: 'string', format: 'data-url' }, expected: 'Replace file: root' },
+	{ name: 'suppressed title', schema: { type: 'string', format: 'data-url', title: 'Certificate' }, uiSchema: { 'ui:title': ' ' }, expected: 'Replace file: root' }
+];
+export const R6_FILE_ERROR_SHAPES = [
+	{
+		name: 'server item errors',
+		formData: [CERTIFICATE, CLIENT_CERTIFICATE],
+		extraErrors: { 0: { __errors: ['CA certificate expired.'] }, 1: { __errors: ['Client certificate expired.'] } },
+		messages: ['CA certificate expired.', 'Client certificate expired.']
+	},
+	{
+		name: 'one invalid stored value',
+		formData: [CERTIFICATE, 'certificates/client.pem'],
+		extraErrors: { 1: { __errors: ['Upload a client certificate.'] } },
+		messages: ['', 'Upload a client certificate.']
+	}
+] as const;
+
+export const R6_FILE_ARRAY_ENTRY_SHAPES: readonly {
+	name: string;
+	formData: readonly unknown[];
+	invalidIndex: number;
+	message: string;
+	omitExtraData?: false;
+}[] = [
+	{ name: 'blank before certificate', formData: ['', CERTIFICATE], invalidIndex: 0, message: 'must match format "data-url"' },
+	{ name: 'blank after certificate', formData: [CERTIFICATE, ''], invalidIndex: 1, message: 'must match format "data-url"' },
+	{ name: 'only blank entry', formData: [''], invalidIndex: 0, message: 'must match format "data-url"' },
+	{ name: 'null before certificate', formData: [null, CERTIFICATE], invalidIndex: 0, message: 'must be string' },
+	{ name: 'undefined before certificate', formData: [undefined, CERTIFICATE], invalidIndex: 0, message: 'must be string' },
+	{ name: 'number after certificate', formData: [CERTIFICATE, 42], invalidIndex: 1, message: 'must be string' },
+	{ name: 'retained object before certificate', formData: [{ path: 'certificates/plant-ca.pem' }, CERTIFICATE], invalidIndex: 0, message: 'must be string', omitExtraData: false }
+];
+
+export const R6_FILE_LAYOUT_SHAPES = [
+	{ name: 'empty single field', source: 'single empty, editable' },
+	{ name: 'single secret reference', source: 'single secret reference, editable' },
+	{ name: 'multiple files', source: 'multiple duplicate names, editable' },
+	{
+		name: 'multiple files with row error',
+		source: 'multiple duplicate names, editable',
+		extraErrors: { 1: { __errors: ['Client certificate expired.'] } }
+	}
+].map(({ source, ...row }) => ({ ...R6_FILE_SHAPES.find(shape => shape.name === source)!, ...row }));
+
 // Rows share schema objects (TOPICS, ENDPOINTS, NAME), so a test that mutated one would change
 // other rows, and other tests. Frozen, the mutation throws where it happens.
 [
@@ -3034,6 +3254,20 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	R2_NATIVE_SUBMIT_SHAPES,
 	R2_SCALAR_DISCARD_SHAPES,
 	R2_FILE_ERROR_VISIBILITY_SHAPES,
+	R6_FILE_VALUES,
+	R6_FILE_STATES,
+	R6_FILE_REFERENCE_SHAPES,
+	R6_FILE_REFERENCE_FORMS,
+	R6_FILE_SHAPES,
+	R6_FILE_ACTION_LABEL_SHAPES,
+	R6_FILE_ACTION_TRANSITIONS,
+	R6_FILE_EMPTY_RESET_SHAPE,
+	R6_FILE_READ_CANCELLATIONS,
+	R6_FILE_READ_FAILURES,
+	R6_FILE_LABEL_SHAPES,
+	R6_FILE_ERROR_SHAPES,
+	R6_FILE_ARRAY_ENTRY_SHAPES,
+	R6_FILE_LAYOUT_SHAPES,
 	TEMPLATE_COMPONENTS,
 	OPTION_SOURCES,
 	LIST_OPTIONS,
