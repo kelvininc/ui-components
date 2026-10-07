@@ -316,7 +316,7 @@ it('restores touched Browse descriptions to empty when Discard restores an uncha
 
 it('preserves touched Browse errors when Reset to Default restores the same file', async () => {
 	const screen = await render(
-		<KvSchemaForm<typeof raceData>
+		<KvSchemaForm<Record<string, unknown>>
 			schema={raceSchema}
 			formData={raceData}
 			allowResetToDefaults
