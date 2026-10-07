@@ -101,12 +101,16 @@ it('reads a multi-file selection in order and decodes a reserved filename exactl
 	expect(names(screen.container)).toEqual([special.name, 'client.pem']);
 });
 
-function delayReads(source: File) {
+function delayReads(source: File, failedSource?: File) {
 	const completions: (() => void)[] = [];
 	window.FileReader = class extends NativeReader {
 		readAsDataURL(file: Blob) {
-			// Vitest reads the supplied File before sending it to Playwright. Delay only the selected copy.
-			if (file !== source) {
+			// Vitest reads supplied Files before sending them to Playwright. Intercept only selected copies.
+			if (file !== source && file !== failedSource) {
+				if (failedSource && file instanceof File && file.name === failedSource.name) {
+					queueMicrotask(() => this.dispatchEvent(new ProgressEvent('error')));
+					return;
+				}
 				const notify = this.onload;
 				this.onload = event => completions.push(() => notify?.call(this, event));
 			}
@@ -130,6 +134,28 @@ const raceSchema = {
 };
 const raceData = { certificate: [certificate], host: 'edited-broker.local' };
 const savedData = { ...raceData, host: 'saved-broker.local' };
+
+it('shows a later read failure immediately in Browse while an earlier real upload is pending', async () => {
+	const onChange = vi.fn();
+	const screen = await render(<KvSchemaForm schema={raceSchema} formData={raceData} onChange={onChange} showErrorList={false} />);
+	await whenAllKelvinReady(screen.container);
+	const source = uploadFile();
+	const failure = new File(['backup'], 'backup.pem', { type: 'text/plain' });
+	const reads = delayReads(source, failure);
+	await userEvent.upload(input(screen.container), source);
+	await reads.wait();
+	onChange.mockClear();
+	await userEvent.upload(input(screen.container), failure);
+	await expect.poll(() => nativeDescription('Browse File for Certificates')).toBe('Could not read the selected file. Try again.');
+	expect(onChange).not.toHaveBeenCalled();
+	await reads.release();
+	await expect.poll(() => onChange.mock.lastCall?.[0].formData.certificate).toEqual([certificate, uploaded]);
+	expect(await nativeDescription('Browse File for Certificates')).toBe('Could not read the selected file. Try again.');
+	window.FileReader = NativeReader;
+	await userEvent.upload(input(screen.container), uploadFile());
+	await expect.poll(() => onChange.mock.lastCall?.[0].formData.certificate).toEqual([certificate, uploaded, uploaded]);
+	await expect.poll(() => nativeDescription('Browse File for Certificates')).toBe('');
+});
 
 describe.each(R6_FILE_READ_CANCELLATIONS)('Chromium upload cancellation: %s', reason => {
 	it('drops the old real file read and lets a new selection finish', async () => {

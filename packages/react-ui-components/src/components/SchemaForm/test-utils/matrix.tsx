@@ -3033,6 +3033,10 @@ export const R6_FILE_SHAPES = [false, true].flatMap(multiple =>
 	)
 );
 export const R6_FILE_READ_CANCELLATIONS = ['unmount', 'readonly', 'disabled', 'readonly then editable', 'disabled then editable', 'external value', 'discard'] as const;
+export const R6_FILE_READ_FAILURES = [
+	{ name: 'earlier read succeeds', earlierFails: false },
+	{ name: 'earlier read fails', earlierFails: true }
+];
 export const R6_FILE_LABEL_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema?: UiSchema; expected: string }[] = [
 	{ name: 'schema title', schema: { type: 'string', format: 'data-url', title: 'CA certificate' }, expected: 'Browse File for CA certificate' },
 	{
@@ -3147,6 +3151,7 @@ export const R6_FILE_ERROR_SHAPES = [
 	R6_FILE_REFERENCE_FORMS,
 	R6_FILE_SHAPES,
 	R6_FILE_READ_CANCELLATIONS,
+	R6_FILE_READ_FAILURES,
 	R6_FILE_LABEL_SHAPES,
 	R6_FILE_ERROR_SHAPES,
 	TEMPLATE_COMPONENTS,

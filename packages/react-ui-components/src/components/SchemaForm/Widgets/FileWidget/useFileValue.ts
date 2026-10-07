@@ -20,6 +20,8 @@ export const useFileValue = ({ id, value, multiple, readonly, disabled, onChange
 		inactive,
 		resetKey,
 		sequence: 0,
+		selection: 0,
+		failedSelection: 0,
 		mounted: false,
 		pending: Promise.resolve(),
 		commit: (_values: string[]) => {}
@@ -69,21 +71,25 @@ export const useFileValue = ({ id, value, multiple, readonly, disabled, onChange
 		setReadError(undefined);
 		if (!state.multiple) invalidate();
 		const sequence = state.sequence;
-		// Handle rejection immediately, even while a previous selection's read is still pending.
+		const selection = ++state.selection;
+		const active = () => state.mounted && !state.inactive && state.sequence === sequence;
+		// Report failures independently of the queue that preserves value order.
 		const read = processFiles(files).then(
 			files => ({ files }),
-			error => ({ error })
+			error => {
+				if (active()) {
+					state.failedSelection = Math.max(state.failedSelection, selection);
+					setReadError(SCHEMA_FORM_STRINGS.fileReadFailed);
+				}
+				return { error };
+			}
 		);
 		state.pending = state.pending
 			.then(() => read)
 			.then(result => {
-				if (!state.mounted || state.inactive || state.sequence !== sequence) return;
-				if ('error' in result) {
-					setReadError(SCHEMA_FORM_STRINGS.fileReadFailed);
-					return;
-				}
+				if (!active() || 'error' in result) return;
 				const values = result.files.map(file => file.value);
-				setReadError(undefined);
+				if (selection > state.failedSelection) setReadError(undefined);
 				state.commit(state.multiple ? state.values.concat(values) : values.slice(0, 1));
 			});
 	};

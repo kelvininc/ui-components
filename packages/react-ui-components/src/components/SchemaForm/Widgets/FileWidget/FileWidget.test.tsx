@@ -7,7 +7,15 @@ import { createRoot } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { fireStencilEvent, propsOf } from '../../../../test-utils';
 import { KvSchemaForm } from '../../SchemaForm';
-import { R6_FILE_ERROR_SHAPES, R6_FILE_LABEL_SHAPES, R6_FILE_READ_CANCELLATIONS, R6_FILE_REFERENCE_FORMS, R6_FILE_SHAPES, R6_FILE_VALUES } from '../../test-utils/matrix';
+import {
+	R6_FILE_ERROR_SHAPES,
+	R6_FILE_LABEL_SHAPES,
+	R6_FILE_READ_CANCELLATIONS,
+	R6_FILE_READ_FAILURES,
+	R6_FILE_REFERENCE_FORMS,
+	R6_FILE_SHAPES,
+	R6_FILE_VALUES
+} from '../../test-utils/matrix';
 import { extractFileInfo, processFiles } from './utils';
 import type { FileInfoType } from './types';
 import styles from './FileWidget.module.scss';
@@ -219,6 +227,48 @@ it('clears a failed queued read when the later upload succeeds', async () => {
 	const messages = Array.from(container.querySelectorAll('kv-form-help-text')).flatMap(host => propsOf(host).helpText ?? []);
 	expect(names()).toEqual(['ca.pem', 'client.pem']);
 	expect(messages).not.toContain('Could not read the selected file. Try again.');
+});
+
+describe.each(R6_FILE_READ_FAILURES)('later upload failure: $name', row => {
+	it('reports immediately, survives an earlier completion, and clears on a fresh upload', async () => {
+		const onChange = vi.fn();
+		await renderForm(raceForm(onChange));
+		const first = deferredRead();
+		await upload();
+		const second = deferredRead();
+		await upload();
+		onChange.mockClear();
+		await second.reject();
+		const messages = () => Array.from(container.querySelectorAll('kv-form-help-text')).flatMap(host => propsOf(host).helpText ?? []);
+		expect(messages()).toContain('Could not read the selected file. Try again.');
+		expect(onChange).not.toHaveBeenCalled();
+		if (row.earlierFails) await first.reject();
+		else await first.resolve();
+		expect(messages()).toContain('Could not read the selected file. Try again.');
+		const fresh = deferredRead();
+		await upload();
+		await fresh.resolve();
+		expect(messages()).not.toContain('Could not read the selected file. Try again.');
+		expect(onChange.mock.lastCall?.[0].formData.certificate).toEqual(row.earlierFails ? [certificate, uploaded] : [certificate, uploaded, uploaded]);
+	});
+});
+
+describe.each(R6_FILE_READ_CANCELLATIONS)('canceled upload failure: %s', reason => {
+	it('ignores an old rejection after cancellation', async () => {
+		await renderForm(raceForm());
+		const read = deferredRead();
+		await upload();
+		if (reason === 'unmount') await renderForm(<div />);
+		else if (reason === 'external value') await renderForm(raceForm(vi.fn(), {}, { ...raceData, certificate: [uploaded] }));
+		else if (reason === 'discard') await act(async () => fireStencilEvent('Discard Changes', 'onClickButton'));
+		else {
+			await renderForm(raceForm(vi.fn(), reason.startsWith('readonly') ? { readonly: true } : { disabled: true }));
+			if (reason.endsWith('editable')) await renderForm(raceForm());
+		}
+		await read.reject();
+		const messages = Array.from(container.querySelectorAll('kv-form-help-text')).flatMap(host => propsOf(host).helpText ?? []);
+		expect(messages).not.toContain('Could not read the selected file. Try again.');
+	});
 });
 
 it('ignores a read that finishes in the same event as Discard', async () => {
