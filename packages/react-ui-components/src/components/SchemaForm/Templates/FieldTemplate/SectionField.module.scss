@@ -8,6 +8,16 @@
 	gap: var(--spacing-xl);
 }
 
+.CollectionHeader {
+	display: contents;
+
+	&:has(> [data-schema-form-collection-metadata]) {
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+	}
+}
+
 .ItemHeader {
 	display: flex;
 	align-items: center;

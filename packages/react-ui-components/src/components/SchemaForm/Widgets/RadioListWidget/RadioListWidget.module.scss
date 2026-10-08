@@ -3,11 +3,11 @@
 .RadioListContainer {
 	display: flex;
 	flex-flow: column wrap;
-	gap: var(--spacing-md);
-	margin-left: var(--spacing-xs);
+	gap: var(--spacing-xl);
 
 	&::part(items-container) {
 		flex: 1;
+		gap: var(--spacing-xl) var(--spacing-md);
 	}
 
 	&::part(item) {

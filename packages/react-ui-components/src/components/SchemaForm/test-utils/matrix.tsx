@@ -13,10 +13,11 @@ import {
 	WidgetProps
 } from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
-import { EComponentSize, StyleMode } from '@kelvininc/ui-components';
+import { EComponentSize, EIconName, StyleMode } from '@kelvininc/ui-components';
 import { EApplyDefaults, SchemaFormContext } from '../types';
 import { useSchemaFormFocusRef } from '../hooks/entryFocus';
 import DefaultFieldTemplate from '../Templates/FieldTemplate';
+import FileWidget from '../Widgets/FileWidget';
 
 /** Freezes plain data in place; components (functions, memo and forwardRef objects) stay as they are */
 const deepFreeze = <T,>(value: T): T => {
@@ -1363,12 +1364,18 @@ export const R2_ERROR_DESCRIPTION_SHAPES: readonly {
 
 export const FIELD_FEEDBACK_SHAPES = [
 	...R2_ERROR_DESCRIPTION_SHAPES.filter(row => row.fields.length === 1),
+	{
+		name: 'textarea with icon',
+		schema: { type: 'string', title: 'Operating instructions' } as RJSFSchema,
+		uiSchema: { 'ui:widget': 'textarea', 'iconName': EIconName.Notes },
+		formData: 'Inspect the cooling loop before restarting.'
+	},
 	{ name: 'date', schema: { type: 'string', title: 'Inspection date', format: 'date' } as RJSFSchema, uiSchema: {}, formData: '2026-10-08' },
 	{ name: 'file', schema: { type: 'string', title: 'CA certificate', format: 'data-url' } as RJSFSchema, uiSchema: {}, formData: 'data:text/plain;name=ca.pem;base64,Y2E=' }
 ].map(({ name, schema, uiSchema, formData }) => ({
 	name,
-	schema: { ...schema, description: 'Configure this connection setting.' },
-	uiSchema,
+	schema: { ...schema, description: 'Configure this connection setting.', default: formData as RJSFSchema['default'] },
+	uiSchema: { ...uiSchema, 'ui:showDefaultValueHelper': true },
 	formData
 }));
 
@@ -3340,6 +3347,401 @@ export const R6_FILE_LAYOUT_SHAPES = [
 	}
 ].map(({ source, ...row }) => ({ ...R6_FILE_SHAPES.find(shape => shape.name === source)!, ...row }));
 
+const DescriptionWidget = () => <p data-description-widget>Connector setting</p>;
+const CertificateReferenceField = ({ idSchema }: FieldProps) => <input id={idSchema.$id} aria-label="Certificate reference" data-certificate-reference />;
+export const FILE_FIELD_OVERRIDE_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	formData: unknown;
+	fields: Record<string, ComponentType<FieldProps>>;
+}[] = [
+	{
+		name: 'StringField override',
+		schema: { type: 'string', title: 'Certificate', format: 'data-url' },
+		formData: CERTIFICATE,
+		fields: { StringField: CertificateReferenceField }
+	},
+	{
+		name: 'ArrayField override',
+		schema: { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } },
+		formData: [CERTIFICATE],
+		fields: { ArrayField: CertificateReferenceField }
+	}
+];
+export const COLLECTION_TITLE_OVERRIDE_SHAPES: readonly { name: string; TitleFieldTemplate: TemplatesType['TitleFieldTemplate'] }[] = [
+	{ name: 'null title', TitleFieldTemplate: () => null },
+	{ name: 'empty fragment title', TitleFieldTemplate: () => <></> },
+	{ name: 'hidden title', TitleFieldTemplate: () => <span hidden /> },
+	{ name: 'display-none title', TitleFieldTemplate: () => <span style={{ display: 'none' }} /> }
+];
+export const COLLECTION_METADATA_TRANSITIONS: readonly { name: string; from: 'top' | 'none'; to: 'top' | 'none'; schema: RJSFSchema; formData: unknown }[] = [
+	{ name: 'metadata appears', from: 'none', to: 'top' },
+	{ name: 'metadata disappears', from: 'top', to: 'none' }
+].map(row => ({
+	...row,
+	from: row.from as 'top' | 'none',
+	to: row.to as 'top' | 'none',
+	schema: ARRAY_ID_SHAPES.find(shape => shape.name === 'nested arrays')!.schema,
+	formData: [[{ host: 'broker-1.local' }], [{ host: 'broker-2.local' }]]
+}));
+const collectionDescription = 'Configure the files or entries before deploying this connector.';
+type DescriptionShape = {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema?: UiSchema;
+	formData?: unknown;
+	widgets?: Record<string, ComponentType<WidgetProps>>;
+	kind: 'list' | 'file' | 'control' | 'custom';
+	contentSelector: string;
+	collection: boolean;
+};
+export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
+	{
+		name: 'scalar list',
+		schema: { ...TOPICS, description: collectionDescription },
+		formData: ['telemetry', 'alarms'],
+		kind: 'list',
+		contentSelector: '[data-schema-form-list="root"]',
+		collection: true
+	},
+	{
+		name: 'empty scalar list',
+		schema: { ...TOPICS, description: collectionDescription },
+		formData: [],
+		kind: 'list',
+		contentSelector: '[data-schema-form-list="root"]',
+		collection: true
+	},
+	{
+		name: 'tuple list',
+		schema: { ...ENDPOINTS, description: collectionDescription },
+		formData: ['broker-1.local', 'broker-2.local'],
+		kind: 'list',
+		contentSelector: '[data-schema-form-list="root"]',
+		collection: true
+	},
+	{
+		name: 'object sections',
+		schema: { ...DESCRIBED_CONNECTION_ARRAY, description: collectionDescription },
+		uiSchema: { 'ui:options': { layout: 'sections' } },
+		formData: [{ host: 'broker-1.local' }],
+		kind: 'list',
+		contentSelector: '[data-schema-form-list="root"]',
+		collection: true
+	},
+	{
+		name: 'object table',
+		schema: { ...DESCRIBED_CONNECTION_ARRAY, description: collectionDescription },
+		formData: [{ host: 'broker-1.local' }],
+		kind: 'list',
+		contentSelector: '[data-schema-form-list="root"]',
+		collection: true
+	},
+	{
+		name: 'single file',
+		schema: { type: 'string', title: 'Certificate', format: 'data-url', description: collectionDescription },
+		formData: CERTIFICATE,
+		kind: 'file',
+		contentSelector: 'input[type="file"]',
+		collection: true
+	},
+	{
+		name: 'empty single file',
+		schema: { type: 'string', title: 'Certificate', format: 'data-url', description: collectionDescription },
+		kind: 'file',
+		contentSelector: 'input[type="file"]',
+		collection: true
+	},
+	{
+		name: 'multiple files',
+		schema: { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' }, description: collectionDescription },
+		formData: [CERTIFICATE, CLIENT_CERTIFICATE],
+		kind: 'file',
+		contentSelector: 'input[type="file"]',
+		collection: true
+	},
+	{
+		name: 'empty multiple files',
+		schema: { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' }, description: collectionDescription },
+		formData: [],
+		kind: 'file',
+		contentSelector: 'input[type="file"]',
+		collection: true
+	},
+	{
+		name: 'single file alias',
+		schema: { type: 'string', title: 'Certificate', description: collectionDescription },
+		uiSchema: { 'ui:widget': 'connectorFile' },
+		widgets: { connectorFile: FileWidget },
+		formData: CERTIFICATE,
+		kind: 'file',
+		contentSelector: 'input[type="file"]',
+		collection: true
+	},
+	{
+		name: 'multiple file component',
+		schema: { ...TOPICS, description: collectionDescription },
+		uiSchema: { 'ui:widget': FileWidget },
+		formData: [CERTIFICATE],
+		kind: 'file',
+		contentSelector: 'input[type="file"]',
+		collection: true
+	},
+	{
+		name: 'multi-select',
+		schema: { type: 'array', title: 'Assets', uniqueItems: true, items: { type: 'string', enum: ['north-line', 'south-line'] }, description: collectionDescription },
+		formData: ['north-line'],
+		kind: 'control',
+		contentSelector: 'kv-multi-select-dropdown',
+		collection: false
+	},
+	{
+		name: 'text input',
+		schema: { type: 'string', title: 'Broker', description: collectionDescription },
+		formData: 'broker-1.local',
+		kind: 'control',
+		contentSelector: 'kv-text-field',
+		collection: false
+	},
+	{
+		name: 'textarea',
+		schema: { type: 'string', title: 'Notes', description: collectionDescription },
+		uiSchema: { 'ui:widget': 'textarea' },
+		formData: 'Plant broker',
+		kind: 'control',
+		contentSelector: 'kv-text-area',
+		collection: false
+	},
+	{
+		name: 'custom file widget',
+		schema: { type: 'string', title: 'Certificate', format: 'data-url', description: collectionDescription },
+		widgets: { FileWidget: DescriptionWidget },
+		formData: CERTIFICATE,
+		kind: 'custom',
+		contentSelector: '[data-description-widget]',
+		collection: false
+	},
+	{
+		name: 'custom array widget',
+		schema: { ...TOPICS, description: collectionDescription },
+		uiSchema: { 'ui:widget': DescriptionWidget },
+		formData: [],
+		kind: 'custom',
+		contentSelector: '[data-description-widget]',
+		collection: false
+	},
+	{
+		name: 'custom array layout',
+		schema: { ...TOPICS, description: collectionDescription },
+		uiSchema: { 'ui:ArrayFieldTemplate': CustomArrayLayout },
+		formData: ['telemetry'],
+		kind: 'custom',
+		contentSelector: 'kv-text-field',
+		collection: false
+	}
+];
+export const COLLECTION_DESCRIPTION_SHAPES = COLLECTION_DESCRIPTION_FIELDS.flatMap(row =>
+	[
+		{ name: 'default', options: {}, position: row.collection ? 'top' : 'bottom' },
+		{ name: 'explicit top', options: { 'ui:descriptionPosition': 'top' }, position: 'top' },
+		{ name: 'explicit bottom', options: { 'ui:options': { descriptionPosition: 'bottom' } }, position: 'bottom' },
+		{ name: 'suppressed', options: { 'ui:descriptionPosition': 'none' }, position: 'none' },
+		{ name: 'global bottom', options: { 'ui:globalOptions': { descriptionPosition: 'bottom' } }, position: 'bottom' }
+	].map(placement => {
+		const uiSchema: UiSchema = { ...row.uiSchema, ...placement.options };
+		if (uiSchema['ui:options']) uiSchema['ui:options'] = { ...row.uiSchema?.['ui:options'], ...uiSchema['ui:options'] };
+		return { ...row, name: `${row.name}; ${placement.name}`, uiSchema, position: placement.position };
+	})
+);
+
+const referencedConnectionList = SECTION_HEADING_SHAPES.find(row => row.name === 'referenced object list')!.schema;
+const referencedTopicList: RJSFSchema = { type: 'array', title: 'Topics', definitions: { topic: { type: 'string', title: 'Topic' } }, items: { $ref: '#/definitions/topic' } };
+export const COLLECTION_ADD_ALIGNMENT_SHAPES = [
+	{ name: 'referenced object items', schema: referencedConnectionList, grip: false, empty: [], populated: [{ host: 'broker-1.local' }] },
+	{
+		name: 'allOf object items',
+		schema: { ...referencedConnectionList, items: { allOf: [{ $ref: '#/definitions/connection' }] } },
+		grip: false,
+		empty: [],
+		populated: [{ host: 'broker-1.local' }]
+	},
+	{ name: 'referenced scalar items', schema: referencedTopicList, grip: true, empty: [], populated: ['line-1.telemetry'] },
+	{
+		name: 'referenced additional object items',
+		schema: { ...referencedConnectionList, items: [{ type: 'string', title: 'Primary broker' }], additionalItems: { $ref: '#/definitions/connection' } } as RJSFSchema,
+		grip: false,
+		empty: ['broker-1.local'],
+		populated: ['broker-1.local', { host: 'broker-2.local' }]
+	},
+	{
+		name: 'referenced additional scalar items',
+		schema: { ...referencedTopicList, items: [{ type: 'string', title: 'Telemetry topic' }], additionalItems: { $ref: '#/definitions/topic' } } as RJSFSchema,
+		grip: true,
+		empty: ['line-1.telemetry'],
+		populated: ['line-1.telemetry', 'line-1.alarms']
+	}
+].flatMap(({ empty, populated, ...row }) => [
+	{ ...row, name: `${row.name}; empty`, formData: empty },
+	{ ...row, name: `${row.name}; populated`, formData: populated }
+]);
+
+export const COLLECTION_ENTRY_ERROR_SHAPES = ['scalar list', 'object table', 'object sections', 'multiple files']
+	.map(name => {
+		const row = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === name)!;
+		const message = 'Review the first connector entry.';
+		return {
+			...row,
+			schema:
+				name === 'scalar list'
+					? { ...row.schema, items: { ...(row.schema.items as RJSFSchema), default: 'telemetry', description: 'Use the configured broker topic.' } }
+					: row.schema,
+			uiSchema: name === 'scalar list' ? { items: { 'ui:showDefaultValueHelper': true } } : row.uiSchema,
+			message,
+			extraErrors: name.startsWith('object') ? { 0: { host: { __errors: [message] } } } : { 0: { __errors: [message] } },
+			entrySelector: row.kind === 'file' ? '[data-file-index="0"]' : '[data-schema-form-list-item="0"]'
+		};
+	})
+	.flatMap(row =>
+		row.name === 'scalar list'
+			? [true, false].flatMap(orderable =>
+					[true, false].map(removable => ({
+						...row,
+						name: `${row.name}; orderable=${orderable}, removable=${removable}`,
+						uiSchema: { ...row.uiSchema, 'ui:options': { orderable, removable } }
+					}))
+			  )
+			: [row]
+	);
+
+export const WIDGET_ENTRY_LAYOUT_SHAPES = [
+	...['scalar list', 'object table', 'multiple files'].map(name => {
+		const row = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === name)!;
+		const formData = Array.isArray(row.formData) && row.formData.length === 1 ? [...row.formData, ...row.formData] : row.formData;
+		return { name, schema: row.schema, uiSchema: row.uiSchema, formData, kind: row.kind === 'file' ? 'file' : 'list' };
+	}),
+	...['RadioWidget', 'RadioListWidget'].map(widget => ({
+		name: widget,
+		schema: { type: 'string', title: 'Delivery policy', enum: ['At most once', 'At least once'] } as RJSFSchema,
+		uiSchema: { 'ui:widget': widget } as UiSchema,
+		formData: 'At least once',
+		kind: 'radio'
+	}))
+];
+
+export const FILE_FEEDBACK_LAYOUT_SHAPES = [
+	{ name: 'uploaded single file', formData: CERTIFICATE },
+	{ name: 'single secret reference', formData: '<% secrets.ca %>' },
+	{ name: 'empty single file', formData: undefined }
+].map(row => ({ ...row, schema: { type: 'string', title: 'CA certificate', format: 'data-url' } as RJSFSchema, message: 'Review the CA certificate.' }));
+
+export const RADIO_FEEDBACK_LAYOUT_SHAPES: readonly {
+	name: string;
+	description?: string;
+	defaultValue?: string;
+	error?: string;
+	unset?: boolean;
+}[] = [
+	{ name: 'description', description: 'Delivery guarantee used for telemetry.' },
+	{ name: 'default only', defaultValue: 'At least once' },
+	{ name: 'error and default', error: 'This delivery policy is unavailable.', defaultValue: 'At least once' },
+	{
+		name: 'wrapped description and default',
+		description: 'Confirm delivery acknowledgements before using this policy for telemetry from production equipment on an unreliable broker connection.',
+		defaultValue: 'At least once'
+	},
+	{
+		name: 'unbroken error',
+		error: 'Review the delivery policy for telemetry/production/west-plant/compressor-station/pressure-sensor/acknowledgements.'
+	},
+	{ name: 'unset with description', description: 'Choose a delivery guarantee for telemetry.', unset: true },
+	{ name: 'unset without helpers', unset: true },
+	{ name: 'selection without helpers' }
+];
+
+const describedFiles = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === 'multiple files')!.schema;
+const describedChoices = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === 'multi-select')!.schema;
+export const ARRAY_WIDGET_DISPATCH_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	file: boolean;
+	collection: boolean;
+	contentSelector: string;
+}[] = [
+	{
+		name: 'file array with global custom widget',
+		schema: describedFiles,
+		uiSchema: { 'ui:globalOptions': { widget: DescriptionWidget } },
+		file: false,
+		collection: false,
+		contentSelector: '[data-description-widget]'
+	},
+	{
+		name: 'file array with global file widget',
+		schema: describedFiles,
+		uiSchema: { 'ui:globalOptions': { widget: FileWidget } },
+		file: true,
+		collection: true,
+		contentSelector: 'input[type="file"]'
+	},
+	{
+		name: 'local file alias overrides global custom widget',
+		schema: describedFiles,
+		uiSchema: { 'ui:globalOptions': { widget: DescriptionWidget }, 'ui:widget': 'files' },
+		file: true,
+		collection: true,
+		contentSelector: 'input[type="file"]'
+	},
+	{
+		name: 'local custom widget overrides global file widget',
+		schema: describedFiles,
+		uiSchema: { 'ui:globalOptions': { widget: FileWidget }, 'ui:widget': DescriptionWidget },
+		file: false,
+		collection: false,
+		contentSelector: '[data-description-widget]'
+	},
+	{
+		name: 'multi-select with global file widget',
+		schema: describedChoices,
+		uiSchema: { 'ui:globalOptions': { widget: FileWidget } },
+		file: true,
+		collection: true,
+		contentSelector: 'input[type="file"]'
+	},
+	{
+		name: 'multi-select with global custom widget',
+		schema: describedChoices,
+		uiSchema: { 'ui:globalOptions': { widget: DescriptionWidget } },
+		file: false,
+		collection: false,
+		contentSelector: '[data-description-widget]'
+	},
+	{
+		name: 'normal array ignores global file widget',
+		schema: { ...TOPICS, description: collectionDescription },
+		uiSchema: { 'ui:globalOptions': { widget: FileWidget } },
+		file: false,
+		collection: true,
+		contentSelector: '[data-schema-form-list="root"]'
+	},
+	{
+		name: 'file tuple ignores global widget for its layout',
+		schema: { type: 'array', title: 'Certificates', description: collectionDescription, items: [{ type: 'string', format: 'data-url' }] },
+		uiSchema: { 'ui:globalOptions': { widget: FileWidget } },
+		file: false,
+		collection: true,
+		contentSelector: '[data-schema-form-list="root"]'
+	},
+	{
+		name: 'custom widget replaces the fixed tuple layout',
+		schema: { type: 'array', title: 'Certificates', description: collectionDescription, items: [{ type: 'string', format: 'data-url' }] },
+		uiSchema: { 'ui:widget': FileWidget },
+		file: true,
+		collection: true,
+		contentSelector: 'input[type="file"]'
+	}
+];
+
 // Rows share schema objects (TOPICS, ENDPOINTS, NAME), so a test that mutated one would change
 // other rows, and other tests. Frozen, the mutation throws where it happens.
 [
@@ -3426,6 +3828,17 @@ export const R6_FILE_LAYOUT_SHAPES = [
 	R6_FILE_ERROR_SHAPES,
 	R6_FILE_ARRAY_ENTRY_SHAPES,
 	R6_FILE_LAYOUT_SHAPES,
+	COLLECTION_DESCRIPTION_FIELDS,
+	FILE_FIELD_OVERRIDE_SHAPES,
+	COLLECTION_TITLE_OVERRIDE_SHAPES,
+	COLLECTION_METADATA_TRANSITIONS,
+	COLLECTION_DESCRIPTION_SHAPES,
+	COLLECTION_ADD_ALIGNMENT_SHAPES,
+	COLLECTION_ENTRY_ERROR_SHAPES,
+	WIDGET_ENTRY_LAYOUT_SHAPES,
+	FILE_FEEDBACK_LAYOUT_SHAPES,
+	RADIO_FEEDBACK_LAYOUT_SHAPES,
+	ARRAY_WIDGET_DISPATCH_SHAPES,
 	TEMPLATE_COMPONENTS,
 	OPTION_SOURCES,
 	LIST_OPTIONS,

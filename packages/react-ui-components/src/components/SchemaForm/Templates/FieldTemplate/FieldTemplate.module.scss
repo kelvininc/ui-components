@@ -1,5 +1,10 @@
 @use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
+.CollectionMetadata {
+	display: flex;
+	flex-direction: column;
+}
+
 .FieldWrapper {
 	width: 100%;
 	min-width: 0;
@@ -9,13 +14,34 @@
 	&[hidden] {
 		display: none;
 	}
+
+	> .CollectionMetadata {
+		margin-bottom: var(--spacing-xl);
+	}
+}
+
+.ItemWithGrip > :not(.ItemControlRow) {
+	margin-left: calc(var(--icon-button-height-regular) + var(--spacing-md));
+}
+
+.ItemWithAction > :not(.ItemControlRow) {
+	margin-right: calc(var(--icon-button-height-regular) + var(--spacing-md));
 }
 
 .ChoiceExtras {
 	display: flex;
-	align-items: center;
+	align-items: baseline;
+	flex-wrap: wrap;
 	gap: var(--spacing-md);
 	margin-top: var(--spacing-xs);
+}
+
+.ChoiceFeedback {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 12rem;
+	min-width: 0;
+	overflow-wrap: anywhere;
 }
 
 .ItemControlRow {
@@ -38,6 +64,9 @@
 .ClearSelection {
 	@include body-m-regular;
 
+	margin-left: auto;
+	flex-shrink: 0;
+	max-width: 100%;
 	border: 0;
 	padding: 0;
 	background: transparent;

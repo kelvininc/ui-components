@@ -1,14 +1,14 @@
 import { ArrayFieldTemplateItemType, ArrayFieldTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema, getTemplate, getUiOptions } from '@rjsf/utils';
-import React, { useId } from 'react';
+import React, { useContext, useId } from 'react';
 import { EComponentSize } from '@kelvininc/ui-components';
 import classNames from 'classnames';
 import AddButton from './AddButton';
 import styles from './ArrayFieldTemplate.module.scss';
 import { defaultArrayDescriptionTemplate } from '../../rjsf/arrayTemplate';
-import { ArrayItemsContext, useArrayDescription } from '../../contexts';
+import { ArrayItemLayoutContext, ArrayItemsContext, useArrayDescription } from '../../contexts';
 import { useArrayFocus } from '../../hooks/useArrayFocus';
 import { TableContext } from '../../contexts/TableContext';
-import { getTableColumns } from '../utils';
+import { getTableColumns, isSectionField } from '../utils';
 import DefaultArrayFieldItemTemplate from '../ArrayFieldItemTemplate';
 import { tableStyle, TableHeader } from './TableLayout';
 import tableStyles from './TableLayout.module.scss';
@@ -41,6 +41,13 @@ const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 			: undefined;
 	const size = uiSchema?.items?.[columns?.[0].name ?? '']?.componentSize ?? registry.formContext.componentSize ?? EComponentSize.Large;
 	const table = columns ? { id: tableId, columns, reserveGrip: uiOptions.orderable !== false, removable: uiOptions.removable !== false, size } : null;
+	const layout = useContext(ArrayItemLayoutContext);
+	const addedSchema = Array.isArray(schema.items) ? schema.additionalItems : schema.items;
+	const addedUiSchema = Array.isArray(schema.items) ? uiSchema?.additionalItems : uiSchema?.items;
+	const addedSection = addedSchema && typeof addedSchema === 'object' && isSectionField(registry.schemaUtils.retrieveSchema(addedSchema as S), addedUiSchema, registry);
+	const reserveGrip = table
+		? table.reserveGrip
+		: ArrayFieldItemTemplate === DefaultArrayFieldItemTemplate && Boolean((layout?.reserveGrip ?? items.some(item => item.hasMoveUp || item.hasMoveDown)) && !addedSection);
 	const descriptionContext = useArrayDescription();
 	const fieldOwnsDescription = descriptionContext?.fieldId === idSchema.$id && getTemplate('FieldTemplate', registry, uiOptions) === descriptionContext?.fieldTemplate;
 	const descriptionId = fieldOwnsDescription && descriptionContext?.fieldId === idSchema.$id ? descriptionContext.descriptionId : undefined;
@@ -58,7 +65,16 @@ const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 		onAddClick(event);
 	};
 	const addButton = canAdd && (
-		<AddButton buttonRef={focus.addRef} disabled={disabled} readonly={readonly} uiSchema={uiSchema} schema={schema} registry={registry} onAddClick={addItem} />
+		<AddButton
+			buttonRef={focus.addRef}
+			disabled={disabled}
+			readonly={readonly}
+			uiSchema={uiSchema}
+			schema={schema}
+			registry={registry}
+			onAddClick={addItem}
+			reserveGrip={reserveGrip}
+		/>
 	);
 
 	return (

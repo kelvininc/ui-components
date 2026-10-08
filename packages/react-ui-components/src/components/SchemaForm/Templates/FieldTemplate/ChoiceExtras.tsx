@@ -7,7 +7,7 @@ import { getChoicePresentation } from './utils';
 import styles from './FieldTemplate.module.scss';
 
 const ChoiceExtras = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: FieldTemplateProps<T, S, F>) => {
-	const { id, label, formData, onChange, required, disabled, readonly, uiSchema, registry } = props;
+	const { id, label, formData, onChange, required, disabled, readonly, uiSchema, registry, children } = props;
 	const fieldTitle = getUiOptions(uiSchema, registry.globalUiOptions).title ?? label;
 	const hostRef = useContext(ChoiceControlContext);
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
@@ -36,30 +36,41 @@ const ChoiceExtras = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		};
 	}, [focusRequest, unset, canClear, hostRef]);
 
-	if (!choice || (!unset && !canClear)) return null;
+	if (!choice || (!unset && !canClear)) return <>{children}</>;
+	const annotation = unset && <span className={styles.NotSet}>{SCHEMA_FORM_STRINGS.notSet}</span>;
 	return (
-		<div className={styles.ChoiceExtras}>
-			{unset && <span className={styles.NotSet}>{SCHEMA_FORM_STRINGS.notSet}</span>}
-			{canClear && (
-				<button
-					type="button"
-					aria-label={SCHEMA_FORM_STRINGS.clearSelectionFor(fieldTitle.trim() || id)}
-					className={styles.ClearSelection}
-					aria-disabled={unset}
-					tabIndex={unset ? -1 : 0}
-					onClick={() => {
-						if (unset) return;
-						pendingFocus.current = true;
-						trackFieldChange(id, undefined);
-						markFieldAsTouched(id);
-						onChange(undefined);
-						requestFocus(request => request + 1);
-					}}
-				>
-					{SCHEMA_FORM_STRINGS.clearSelection}
-				</button>
-			)}
-		</div>
+		<>
+			<div className={styles.ChoiceExtras}>
+				{radio && children ? (
+					<div className={styles.ChoiceFeedback}>
+						{children}
+						{annotation}
+					</div>
+				) : (
+					annotation
+				)}
+				{canClear && (
+					<button
+						type="button"
+						aria-label={SCHEMA_FORM_STRINGS.clearSelectionFor(fieldTitle.trim() || id)}
+						className={styles.ClearSelection}
+						aria-disabled={unset}
+						tabIndex={unset ? -1 : 0}
+						onClick={() => {
+							if (unset) return;
+							pendingFocus.current = true;
+							trackFieldChange(id, undefined);
+							markFieldAsTouched(id);
+							onChange(undefined);
+							requestFocus(request => request + 1);
+						}}
+					>
+						{SCHEMA_FORM_STRINGS.clearSelection}
+					</button>
+				)}
+			</div>
+			{!radio && children}
+		</>
 	);
 };
 export default ChoiceExtras;

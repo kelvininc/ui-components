@@ -8,7 +8,7 @@ import { FIELD_FEEDBACK_SHAPES } from './test-utils/matrix';
 
 describe.each([StyleMode.Light, StyleMode.Night])('field feedback in %s', theme => {
 	describe.each([320, 800])('at %ipx', width => {
-		it.each(FIELD_FEEDBACK_SHAPES)('aligns descriptions and errors for $name', async row => {
+		it.each(FIELD_FEEDBACK_SHAPES)('aligns descriptions, errors and default helpers for $name', async row => {
 			setThemeMode(theme);
 			try {
 				const form = (invalid: boolean) => (
@@ -21,21 +21,28 @@ describe.each([StyleMode.Light, StyleMode.Night])('field feedback in %s', theme 
 				for (const invalid of [false, true]) {
 					if (invalid) await screen.rerender(form(true));
 					await whenAllKelvinReady(screen.container);
-					const message = invalid ? 'Review this connection setting.' : row.schema.description;
-					const help = Array.from(screen.container.querySelectorAll<HTMLKvFormHelpTextElement>('kv-form-help-text')).find(host =>
-						Array.isArray(host.helpText) ? host.helpText.includes(message!) : host.helpText === message
-					)!;
-					expect(help).toBeDefined();
-					await expect.poll(() => help.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe(message);
-					const text = help.shadowRoot!.querySelector('.help-text')!;
-					const field = help.closest('[data-schema-form-field]')!;
-					const bounds = field.getBoundingClientRect();
-					const feedback = text.getBoundingClientRect();
-					insets.push(feedback.left - bounds.left);
-					expect(feedback.right).toBeLessThanOrEqual(bounds.right);
-					expect(feedback.width).toBeGreaterThan(0);
+					const textarea = screen.container.querySelector('kv-text-area');
+					if (textarea) {
+						const frame = textarea.shadowRoot!.querySelector('.text-area-wrapper')!.getBoundingClientRect();
+						expect(frame.left).toBeCloseTo(textarea.closest('[data-schema-form-field]')!.getBoundingClientRect().left, 0);
+						expect(frame.right).toBeCloseTo(textarea.getBoundingClientRect().right, 0);
+					}
+					for (const message of [invalid ? 'Review this connection setting.' : row.schema.description, `Default value is: ${row.formData}`]) {
+						const help = Array.from(screen.container.querySelectorAll<HTMLKvFormHelpTextElement>('kv-form-help-text')).find(host =>
+							Array.isArray(host.helpText) ? host.helpText.includes(message!) : host.helpText === message
+						)!;
+						expect(help).toBeDefined();
+						await expect.poll(() => help.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe(message);
+						const text = help.shadowRoot!.querySelector('.help-text')!;
+						const field = help.closest('[data-schema-form-field]')!;
+						const bounds = field.getBoundingClientRect();
+						const feedback = text.getBoundingClientRect();
+						insets.push(feedback.left - bounds.left);
+						expect(feedback.right).toBeLessThanOrEqual(bounds.right);
+						expect(feedback.width).toBeGreaterThan(0);
+					}
 				}
-				expect(insets).toEqual([8, 8]);
+				expect(insets).toEqual([0, 0, 0, 0]);
 			} finally {
 				setThemeMode(StyleMode.Night);
 			}

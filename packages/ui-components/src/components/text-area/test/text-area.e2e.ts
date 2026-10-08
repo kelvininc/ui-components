@@ -5,6 +5,50 @@ import { DESIGN_TOKEN_CSS } from '../../../utils/test/design-tokens';
 const readText = (page: E2EPage) => page.evaluate(() => (document.querySelector('kv-text-area').shadowRoot.querySelector('.input') as HTMLElement).innerText);
 
 describe('text area contracts in Chromium', () => {
+	it.each([180, 800].flatMap(width => [false, true].flatMap(disabled => ['none', 'invalid'].map(state => ({ width, disabled, state })))))(
+		'keeps the icon inside the border at $width px, disabled=$disabled, state=$state',
+		async ({ width, disabled, state }) => {
+			const page = await newE2EPage({
+				html: `<button id="previous">Previous field</button><kv-text-area icon="kv-notes" text="Inspect the cooling loop." max-char-length="1000" counter-always-visible="true" disabled="${disabled}" state="${state}" style="display:block;width:${width}px"></kv-text-area>`
+			});
+			await page.addStyleTag({ content: DESIGN_TOKEN_CSS });
+			const geometry = await page.evaluate(async () => {
+				const host = document.querySelector('kv-text-area');
+				const root = host.shadowRoot;
+				const wrapper = root.querySelector('.text-area-wrapper');
+				await Promise.all(wrapper.getAnimations().map(animation => animation.finished));
+				const frame = wrapper.getBoundingClientRect();
+				const icon = root.querySelector('kv-icon').getBoundingClientRect();
+				const input = root.querySelector('.input').getBoundingClientRect();
+				const counter = root.querySelector('.character-counter').getBoundingClientRect();
+				return {
+					hostLeft: host.getBoundingClientRect().left,
+					frameLeft: frame.left,
+					frameRight: frame.right,
+					frameBottom: frame.bottom,
+					iconLeft: icon.left,
+					iconRight: icon.right,
+					inputLeft: input.left,
+					inputRight: input.right,
+					inputBottom: input.bottom,
+					counterTop: counter.top,
+					counterRight: counter.right,
+					counterBottom: counter.bottom
+				};
+			});
+			expect(geometry.frameLeft).toBe(geometry.hostLeft);
+			expect(geometry.iconLeft).toBeGreaterThan(geometry.frameLeft);
+			expect(geometry.iconRight).toBeLessThan(geometry.inputLeft);
+			expect(geometry.inputRight).toBeLessThan(geometry.frameRight);
+			expect(geometry.inputBottom).toBeLessThanOrEqual(geometry.counterTop);
+			expect(geometry.counterRight).toBeLessThan(geometry.frameRight);
+			expect(geometry.counterBottom).toBeLessThan(geometry.frameBottom);
+			await (await page.find('#previous')).focus();
+			await (await page.find('kv-text-area >>> kv-icon')).click();
+			expect(await page.evaluate(() => document.querySelector('kv-text-area').shadowRoot.activeElement?.classList.contains('input') ?? false)).toBe(!disabled);
+		}
+	);
+
 	it.each([180, 800])('keeps the counter inside the border while text scrolls at %ipx', async width => {
 		const page = await newE2EPage({ html: `<button>Next field</button><kv-text-area style="display:block;width:${width}px" max-char-length="1000"></kv-text-area>` });
 		await page.addStyleTag({ content: DESIGN_TOKEN_CSS });

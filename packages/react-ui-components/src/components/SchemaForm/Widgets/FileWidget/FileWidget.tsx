@@ -5,7 +5,7 @@ import React, { useContext, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import styles from './FileWidget.module.scss';
 import { FileInfoType } from './types';
-import { FileArrayErrorsContext, useFieldDescription, useFieldErrors, useFormState } from '../../contexts';
+import { FileArrayErrorsContext, FileFieldErrorsContext, useFieldDescription, useFieldErrors, useFormState } from '../../contexts';
 import { SCHEMA_FORM_STRINGS } from '../../strings';
 import { useSchemaFormFocusRef } from '../../hooks/entryFocus';
 import { useFileValue } from './useFileValue';
@@ -92,6 +92,7 @@ function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends 
 	const focusRef = useSchemaFormFocusRef<HTMLKvActionButtonTextElement>(inactive);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const fileErrors = useContext(FileArrayErrorsContext);
+	const fieldErrors = useContext(FileFieldErrorsContext);
 	const itemErrors = filesInfo.map((_, index) => (fileErrors?.fieldId === id ? fileErrors.errorSchema?.[index]?.__errors ?? [] : []));
 	const hasVisibleErrors = useFieldErrors(id, rawErrors);
 	const hasVisibleItemErrors = useFieldErrors(id, itemErrors.flat());
@@ -124,6 +125,7 @@ function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends 
 						<FileRow displayLabel={String(displayedLabel ?? '')} preview={false} disabled={inactive} hasError={hasVisibleErrors} errors={[]} onDelete={() => {}} />
 					)}
 				</div>
+				{fieldErrors?.fieldId === id && fieldErrors.errors}
 				{readError && (
 					<div ref={setReadErrorElement}>
 						<KvFormHelpText helpText={readError} state={EValidationState.Invalid} />
@@ -137,6 +139,7 @@ function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends 
 					type={EActionButtonType.Tertiary}
 					size={EComponentSize.Small}
 					text={actionLabel}
+					icon={multiple || !filesInfo.length ? EIconName.Add : undefined}
 					accessibleLabel={SCHEMA_FORM_STRINGS.fileActionFor(actionLabel, fieldName)}
 					accessibleDescriptionElements={description}
 					disabled={inactive}
