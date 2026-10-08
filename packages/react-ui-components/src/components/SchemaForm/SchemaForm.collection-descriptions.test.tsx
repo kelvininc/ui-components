@@ -1,0 +1,128 @@
+// @vitest-environment jsdom
+
+import React, { act } from 'react';
+import { createRoot } from 'react-dom/client';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { KvSchemaForm } from './SchemaForm';
+import { fireStencilEvent, propsOf } from '../../test-utils';
+import { ARRAY_WIDGET_DISPATCH_SHAPES, COLLECTION_ADD_ALIGNMENT_SHAPES, COLLECTION_DESCRIPTION_SHAPES, FILE_FIELD_OVERRIDE_SHAPES } from './test-utils/matrix';
+
+vi.mock('../../stencil-generated', async () => (await import('../../test-utils')).stencilMocks);
+let container: HTMLDivElement;
+let root: ReturnType<typeof createRoot>;
+beforeEach(() => {
+	container = document.createElement('div');
+	document.body.append(container);
+	root = createRoot(container);
+});
+afterEach(async () => {
+	await act(async () => root.unmount());
+	container.remove();
+});
+
+it.each(COLLECTION_ADD_ALIGNMENT_SHAPES)('matches Add to the resolved item layout: $name', async row => {
+	await act(async () => root.render(<KvSchemaForm<unknown> schema={row.schema} formData={row.formData} />));
+	const list = container.querySelector('[data-schema-form-list="root"]')!;
+	const add = list.querySelector('kv-action-button')!;
+	expect(add.querySelector('kv-icon')).not.toBeNull();
+	await act(async () => {
+		await fireStencilEvent(add, 'onClickButton');
+	});
+	const entries = list.querySelectorAll('[data-schema-form-list-item]');
+	expect(entries).toHaveLength(row.formData.length + 1);
+	expect(entries[entries.length - 1].getAttribute('data-schema-form-item-kind')).toBe(row.grip ? 'control' : 'section');
+});
+
+it.each(ARRAY_WIDGET_DISPATCH_SHAPES)('places guidance for the actual dispatch: $name', async row => {
+	await act(async () => root.render(<KvSchemaForm<unknown> schema={row.schema} uiSchema={row.uiSchema} formData={[]} />));
+	const description = container.querySelector('[id$="-description"]')!;
+	const content = container.querySelector(row.contentSelector)!;
+	expect(description).not.toBeNull();
+	expect(content).not.toBeNull();
+	expect(Boolean(description.compareDocumentPosition(content) & Node.DOCUMENT_POSITION_FOLLOWING)).toBe(row.collection);
+});
+
+it.each(FILE_FIELD_OVERRIDE_SHAPES)('keeps inline errors for a custom $name on a file schema', async row => {
+	for (const invalid of [true, false]) {
+		await act(async () =>
+			root.render(
+				<KvSchemaForm<unknown>
+					schema={row.schema}
+					formData={row.formData}
+					fields={row.fields}
+					extraErrors={invalid ? { __errors: ['CA certificate has expired.'] } : undefined}
+					displayErrors
+					showErrorList={false}
+				/>
+			)
+		);
+		const content = container.querySelector('[data-certificate-reference]')!;
+		expect(content).not.toBeNull();
+		expect(container.querySelector('input[type="file"]')).toBeNull();
+		const error = container.querySelector('[id$="-errors"] kv-form-help-text');
+		if (invalid) {
+			expect(error).not.toBeNull();
+			expect(propsOf<{ helpText: string[] }>(error!).helpText).toEqual(['CA certificate has expired.']);
+			expect(Boolean(content.compareDocumentPosition(error!) & Node.DOCUMENT_POSITION_FOLLOWING)).toBe(true);
+		} else expect(error).toBeNull();
+	}
+});
+
+describe.each(COLLECTION_DESCRIPTION_SHAPES)('description placement: $name', row => {
+	it('honors placement and keeps collection guidance visible with errors', async () => {
+		for (const invalid of [false, true]) {
+			await act(async () =>
+				root.render(
+					<KvSchemaForm<unknown>
+						schema={row.schema}
+						uiSchema={row.uiSchema}
+						formData={row.formData}
+						widgets={row.widgets}
+						displayErrors
+						showErrorList={false}
+						extraErrors={invalid ? { __errors: ['Review this connector setting.'] } : undefined}
+					/>
+				)
+			);
+			const description = container.querySelector('[id$="-description"]');
+			if (row.position === 'none' || (invalid && !row.collection)) {
+				expect(description).toBeNull();
+			} else {
+				expect(description).not.toBeNull();
+				expect(description!.querySelector('kv-form-help-text')?.getAttribute('data-help-text')).toBe(row.schema.description);
+				const content = container.querySelector(row.contentSelector);
+				expect(content).not.toBeNull();
+				expect(Boolean(description!.compareDocumentPosition(content!) & Node.DOCUMENT_POSITION_FOLLOWING)).toBe(row.position === 'top');
+			}
+			const error = container.querySelector('[id$="-errors"] kv-form-help-text');
+			if (invalid) expect(propsOf<{ helpText: string[] }>(error!).helpText).toEqual(['Review this connector setting.']);
+			else expect(error).toBeNull();
+		}
+	});
+
+	it('places collection defaults before entries, with or without a description', async () => {
+		for (const description of [row.schema.description, undefined]) {
+			await act(async () =>
+				root.render(
+					<KvSchemaForm<unknown>
+						schema={{ ...row.schema, description, default: row.formData as typeof row.schema.default }}
+						uiSchema={{ ...row.uiSchema, 'ui:showDefaultValueHelper': true }}
+						formData={row.formData}
+						widgets={row.widgets}
+					/>
+				)
+			);
+			if (row.formData === undefined) {
+				expect(
+					Array.from(container.querySelectorAll('kv-form-help-text')).filter(host => host.getAttribute('data-help-text')?.startsWith('Default value is:'))
+				).toHaveLength(0);
+				continue;
+			}
+			const helpers = Array.from(container.querySelectorAll('kv-form-help-text')).filter(host => host.getAttribute('data-help-text') === `Default value is: ${row.formData}`);
+			expect(helpers).toHaveLength(1);
+			const content = container.querySelector(row.contentSelector)!;
+			expect(content).not.toBeNull();
+			expect(Boolean(helpers[0].compareDocumentPosition(content) & Node.DOCUMENT_POSITION_FOLLOWING)).toBe(row.collection);
+		}
+	});
+});
