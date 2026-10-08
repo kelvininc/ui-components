@@ -125,7 +125,11 @@ describe.each(L2_SIZE_SHAPES)('L2 action sizing: $name', row => {
 					}
 				}
 				const firstCell = rows[0].querySelector('[data-table-cell]')!;
-				expect(screen.container.querySelector('kv-action-button')!.getBoundingClientRect().left).toBeCloseTo(firstCell.getBoundingClientRect().left, 0);
+				const add = screen.container.querySelector('kv-action-button')!;
+				expect(add.querySelector('span')!.getBoundingClientRect().left).toBeCloseTo(firstCell.getBoundingClientRect().left, 0);
+				const plus = add.querySelector('kv-icon')!.shadowRoot!.querySelector('.icon')!.getBoundingClientRect();
+				const grip = screen.getByRole('button', { name: 'Reorder row 1', exact: true }).element().getBoundingClientRect();
+				expect(plus.left + plus.width / 2).toBeCloseTo(grip.left + grip.width / 2, 0);
 				if (width >= 480)
 					expect(screen.container.querySelector('[role="columnheader"][aria-colindex="2"]')!.getBoundingClientRect().left).toBeCloseTo(
 						firstCell.getBoundingClientRect().left,

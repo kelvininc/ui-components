@@ -27,7 +27,7 @@
 		--icon-width: var(--text-area-icon-size-default);
 		--icon-height: var(--text-area-icon-size-default);
 
-		margin-top: var(--text-area-gap-default);
+		flex-shrink: 0;
 	}
 
 	.text-area {
@@ -48,6 +48,14 @@
 			overflow: hidden;
 			transition: height 0.25s ease-in-out;
 
+			.text-area-content {
+				display: flex;
+				align-items: flex-start;
+				gap: var(--text-area-gap-default);
+				flex: 1;
+				min-height: 0;
+			}
+
 			.input {
 				@include body-m-regular;
 				@include kelvin-scrollbar;
@@ -55,6 +63,8 @@
 				outline: none;
 				flex: 1;
 				min-height: 0;
+				min-width: 0;
+				height: 100%;
 				overflow: auto;
 				color: var(--text-area-text-default);
 				overflow-wrap: anywhere;

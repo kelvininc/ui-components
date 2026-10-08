@@ -24,6 +24,7 @@ const SectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		collection,
 		titleElement,
 		descriptionElement,
+		collectionMetadataElement,
 		errorsElement,
 		helperElement
 	} = useFieldPresentation(props);
@@ -32,7 +33,7 @@ const SectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		<WrapIfAdditionalTemplate {...props}>
 			<div
 				className={classNames(styles.SectionField, props.classNames, {
-					[styles.CollectionSection]: collection && hasTitle && descriptionPosition === EDescriptionPosition.Top && descriptionElement
+					[styles.CollectionSection]: collection && hasTitle && collectionMetadataElement
 				})}
 				role={hasTitle ? 'group' : undefined}
 				aria-labelledby={hasTitle && defaultTitle ? titleId : undefined}
@@ -47,7 +48,7 @@ const SectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 				) : (
 					titleElement
 				)}
-				{descriptionPosition === EDescriptionPosition.Top && descriptionElement}
+				{collection ? collectionMetadataElement : descriptionPosition === EDescriptionPosition.Top && descriptionElement}
 				{errorsElement}
 				<SectionDepthContext.Provider value={depth + Number(hasTitle)}>
 					<ArrayDescriptionContext.Provider value={arrayDescriptionContext}>
@@ -55,7 +56,7 @@ const SectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 					</ArrayDescriptionContext.Provider>
 				</SectionDepthContext.Provider>
 				{descriptionPosition === EDescriptionPosition.Bottom && descriptionElement}
-				{helperElement}
+				{!collection && helperElement}
 			</div>
 		</WrapIfAdditionalTemplate>
 	);

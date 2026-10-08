@@ -59,9 +59,10 @@ Section groups use unique heading ids and link their mounted descriptions and vi
 `aria-describedby`. Custom title templates receive a unique `id`; the group also has a text name so a
 template that omits that id still names the section. Field errors keep the existing visibility rules.
 
-List and file descriptions appear below the title with a 4px left inset, before entries and their Add,
-Choose file or Replace file action. Collection descriptions stay visible alongside errors; entry errors
-remain beneath their own entry. `ui:descriptionPosition` (or `ui:options.descriptionPosition`) can set
+List and file descriptions and default-value helpers appear below the title with a 4px left inset,
+before entries and their Add, Choose file or Replace file action. Helper lines have a 4px gap, followed
+by 12px before entries. Collection descriptions stay visible alongside errors; entry errors and
+individual input defaults remain beneath their own entry. `ui:descriptionPosition` (or `ui:options.descriptionPosition`) can set
 `top`, `bottom` or `none`, including through global UI options. Text inputs, textareas and compact
 multi-selects keep descriptions below the control. Custom array templates and widgets keep their layout.
 
@@ -87,8 +88,9 @@ RJSF's move and removal restrictions. Reserved action space keeps tuple inputs a
 
 Object items render numbered section headings and a left rail. One menu beside each heading holds
 the allowed move actions and a destructive Remove action. Boundary moves stay visible and disabled.
-Readonly and disabled lists keep disabled controls. Add always renders a left-aligned text button,
-"Add <prefix>" or "Add item", with a plus icon.
+Readonly and disabled lists keep disabled controls. Add renders "Add <prefix>" or "Add item", with its
+text aligned to the input edge. Lists with a reserved grip column center the plus icon in that column;
+lists without one use a text-only Add action.
 
 Enabled item actions and Add participate in Tab order. Menus support mouse and keyboard interaction.
 Scalar help tips stay beside the input; descriptions, errors and default helpers stay above

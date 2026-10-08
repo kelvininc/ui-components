@@ -1,8 +1,23 @@
 @use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
 .AddButtonContainer {
+	--schema-form-add-grip-width: var(--icon-button-height-regular);
+
 	display: flex;
 	justify-content: flex-start;
+
+	kv-action-button {
+		--button-padding-x-large: 0;
+		--button-border-thickness: 0;
+		--button-gap-large: var(--spacing-md);
+	}
+}
+
+.AddButtonIcon {
+	display: flex;
+	justify-content: center;
+	flex-shrink: 0;
+	width: var(--schema-form-add-grip-width);
 }
 
 .AddButtonText {

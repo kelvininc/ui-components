@@ -13,7 +13,7 @@ import {
 	WidgetProps
 } from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
-import { EComponentSize, StyleMode } from '@kelvininc/ui-components';
+import { EComponentSize, EIconName, StyleMode } from '@kelvininc/ui-components';
 import { EApplyDefaults, SchemaFormContext } from '../types';
 import { useSchemaFormFocusRef } from '../hooks/entryFocus';
 import DefaultFieldTemplate from '../Templates/FieldTemplate';
@@ -1364,6 +1364,12 @@ export const R2_ERROR_DESCRIPTION_SHAPES: readonly {
 
 export const FIELD_FEEDBACK_SHAPES = [
 	...R2_ERROR_DESCRIPTION_SHAPES.filter(row => row.fields.length === 1),
+	{
+		name: 'textarea with icon',
+		schema: { type: 'string', title: 'Operating instructions' } as RJSFSchema,
+		uiSchema: { 'ui:widget': 'textarea', 'iconName': EIconName.Notes },
+		formData: 'Inspect the cooling loop before restarting.'
+	},
 	{ name: 'date', schema: { type: 'string', title: 'Inspection date', format: 'date' } as RJSFSchema, uiSchema: {}, formData: '2026-10-08' },
 	{ name: 'file', schema: { type: 'string', title: 'CA certificate', format: 'data-url' } as RJSFSchema, uiSchema: {}, formData: 'data:text/plain;name=ca.pem;base64,Y2E=' }
 ].map(({ name, schema, uiSchema, formData }) => ({

@@ -12,8 +12,9 @@ const AddButton = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormCon
 	schema,
 	registry,
 	onAddClick,
-	buttonRef
-}: Partial<ArrayFieldTemplateProps<T, S, F>> & { buttonRef?: React.Ref<HTMLKvActionButtonElement> }) => {
+	buttonRef,
+	reserveGrip
+}: Partial<ArrayFieldTemplateProps<T, S, F>> & { buttonRef?: React.Ref<HTMLKvActionButtonElement>; reserveGrip?: boolean }) => {
 	const options = getUiOptions(uiSchema, registry?.globalUiOptions);
 	const itemOptions = getUiOptions(schema && isFixedItems(schema) ? uiSchema?.additionalItems : uiSchema?.items, registry?.globalUiOptions);
 	const validPrefix = (value: unknown) => (typeof value === 'string' && value.trim() ? value : undefined);
@@ -30,7 +31,7 @@ const AddButton = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormCon
 	return (
 		<div className={styles.AddButtonContainer}>
 			<KvActionButton ref={buttonRef} {...btnProps}>
-				<KvIcon name={EIconName.Add} />
+				{reserveGrip && <KvIcon name={EIconName.Add} className={styles.AddButtonIcon} />}
 				<span className={styles.AddButtonText}>{prefix ? SCHEMA_FORM_STRINGS.add(prefix) : SCHEMA_FORM_STRINGS.addItem()}</span>
 			</KvActionButton>
 		</div>

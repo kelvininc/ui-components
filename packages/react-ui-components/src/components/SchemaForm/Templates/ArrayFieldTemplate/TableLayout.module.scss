@@ -17,15 +17,9 @@
 }
 
 .TableContainer .TableList + div {
+	--schema-form-add-grip-width: var(--schema-form-table-action-height);
+
 	margin-top: var(--spacing-2xl);
-
-	kv-action-button {
-		--button-padding-x-large: 0;
-	}
-}
-
-.TableContainer[data-table-grip] .TableList + div {
-	padding-left: calc(var(--schema-form-table-action-height) + var(--spacing-md));
 }
 
 .TableHeader,

@@ -44,6 +44,13 @@ export const useFieldPresentation = <T, S extends StrictRJSFSchema = RJSFSchema,
 	const description = !customArrayDescription && descriptionPosition !== EDescriptionPosition.None ? uiOptions.description ?? rawDescription : undefined;
 	const errors = hasErrors ? rawErrors : [];
 	const helper = buildDefaultHelperText(buildHelperOptions(formContext, uiOptions), schema.default);
+	const descriptionElement = description ? (
+		<div id={descriptionId}>
+			<KvFormHelpText helpText={description} state={EValidationState.None} />
+		</div>
+	) : null;
+	const helperElement = helper ? <KvFormHelpText helpText={helper} /> : null;
+	const topDescription = descriptionPosition === EDescriptionPosition.Top && descriptionElement;
 	return {
 		title,
 		hasTitle,
@@ -59,16 +66,19 @@ export const useFieldPresentation = <T, S extends StrictRJSFSchema = RJSFSchema,
 		titleElement: hasTitle ? (
 			<Title id={titleId} title={title} schema={schema} uiSchema={uiSchema} registry={registry} required={required && getSchemaType(schema) !== 'object'} />
 		) : null,
-		descriptionElement: description ? (
-			<div id={descriptionId} className={collection && descriptionPosition === EDescriptionPosition.Top ? styles.CollectionDescription : undefined}>
-				<KvFormHelpText helpText={description} state={EValidationState.None} />
-			</div>
-		) : null,
+		descriptionElement,
+		collectionMetadataElement:
+			collection && (topDescription || helperElement) ? (
+				<div className={styles.CollectionMetadata} data-schema-form-collection-metadata>
+					{topDescription}
+					{helperElement}
+				</div>
+			) : null,
 		errorsElement: errors.length ? (
 			<div id={errorsId} ref={setErrorElement}>
 				<KvFormHelpText helpText={errors} state={EValidationState.Invalid} />
 			</div>
 		) : null,
-		helperElement: helper ? <KvFormHelpText helpText={helper} /> : null
+		helperElement
 	};
 };

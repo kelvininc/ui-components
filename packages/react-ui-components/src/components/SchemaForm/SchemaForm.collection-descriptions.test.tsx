@@ -60,4 +60,30 @@ describe.each(COLLECTION_DESCRIPTION_SHAPES)('description placement: $name', row
 			else expect(error).toBeNull();
 		}
 	});
+
+	it('places collection defaults before entries, with or without a description', async () => {
+		for (const description of [row.schema.description, undefined]) {
+			await act(async () =>
+				root.render(
+					<KvSchemaForm<unknown>
+						schema={{ ...row.schema, description, default: row.formData as typeof row.schema.default }}
+						uiSchema={{ ...row.uiSchema, 'ui:showDefaultValueHelper': true }}
+						formData={row.formData}
+						widgets={row.widgets}
+					/>
+				)
+			);
+			if (row.formData === undefined) {
+				expect(
+					Array.from(container.querySelectorAll('kv-form-help-text')).filter(host => host.getAttribute('data-help-text')?.startsWith('Default value is:'))
+				).toHaveLength(0);
+				continue;
+			}
+			const helpers = Array.from(container.querySelectorAll('kv-form-help-text')).filter(host => host.getAttribute('data-help-text') === `Default value is: ${row.formData}`);
+			expect(helpers).toHaveLength(1);
+			const content = container.querySelector(row.contentSelector)!;
+			expect(content).not.toBeNull();
+			expect(Boolean(helpers[0].compareDocumentPosition(content) & Node.DOCUMENT_POSITION_FOLLOWING)).toBe(row.collection);
+		}
+	});
 });

@@ -25,34 +25,41 @@ describe.each([StyleMode.Light, StyleMode.Night])('collection guidance in %s', t
 			);
 			await whenAllKelvinReady(screen.container);
 			const description = screen.container.querySelector('[id$="-description"]');
+			const content = screen.container.querySelector(row.kind === 'file' ? `.${fileStyles.FileWidgetContainer}` : row.contentSelector)!;
+			expect(content).not.toBeNull();
+			let lastMetadataText: Element | undefined;
 			if (row.position === 'none') {
 				expect(description).toBeNull();
-				return;
-			}
-			expect(description).not.toBeNull();
-			const host = description!.querySelector('kv-form-help-text')!;
-			await expect.poll(() => host.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe(row.schema.description);
-			const text = host.shadowRoot!.querySelector('.help-text')!;
-			const content = screen.container.querySelector(row.kind === 'file' ? `.${fileStyles.FileWidgetContainer}` : row.contentSelector)!;
-			const title = screen.container.querySelector('[id$="-title"]')!;
-			expect(content).not.toBeNull();
-			if (row.position === 'top') {
-				expect(text.getBoundingClientRect().left - title.getBoundingClientRect().left).toBeCloseTo(4, 0);
-				expect(text.getBoundingClientRect().top).toBeGreaterThanOrEqual(title.getBoundingClientRect().bottom);
-				expect(content.getBoundingClientRect().top - text.getBoundingClientRect().bottom).toBeCloseTo(12, 0);
 			} else {
-				expect(text.getBoundingClientRect().top).toBeGreaterThanOrEqual(content.getBoundingClientRect().bottom);
+				expect(description).not.toBeNull();
+				const host = description!.querySelector('kv-form-help-text')!;
+				await expect.poll(() => host.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe(row.schema.description);
+				const text = host.shadowRoot!.querySelector('.help-text')!;
+				const title = screen.container.querySelector('[id$="-title"]')!;
+				if (row.position === 'top') {
+					expect(text.getBoundingClientRect().left - title.getBoundingClientRect().left).toBeCloseTo(4, 0);
+					expect(text.getBoundingClientRect().top).toBeGreaterThanOrEqual(title.getBoundingClientRect().bottom);
+					lastMetadataText = text;
+				} else {
+					expect(text.getBoundingClientRect().top).toBeGreaterThanOrEqual(content.getBoundingClientRect().bottom);
+				}
+				const field = host.closest('[data-schema-form-field]')!;
+				expect(text.getBoundingClientRect().left - field.getBoundingClientRect().left).toBeCloseTo(4, 0);
+				expect(text.getBoundingClientRect().right).toBeLessThanOrEqual(field.getBoundingClientRect().right);
 			}
-			const field = host.closest('[data-schema-form-field]')!;
-			expect(text.getBoundingClientRect().left - field.getBoundingClientRect().left).toBeCloseTo(4, 0);
-			expect(text.getBoundingClientRect().right).toBeLessThanOrEqual(field.getBoundingClientRect().right);
 			if (row.formData !== undefined) {
 				const message = `Default value is: ${row.formData}`;
-				const helper = Array.from(field.querySelectorAll('kv-form-help-text')).find(host => host.helpText === message)!;
+				const helper = Array.from(screen.container.querySelectorAll('kv-form-help-text')).find(host => host.helpText === message)!;
 				expect(helper).toBeDefined();
 				await expect.poll(() => helper.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe(message.trim());
-				expect(helper.shadowRoot!.querySelector('.help-text')!.getBoundingClientRect().left - field.getBoundingClientRect().left).toBeCloseTo(4, 0);
+				const text = helper.shadowRoot!.querySelector('.help-text')!;
+				const field = helper.closest('[data-schema-form-field]')!;
+				expect(text.getBoundingClientRect().left - field.getBoundingClientRect().left).toBeCloseTo(4, 0);
+				expect(text.getBoundingClientRect().bottom).toBeLessThanOrEqual(content.getBoundingClientRect().top);
+				if (lastMetadataText) expect(text.getBoundingClientRect().top - lastMetadataText.getBoundingClientRect().bottom).toBeCloseTo(4, 0);
+				lastMetadataText = text;
 			}
+			if (lastMetadataText) expect(content.getBoundingClientRect().top - lastMetadataText.getBoundingClientRect().bottom).toBeCloseTo(12, 0);
 		});
 
 		it.each(COLLECTION_ENTRY_ERROR_SHAPES)('keeps the error beneath its entry: $name', async row => {
@@ -74,6 +81,15 @@ describe.each([StyleMode.Light, StyleMode.Night])('collection guidance in %s', t
 			await expect.poll(() => help.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe(row.message);
 			expect(help.shadowRoot!.querySelector('.help-text')!.getBoundingClientRect().left - control.getBoundingClientRect().left).toBeCloseTo(4, 0);
 			if (row.name.startsWith('scalar list;')) {
+				const add = screen.container.querySelector('[data-schema-form-list="root"] kv-action-button')!;
+				expect(add.querySelector('span')!.getBoundingClientRect().left).toBeCloseTo(control.getBoundingClientRect().left, 0);
+				const icon = add.querySelector('kv-icon');
+				if (row.uiSchema?.['ui:options']?.orderable) {
+					expect(icon).not.toBeNull();
+					const drawnIcon = icon!.shadowRoot!.querySelector('.icon')!.getBoundingClientRect();
+					const grip = entry.querySelector('kv-action-menu')!.getBoundingClientRect();
+					expect(drawnIcon.left + drawnIcon.width / 2).toBeCloseTo(grip.left + grip.width / 2, 0);
+				} else expect(icon).toBeNull();
 				const helper = Array.from(entry.querySelectorAll('kv-form-help-text')).find(host => host.helpText === 'Default value is: telemetry')!;
 				expect(helper).toBeDefined();
 				await expect.poll(() => helper.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe('Default value is: telemetry');

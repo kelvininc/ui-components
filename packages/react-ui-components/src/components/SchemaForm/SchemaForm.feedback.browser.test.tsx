@@ -21,6 +21,12 @@ describe.each([StyleMode.Light, StyleMode.Night])('field feedback in %s', theme 
 				for (const invalid of [false, true]) {
 					if (invalid) await screen.rerender(form(true));
 					await whenAllKelvinReady(screen.container);
+					const textarea = screen.container.querySelector('kv-text-area');
+					if (textarea) {
+						const frame = textarea.shadowRoot!.querySelector('.text-area-wrapper')!.getBoundingClientRect();
+						expect(frame.left).toBeCloseTo(textarea.closest('[data-schema-form-field]')!.getBoundingClientRect().left, 0);
+						expect(frame.right).toBeCloseTo(textarea.getBoundingClientRect().right, 0);
+					}
 					for (const message of [invalid ? 'Review this connection setting.' : row.schema.description, `Default value is: ${row.formData}`]) {
 						const help = Array.from(screen.container.querySelectorAll<HTMLKvFormHelpTextElement>('kv-form-help-text')).find(host =>
 							Array.isArray(host.helpText) ? host.helpText.includes(message!) : host.helpText === message
