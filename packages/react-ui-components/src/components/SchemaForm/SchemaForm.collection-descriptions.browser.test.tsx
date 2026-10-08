@@ -4,13 +4,34 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../test-utils/browser';
 import { KvSchemaForm } from './SchemaForm';
-import { COLLECTION_DESCRIPTION_FIELDS, COLLECTION_DESCRIPTION_SHAPES, COLLECTION_ENTRY_ERROR_SHAPES } from './test-utils/matrix';
+import { COLLECTION_ADD_ALIGNMENT_SHAPES, COLLECTION_DESCRIPTION_FIELDS, COLLECTION_DESCRIPTION_SHAPES, COLLECTION_ENTRY_ERROR_SHAPES } from './test-utils/matrix';
 import fileStyles from './Widgets/FileWidget/FileWidget.module.scss';
 
 afterEach(() => setThemeMode(StyleMode.Night));
 
 describe.each([StyleMode.Light, StyleMode.Night])('collection guidance in %s', theme => {
 	describe.each([320, 800])('at %ipx', width => {
+		it.each(COLLECTION_ADD_ALIGNMENT_SHAPES)('aligns Add with the resolved item layout: $name', async row => {
+			setThemeMode(theme);
+			const screen = await render(
+				<div style={{ width }}>
+					<KvSchemaForm<unknown> schema={row.schema} formData={row.formData} />
+				</div>
+			);
+			await whenAllKelvinReady(screen.container);
+			const list = screen.container.querySelector('[data-schema-form-list="root"]')!;
+			const add = list.querySelector('kv-action-button')!;
+			expect(Boolean(add.querySelector('kv-icon'))).toBe(row.grip);
+			await screen.getByRole('button', { name: /^Add/ }).click();
+			await whenAllKelvinReady(screen.container);
+			const entries = list.querySelectorAll('[data-schema-form-list-item]');
+			expect(entries).toHaveLength(row.formData.length + 1);
+			const entry = entries[entries.length - 1];
+			expect(entry.getAttribute('data-schema-form-item-kind')).toBe(row.grip ? 'control' : 'section');
+			const target = row.grip ? entry.querySelector('kv-text-field')! : entry;
+			expect(add.querySelector('span')!.getBoundingClientRect().left).toBeCloseTo(target.getBoundingClientRect().left, 0);
+		});
+
 		it.each(COLLECTION_DESCRIPTION_SHAPES.filter(row => row.collection))('places and aligns $name', async row => {
 			setThemeMode(theme);
 			const screen = await render(

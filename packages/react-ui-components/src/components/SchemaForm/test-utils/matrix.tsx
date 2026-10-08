@@ -3518,6 +3518,37 @@ export const COLLECTION_DESCRIPTION_SHAPES = COLLECTION_DESCRIPTION_FIELDS.flatM
 	})
 );
 
+const referencedConnectionList = SECTION_HEADING_SHAPES.find(row => row.name === 'referenced object list')!.schema;
+const referencedTopicList: RJSFSchema = { type: 'array', title: 'Topics', definitions: { topic: { type: 'string', title: 'Topic' } }, items: { $ref: '#/definitions/topic' } };
+export const COLLECTION_ADD_ALIGNMENT_SHAPES = [
+	{ name: 'referenced object items', schema: referencedConnectionList, grip: false, empty: [], populated: [{ host: 'broker-1.local' }] },
+	{
+		name: 'allOf object items',
+		schema: { ...referencedConnectionList, items: { allOf: [{ $ref: '#/definitions/connection' }] } },
+		grip: false,
+		empty: [],
+		populated: [{ host: 'broker-1.local' }]
+	},
+	{ name: 'referenced scalar items', schema: referencedTopicList, grip: true, empty: [], populated: ['line-1.telemetry'] },
+	{
+		name: 'referenced additional object items',
+		schema: { ...referencedConnectionList, items: [{ type: 'string', title: 'Primary broker' }], additionalItems: { $ref: '#/definitions/connection' } } as RJSFSchema,
+		grip: false,
+		empty: ['broker-1.local'],
+		populated: ['broker-1.local', { host: 'broker-2.local' }]
+	},
+	{
+		name: 'referenced additional scalar items',
+		schema: { ...referencedTopicList, items: [{ type: 'string', title: 'Telemetry topic' }], additionalItems: { $ref: '#/definitions/topic' } } as RJSFSchema,
+		grip: true,
+		empty: ['line-1.telemetry'],
+		populated: ['line-1.telemetry', 'line-1.alarms']
+	}
+].flatMap(({ empty, populated, ...row }) => [
+	{ ...row, name: `${row.name}; empty`, formData: empty },
+	{ ...row, name: `${row.name}; populated`, formData: populated }
+]);
+
 export const COLLECTION_ENTRY_ERROR_SHAPES = ['scalar list', 'object table', 'object sections', 'multiple files']
 	.map(name => {
 		const row = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === name)!;
@@ -3718,6 +3749,7 @@ export const ARRAY_WIDGET_DISPATCH_SHAPES: readonly {
 	R6_FILE_LAYOUT_SHAPES,
 	COLLECTION_DESCRIPTION_FIELDS,
 	COLLECTION_DESCRIPTION_SHAPES,
+	COLLECTION_ADD_ALIGNMENT_SHAPES,
 	COLLECTION_ENTRY_ERROR_SHAPES,
 	ARRAY_WIDGET_DISPATCH_SHAPES,
 	TEMPLATE_COMPONENTS,

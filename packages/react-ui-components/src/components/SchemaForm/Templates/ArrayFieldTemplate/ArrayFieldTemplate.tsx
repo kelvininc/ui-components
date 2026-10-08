@@ -44,7 +44,7 @@ const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 	const layout = useContext(ArrayItemLayoutContext);
 	const addedSchema = Array.isArray(schema.items) ? schema.additionalItems : schema.items;
 	const addedUiSchema = Array.isArray(schema.items) ? uiSchema?.additionalItems : uiSchema?.items;
-	const addedSection = addedSchema && typeof addedSchema === 'object' && isSectionField(addedSchema as S, addedUiSchema, registry);
+	const addedSection = addedSchema && typeof addedSchema === 'object' && isSectionField(registry.schemaUtils.retrieveSchema(addedSchema as S), addedUiSchema, registry);
 	const reserveGrip = table
 		? table.reserveGrip
 		: ArrayFieldItemTemplate === DefaultArrayFieldItemTemplate && Boolean((layout?.reserveGrip ?? items.some(item => item.hasMoveUp || item.hasMoveDown)) && !addedSection);

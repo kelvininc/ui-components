@@ -4,8 +4,8 @@ import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { KvSchemaForm } from './SchemaForm';
-import { propsOf } from '../../test-utils';
-import { ARRAY_WIDGET_DISPATCH_SHAPES, COLLECTION_DESCRIPTION_SHAPES } from './test-utils/matrix';
+import { fireStencilEvent, propsOf } from '../../test-utils';
+import { ARRAY_WIDGET_DISPATCH_SHAPES, COLLECTION_ADD_ALIGNMENT_SHAPES, COLLECTION_DESCRIPTION_SHAPES } from './test-utils/matrix';
 
 vi.mock('../../stencil-generated', async () => (await import('../../test-utils')).stencilMocks);
 let container: HTMLDivElement;
@@ -18,6 +18,19 @@ beforeEach(() => {
 afterEach(async () => {
 	await act(async () => root.unmount());
 	container.remove();
+});
+
+it.each(COLLECTION_ADD_ALIGNMENT_SHAPES)('matches Add to the resolved item layout: $name', async row => {
+	await act(async () => root.render(<KvSchemaForm<unknown> schema={row.schema} formData={row.formData} />));
+	const list = container.querySelector('[data-schema-form-list="root"]')!;
+	const add = list.querySelector('kv-action-button')!;
+	expect(Boolean(add.querySelector('kv-icon'))).toBe(row.grip);
+	await act(async () => {
+		await fireStencilEvent(add, 'onClickButton');
+	});
+	const entries = list.querySelectorAll('[data-schema-form-list-item]');
+	expect(entries).toHaveLength(row.formData.length + 1);
+	expect(entries[entries.length - 1].getAttribute('data-schema-form-item-kind')).toBe(row.grip ? 'control' : 'section');
 });
 
 it.each(ARRAY_WIDGET_DISPATCH_SHAPES)('places guidance for the actual dispatch: $name', async row => {
