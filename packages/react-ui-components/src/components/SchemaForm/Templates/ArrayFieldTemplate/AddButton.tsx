@@ -1,6 +1,7 @@
 import { EActionButtonType, EComponentSize, EIconName } from '@kelvininc/ui-components';
 import { ArrayFieldTemplateProps, FormContextType, getUiOptions, isFixedItems, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import React from 'react';
+import classNames from 'classnames';
 import { KvActionButton, KvIcon } from '../../../../stencil-generated';
 import styles from './AddButton.module.scss';
 import { SCHEMA_FORM_STRINGS } from '../../strings';
@@ -31,7 +32,7 @@ const AddButton = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormCon
 	return (
 		<div className={styles.AddButtonContainer}>
 			<KvActionButton ref={buttonRef} {...btnProps}>
-				{reserveGrip && <KvIcon name={EIconName.Add} className={styles.AddButtonIcon} />}
+				<KvIcon name={EIconName.Add} aria-hidden="true" className={classNames(styles.AddButtonIcon, { [styles.ReserveGrip]: reserveGrip })} />
 				<span className={styles.AddButtonText}>{prefix ? SCHEMA_FORM_STRINGS.add(prefix) : SCHEMA_FORM_STRINGS.addItem()}</span>
 			</KvActionButton>
 		</div>

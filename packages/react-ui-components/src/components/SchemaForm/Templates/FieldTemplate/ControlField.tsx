@@ -2,7 +2,7 @@ import { FieldTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema } fro
 import classNames from 'classnames';
 import React, { useContext, useRef } from 'react';
 import { EDescriptionPosition } from '../../types';
-import { ArrayDescriptionContext, ArrayItemControlsContext, ChoiceControlContext, FieldDescriptionContext } from '../../contexts';
+import { ArrayDescriptionContext, ArrayItemControlsContext, ChoiceControlContext, FieldDescriptionContext, FileFieldErrorsContext } from '../../contexts';
 import { useFieldPresentation } from './useFieldPresentation';
 import styles from './FieldTemplate.module.scss';
 import ChoiceExtras from './ChoiceExtras';
@@ -21,6 +21,7 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		arrayDescriptionContext,
 		errorDescription,
 		collection,
+		fileWidget,
 		descriptionPosition,
 		titleElement,
 		descriptionElement,
@@ -53,25 +54,27 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 				{!cell && (collection ? collectionMetadataElement : descriptionPosition === EDescriptionPosition.Top && help)}
 				<ChoiceControlContext.Provider value={choiceHost}>
 					<FieldDescriptionContext.Provider value={errorDescription}>
-						<ArrayDescriptionContext.Provider value={arrayDescriptionContext}>
-							{itemControls ? (
-								<div className={styles.ItemControlRow}>
-									{itemControls.before}
-									<div className={styles.ItemControl}>
-										<ArrayItemControlsContext.Provider value={null}>{props.children}</ArrayItemControlsContext.Provider>
+						<FileFieldErrorsContext.Provider value={fileWidget ? { fieldId: props.id, errors: errorsElement } : null}>
+							<ArrayDescriptionContext.Provider value={arrayDescriptionContext}>
+								{itemControls ? (
+									<div className={styles.ItemControlRow}>
+										{itemControls.before}
+										<div className={styles.ItemControl}>
+											<ArrayItemControlsContext.Provider value={null}>{props.children}</ArrayItemControlsContext.Provider>
+										</div>
+										{!titleElement && <FieldHelp help={props.rawHelp} />}
+										{itemControls.after}
 									</div>
-									{!titleElement && <FieldHelp help={props.rawHelp} />}
-									{itemControls.after}
-								</div>
-							) : (
-								props.children
-							)}
-						</ArrayDescriptionContext.Provider>
+								) : (
+									props.children
+								)}
+							</ArrayDescriptionContext.Provider>
+						</FileFieldErrorsContext.Provider>
 					</FieldDescriptionContext.Provider>
 					<ChoiceExtras {...props} />
 				</ChoiceControlContext.Provider>
-				{cell ? errorsElement : descriptionPosition !== EDescriptionPosition.Top && help}
-				{!cell && collection && errorsElement}
+				{cell ? !fileWidget && errorsElement : descriptionPosition !== EDescriptionPosition.Top && help}
+				{!cell && collection && !fileWidget && errorsElement}
 				{!cell && !collection && helperElement}
 			</div>
 		</WrapIfAdditionalTemplate>

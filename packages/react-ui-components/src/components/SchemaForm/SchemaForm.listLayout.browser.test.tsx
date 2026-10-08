@@ -282,7 +282,9 @@ describe.each(ARRAY_SHAPES)('L1 list matrix in Chromium: $name', row => {
 				expect(add?.textContent).toBe('Add item');
 				const button = screen.getByRole('button', { name: add!.accessibleLabel, exact: true }).element();
 				expect((button as HTMLButtonElement).tabIndex).toBe(readonly || row.name === 'readonly' ? -1 : 0);
-				expect(add!.querySelector('span')!.getBoundingClientRect().x).toBeCloseTo(addAlignment.getBoundingClientRect().x, 0);
+				const addStart = section || option.options.orderable === false ? add! : add!.querySelector('span')!;
+				expect(add!.querySelector('kv-icon')).not.toBeNull();
+				expect(addStart.getBoundingClientRect().x).toBeCloseTo(addAlignment.getBoundingClientRect().x, 0);
 			} else expect(add).toBeNull();
 		});
 	});

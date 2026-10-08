@@ -24,7 +24,7 @@ it.each(COLLECTION_ADD_ALIGNMENT_SHAPES)('matches Add to the resolved item layou
 	await act(async () => root.render(<KvSchemaForm<unknown> schema={row.schema} formData={row.formData} />));
 	const list = container.querySelector('[data-schema-form-list="root"]')!;
 	const add = list.querySelector('kv-action-button')!;
-	expect(Boolean(add.querySelector('kv-icon'))).toBe(row.grip);
+	expect(add.querySelector('kv-icon')).not.toBeNull();
 	await act(async () => {
 		await fireStencilEvent(add, 'onClickButton');
 	});

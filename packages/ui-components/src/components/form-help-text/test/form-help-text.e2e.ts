@@ -23,7 +23,7 @@ describe('help text weight contracts in Chromium', () => {
 				const help = tag === 'kv-form-help-text' ? host : (host.shadowRoot ?? host).querySelector('kv-form-help-text');
 				return help.shadowRoot.querySelector('.help-text').getBoundingClientRect().left - host.getBoundingClientRect().left;
 			}, row.tag);
-			expect(inset).toBe(4);
+			expect(inset).toBe(0);
 		}
 	);
 

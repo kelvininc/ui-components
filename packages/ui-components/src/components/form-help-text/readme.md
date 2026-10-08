@@ -46,7 +46,7 @@ export const FormHelpTextExample: React.FC = () => (
 | `--help-text-default-color`     | Help text color when state is default.                                                                |
 | `--help-text-error-color`       | Help text color when state is invalid.                                                                |
 | `--help-text-error-font-weight` | Font weight for invalid help text. Defaults to regular; set it on a parent to style nested help text. |
-| `--help-text-left-spacing`      | Help text left spacing. Defaults to 4px.                                                              |
+| `--help-text-left-spacing`      | Help text left spacing. Defaults to zero.                                                             |
 | `--help-text-right-spacing`     | Help text right spacing.                                                                              |
 | `--help-text-top-spacing`       | Help text top spacing.                                                                                |
 

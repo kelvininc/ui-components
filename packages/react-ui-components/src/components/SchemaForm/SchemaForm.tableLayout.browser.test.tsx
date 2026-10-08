@@ -461,7 +461,7 @@ it('tabs through inputs, grip and trash before the next row', async () => {
 	}
 });
 
-it('uses 48px rows and centers row actions on their inputs', async () => {
+it('uses 12px row gaps and centers row actions on their inputs', async () => {
 	const row = FLAT_OBJECT_SHAPES[0];
 	const screen = await render(
 		<div style={{ width: '640px' }}>
@@ -471,7 +471,7 @@ it('uses 48px rows and centers row actions on their inputs', async () => {
 	await whenAllKelvinReady(screen.container);
 	await document.fonts.ready;
 	const rows = rootRows(screen.container);
-	expect(rows[1].getBoundingClientRect().top - rows[0].getBoundingClientRect().top).toBe(48);
+	expect(rows[1].getBoundingClientRect().top - rows[0].getBoundingClientRect().bottom).toBe(12);
 	const host = rows[0].querySelector('kv-text-field')!;
 	const nativeInput = host.shadowRoot!.querySelector('input')!;
 	const center = (element: Element) => element.getBoundingClientRect().top + element.getBoundingClientRect().height / 2;

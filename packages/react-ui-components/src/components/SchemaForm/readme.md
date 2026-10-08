@@ -59,7 +59,7 @@ Section groups use unique heading ids and link their mounted descriptions and vi
 `aria-describedby`. Custom title templates receive a unique `id`; the group also has a text name so a
 template that omits that id still names the section. Field errors keep the existing visibility rules.
 
-List and file descriptions and default-value helpers appear below the title with a 4px left inset,
+List and file descriptions and default-value helpers align with the title,
 before entries and their Add, Choose file or Replace file action. Helper lines have a 4px gap, followed
 by 12px before entries. Collection descriptions stay visible alongside errors; entry errors and
 individual input defaults remain beneath their own entry. `ui:descriptionPosition` (or `ui:options.descriptionPosition`) can set
@@ -88,9 +88,10 @@ RJSF's move and removal restrictions. Reserved action space keeps tuple inputs a
 
 Object items render numbered section headings and a left rail. One menu beside each heading holds
 the allowed move actions and a destructive Remove action. Boundary moves stay visible and disabled.
-Readonly and disabled lists keep disabled controls. Add renders "Add <prefix>" or "Add item", with its
-text aligned to the input edge. Lists with a reserved grip column center the plus icon in that column;
-lists without one use a text-only Add action.
+Readonly and disabled lists keep disabled controls. Add renders a plus followed by "Add <prefix>"
+or "Add item". Lists with a reserved grip column center the plus in that column and align the text
+with the input. Other lists start the plus at the entry edge. List, file and radio entries have a 12px vertical gap.
+Radio Clear selection actions align with the group's right edge.
 
 Enabled item actions and Add participate in Tab order. Menus support mouse and keyboard interaction.
 Scalar help tips stay beside the input; descriptions, errors and default helpers stay above
@@ -185,7 +186,7 @@ and applies template replacements to mounted forms without modifying the caller'
 
 ## Textarea values and limits
 
-Descriptions, errors and default-value helpers share `kv-form-help-text`'s 4px left inset.
+Descriptions, errors and default-value helpers share `kv-form-help-text`'s zero left inset.
 Scalar-list feedback aligns with its input column, reserving the same space as the row actions.
 Text and date/time inputs use the same rule for their built-in feedback. A textarea's
 compact character count sits inside the bottom-right corner in a reserved footer; text scrolls

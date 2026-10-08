@@ -36,7 +36,8 @@ export const useFieldPresentation = <T, S extends StrictRJSFSchema = RJSFSchema,
 			: schemaType === 'string' && !hasCustomField(uiSchema, registry, schema)
 			? getChoiceWidget(props)
 			: undefined;
-	const collection = arrayTemplate === ArrayFieldTemplate || (Boolean(widget) && widget === getWidget(schema, FileWidget, registry.widgets));
+	const fileWidget = Boolean(widget) && widget === getWidget(schema, FileWidget, registry.widgets);
+	const collection = arrayTemplate === ArrayFieldTemplate || fileWidget;
 	const descriptionPosition =
 		(uiOptions.descriptionPosition as EDescriptionPosition) ?? (schemaType === 'object' || collection ? EDescriptionPosition.Top : EDescriptionPosition.Bottom);
 	const arrayDescription = getTemplate('ArrayFieldDescriptionTemplate', registry, uiOptions);
@@ -59,6 +60,7 @@ export const useFieldPresentation = <T, S extends StrictRJSFSchema = RJSFSchema,
 		errorsId,
 		descriptionPosition,
 		collection,
+		fileWidget,
 		WrapIfAdditionalTemplate,
 		errorDescription,
 		arrayDescriptionContext: { fieldId: id, fieldTemplate: owner?.fieldTemplate, descriptionId: customArrayDescription ? descriptionId : undefined },

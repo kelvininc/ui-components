@@ -42,7 +42,7 @@ describe.each([StyleMode.Light, StyleMode.Night])('field feedback in %s', theme 
 						expect(feedback.width).toBeGreaterThan(0);
 					}
 				}
-				expect(insets).toEqual([4, 4, 4, 4]);
+				expect(insets).toEqual([0, 0, 0, 0]);
 			} finally {
 				setThemeMode(StyleMode.Night);
 			}

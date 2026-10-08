@@ -8,7 +8,7 @@
 }
 
 .TableContainer .TableList {
-	gap: var(--spacing-md);
+	gap: var(--spacing-xl);
 }
 
 .TableActions > div {
@@ -126,10 +126,6 @@
 		grid-template-columns: minmax(0, 1fr) auto;
 		padding-bottom: var(--spacing-2xl);
 		border-bottom: var(--border-width-default) solid var(--border-container-divider-default);
-
-		& + .TableRow {
-			margin-top: var(--spacing-md);
-		}
 	}
 
 	.TableCell {

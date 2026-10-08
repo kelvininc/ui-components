@@ -3577,6 +3577,27 @@ export const COLLECTION_ENTRY_ERROR_SHAPES = ['scalar list', 'object table', 'ob
 			: [row]
 	);
 
+export const WIDGET_ENTRY_LAYOUT_SHAPES = [
+	...['scalar list', 'object table', 'multiple files'].map(name => {
+		const row = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === name)!;
+		const formData = Array.isArray(row.formData) && row.formData.length === 1 ? [...row.formData, ...row.formData] : row.formData;
+		return { name, schema: row.schema, uiSchema: row.uiSchema, formData, kind: row.kind === 'file' ? 'file' : 'list' };
+	}),
+	...['RadioWidget', 'RadioListWidget'].map(widget => ({
+		name: widget,
+		schema: { type: 'string', title: 'Delivery policy', enum: ['At most once', 'At least once'] } as RJSFSchema,
+		uiSchema: { 'ui:widget': widget } as UiSchema,
+		formData: 'At least once',
+		kind: 'radio'
+	}))
+];
+
+export const FILE_FEEDBACK_LAYOUT_SHAPES = [
+	{ name: 'uploaded single file', formData: CERTIFICATE },
+	{ name: 'single secret reference', formData: '<% secrets.ca %>' },
+	{ name: 'empty single file', formData: undefined }
+].map(row => ({ ...row, schema: { type: 'string', title: 'CA certificate', format: 'data-url' } as RJSFSchema, message: 'Review the CA certificate.' }));
+
 const describedFiles = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === 'multiple files')!.schema;
 const describedChoices = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === 'multi-select')!.schema;
 export const ARRAY_WIDGET_DISPATCH_SHAPES: readonly {
@@ -3751,6 +3772,8 @@ export const ARRAY_WIDGET_DISPATCH_SHAPES: readonly {
 	COLLECTION_DESCRIPTION_SHAPES,
 	COLLECTION_ADD_ALIGNMENT_SHAPES,
 	COLLECTION_ENTRY_ERROR_SHAPES,
+	WIDGET_ENTRY_LAYOUT_SHAPES,
+	FILE_FEEDBACK_LAYOUT_SHAPES,
 	ARRAY_WIDGET_DISPATCH_SHAPES,
 	TEMPLATE_COMPONENTS,
 	OPTION_SOURCES,
