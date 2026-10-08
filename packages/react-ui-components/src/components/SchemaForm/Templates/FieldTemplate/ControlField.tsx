@@ -16,9 +16,9 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	const cell = useTableCell(props.id);
 	const controls = useContext(ArrayItemControlsContext);
 	const itemControls = controls?.fieldId === props.id ? controls : null;
-	const { WrapIfAdditionalTemplate, arrayDescriptionContext, errorDescription, descriptionPosition, titleElement, descriptionElement, errorsElement, helperElement } =
+	const { WrapIfAdditionalTemplate, arrayDescriptionContext, errorDescription, collection, descriptionPosition, titleElement, descriptionElement, errorsElement, helperElement } =
 		useFieldPresentation(props);
-	const help = errorsElement || descriptionElement;
+	const help = collection ? descriptionElement : errorsElement || descriptionElement;
 	return (
 		<WrapIfAdditionalTemplate {...props}>
 			<div className={classNames(styles.FieldWrapper, props.classNames)}>
@@ -56,6 +56,7 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 					<ChoiceExtras {...props} />
 				</ChoiceControlContext.Provider>
 				{cell ? errorsElement : descriptionPosition !== EDescriptionPosition.Top && help}
+				{!cell && collection && errorsElement}
 				{!cell && helperElement}
 			</div>
 		</WrapIfAdditionalTemplate>

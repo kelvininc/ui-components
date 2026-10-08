@@ -17,6 +17,7 @@ import { EComponentSize, StyleMode } from '@kelvininc/ui-components';
 import { EApplyDefaults, SchemaFormContext } from '../types';
 import { useSchemaFormFocusRef } from '../hooks/entryFocus';
 import DefaultFieldTemplate from '../Templates/FieldTemplate';
+import FileWidget from '../Widgets/FileWidget';
 
 /** Freezes plain data in place; components (functions, memo and forwardRef objects) stay as they are */
 const deepFreeze = <T,>(value: T): T => {
@@ -3340,6 +3341,188 @@ export const R6_FILE_LAYOUT_SHAPES = [
 	}
 ].map(({ source, ...row }) => ({ ...R6_FILE_SHAPES.find(shape => shape.name === source)!, ...row }));
 
+const DescriptionWidget = () => <p data-description-widget>Connector setting</p>;
+const collectionDescription = 'Configure the files or entries before deploying this connector.';
+type DescriptionShape = {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema?: UiSchema;
+	formData?: unknown;
+	widgets?: Record<string, ComponentType<WidgetProps>>;
+	kind: 'list' | 'file' | 'control' | 'custom';
+	contentSelector: string;
+	collection: boolean;
+};
+export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
+	{
+		name: 'scalar list',
+		schema: { ...TOPICS, description: collectionDescription },
+		formData: ['telemetry', 'alarms'],
+		kind: 'list',
+		contentSelector: '[data-schema-form-list="root"]',
+		collection: true
+	},
+	{
+		name: 'empty scalar list',
+		schema: { ...TOPICS, description: collectionDescription },
+		formData: [],
+		kind: 'list',
+		contentSelector: '[data-schema-form-list="root"]',
+		collection: true
+	},
+	{
+		name: 'tuple list',
+		schema: { ...ENDPOINTS, description: collectionDescription },
+		formData: ['broker-1.local', 'broker-2.local'],
+		kind: 'list',
+		contentSelector: '[data-schema-form-list="root"]',
+		collection: true
+	},
+	{
+		name: 'object sections',
+		schema: { ...DESCRIBED_CONNECTION_ARRAY, description: collectionDescription },
+		uiSchema: { 'ui:options': { layout: 'sections' } },
+		formData: [{ host: 'broker-1.local' }],
+		kind: 'list',
+		contentSelector: '[data-schema-form-list="root"]',
+		collection: true
+	},
+	{
+		name: 'object table',
+		schema: { ...DESCRIBED_CONNECTION_ARRAY, description: collectionDescription },
+		formData: [{ host: 'broker-1.local' }],
+		kind: 'list',
+		contentSelector: '[data-schema-form-list="root"]',
+		collection: true
+	},
+	{
+		name: 'single file',
+		schema: { type: 'string', title: 'Certificate', format: 'data-url', description: collectionDescription },
+		formData: CERTIFICATE,
+		kind: 'file',
+		contentSelector: 'input[type="file"]',
+		collection: true
+	},
+	{
+		name: 'empty single file',
+		schema: { type: 'string', title: 'Certificate', format: 'data-url', description: collectionDescription },
+		kind: 'file',
+		contentSelector: 'input[type="file"]',
+		collection: true
+	},
+	{
+		name: 'multiple files',
+		schema: { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' }, description: collectionDescription },
+		formData: [CERTIFICATE, CLIENT_CERTIFICATE],
+		kind: 'file',
+		contentSelector: 'input[type="file"]',
+		collection: true
+	},
+	{
+		name: 'empty multiple files',
+		schema: { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' }, description: collectionDescription },
+		formData: [],
+		kind: 'file',
+		contentSelector: 'input[type="file"]',
+		collection: true
+	},
+	{
+		name: 'single file alias',
+		schema: { type: 'string', title: 'Certificate', description: collectionDescription },
+		uiSchema: { 'ui:widget': 'connectorFile' },
+		widgets: { connectorFile: FileWidget },
+		formData: CERTIFICATE,
+		kind: 'file',
+		contentSelector: 'input[type="file"]',
+		collection: true
+	},
+	{
+		name: 'multiple file component',
+		schema: { ...TOPICS, description: collectionDescription },
+		uiSchema: { 'ui:widget': FileWidget },
+		formData: [CERTIFICATE],
+		kind: 'file',
+		contentSelector: 'input[type="file"]',
+		collection: true
+	},
+	{
+		name: 'multi-select',
+		schema: { type: 'array', title: 'Assets', uniqueItems: true, items: { type: 'string', enum: ['north-line', 'south-line'] }, description: collectionDescription },
+		formData: ['north-line'],
+		kind: 'control',
+		contentSelector: 'kv-multi-select-dropdown',
+		collection: false
+	},
+	{
+		name: 'text input',
+		schema: { type: 'string', title: 'Broker', description: collectionDescription },
+		formData: 'broker-1.local',
+		kind: 'control',
+		contentSelector: 'kv-text-field',
+		collection: false
+	},
+	{
+		name: 'textarea',
+		schema: { type: 'string', title: 'Notes', description: collectionDescription },
+		uiSchema: { 'ui:widget': 'textarea' },
+		formData: 'Plant broker',
+		kind: 'control',
+		contentSelector: 'kv-text-area',
+		collection: false
+	},
+	{
+		name: 'custom file widget',
+		schema: { type: 'string', title: 'Certificate', format: 'data-url', description: collectionDescription },
+		widgets: { FileWidget: DescriptionWidget },
+		formData: CERTIFICATE,
+		kind: 'custom',
+		contentSelector: '[data-description-widget]',
+		collection: false
+	},
+	{
+		name: 'custom array widget',
+		schema: { ...TOPICS, description: collectionDescription },
+		uiSchema: { 'ui:widget': DescriptionWidget },
+		formData: [],
+		kind: 'custom',
+		contentSelector: '[data-description-widget]',
+		collection: false
+	},
+	{
+		name: 'custom array layout',
+		schema: { ...TOPICS, description: collectionDescription },
+		uiSchema: { 'ui:ArrayFieldTemplate': CustomArrayLayout },
+		formData: ['telemetry'],
+		kind: 'custom',
+		contentSelector: 'kv-text-field',
+		collection: false
+	}
+];
+export const COLLECTION_DESCRIPTION_SHAPES = COLLECTION_DESCRIPTION_FIELDS.flatMap(row =>
+	[
+		{ name: 'default', options: {}, position: row.collection ? 'top' : 'bottom' },
+		{ name: 'explicit top', options: { 'ui:descriptionPosition': 'top' }, position: 'top' },
+		{ name: 'explicit bottom', options: { 'ui:options': { descriptionPosition: 'bottom' } }, position: 'bottom' },
+		{ name: 'suppressed', options: { 'ui:descriptionPosition': 'none' }, position: 'none' },
+		{ name: 'global bottom', options: { 'ui:globalOptions': { descriptionPosition: 'bottom' } }, position: 'bottom' }
+	].map(placement => {
+		const uiSchema: UiSchema = { ...row.uiSchema, ...placement.options };
+		if (uiSchema['ui:options']) uiSchema['ui:options'] = { ...row.uiSchema?.['ui:options'], ...uiSchema['ui:options'] };
+		return { ...row, name: `${row.name}; ${placement.name}`, uiSchema, position: placement.position };
+	})
+);
+
+export const COLLECTION_ENTRY_ERROR_SHAPES = ['scalar list', 'object table', 'object sections', 'multiple files'].map(name => {
+	const row = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === name)!;
+	const message = 'Review the first connector entry.';
+	return {
+		...row,
+		message,
+		extraErrors: name.startsWith('object') ? { 0: { host: { __errors: [message] } } } : { 0: { __errors: [message] } },
+		entrySelector: row.kind === 'file' ? '[data-file-index="0"]' : '[data-schema-form-list-item="0"]'
+	};
+});
+
 // Rows share schema objects (TOPICS, ENDPOINTS, NAME), so a test that mutated one would change
 // other rows, and other tests. Frozen, the mutation throws where it happens.
 [
@@ -3426,6 +3609,9 @@ export const R6_FILE_LAYOUT_SHAPES = [
 	R6_FILE_ERROR_SHAPES,
 	R6_FILE_ARRAY_ENTRY_SHAPES,
 	R6_FILE_LAYOUT_SHAPES,
+	COLLECTION_DESCRIPTION_FIELDS,
+	COLLECTION_DESCRIPTION_SHAPES,
+	COLLECTION_ENTRY_ERROR_SHAPES,
 	TEMPLATE_COMPONENTS,
 	OPTION_SOURCES,
 	LIST_OPTIONS,

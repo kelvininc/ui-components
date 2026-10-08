@@ -21,6 +21,7 @@ const SectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		descriptionId,
 		errorsId,
 		descriptionPosition,
+		collection,
 		titleElement,
 		descriptionElement,
 		errorsElement,
@@ -30,7 +31,9 @@ const SectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	return (
 		<WrapIfAdditionalTemplate {...props}>
 			<div
-				className={classNames(styles.SectionField, props.classNames)}
+				className={classNames(styles.SectionField, props.classNames, {
+					[styles.CollectionSection]: collection && hasTitle && descriptionPosition === EDescriptionPosition.Top && descriptionElement
+				})}
 				role={hasTitle ? 'group' : undefined}
 				aria-labelledby={hasTitle && defaultTitle ? titleId : undefined}
 				aria-label={hasTitle && !defaultTitle ? title : undefined}

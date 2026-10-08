@@ -2,15 +2,16 @@
 
 import { createRequire } from 'node:module';
 import Form, { getDefaultRegistry } from '@rjsf/core';
-import { ArrayFieldDescriptionProps, ArrayFieldTemplateProps, FieldProps, FieldTemplateProps, IdSchema, UIOptionsType, UiSchema } from '@rjsf/utils';
+import { ArrayFieldDescriptionProps, ArrayFieldTemplateProps, FieldProps, FieldTemplateProps, getWidget, IdSchema, UIOptionsType, UiSchema } from '@rjsf/utils';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import { getDefaultValidator } from '../../../utils';
-import { ARRAY_ID_SHAPES, ARRAY_TEMPLATE_OPTION_SHAPES, ARRAY_TEMPLATE_SHAPES } from '../test-utils/matrix';
+import { ARRAY_ID_SHAPES, ARRAY_TEMPLATE_OPTION_SHAPES, ARRAY_TEMPLATE_SHAPES, COLLECTION_DESCRIPTION_SHAPES } from '../test-utils/matrix';
 import { generateTheme } from '../Theme';
 import { FormStateProvider } from '../contexts';
-import { getRenderedArrayFieldTemplate } from './arrayTemplate';
+import { getRenderedArrayFieldTemplate, getRenderedArrayWidget } from './arrayTemplate';
+import FileWidget from '../Widgets/FileWidget';
 
 const CommonJsForm = createRequire(import.meta.url)('@rjsf/core').default as typeof Form;
 vi.mock('../../../stencil-generated', async () => (await import('../../../test-utils')).stencilMocks);
@@ -18,6 +19,30 @@ describe.each([
 	{ name: 'import', FormComponent: Form },
 	{ name: 'require', FormComponent: CommonJsForm }
 ])('array template contract through $name', ({ FormComponent }) => {
+	it.each(COLLECTION_DESCRIPTION_SHAPES.filter(row => row.schema.type === 'array'))('identifies the actual file widget for $name', row => {
+		let fileWidget = false;
+		const theme = generateTheme();
+		const FieldTemplate = ({ children, id, registry, uiSchema, schema }: FieldTemplateProps) => {
+			if (id === 'root') fileWidget = getRenderedArrayWidget(schema, uiSchema, registry) === getWidget(schema, FileWidget, registry.widgets);
+			return <>{children}</>;
+		};
+		const markup = renderToStaticMarkup(
+			<FormStateProvider>
+				<FormComponent
+					{...theme}
+					schema={row.schema}
+					uiSchema={row.uiSchema}
+					formData={row.formData}
+					widgets={{ ...theme.widgets, ...row.widgets }}
+					templates={{ ...theme.templates, FieldTemplate }}
+					validator={getDefaultValidator()}
+				/>
+			</FormStateProvider>
+		);
+		expect(markup.includes('id="file_root"')).toBe(row.kind === 'file');
+		expect(fileWidget).toBe(row.kind === 'file');
+	});
+
 	it.each(ARRAY_TEMPLATE_SHAPES)('matches ArrayField.render for $name', row => {
 		const ArrayTemplate = ({ items }: ArrayFieldTemplateProps) => (
 			<div data-array-template>

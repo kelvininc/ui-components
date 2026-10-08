@@ -35,7 +35,7 @@ describe.each([StyleMode.Light, StyleMode.Night])('field feedback in %s', theme 
 					expect(feedback.right).toBeLessThanOrEqual(bounds.right);
 					expect(feedback.width).toBeGreaterThan(0);
 				}
-				expect(insets).toEqual([8, 8]);
+				expect(insets).toEqual([row.schema.format === 'data-url' ? 0 : 8, 8]);
 			} finally {
 				setThemeMode(StyleMode.Night);
 			}

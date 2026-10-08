@@ -59,6 +59,12 @@ Section groups use unique heading ids and link their mounted descriptions and vi
 `aria-describedby`. Custom title templates receive a unique `id`; the group also has a text name so a
 template that omits that id still names the section. Field errors keep the existing visibility rules.
 
+List and file descriptions appear below the title, aligned with it, before entries and their Add,
+Choose file or Replace file action. Collection descriptions stay visible alongside errors; entry errors
+remain beneath their own entry. `ui:descriptionPosition` (or `ui:options.descriptionPosition`) can set
+`top`, `bottom` or `none`, including through global UI options. Text inputs, textareas and compact
+multi-selects keep descriptions below the control. Custom array templates and widgets keep their layout.
+
 Fields have a 20px vertical gap. Object sections have dividers, and configured field widths fit the
 available space. Additional-property key/value rows wrap in narrow containers, and their enabled remove
 buttons participate in Tab order. The internal `data-schema-form-*` markers identify layout elements

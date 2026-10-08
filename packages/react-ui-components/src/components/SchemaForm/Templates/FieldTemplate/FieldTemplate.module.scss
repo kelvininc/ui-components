@@ -9,6 +9,14 @@
 	&[hidden] {
 		display: none;
 	}
+
+	> .CollectionDescription {
+		margin-bottom: var(--spacing-xl);
+	}
+}
+
+.CollectionDescription kv-form-help-text {
+	--help-text-left-spacing: var(--spacing-none);
 }
 
 .ChoiceExtras {
