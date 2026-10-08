@@ -1,4 +1,5 @@
 import { E2EPage, newE2EPage } from '@stencil/core/testing';
+import { DESIGN_TOKEN_CSS } from '../../../utils/test/design-tokens';
 
 const HELP_TEXT_CONSUMERS = [
 	{ name: 'direct help text', tag: 'kv-form-help-text' },
@@ -12,6 +13,20 @@ const HELP_TEXT_WEIGHT_CASES = [
 ];
 
 describe('help text weight contracts in Chromium', () => {
+	it.each(HELP_TEXT_CONSUMERS.flatMap(row => [false, true].map(invalid => ({ ...row, invalid }))))(
+		'aligns description and error text for $name with invalid=$invalid',
+		async row => {
+			const page = await newE2EPage({ html: `<${row.tag} help-text="Set the broker URL" state="${row.invalid ? 'invalid' : 'none'}"></${row.tag}>` });
+			await page.addStyleTag({ content: DESIGN_TOKEN_CSS });
+			const inset = await page.evaluate(tag => {
+				const host = document.querySelector(tag);
+				const help = tag === 'kv-form-help-text' ? host : (host.shadowRoot ?? host).querySelector('kv-form-help-text');
+				return help.shadowRoot.querySelector('.help-text').getBoundingClientRect().left - host.getBoundingClientRect().left;
+			}, row.tag);
+			expect(inset).toBe(8);
+		}
+	);
+
 	it.each(HELP_TEXT_WEIGHT_CASES)('inherits error weight for $name with invalid=$invalid', async row => {
 		const override = row.errorWeight === undefined ? '' : `--help-text-error-font-weight:${row.errorWeight};`;
 		const page = await newE2EPage({

@@ -8,9 +8,9 @@ exports[`Text Area (unit tests) when initialized with icon should match the snap
       <div class="text-area">
         <div class="text-area-wrapper">
           <div aria-multiline="true" class="input placeholder" contenteditable="plaintext-only" role="textbox"></div>
-        </div>
-        <div class="character-counter">
-          Max. character: 0/100
+          <div class="character-counter">
+            0 / 100
+          </div>
         </div>
       </div>
     </div>
@@ -25,9 +25,9 @@ exports[`Text Area (unit tests) when initialized with required props should matc
       <div class="text-area">
         <div class="text-area-wrapper">
           <div aria-multiline="true" class="input placeholder" contenteditable="plaintext-only" role="textbox"></div>
-        </div>
-        <div class="character-counter">
-          Max. character: 0/100
+          <div class="character-counter">
+            0 / 100
+          </div>
         </div>
       </div>
     </div>
@@ -40,13 +40,13 @@ exports[`Text Area (unit tests) when initialized with text and placeholder shoul
   <template shadowrootmode="open" shadowrootdelegatesfocus>
     <div class="text-area-container">
       <div class="text-area">
-        <div class="text-area-wrapper">
+        <div class="has-text text-area-wrapper">
           <div aria-multiline="true" aria-placeholder="Add Description" class="input" contenteditable="plaintext-only" data-placeholder="Add Description" role="textbox">
             Hello World
           </div>
-        </div>
-        <div class="character-counter">
-          Max. character: 11/100
+          <div class="character-counter">
+            11 / 100
+          </div>
         </div>
       </div>
     </div>
@@ -59,13 +59,13 @@ exports[`Text Area (unit tests) when initialized with text should match the snap
   <template shadowrootmode="open" shadowrootdelegatesfocus>
     <div class="text-area-container">
       <div class="text-area">
-        <div class="text-area-wrapper">
+        <div class="has-text text-area-wrapper">
           <div aria-multiline="true" class="input" contenteditable="plaintext-only" role="textbox">
             Hello World
           </div>
-        </div>
-        <div class="character-counter">
-          Max. character: 11/100
+          <div class="character-counter">
+            11 / 100
+          </div>
         </div>
       </div>
     </div>

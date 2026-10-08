@@ -175,6 +175,32 @@ JSON value, including when supplied as `undefined` or through `ui:options.emptyV
 SchemaForm preserves function, memo and forwardRef component references while merging UI settings,
 and applies template replacements to mounted forms without modifying the caller's uiSchema.
 
+## Textarea values and limits
+
+Descriptions and errors share `kv-form-help-text`'s 8px left inset. Text and date/time inputs
+use the same rule for their built-in feedback. A textarea's
+compact character count sits inside the bottom-right corner in a reserved footer; text scrolls
+above it. `KvTextArea`'s `counter` and `counterAlwaysVisible` retain their existing visibility behavior.
+
+Clearing a textarea commits the field's `ui:emptyValue`, including when supplied through
+`ui:options.emptyValue`. The default is `undefined`. Empty strings, null and other configured values
+retain their types; the form's schema still validates them. Nonempty text stays unchanged.
+External empty values, Discard and Reset to Default clear the displayed control.
+Pinned RJSF's default `liveOmit` handling converts root-level null to `{}`; a named object field
+preserves null. This follows the form's existing extra-data policy.
+
+A textarea uses `schema.maxLength` as its default character limit. The existing top-level
+`uiSchema.maxCharLength` overrides it. Positive limits count Unicode code points; an absent limit
+or explicit zero allows editing without a live cap. Schema validation applies independently,
+including when an override exceeds the schema limit or `schema.maxLength` is zero.
+Pasting formatted clipboard content inserts plain text.
+Typing and paste count the proposed value after replacing the selection, so a full field remains
+editable. A replacement that would still exceed the cap stays blocked.
+Programmatic values preserve line breaks and consecutive spaces in the displayed textarea.
+Native text insertion and committed IME text obey the same cap. Composition drafts stay in the
+browser until they finish; a rejected commit restores the previous value without emitting a change.
+Caller-supplied values above the cap stay visible and can still be shortened by deletion.
+
 ## File action labels
 
 SchemaForm labels its file picker action "Choose file" for an empty single field, "Replace file" for
