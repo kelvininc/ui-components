@@ -10,7 +10,7 @@ import {
 	ISelectSingleOptions
 } from "@kelvininc/react-ui-components/client";
 import { IChangeEvent } from "@rjsf/core";
-import { ComponentProps, useState } from "react";
+import { ComponentProps, useCallback, useEffect, useState } from "react";
 import { action } from "storybook/actions";
 import { FormValidation } from "@rjsf/utils";
 
@@ -54,13 +54,30 @@ const FormTemplate: StoryFn<ComponentProps<typeof KvSchemaForm>> = (args) => (
 	</div>
 );
 
-const CoreUiFormTemplate: StoryFn<ComponentProps<typeof KvSchemaForm>> = (
-	args
-) => (
+const CoreUiForm = (args: ComponentProps<typeof KvSchemaForm>) => (
 	<div className={styles.CoreUiCard}>
 		<KvSchemaForm<any> {...args} customClass={styles.CoreUiForm} />
 	</div>
 );
+
+const CoreUiFormTemplate: StoryFn<ComponentProps<typeof KvSchemaForm>> = (
+	args
+) => <CoreUiForm {...args} />;
+
+const SavedFilesTemplate: StoryFn<ComponentProps<typeof KvSchemaForm>> = (
+	args
+) => {
+	const [formData, setFormData] = useState(args.formData);
+	useEffect(() => setFormData(args.formData), [args.formData]);
+	const onChange = useCallback<NonNullable<typeof args.onChange>>(
+		(event, id) => {
+			setFormData(event.formData);
+			args.onChange?.(event, id);
+		},
+		[args.onChange]
+	);
+	return <CoreUiForm {...args} formData={formData} onChange={onChange} />;
+};
 
 const meta = {
 	title: "Form/SchemaForm",
@@ -1405,7 +1422,7 @@ export const FalseAndZeroChoices: Story = {
 };
 
 export const FilePreviewsAndSecrets: Story = {
-	render: CoreUiFormTemplate,
+	render: SavedFilesTemplate,
 	parameters: {
 		themeSideBySide: false,
 		docs: {
@@ -1423,6 +1440,7 @@ export const FilePreviewsAndSecrets: Story = {
 			"ui:submitButtonOptions": { norender: true }
 		},
 		formData: FILE_PREVIEW_FORM_DATA,
+		submittedData: FILE_PREVIEW_FORM_DATA,
 		liveValidate: true,
 		showErrorList: false,
 		allowDiscardChanges: true
