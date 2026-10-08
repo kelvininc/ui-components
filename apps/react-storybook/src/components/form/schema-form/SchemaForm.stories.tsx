@@ -1405,14 +1405,17 @@ export const FalseAndZeroChoices: Story = {
 		themeSideBySide: false,
 		docs: {
 			description: {
-				story: "False and zero remain selected values. Clear selection removes either optional value. The required region accepts null through its Not set option."
+				story: "False and zero remain selected values. Use Clear selection for the optional boolean and Clear retry policy for the zero retry value. The required region accepts null through its Not set option."
 			}
 		}
 	},
 	args: {
 		schema: FALSE_AND_ZERO_SCHEMA,
 		uiSchema: {
-			retries: { "ui:options": { allowClearInputs: true } },
+			retries: {
+				clearSelectionLabel: "Clear retry policy",
+				"ui:options": { allowClearInputs: true }
+			},
 			region: { "ui:enumNames": ["Not set", "Lisbon", "Berlin"] },
 			"ui:submitButtonOptions": { norender: true }
 		},
