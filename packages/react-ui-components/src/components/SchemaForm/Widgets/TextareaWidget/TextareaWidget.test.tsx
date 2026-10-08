@@ -99,7 +99,7 @@ describe.each(R7_TEXTAREA_RESET_SHAPES)('textarea controlled clear: $name', row 
 		await renderForm(form());
 		expect(propsOf<JSX.KvTextArea>('root_notes').text).toBe('Edited broker notes');
 		if (row.action === 'external') await renderForm(form(row.emptyData));
-		else await act(async () => fireStencilEvent(row.action === 'discard' ? 'Discard Changes' : 'Reset to Default', 'onClickButton'));
+		else await act(async () => fireStencilEvent(row.action === 'discard' ? 'Discard changes' : 'Reset to defaults', 'onClickButton'));
 		expect(propsOf<JSX.KvTextArea>('root_notes').text).toBe('');
 	});
 });

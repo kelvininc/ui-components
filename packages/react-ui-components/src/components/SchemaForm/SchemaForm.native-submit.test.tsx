@@ -61,7 +61,7 @@ describe.each(R2_NATIVE_SUBMIT_SHAPES)('native submission visibility: $name', ro
 			)
 		);
 		expect(errorMessages()).toEqual([]);
-		expect(propsOf('Discard Changes').disabled).toBe(false);
+		expect(propsOf('Discard changes').disabled).toBe(false);
 		await act(async () => {
 			if (method === 'requestSubmit') container.querySelector('form')!.requestSubmit();
 			else ref.current!.submit();
@@ -82,7 +82,7 @@ describe.each(R2_NATIVE_SUBMIT_SHAPES)('native submission visibility: $name', ro
 		expect(propsOf(secretOwner.querySelector('kv-form-help-text')!).helpText).toEqual([row.message]);
 
 		await act(async () => {
-			fireStencilEvent('Discard Changes', 'onClickButton');
+			fireStencilEvent('Discard changes', 'onClickButton');
 		});
 		expect(errorMessages()).toEqual([]);
 		expect(ref.current?.state.formData).toEqual(row.submittedData);

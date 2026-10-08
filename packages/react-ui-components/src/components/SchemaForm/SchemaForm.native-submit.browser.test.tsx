@@ -63,7 +63,7 @@ describe.each(R2_NATIVE_SUBMIT_SHAPES)('Enter submission visibility: $name', row
 		expect(help.helpText).toEqual([row.message]);
 		expect(help.shadowRoot!.textContent).toContain(row.message);
 
-		await screen.getByRole('button', { name: 'Discard Changes', exact: true }).click();
+		await screen.getByRole('button', { name: 'Discard changes', exact: true }).click();
 		await expect.poll(messages).toEqual([]);
 		expect(onChange.mock.lastCall?.[0].formData).toEqual(row.submittedData);
 		expect(onSubmit).toHaveBeenCalledTimes(row.accepted ? 1 : 0);

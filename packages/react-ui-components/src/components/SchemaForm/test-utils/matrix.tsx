@@ -1526,8 +1526,26 @@ export const RESET_STATE_SHAPES: readonly ResetStateShape[] = [
 ].map(row => ({ ...row, schema: { ...row.schema, default: row.formData as RJSFSchema['default'] } })) as readonly ResetStateShape[];
 
 export const RESET_STATE_ACTIONS = [
-	{ name: 'discard', label: 'Discard Changes' },
-	{ name: 'defaults', label: 'Reset to Default' }
+	{ name: 'discard', label: 'Discard changes' },
+	{ name: 'defaults', label: 'Reset to defaults' }
+] as const;
+
+export const FOOTER_LAYOUT_SHAPES = [
+	{ name: 'desktop', width: 800, padding: 0, reset: true, discard: true },
+	{ name: 'padded desktop', width: 800, padding: 24, reset: true, discard: true },
+	{ name: 'capped object fields', root: 'object', width: 800, padding: 24, maxWidth: '400px', reset: true, discard: true },
+	{ name: 'percentage object fields', root: 'object', width: 800, padding: 24, maxWidth: '50%', reset: true, discard: true },
+	{ name: 'scalar with a pixel cap', root: 'scalar', width: 800, padding: 24, maxWidth: '400px', reset: true, discard: true },
+	{ name: 'scalar with a percentage cap', root: 'scalar', width: 800, padding: 24, maxWidth: '50%', reset: true, discard: true },
+	{ name: 'array with a pixel cap', root: 'array', width: 800, padding: 24, maxWidth: '400px', reset: true, discard: true },
+	{ name: 'array with a percentage cap', root: 'array', width: 800, padding: 24, maxWidth: '50%', reset: true, discard: true },
+	{ name: 'phone', width: 390, padding: 0, reset: true, discard: true },
+	{ name: 'padded narrow form', width: 320, padding: 24, reset: true, discard: true },
+	{ name: 'small form', width: 200, padding: 0, reset: true, discard: true },
+	{ name: 'padded small form', width: 200, padding: 16, reset: true, discard: true },
+	{ name: 'submit only', width: 200, padding: 16, reset: false, discard: false },
+	{ name: 'discard and submit', width: 200, padding: 16, reset: false, discard: true },
+	{ name: 'reset and submit', width: 200, padding: 16, reset: true, discard: false }
 ] as const;
 
 export const R2_BOUNDARY_TRANSITIONS = [
@@ -3894,6 +3912,7 @@ export const ARRAY_WIDGET_DISPATCH_SHAPES: readonly {
 	R2_RESET_SHAPES,
 	RESET_STATE_SHAPES,
 	RESET_STATE_ACTIONS,
+	FOOTER_LAYOUT_SHAPES,
 	R2_BOUNDARY_TRANSITIONS,
 	R2_WIDGET_ERROR_SHAPES,
 	R2_WIDGET_ERROR_POLICIES,

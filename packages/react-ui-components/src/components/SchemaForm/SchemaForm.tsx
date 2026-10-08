@@ -329,38 +329,40 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 				<CustomFormWithRef<T, S, SchemaFormContext> ref={formRef} {...stableThemedProps} />
 				{hasFooter && (
 					<div className={classNames(styles.FormFooter, { [styles.Scrolling]: isScrolling })}>
-						<div className={styles.LeftFooter}>
-							{allowResetToDefaults && (
-								<KvActionButtonText
-									text="Reset to Default"
-									disabled={disabled || !hasDefaults}
-									size={EComponentSize.Large}
-									type={EActionButtonType.Tertiary}
-									onClickButton={resetToDefaults}
-								/>
-							)}
-						</div>
-						<div className={styles.RightFooter}>
-							{allowDiscardChanges && (
-								<KvActionButtonText
-									text="Discard Changes"
-									disabled={disabled || !hasChanges}
-									size={EComponentSize.Large}
-									type={EActionButtonType.Tertiary}
-									onClickButton={discardChanges}
-								/>
-							)}
-							{!norender && (
-								<KvTooltip text={submitButtonProps?.tooltipText} position={submitButtonProps?.tooltipPosition}>
+						<div className={styles.FooterActions}>
+							<div className={styles.LeftFooter}>
+								{allowResetToDefaults && (
 									<KvActionButtonText
-										text={submitText || 'Save'}
-										disabled={disabled || !isValid || submitButtonProps?.disabled}
+										text="Reset to defaults"
+										disabled={disabled || !hasDefaults}
 										size={EComponentSize.Large}
-										type={EActionButtonType.Primary}
-										onClickButton={onSubmitClick}
+										type={EActionButtonType.Tertiary}
+										onClickButton={resetToDefaults}
 									/>
-								</KvTooltip>
-							)}
+								)}
+							</div>
+							<div className={styles.RightFooter}>
+								{allowDiscardChanges && (
+									<KvActionButtonText
+										text="Discard changes"
+										disabled={disabled || !hasChanges}
+										size={EComponentSize.Large}
+										type={EActionButtonType.Tertiary}
+										onClickButton={discardChanges}
+									/>
+								)}
+								{!norender && (
+									<KvTooltip text={submitButtonProps?.tooltipText} position={submitButtonProps?.tooltipPosition}>
+										<KvActionButtonText
+											text={submitText || 'Save'}
+											disabled={disabled || !isValid || submitButtonProps?.disabled}
+											size={EComponentSize.Large}
+											type={EActionButtonType.Primary}
+											onClickButton={onSubmitClick}
+										/>
+									</KvTooltip>
+								)}
+							</div>
 						</div>
 					</div>
 				)}

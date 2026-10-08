@@ -85,7 +85,7 @@ describe.each(R2_FILE_ERROR_VISIBILITY_SHAPES)('file error visibility in Chromiu
 		await whenAllKelvinReady(screen.container);
 		focusBrowse(screen.container);
 		await expectVisibility(screen.container, true);
-		const discard = screen.getByRole('button', { name: 'Discard Changes', exact: true });
+		const discard = screen.getByRole('button', { name: 'Discard changes', exact: true });
 		await expect.element(discard).toBeEnabled();
 		onChange.mockClear();
 		await discard.click();

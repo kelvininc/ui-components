@@ -4,7 +4,7 @@
 	/**
 	* @prop --schema-form-x-padding: horizontal form padding
 	* @prop --schema-form-y-padding: vertical form padding
-	* @prop --schema-form-max-width: max field width
+	* @prop --schema-form-max-width: max field and footer action width
 	* @prop --schema-form-fields-x-gap: horizontal gap between fields
 	* @prop --schema-form-fields-y-gap: vertical gap between fields
 	* @prop --schema-form-sections-y-gap: vertical spacing around section dividers
@@ -48,20 +48,49 @@
 	}
 
 	.FormFooter {
-		display: flex;
-		justify-content: space-between;
-		align-items: end;
 		padding: var(--spacing-2xl) var(--schema-form-x-padding) 0 var(--schema-form-x-padding);
 
 		&.Scrolling {
 			border-top: 1px solid var(--modal-divider-strong);
 		}
 
+		.FooterActions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: var(--spacing-xl);
+			justify-content: space-between;
+			align-items: center;
+			width: 100%;
+		}
+
 		.LeftFooter,
 		.RightFooter {
 			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
 			gap: var(--spacing-xl);
+			min-width: 0;
+			max-width: 100%;
 		}
+
+		.RightFooter {
+			margin-left: auto;
+			justify-content: flex-end;
+		}
+
+		kv-action-button-text[type='tertiary'] {
+			--button-padding-x-regular: 0;
+
+			&::part(button) {
+				background: var(--transparent);
+				border-width: 0;
+			}
+		}
+	}
+
+	// ObjectFieldTemplate caps its fields; scalar and array roots use the full content width.
+	&:has(> form > [data-schema-form-field] > div > [data-schema-form-object]) .FooterActions {
+		max-width: var(--schema-form-max-width);
 	}
 
 	.Action {
