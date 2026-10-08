@@ -7,7 +7,7 @@
 	 * @prop --help-text-top-spacing: Help text top spacing.
 	 * @prop --help-text-bottom-spacing: Help text bottom spacing.
 	 * @prop --help-text-right-spacing: Help text right spacing.
-	 * @prop --help-text-left-spacing: Help text left spacing.
+	 * @prop --help-text-left-spacing: Help text left spacing. Defaults to 4px.
 	 * @prop --help-text-error-font-weight: Font weight for invalid help text. Defaults to regular; set it on a parent to style nested help text.
 	 */
 
@@ -16,7 +16,7 @@
 	--help-text-top-spacing: var(--spacing-xs);
 	--help-text-bottom-spacing: var(--spacing-none);
 	--help-text-right-spacing: var(--spacing-none);
-	--help-text-left-spacing: var(--spacing-md);
+	--help-text-left-spacing: var(--spacing-xs);
 
 	display: flex;
 }

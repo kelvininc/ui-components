@@ -124,6 +124,7 @@ describe.each(HELP_TEXT_CONSUMER_SHAPES)('C3 help text consumers: $name', row =>
 		for (const host of helpTexts) {
 			const text = host.shadowRoot!.querySelector('.help-text')!;
 			expect(getComputedStyle(text).fontWeight).toBe(host.state === 'invalid' ? '600' : '400');
+			expect(text.getBoundingClientRect().left - host.getBoundingClientRect().left).toBeCloseTo(4, 0);
 		}
 	});
 });

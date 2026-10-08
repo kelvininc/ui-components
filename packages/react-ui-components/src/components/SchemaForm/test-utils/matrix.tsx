@@ -1368,8 +1368,8 @@ export const FIELD_FEEDBACK_SHAPES = [
 	{ name: 'file', schema: { type: 'string', title: 'CA certificate', format: 'data-url' } as RJSFSchema, uiSchema: {}, formData: 'data:text/plain;name=ca.pem;base64,Y2E=' }
 ].map(({ name, schema, uiSchema, formData }) => ({
 	name,
-	schema: { ...schema, description: 'Configure this connection setting.' },
-	uiSchema,
+	schema: { ...schema, description: 'Configure this connection setting.', default: formData as RJSFSchema['default'] },
+	uiSchema: { ...uiSchema, 'ui:showDefaultValueHelper': true },
 	formData
 }));
 
@@ -3512,16 +3512,33 @@ export const COLLECTION_DESCRIPTION_SHAPES = COLLECTION_DESCRIPTION_FIELDS.flatM
 	})
 );
 
-export const COLLECTION_ENTRY_ERROR_SHAPES = ['scalar list', 'object table', 'object sections', 'multiple files'].map(name => {
-	const row = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === name)!;
-	const message = 'Review the first connector entry.';
-	return {
-		...row,
-		message,
-		extraErrors: name.startsWith('object') ? { 0: { host: { __errors: [message] } } } : { 0: { __errors: [message] } },
-		entrySelector: row.kind === 'file' ? '[data-file-index="0"]' : '[data-schema-form-list-item="0"]'
-	};
-});
+export const COLLECTION_ENTRY_ERROR_SHAPES = ['scalar list', 'object table', 'object sections', 'multiple files']
+	.map(name => {
+		const row = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === name)!;
+		const message = 'Review the first connector entry.';
+		return {
+			...row,
+			schema:
+				name === 'scalar list'
+					? { ...row.schema, items: { ...(row.schema.items as RJSFSchema), default: 'telemetry', description: 'Use the configured broker topic.' } }
+					: row.schema,
+			uiSchema: name === 'scalar list' ? { items: { 'ui:showDefaultValueHelper': true } } : row.uiSchema,
+			message,
+			extraErrors: name.startsWith('object') ? { 0: { host: { __errors: [message] } } } : { 0: { __errors: [message] } },
+			entrySelector: row.kind === 'file' ? '[data-file-index="0"]' : '[data-schema-form-list-item="0"]'
+		};
+	})
+	.flatMap(row =>
+		row.name === 'scalar list'
+			? [true, false].flatMap(orderable =>
+					[true, false].map(removable => ({
+						...row,
+						name: `${row.name}; orderable=${orderable}, removable=${removable}`,
+						uiSchema: { ...row.uiSchema, 'ui:options': { orderable, removable } }
+					}))
+			  )
+			: [row]
+	);
 
 const describedFiles = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === 'multiple files')!.schema;
 const describedChoices = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === 'multi-select')!.schema;

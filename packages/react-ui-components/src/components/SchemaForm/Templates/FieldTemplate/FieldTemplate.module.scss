@@ -15,8 +15,12 @@
 	}
 }
 
-.CollectionDescription kv-form-help-text {
-	--help-text-left-spacing: var(--spacing-none);
+.ItemWithGrip > :not(.ItemControlRow) {
+	margin-left: calc(var(--icon-button-height-regular) + var(--spacing-md));
+}
+
+.ItemWithAction > :not(.ItemControlRow) {
+	margin-right: calc(var(--icon-button-height-regular) + var(--spacing-md));
 }
 
 .ChoiceExtras {

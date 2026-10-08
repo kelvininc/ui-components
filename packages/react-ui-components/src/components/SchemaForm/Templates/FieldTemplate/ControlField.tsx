@@ -21,7 +21,12 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	const help = collection ? descriptionElement : errorsElement || descriptionElement;
 	return (
 		<WrapIfAdditionalTemplate {...props}>
-			<div className={classNames(styles.FieldWrapper, props.classNames)}>
+			<div
+				className={classNames(styles.FieldWrapper, props.classNames, {
+					[styles.ItemWithGrip]: itemControls?.before,
+					[styles.ItemWithAction]: itemControls?.after
+				})}
+			>
 				{cell ? (
 					<div className={tableStyles.CellLabel}>
 						<span aria-hidden="true">{cell.column.title}</span>

@@ -59,7 +59,7 @@ Section groups use unique heading ids and link their mounted descriptions and vi
 `aria-describedby`. Custom title templates receive a unique `id`; the group also has a text name so a
 template that omits that id still names the section. Field errors keep the existing visibility rules.
 
-List and file descriptions appear below the title, aligned with it, before entries and their Add,
+List and file descriptions appear below the title with a 4px left inset, before entries and their Add,
 Choose file or Replace file action. Collection descriptions stay visible alongside errors; entry errors
 remain beneath their own entry. `ui:descriptionPosition` (or `ui:options.descriptionPosition`) can set
 `top`, `bottom` or `none`, including through global UI options. Text inputs, textareas and compact
@@ -183,8 +183,9 @@ and applies template replacements to mounted forms without modifying the caller'
 
 ## Textarea values and limits
 
-Descriptions and errors share `kv-form-help-text`'s 8px left inset. Text and date/time inputs
-use the same rule for their built-in feedback. A textarea's
+Descriptions, errors and default-value helpers share `kv-form-help-text`'s 4px left inset.
+Scalar-list feedback aligns with its input column, reserving the same space as the row actions.
+Text and date/time inputs use the same rule for their built-in feedback. A textarea's
 compact character count sits inside the bottom-right corner in a reserved footer; text scrolls
 above it. `KvTextArea`'s `counter` and `counterAlwaysVisible` retain their existing visibility behavior.
 

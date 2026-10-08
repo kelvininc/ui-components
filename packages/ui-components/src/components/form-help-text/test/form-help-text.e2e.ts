@@ -23,9 +23,19 @@ describe('help text weight contracts in Chromium', () => {
 				const help = tag === 'kv-form-help-text' ? host : (host.shadowRoot ?? host).querySelector('kv-form-help-text');
 				return help.shadowRoot.querySelector('.help-text').getBoundingClientRect().left - host.getBoundingClientRect().left;
 			}, row.tag);
-			expect(inset).toBe(8);
+			expect(inset).toBe(4);
 		}
 	);
+
+	it('uses the public left-spacing override', async () => {
+		const page = await newE2EPage({ html: '<kv-form-help-text help-text="Set the broker URL" style="--help-text-left-spacing:12px"></kv-form-help-text>' });
+		await page.addStyleTag({ content: DESIGN_TOKEN_CSS });
+		const inset = await page.evaluate(() => {
+			const host = document.querySelector('kv-form-help-text');
+			return host.shadowRoot.querySelector('.help-text').getBoundingClientRect().left - host.getBoundingClientRect().left;
+		});
+		expect(inset).toBe(12);
+	});
 
 	it.each(HELP_TEXT_WEIGHT_CASES)('inherits error weight for $name with invalid=$invalid', async row => {
 		const override = row.errorWeight === undefined ? '' : `--help-text-error-font-weight:${row.errorWeight};`;
