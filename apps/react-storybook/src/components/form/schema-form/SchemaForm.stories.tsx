@@ -1374,7 +1374,10 @@ export const ObjectTableAsSections: Story = {
 		...ObjectTable.args,
 		uiSchema: {
 			...ObjectTable.args!.uiSchema,
-			"ui:options": { layout: "sections" }
+			"ui:options": {
+				...ObjectTable.args!.uiSchema?.["ui:options"],
+				layout: "sections"
+			}
 		}
 	}
 };

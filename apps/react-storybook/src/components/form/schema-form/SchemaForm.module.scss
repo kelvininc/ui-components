@@ -14,4 +14,5 @@
 /* Match the form container's own custom-property specificity. */
 .CoreUiForm.CoreUiForm {
 	--schema-form-max-width: 480px;
+	max-width: 480px;
 }
