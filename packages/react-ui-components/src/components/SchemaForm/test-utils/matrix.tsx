@@ -3598,6 +3598,30 @@ export const FILE_FEEDBACK_LAYOUT_SHAPES = [
 	{ name: 'empty single file', formData: undefined }
 ].map(row => ({ ...row, schema: { type: 'string', title: 'CA certificate', format: 'data-url' } as RJSFSchema, message: 'Review the CA certificate.' }));
 
+export const RADIO_FEEDBACK_LAYOUT_SHAPES: readonly {
+	name: string;
+	description?: string;
+	defaultValue?: string;
+	error?: string;
+	unset?: boolean;
+}[] = [
+	{ name: 'description', description: 'Delivery guarantee used for telemetry.' },
+	{ name: 'default only', defaultValue: 'At least once' },
+	{ name: 'error and default', error: 'This delivery policy is unavailable.', defaultValue: 'At least once' },
+	{
+		name: 'wrapped description and default',
+		description: 'Confirm delivery acknowledgements before using this policy for telemetry from production equipment on an unreliable broker connection.',
+		defaultValue: 'At least once'
+	},
+	{
+		name: 'unbroken error',
+		error: 'Review the delivery policy for telemetry/production/west-plant/compressor-station/pressure-sensor/acknowledgements.'
+	},
+	{ name: 'unset with description', description: 'Choose a delivery guarantee for telemetry.', unset: true },
+	{ name: 'unset without helpers', unset: true },
+	{ name: 'selection without helpers' }
+];
+
 const describedFiles = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === 'multiple files')!.schema;
 const describedChoices = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === 'multi-select')!.schema;
 export const ARRAY_WIDGET_DISPATCH_SHAPES: readonly {
@@ -3774,6 +3798,7 @@ export const ARRAY_WIDGET_DISPATCH_SHAPES: readonly {
 	COLLECTION_ENTRY_ERROR_SHAPES,
 	WIDGET_ENTRY_LAYOUT_SHAPES,
 	FILE_FEEDBACK_LAYOUT_SHAPES,
+	RADIO_FEEDBACK_LAYOUT_SHAPES,
 	ARRAY_WIDGET_DISPATCH_SHAPES,
 	TEMPLATE_COMPONENTS,
 	OPTION_SOURCES,

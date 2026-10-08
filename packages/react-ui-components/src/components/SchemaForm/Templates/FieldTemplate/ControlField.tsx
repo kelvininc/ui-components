@@ -30,6 +30,17 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		helperElement
 	} = useFieldPresentation(props);
 	const help = collection ? descriptionElement : errorsElement || descriptionElement;
+	const footerHelp = cell ? !fileWidget && errorsElement : descriptionPosition !== EDescriptionPosition.Top && help;
+	const footerErrors = !cell && collection && !fileWidget && errorsElement;
+	const footerDefault = !cell && !collection && helperElement;
+	const footer =
+		footerHelp || footerErrors || footerDefault ? (
+			<>
+				{footerHelp}
+				{footerErrors}
+				{footerDefault}
+			</>
+		) : null;
 	return (
 		<WrapIfAdditionalTemplate {...props}>
 			<div
@@ -71,11 +82,8 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 							</ArrayDescriptionContext.Provider>
 						</FileFieldErrorsContext.Provider>
 					</FieldDescriptionContext.Provider>
-					<ChoiceExtras {...props} />
+					<ChoiceExtras {...props}>{footer}</ChoiceExtras>
 				</ChoiceControlContext.Provider>
-				{cell ? !fileWidget && errorsElement : descriptionPosition !== EDescriptionPosition.Top && help}
-				{!cell && collection && !fileWidget && errorsElement}
-				{!cell && !collection && helperElement}
 			</div>
 		</WrapIfAdditionalTemplate>
 	);

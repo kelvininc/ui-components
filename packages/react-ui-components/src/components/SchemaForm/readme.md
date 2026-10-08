@@ -91,7 +91,8 @@ the allowed move actions and a destructive Remove action. Boundary moves stay vi
 Readonly and disabled lists keep disabled controls. Add renders a plus followed by "Add <prefix>"
 or "Add item". Lists with a reserved grip column center the plus in that column and align the text
 with the input. Other lists start the plus at the entry edge. List, file and radio entries have a 12px vertical gap.
-Radio Clear selection actions align with the group's right edge.
+Radio Clear selection actions align with the group's right edge beside descriptions, defaults or errors.
+The action wraps onto its own right-aligned row when the field is too narrow to fit both columns.
 
 Enabled item actions and Add participate in Tab order. Menus support mouse and keyboard interaction.
 Scalar help tips stay beside the input; descriptions, errors and default helpers stay above
