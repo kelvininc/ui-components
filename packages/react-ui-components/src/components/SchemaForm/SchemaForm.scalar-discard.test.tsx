@@ -60,10 +60,10 @@ describe.each(R2_SCALAR_DISCARD_SHAPES)('scalar discard: $name', row => {
 			)
 		);
 		expect(ref.current?.state.formData).toBe(row.formData);
-		expect(propsOf('Discard Changes').disabled).toBe(false);
+		expect(propsOf('Discard changes').disabled).toBe(false);
 		onChange.mockClear();
 		await act(async () => {
-			fireStencilEvent('Discard Changes', 'onClickButton');
+			fireStencilEvent('Discard changes', 'onClickButton');
 		});
 		expect(onChange).toHaveBeenCalled();
 		// RJSF can notify again after applying defaults to an omitted saved value.

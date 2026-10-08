@@ -196,7 +196,7 @@ above it. `KvTextArea`'s `counter` and `counterAlwaysVisible` retain their exist
 Clearing a textarea commits the field's `ui:emptyValue`, including when supplied through
 `ui:options.emptyValue`. The default is `undefined`. Empty strings, null and other configured values
 retain their types; the form's schema still validates them. Nonempty text stays unchanged.
-External empty values, Discard and Reset to Default clear the displayed control.
+External empty values, "Discard changes" and "Reset to defaults" clear the displayed control.
 Pinned RJSF's default `liveOmit` handling converts root-level null to `{}`; a named object field
 preserves null. This follows the form's existing extra-data policy.
 

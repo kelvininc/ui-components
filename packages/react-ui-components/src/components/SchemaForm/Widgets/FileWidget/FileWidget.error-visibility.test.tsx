@@ -83,9 +83,9 @@ describe.each(R2_FILE_ERROR_VISIBILITY_SHAPES)('file error visibility: $name', r
 		await renderForm(form(false, row.extraErrors, onChange));
 		await act(async () => fireStencilEvent(browse(), 'onFocusButton'));
 		expectVisibility(true);
-		expect(propsOf('Discard Changes').disabled).toBe(false);
+		expect(propsOf('Discard changes').disabled).toBe(false);
 		onChange.mockClear();
-		await act(async () => fireStencilEvent('Discard Changes', 'onClickButton'));
+		await act(async () => fireStencilEvent('Discard changes', 'onClickButton'));
 		expectVisibility(false);
 		expect(onChange.mock.lastCall?.[0].formData).toEqual(row.submittedData);
 	});

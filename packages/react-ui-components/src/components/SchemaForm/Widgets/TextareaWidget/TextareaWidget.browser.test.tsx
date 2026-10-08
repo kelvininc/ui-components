@@ -165,7 +165,7 @@ describe.each(R7_TEXTAREA_RESET_SHAPES)('textarea controlled clear in Chromium: 
 		const control = screen.getByRole('textbox', { name: 'Connection notes', exact: true });
 		expect((control.element() as HTMLElement).innerText).toBe('Edited broker notes');
 		if (row.action === 'external') await screen.rerender(form(row.emptyData));
-		else await screen.getByRole('button', { name: row.action === 'discard' ? 'Discard Changes' : 'Reset to Default', exact: true }).click();
+		else await screen.getByRole('button', { name: row.action === 'discard' ? 'Discard changes' : 'Reset to defaults', exact: true }).click();
 		await expect.poll(() => (control.element() as HTMLElement).innerText).toBe('');
 	});
 });

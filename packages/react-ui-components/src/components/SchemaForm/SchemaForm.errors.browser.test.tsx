@@ -111,7 +111,7 @@ it('shows parent errors on a descendant focus and resets them when changes are d
 	expect(messages()).toEqual([]);
 	await screen.getByRole('textbox', { name: 'Host', exact: true }).click();
 	await expect.poll(messages).toEqual(['Connection failed', 'TLS failed']);
-	await screen.getByRole('button', { name: 'Discard Changes', exact: true }).click();
+	await screen.getByRole('button', { name: 'Discard changes', exact: true }).click();
 	await expect.poll(messages).toEqual([]);
 	expect(onChange.mock.lastCall?.[0].formData).toEqual(props.submittedData);
 });
