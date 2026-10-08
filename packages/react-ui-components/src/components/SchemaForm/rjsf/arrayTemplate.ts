@@ -16,6 +16,7 @@ export const getRenderedArrayWidget = <T, S extends StrictRJSFSchema = RJSFSchem
 	else if (isCustomWidget(uiSchema)) defaultWidget = '';
 	else if (!isFixedItems(schema) && registry.schemaUtils.isFilesArray(schema, uiSchema)) defaultWidget = 'files';
 	else return undefined;
+	// RJSF 5.24.13 merges global options in widget branches; array templates use local options.
 	const { widget = defaultWidget } = getUiOptions(uiSchema, registry.globalUiOptions);
 	return getWidget(schema, widget, registry.widgets);
 };

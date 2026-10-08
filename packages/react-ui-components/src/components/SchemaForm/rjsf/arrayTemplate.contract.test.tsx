@@ -7,7 +7,7 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import { getDefaultValidator } from '../../../utils';
-import { ARRAY_ID_SHAPES, ARRAY_TEMPLATE_OPTION_SHAPES, ARRAY_TEMPLATE_SHAPES, COLLECTION_DESCRIPTION_SHAPES } from '../test-utils/matrix';
+import { ARRAY_ID_SHAPES, ARRAY_TEMPLATE_OPTION_SHAPES, ARRAY_TEMPLATE_SHAPES, ARRAY_WIDGET_DISPATCH_SHAPES, COLLECTION_DESCRIPTION_SHAPES } from '../test-utils/matrix';
 import { generateTheme } from '../Theme';
 import { FormStateProvider } from '../contexts';
 import { getRenderedArrayFieldTemplate, getRenderedArrayWidget } from './arrayTemplate';
@@ -19,6 +19,29 @@ describe.each([
 	{ name: 'import', FormComponent: Form },
 	{ name: 'require', FormComponent: CommonJsForm }
 ])('array template contract through $name', ({ FormComponent }) => {
+	it.each(ARRAY_WIDGET_DISPATCH_SHAPES)('matches global and local widget dispatch for $name', row => {
+		let fileWidget = false;
+		const theme = generateTheme();
+		const FieldTemplate = ({ children, id, registry, uiSchema, schema }: FieldTemplateProps) => {
+			if (id === 'root') fileWidget = getRenderedArrayWidget(schema, uiSchema, registry) === getWidget(schema, FileWidget, registry.widgets);
+			return <>{children}</>;
+		};
+		const markup = renderToStaticMarkup(
+			<FormStateProvider>
+				<FormComponent
+					{...theme}
+					schema={row.schema}
+					uiSchema={row.uiSchema}
+					formData={[]}
+					templates={{ ...theme.templates, FieldTemplate }}
+					validator={getDefaultValidator()}
+				/>
+			</FormStateProvider>
+		);
+		expect(markup.includes('id="file_root"')).toBe(row.file);
+		expect(fileWidget).toBe(row.file);
+	});
+
 	it.each(COLLECTION_DESCRIPTION_SHAPES.filter(row => row.schema.type === 'array'))('identifies the actual file widget for $name', row => {
 		let fileWidget = false;
 		const theme = generateTheme();

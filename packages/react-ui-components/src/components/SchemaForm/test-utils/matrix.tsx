@@ -3523,6 +3523,90 @@ export const COLLECTION_ENTRY_ERROR_SHAPES = ['scalar list', 'object table', 'ob
 	};
 });
 
+const describedFiles = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === 'multiple files')!.schema;
+const describedChoices = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === 'multi-select')!.schema;
+export const ARRAY_WIDGET_DISPATCH_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	file: boolean;
+	collection: boolean;
+	contentSelector: string;
+}[] = [
+	{
+		name: 'file array with global custom widget',
+		schema: describedFiles,
+		uiSchema: { 'ui:globalOptions': { widget: DescriptionWidget } },
+		file: false,
+		collection: false,
+		contentSelector: '[data-description-widget]'
+	},
+	{
+		name: 'file array with global file widget',
+		schema: describedFiles,
+		uiSchema: { 'ui:globalOptions': { widget: FileWidget } },
+		file: true,
+		collection: true,
+		contentSelector: 'input[type="file"]'
+	},
+	{
+		name: 'local file alias overrides global custom widget',
+		schema: describedFiles,
+		uiSchema: { 'ui:globalOptions': { widget: DescriptionWidget }, 'ui:widget': 'files' },
+		file: true,
+		collection: true,
+		contentSelector: 'input[type="file"]'
+	},
+	{
+		name: 'local custom widget overrides global file widget',
+		schema: describedFiles,
+		uiSchema: { 'ui:globalOptions': { widget: FileWidget }, 'ui:widget': DescriptionWidget },
+		file: false,
+		collection: false,
+		contentSelector: '[data-description-widget]'
+	},
+	{
+		name: 'multi-select with global file widget',
+		schema: describedChoices,
+		uiSchema: { 'ui:globalOptions': { widget: FileWidget } },
+		file: true,
+		collection: true,
+		contentSelector: 'input[type="file"]'
+	},
+	{
+		name: 'multi-select with global custom widget',
+		schema: describedChoices,
+		uiSchema: { 'ui:globalOptions': { widget: DescriptionWidget } },
+		file: false,
+		collection: false,
+		contentSelector: '[data-description-widget]'
+	},
+	{
+		name: 'normal array ignores global file widget',
+		schema: { ...TOPICS, description: collectionDescription },
+		uiSchema: { 'ui:globalOptions': { widget: FileWidget } },
+		file: false,
+		collection: true,
+		contentSelector: '[data-schema-form-list="root"]'
+	},
+	{
+		name: 'file tuple ignores global widget for its layout',
+		schema: { type: 'array', title: 'Certificates', description: collectionDescription, items: [{ type: 'string', format: 'data-url' }] },
+		uiSchema: { 'ui:globalOptions': { widget: FileWidget } },
+		file: false,
+		collection: true,
+		contentSelector: '[data-schema-form-list="root"]'
+	},
+	{
+		name: 'custom widget replaces the fixed tuple layout',
+		schema: { type: 'array', title: 'Certificates', description: collectionDescription, items: [{ type: 'string', format: 'data-url' }] },
+		uiSchema: { 'ui:widget': FileWidget },
+		file: true,
+		collection: true,
+		contentSelector: 'input[type="file"]'
+	}
+];
+
 // Rows share schema objects (TOPICS, ENDPOINTS, NAME), so a test that mutated one would change
 // other rows, and other tests. Frozen, the mutation throws where it happens.
 [
@@ -3612,6 +3696,7 @@ export const COLLECTION_ENTRY_ERROR_SHAPES = ['scalar list', 'object table', 'ob
 	COLLECTION_DESCRIPTION_FIELDS,
 	COLLECTION_DESCRIPTION_SHAPES,
 	COLLECTION_ENTRY_ERROR_SHAPES,
+	ARRAY_WIDGET_DISPATCH_SHAPES,
 	TEMPLATE_COMPONENTS,
 	OPTION_SOURCES,
 	LIST_OPTIONS,

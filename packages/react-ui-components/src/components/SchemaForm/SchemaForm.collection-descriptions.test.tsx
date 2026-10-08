@@ -5,7 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { KvSchemaForm } from './SchemaForm';
 import { propsOf } from '../../test-utils';
-import { COLLECTION_DESCRIPTION_SHAPES } from './test-utils/matrix';
+import { ARRAY_WIDGET_DISPATCH_SHAPES, COLLECTION_DESCRIPTION_SHAPES } from './test-utils/matrix';
 
 vi.mock('../../stencil-generated', async () => (await import('../../test-utils')).stencilMocks);
 let container: HTMLDivElement;
@@ -18,6 +18,15 @@ beforeEach(() => {
 afterEach(async () => {
 	await act(async () => root.unmount());
 	container.remove();
+});
+
+it.each(ARRAY_WIDGET_DISPATCH_SHAPES)('places guidance for the actual dispatch: $name', async row => {
+	await act(async () => root.render(<KvSchemaForm<unknown> schema={row.schema} uiSchema={row.uiSchema} formData={[]} />));
+	const description = container.querySelector('[id$="-description"]')!;
+	const content = container.querySelector(row.contentSelector)!;
+	expect(description).not.toBeNull();
+	expect(content).not.toBeNull();
+	expect(Boolean(description.compareDocumentPosition(content) & Node.DOCUMENT_POSITION_FOLLOWING)).toBe(row.collection);
 });
 
 describe.each(COLLECTION_DESCRIPTION_SHAPES)('description placement: $name', row => {
