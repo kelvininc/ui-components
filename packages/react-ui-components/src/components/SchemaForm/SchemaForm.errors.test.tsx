@@ -100,7 +100,7 @@ describe.each(R2_VALIDATION_SHAPES)('initial validity: $name', row => {
 	it('synchronizes Save and preserves scalar saved-data values', async () => {
 		await renderForm({ ...row, liveValidate: true, allowDiscardChanges: true });
 		expect(saveDisabled()).toBe(!row.valid || !row.hasChanges);
-		expect(propsOf('Discard Changes').disabled).toBe(!row.hasChanges);
+		expect(propsOf('Discard changes').disabled).toBe(!row.hasChanges);
 	});
 });
 
@@ -239,7 +239,7 @@ it('clears touched and submitted visibility on discard and acknowledges new save
 	});
 	expect(errorMessages()).toHaveLength(3);
 	await act(async () => {
-		fireStencilEvent('Discard Changes', 'onClickButton');
+		fireStencilEvent('Discard changes', 'onClickButton');
 	});
 	expect(errorMessages()).toEqual([]);
 	await act(async () => {
@@ -255,7 +255,7 @@ describe.each(R2_RESET_SHAPES)('reset defaults: $name', row => {
 		const onChange = vi.fn();
 		await renderForm({ ...row, liveValidate: true, allowResetToDefaults: true, onChange });
 		await act(async () => {
-			fireStencilEvent('Reset to Default', 'onClickButton');
+			fireStencilEvent('Reset to defaults', 'onClickButton');
 		});
 		const event = onChange.mock.lastCall?.[0];
 		expect(event.formData).toEqual(row.expectedFormData);

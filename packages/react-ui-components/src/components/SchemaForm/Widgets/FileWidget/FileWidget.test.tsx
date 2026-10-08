@@ -172,18 +172,18 @@ it('shows externally replaced values and filenames after Discard', async () => {
 	await renderForm(<KvSchemaForm schema={schema} formData={uploaded} submittedData={certificate} allowDiscardChanges />);
 	expect(names()).toEqual(['client.pem']);
 	expect(action().accessibleLabel).toBe('Replace file: Certificate');
-	await act(async () => fireStencilEvent('Discard Changes', 'onClickButton'));
+	await act(async () => fireStencilEvent('Discard changes', 'onClickButton'));
 	expect(names()).toEqual(['ca.pem']);
 	expect(action().accessibleLabel).toBe('Replace file: Certificate');
 });
 
-it('restores the empty single-file label on Reset to Default', async () => {
+it('restores the empty single-file label on Reset to defaults', async () => {
 	await renderForm(<KvSchemaForm {...R6_FILE_EMPTY_RESET_SHAPE} allowResetToDefaults showErrorList={false} />);
 	const read = deferredRead();
 	await upload();
 	await read.resolve();
 	expect(propsOf(container.querySelector('kv-action-button-text')!).accessibleLabel).toBe('Replace file: Certificate');
-	await act(async () => fireStencilEvent('Reset to Default', 'onClickButton'));
+	await act(async () => fireStencilEvent('Reset to defaults', 'onClickButton'));
 	expect(names()).toEqual(['Empty']);
 	expect(propsOf(container.querySelector('kv-action-button-text')!).accessibleLabel).toBe('Choose file: Certificate');
 });
@@ -209,8 +209,8 @@ describe.each(R6_FILE_READ_CANCELLATIONS)('pending upload: %s', reason => {
 		await upload();
 		if (reason === 'unmount') await renderForm(<div />);
 		else if (reason === 'external value') await renderForm(raceForm(onChange, {}, { ...raceData, certificate: [uploaded] }));
-		else if (reason === 'discard') await act(async () => fireStencilEvent('Discard Changes', 'onClickButton'));
-		else if (reason === 'reset defaults') await act(async () => fireStencilEvent('Reset to Default', 'onClickButton'));
+		else if (reason === 'discard') await act(async () => fireStencilEvent('Discard changes', 'onClickButton'));
+		else if (reason === 'reset defaults') await act(async () => fireStencilEvent('Reset to defaults', 'onClickButton'));
 		else {
 			await renderForm(raceForm(onChange, reason.startsWith('readonly') ? { readonly: true } : { disabled: true }));
 			if (reason.endsWith('editable')) await renderForm(raceForm(onChange));
@@ -320,8 +320,8 @@ describe.each(R6_FILE_READ_CANCELLATIONS)('canceled upload failure: %s', reason 
 		await upload();
 		if (reason === 'unmount') await renderForm(<div />);
 		else if (reason === 'external value') await renderForm(raceForm(vi.fn(), {}, { ...raceData, certificate: [uploaded] }));
-		else if (reason === 'discard') await act(async () => fireStencilEvent('Discard Changes', 'onClickButton'));
-		else if (reason === 'reset defaults') await act(async () => fireStencilEvent('Reset to Default', 'onClickButton'));
+		else if (reason === 'discard') await act(async () => fireStencilEvent('Discard changes', 'onClickButton'));
+		else if (reason === 'reset defaults') await act(async () => fireStencilEvent('Reset to defaults', 'onClickButton'));
 		else {
 			await renderForm(raceForm(vi.fn(), reason.startsWith('readonly') ? { readonly: true } : { disabled: true }));
 			if (reason.endsWith('editable')) await renderForm(raceForm());
@@ -340,7 +340,7 @@ describe.each(R6_FILE_READ_CANCELLATIONS.filter(reason => reason === 'discard' |
 		await upload();
 		onChange.mockClear();
 		await act(async () => {
-			fireStencilEvent(reason === 'discard' ? 'Discard Changes' : 'Reset to Default', 'onClickButton');
+			fireStencilEvent(reason === 'discard' ? 'Discard changes' : 'Reset to defaults', 'onClickButton');
 			read.finish();
 		});
 		expect(onChange.mock.calls.map(([event]) => event.formData)).toEqual([reason === 'discard' ? savedData : { ...raceData, host: 'default-broker.local' }]);
@@ -353,7 +353,7 @@ it('preserves touched file errors when resetting to the same default file', asyn
 	await act(async () => fireStencilEvent(container.querySelector('kv-action-button-text')!, 'onFocusButton'));
 	const messages = () => Array.from(container.querySelectorAll('kv-form-help-text')).flatMap(host => propsOf(host).helpText ?? []);
 	expect(messages()).toContain('Review the certificates.');
-	await act(async () => fireStencilEvent('Reset to Default', 'onClickButton'));
+	await act(async () => fireStencilEvent('Reset to defaults', 'onClickButton'));
 	expect(names()).toEqual(['ca.pem']);
 	expect(messages()).toContain('Review the certificates.');
 });

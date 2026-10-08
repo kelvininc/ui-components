@@ -37,7 +37,7 @@ describe.each(R2_SCALAR_DISCARD_SHAPES.filter(row => row.submittedData === undef
 		if (row.control === 'checkbox') await expect.element(field).toBeChecked();
 		else await expect.poll(() => (field.element() as HTMLInputElement).value).toBe(String(row.formData));
 		expect(ref.current?.state.formData).toBe(row.formData);
-		const discard = screen.getByRole('button', { name: 'Discard Changes', exact: true });
+		const discard = screen.getByRole('button', { name: 'Discard changes', exact: true });
 		await expect.element(discard).toBeEnabled();
 		onChange.mockClear();
 		await discard.click();

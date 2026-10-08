@@ -99,17 +99,17 @@ it('updates the action name after external changes and Discard', async () => {
 	await expect.element(screen.getByRole('button', { name: 'Choose file: Certificate', exact: true })).toBeVisible();
 	await screen.rerender(form(uploaded));
 	await expect.element(screen.getByRole('button', { name: 'Replace file: Certificate', exact: true })).toBeVisible();
-	await screen.getByRole('button', { name: 'Discard Changes', exact: true }).click();
+	await screen.getByRole('button', { name: 'Discard changes', exact: true }).click();
 	expect(names(screen.container)).toEqual(['ca.pem']);
 	await expect.element(screen.getByRole('button', { name: 'Replace file: Certificate', exact: true })).toBeVisible();
 });
 
-it('restores the empty single-file label on Reset to Default', async () => {
+it('restores the empty single-file label on Reset to defaults', async () => {
 	const screen = await render(<KvSchemaForm {...R6_FILE_EMPTY_RESET_SHAPE} allowResetToDefaults showErrorList={false} />);
 	await userEvent.upload(input(screen.container), uploadFile());
 	await whenAllKelvinReady(screen.container);
 	await expect.element(screen.getByRole('button', { name: 'Replace file: Certificate', exact: true })).toBeVisible();
-	await screen.getByRole('button', { name: 'Reset to Default', exact: true }).click();
+	await screen.getByRole('button', { name: 'Reset to defaults', exact: true }).click();
 	expect(names(screen.container)).toEqual(['Empty']);
 	await expect.element(screen.getByRole('button', { name: 'Choose file: Certificate', exact: true })).toBeVisible();
 });
@@ -253,8 +253,8 @@ describe.each(R6_FILE_READ_CANCELLATIONS)('Chromium upload cancellation: %s', re
 		await reads.wait();
 		if (reason === 'unmount') await screen.rerender(<div />);
 		else if (reason === 'external value') await screen.rerender(form({}, { ...raceData, certificate: [uploaded] }));
-		else if (reason === 'discard') await screen.getByRole('button', { name: 'Discard Changes', exact: true }).click();
-		else if (reason === 'reset defaults') await screen.getByRole('button', { name: 'Reset to Default', exact: true }).click();
+		else if (reason === 'discard') await screen.getByRole('button', { name: 'Discard changes', exact: true }).click();
+		else if (reason === 'reset defaults') await screen.getByRole('button', { name: 'Reset to defaults', exact: true }).click();
 		else {
 			await screen.rerender(form(reason.startsWith('readonly') ? { readonly: true } : { disabled: true }));
 			if (reason.endsWith('editable')) await screen.rerender(form());
@@ -429,11 +429,11 @@ it('restores touched file action descriptions to empty when Discard restores an 
 	await whenAllKelvinReady(screen.container);
 	(screen.getByRole('button', { name: 'Add files: Certificates', exact: true }).element() as HTMLElement).focus();
 	await expect.poll(() => nativeDescription('Add files: Certificates')).toBe('Review the certificates.');
-	await screen.getByRole('button', { name: 'Discard Changes', exact: true }).click();
+	await screen.getByRole('button', { name: 'Discard changes', exact: true }).click();
 	await expect.poll(() => nativeDescription('Add files: Certificates')).toBe('');
 });
 
-it('preserves touched file action errors when Reset to Default restores the same file', async () => {
+it('preserves touched file action errors when Reset to defaults restores the same file', async () => {
 	const screen = await render(
 		<KvSchemaForm<Record<string, unknown>>
 			schema={raceSchema}
@@ -446,7 +446,7 @@ it('preserves touched file action errors when Reset to Default restores the same
 	await whenAllKelvinReady(screen.container);
 	(screen.getByRole('button', { name: 'Add files: Certificates', exact: true }).element() as HTMLElement).focus();
 	await expect.poll(() => nativeDescription('Add files: Certificates')).toBe('Review the certificates.');
-	await screen.getByRole('button', { name: 'Reset to Default', exact: true }).click();
+	await screen.getByRole('button', { name: 'Reset to defaults', exact: true }).click();
 	expect(names(screen.container)).toEqual(['ca.pem']);
 	await expect.poll(() => nativeDescription('Add files: Certificates')).toBe('Review the certificates.');
 });
