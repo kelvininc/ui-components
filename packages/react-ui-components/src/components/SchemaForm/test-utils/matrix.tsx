@@ -3348,6 +3348,42 @@ export const R6_FILE_LAYOUT_SHAPES = [
 ].map(({ source, ...row }) => ({ ...R6_FILE_SHAPES.find(shape => shape.name === source)!, ...row }));
 
 const DescriptionWidget = () => <p data-description-widget>Connector setting</p>;
+const CertificateReferenceField = ({ idSchema }: FieldProps) => <input id={idSchema.$id} aria-label="Certificate reference" data-certificate-reference />;
+export const FILE_FIELD_OVERRIDE_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	formData: unknown;
+	fields: Record<string, ComponentType<FieldProps>>;
+}[] = [
+	{
+		name: 'StringField override',
+		schema: { type: 'string', title: 'Certificate', format: 'data-url' },
+		formData: CERTIFICATE,
+		fields: { StringField: CertificateReferenceField }
+	},
+	{
+		name: 'ArrayField override',
+		schema: { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } },
+		formData: [CERTIFICATE],
+		fields: { ArrayField: CertificateReferenceField }
+	}
+];
+export const COLLECTION_TITLE_OVERRIDE_SHAPES: readonly { name: string; TitleFieldTemplate: TemplatesType['TitleFieldTemplate'] }[] = [
+	{ name: 'null title', TitleFieldTemplate: () => null },
+	{ name: 'empty fragment title', TitleFieldTemplate: () => <></> },
+	{ name: 'hidden title', TitleFieldTemplate: () => <span hidden /> },
+	{ name: 'display-none title', TitleFieldTemplate: () => <span style={{ display: 'none' }} /> }
+];
+export const COLLECTION_METADATA_TRANSITIONS: readonly { name: string; from: 'top' | 'none'; to: 'top' | 'none'; schema: RJSFSchema; formData: unknown }[] = [
+	{ name: 'metadata appears', from: 'none', to: 'top' },
+	{ name: 'metadata disappears', from: 'top', to: 'none' }
+].map(row => ({
+	...row,
+	from: row.from as 'top' | 'none',
+	to: row.to as 'top' | 'none',
+	schema: ARRAY_ID_SHAPES.find(shape => shape.name === 'nested arrays')!.schema,
+	formData: [[{ host: 'broker-1.local' }], [{ host: 'broker-2.local' }]]
+}));
 const collectionDescription = 'Configure the files or entries before deploying this connector.';
 type DescriptionShape = {
 	name: string;
@@ -3793,6 +3829,9 @@ export const ARRAY_WIDGET_DISPATCH_SHAPES: readonly {
 	R6_FILE_ARRAY_ENTRY_SHAPES,
 	R6_FILE_LAYOUT_SHAPES,
 	COLLECTION_DESCRIPTION_FIELDS,
+	FILE_FIELD_OVERRIDE_SHAPES,
+	COLLECTION_TITLE_OVERRIDE_SHAPES,
+	COLLECTION_METADATA_TRANSITIONS,
 	COLLECTION_DESCRIPTION_SHAPES,
 	COLLECTION_ADD_ALIGNMENT_SHAPES,
 	COLLECTION_ENTRY_ERROR_SHAPES,

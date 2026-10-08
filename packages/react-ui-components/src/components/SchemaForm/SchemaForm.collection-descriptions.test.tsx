@@ -5,7 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { KvSchemaForm } from './SchemaForm';
 import { fireStencilEvent, propsOf } from '../../test-utils';
-import { ARRAY_WIDGET_DISPATCH_SHAPES, COLLECTION_ADD_ALIGNMENT_SHAPES, COLLECTION_DESCRIPTION_SHAPES } from './test-utils/matrix';
+import { ARRAY_WIDGET_DISPATCH_SHAPES, COLLECTION_ADD_ALIGNMENT_SHAPES, COLLECTION_DESCRIPTION_SHAPES, FILE_FIELD_OVERRIDE_SHAPES } from './test-utils/matrix';
 
 vi.mock('../../stencil-generated', async () => (await import('../../test-utils')).stencilMocks);
 let container: HTMLDivElement;
@@ -40,6 +40,32 @@ it.each(ARRAY_WIDGET_DISPATCH_SHAPES)('places guidance for the actual dispatch: 
 	expect(description).not.toBeNull();
 	expect(content).not.toBeNull();
 	expect(Boolean(description.compareDocumentPosition(content) & Node.DOCUMENT_POSITION_FOLLOWING)).toBe(row.collection);
+});
+
+it.each(FILE_FIELD_OVERRIDE_SHAPES)('keeps inline errors for a custom $name on a file schema', async row => {
+	for (const invalid of [true, false]) {
+		await act(async () =>
+			root.render(
+				<KvSchemaForm<unknown>
+					schema={row.schema}
+					formData={row.formData}
+					fields={row.fields}
+					extraErrors={invalid ? { __errors: ['CA certificate has expired.'] } : undefined}
+					displayErrors
+					showErrorList={false}
+				/>
+			)
+		);
+		const content = container.querySelector('[data-certificate-reference]')!;
+		expect(content).not.toBeNull();
+		expect(container.querySelector('input[type="file"]')).toBeNull();
+		const error = container.querySelector('[id$="-errors"] kv-form-help-text');
+		if (invalid) {
+			expect(error).not.toBeNull();
+			expect(propsOf<{ helpText: string[] }>(error!).helpText).toEqual(['CA certificate has expired.']);
+			expect(Boolean(content.compareDocumentPosition(error!) & Node.DOCUMENT_POSITION_FOLLOWING)).toBe(true);
+		} else expect(error).toBeNull();
+	}
 });
 
 describe.each(COLLECTION_DESCRIPTION_SHAPES)('description placement: $name', row => {

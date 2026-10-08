@@ -29,26 +29,35 @@ const SectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		helperElement
 	} = useFieldPresentation(props);
 	const describedBy = [(descriptionElement || arrayDescriptionContext.descriptionId) && descriptionId, errorsElement && errorsId].filter(Boolean).join(' ') || undefined;
+	const header =
+		itemControls && (titleElement || itemHeader) ? (
+			<div className={classNames(styles.ItemHeader, { [styles.FieldsetHeader]: itemControls.fieldset })} data-schema-form-item-header>
+				{titleElement}
+				{itemHeader}
+			</div>
+		) : (
+			titleElement
+		);
 	return (
 		<WrapIfAdditionalTemplate {...props}>
 			<div
-				className={classNames(styles.SectionField, props.classNames, {
-					[styles.CollectionSection]: collection && hasTitle && collectionMetadataElement
-				})}
+				className={classNames(styles.SectionField, props.classNames)}
 				role={hasTitle ? 'group' : undefined}
 				aria-labelledby={hasTitle && defaultTitle ? titleId : undefined}
 				aria-label={hasTitle && !defaultTitle ? title : undefined}
 				aria-describedby={describedBy}
 			>
-				{itemControls && (titleElement || itemHeader) ? (
-					<div className={classNames(styles.ItemHeader, { [styles.FieldsetHeader]: itemControls.fieldset })} data-schema-form-item-header>
-						{titleElement}
-						{itemHeader}
+				{collection ? (
+					<div className={styles.CollectionHeader}>
+						{header}
+						{collectionMetadataElement}
 					</div>
 				) : (
-					titleElement
+					<>
+						{header}
+						{descriptionPosition === EDescriptionPosition.Top && descriptionElement}
+					</>
 				)}
-				{collection ? collectionMetadataElement : descriptionPosition === EDescriptionPosition.Top && descriptionElement}
 				{errorsElement}
 				<SectionDepthContext.Provider value={depth + Number(hasTitle)}>
 					<ArrayDescriptionContext.Provider value={arrayDescriptionContext}>

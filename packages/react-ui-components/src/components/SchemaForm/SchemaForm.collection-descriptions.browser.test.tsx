@@ -1,16 +1,99 @@
 import { setThemeMode, StyleMode } from '@kelvininc/ui-components';
 import React from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
+import { page } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../test-utils/browser';
 import { KvSchemaForm } from './SchemaForm';
-import { COLLECTION_ADD_ALIGNMENT_SHAPES, COLLECTION_DESCRIPTION_FIELDS, COLLECTION_DESCRIPTION_SHAPES, COLLECTION_ENTRY_ERROR_SHAPES } from './test-utils/matrix';
+import {
+	COLLECTION_ADD_ALIGNMENT_SHAPES,
+	COLLECTION_DESCRIPTION_FIELDS,
+	COLLECTION_DESCRIPTION_SHAPES,
+	COLLECTION_ENTRY_ERROR_SHAPES,
+	COLLECTION_METADATA_TRANSITIONS,
+	COLLECTION_TITLE_OVERRIDE_SHAPES,
+	FILE_FIELD_OVERRIDE_SHAPES
+} from './test-utils/matrix';
 import fileStyles from './Widgets/FileWidget/FileWidget.module.scss';
 
 afterEach(() => setThemeMode(StyleMode.Night));
 
 describe.each([StyleMode.Light, StyleMode.Night])('collection guidance in %s', theme => {
 	describe.each([320, 800])('at %ipx', width => {
+		it.each(COLLECTION_METADATA_TRANSITIONS)('preserves the collection action menu when $name', async row => {
+			setThemeMode(theme);
+			const form = (descriptionPosition: 'top' | 'none') => (
+				<div style={{ width }}>
+					<KvSchemaForm<unknown>
+						schema={row.schema}
+						formData={row.formData}
+						uiSchema={{ items: { 'ui:descriptionPosition': descriptionPosition, 'ui:options': { layout: 'sections' } } }}
+					/>
+				</div>
+			);
+			const screen = await render(form(row.from));
+			await whenAllKelvinReady(screen.container);
+			const header = screen.container.querySelector('[data-schema-form-item-header]')!;
+			const menu = header.querySelector('kv-action-menu')!;
+			expect(menu).not.toBeNull();
+			await screen.getByRole('button', { name: menu.accessibleLabel, exact: true }).click();
+			const action = page.getByRole('menuitem', { name: 'Move down', exact: true });
+			await expect.element(action).toBeVisible();
+			await expect.element(action).toHaveFocus();
+			await screen.rerender(form(row.to));
+			await whenAllKelvinReady(screen.container);
+			expect(screen.container.querySelector('[data-schema-form-item-header] kv-action-menu')).toBe(menu);
+			await expect.element(action).toBeVisible();
+			await expect.element(action).toHaveFocus();
+		});
+
+		it.each(COLLECTION_TITLE_OVERRIDE_SHAPES)('keeps collection metadata within the field with a $name', async row => {
+			setThemeMode(theme);
+			const collection = COLLECTION_DESCRIPTION_FIELDS.find(shape => shape.name === 'object sections')!;
+			const screen = await render(
+				<div style={{ width }}>
+					<KvSchemaForm<unknown>
+						schema={collection.schema}
+						uiSchema={collection.uiSchema}
+						formData={collection.formData}
+						templates={{ TitleFieldTemplate: row.TitleFieldTemplate }}
+					/>
+				</div>
+			);
+			await whenAllKelvinReady(screen.container);
+			const field = screen.container.querySelector('[data-schema-form-field="section"] > div')!;
+			const metadata = field.querySelector('[data-schema-form-collection-metadata]')!;
+			await expect.element(metadata).toBeVisible();
+			expect(metadata.getBoundingClientRect().top).toBeGreaterThanOrEqual(field.getBoundingClientRect().top);
+			const list = field.querySelector(collection.contentSelector)!;
+			expect(list).not.toBeNull();
+			expect(list.getBoundingClientRect().top).toBeGreaterThanOrEqual(metadata.getBoundingClientRect().bottom);
+		});
+
+		it.each(FILE_FIELD_OVERRIDE_SHAPES)('shows inline errors for a custom $name on a file schema', async row => {
+			setThemeMode(theme);
+			const screen = await render(
+				<div style={{ width }}>
+					<KvSchemaForm<unknown>
+						schema={row.schema}
+						formData={row.formData}
+						fields={row.fields}
+						extraErrors={{ __errors: ['CA certificate has expired.'] }}
+						displayErrors
+						showErrorList={false}
+					/>
+				</div>
+			);
+			await whenAllKelvinReady(screen.container);
+			const content = screen.container.querySelector('[data-certificate-reference]')!;
+			expect(content).not.toBeNull();
+			const error = screen.container.querySelector('[id$="-errors"] kv-form-help-text')!;
+			expect(error).not.toBeNull();
+			await expect.element(error).toBeVisible();
+			await expect.poll(() => error.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe('CA certificate has expired.');
+			expect(error.getBoundingClientRect().top).toBeGreaterThanOrEqual(content.getBoundingClientRect().bottom);
+		});
+
 		it.each(COLLECTION_ADD_ALIGNMENT_SHAPES)('aligns Add with the resolved item layout: $name', async row => {
 			setThemeMode(theme);
 			const screen = await render(

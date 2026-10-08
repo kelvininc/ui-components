@@ -7,11 +7,19 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import { getDefaultValidator } from '../../../utils';
-import { ARRAY_ID_SHAPES, ARRAY_TEMPLATE_OPTION_SHAPES, ARRAY_TEMPLATE_SHAPES, ARRAY_WIDGET_DISPATCH_SHAPES, COLLECTION_DESCRIPTION_SHAPES } from '../test-utils/matrix';
+import {
+	ARRAY_ID_SHAPES,
+	ARRAY_TEMPLATE_OPTION_SHAPES,
+	ARRAY_TEMPLATE_SHAPES,
+	ARRAY_WIDGET_DISPATCH_SHAPES,
+	COLLECTION_DESCRIPTION_SHAPES,
+	FILE_FIELD_OVERRIDE_SHAPES
+} from '../test-utils/matrix';
 import { generateTheme } from '../Theme';
 import { FormStateProvider } from '../contexts';
 import { getRenderedArrayFieldTemplate, getRenderedArrayWidget } from './arrayTemplate';
 import FileWidget from '../Widgets/FileWidget';
+import { useFieldPresentation } from '../Templates/FieldTemplate/useFieldPresentation';
 
 const CommonJsForm = createRequire(import.meta.url)('@rjsf/core').default as typeof Form;
 vi.mock('../../../stencil-generated', async () => (await import('../../../test-utils')).stencilMocks);
@@ -42,12 +50,13 @@ describe.each([
 		expect(fileWidget).toBe(row.file);
 	});
 
-	it.each(COLLECTION_DESCRIPTION_SHAPES.filter(row => row.schema.type === 'array'))('identifies the actual file widget for $name', row => {
+	it.each(COLLECTION_DESCRIPTION_SHAPES)('identifies the actual file widget for $name', row => {
 		let fileWidget = false;
 		const theme = generateTheme();
-		const FieldTemplate = ({ children, id, registry, uiSchema, schema }: FieldTemplateProps) => {
-			if (id === 'root') fileWidget = getRenderedArrayWidget(schema, uiSchema, registry) === getWidget(schema, FileWidget, registry.widgets);
-			return <>{children}</>;
+		const FieldTemplate = (props: FieldTemplateProps) => {
+			const presentation = useFieldPresentation(props);
+			if (props.id === 'root') fileWidget = presentation.fileWidget;
+			return <>{props.children}</>;
 		};
 		const markup = renderToStaticMarkup(
 			<FormStateProvider>
@@ -64,6 +73,31 @@ describe.each([
 		);
 		expect(markup.includes('id="file_root"')).toBe(row.kind === 'file');
 		expect(fileWidget).toBe(row.kind === 'file');
+	});
+
+	it.each(FILE_FIELD_OVERRIDE_SHAPES)('recognizes caller field ownership for $name', row => {
+		let fileWidget = false;
+		const theme = generateTheme();
+		const FieldTemplate = (props: FieldTemplateProps) => {
+			const presentation = useFieldPresentation(props);
+			if (props.id === 'root') fileWidget = presentation.fileWidget;
+			return <>{props.children}</>;
+		};
+		const markup = renderToStaticMarkup(
+			<FormStateProvider>
+				<FormComponent
+					{...theme}
+					schema={row.schema}
+					formData={row.formData}
+					fields={{ ...theme.fields, ...row.fields }}
+					templates={{ ...theme.templates, FieldTemplate }}
+					validator={getDefaultValidator()}
+				/>
+			</FormStateProvider>
+		);
+		expect(markup).toContain('data-certificate-reference');
+		expect(markup).not.toContain('id="file_root"');
+		expect(fileWidget).toBe(false);
 	});
 
 	it.each(ARRAY_TEMPLATE_SHAPES)('matches ArrayField.render for $name', row => {

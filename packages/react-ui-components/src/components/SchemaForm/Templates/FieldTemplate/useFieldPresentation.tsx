@@ -1,4 +1,5 @@
 import { EValidationState } from '@kelvininc/ui-components';
+import { getDefaultRegistry } from '@rjsf/core';
 import { FieldTemplateProps, FormContextType, getSchemaType, getTemplate, getUiOptions, getWidget, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import React, { useId, useMemo, useState } from 'react';
 import { KvFormHelpText } from '../../../../stencil-generated';
@@ -8,6 +9,7 @@ import { defaultArrayDescriptionTemplate, getRenderedArrayFieldTemplate, getRend
 import { getChoiceWidget } from '../../rjsf/choiceWidget';
 import { hasCustomField } from '../../rjsf/hasCustomField';
 import FileWidget from '../../Widgets/FileWidget';
+import ArrayField from '../../Fields/ArrayField/ArrayField';
 import DefaultTitleFieldTemplate from '../TitleFieldTemplate/TitleFieldTemplate';
 import ArrayFieldTemplate from '../ArrayFieldTemplate/ArrayFieldTemplate';
 import buildDefaultHelperText, { buildHelperOptions } from './utils';
@@ -30,10 +32,16 @@ export const useFieldPresentation = <T, S extends StrictRJSFSchema = RJSFSchema,
 	const WrapIfAdditionalTemplate = getTemplate('WrapIfAdditionalTemplate', registry, uiOptions);
 	const schemaType = getSchemaType(schema);
 	const arrayTemplate = getRenderedArrayFieldTemplate(schema, uiSchema, registry);
-	const widget =
+	const defaultFields = getDefaultRegistry<T, S, F>().fields;
+	// Caller-defined type fields own their controls, even when the schema selects a file widget.
+	const fileField =
 		schemaType === 'array'
+			? registry.fields.ArrayField === ArrayField || registry.fields.ArrayField === defaultFields.ArrayField
+			: schemaType === 'string' && registry.fields.StringField === defaultFields.StringField;
+	const widget =
+		fileField && schemaType === 'array'
 			? getRenderedArrayWidget(schema, uiSchema, registry)
-			: schemaType === 'string' && !hasCustomField(uiSchema, registry, schema)
+			: fileField && schemaType === 'string' && !hasCustomField(uiSchema, registry, schema)
 			? getChoiceWidget(props)
 			: undefined;
 	const fileWidget = Boolean(widget) && widget === getWidget(schema, FileWidget, registry.widgets);
