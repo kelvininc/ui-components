@@ -20,6 +20,7 @@ import { KvActionButtonText, KvSwitchButton, KvTooltip } from '../../stencil-gen
 import { SCROLL_OFFSET } from './config';
 import { FormStateProvider } from './contexts';
 import { useFieldTemplateElement } from './hooks/useFieldTemplateElement';
+import { useScrollbarWidth } from './hooks/useScrollbarWidth';
 import styles from './SchemaForm.module.scss';
 import { generateTheme } from './Theme';
 import { EApplyDefaults, SchemaFormContext, SchemaFormProps } from './types';
@@ -162,6 +163,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const isScrolling = useMemo(() => scrollTop - SCROLL_OFFSET > 0, [scrollTop]);
 	const { submitText, norender, props: submitButtonProps } = getSubmitButtonOptions(uiSchema);
 	const hasFooter = allowDiscardChanges || allowResetToDefaults || !norender;
+	const scrollbarWidth = useScrollbarWidth(hasFooter ? fieldTemplate : undefined);
 	const defaults = useMemo<T>(() => {
 		const schemaUtils = createSchemaUtils(formValidator, schema);
 		return schemaUtils.getDefaultFormState(schema) as T;
@@ -328,7 +330,10 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 				)}
 				<CustomFormWithRef<T, S, SchemaFormContext> ref={formRef} {...stableThemedProps} />
 				{hasFooter && (
-					<div className={classNames(styles.FormFooter, { [styles.Scrolling]: isScrolling })}>
+					<div
+						className={classNames(styles.FormFooter, { [styles.Scrolling]: isScrolling })}
+						style={{ '--_schema-form-scrollbar-width': `${scrollbarWidth}px` } as React.CSSProperties}
+					>
 						<div className={styles.FooterActions}>
 							<div className={styles.LeftFooter}>
 								{allowResetToDefaults && (

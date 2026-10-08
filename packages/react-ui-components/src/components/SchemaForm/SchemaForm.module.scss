@@ -48,6 +48,10 @@
 	}
 
 	.FormFooter {
+		--_schema-form-scrollbar-width: 0px;
+
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) var(--_schema-form-scrollbar-width);
 		padding: var(--spacing-2xl) var(--schema-form-x-padding) 0 var(--schema-form-x-padding);
 
 		&.Scrolling {

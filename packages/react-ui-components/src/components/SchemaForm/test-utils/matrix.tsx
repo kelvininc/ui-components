@@ -1531,6 +1531,7 @@ export const RESET_STATE_ACTIONS = [
 ] as const;
 
 export const FOOTER_LAYOUT_SHAPES = [
+	{ name: 'default padding', width: 800, reset: true, discard: true },
 	{ name: 'desktop', width: 800, padding: 0, reset: true, discard: true },
 	{ name: 'padded desktop', width: 800, padding: 24, reset: true, discard: true },
 	{ name: 'capped object fields', root: 'object', width: 800, padding: 24, maxWidth: '400px', reset: true, discard: true },
@@ -1539,6 +1540,14 @@ export const FOOTER_LAYOUT_SHAPES = [
 	{ name: 'scalar with a percentage cap', root: 'scalar', width: 800, padding: 24, maxWidth: '50%', reset: true, discard: true },
 	{ name: 'array with a pixel cap', root: 'array', width: 800, padding: 24, maxWidth: '400px', reset: true, discard: true },
 	{ name: 'array with a percentage cap', root: 'array', width: 800, padding: 24, maxWidth: '50%', reset: true, discard: true },
+	{ name: 'scrolling object form', root: 'object', width: 800, padding: 24, height: 240, reset: true, discard: true },
+	{ name: 'scrolling pixel-capped object', root: 'object', width: 800, padding: 24, height: 240, maxWidth: '400px', reset: true, discard: true },
+	{ name: 'scrolling percentage-capped object', root: 'object', width: 800, padding: 24, height: 240, maxWidth: '50%', reset: true, discard: true },
+	{ name: 'scrolling scalar form', root: 'scalar', width: 800, padding: 24, height: 240, reset: true, discard: true },
+	{ name: 'scrolling array form', root: 'array', width: 800, padding: 24, height: 240, reset: true, discard: true },
+	{ name: 'scrolling narrow form', root: 'object', width: 320, padding: 16, height: 240, reset: true, discard: true },
+	{ name: 'scrolling default padding', root: 'object', width: 800, height: 240, reset: true, discard: true },
+	{ name: 'scrolling unitless zero padding', root: 'object', width: 800, padding: 0, unitlessPadding: true, height: 240, reset: true, discard: true },
 	{ name: 'phone', width: 390, padding: 0, reset: true, discard: true },
 	{ name: 'padded narrow form', width: 320, padding: 24, reset: true, discard: true },
 	{ name: 'small form', width: 200, padding: 0, reset: true, discard: true },

@@ -39,7 +39,8 @@ export default defineConfig({
 					setupFiles: ['src/test-utils/setup-browser.ts'],
 					browser: {
 						enabled: true,
-						provider: playwright(),
+						// Keep native scrollbars so headless layout checks match a visible browser.
+						provider: playwright({ launchOptions: { ignoreDefaultArgs: ['--hide-scrollbars'] } }),
 						headless: true,
 						instances: [{ browser: 'chromium' }],
 						// A desktop width, above every container breakpoint; tests that need a narrow layout size their container
