@@ -415,6 +415,25 @@ export const INPUT_FOCUS_SHAPES: readonly {
 	}
 ];
 
+export const DROPDOWN_LABEL_SHAPES: readonly {
+	name: string;
+	labels: { clearSelectionLabel?: string | null; selectAllLabel?: string | null };
+	clearLabel: string;
+	selectLabel: string;
+}[] = [
+	{ name: 'omitted', labels: {}, clearLabel: 'Clear all', selectLabel: 'Select all' },
+	{ name: 'undefined', labels: { clearSelectionLabel: undefined, selectAllLabel: undefined }, clearLabel: 'Clear all', selectLabel: 'Select all' },
+	{ name: 'null', labels: { clearSelectionLabel: null, selectAllLabel: null }, clearLabel: 'Clear all', selectLabel: 'Select all' },
+	{
+		name: 'custom',
+		labels: { clearSelectionLabel: 'Clear retry policy', selectAllLabel: 'Select every retry count' },
+		clearLabel: 'Clear retry policy',
+		selectLabel: 'Select every retry count'
+	},
+	{ name: 'clear override', labels: { clearSelectionLabel: 'Clear retry policy' }, clearLabel: 'Clear retry policy', selectLabel: 'Select all' },
+	{ name: 'select-all override', labels: { selectAllLabel: 'Select every retry count' }, clearLabel: 'Clear all', selectLabel: 'Select every retry count' }
+];
+
 export const SELECT_FOCUS_SHAPES: readonly {
 	name: string;
 	schema: RJSFSchema;
@@ -3880,6 +3899,7 @@ export const ARRAY_WIDGET_DISPATCH_SHAPES: readonly {
 	MULTI_SELECT_SHAPES,
 	INPUT_FOCUS_SHAPES,
 	SELECT_FOCUS_SHAPES,
+	DROPDOWN_LABEL_SHAPES,
 	FOCUS_EDITING_FLAGS,
 	TOGGLE_FOCUS_MODES,
 	TOGGLE_BUTTON_GROUP_SHAPES,
