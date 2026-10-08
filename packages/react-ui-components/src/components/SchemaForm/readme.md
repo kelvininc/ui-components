@@ -177,6 +177,11 @@ and applies template replacements to mounted forms without modifying the caller'
 
 ## Textarea values and limits
 
+Descriptions and errors share `kv-form-help-text`'s 8px left inset. Text and date/time inputs
+use the same rule for their built-in feedback. A textarea's
+compact character count sits inside the bottom-right corner in a reserved footer; text scrolls
+above it. `KvTextArea`'s `counter` and `counterAlwaysVisible` retain their existing visibility behavior.
+
 Clearing a textarea commits the field's `ui:emptyValue`, including when supplied through
 `ui:options.emptyValue`. The default is `undefined`. Empty strings, null and other configured values
 retain their types; the form's schema still validates them. Nonempty text stays unchanged.

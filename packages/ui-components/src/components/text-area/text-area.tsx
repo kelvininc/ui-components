@@ -170,7 +170,7 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 						<div
 							class={{
 								'text-area-wrapper': true,
-								'has-text': this.inputRef?.innerText.length > 0,
+								'has-text': !this.showPlaceholder,
 								'invalid': this.state === EValidationState.Invalid
 							}}
 						>
@@ -192,12 +192,12 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 								onInput={this.onInput}
 								contentEditable={this.disabled ? 'false' : 'plaintext-only'}
 							/>
+							{this.counter && this.maxCharLength ? (
+								<div class="character-counter">
+									{this.curCharLength} / {this.maxCharLength}
+								</div>
+							) : null}
 						</div>
-						{this.counter && this.maxCharLength && (
-							<div class="character-counter">
-								Max. character: {this.curCharLength}/{this.maxCharLength}
-							</div>
-						)}
 					</div>
 				</div>
 			</Host>

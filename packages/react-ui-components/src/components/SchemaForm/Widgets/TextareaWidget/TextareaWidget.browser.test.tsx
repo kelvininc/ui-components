@@ -91,7 +91,7 @@ describe.each(R7_TEXTAREA_LIMIT_SHAPES)('textarea limit in Chromium: $name', row
 		const invalid = row.schema.maxLength !== undefined && [...row.expectedText].length > row.schema.maxLength;
 		if (invalid) await expect.element(control).toHaveAttribute('aria-invalid', 'true');
 		else await expect.element(control).not.toHaveAttribute('aria-invalid');
-		if (row.limit) expect(host.shadowRoot!.querySelector('.character-counter')?.textContent).toContain(`${[...row.expectedText].length}/${row.limit}`);
+		if (row.limit) expect(host.shadowRoot!.querySelector('.character-counter')?.textContent).toContain(`${[...row.expectedText].length} / ${row.limit}`);
 	});
 });
 

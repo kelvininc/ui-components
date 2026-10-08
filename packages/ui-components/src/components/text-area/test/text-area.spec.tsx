@@ -62,7 +62,7 @@ describe('text area contracts', () => {
 		const input = page.root.shadowRoot.querySelector<HTMLElement>('.input');
 		expect(input.innerText).toBe(row.expected);
 		expect(input.classList.contains('placeholder')).toBe(row.expected === '');
-		expect(page.root.shadowRoot.querySelector('.character-counter').textContent).toContain(`${[...row.expected].length}/100`);
+		expect(page.root.shadowRoot.querySelector('.character-counter').textContent).toContain(`${[...row.expected].length} / 100`);
 		expect(changed).not.toHaveBeenCalled();
 	});
 

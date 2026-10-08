@@ -1,9 +1,51 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
 import { CLIPBOARD_CASES, COMPOSITION_CASES, CONTROLLED_TEXT_CASES, NATIVE_INPUT_CASES, REPLACEMENT_CASES } from './text-area.mock';
+import { DESIGN_TOKEN_CSS } from '../../../utils/test/design-tokens';
 
 const readText = (page: E2EPage) => page.evaluate(() => (document.querySelector('kv-text-area').shadowRoot.querySelector('.input') as HTMLElement).innerText);
 
 describe('text area contracts in Chromium', () => {
+	it.each([180, 800])('keeps the counter inside the border while text scrolls at %ipx', async width => {
+		const page = await newE2EPage({ html: `<button>Next field</button><kv-text-area style="display:block;width:${width}px" max-char-length="1000"></kv-text-area>` });
+		await page.addStyleTag({ content: DESIGN_TOKEN_CSS });
+		const host = await page.find('kv-text-area');
+		host.setProperty('text', Array.from({ length: 12 }, () => 'Inspect the sensor before restarting ingestion.').join('\n'));
+		await page.waitForChanges();
+		await (await page.find('kv-text-area >>> .input')).focus();
+		await page.waitForChanges();
+		const layout = await page.evaluate(async () => {
+			const root = document.querySelector('kv-text-area').shadowRoot;
+			const wrapper = root.querySelector('.text-area-wrapper');
+			await Promise.all(wrapper.getAnimations().map(animation => animation.finished));
+			const input = root.querySelector('.input') as HTMLElement;
+			const counter = root.querySelector('.character-counter');
+			const field = wrapper.getBoundingClientRect();
+			const editable = input.getBoundingClientRect();
+			const count = counter.getBoundingClientRect();
+			input.scrollTop = input.scrollHeight;
+			return {
+				inputBottom: editable.bottom,
+				counterTop: count.top,
+				counterBottom: count.bottom,
+				counterRight: count.right,
+				fieldBottom: field.bottom,
+				fieldRight: field.right,
+				scrolled: input.scrollTop,
+				afterScroll: counter.getBoundingClientRect().top,
+				height: field.height
+			};
+		});
+		expect(layout.counterTop).toBeGreaterThanOrEqual(layout.inputBottom);
+		expect(layout.counterBottom).toBeLessThan(layout.fieldBottom);
+		expect(layout.counterRight).toBeLessThan(layout.fieldRight);
+		expect(layout.scrolled).toBeGreaterThan(0);
+		expect(layout.afterScroll).toBe(layout.counterTop);
+		await page.click('button');
+		await page.waitForChanges();
+		const blurredHeight = await page.evaluate(() => document.querySelector('kv-text-area').shadowRoot.querySelector('.text-area-wrapper').getBoundingClientRect().height);
+		expect(blurredHeight).toBe(layout.height);
+	});
+
 	it.each(NATIVE_INPUT_CASES)('enforces native input with $name', async row => {
 		const attributes = row.limit === undefined ? '' : `max-char-length="${row.limit}"`;
 		const page = await newE2EPage({ html: `<kv-text-area text="${row.initial}" ${attributes}></kv-text-area>` });
@@ -137,7 +179,7 @@ describe('text area contracts in Chromium', () => {
 		expect(await readText(page)).toBe(row.expected);
 		expect(input.classList.contains('placeholder')).toBe(row.expected === '');
 		const counter = await page.find('kv-text-area >>> .character-counter');
-		expect(await counter.innerText).toContain(`${[...row.expected].length}/100`);
+		expect(await counter.innerText).toContain(`${[...row.expected].length} / 100`);
 		expect(changed).toHaveReceivedEventTimes(0);
 	});
 
@@ -157,7 +199,7 @@ describe('text area contracts in Chromium', () => {
 		expect(await readText(page)).toBe('');
 		expect(input.classList.contains('placeholder')).toBe(true);
 		const counter = await page.find('kv-text-area >>> .character-counter');
-		expect(await counter.innerText).toContain('0/10');
+		expect(await counter.innerText).toContain('0 / 10');
 	});
 
 	it('preserves intentional blank lines during native editing', async () => {
@@ -405,7 +447,7 @@ describe('Text Area (end-to-end)', () => {
 
 				const counterElement = await page.find('kv-text-area >>> .character-counter');
 				const counterText = await counterElement.innerText;
-				expect(counterText).toContain('5/100');
+				expect(counterText).toContain('5 / 100');
 			});
 
 			it('should have counter-always-visible class on container', async () => {

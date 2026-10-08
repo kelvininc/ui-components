@@ -1361,6 +1361,17 @@ export const R2_ERROR_DESCRIPTION_SHAPES: readonly {
 	}
 ];
 
+export const FIELD_FEEDBACK_SHAPES = [
+	...R2_ERROR_DESCRIPTION_SHAPES.filter(row => row.fields.length === 1),
+	{ name: 'date', schema: { type: 'string', title: 'Inspection date', format: 'date' } as RJSFSchema, uiSchema: {}, formData: '2026-10-08' },
+	{ name: 'file', schema: { type: 'string', title: 'CA certificate', format: 'data-url' } as RJSFSchema, uiSchema: {}, formData: 'data:text/plain;name=ca.pem;base64,Y2E=' }
+].map(({ name, schema, uiSchema, formData }) => ({
+	name,
+	schema: { ...schema, description: 'Configure this connection setting.' },
+	uiSchema,
+	formData
+}));
+
 const MIXED_ERROR_SCHEMA: RJSFSchema = {
 	...BROKER_SCHEMA,
 	properties: {
@@ -3386,6 +3397,7 @@ export const R6_FILE_LAYOUT_SHAPES = [
 	R2_SUBMIT_CASES,
 	R2_VALIDATION_SHAPES,
 	R2_ERROR_DESCRIPTION_SHAPES,
+	FIELD_FEEDBACK_SHAPES,
 	R2_MIXED_ERROR_SHAPES,
 	R2_SECTION_ERROR_SHAPE,
 	R2_RESET_SHAPES,
