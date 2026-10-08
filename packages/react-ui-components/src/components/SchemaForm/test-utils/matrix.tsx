@@ -866,6 +866,145 @@ export const TEXTAREA_VALIDATION_SHAPES: readonly {
 	{ ...TEXTAREA_VALIDATION_FORM, name: 'display all with no errors', extraErrors: {}, displayErrors: true, initialInvalid: false, touchedInvalid: false }
 ];
 
+const R7_TEXTAREA_SCHEMA: RJSFSchema = { type: 'string', title: 'Connection notes' };
+export const R7_TEXTAREA_EMPTY_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema<Record<string, unknown>, RJSFSchema, SchemaFormContext>;
+	expected: unknown;
+	displayText: string;
+}[] = [
+	{
+		name: 'omitted empty value',
+		schema: { type: 'object', properties: { notes: R7_TEXTAREA_SCHEMA } },
+		uiSchema: { notes: { 'ui:widget': 'textarea' } },
+		expected: undefined,
+		displayText: ''
+	},
+	...[...VALUE_CASES, { name: 'string sentinel', value: 'No connection notes' }].flatMap(({ name, value }) =>
+		[false, true].map(inOptions => ({
+			name: `${name} in ${inOptions ? 'ui:options' : 'ui:emptyValue'}`,
+			schema: { type: 'object' as const, properties: { notes: R7_TEXTAREA_SCHEMA } },
+			uiSchema: { notes: { 'ui:widget': 'textarea', ...(inOptions ? { 'ui:options': { emptyValue: value as UIOptionsType['emptyValue'] } } : { 'ui:emptyValue': value }) } },
+			expected: value,
+			displayText: value ? String(value) : ''
+		}))
+	)
+];
+export const R7_TEXTAREA_LIMIT_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	limit?: number;
+	expectedText: string;
+}[] = [
+	{ name: 'unlimited', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea' }, expectedText: 'é🚀ABC' },
+	{ name: 'schema limit', schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 3 }, uiSchema: { 'ui:widget': 'textarea' }, limit: 3, expectedText: 'é🚀A' },
+	{ name: 'UI-only limit', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 3 }, limit: 3, expectedText: 'é🚀A' },
+	{
+		name: 'UI below schema',
+		schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 3 },
+		uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 2 },
+		limit: 2,
+		expectedText: 'é🚀'
+	},
+	{
+		name: 'UI above schema',
+		schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 2 },
+		uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 4 },
+		limit: 4,
+		expectedText: 'é🚀AB'
+	},
+	{
+		name: 'UI zero stays unlimited',
+		schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 2 },
+		uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 0 },
+		limit: 0,
+		expectedText: 'é🚀ABC'
+	},
+	{ name: 'schema zero', schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 0 }, uiSchema: { 'ui:widget': 'textarea' }, limit: 0, expectedText: 'é🚀ABC' },
+	{
+		name: 'undefined UI limit uses schema',
+		schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 3 },
+		uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': undefined },
+		limit: 3,
+		expectedText: 'é🚀A'
+	}
+];
+export const R7_TEXTAREA_REPLACEMENT_SHAPES = [
+	{ name: 'whole field at the limit', initial: 'CAB', selection: 'all', replacement: 'TLS', limit: 3, typed: 'TLS', pasted: 'TLS' },
+	{ name: 'last character at the limit', initial: 'CAB', selection: 'last', replacement: 'X', limit: 3, typed: 'CAX', pasted: 'CAX' },
+	{ name: 'selected Unicode code point', initial: 'Aé🚀', selection: 'last', replacement: 'Z', limit: 3, typed: 'AéZ', pasted: 'AéZ' },
+	{ name: 'partial replacement overflow', initial: 'CAB', selection: 'last', replacement: 'XY', limit: 3, typed: 'CAX', pasted: 'CAB' },
+	{ name: 'whole replacement overflow', initial: 'CAB', selection: 'all', replacement: 'TLSX', limit: 3, typed: 'TLS', pasted: 'CAB' },
+	{ name: 'Unicode replacement at the limit', initial: 'CAB', selection: 'all', replacement: 'é🚀A', limit: 3, typed: 'é🚀A', pasted: 'é🚀A' },
+	{ name: 'selected multiline text', initial: 'CA\nB', selection: 'all', replacement: 'TLS', limit: 4, typed: 'TLS', pasted: 'TLS' }
+].map(row => ({ ...row, schema: { ...R7_TEXTAREA_SCHEMA, maxLength: row.limit }, uiSchema: { 'ui:widget': 'textarea' } }));
+export const R7_TEXTAREA_NATIVE_INPUT_SHAPES = [
+	{ name: 'Unicode insertion overflow', initial: 'AB', selection: 'end', inserted: '🚀X', limit: 3, expected: 'AB' },
+	{ name: 'Unicode insertion at the limit', initial: 'AB', selection: 'end', inserted: '🚀', limit: 3, expected: 'AB🚀' },
+	{ name: 'Unicode whole-field replacement', initial: 'CAB', selection: 'all', inserted: 'é🚀A', limit: 3, expected: 'é🚀A' },
+	{ name: 'partial native replacement overflow', initial: 'CAB', selection: 'last', inserted: '🚀X', limit: 3, expected: 'CAB' },
+	{ name: 'whole native replacement overflow', initial: 'CAB', selection: 'all', inserted: 'é🚀AB', limit: 3, expected: 'CAB' },
+	{ name: 'unlimited native insertion', initial: 'AB', selection: 'end', inserted: '🚀X', limit: undefined, expected: 'AB🚀X' },
+	{ name: 'zero native limit', initial: 'AB', selection: 'end', inserted: '🚀X', limit: 0, expected: 'AB🚀X' }
+].map(row => ({ ...row, schema: { ...R7_TEXTAREA_SCHEMA, maxLength: row.limit }, uiSchema: { 'ui:widget': 'textarea' } }));
+export const R7_TEXTAREA_COMPOSITION_SHAPES = [
+	{ name: 'draft exceeds cap before a valid commit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日', limit: 3, expected: 'AB日' },
+	{ name: 'overflowing IME commit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日本', limit: 3, expected: 'AB' },
+	{ name: 'IME replaces the whole field', initial: 'CAB', selection: 'all', draft: 'にほんご', committed: '日本語', limit: 3, expected: '日本語' },
+	{ name: 'canceled IME draft', initial: 'AB', selection: 'end', draft: 'にほん', committed: '', limit: 3, expected: 'AB' },
+	{ name: 'unlimited IME commit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日本', limit: undefined, expected: 'AB日本' },
+	{ name: 'zero IME limit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日本', limit: 0, expected: 'AB日本' }
+].map(row => ({ ...row, schema: { ...R7_TEXTAREA_SCHEMA, maxLength: row.limit }, uiSchema: { 'ui:widget': 'textarea' } }));
+export const R7_TEXTAREA_PASTE_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	initial: string;
+	pasted: string;
+	allowed: boolean;
+	selection?: string;
+	expectedText?: string;
+}[] = [
+	{ name: 'unlimited plain text', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea' }, initial: 'Ops: ', pasted: 'Use TLS\nKeepalive enabled', allowed: true },
+	{ name: 'blank line stays text', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea' }, initial: '', pasted: '\n', allowed: true },
+	{ name: 'spaces stay text', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea' }, initial: '', pasted: '  ', allowed: true },
+	{ name: 'schema rejects overflow', schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 4 }, uiSchema: { 'ui:widget': 'textarea' }, initial: 'CA', pasted: 'cert', allowed: false },
+	{ name: 'Unicode at schema boundary', schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 4 }, uiSchema: { 'ui:widget': 'textarea' }, initial: 'CA', pasted: '🚀é', allowed: true },
+	{ name: 'UI override rejects overflow', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 4 }, initial: 'CA', pasted: 'cert', allowed: false },
+	...R7_TEXTAREA_REPLACEMENT_SHAPES.map(row => ({
+		name: row.name,
+		schema: row.schema,
+		uiSchema: row.uiSchema,
+		initial: row.initial,
+		pasted: row.replacement,
+		selection: row.selection,
+		allowed: row.pasted !== row.initial,
+		expectedText: row.pasted
+	}))
+];
+export const R7_TEXTAREA_RESET_SHAPES: readonly {
+	name: string;
+	action: 'external' | 'discard' | 'defaults';
+	schema: RJSFSchema;
+	uiSchema: UiSchema<Record<string, unknown>, RJSFSchema, SchemaFormContext>;
+	emptyData: Record<string, unknown>;
+}[] = [
+	...[
+		{ name: 'external undefined', action: 'external' as const, value: undefined },
+		{ name: 'external null', action: 'external' as const, value: null },
+		{ name: 'discard to undefined', action: 'discard' as const, value: undefined },
+		{ name: 'reset to empty default', action: 'defaults' as const, value: '' }
+	].map(row => ({
+		name: row.name,
+		action: row.action,
+		schema: { type: 'object' as const, properties: { notes: { ...R7_TEXTAREA_SCHEMA, ...(row.action === 'defaults' ? { default: '' } : {}) } } },
+		uiSchema: { notes: { 'ui:widget': 'textarea' } },
+		emptyData: { notes: row.value }
+	}))
+];
+
 /** Field errors, the error list, descriptions and helper text share the core help component. */
 export const HELP_TEXT_CONSUMER_SHAPES: readonly {
 	name: string;
@@ -1221,6 +1360,17 @@ export const R2_ERROR_DESCRIPTION_SHAPES: readonly {
 		]
 	}
 ];
+
+export const FIELD_FEEDBACK_SHAPES = [
+	...R2_ERROR_DESCRIPTION_SHAPES.filter(row => row.fields.length === 1),
+	{ name: 'date', schema: { type: 'string', title: 'Inspection date', format: 'date' } as RJSFSchema, uiSchema: {}, formData: '2026-10-08' },
+	{ name: 'file', schema: { type: 'string', title: 'CA certificate', format: 'data-url' } as RJSFSchema, uiSchema: {}, formData: 'data:text/plain;name=ca.pem;base64,Y2E=' }
+].map(({ name, schema, uiSchema, formData }) => ({
+	name,
+	schema: { ...schema, description: 'Configure this connection setting.' },
+	uiSchema,
+	formData
+}));
 
 const MIXED_ERROR_SCHEMA: RJSFSchema = {
 	...BROKER_SCHEMA,
@@ -3232,6 +3382,13 @@ export const R6_FILE_LAYOUT_SHAPES = [
 	TEXTAREA_CONSUMER_SHAPES,
 	TEXTAREA_EDITABILITY_SHAPES,
 	TEXTAREA_VALIDATION_SHAPES,
+	R7_TEXTAREA_EMPTY_SHAPES,
+	R7_TEXTAREA_LIMIT_SHAPES,
+	R7_TEXTAREA_PASTE_SHAPES,
+	R7_TEXTAREA_REPLACEMENT_SHAPES,
+	R7_TEXTAREA_NATIVE_INPUT_SHAPES,
+	R7_TEXTAREA_COMPOSITION_SHAPES,
+	R7_TEXTAREA_RESET_SHAPES,
 	HELP_TEXT_CONSUMER_SHAPES,
 	BROKER_SCHEMA,
 	BROKER_FORM_DATA,
@@ -3240,6 +3397,7 @@ export const R6_FILE_LAYOUT_SHAPES = [
 	R2_SUBMIT_CASES,
 	R2_VALIDATION_SHAPES,
 	R2_ERROR_DESCRIPTION_SHAPES,
+	FIELD_FEEDBACK_SHAPES,
 	R2_MIXED_ERROR_SHAPES,
 	R2_SECTION_ERROR_SHAPE,
 	R2_RESET_SHAPES,
