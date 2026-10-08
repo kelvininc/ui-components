@@ -117,7 +117,7 @@ export class KvSelect implements ISelect, ISelectEvents {
 										{this.selectionAll && (
 											<kv-action-button-text
 												type={EActionButtonType.Text}
-												text={this.selectAllLabel}
+												text={this.selectAllLabel ?? SELECT_ALL_LABEL}
 												onClickButton={this.onSelectAll}
 												disabled={!this.selectionAllEnabled}
 											/>
@@ -127,7 +127,7 @@ export class KvSelect implements ISelect, ISelectEvents {
 												{this.selectionAll && <div class="divider" />}
 												<kv-action-button-text
 													type={EActionButtonType.Text}
-													text={this.clearSelectionLabel}
+													text={this.clearSelectionLabel ?? CLEAR_SELECTION_LABEL}
 													onClickButton={this.onClearSelection}
 													disabled={!this.selectionClearEnabled}
 												/>
