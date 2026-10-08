@@ -525,7 +525,7 @@ export const CONFIGURATION_SCHEMA: RJSFSchema = {
 											type: "object",
 											title: "Mutual TLS",
 											description:
-												"Set the certificate and key together, or leave both empty.",
+												"Provide both the client certificate and key for Mutual TLS.",
 											properties: {
 												client_cert: {
 													type: "string",

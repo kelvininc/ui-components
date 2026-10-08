@@ -1231,7 +1231,14 @@ export const Configuration: Story = {
 
 export const Parameters: Story = {
 	render: CoreUiFormTemplate,
-	parameters: { themeSideBySide: false },
+	parameters: {
+		themeSideBySide: false,
+		docs: {
+			description: {
+				story: "The sample starts with three field errors: the number exceeds 1000, the integer is below 1 and the required string is empty. Toggle Show All Errors to reveal them. Default helpers show each schema default without replacing the supplied values."
+			}
+		}
+	},
 	args: {
 		schema: PARAMETERS_SCHEMA,
 		uiSchema: { "ui:submitButtonOptions": { norender: true } },
