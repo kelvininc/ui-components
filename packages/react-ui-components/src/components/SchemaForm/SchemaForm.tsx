@@ -237,6 +237,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const stableThemedProps = useStableValue(themedProps, (previous, next) => previous.validator === next.validator && areSettingsEqual(previous, next));
 	const validationConfig = useStableValue(getValidationConfig(stableThemedProps), areValidationConfigsEqual);
 	const committedValidationConfig = useRef(validationConfig);
+	const committedValueResetKey = useRef(valueResetKey);
 
 	const onSubmitClick = () => {
 		setFormSubmitted(true);
@@ -277,7 +278,8 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		}
 	}, [submittedData]);
 
-	/** Refresh from committed props and current edits, without RJSF's cached retrievedSchema.
+	/** Refresh validation from current edits, or restore data when a reset leaves props unchanged.
+	 * Read committed props without RJSF's cached retrievedSchema.
 	 * That cache merges old error trees, retaining cleared server errors. Refreshing drops
 	 * errors custom widgets supply through onChange; schema and server errors are rebuilt.
 	 */
@@ -285,14 +287,17 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		const form = formRef.current;
 		if (!form) return;
 		const refreshValidation = !areValidationConfigsEqual(committedValidationConfig.current, validationConfig);
+		const restoreValue = committedValueResetKey.current !== valueResetKey;
 		let active = true;
 		const isCurrent = (props: FormProps<T, S, SchemaFormContext>) =>
 			areValidationConfigsEqual(getValidationConfig(props), validationConfig) && deepEquals(props.formData, currentFormData);
 		form.setState(
-			(state, props) => (active && isCurrent(props) && refreshValidation ? form.getStateFromProps(props, state.formData) : null),
+			(state, props) =>
+				active && isCurrent(props) && (refreshValidation || restoreValue) ? form.getStateFromProps(props, restoreValue ? currentFormData : state.formData) : null,
 			() => {
 				if (active && isCurrent(form.props)) {
 					committedValidationConfig.current = validationConfig;
+					committedValueResetKey.current = valueResetKey;
 					syncStatus(form.state as IChangeEvent<T, S, SchemaFormContext>);
 				}
 			}
@@ -300,7 +305,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 		return () => {
 			active = false;
 		};
-	}, [formRef, stableThemedProps, validationConfig, syncStatus]);
+	}, [formRef, stableThemedProps, validationConfig, valueResetKey, syncStatus]);
 
 	return (
 		<FormStateProvider
