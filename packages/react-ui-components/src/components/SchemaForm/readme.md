@@ -205,7 +205,11 @@ and applies template replacements to mounted forms without modifying the caller'
 
 ## Textarea values and limits
 
-Descriptions, errors and default-value helpers share `kv-form-help-text`'s zero left inset.
+Descriptions and errors share `kv-form-help-text`'s zero left inset. Ordinary fields place
+default-value helpers on the right of their feedback row, aligned with its first text line.
+At field footer widths of 460px or less, defaults stack below feedback and align left.
+Long defaults wrap without truncation. Collection defaults stay in their metadata above
+the items; table cells omit default helpers.
 Scalar-list feedback aligns with its input column, reserving the same space as the row actions.
 Text and date/time inputs use the same rule for their built-in feedback. A textarea's
 compact character count sits inside the bottom-right corner in a reserved footer; text scrolls

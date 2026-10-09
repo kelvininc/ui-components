@@ -69,3 +69,38 @@ describe('buildHelperOptions', () => {
 		});
 	});
 });
+
+describe('buildDefaultHelperText', () => {
+	const options = { showDefaultValueHelper: true };
+
+	it.each([
+		[false, 'Default: No'],
+		[true, 'Default: Yes']
+	])('should name a boolean default %p by its option label', (value, text) => {
+		expect(buildDefaultHelperText(options, value, { type: 'boolean' })).toBe(text);
+	});
+
+	it('should use custom boolean labels', () => {
+		expect(buildDefaultHelperText({ ...options, booleanLabels: { true: 'On', false: 'Off' } }, false, { type: 'boolean' })).toBe('Default: Off');
+	});
+
+	it('should name an enum default by its option title', () => {
+		const schema = {
+			type: 'string' as const,
+			oneOf: [
+				{ const: 'debug', title: 'Debug' },
+				{ const: 'info', title: 'Info' }
+			]
+		};
+
+		expect(buildDefaultHelperText(options, 'info', schema)).toBe('Default: Info');
+	});
+
+	it('should keep the raw value when no option matches', () => {
+		expect(buildDefaultHelperText(options, 'trace', { type: 'string', enum: ['debug', 'info'] })).toBe('Default: trace');
+	});
+
+	it('should keep the configured prefix', () => {
+		expect(buildDefaultHelperText({ ...options, defaultValueHelperPrefix: 'Defaults to ' }, 5, { type: 'number' })).toBe('Defaults to 5');
+	});
+});

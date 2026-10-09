@@ -14,7 +14,7 @@ import {
 } from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
 import { EComponentSize, EIconName, StyleMode } from '@kelvininc/ui-components';
-import { EApplyDefaults, SchemaFormContext } from '../types';
+import { EApplyDefaults, EDescriptionPosition, SchemaFormContext } from '../types';
 import { useSchemaFormFocusRef } from '../hooks/entryFocus';
 import DefaultFieldTemplate from '../Templates/FieldTemplate';
 import FileWidget from '../Widgets/FileWidget';
@@ -1394,6 +1394,8 @@ export const R2_ERROR_DESCRIPTION_SHAPES: readonly {
 		]
 	}
 ];
+
+export const DEFAULT_FOOTER_DESCRIPTION_POSITIONS = [EDescriptionPosition.Top, EDescriptionPosition.Bottom, EDescriptionPosition.None] as const;
 
 export const FIELD_FEEDBACK_SHAPES = [
 	...R2_ERROR_DESCRIPTION_SHAPES.filter(row => row.fields.length === 1),
@@ -3872,6 +3874,11 @@ export const RADIO_FEEDBACK_LAYOUT_SHAPES: readonly {
 	{ name: 'default only', defaultValue: 'At least once' },
 	{ name: 'error and default', error: 'This delivery policy is unavailable.', defaultValue: 'At least once' },
 	{
+		name: 'long unbroken default',
+		description: 'Delivery guarantee used for telemetry.',
+		defaultValue: 'telemetry/production/west-plant/compressor-station/pressure-sensor/acknowledgements'
+	},
+	{
 		name: 'wrapped description and default',
 		description: 'Confirm delivery acknowledgements before using this policy for telemetry from production equipment on an unreliable broker connection.',
 		defaultValue: 'At least once'
@@ -4724,6 +4731,7 @@ export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
 	R2_SUBMIT_CASES,
 	R2_VALIDATION_SHAPES,
 	R2_ERROR_DESCRIPTION_SHAPES,
+	DEFAULT_FOOTER_DESCRIPTION_POSITIONS,
 	FIELD_FEEDBACK_SHAPES,
 	R2_MIXED_ERROR_SHAPES,
 	R2_SECTION_ERROR_SHAPE,

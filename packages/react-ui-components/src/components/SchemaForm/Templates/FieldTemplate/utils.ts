@@ -1,7 +1,8 @@
 import { JSONSchema7Type } from 'json-schema';
-import { FieldTemplateProps, FormContextType, getSchemaType, getWidget, RJSFSchema, StrictRJSFSchema, UIOptionsType, Widget } from '@rjsf/utils';
-import { get, isNil, merge } from 'lodash';
+import { FieldTemplateProps, FormContextType, getSchemaType, getWidget, optionsList, RJSFSchema, StrictRJSFSchema, UIOptionsType, UiSchema, Widget } from '@rjsf/utils';
+import { get, isEqual, isNil, merge } from 'lodash';
 import { DEFAULT_VALUE_HELPER_PREFIX } from '../../config';
+import { DEFAULT_BOOLEAN_LABELS } from '../../Fields/BooleanField/config';
 import { getChoiceWidget } from '../../rjsf/choiceWidget';
 import { hasCustomField } from '../../rjsf/hasCustomField';
 import RadioWidget from '../../Widgets/RadioWidget';
@@ -21,15 +22,32 @@ export const getChoicePresentation = <T, S extends StrictRJSFSchema = RJSFSchema
 	return { choice: radio || Widget === builtin(SelectWidget), radio };
 };
 
+/** The default as the field shows it: a choice's option label ("No", "Debug"), or the raw value when no option matches. */
+const formatDefaultValue = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(
+	defaultValue: JSONSchema7Type,
+	uiOptions: UIOptionsType<T, S, F>,
+	schema?: S,
+	uiSchema?: UiSchema<T, S, F>
+) => {
+	if (!schema) return defaultValue;
+	if (getSchemaType(schema) === 'boolean' && typeof defaultValue === 'boolean') {
+		const booleanLabels = (uiOptions.booleanLabels as Record<string, string> | undefined) ?? DEFAULT_BOOLEAN_LABELS;
+		return booleanLabels[String(defaultValue)] ?? defaultValue;
+	}
+	return optionsList(schema, uiSchema)?.find(option => isEqual(option.value, defaultValue))?.label ?? defaultValue;
+};
+
 export default function buildDefaultHelperText<T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(
 	uiOptions: UIOptionsType<T, S, F>,
-	defaultValue?: JSONSchema7Type
+	defaultValue?: JSONSchema7Type,
+	schema?: S,
+	uiSchema?: UiSchema<T, S, F>
 ): string | undefined {
 	const showDefaultOnHelper = get(uiOptions, ['showDefaultValueHelper'], false);
 
 	if (showDefaultOnHelper && !isNil(defaultValue)) {
 		const defaultHelperPrefix = get(uiOptions, ['defaultValueHelperPrefix'], DEFAULT_VALUE_HELPER_PREFIX);
-		return `${defaultHelperPrefix}${defaultValue}`;
+		return `${defaultHelperPrefix}${formatDefaultValue(defaultValue, uiOptions, schema, uiSchema)}`;
 	}
 
 	return undefined;

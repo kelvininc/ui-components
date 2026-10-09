@@ -44,6 +44,53 @@
 	overflow-wrap: anywhere;
 }
 
+.FieldFooter {
+	container: field-footer / inline-size;
+	min-width: 0;
+}
+
+.FieldFooterContent {
+	display: flex;
+	align-items: baseline;
+	gap: var(--spacing-xl);
+}
+
+.FieldFeedback {
+	flex: 1;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.FieldDefault {
+	display: flex;
+	justify-content: flex-end;
+	margin-left: auto;
+	max-width: 45%;
+	min-width: 0;
+	text-align: right;
+	overflow-wrap: anywhere;
+
+	kv-form-help-text {
+		min-width: 0;
+		max-width: 100%;
+	}
+}
+
+@container field-footer (max-width: 460px) {
+	.FieldFooterContent {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0;
+	}
+
+	.FieldDefault {
+		justify-content: flex-start;
+		margin-left: 0;
+		max-width: 100%;
+		text-align: left;
+	}
+}
+
 .ItemControlRow {
 	display: flex;
 	align-items: center;
