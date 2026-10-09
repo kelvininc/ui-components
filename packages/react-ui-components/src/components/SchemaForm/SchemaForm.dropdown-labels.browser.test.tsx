@@ -5,7 +5,7 @@ import { render } from 'vitest-browser-react';
 import type { RJSFSchema } from '@rjsf/utils';
 import { whenAllKelvinReady } from '../../test-utils/browser';
 import { KvSchemaForm } from './SchemaForm';
-import { DROPDOWN_LABEL_SHAPES } from './test-utils/matrix';
+import { DROPDOWN_LABEL_SHAPES, EMPTY_DROPDOWN_SHAPES } from './test-utils/matrix';
 
 describe.each(['light', 'night'])('dropdown action labels in %s', theme => {
 	describe.each([false, true])('multiple=%s', multiple => {
@@ -35,6 +35,9 @@ describe.each(['light', 'night'])('dropdown action labels in %s', theme => {
 			const expectLabels = async (clearLabel: string, selectLabel: string) => {
 				await expect.element(page.getByRole('button', { name: clearLabel, exact: true })).toBeVisible();
 				if (multiple) await expect.element(page.getByRole('button', { name: selectLabel, exact: true })).toBeVisible();
+				// Accessible names collapse whitespace, so check the props for trimming.
+				expect(host).toHaveProperty('clearSelectionLabel', clearLabel);
+				if (multiple) expect(host).toHaveProperty('selectAllLabel', selectLabel);
 				expect(screen.container.querySelector(selector)).toBe(host);
 				await expect.element(trigger).toHaveValue('0');
 			};
@@ -63,5 +66,17 @@ describe.each(['light', 'night'])('dropdown action labels in %s', theme => {
 			expect(onChange).toHaveBeenCalledOnce();
 			await expect.element(page.getByRole('button', { name: defaultClearLabel, exact: true })).toHaveAttribute('aria-disabled', 'true');
 		});
+	});
+});
+
+describe.each(['light', 'night'])('empty dropdowns in %s', theme => {
+	it.each(EMPTY_DROPDOWN_SHAPES)('shows the no-data state for $name', async row => {
+		document.body.setAttribute('mode', theme);
+		const schema: RJSFSchema = { type: 'object', properties: { brokers: row.schema } };
+		const screen = await render(<KvSchemaForm schema={schema} uiSchema={{ brokers: row.uiSchema }} showErrorList={false} />);
+		await whenAllKelvinReady(screen.container);
+		await screen.getByRole('textbox', { name: String(row.schema.title), exact: true }).click();
+		await expect.element(page.getByText('No data available', { exact: true })).toBeVisible();
+		await expect.element(page.getByText('There is no data to display at the moment.', { exact: true })).toBeVisible();
 	});
 });

@@ -234,7 +234,7 @@ Caller-supplied values above the cap stay visible and can still be shortened by 
 
 SchemaForm's built-in actions, status messages and helper text use sentence case.
 The error switch reads "Show all errors", the error summary reads "Errors", and additional
-property inputs use "<field> key". Single-select dropdowns use "Clear selection";
+property inputs use `<field> key`. Single-select dropdowns use "Clear selection";
 multi-select dropdowns use "Clear all". Empty dropdowns show "No data available".
 Custom dropdown action labels still take precedence; blank values restore the defaults.
 Field and section headings keep their uppercase typography. SchemaForm preserves

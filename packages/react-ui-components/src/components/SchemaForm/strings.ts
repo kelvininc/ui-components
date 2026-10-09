@@ -7,6 +7,8 @@ export const SCHEMA_FORM_STRINGS = {
 	submit: 'Submit',
 	defaultValuePrefix: 'Default: ',
 	propertyKey: (name: string) => `${name} key`,
+	// Sentence-case copies of core's dropdown strings, which stay title case for other consumers.
+	// Supersedes the 2026-10-08 dropdown-labels plan's "no React copy of core strings" rule.
 	noDataAvailable: 'No data available',
 	noDataAvailableDescription: 'There is no data to display at the moment.',
 	clearAll: 'Clear all',
