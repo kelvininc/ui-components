@@ -2,7 +2,7 @@ import { getDefaultRegistry } from '@rjsf/core';
 import { FieldProps, FormContextType, getTemplate, getUiOptions, Registry, RJSFSchema, StrictRJSFSchema, UiSchema } from '@rjsf/utils';
 import { get, omit } from 'lodash';
 import React, { createContext, useContext, useLayoutEffect, useMemo, useState } from 'react';
-import { OptionSectionContext } from '../../contexts';
+import { claimSectionBoundary, OptionSectionContext, SectionLayoutContext, useSectionLayout } from '../../contexts';
 import { mergeUiSchemas } from '../../rjsf/merge';
 import FieldTemplate from '../../Templates/FieldTemplate';
 import { isSectionField } from '../../Templates/utils';
@@ -21,14 +21,25 @@ const SelectedBranchField = (props: FieldProps) => {
 	const defaultTemplate = getTemplate('FieldTemplate', registry, uiOptions) === FieldTemplate;
 	const section = !hidden && isSectionField(props.schema, props.uiSchema, registry);
 	const id = props.idSchema.$id;
+	const { state: layout, boundary } = claimSectionBoundary(useSectionLayout(), id, 'option');
 	useLayoutEffect(() => {
 		report?.(id, instance, section);
 		return () => report?.(id, instance, undefined);
 	}, [report, id, instance, section]);
 	const SchemaField = registry.fields.SchemaField;
 	return (
-		<div data-schema-form-option-branch data-schema-form-default-template={defaultTemplate || undefined} hidden={hidden}>
-			<SchemaField {...props} registry={registry} />
+		<div
+			data-schema-form-option-branch
+			data-schema-form-default-template={defaultTemplate || undefined}
+			hidden={hidden}
+			data-schema-form-boundary={boundary?.kind}
+			data-schema-form-boundary-field={boundary ? id : undefined}
+			data-schema-form-boundary-depth={boundary?.depth}
+			data-schema-form-narrow-inset={boundary && boundary.depth > 6 ? 'capped' : undefined}
+		>
+			<SectionLayoutContext.Provider value={layout}>
+				<SchemaField {...props} registry={registry} />
+			</SectionLayoutContext.Provider>
 		</div>
 	);
 };
