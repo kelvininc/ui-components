@@ -829,7 +829,8 @@ describe('Select Multi Options (end-to-end)', () => {
 			// The loading look itself is kv-action-button's, covered by its own suite
 			const createButton = await page.find(`${CREATE_BUTTON_SELECTOR} >>> kv-action-button`);
 			expect(createButton.getAttribute('type')).toBe('secondary');
-			expect(createButton.getAttribute('aria-busy')).toBe('true');
+			const buttonPart = await page.find(`${CREATE_BUTTON_SELECTOR} >>> kv-action-button >>> [part="button"]`);
+			expect(buttonPart.getAttribute('aria-busy')).toBe('true');
 		});
 
 		it('should keep the same list mounted when the create form opens from a search that matches no option', async () => {
