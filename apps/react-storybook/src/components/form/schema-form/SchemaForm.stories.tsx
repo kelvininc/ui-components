@@ -3,7 +3,6 @@ import type { Meta, StoryObj, StoryFn } from "@storybook/react";
 import {
 	EApplyDefaults,
 	KvSchemaForm,
-	SchemaFormProps,
 	EComponentSize,
 	EIconName,
 	ETooltipPosition,
@@ -11,11 +10,32 @@ import {
 	ISelectSingleOptions
 } from "@kelvininc/react-ui-components/client";
 import { IChangeEvent } from "@rjsf/core";
-import { ComponentProps, useState } from "react";
+import { ComponentProps, useCallback, useEffect, useState } from "react";
 import { action } from "storybook/actions";
 import { FormValidation } from "@rjsf/utils";
 
 import { getDropdownDisplayValue } from "../../../helpers/dropdown.helper";
+
+import * as styles from "./SchemaForm.module.scss";
+import {
+	CONFIGURATION_SCHEMA,
+	CONFIGURATION_UI_SCHEMA,
+	inlineSchema,
+	inlineUiSchema,
+	PARAMETERS_SCHEMA
+} from "./config";
+import { SYSTEM_SCHEMA, SYSTEM_UI_SCHEMA, SYSTEM_FORM_DATA } from "./system";
+import {
+	TOPICS_SCHEMA,
+	TOPICS_FORM_DATA,
+	TOPIC_OBJECTS_SCHEMA,
+	TOPIC_OBJECTS_FORM_DATA,
+	VARIABLES_SCHEMA,
+	VARIABLES_FORM_DATA,
+	FALSE_AND_ZERO_SCHEMA,
+	FILE_PREVIEW_SCHEMA,
+	FILE_PREVIEW_FORM_DATA
+} from "./examples";
 
 enum EShowErrorListType {
 	Top = "top",
@@ -33,6 +53,31 @@ const FormTemplate: StoryFn<ComponentProps<typeof KvSchemaForm>> = (args) => (
 		/>
 	</div>
 );
+
+const CoreUiForm = (args: ComponentProps<typeof KvSchemaForm>) => (
+	<div className={styles.CoreUiCard}>
+		<KvSchemaForm<any> {...args} customClass={styles.CoreUiForm} />
+	</div>
+);
+
+const CoreUiFormTemplate: StoryFn<ComponentProps<typeof KvSchemaForm>> = (
+	args
+) => <CoreUiForm {...args} />;
+
+const SavedFilesTemplate: StoryFn<ComponentProps<typeof KvSchemaForm>> = (
+	args
+) => {
+	const [formData, setFormData] = useState(args.formData);
+	useEffect(() => setFormData(args.formData), [args.formData]);
+	const onChange = useCallback<NonNullable<typeof args.onChange>>(
+		(event, id) => {
+			setFormData(event.formData);
+			args.onChange?.(event, id);
+		},
+		[args.onChange]
+	);
+	return <CoreUiForm {...args} formData={formData} onChange={onChange} />;
+};
 
 const meta = {
 	title: "Form/SchemaForm",
@@ -757,13 +802,40 @@ export const CheckboxWidget: Story = {
 };
 
 export const TextareaWidget: Story = {
+	render: CoreUiFormTemplate,
+	parameters: {
+		themeSideBySide: false,
+		docs: {
+			description: {
+				story: "The first field shows a description and a schema-based live limit. The handover starts above its schema limit, so Show All Errors displays its validation message. Clearing commits the configured empty string."
+			}
+		}
+	},
 	args: {
+		liveValidate: true,
+		showErrorList: false,
+		showErrorsSwitch: true,
+		formData: {
+			description:
+				"Check the cooling loop pressure before restarting the line. Record the outlet reading.",
+			handover:
+				"Inspect the cooling loop and record the outlet pressure before starting the next shift."
+		},
 		schema: {
 			type: "object",
 			properties: {
 				description: {
 					type: "string",
-					title: "Description"
+					title: "Operating instructions",
+					description:
+						"Explain the checks the operator should complete before restarting.",
+					maxLength: 120
+				},
+				handover: {
+					type: "string",
+					title: "Maintenance handover",
+					description: "Leave a short note for the next shift.",
+					maxLength: 60
 				}
 			},
 			required: ["description"]
@@ -771,271 +843,16 @@ export const TextareaWidget: Story = {
 		uiSchema: {
 			description: {
 				"ui:widget": "textarea",
-				maxCharLength: 200,
+				"ui:emptyValue": "",
 				iconName: EIconName.Notes,
-				"ui:placeholder": "Add description"
+				"ui:placeholder": "Add operating instructions"
+			},
+			handover: {
+				"ui:widget": "textarea",
+				"ui:emptyValue": ""
 			},
 			"ui:submitButtonOptions": {
 				norender: true
-			}
-		}
-	}
-};
-
-const inlineSchema: SchemaFormProps<any>["schema"] = {
-	type: "object",
-	properties: {
-		shift_info: {
-			title: "Shift info",
-			type: "object",
-			properties: {
-				name: {
-					title: "Shift name",
-					type: "string"
-				},
-				start_at: {
-					title: "Starts at",
-					type: "string",
-					format: "date-time"
-				},
-				end_at: {
-					title: "Ends at",
-					type: "string",
-					format: "date-time",
-					formatExclusiveMinimum: { $data: "1/start_at" }
-				}
-			},
-			required: ["name", "start_at", "end_at"]
-		},
-		production_info: {
-			title: "Production info",
-			type: "object",
-			properties: {
-				sku: {
-					title: "SKU",
-					type: "string"
-				},
-				expected_start_at: {
-					title: "Expected to start at",
-					type: "string",
-					format: "date-time"
-				},
-				expected_end_at: {
-					title: "Expected to end at",
-					type: "string",
-					format: "date-time",
-					formatExclusiveMinimum: { $data: "1/expected_start_at" }
-				}
-			},
-			required: ["sku", "expected_start_at", "expected_end_at"]
-		},
-		team_info: {
-			title: "Team info",
-			type: "array",
-			items: {
-				type: "object",
-				properties: {
-					name: {
-						title: "Name",
-						type: "string"
-					},
-					email: {
-						title: "Email",
-						type: "string",
-						format: "email"
-					},
-					phone_country_code: {
-						title: "Phone country code",
-						type: "string"
-					},
-					phone_number: {
-						title: "Phone number",
-						type: "number"
-					},
-					role: {
-						title: "Role",
-						type: "string"
-					},
-					responsible_for: {
-						title: "Asset responsible for",
-						type: "string",
-						oneOf: [
-							{
-								title: "Asset 3",
-								const: "asset-name-3"
-							},
-							{
-								title: "Asset 2",
-								const: "asset-name-2"
-							},
-							{
-								title: "Asset 1",
-								const: "asset-name-1"
-							}
-						]
-					}
-				},
-				required: [
-					"name",
-					"email",
-					"phone_country_code",
-					"phone_number",
-					"role",
-					"responsible_for"
-				]
-			}
-		},
-		assets_oee: {
-			type: "array",
-			items: {
-				type: "object",
-				properties: {
-					asset_name: {
-						type: "string",
-						oneOf: [
-							{
-								title: "Asset 3",
-								const: "asset-name-3"
-							},
-							{
-								title: "Asset 2",
-								const: "asset-name-2"
-							},
-							{
-								title: "Asset 1",
-								const: "asset-name-1"
-							}
-						]
-					},
-					oee_thresholds: {
-						title: "OEE - Thresholds",
-						type: "object",
-						properties: {
-							target: {
-								title: "OEE Target",
-								type: "number",
-								exclusiveMinimum: 0
-							},
-							critical_alarm: {
-								title: "OEE Critical",
-								type: "number",
-								exclusiveMinimum: 0
-							},
-							warning_alarm: {
-								title: "OEE Urgent",
-								type: "number",
-								exclusiveMinimum: 0
-							}
-						},
-						required: ["target", "critical_alarm", "warning_alarm"]
-					},
-					oee_calculation: {
-						title: "OEE - Calculation",
-						type: "object",
-						properties: {
-							ideal_cycle_time: {
-								title: "Ideal cycle time",
-								type: "number",
-								exclusiveMinimum: 0
-							},
-							total_units: {
-								title: "Total units",
-								type: "number",
-								exclusiveMinimum: 0
-							},
-							good_units: {
-								title: "Good units",
-								type: "number",
-								exclusiveMinimum: 0,
-								maximum: {
-									$data: "1/total_units"
-								} as any
-							},
-							run_time: {
-								title: "Run time",
-								type: "number",
-								exclusiveMinimum: 0,
-								maximum: {
-									$data: "1/planned_production_time"
-								} as any // Type conflict occurs because JSONSchema7 don't support (yet) dynamic values but AJV Validate allow it. https://ajv.js.org/guide/combining-schemas.html#data-reference
-							},
-							planned_production_time: {
-								title: "Planned production time",
-								type: "number",
-								minimum: 0
-							}
-						},
-						required: [
-							"ideal_cycle_time",
-							"total_units",
-							"good_units",
-							"run_time",
-							"planned_production_time"
-						]
-					}
-				}
-			}
-		}
-	}
-};
-
-const inlineUiSchema: SchemaFormProps<any>["uiSchema"] = {
-	"ui:inputConfig": {
-		width: "fit-content",
-		minWidth: "132px",
-		maxWidth: "unset"
-	},
-	shift_info: {
-		"ui:inline": true,
-		"ui:inputWidth": "fit-content"
-	},
-	production_info: {
-		"ui:inline": true,
-		"ui:inputWidth": "200px"
-	},
-	team_info: {
-		"ui:itemPrefix": "Collaborator",
-		"ui:options": {
-			addable: true,
-			orderable: false,
-			removable: true
-		},
-		items: {
-			"ui:title": "",
-			"ui:itemPrefix": "Collaborator",
-			"ui:inline": true,
-			"ui:inputWidth": "fit-content",
-			responsible_for: {
-				searchable: true,
-				"ui:placeholder": ""
-			}
-		}
-	},
-	assets_oee: {
-		"ui:title": "",
-		"ui:options": {
-			addable: false,
-			orderable: false,
-			removable: false
-		},
-		"ui:inputWidth": "fit-content",
-		items: {
-			"ui:title": "",
-			"ui:fieldset": true,
-			asset_name: {
-				"ui:widget": "readOnlyValue",
-				"ui:readonly": true,
-				"ui:options": {
-					label: false
-				}
-			},
-			oee_thresholds: {
-				"ui:inline": true,
-				"ui:inputWidth": "fit-content"
-			},
-			oee_calculation: {
-				"ui:inline": true,
-				"ui:inputWidth": "400px"
 			}
 		}
 	}
@@ -1356,5 +1173,286 @@ export const PasswordFields: Story = {
 				"ui:placeholder": "Enter your access token"
 			}
 		}
+	}
+};
+
+/**
+ * Starts with one invalid value of each kind: a pattern mismatch, an
+ * out-of-range integer, a missing file and a missing section behind a chosen
+ * option, an empty required string and enum, a too-short string and min-value
+ * violations. Errors also sit at the deepest levels: a client key missing from
+ * Mutual TLS (four sections down) and a bad second item in the Topics array,
+ * including its nested Retention section, and an environment variable with an
+ * invalid name and an empty value.
+ */
+export const Configuration: Story = {
+	render: CoreUiFormTemplate,
+	parameters: { themeSideBySide: false },
+	args: {
+		schema: CONFIGURATION_SCHEMA,
+		uiSchema: CONFIGURATION_UI_SCHEMA,
+		formData: {
+			connection: {
+				endpoint_url: "http://plc-line-1",
+				discovery_url: "not-a-url",
+				port: 70000,
+				verify_ssl: true,
+				security_policy: "none"
+			},
+			authentication: { type: "credentials" },
+			kafka: {
+				bootstrap_servers: "",
+				security: {
+					protocol: "SASL_SSL",
+					sasl: {},
+					tls: {
+						mtls: { client_cert: "-----BEGIN CERTIFICATE-----" }
+					}
+				},
+				topics: [
+					{ name: "line-1.telemetry", partitions: 3 },
+					{ name: "", partitions: 0, retention: { hours: 0 } }
+				]
+			},
+			upload: { interval: 0, retry: { attempts: 0, max_delay: -1 } },
+			environment_vars: [
+				{ name: "LOG_LEVEL", value: "info" },
+				{ name: "1_BROKER_URL" }
+			],
+			session_name: "l1"
+		},
+		formContext: { showDefaultValueHelper: true },
+		applyDefaults: EApplyDefaults.Never,
+		liveValidate: true,
+		showErrorList: false,
+		showErrorsSwitch: true
+	}
+};
+
+export const Parameters: Story = {
+	render: CoreUiFormTemplate,
+	parameters: {
+		themeSideBySide: false,
+		docs: {
+			description: {
+				story: "The sample starts with three field errors: the number exceeds 1000, the integer is below 1 and the required string is empty. Toggle Show All Errors to reveal them. Default helpers show each schema default without replacing the supplied values."
+			}
+		}
+	},
+	args: {
+		schema: PARAMETERS_SCHEMA,
+		uiSchema: { "ui:submitButtonOptions": { norender: true } },
+		formData: {
+			param_number: 1500,
+			param_integer: 0,
+			param_string: "",
+			param_boolean: false
+		},
+		formContext: { showDefaultValueHelper: true },
+		applyDefaults: EApplyDefaults.Never,
+		liveValidate: true,
+		showErrorList: false,
+		showErrorsSwitch: true
+	}
+};
+
+export const System: Story = {
+	render: CoreUiFormTemplate,
+	parameters: {
+		themeSideBySide: false,
+		docs: {
+			description: {
+				story: "Kelvin app schema 5.0.0 deployment settings. The sample contains six field errors across variables, ports, volumes and metrics. Toggle Show All Errors to reveal them. Port, volume and probe types show the selected branch's fields."
+			}
+		}
+	},
+	args: {
+		schema: SYSTEM_SCHEMA,
+		uiSchema: SYSTEM_UI_SCHEMA,
+		formData: SYSTEM_FORM_DATA,
+		formContext: { showDefaultValueHelper: true },
+		applyDefaults: EApplyDefaults.Never,
+		liveValidate: true,
+		showErrorList: false,
+		showErrorsSwitch: true
+	}
+};
+
+export const SingleValueList: Story = {
+	render: CoreUiFormTemplate,
+	parameters: {
+		themeSideBySide: false,
+		docs: {
+			description: {
+				story: "The grip opens Move up and Move down. Each row has a separate Remove button. Moves at the first and last row are disabled. Add disappears at five topics, and an empty list fails the schema's minimum-item validation."
+			}
+		}
+	},
+	args: {
+		schema: TOPICS_SCHEMA,
+		uiSchema: {
+			"ui:itemPrefix": "Topic",
+			"ui:submitButtonOptions": { norender: true }
+		},
+		formData: TOPICS_FORM_DATA,
+		liveValidate: true,
+		showErrorList: false
+	}
+};
+
+export const SingleValueListUnordered: Story = {
+	...SingleValueList,
+	parameters: {
+		themeSideBySide: false,
+		docs: {
+			description: {
+				story: "Set ui:options.orderable to false to keep Add and Remove without the reorder grip."
+			}
+		}
+	},
+	args: {
+		...SingleValueList.args,
+		uiSchema: {
+			...SingleValueList.args!.uiSchema,
+			"ui:options": { orderable: false }
+		}
+	}
+};
+
+export const ObjectList: Story = {
+	render: CoreUiFormTemplate,
+	parameters: {
+		themeSideBySide: false,
+		docs: {
+			description: {
+				story: "Objects with nested retention settings render numbered sections. Each topic has one action menu for moves and removal."
+			}
+		}
+	},
+	args: {
+		schema: TOPIC_OBJECTS_SCHEMA,
+		uiSchema: {
+			"ui:itemPrefix": "Topic",
+			"ui:submitButtonOptions": { norender: true }
+		},
+		formData: TOPIC_OBJECTS_FORM_DATA,
+		liveValidate: true,
+		showErrorList: false
+	}
+};
+
+export const ObjectTable: Story = {
+	render: CoreUiFormTemplate,
+	parameters: {
+		themeSideBySide: false,
+		docs: {
+			description: {
+				story: "Flat objects become a table automatically. The second variable has an invalid name and a missing value; Show All Errors reveals both cell errors. Rows stack when the form column is narrower than 480px."
+			}
+		}
+	},
+	args: {
+		schema: VARIABLES_SCHEMA,
+		uiSchema: {
+			"ui:itemPrefix": "Variable",
+			"ui:options": { orderable: false },
+			"ui:submitButtonOptions": { norender: true }
+		},
+		formData: VARIABLES_FORM_DATA,
+		liveValidate: true,
+		showErrorList: false,
+		showErrorsSwitch: true
+	}
+};
+
+export const OrderableObjectTable: Story = {
+	...ObjectTable,
+	parameters: {
+		themeSideBySide: false,
+		docs: {
+			description: {
+				story: "Orderable table rows add a grip with the same keyboard actions as a single-value list."
+			}
+		}
+	},
+	args: {
+		...ObjectTable.args,
+		uiSchema: {
+			...ObjectTable.args!.uiSchema,
+			"ui:options": { orderable: true }
+		}
+	}
+};
+
+export const ObjectTableAsSections: Story = {
+	...ObjectTable,
+	parameters: {
+		themeSideBySide: false,
+		docs: {
+			description: {
+				story: "Set ui:options.layout to sections to opt out of the automatic table layout."
+			}
+		}
+	},
+	args: {
+		...ObjectTable.args,
+		uiSchema: {
+			...ObjectTable.args!.uiSchema,
+			"ui:options": {
+				...ObjectTable.args!.uiSchema?.["ui:options"],
+				layout: "sections"
+			}
+		}
+	}
+};
+
+export const FalseAndZeroChoices: Story = {
+	render: CoreUiFormTemplate,
+	parameters: {
+		themeSideBySide: false,
+		docs: {
+			description: {
+				story: "False and zero remain selected values. Use Clear selection for the optional boolean and Clear retry policy for the zero retry value. The required region accepts null through its Not set option."
+			}
+		}
+	},
+	args: {
+		schema: FALSE_AND_ZERO_SCHEMA,
+		uiSchema: {
+			retries: {
+				clearSelectionLabel: "Clear retry policy",
+				"ui:options": { allowClearInputs: true }
+			},
+			region: { "ui:enumNames": ["Not set", "Lisbon", "Berlin"] },
+			"ui:submitButtonOptions": { norender: true }
+		},
+		formData: { enabled: false, retries: 0, region: null },
+		showErrorList: false
+	}
+};
+
+export const FilePreviewsAndSecrets: Story = {
+	render: SavedFilesTemplate,
+	parameters: {
+		themeSideBySide: false,
+		docs: {
+			description: {
+				story: "Enable ui:options.filePreview for downloads of uploaded data URLs. Secret references appear as removable text. Empty single-file fields use Choose file, populated fields use Replace file, and multi-file fields use Add files."
+			}
+		}
+	},
+	args: {
+		schema: FILE_PREVIEW_SCHEMA,
+		uiSchema: {
+			certificate: { "ui:filePreview": true },
+			secret: { "ui:filePreview": true },
+			attachments: { "ui:filePreview": true },
+			"ui:submitButtonOptions": { norender: true }
+		},
+		formData: FILE_PREVIEW_FORM_DATA,
+		submittedData: FILE_PREVIEW_FORM_DATA,
+		liveValidate: true,
+		showErrorList: false,
+		allowDiscardChanges: true
 	}
 };

@@ -1,0 +1,18 @@
+/* Core UI uses a card with a 480px form column. */
+.CoreUiCard {
+	box-sizing: border-box;
+	width: 100%;
+	min-width: 0;
+	max-width: 1018px;
+	padding: clamp(var(--spacing-lg), 3vw, var(--spacing-4xl));
+	border-radius: var(--radius-xl);
+	background-color: var(--background-surface-neutral-subtle);
+	border: var(--border-width-default) solid
+		var(--border-container-divider-default);
+}
+
+/* Match the form container's own custom-property specificity. */
+.CoreUiForm.CoreUiForm {
+	--schema-form-max-width: 480px;
+	max-width: 480px;
+}
