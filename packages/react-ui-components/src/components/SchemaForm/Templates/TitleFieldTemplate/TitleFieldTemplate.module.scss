@@ -17,6 +17,10 @@
 	.GroupHeading {
 		@include heading-s-semibold-caps;
 
+		&.SubsectionHeading {
+			@include heading-xs-semibold-caps;
+		}
+
 		color: var(--text-container-neutral-default);
 		margin: 0;
 		overflow-wrap: anywhere;

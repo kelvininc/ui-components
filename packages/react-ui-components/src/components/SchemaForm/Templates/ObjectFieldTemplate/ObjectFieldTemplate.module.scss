@@ -18,7 +18,7 @@
 		box-sizing: border-box;
 	}
 
-	&:not(.Inline) > .PropRow:not([data-schema-form-first-row]) {
+	&[data-schema-form-page-dividers]:not(.Inline) > .PropRow:not([data-schema-form-first-row]) {
 		&.SectionRow,
 		&[data-schema-form-after-section] {
 			border-top: var(--border-width-default) solid var(--border-container-divider-default);

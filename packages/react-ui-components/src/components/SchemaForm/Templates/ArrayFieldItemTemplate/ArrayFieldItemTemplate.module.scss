@@ -1,7 +1,12 @@
+@use '../section-layout';
+
 .ObjectItem {
 	box-sizing: border-box;
-	padding-left: var(--spacing-2xl);
-	border-left: var(--border-width-default) solid var(--border-container-divider-default);
+	min-width: 0;
+
+	&:not(.FieldsetStyle) {
+		@include section-layout.object-entry-frame;
+	}
 }
 
 .ActionSlot {

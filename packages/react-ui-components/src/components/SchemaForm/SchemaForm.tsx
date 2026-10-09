@@ -18,7 +18,7 @@ import React, { ComponentProps, ComponentType, ForwardedRef, forwardRef, PropsWi
 import { useScroll } from '../../hooks';
 import { KvActionButtonText, KvSwitchButton, KvTooltip } from '../../stencil-generated';
 import { SCROLL_OFFSET } from './config';
-import { FormStateProvider } from './contexts';
+import { FormStateProvider, ROOT_SECTION_LAYOUT, SectionLayoutContext } from './contexts';
 import { useFieldTemplateElement } from './hooks/useFieldTemplateElement';
 import { useScrollbarWidth } from './hooks/useScrollbarWidth';
 import styles from './SchemaForm.module.scss';
@@ -328,7 +328,9 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 						<div className={styles.Text}>Show All Errors</div>
 					</div>
 				)}
-				<CustomFormWithRef<T, S, SchemaFormContext> ref={formRef} {...stableThemedProps} />
+				<SectionLayoutContext.Provider value={ROOT_SECTION_LAYOUT}>
+					<CustomFormWithRef<T, S, SchemaFormContext> ref={formRef} {...stableThemedProps} />
+				</SectionLayoutContext.Provider>
 				{hasFooter && (
 					<div
 						className={classNames(styles.FormFooter, { [styles.Scrolling]: isScrolling })}

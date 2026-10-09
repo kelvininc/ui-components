@@ -51,7 +51,7 @@ export const SchemaFormExample: React.FC = () => {
 
 ## Section layout
 
-Object fields and object lists that don't qualify for tables render open sections. Their titles use native headings,
+Object fields and object lists that don't qualify for tables render sections. Their titles use native headings,
 starting at `h2`; each titled section increases the level, up to `h6`. Blank titles and
 `ui:options.label: false` suppress the heading. Custom fields, tuples and multi-selects use control layout.
 
@@ -66,7 +66,22 @@ individual input defaults remain beneath their own entry. `ui:descriptionPositio
 `top`, `bottom` or `none`, including through global UI options. Text inputs, textareas and compact
 multi-selects keep descriptions below the control. Custom array templates and widgets keep their layout.
 
-Fields have a 20px vertical gap. Object sections have dividers, and configured field widths fit the
+Root and direct top-level section headings use 14px type with a 20px line height. The outermost
+object-list entry uses the same size. Nested section and inner-entry headings use 12px type with a
+16px line height. Both use weight 600 and retain their semantic heading levels.
+
+Nested default sections move their title, fields and metadata together behind a 1px guide with 16px
+inline-start padding. Root and direct top-level sections keep their page dividers; nested sections use
+the ordinary field gap. Selected oneOf/anyOf branches own one guide, and a deeper object gets its own.
+Untitled groups still count toward the visual structure. Guides follow the inline-start edge in RTL.
+
+The form's available width controls indentation. Below 480px, guides use 8px padding. Each owned guide
+or entry frame adds one depth. Beyond six boundaries, default guides add no inline-start padding and
+default frames add no inline padding; their borders and vertical spacing remain. At 480px and above,
+normal padding applies at all depths. Inner lists continue the count, and each SchemaForm starts at zero.
+Explicit fieldsets and custom templates retain their own padding. Nested tables keep their independent width query.
+
+Fields have a 20px vertical gap, and configured field widths fit the
 available space. Additional-property key/value rows wrap in narrow containers, and their enabled remove
 buttons participate in Tab order. The internal `data-schema-form-*` markers identify layout elements
 independently of generated CSS module names.
@@ -86,7 +101,9 @@ Fixed tuple positions keep a visible label from their item prefix or schema titl
 items use their prefix or title with their position number, such as "Backup 2". Fixed positions keep
 RJSF's move and removal restrictions. Reserved action space keeps tuple inputs aligned.
 
-Object items render numbered section headings and a left rail. One menu beside each heading holds
+Object items render numbered section headings inside a 1px outline with 4px corners and 16px padding.
+Inner object lists use the same outline. Explicit fieldsets keep their existing title offset and styling.
+One menu beside each heading holds
 the allowed move actions and a destructive Remove action. Boundary moves stay visible and disabled.
 Readonly and disabled lists keep disabled controls. Add renders a plus followed by "Add <prefix>"
 or "Add item". Lists with a reserved grip column center the plus in that column and align the text
@@ -174,8 +191,9 @@ and template overrides stay on the parent. Set those explicitly in `uiSchema.one
 
 Branches hide their repeated title by default; set `ui:options.label: true` on a branch to show it.
 The selector and branch use the standard field gap, with an indented rail beside the branch,
-including custom branch templates. A selected object branch also gives its parent property row
-and the following visible row section dividers.
+including custom branch templates. In a root object body, a selected object branch also gives its
+parent property row and the following visible row section dividers. Nested object bodies use the
+ordinary field gap.
 Inline objects keep their existing divider-free layout.
 
 Parent `ui:order` passes to branches with `'*'` appended for remaining properties. An explicit branch
