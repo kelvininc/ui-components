@@ -2662,6 +2662,84 @@ export const FIELD_WIDTH_SHAPES: readonly { name: string; value: unknown; fitted
 
 const CONNECTION: RJSFSchema = { type: 'object', title: 'Connection', description: 'Configure the broker connection.', properties: { host: { type: 'string', title: 'Host' } } };
 const CustomTitle = ({ title }: { title: string }) => <strong>{title}</strong>;
+const CallerRequiredTitle = ({ title }: { title: string }) => <strong data-required-custom-title>* {title}</strong>;
+const CallerRequiredField = () => <input data-required-custom-field aria-label="Caller port name" />;
+const markerFields: readonly { name: string; schema: RJSFSchema; uiSchema?: UiSchema; formData: unknown }[] = [
+	{ name: 'text', schema: { type: 'string', title: 'Port name' }, formData: 'opcua' },
+	{ name: 'number', schema: { type: 'integer', title: 'Host port' }, formData: 4840 },
+	{ name: 'textarea', schema: { type: 'string', title: 'Connection notes' }, uiSchema: { 'ui:widget': 'textarea' }, formData: 'Production connector' },
+	{ name: 'dropdown', schema: { type: 'string', title: 'Port type', enum: ['host', 'service'] }, formData: 'host' },
+	{ name: 'radio', schema: { type: 'string', title: 'Delivery policy', enum: ['at-most-once', 'at-least-once'] }, uiSchema: { 'ui:widget': 'radio' }, formData: 'at-least-once' },
+	{ name: 'checkbox', schema: { type: 'boolean', title: 'Enable TLS' }, uiSchema: { 'ui:widget': 'checkbox' }, formData: true },
+	{ name: 'scalar list', schema: TOPICS, formData: ['telemetry', 'alarms'] },
+	{
+		name: 'object list',
+		schema: { type: 'array', title: 'Connections', items: CONNECTION },
+		uiSchema: { 'ui:options': { layout: 'sections' } },
+		formData: [{ host: 'broker-1.local' }]
+	},
+	{ name: 'single file', schema: { type: 'string', title: 'Certificate', format: 'data-url' }, formData: CERTIFICATE },
+	{ name: 'multiple files', schema: { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } }, formData: [CERTIFICATE] }
+];
+
+const markerForm = (schema: RJSFSchema, required = true): RJSFSchema => ({
+	type: 'object',
+	title: 'Connector settings',
+	properties: { setting: schema },
+	required: required ? ['setting'] : []
+});
+const markerHelp = 'Configure this setting before deploying the connector.';
+const requiredTable = L2_PRESENTATION_SHAPES.find(row => row.name === 'required')!;
+export const REQUIRED_MARKER_TABLE_SHAPE = {
+	...requiredTable,
+	uiSchema: { ...requiredTable.uiSchema, items: { ...requiredTable.uiSchema.items, name: { 'ui:help': markerHelp } } }
+};
+const portName = markerFields[0];
+export const REQUIRED_MARKER_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema?: UiSchema;
+	formData?: unknown;
+	expectedTitles: readonly string[];
+}[] = [
+	...markerFields.flatMap(row =>
+		[true, false].map(required => ({
+			name: `${row.name}; ${required ? 'required' : 'optional'}`,
+			schema: markerForm(row.schema, required),
+			uiSchema: { setting: { ...row.uiSchema, 'ui:help': markerHelp } },
+			formData: { setting: row.formData },
+			expectedTitles: required ? [row.schema.title!] : []
+		}))
+	),
+	...[
+		{ name: 'hidden title', uiSchema: { 'ui:widget': 'hidden' } },
+		{ name: 'suppressed title', uiSchema: { 'ui:label': false } },
+		{ name: 'blank title', uiSchema: { 'ui:title': '' } },
+		{ name: 'whitespace title', uiSchema: { 'ui:title': '   ' } },
+		{ name: 'custom title', uiSchema: { 'ui:TitleFieldTemplate': CallerRequiredTitle } },
+		{ name: 'custom field', uiSchema: { 'ui:field': CallerRequiredField, 'ui:label': false } }
+	].map(row => ({ name: row.name, schema: markerForm(portName.schema), uiSchema: { setting: row.uiSchema }, formData: { setting: 'opcua' }, expectedTitles: [] })),
+	{ name: 'required object section', schema: markerForm(CONNECTION), formData: { setting: { host: 'broker-1.local' } }, expectedTitles: [] },
+	{ name: 'literal asterisk', schema: markerForm({ type: 'string', title: 'Power * primary' }), formData: { setting: 'primary' }, expectedTitles: ['Power * primary'] },
+	...[
+		{
+			name: 'long control title',
+			schema: { type: 'string', title: 'Primary production container port connection identifier and deployment configuration' },
+			formData: 'opcua'
+		},
+		{
+			name: 'long array heading',
+			schema: { type: 'array', title: 'Primary production container ports and externally exposed service connection endpoints', items: CONNECTION },
+			formData: [{ host: 'broker-1.local' }]
+		}
+	].map(row => ({
+		name: row.name,
+		schema: markerForm(row.schema as RJSFSchema),
+		uiSchema: { setting: { 'ui:help': markerHelp, 'ui:options': { layout: 'sections' } } },
+		formData: { setting: row.formData },
+		expectedTitles: [row.schema.title]
+	}))
+];
 export const SECTION_HEADING_SHAPES: readonly {
 	name: string;
 	schema: RJSFSchema;
@@ -4703,6 +4781,8 @@ export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
 	CUSTOM_FIELDS,
 	FIELD_WIDTH_SHAPES,
 	SECTION_HEADING_SHAPES,
+	REQUIRED_MARKER_SHAPES,
+	REQUIRED_MARKER_TABLE_SHAPE,
 	SECTION_DESCRIPTION_SHAPES,
 	ARRAY_DESCRIPTION_SHAPES,
 	DESCRIBED_CONNECTION_ARRAY,

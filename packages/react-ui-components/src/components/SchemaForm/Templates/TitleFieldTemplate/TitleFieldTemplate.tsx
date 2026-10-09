@@ -26,7 +26,6 @@ const TitleFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 	return (
 		stringHelper.isValidLabel(titleToShow) && (
 			<div className={classNames(styles.TitleContainer, titleCustomClass, { [styles.GroupTitle]: isGroupTitle })}>
-				{required && <span className={styles.Required}>*</span>}
 				{isGroupTitle ? (
 					<Heading id={id} className={classNames(styles.GroupHeading, { [styles.SubsectionHeading]: subsection })}>
 						{titleToShow}
@@ -35,6 +34,11 @@ const TitleFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 					<KvTooltip id={id} text={titleToShow || ''} truncate>
 						<KvInfoLabel labelTitle={titleToShow || ''} />
 					</KvTooltip>
+				)}
+				{required && (
+					<span className={styles.Required} aria-hidden="true">
+						*
+					</span>
 				)}
 				<FieldHelp className={styles.ToggleTip} help={uiOptions.help} />
 			</div>

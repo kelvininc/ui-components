@@ -7,6 +7,7 @@ import {
 	FLAT_OBJECT_SHAPES,
 	L2_ELIGIBILITY_SHAPES,
 	L2_PRESENTATION_SHAPES,
+	REQUIRED_MARKER_TABLE_SHAPE,
 	L2_LABEL_SHAPES,
 	L2_DESCRIPTION_SHAPES,
 	L2_ITEM_GUIDANCE_SHAPES,
@@ -18,6 +19,7 @@ import {
 	BROKER_FORM_DATA
 } from './test-utils/matrix';
 import { fireStencilEvent, propsOf } from '../../test-utils';
+import tableStyles from './Templates/ArrayFieldTemplate/TableLayout.module.scss';
 
 vi.mock('../../stencil-generated', async () => (await import('../../test-utils')).stencilMocks);
 
@@ -79,6 +81,21 @@ it.each(L2_PRESENTATION_SHAPES)('L2 shared headers: $name', row => {
 	expect(screen.container.querySelectorAll('[data-table-cell] kv-toggle-tip')).toHaveLength(row.name === 'description' || row.name === 'help' ? row.formData.length : 0);
 	if (row.name === 'description' || row.name === 'help') expect(propsOf(headers[2].querySelector('kv-toggle-tip')!).text).toBe('Starts with a letter or underscore.');
 	if (row.name === 'required') expect(headers[2].getAttribute('aria-label')).toBe('Name, required');
+});
+
+it('keeps table and narrow cell markers between the title and help', () => {
+	const row = REQUIRED_MARKER_TABLE_SHAPE;
+	const screen = render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={row.uiSchema} />);
+	const header = screen.container.querySelector('[role="columnheader"][aria-label="Name, required"]')!;
+	const labels = [header, ...screen.container.querySelectorAll(`[data-table-cell="name"] .${tableStyles.CellLabel}`)];
+	expect(labels).toHaveLength(1 + row.formData.length);
+	for (const label of labels) {
+		const marker = label.querySelector(`.${tableStyles.Required}`)!;
+		expect(marker.getAttribute('aria-hidden')).toBe('true');
+		expect(marker.previousElementSibling!.textContent).toBe('Name');
+		expect(marker.nextElementSibling!.tagName).toBe('KV-TOGGLE-TIP');
+		expect(propsOf(marker.nextElementSibling!).text).toBe(row.uiSchema.items.name['ui:help']);
+	}
 });
 
 it.each(L2_ITEM_GUIDANCE_SHAPES)('L2 item guidance: $name', row => {

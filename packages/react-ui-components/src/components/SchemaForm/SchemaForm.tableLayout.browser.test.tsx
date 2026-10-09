@@ -13,6 +13,7 @@ import {
 	FLAT_OBJECT_SHAPES,
 	L2_ELIGIBILITY_SHAPES,
 	L2_PRESENTATION_SHAPES,
+	REQUIRED_MARKER_TABLE_SHAPE,
 	L2_SIZE_SHAPES,
 	L2_LABEL_SHAPES,
 	L2_DESCRIPTION_SHAPES,
@@ -23,10 +24,38 @@ import {
 	LIST_OPTIONS,
 	R5_ARRAY_ACTIONS
 } from './test-utils/matrix';
+import tableStyles from './Templates/ArrayFieldTemplate/TableLayout.module.scss';
 
 const rootRows = (container: HTMLElement) => Array.from(container.querySelectorAll<HTMLElement>('[data-schema-form-list="root"] > div > div > [data-schema-form-list-item]'));
 const controls = (row: HTMLElement) =>
 	Array.from(row.querySelectorAll<HTMLElement>('[data-table-cell]')).map(cell => cell.querySelector<HTMLElement>('kv-text-field[id],kv-single-select-dropdown[id]')!);
+
+it.each([479, 480])('keeps table and narrow cell required suffixes at %ipx', async width => {
+	const row = REQUIRED_MARKER_TABLE_SHAPE;
+	const screen = await render(
+		<div style={{ width }}>
+			<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={row.uiSchema} />
+		</div>
+	);
+	await whenAllKelvinReady(screen.container);
+	const header = screen.getByRole('columnheader', { name: 'Name, required', exact: true }).element();
+	const labels = [header, ...screen.container.querySelectorAll<HTMLElement>(`[data-table-cell="name"] .${tableStyles.CellLabel}`)];
+	expect(labels).toHaveLength(1 + row.formData.length);
+	for (const label of labels) {
+		const marker = label.querySelector(`.${tableStyles.Required}`)!;
+		expect(marker.getAttribute('aria-hidden')).toBe('true');
+		expect(marker.previousElementSibling!.textContent).toBe('Name');
+		expect(marker.nextElementSibling!.tagName).toBe('KV-TOGGLE-TIP');
+		if (label !== header) expect(label.checkVisibility({ checkVisibilityCSS: true })).toBe(width < 480);
+	}
+	const headerRow = header.parentElement!;
+	expect(getComputedStyle(headerRow).clipPath).toBe(width < 480 ? 'inset(50%)' : 'none');
+	if (width < 480) expect(headerRow.getBoundingClientRect().height).toBe(1);
+	for (const [index, host] of Array.from(screen.container.querySelectorAll<HTMLKvTextFieldElement>('[data-table-cell="name"] kv-text-field')).entries()) {
+		await expect.element(screen.getByRole('textbox', { name: `Name, Variable ${index + 1}`, exact: true })).toBeVisible();
+		expect(host.accessibleLabel).toBe(`Name, Variable ${index + 1}`);
+	}
+});
 
 describe.each(FLAT_OBJECT_SHAPES)('L2 layout matrix: $name', row => {
 	describe.each(LIST_OPTIONS)('$name', option => {
