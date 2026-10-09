@@ -23,10 +23,6 @@ const SectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	const itemControls = controls?.fieldId === props.id ? controls : null;
 	const itemHeader = itemControls?.header;
 	const parentLayout = useSectionLayout();
-	const { state: layout, boundary } =
-		parentLayout.sectionLevel >= 2 || parentLayout.itemLevel > 0 ? claimSectionBoundary(parentLayout, props.id, 'section') : { state: parentLayout, boundary: null };
-	// The form root and a selected option branch, whose selector's label is its heading, open a level even untitled
-	const optionBranch = parentLayout.owner?.kind === 'option' && parentLayout.owner.fieldId === props.id;
 	const {
 		WrapIfAdditionalTemplate,
 		arrayDescriptionContext,
@@ -44,7 +40,15 @@ const SectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		errorsElement,
 		helperElement
 	} = useFieldPresentation(props);
+	// Only a visible heading opens a section level and claims a rail, at every depth: an untitled or label-hidden
+	// wrapper object lays its sections out as its parent's own. The form root always opens one, and so does a
+	// selected option branch, whose selector's label is its heading (it shares the selector's id and reuses its rail).
+	const optionBranch = parentLayout.owner?.kind === 'option' && parentLayout.owner.fieldId === props.id;
 	const opensLevel = hasTitle || optionBranch || parentLayout.sectionLevel === 0;
+	const { state: layout, boundary } =
+		opensLevel && (parentLayout.sectionLevel >= 2 || parentLayout.itemLevel > 0)
+			? claimSectionBoundary(parentLayout, props.id, 'section')
+			: { state: parentLayout, boundary: null };
 	const describedBy = [(descriptionElement || arrayDescriptionContext.descriptionId) && descriptionId, errorsElement && errorsId].filter(Boolean).join(' ') || undefined;
 	const heading = <SectionHeadingContext.Provider value={getSectionHeadingKind(layout, Boolean(itemControls))}>{titleElement}</SectionHeadingContext.Provider>;
 	const header =
