@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../test-utils/browser';
 import { KvSchemaForm } from './SchemaForm';
+import fieldStyles from './Templates/FieldTemplate/FieldTemplate.module.scss';
 import { DEFAULT_FOOTER_DESCRIPTION_POSITIONS, FIELD_FEEDBACK_SHAPES } from './test-utils/matrix';
 
 // The default helper shows a choice by its option label, so a boolean default reads as Yes/No
@@ -63,6 +64,7 @@ describe.each([StyleMode.Light, StyleMode.Night])('field feedback in %s', theme 
 				);
 				const screen = await render(form(false));
 				const insets: number[] = [];
+				let rightAligned = 0;
 				for (const invalid of [false, true]) {
 					if (invalid) await screen.rerender(form(true));
 					await whenAllKelvinReady(screen.container);
@@ -82,14 +84,18 @@ describe.each([StyleMode.Light, StyleMode.Night])('field feedback in %s', theme 
 						const field = help.closest('[data-schema-form-field]')!;
 						const bounds = field.getBoundingClientRect();
 						const feedback = text.getBoundingClientRect();
-						if (message?.startsWith('Default:') && width > 460 && row.name !== 'file') {
-							expect(bounds.right - feedback.right).toBeLessThanOrEqual(4);
+						// The default goes to the inline end when the footer its container query measures is wider than 460px
+						const footer = help.closest(`.${fieldStyles.FieldFooter}`)?.getBoundingClientRect();
+						if (message?.startsWith('Default:') && footer && footer.width > 460) {
+							expect(footer.right - feedback.right).toBeLessThanOrEqual(4);
+							rightAligned++;
 						} else insets.push(feedback.left - bounds.left);
 						expect(feedback.right).toBeLessThanOrEqual(bounds.right);
 						expect(feedback.width).toBeGreaterThan(0);
 					}
 				}
-				expect(insets).toEqual(width > 460 && row.name !== 'file' ? [0, 0] : [0, 0, 0, 0]);
+				expect(rightAligned).toBe(width > 460 && row.name !== 'file' ? 2 : 0);
+				expect(insets).toEqual(insets.map(() => 0));
 			} finally {
 				setThemeMode(StyleMode.Night);
 			}

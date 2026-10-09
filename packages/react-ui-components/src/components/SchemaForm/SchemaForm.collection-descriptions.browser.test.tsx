@@ -153,7 +153,7 @@ describe.each([StyleMode.Light, StyleMode.Night])('collection guidance in %s', t
 				expect(text.getBoundingClientRect().right).toBeLessThanOrEqual(field.getBoundingClientRect().right);
 			}
 			if (row.formData !== undefined) {
-				const message = `Default: ${row.formData}`;
+				const message = row.defaultHelper!;
 				const helper = Array.from(screen.container.querySelectorAll('kv-form-help-text')).find(host => host.helpText === message)!;
 				expect(helper).toBeDefined();
 				await expect.poll(() => helper.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe(message.trim());

@@ -66,6 +66,20 @@ individual input defaults remain beneath their own entry. `ui:descriptionPositio
 `top`, `bottom` or `none`, including through global UI options. Text inputs, textareas and compact
 multi-selects keep descriptions below the control. Custom array templates and widgets keep their layout.
 
+Ordinary fields place default-value helpers at the inline end of their feedback row, aligned with the
+first text line of the description or error. At field footer widths of 460px or less, defaults stack
+below the feedback and align to the inline start. Long defaults wrap without truncation. Collection
+defaults stay in their metadata above the items; table cells omit default helpers.
+
+The helper names a default the way the field shows it. Boolean defaults use the field's option labels:
+`oneOf` titles first, then `ui:options.booleanLabels` (field or global UI options), then "Yes"/"No",
+so `default: false` reads "Default: No". `formContext.booleanLabels` doesn't relabel the helper,
+because the boolean field doesn't read it either. Enum and constant `oneOf`/`anyOf` defaults use
+their option label, honoring `ui:enumNames` and branch titles ("Default: Debug"). Multi-select
+defaults join their item labels with commas ("Default: Debug, Info"). When no option matches, or the
+schema's `oneOf`/`anyOf` branches aren't all constants (a nullable union, object variants), the raw
+value stays: arrays join with commas and objects read as JSON.
+
 Root and direct top-level section headings use 14px type with a 20px line height. The outermost
 object-list entry uses the same size. Nested section and inner-entry headings use 12px type with a
 16px line height. Both use weight 600 and retain their semantic heading levels.
@@ -205,11 +219,7 @@ and applies template replacements to mounted forms without modifying the caller'
 
 ## Textarea values and limits
 
-Descriptions and errors share `kv-form-help-text`'s zero left inset. Ordinary fields place
-default-value helpers on the right of their feedback row, aligned with its first text line.
-At field footer widths of 460px or less, defaults stack below feedback and align left.
-Long defaults wrap without truncation. Collection defaults stay in their metadata above
-the items; table cells omit default helpers.
+Descriptions and errors share `kv-form-help-text`'s zero left inset.
 Scalar-list feedback aligns with its input column, reserving the same space as the row actions.
 Text and date/time inputs use the same rule for their built-in feedback. A textarea's
 compact character count sits inside the bottom-right corner in a reserved footer; text scrolls
