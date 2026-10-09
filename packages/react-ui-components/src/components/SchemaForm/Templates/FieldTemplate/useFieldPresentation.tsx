@@ -52,7 +52,7 @@ export const useFieldPresentation = <T, S extends StrictRJSFSchema = RJSFSchema,
 	const customArrayDescription = getSchemaType(schema) === 'array' && arrayTemplate === ArrayFieldTemplate && arrayDescription !== defaultArrayDescriptionTemplate;
 	const description = !customArrayDescription && descriptionPosition !== EDescriptionPosition.None ? uiOptions.description ?? rawDescription : undefined;
 	const errors = hasErrors ? rawErrors : [];
-	const helper = buildDefaultHelperText(buildHelperOptions(formContext, uiOptions), schema.default, schema, uiSchema);
+	const helper = buildDefaultHelperText(buildHelperOptions(formContext, uiOptions), schema.default, schema, { uiSchema, globalUiOptions: registry.globalUiOptions });
 	const descriptionElement = description ? (
 		<div id={descriptionId}>
 			<KvFormHelpText helpText={description} state={EValidationState.None} />

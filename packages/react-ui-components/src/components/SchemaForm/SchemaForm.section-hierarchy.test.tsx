@@ -6,6 +6,7 @@ import { renderToString } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import { KvSchemaForm } from './SchemaForm';
 import { claimSectionBoundary, ROOT_SECTION_LAYOUT, SectionLayoutContext, sectionBodyLayout } from './contexts/SectionLayoutContext';
+import titleStyles from './Templates/TitleFieldTemplate/TitleFieldTemplate.module.scss';
 import { SECTION_LAYOUT_NESTED_OPTIONS, SECTION_LAYOUT_SHAPES } from './test-utils/matrix';
 
 vi.mock('../../stencil-generated', async () => (await import('../../test-utils')).stencilMocks);
@@ -62,7 +63,7 @@ it('reuses only the matching owner, clears it for children and leaves siblings i
 	const option = claimSectionBoundary(ROOT_SECTION_LAYOUT, 'root_auth', 'option');
 	expect(claimSectionBoundary(option.state, 'root_auth', 'option').boundary).toEqual({ kind: 'option', depth: 2 });
 	expect(claimSectionBoundary(option.state, 'root_auth', 'section').boundary).toBeNull();
-	const child = sectionBodyLayout(first.state);
+	const child = sectionBodyLayout(first.state, true);
 	expect(child.owner).toBeUndefined();
 	expect(child.sectionLevel).toBe(1);
 	expect(claimSectionBoundary(child, 'root_0_connection', 'section').boundary).toEqual({ kind: 'section', depth: 2 });
@@ -133,12 +134,18 @@ it('lays out an untitled wrapper as top-level blocks and rails only what sits un
 			'root_health_check_readiness_probe_http_get'
 		]);
 		const heading = (title: string) => Array.from(container.querySelectorAll('h2,h3,h4,h5,h6')).find(element => element.textContent === title)!;
-		// Both checks and Metrics are top-level headings in rows that draw page dividers; HTTP GET is nested under its check
+		// Both checks and Metrics are major headings laid out by a level-1 object that draws page dividers, though the
+		// checks' object is health_check's own; HTTP GET is a subsection nested under its check
 		for (const title of ['Liveness check', 'Readiness check', 'Metrics']) {
 			expect(heading(title).tagName).toBe('H2');
-			expect(heading(title).closest('[data-schema-form-page-dividers]')).not.toBeNull();
+			expect(heading(title).classList.contains(titleStyles.SubsectionHeading)).toBe(false);
+			const object = heading(title).closest<HTMLElement>('[data-schema-form-object]')!;
+			expect(object.dataset.schemaFormSectionLevel).toBe('1');
+			expect(object.dataset.schemaFormPageDividers).toBe('true');
 		}
+		expect(heading('Liveness check').closest('[data-schema-form-object]')).toBe(heading('Readiness check').closest('[data-schema-form-object]'));
 		expect(heading('HTTP GET').tagName).toBe('H3');
+		expect(heading('HTTP GET').classList.contains(titleStyles.SubsectionHeading)).toBe(true);
 	} finally {
 		await act(async () => root.unmount());
 	}

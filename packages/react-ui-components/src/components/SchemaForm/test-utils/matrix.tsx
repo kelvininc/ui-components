@@ -187,9 +187,61 @@ export const CHOICE_INTERACTION_SHAPES = [
 	{ name: 'readonly', disabled: false, readonly: true }
 ] as const;
 
-export const DEFAULTED_CHOICE_SHAPES: readonly { name: string; schema: RJSFSchema; value: boolean | string }[] = [
-	{ name: 'defaulted boolean', schema: { type: 'boolean', title: 'TLS', default: true }, value: true },
-	{ name: 'defaulted enum', schema: { type: 'string', title: 'QoS', enum: ['at-most-once', 'at-least-once'], default: 'at-least-once' }, value: 'at-least-once' }
+/** Radios with a schema default, including the falsy defaults a truthiness check would treat as missing. `label` names the checked radio. */
+export const DEFAULTED_CHOICE_SHAPES: readonly { name: string; schema: RJSFSchema; value: boolean | string | number | null; label: string }[] = [
+	{ name: 'defaulted boolean', schema: { type: 'boolean', title: 'TLS', default: true }, value: true, label: 'Yes' },
+	{
+		name: 'defaulted enum',
+		schema: { type: 'string', title: 'QoS', enum: ['at-most-once', 'at-least-once'], default: 'at-least-once' },
+		value: 'at-least-once',
+		label: 'at-least-once'
+	},
+	{ name: 'boolean defaulting to false', schema: { type: 'boolean', title: 'TLS', default: false }, value: false, label: 'No' },
+	{
+		name: 'integer oneOf defaulting to zero',
+		schema: {
+			type: 'integer',
+			title: 'Retries',
+			oneOf: [
+				{ const: 0, title: 'None' },
+				{ const: 3, title: 'Three' }
+			],
+			default: 0
+		},
+		value: 0,
+		label: 'None'
+	},
+	// RJSF 5 never applies `default: null` (its defaults fall through `??`), so the nullable row defaults to the empty string
+	{
+		name: 'nullable enum defaulting to the empty string',
+		schema: { type: ['string', 'null'], title: 'Compression', enum: ['', 'gzip', null], enumNames: ['None', 'Gzip', 'Null'], default: '' } as RJSFSchema,
+		value: '',
+		label: 'None'
+	}
+];
+
+/**
+ * Unset choices show "Not set" unless a select already shows a placeholder. RJSF passes a string field only its own
+ * `ui:placeholder`, while BooleanField's select also reads the global UI options.
+ */
+export const CHOICE_NOT_SET_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema: UiSchema; globalPlaceholder?: string; notSet: boolean }[] = [
+	{ name: 'enum select without a placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select' }, notSet: true },
+	{ name: 'default integer oneOf select without a placeholder', schema: CHOICE_SCHEMAS[3].schema, uiSchema: {}, notSet: true },
+	{ name: 'boolean select without a placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select' }, notSet: true },
+	{ name: 'enum select with ui:placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': 'Choose a QoS level' }, notSet: false },
+	{
+		name: 'enum select with an options placeholder',
+		schema: CHOICE_SCHEMAS[2].schema,
+		uiSchema: { 'ui:widget': 'select', 'ui:options': { placeholder: 'Choose compression' } },
+		notSet: false
+	},
+	{ name: 'enum select with a blank placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': '  ' }, notSet: true },
+	{ name: 'boolean select with ui:placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': 'Choose TLS' }, notSet: false },
+	{ name: 'boolean select with a global placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select' }, globalPlaceholder: 'Choose one', notSet: false },
+	{ name: 'enum select ignoring a global placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select' }, globalPlaceholder: 'Choose one', notSet: true },
+	{ name: 'radio', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'radio' }, notSet: true },
+	{ name: 'radio with ui:placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'radio', 'ui:placeholder': 'Choose a QoS level' }, notSet: true },
+	{ name: 'checkbox', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'checkbox' }, notSet: false }
 ];
 
 export const RADIO_KEYBOARD_SHAPES = [
@@ -433,6 +485,12 @@ export const DROPDOWN_LABEL_SHAPES: readonly {
 	{ name: 'null', labels: { clearSelectionLabel: null, selectAllLabel: null }, clearLabel: 'Clear all', singleClearLabel: 'Clear selection', selectLabel: 'Select all' },
 	{ name: 'blank', labels: { clearSelectionLabel: ' ', selectAllLabel: '' }, clearLabel: 'Clear all', singleClearLabel: 'Clear selection', selectLabel: 'Select all' },
 	{
+		name: 'padded',
+		labels: { clearSelectionLabel: '  Clear retry policy  ', selectAllLabel: '\tSelect every retry count\n' },
+		clearLabel: 'Clear retry policy',
+		selectLabel: 'Select every retry count'
+	},
+	{
 		name: 'custom',
 		labels: { clearSelectionLabel: 'Clear retry policy', selectAllLabel: 'Select every retry count' },
 		clearLabel: 'Clear retry policy',
@@ -445,6 +503,17 @@ export const DROPDOWN_LABEL_SHAPES: readonly {
 		clearLabel: 'Clear all',
 		singleClearLabel: 'Clear selection',
 		selectLabel: 'Select every retry count'
+	}
+];
+
+// Select widgets with no options. AJV rejects `enum: []`, so the schemas carry no enum.
+export const EMPTY_DROPDOWN_SHAPES: readonly { name: string; multiple: boolean; schema: RJSFSchema; uiSchema: UiSchema }[] = [
+	{ name: 'single broker', multiple: false, schema: { type: 'string', title: 'Broker' }, uiSchema: { 'ui:widget': 'select' } },
+	{
+		name: 'multiple brokers',
+		multiple: true,
+		schema: { type: 'array', title: 'Brokers', uniqueItems: true, items: { type: 'string' } },
+		uiSchema: { 'ui:widget': 'select' }
 	}
 ];
 
@@ -1413,6 +1482,71 @@ export const FIELD_FEEDBACK_SHAPES = [
 	uiSchema: { ...uiSchema, 'ui:showDefaultValueHelper': true },
 	formData
 }));
+
+/** Defaults the helper names by the label the field shows; schemas without constant options keep the raw value instead of throwing */
+export const DEFAULT_HELPER_LABEL_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema?: UiSchema; formContext?: SchemaFormContext; helper: string }[] = [
+	{ name: 'boolean', schema: { type: 'boolean', title: 'Retain messages', default: false }, helper: 'Default: No' },
+	{
+		name: 'boolean with ui booleanLabels',
+		schema: { type: 'boolean', title: 'Retain messages', default: true },
+		uiSchema: { 'ui:options': { booleanLabels: { true: 'Enabled', false: 'Disabled' } } },
+		helper: 'Default: Enabled'
+	},
+	{
+		name: 'boolean with formContext booleanLabels, which the field ignores',
+		schema: { type: 'boolean', title: 'Retain messages', default: false },
+		formContext: { booleanLabels: { true: 'Enabled', false: 'Disabled' } },
+		helper: 'Default: No'
+	},
+	{
+		name: 'boolean oneOf titles',
+		schema: {
+			type: 'boolean',
+			title: 'Retain messages',
+			default: false,
+			oneOf: [
+				{ const: true, title: 'Keep' },
+				{ const: false, title: 'Discard' }
+			]
+		},
+		helper: 'Default: Discard'
+	},
+	{
+		name: 'enum with ui:enumNames',
+		schema: { type: 'string', title: 'Log level', enum: ['debug', 'info'], default: 'debug' },
+		uiSchema: { 'ui:enumNames': ['Debug', 'Info'] },
+		helper: 'Default: Debug'
+	},
+	{
+		name: 'multi-select',
+		schema: { type: 'array', title: 'Log levels', uniqueItems: true, items: { type: 'string', enum: ['debug', 'info', 'warning'] }, default: ['debug', 'info'] },
+		uiSchema: { 'ui:enumNames': ['Debug', 'Info', 'Warning'] },
+		helper: 'Default: Debug, Info'
+	},
+	{
+		name: 'nullable union',
+		schema: { title: 'Broker hostname', anyOf: [{ type: 'string' }, { type: 'null' }], default: 'broker.local' },
+		helper: 'Default: broker.local'
+	},
+	{
+		name: 'number and string union',
+		schema: { title: 'Broker port', anyOf: [{ type: 'number' }, { type: 'string' }], default: 1883 },
+		helper: 'Default: 1883'
+	},
+	{
+		name: 'object oneOf',
+		schema: {
+			type: 'object',
+			title: 'Broker',
+			oneOf: [
+				{ title: 'Hostname', properties: { host: { type: 'string' } } },
+				{ title: 'Port', properties: { port: { type: 'number' } } }
+			],
+			default: { host: 'broker.local' }
+		},
+		helper: 'Default: {"host":"broker.local"}'
+	}
+];
 
 const MIXED_ERROR_SCHEMA: RJSFSchema = {
 	...BROKER_SCHEMA,
@@ -3619,6 +3753,8 @@ type DescriptionShape = {
 	schema: RJSFSchema;
 	uiSchema?: UiSchema;
 	formData?: unknown;
+	/** The helper text `formData` produces as the schema default: arrays join with commas, objects read as JSON */
+	defaultHelper?: string;
 	widgets?: Record<string, ComponentType<WidgetProps>>;
 	kind: 'list' | 'file' | 'control' | 'custom';
 	contentSelector: string;
@@ -3629,6 +3765,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		name: 'scalar list',
 		schema: { ...TOPICS, description: collectionDescription },
 		formData: ['telemetry', 'alarms'],
+		defaultHelper: 'Default: telemetry, alarms',
 		kind: 'list',
 		contentSelector: '[data-schema-form-list="root"]',
 		collection: true
@@ -3637,6 +3774,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		name: 'empty scalar list',
 		schema: { ...TOPICS, description: collectionDescription },
 		formData: [],
+		defaultHelper: 'Default: ',
 		kind: 'list',
 		contentSelector: '[data-schema-form-list="root"]',
 		collection: true
@@ -3645,6 +3783,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		name: 'tuple list',
 		schema: { ...ENDPOINTS, description: collectionDescription },
 		formData: ['broker-1.local', 'broker-2.local'],
+		defaultHelper: 'Default: broker-1.local, broker-2.local',
 		kind: 'list',
 		contentSelector: '[data-schema-form-list="root"]',
 		collection: true
@@ -3654,6 +3793,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		schema: { ...DESCRIBED_CONNECTION_ARRAY, description: collectionDescription },
 		uiSchema: { 'ui:options': { layout: 'sections' } },
 		formData: [{ host: 'broker-1.local' }],
+		defaultHelper: 'Default: {"host":"broker-1.local"}',
 		kind: 'list',
 		contentSelector: '[data-schema-form-list="root"]',
 		collection: true
@@ -3662,6 +3802,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		name: 'object table',
 		schema: { ...DESCRIBED_CONNECTION_ARRAY, description: collectionDescription },
 		formData: [{ host: 'broker-1.local' }],
+		defaultHelper: 'Default: {"host":"broker-1.local"}',
 		kind: 'list',
 		contentSelector: '[data-schema-form-list="root"]',
 		collection: true
@@ -3670,6 +3811,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		name: 'single file',
 		schema: { type: 'string', title: 'Certificate', format: 'data-url', description: collectionDescription },
 		formData: CERTIFICATE,
+		defaultHelper: `Default: ${CERTIFICATE}`,
 		kind: 'file',
 		contentSelector: 'input[type="file"]',
 		collection: true
@@ -3685,6 +3827,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		name: 'multiple files',
 		schema: { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' }, description: collectionDescription },
 		formData: [CERTIFICATE, CLIENT_CERTIFICATE],
+		defaultHelper: `Default: ${CERTIFICATE}, ${CLIENT_CERTIFICATE}`,
 		kind: 'file',
 		contentSelector: 'input[type="file"]',
 		collection: true
@@ -3693,6 +3836,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		name: 'empty multiple files',
 		schema: { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' }, description: collectionDescription },
 		formData: [],
+		defaultHelper: 'Default: ',
 		kind: 'file',
 		contentSelector: 'input[type="file"]',
 		collection: true
@@ -3703,6 +3847,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		uiSchema: { 'ui:widget': 'connectorFile' },
 		widgets: { connectorFile: FileWidget },
 		formData: CERTIFICATE,
+		defaultHelper: `Default: ${CERTIFICATE}`,
 		kind: 'file',
 		contentSelector: 'input[type="file"]',
 		collection: true
@@ -3712,6 +3857,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		schema: { ...TOPICS, description: collectionDescription },
 		uiSchema: { 'ui:widget': FileWidget },
 		formData: [CERTIFICATE],
+		defaultHelper: `Default: ${CERTIFICATE}`,
 		kind: 'file',
 		contentSelector: 'input[type="file"]',
 		collection: true
@@ -3720,6 +3866,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		name: 'multi-select',
 		schema: { type: 'array', title: 'Assets', uniqueItems: true, items: { type: 'string', enum: ['north-line', 'south-line'] }, description: collectionDescription },
 		formData: ['north-line'],
+		defaultHelper: 'Default: north-line',
 		kind: 'control',
 		contentSelector: 'kv-multi-select-dropdown',
 		collection: false
@@ -3728,6 +3875,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		name: 'text input',
 		schema: { type: 'string', title: 'Broker', description: collectionDescription },
 		formData: 'broker-1.local',
+		defaultHelper: 'Default: broker-1.local',
 		kind: 'control',
 		contentSelector: 'kv-text-field',
 		collection: false
@@ -3737,6 +3885,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		schema: { type: 'string', title: 'Notes', description: collectionDescription },
 		uiSchema: { 'ui:widget': 'textarea' },
 		formData: 'Plant broker',
+		defaultHelper: 'Default: Plant broker',
 		kind: 'control',
 		contentSelector: 'kv-text-area',
 		collection: false
@@ -3746,6 +3895,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		schema: { type: 'string', title: 'Certificate', format: 'data-url', description: collectionDescription },
 		widgets: { FileWidget: DescriptionWidget },
 		formData: CERTIFICATE,
+		defaultHelper: `Default: ${CERTIFICATE}`,
 		kind: 'custom',
 		contentSelector: '[data-description-widget]',
 		collection: false
@@ -3755,6 +3905,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		schema: { ...TOPICS, description: collectionDescription },
 		uiSchema: { 'ui:widget': DescriptionWidget },
 		formData: [],
+		defaultHelper: 'Default: ',
 		kind: 'custom',
 		contentSelector: '[data-description-widget]',
 		collection: false
@@ -3764,6 +3915,7 @@ export const COLLECTION_DESCRIPTION_FIELDS: readonly DescriptionShape[] = [
 		schema: { ...TOPICS, description: collectionDescription },
 		uiSchema: { 'ui:ArrayFieldTemplate': CustomArrayLayout },
 		formData: ['telemetry'],
+		defaultHelper: 'Default: telemetry',
 		kind: 'custom',
 		contentSelector: 'kv-text-field',
 		collection: false
@@ -4201,7 +4353,8 @@ export const SECTION_LAYOUT_DEEP = {
 						client_identities: {
 							'ui:itemPrefix': 'Identity',
 							'ui:options': { layout: 'sections' },
-							'items': { rotation: { 'ui:title': '', 'profiles': { 'ui:itemPrefix': 'Profile', 'ui:options': { layout: 'sections' } } } }
+							// Rotation keeps its title: only a visible heading claims a rail, and the profiles must reach depth 9
+							'items': { rotation: { profiles: { 'ui:itemPrefix': 'Profile', 'ui:options': { layout: 'sections' } } } }
 						}
 					}
 				}
@@ -4384,6 +4537,17 @@ const hierarchyPlant: RJSFSchema = {
 	title: 'Plant',
 	properties: { name: { type: 'string', title: 'Plant name' }, connection: hierarchyConnection }
 };
+// Plant > Connection > Transport > Security, so Transport sits at section level 2, where a titled object claims a rail
+const hierarchyWrapped: RJSFSchema = {
+	...hierarchyPlant,
+	properties: {
+		...hierarchyPlant.properties,
+		connection: {
+			...hierarchyConnection,
+			properties: { host: { type: 'string', title: 'Host' }, transport: { type: 'object', title: 'Transport', properties: { security: hierarchySecurity } } }
+		}
+	}
+};
 const hierarchyEntries: RJSFSchema = {
 	type: 'array',
 	title: 'Connectors',
@@ -4481,6 +4645,85 @@ export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
 		boundaries: []
 	},
 	{ name: 'hidden section', schema: hierarchyPlant, uiSchema: { connection: { 'ui:widget': 'hidden' } }, headings: [{ title: 'Plant', kind: 'major' }], boundaries: [] },
+	{
+		name: 'untitled wrapper under a section',
+		schema: hierarchyWrapped,
+		uiSchema: { connection: { transport: { 'ui:title': '' } } },
+		// The untitled Transport claims no rail, so Security is Connection's own subsection with a single rail
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Connection', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [{ fieldId: 'root_connection_transport_security', kind: 'section', depth: 1 }]
+	},
+	{
+		name: 'label-hidden wrapper under a section',
+		schema: hierarchyWrapped,
+		uiSchema: { connection: { transport: { 'ui:options': { label: false } } } },
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Connection', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [{ fieldId: 'root_connection_transport_security', kind: 'section', depth: 1 }]
+	},
+	{
+		name: 'label-hidden middle',
+		schema: hierarchyPlant,
+		uiSchema: { connection: { 'ui:options': { label: false } } },
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Security', kind: 'major' }
+		],
+		boundaries: []
+	},
+	// Every heading is hidden, so no object below the root opens a level or claims a rail
+	{ name: 'globally hidden labels', schema: hierarchyWrapped, uiSchema: { 'ui:globalOptions': { label: false } }, headings: [], boundaries: [] },
+	{
+		name: 'two untitled wrappers at the top level',
+		schema: {
+			...hierarchyPlant,
+			properties: {
+				name: { type: 'string', title: 'Plant name' },
+				site: { type: 'object', title: 'Site', properties: { network: { type: 'object', title: 'Network', properties: { connection: hierarchyConnection } } } }
+			}
+		},
+		uiSchema: { site: { 'ui:title': '', 'network': { 'ui:title': '' } } },
+		// Connection lays out as Plant's own section, as if the wrappers weren't there
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Connection', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [{ fieldId: 'root_site_network_connection_security', kind: 'section', depth: 1 }]
+	},
+	{
+		name: 'untitled wrapper in an entry',
+		schema: {
+			type: 'array',
+			title: 'Connectors',
+			items: {
+				type: 'object',
+				properties: {
+					name: { type: 'string', title: 'Connector name' },
+					transport: { type: 'object', title: 'Transport', properties: { security: hierarchySecurity } }
+				}
+			}
+		},
+		uiSchema: { 'ui:itemPrefix': 'Connector', 'items': { transport: { 'ui:title': '' } } },
+		formData: [{ name: 'line-1' }],
+		// The untitled Transport claims no rail inside the entry, so Security takes the depth Transport would have
+		headings: [
+			{ title: 'Connectors', kind: 'major' },
+			{ title: 'Connector 1', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [
+			{ fieldId: 'root_0', kind: 'item', depth: 1 },
+			{ fieldId: 'root_0_transport_security', kind: 'section', depth: 2 }
+		]
+	},
 	{
 		name: 'referenced object',
 		schema: {
@@ -4687,6 +4930,7 @@ export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
 	CHOICE_DISPATCH_SHAPES,
 	CHOICE_INTERACTION_SHAPES,
 	DEFAULTED_CHOICE_SHAPES,
+	CHOICE_NOT_SET_SHAPES,
 	RADIO_KEYBOARD_SHAPES,
 	RADIO_STYLE_THEMES,
 	RADIO_INLINE_STYLE_SHAPES,
@@ -4698,6 +4942,7 @@ export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
 	INPUT_FOCUS_SHAPES,
 	SELECT_FOCUS_SHAPES,
 	DROPDOWN_LABEL_SHAPES,
+	EMPTY_DROPDOWN_SHAPES,
 	FOCUS_EDITING_FLAGS,
 	TOGGLE_FOCUS_MODES,
 	TOGGLE_BUTTON_GROUP_SHAPES,
@@ -4735,6 +4980,7 @@ export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
 	R2_ERROR_DESCRIPTION_SHAPES,
 	DEFAULT_FOOTER_DESCRIPTION_POSITIONS,
 	FIELD_FEEDBACK_SHAPES,
+	DEFAULT_HELPER_LABEL_SHAPES,
 	R2_MIXED_ERROR_SHAPES,
 	R2_SECTION_ERROR_SHAPE,
 	R2_RESET_SHAPES,
