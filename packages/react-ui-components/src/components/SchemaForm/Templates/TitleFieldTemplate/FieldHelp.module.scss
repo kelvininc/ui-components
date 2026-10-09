@@ -1,0 +1,16 @@
+// One compact look for every help button: field and section headings, table headers and bare list items.
+// A label-sized icon in the label's color on a 24px target. Its block margins cancel the padding above and below
+// the icon, so a row with help is no taller than one without; the padding beside it spaces the icon from the text.
+.FieldHelp {
+	flex-shrink: 0;
+	margin-block: calc((var(--size-md) - var(--size-xl)) / 2);
+
+	kv-action-button-icon {
+		--button-size-small: var(--size-xl);
+		--button-icon-small-size: var(--size-md);
+		--icon-button-tertiary-icon-color-default: var(--input-text-label-default);
+		--icon-button-tertiary-icon-color-subtle: var(--icon-surface-neutral-primary);
+
+		display: block;
+	}
+}

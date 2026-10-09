@@ -38,7 +38,7 @@ const TitleFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 				)}
 				{/* Some controls rely on this marker to communicate required state. */}
 				{required && <span className={styles.Required}>*</span>}
-				<FieldHelp className={styles.ToggleTip} help={uiOptions.help} accessibleLabel={SCHEMA_FORM_STRINGS.helpFor(titleToShow || id)} />
+				<FieldHelp help={uiOptions.help} accessibleLabel={SCHEMA_FORM_STRINGS.helpFor(titleToShow)} />
 			</div>
 		)
 	);

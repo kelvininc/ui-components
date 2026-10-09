@@ -57,18 +57,6 @@
 	overflow-wrap: anywhere;
 }
 
-.HeaderHelp kv-action-button-icon,
-.CellLabel kv-action-button-icon {
-	--button-icon-small-size: var(--size-md);
-	--icon-button-tertiary-icon-color-default: var(--input-text-label-default);
-	--icon-button-tertiary-icon-color-subtle: var(--icon-surface-neutral-primary);
-}
-
-.HeaderHelp,
-.CellLabel kv-toggle-tip {
-	margin-inline: calc(-1 * var(--spacing-xs));
-}
-
 .Required {
 	color: var(--input-text-required-default);
 }

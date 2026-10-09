@@ -21,6 +21,7 @@ export const ArrayItemLayoutContext = createContext<{
 // Only the item's own field consumes these slots; nested fields keep their layout.
 export const ArrayItemControlsContext = createContext<{
 	fieldId: string;
+	itemName: string;
 	fieldset?: boolean;
 	before?: ReactNode;
 	after?: ReactNode;

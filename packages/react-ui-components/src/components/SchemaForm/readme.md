@@ -61,6 +61,11 @@ Section groups use unique heading ids and link their mounted descriptions and vi
 `aria-describedby`. Custom title templates receive a unique `id`; the group also has a text name so a
 template that omits that id still names the section. Field errors keep the existing visibility rules.
 
+`ui:help` renders an info button beside the title of a field, section or table column. Each one is named
+"Help for <title>", such as "Help for Port name", opens and closes its tip with Enter or Space, and sits
+in Tab order before the control it describes. Every help button has the same compact look: a 16px icon in
+the label color on a 24px target, so a title row with help is as tall as one without.
+
 List and file descriptions and default-value helpers align with the title,
 before entries and their Add, Choose file or Replace file action. Helper lines have a 4px gap, followed
 by 12px before entries. Collection descriptions stay visible alongside errors; entry errors and
@@ -141,9 +146,10 @@ their default. They omit it even with `allowClearInputs: true`. A single-select 
 Unset radio groups show "Not set"; unset selects show it only when they have no placeholder.
 
 Enabled item actions and Add participate in Tab order. Menus support mouse and keyboard interaction.
-Scalar help tips stay beside the input; descriptions, errors and default helpers stay above
-or below it. Custom item fields and field templates retain controls beside their content. Custom array
-templates receive their own list settings. List item markup, move controls and scalar labels change in v4.
+Scalar help tips stay beside the input, named after the item ("Help for Topic 1") and in Tab order
+between the input and its remove button; descriptions, errors and default helpers stay above or below
+it. Custom item fields and field templates retain controls beside their content. Custom array templates
+receive their own list settings. List item markup, move controls and scalar labels change in v4.
 
 After a move, focus follows the item's menu trigger. Removing an item focuses the next item's trigger,
 then the previous one, then Add. Unordered scalar lists use their Remove button. Add keeps focus while
@@ -188,8 +194,8 @@ the property's description or help. `descriptionPosition: 'none'` hides descript
 setting; explicit `ui:help` still appears in the tip. Cells show their own errors below the control. Below a 480px
 container, each row stacks its cells and shows small local labels with help tips. The header's help
 triggers hide at this width while its column names remain available to screen readers. Resizing preserves
-the controls and current focus. Table help uses labelled buttons that open and close with Enter or Space.
-Header help participates in Tab order at 480px and above; stacked help sits before its cell input.
+the controls and current focus. Header help participates in Tab order at 480px and above; stacked help
+sits before its cell input.
 
 The table uses column headers and a hidden row header, such as "Variable 2". Controls receive names such
 as "Name, Variable 2" through `accessibleLabel`. The row name comes from `ui:itemPrefix`, the items' title,
