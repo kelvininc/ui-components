@@ -243,7 +243,7 @@ describe('Action Button (end-to-end)', () => {
 		});
 
 		it('should announce itself as busy', async () => {
-			expect(await (await page.find('kv-action-button')).getAttribute('aria-busy')).toBe('true');
+			expect(await (await page.find('kv-action-button >>> [part="button"]')).getAttribute('aria-busy')).toBe('true');
 		});
 	});
 
