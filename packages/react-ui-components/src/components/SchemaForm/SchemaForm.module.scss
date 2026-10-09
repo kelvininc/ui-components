@@ -1,6 +1,8 @@
 @use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
 .FormContainer {
+	container: schema-form / inline-size;
+
 	/**
 	* @prop --schema-form-x-padding: horizontal form padding
 	* @prop --schema-form-y-padding: vertical form padding

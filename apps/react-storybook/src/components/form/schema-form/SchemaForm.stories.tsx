@@ -34,7 +34,9 @@ import {
 	VARIABLES_FORM_DATA,
 	FALSE_AND_ZERO_SCHEMA,
 	FILE_PREVIEW_SCHEMA,
-	FILE_PREVIEW_FORM_DATA
+	FILE_PREVIEW_FORM_DATA,
+	NESTED_HIERARCHY_EXAMPLE,
+	DEEP_SECTION_HIERARCHY_EXAMPLE
 } from "./examples";
 
 enum EShowErrorListType {
@@ -1454,5 +1456,43 @@ export const FilePreviewsAndSecrets: Story = {
 		liveValidate: true,
 		showErrorList: false,
 		allowDiscardChanges: true
+	}
+};
+
+export const NestedObjectLists: Story = {
+	render: CoreUiFormTemplate,
+	parameters: {
+		themeSideBySide: false,
+		docs: {
+			description: {
+				story: "Each connector contains connection, security and TLS settings, plus its own list of client identities. Change Security protocol to Plaintext to hide the TLS fields. The invalid server hostname shows how feedback aligns inside the nested section."
+			}
+		}
+	},
+	args: {
+		...NESTED_HIERARCHY_EXAMPLE,
+		submittedData: NESTED_HIERARCHY_EXAMPLE.formData,
+		formContext: { showDefaultValueHelper: true },
+		applyDefaults: EApplyDefaults.Never,
+		liveValidate: true,
+		displayErrors: true,
+		showErrorList: false
+	}
+};
+
+export const DeepSectionHierarchy: Story = {
+	...NestedObjectLists,
+	parameters: {
+		themeSideBySide: false,
+		docs: {
+			description: {
+				story: "Rotation profiles reach nine frames and guides from the form root. Below 480px of form width, boundaries beyond six keep their outline and vertical spacing while adding no further inline padding. Untitled groups still count, and inner lists keep their own actions."
+			}
+		}
+	},
+	args: {
+		...NestedObjectLists.args,
+		...DEEP_SECTION_HIERARCHY_EXAMPLE,
+		submittedData: DEEP_SECTION_HIERARCHY_EXAMPLE.formData
 	}
 };

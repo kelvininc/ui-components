@@ -1,4 +1,9 @@
 @use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
+@use '../section-layout';
+
+.SectionGuide {
+	@include section-layout.section-guide;
+}
 
 .SectionField {
 	width: 100%;

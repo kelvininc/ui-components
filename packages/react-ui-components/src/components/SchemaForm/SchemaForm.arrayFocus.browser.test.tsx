@@ -17,13 +17,153 @@ import {
 	R5_FOCUS_ARRAY_SHAPES,
 	R5_PROPERTY_SHAPES,
 	R5_PROPERTY_TEMPLATES,
-	R5_ADD_LIMITS
+	R5_ADD_LIMITS,
+	NESTED_SECTION_ACTION_SHAPES
 } from './test-utils/matrix';
 import { RJSFSchema } from '@rjsf/utils';
 import { vi } from 'vitest';
+import { EApplyDefaults } from './types';
 
 const itemsOf = (container: HTMLElement) => Array.from(container.querySelectorAll<HTMLElement>('[data-schema-form-list="root"] > div > div > [data-schema-form-list-item]'));
 const menuOf = (item: HTMLElement) => Array.from(item.querySelectorAll('kv-action-menu')).find(menu => menu.closest('[data-schema-form-list-item]') === item)!;
+
+const innerListOf = (container: HTMLElement, index = 0) =>
+	container.querySelector<HTMLElement>(`[data-schema-form-list="root_${index}_connection_security_tls_client_identities"]`)!;
+const ownItems = (list: HTMLElement) =>
+	Array.from(list.querySelectorAll<HTMLElement>('[data-schema-form-list-item]')).filter(item => item.closest('[data-schema-form-list]') === list);
+const ownAdd = (list: HTMLElement) => Array.from(list.querySelectorAll('kv-action-button')).find(button => button.closest('[data-schema-form-list]') === list)!;
+const selectAction = async (item: HTMLElement, name: string) => {
+	await page
+		.elementLocator(item)
+		.getByRole('button', { name: menuOf(item).accessibleLabel, exact: true })
+		.click();
+	await page.getByRole('menuitem', { name, exact: true }).click();
+};
+
+describe.each(NESTED_SECTION_ACTION_SHAPES.filter(row => row.count === 3))('nested entries: $name', row => {
+	it('adds only to the selected inner list and keeps its own focus destination', async () => {
+		const onChange = vi.fn();
+		const screen = await render(<KvSchemaForm {...row} applyDefaults={EApplyDefaults.Never} displayErrors onChange={onChange} />);
+		await whenAllKelvinReady(screen.container);
+		onChange.mockClear();
+		const inner = innerListOf(screen.container);
+		const add = ownAdd(inner);
+		await page.elementLocator(inner).getByRole('button', { name: 'Add Identity', exact: true }).click();
+		await expect.poll(() => onChange.mock.calls.length).toBe(1);
+		const first = row.formData[0];
+		expect(onChange.mock.lastCall?.[0].formData).toEqual([
+			{
+				...first,
+				connection: {
+					security: {
+						tls: {
+							client_identities: [...first.connection.security.tls.client_identities, {}]
+						}
+					}
+				}
+			},
+			row.formData[1]
+		]);
+		if (row.addStays) await expect.poll(() => add.matches(':focus-within')).toBe(true);
+		else {
+			expect(ownAdd(inner)).toBeUndefined();
+			await expect.poll(() => ownItems(inner)[3].querySelector('kv-text-field')?.matches(':focus-within')).toBe(true);
+		}
+	});
+});
+
+describe.each(['Move up', 'Move down', 'Remove Identity 2'])('nested %s', action => {
+	it('changes only the selected connector and focuses that list', async () => {
+		const row = NESTED_SECTION_ACTION_SHAPES[0];
+		const onChange = vi.fn();
+		const screen = await render(<KvSchemaForm {...row} applyDefaults={EApplyDefaults.Never} onChange={onChange} />);
+		await whenAllKelvinReady(screen.container);
+		onChange.mockClear();
+		const inner = innerListOf(screen.container);
+		const before = ownItems(inner);
+		const host = before[1].querySelector('kv-text-field');
+		await selectAction(before[1], action);
+		await expect.poll(() => onChange.mock.calls.length).toBe(1);
+		const identities = row.formData[0].connection.security.tls.client_identities;
+		const order = action === 'Move up' ? [1, 0, 2] : action === 'Move down' ? [0, 2, 1] : [0, 2];
+		expect(onChange.mock.lastCall?.[0].formData).toEqual([
+			{ ...row.formData[0], connection: { security: { tls: { client_identities: order.map(index => identities[index]) } } } },
+			row.formData[1]
+		]);
+		const destination = ownItems(inner)[action === 'Move up' ? 0 : action === 'Move down' ? 2 : 1];
+		await expect.poll(() => menuOf(destination).matches(':focus-within')).toBe(true);
+		expect(menuOf(itemsOf(screen.container)[0]).matches(':focus-within')).toBe(false);
+		if (!action.startsWith('Remove')) expect(destination.querySelector('kv-text-field')).toBe(host);
+	});
+});
+
+it('removing the last inner entry reports minItems and focuses inner Add', async () => {
+	const row = NESTED_SECTION_ACTION_SHAPES[2];
+	const onChange = vi.fn();
+	const screen = await render(<KvSchemaForm {...row} applyDefaults={EApplyDefaults.Never} displayErrors liveValidate onChange={onChange} showErrorList={false} />);
+	await whenAllKelvinReady(screen.container);
+	onChange.mockClear();
+	const inner = innerListOf(screen.container);
+	await selectAction(ownItems(inner)[0], 'Remove Identity 1');
+	await expect.poll(() => onChange.mock.calls.length).toBe(1);
+	expect(onChange.mock.lastCall?.[0].formData).toEqual([{ ...row.formData[0], connection: { security: { tls: { client_identities: [] } } } }, row.formData[1]]);
+	expect(ownItems(inner)).toHaveLength(0);
+	await expect.poll(() => ownAdd(inner).matches(':focus-within')).toBe(true);
+	await expect.element(page.elementLocator(inner.parentElement!.parentElement!).getByText('Must have at least 1 item.', { exact: true })).toBeVisible();
+});
+
+it('moves an outer entry with the same nested hosts and its outer action focus', async () => {
+	const row = NESTED_SECTION_ACTION_SHAPES[0];
+	const onChange = vi.fn();
+	const screen = await render(<KvSchemaForm {...row} applyDefaults={EApplyDefaults.Never} onChange={onChange} />);
+	await whenAllKelvinReady(screen.container);
+	onChange.mockClear();
+	const inner = innerListOf(screen.container);
+	const hosts = Array.from(inner.querySelectorAll('kv-text-field'));
+	await selectAction(itemsOf(screen.container)[0], 'Move down');
+	await expect.poll(() => onChange.mock.calls.length).toBe(1);
+	expect(onChange.mock.lastCall?.[0].formData).toEqual([row.formData[1], row.formData[0]]);
+	const moved = itemsOf(screen.container)[1];
+	expect(innerListOf(screen.container, 1)).toBe(inner);
+	const movedHosts = Array.from(inner.querySelectorAll('kv-text-field'));
+	expect(movedHosts).toHaveLength(hosts.length);
+	movedHosts.forEach((host, index) => expect(host).toBe(hosts[index]));
+	await expect.poll(() => menuOf(moved).matches(':focus-within')).toBe(true);
+	expect(menuOf(ownItems(inner)[0]).matches(':focus-within')).toBe(false);
+});
+
+it('tabs through inner actions and fields to inner Add and the next outer entry', async () => {
+	const row = NESTED_SECTION_ACTION_SHAPES[0];
+	const screen = await render(<KvSchemaForm {...row} applyDefaults={EApplyDefaults.Never} />);
+	await whenAllKelvinReady(screen.container);
+	const inner = innerListOf(screen.container);
+	const items = ownItems(inner);
+	await menuOf(items[0]).setFocus();
+	for (let index = 0; index < items.length; index++) {
+		await userEvent.tab();
+		await expect.poll(() => items[index].querySelector('kv-text-field')?.matches(':focus-within')).toBe(true);
+		await userEvent.tab();
+		if (index < items.length - 1) await expect.poll(() => menuOf(items[index + 1]).matches(':focus-within')).toBe(true);
+	}
+	await expect.poll(() => ownAdd(inner).matches(':focus-within')).toBe(true);
+	await userEvent.tab();
+	await expect.poll(() => menuOf(itemsOf(screen.container)[1]).matches(':focus-within')).toBe(true);
+});
+
+it.each(FOCUS_EDITING_FLAGS.filter(flags => !flags.focused))('keeps nested actions disabled with $name', async flags => {
+	const row = NESTED_SECTION_ACTION_SHAPES[0];
+	const onChange = vi.fn();
+	const screen = await render(<KvSchemaForm {...row} disabled={flags.disabled} readonly={flags.readonly} onChange={onChange} />);
+	await whenAllKelvinReady(screen.container);
+	onChange.mockClear();
+	const inner = innerListOf(screen.container);
+	const scope = page.elementLocator(inner);
+	await expect.element(scope.getByRole('button', { name: 'Actions for Identity 1', exact: true })).toBeDisabled();
+	await expect.element(scope.getByRole('button', { name: 'Add Identity', exact: true })).toBeDisabled();
+	await menuOf(ownItems(inner)[0]).setFocus();
+	await userEvent.keyboard('{Enter}');
+	expect(onChange).not.toHaveBeenCalled();
+});
 
 describe.each(R5_FOCUS_ARRAY_SHAPES)('R5 keyboard focus: $name', row => {
 	describe.each(R5_ARRAY_ACTIONS.slice(0, 6))('$name', action => {

@@ -1,5 +1,6 @@
 export * from './FormStateContext';
 export * from './SectionDepthContext';
+export * from './SectionLayoutContext';
 export * from './ArrayDescriptionContext';
 export * from './FieldDescriptionContext';
 export * from './FileArrayErrorsContext';
