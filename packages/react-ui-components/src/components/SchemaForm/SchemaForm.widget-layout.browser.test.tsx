@@ -23,7 +23,7 @@ const textBounds = (element: Element) => {
 describe.each([StyleMode.Light, StyleMode.Night])('widget layout in %s', theme => {
 	describe.each([200, 320, 800])('radio feedback at %ipx', width => {
 		describe.each(RADIO_KEYBOARD_SHAPES)('$name', ({ widget }) => {
-			it.each(RADIO_FEEDBACK_LAYOUT_SHAPES)('keeps Clear selection beside $name without overlap', async row => {
+			it.each(RADIO_FEEDBACK_LAYOUT_SHAPES.filter(row => row.defaultValue === undefined))('keeps Clear selection beside $name without overlap', async row => {
 				setThemeMode(theme);
 				const screen = await render(
 					<div style={{ width }}>
@@ -71,6 +71,56 @@ describe.each([StyleMode.Light, StyleMode.Night])('widget layout in %s', theme =
 				if (row.error) {
 					const control = screen.getByRole('radio', { name: 'At most once', exact: true }).element();
 					await expect.poll(() => control.ariaDescribedByElements?.[0]).toBe(helpers[0].parentElement);
+				}
+			});
+
+			// Clearing a defaulted field would leave it unset rather than at its default, so only the helpers remain
+			it.each(RADIO_FEEDBACK_LAYOUT_SHAPES.filter(row => row.defaultValue !== undefined))('omits Clear selection and aligns the helpers for $name', async row => {
+				setThemeMode(theme);
+				const screen = await render(
+					<div style={{ width }}>
+						<KvSchemaForm
+							schema={{
+								type: 'string',
+								title: 'Delivery policy',
+								enum: ['At most once', 'At least once'],
+								description: row.description,
+								default: row.defaultValue
+							}}
+							uiSchema={{ 'ui:widget': widget, 'ui:options': { showDefaultValueHelper: true } }}
+							formData={row.unset ? undefined : 'At least once'}
+							extraErrors={row.error ? { __errors: [row.error] } : undefined}
+							displayErrors
+							showErrorList={false}
+						/>
+					</div>
+				);
+				await whenAllKelvinReady(screen.container);
+				const radio = screen.container.querySelector('kv-radio-list')!;
+				expect(screen.getByRole('button', { name: 'Clear selection for Delivery policy', exact: true }).query()).toBeNull();
+				const field = radio.closest('[data-schema-form-field]')!;
+				const helpers = Array.from(field.querySelectorAll<HTMLKvFormHelpTextElement>('kv-form-help-text'));
+				expect(helpers.some(helper => [helper.helpText].flat().includes(`Default: ${row.defaultValue}`))).toBe(true);
+				const fieldBox = field.getBoundingClientRect();
+				const defaultHelp = helpers.find(helper => String(helper.helpText).startsWith('Default:'))!;
+				const feedbackHelp = helpers.find(helper => helper !== defaultHelp);
+				if (feedbackHelp) {
+					const feedbackBox = feedbackHelp.shadowRoot!.querySelector('.help-text')!.getBoundingClientRect();
+					const defaultBox = defaultHelp.shadowRoot!.querySelector('.help-text')!.getBoundingClientRect();
+					if (width <= 460) expect(defaultBox.top).toBeGreaterThanOrEqual(feedbackBox.bottom);
+					else {
+						expect(defaultBox.left).toBeGreaterThan(feedbackBox.right);
+						const feedbackLine = textBounds(feedbackHelp.shadowRoot!.querySelector('.help-text')!);
+						const defaultLine = textBounds(defaultHelp.shadowRoot!.querySelector('.help-text')!);
+						expect(defaultLine.bottom).toBeCloseTo(feedbackLine.bottom, 0);
+					}
+				}
+				for (const helper of helpers) {
+					const textBox = helper.shadowRoot!.querySelector('.help-text')!.getBoundingClientRect();
+					if (String(helper.helpText).startsWith('Default:') && width > 460) {
+						expect(fieldBox.right - textBox.right).toBeLessThanOrEqual(4);
+					} else expect(textBox.left).toBeCloseTo(radio.getBoundingClientRect().left, 0);
+					expect(textBox.right).toBeLessThanOrEqual(fieldBox.right);
 				}
 			});
 		});

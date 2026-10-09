@@ -106,8 +106,9 @@ describe.each(CHOICE_SCHEMAS)('real choice annotation: $name', row => {
 		it.each(VALUE_CASES)(widget.name + ': $name', async ({ value, isUnset }) => {
 			const screen = await render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': widget.widget } }} formData={{ choice: value }} />);
 			await whenAllKelvinReady(screen.container);
-			expect(unsetAnnotations(screen.container)).toHaveLength(widget.kind !== 'checkbox' && isUnset ? 1 : 0);
 			const radio = widget.kind === 'radio' || (widget.kind === 'default' && row.name === 'boolean');
+			// A select's placeholder already says nothing is chosen, so only a radio group is annotated
+			expect(unsetAnnotations(screen.container)).toHaveLength(radio && isUnset ? 1 : 0);
 			if (radio) {
 				const group = screen.getByRole('radiogroup', { name: row.schema.title, exact: true });
 				await expect.element(group).toBeVisible();
@@ -256,9 +257,18 @@ describe.each(RADIO_KEYBOARD_SHAPES)('real grouped keyboard: $name', ({ widget }
 });
 
 describe.each(DEFAULTED_CHOICE_SHAPES)('real defaulted radio: $name', row => {
-	it('clears to undefined, retains no checked radio and moves focus to the first option', async () => {
+	it('offers no Clear selection, because clearing would leave it unset rather than at its default', async () => {
+		const screen = await render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': 'radio' } }} />);
+		await whenAllKelvinReady(screen.container);
+		expect(clearButton(screen.container.querySelector('kv-radio-list')!)).toBeUndefined();
+		expect(unsetAnnotations(screen.container)).toHaveLength(0);
+		await expect.element(screen.getByRole('radio', { name: typeof row.value === 'boolean' ? 'Yes' : row.value, exact: true })).toBeChecked();
+	});
+
+	it('clears the same optional radio without a default to undefined and moves focus to the first option', async () => {
 		const onChange = vi.fn();
-		const screen = await render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': 'radio' } }} onChange={onChange} />);
+		const schema = choiceForm({ schema: { ...row.schema, default: undefined } });
+		const screen = await render(<KvSchemaForm schema={schema} uiSchema={{ choice: { 'ui:widget': 'radio' } }} formData={{ choice: row.value }} onChange={onChange} />);
 		await whenAllKelvinReady(screen.container);
 		const host = screen.container.querySelector('kv-radio-list')!;
 		await userEvent.click(clearButton(host));
@@ -367,7 +377,7 @@ it.each(CHOICE_DISPATCH_SHAPES)('renders extras for the actual $name widget', as
 	const registered = row.formatWidget === 'radio' ? { EmailWidget: widgets.RadioWidget } : row.formatWidget === 'custom' ? { EmailWidget: widgets.ReadOnlyValueWidget } : {};
 	const screen = await render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ ...row.uiSchema, choice: row.uiSchema }} widgets={registered} />);
 	await whenAllKelvinReady(screen.container);
-	expect(unsetAnnotations(screen.container)).toHaveLength(row.expected === 'radio' || row.expected === 'select' ? 1 : 0);
+	expect(unsetAnnotations(screen.container)).toHaveLength(row.expected === 'radio' ? 1 : 0);
 	expect(screen.container.querySelectorAll('kv-radio-list')).toHaveLength(row.expected === 'radio' ? 1 : 0);
 	const clears = Array.from(screen.container.querySelectorAll('button')).filter(button => button.textContent === 'Clear selection');
 	expect(clears).toHaveLength(row.expected === 'radio' ? 1 : 0);

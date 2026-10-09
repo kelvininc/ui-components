@@ -47,8 +47,9 @@ describe.each(CHOICE_SCHEMAS)('choice presentation: $name', row => {
 		describe(widget.name, () => {
 			it.each(VALUE_CASES)('annotates only unset for $name', async ({ value, isUnset }) => {
 				await act(async () => root.render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': widget.widget } }} formData={{ choice: value }} />));
-				expect(notSet()).toHaveLength(widget.kind !== 'checkbox' && isUnset ? 1 : 0);
 				const radio = widget.kind === 'radio' || (widget.kind === 'default' && row.name === 'boolean');
+				// A select's placeholder already says nothing is chosen, so only a radio group is annotated
+				expect(notSet()).toHaveLength(radio && isUnset ? 1 : 0);
 				expect(clearActions()).toHaveLength(radio ? 1 : 0);
 				if (radio) {
 					expect(clearActions()[0].getAttribute('aria-disabled')).toBe(String(isUnset));
@@ -168,22 +169,24 @@ it.each([
 });
 
 describe.each(DEFAULTED_CHOICE_SHAPES)('defaulted radio clear: $name', row => {
-	it('clears once without RJSF restoring the default', async () => {
-		const onChange = vi.fn();
-		await act(async () => root.render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': 'radio' } }} onChange={onChange} />));
+	it('offers no clear action, because clearing would leave it unset rather than at its default', async () => {
+		await act(async () => root.render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': 'radio' } }} />));
 		expect(propsOf<RadioProps>('root_choice').selectedOption).toBeDefined();
-		Object.assign(container.querySelector('kv-radio-list')!, { setFocus: vi.fn().mockResolvedValue(undefined) });
-		await act(async () => clearActions()[0].click());
-		expect(onChange).toHaveBeenCalledOnce();
-		expect(onChange.mock.lastCall?.[0].formData.choice).toBeUndefined();
-		expect(notSet()).toHaveLength(1);
+		expect(clearActions()).toHaveLength(0);
+		expect(notSet()).toHaveLength(0);
+	});
+
+	it('still offers it for the same optional radio without a default', async () => {
+		const schema = choiceForm({ schema: { ...row.schema, default: undefined } });
+		await act(async () => root.render(<KvSchemaForm schema={schema} uiSchema={{ choice: { 'ui:widget': 'radio' } }} formData={{ choice: row.value }} />));
+		expect(clearActions()).toHaveLength(1);
 	});
 });
 
 it.each(CHOICE_DISPATCH_SHAPES)('follows actual widget dispatch for $name', async row => {
 	const registered = row.formatWidget === 'radio' ? { EmailWidget: widgets.RadioWidget } : row.formatWidget === 'custom' ? { EmailWidget: widgets.ReadOnlyValueWidget } : {};
 	await act(async () => root.render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ ...row.uiSchema, choice: row.uiSchema }} widgets={registered} />));
-	expect(notSet()).toHaveLength(row.expected === 'radio' || row.expected === 'select' ? 1 : 0);
+	expect(notSet()).toHaveLength(row.expected === 'radio' ? 1 : 0);
 	expect(clearActions()).toHaveLength(row.expected === 'radio' ? 1 : 0);
 	expect(container.querySelectorAll('kv-radio-list')).toHaveLength(row.expected === 'radio' ? 1 : 0);
 });
