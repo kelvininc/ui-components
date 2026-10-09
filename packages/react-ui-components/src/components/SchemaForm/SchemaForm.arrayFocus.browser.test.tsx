@@ -18,6 +18,7 @@ import {
 	R5_PROPERTY_SHAPES,
 	R5_PROPERTY_TEMPLATES,
 	R5_ADD_LIMITS,
+	R5_FINAL_REMOVAL_SHAPES,
 	NESTED_SECTION_ACTION_SHAPES
 } from './test-utils/matrix';
 import { RJSFSchema } from '@rjsf/utils';
@@ -365,9 +366,8 @@ describe.each(R5_FALLBACK_SHAPES)('R5 fallback: $name', row => {
 	});
 });
 
-describe.each([true, false])('R5 final removal with Add=%s', addable => {
-	it('focuses Add or a named temporary list', async () => {
-		const row = ARRAY_SHAPES[6];
+describe.each(R5_FINAL_REMOVAL_SHAPES)('R5 final removal: $name', row => {
+	it.each([true, false])('focuses Add or a named temporary list when addable is %s', async addable => {
 		const screen = await render(
 			<div>
 				<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={{ 'ui:options': { addable } }} />
@@ -375,16 +375,23 @@ describe.each([true, false])('R5 final removal with Add=%s', addable => {
 			</div>
 		);
 		await whenAllKelvinReady(screen.container);
-		(screen.getByRole('button', { name: 'Remove Topic 1', exact: true }).element() as HTMLElement).focus();
+		(screen.getByRole('button', { name: row.remove, exact: true }).element() as HTMLElement).focus();
 		await userEvent.keyboard('{Enter}');
 		await expect.poll(() => itemsOf(screen.container).length).toBe(0);
-		if (addable) await expect.poll(() => screen.container.querySelector('kv-action-button')?.matches(':focus-within')).toBe(true);
-		else {
-			const list = screen.container.querySelector<HTMLElement>('[data-schema-form-list="root"] > div > div')!;
+		const list = screen.container.querySelector<HTMLElement>('[data-schema-form-list="root"] > div > div')!;
+		// An empty table is back to the Add-only state: no column headers or table role
+		expect(list.querySelectorAll('[role="columnheader"]')).toHaveLength(0);
+		if (addable) {
+			await expect.poll(() => screen.container.querySelector('kv-action-button')?.matches(':focus-within')).toBe(true);
+			expect(list.hasAttribute('role')).toBe(false);
+		} else {
 			await expect.poll(() => list.matches(':focus')).toBe(true);
-			expect(list.getAttribute('aria-label')).toBe('Topics');
+			expect(list.getAttribute('role')).toBe('group');
+			expect(list.getAttribute('aria-label')).toBe(row.listName);
 			await screen.getByRole('button', { name: 'After list', exact: true }).click();
 			expect(list.hasAttribute('tabindex')).toBe(false);
+			expect(list.hasAttribute('role')).toBe(false);
+			expect(list.hasAttribute('aria-label')).toBe(false);
 		}
 	});
 });

@@ -16,6 +16,7 @@ import {
 	L1_HIDDEN_ITEM_WIDGETS,
 	L1_ITEM_FIELD_COMPONENTS,
 	L1_PREFIX_SHAPES,
+	L1_PREFIXED_ITEM_HEADINGS,
 	L1_SCALAR_LIST_SHAPES,
 	L1_TUPLE_SHAPES,
 	L1_UNION_LIST_SHAPES,
@@ -215,17 +216,14 @@ it.each(L1_HIDDEN_ITEM_HEADINGS)('L1 preserves object item $name', ({ uiSchema }
 	}
 });
 
-it.each([
-	{ name: 'blank title with an item prefix', uiSchema: { items: { 'ui:title': '', 'ui:itemPrefix': 'Port' } } },
-	{ name: 'blank options title with an array prefix', uiSchema: { 'ui:itemPrefix': 'Port', 'items': { 'ui:options': { title: '' } } } },
-	{ name: 'whitespace title with an options prefix', uiSchema: { 'ui:options': { itemPrefix: 'Port' }, 'items': { 'ui:title': '   ' } } }
-])('L1 names a $name after the prefix', ({ uiSchema }) => {
+it.each(L1_PREFIXED_ITEM_HEADINGS)('L1 names a prefixed object item: $name', ({ uiSchema, headings }) => {
 	const row = ARRAY_SHAPES[1];
 	const screen = render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={uiSchema} />);
-	const headings = Array.from(screen.container.querySelectorAll('[data-schema-form-list-item]'), item =>
-		item.querySelector('[data-schema-form-item-header]')!.querySelector('h2,h3,h4,h5,h6')
-	);
-	expect(headings.map(heading => heading?.textContent)).toEqual(['Port 1', 'Port 2', 'Port 3']);
+	const items = Array.from(screen.container.querySelectorAll('[data-schema-form-list-item]'));
+	expect(items).toHaveLength(3);
+	const shown = items.map(item => item.querySelector('[data-schema-form-item-header]')!.querySelector('h2,h3,h4,h5,h6')?.textContent);
+	expect(shown.filter(Boolean)).toEqual(headings);
+	expect(items.map(item => propsOf(item.querySelector('kv-action-menu')!).accessibleLabel)).toEqual(['Actions for Port 1', 'Actions for Port 2', 'Actions for Port 3']);
 });
 
 describe.each(ARRAY_SHAPES)('L1 array controls: $name', row => {
