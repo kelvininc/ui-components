@@ -888,7 +888,7 @@ export const NotApplyDefaultsWidget: Story = {
 		liveValidate: true,
 		formContext: {
 			showDefaultValueHelper: true,
-			defaultValueHelperPrefix: "Default: "
+			defaultValueHelperPrefix: "Falls back to: "
 		},
 		schema: {
 			type: "object",
@@ -925,7 +925,7 @@ export const AlowResetToDefaultsWidget: Story = {
 		liveValidate: true,
 		formContext: {
 			showDefaultValueHelper: true,
-			defaultValueHelperPrefix: "Default: "
+			defaultValueHelperPrefix: "Reset value: "
 		},
 		schema: {
 			type: "object",

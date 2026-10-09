@@ -433,6 +433,12 @@ export const DROPDOWN_LABEL_SHAPES: readonly {
 	{ name: 'null', labels: { clearSelectionLabel: null, selectAllLabel: null }, clearLabel: 'Clear all', singleClearLabel: 'Clear selection', selectLabel: 'Select all' },
 	{ name: 'blank', labels: { clearSelectionLabel: ' ', selectAllLabel: '' }, clearLabel: 'Clear all', singleClearLabel: 'Clear selection', selectLabel: 'Select all' },
 	{
+		name: 'padded',
+		labels: { clearSelectionLabel: '  Clear retry policy  ', selectAllLabel: '\tSelect every retry count\n' },
+		clearLabel: 'Clear retry policy',
+		selectLabel: 'Select every retry count'
+	},
+	{
 		name: 'custom',
 		labels: { clearSelectionLabel: 'Clear retry policy', selectAllLabel: 'Select every retry count' },
 		clearLabel: 'Clear retry policy',
@@ -445,6 +451,17 @@ export const DROPDOWN_LABEL_SHAPES: readonly {
 		clearLabel: 'Clear all',
 		singleClearLabel: 'Clear selection',
 		selectLabel: 'Select every retry count'
+	}
+];
+
+// Select widgets with no options. AJV rejects `enum: []`, so the schemas carry no enum.
+export const EMPTY_DROPDOWN_SHAPES: readonly { name: string; multiple: boolean; schema: RJSFSchema; uiSchema: UiSchema }[] = [
+	{ name: 'single broker', multiple: false, schema: { type: 'string', title: 'Broker' }, uiSchema: { 'ui:widget': 'select' } },
+	{
+		name: 'multiple brokers',
+		multiple: true,
+		schema: { type: 'array', title: 'Brokers', uniqueItems: true, items: { type: 'string' } },
+		uiSchema: { 'ui:widget': 'select' }
 	}
 ];
 
@@ -4696,6 +4713,7 @@ export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
 	INPUT_FOCUS_SHAPES,
 	SELECT_FOCUS_SHAPES,
 	DROPDOWN_LABEL_SHAPES,
+	EMPTY_DROPDOWN_SHAPES,
 	FOCUS_EDITING_FLAGS,
 	TOGGLE_FOCUS_MODES,
 	TOGGLE_BUTTON_GROUP_SHAPES,
