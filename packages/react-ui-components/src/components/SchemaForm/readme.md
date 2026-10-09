@@ -123,8 +123,10 @@ Readonly and disabled lists keep disabled controls. Add renders a plus followed 
 or "Add item". Lists with a reserved grip column center the plus in that column and align the text
 with the input. Other lists start the plus at the entry edge. List, file and radio entries have a 12px vertical gap.
 Radio Clear selection actions align with the group's right edge beside descriptions, errors or "Not set".
-Fields with a schema default omit Clear selection.
 The action wraps onto its own right-aligned row when the field is too narrow to fit both columns.
+Radio groups with a schema default omit Clear selection, because clearing would leave them unset rather than at
+their default. They omit it even with `allowClearInputs: true`. A single-select dropdown keeps its own clear action.
+Unset radio groups show "Not set"; unset selects show it only when they have no placeholder.
 
 Enabled item actions and Add participate in Tab order. Menus support mouse and keyboard interaction.
 Scalar help tips stay beside the input; descriptions, errors and default helpers stay above
