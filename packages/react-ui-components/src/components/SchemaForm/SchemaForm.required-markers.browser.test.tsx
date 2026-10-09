@@ -26,7 +26,7 @@ describe.each(REQUIRED_MARKER_SHAPES)('real required markers: $name', row => {
 		for (const marker of markers) {
 			await expect.element(marker).toBeVisible();
 			expect(marker.previousElementSibling!.matches('kv-tooltip,h2,h3,h4,h5,h6')).toBe(true);
-			expect(marker.getAttribute('aria-hidden')).toBe('true');
+			expect(marker.getAttribute('aria-hidden')).toBeNull();
 		}
 	});
 });

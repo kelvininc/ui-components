@@ -35,11 +35,8 @@ const TitleFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 						<KvInfoLabel labelTitle={titleToShow || ''} />
 					</KvTooltip>
 				)}
-				{required && (
-					<span className={styles.Required} aria-hidden="true">
-						*
-					</span>
-				)}
+				{/* Some controls rely on this marker to communicate required state. */}
+				{required && <span className={styles.Required}>*</span>}
 				<FieldHelp className={styles.ToggleTip} help={uiOptions.help} />
 			</div>
 		)

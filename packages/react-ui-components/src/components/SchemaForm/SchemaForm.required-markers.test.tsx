@@ -33,7 +33,7 @@ describe.each(REQUIRED_MARKER_SHAPES)('required markers: $name', row => {
 			})
 		).toEqual(row.expectedTitles);
 		for (const marker of markers) {
-			expect(marker.getAttribute('aria-hidden')).toBe('true');
+			expect(marker.getAttribute('aria-hidden')).toBeNull();
 			expect(marker.previousElementSibling!.matches('kv-tooltip,h2,h3,h4,h5,h6')).toBe(true);
 			const help = marker.parentElement!.querySelector('kv-toggle-tip');
 			expect(marker.nextElementSibling).toBe(help);
