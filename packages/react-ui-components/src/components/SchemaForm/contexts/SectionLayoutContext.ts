@@ -28,7 +28,12 @@ export const claimSectionBoundary = (parent: SectionLayoutState, fieldId: string
 	};
 };
 
-export const sectionBodyLayout = ({ owner, ...state }: SectionLayoutState): SectionLayoutState => ({ ...state, sectionLevel: state.sectionLevel + 1 });
+// Only a visible heading opens a level: an untitled wrapper object lays its sections out as its parent's own,
+// so they keep the parent's dividers instead of dropping a level and growing a rail. The form root always opens one.
+export const sectionBodyLayout = ({ owner, ...state }: SectionLayoutState, opensLevel = true): SectionLayoutState => ({
+	...state,
+	sectionLevel: state.sectionLevel + Number(opensLevel)
+});
 
 export const getSectionHeadingKind = (state: SectionLayoutState, isItemTitle: boolean): SectionHeadingKind =>
 	(isItemTitle && state.itemLevel === 1) || (!isItemTitle && state.sectionLevel <= 1 && state.itemLevel === 0) ? 'major' : 'subsection';

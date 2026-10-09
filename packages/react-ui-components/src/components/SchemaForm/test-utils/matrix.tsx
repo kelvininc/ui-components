@@ -4299,9 +4299,10 @@ const depthSevenEntries = (itemUi: UiSchema): { schema: RJSFSchema; uiSchema: Ui
 	let schema: RJSFSchema = { type: 'array', title: 'Profiles', items: { type: 'object', properties: { security: hierarchySecurity } } };
 	let uiSchema: UiSchema = { 'ui:itemPrefix': 'Profile', 'ui:options': { layout: 'sections' }, 'items': itemUi };
 	let formData: unknown = [{ security: { token: 'monthly-reference' } }];
+	// Titled wrappers: only a visible heading opens a level, and these must reach depth 7
 	for (const name of ['profiles', 'credentials', 'rotation', 'client', 'tls', 'security', 'connection']) {
-		schema = { type: 'object', properties: { [name]: schema } };
-		uiSchema = { 'ui:title': '', [name]: uiSchema };
+		schema = { type: 'object', title: `${name[0].toUpperCase()}${name.slice(1)} settings`, properties: { [name]: schema } };
+		uiSchema = { [name]: uiSchema };
 		formData = { [name]: formData };
 	}
 	return { schema, uiSchema, formData };
@@ -4472,11 +4473,12 @@ export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
 		name: 'untitled middle',
 		schema: hierarchyPlant,
 		uiSchema: { connection: { 'ui:title': '' } },
+		// The untitled Connection opens no level, so Security sits at Plant's top level: a major heading, no rail
 		headings: [
 			{ title: 'Plant', kind: 'major' },
-			{ title: 'Security', kind: 'subsection' }
+			{ title: 'Security', kind: 'major' }
 		],
-		boundaries: [{ fieldId: 'root_connection_security', kind: 'section', depth: 1 }]
+		boundaries: []
 	},
 	{ name: 'hidden section', schema: hierarchyPlant, uiSchema: { connection: { 'ui:widget': 'hidden' } }, headings: [{ title: 'Plant', kind: 'major' }], boundaries: [] },
 	{
