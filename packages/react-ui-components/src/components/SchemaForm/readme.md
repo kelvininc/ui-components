@@ -53,7 +53,9 @@ export const SchemaFormExample: React.FC = () => {
 
 Object fields and object lists that don't qualify for tables render sections. Their titles use native headings,
 starting at `h2`; each titled section increases the level, up to `h6`. Blank titles and
-`ui:options.label: false` suppress the heading. Custom fields, tuples and multi-selects use control layout.
+`ui:options.label: false` suppress the heading, except that an item prefix still names a list item
+whose title is blank ("Port 1"); `ui:label: false` hides that heading too. Custom fields, tuples and
+multi-selects use control layout.
 
 Section groups use unique heading ids and link their mounted descriptions and visible errors through
 `aria-describedby`. Custom title templates receive a unique `id`; the group also has a text name so a
@@ -66,20 +68,41 @@ individual input defaults remain beneath their own entry. `ui:descriptionPositio
 `top`, `bottom` or `none`, including through global UI options. Text inputs, textareas and compact
 multi-selects keep descriptions below the control. Custom array templates and widgets keep their layout.
 
+Ordinary fields place default-value helpers at the inline end of their feedback row, aligned with the
+first text line of the description or error. At field footer widths of 460px or less, defaults stack
+below the feedback and align to the inline start. Long defaults wrap without truncation. Collection
+defaults stay in their metadata above the items; table cells omit default helpers.
+
+The helper names a default the way the field shows it. Boolean defaults use the field's option labels:
+`oneOf` titles first, then `ui:options.booleanLabels` (field or global UI options), then "Yes"/"No",
+so `default: false` reads "Default: No". `formContext.booleanLabels` doesn't relabel the helper,
+because the boolean field doesn't read it either. Enum and constant `oneOf`/`anyOf` defaults use
+their option label, honoring `ui:enumNames` and branch titles ("Default: Debug"). Multi-select
+defaults join their item labels with commas ("Default: Debug, Info"). When no option matches, or the
+schema's `oneOf`/`anyOf` branches aren't all constants (a nullable union, object variants), the raw
+value stays: arrays join with commas and objects read as JSON.
+
 Root and direct top-level section headings use 14px type with a 20px line height. The outermost
 object-list entry uses the same size. Nested section and inner-entry headings use 12px type with a
-16px line height. Both use weight 600 and retain their semantic heading levels.
+16px line height. Both use weight 700, so they stand apart from the uppercase field labels below,
+and retain their semantic heading levels.
 
 Nested default sections move their title, fields and metadata together behind a 1px guide with 16px
 inline-start padding. Root and direct top-level sections keep their page dividers; nested sections use
 the ordinary field gap. Selected oneOf/anyOf branches own one guide, and a deeper object gets its own.
-Untitled groups still count toward the visual structure. Guides follow the inline-start edge in RTL.
+Only a visible heading opens a section level, at any depth. An untitled object, or one whose heading is
+hidden with `ui:options.label: false` (or `ui:globalOptions: { label: false }`), gets no guide: its
+sections lay out as its parent's own, with the parent's dividers or guide and heading size. The form root
+and a selected oneOf/anyOf branch, whose selector's label names it, open a level even untitled.
+Guides follow the inline-start edge in RTL.
 
 The form's available width controls indentation. Below 480px, guides use 8px padding. Each owned guide
 or entry frame adds one depth. Beyond six boundaries, default guides add no inline-start padding and
 default frames add no inline padding; their borders and vertical spacing remain. At 480px and above,
 normal padding applies at all depths. Inner lists continue the count, and each SchemaForm starts at zero.
 Explicit fieldsets and custom templates retain their own padding. Nested tables keep their independent width query.
+An explicit item fieldset with no header on its top border, such as a scalar item or an object item
+whose heading is hidden and that has no menu, pads all four sides evenly.
 
 Fields have a 20px vertical gap, and configured field widths fit the
 available space. Additional-property key/value rows wrap in narrow containers, and their enabled remove
@@ -95,22 +118,27 @@ forbidden properties use RJSF's unsupported-field presentation. `additionalPrope
 Single-value lists render one input row per item with a trash button on the right. Orderable lists
 have a grip on the left that opens a Move up/Move down menu. The generated per-item labels are hidden;
 `ui:itemPrefix` on the array or its items names the inputs and actions, such as "Broker 2".
-Item titles supply the name when no prefix exists, with "Item" as the fallback.
+Item titles supply the name when no prefix exists, with "Item" as the fallback. A prefix names the item
+even when its title is blank.
 
 Fixed tuple positions keep a visible label from their item prefix or schema title. Additional tuple
 items use their prefix or title with their position number, such as "Backup 2". Fixed positions keep
 RJSF's move and removal restrictions. Reserved action space keeps tuple inputs aligned.
 
 Object items render numbered section headings inside a 1px outline with 4px corners and 16px padding.
-Inner object lists use the same outline. Explicit fieldsets keep their existing title offset and styling.
+Inner object lists use the same outline. Explicit fieldsets (`ui:fieldset`) draw their header, the heading
+and menu, on the top border and open the frame below it. Without a header there, as for scalar items or
+untitled items without a menu, the frame pads evenly and its content sits centred.
 One menu beside each heading holds
 the allowed move actions and a destructive Remove action. Boundary moves stay visible and disabled.
 Readonly and disabled lists keep disabled controls. Add renders a plus followed by "Add <prefix>"
 or "Add item". Lists with a reserved grip column center the plus in that column and align the text
 with the input. Other lists start the plus at the entry edge. List, file and radio entries have a 12px vertical gap.
 Radio Clear selection actions align with the group's right edge beside descriptions, errors or "Not set".
-Fields with a schema default omit Clear selection.
 The action wraps onto its own right-aligned row when the field is too narrow to fit both columns.
+Radio groups with a schema default omit Clear selection, because clearing would leave them unset rather than at
+their default. They omit it even with `allowClearInputs: true`. A single-select dropdown keeps its own clear action.
+Unset radio groups show "Not set"; unset selects show it only when they have no placeholder.
 
 Enabled item actions and Add participate in Tab order. Menus support mouse and keyboard interaction.
 Scalar help tips stay beside the input; descriptions, errors and default helpers stay above
@@ -170,6 +198,9 @@ Move, remove and Add use the focus policy described above.
 The reorder and remove buttons match the first visible cell's size. Its `componentSize` overrides
 `formContext.componentSize`; the default is large.
 
+An empty table renders only its Add button, in the same place as an empty sections list. The column
+headers and the table role arrive with the first row and go again when the last row is removed.
+
 Use `layout: 'sections'` on the array to retain sections. For unordered environment variables:
 
 ```tsx
@@ -206,11 +237,7 @@ and applies template replacements to mounted forms without modifying the caller'
 
 ## Textarea values and limits
 
-Descriptions and errors share `kv-form-help-text`'s zero left inset. Ordinary fields place
-default-value helpers on the right of their feedback row, aligned with its first text line.
-At field footer widths of 460px or less, defaults stack below feedback and align left.
-Long defaults wrap without truncation. Collection defaults stay in their metadata above
-the items; table cells omit default helpers.
+Descriptions and errors share `kv-form-help-text`'s zero left inset.
 Scalar-list feedback aligns with its input column, reserving the same space as the row actions.
 Text and date/time inputs use the same rule for their built-in feedback. A textarea's
 compact character count sits inside the bottom-right corner in a reserved footer; text scrolls
@@ -239,7 +266,7 @@ Caller-supplied values above the cap stay visible and can still be shortened by 
 
 SchemaForm's built-in actions, status messages and helper text use sentence case.
 The error switch reads "Show all errors", the error summary reads "Errors", and additional
-property inputs use "<field> key". Single-select dropdowns use "Clear selection";
+property inputs use `<field> key`. Single-select dropdowns use "Clear selection";
 multi-select dropdowns use "Clear all". Empty dropdowns show "No data available".
 Custom dropdown action labels still take precedence; blank values restore the defaults.
 Field and section headings keep their uppercase typography. SchemaForm preserves

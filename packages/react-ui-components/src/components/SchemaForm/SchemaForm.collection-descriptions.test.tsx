@@ -116,7 +116,7 @@ describe.each(COLLECTION_DESCRIPTION_SHAPES)('description placement: $name', row
 				expect(Array.from(container.querySelectorAll('kv-form-help-text')).filter(host => host.getAttribute('data-help-text')?.startsWith('Default:'))).toHaveLength(0);
 				continue;
 			}
-			const helpers = Array.from(container.querySelectorAll('kv-form-help-text')).filter(host => host.getAttribute('data-help-text') === `Default: ${row.formData}`);
+			const helpers = Array.from(container.querySelectorAll('kv-form-help-text')).filter(host => host.getAttribute('data-help-text') === row.defaultHelper);
 			expect(helpers).toHaveLength(1);
 			const content = container.querySelector(row.contentSelector)!;
 			expect(content).not.toBeNull();

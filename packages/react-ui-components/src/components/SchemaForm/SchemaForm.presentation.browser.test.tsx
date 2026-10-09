@@ -26,7 +26,7 @@ const focusedControl = () => {
 
 describe.each([StyleMode.Light, StyleMode.Night])('fieldset overlays in %s', theme => {
 	describe.each(FIELDSET_BACKGROUND_SHAPES)('$name', backgroundRow => {
-		it.each(L1_FIELDSET_SHAPES)('owns the overlay for $name', async ({ row: list, uiSchema, templates, headers, overlays, menus }) => {
+		it.each(L1_FIELDSET_SHAPES)('owns the overlay for $name', async ({ row: list, uiSchema, templates, headers, overlays, menus, heading }) => {
 			setThemeMode(theme);
 			try {
 				const screen = await render(
@@ -74,7 +74,7 @@ describe.each([StyleMode.Light, StyleMode.Night])('fieldset overlays in %s', the
 						header => header.closest('[data-schema-form-list-item]') === fieldset
 					);
 					expect(ownedHeaders).toHaveLength(headers ? 1 : 0);
-					if (ownedHeaders.length) expect(ownedHeaders[0].querySelector('h2,h3,h4,h5,h6')).not.toBeNull();
+					if (ownedHeaders.length) expect(Boolean(ownedHeaders[0].querySelector('h2,h3,h4,h5,h6'))).toBe(heading !== false);
 					if (templates) expect(fieldset.querySelector('[data-custom-item-wrap]')).not.toBeNull();
 				}
 			} finally {
@@ -216,25 +216,36 @@ it('keeps scrolling bound when a mounted control becomes a section', async () =>
 	await expect.poll(() => getComputedStyle(footer).borderTopWidth).toBe('1px');
 });
 
-// A scalar list item drawn as a fieldset has no heading on its top border, so its control sits centred in the frame
-it('centres a fieldset scalar item in its frame', async () => {
-	const screen = await render(
-		<div style={{ width: '520px' }}>
-			<KvSchemaForm
-				schema={{ type: 'array', title: 'Commands', items: { type: 'string' } }}
-				uiSchema={{ 'ui:options': { orderable: false }, 'items': { 'ui:title': '', 'ui:itemPrefix': 'Command', 'ui:fieldset': true } }}
-				formData={['cat /tmp/ready']}
-			/>
-		</div>
-	);
-	await whenAllKelvinReady(screen.container);
-	const item = screen.container.querySelector<HTMLElement>('[data-schema-form-list-item="0"]')!;
-	expect(item.classList.contains(itemStyles.FieldsetStyle)).toBe(true);
-	const frame = item.getBoundingClientRect();
-	const control = item.querySelector('kv-text-field')!.getBoundingClientRect();
-	const border = parseFloat(getComputedStyle(item).borderTopWidth);
-	const top = control.top - frame.top - border;
-	expect(top).toBeGreaterThan(0);
-	expect(Math.abs(top - (frame.bottom - control.bottom - border))).toBeLessThanOrEqual(1);
-	expect(Math.abs(top - (control.left - frame.left - border))).toBeLessThanOrEqual(1);
+// A header on the top border opens the frame below it like a legend; without one, the frame pads evenly and centres its content
+describe.each(L1_FIELDSET_SHAPES)('fieldset frame: $name', ({ row: list, uiSchema, templates, frame }) => {
+	it(`uses the ${frame} frame`, async () => {
+		const screen = await render(
+			<div style={{ width: '520px' }}>
+				<KvSchemaForm schema={list.schema} formData={list.formData} uiSchema={uiSchema} templates={templates} />
+			</div>
+		);
+		await whenAllKelvinReady(screen.container);
+		const items = Array.from(screen.container.querySelectorAll<HTMLElement>('[data-schema-form-list="root"] > div > div > [data-schema-form-list-item]'));
+		expect(items).toHaveLength(list.formData.length);
+		for (const item of items) {
+			expect(item.classList.contains(itemStyles.FieldsetStyle)).toBe(true);
+			const style = getComputedStyle(item);
+			const inset = parseFloat(style.paddingLeft);
+			expect(inset).toBeGreaterThan(0);
+			if (frame === 'legend') {
+				expect(style.paddingTop).toBe('0px');
+				expect(parseFloat(style.marginTop)).toBeGreaterThan(0);
+				continue;
+			}
+			expect(style.paddingTop).toBe(style.paddingLeft);
+			expect(style.paddingBottom).toBe(style.paddingLeft);
+			expect(style.marginTop).toBe('0px');
+			const bounds = item.getBoundingClientRect();
+			const border = parseFloat(style.borderTopWidth);
+			const content = item.firstElementChild!.getBoundingClientRect();
+			expect(Math.abs(content.top - bounds.top - border - inset)).toBeLessThanOrEqual(1);
+			expect(Math.abs(bounds.bottom - content.bottom - border - inset)).toBeLessThanOrEqual(1);
+			expect(Math.abs(content.left - bounds.left - border - inset)).toBeLessThanOrEqual(1);
+		}
+	});
 });

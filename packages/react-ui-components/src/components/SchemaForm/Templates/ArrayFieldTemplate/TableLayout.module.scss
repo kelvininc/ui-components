@@ -18,7 +18,10 @@
 
 .TableContainer .TableList + div {
 	--schema-form-add-grip-width: var(--schema-form-table-action-height);
+}
 
+// An empty table renders no rows or headers, so Add sits where an empty sections list puts it
+.TableContainer .TableList:not(:empty) + div {
 	margin-top: var(--spacing-2xl);
 }
 
