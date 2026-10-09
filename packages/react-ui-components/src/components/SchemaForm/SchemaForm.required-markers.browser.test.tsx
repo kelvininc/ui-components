@@ -91,7 +91,11 @@ it('keeps accessible names and Tab order when a required title has help', async 
 	await whenAllKelvinReady(screen.container);
 	const control = screen.getByRole('textbox', { name: 'Port name', exact: true });
 	await expect.element(control).not.toHaveAttribute('required');
+	const help = screen.getByRole('button', { name: 'Help for Port name', exact: true });
 	await screen.getByRole('button', { name: 'Before labels', exact: true }).click();
+	// The title's help is a named button in the Tab order, ahead of the control it describes
+	await userEvent.tab();
+	await expect.poll(() => help.element().matches(':focus')).toBe(true);
 	await userEvent.tab();
 	await expect.poll(() => control.element().matches(':focus')).toBe(true);
 	await userEvent.tab();

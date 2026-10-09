@@ -78,7 +78,7 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 										<div className={styles.ItemControl}>
 											<ArrayItemControlsContext.Provider value={null}>{props.children}</ArrayItemControlsContext.Provider>
 										</div>
-										{!titleElement && <FieldHelp help={props.rawHelp} />}
+										{!titleElement && <FieldHelp help={props.rawHelp} accessibleLabel={SCHEMA_FORM_STRINGS.helpFor(props.label || props.id)} />}
 										{itemControls.after}
 									</div>
 								) : (
