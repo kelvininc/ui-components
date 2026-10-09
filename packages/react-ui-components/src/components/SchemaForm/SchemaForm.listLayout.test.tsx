@@ -215,6 +215,19 @@ it.each(L1_HIDDEN_ITEM_HEADINGS)('L1 preserves object item $name', ({ uiSchema }
 	}
 });
 
+it.each([
+	{ name: 'blank title with an item prefix', uiSchema: { items: { 'ui:title': '', 'ui:itemPrefix': 'Port' } } },
+	{ name: 'blank options title with an array prefix', uiSchema: { 'ui:itemPrefix': 'Port', 'items': { 'ui:options': { title: '' } } } },
+	{ name: 'whitespace title with an options prefix', uiSchema: { 'ui:options': { itemPrefix: 'Port' }, 'items': { 'ui:title': '   ' } } }
+])('L1 names a $name after the prefix', ({ uiSchema }) => {
+	const row = ARRAY_SHAPES[1];
+	const screen = render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={uiSchema} />);
+	const headings = Array.from(screen.container.querySelectorAll('[data-schema-form-list-item]'), item =>
+		item.querySelector('[data-schema-form-item-header]')!.querySelector('h2,h3,h4,h5,h6')
+	);
+	expect(headings.map(heading => heading?.textContent)).toEqual(['Port 1', 'Port 2', 'Port 3']);
+});
+
 describe.each(ARRAY_SHAPES)('L1 array controls: $name', row => {
 	describe.each(LIST_OPTIONS)('$name', option => {
 		it.each([false, true])('keeps restrictions and data callbacks when readonly is %s', readonly => {

@@ -54,6 +54,26 @@ describe.each(FLAT_OBJECT_SHAPES)('L2 table eligibility: $name', row => {
 	});
 });
 
+it('labels an empty table only once its first row exists', async () => {
+	const row = FLAT_OBJECT_SHAPES[0];
+	const screen = render(<KvSchemaForm schema={row.schema} formData={[]} uiSchema={row.uiSchema} />);
+	const list = screen.container.querySelector('[data-schema-form-list="root"]')!;
+	// An empty list shows only its Add button: no column headers and no table semantics to announce
+	expect(list.querySelector('[role="table"]')).toBeNull();
+	expect(list.querySelector('[aria-colcount]')).toBeNull();
+	expect(list.querySelector('[aria-label="Variables"]')).toBeNull();
+	expect(list.querySelectorAll('[role="columnheader"]')).toHaveLength(0);
+	await act(async () => {
+		await fireStencilEvent(list.querySelector('kv-action-button')!, 'onClickButton');
+	});
+	const table = list.querySelector('[role="table"]')!;
+	expect(table).not.toBeNull();
+	expect(table.getAttribute('aria-label')).toBe('Variables');
+	expect(table.getAttribute('aria-colcount')).toBe('4');
+	expect(Array.from(table.querySelectorAll('[role="columnheader"]'), node => node.textContent)).toEqual(['row', 'Name', 'Value', 'Actions']);
+	expect(table.querySelectorAll('[role="rowheader"]')).toHaveLength(1);
+});
+
 it.each(L2_ELIGIBILITY_SHAPES)('L2 schema dispatch: $name', row => {
 	const screen = render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={'uiSchema' in row ? row.uiSchema : undefined} />);
 	expect(Boolean(screen.container.querySelector('[role="table"]'))).toBe(row.isFlat);

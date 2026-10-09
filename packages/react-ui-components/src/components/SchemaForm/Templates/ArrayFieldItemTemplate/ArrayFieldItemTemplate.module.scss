@@ -29,7 +29,16 @@
 }
 
 .FieldsetStyle {
-	padding: 0 var(--spacing-xl) var(--spacing-xl);
-	margin-top: var(--spacing-4xl);
 	border: var(--border-width-default) solid var(--border-container-divider-default);
+
+	// A section's heading sits on the top border like a legend, so the frame opens below it and leaves room above
+	&.ObjectItem {
+		padding: 0 var(--spacing-xl) var(--spacing-xl);
+		margin-top: var(--spacing-4xl);
+	}
+
+	// A single control has no heading on the border: pad it evenly so the row sits centred in its frame
+	&:not(.ObjectItem) {
+		padding: var(--spacing-xl);
+	}
 }

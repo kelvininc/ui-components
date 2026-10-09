@@ -125,7 +125,8 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 				)}
 			</div>
 		) : undefined;
-	const hiddenTitle = section && typeof options.title === 'string' && !options.title.trim();
+	// A blank title hides the heading, unless a prefix names the item: then it reads "Port 1", as it always has
+	const hiddenTitle = section && !prefix && typeof options.title === 'string' && !options.title.trim();
 	const itemUiSchema = mergeUiSchemas(uiSchema, {
 		'ui:title': hiddenTitle ? options.title : itemName,
 		...(!section ? { 'ui:label': options.label !== false && (fixedPosition || (layout?.fixedItems ?? 0) > 0) } : {})

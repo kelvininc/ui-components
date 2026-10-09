@@ -215,3 +215,26 @@ it('keeps scrolling bound when a mounted control becomes a section', async () =>
 	const footer = screen.container.querySelector('form')!.nextElementSibling!;
 	await expect.poll(() => getComputedStyle(footer).borderTopWidth).toBe('1px');
 });
+
+// A scalar list item drawn as a fieldset has no heading on its top border, so its control sits centred in the frame
+it('centres a fieldset scalar item in its frame', async () => {
+	const screen = await render(
+		<div style={{ width: '520px' }}>
+			<KvSchemaForm
+				schema={{ type: 'array', title: 'Commands', items: { type: 'string' } }}
+				uiSchema={{ 'ui:options': { orderable: false }, 'items': { 'ui:title': '', 'ui:itemPrefix': 'Command', 'ui:fieldset': true } }}
+				formData={['cat /tmp/ready']}
+			/>
+		</div>
+	);
+	await whenAllKelvinReady(screen.container);
+	const item = screen.container.querySelector<HTMLElement>('[data-schema-form-list-item="0"]')!;
+	expect(item.classList.contains(itemStyles.FieldsetStyle)).toBe(true);
+	const frame = item.getBoundingClientRect();
+	const control = item.querySelector('kv-text-field')!.getBoundingClientRect();
+	const border = parseFloat(getComputedStyle(item).borderTopWidth);
+	const top = control.top - frame.top - border;
+	expect(top).toBeGreaterThan(0);
+	expect(Math.abs(top - (frame.bottom - control.bottom - border))).toBeLessThanOrEqual(1);
+	expect(Math.abs(top - (control.left - frame.left - border))).toBeLessThanOrEqual(1);
+});
