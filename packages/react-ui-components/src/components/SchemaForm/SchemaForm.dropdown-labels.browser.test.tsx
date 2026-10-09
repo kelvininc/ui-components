@@ -18,6 +18,7 @@ describe.each(['light', 'night'])('dropdown action labels in %s', theme => {
 			};
 			const formData = { choice: multiple ? [0] : 0 };
 			const onChange = vi.fn();
+			const defaultClearLabel = multiple ? 'Clear all' : 'Clear selection';
 			const uiSchema = (labels: typeof row.labels, allowClearInputs = true) => ({
 				choice: { 'ui:widget': 'select', 'ui:options': { allowClearInputs }, 'selectionAll': multiple, ...labels }
 			});
@@ -37,17 +38,17 @@ describe.each(['light', 'night'])('dropdown action labels in %s', theme => {
 				expect(screen.container.querySelector(selector)).toBe(host);
 				await expect.element(trigger).toHaveValue('0');
 			};
-			await expectLabels(row.clearLabel, row.selectLabel);
+			await expectLabels(multiple ? row.clearLabel : row.singleClearLabel ?? row.clearLabel, row.selectLabel);
 			await screen.rerender(form({ clearSelectionLabel: 'Clear retry policy', selectAllLabel: 'Select every retry count' }));
 			await expectLabels('Clear retry policy', 'Select every retry count');
 			await screen.rerender(form({}));
-			await expectLabels('Clear all', 'Select all');
+			await expectLabels(defaultClearLabel, 'Select all');
 			await screen.rerender(form({ clearSelectionLabel: undefined, selectAllLabel: undefined }));
-			await expectLabels('Clear all', 'Select all');
+			await expectLabels(defaultClearLabel, 'Select all');
 			await screen.rerender(form({}, false));
-			await expect.element(page.getByRole('button', { name: 'Clear all', exact: true })).not.toBeInTheDocument();
+			await expect.element(page.getByRole('button', { name: defaultClearLabel, exact: true })).not.toBeInTheDocument();
 			await screen.rerender(form({}));
-			await expectLabels('Clear all', 'Select all');
+			await expectLabels(defaultClearLabel, 'Select all');
 
 			if (multiple) {
 				onChange.mockClear();
@@ -57,10 +58,10 @@ describe.each(['light', 'night'])('dropdown action labels in %s', theme => {
 				await expect.element(page.getByRole('button', { name: 'Select all', exact: true })).toHaveAttribute('aria-disabled', 'true');
 			}
 			onChange.mockClear();
-			await page.getByRole('button', { name: 'Clear all', exact: true }).click();
+			await page.getByRole('button', { name: defaultClearLabel, exact: true }).click();
 			await expect.poll(() => onChange.mock.lastCall?.[0].formData.choice).toEqual(multiple ? [] : undefined);
 			expect(onChange).toHaveBeenCalledOnce();
-			await expect.element(page.getByRole('button', { name: 'Clear all', exact: true })).toHaveAttribute('aria-disabled', 'true');
+			await expect.element(page.getByRole('button', { name: defaultClearLabel, exact: true })).toHaveAttribute('aria-disabled', 'true');
 		});
 	});
 });

@@ -1,4 +1,4 @@
-import { EComponentSize, EValidationState } from '@kelvininc/ui-components';
+import { EComponentSize, EIllustrationName, EValidationState } from '@kelvininc/ui-components';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 import { isEmpty } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
@@ -10,6 +10,13 @@ import { DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
 import { useSchemaFormFocusRef } from '../../hooks/entryFocus';
 import { useFieldDescription, useFieldErrors, useFormState } from '../../contexts';
 import { useTableCell } from '../../contexts/TableContext';
+import { SCHEMA_FORM_STRINGS } from '../../strings';
+
+const NO_DATA_AVAILABLE_CONFIG = {
+	illustration: EIllustrationName.NoDataAvailable,
+	header: SCHEMA_FORM_STRINGS.noDataAvailable,
+	description: SCHEMA_FORM_STRINGS.noDataAvailableDescription
+};
 
 const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	schema,
@@ -106,6 +113,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	);
 
 	const hasErrors = useFieldErrors(id, rawErrors);
+	const defaultClearLabel = multiple ? SCHEMA_FORM_STRINGS.clearAll : SCHEMA_FORM_STRINGS.clearSelection;
 
 	const props = {
 		id,
@@ -128,9 +136,10 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		icon: icon ?? dropdownConfig.icon,
 		badge,
 		selectionClearable: (options.allowClearInputs as boolean | undefined) ?? resolveAllowClearInputs(uiSchema, registry) ?? selectionClearable,
-		clearSelectionLabel,
+		clearSelectionLabel: typeof clearSelectionLabel === 'string' && clearSelectionLabel.trim() ? clearSelectionLabel.trim() : defaultClearLabel,
+		noDataAvailableConfig: NO_DATA_AVAILABLE_CONFIG,
 		selectionAll,
-		selectAllLabel,
+		selectAllLabel: typeof selectAllLabel === 'string' && selectAllLabel.trim() ? selectAllLabel.trim() : SCHEMA_FORM_STRINGS.selectAll,
 		maxSelectable,
 		minSearchOptions: minSearchOptions ?? DEFAULT_MINIMUM_SEARCHABLE_OPTIONS
 	};

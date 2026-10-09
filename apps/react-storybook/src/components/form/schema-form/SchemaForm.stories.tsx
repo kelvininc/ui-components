@@ -809,7 +809,7 @@ export const TextareaWidget: Story = {
 		themeSideBySide: false,
 		docs: {
 			description: {
-				story: "The first field shows a description and a schema-based live limit. The handover starts above its schema limit, so Show All Errors displays its validation message. Clearing commits the configured empty string."
+				story: "The first field shows a description and a schema-based live limit. The handover starts above its schema limit, so Show all errors displays its validation message. Clearing commits the configured empty string."
 			}
 		}
 	},
@@ -1237,7 +1237,7 @@ export const Parameters: Story = {
 		themeSideBySide: false,
 		docs: {
 			description: {
-				story: "The sample starts with three field errors: the number exceeds 1000, the integer is below 1 and the required string is empty. Toggle Show All Errors to reveal them. Default helpers show each schema default without replacing the supplied values."
+				story: "The sample starts with three field errors: the number exceeds 1000, the integer is below 1 and the required string is empty. Toggle Show all errors to reveal them. Default helpers show each schema default without replacing the supplied values."
 			}
 		}
 	},
@@ -1264,7 +1264,7 @@ export const System: Story = {
 		themeSideBySide: false,
 		docs: {
 			description: {
-				story: "Kelvin app schema 5.0.0 deployment settings. The sample contains six field errors across variables, ports, volumes and metrics. Toggle Show All Errors to reveal them. Port, volume and probe types show the selected branch's fields."
+				story: "Kelvin app schema 5.0.0 deployment settings. The sample contains six field errors across variables, ports, volumes and metrics. Toggle Show all errors to reveal them. Port, volume and probe types show the selected branch's fields."
 			}
 		}
 	},
@@ -1349,7 +1349,7 @@ export const ObjectTable: Story = {
 		themeSideBySide: false,
 		docs: {
 			description: {
-				story: "Flat objects become a table automatically. The second variable has an invalid name and a missing value; Show All Errors reveals both cell errors. Rows stack when the form column is narrower than 480px."
+				story: "Flat objects become a table automatically. The second variable has an invalid name and a missing value; Show all errors reveals both cell errors. Rows stack when the form column is narrower than 480px."
 			}
 		}
 	},

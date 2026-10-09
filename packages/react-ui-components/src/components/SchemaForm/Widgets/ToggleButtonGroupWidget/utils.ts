@@ -1,6 +1,7 @@
 import { EComponentSize, IToggleButton } from '@kelvininc/ui-components';
 import { ALL_BUTTON_VALUE } from './config';
 import { ToggleButtonGroupOption, IToggleButtonGroupConfig } from './types';
+import { SCHEMA_FORM_STRINGS } from '../../strings';
 
 export const buildToggleButtons = <T extends ToggleButtonGroupOption>(
 	options: T[],
@@ -20,7 +21,7 @@ export const buildToggleButtons = <T extends ToggleButtonGroupOption>(
 		multiple && allButton
 			? [
 					{
-						label: 'All',
+						label: SCHEMA_FORM_STRINGS.all,
 						value: ALL_BUTTON_VALUE
 					}
 			  ]
