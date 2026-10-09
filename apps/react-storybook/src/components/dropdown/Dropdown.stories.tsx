@@ -9,18 +9,26 @@ import type { Meta, StoryObj, StoryFn } from "@storybook/react";
 import { useArgs } from "storybook/preview-api";
 import { ComponentProps } from "react";
 
-const DropdownTemplate: StoryFn<ComponentProps<typeof KvDropdown>> = (args) => {
-	const [{ isOpen }, updateArgs] = useArgs();
-	const onDropdownChange = ({ detail: openState }: CustomEvent<boolean>) =>
-		updateArgs({ isOpen: openState });
+type DropdownArgs = ComponentProps<typeof KvDropdown> & {
+	/** The value of the select's search */
+	searchValue?: string;
+};
+
+const DropdownTemplate: StoryFn<DropdownArgs> = ({ searchValue, ...args }) => {
+	const [, updateArgs] = useArgs<DropdownArgs>();
 
 	return (
 		<KvDropdown
-			isOpen={isOpen}
-			onOpenStateChange={onDropdownChange}
 			{...args}
+			onOpenStateChange={({ detail: isOpen }) => updateArgs({ isOpen })}
 		>
-			<KvSelect searchable={true}>
+			<KvSelect
+				searchable={true}
+				searchValue={searchValue}
+				onSearchChange={({ detail }) =>
+					updateArgs({ searchValue: detail })
+				}
+			>
 				<KvSelectOption
 					label="This select option has a really really really long first label here "
 					value="value-01"

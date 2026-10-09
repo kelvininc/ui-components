@@ -39,39 +39,63 @@ kv-select {
 	@include body-xs-regular;
 }
 
-.create-new-option-container {
-	position: absolute;
-	top: 0;
-	left: 0;
-	border-radius: var(--slider-radius-default);
-	border: var(--slider-border-thickness-default) solid var(--slider-border-color-default);
-	width: 100%;
-	height: calc(100% - 2px);
-	background: var(--overlay-interactive-opacity-20);
-	z-index: 1;
+// The create form replaces everything else: the header and the list collapse, with kv-search and the
+// rows still mounted so that cancelling returns to the same search focus and scroll position, and the
+// panel's own padding goes, so that the form's row supplies the inset
+kv-select.creating {
+	// A minimum height is for the list: the form row sets its own. kv-select writes the variable inline,
+	// hence the `!important`
+	--select-min-height: auto !important;
 
-	&.has-shortcuts .create-new-option-form {
-		bottom: 36px;
-		border-bottom: var(--slider-border-thickness-default) solid var(--slider-border-color-default);
+	&::part(select) {
+		padding-top: 0;
+		gap: 0;
+	}
+
+	// Collapsed rather than removed: the header keeps contributing its width, so the panel doesn't
+	// narrow while the form is open
+	&::part(header) {
+		visibility: hidden;
+		max-height: 0;
+		overflow: hidden;
+		padding-block: 0;
+		border-bottom: 0;
+	}
+
+	> kv-virtualized-list {
+		visibility: hidden;
+		max-height: 0;
+		min-height: 0;
+		overflow: hidden;
 	}
 }
 
-.form-container {
-	background: var(--slider-background-default);
-	padding: var(--spacing-xl) var(--spacing-2xl);
+// With nothing to list, the header is the panel's last row: it drops its divider and padding, and the list
+// its box, so that the gap before the footer is all that is left under it, the panel's bottom inset
+kv-select.empty {
+	&::part(header) {
+		padding-bottom: 0;
+		border-bottom: 0;
+	}
+
+	&::part(options) {
+		display: none;
+	}
 }
 
 .create-new-option-form {
-	width: 100%;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	border-top: var(--slider-border-thickness-default) solid var(--slider-border-color-default);
+	// A long value can't widen a panel sized to its content
+	contain: inline-size;
 }
 
-.create-new-option-button {
-	border-top: var(--slider-border-thickness-default) solid var(--slider-border-color-default);
-	padding: var(--spacing-xl) 0;
+.form-container {
+	padding: var(--spacing-xl);
+}
+
+.empty-state-message {
+	@include body-s-regular;
+	color: var(--text-container-neutral-subtle);
+	white-space: nowrap;
 }
 
 .no-results-found,

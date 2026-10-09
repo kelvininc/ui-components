@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
 import { KvMultiSelectDropdown, KvSingleSelectDropdown } from '../../../../stencil-generated';
 import styles from './SelectWidget.module.scss';
-import { buildDropdownOptions, buildSelectedOptions, getOptionKey, getSelectedOptions, processValue, resolveDropdownConfig } from './utils';
+import { buildDropdownOptions, buildSelectedOptions, getOptionKey, getSelectedOptions, processValue, resolveDropdownConfig, toOptionKey } from './utils';
 import { getSelectedOptionIndex, resolveAllowClearInputs } from '../utils';
 import { DEFAULT_MINIMUM_SEARCHABLE_OPTIONS } from './config';
 import { useSchemaFormFocusRef } from '../../hooks/entryFocus';
@@ -76,7 +76,7 @@ const SelectWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		const index = getSelectedOptionIndex(optionValues, value);
 		return index === -1 ? undefined : getOptionKey(index);
 	};
-	const selectedOption = customTree ? processedValue : selectedKey(value);
+	const selectedOption = customTree ? toOptionKey(processedValue) : selectedKey(value);
 	const selectedKeys = customTree ? processedValue : Array.isArray(value) ? value.map(selectedKey).filter(key => key !== undefined) : [];
 
 	const onChangeValue = useCallback(

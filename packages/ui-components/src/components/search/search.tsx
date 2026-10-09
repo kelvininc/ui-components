@@ -3,6 +3,7 @@ import { isEmpty } from 'lodash-es';
 import { EComponentSize, ITooltip } from '../../types';
 import { EIconName } from '../icon/icon.types';
 import { EInputFieldType, EValidationState } from '../text-field/text-field.types';
+import { getValueAsString } from '../text-field/text-field.utils';
 import { ISearch, ISearchEvents } from './search.types';
 
 @Component({
@@ -52,7 +53,7 @@ export class KvSearch implements ISearch, ISearchEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) tooltipConfig?: Partial<ITooltip>;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) value?: string | number | null = '';
+	@Prop({ reflect: true }) value!: string | number | null | undefined;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) useInputMask?: boolean = false;
 	/** @inheritdoc */
@@ -74,7 +75,7 @@ export class KvSearch implements ISearch, ISearchEvents {
 	/** Focus input */
 	@Method()
 	async focusInput() {
-		this.inputRef.focusInput();
+		this.inputRef?.focusInput();
 	}
 
 	private inputRef?: HTMLKvTextFieldElement | null;
@@ -87,11 +88,11 @@ export class KvSearch implements ISearch, ISearchEvents {
 	private onResetClick = (event: CustomEvent<MouseEvent>) => {
 		event.stopPropagation();
 		this.clickResetButton.emit(event.detail);
-		this.textChange.emit();
+		this.textChange.emit('');
 	};
 
 	render() {
-		const shouldShowResetIcon = !isEmpty(this.value) && !this.inputDisabled;
+		const shouldShowResetIcon = !isEmpty(getValueAsString(this.value)) && !this.inputDisabled;
 		return (
 			<Host>
 				<kv-text-field

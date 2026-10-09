@@ -24,7 +24,7 @@
 		--icon-color: #{$btn-default-icon-color};
 	}
 
-	&:hover:not(.action-button--disabled) {
+	&:hover:not(.action-button--disabled):not(.action-button--loading) {
 		color: $btn-hover-text-color;
 
 		::slotted(kv-icon) {
@@ -32,7 +32,7 @@
 		}
 	}
 
-	&:focus:not(.action-button--disabled):not(.action-button--active) {
+	&:focus:not(.action-button--disabled):not(.action-button--loading):not(.action-button--active) {
 		color: $btn-focus-text-color;
 
 		::slotted(kv-icon) {
@@ -48,7 +48,7 @@
 		}
 	}
 
-	&:active:not(.action-button--disabled),
+	&:active:not(.action-button--disabled):not(.action-button--loading),
 	&.action-button--active {
 		color: $btn-active-text-color;
 
@@ -76,11 +76,11 @@
 		border-bottom-color 0.25s ease-in-out,
 		border-left-color 0.25s ease-in-out;
 
-	&:hover:not(.action-button--disabled) {
+	&:hover:not(.action-button--disabled):not(.action-button--loading) {
 		background-position: left top;
 	}
 
-	&:focus:not(.action-button--disabled):not(.action-button--active) {
+	&:focus:not(.action-button--disabled):not(.action-button--loading):not(.action-button--active) {
 		background: $btn-focus-background-color;
 	}
 
@@ -88,7 +88,7 @@
 		background: $btn-disabled-background-color;
 	}
 
-	&:active:not(.action-button--disabled),
+	&:active:not(.action-button--disabled):not(.action-button--loading),
 	&.action-button--active {
 		background: $btn-active-background-color;
 	}
@@ -103,14 +103,14 @@
 
 	border: $btn-border-thickness solid $btn-default-border-color;
 
-	&:hover:not(.action-button--disabled) {
+	&:hover:not(.action-button--disabled):not(.action-button--loading) {
 		border-top-color: $btn-hover-border-color;
 		border-right-color: $btn-hover-border-color;
 		border-bottom-color: $btn-hover-border-color;
 		border-left-color: $btn-hover-border-color;
 	}
 
-	&:focus:not(.action-button--disabled):not(.action-button--active) {
+	&:focus:not(.action-button--disabled):not(.action-button--loading):not(.action-button--active) {
 		&::before {
 			content: '';
 			filter: blur(2px);
@@ -124,7 +124,7 @@
 		border: $btn-border-thickness solid $btn-disabled-border-color;
 	}
 
-	&:active:not(.action-button--disabled),
+	&:active:not(.action-button--disabled):not(.action-button--loading),
 	&.action-button--active {
 		border: $btn-border-thickness solid $btn-active-border-color;
 	}
@@ -134,6 +134,37 @@
 	@include button-text-theme($type);
 	@include button-background-theme($type);
 	@include button-border-theme($type);
+}
+// A rotating sweep behind a transparent border. `isolation` keeps the sweep's `z-index: -1` inside the
+// button, so an opaque surface behind it (e.g. a dropdown panel) doesn't paint over it.
+@mixin button-loading-theme {
+	// Without a fill of its own, the sweep runs over what is behind the button, since a disabled fill can
+	// share its colour. Primary and danger keep their fill, which their light labels need.
+	&.action-button--loading:not(.action-button--type-primary):not(.action-button--type-danger) {
+		background: var(--transparent);
+	}
+
+	&.action-button--loading {
+		border-color: transparent;
+		overflow: hidden;
+		isolation: isolate;
+
+		&::before {
+			content: '';
+			background-image: conic-gradient(transparent, var(--background-surface-skeleton-base), transparent);
+			width: 150%;
+			aspect-ratio: 1/1;
+
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%) rotate(0deg);
+			animation: loadingrotate 3s infinite linear;
+
+			border-radius: inherit;
+			z-index: -1;
+		}
+	}
 }
 @mixin button-size-theme($size, $type) {
 	height: var(--button-height-#{$size});
@@ -272,34 +303,35 @@
 	 */
 
 	//icon colors (internal defaults)
-	--_icon-color-default-primary: var(--button-primary-icon-color-default);
-	--_icon-color-default-secondary: var(--button-secondary-icon-color-default);
-	--_icon-color-default-tertiary: var(--button-tertiary-icon-color-default);
+	--_icon-color-default-primary: var(--icon-button-primary-icon-color-default);
+	--_icon-color-default-secondary: var(--icon-button-secondary-icon-color-default);
+	--_icon-color-default-tertiary: var(--icon-button-tertiary-icon-color-default);
 	--_icon-color-default-text: var(--button-text-icon-color-default);
-	--_icon-color-default-danger: var(--button-danger-icon-color-default);
+	--_icon-color-default-danger: var(--icon-button-danger-icon-color-default);
 
-	--_icon-color-hover-primary: var(--button-primary-icon-color-default);
-	--_icon-color-hover-secondary: var(--button-secondary-icon-color-subtle);
-	--_icon-color-hover-tertiary: var(--button-tertiary-icon-color-subtle);
+	--_icon-color-hover-primary: var(--icon-button-primary-icon-color-default);
+	--_icon-color-hover-secondary: var(--icon-button-secondary-icon-color-subtle);
+	--_icon-color-hover-tertiary: var(--icon-button-tertiary-icon-color-subtle);
 	--_icon-color-hover-text: var(--button-text-icon-color-default);
-	--_icon-color-hover-danger: var(--button-danger-icon-color-default);
+	--_icon-color-hover-danger: var(--icon-button-danger-icon-color-default);
 
-	--_icon-color-focus-primary: var(--button-primary-icon-color-default);
-	--_icon-color-focus-secondary: var(--button-secondary-icon-color-default);
-	--_icon-color-focus-tertiary: var(--button-tertiary-icon-color-default);
+	--_icon-color-focus-primary: var(--icon-button-primary-icon-color-default);
+	--_icon-color-focus-secondary: var(--icon-button-secondary-icon-color-default);
+	--_icon-color-focus-tertiary: var(--icon-button-tertiary-icon-color-default);
 	--_icon-color-focus-text: var(--button-text-icon-color-default);
-	--_icon-color-focus-danger: var(--button-danger-icon-color-default);
-	--_icon-color-disabled-primary: var(--button-primary-icon-color-disabled);
-	--_icon-color-disabled-secondary: var(--button-secondary-icon-color-disabled);
-	--_icon-color-disabled-tertiary: var(--button-tertiary-icon-color-disabled);
-	--_icon-color-disabled-text: var(--button-text-icon-color-disabled);
-	--_icon-color-disabled-danger: var(--button-danger-icon-color-disabled);
+	--_icon-color-focus-danger: var(--icon-button-danger-icon-color-default);
 
-	--_icon-color-active-primary: var(--button-primary-icon-color-default);
-	--_icon-color-active-secondary: var(--button-secondary-icon-color-subtle);
-	--_icon-color-active-tertiary: var(--button-tertiary-icon-color-subtle);
+	--_icon-color-disabled-primary: var(--icon-button-primary-icon-color-disabled);
+	--_icon-color-disabled-secondary: var(--icon-button-secondary-icon-color-disabled);
+	--_icon-color-disabled-tertiary: var(--icon-button-tertiary-icon-color-disabled);
+	--_icon-color-disabled-text: var(--button-text-icon-color-disabled);
+	--_icon-color-disabled-danger: var(--icon-button-danger-icon-color-disabled);
+
+	--_icon-color-active-primary: var(--icon-button-primary-icon-color-default);
+	--_icon-color-active-secondary: var(--icon-button-secondary-icon-color-subtle);
+	--_icon-color-active-tertiary: var(--icon-button-tertiary-icon-color-subtle);
 	--_icon-color-active-text: var(--button-text-icon-color-default);
-	--_icon-color-active-danger: var(--button-danger-icon-color-default);
+	--_icon-color-active-danger: var(--icon-button-danger-icon-color-default);
 
 	// text colors (internal defaults)
 	--_text-color-default-primary: var(--button-primary-label-default);
@@ -471,27 +503,6 @@
 	&--type-tertiary {
 		@include button-type-theme('tertiary');
 
-		&.action-button--loading {
-			border-color: transparent;
-			overflow: hidden;
-
-			&::before {
-				content: '';
-				background-image: conic-gradient(transparent, var(--background-surface-skeleton-base), transparent);
-				width: 150%;
-				aspect-ratio: 1/1;
-
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%) rotate(0deg);
-				animation: loadingrotate 3s infinite linear;
-
-				border-radius: inherit;
-				z-index: -1;
-			}
-		}
-
 		&.action-button--size-small {
 			@include button-size-theme('small', 'tertiary');
 		}
@@ -529,6 +540,8 @@
 		cursor: not-allowed;
 		user-select: none;
 	}
+
+	@include button-loading-theme;
 }
 
 @keyframes loadingrotate {

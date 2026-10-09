@@ -30,7 +30,8 @@ export {
 	ERelativeTimeComparisonConfig,
 	ERelativeTimeRangeKey,
 	EUnitReference,
-	EToasterType
+	EToasterType,
+	ECreateOptionStatus
 } from '@kelvininc/ui-components';
 
 // Export z-index constants, so consumers can layer their own overlays against the

@@ -1,6 +1,6 @@
 import { JSONSchema7 } from 'json-schema';
 import { describe, expect, it } from 'vitest';
-import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, resolveDropdownConfig } from './utils';
+import { buildDropdownOptions, buildSelectedOptions, getSelectedOptions, processValue, resolveDropdownConfig, toOptionKey } from './utils';
 import { DEFAULT_DROPDOWN_CONFIG, IDropdownConfig } from './config';
 import { buildHelperOptions } from '../../Templates/FieldTemplate/utils';
 
@@ -123,6 +123,42 @@ describe('processValue', () => {
 		it('should return the value untouched for a mixed enum', () => {
 			expect(processValue({ enum: [1, 'a'] }, 'a')).toBe('a');
 		});
+	});
+});
+
+// The single select's `selectedOption` is a string: a `true` handed over as is reached the
+// dropdown first as an empty attribute (React 19), which it rejects as an invalid value
+describe('toOptionKey', () => {
+	it.each([
+		['true', true, 'true'],
+		['false', false, 'false'],
+		['a number', 4, '4'],
+		['zero', 0, '0'],
+		['a string', 'a', 'a'],
+		['an empty string', '', '']
+	])('should key %s as a string', (_, value, key) => {
+		expect(toOptionKey(value)).toBe(key);
+	});
+
+	it.each([
+		['undefined', undefined],
+		['null', null],
+		['an array', ['a']],
+		['an object', { a: true }]
+	])('should key %s as no option', (_, value) => {
+		expect(toOptionKey(value)).toBeUndefined();
+	});
+
+	it.each([
+		['boolean', { type: 'boolean' } as JSONSchema7, [true, false]],
+		['number', { type: 'number' } as JSONSchema7, [1, 2.5]]
+	])('should give a %s field the key its legacy-keyed option is listed under', (_, schema, values) => {
+		const options = values.map(value => ({ label: String(value), value }));
+		const dropdownOptions = buildDropdownOptions({ schema, options, legacyKeys: true });
+
+		for (const value of values) {
+			expect(dropdownOptions).toHaveProperty([toOptionKey(processValue(schema, value)) as string]);
+		}
 	});
 });
 

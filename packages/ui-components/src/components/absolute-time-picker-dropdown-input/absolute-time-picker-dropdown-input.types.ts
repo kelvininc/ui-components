@@ -17,7 +17,10 @@ export type TimeRange = {
  * state and the dropdown toggle icon) are intentionally excluded because overriding them would break
  * the picker.
  */
-export type IAbsoluteTimeDateTimeInputConfig = Omit<Partial<IDateTimeInput>, 'value' | 'dateFormat' | 'useInputMask' | 'forcedFocus' | 'inputStyleType' | 'disabled' | 'rightIcon'>;
+export type IAbsoluteTimeDateTimeInputConfig = Omit<
+	Partial<IDateTimeInput>,
+	'value' | 'dateFormat' | 'useInputMask' | 'inputMaskPattern' | 'forcedFocus' | 'inputStyleType' | 'disabled' | 'rightIcon'
+>;
 
 export interface IAbsoluteTimePickerDropdownInput {
 	/** (optional) Selected time in timestamp */

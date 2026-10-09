@@ -86,9 +86,8 @@ export class KvActionButtonSplit implements IActionButtonSplitConfig {
 					/>
 					<kv-action-button
 						type={this.type}
-						disabled={this.disabled}
+						disabled={this.disabled || this.loading}
 						size={this.size}
-						loading={this.loading}
 						accessibleLabel={this.splitAccessibleLabel}
 						onClickButton={this.onClickRightButton}
 						onFocusButton={this.onFocusRightButton}

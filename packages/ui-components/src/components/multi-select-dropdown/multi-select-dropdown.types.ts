@@ -5,7 +5,8 @@ import { ISelectMultiOptionsConfig, ISelectMultiOptionsEvents } from '../select-
 import { EComponentSize, ICustomCss } from '../../types';
 import { ComputePositionConfig } from '@floating-ui/dom';
 
-export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptionsConfig, 'searchValue'> {
+// A multi select dropdown has no asynchronous creation to configure
+export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptionsConfig, 'searchValue' | 'createOptionConfig' | 'createOptionState'> {
 	/** (required) The text to display as the dropdown placeholder */
 	placeholder?: string;
 	/** (optional) If `true` the dropdown is opened */
@@ -50,7 +51,7 @@ export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptio
 	autoFocus?: boolean;
 }
 
-export interface IMultiSelectDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'optionSelected' | 'optionCreated'> {
+export interface IMultiSelectDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'optionSelected' | 'optionCreated' | 'createFormToggle'> {
 	/** Emitted when the dropdown open state changes */
 	openStateChange: EventEmitter<boolean>;
 	/** Emitted when there's a click outside the dropdown's bondaries */

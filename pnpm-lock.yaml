@@ -166,6 +166,12 @@ importers:
       '@stencil/react-output-target':
         specifier: ^0.5.3
         version: 0.5.3(@stencil/core@4.43.5)
+      ajv:
+        specifier: ^8.12.0
+        version: 8.20.0
+      ajv-formats:
+        specifier: ^2.1.1
+        version: 2.1.1(ajv@8.20.0)
       classnames:
         specifier: ^2.5.1
         version: 2.5.1

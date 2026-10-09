@@ -47,6 +47,24 @@ export const getSelectedOptions = (selectedOptionsMap: Record<string, boolean>):
 export const getOptionKey = (index: number): string => `choice-${index}`;
 
 /**
+ * The dropdown key of a single value: the key `buildDropdownOptions` gives its option.
+ *
+ * Option keys are strings, and so is `KvSingleSelectDropdown`'s `selectedOption`, while the
+ * value of a boolean or numeric field is not. Handing a `true` over as is was not only a type
+ * mismatch: the React bindings pass primitive props as attributes, React 19 renders a custom
+ * element's `true` attribute as `""`, and the dropdown rejected that empty string as an invalid
+ * value before the property sync that follows could land. Anything that is not a primitive has no
+ * option to select.
+ */
+export const toOptionKey = (value: unknown): string | undefined => {
+	if (isString(value)) {
+		return value;
+	}
+
+	return typeof value === 'boolean' || typeof value === 'number' ? String(value) : undefined;
+};
+
+/**
  * Maps the selected values onto the map `KvMultiSelectDropdown` expects.
  *
  * Anything that is not an array selects nothing, rather than throwing. The value

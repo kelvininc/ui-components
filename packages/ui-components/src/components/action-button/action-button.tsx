@@ -90,6 +90,7 @@ export class KvActionButton implements IButton, IButtonEvents, IButtonMenuState 
 					role="button"
 					aria-label={this.accessibleLabel || undefined}
 					aria-disabled={this.disabled ? 'true' : undefined}
+					aria-busy={this.loading ? 'true' : undefined}
 					aria-haspopup={this.menuExpanded === undefined ? undefined : 'menu'}
 					aria-expanded={this.menuExpanded === undefined ? undefined : String(this.menuExpanded)}
 					part="button"

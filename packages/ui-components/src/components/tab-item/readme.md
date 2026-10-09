@@ -57,6 +57,13 @@ export const TabItemExample: React.FC = () => (
 | `tabSelected` | Emitted when the tab is selected | `CustomEvent<number \| string>` |
 
 
+## Shadow Parts
+
+| Part          | Description                            |
+| ------------- | -------------------------------------- |
+| `"container"` | The container element of the tab item. |
+
+
 ## Dependencies
 
 ### Used by

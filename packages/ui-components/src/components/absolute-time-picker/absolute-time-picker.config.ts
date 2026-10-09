@@ -1,7 +1,10 @@
 export const DEFAULT_HEADER_TITLE = 'Custom Interval';
+export const SINGLE_DATE_HEADER_TITLE = 'Custom Date';
 
 export const DATE_INPUT_PLACEHOLDER = 'dd-mm-yyyy 00:00:00';
 export const DATETIME_INPUT_MASK = 'DD-MM-YYYY HH:mm:ss';
+// Only inserts separators; strict parsing validates the date without rewriting the user's digits.
+export const DATETIME_INPUT_MASK_PATTERN = '99-99-9999 99:99:99';
 export const DATE_INPUT_MASK = 'DD-MM-YYYY';
 export const CALENDAR_MASK = 'YYYY-MM-DD';
 export const CALENDAR_DATE_TIME_MASK = 'YYYY-MM-DD HH:mm:ss';

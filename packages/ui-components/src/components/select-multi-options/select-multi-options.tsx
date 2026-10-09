@@ -1,23 +1,26 @@
-import { Component, Element, Event, h, Listen, Method, Prop, State, Watch } from '@stencil/core';
+import { Component, Element, Event, forceUpdate, h, Listen, Method, Prop, State, Watch } from '@stencil/core';
 import type { EventEmitter } from '@stencil/core';
 import type {
+	ICreateOptionState,
 	ISelectMultiOptions,
 	ISelectMultiOptionsConfig,
 	ISelectMultiOptionsEvents,
 	ISelectOptionWithChildren,
 	ISelectOptionsWithChildren
 } from './select-multi-options.types';
+import { ECreateOptionStatus } from './select-multi-options.types';
 import {
-	ADD_OPTION,
+	ASYNC_CREATE_SUBMIT_LOCK_IN_MS,
+	CREATE_FORM_FOCUS_TARGET_SELECTOR,
 	DEFAULT_ADD_OPTION_PLACEHOLDER,
 	MINIMUM_SEARCHABLE_OPTIONS,
 	DEFAULT_SEARCH_DEBOUNCE_IN_MS,
 	DEFAULT_NO_DATA_AVAILABLE_ILLUSTRATION_CONFIG,
 	SELECT_OPTION_HEIGHT_IN_PX,
-	DEFAULT_NO_RESULTS_FOUND_ILLUSTRATION_CONFIG
+	DEFAULT_NO_RESULTS_FOUND_CONFIG
 } from './select-multi-options.config';
 import { EToggleState } from '../select-option/select-option.types';
-import { debounce, isEmpty } from 'lodash-es';
+import { debounce, isEmpty, isNil } from 'lodash-es';
 import type { DebouncedFunc } from 'lodash-es';
 import {
 	buildAllOptionsSelected,
@@ -30,10 +33,23 @@ import {
 	getSelectableOptionsFromArray,
 	getSelectedCount
 } from '../../utils/select.helper';
-import { buildNewOption, buildRangeSelection, buildSelectOptions, buildSelectOptionsArray, getRangeOptionValues } from './select-multi-options.helper';
+import {
+	buildRangeSelection,
+	buildSelectOptions,
+	buildSelectOptionsArray,
+	getRangeOptionValues,
+	hasEmptyStateIllustration,
+	hasFocusInput,
+	hasSlottedElement,
+	isAddOption
+} from './select-multi-options.helper';
 import { selectHelper } from '../../utils';
 import pluralize from 'pluralize';
 import type { IIllustrationMessage } from '../illustration-message/illustration-message.types';
+import type { ISelectCreateOption } from '../select-create-option/select-create-option.types';
+import { EValidationState } from '../text-field/text-field.types';
+import type { ITextField } from '../text-field/text-field.types';
+import { EComponentSize } from '../../utils/types';
 
 /**
  * @part select - The select container.
@@ -53,7 +69,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	/** @inheritdoc */
 	@Prop({ reflect: true }) noDataAvailableConfig?: IIllustrationMessage = DEFAULT_NO_DATA_AVAILABLE_ILLUSTRATION_CONFIG;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) noResultsFoundConfig?: IIllustrationMessage = DEFAULT_NO_RESULTS_FOUND_ILLUSTRATION_CONFIG;
+	@Prop({ reflect: true }) noResultsFoundConfig?: IIllustrationMessage = DEFAULT_NO_RESULTS_FOUND_CONFIG;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchable?: boolean = true;
 	/** @inheritdoc */
@@ -91,6 +107,10 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	/** @inheritdoc */
 	@Prop({ reflect: true }) createOptionPlaceholder?: string = DEFAULT_ADD_OPTION_PLACEHOLDER;
 	/** @inheritdoc */
+	@Prop({ reflect: false }) createOptionConfig?: Partial<Omit<ISelectCreateOption, 'value' | 'loading'>>;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) createOptionState?: ICreateOptionState;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) maxSelectable?: number;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) showShortcuts?: boolean = false;
@@ -113,21 +133,47 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Event() dismiss: EventEmitter<void>;
 	/** @inheritdoc */
 	@Event() optionCreated: EventEmitter<string>;
+	/** @inheritdoc */
+	@Event({ bubbles: false }) createFormToggle: EventEmitter<boolean>;
 
 	@Listen('valueChanged')
 	valueChangedOptionHandler({ detail: newValue }: CustomEvent<string>) {
 		this.createdOptionValue = newValue;
+		// An edited value is no longer the one that failed, and it may be submitted again
+		this.isCreateValueEdited = true;
+		this.unlockAsyncSubmit();
 	}
 	@Listen('clickCreate')
 	clickCreateOptionHandler() {
+		if (this.isCreateLoading || this.isAsyncSubmitLocked) {
+			return;
+		}
+
 		this.resetRangeSelection();
+
+		if (this.isCreateAsync) {
+			// The consumer reports through `createOptionState` how the submit goes. Until that report can
+			// have arrived, this lock holds off a second submit. All of it is set up before the event,
+			// since a listener may report back synchronously, from within it.
+			this.submittedOptionValue = this.createdOptionValue;
+			this.isCreateValueEdited = false;
+			this.isAwaitingCreateState = true;
+			this.lockAsyncSubmit();
+			this.optionCreated.emit(this.createdOptionValue);
+			return;
+		}
+
 		this.optionCreated.emit(this.createdOptionValue);
 		this.optionSelected.emit(this.createdOptionValue);
-		this.isCreating = false;
+		this.closeCreateForm(false);
 	}
 	@Listen('clickCancel')
 	cancelCreateOptionHandler() {
-		this.isCreating = false;
+		if (this.isCreateLoading) {
+			return;
+		}
+
+		this.closeCreateForm(true);
 	}
 
 	@State() selectOptions: {
@@ -141,9 +187,19 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@State() debouncedSearchValue?: string;
 	@State() isCreating: boolean = false;
 	@State() createdOptionValue: string = '';
+	@State() isCreateValueEdited: boolean = false;
+	@State() isAwaitingCreateState: boolean = false;
 
 	private rebuildScheduled = false;
 	private rangeSelectionAnchor?: string;
+	private isAsyncSubmitLocked = false;
+	private asyncSubmitLockTimer?: ReturnType<typeof setTimeout>;
+	// The value of the open form's latest asynchronous submit
+	private submittedOptionValue?: string;
+	private emittedCreateFormState = false;
+	private pendingFocus?: 'create-form' | 'search';
+	private createFormRef?: HTMLDivElement;
+	private createFormSlotRef?: HTMLSlotElement;
 
 	private scheduleRebuild = () => {
 		if (this.rebuildScheduled) return;
@@ -204,23 +260,51 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Watch('selectedOptions')
 	@Watch('highlightedOption')
 	@Watch('maxSelectable')
+	@Watch('canAddItems')
+	@Watch('createOptionPlaceholder')
 	onInputsChanged(_newValue: unknown, _oldValue: unknown, propName: string) {
 		if (propName === 'options') {
 			this.resetRangeSelection();
 		}
 
+		if (propName === 'canAddItems' && !this.canAddItems) {
+			this.closeCreateForm(false);
+		}
+
 		this.scheduleRebuild();
+	}
+
+	@Watch('createOptionState')
+	onCreateOptionStateChanged(state?: ICreateOptionState, previousState?: ICreateOptionState) {
+		// Whatever the consumer hands over after a submit answers it, so an error it reports again shows
+		this.isAwaitingCreateState = false;
+
+		// A consumer may hand a new object over on every render: only a new status reports anything else,
+		// but for an error reported again, which answers the submit as well, so that it can be retried
+		if (state?.status === previousState?.status) {
+			if (state?.status === ECreateOptionStatus.Error) {
+				this.unlockAsyncSubmit();
+			}
+
+			return;
+		}
+
+		// The consumer has answered the submit, which is all the lock was waiting for
+		this.unlockAsyncSubmit();
+
+		if (state?.status === ECreateOptionStatus.Success && this.isCreating) {
+			this.completeCreateOption(isEmpty(state.optionKey) ? (this.submittedOptionValue ?? this.createdOptionValue) : state.optionKey);
+		}
 	}
 
 	buildSelectionOptions() {
 		const selectedCount = getSelectedCount(this.selectedOptions);
+		// The add option is only ever a row of the current list, so none of the totals count it
 		const selectOptions = buildSelectOptions({
 			options: this.options,
 			allOptions: this.options,
 			selectedOptions: this.selectedOptions,
 			highlightedOption: this.highlightedOption,
-			hasAddItem: this.canAddItems,
-			createInputPlaceholder: this.createOptionPlaceholder,
 			maxSelectable: this.maxSelectable,
 			selectedCount
 		});
@@ -251,12 +335,25 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 	@Listen('keydown', { target: 'document' })
 	handleKeyDown(event: KeyboardEvent) {
-		if (!this.shortcuts) {
+		const isCreateFormEvent = this.isCreateFormEvent(event);
+
+		// The form closed itself on this Escape, so it handled it: the dropdown must not close on it too. An
+		// Escape the form stays open on is left alone, for what is open inside it, e.g. a colour picker.
+		if (event.key === 'Escape' && isCreateFormEvent && !this.isCreating) {
+			event.preventDefault();
+			return;
+		}
+
+		// The shortcuts drive the list, which the create form replaces. A key from inside the form is
+		// checked by its path too: a custom form may have closed itself on it before this runs.
+		if (!this.shortcuts || this.isCreating || isCreateFormEvent) {
 			return;
 		}
 
 		switch (event.key) {
 			case 'Escape':
+				// Handled here, so that the dropdown doesn't close on it as well
+				event.preventDefault();
 				this.onDismiss();
 				break;
 			case 'Enter':
@@ -278,10 +375,10 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		this.resetRangeSelection();
 	}
 
-	/** Close create popup */
+	/** Closes the create form */
 	@Method()
 	async closeCreatePopup(): Promise<void> {
-		this.isCreating = false;
+		this.closeCreateForm(false);
 	}
 
 	/** Focuses the search text field */
@@ -297,8 +394,20 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		this.buildSelectionOptions();
 	}
 
+	componentDidRender() {
+		// After the render, so that the create form is laid out when it reports being open
+		if (this.emittedCreateFormState !== this.isCreating) {
+			this.emittedCreateFormState = this.isCreating;
+			this.createFormToggle.emit(this.isCreating);
+		}
+
+		// After the event, so the focus also finds a form that a listener mounted in response
+		this.applyPendingFocus();
+	}
+
 	disconnectedCallback() {
 		this.debounceSearchValue.cancel();
+		this.unlockAsyncSubmit();
 	}
 
 	private selectRef?: HTMLKvSelectElement | null;
@@ -339,14 +448,6 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		this.clearSelection.emit();
 	};
 
-	private onItemSelected = (event: CustomEvent<string>): void => {
-		event.stopPropagation();
-		this.selectOption(event.detail);
-		if (this.shortcuts) {
-			this.highlightedOption = event.detail;
-		}
-	};
-
 	private onRenderedItemSelected = (event: CustomEvent<string>): void => {
 		event.stopPropagation();
 	};
@@ -362,10 +463,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	};
 
 	private selectOption = (selectedOptionKey: string, isShiftClick = false): boolean => {
-		if (selectedOptionKey === ADD_OPTION.value) {
-			this.resetRangeSelection();
-			this.isCreating = true;
-			this.createdOptionValue = this.searchValue;
+		if (isAddOption(selectedOptionKey)) {
+			this.openCreateForm();
 			return true;
 		}
 
@@ -478,7 +577,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	};
 
 	private getRangeSelectableOptions = (): ISelectOptionWithChildren[] =>
-		this.selectOptions.currentSelectable.filter(({ selectable, value }) => selectable !== false && value !== ADD_OPTION.value);
+		this.selectOptions.currentSelectable.filter(({ selectable, value }) => selectable !== false && !isAddOption(value));
 
 	private getRangeSelectionAnchor = (rangeSelectableOptions: ISelectOptionWithChildren[], selectedOptions: Record<string, boolean>): string | undefined => {
 		if (this.rangeSelectionAnchor !== undefined && rangeSelectableOptions.some(({ value }) => value === this.rangeSelectionAnchor)) {
@@ -493,11 +592,126 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		this.rangeSelectionAnchor = undefined;
 	};
 
+	private openCreateForm = (): void => {
+		if (this.isCreating) {
+			return;
+		}
+
+		this.resetRangeSelection();
+		this.isCreating = true;
+		this.createdOptionValue = this.searchValue;
+		this.submittedOptionValue = undefined;
+		this.isCreateValueEdited = false;
+		this.isAwaitingCreateState = false;
+		this.unlockAsyncSubmit();
+		this.pendingFocus = 'create-form';
+	};
+
+	private closeCreateForm = (restoreSearchFocus: boolean): void => {
+		if (!this.isCreating) {
+			return;
+		}
+
+		this.isCreating = false;
+		this.submittedOptionValue = undefined;
+		this.unlockAsyncSubmit();
+		this.pendingFocus = restoreSearchFocus ? 'search' : undefined;
+	};
+
+	/** Selects the created option, as a synchronous submit does, or without a key only closes the form */
+	private completeCreateOption = (optionKey?: string): void => {
+		this.resetRangeSelection();
+
+		if (isEmpty(optionKey)) {
+			this.closeCreateForm(true);
+			return;
+		}
+
+		this.optionSelected.emit(optionKey);
+		this.closeCreateForm(false);
+	};
+
+	/**
+	 * The lock releases itself: the component can't count on seeing the consumer's loading flag go on and
+	 * off, since a quick failure can batch both into one update.
+	 */
+	private lockAsyncSubmit = (): void => {
+		clearTimeout(this.asyncSubmitLockTimer);
+		this.isAsyncSubmitLocked = true;
+		this.asyncSubmitLockTimer = setTimeout(this.unlockAsyncSubmit, ASYNC_CREATE_SUBMIT_LOCK_IN_MS);
+	};
+
+	private unlockAsyncSubmit = (): void => {
+		clearTimeout(this.asyncSubmitLockTimer);
+		this.isAsyncSubmitLocked = false;
+	};
+
+	// Content added to or removed from an empty state's slot changes what the list shows, with no prop or state of its own
+	private onEmptyStateSlotChange = (): void => forceUpdate(this);
+
+	private isCreateFormEvent = (event: Event): boolean => this.createFormRef !== undefined && event.composedPath().includes(this.createFormRef);
+
+	private applyPendingFocus = (): void => {
+		const pendingFocus = this.pendingFocus;
+		this.pendingFocus = undefined;
+
+		if (pendingFocus === 'create-form') {
+			this.focusCreateForm();
+		} else if (pendingFocus === 'search') {
+			this.selectRef?.focusSearch();
+		}
+	};
+
+	/** Focuses the default create form, or the text field of a slotted one that is already mounted */
+	private focusCreateForm = (): void => {
+		const formElements = this.createFormSlotRef?.assignedElements?.({ flatten: true }) ?? [];
+
+		for (const element of formElements) {
+			const target = element.matches(CREATE_FORM_FOCUS_TARGET_SELECTOR) ? element : element.querySelector(CREATE_FORM_FOCUS_TARGET_SELECTOR);
+
+			if (hasFocusInput(target)) {
+				target.focusInput();
+				return;
+			}
+		}
+	};
+
+	/**
+	 * The default form shows why the latest submit failed, until its value is edited. An error left from an
+	 * earlier submit stays hidden until the consumer answers the new one.
+	 */
+	private getCreateErrorInputConfig = (): Partial<ITextField> => {
+		const { status, error } = this.createOptionState ?? {};
+
+		if (status !== ECreateOptionStatus.Error || this.submittedOptionValue === undefined || this.isCreateValueEdited || this.isAwaitingCreateState) {
+			return {};
+		}
+
+		return isEmpty(error) ? { state: EValidationState.Invalid } : { state: EValidationState.Invalid, helpText: error };
+	};
+
+	private renderCreateForm = () => (
+		<div key="create-new-option-form" class="create-new-option-form" ref={element => (this.createFormRef = element)}>
+			<slot name="create-new-option" ref={element => (this.createFormSlotRef = element as HTMLSlotElement)}>
+				<div class="form-container">
+					<kv-select-create-option
+						value={this.createdOptionValue}
+						loading={this.isCreateLoading}
+						disabled={this.createOptionConfig?.disabled ?? false}
+						size={this.createOptionConfig?.size ?? EComponentSize.Small}
+						inputConfig={{ placeholder: this.createInputPlaceholder, ...this.createOptionConfig?.inputConfig, ...this.getCreateErrorInputConfig() }}
+					/>
+				</div>
+			</slot>
+		</div>
+	);
+
 	private renderOptions = (): HTMLKvVirtualizedListElement => {
 		const items = this.selectOptions.currentFlatten;
 
 		return (
 			<kv-virtualized-list
+				key="options-list"
 				itemCount={items.length}
 				itemHeight={SELECT_OPTION_HEIGHT_IN_PX}
 				getItemKey={index => items[index].value}
@@ -522,6 +736,15 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		return this.rangeSelection !== false;
 	}
 
+	/** With a create state, the consumer creates the option and reports how it goes */
+	private get isCreateAsync(): boolean {
+		return !isNil(this.createOptionState);
+	}
+
+	private get isCreateLoading(): boolean {
+		return this.isCreating && this.createOptionState?.status === ECreateOptionStatus.Loading;
+	}
+
 	private get isSearchable() {
 		return this.selectOptions.searchAvailable;
 	}
@@ -540,25 +763,48 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		const selectedOptions = this.selectedOptions ?? {};
 
 		const optionsLength = Object.keys(this.selectOptions.totalSelectable).length;
-		const currentOptionsLength = this.selectOptions.currentFlatten.length;
+		const currentRowsLength = this.selectOptions.currentFlatten.length;
+		const currentResultsLength = this.selectOptions.currentFlatten.filter(({ value }) => !isAddOption(value)).length;
 		const selectedOptionsLength = Object.keys(selectedOptions).filter(key => selectedOptions[key]).length;
 
 		const hasOptions = optionsLength > 0;
-		const hasCurrentOptions = currentOptionsLength > 0;
+		const hasCurrentRows = currentRowsLength > 0;
+		const hasCurrentResults = currentResultsLength > 0;
 		const hasSelectedOptions = selectedOptionsLength > 0;
-		const isSelectionClearable = hasOptions && this.selectionClearable;
-		const isSelectionClearEnabled = hasSelectedOptions && hasCurrentOptions;
-		const isSelectAllAvailable = hasOptions && this.selectionAll && this.maxSelectable === undefined;
-		const isSelectAllEnabled = hasCurrentOptions && selectedOptionsLength < optionsLength;
 
-		const hasNoDataAvailable = !hasOptions && !hasCurrentOptions;
-		const hasNoResultsFound = hasOptions && !hasCurrentOptions;
+		// Only real results count: the add option is still listed below an empty state
+		const isNoDataAvailable = !this.isCreating && !hasOptions && !hasCurrentResults;
+		const isNoResultsFound = !this.isCreating && hasOptions && !hasCurrentResults;
+		const noDataAvailableConfig = this.noDataAvailableConfig ?? DEFAULT_NO_DATA_AVAILABLE_ILLUSTRATION_CONFIG;
+		const noResultsFoundConfig = this.noResultsFoundConfig ?? DEFAULT_NO_RESULTS_FOUND_CONFIG;
+		// Content of the consumer's own in an empty state's slot takes the place of its illustration and message
+		const hasNoDataAvailableContent = isNoDataAvailable && hasSlottedElement(this.el, 'no-data-available');
+		const hasNoResultsFoundContent = isNoResultsFound && hasSlottedElement(this.el, 'no-results-found');
+		const emptyStateConfig =
+			isNoDataAvailable && !hasNoDataAvailableContent ? noDataAvailableConfig : isNoResultsFound && !hasNoResultsFoundContent ? noResultsFoundConfig : undefined;
+		const hasNoDataAvailableIllustration = isNoDataAvailable && hasEmptyStateIllustration(noDataAvailableConfig);
+		const hasNoResultsFoundIllustration = isNoResultsFound && hasEmptyStateIllustration(noResultsFoundConfig);
+		// An empty state without an illustration only shows its header, in the list header
+		const emptyStateMessage = emptyStateConfig && !hasEmptyStateIllustration(emptyStateConfig) ? emptyStateConfig.header : undefined;
+		const hasEmptyStateMessage = !isEmpty(emptyStateMessage);
+
+		const isSelectionClearable = hasOptions && this.selectionClearable && !hasEmptyStateMessage;
+		const isSelectionClearEnabled = hasSelectedOptions && hasCurrentResults;
+		const isSelectAllAvailable = hasOptions && this.selectionAll && this.maxSelectable === undefined && !hasEmptyStateMessage;
+		const isSelectAllEnabled = hasCurrentResults && selectedOptionsLength < optionsLength;
+
+		// Nothing below the header: no rows, no illustration, no content of the consumer's and no create form
+		const isListEmpty =
+			!this.isCreating && !hasCurrentRows && !hasNoDataAvailableIllustration && !hasNoResultsFoundIllustration && !hasNoDataAvailableContent && !hasNoResultsFoundContent;
+		// The shortcuts navigate rows, so there are none to show without them
+		const hasShortcutsFooter = this.shortcuts && this.showShortcuts && !this.isCreating && hasCurrentRows;
 		const maxSelectableCount = Math.min(this.maxSelectable ?? optionsLength, optionsLength);
 		const selectedItemsCountText = `Selected: ${selectedOptionsLength}/${maxSelectableCount}`;
 
 		return (
 			<kv-select
 				ref={element => (this.selectRef = element)}
+				class={{ creating: this.isCreating, empty: isListEmpty }}
 				maxHeight={this.maxHeight}
 				minHeight={this.minHeight}
 				maxWidth={this.maxWidth}
@@ -572,13 +818,18 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 				selectionAll={isSelectAllAvailable}
 				selectionAllEnabled={isSelectAllEnabled}
 				selectAllLabel={this.selectAllLabel}
-				hasLabelContent={this.counter}
+				hasLabelContent={this.counter || hasEmptyStateMessage}
 				onSelectAll={this.onSelectAll}
 				onClearSelection={this.onClearSelection}
 				part="select"
 				exportparts="select-option-icon"
 			>
 				<slot name="select-header-actions" slot="select-header-actions" />
+				{hasEmptyStateMessage && (
+					<div class="empty-state-message" slot="select-header-actions" role="status">
+						{emptyStateMessage}
+					</div>
+				)}
 				<slot name="select-header-label" slot="select-header-label" />
 				{this.counter && (
 					<div class="select-header-label" slot="select-header-label">
@@ -587,73 +838,40 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 						</kv-tooltip>
 					</div>
 				)}
-				{hasNoDataAvailable && (
-					<slot name="no-data-available">
-						<div class="no-data-available">
-							<div class="illustration-message">
-								<kv-illustration-message {...this.noDataAvailableConfig} />
-							</div>
-						</div>
-						{this.canAddItems && (
-							<div class="create-new-option-button">
-								<kv-select-option
-									{...buildNewOption(this.highlightedOption, this.createOptionPlaceholder)}
-									onItemSelected={this.onItemSelected}
-									style={{
-										'--select-option-height': `${SELECT_OPTION_HEIGHT_IN_PX}px`
-									}}
-								/>
+				{isNoDataAvailable && (
+					<slot key="no-data-available" name="no-data-available" onSlotchange={this.onEmptyStateSlotChange}>
+						{hasNoDataAvailableIllustration && (
+							<div class="no-data-available">
+								<div class="illustration-message">
+									<kv-illustration-message {...noDataAvailableConfig} />
+								</div>
 							</div>
 						)}
 					</slot>
 				)}
-				{hasNoResultsFound && (
-					<slot name="no-results-found">
-						<div class="no-results-found">
-							<div class="illustration-message">
-								<kv-illustration-message {...this.noResultsFoundConfig} />
-							</div>
-							{this.canAddItems && (
-								<div class="create-new-option-button">
-									<kv-select-option
-										{...buildNewOption(this.highlightedOption, this.createOptionPlaceholder)}
-										onItemSelected={this.onItemSelected}
-										style={{
-											'--select-option-height': `${SELECT_OPTION_HEIGHT_IN_PX}px`
-										}}
-									/>
+				{isNoResultsFound && (
+					<slot key="no-results-found" name="no-results-found" onSlotchange={this.onEmptyStateSlotChange}>
+						{hasNoResultsFoundIllustration && (
+							<div class="no-results-found">
+								<div class="illustration-message">
+									<kv-illustration-message {...noResultsFoundConfig} />
 								</div>
-							)}
-						</div>
+							</div>
+						)}
 					</slot>
 				)}
-				{hasCurrentOptions && this.renderOptions()}
-				{this.isCreating && (
-					<div
-						class={{
-							'create-new-option-container': true,
-							'has-shortcuts': this.shortcuts && this.showShortcuts
-						}}
-					>
-						<div class="create-new-option-form">
-							<slot name="create-new-option">
-								<div class="form-container">
-									<kv-select-create-option value={this.createdOptionValue} inputConfig={{ placeholder: this.createInputPlaceholder }} />
-								</div>
-							</slot>
-						</div>
-					</div>
-				)}
-				{this.shortcuts && this.showShortcuts && (
+				{hasCurrentRows && this.renderOptions()}
+				{this.isCreating && this.renderCreateForm()}
+				{hasShortcutsFooter && (
 					<slot name="select-footer" slot="select-footer">
 						<kv-select-shortcuts-label rangeSelection={this.isRangeSelectionEnabled}>
 							<div class="counter" slot="right-items">
-								{!isEmpty(this.debouncedSearchValue) && hasCurrentOptions && <span>{pluralize('result', currentOptionsLength, true)}</span>}
+								{!isEmpty(this.debouncedSearchValue) && hasCurrentResults && <span>{pluralize('result', currentResultsLength, true)}</span>}
 							</div>
 						</kv-select-shortcuts-label>
 					</slot>
 				)}
-				<slot name="select-footer" slot="select-footer" />
+				{!this.isCreating && <slot name="select-footer" slot="select-footer" />}
 			</kv-select>
 		);
 	}

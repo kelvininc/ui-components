@@ -7,6 +7,8 @@ import { ACTIVATION_KEYS, ACTIVATION_MODIFIERS } from './action-button.mock';
 describe('Action Button (unit tests)', () => {
 	let page: SpecPage;
 	let component: KvActionButton;
+	// `aria-busy` sits on the element with the button role, not on the host
+	const buttonPart = () => page.root?.shadowRoot?.querySelector('[part="button"]') as HTMLElement;
 
 	describe('when uses default props', () => {
 		beforeEach(async () => {
@@ -31,6 +33,10 @@ describe('Action Button (unit tests)', () => {
 
 		it('should initialize `size` with large', () => {
 			expect(component.size).toBe(EComponentSize.Large);
+		});
+
+		it('should not set `aria-busy`', () => {
+			expect(buttonPart().hasAttribute('aria-busy')).toBe(false);
 		});
 
 		it('should expose the focusable element as a button', () => {
@@ -198,6 +204,43 @@ describe('Action Button (unit tests)', () => {
 			press(inner, { key: 'Enter' });
 
 			expect(onClickButton).not.toHaveBeenCalled();
+		});
+	});
+
+	describe('when is loading', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvActionButton],
+				html: '<kv-action-button type="secondary" loading></kv-action-button>'
+			});
+		});
+
+		it('should set `aria-busy` to true', () => {
+			expect(buttonPart().getAttribute('aria-busy')).toBe('true');
+		});
+
+		describe('and it stops loading', () => {
+			beforeEach(async () => {
+				page.root.loading = false;
+				await page.waitForChanges();
+			});
+
+			it('should remove `aria-busy`', () => {
+				expect(buttonPart().hasAttribute('aria-busy')).toBe(false);
+			});
+		});
+	});
+
+	describe('when is not loading', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvActionButton],
+				html: '<kv-action-button type="secondary" loading="false"></kv-action-button>'
+			});
+		});
+
+		it('should not set `aria-busy`', () => {
+			expect(buttonPart().hasAttribute('aria-busy')).toBe(false);
 		});
 	});
 });
