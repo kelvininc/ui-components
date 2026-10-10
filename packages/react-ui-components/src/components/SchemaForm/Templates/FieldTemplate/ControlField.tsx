@@ -33,14 +33,19 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	const footerHelp = cell ? !fileWidget && errorsElement : descriptionPosition !== EDescriptionPosition.Top && help;
 	const footerErrors = !cell && collection && !fileWidget && errorsElement;
 	const footerDefault = !cell && !collection && helperElement;
-	const footer =
-		footerHelp || footerErrors || footerDefault ? (
-			<>
-				{footerHelp}
-				{footerErrors}
-				{footerDefault}
-			</>
-		) : null;
+	const footer = footerDefault ? (
+		<div className={styles.FieldFooter}>
+			<div className={styles.FieldFooterContent}>
+				{footerHelp && <div className={styles.FieldFeedback}>{footerHelp}</div>}
+				<div className={styles.FieldDefault}>{footerDefault}</div>
+			</div>
+		</div>
+	) : footerHelp || footerErrors ? (
+		<>
+			{footerHelp}
+			{footerErrors}
+		</>
+	) : null;
 	return (
 		<WrapIfAdditionalTemplate {...props}>
 			<div

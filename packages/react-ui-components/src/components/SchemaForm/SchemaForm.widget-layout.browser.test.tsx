@@ -5,6 +5,7 @@ import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../test-utils/browser';
 import { KvSchemaForm } from './SchemaForm';
 import { FILE_FEEDBACK_LAYOUT_SHAPES, RADIO_FEEDBACK_LAYOUT_SHAPES, RADIO_KEYBOARD_SHAPES, WIDGET_ENTRY_LAYOUT_SHAPES } from './test-utils/matrix';
+import fieldStyles from './Templates/FieldTemplate/FieldTemplate.module.scss';
 import fileStyles from './Widgets/FileWidget/FileWidget.module.scss';
 
 afterEach(() => setThemeMode(StyleMode.Night));
@@ -64,7 +65,11 @@ describe.each([StyleMode.Light, StyleMode.Night])('widget layout in %s', theme =
 				for (const helper of helpers) {
 					const text = helper.shadowRoot!.querySelector('.help-text')!;
 					const textBox = text.getBoundingClientRect();
-					expect(textBox.left).toBeCloseTo(radio.getBoundingClientRect().left, 0);
+					// The default helper goes to the inline end when the footer its container query measures is wider than 460px
+					const footer = helper.closest(`.${fieldStyles.FieldFooter}`)?.getBoundingClientRect();
+					if ((helper as HTMLKvFormHelpTextElement).helpText === `Default: ${row.defaultValue}` && footer && footer.width > 460) {
+						expect(footer.right - textBox.right).toBeLessThanOrEqual(4);
+					} else expect(textBox.left).toBeCloseTo(radio.getBoundingClientRect().left, 0);
 					expect(textBox.right).toBeLessThanOrEqual(fieldBox.right);
 					expect(textBox.right <= clearBox.left || textBox.bottom <= clearBox.top || textBox.top >= clearBox.bottom).toBe(true);
 				}
