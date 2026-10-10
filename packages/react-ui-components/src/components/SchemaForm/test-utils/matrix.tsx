@@ -4353,7 +4353,8 @@ export const SECTION_LAYOUT_DEEP = {
 						client_identities: {
 							'ui:itemPrefix': 'Identity',
 							'ui:options': { layout: 'sections' },
-							'items': { rotation: { 'ui:title': '', 'profiles': { 'ui:itemPrefix': 'Profile', 'ui:options': { layout: 'sections' } } } }
+							// Rotation keeps its title: only a visible heading claims a rail, and the profiles must reach depth 9
+							'items': { rotation: { profiles: { 'ui:itemPrefix': 'Profile', 'ui:options': { layout: 'sections' } } } }
 						}
 					}
 				}
@@ -4451,9 +4452,10 @@ const depthSevenEntries = (itemUi: UiSchema): { schema: RJSFSchema; uiSchema: Ui
 	let schema: RJSFSchema = { type: 'array', title: 'Profiles', items: { type: 'object', properties: { security: hierarchySecurity } } };
 	let uiSchema: UiSchema = { 'ui:itemPrefix': 'Profile', 'ui:options': { layout: 'sections' }, 'items': itemUi };
 	let formData: unknown = [{ security: { token: 'monthly-reference' } }];
+	// Titled wrappers: only a visible heading opens a level, and these must reach depth 7
 	for (const name of ['profiles', 'credentials', 'rotation', 'client', 'tls', 'security', 'connection']) {
-		schema = { type: 'object', properties: { [name]: schema } };
-		uiSchema = { 'ui:title': '', [name]: uiSchema };
+		schema = { type: 'object', title: `${name[0].toUpperCase()}${name.slice(1)} settings`, properties: { [name]: schema } };
+		uiSchema = { [name]: uiSchema };
 		formData = { [name]: formData };
 	}
 	return { schema, uiSchema, formData };
@@ -4534,6 +4536,17 @@ const hierarchyPlant: RJSFSchema = {
 	type: 'object',
 	title: 'Plant',
 	properties: { name: { type: 'string', title: 'Plant name' }, connection: hierarchyConnection }
+};
+// Plant > Connection > Transport > Security, so Transport sits at section level 2, where a titled object claims a rail
+const hierarchyWrapped: RJSFSchema = {
+	...hierarchyPlant,
+	properties: {
+		...hierarchyPlant.properties,
+		connection: {
+			...hierarchyConnection,
+			properties: { host: { type: 'string', title: 'Host' }, transport: { type: 'object', title: 'Transport', properties: { security: hierarchySecurity } } }
+		}
+	}
 };
 const hierarchyEntries: RJSFSchema = {
 	type: 'array',
@@ -4624,13 +4637,93 @@ export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
 		name: 'untitled middle',
 		schema: hierarchyPlant,
 		uiSchema: { connection: { 'ui:title': '' } },
+		// The untitled Connection opens no level, so Security sits at Plant's top level: a major heading, no rail
 		headings: [
 			{ title: 'Plant', kind: 'major' },
-			{ title: 'Security', kind: 'subsection' }
+			{ title: 'Security', kind: 'major' }
 		],
-		boundaries: [{ fieldId: 'root_connection_security', kind: 'section', depth: 1 }]
+		boundaries: []
 	},
 	{ name: 'hidden section', schema: hierarchyPlant, uiSchema: { connection: { 'ui:widget': 'hidden' } }, headings: [{ title: 'Plant', kind: 'major' }], boundaries: [] },
+	{
+		name: 'untitled wrapper under a section',
+		schema: hierarchyWrapped,
+		uiSchema: { connection: { transport: { 'ui:title': '' } } },
+		// The untitled Transport claims no rail, so Security is Connection's own subsection with a single rail
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Connection', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [{ fieldId: 'root_connection_transport_security', kind: 'section', depth: 1 }]
+	},
+	{
+		name: 'label-hidden wrapper under a section',
+		schema: hierarchyWrapped,
+		uiSchema: { connection: { transport: { 'ui:options': { label: false } } } },
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Connection', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [{ fieldId: 'root_connection_transport_security', kind: 'section', depth: 1 }]
+	},
+	{
+		name: 'label-hidden middle',
+		schema: hierarchyPlant,
+		uiSchema: { connection: { 'ui:options': { label: false } } },
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Security', kind: 'major' }
+		],
+		boundaries: []
+	},
+	// Every heading is hidden, so no object below the root opens a level or claims a rail
+	{ name: 'globally hidden labels', schema: hierarchyWrapped, uiSchema: { 'ui:globalOptions': { label: false } }, headings: [], boundaries: [] },
+	{
+		name: 'two untitled wrappers at the top level',
+		schema: {
+			...hierarchyPlant,
+			properties: {
+				name: { type: 'string', title: 'Plant name' },
+				site: { type: 'object', title: 'Site', properties: { network: { type: 'object', title: 'Network', properties: { connection: hierarchyConnection } } } }
+			}
+		},
+		uiSchema: { site: { 'ui:title': '', 'network': { 'ui:title': '' } } },
+		// Connection lays out as Plant's own section, as if the wrappers weren't there
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Connection', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [{ fieldId: 'root_site_network_connection_security', kind: 'section', depth: 1 }]
+	},
+	{
+		name: 'untitled wrapper in an entry',
+		schema: {
+			type: 'array',
+			title: 'Connectors',
+			items: {
+				type: 'object',
+				properties: {
+					name: { type: 'string', title: 'Connector name' },
+					transport: { type: 'object', title: 'Transport', properties: { security: hierarchySecurity } }
+				}
+			}
+		},
+		uiSchema: { 'ui:itemPrefix': 'Connector', 'items': { transport: { 'ui:title': '' } } },
+		formData: [{ name: 'line-1' }],
+		// The untitled Transport claims no rail inside the entry, so Security takes the depth Transport would have
+		headings: [
+			{ title: 'Connectors', kind: 'major' },
+			{ title: 'Connector 1', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [
+			{ fieldId: 'root_0', kind: 'item', depth: 1 },
+			{ fieldId: 'root_0_transport_security', kind: 'section', depth: 2 }
+		]
+	},
 	{
 		name: 'referenced object',
 		schema: {

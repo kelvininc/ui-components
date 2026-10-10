@@ -42,7 +42,7 @@ describe.each(SECTION_LAYOUT_SHAPES)('real section hierarchy: $name', row => {
 			expect([style.fontSize, style.lineHeight, style.fontWeight, style.letterSpacing, style.textTransform]).toEqual([
 				row.headings[index].kind === 'major' ? '14px' : '12px',
 				row.headings[index].kind === 'major' ? '20px' : '16px',
-				'600',
+				'700',
 				'1.5px',
 				'uppercase'
 			]);

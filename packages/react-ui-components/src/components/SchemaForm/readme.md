@@ -82,12 +82,17 @@ value stays: arrays join with commas and objects read as JSON.
 
 Root and direct top-level section headings use 14px type with a 20px line height. The outermost
 object-list entry uses the same size. Nested section and inner-entry headings use 12px type with a
-16px line height. Both use weight 600 and retain their semantic heading levels.
+16px line height. Both use weight 700, so they stand apart from the uppercase field labels below,
+and retain their semantic heading levels.
 
 Nested default sections move their title, fields and metadata together behind a 1px guide with 16px
 inline-start padding. Root and direct top-level sections keep their page dividers; nested sections use
 the ordinary field gap. Selected oneOf/anyOf branches own one guide, and a deeper object gets its own.
-Untitled groups still count toward the visual structure. Guides follow the inline-start edge in RTL.
+Only a visible heading opens a section level, at any depth. An untitled object, or one whose heading is
+hidden with `ui:options.label: false` (or `ui:globalOptions: { label: false }`), gets no guide: its
+sections lay out as its parent's own, with the parent's dividers or guide and heading size. The form root
+and a selected oneOf/anyOf branch, whose selector's label names it, open a level even untitled.
+Guides follow the inline-start edge in RTL.
 
 The form's available width controls indentation. Below 480px, guides use 8px padding. Each owned guide
 or entry frame adds one depth. Beyond six boundaries, default guides add no inline-start padding and
