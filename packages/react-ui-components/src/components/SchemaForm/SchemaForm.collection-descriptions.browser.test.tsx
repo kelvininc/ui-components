@@ -153,7 +153,7 @@ describe.each([StyleMode.Light, StyleMode.Night])('collection guidance in %s', t
 				expect(text.getBoundingClientRect().right).toBeLessThanOrEqual(field.getBoundingClientRect().right);
 			}
 			if (row.formData !== undefined) {
-				const message = `Default: ${row.formData}`;
+				const message = row.defaultHelper!;
 				const helper = Array.from(screen.container.querySelectorAll('kv-form-help-text')).find(host => host.helpText === message)!;
 				expect(helper).toBeDefined();
 				await expect.poll(() => helper.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe(message.trim());
@@ -200,7 +200,9 @@ describe.each([StyleMode.Light, StyleMode.Night])('collection guidance in %s', t
 				expect(helper).toBeDefined();
 				await expect.poll(() => helper.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe('Default: telemetry');
 				const text = helper.shadowRoot!.querySelector('.help-text')!.getBoundingClientRect();
-				expect(text.left - control.getBoundingClientRect().left).toBeCloseTo(0, 0);
+				const controlBox = control.getBoundingClientRect();
+				if (controlBox.width > 460) expect(controlBox.right - text.right).toBeLessThanOrEqual(4);
+				else expect(text.left - controlBox.left).toBeCloseTo(0, 0);
 				expect(text.right).toBeLessThanOrEqual(control.getBoundingClientRect().right);
 				const nextEntry = screen.container.querySelector('[data-schema-form-list-item="1"]')!;
 				const nextControl = nextEntry.querySelector('kv-text-field')!;

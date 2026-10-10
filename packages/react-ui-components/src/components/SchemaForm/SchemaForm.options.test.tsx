@@ -11,6 +11,7 @@ import { KvSchemaForm } from './SchemaForm';
 import { EApplyDefaults } from './types';
 import {
 	CUSTOM_FIELDS,
+	DEFAULT_HELPER_LABEL_SHAPES,
 	R2_WIDGET_ERROR_SHAPES,
 	R4_BRANCH_LABEL_SHAPES,
 	R4_CLASS_SETTING_SHAPES,
@@ -340,5 +341,21 @@ describe.each(R4_OPTION_ERROR_SHAPES)('$name hidden discriminator errors', row =
 		expect(messages.filter(message => message === 'This field is required.')).toHaveLength(2);
 		expect(messages.some(message => String(message).includes('Must match exactly one'))).toBe(false);
 		expect(propsOf('Submit').disabled).toBe(true);
+	});
+});
+
+describe.each(DEFAULT_HELPER_LABEL_SHAPES)('default helper for $name', row => {
+	it('renders the form and names the default as the field shows it', async () => {
+		await act(async () =>
+			root.render(
+				<KvSchemaForm
+					schema={row.schema}
+					uiSchema={{ ...row.uiSchema, 'ui:submitButtonOptions': { norender: true } }}
+					formContext={{ ...row.formContext, showDefaultValueHelper: true }}
+				/>
+			)
+		);
+
+		expect(helpTexts()).toContain(row.helper);
 	});
 });
