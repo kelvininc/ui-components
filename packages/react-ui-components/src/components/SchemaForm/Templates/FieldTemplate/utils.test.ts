@@ -65,7 +65,7 @@ describe('buildHelperOptions', () => {
 		it('should still drive the default helper text', () => {
 			const options = buildHelperOptions({ showDefaultValueHelper: true }, {});
 
-			expect(buildDefaultHelperText(options, 'a')).toBe('Default value is: a');
+			expect(buildDefaultHelperText(options, 'a')).toBe('Default: a');
 		});
 	});
 });

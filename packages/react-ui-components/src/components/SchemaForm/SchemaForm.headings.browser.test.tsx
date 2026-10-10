@@ -79,7 +79,7 @@ describe.each(ADDITIONAL_NAME_SHAPES)('additional property headings: $name', row
 		);
 		await whenAllKelvinReady(screen.container);
 		for (const name of row.names) await expect.element(screen.getByRole('heading', { name, exact: true })).toBeVisible();
-		await screen.getByRole('textbox', { name: 'backup Key', exact: true }).fill(row.renamed);
+		await screen.getByRole('textbox', { name: 'backup key', exact: true }).fill(row.renamed);
 		await screen.getByRole('button', { name: 'Outside settings', exact: true }).click();
 		await expect.element(screen.getByRole('heading', { name: row.renamed, exact: true })).toBeVisible();
 		await expect.element(screen.getByRole('group', { name: row.renamed, exact: true })).toBeVisible();

@@ -153,7 +153,7 @@ describe.each([StyleMode.Light, StyleMode.Night])('collection guidance in %s', t
 				expect(text.getBoundingClientRect().right).toBeLessThanOrEqual(field.getBoundingClientRect().right);
 			}
 			if (row.formData !== undefined) {
-				const message = `Default value is: ${row.formData}`;
+				const message = `Default: ${row.formData}`;
 				const helper = Array.from(screen.container.querySelectorAll('kv-form-help-text')).find(host => host.helpText === message)!;
 				expect(helper).toBeDefined();
 				await expect.poll(() => helper.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe(message.trim());
@@ -196,9 +196,9 @@ describe.each([StyleMode.Light, StyleMode.Night])('collection guidance in %s', t
 					const grip = entry.querySelector('kv-action-menu')!.getBoundingClientRect();
 					expect(drawnIcon.left + drawnIcon.width / 2).toBeCloseTo(grip.left + grip.width / 2, 0);
 				} else expect(icon).not.toBeNull();
-				const helper = Array.from(entry.querySelectorAll('kv-form-help-text')).find(host => host.helpText === 'Default value is: telemetry')!;
+				const helper = Array.from(entry.querySelectorAll('kv-form-help-text')).find(host => host.helpText === 'Default: telemetry')!;
 				expect(helper).toBeDefined();
-				await expect.poll(() => helper.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe('Default value is: telemetry');
+				await expect.poll(() => helper.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe('Default: telemetry');
 				const text = helper.shadowRoot!.querySelector('.help-text')!.getBoundingClientRect();
 				expect(text.left - control.getBoundingClientRect().left).toBeCloseTo(0, 0);
 				expect(text.right).toBeLessThanOrEqual(control.getBoundingClientRect().right);

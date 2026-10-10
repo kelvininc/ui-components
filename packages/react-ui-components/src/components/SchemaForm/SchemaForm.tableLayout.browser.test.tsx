@@ -367,7 +367,7 @@ it.each(L2_ITEM_GUIDANCE_SHAPES)('L2 real item guidance: $name', async row => {
 		await expect
 			.poll(() =>
 				page
-					.getByText(/^Default value is: /)
+					.getByText(/^Default: /)
 					.elements()
 					.some(element => element.checkVisibility({ checkVisibilityCSS: true }))
 			)
@@ -397,7 +397,7 @@ it('shows the configured default helper in opted-out sections', async () => {
 	await expect
 		.poll(() =>
 			page
-				.getByText('Default value is: LOG_LEVEL', { exact: true })
+				.getByText('Default: LOG_LEVEL', { exact: true })
 				.elements()
 				.some(element => element.checkVisibility({ checkVisibilityCSS: true }))
 		)

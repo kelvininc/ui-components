@@ -106,9 +106,7 @@ it.each(L2_ITEM_GUIDANCE_SHAPES)('L2 item guidance: $name', row => {
 		expect(Array.from(guidance, host => propsOf(host).helpText ?? propsOf(host).text)).toContain(row.message);
 	}
 	if (row.helper)
-		expect(Array.from(screen.container.querySelectorAll('kv-form-help-text'), host => propsOf(host).helpText).some(text => String(text).startsWith('Default value is: '))).toBe(
-			true
-		);
+		expect(Array.from(screen.container.querySelectorAll('kv-form-help-text'), host => propsOf(host).helpText).some(text => String(text).startsWith('Default: '))).toBe(true);
 });
 
 it.each(L2_LABEL_SHAPES)('L2 configured labels: $name', row => {
@@ -121,7 +119,7 @@ it.each(L2_LABEL_SHAPES)('L2 configured labels: $name', row => {
 it('enables the field default helper in sections before suppressing it in cells', () => {
 	const row = L2_PRESENTATION_SHAPES.find(row => row.name === 'default helper')!;
 	const screen = render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={{ ...row.uiSchema, 'ui:options': { layout: 'sections' } }} />);
-	expect(Array.from(screen.container.querySelectorAll('kv-form-help-text'), host => propsOf(host).helpText)).toContain('Default value is: LOG_LEVEL');
+	expect(Array.from(screen.container.querySelectorAll('kv-form-help-text'), host => propsOf(host).helpText)).toContain('Default: LOG_LEVEL');
 });
 
 it.each(L2_DESCRIPTION_SHAPES)('L2 header description visibility: $name', row => {

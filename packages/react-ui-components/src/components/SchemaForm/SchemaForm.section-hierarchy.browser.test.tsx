@@ -105,7 +105,7 @@ it('keeps nested descriptions, defaults and errors at the control edge through e
 			for (const id of group.getAttribute('aria-describedby')!.split(' ')) expect(screen.container.querySelectorAll(`[id="${id}"]`)).toHaveLength(1);
 		}
 		const help = texts.map(text => text.textContent);
-		expect(help.filter(text => text === 'Default value is: kafka-line-1.internal')).toHaveLength(1);
+		expect(help.filter(text => text === 'Default: kafka-line-1.internal')).toHaveLength(1);
 		return help;
 	};
 	expect(checkAlignment()).toContain('Hostname expected in the server certificate.');
@@ -417,7 +417,7 @@ it('keeps additional-property key controls inside their section guide', async ()
 	);
 	await whenAllKelvinReady(screen.container);
 	const guide = screen.container.querySelector<HTMLElement>('[data-schema-form-boundary-field="root_connections_primary"]')!;
-	const key = screen.getByRole('textbox', { name: 'primary Key', exact: true }).element();
+	const key = screen.getByRole('textbox', { name: 'primary key', exact: true }).element();
 	const keyHost = screen.container.querySelector('#root_connections_primary-key')!;
 	expect(guide.contains(keyHost)).toBe(true);
 	expect(keyHost.getBoundingClientRect().left).toBeCloseTo(guide.getBoundingClientRect().left + 9, 0);

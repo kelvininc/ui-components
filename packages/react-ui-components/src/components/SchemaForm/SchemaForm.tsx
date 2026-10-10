@@ -29,6 +29,7 @@ import { humanizeSchemaErrors, pruneOptionErrors, sanitizeExtraErrors } from './
 import { areValidationConfigsEqual, getValidationConfig } from './rjsf/Form';
 import withGuardedTheme from './rjsf/withTheme';
 import { areSettingsEqual, mergeUiSchemas } from './rjsf/merge';
+import { SCHEMA_FORM_STRINGS } from './strings';
 
 function useStableValue<V>(value: V, equal: (previous: V, next: V) => boolean = areSettingsEqual): V {
 	const [previous, setPrevious] = useState(value);
@@ -320,12 +321,12 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 				{showErrorsSwitch && (
 					<div className={styles.Action}>
 						<KvSwitchButton
-							accessibleLabel="Show All Errors"
+							accessibleLabel={SCHEMA_FORM_STRINGS.showAllErrors}
 							checked={isShowingAllErrors}
 							onSwitchChange={({ detail: newValue }) => setShowingAllErrors(newValue)}
 							size={EComponentSize.Small}
 						/>
-						<div className={styles.Text}>Show All Errors</div>
+						<div className={styles.Text}>{SCHEMA_FORM_STRINGS.showAllErrors}</div>
 					</div>
 				)}
 				<SectionLayoutContext.Provider value={ROOT_SECTION_LAYOUT}>
@@ -340,7 +341,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 							<div className={styles.LeftFooter}>
 								{allowResetToDefaults && (
 									<KvActionButtonText
-										text="Reset to defaults"
+										text={SCHEMA_FORM_STRINGS.resetToDefaults}
 										disabled={disabled || !hasDefaults}
 										size={EComponentSize.Large}
 										type={EActionButtonType.Tertiary}
@@ -351,7 +352,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 							<div className={styles.RightFooter}>
 								{allowDiscardChanges && (
 									<KvActionButtonText
-										text="Discard changes"
+										text={SCHEMA_FORM_STRINGS.discardChanges}
 										disabled={disabled || !hasChanges}
 										size={EComponentSize.Large}
 										type={EActionButtonType.Tertiary}
@@ -361,7 +362,7 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 								{!norender && (
 									<KvTooltip text={submitButtonProps?.tooltipText} position={submitButtonProps?.tooltipPosition}>
 										<KvActionButtonText
-											text={submitText || 'Save'}
+											text={submitText || SCHEMA_FORM_STRINGS.save}
 											disabled={disabled || !isValid || submitButtonProps?.disabled}
 											size={EComponentSize.Large}
 											type={EActionButtonType.Primary}

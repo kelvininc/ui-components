@@ -230,6 +230,16 @@ Native text insertion and committed IME text obey the same cap. Composition draf
 browser until they finish; a rejected commit restores the previous value without emitting a change.
 Caller-supplied values above the cap stay visible and can still be shortened by deletion.
 
+## Built-in labels
+
+SchemaForm's built-in actions, status messages and helper text use sentence case.
+The error switch reads "Show all errors", the error summary reads "Errors", and additional
+property inputs use `<field> key`. Single-select dropdowns use "Clear selection";
+multi-select dropdowns use "Clear all". Empty dropdowns show "No data available".
+Custom dropdown action labels still take precedence; blank values restore the defaults.
+Field and section headings keep their uppercase typography. SchemaForm preserves
+caller-supplied field names, acronyms and option labels.
+
 ## File action labels
 
 SchemaForm labels its file picker action "Choose file" for an empty single field, "Replace file" for
