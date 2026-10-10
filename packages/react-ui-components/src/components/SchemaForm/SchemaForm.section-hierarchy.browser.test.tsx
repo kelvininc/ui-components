@@ -95,10 +95,13 @@ it('keeps nested descriptions, defaults and errors at the control edge through e
 	);
 	await whenAllKelvinReady(screen.container);
 	const hostId = '#root_0_connection_security_tls_server_name';
+	const helpTexts = () => {
+		const field = screen.container.querySelector(hostId)!.closest('[data-schema-form-field]')!;
+		return Array.from(field.querySelectorAll('kv-form-help-text')).flatMap(helper => Array.from(helper.shadowRoot!.querySelectorAll('.help-text')));
+	};
 	const checkAlignment = () => {
 		const host = screen.container.querySelector(hostId)!;
-		const field = host.closest('[data-schema-form-field]')!;
-		const texts = Array.from(field.querySelectorAll('kv-form-help-text')).flatMap(helper => Array.from(helper.shadowRoot!.querySelectorAll('.help-text')));
+		const texts = helpTexts();
 		expect(texts.length).toBeGreaterThan(0);
 		for (const text of texts) expect(text.getBoundingClientRect().left).toBeCloseTo(host.getBoundingClientRect().left, 0);
 		for (const group of screen.container.querySelectorAll('[role="group"][aria-describedby]')) {
@@ -115,6 +118,8 @@ it('keeps nested descriptions, defaults and errors at the control edge through e
 		</div>
 	);
 	await whenAllKelvinReady(screen.container);
+	// The error helper can render a frame after the components report ready
+	await expect.poll(() => helpTexts().map(text => text.textContent)).toContain('Must be a valid hostname.');
 	expect(checkAlignment()).toContain('Must be a valid hostname.');
 	await screen.getByRole('textbox', { name: 'Server name', exact: true }).fill('broker-2.internal');
 	await screen.getByRole('button', { name: 'Discard changes', exact: true }).click();
