@@ -1,11 +1,12 @@
 import { setThemeMode, StyleMode } from '@kelvininc/ui-components';
+import { UiSchema } from '@rjsf/utils';
 import React from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../test-utils/browser';
 import { KvSchemaForm } from './SchemaForm';
-import { REQUIRED_MARKER_SHAPES } from './test-utils/matrix';
+import { REQUIRED_MARKER_SHAPES, REQUIRED_MARKER_TABLE_SHAPE } from './test-utils/matrix';
 import styles from './Templates/TitleFieldTemplate/TitleFieldTemplate.module.scss';
 
 afterEach(() => setThemeMode(StyleMode.Night));
@@ -57,7 +58,8 @@ describe.each([StyleMode.Light, StyleMode.Night])('required marker geometry in %
 				const suffixGap = direction === 'ltr' ? markerBox.left - titleBox.right : titleBox.left - markerBox.right;
 				const helpGap = direction === 'ltr' ? helpBox.left - markerBox.right : markerBox.left - helpBox.right;
 				expect(Math.abs(suffixGap - 4)).toBeLessThanOrEqual(1);
-				expect(Math.abs(helpGap - 8)).toBeLessThanOrEqual(1);
+				// The help button's own padding adds another 4px, so its icon sits 8px from the text, as in table headers
+				expect(Math.abs(helpGap - 4)).toBeLessThanOrEqual(1);
 				for (const box of [title.getBoundingClientRect(), markerBox, helpBox]) {
 					expect(box.width).toBeGreaterThan(0);
 					expect(box.left).toBeGreaterThanOrEqual(ownerBox.left - 1);
@@ -79,6 +81,45 @@ describe.each([StyleMode.Light, StyleMode.Night])('required marker geometry in %
 	});
 });
 
+const helpIcon = (container: HTMLElement) => {
+	const button = container.querySelector<HTMLElement>('kv-toggle-tip kv-action-button-icon')!;
+	return { button: button.getBoundingClientRect(), icon: button.shadowRoot!.querySelector('kv-icon')!.shadowRoot!.querySelector('.icon')!.getBoundingClientRect() };
+};
+const withoutHelp = (uiSchema: UiSchema) => {
+	const { 'ui:help': _help, ...setting } = uiSchema.setting;
+	return { ...uiSchema, setting };
+};
+
+describe.each(REQUIRED_MARKER_SHAPES.filter(row => row.uiSchema?.setting?.['ui:help']))('help button geometry: $name', row => {
+	it('matches the table header help and keeps the title row as tall as one without help', async () => {
+		// Remount (key) between the three forms, so each measures its own fresh render
+		const screen = await render(
+			<KvSchemaForm key="table" schema={REQUIRED_MARKER_TABLE_SHAPE.schema} uiSchema={REQUIRED_MARKER_TABLE_SHAPE.uiSchema} formData={REQUIRED_MARKER_TABLE_SHAPE.formData} />
+		);
+		await whenAllKelvinReady(screen.container);
+		const header = helpIcon(screen.container);
+
+		await screen.rerender(<KvSchemaForm<unknown> key="help" schema={row.schema} uiSchema={row.uiSchema} formData={row.formData} />);
+		await whenAllKelvinReady(screen.container);
+		await document.fonts.ready;
+		const titleRow = screen.container.querySelector<HTMLElement>('kv-toggle-tip')!.parentElement!;
+		expect(titleRow.classList.contains(styles.TitleContainer)).toBe(true);
+		const titleRows = () => Array.from(screen.container.querySelectorAll<HTMLElement>(`.${styles.TitleContainer}`));
+		const rowIndex = titleRows().indexOf(titleRow);
+		const helpedHeight = titleRow.getBoundingClientRect().height;
+		const field = helpIcon(screen.container);
+		expect(field.icon.width).toBe(header.icon.width);
+		expect(field.icon.height).toBe(header.icon.height);
+		expect(field.button.height).toBe(header.button.height);
+
+		await screen.rerender(<KvSchemaForm<unknown> key="plain" schema={row.schema} uiSchema={withoutHelp(row.uiSchema!)} formData={row.formData} />);
+		await whenAllKelvinReady(screen.container);
+		await document.fonts.ready;
+		expect(screen.container.querySelector('kv-toggle-tip')).toBeNull();
+		expect(helpedHeight).toBe(titleRows()[rowIndex].getBoundingClientRect().height);
+	});
+});
+
 it('keeps accessible names and Tab order when a required title has help', async () => {
 	const row = REQUIRED_MARKER_SHAPES[0];
 	const screen = await render(
@@ -91,7 +132,11 @@ it('keeps accessible names and Tab order when a required title has help', async 
 	await whenAllKelvinReady(screen.container);
 	const control = screen.getByRole('textbox', { name: 'Port name', exact: true });
 	await expect.element(control).not.toHaveAttribute('required');
+	const help = screen.getByRole('button', { name: 'Help for Port name', exact: true });
 	await screen.getByRole('button', { name: 'Before labels', exact: true }).click();
+	// The title's help is a named button in the Tab order, ahead of the control it describes
+	await userEvent.tab();
+	await expect.poll(() => help.element().matches(':focus')).toBe(true);
 	await userEvent.tab();
 	await expect.poll(() => control.element().matches(':focus')).toBe(true);
 	await userEvent.tab();

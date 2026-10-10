@@ -137,7 +137,7 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 	const headingShown = options.label !== false && typeof headingTitle === 'string' && Boolean(headingTitle.trim());
 	const legendFrame = Boolean(options.fieldset) && !table && section && defaultTemplate && (headingShown || Boolean(menu));
 	const body = layout ? React.cloneElement(field, { uiSchema: itemUiSchema, title: itemName }) : field;
-	const controls = { fieldId: field.props.idSchema.$id, fieldset: Boolean(options.fieldset), before, after, header: section ? menu : undefined };
+	const controls = { fieldId: field.props.idSchema.$id, itemName, fieldset: Boolean(options.fieldset), before, after, header: section ? menu : undefined };
 	const parentLayout = useSectionLayout();
 	const { state: sectionLayout, boundary } = section ? claimSectionBoundary(parentLayout, controls.fieldId, 'item') : { state: parentLayout, boundary: null };
 	const rowHeaderId = table ? `${table.id}-row-${index}` : '';
