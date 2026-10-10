@@ -93,7 +93,7 @@ describe.each(OBJECT_SHAPES.filter(row => row.name === 'additionalProperties tru
 		const onChange = vi.fn();
 		const screen = await render(<KvSchemaForm schema={row.schema} formData={row.formData} onChange={onChange} />);
 		await whenAllKelvinReady(screen.container);
-		const control = screen.getByRole('textbox', { name: 'site Key', exact: true });
+		const control = screen.getByRole('textbox', { name: 'site key', exact: true });
 		const host = screen.container.querySelector<HTMLKvTextFieldElement>('kv-text-field[id$="-key"]')!;
 		host.focus();
 		await expect.poll(focusedControl).toBe(control.element());
@@ -120,7 +120,7 @@ describe.each(TOGGLE_BUTTON_GROUP_SHAPES)('C4 toggle widget focus: $name', row =
 	});
 });
 
-describe.each(['{Enter}', ' '])('C4 Show All Errors switch: %s', key => {
+describe.each(['{Enter}', ' '])('C4 Show all errors switch: %s', key => {
 	it('exposes a named switch that reveals errors once without submitting', async () => {
 		const onSubmit = vi.fn();
 		const onChange = vi.fn();
@@ -137,8 +137,8 @@ describe.each(['{Enter}', ' '])('C4 Show All Errors switch: %s', key => {
 			/>
 		);
 		await whenAllKelvinReady(screen.container);
-		expect(screen.container.querySelector<HTMLKvSwitchButtonElement>('kv-switch-button')!.accessibleLabel).toBe('Show All Errors');
-		const control = screen.getByRole('switch', { name: 'Show All Errors', exact: true });
+		expect(screen.container.querySelector<HTMLKvSwitchButtonElement>('kv-switch-button')!.accessibleLabel).toBe('Show all errors');
+		const control = screen.getByRole('switch', { name: 'Show all errors', exact: true });
 		await expect.element(control).toHaveAttribute('aria-checked', 'false');
 		const host = screen.container.querySelector<HTMLKvSwitchButtonElement>('kv-switch-button')!;
 		const change = vi.fn();

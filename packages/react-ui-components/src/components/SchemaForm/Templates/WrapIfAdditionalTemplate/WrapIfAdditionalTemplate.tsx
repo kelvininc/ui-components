@@ -17,7 +17,7 @@ const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F 
 	required,
 	schema
 }: WrapIfAdditionalTemplateProps<T, S, F>): any => {
-	const keyLabel = `${label} Key`;
+	const keyLabel = SCHEMA_FORM_STRINGS.propertyKey(label);
 	const additional = schema.hasOwnProperty(ADDITIONAL_PROPERTY_FLAG);
 	const focusRef = useSchemaFormFocusRef<HTMLKvTextFieldElement>(disabled || readonly);
 

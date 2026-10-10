@@ -167,7 +167,7 @@ describe.each(FOCUS_EDITING_FLAGS)('additional property Tab order: $name', flags
 		await screen.getByRole('button', { name: 'Before labels', exact: true }).click();
 		if (flags.focused) {
 			await userEvent.tab();
-			await expect.poll(focusedControl).toBe(screen.getByRole('textbox', { name: 'site Key', exact: true }).element());
+			await expect.poll(focusedControl).toBe(screen.getByRole('textbox', { name: 'site key', exact: true }).element());
 			await userEvent.tab();
 			await expect.poll(focusedControl).toBe(screen.getByRole('textbox', { name: 'site', exact: true }).element());
 			await userEvent.tab();

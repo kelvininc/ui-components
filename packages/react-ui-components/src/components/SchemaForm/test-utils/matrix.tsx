@@ -419,11 +419,25 @@ export const DROPDOWN_LABEL_SHAPES: readonly {
 	name: string;
 	labels: { clearSelectionLabel?: string | null; selectAllLabel?: string | null };
 	clearLabel: string;
+	singleClearLabel?: string;
 	selectLabel: string;
 }[] = [
-	{ name: 'omitted', labels: {}, clearLabel: 'Clear all', selectLabel: 'Select all' },
-	{ name: 'undefined', labels: { clearSelectionLabel: undefined, selectAllLabel: undefined }, clearLabel: 'Clear all', selectLabel: 'Select all' },
-	{ name: 'null', labels: { clearSelectionLabel: null, selectAllLabel: null }, clearLabel: 'Clear all', selectLabel: 'Select all' },
+	{ name: 'omitted', labels: {}, clearLabel: 'Clear all', singleClearLabel: 'Clear selection', selectLabel: 'Select all' },
+	{
+		name: 'undefined',
+		labels: { clearSelectionLabel: undefined, selectAllLabel: undefined },
+		clearLabel: 'Clear all',
+		singleClearLabel: 'Clear selection',
+		selectLabel: 'Select all'
+	},
+	{ name: 'null', labels: { clearSelectionLabel: null, selectAllLabel: null }, clearLabel: 'Clear all', singleClearLabel: 'Clear selection', selectLabel: 'Select all' },
+	{ name: 'blank', labels: { clearSelectionLabel: ' ', selectAllLabel: '' }, clearLabel: 'Clear all', singleClearLabel: 'Clear selection', selectLabel: 'Select all' },
+	{
+		name: 'padded',
+		labels: { clearSelectionLabel: '  Clear retry policy  ', selectAllLabel: '\tSelect every retry count\n' },
+		clearLabel: 'Clear retry policy',
+		selectLabel: 'Select every retry count'
+	},
 	{
 		name: 'custom',
 		labels: { clearSelectionLabel: 'Clear retry policy', selectAllLabel: 'Select every retry count' },
@@ -431,7 +445,24 @@ export const DROPDOWN_LABEL_SHAPES: readonly {
 		selectLabel: 'Select every retry count'
 	},
 	{ name: 'clear override', labels: { clearSelectionLabel: 'Clear retry policy' }, clearLabel: 'Clear retry policy', selectLabel: 'Select all' },
-	{ name: 'select-all override', labels: { selectAllLabel: 'Select every retry count' }, clearLabel: 'Clear all', selectLabel: 'Select every retry count' }
+	{
+		name: 'select-all override',
+		labels: { selectAllLabel: 'Select every retry count' },
+		clearLabel: 'Clear all',
+		singleClearLabel: 'Clear selection',
+		selectLabel: 'Select every retry count'
+	}
+];
+
+// Select widgets with no options. AJV rejects `enum: []`, so the schemas carry no enum.
+export const EMPTY_DROPDOWN_SHAPES: readonly { name: string; multiple: boolean; schema: RJSFSchema; uiSchema: UiSchema }[] = [
+	{ name: 'single broker', multiple: false, schema: { type: 'string', title: 'Broker' }, uiSchema: { 'ui:widget': 'select' } },
+	{
+		name: 'multiple brokers',
+		multiple: true,
+		schema: { type: 'array', title: 'Brokers', uniqueItems: true, items: { type: 'string' } },
+		uiSchema: { 'ui:widget': 'select' }
+	}
 ];
 
 export const SELECT_FOCUS_SHAPES: readonly {
@@ -1046,7 +1077,7 @@ export const HELP_TEXT_CONSUMER_SHAPES: readonly {
 		uiSchema: { broker: { 'ui:showDefaultValueHelper': true, 'ui:defaultValueHelperPrefix': 'Default broker: ' } },
 		formData: { broker: 'mqtts://broker-1:8883', notes: 'Plant broker' },
 		extraErrors: { broker: { __errors: ['Broker unavailable'] } },
-		regularMessages: ['ERRORS LIST:', 'Default broker: mqtts://broker-1:8883', 'Describe this connection']
+		regularMessages: ['Errors', 'Default broker: mqtts://broker-1:8883', 'Describe this connection']
 	}
 ];
 
@@ -1822,7 +1853,7 @@ export const L1_ALIGNMENT_SHAPES: {
 	{ name: 'top description', uiSchema: { items: { 'ui:description': 'The plant topic to receive.', 'ui:descriptionPosition': 'top' } }, message: 'The plant topic to receive.' },
 	{ name: 'visible errors', uiSchema: {}, extraErrors: { 0: { __errors: ['Topic is unavailable.'] } }, message: 'Topic is unavailable.' },
 	{ name: 'help tip', uiSchema: { items: { 'ui:help': 'Use the plant topic name.' } }, message: 'Use the plant topic name.' },
-	{ name: 'default helper', uiSchema: { items: { 'ui:showDefaultValueHelper': true } }, defaultHelper: true, message: 'Default value is: ' }
+	{ name: 'default helper', uiSchema: { items: { 'ui:showDefaultValueHelper': true } }, defaultHelper: true, message: 'Default: ' }
 ];
 
 export const L1_HIDDEN_ITEM_HEADINGS = [
@@ -4675,6 +4706,7 @@ export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
 	INPUT_FOCUS_SHAPES,
 	SELECT_FOCUS_SHAPES,
 	DROPDOWN_LABEL_SHAPES,
+	EMPTY_DROPDOWN_SHAPES,
 	FOCUS_EDITING_FLAGS,
 	TOGGLE_FOCUS_MODES,
 	TOGGLE_BUTTON_GROUP_SHAPES,
