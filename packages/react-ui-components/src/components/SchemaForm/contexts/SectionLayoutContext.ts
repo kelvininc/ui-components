@@ -28,7 +28,11 @@ export const claimSectionBoundary = (parent: SectionLayoutState, fieldId: string
 	};
 };
 
-export const sectionBodyLayout = ({ owner, ...state }: SectionLayoutState): SectionLayoutState => ({ ...state, sectionLevel: state.sectionLevel + 1 });
+// A body that opens no level keeps its parent's level, so its sections keep the parent's dividers (SectionField decides).
+export const sectionBodyLayout = ({ owner, ...state }: SectionLayoutState, opensLevel: boolean): SectionLayoutState => ({
+	...state,
+	sectionLevel: state.sectionLevel + Number(opensLevel)
+});
 
 export const getSectionHeadingKind = (state: SectionLayoutState, isItemTitle: boolean): SectionHeadingKind =>
 	(isItemTitle && state.itemLevel === 1) || (!isItemTitle && state.sectionLevel <= 1 && state.itemLevel === 0) ? 'major' : 'subsection';
