@@ -3,17 +3,20 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ChoiceControlContext, useFormState } from '../../contexts';
 import { SCHEMA_FORM_STRINGS } from '../../strings';
 import { resolveAllowClearInputs } from '../../Widgets/utils';
-import { getChoicePresentation } from './utils';
+import { getChoicePresentation, getSelectPlaceholder } from './utils';
 import styles from './FieldTemplate.module.scss';
 
 const ChoiceExtras = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: FieldTemplateProps<T, S, F>) => {
-	const { id, label, formData, onChange, required, disabled, readonly, uiSchema, registry, children } = props;
+	const { id, label, formData, onChange, required, disabled, readonly, schema, uiSchema, registry, children } = props;
 	const fieldTitle = getUiOptions(uiSchema, registry.globalUiOptions).title ?? label;
 	const hostRef = useContext(ChoiceControlContext);
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
 	const { choice, radio } = getChoicePresentation(props);
 	const unset = formData === undefined;
-	const canClear = radio && !required && !disabled && !readonly && (resolveAllowClearInputs(uiSchema, registry) ?? true);
+	// A select with a placeholder already says nothing is chosen; a radio group, or a select without one, says it here
+	const showNotSet = choice && unset && (radio || !getSelectPlaceholder(props));
+	// Clearing a field with a default leaves it unset, which is not the default: offer it only when there is none
+	const canClear = radio && !required && !disabled && !readonly && schema.default === undefined && (resolveAllowClearInputs(uiSchema, registry) ?? true);
 	const [focusRequest, requestFocus] = useState(0);
 	const pendingFocus = useRef(false);
 
@@ -36,8 +39,8 @@ const ChoiceExtras = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		};
 	}, [focusRequest, unset, canClear, hostRef]);
 
-	if (!choice || (!unset && !canClear)) return <>{children}</>;
-	const annotation = unset && <span className={styles.NotSet}>{SCHEMA_FORM_STRINGS.notSet}</span>;
+	if (!choice || (!showNotSet && !canClear)) return <>{children}</>;
+	const annotation = showNotSet && <span className={styles.NotSet}>{SCHEMA_FORM_STRINGS.notSet}</span>;
 	return (
 		<>
 			<div className={styles.ChoiceExtras}>
