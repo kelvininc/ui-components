@@ -138,6 +138,15 @@ describe.each(L1_SCALAR_LIST_SHAPES)('L1 scalar alignment: $name', row => {
 				const tip = items[0].querySelector<HTMLKvToggleTipElement>('kv-toggle-tip');
 				expect(tip).not.toBeNull();
 				expect(tip!.text).toBe(message);
+				// A bare item's help is a button named after the item, in Tab order between its input and its Remove button
+				const help = screen.getByRole('button', { name: `Help for ${row.itemName} 1`, exact: true });
+				const remove = screen.getByRole('button', { name: `Remove ${row.itemName} 1`, exact: true });
+				const firstHost = items[0].querySelector('kv-text-field[id="root_0"],kv-single-select-dropdown[id="root_0"]')!;
+				(firstHost.localName === 'kv-text-field' ? firstHost : firstHost.querySelector('kv-text-field')!).shadowRoot!.querySelector('input')!.focus();
+				await userEvent.tab();
+				await expect.poll(() => help.element().matches(':focus')).toBe(true);
+				await userEvent.tab();
+				await expect.poll(() => remove.element().matches(':focus')).toBe(true);
 				await userEvent.click(tip!.querySelector('[slot="open-element-slot"]')!);
 				await expect
 					.poll(

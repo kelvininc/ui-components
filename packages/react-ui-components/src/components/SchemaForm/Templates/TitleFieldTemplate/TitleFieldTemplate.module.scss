@@ -4,6 +4,7 @@
 	margin-bottom: var(--spacing-xs);
 	display: flex;
 	align-items: center;
+	gap: var(--spacing-xs);
 	min-width: 0;
 
 	kv-info-label::part(title) {
@@ -36,12 +37,6 @@
 		@include heading-xs-semibold-caps;
 
 		color: var(--input-text-required-default);
-		margin-inline-start: var(--spacing-xs);
-		flex-shrink: 0;
-	}
-
-	.ToggleTip {
-		margin-inline-start: var(--spacing-md);
 		flex-shrink: 0;
 	}
 }

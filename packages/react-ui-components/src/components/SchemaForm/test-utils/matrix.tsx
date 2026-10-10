@@ -2979,6 +2979,7 @@ export const SECTION_HEADING_SHAPES: readonly {
 	uiSchema?: UiSchema;
 	formData?: unknown;
 	headings: { title: string; level: number }[];
+	helpButtons?: string[];
 }[] = [
 	{ name: 'titled root', schema: CONNECTION, formData: { host: 'broker-1.local' }, headings: [{ title: 'Connection', level: 2 }] },
 	{ name: 'UI title', schema: CONNECTION, uiSchema: { 'ui:title': 'Broker settings' }, headings: [{ title: 'Broker settings', level: 2 }] },
@@ -3025,6 +3026,24 @@ export const SECTION_HEADING_SHAPES: readonly {
 		schema: { type: 'array', title: 'Sites', uniqueItems: true, items: { type: 'object', enum: [{ region: 'lisbon' }, { region: 'berlin' }] } },
 		formData: [],
 		headings: []
+	},
+	{
+		name: 'heading help',
+		schema: CONNECTION,
+		uiSchema: { 'ui:help': 'Settings for the MQTT broker connection.' },
+		formData: { host: 'broker-1.local' },
+		headings: [{ title: 'Connection', level: 2 }],
+		helpButtons: ['Help for Connection']
+	},
+	{
+		name: 'nested heading help',
+		schema: { type: 'object', title: 'Plant', properties: { connection: CONNECTION } },
+		uiSchema: { connection: { 'ui:help': 'Settings for the MQTT broker connection.' } },
+		headings: [
+			{ title: 'Plant', level: 2 },
+			{ title: 'Connection', level: 3 }
+		],
+		helpButtons: ['Help for Connection']
 	}
 ];
 
