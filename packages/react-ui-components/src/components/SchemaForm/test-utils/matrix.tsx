@@ -1981,6 +1981,19 @@ export const L1_HIDDEN_ITEM_HEADINGS = [
 	{ name: 'hidden label', uiSchema: { items: { 'ui:label': false } } }
 ];
 
+/** A prefix names an object item even when its title is blank ("Port 1"); `ui:label: false` still hides the heading */
+export const L1_PREFIXED_ITEM_HEADINGS: readonly { name: string; uiSchema: UiSchema; headings: readonly string[] }[] = [
+	{ name: 'blank title with an item prefix', uiSchema: { items: { 'ui:title': '', 'ui:itemPrefix': 'Port' } }, headings: ['Port 1', 'Port 2', 'Port 3'] },
+	{ name: 'blank options title with an array prefix', uiSchema: { 'ui:itemPrefix': 'Port', 'items': { 'ui:options': { title: '' } } }, headings: ['Port 1', 'Port 2', 'Port 3'] },
+	{
+		name: 'whitespace title with an options prefix',
+		uiSchema: { 'ui:options': { itemPrefix: 'Port' }, 'items': { 'ui:title': '   ' } },
+		headings: ['Port 1', 'Port 2', 'Port 3']
+	},
+	{ name: 'hidden label with an item prefix', uiSchema: { items: { 'ui:label': false, 'ui:itemPrefix': 'Port' } }, headings: [] },
+	{ name: 'hidden label with an array prefix', uiSchema: { 'ui:itemPrefix': 'Port', 'items': { 'ui:label': false } }, headings: [] }
+];
+
 const WrappedItem = ({ children }: WrapIfAdditionalTemplateProps) => <div data-custom-item-wrap>{children}</div>;
 const nestedBrokers = {
 	schema: {
@@ -2005,15 +2018,38 @@ export const L1_FIELDSET_SHAPES: {
 	headers: number;
 	overlays: number;
 	menus: number;
+	/** A header holds a heading unless only the item menu sits on the border */
+	heading?: false;
+	/** `legend` frames open below a header on the top border; `even` frames have no header there and pad all sides alike */
+	frame: 'legend' | 'even';
 }[] = [
-	{ name: 'item actions', row: ARRAY_SHAPES[2], uiSchema: { 'ui:options': { layout: 'sections' }, 'items': { 'ui:fieldset': true } }, headers: 3, overlays: 3, menus: 3 },
+	{
+		name: 'item actions',
+		row: ARRAY_SHAPES[2],
+		uiSchema: { 'ui:options': { layout: 'sections' }, 'items': { 'ui:fieldset': true } },
+		headers: 3,
+		overlays: 3,
+		menus: 3,
+		frame: 'legend'
+	},
+	{
+		name: 'blank title with actions',
+		row: ARRAY_SHAPES[2],
+		uiSchema: { 'ui:options': { layout: 'sections' }, 'items': { 'ui:fieldset': true, 'ui:title': '' } },
+		headers: 3,
+		overlays: 3,
+		menus: 3,
+		heading: false,
+		frame: 'legend'
+	},
 	{
 		name: 'no item actions',
 		row: ARRAY_SHAPES[2],
 		uiSchema: { 'ui:options': { layout: 'sections', orderable: false, removable: false }, 'items': { 'ui:fieldset': true } },
 		headers: 3,
 		overlays: 3,
-		menus: 0
+		menus: 0,
+		frame: 'legend'
 	},
 	{
 		name: 'blank title without actions',
@@ -2021,7 +2057,8 @@ export const L1_FIELDSET_SHAPES: {
 		uiSchema: { 'ui:options': { layout: 'sections', orderable: false, removable: false }, 'items': { 'ui:fieldset': true, 'ui:title': '' } },
 		headers: 0,
 		overlays: 0,
-		menus: 0
+		menus: 0,
+		frame: 'even'
 	},
 	{
 		name: 'hidden label without actions',
@@ -2029,7 +2066,8 @@ export const L1_FIELDSET_SHAPES: {
 		uiSchema: { 'ui:options': { layout: 'sections', orderable: false, removable: false }, 'items': { 'ui:fieldset': true, 'ui:label': false } },
 		headers: 0,
 		overlays: 0,
-		menus: 0
+		menus: 0,
+		frame: 'even'
 	},
 	{
 		name: 'custom wrapping template without actions',
@@ -2038,7 +2076,8 @@ export const L1_FIELDSET_SHAPES: {
 		templates: { WrapIfAdditionalTemplate: WrappedItem },
 		headers: 3,
 		overlays: 3,
-		menus: 0
+		menus: 0,
+		frame: 'legend'
 	},
 	{
 		name: 'nested plain items',
@@ -2046,7 +2085,8 @@ export const L1_FIELDSET_SHAPES: {
 		uiSchema: { items: { 'ui:fieldset': true, 'brokers': { 'ui:options': { layout: 'sections' } } } },
 		headers: 9,
 		overlays: 3,
-		menus: 9
+		menus: 9,
+		frame: 'legend'
 	},
 	{
 		name: 'nested fieldset items',
@@ -2054,7 +2094,17 @@ export const L1_FIELDSET_SHAPES: {
 		uiSchema: { items: { 'ui:fieldset': true, 'brokers': { 'ui:options': { layout: 'sections' }, 'items': { 'ui:fieldset': true } } } },
 		headers: 9,
 		overlays: 9,
-		menus: 9
+		menus: 9,
+		frame: 'legend'
+	},
+	{
+		name: 'scalar items',
+		row: { schema: { type: 'array', title: 'Commands', items: { type: 'string' } }, formData: ['cat /tmp/ready'] },
+		uiSchema: { 'ui:options': { orderable: false }, 'items': { 'ui:title': '', 'ui:itemPrefix': 'Command', 'ui:fieldset': true } },
+		headers: 0,
+		overlays: 0,
+		menus: 0,
+		frame: 'even'
 	}
 ];
 
@@ -2362,6 +2412,39 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 			{ name: 'broker-3', token: 'broker-3-token' }
 		],
 		isFlat: false
+	}
+];
+
+/** An empty flat list shows only Add, where an empty sections list puts it; its column headers arrive with the first row */
+export const L2_EMPTY_LIST_SHAPES = [
+	{ name: 'title only', schema: FLAT_OBJECT_SHAPES[0].schema, columns: ['row', 'Name', 'Value', 'Actions'] },
+	{
+		name: 'with a description',
+		schema: { ...FLAT_OBJECT_SHAPES[0].schema, description: 'Environment variables passed to the connector.' },
+		columns: ['row', 'Name', 'Value', 'Actions']
+	}
+];
+
+/** Removing the last entry leaves an empty list: focus moves to Add, or to the named list when nothing can be added */
+export const R5_FINAL_REMOVAL_SHAPES = [
+	{ name: 'scalar list', schema: ARRAY_SHAPES[6].schema, formData: ARRAY_SHAPES[6].formData, remove: 'Remove Topic 1', listName: 'Topics', table: false },
+	{ name: 'table', schema: FLAT_OBJECT_SHAPES[0].schema, formData: FLAT_OBJECT_SHAPES[0].formData.slice(0, 1), remove: 'Remove row 1', listName: 'Variables', table: true }
+];
+
+/** A focus holder restores its container's attributes on blur, except those a re-render changed while it held focus */
+export const FOCUS_HOLDER_RESTORE_CASES: readonly {
+	name: string;
+	before: Record<string, string>;
+	change: Record<string, string | null>;
+	after: Record<string, string | null>;
+}[] = [
+	{ name: 'an empty list', before: {}, change: {}, after: { 'tabindex': null, 'role': null, 'aria-label': null } },
+	{ name: 'a table', before: { 'role': 'table', 'aria-label': 'Variables' }, change: {}, after: { 'tabindex': null, 'role': 'table', 'aria-label': 'Variables' } },
+	{
+		name: 'a table that loses its last row',
+		before: { 'role': 'table', 'aria-label': 'Variables' },
+		change: { 'role': null, 'aria-label': null },
+		after: { 'tabindex': null, 'role': null, 'aria-label': null }
 	}
 ];
 
@@ -5082,5 +5165,9 @@ export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
 	R4_OPTION_ERROR_SHAPES,
 	ADDITIONAL_LAYOUT_SHAPES,
 	ARRAY_ID_SHAPES,
-	ADDITIONAL_NAME_SHAPES
+	ADDITIONAL_NAME_SHAPES,
+	L1_PREFIXED_ITEM_HEADINGS,
+	L2_EMPTY_LIST_SHAPES,
+	R5_FINAL_REMOVAL_SHAPES,
+	FOCUS_HOLDER_RESTORE_CASES
 ].forEach(deepFreeze);

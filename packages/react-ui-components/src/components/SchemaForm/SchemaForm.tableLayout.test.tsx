@@ -14,6 +14,7 @@ import {
 	L2_REGISTRY_OVERRIDES,
 	L2_NUMERIC_DISPATCH_SHAPES,
 	LIST_OPTIONS,
+	L2_EMPTY_LIST_SHAPES,
 	ERROR_SHAPES,
 	BROKER_SCHEMA,
 	BROKER_FORM_DATA
@@ -50,6 +51,34 @@ describe.each(FLAT_OBJECT_SHAPES)('L2 table eligibility: $name', row => {
 				/>
 			);
 			expect(Boolean(screen.container.querySelector('[role="table"]'))).toBe(row.isFlat && !optedOut);
+		});
+	});
+});
+
+describe.each(L2_EMPTY_LIST_SHAPES)('L2 empty table: $name', row => {
+	describe.each(LIST_OPTIONS)('$name', option => {
+		it.each([false, true])('shows only Add, without table semantics, when readonly is %s', async readonly => {
+			const screen = render(<KvSchemaForm schema={row.schema} formData={[]} readonly={readonly} uiSchema={{ 'ui:options': option.options }} />);
+			const list = screen.container.querySelector('[data-schema-form-list="root"]')!;
+			// The list stays a named group; it has no rows, so there are no column headers or table role to announce
+			const group = list.closest('[role="group"]')!;
+			expect(document.getElementById(group.getAttribute('aria-labelledby')!)?.textContent).toBe('Variables');
+			expect(list.querySelector('[role="table"]')).toBeNull();
+			expect(list.querySelector('[aria-colcount]')).toBeNull();
+			expect(list.querySelector('[aria-label="Variables"]')).toBeNull();
+			expect(list.querySelectorAll('[role="columnheader"]')).toHaveLength(0);
+			const add = list.querySelector('kv-action-button');
+			expect(Boolean(add)).toBe(option.options.addable !== false);
+			if (!add || readonly) return;
+			await act(async () => {
+				await fireStencilEvent(add, 'onClickButton');
+			});
+			const table = list.querySelector('[role="table"]')!;
+			expect(table).not.toBeNull();
+			expect(table.getAttribute('aria-label')).toBe('Variables');
+			expect(table.getAttribute('aria-colcount')).toBe(String(row.columns.length));
+			expect(Array.from(table.querySelectorAll('[role="columnheader"]'), node => node.textContent)).toEqual(row.columns);
+			expect(table.querySelectorAll('[role="rowheader"]')).toHaveLength(1);
 		});
 	});
 });

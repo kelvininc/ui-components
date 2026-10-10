@@ -42,6 +42,8 @@ const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 			: undefined;
 	const size = uiSchema?.items?.[columns?.[0].name ?? '']?.componentSize ?? registry.formContext.componentSize ?? EComponentSize.Large;
 	const table = columns ? { id: tableId, columns, reserveGrip: uiOptions.orderable !== false, removable: uiOptions.removable !== false, size } : null;
+	// An empty list has nothing to label: it shows only its Add button, and the column headers come with the first row
+	const tableRows = table && Boolean(items?.length) ? table : null;
 	const layout = useContext(ArrayItemLayoutContext);
 	const addedSchema = Array.isArray(schema.items) ? schema.additionalItems : schema.items;
 	const addedUiSchema = Array.isArray(schema.items) ? uiSchema?.additionalItems : uiSchema?.items;
@@ -101,11 +103,11 @@ const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 				<div
 					ref={focus.listRef}
 					className={classNames(styles.ArrayItemList, { [tableStyles.TableList]: table })}
-					role={table ? 'table' : undefined}
-					aria-label={table ? listName : undefined}
-					aria-colcount={table ? columns!.length + 2 : undefined}
+					role={tableRows ? 'table' : undefined}
+					aria-label={tableRows ? listName : undefined}
+					aria-colcount={tableRows ? columns!.length + 2 : undefined}
 				>
-					{table && <TableHeader table={table} />}
+					{tableRows && <TableHeader table={tableRows} />}
 					<ArrayItemsContext.Provider value={focus.items}>
 						<TableContext.Provider value={table}>
 							{items && items.map(({ key, ...itemProps }: ArrayFieldTemplateItemType<T, S, F>) => <ArrayFieldItemTemplate key={key} {...itemProps} />)}

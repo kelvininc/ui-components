@@ -53,7 +53,9 @@ export const SchemaFormExample: React.FC = () => {
 
 Object fields and object lists that don't qualify for tables render sections. Their titles use native headings,
 starting at `h2`; each titled section increases the level, up to `h6`. Blank titles and
-`ui:options.label: false` suppress the heading. Custom fields, tuples and multi-selects use control layout.
+`ui:options.label: false` suppress the heading, except that an item prefix still names a list item
+whose title is blank ("Port 1"); `ui:label: false` hides that heading too. Custom fields, tuples and
+multi-selects use control layout.
 
 Section groups use unique heading ids and link their mounted descriptions and visible errors through
 `aria-describedby`. Custom title templates receive a unique `id`; the group also has a text name so a
@@ -99,6 +101,8 @@ or entry frame adds one depth. Beyond six boundaries, default guides add no inli
 default frames add no inline padding; their borders and vertical spacing remain. At 480px and above,
 normal padding applies at all depths. Inner lists continue the count, and each SchemaForm starts at zero.
 Explicit fieldsets and custom templates retain their own padding. Nested tables keep their independent width query.
+An explicit item fieldset with no header on its top border, such as a scalar item or an object item
+whose heading is hidden and that has no menu, pads all four sides evenly.
 
 Fields have a 20px vertical gap, and configured field widths fit the
 available space. Additional-property key/value rows wrap in narrow containers, and their enabled remove
@@ -114,14 +118,17 @@ forbidden properties use RJSF's unsupported-field presentation. `additionalPrope
 Single-value lists render one input row per item with a trash button on the right. Orderable lists
 have a grip on the left that opens a Move up/Move down menu. The generated per-item labels are hidden;
 `ui:itemPrefix` on the array or its items names the inputs and actions, such as "Broker 2".
-Item titles supply the name when no prefix exists, with "Item" as the fallback.
+Item titles supply the name when no prefix exists, with "Item" as the fallback. A prefix names the item
+even when its title is blank.
 
 Fixed tuple positions keep a visible label from their item prefix or schema title. Additional tuple
 items use their prefix or title with their position number, such as "Backup 2". Fixed positions keep
 RJSF's move and removal restrictions. Reserved action space keeps tuple inputs aligned.
 
 Object items render numbered section headings inside a 1px outline with 4px corners and 16px padding.
-Inner object lists use the same outline. Explicit fieldsets keep their existing title offset and styling.
+Inner object lists use the same outline. Explicit fieldsets (`ui:fieldset`) draw their header, the heading
+and menu, on the top border and open the frame below it. Without a header there, as for scalar items or
+untitled items without a menu, the frame pads evenly and its content sits centred.
 One menu beside each heading holds
 the allowed move actions and a destructive Remove action. Boundary moves stay visible and disabled.
 Readonly and disabled lists keep disabled controls. Add renders a plus followed by "Add <prefix>"
@@ -190,6 +197,9 @@ then "row". Tab visits each row's cell help and inputs before its reorder grip, 
 Move, remove and Add use the focus policy described above.
 The reorder and remove buttons match the first visible cell's size. Its `componentSize` overrides
 `formContext.componentSize`; the default is large.
+
+An empty table renders only its Add button, in the same place as an empty sections list. The column
+headers and the table role arrive with the first row and go again when the last row is removed.
 
 Use `layout: 'sections'` on the array to retain sections. For unordered environment variables:
 

@@ -22,6 +22,7 @@ import {
 	L2_NUMERIC_DISPATCH_SHAPES,
 	L2_ROW_ERROR_SHAPES,
 	LIST_OPTIONS,
+	L2_EMPTY_LIST_SHAPES,
 	R5_ARRAY_ACTIONS
 } from './test-utils/matrix';
 import tableStyles from './Templates/ArrayFieldTemplate/TableLayout.module.scss';
@@ -118,6 +119,32 @@ describe.each(FLAT_OBJECT_SHAPES)('L2 layout matrix: $name', row => {
 				}
 			});
 		});
+	});
+});
+
+describe.each(L2_EMPTY_LIST_SHAPES)('L2 empty table: $name', row => {
+	it('places Add where an empty sections list does', async () => {
+		const offsets: number[] = [];
+		for (const layout of [undefined, 'sections']) {
+			const screen = await render(
+				<div style={{ width: '640px' }}>
+					<KvSchemaForm schema={row.schema} formData={[]} uiSchema={{ 'ui:options': { layout } }} />
+				</div>
+			);
+			await whenAllKelvinReady(screen.container);
+			const list = screen.container.querySelector<HTMLElement>('[data-schema-form-list="root"]')!;
+			expect(Boolean(list.querySelector(`.${tableStyles.TableList}`))).toBe(!layout);
+			expect(list.querySelector('[role="table"]')).toBeNull();
+			// Measure from the end of the list's heading and description, whichever comes last
+			const group = list.closest<HTMLElement>('[role="group"]')!;
+			const heading = document.getElementById(group.getAttribute('aria-labelledby')!)!;
+			const description = row.schema.description ? screen.getByText(row.schema.description, { exact: true }).element() : heading;
+			const above = Math.max(heading.getBoundingClientRect().bottom, description.getBoundingClientRect().bottom);
+			offsets.push(list.querySelector('kv-action-button')!.getBoundingClientRect().top - above);
+			await screen.unmount();
+		}
+		expect(offsets[0]).toBeGreaterThan(0);
+		expect(Math.abs(offsets[0] - offsets[1])).toBeLessThanOrEqual(1);
 	});
 });
 

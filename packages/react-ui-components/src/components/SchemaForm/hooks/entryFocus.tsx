@@ -76,16 +76,21 @@ const holders = new WeakMap<HTMLElement, () => void>();
 export const focusFromHolder = (holder: HTMLElement | null, name: string, target: EntryFocusTarget | undefined, current: () => boolean) => {
 	if (!holder?.isConnected || !current()) return;
 	holders.get(holder)?.();
-	const previous = ['tabindex', 'role', 'aria-label'].map(attribute => [attribute, holder.getAttribute(attribute)] as const);
+	const held = { 'tabindex': '-1', 'role': 'group', 'aria-label': name };
+	const previous = Object.keys(held).map(attribute => [attribute, holder.getAttribute(attribute)] as const);
 	const restore = () => {
 		holder.removeEventListener('blur', restore);
 		holders.delete(holder);
-		previous.forEach(([attribute, value]) => (value === null ? holder.removeAttribute(attribute) : holder.setAttribute(attribute, value)));
+		// A re-render may change an attribute while the holder has focus, such as a list that drops its table role with
+		// its last row. Restore only the attributes that still hold the holder's value, so a stale one doesn't come back.
+		previous.forEach(([attribute, value]) => {
+			if (holder.getAttribute(attribute) !== held[attribute as keyof typeof held]) return;
+			if (value === null) holder.removeAttribute(attribute);
+			else holder.setAttribute(attribute, value);
+		});
 	};
 	holders.set(holder, restore);
-	holder.setAttribute('tabindex', '-1');
-	holder.setAttribute('role', 'group');
-	holder.setAttribute('aria-label', name);
+	Object.entries(held).forEach(([attribute, value]) => holder.setAttribute(attribute, value));
 	holder.addEventListener('blur', restore, { once: true });
 	holder.focus({ preventScroll: true });
 	const stillHere = () => current() && holder.matches(':focus');
