@@ -187,9 +187,61 @@ export const CHOICE_INTERACTION_SHAPES = [
 	{ name: 'readonly', disabled: false, readonly: true }
 ] as const;
 
-export const DEFAULTED_CHOICE_SHAPES: readonly { name: string; schema: RJSFSchema; value: boolean | string }[] = [
-	{ name: 'defaulted boolean', schema: { type: 'boolean', title: 'TLS', default: true }, value: true },
-	{ name: 'defaulted enum', schema: { type: 'string', title: 'QoS', enum: ['at-most-once', 'at-least-once'], default: 'at-least-once' }, value: 'at-least-once' }
+/** Radios with a schema default, including the falsy defaults a truthiness check would treat as missing. `label` names the checked radio. */
+export const DEFAULTED_CHOICE_SHAPES: readonly { name: string; schema: RJSFSchema; value: boolean | string | number | null; label: string }[] = [
+	{ name: 'defaulted boolean', schema: { type: 'boolean', title: 'TLS', default: true }, value: true, label: 'Yes' },
+	{
+		name: 'defaulted enum',
+		schema: { type: 'string', title: 'QoS', enum: ['at-most-once', 'at-least-once'], default: 'at-least-once' },
+		value: 'at-least-once',
+		label: 'at-least-once'
+	},
+	{ name: 'boolean defaulting to false', schema: { type: 'boolean', title: 'TLS', default: false }, value: false, label: 'No' },
+	{
+		name: 'integer oneOf defaulting to zero',
+		schema: {
+			type: 'integer',
+			title: 'Retries',
+			oneOf: [
+				{ const: 0, title: 'None' },
+				{ const: 3, title: 'Three' }
+			],
+			default: 0
+		},
+		value: 0,
+		label: 'None'
+	},
+	// RJSF 5 never applies `default: null` (its defaults fall through `??`), so the nullable row defaults to the empty string
+	{
+		name: 'nullable enum defaulting to the empty string',
+		schema: { type: ['string', 'null'], title: 'Compression', enum: ['', 'gzip', null], enumNames: ['None', 'Gzip', 'Null'], default: '' } as RJSFSchema,
+		value: '',
+		label: 'None'
+	}
+];
+
+/**
+ * Unset choices show "Not set" unless a select already shows a placeholder. RJSF passes a string field only its own
+ * `ui:placeholder`, while BooleanField's select also reads the global UI options.
+ */
+export const CHOICE_NOT_SET_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema: UiSchema; globalPlaceholder?: string; notSet: boolean }[] = [
+	{ name: 'enum select without a placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select' }, notSet: true },
+	{ name: 'default integer oneOf select without a placeholder', schema: CHOICE_SCHEMAS[3].schema, uiSchema: {}, notSet: true },
+	{ name: 'boolean select without a placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select' }, notSet: true },
+	{ name: 'enum select with ui:placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': 'Choose a QoS level' }, notSet: false },
+	{
+		name: 'enum select with an options placeholder',
+		schema: CHOICE_SCHEMAS[2].schema,
+		uiSchema: { 'ui:widget': 'select', 'ui:options': { placeholder: 'Choose compression' } },
+		notSet: false
+	},
+	{ name: 'enum select with a blank placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': '  ' }, notSet: true },
+	{ name: 'boolean select with ui:placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': 'Choose TLS' }, notSet: false },
+	{ name: 'boolean select with a global placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select' }, globalPlaceholder: 'Choose one', notSet: false },
+	{ name: 'enum select ignoring a global placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select' }, globalPlaceholder: 'Choose one', notSet: true },
+	{ name: 'radio', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'radio' }, notSet: true },
+	{ name: 'radio with ui:placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'radio', 'ui:placeholder': 'Choose a QoS level' }, notSet: true },
+	{ name: 'checkbox', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'checkbox' }, notSet: false }
 ];
 
 export const RADIO_KEYBOARD_SHAPES = [
@@ -4785,6 +4837,7 @@ export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
 	CHOICE_DISPATCH_SHAPES,
 	CHOICE_INTERACTION_SHAPES,
 	DEFAULTED_CHOICE_SHAPES,
+	CHOICE_NOT_SET_SHAPES,
 	RADIO_KEYBOARD_SHAPES,
 	RADIO_STYLE_THEMES,
 	RADIO_INLINE_STYLE_SHAPES,

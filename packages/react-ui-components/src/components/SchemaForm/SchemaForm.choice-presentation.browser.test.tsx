@@ -12,6 +12,7 @@ import {
 	CHOICE_INTERACTION_SHAPES,
 	CHOICE_VALUE_SHAPES,
 	DEFAULTED_CHOICE_SHAPES,
+	CHOICE_NOT_SET_SHAPES,
 	RADIO_KEYBOARD_SHAPES,
 	RADIO_STYLE_THEMES,
 	RADIO_INLINE_STYLE_SHAPES,
@@ -106,8 +107,9 @@ describe.each(CHOICE_SCHEMAS)('real choice annotation: $name', row => {
 		it.each(VALUE_CASES)(widget.name + ': $name', async ({ value, isUnset }) => {
 			const screen = await render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': widget.widget } }} formData={{ choice: value }} />);
 			await whenAllKelvinReady(screen.container);
-			expect(unsetAnnotations(screen.container)).toHaveLength(widget.kind !== 'checkbox' && isUnset ? 1 : 0);
 			const radio = widget.kind === 'radio' || (widget.kind === 'default' && row.name === 'boolean');
+			// These selects have no placeholder, so they say "Not set" like a radio group does
+			expect(unsetAnnotations(screen.container)).toHaveLength(widget.kind !== 'checkbox' && isUnset ? 1 : 0);
 			if (radio) {
 				const group = screen.getByRole('radiogroup', { name: row.schema.title, exact: true });
 				await expect.element(group).toBeVisible();
@@ -256,9 +258,18 @@ describe.each(RADIO_KEYBOARD_SHAPES)('real grouped keyboard: $name', ({ widget }
 });
 
 describe.each(DEFAULTED_CHOICE_SHAPES)('real defaulted radio: $name', row => {
-	it('clears to undefined, retains no checked radio and moves focus to the first option', async () => {
+	it('offers no Clear selection, because clearing would leave it unset rather than at its default', async () => {
+		const screen = await render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': 'radio' } }} />);
+		await whenAllKelvinReady(screen.container);
+		expect(clearButton(screen.container.querySelector('kv-radio-list')!)).toBeUndefined();
+		expect(unsetAnnotations(screen.container)).toHaveLength(0);
+		await expect.element(screen.getByRole('radio', { name: row.label, exact: true })).toBeChecked();
+	});
+
+	it('clears the same optional radio without a default to undefined and moves focus to the first option', async () => {
 		const onChange = vi.fn();
-		const screen = await render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': 'radio' } }} onChange={onChange} />);
+		const schema = choiceForm({ schema: { ...row.schema, default: undefined } });
+		const screen = await render(<KvSchemaForm schema={schema} uiSchema={{ choice: { 'ui:widget': 'radio' } }} formData={{ choice: row.value }} onChange={onChange} />);
 		await whenAllKelvinReady(screen.container);
 		const host = screen.container.querySelector('kv-radio-list')!;
 		await userEvent.click(clearButton(host));
@@ -361,6 +372,19 @@ it.each(CHOICE_INTERACTION_SHAPES.filter(row => row.name !== 'editable'))('cance
 	await finish.click();
 	await expect.element(screen.getByRole('radio', { name: 'Yes', exact: true })).toBeEnabled();
 	await expect.poll(focusedControl).toBe(finish.element());
+});
+
+it.each(CHOICE_NOT_SET_SHAPES)('says Not set for an unset $name only without a select placeholder', async row => {
+	const uiSchema = { ...(row.globalPlaceholder && { 'ui:globalOptions': { placeholder: row.globalPlaceholder } }), choice: row.uiSchema };
+	const screen = await render(<KvSchemaForm schema={choiceForm(row)} uiSchema={uiSchema} />);
+	await whenAllKelvinReady(screen.container);
+	const annotations = unsetAnnotations(screen.container);
+	expect(annotations).toHaveLength(row.notSet ? 1 : 0);
+	// Radios and selects share the small body style: 12px on a 16px line
+	for (const annotation of annotations) {
+		expect(getComputedStyle(annotation).fontSize).toBe('12px');
+		expect(getComputedStyle(annotation).lineHeight).toBe('16px');
+	}
 });
 
 it.each(CHOICE_DISPATCH_SHAPES)('renders extras for the actual $name widget', async row => {

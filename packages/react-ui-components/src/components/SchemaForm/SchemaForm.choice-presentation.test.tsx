@@ -11,6 +11,7 @@ import {
 	CHOICE_WIDGET_SHAPES,
 	CHOICE_INTERACTION_SHAPES,
 	DEFAULTED_CHOICE_SHAPES,
+	CHOICE_NOT_SET_SHAPES,
 	RADIO_KEYBOARD_SHAPES,
 	CHOICE_CLEAR_NAME_SHAPES,
 	OPTION_SOURCES,
@@ -47,8 +48,9 @@ describe.each(CHOICE_SCHEMAS)('choice presentation: $name', row => {
 		describe(widget.name, () => {
 			it.each(VALUE_CASES)('annotates only unset for $name', async ({ value, isUnset }) => {
 				await act(async () => root.render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': widget.widget } }} formData={{ choice: value }} />));
-				expect(notSet()).toHaveLength(widget.kind !== 'checkbox' && isUnset ? 1 : 0);
 				const radio = widget.kind === 'radio' || (widget.kind === 'default' && row.name === 'boolean');
+				// These selects have no placeholder, so they say "Not set" like a radio group does
+				expect(notSet()).toHaveLength(widget.kind !== 'checkbox' && isUnset ? 1 : 0);
 				expect(clearActions()).toHaveLength(radio ? 1 : 0);
 				if (radio) {
 					expect(clearActions()[0].getAttribute('aria-disabled')).toBe(String(isUnset));
@@ -168,16 +170,24 @@ it.each([
 });
 
 describe.each(DEFAULTED_CHOICE_SHAPES)('defaulted radio clear: $name', row => {
-	it('clears once without RJSF restoring the default', async () => {
-		const onChange = vi.fn();
-		await act(async () => root.render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': 'radio' } }} onChange={onChange} />));
+	it('offers no clear action, because clearing would leave it unset rather than at its default', async () => {
+		await act(async () => root.render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': 'radio' } }} />));
 		expect(propsOf<RadioProps>('root_choice').selectedOption).toBeDefined();
-		Object.assign(container.querySelector('kv-radio-list')!, { setFocus: vi.fn().mockResolvedValue(undefined) });
-		await act(async () => clearActions()[0].click());
-		expect(onChange).toHaveBeenCalledOnce();
-		expect(onChange.mock.lastCall?.[0].formData.choice).toBeUndefined();
-		expect(notSet()).toHaveLength(1);
+		expect(clearActions()).toHaveLength(0);
+		expect(notSet()).toHaveLength(0);
 	});
+
+	it('still offers it for the same optional radio without a default', async () => {
+		const schema = choiceForm({ schema: { ...row.schema, default: undefined } });
+		await act(async () => root.render(<KvSchemaForm schema={schema} uiSchema={{ choice: { 'ui:widget': 'radio' } }} formData={{ choice: row.value }} />));
+		expect(clearActions()).toHaveLength(1);
+	});
+});
+
+it.each(CHOICE_NOT_SET_SHAPES)('says Not set for an unset $name only without a select placeholder', async row => {
+	const uiSchema = { ...(row.globalPlaceholder && { 'ui:globalOptions': { placeholder: row.globalPlaceholder } }), choice: row.uiSchema };
+	await act(async () => root.render(<KvSchemaForm schema={choiceForm(row)} uiSchema={uiSchema} />));
+	expect(notSet()).toHaveLength(row.notSet ? 1 : 0);
 });
 
 it.each(CHOICE_DISPATCH_SHAPES)('follows actual widget dispatch for $name', async row => {

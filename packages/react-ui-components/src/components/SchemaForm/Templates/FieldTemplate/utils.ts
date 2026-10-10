@@ -38,6 +38,16 @@ export const getChoicePresentation = <T, S extends StrictRJSFSchema = RJSFSchema
 	return { choice: radio || Widget === builtin(SelectWidget), radio };
 };
 
+/**
+ * The placeholder SelectWidget shows, trimmed. RJSF's StringField passes the field's own `ui:placeholder` and drops it
+ * from the options; BooleanField passes an empty one, so SelectWidget falls back to its options, which include the
+ * global UI options.
+ */
+export const getSelectPlaceholder = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({ schema, uiSchema, registry }: FieldTemplateProps<T, S, F>) => {
+	const { placeholder } = getSchemaType(schema) === 'boolean' ? getUiOptions<T, S, F>(uiSchema, registry.globalUiOptions) : getUiOptions<T, S, F>(uiSchema);
+	return typeof placeholder === 'string' ? placeholder.trim() : '';
+};
+
 type UiOptionsSource<T, S extends StrictRJSFSchema, F extends FormContextType> = { uiSchema?: UiSchema<T, S, F>; globalUiOptions?: GlobalUISchemaOptions };
 
 const findLabel = <S extends StrictRJSFSchema>(options: EnumOptionsType<S>[] | undefined, value: unknown) => options?.find(option => isEqual(option.value, value))?.label;
