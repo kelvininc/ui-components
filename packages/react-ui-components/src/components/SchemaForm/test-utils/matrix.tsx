@@ -4153,6 +4153,7 @@ export const RADIO_FEEDBACK_LAYOUT_SHAPES: readonly {
  */
 export const HEADING_SPACING_FORM: {
 	schema: RJSFSchema;
+	uiSchema: UiSchema;
 	formData: object;
 	headings: readonly { title: string; toDescription: number | null; toBody: number }[];
 } = {
@@ -4171,6 +4172,13 @@ export const HEADING_SPACING_FORM: {
 					{ title: 'TLS', properties: { protocol: { const: 'tls' }, caCertificate: { type: 'string', title: 'CA certificate' } } }
 				]
 			},
+			proxy: { type: 'object', title: 'Proxy', description: 'Outbound proxy for the exporter.', properties: { url: { type: 'string', title: 'URL' } } },
+			endpoints: {
+				type: 'array',
+				title: 'Endpoints',
+				description: 'Brokers the exporter connects to.',
+				items: { type: 'object', properties: { host: { type: 'string', title: 'Host' } } }
+			},
 			topics: {
 				type: 'array',
 				title: 'Topics',
@@ -4187,11 +4195,15 @@ export const HEADING_SPACING_FORM: {
 			}
 		}
 	},
-	formData: { topics: [{ name: 'telemetry', retention: { days: 7 } }] },
+	// A custom title template renders a bare <strong> with no margin: the heading block still keeps its 4px
+	uiSchema: { proxy: { 'ui:TitleFieldTemplate': CustomTitle }, endpoints: { 'ui:TitleFieldTemplate': CustomTitle } },
+	formData: { endpoints: [{ host: 'broker-1.local' }], topics: [{ name: 'telemetry', retention: { days: 7 } }] },
 	headings: [
 		{ title: 'Broker', toDescription: 4, toBody: 16 },
 		{ title: 'Retry', toDescription: null, toBody: 16 },
 		{ title: 'Security', toDescription: 4, toBody: 16 },
+		{ title: 'Proxy', toDescription: 4, toBody: 16 },
+		{ title: 'Endpoints', toDescription: 4, toBody: 16 },
 		{ title: 'Topics', toDescription: 4, toBody: 16 },
 		{ title: 'Topic 1', toDescription: 12, toBody: 12 }
 	]

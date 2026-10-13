@@ -38,6 +38,16 @@
 		// Same space above the list as a section leaves under its heading and description
 		margin-bottom: var(--spacing-xs);
 	}
+
+	// Like SectionHeader, the 4px under a list heading is the wrapper's own, so a custom title template without
+	// .TitleContainer's margin keeps it too. A list item's header keeps its own spacing.
+	&:has(> [data-schema-form-collection-metadata]):not(:has(> [data-schema-form-item-header])) {
+		gap: var(--spacing-xs);
+
+		> :first-child {
+			margin-bottom: 0;
+		}
+	}
 }
 
 .ItemHeader {

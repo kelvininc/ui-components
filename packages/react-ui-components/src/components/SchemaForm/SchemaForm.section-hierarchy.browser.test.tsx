@@ -438,7 +438,7 @@ describe('heading block spacing', () => {
 	it.each(HEADING_SPACING_FORM.headings)('spaces $title above its body', async expected => {
 		const screen = await render(
 			<div style={{ width: 640 }}>
-				<KvSchemaForm schema={HEADING_SPACING_FORM.schema} formData={HEADING_SPACING_FORM.formData} />
+				<KvSchemaForm schema={HEADING_SPACING_FORM.schema} uiSchema={HEADING_SPACING_FORM.uiSchema} formData={HEADING_SPACING_FORM.formData} />
 			</div>
 		);
 		await whenAllKelvinReady(screen.container);
@@ -449,9 +449,10 @@ describe('heading block spacing', () => {
 			while (next && !visible(next)) next = next.nextElementSibling;
 			return next!;
 		};
-		const heading = Array.from(screen.container.querySelectorAll('h2,h3,h4,h5,h6')).find(element => element.textContent === expected.title)!;
+		// A custom title template renders a bare <strong> in place of the heading element
+		const heading = Array.from(screen.container.querySelectorAll('h2,h3,h4,h5,h6,strong')).find(element => element.textContent === expected.title)!;
 		const group = heading.closest('[role="group"]')!;
-		const header = heading.closest('[data-schema-form-item-header]') ?? heading.closest(`.${titleStyles.TitleContainer}`)!;
+		const header = heading.closest('[data-schema-form-item-header]') ?? heading.closest(`.${titleStyles.TitleContainer}`) ?? heading;
 		const description = group.querySelector(`[id="${group.getAttribute('aria-describedby')?.split(' ')[0]}"]`);
 		let block: Element = description ?? header;
 		while (block.parentElement !== group) block = block.parentElement!;
