@@ -13,6 +13,11 @@
 		flex-flow: row wrap;
 	}
 
+	// An object with no fields of its own, such as one that only offers a oneOf choice, would still take a gap slot
+	&:empty {
+		display: none;
+	}
+
 	.PropRow {
 		min-width: 0;
 		box-sizing: border-box;

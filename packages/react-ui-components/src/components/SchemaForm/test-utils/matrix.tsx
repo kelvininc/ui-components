@@ -4196,6 +4196,69 @@ export const TABLE_UNSET_CHOICE_SCHEMA = variables({
 	properties: { name: NAME, level: { type: 'string', title: 'Log level', enum: ['debug', 'info', 'warning'] } }
 });
 
+/**
+ * One form with every kind of heading block. Sections and lists: the description sits 4px under the heading and the body
+ * 16px below either. Security has no fields of its own, only the protocol choice, so its empty field container must not
+ * take a gap slot. A list item's header keeps its own 12px spacing.
+ */
+export const HEADING_SPACING_FORM: {
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	formData: object;
+	headings: readonly { title: string; toDescription: number | null; toBody: number }[];
+} = {
+	schema: {
+		type: 'object',
+		properties: {
+			broker: { type: 'object', title: 'Broker', description: 'Connection to the plant broker.', properties: { host: { type: 'string', title: 'Host' } } },
+			retry: { type: 'object', title: 'Retry', properties: { attempts: { type: 'number', title: 'Attempts' } } },
+			// No fields of its own, only the protocol choice: its empty field container must not take a gap slot
+			security: {
+				type: 'object',
+				title: 'Security',
+				description: 'Protocol for the broker connection.',
+				oneOf: [
+					{ title: 'Plaintext', properties: { protocol: { const: 'plaintext' } } },
+					{ title: 'TLS', properties: { protocol: { const: 'tls' }, caCertificate: { type: 'string', title: 'CA certificate' } } }
+				]
+			},
+			proxy: { type: 'object', title: 'Proxy', description: 'Outbound proxy for the exporter.', properties: { url: { type: 'string', title: 'URL' } } },
+			endpoints: {
+				type: 'array',
+				title: 'Endpoints',
+				description: 'Brokers the exporter connects to.',
+				items: { type: 'object', properties: { host: { type: 'string', title: 'Host' } } }
+			},
+			topics: {
+				type: 'array',
+				title: 'Topics',
+				description: 'Topics the exporter publishes to.',
+				items: {
+					type: 'object',
+					title: 'Topic',
+					description: 'One telemetry topic.',
+					properties: {
+						name: { type: 'string', title: 'Name' },
+						retention: { type: 'object', title: 'Retention', properties: { days: { type: 'number', title: 'Days' } } }
+					}
+				}
+			}
+		}
+	},
+	// A custom title template renders a bare <strong> with no margin: the heading block still keeps its 4px
+	uiSchema: { proxy: { 'ui:TitleFieldTemplate': CustomTitle }, endpoints: { 'ui:TitleFieldTemplate': CustomTitle } },
+	formData: { endpoints: [{ host: 'broker-1.local' }], topics: [{ name: 'telemetry', retention: { days: 7 } }] },
+	headings: [
+		{ title: 'Broker', toDescription: 4, toBody: 16 },
+		{ title: 'Retry', toDescription: null, toBody: 16 },
+		{ title: 'Security', toDescription: 4, toBody: 16 },
+		{ title: 'Proxy', toDescription: 4, toBody: 16 },
+		{ title: 'Endpoints', toDescription: 4, toBody: 16 },
+		{ title: 'Topics', toDescription: 4, toBody: 16 },
+		{ title: 'Topic 1', toDescription: 12, toBody: 12 }
+	]
+};
+
 const describedFiles = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === 'multiple files')!.schema;
 const describedChoices = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === 'multi-select')!.schema;
 export const ARRAY_WIDGET_DISPATCH_SHAPES: readonly {
@@ -5241,5 +5304,6 @@ export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
 	FOCUS_HOLDER_RESTORE_CASES,
 	RADIO_UNSET_DEFAULT_SHAPES,
 	TABLE_UNSET_CHOICE_SHAPES,
-	TABLE_UNSET_CHOICE_SCHEMA
+	TABLE_UNSET_CHOICE_SCHEMA,
+	HEADING_SPACING_FORM
 ].forEach(deepFreeze);
