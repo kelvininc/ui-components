@@ -147,8 +147,9 @@ Unset radio groups show "Not set" in the same right-hand spot, beside the defaul
 ("Not set · Default: No"). It takes turns with Clear selection, which only renders once a value is picked.
 When clearing leaves no enabled option to focus, focus moves to "Not set".
 Unset selects show "Not set" only when their placeholder is explicitly blank, such as `ui:placeholder: '  '`.
-Without one, or with an empty string, the dropdown shows its own "Select an option", which already says
-nothing is chosen. In a table cell, "Not set" sits under the select.
+Without one, the dropdown shows its own "Select an option", which already says nothing is chosen. A string or
+number select treats an empty-string placeholder as missing and shows "Select an option" too; a boolean select
+keeps it, so it renders blank and shows "Not set". In a table cell, "Not set" sits under the select.
 
 Enabled item actions and Add participate in Tab order. Menus support mouse and keyboard interaction.
 Scalar help tips stay beside the input, named after the item ("Help for Topic 1") and in Tab order
