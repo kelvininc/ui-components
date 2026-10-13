@@ -48,7 +48,7 @@ export const CustomOptionLabel: Story = {
 	args: {
 		selectedTimeKey: "today",
 		customIntervalOptionEnabled: true,
-		customIntervalOptionLabel: "Custom Date",
+		customIntervalOptionLabel: "Custom date",
 		timezoneSelectionEnabled: false
 	}
 };

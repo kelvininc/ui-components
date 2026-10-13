@@ -36,12 +36,12 @@ describe.each([
 
 describe('C4 switch semantics', () => {
 	it('names a native non-submit switch button and reflects checked/disabled state', async () => {
-		const page = await newSpecPage({ components: [KvSwitchButton], html: '<kv-switch-button accessible-label="Show Calendar" checked disabled></kv-switch-button>' });
+		const page = await newSpecPage({ components: [KvSwitchButton], html: '<kv-switch-button accessible-label="Show calendar" checked disabled></kv-switch-button>' });
 		const control = page.root.shadowRoot.querySelector('button');
 		expect(control).not.toBeNull();
 		expect(control.getAttribute('type')).toBe('button');
 		expect(control.getAttribute('role')).toBe('switch');
-		expect(control.getAttribute('aria-label')).toBe('Show Calendar');
+		expect(control.getAttribute('aria-label')).toBe('Show calendar');
 		expect(control.getAttribute('aria-checked')).toBe('true');
 		expect(control).toHaveAttribute('disabled');
 	});

@@ -260,7 +260,7 @@ export const LARGE_SET_DROPDOWN_OPTIONS_MOCK = {
 export const TIMEZONES_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
 	"system-timezone": {
 		value: "system-timezone",
-		label: "System Timezone - Default",
+		label: "System timezone - default",
 		options: {
 			"UTC-12": {
 				value: "UTC-12",

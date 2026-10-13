@@ -32,7 +32,7 @@ export interface ISelectMultiOptionsConfig {
 	filteredOptions?: ISelectMultiOptions;
 	/** (optional) The object with indexed by the dropdown labels and its selected value */
 	selectedOptions?: Record<string, boolean>;
-	/** (optional) What is shown when there are no options, searching or not: with an `illustration`, the illustration message in the list; without one, only its `header`, in the list header. Content in the `no-data-available` slot takes its place. Default: the "No Data Available" illustration */
+	/** (optional) What is shown when there are no options, searching or not: with an `illustration`, the illustration message in the list; without one, only its `header`, in the list header. Content in the `no-data-available` slot takes its place. Default: the "No data available" illustration */
 	noDataAvailableConfig?: IIllustrationMessage;
 	/** (optional) What is shown when the search matches no option: with an `illustration`, the illustration message in the list; without one, only its `header`, in the list header. Content in the `no-results-found` slot takes its place. Default: `No results found`, in the list header */
 	noResultsFoundConfig?: IIllustrationMessage;
