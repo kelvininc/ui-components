@@ -225,9 +225,9 @@ export const DEFAULTED_CHOICE_SHAPES: readonly { name: string; schema: RJSFSchem
  * `ui:placeholder`, while BooleanField's select also reads the global UI options.
  */
 export const CHOICE_NOT_SET_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema: UiSchema; globalPlaceholder?: string; notSet: boolean }[] = [
-	{ name: 'enum select without a placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select' }, notSet: true },
-	{ name: 'default integer oneOf select without a placeholder', schema: CHOICE_SCHEMAS[3].schema, uiSchema: {}, notSet: true },
-	{ name: 'boolean select without a placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select' }, notSet: true },
+	{ name: 'enum select with the default placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select' }, notSet: false },
+	{ name: 'default integer oneOf select with the default placeholder', schema: CHOICE_SCHEMAS[3].schema, uiSchema: {}, notSet: false },
+	{ name: 'boolean select with the default placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select' }, notSet: false },
 	{ name: 'enum select with ui:placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': 'Choose a QoS level' }, notSet: false },
 	{
 		name: 'enum select with an options placeholder',
@@ -236,9 +236,19 @@ export const CHOICE_NOT_SET_SHAPES: readonly { name: string; schema: RJSFSchema;
 		notSet: false
 	},
 	{ name: 'enum select with a blank placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': '  ' }, notSet: true },
+	// SelectWidget treats an empty placeholder as missing, so the dropdown shows its default "Select an option"
+	{ name: 'enum select with an empty ui:placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': '' }, notSet: false },
+	{ name: 'boolean select with an empty ui:placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': '' }, notSet: true },
+	// RJSF's StringField reads ui:options.placeholder into the same direct prop as ui:placeholder, so it is dropped the same way
+	{
+		name: 'enum select with an empty options placeholder',
+		schema: CHOICE_SCHEMAS[1].schema,
+		uiSchema: { 'ui:widget': 'select', 'ui:options': { placeholder: '' } },
+		notSet: false
+	},
 	{ name: 'boolean select with ui:placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': 'Choose TLS' }, notSet: false },
 	{ name: 'boolean select with a global placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select' }, globalPlaceholder: 'Choose one', notSet: false },
-	{ name: 'enum select ignoring a global placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select' }, globalPlaceholder: 'Choose one', notSet: true },
+	{ name: 'enum select ignoring a global placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select' }, globalPlaceholder: 'Choose one', notSet: false },
 	{ name: 'radio', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'radio' }, notSet: true },
 	{ name: 'radio with ui:placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'radio', 'ui:placeholder': 'Choose a QoS level' }, notSet: true },
 	{ name: 'checkbox', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'checkbox' }, notSet: false }
@@ -4146,6 +4156,46 @@ export const RADIO_FEEDBACK_LAYOUT_SHAPES: readonly {
 	{ name: 'selection without helpers' }
 ];
 
+/** A radio left unset beside its default, which only happens when defaults are not applied (the root field always gets one) */
+export const RADIO_UNSET_DEFAULT_SHAPES: readonly { name: string; schema: RJSFSchema; defaultHelper: string }[] = [
+	{
+		name: 'unset with a default',
+		schema: {
+			type: 'object',
+			properties: { policy: { type: 'string', title: 'Delivery policy', enum: ['At most once', 'At least once'], default: 'At least once' } }
+		},
+		defaultHelper: 'Default: At least once'
+	},
+	{
+		name: 'unset with a description and a long default',
+		schema: {
+			type: 'object',
+			properties: {
+				policy: {
+					type: 'string',
+					title: 'Delivery policy',
+					description: 'Delivery guarantee used for telemetry.',
+					enum: ['At most once', 'telemetry/production/west-plant/acknowledgements'],
+					default: 'telemetry/production/west-plant/acknowledgements'
+				}
+			}
+		},
+		defaultHelper: 'Default: telemetry/production/west-plant/acknowledgements'
+	}
+];
+
+/** A select in a table cell says "Not set" under its control only when its placeholder is blank */
+export const TABLE_UNSET_CHOICE_SHAPES: readonly { name: string; uiSchema: UiSchema; notSet: boolean }[] = [
+	{ name: 'default placeholder', uiSchema: {}, notSet: false },
+	{ name: 'blank placeholder', uiSchema: { items: { level: { 'ui:placeholder': '  ' } } }, notSet: true }
+];
+
+/** The object list those rows render: a name and an unset log level, which L2 lays out as a table */
+export const TABLE_UNSET_CHOICE_SCHEMA = variables({
+	type: 'object',
+	properties: { name: NAME, level: { type: 'string', title: 'Log level', enum: ['debug', 'info', 'warning'] } }
+});
+
 /**
  * One form with every kind of heading block. Sections and lists: the description sits 4px under the heading and the body
  * 16px below either. Security has no fields of its own, only the protocol choice, so its empty field container must not
@@ -5252,5 +5302,8 @@ export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
 	L2_EMPTY_LIST_SHAPES,
 	R5_FINAL_REMOVAL_SHAPES,
 	FOCUS_HOLDER_RESTORE_CASES,
+	RADIO_UNSET_DEFAULT_SHAPES,
+	TABLE_UNSET_CHOICE_SHAPES,
+	TABLE_UNSET_CHOICE_SCHEMA,
 	HEADING_SPACING_FORM
 ].forEach(deepFreeze);

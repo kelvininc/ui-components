@@ -1,22 +1,23 @@
 import { FieldTemplateProps, FormContextType, getUiOptions, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { RefObject, useContext, useEffect, useRef, useState } from 'react';
 import { ChoiceControlContext, useFormState } from '../../contexts';
 import { SCHEMA_FORM_STRINGS } from '../../strings';
-import { resolveAllowClearInputs } from '../../Widgets/utils';
-import { getChoicePresentation, getSelectPlaceholder } from './utils';
+import { canClearChoice, getChoicePresentation } from './utils';
 import styles from './FieldTemplate.module.scss';
 
-const ChoiceExtras = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: FieldTemplateProps<T, S, F>) => {
-	const { id, label, formData, onChange, required, disabled, readonly, schema, uiSchema, registry, children } = props;
+type ChoiceExtrasProps<T, S extends StrictRJSFSchema, F extends FormContextType> = FieldTemplateProps<T, S, F> & {
+	/** The "Not set" annotation, which takes focus when clearing leaves no enabled option to move it to */
+	notSetRef?: RefObject<HTMLSpanElement>;
+};
+
+const ChoiceExtras = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: ChoiceExtrasProps<T, S, F>) => {
+	const { id, label, formData, onChange, uiSchema, registry, children, notSetRef } = props;
 	const fieldTitle = getUiOptions(uiSchema, registry.globalUiOptions).title ?? label;
 	const hostRef = useContext(ChoiceControlContext);
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
-	const { choice, radio } = getChoicePresentation(props);
+	const { choice } = getChoicePresentation(props);
 	const unset = formData === undefined;
-	// A select with a placeholder already says nothing is chosen; a radio group, or a select without one, says it here
-	const showNotSet = choice && unset && (radio || !getSelectPlaceholder(props));
-	// Clearing a field with a default leaves it unset, which is not the default: offer it only when there is none
-	const canClear = radio && !required && !disabled && !readonly && schema.default === undefined && (resolveAllowClearInputs(uiSchema, registry) ?? true);
+	const canClear = canClearChoice(props);
 	const [focusRequest, requestFocus] = useState(0);
 	const pendingFocus = useRef(false);
 
@@ -31,49 +32,43 @@ const ChoiceExtras = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		const host = hostRef?.current;
 		let cancelled = false;
 		// React commits the cleared value first; the public core API chooses the first enabled option.
-		Promise.resolve().then(() => {
-			if (!cancelled && host?.isConnected && hostRef?.current === host) void host.setFocus();
+		Promise.resolve().then(async () => {
+			if (cancelled || !host?.isConnected || hostRef?.current !== host) return;
+			try {
+				await host.setFocus();
+			} catch {
+				// A host that cannot take focus falls through to "Not set" below
+			}
+			// With every option disabled nothing takes focus, and Clear selection is gone: land on the "Not set" that replaced it
+			if (!cancelled && !host.matches(':focus-within')) notSetRef?.current?.focus();
 		});
 		return () => {
 			cancelled = true;
 		};
-	}, [focusRequest, unset, canClear, hostRef]);
+	}, [focusRequest, unset, canClear, hostRef, notSetRef]);
 
-	if (!choice || (!showNotSet && !canClear)) return <>{children}</>;
-	const annotation = showNotSet && <span className={styles.NotSet}>{SCHEMA_FORM_STRINGS.notSet}</span>;
+	if (!choice || !canClear) return <>{children}</>;
+	// Clear selection takes the footer's right side once a value is picked; while unset, "Not set" holds it instead
 	return (
-		<>
-			<div className={styles.ChoiceExtras}>
-				{radio && children ? (
-					<div className={styles.ChoiceFeedback}>
-						{children}
-						{annotation}
-					</div>
-				) : (
-					annotation
-				)}
-				{canClear && (
-					<button
-						type="button"
-						aria-label={SCHEMA_FORM_STRINGS.clearSelectionFor(fieldTitle.trim() || id)}
-						className={styles.ClearSelection}
-						aria-disabled={unset}
-						tabIndex={unset ? -1 : 0}
-						onClick={() => {
-							if (unset) return;
-							pendingFocus.current = true;
-							trackFieldChange(id, undefined);
-							markFieldAsTouched(id);
-							onChange(undefined);
-							requestFocus(request => request + 1);
-						}}
-					>
-						{SCHEMA_FORM_STRINGS.clearSelection}
-					</button>
-				)}
-			</div>
-			{!radio && children}
-		</>
+		<div className={styles.ChoiceExtras}>
+			{children && <div className={styles.ChoiceFeedback}>{children}</div>}
+			{!unset && (
+				<button
+					type="button"
+					aria-label={SCHEMA_FORM_STRINGS.clearSelectionFor(fieldTitle.trim() || id)}
+					className={styles.ClearSelection}
+					onClick={() => {
+						pendingFocus.current = true;
+						trackFieldChange(id, undefined);
+						markFieldAsTouched(id);
+						onChange(undefined);
+						requestFocus(request => request + 1);
+					}}
+				>
+					{SCHEMA_FORM_STRINGS.clearSelection}
+				</button>
+			)}
+		</div>
 	);
 };
 export default ChoiceExtras;
