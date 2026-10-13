@@ -6,6 +6,7 @@ import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../test-utils/browser';
 import { KvSchemaForm } from './SchemaForm';
 import {
+	HEADING_SPACING_FORM,
 	SECTION_LAYOUT_COMPATIBILITY_SHAPES,
 	SECTION_LAYOUT_CONNECTORS,
 	SECTION_LAYOUT_DEEP,
@@ -14,6 +15,7 @@ import {
 	SECTION_LAYOUT_WIDTHS
 } from './test-utils/matrix';
 import { EApplyDefaults } from './types';
+import titleStyles from './Templates/TitleFieldTemplate/TitleFieldTemplate.module.scss';
 
 const chooseOption = async (label: string) => {
 	const options = () =>
@@ -430,4 +432,35 @@ it('keeps additional-property key controls inside their section guide', async ()
 	for (const host of guide.querySelectorAll('kv-text-field,kv-action-button-icon')) {
 		expect(host.getBoundingClientRect().right).toBeLessThanOrEqual(guide.getBoundingClientRect().right + 1);
 	}
+});
+
+describe('heading block spacing', () => {
+	it.each(HEADING_SPACING_FORM.headings)('spaces $title above its body', async expected => {
+		const screen = await render(
+			<div style={{ width: 640 }}>
+				<KvSchemaForm schema={HEADING_SPACING_FORM.schema} uiSchema={HEADING_SPACING_FORM.uiSchema} formData={HEADING_SPACING_FORM.formData} />
+			</div>
+		);
+		await whenAllKelvinReady(screen.container);
+		await document.fonts.ready;
+		const visible = (element: Element) => element.getBoundingClientRect().height > 0;
+		const nextVisible = (element: Element) => {
+			let next = element.nextElementSibling;
+			while (next && !visible(next)) next = next.nextElementSibling;
+			return next!;
+		};
+		// A custom title template renders a bare <strong> in place of the heading element
+		const heading = Array.from(screen.container.querySelectorAll('h2,h3,h4,h5,h6,strong')).find(element => element.textContent === expected.title)!;
+		const group = heading.closest('[role="group"]')!;
+		const header = heading.closest('[data-schema-form-item-header]') ?? heading.closest(`.${titleStyles.TitleContainer}`) ?? heading;
+		const description = group.querySelector(`[id="${group.getAttribute('aria-describedby')?.split(' ')[0]}"]`);
+		let block: Element = description ?? header;
+		while (block.parentElement !== group) block = block.parentElement!;
+		const body = nextVisible(block).getBoundingClientRect();
+		const headerBox = header.getBoundingClientRect();
+		expect({
+			toDescription: description ? Math.round(description.getBoundingClientRect().top - headerBox.bottom) : null,
+			toBody: Math.round(body.top - (description ?? header).getBoundingClientRect().bottom)
+		}).toEqual({ toDescription: expected.toDescription, toBody: expected.toBody });
+	});
 });
