@@ -15,7 +15,7 @@ export const ADD_OPTION: ISelectOption = {
 
 export const DEFAULT_NO_DATA_AVAILABLE_ILLUSTRATION_CONFIG: IIllustrationMessage = {
 	illustration: EIllustrationName.NoDataAvailable,
-	header: 'No Data Available',
+	header: 'No data available',
 	description: 'There is no data to display at the moment.'
 };
 

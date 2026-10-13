@@ -9,11 +9,11 @@ describe('Illustration Message (unit tests)', () => {
 		it('should present the illustration above its texts', async () => {
 			const page = await newSpecPage({
 				components: [KvIllustrationMessage],
-				template: () => <kv-illustration-message illustration={EIllustrationName.NoDataAvailable} header="No Data Available" description="Nothing to show" />
+				template: () => <kv-illustration-message illustration={EIllustrationName.NoDataAvailable} header="No data available" description="Nothing to show" />
 			});
 
 			expect(page.root.shadowRoot.querySelector('kv-illustration').getAttribute('name')).toBe(EIllustrationName.NoDataAvailable);
-			expect(page.root.shadowRoot.querySelector('.header').textContent).toBe('No Data Available');
+			expect(page.root.shadowRoot.querySelector('.header').textContent).toBe('No data available');
 			expect(page.root.shadowRoot.querySelector('.description').textContent).toBe('Nothing to show');
 		});
 	});
