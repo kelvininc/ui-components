@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../test-utils/browser';
 import { KvSchemaForm } from './SchemaForm';
-import { FILE_FEEDBACK_LAYOUT_SHAPES, RADIO_FEEDBACK_LAYOUT_SHAPES, RADIO_KEYBOARD_SHAPES, WIDGET_ENTRY_LAYOUT_SHAPES } from './test-utils/matrix';
+import { FILE_FEEDBACK_LAYOUT_SHAPES, RADIO_FEEDBACK_LAYOUT_SHAPES, RADIO_KEYBOARD_SHAPES, RADIO_UNSET_DEFAULT_SHAPES, WIDGET_ENTRY_LAYOUT_SHAPES } from './test-utils/matrix';
 import fieldStyles from './Templates/FieldTemplate/FieldTemplate.module.scss';
 import fileStyles from './Widgets/FileWidget/FileWidget.module.scss';
 import { EApplyDefaults } from './types';
@@ -113,15 +113,12 @@ describe.each([StyleMode.Light, StyleMode.Night])('widget layout in %s', theme =
 
 			// Unset only happens beside a default when defaults are not applied (the root field always gets its default); the
 			// status and the default then share one line
-			it('keeps Not set beside the default', async () => {
+			it.each(RADIO_UNSET_DEFAULT_SHAPES)('keeps Not set beside the default: $name', async row => {
 				setThemeMode(theme);
 				const screen = await render(
 					<div style={{ width }}>
 						<KvSchemaForm
-							schema={{
-								type: 'object',
-								properties: { policy: { type: 'string', title: 'Delivery policy', enum: ['At most once', 'At least once'], default: 'At least once' } }
-							}}
+							schema={row.schema}
 							uiSchema={{ policy: { 'ui:widget': widget, 'ui:options': { showDefaultValueHelper: true } } }}
 							formData={{}}
 							applyDefaults={EApplyDefaults.Never}
@@ -136,8 +133,8 @@ describe.each([StyleMode.Light, StyleMode.Night])('widget layout in %s', theme =
 				const annotation = spans.find(span => span.textContent === 'Not set')!;
 				expect(annotation).toBeDefined();
 				expect(spans.find(span => span.textContent === '·')?.getAttribute('aria-hidden')).toBe('true');
-				const helper = Array.from(field.querySelectorAll<HTMLKvFormHelpTextElement>('kv-form-help-text')).find(host => host.helpText === 'Default: At least once')!;
-				await expect.poll(() => helper.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe('Default: At least once');
+				const helper = Array.from(field.querySelectorAll<HTMLKvFormHelpTextElement>('kv-form-help-text')).find(host => host.helpText === row.defaultHelper)!;
+				await expect.poll(() => helper.shadowRoot?.querySelector('.help-text')?.textContent?.trim()).toBe(row.defaultHelper);
 				const defaultText = helper.shadowRoot!.querySelector('.help-text')!;
 				const notSetBox = annotation.getBoundingClientRect();
 				expect(notSetBox.right).toBeLessThan(defaultText.getBoundingClientRect().left);

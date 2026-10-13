@@ -10,6 +10,8 @@ import {
 	BROKER_FORM_DATA,
 	BROKER_SCHEMA,
 	ERROR_SHAPES,
+	TABLE_UNSET_CHOICE_SCHEMA,
+	TABLE_UNSET_CHOICE_SHAPES,
 	FLAT_OBJECT_SHAPES,
 	L2_ELIGIBILITY_SHAPES,
 	L2_PRESENTATION_SHAPES,
@@ -573,5 +575,22 @@ it.each(R5_ARRAY_ACTIONS.slice(0, 6))('L2 focus after $name', async action => {
 		await expect.poll(() => rootRows(screen.container)[target].querySelector('kv-action-menu')?.matches(':focus-within')).toBe(true);
 		if (action.action === 'remove') expect(data).toEqual(row.formData.filter((_, position) => position !== index));
 		else expect(data[target]).toEqual(row.formData[index]);
+	}
+});
+
+// Radios never render in a table cell, so only a select with a blank placeholder says "Not set" there, under its control
+it.each(TABLE_UNSET_CHOICE_SHAPES)('places Not set under an unset cell select with a $name', async row => {
+	const screen = await render(<KvSchemaForm schema={TABLE_UNSET_CHOICE_SCHEMA} uiSchema={row.uiSchema} formData={[{ name: 'BROKER_HOST' }]} />);
+	await whenAllKelvinReady(screen.container);
+	expect(screen.container.querySelector('[role="table"]')).not.toBeNull();
+	const cell = screen.container.querySelector('[data-table-cell="level"]')!;
+	const annotations = Array.from(cell.querySelectorAll('span')).filter(span => span.textContent === 'Not set');
+	expect(annotations).toHaveLength(row.notSet ? 1 : 0);
+	if (row.notSet) {
+		const control = cell.querySelector('kv-single-select-dropdown')!.getBoundingClientRect();
+		const notSet = annotations[0].getBoundingClientRect();
+		expect(notSet.top).toBeGreaterThanOrEqual(control.bottom);
+		expect(notSet.left).toBeCloseTo(control.left, 0);
+		expect(notSet.right).toBeLessThanOrEqual(cell.getBoundingClientRect().right);
 	}
 });

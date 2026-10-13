@@ -10,7 +10,7 @@ import FieldHelp from '../TitleFieldTemplate/FieldHelp';
 import { useTableCell } from '../../contexts/TableContext';
 import tableStyles from '../ArrayFieldTemplate/TableLayout.module.scss';
 import { SCHEMA_FORM_STRINGS } from '../../strings';
-import { canClearChoice, showsNotSet } from './utils';
+import { showsNotSet } from './utils';
 
 const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: FieldTemplateProps<T, S, F>) => {
 	const choiceHost = useRef<HTMLKvRadioListElement | null>(null);
@@ -57,19 +57,18 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 				</div>
 			</div>
 		</div>
-	) : cell && notSet && !canClearChoice(props) ? (
-		// A table cell keeps "Not set" under its control, in the same spaced row ChoiceExtras gives a clearable radio
+	) : cell && notSet ? (
+		// Radios never render in a table cell, so this is a select with a blank placeholder: "Not set" stays under it
 		<div className={styles.ChoiceExtras}>
 			<div className={styles.ChoiceFeedback}>
 				{footerHelp}
 				{notSet}
 			</div>
 		</div>
-	) : footerHelp || footerErrors || (cell && notSet) ? (
+	) : footerHelp || footerErrors ? (
 		<>
 			{footerHelp}
 			{footerErrors}
-			{cell && notSet}
 		</>
 	) : null;
 	return (
