@@ -164,7 +164,7 @@ describe.each([StyleMode.Light, StyleMode.Night])('collection guidance in %s', t
 				if (lastMetadataText) expect(text.getBoundingClientRect().top - lastMetadataText.getBoundingClientRect().bottom).toBeCloseTo(4, 0);
 				lastMetadataText = text;
 			}
-			if (lastMetadataText) expect(content.getBoundingClientRect().top - lastMetadataText.getBoundingClientRect().bottom).toBeCloseTo(12, 0);
+			if (lastMetadataText) expect(content.getBoundingClientRect().top - lastMetadataText.getBoundingClientRect().bottom).toBeCloseTo(16, 0);
 		});
 
 		it.each(COLLECTION_ENTRY_ERROR_SHAPES)('keeps the error beneath its entry: $name', async row => {

@@ -13,6 +13,20 @@
 	gap: var(--spacing-xl);
 }
 
+.SectionHeader {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+
+	// Matches the heading's own bottom margin, so the body starts as far below the pair as below a lone heading
+	margin-bottom: var(--spacing-xs);
+
+	> :first-child {
+		margin-bottom: 0;
+	}
+}
+
 .CollectionHeader {
 	display: contents;
 
@@ -20,6 +34,9 @@
 		min-width: 0;
 		display: flex;
 		flex-direction: column;
+
+		// Same space above the list as a section leaves under its heading and description
+		margin-bottom: var(--spacing-xs);
 	}
 }
 

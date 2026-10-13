@@ -50,6 +50,7 @@ const SectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 			? claimSectionBoundary(parentLayout, props.id, 'section')
 			: { state: parentLayout, boundary: null };
 	const describedBy = [(descriptionElement || arrayDescriptionContext.descriptionId) && descriptionId, errorsElement && errorsId].filter(Boolean).join(' ') || undefined;
+	const topDescription = descriptionPosition === EDescriptionPosition.Top && descriptionElement;
 	const heading = <SectionHeadingContext.Provider value={getSectionHeadingKind(layout, Boolean(itemControls))}>{titleElement}</SectionHeadingContext.Provider>;
 	const header =
 		itemControls && (titleElement || itemHeader) ? (
@@ -59,6 +60,20 @@ const SectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 			</div>
 		) : (
 			heading
+		);
+	// A section's top description sits right under its heading, and the pair keeps the section's usual gap above the body.
+	// A list item's header keeps its own spacing.
+	const headerBlock =
+		topDescription && !itemControls ? (
+			<div className={styles.SectionHeader}>
+				{header}
+				{topDescription}
+			</div>
+		) : (
+			<>
+				{header}
+				{topDescription}
+			</>
 		);
 	const field = (
 		<WrapIfAdditionalTemplate {...props}>
@@ -75,10 +90,7 @@ const SectionField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 						{collectionMetadataElement}
 					</div>
 				) : (
-					<>
-						{header}
-						{descriptionPosition === EDescriptionPosition.Top && descriptionElement}
-					</>
+					headerBlock
 				)}
 				{errorsElement}
 				<SectionDepthContext.Provider value={depth + Number(hasTitle)}>
