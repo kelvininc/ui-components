@@ -10,6 +10,7 @@ import FieldHelp from '../TitleFieldTemplate/FieldHelp';
 import { useTableCell } from '../../contexts/TableContext';
 import tableStyles from '../ArrayFieldTemplate/TableLayout.module.scss';
 import { SCHEMA_FORM_STRINGS } from '../../strings';
+import { canClearChoice, showsNotSet } from './utils';
 
 const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: FieldTemplateProps<T, S, F>) => {
 	const choiceHost = useRef<HTMLKvRadioListElement | null>(null);
@@ -32,18 +33,43 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	const help = collection ? descriptionElement : errorsElement || descriptionElement;
 	const footerHelp = cell ? !fileWidget && errorsElement : descriptionPosition !== EDescriptionPosition.Top && help;
 	const footerErrors = !cell && collection && !fileWidget && errorsElement;
+	const notSetRef = useRef<HTMLSpanElement>(null);
+	const notSet = showsNotSet(props) && (
+		<span ref={notSetRef} tabIndex={-1} className={styles.NotSet}>
+			{SCHEMA_FORM_STRINGS.notSet}
+		</span>
+	);
 	const footerDefault = !cell && !collection && helperElement;
-	const footer = footerDefault ? (
+	// The value's status and its default share the footer's right side, across from the description and errors
+	const footerAside = !cell && !collection && (notSet || footerDefault);
+	const footer = footerAside ? (
 		<div className={styles.FieldFooter}>
 			<div className={styles.FieldFooterContent}>
 				{footerHelp && <div className={styles.FieldFeedback}>{footerHelp}</div>}
-				<div className={styles.FieldDefault}>{footerDefault}</div>
+				<div className={styles.FieldDefault}>
+					{notSet}
+					{notSet && footerDefault && (
+						<span className={styles.NotSet} aria-hidden="true">
+							·
+						</span>
+					)}
+					{footerDefault}
+				</div>
 			</div>
 		</div>
-	) : footerHelp || footerErrors ? (
+	) : cell && notSet && !canClearChoice(props) ? (
+		// A table cell keeps "Not set" under its control, in the same spaced row ChoiceExtras gives a clearable radio
+		<div className={styles.ChoiceExtras}>
+			<div className={styles.ChoiceFeedback}>
+				{footerHelp}
+				{notSet}
+			</div>
+		</div>
+	) : footerHelp || footerErrors || (cell && notSet) ? (
 		<>
 			{footerHelp}
 			{footerErrors}
+			{cell && notSet}
 		</>
 	) : null;
 	return (
@@ -89,7 +115,9 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 							</ArrayDescriptionContext.Provider>
 						</FileFieldErrorsContext.Provider>
 					</FieldDescriptionContext.Provider>
-					<ChoiceExtras {...props}>{footer}</ChoiceExtras>
+					<ChoiceExtras {...props} notSetRef={notSetRef}>
+						{footer}
+					</ChoiceExtras>
 				</ChoiceControlContext.Provider>
 			</div>
 		</WrapIfAdditionalTemplate>

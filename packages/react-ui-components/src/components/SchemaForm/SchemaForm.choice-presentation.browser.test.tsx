@@ -108,13 +108,15 @@ describe.each(CHOICE_SCHEMAS)('real choice annotation: $name', row => {
 			const screen = await render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ choice: { 'ui:widget': widget.widget } }} formData={{ choice: value }} />);
 			await whenAllKelvinReady(screen.container);
 			const radio = widget.kind === 'radio' || (widget.kind === 'default' && row.name === 'boolean');
-			// These selects have no placeholder, so they say "Not set" like a radio group does
-			expect(unsetAnnotations(screen.container)).toHaveLength(widget.kind !== 'checkbox' && isUnset ? 1 : 0);
+			// A select's default placeholder already says nothing is chosen; only a radio group says "Not set"
+			expect(unsetAnnotations(screen.container)).toHaveLength(radio && isUnset ? 1 : 0);
 			if (radio) {
 				const group = screen.getByRole('radiogroup', { name: row.schema.title, exact: true });
 				await expect.element(group).toBeVisible();
+				// "Not set" and Clear selection take turns on the footer's right side
 				const clear = clearButton(screen.container.querySelector('kv-radio-list')!);
-				expect(clear.getAttribute('aria-disabled')).toBe(String(isUnset));
+				if (isUnset) expect(clear).toBeUndefined();
+				else expect(clear).toBeDefined();
 			}
 		});
 	}
@@ -235,9 +237,10 @@ describe.each(RADIO_KEYBOARD_SHAPES)('real grouped keyboard: $name', ({ widget }
 		await userEvent.click(clear);
 		await expect.poll(() => onChange.mock.lastCall?.[0].formData.choice).toBeUndefined();
 		expect(onChange).toHaveBeenCalledOnce();
-		expect(clearButton(host)).toBe(clear);
+		expect(clearButton(host)).toBeUndefined();
 		if (row.expected) await expect.poll(focusedControl).toBe(screen.getByRole('radio', { name: row.expected, exact: true }).element());
-		else await expect.poll(focusedControl).toBe(clear);
+		// No enabled option takes focus, so it lands on the "Not set" that replaced Clear selection
+		else await expect.poll(focusedControl).toBe(unsetAnnotations(screen.container)[0]);
 		expect(unsetAnnotations(screen.container)).toHaveLength(1);
 		for (const label of ['at-most-once', 'at-least-once']) await expect.element(screen.getByRole('radio', { name: label, exact: true })).not.toBeChecked();
 	});
@@ -380,6 +383,9 @@ it.each(CHOICE_NOT_SET_SHAPES)('says Not set for an unset $name only without a s
 	await whenAllKelvinReady(screen.container);
 	const annotations = unsetAnnotations(screen.container);
 	expect(annotations).toHaveLength(row.notSet ? 1 : 0);
+	// "Not set" shows exactly when the dropdown gets a blank placeholder; without one it falls back to "Select an option"
+	const dropdown = screen.container.querySelector('kv-single-select-dropdown');
+	if (dropdown) expect(dropdown.placeholder !== undefined && dropdown.placeholder.trim() === '').toBe(row.notSet);
 	// Radios and selects share the small body style: 12px on a 16px line
 	for (const annotation of annotations) {
 		expect(getComputedStyle(annotation).fontSize).toBe('12px');
@@ -391,10 +397,10 @@ it.each(CHOICE_DISPATCH_SHAPES)('renders extras for the actual $name widget', as
 	const registered = row.formatWidget === 'radio' ? { EmailWidget: widgets.RadioWidget } : row.formatWidget === 'custom' ? { EmailWidget: widgets.ReadOnlyValueWidget } : {};
 	const screen = await render(<KvSchemaForm schema={choiceForm(row)} uiSchema={{ ...row.uiSchema, choice: row.uiSchema }} widgets={registered} />);
 	await whenAllKelvinReady(screen.container);
-	expect(unsetAnnotations(screen.container)).toHaveLength(row.expected === 'radio' || row.expected === 'select' ? 1 : 0);
+	expect(unsetAnnotations(screen.container)).toHaveLength(row.expected === 'radio' ? 1 : 0);
 	expect(screen.container.querySelectorAll('kv-radio-list')).toHaveLength(row.expected === 'radio' ? 1 : 0);
 	const clears = Array.from(screen.container.querySelectorAll('button')).filter(button => button.textContent === 'Clear selection');
-	expect(clears).toHaveLength(row.expected === 'radio' ? 1 : 0);
+	expect(clears).toHaveLength(0);
 });
 
 describe.each(TOGGLE_FOCUS_MODES)('real named toggle group: $name', ({ withRadio }) => {

@@ -1,3 +1,4 @@
+import { resolveAllowClearInputs } from '../../Widgets/utils';
 import { JSONSchema7Type } from 'json-schema';
 import {
 	EnumOptionsType,
@@ -39,13 +40,31 @@ export const getChoicePresentation = <T, S extends StrictRJSFSchema = RJSFSchema
 };
 
 /**
- * The placeholder SelectWidget shows, trimmed. RJSF's StringField passes the field's own `ui:placeholder` and drops it
- * from the options; BooleanField passes an empty one, so SelectWidget falls back to its options, which include the
- * global UI options.
+ * The placeholder SelectWidget passes, trimmed, or `undefined` when it passes none and the dropdown shows its own
+ * default. RJSF's StringField passes the field's own placeholder and drops it from the options, and SelectWidget treats
+ * an empty one as missing; BooleanField passes an empty one, so SelectWidget falls back to its options, which include
+ * the global UI options and keep an empty placeholder.
  */
 export const getSelectPlaceholder = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({ schema, uiSchema, registry }: FieldTemplateProps<T, S, F>) => {
-	const { placeholder } = getSchemaType(schema) === 'boolean' ? getUiOptions<T, S, F>(uiSchema, registry.globalUiOptions) : getUiOptions<T, S, F>(uiSchema);
-	return typeof placeholder === 'string' ? placeholder.trim() : '';
+	const boolean = getSchemaType(schema) === 'boolean';
+	const { placeholder } = boolean ? getUiOptions<T, S, F>(uiSchema, registry.globalUiOptions) : getUiOptions<T, S, F>(uiSchema);
+	if (typeof placeholder !== 'string' || (!boolean && placeholder === '')) return undefined;
+	return placeholder.trim();
+};
+
+/**
+ * Whether an unset choice says "Not set". A radio group always does. A select only does when its placeholder is blank:
+ * without one, the dropdown shows its default "Select an option", which already says nothing is chosen.
+ */
+export const showsNotSet = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: FieldTemplateProps<T, S, F>) => {
+	const { choice, radio } = getChoicePresentation(props);
+	return choice && props.formData === undefined && (radio || getSelectPlaceholder(props) === '');
+};
+
+/** Clearing a field with a default leaves it unset, which is not the default: a radio offers it only when there is none. */
+export const canClearChoice = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: FieldTemplateProps<T, S, F>) => {
+	const { required, disabled, readonly, schema, uiSchema, registry } = props;
+	return getChoicePresentation(props).radio && !required && !disabled && !readonly && schema.default === undefined && (resolveAllowClearInputs(uiSchema, registry) ?? true);
 };
 
 type UiOptionsSource<T, S extends StrictRJSFSchema, F extends FormContextType> = { uiSchema?: UiSchema<T, S, F>; globalUiOptions?: GlobalUISchemaOptions };

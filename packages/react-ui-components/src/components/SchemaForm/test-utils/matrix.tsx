@@ -225,9 +225,9 @@ export const DEFAULTED_CHOICE_SHAPES: readonly { name: string; schema: RJSFSchem
  * `ui:placeholder`, while BooleanField's select also reads the global UI options.
  */
 export const CHOICE_NOT_SET_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema: UiSchema; globalPlaceholder?: string; notSet: boolean }[] = [
-	{ name: 'enum select without a placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select' }, notSet: true },
-	{ name: 'default integer oneOf select without a placeholder', schema: CHOICE_SCHEMAS[3].schema, uiSchema: {}, notSet: true },
-	{ name: 'boolean select without a placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select' }, notSet: true },
+	{ name: 'enum select with the default placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select' }, notSet: false },
+	{ name: 'default integer oneOf select with the default placeholder', schema: CHOICE_SCHEMAS[3].schema, uiSchema: {}, notSet: false },
+	{ name: 'boolean select with the default placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select' }, notSet: false },
 	{ name: 'enum select with ui:placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': 'Choose a QoS level' }, notSet: false },
 	{
 		name: 'enum select with an options placeholder',
@@ -236,9 +236,12 @@ export const CHOICE_NOT_SET_SHAPES: readonly { name: string; schema: RJSFSchema;
 		notSet: false
 	},
 	{ name: 'enum select with a blank placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': '  ' }, notSet: true },
+	// SelectWidget treats an empty placeholder as missing, so the dropdown shows its default "Select an option"
+	{ name: 'enum select with an empty ui:placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': '' }, notSet: false },
+	{ name: 'boolean select with an empty ui:placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': '' }, notSet: true },
 	{ name: 'boolean select with ui:placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select', 'ui:placeholder': 'Choose TLS' }, notSet: false },
 	{ name: 'boolean select with a global placeholder', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'select' }, globalPlaceholder: 'Choose one', notSet: false },
-	{ name: 'enum select ignoring a global placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select' }, globalPlaceholder: 'Choose one', notSet: true },
+	{ name: 'enum select ignoring a global placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'select' }, globalPlaceholder: 'Choose one', notSet: false },
 	{ name: 'radio', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'radio' }, notSet: true },
 	{ name: 'radio with ui:placeholder', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:widget': 'radio', 'ui:placeholder': 'Choose a QoS level' }, notSet: true },
 	{ name: 'checkbox', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'checkbox' }, notSet: false }

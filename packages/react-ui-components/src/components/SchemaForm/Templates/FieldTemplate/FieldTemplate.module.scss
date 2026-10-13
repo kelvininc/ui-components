@@ -63,7 +63,9 @@
 
 .FieldDefault {
 	display: flex;
+	align-items: baseline;
 	justify-content: flex-end;
+	gap: var(--spacing-xs);
 	margin-inline-start: auto;
 	max-width: 45%;
 	min-width: 0;
@@ -105,7 +107,14 @@
 .NotSet {
 	@include body-s-regular;
 
+	flex-shrink: 0;
 	color: var(--text-container-neutral-subtle);
+
+	// Takes focus after clearing when no option can: outlined like Clear selection, which it replaces
+	&:focus-visible {
+		outline: 2px solid currentcolor;
+		outline-offset: 2px;
+	}
 }
 
 .ClearSelection {
@@ -125,12 +134,7 @@
 		outline-offset: 2px;
 	}
 
-	&:hover:not([aria-disabled='true']) {
+	&:hover {
 		text-decoration: underline;
-	}
-
-	&[aria-disabled='true'] {
-		color: var(--button-text-label-disabled);
-		cursor: default;
 	}
 }
