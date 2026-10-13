@@ -352,7 +352,7 @@ describe.each(['checkbox', 'button'])('C4 %s toggle group', type => {
 describe.each(ACTIVATION_KEYS)('C4 switch activation: %s', key => {
 	it('focuses a named switch, changes once and never submits its enclosing form', async () => {
 		const page = await newE2EPage();
-		await page.setContent('<form><button id="before" type="button">Before</button><kv-switch-button accessible-label="Show Calendar"></kv-switch-button></form>');
+		await page.setContent('<form><button id="before" type="button">Before</button><kv-switch-button accessible-label="Show calendar"></kv-switch-button></form>');
 		await page.evaluate(() =>
 			document.querySelector('form').addEventListener('submit', event => {
 				event.preventDefault();
@@ -363,8 +363,8 @@ describe.each(ACTIVATION_KEYS)('C4 switch activation: %s', key => {
 		const changes = await host.spyOnEvent('switchChange');
 		await page.focus('#before');
 		await page.evaluate(() => document.querySelector('kv-switch-button').focus());
-		expect(await focusName(page)).toBe('Show Calendar');
-		const control = await page.$('aria/Show Calendar[role="switch"]');
+		expect(await focusName(page)).toBe('Show calendar');
+		const control = await page.$('aria/Show calendar[role="switch"]');
 		expect(control).not.toBeNull();
 		await page.keyboard.press(key);
 		await page.waitForChanges();
@@ -375,11 +375,11 @@ describe.each(ACTIVATION_KEYS)('C4 switch activation: %s', key => {
 		expect((await page.find('form')).getAttribute('data-submitted')).toBeNull();
 	});
 
-	it('preserves the time-picker Show Calendar callback', async () => {
+	it('preserves the time-picker Show calendar callback', async () => {
 		const page = await newE2EPage();
 		await page.setContent('<kv-time-picker is-open></kv-time-picker>');
 		const changes = await (await page.find('kv-time-picker')).spyOnEvent('showCalendarStateChange');
-		const control = await page.$('aria/Show Calendar[role="switch"]');
+		const control = await page.$('aria/Show calendar[role="switch"]');
 		expect(control).not.toBeNull();
 		await control.focus();
 		await page.keyboard.press(key);
@@ -394,7 +394,7 @@ describe('C4 disabled switch', () => {
 	it('blocks delegated focus and activation and skips its Tab stop', async () => {
 		const page = await newE2EPage();
 		await page.setContent(
-			'<button id="before">Before</button><kv-switch-button accessible-label="Show Calendar" disabled></kv-switch-button><button id="after">After</button>'
+			'<button id="before">Before</button><kv-switch-button accessible-label="Show calendar" disabled></kv-switch-button><button id="after">After</button>'
 		);
 		const host = await page.find('kv-switch-button');
 		const changes = await host.spyOnEvent('switchChange');
@@ -571,7 +571,7 @@ describe.each(['large', 'small'])('C4 switch dimensions: %s', size => {
 	it('preserves the button part dimensions and exposes a configurable keyboard outline', async () => {
 		const page = await newE2EPage();
 		await page.setContent(
-			`<button id="before">Before</button><kv-switch-button size="${size}" accessible-label="Show Calendar" style="--switch-height-${size}:24px;--switch-width-${size}:48px;--switch-focus-outline-color:rgb(20,40,80);--border-width-strong:2px;--spacing-2xs:2px"></kv-switch-button>`
+			`<button id="before">Before</button><kv-switch-button size="${size}" accessible-label="Show calendar" style="--switch-height-${size}:24px;--switch-width-${size}:48px;--switch-focus-outline-color:rgb(20,40,80);--border-width-strong:2px;--spacing-2xs:2px"></kv-switch-button>`
 		);
 		await page.focus('#before');
 		await page.keyboard.press('Tab');
@@ -595,7 +595,7 @@ describe.each(['large', 'small'])('C4 switch dimensions: %s', size => {
 describe('C4 switch padding focus', () => {
 	it('focuses from host padding without changing its checked state', async () => {
 		const page = await newE2EPage();
-		await page.setContent('<kv-switch-button accessible-label="Show Calendar" style="padding:12px;--switch-height-large:24px;--switch-width-large:48px"></kv-switch-button>');
+		await page.setContent('<kv-switch-button accessible-label="Show calendar" style="padding:12px;--switch-height-large:24px;--switch-width-large:48px"></kv-switch-button>');
 		const host = await page.find('kv-switch-button');
 		const changes = await host.spyOnEvent('switchChange');
 		const point = await page.evaluate(() => {
@@ -604,7 +604,7 @@ describe('C4 switch padding focus', () => {
 		});
 		await page.mouse.click(point.x, point.y);
 		await page.waitForChanges();
-		expect(await focusName(page)).toBe('Show Calendar');
+		expect(await focusName(page)).toBe('Show calendar');
 		expect(changes.events).toHaveLength(0);
 	});
 });
