@@ -139,11 +139,16 @@ the allowed move actions and a destructive Remove action. Boundary moves stay vi
 Readonly and disabled lists keep disabled controls. Add renders a plus followed by "Add <prefix>"
 or "Add item". Lists with a reserved grip column center the plus in that column and align the text
 with the input. Other lists start the plus at the entry edge. List, file and radio entries have a 12px vertical gap.
-Radio Clear selection actions align with the group's right edge beside descriptions, errors or "Not set".
+Radio Clear selection actions align with the group's right edge beside descriptions or errors.
 The action wraps onto its own right-aligned row when the field is too narrow to fit both columns.
 Radio groups with a schema default omit Clear selection, because clearing would leave them unset rather than at
 their default. They omit it even with `allowClearInputs: true`. A single-select dropdown keeps its own clear action.
-Unset radio groups show "Not set"; unset selects show it only when they have no placeholder.
+Unset radio groups show "Not set" in the same right-hand spot, beside the default helper when there is one
+("Not set · Default: No"). It takes turns with Clear selection, which only renders once a value is picked.
+When clearing leaves no enabled option to focus, focus moves to "Not set".
+Unset selects show "Not set" only when their placeholder is explicitly blank, such as `ui:placeholder: '  '`.
+Without one, or with an empty string, the dropdown shows its own "Select an option", which already says
+nothing is chosen. In a table cell, "Not set" sits under the select.
 
 Enabled item actions and Add participate in Tab order. Menus support mouse and keyboard interaction.
 Scalar help tips stay beside the input, named after the item ("Help for Topic 1") and in Tab order
