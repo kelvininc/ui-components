@@ -6,6 +6,7 @@ import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../test-utils/browser';
 import { KvSchemaForm } from './SchemaForm';
 import {
+	HEADING_SPACING_FORM,
 	SECTION_LAYOUT_COMPATIBILITY_SHAPES,
 	SECTION_LAYOUT_CONNECTORS,
 	SECTION_LAYOUT_DEEP,
@@ -433,55 +434,22 @@ it('keeps additional-property key controls inside their section guide', async ()
 	}
 });
 
-it('spaces every heading block the same way above its body', async () => {
-	const screen = await render(
-		<div style={{ width: 640 }}>
-			<KvSchemaForm
-				schema={{
-					type: 'object',
-					properties: {
-						broker: { type: 'object', title: 'Broker', description: 'Connection to the plant broker.', properties: { host: { type: 'string', title: 'Host' } } },
-						retry: { type: 'object', title: 'Retry', properties: { attempts: { type: 'number', title: 'Attempts' } } },
-						// No fields of its own, only the protocol choice: its empty field container must not take a gap slot
-						security: {
-							type: 'object',
-							title: 'Security',
-							description: 'Protocol for the broker connection.',
-							oneOf: [
-								{ title: 'Plaintext', properties: { protocol: { const: 'plaintext' } } },
-								{ title: 'TLS', properties: { protocol: { const: 'tls' }, caCertificate: { type: 'string', title: 'CA certificate' } } }
-							]
-						},
-						topics: {
-							type: 'array',
-							title: 'Topics',
-							description: 'Topics the exporter publishes to.',
-							items: {
-								type: 'object',
-								title: 'Topic',
-								description: 'One telemetry topic.',
-								properties: {
-									name: { type: 'string', title: 'Name' },
-									retention: { type: 'object', title: 'Retention', properties: { days: { type: 'number', title: 'Days' } } }
-								}
-							}
-						}
-					}
-				}}
-				formData={{ topics: [{ name: 'telemetry', retention: { days: 7 } }] }}
-			/>
-		</div>
-	);
-	await whenAllKelvinReady(screen.container);
-	await document.fonts.ready;
-	const visible = (element: Element) => element.getBoundingClientRect().height > 0;
-	const nextVisible = (element: Element) => {
-		let next = element.nextElementSibling;
-		while (next && !visible(next)) next = next.nextElementSibling;
-		return next!;
-	};
-	const measure = (title: string) => {
-		const heading = Array.from(screen.container.querySelectorAll('h2,h3,h4,h5,h6')).find(element => element.textContent === title)!;
+describe('heading block spacing', () => {
+	it.each(HEADING_SPACING_FORM.headings)('spaces $title above its body', async expected => {
+		const screen = await render(
+			<div style={{ width: 640 }}>
+				<KvSchemaForm schema={HEADING_SPACING_FORM.schema} formData={HEADING_SPACING_FORM.formData} />
+			</div>
+		);
+		await whenAllKelvinReady(screen.container);
+		await document.fonts.ready;
+		const visible = (element: Element) => element.getBoundingClientRect().height > 0;
+		const nextVisible = (element: Element) => {
+			let next = element.nextElementSibling;
+			while (next && !visible(next)) next = next.nextElementSibling;
+			return next!;
+		};
+		const heading = Array.from(screen.container.querySelectorAll('h2,h3,h4,h5,h6')).find(element => element.textContent === expected.title)!;
 		const group = heading.closest('[role="group"]')!;
 		const header = heading.closest('[data-schema-form-item-header]') ?? heading.closest(`.${titleStyles.TitleContainer}`)!;
 		const description = group.querySelector(`[id="${group.getAttribute('aria-describedby')?.split(' ')[0]}"]`);
@@ -489,16 +457,9 @@ it('spaces every heading block the same way above its body', async () => {
 		while (block.parentElement !== group) block = block.parentElement!;
 		const body = nextVisible(block).getBoundingClientRect();
 		const headerBox = header.getBoundingClientRect();
-		return {
+		expect({
 			toDescription: description ? Math.round(description.getBoundingClientRect().top - headerBox.bottom) : null,
 			toBody: Math.round(body.top - (description ?? header).getBoundingClientRect().bottom)
-		};
-	};
-	// A section heading: the description sits 4px under it, and the body starts 16px below either
-	expect(measure('Broker')).toEqual({ toDescription: 4, toBody: 16 });
-	expect(measure('Retry')).toEqual({ toDescription: null, toBody: 16 });
-	expect(measure('Security')).toEqual({ toDescription: 4, toBody: 16 });
-	expect(measure('Topics')).toEqual({ toDescription: 4, toBody: 16 });
-	// A list item's header keeps its own spacing
-	expect(measure('Topic 1')).toEqual({ toDescription: 12, toBody: 12 });
+		}).toEqual({ toDescription: expected.toDescription, toBody: expected.toBody });
+	});
 });
