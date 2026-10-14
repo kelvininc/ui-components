@@ -72,7 +72,10 @@ export class KvAbsoluteTimePickerDropdown implements IAbsoluteTimePickerDropdown
 	}
 
 	@Watch('selectedDates')
-	handleSelecteDatesChange(newDates: SelectedTimestamp) {
+	handleSelecteDatesChange(newDates: SelectedTimestamp, previousDates: SelectedTimestamp = []): void {
+		// A new reference to the applied dates must not overwrite an uncommitted selection.
+		if (!hasRangeChanged(previousDates, newDates)) return;
+
 		this.selectedDateState = newDates;
 		if (isEmpty(this.initialDate) && newDates?.length > 0) {
 			const [fromDate] = newDates;
