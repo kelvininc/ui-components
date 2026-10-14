@@ -25,11 +25,12 @@ describe.each([EAbsoluteTimePickerMode.Single, EAbsoluteTimePickerMode.Range])('
 		});
 	});
 
-	it('should preserve the draft and commit it on close when an equivalent selection is supplied', async () => {
+	it('should preserve the draft and commit it on close when equivalent selection and timezone props are supplied', async () => {
 		const onChange = jest.fn();
 		page.root.addEventListener('selectedTimeChange', onChange);
 		await edit();
 		const draft = values();
+		page.root.timezone = { name: 'UTC', offset: 0 };
 		page.root.selectedTime = [...applied];
 		await page.waitForChanges();
 
@@ -39,6 +40,36 @@ describe.each([EAbsoluteTimePickerMode.Single, EAbsoluteTimePickerMode.Range])('
 		page.root.querySelector('kv-dropdown-base').dispatchEvent(new CustomEvent('clickOutside'));
 		expect(onChange).toHaveBeenCalledTimes(1);
 		expect(onChange.mock.calls[0][0].detail).toEqual(mode === EAbsoluteTimePickerMode.Single ? [Date.UTC(2026, 9, 5)] : [Date.UTC(2026, 9, 5), appliedEnd]);
+	});
+
+	it.each([false, true])('should reformat inputs and preserve committed timestamps when the timezone changes (replace selection: %s)', async replaceSelection => {
+		const onChange = jest.fn();
+		page.root.addEventListener('selectedTimeChange', onChange);
+		page.root.timezone = { name: 'Europe/Lisbon', offset: 60 };
+		if (replaceSelection) page.root.selectedTime = [...applied];
+		await page.waitForChanges();
+
+		expect(values()).toEqual(mode === EAbsoluteTimePickerMode.Single ? ['13-10-2026 15:58'] : ['13-10-2026 15:58', '14-10-2026 15:58']);
+		expect(onChange).not.toHaveBeenCalled();
+		inputs()[0].dispatchEvent(new CustomEvent('inputFocus'));
+		await page.waitForChanges();
+		page.root.querySelector('kv-dropdown-base').dispatchEvent(new CustomEvent('clickOutside'));
+		expect(onChange).toHaveBeenCalledTimes(1);
+		expect(onChange.mock.calls[0][0].detail).toEqual(applied);
+	});
+
+	it.each([false, true])('should populate the new inputs when the mode changes (replace selection: %s)', async replaceSelection => {
+		const selectedRange: SelectedTimeState = [appliedStart, appliedEnd];
+		page.root.selectedTime = selectedRange;
+		await page.waitForChanges();
+		const onChange = jest.fn();
+		page.root.addEventListener('selectedTimeChange', onChange);
+		if (replaceSelection) page.root.selectedTime = [...selectedRange];
+		page.root.mode = mode === EAbsoluteTimePickerMode.Single ? EAbsoluteTimePickerMode.Range : EAbsoluteTimePickerMode.Single;
+		await page.waitForChanges();
+
+		expect(values()).toEqual(mode === EAbsoluteTimePickerMode.Single ? ['13-10-2026 14:58', '14-10-2026 14:58'] : ['13-10-2026 14:58']);
+		expect(onChange).not.toHaveBeenCalled();
 	});
 
 	it('should preserve a pending selection when another empty array is supplied', async () => {

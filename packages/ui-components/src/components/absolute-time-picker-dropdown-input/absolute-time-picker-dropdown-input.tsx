@@ -85,6 +85,19 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 		this.syncSelectedTimeState(newValue);
 	}
 
+	@Watch('timezone')
+	handleTimezoneChange(newTimezone: ITimePickerTimezone, previousTimezone: ITimePickerTimezone): void {
+		// Formatting uses the name; equivalent timezone objects must preserve drafts.
+		if (newTimezone.name === previousTimezone?.name) return;
+
+		this.syncSelectedTimeState(this.selectedTime);
+	}
+
+	@Watch('mode')
+	handleModeChange(): void {
+		this.syncSelectedTimeState(this.selectedTime);
+	}
+
 	syncSelectedTimeState(newValue: SelectedTime | SelectedTimeState) {
 		if (this.mode === EAbsoluteTimePickerMode.Single) {
 			this.singleTimeInputValue = getSingleInputDate(newValue, this.timezone.name);
