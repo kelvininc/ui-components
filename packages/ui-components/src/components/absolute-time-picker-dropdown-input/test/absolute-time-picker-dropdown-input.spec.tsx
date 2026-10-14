@@ -3,6 +3,67 @@ import { KvAbsoluteTimePickerDropdownInput } from '../absolute-time-picker-dropd
 import { h } from '@stencil/core';
 import { EAbsoluteTimePickerMode, EIconName } from '../../../types';
 import { DATE_TIME_INPUT_DATE_FORMAT } from '../absolute-time-picker-dropdown-input.config';
+import type { SelectedTimeState } from '../absolute-time-picker-dropdown-input.types';
+
+describe.each([EAbsoluteTimePickerMode.Single, EAbsoluteTimePickerMode.Range])('Absolute Time Picker Dropdown Input prop updates (%s)', mode => {
+	let page: SpecPage;
+	const appliedStart = Date.UTC(2026, 9, 13, 14, 58);
+	const appliedEnd = Date.UTC(2026, 9, 14, 14, 58);
+	const applied: SelectedTimeState = mode === EAbsoluteTimePickerMode.Single ? [appliedStart] : [appliedStart, appliedEnd];
+	const inputs = () => Array.from(page.root.querySelectorAll('kv-date-time-input'));
+	const values = () => inputs().map(input => input.getAttribute('value'));
+	const edit = async () => {
+		inputs()[0].dispatchEvent(new CustomEvent('inputFocus'));
+		page.root.querySelector('kv-calendar').dispatchEvent(new CustomEvent('clickDate', { detail: { date: '2026-10-05' } }));
+		await page.waitForChanges();
+	};
+
+	beforeEach(async () => {
+		page = await newSpecPage({
+			components: [KvAbsoluteTimePickerDropdownInput],
+			template: () => <kv-absolute-time-picker-dropdown-input mode={mode} initialDate={appliedStart} selectedTime={applied} timezone={{ name: 'UTC', offset: 0 }} />
+		});
+	});
+
+	it('should preserve the draft and commit it on close when an equivalent selection is supplied', async () => {
+		const onChange = jest.fn();
+		page.root.addEventListener('selectedTimeChange', onChange);
+		await edit();
+		const draft = values();
+		page.root.selectedTime = [...applied];
+		await page.waitForChanges();
+
+		expect(values()).toEqual(draft);
+		expect(values()[0]).toBe('05-10-2026 00:00');
+		expect(onChange).not.toHaveBeenCalled();
+		page.root.querySelector('kv-dropdown-base').dispatchEvent(new CustomEvent('clickOutside'));
+		expect(onChange).toHaveBeenCalledTimes(1);
+		expect(onChange.mock.calls[0][0].detail).toEqual(mode === EAbsoluteTimePickerMode.Single ? [Date.UTC(2026, 9, 5)] : [Date.UTC(2026, 9, 5), appliedEnd]);
+	});
+
+	it('should preserve a pending selection when another empty array is supplied', async () => {
+		page.root.selectedTime = [];
+		await page.waitForChanges();
+		await edit();
+		const draft = values();
+		page.root.selectedTime = [];
+		await page.waitForChanges();
+
+		expect(values()).toEqual(draft);
+		expect(values()[0]).toBe('05-10-2026 00:00');
+	});
+
+	it('should synchronize genuine external changes and clears while editing', async () => {
+		await edit();
+		page.root.selectedTime = [Date.UTC(2026, 9, 7)];
+		await page.waitForChanges();
+		expect(values()[0]).toBe('07-10-2026 00:00');
+
+		page.root.selectedTime = [];
+		await page.waitForChanges();
+		expect(values().every(value => value === '')).toBe(true);
+	});
+});
 
 describe('Absolute Time Picker Dropdown Input (unit tests)', () => {
 	let page: SpecPage;

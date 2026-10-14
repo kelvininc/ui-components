@@ -27,6 +27,7 @@ import {
 } from './absolute-time-picker-dropdown-input.types';
 import { isEmpty, isNumber, merge } from 'lodash-es';
 import { getRangeCalendarDates, getRangeInputValues, getSingleCalendarDate, getSingleInputDate } from './absolute-time-picker-dropdown-input.utils';
+import { hasRangeChanged } from '../time-picker/time-picker.helper';
 
 @Component({
 	tag: 'kv-absolute-time-picker-dropdown-input',
@@ -77,7 +78,10 @@ export class KvAbsoluteTimePickerDropdownInput implements IAbsoluteTimePickerDro
 	}
 
 	@Watch('selectedTime')
-	handleSelectedTimeChange(newValue: SelectedTime | SelectedTimeState) {
+	handleSelectedTimeChange(newValue: SelectedTime | SelectedTimeState, previousValue: SelectedTime | SelectedTimeState = []): void {
+		// A new reference to the applied dates must not overwrite an uncommitted selection.
+		if (!hasRangeChanged(previousValue, newValue)) return;
+
 		this.syncSelectedTimeState(newValue);
 	}
 

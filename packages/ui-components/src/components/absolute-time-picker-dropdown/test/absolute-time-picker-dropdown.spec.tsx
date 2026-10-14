@@ -3,6 +3,77 @@ import { KvAbsoluteTimePickerDropdown } from '../absolute-time-picker-dropdown';
 import { getAbsoluteTimePickerError } from '../absolute-time-picker-dropdown.utils';
 import { EAbsoluteTimeError, EAbsoluteTimePickerMode } from '../../../types';
 import { h } from '@stencil/core';
+import type { SelectedTimestamp } from '../../../types';
+
+describe.each([EAbsoluteTimePickerMode.Single, EAbsoluteTimePickerMode.Range])('Absolute Time Picker Dropdown prop updates (%s)', mode => {
+	let page: SpecPage;
+	const appliedStart = Date.UTC(2026, 9, 13, 14, 58, 53);
+	const appliedEnd = Date.UTC(2026, 9, 14, 14, 58, 53);
+	const applied: SelectedTimestamp = mode === EAbsoluteTimePickerMode.Single ? [appliedStart] : [appliedStart, appliedEnd];
+	const draft = mode === EAbsoluteTimePickerMode.Single ? ['2026-10-05 00:00:00'] : ['2026-10-05 00:00:00', '2026-10-12 23:59:59'];
+	const draftTimestamps = mode === EAbsoluteTimePickerMode.Single ? [Date.UTC(2026, 9, 5)] : [Date.UTC(2026, 9, 5), Date.UTC(2026, 9, 12, 23, 59, 59)];
+	const calendar = () => page.root.querySelector('kv-absolute-time-picker');
+	const edit = async (range = draft) => {
+		calendar().dispatchEvent(new CustomEvent('selectedDatesChange', { detail: { range } }));
+		await page.waitForChanges();
+	};
+
+	beforeEach(async () => {
+		page = await newSpecPage({
+			components: [KvAbsoluteTimePickerDropdown],
+			template: () => <kv-absolute-time-picker-dropdown mode={mode} selectedDates={applied} timezone={{ name: 'UTC', offset: 0 }} />
+		});
+	});
+
+	it('should preserve the draft and apply it when an equivalent selection is supplied', async () => {
+		const onChange = jest.fn();
+		page.root.addEventListener('selectedDatesChange', onChange);
+		await edit();
+		page.root.selectedDates = [...applied];
+		await page.waitForChanges();
+
+		expect(calendar().selectedDates).toEqual(draft);
+		expect(onChange).not.toHaveBeenCalled();
+		const apply = page.root.querySelector('kv-action-button-text[text="Apply"]');
+		expect(apply.hasAttribute('disabled')).toBe(false);
+		apply.dispatchEvent(new CustomEvent('clickButton'));
+		expect(onChange).toHaveBeenCalledTimes(1);
+		expect(onChange.mock.calls[0][0].detail).toEqual(draftTimestamps);
+	});
+
+	it('should preserve a pending selection when another empty array is supplied', async () => {
+		page.root.selectedDates = [];
+		await page.waitForChanges();
+		await edit([draft[0]]);
+		const pending = calendar().selectedDates;
+		page.root.selectedDates = [];
+		await page.waitForChanges();
+
+		expect(calendar().selectedDates).toEqual(pending);
+	});
+
+	it('should restore the applied selection when cancelling after an equivalent prop update', async () => {
+		const initial = calendar().selectedDates;
+		await edit();
+		page.root.selectedDates = [...applied];
+		await page.waitForChanges();
+		page.root.querySelector('kv-action-button-text[text="Cancel"]').dispatchEvent(new CustomEvent('clickButton'));
+		await page.waitForChanges();
+
+		expect(calendar().selectedDates).toEqual(initial);
+	});
+
+	it('should synchronize genuine external changes and clears while editing', async () => {
+		await edit();
+		page.root.selectedDates = [Date.UTC(2026, 9, 7)];
+		await page.waitForChanges();
+		expect(calendar().selectedDates[0]).toBe('2026-10-07 00:00:00');
+
+		page.root.selectedDates = [];
+		await page.waitForChanges();
+		expect(calendar().selectedDates).toEqual([]);
+	});
+});
 
 describe('Absolute Time Picker Dropdown (unit tests)', () => {
 	let page: SpecPage;
