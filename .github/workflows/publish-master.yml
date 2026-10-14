@@ -63,8 +63,17 @@ jobs:
                     echo "No production tag found, cannot determine the version base."
                     exit 1
                   fi
-                  if [ "$(git rev-parse "v$LAST_VERSION^{commit}")" = "$GITHUB_SHA" ]; then
-                    echo "This commit is already tagged v$LAST_VERSION. Delete that tag before re-running the release."
+                  # Re-run guards. Pushing only a tag loses the protection the old master
+                  # push gave for free (a non-fast-forward push was rejected), so refuse to
+                  # release a commit that already carries a production tag, and refuse to
+                  # version a commit that is older than the latest release.
+                  RELEASED_AS=$(git tag -l --points-at "$GITHUB_SHA" 'v*' | grep -vE -- '-(alpha|beta)\.' || true)
+                  if [ -n "$RELEASED_AS" ]; then
+                    echo "This commit is already released as $RELEASED_AS. Delete that tag before re-running the release."
+                    exit 1
+                  fi
+                  if ! git merge-base --is-ancestor "v$LAST_VERSION" "$GITHUB_SHA"; then
+                    echo "The latest release v$LAST_VERSION is not an ancestor of this commit; refusing to version older source against it."
                     exit 1
                   fi
                   sed -i "s/\(\"version\": \"\)[^\"]*/\1$LAST_VERSION/" lerna.json
@@ -89,7 +98,9 @@ jobs:
                   # publish: a git failure then aborts the release cleanly.
                   git tag -a "v$NEW_VERSION" -m "v$NEW_VERSION" "$GITHUB_SHA"
                   git push origin "refs/tags/v$NEW_VERSION"
-                  pnpm lerna publish from-package --yes
+                  # --git-head: registry metadata must point at the pushed commit, not at
+                  # the local-only one HEAD now sits on.
+                  pnpm lerna publish from-package --yes --git-head "$GITHUB_SHA"
               env:
                   NEW_VERSION: ${{ steps.version.outputs.new-version }}
                   NPM_CONFIG_PROVENANCE: true

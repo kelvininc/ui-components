@@ -172,9 +172,9 @@ Jobs:
 
 `master` only accepts changes through pull requests, so the workflow never pushes a commit to it. The latest production `vX.Y.Z` tag is the source of truth for the version, not the manifests in git (which stay at whatever version was last committed):
 
-1. **Sync**: `lerna.json` is rewritten in the working tree to the latest `vX.Y.Z` tag (pre-release tags excluded). The step fails if the pushed commit is already tagged, so a re-run after a failed publish needs that tag deleted first.
+1. **Sync**: `lerna.json` is rewritten in the working tree to the latest `vX.Y.Z` tag (pre-release tags excluded). The step fails if the pushed commit already carries a production tag (a re-run after a failed publish needs that tag deleted first) or if the latest release is not an ancestor of the commit (re-running an old run after a newer release would otherwise publish stale source under a higher version).
 2. **Bump**: `lerna version --conventional-commits --no-git-tag-version --no-push` computes the next version from the commits since that tag and writes it to the manifests, without committing.
-3. **Publish**: after the build, the bump is committed *locally* (Lerna refuses a dirty tree), an annotated `vX.Y.Z` tag is created on the commit that was pushed to `master`, the tag is pushed with the built-in `GITHUB_TOKEN`, and `lerna publish from-package` publishes the manifests' versions to NPM. The local commit is discarded with the runner.
+3. **Publish**: after the build, the bump is committed *locally* (Lerna refuses a dirty tree), an annotated `vX.Y.Z` tag is created on the commit that was pushed to `master`, the tag is pushed with the built-in `GITHUB_TOKEN`, and `lerna publish from-package --git-head $GITHUB_SHA` publishes the manifests' versions to NPM with registry metadata pointing at the pushed commit. The local commit is discarded with the runner.
 
 Release notes live on the GitHub Release; no `CHANGELOG.md` is generated.
 
