@@ -69,4 +69,29 @@ describe('Portal (unit tests)', () => {
 			expect(getPortalElement(page).style.zIndex).toBe(`${PORTAL_Z_INDEX.hidden}`);
 		});
 	});
+
+	describe('when moved after loading', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({ components: [KvPortal], html: `<kv-portal><span id="portal-content"></span></kv-portal><div id="other-parent"></div>` });
+			page.doc.getElementById('other-parent').appendChild(page.root);
+			await page.waitForChanges();
+		});
+
+		it('should keep the portal', () => {
+			expect(getPortalElement(page)).not.toBeNull();
+			expect(page.doc.getElementById('portal-content').isConnected).toBe(true);
+		});
+	});
+
+	describe('when removed after loading', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({ components: [KvPortal], html: `<kv-portal><span id="portal-content"></span></kv-portal>` });
+			page.root.remove();
+			await page.waitForChanges();
+		});
+
+		it('should remove the portal', () => {
+			expect(getPortalElement(page)).toBeNull();
+		});
+	});
 });

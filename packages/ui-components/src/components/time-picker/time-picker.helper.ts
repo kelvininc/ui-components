@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
-import { ITimezoneOffset } from '../../types';
-import { CALENDAR_DATE_TIME_MASK, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
+import { IAbsoluteTimeLimits, ITimezoneOffset } from '../../types';
+import { CALENDAR_DATE_TIME_MASK, CALENDAR_INPUT_MAX_DATE, CALENDAR_INPUT_MIN_DATE, DATETIME_INPUT_MASK } from '../absolute-time-picker/absolute-time-picker.config';
 import { EAbsoluteTimePickerMode, ERelativeTimeInputMode, IRelativeTimeInput } from '../absolute-time-picker/absolute-time-picker.types';
 import { ERelativeTimeComparisonConfig, IRelativeTimePickerOption, ITimePickerRelativeTime, ITimePickerTimezone } from '../relative-time-picker/relative-time-picker.types';
-import { isEmpty, isNil, isNumber } from 'lodash-es';
+import { isEmpty, isNil, isNumber, memoize } from 'lodash-es';
 import { FULL_RANGE_SIZE, SINGLE_RANGE_SIZE, UTC_TIMEZONE_OFFSET } from './time-picker.config';
 import { BOTTOM_OPTIONS_HEIGHT, GROUP_GAP, MAX_HEIGHT, PADDING_SIZE, SELECT_OPTION_HEIGHT } from '../relative-time-picker/relative-time-picker.config';
 import { ITimePickerTime, ITimePickerTimeState, SelectedTimestamp } from './time-picker.types';
@@ -37,24 +37,61 @@ export const buildTooltipText = (range: SelectedTimestamp, selectdTimezone: ITim
 	const [from, to] = range;
 	const timezoneName = selectdTimezone.name;
 
-	const fromDate = dayjs(from).tz(timezoneName);
+	const fromDate = createFormattedDateFromTimestampInTimezone(from, timezoneName);
 	const timezoneText = timezonesByOffset.filter(opt => opt.name === timezoneName)[0] ?? UTC_TIMEZONE_OFFSET;
 
 	if (isNumber(to)) {
-		const toDate = dayjs(to).tz(timezoneName);
+		const toDate = createFormattedDateFromTimestampInTimezone(to, timezoneName);
 
-		return `${fromDate.format(DATETIME_INPUT_MASK)} to ${toDate.format(DATETIME_INPUT_MASK)} ${timezoneText.label}`;
+		return `${fromDate} to ${toDate} ${timezoneText.label}`;
 	}
 
-	return `${fromDate.format(DATETIME_INPUT_MASK)} ${timezoneText.label}`;
+	return `${fromDate} ${timezoneText.label}`;
 };
 
-const createFormattedDateFromTimestampInTimezone = (date: number, timezone: string): string => {
-	return dayjs(date).tz(timezone).format(DATETIME_INPUT_MASK);
+const getTimezoneOffsetFormatter = memoize((timezone: string): Intl.DateTimeFormat => new Intl.DateTimeFormat('en-US', { timeZone: timezone, timeZoneName: 'longOffset' }));
+
+/** Reads the zone's offset without constructing a date in the host timezone, including its DST gaps. */
+const getTimezoneOffsetMilliseconds = (timestamp: number, timezone: string): number => {
+	const offset = getTimezoneOffsetFormatter(timezone)
+		.formatToParts(timestamp)
+		.find(part => part.type === 'timeZoneName')?.value;
+	if (offset === 'GMT') {
+		return 0;
+	}
+
+	const parts = offset?.match(/^GMT([+-])(\d{2}):(\d{2})(?::(\d{2}))?$/);
+	if (!parts) {
+		throw new RangeError(`Unable to read the timezone offset for ${timezone}`);
+	}
+
+	const [, sign, hours, minutes, seconds = '0'] = parts;
+	return (sign === '-' ? -1 : 1) * (Number(hours) * 3600 + Number(minutes) * 60 + Number(seconds)) * 1000;
+};
+
+export const createFormattedDateFromTimestampInTimezone = (timestamp: number, timezone: string, format: string = DATETIME_INPUT_MASK): string => {
+	const date = dayjs.utc(timestamp);
+	return date.isValid() ? date.add(getTimezoneOffsetMilliseconds(date.valueOf(), timezone), 'millisecond').format(format) : date.format(format);
 };
 
 export const createTimestampInTimezoneFromFormattedDate = (date: string, timezone: string, format: string = DATETIME_INPUT_MASK): number => {
-	return dayjs(date, format).tz(timezone, true).valueOf();
+	const wallTime = dayjs.utc(date, format).valueOf();
+	if (!Number.isFinite(wallTime)) {
+		return wallTime;
+	}
+
+	// Resolve the offset at the requested time using UTC arithmetic only. Like Day.js's zoned parser,
+	// prefer the current offset for repeated hours and move nonexistent hours forward across a gap.
+	const initialOffset = getTimezoneOffsetMilliseconds(Date.now(), timezone);
+	let timestamp = wallTime - initialOffset;
+	const offset = getTimezoneOffsetMilliseconds(timestamp, timezone);
+	if (offset === initialOffset) {
+		return timestamp;
+	}
+
+	timestamp -= offset - initialOffset;
+	const adjustedOffset = getTimezoneOffsetMilliseconds(timestamp, timezone);
+	return offset === adjustedOffset ? timestamp : wallTime - Math.min(offset, adjustedOffset);
 };
 
 /**
@@ -87,17 +124,49 @@ export const getAbsoluteTimePickerRangeDates = (
 
 	if (!hasTo && hasFrom) {
 		if (selectedOption.key === CUSTOM_TIME_RANGE_KEY) {
-			return [dayjs(from).tz(timezoneName).format(CALENDAR_DATE_TIME_MASK)];
+			return [createFormattedDateFromTimestampInTimezone(from, timezoneName, CALENDAR_DATE_TIME_MASK)];
 		}
 
 		return [dayjs(from).utcOffset(timezoneOffset).format(CALENDAR_DATE_TIME_MASK)];
 	}
 
 	if (selectedOption.key === CUSTOM_TIME_RANGE_KEY) {
-		return [dayjs(from).tz(timezoneName).format(CALENDAR_DATE_TIME_MASK), dayjs(to).tz(timezoneName).format(CALENDAR_DATE_TIME_MASK)];
+		return [
+			createFormattedDateFromTimestampInTimezone(from, timezoneName, CALENDAR_DATE_TIME_MASK),
+			createFormattedDateFromTimestampInTimezone(to, timezoneName, CALENDAR_DATE_TIME_MASK)
+		];
 	}
 
 	return [dayjs(from).utcOffset(timezoneOffset).format(CALENDAR_DATE_TIME_MASK), dayjs(to).utcOffset(timezoneOffset).format(CALENDAR_DATE_TIME_MASK)];
+};
+
+/**
+ * Formats a calendar limit the way the calendar inputs show dates: whole seconds, in the selected timezone
+ * @param date limit timestamp, if any
+ * @param timezone selected timezone name
+ * @param defaultDate formatted limit used when there is none
+ * @returns limit in the date time input format
+ */
+export const getCalendarLimitDateFormatted = (date: number | undefined, timezone: string, defaultDate: string): string =>
+	isNumber(date) ? createFormattedDateFromTimestampInTimezone(date, timezone) : defaultDate;
+
+/**
+ * Gets the limits a custom selection is checked against. They are read back from the formatted limits the
+ * calendar receives, so a day click clamped to a limit (which drops its milliseconds) is never flagged, and
+ * widened to the given limit, which a DST transition can move the formatted one past.
+ * @param minDate minimum timestamp, if any
+ * @param maxDate maximum timestamp, if any
+ * @param timezone selected timezone name
+ * @returns minimum and maximum timestamps, defaulting to the calendar's own limits
+ */
+export const getCalendarLimits = (minDate: number | undefined, maxDate: number | undefined, timezone: string): IAbsoluteTimeLimits => {
+	const calendarMinDate = createTimestampInTimezoneFromFormattedDate(getCalendarLimitDateFormatted(minDate, timezone, CALENDAR_INPUT_MIN_DATE), timezone);
+	const calendarMaxDate = createTimestampInTimezoneFromFormattedDate(getCalendarLimitDateFormatted(maxDate, timezone, CALENDAR_INPUT_MAX_DATE), timezone);
+
+	return {
+		minDate: isNumber(minDate) ? Math.min(calendarMinDate, Math.floor(minDate / 1000) * 1000) : calendarMinDate,
+		maxDate: isNumber(maxDate) ? Math.max(calendarMaxDate, maxDate) : calendarMaxDate
+	};
 };
 
 export const getLast24HoursRange = (): SelectedTimestamp => {

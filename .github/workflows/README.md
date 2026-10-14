@@ -119,7 +119,7 @@ graph TD
 
 **Purpose**: Validates pull requests targeting `dev` or `master` with linting, tests, and full builds.
 
-**Strategy**: **Single sequential `ci` job** on an OS/Node matrix (`ubuntu-22.04` / Node `22.x`), followed by a `summary` job.
+**Strategy**: **Single sequential `ci` job** on an OS/Node matrix (`ubuntu-24.04` / Node `24.x`), followed by a `summary` job.
 
 ```yaml
 Jobs:
@@ -226,7 +226,7 @@ concurrency:
 
 All four workflows end with a `summary` job that:
 
-- Runs on `ubuntu-22.04`
+- Runs on `ubuntu-24.04`
 - Declares `needs: [<primary job>]` so it runs **after** the main job
 - Uses `if: always()` so the summary is written on success, failure, **and** cancelation
 - Appends a Markdown report to `$GITHUB_STEP_SUMMARY`, which GitHub renders on the workflow run page
@@ -256,21 +256,22 @@ ${{ needs.publish.result == 'success' && '✅ Success'
 **Purpose**: Standardizes the pnpm + Node.js environment (and Puppeteer Chrome cache) across all workflows.
 
 **Inputs**:
-- `node-version` — Node.js version to set up (e.g. `22.x`).
+- `node-version` — Node.js version to set up (e.g. `24.x`).
 
 **Steps**:
-1. Install pnpm (`pnpm/action-setup@v4`, version `10.33.4`).
-2. Setup Node.js (`actions/setup-node@v4`) with pnpm cache enabled.
+1. Install pnpm (`pnpm/action-setup@v6`) — the version is read from the root `package.json` `packageManager` field, so it is not duplicated here.
+2. Setup Node.js (`actions/setup-node@v7`) with pnpm cache enabled.
 3. `pnpm install` (with `PUPPETEER_SKIP_DOWNLOAD=true` to defer Chrome download).
-4. Cache Puppeteer Chrome binary under `~/.cache/puppeteer/`, keyed by `puppeteer-core` and `puppeteer` source files.
-5. Run `pnpm postinstall` inside `packages/ui-components/node_modules/puppeteer` to materialize the Chrome binary (cache hit or download).
+4. Resolve the installed Puppeteer version — a Puppeteer release pins exactly one Chrome build, so its version is what the Chrome cache is keyed on.
+5. Cache Puppeteer Chrome binary under `~/.cache/puppeteer/`, keyed by `${{ runner.os }}-chrome-puppeteer-<version>`.
+6. Run `pnpm postinstall` inside `packages/ui-components/node_modules/puppeteer` to materialize the Chrome binary (cache hit or download).
 
 **Usage**:
 ```yaml
 - name: Setup Node.js
   uses: ./.github/actions/node-setup
   with:
-      node-version: 22.x
+      node-version: 24.x
 ```
 
 ### Branch Types & Workflows

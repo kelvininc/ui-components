@@ -18,6 +18,8 @@ export interface IRelativeTimePicker extends ICustomCss {
 	timezones?: ITimezoneOffset[];
 	/** (optional) Defines if the customize interval select option is available */
 	customIntervalOptionEnabled?: boolean;
+	/** (optional) Label of the customize interval select option */
+	customIntervalOptionLabel?: string;
 	/** (optional) Defines if the timezone select option is available */
 	timezoneSelectionEnabled?: boolean;
 	/** (optional) Lets the timezone visible but doens't let the user change it */

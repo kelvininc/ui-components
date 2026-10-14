@@ -36,6 +36,7 @@ export const KvRelativeTimePickerExample: React.FC = () => (
 | ----------------------------- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | -------------------------------------- |
 | `customClass`                 | `custom-class`                   | (optional) Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces. It is also valid to provide CssClassMap with boolean logic. | `CssClassMap \| string \| string[]` | `''`                                   |
 | `customIntervalOptionEnabled` | `custom-interval-option-enabled` | (optional) Defines if the customize interval select option is available                                                                                                                 | `boolean`                           | `true`                                 |
+| `customIntervalOptionLabel`   | `custom-interval-option-label`   | (optional) Label of the customize interval select option                                                                                                                                | `string`                            | `CUSTOMIZE_INTERVAL_LABEL`             |
 | `disableTimezoneSelection`    | `disable-timezone-selection`     | (optional) Lets the timezone visible but doens't let the user change it                                                                                                                 | `boolean`                           | `false`                                |
 | `options`                     | `options`                        | (optional) Selectable relative time options                                                                                                                                             | `IRelativeTimePickerOption[][]`     | `DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS` |
 | `selectedTimeKey`             | `selected-time-key`              | (optional) Selected time range key                                                                                                                                                      | `string`                            | `undefined`                            |
@@ -111,21 +112,21 @@ graph TD;
   kv-text-field --> kv-badge
   kv-text-field --> kv-form-help-text
   kv-form-help-text --> kv-icon
+  kv-select-multi-options --> kv-select-create-option
   kv-select-multi-options --> kv-virtualized-list
   kv-select-multi-options --> kv-select-option
   kv-select-multi-options --> kv-select
   kv-select-multi-options --> kv-tooltip
   kv-select-multi-options --> kv-illustration-message
-  kv-select-multi-options --> kv-select-create-option
   kv-select-multi-options --> kv-select-shortcuts-label
+  kv-select-create-option --> kv-text-field
+  kv-select-create-option --> kv-action-button-icon
   kv-select --> kv-search
   kv-select --> kv-action-button-text
   kv-search --> kv-text-field
   kv-action-button-text --> kv-action-button
   kv-action-button-text --> kv-icon
   kv-illustration-message --> kv-illustration
-  kv-select-create-option --> kv-text-field
-  kv-select-create-option --> kv-action-button-icon
   kv-select-shortcuts-label --> kv-icon
   kv-time-picker --> kv-relative-time-picker
   style kv-relative-time-picker fill:#f9f,stroke:#333,stroke-width:4px

@@ -33,7 +33,7 @@ const meta = {
 			control: "select",
 			options: Object.values(EAbsoluteTimePickerMode),
 			description:
-				"Defines if the custom interval calendar selects a single date or a range"
+				'Defines if the custom interval calendar selects a single date or a range. In single mode, the custom option and the calendar title read "Custom Date" instead of "Custom Interval"'
 		}
 	}
 } satisfies Meta<typeof KvTimePicker>;
@@ -233,6 +233,18 @@ export const FutureDurations: Story = {
 		displayTimezoneDropdown: false,
 		displayCalendarToggle: false,
 		calendarMode: EAbsoluteTimePickerMode.Single
+	},
+	render: TimePickerFutureDurationsTemplate
+};
+
+const DAY_IN_MS = 24 * 60 * 60 * 1000;
+const NOW = Date.now();
+
+export const WithCalendarLimits: Story = {
+	args: {
+		...FutureDurations.args,
+		calendarInputMinDate: NOW,
+		calendarInputMaxDate: NOW + 30 * DAY_IN_MS
 	},
 	render: TimePickerFutureDurationsTemplate
 };

@@ -4,7 +4,7 @@ exports[`Absolute Time Picker Dropdown (unit tests) when a selectedDate is provi
 <kv-absolute-time-picker-dropdown>
   <kv-dropdown>
     <div class="absolute-time-content">
-      <kv-absolute-time-picker headertitle="" initialdate="2023-04-12" mode="single"></kv-absolute-time-picker>
+      <kv-absolute-time-picker calendarinputmaxdate="31-12-3000 23:59:59" calendarinputmindate="01-01-2018 00:00:00" headertitle="" initialdate="2023-04-12" mode="single"></kv-absolute-time-picker>
       <div class="footer">
         <div class="actions">
           <kv-action-button-text size="small" text="Cancel" type="tertiary"></kv-action-button-text>
@@ -20,7 +20,7 @@ exports[`Absolute Time Picker Dropdown (unit tests) when default props and initi
 <kv-absolute-time-picker-dropdown>
   <kv-dropdown>
     <div class="absolute-time-content">
-      <kv-absolute-time-picker headertitle="" initialdate="2023-03-03" mode="single"></kv-absolute-time-picker>
+      <kv-absolute-time-picker calendarinputmaxdate="31-12-3000 23:59:59" calendarinputmindate="01-01-2018 00:00:00" headertitle="" initialdate="2023-03-03" mode="single"></kv-absolute-time-picker>
       <div class="footer">
         <div class="actions">
           <kv-action-button-text size="small" text="Cancel" type="tertiary"></kv-action-button-text>

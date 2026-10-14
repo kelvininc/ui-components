@@ -1,18 +1,26 @@
 import {
 	ComponentProps,
+	CSSProperties,
 	useCallback,
 	useEffect,
 	useMemo,
-	useRef,
-	useState
+	useRef
 } from "react";
 import { selectHelper } from "@kelvininc/react-ui-components/client";
 import { useArgs } from "storybook/preview-api";
+import { action } from "storybook/actions";
 import {
+	DEFAULT_PORTAL_Z_INDEX,
+	EActionButtonType,
+	ECreateOptionStatus,
 	EComponentSize,
 	EIconName,
+	KvActionButtonIcon,
+	KvDropdownBase,
 	KvSearch,
-	KvSingleSelectDropdown
+	KvSelectCreateOption,
+	KvSingleSelectDropdown,
+	KvSingleSelectDropdownCustomEvent
 } from "@kelvininc/react-ui-components/client";
 import { StoryObj, StoryFn, Meta } from "@storybook/react";
 import {
@@ -21,10 +29,20 @@ import {
 	LARGE_SET_DROPDOWN_OPTIONS_MOCK,
 	TAGS_DROPDOWN_OPTIONS_MOCK
 } from "../../../../../mocks/dropdown.mock";
+import {
+	CREATE_STORY_DERIVED_ARGS,
+	CREATE_TAG_ERROR,
+	NEW_TAG_COLORS,
+	NEW_TAG_INPUT_CONFIG
+} from "./config";
+import { buildTagOption, getCreateTagLabel, requestTagCreation } from "./utils";
+import * as styles from "./SingleSelectDropdown.module.scss";
 
-const SingleSelectDropdownTemplate: StoryFn<
-	ComponentProps<typeof KvSingleSelectDropdown>
-> = (args) => {
+type SingleSelectDropdownArgs = ComponentProps<typeof KvSingleSelectDropdown>;
+
+const SingleSelectDropdownTemplate: StoryFn<SingleSelectDropdownArgs> = (
+	args
+) => {
 	const [, updateArgs] = useArgs();
 
 	const onOptionSelected = useCallback(
@@ -123,31 +141,23 @@ export const Virtualization: Story = {
 	}
 };
 
-const ExternalSearchTemplate: StoryFn<
-	ComponentProps<typeof KvSingleSelectDropdown>
-> = (args) => {
-	const [searchTerm, setSearchTerm] = useState<string | undefined>();
-	const [isOpen, setOpen] = useState<boolean>(false);
+type ExternalSearchArgs = SingleSelectDropdownArgs & {
+	/** What is typed in the search outside the dropdown */
+	searchTerm?: string;
+};
+
+const ExternalSearchTemplate: StoryFn<ExternalSearchArgs> = ({
+	searchTerm,
+	...args
+}) => {
+	const [, updateArgs] = useArgs<ExternalSearchArgs>();
+	const { options, placeholder, isOpen } = args;
 	const searchRef = useRef<HTMLKvSearchElement>(null);
 
-	const [{ options, placeholder }, updateArgs] = useArgs();
-	const dropdownOptions = useMemo(() => options, [options]);
 	const filteredOptions = useMemo(
 		() =>
-			selectHelper.searchDropdownOptions(
-				searchTerm ?? "",
-				dropdownOptions ?? {}
-			),
-		[searchTerm, dropdownOptions]
-	);
-
-	const onOptionSelected = useCallback(
-		({ detail }: CustomEvent<string>) => {
-			setSearchTerm(detail);
-			updateArgs({ selectedOption: detail });
-			setOpen(false);
-		},
-		[updateArgs]
+			selectHelper.searchDropdownOptions(searchTerm ?? "", options ?? {}),
+		[searchTerm, options]
 	);
 
 	useEffect(() => {
@@ -166,45 +176,210 @@ const ExternalSearchTemplate: StoryFn<
 	return (
 		<KvSingleSelectDropdown
 			{...args}
-			options={dropdownOptions}
 			actionElement={searchRef.current as HTMLElement | null}
 			filteredOptions={filteredOptions}
-			isOpen={isOpen}
-			onOptionSelected={onOptionSelected}
-			onOpenStateChange={({ detail }) => setOpen(detail)}
+			onOptionSelected={({ detail }) =>
+				updateArgs({
+					searchTerm: detail,
+					selectedOption: detail,
+					isOpen: false
+				})
+			}
+			onOpenStateChange={({ detail }) => updateArgs({ isOpen: detail })}
 		>
 			<KvSearch
 				ref={searchRef}
 				slot="dropdown-action"
 				value={searchTerm}
 				placeholder={placeholder}
-				onFocus={() => setOpen(true)}
-				onTextChange={({ detail }) => setSearchTerm(detail)}
-				onClickResetButton={() => setSearchTerm(undefined)}
+				onFocus={() => updateArgs({ isOpen: true })}
+				onTextChange={({ detail }) =>
+					updateArgs({ searchTerm: detail })
+				}
+				onClickResetButton={() => updateArgs({ searchTerm: undefined })}
 			/>
 		</KvSingleSelectDropdown>
 	);
 };
 
-export const ExternalSearch: Story = {
+export const ExternalSearch: StoryObj<ExternalSearchArgs> = {
 	render: ExternalSearchTemplate,
 	args: {
 		shortcuts: true,
+		isOpen: false,
 		placeholder: "Write here the option name you're looking for",
 		options: SMALL_SET_DROPDOWN_OPTIONS_MOCK
+	},
+	parameters: {
+		controls: { exclude: ["searchTerm"] }
 	}
 };
 
-const AddOptionTemplate: StoryFn<
-	ComponentProps<typeof KvSingleSelectDropdown>
-> = (args) => {
-	const [{ options }, updateArgs] = useArgs();
+type AddOptionArgs = SingleSelectDropdownArgs & {
+	/** What is typed in the dropdown's search, which the add option names */
+	searchTerm?: string;
+};
 
-	const addNewOption = (newOption: string) => {
+const AddOptionTemplate: StoryFn<AddOptionArgs> = ({ searchTerm, ...args }) => {
+	const [, updateArgs] = useArgs<AddOptionArgs>();
+
+	const addNewOption = (newOption: string) =>
+		updateArgs({
+			options: {
+				...args.options,
+				[newOption]: { label: newOption, value: newOption }
+			}
+		});
+
+	return (
+		<KvSingleSelectDropdown
+			{...args}
+			createOptionPlaceholder={getCreateTagLabel(searchTerm)}
+			onSearchChange={({ detail }) => updateArgs({ searchTerm: detail })}
+			onOptionSelected={({ detail: newOption }) =>
+				updateArgs({ selectedOption: newOption })
+			}
+			onOptionCreated={({ detail: newOption }) => addNewOption(newOption)}
+		/>
+	);
+};
+
+export const AddOption: StoryObj<AddOptionArgs> = {
+	render: AddOptionTemplate,
+	args: {
+		placeholder: "Please select a tag",
+		searchPlaceholder: "Search for Tags",
+		options: TAGS_DROPDOWN_OPTIONS_MOCK,
+		label: "Tags",
+		shortcuts: false,
+		minSearchOptions: 0,
+		canAddItems: true,
+		noResultsFoundConfig: { header: "No tags found" }
+	},
+	parameters: {
+		controls: { exclude: CREATE_STORY_DERIVED_ARGS }
+	}
+};
+
+type AddOptionAsyncArgs = AddOptionArgs & {
+	/** Makes the simulated request creating the tag fail */
+	failCreation?: boolean;
+};
+
+const AddOptionAsyncTemplate: StoryFn<AddOptionAsyncArgs> = ({
+	failCreation,
+	searchTerm,
+	...args
+}) => {
+	const [, updateArgs] = useArgs<AddOptionAsyncArgs>();
+
+	const onOptionCreated = async ({
+		detail: label
+	}: KvSingleSelectDropdownCustomEvent<string>) => {
+		updateArgs({
+			createOptionState: { status: ECreateOptionStatus.Loading }
+		});
+
+		try {
+			const value = await requestTagCreation(failCreation);
+
+			// The option is added with the success, which selects it
+			updateArgs({
+				options: { ...args.options, [value]: { label, value } },
+				createOptionState: {
+					status: ECreateOptionStatus.Success,
+					optionKey: value
+				}
+			});
+		} catch {
+			updateArgs({
+				createOptionState: {
+					status: ECreateOptionStatus.Error,
+					error: CREATE_TAG_ERROR
+				}
+			});
+		}
+	};
+
+	return (
+		<KvSingleSelectDropdown
+			{...args}
+			createOptionPlaceholder={getCreateTagLabel(searchTerm)}
+			onSearchChange={({ detail }) => updateArgs({ searchTerm: detail })}
+			onCreateFormToggle={({ detail: isOpen }) =>
+				action("createFormToggle")(isOpen)
+			}
+			onOptionCreated={onOptionCreated}
+			onOptionSelected={({ detail }) =>
+				updateArgs({ selectedOption: detail })
+			}
+		/>
+	);
+};
+
+export const AddOptionAsync: StoryObj<AddOptionAsyncArgs> = {
+	render: AddOptionAsyncTemplate,
+	args: {
+		...AddOption.args,
+		createOptionState: { status: ECreateOptionStatus.Idle },
+		failCreation: false
+	},
+	argTypes: {
+		failCreation: {
+			control: { type: "boolean" },
+			description: "Makes the simulated request creating the tag fail"
+		}
+	},
+	parameters: {
+		controls: { exclude: CREATE_STORY_DERIVED_ARGS }
+	}
+};
+
+type AddOptionCustomRowArgs = AddOptionArgs & {
+	/**
+	 * What is typed in the create row since the create form last opened or
+	 * closed. Until then the row holds the search term, as the default form does.
+	 */
+	typedName?: string;
+};
+
+const AddOptionCustomRowTemplate: StoryFn<AddOptionCustomRowArgs> = ({
+	searchTerm,
+	typedName,
+	...args
+}) => {
+	const [, updateArgs] = useArgs<AddOptionCustomRowArgs>();
+	const { options = {}, createOptionState } = args;
+
+	const newTagColor =
+		NEW_TAG_COLORS[Object.keys(options).length % NEW_TAG_COLORS.length];
+
+	// The row stays mounted, so it is laid out as soon as the form opens: it
+	// starts over on the event instead of remounting
+	const onCreateFormToggle = ({
+		detail: isOpen
+	}: KvSingleSelectDropdownCustomEvent<boolean>) => {
+		action("createFormToggle")(isOpen);
+		updateArgs({ typedName: undefined });
+	};
+
+	const onOptionCreated = async ({
+		detail: label
+	}: KvSingleSelectDropdownCustomEvent<string>) => {
+		updateArgs({
+			createOptionState: { status: ECreateOptionStatus.Loading }
+		});
+
+		const value = await requestTagCreation();
+
 		updateArgs({
 			options: {
 				...options,
-				[newOption]: { label: newOption, value: newOption }
+				[value]: buildTagOption(label, value, newTagColor)
+			},
+			createOptionState: {
+				status: ECreateOptionStatus.Success,
+				optionKey: value
 			}
 		});
 	};
@@ -212,23 +387,196 @@ const AddOptionTemplate: StoryFn<
 	return (
 		<KvSingleSelectDropdown
 			{...args}
-			options={options}
-			onOptionSelected={({ detail: newOption }) =>
-				updateArgs({ selectedOption: newOption })
+			createOptionPlaceholder={getCreateTagLabel(searchTerm)}
+			onSearchChange={({ detail }) => updateArgs({ searchTerm: detail })}
+			onCreateFormToggle={onCreateFormToggle}
+			onOptionCreated={onOptionCreated}
+			onOptionSelected={({ detail }) =>
+				updateArgs({ selectedOption: detail })
 			}
-			onOptionCreated={({ detail: newOption }) => addNewOption(newOption)}
-			canAddItems
-		/>
+		>
+			{/*
+			 * The row is portaled with the list, out of the story's root, where
+			 * React's own handlers (onClick, onKeyDown...) never fire: only the
+			 * Stencil components' events reach the story, so nothing else in the
+			 * row is interactive. The create option's `valueChanged`, `clickCreate`
+			 * and `clickCancel` bubble up and drive the form, and `valueChanged`
+			 * also keeps the row's value here.
+			 */}
+			<div slot="create-new-option" className={styles.CreateTagRow}>
+				<span
+					className={styles.NewTagSwatch}
+					style={{ background: newTagColor }}
+				/>
+				<KvSelectCreateOption
+					className={styles.NewTagField}
+					value={typedName ?? searchTerm}
+					loading={
+						createOptionState?.status ===
+						ECreateOptionStatus.Loading
+					}
+					inputConfig={NEW_TAG_INPUT_CONFIG}
+					onValueChanged={({ detail }) =>
+						updateArgs({ typedName: detail })
+					}
+				/>
+			</div>
+		</KvSingleSelectDropdown>
 	);
 };
 
-export const AddOption: Story = {
-	render: AddOptionTemplate,
+export const AddOptionCustomRow: StoryObj<AddOptionCustomRowArgs> = {
+	render: AddOptionCustomRowTemplate,
 	args: {
-		placeholder: "Please select a tag",
-		searchPlaceholder: "Search for Tags",
-		options: TAGS_DROPDOWN_OPTIONS_MOCK,
-		label: "Tags",
-		shortcuts: false
+		...AddOption.args,
+		createOptionState: { status: ECreateOptionStatus.Idle }
+	},
+	parameters: {
+		controls: { exclude: CREATE_STORY_DERIVED_ARGS }
+	}
+};
+
+type AddOptionColorPickerArgs = AddOptionCustomRowArgs & {
+	/** The colour picked for the new tag. Until one is, the next one in turn. */
+	tagColor?: string;
+	/** If `true` the create row's colour picker is open */
+	colorPickerOpen?: boolean;
+};
+
+// The swatch takes its colour from `--swatch-color`
+const getSwatchStyle = (color: string) =>
+	({ "--swatch-color": color }) as CSSProperties;
+
+const AddOptionColorPickerTemplate: StoryFn<AddOptionColorPickerArgs> = ({
+	searchTerm,
+	typedName,
+	tagColor,
+	colorPickerOpen,
+	...args
+}) => {
+	const [, updateArgs] = useArgs<AddOptionColorPickerArgs>();
+	const { options = {}, createOptionState } = args;
+
+	const newTagColor =
+		tagColor ??
+		NEW_TAG_COLORS[Object.keys(options).length % NEW_TAG_COLORS.length];
+
+	// The row starts over, with its picker closed, whenever the form opens or closes
+	const onCreateFormToggle = ({
+		detail: isOpen
+	}: KvSingleSelectDropdownCustomEvent<boolean>) => {
+		action("createFormToggle")(isOpen);
+		updateArgs({
+			typedName: undefined,
+			tagColor: undefined,
+			colorPickerOpen: false
+		});
+	};
+
+	const onOptionCreated = async ({
+		detail: label
+	}: KvSingleSelectDropdownCustomEvent<string>) => {
+		updateArgs({
+			createOptionState: { status: ECreateOptionStatus.Loading }
+		});
+
+		const value = await requestTagCreation();
+
+		updateArgs({
+			options: {
+				...options,
+				[value]: buildTagOption(label, value, newTagColor)
+			},
+			createOptionState: {
+				status: ECreateOptionStatus.Success,
+				optionKey: value
+			}
+		});
+	};
+
+	return (
+		<KvSingleSelectDropdown
+			{...args}
+			createOptionPlaceholder={getCreateTagLabel(searchTerm)}
+			onSearchChange={({ detail }) => updateArgs({ searchTerm: detail })}
+			onCreateFormToggle={onCreateFormToggle}
+			onOptionCreated={onOptionCreated}
+			onOptionSelected={({ detail }) =>
+				updateArgs({ selectedOption: detail })
+			}
+		>
+			{/*
+			 * The picker is a dropdown of its own, whose palette is portaled to the
+			 * body like the dropdown's list: a click in it still counts as inside
+			 * the dropdown, and Escape closes the picker before the dropdown. Its
+			 * palette sits above the dropdown's list. As in the custom row, only
+			 * the Stencil components' events reach the story: plain React handlers
+			 * never fire in portaled content.
+			 */}
+			<div slot="create-new-option" className={styles.CreateTagRow}>
+				<KvDropdownBase
+					isOpen={colorPickerOpen}
+					zIndex={DEFAULT_PORTAL_Z_INDEX}
+					onOpenStateChange={({ detail: isOpen }) =>
+						updateArgs({ colorPickerOpen: isOpen })
+					}
+				>
+					<KvActionButtonIcon
+						slot="action"
+						className={styles.ColorSwatch}
+						style={getSwatchStyle(newTagColor)}
+						icon={EIconName.Square}
+						type={EActionButtonType.Tertiary}
+						size={EComponentSize.Small}
+						active={colorPickerOpen}
+						onClickButton={() =>
+							updateArgs({ colorPickerOpen: !colorPickerOpen })
+						}
+					/>
+					<div slot="list" className={styles.ColorPalette}>
+						{NEW_TAG_COLORS.map((color) => (
+							<KvActionButtonIcon
+								key={color}
+								className={styles.ColorSwatch}
+								style={getSwatchStyle(color)}
+								icon={EIconName.Square}
+								type={EActionButtonType.Tertiary}
+								size={EComponentSize.Small}
+								active={color === newTagColor}
+								onClickButton={() =>
+									updateArgs({
+										tagColor: color,
+										colorPickerOpen: false
+									})
+								}
+							/>
+						))}
+					</div>
+				</KvDropdownBase>
+				<KvSelectCreateOption
+					className={styles.NewTagField}
+					value={typedName ?? searchTerm}
+					loading={
+						createOptionState?.status ===
+						ECreateOptionStatus.Loading
+					}
+					inputConfig={NEW_TAG_INPUT_CONFIG}
+					onValueChanged={({ detail }) =>
+						updateArgs({ typedName: detail })
+					}
+				/>
+			</div>
+		</KvSingleSelectDropdown>
+	);
+};
+
+export const AddOptionColorPicker: StoryObj<AddOptionColorPickerArgs> = {
+	render: AddOptionColorPickerTemplate,
+	args: {
+		...AddOption.args,
+		createOptionState: { status: ECreateOptionStatus.Idle }
+	},
+	parameters: {
+		controls: { exclude: CREATE_STORY_DERIVED_ARGS }
 	}
 };

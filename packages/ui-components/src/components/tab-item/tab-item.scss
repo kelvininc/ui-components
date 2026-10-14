@@ -65,7 +65,8 @@
 				}
 			}
 
-			&.selected:not(:hover):not(.disabled) {
+			&.selected:not(.disabled) {
+				cursor: unset;
 				background: var(--tab-secondary-background-selected);
 				border-color: var(--tab-secondary-border-color-default);
 
@@ -104,7 +105,8 @@
 					background: var(--icon-tab-background-hover);
 				}
 
-				&.selected:not(:hover):not(.disabled) {
+				&.selected:not(.disabled) {
+					cursor: unset;
 					background: var(--icon-tab-background-selected);
 					border-color: var(--icon-tab-border-color-default);
 				}

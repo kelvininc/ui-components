@@ -51,3 +51,14 @@ export const SecondaryState: Story = {
 		disabled: false
 	}
 };
+
+export const LoadingState: Story = {
+	args: {
+		type: EActionButtonType.Primary,
+		text: "Primary Button",
+		splitIcon: EIconName.ArrowDropDown,
+		size: EComponentSize.Large,
+		disabled: false,
+		loading: true
+	}
+};

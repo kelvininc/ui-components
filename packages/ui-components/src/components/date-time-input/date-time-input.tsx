@@ -2,7 +2,7 @@ import { Component, Element, Event, EventEmitter, Fragment, Host, Prop, State, W
 import { EInputFieldType, EValidationState } from '../text-field/text-field.types';
 import { EComponentSize, EIconName } from '../../types';
 import { isEmpty, isNil, merge } from 'lodash-es';
-import { DATE_TIME_INPUTMASK_CONFIG, DEFAULT_DATE_FORMAT, DEFAULT_PLACEHOLDER } from './date-time-input.config';
+import { DATE_TIME_INPUTMASK_CONFIG, DEFAULT_DATE_FORMAT, DEFAULT_PLACEHOLDER, MAX_PENDING_VALUES } from './date-time-input.config';
 import { EDateTimeInputTypeStyle, IDateTimeInput, IDateTimeInputEvents } from './date-time-input.types';
 import Inputmask from 'inputmask';
 
@@ -27,6 +27,8 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) useInputMask: boolean = false;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) inputMaskPattern?: string;
+	/** @inheritdoc */
 	@Prop() size: EComponentSize = EComponentSize.Large;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) forcedFocus: boolean = false;
@@ -50,6 +52,10 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 	@State() focused = false;
 
 	private nativeInput?: HTMLInputElement;
+	/** Text in the input: the last value typed or given */
+	private currentValue = '';
+	/** Values emitted while typing that the `value` prop has not sent back yet */
+	private pendingValues: string[] = [];
 
 	/** @inheritdoc */
 	@Event() textChange: EventEmitter<string>;
@@ -69,6 +75,24 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 		}
 	}
 
+	/**
+	 * Renders are asynchronous, so a value emitted while typing can come back after the user typed more.
+	 * Writing it would revert those keystrokes, so only a value that was not typed replaces the text.
+	 */
+	@Watch('value')
+	valueChangeHandler(newValue: string | null) {
+		const value = this.toInputValue(newValue);
+		const pendingIndex = this.pendingValues.lastIndexOf(value);
+
+		if (pendingIndex !== -1) {
+			this.pendingValues = this.pendingValues.slice(pendingIndex + 1);
+			return;
+		}
+
+		this.pendingValues = [];
+		this.currentValue = value;
+	}
+
 	@Watch('useInputMask')
 	handleUseInputMask(useInputMaskValue: boolean) {
 		if (useInputMaskValue) {
@@ -78,15 +102,32 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 		}
 	}
 
+	@Watch('inputMaskPattern')
+	handleInputMaskPatternChange() {
+		if (this.useInputMask && this.nativeInput) {
+			this.createInputMaskInstance();
+		}
+	}
+
 	componentWillLoad() {
 		this.focused = this.forcedFocus;
+		this.currentValue = this.toInputValue(this.value);
 	}
 
 	componentDidLoad() {
 		this.handleUseInputMask(this.useInputMask);
 	}
 
-	private getInputMaskConfig = () => {
+	private getInputMaskConfig = (): Inputmask.Options => {
+		if (this.inputMaskPattern) {
+			return {
+				mask: this.inputMaskPattern,
+				placeholder: this.placeholder,
+				showMaskOnHover: false,
+				clearMaskOnLostFocus: false
+			};
+		}
+
 		return merge({}, DATE_TIME_INPUTMASK_CONFIG, { inputFormat: this.dateFormat, displayFormat: this.dateFormat, placeholder: this.placeholder });
 	};
 
@@ -96,12 +137,31 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 
 	private onInputHandler = ({ target }: InputEvent) => {
 		const input = target as HTMLInputElement | null;
-		if (!isNil(input) && input?.value !== this.value) {
-			this.textChange.emit(input.value || '');
+
+		if (!isNil(input)) {
+			this.emitTextChange(input.value || '');
 		}
 	};
 
+	/** Inputmask reverts the text on Escape without an input event, so the reverted text is reported here */
+	private onKeyUpHandler = ({ target }: KeyboardEvent) => {
+		this.emitTextChange((target as HTMLInputElement).value || '');
+	};
+
+	private emitTextChange = (value: string) => {
+		if (value === this.currentValue) {
+			return;
+		}
+
+		this.currentValue = value;
+		// A value only comes back a render or two later, so older ones are dropped
+		this.pendingValues = [...this.pendingValues.slice(1 - MAX_PENDING_VALUES), value];
+		this.textChange.emit(value);
+	};
+
 	private onBlurHandler = ({ target }: FocusEvent) => {
+		// Typing has stopped, so a `value` given from now on is intended and not sent back from typing
+		this.pendingValues = [];
 		this.dateTimeBlur.emit((target as HTMLInputElement).value);
 		this.focused = false;
 	};
@@ -115,13 +175,13 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 		this.rightIconClick.emit();
 	};
 
-	private getValue(): string {
-		return (this.value || '').toString();
+	private toInputValue(value: string | null | undefined): string {
+		return (value || '').toString();
 	}
 
 	render() {
 		const id = this.el.getAttribute('id');
-		const value = this.getValue();
+		const value = this.currentValue;
 
 		return (
 			<Host>
@@ -171,6 +231,7 @@ export class KvDateTimeInput implements IDateTimeInput, IDateTimeInputEvents {
 									placeholder={this.placeholder}
 									value={value}
 									onInput={this.onInputHandler}
+									onKeyUp={this.onKeyUpHandler}
 									onBlur={this.onBlurHandler}
 									onFocus={this.onFocusHandler}
 									class={{ 'forced-focus': this.focused || this.forcedFocus }}

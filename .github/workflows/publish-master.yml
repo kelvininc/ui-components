@@ -20,8 +20,8 @@ jobs:
     publish:
         strategy:
             matrix:
-                os: [ubuntu-22.04]
-                node: [22.x]
+                os: [ubuntu-24.04]
+                node: [24.x]
 
         name: Publish Master (${{ matrix.os }} / Node.js ${{ matrix.node }})
         runs-on: ${{ matrix.os }}
@@ -30,7 +30,7 @@ jobs:
             release-tag: ${{ steps.version.outputs.release-tag }}
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v7
               with:
                   fetch-depth: 0
                   token: ${{ secrets.LERNA_PUBLISH }}
@@ -158,7 +158,7 @@ jobs:
 
     summary:
         name: Publish Master Summary
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-24.04
         needs: [publish]
         if: always()
         steps:

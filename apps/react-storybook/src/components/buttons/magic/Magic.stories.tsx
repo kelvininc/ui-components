@@ -38,6 +38,17 @@ export const Primary: Story = {
 	}
 };
 
+export const PrimaryLoading: Story = {
+	args: {
+		type: EActionButtonType.Primary,
+		text: "Button",
+		size: EComponentSize.Large,
+		icon: EIconName.AI,
+		disabled: false,
+		loading: true
+	}
+};
+
 export const Secondary: Story = {
 	args: {
 		type: EActionButtonType.Secondary,
@@ -45,6 +56,17 @@ export const Secondary: Story = {
 		size: EComponentSize.Large,
 		icon: EIconName.AI,
 		disabled: false
+	}
+};
+
+export const SecondaryLoading: Story = {
+	args: {
+		type: EActionButtonType.Secondary,
+		text: "Button",
+		size: EComponentSize.Large,
+		icon: EIconName.AI,
+		disabled: false,
+		loading: true
 	}
 };
 
@@ -64,5 +86,15 @@ export const IconOnly: Story = {
 		size: EComponentSize.Small,
 		icon: EIconName.AI,
 		disabled: false
+	}
+};
+
+export const IconOnlyLoading: Story = {
+	args: {
+		type: EActionButtonType.Primary,
+		size: EComponentSize.Small,
+		icon: EIconName.AI,
+		disabled: false,
+		loading: true
 	}
 };

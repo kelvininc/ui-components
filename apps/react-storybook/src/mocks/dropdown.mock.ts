@@ -303,9 +303,13 @@ export const TAGS_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
 		icon: EIconName.Square,
 		customStyle: {
 			"--select-option-icon-color": "rgba(17, 241, 255, 1)",
+			"--select-option-icon-color-hover": "rgba(17, 241, 255, 1)",
+			"--select-option-icon-color-highlighted": "rgba(17, 241, 255, 1)",
+			"--select-option-icon-color-selected": "rgba(17, 241, 255, 1)",
 			"--text-color-icon-default": "rgba(17, 241, 255, 1)",
 			"--text-color-icon-disabled": "rgba(17, 241, 255, 1, 0.5)",
-			"--text-color-icon-focused": "rgba(17, 241, 255, 1)"
+			"--text-color-icon-focused": "rgba(17, 241, 255, 1)",
+			"--text-color-icon-filled": "rgba(17, 241, 255, 1)"
 		}
 	},
 	"high-temperature": {
@@ -314,9 +318,13 @@ export const TAGS_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
 		icon: EIconName.Square,
 		customStyle: {
 			"--select-option-icon-color": "rgba(195, 86, 99, 1)",
+			"--select-option-icon-color-hover": "rgba(195, 86, 99, 1)",
+			"--select-option-icon-color-highlighted": "rgba(195, 86, 99, 1)",
+			"--select-option-icon-color-selected": "rgba(195, 86, 99, 1)",
 			"--text-color-icon-default": "rgba(195, 86, 99, 1)",
 			"--text-color-icon-disabled": "rgba(195, 86, 99, 1, 0.5)",
-			"--text-color-icon-focused": "rgba(195, 86, 99, 1)"
+			"--text-color-icon-focused": "rgba(195, 86, 99, 1)",
+			"--text-color-icon-filled": "rgba(195, 86, 99, 1)"
 		}
 	},
 	"pressure-drop": {
@@ -325,9 +333,13 @@ export const TAGS_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
 		icon: EIconName.Square,
 		customStyle: {
 			"--select-option-icon-color": "rgba(240, 36, 159, 1)",
+			"--select-option-icon-color-hover": "rgba(240, 36, 159, 1)",
+			"--select-option-icon-color-highlighted": "rgba(240, 36, 159, 1)",
+			"--select-option-icon-color-selected": "rgba(240, 36, 159, 1)",
 			"--text-color-icon-default": "rgba(240, 36, 159, 1)",
 			"--text-color-icon-disabled": "rgba(240, 36, 159, 1, 0.5)",
-			"--text-color-icon-focused": "rgba(240, 36, 159, 1)"
+			"--text-color-icon-focused": "rgba(240, 36, 159, 1)",
+			"--text-color-icon-filled": "rgba(240, 36, 159, 1)"
 		}
 	},
 	maintenance: {
@@ -336,9 +348,13 @@ export const TAGS_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
 		icon: EIconName.Square,
 		customStyle: {
 			"--select-option-icon-color": "rgba(0, 119, 205, 1)",
+			"--select-option-icon-color-hover": "rgba(0, 119, 205, 1)",
+			"--select-option-icon-color-highlighted": "rgba(0, 119, 205, 1)",
+			"--select-option-icon-color-selected": "rgba(0, 119, 205, 1)",
 			"--text-color-icon-default": "rgba(0, 119, 205, 1)",
 			"--text-color-icon-disabled": "rgba(0, 119, 205, 1, 0.5)",
-			"--text-color-icon-focused": "rgba(0, 119, 205, 1)"
+			"--text-color-icon-focused": "rgba(0, 119, 205, 1)",
+			"--text-color-icon-filled": "rgba(0, 119, 205, 1)"
 		}
 	},
 	temperature: {
@@ -347,9 +363,13 @@ export const TAGS_DROPDOWN_OPTIONS_MOCK: IUIDropdownOptions = {
 		icon: EIconName.Square,
 		customStyle: {
 			"--select-option-icon-color": "rgba(213, 166, 0, 1)",
+			"--select-option-icon-color-hover": "rgba(213, 166, 0, 1)",
+			"--select-option-icon-color-highlighted": "rgba(213, 166, 0, 1)",
+			"--select-option-icon-color-selected": "rgba(213, 166, 0, 1)",
 			"--text-color-icon-default": "rgba(213, 166, 0, 1)",
 			"--text-color-icon-disabled": "rgba(213, 166, 0, 1, 0.5)",
-			"--text-color-icon-focused": "rgba(213, 166, 0, 1)"
+			"--text-color-icon-focused": "rgba(213, 166, 0, 1)",
+			"--text-color-icon-filled": "rgba(213, 166, 0, 1)"
 		}
 	}
 };

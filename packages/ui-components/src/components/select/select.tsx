@@ -7,6 +7,8 @@ import { EActionButtonType, EComponentSize } from '../../types';
 
 /**
  * @part select - The select container.
+ * @part header - The header container with the search, the selection actions and the header labels.
+ * @part options - The container of the options.
  */
 @Component({
 	tag: 'kv-select',
@@ -101,7 +103,7 @@ export class KvSelect implements ISelect, ISelectEvents {
 			<Host style={this.customStyle}>
 				<div class="select-container" part="select">
 					{hasHeader && (
-						<div class="select-header-container">
+						<div class="select-header-container" part="header">
 							{this.searchable && (
 								<kv-search
 									ref={element => (this.searchRef = element)}
@@ -141,7 +143,7 @@ export class KvSelect implements ISelect, ISelectEvents {
 							)}
 						</div>
 					)}
-					<div class="select-options-container">
+					<div class="select-options-container" part="options">
 						<slot></slot>
 					</div>
 					<div>

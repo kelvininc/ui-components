@@ -15,8 +15,9 @@ export const COMMON_INPUT_MASK_CONFIG: Inputmask.Options = {
 
 export const DATE_TIME_INPUT_MASK_CONFIG: Inputmask.Options = {
 	alias: 'datetime',
-	inputFormat: 'dd-mm-yyyy HH:MM:ss',
-	displayFormat: 'dd-mm-yyyy 00:00:00',
+	// Inputmask >= 5.0.10 follows the unicode.org tokens: `MM` is the month and `mm` the minutes
+	inputFormat: 'dd-MM-yyyy HH:mm:ss',
+	displayFormat: 'dd-MM-yyyy 00:00:00',
 	placeholder: 'dd-mm-yyyy 00:00:00',
 	jitMasking: true,
 	showMaskOnHover: false,
