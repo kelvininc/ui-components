@@ -85,9 +85,9 @@ graph TD
     A[Push to master] --> B[publish job]
     B --> C[lint]
     C --> D[test]
-    D --> E[lerna version → outputs new-version]
+    D --> E[sync lerna.json to latest tag + lerna version → outputs new-version]
     E --> F[build:packages]
-    F --> G[lerna publish → NPM + push vX.Y.Z tag]
+    F --> G[tag vX.Y.Z on the pushed commit + lerna publish from-package → NPM]
     G --> H[Create GitHub Release for vX.Y.Z]
     H --> I["Remove pre-release tags &le; vX.Y.Z (*-alpha.* / *-beta.*)"]
     I --> J[Build master storybook → ./gp]
@@ -158,19 +158,29 @@ Jobs:
 
 ```yaml
 Jobs:
-├── publish    # Lint + Test + lerna version + build + lerna publish
+├── publish    # Lint + Test + lerna version (from latest tag) + build + tag + lerna publish from-package
 │              # + GitHub Release + pre-release tag cleanup + storybook deploy
 │              # Exposes outputs: new-version, release-tag (read from lerna.json after version)
 └── summary    # Writes Release Summary (including version/tag) to $GITHUB_STEP_SUMMARY (if: always())
 ```
 
 **Permissions**:
-- `contents: write` — required to create tags, push version commits, **create the GitHub Release**, and **delete pre-release tags**.
+- `contents: write` — required to push the release tag, **create the GitHub Release**, and **delete pre-release tags**.
 - `id-token: write` — required for **NPM provenance** via OIDC (`NPM_CONFIG_PROVENANCE: true`).
+
+**No release commit on `master`**:
+
+`master` only accepts changes through pull requests, so the workflow never pushes a commit to it. The latest production `vX.Y.Z` tag is the source of truth for the version, not the manifests in git (which stay at whatever version was last committed):
+
+1. **Sync**: `lerna.json` is rewritten in the working tree to the latest `vX.Y.Z` tag (pre-release tags excluded). The step fails if the pushed commit is already tagged, so a re-run after a failed publish needs that tag deleted first.
+2. **Bump**: `lerna version --conventional-commits --no-git-tag-version --no-push` computes the next version from the commits since that tag and writes it to the manifests, without committing.
+3. **Publish**: after the build, the bump is committed *locally* (Lerna refuses a dirty tree), an annotated `vX.Y.Z` tag is created on the commit that was pushed to `master`, the tag is pushed with the built-in `GITHUB_TOKEN`, and `lerna publish from-package` publishes the manifests' versions to NPM. The local commit is discarded with the runner.
+
+Release notes live on the GitHub Release; no `CHANGELOG.md` is generated.
 
 **Release & pre-release tag cleanup**:
 
-After `lerna publish` pushes the production `vX.Y.Z` tag, the workflow:
+After the publish step pushes the production `vX.Y.Z` tag, the workflow:
 
 1. **Creates a GitHub Release** for `vX.Y.Z` with `gh release create` — auto-generated notes (`--generate-notes`), marked as `--latest`, and tag-verified (`--verify-tag`). The step is idempotent: if a release for the tag already exists it is skipped rather than failing the run.
 2. **Removes the pre-release tags** matching `*-alpha.*` or `*-beta.*` **whose base version (`X.Y.Z`) is `<=` the version just released**, from both the remote and the local checkout. Once a production version ships, the alpha/beta tags that led up to it are no longer needed, so the tag list stays limited to shipped production releases. The cleanup deletes each tag individually so an already-removed tag does not abort the run, and logs when there is nothing to remove.
@@ -297,7 +307,6 @@ ${{ needs.publish.result == 'success' && '✅ Success'
 | Secret            | Purpose                                                | Used In                  |
 |-------------------|--------------------------------------------------------|--------------------------|
 | `GITHUB_TOKEN`    | Built-in token for checkout, tagging, and gh-pages deploy | All workflows         |
-| `LERNA_PUBLISH`   | Token with write access for Lerna version commits and tag pushes on `master` | `publish-master.yml` |
 | `NPM_TOKEN`       | NPM registry authentication for production publishes   | `publish-dev.yml`, `publish-master.yml` |
 | `NEXUS_AUTH`      | Base64 auth string for the internal Nexus registry     | `publish-prerelease.yml` |
 

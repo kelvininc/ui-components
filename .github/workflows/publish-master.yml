@@ -33,15 +33,11 @@ jobs:
               uses: actions/checkout@v7
               with:
                   fetch-depth: 0
-                  token: ${{ secrets.LERNA_PUBLISH }}
 
             - name: Git Identity
               run: |
                   git config --global user.name 'github-actions[bot]'
                   git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-                  git remote set-url origin https://x-access-token:${TOKEN}@github.com/$GITHUB_REPOSITORY
-              env:
-                  TOKEN: ${{ secrets.LERNA_PUBLISH }}
 
             - name: Setup Node.js ${{ matrix.node }}
               uses: ./.github/actions/node-setup
@@ -57,6 +53,21 @@ jobs:
             - name: Generate Versions
               id: version
               run: |
+                  # No version commit is ever pushed to master (the branch only accepts
+                  # pull requests), so the manifests in git are not the source of truth:
+                  # the latest production tag is. Sync lerna.json to it so the
+                  # conventional-commits bump starts from the right base.
+                  git fetch origin --tags --force
+                  LAST_VERSION=$(git tag -l 'v*' --sort=-version:refname | grep -vE -- '-(alpha|beta)\.' | head -n 1 | sed 's/^v//')
+                  if [ -z "$LAST_VERSION" ]; then
+                    echo "No production tag found, cannot determine the version base."
+                    exit 1
+                  fi
+                  if [ "$(git rev-parse "v$LAST_VERSION^{commit}")" = "$GITHUB_SHA" ]; then
+                    echo "This commit is already tagged v$LAST_VERSION. Delete that tag before re-running the release."
+                    exit 1
+                  fi
+                  sed -i "s/\(\"version\": \"\)[^\"]*/\1$LAST_VERSION/" lerna.json
                   pnpm lerna version --yes --conventional-commits --no-changelog --no-git-tag-version --no-push --force-publish=*
                   NEW_VERSION=$(node -p "require('./lerna.json').version")
                   echo "new-version=$NEW_VERSION" >> $GITHUB_OUTPUT
@@ -70,16 +81,23 @@ jobs:
 
             - name: Publish to NPM JS
               run: |
-                  git reset --hard
-                  pnpm lerna publish --no-verify-access --yes --force-publish=*
+                  # `lerna publish from-package` refuses a dirty working tree, so commit
+                  # the version bump locally. This commit is never pushed.
+                  git commit -qam "chore(release): publish v$NEW_VERSION (local only)"
+                  # Tag the commit that was pushed to master, not the local one, so the
+                  # tag is reachable from master. Push it before the irreversible npm
+                  # publish: a git failure then aborts the release cleanly.
+                  git tag -a "v$NEW_VERSION" -m "v$NEW_VERSION" "$GITHUB_SHA"
+                  git push origin "refs/tags/v$NEW_VERSION"
+                  pnpm lerna publish from-package --yes
               env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NEW_VERSION: ${{ steps.version.outputs.new-version }}
                   NPM_CONFIG_PROVENANCE: true
 
             - name: Create GitHub Release
               run: |
-                  # The `v$NEW_VERSION` tag was created and pushed by `lerna publish`.
-                  # Make sure it is available locally before creating the release.
+                  # The `v$NEW_VERSION` tag was created and pushed by the publish step.
+                  # Make sure the local tag matches the remote before creating the release.
                   git fetch origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG" --force || true
                   if gh release view "$RELEASE_TAG" > /dev/null 2>&1; then
                     echo "Release $RELEASE_TAG already exists — skipping creation."

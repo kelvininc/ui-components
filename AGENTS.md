@@ -586,7 +586,7 @@ This project follows [Conventional Commits](https://conventionalcommits.org/) sp
 
 **Optional Elements:**
 - Issue reference: `[KFE-2506]` at the end of subject
-- Skip CI: `[skip ci]` for release commits
+- Skip CI: `[skip ci]` for the pre-release version commits on `alpha`/`beta`
 
 **Commit Body** (optional):
 - Add detailed description after a blank line
@@ -599,8 +599,8 @@ This project follows [Conventional Commits](https://conventionalcommits.org/) sp
   - `feat:` → Minor version bump (0.x.0)
   - `fix:` → Patch version bump (0.0.x)
   - `BREAKING CHANGE` → Major version bump (x.0.0)
-- Changelog auto-generated from commit messages
-- Release commits: `chore(release): publish vX.Y.Z [skip ci]`
+- The version is derived from the latest `vX.Y.Z` tag at release time; no version or changelog commit is pushed to `master`, so the manifests in git are not the source of truth
+- Release notes are generated from commit messages on each GitHub Release
 
 ## 🚢 Deployment
 

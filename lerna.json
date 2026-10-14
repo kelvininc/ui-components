@@ -5,7 +5,6 @@
 			"exact": true
 		},
 		"publish": {
-			"message": "chore(release): publish %s [skip ci]",
 			"conventionalCommits": true
 		}
 	},
