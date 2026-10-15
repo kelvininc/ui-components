@@ -3,32 +3,40 @@
 .TitleContainer {
 	margin-bottom: var(--spacing-xs);
 	display: flex;
+	align-items: center;
+	gap: var(--spacing-xs);
+	min-width: 0;
 
 	kv-info-label::part(title) {
 		@include ellipsis;
 	}
 
 	kv-tooltip {
+		min-width: 0;
 		max-width: 100%;
 	}
 
-	&.GroupTitle {
-		kv-info-label::part(title) {
-			@include body-m-semibold;
+	.GroupHeading {
+		@include heading-s-semibold-caps;
 
-			color: var(--text-container-neutral-default);
-			padding-bottom: var(--spacing-xl);
+		&.SubsectionHeading {
+			@include heading-xs-semibold-caps;
+
+			font-weight: var(--font-weight-bold);
 		}
+
+		// Bold at every level, so a section heading stands apart from the uppercase field labels under it
+		font-weight: var(--font-weight-bold);
+		color: var(--text-container-neutral-default);
+		margin: 0;
+		min-width: 0;
+		overflow-wrap: anywhere;
 	}
 
 	.Required {
 		@include heading-xs-semibold-caps;
 
 		color: var(--input-text-required-default);
-		margin: 0 var(--spacing-xs);
-	}
-
-	.ToggleTip {
-		margin-left: var(--spacing-md);
+		flex-shrink: 0;
 	}
 }

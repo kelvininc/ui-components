@@ -40,6 +40,30 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 	@Event() clickOutside: EventEmitter<MouseEvent>;
 
 	@Element() el: HTMLKvDropdownElement;
+	private inputRef?: HTMLKvTextFieldElement;
+
+	/**
+	 * Focuses the default trigger or a custom action's focusInput method/native control.
+	 * @param canFocus Optional live check passed to the trigger's focusInput method.
+	 */
+	@Method()
+	async setFocus(canFocus?: () => boolean): Promise<void> {
+		if (this.disabled || canFocus?.() === false) return;
+		const action =
+			this.actionElement ??
+			Array.from(this.el.querySelectorAll<HTMLElement>('[slot="dropdown-action"]:not(slot)')).find(candidate => {
+				// Only this dropdown's action slot supplies its custom trigger.
+				for (let ancestor = candidate.parentElement; ancestor && ancestor !== this.el; ancestor = ancestor.parentElement) {
+					if (ancestor.localName === 'kv-dropdown' || ['left-slot', 'right-slot', 'list'].includes(ancestor.slot)) return false;
+				}
+				return true;
+			});
+		if (action) {
+			const inputAction = action as HTMLElement & { focusInput?: (canFocus?: () => boolean) => Promise<void> };
+			if (typeof inputAction.focusInput === 'function') await inputAction.focusInput(canFocus);
+			else action.focus();
+		} else if (!this.inputConfig?.inputDisabled && !this.inputConfig?.loading) await this.inputRef?.focusInput(canFocus);
+	}
 
 	/** Toggles the dropdown open state */
 	@Method()
@@ -86,6 +110,7 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 						<slot name="dropdown-action" slot="action">
 							<div>
 								<kv-text-field
+									ref={element => (this.inputRef = element)}
 									{...inputConfig}
 									id="dropdown-input"
 									forcedFocus={this.isOpen}

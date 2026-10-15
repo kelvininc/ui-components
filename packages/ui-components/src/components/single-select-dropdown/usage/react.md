@@ -17,7 +17,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 
 ### Empty states
 
-`noDataAvailableConfig` is shown when there are no options, searching or not, and `noResultsFoundConfig` when the search matches none. A config with an `illustration` shows the illustration message in the list; one without it shows only its `header`, in the list header. By default, no options shows the "No Data Available" illustration, and no results shows `No results found` in the list header. Content in the `no-data-available` or `no-results-found` slot takes the place of that state's illustration or message.
+`noDataAvailableConfig` is shown when there are no options, searching or not, and `noResultsFoundConfig` when the search matches none. A config with an `illustration` shows the illustration message in the list; one without it shows only its `header`, in the list header. By default, no options shows the "No data available" illustration, and no results shows `No results found` in the list header. Content in the `no-data-available` or `no-results-found` slot takes the place of that state's illustration or message.
 
 ```tsx
 <KvSingleSelectDropdown

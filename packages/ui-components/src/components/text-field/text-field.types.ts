@@ -37,6 +37,10 @@ export interface ITextField {
 	type?: EInputFieldType;
 	/** (optional) Text field label */
 	label?: string;
+	/** Accessible name used when there's no visible label. */
+	accessibleLabel?: string;
+	/** Elements describing the input, including help in an ancestor tree. Clear with an empty array. */
+	accessibleDescriptionElements?: readonly Element[];
 	/** (optional) Text field's icon symbol name */
 	icon?: EIconName;
 	/** (optional) Icon that is added on the right of the input. Its clickable. */

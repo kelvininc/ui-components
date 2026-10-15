@@ -78,4 +78,17 @@ describe('Action Button Text (unit tests)', () => {
 			expect(page.root).toMatchSnapshot();
 		});
 	});
+
+	describe('when it has only an icon and a label', () => {
+		it('names the inner button with the label', async () => {
+			const { KvActionButton } = await import('../../action-button/action-button');
+			page = await newSpecPage({
+				components: [KvActionButtonText, KvActionButton],
+				html: '<kv-action-button-text type="text" icon="kv-close" text="" accessible-label="Close"></kv-action-button-text>'
+			});
+			const inner = page.root?.shadowRoot?.querySelector('kv-action-button');
+
+			expect(inner?.shadowRoot?.querySelector('[part="button"]')?.getAttribute('aria-label')).toBe('Close');
+		});
+	});
 });

@@ -27,13 +27,13 @@ const meta = {
 		displayCalendarToggle: {
 			control: "boolean",
 			description:
-				'Determines if the "Show Calendar" toggle is visible in the footer'
+				'Determines if the "Show calendar" toggle is visible in the footer'
 		},
 		calendarMode: {
 			control: "select",
 			options: Object.values(EAbsoluteTimePickerMode),
 			description:
-				'Defines if the custom interval calendar selects a single date or a range. In single mode, the custom option and the calendar title read "Custom Date" instead of "Custom Interval"'
+				'Defines if the custom interval calendar selects a single date or a range. In single mode, the custom option and the calendar title read "Custom date" instead of "Custom interval"'
 		}
 	}
 } satisfies Meta<typeof KvTimePicker>;

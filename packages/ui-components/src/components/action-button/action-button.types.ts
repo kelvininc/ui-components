@@ -10,6 +10,10 @@ export enum EActionButtonType {
 }
 
 export interface IButton {
+	/** (optional) Accessible name. Required for icon-only buttons; overrides the visible text's name. */
+	accessibleLabel?: string;
+	/** Elements describing the button, including help in an ancestor tree. Clear with an empty array. */
+	accessibleDescriptionElements?: readonly Element[];
 	/** (optional) Button's type */
 	type?: EActionButtonType;
 	/** (optional) If `true` the button is disabled */
@@ -20,6 +24,13 @@ export interface IButton {
 	loading: boolean;
 	/** (optional) Button's size */
 	size: EComponentSize;
+}
+
+export interface IButtonMenuState {
+	/** (optional) Menu state. When supplied, marks the control as a menu trigger. */
+	menuExpanded?: boolean;
+	/** (optional) Menu trigger Tab index. Disabled controls always use -1. */
+	menuTabIndex?: number;
 }
 
 export interface IButtonEvents {

@@ -5,7 +5,7 @@ exports[`Absolute Time Picker (unit tests) when default props and initial date a
   <div class="absolute-time-picker-container">
     <div class="header">
       <div class="title">
-        Custom Interval
+        Custom interval
       </div>
     </div>
     <div class="absolute-range-input">

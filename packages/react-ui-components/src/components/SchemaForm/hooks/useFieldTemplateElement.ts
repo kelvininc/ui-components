@@ -8,12 +8,10 @@ export const useFieldTemplateElement = <T, S extends StrictRJSFSchema = RJSFSche
 	const [fieldTemplate, setFieldTemplate] = useState<HTMLDivElement | undefined>(undefined);
 
 	useEffect(() => {
-		if (formRef?.current?.formElement?.current) {
-			setFieldTemplate(formRef.current.formElement.current.querySelector('[class^="FieldTemplate"]') as HTMLDivElement);
-			return;
-		}
-		setFieldTemplate(undefined);
-	}, [formRef?.current?.formElement?.current]);
+		const formElement = formRef.current?.formElement.current as HTMLFormElement | undefined;
+		const owned = formElement?.querySelector<HTMLDivElement>('[data-schema-form-field]') ?? undefined;
+		setFieldTemplate(current => (current === owned ? current : owned));
+	});
 
 	return fieldTemplate;
 };

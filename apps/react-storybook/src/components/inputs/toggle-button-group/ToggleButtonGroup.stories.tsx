@@ -2,6 +2,7 @@ import type { Meta, StoryFn, StoryObj } from "@storybook/react";
 import { useArgs } from "storybook/preview-api";
 import {
 	EIconName,
+	ERadioControlType,
 	KvToggleButtonGroup
 } from "@kelvininc/react-ui-components/client";
 import { ComponentProps } from "react";
@@ -10,7 +11,7 @@ const ToggleButtonGroupTemplate: StoryFn<
 	ComponentProps<typeof KvToggleButtonGroup>
 > = (args) => {
 	const [{ selectedButtons }, updateArgs] = useArgs();
-	const onCheckedChange = ({ detail: id }: CustomEvent<string>) =>
+	const onCheckedChange = ({ detail: id }: CustomEvent<string | number>) =>
 		updateArgs({
 			selectedButtons: {
 				...selectedButtons,
@@ -89,14 +90,17 @@ export const IconButtonsState: Story = {
 		buttons: [
 			{
 				icon: EIconName.DensityLow,
+				accessibleLabel: "Low density",
 				value: "low"
 			},
 			{
 				icon: EIconName.DensityMedium,
+				accessibleLabel: "Medium density",
 				value: "medium"
 			},
 			{
 				icon: EIconName.DensityHigh,
+				accessibleLabel: "High density",
 				value: "high"
 			}
 		],
@@ -147,6 +151,7 @@ export const RadioButtonsState: Story = {
 			opt4: false,
 			opt5: false
 		},
-		withRadio: true
+		withRadio: true,
+		radioControlType: ERadioControlType.Checkbox
 	}
 };

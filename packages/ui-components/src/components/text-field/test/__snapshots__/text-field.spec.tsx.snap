@@ -2,7 +2,7 @@
 
 exports[`Text Field (unit tests) when has a label should match the snapshot 1`] = `
 <kv-text-field fit-content="" input-mask-regex="" label="Text Field" placeholder="" state="none" type="text" value="">
-  <template shadowrootmode="open">
+  <template shadowrootmode="open" shadowrootdelegatesfocus>
     <kv-tooltip position="top-start" truncate="">
       <div class="text-field-container">
         <kv-form-label label="Text Field"></kv-form-label>
@@ -13,7 +13,7 @@ exports[`Text Field (unit tests) when has a label should match the snapshot 1`] 
           <div class="resize-container">
             <span class="resize-text" part="input-text"></span>
             <slot name="input">
-              <input class="resize-input" part="input-text" placeholder="" type="text" value="">
+              <input aria-label="Text Field" class="resize-input" part="input-text" placeholder="" type="text" value="">
             </slot>
           </div>
           <div class="right-slot-container">
@@ -28,7 +28,7 @@ exports[`Text Field (unit tests) when has a label should match the snapshot 1`] 
 
 exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] = `
 <kv-text-field fit-content="" input-disabled="" input-mask-regex="" placeholder="" state="none" type="text" value="">
-  <template shadowrootmode="open">
+  <template shadowrootmode="open" shadowrootdelegatesfocus>
     <kv-tooltip position="top-start" truncate="">
       <div class="text-field-container">
         <div class="disabled input-container input-container--size-large" part="input-container">
@@ -53,7 +53,7 @@ exports[`Text Field (unit tests) when is disabled should match the snapshot 1`] 
 
 exports[`Text Field (unit tests) when uses default props should match the snapshot 1`] = `
 <kv-text-field fit-content="" input-mask-regex="" placeholder="" state="none" type="text" value="">
-  <template shadowrootmode="open">
+  <template shadowrootmode="open" shadowrootdelegatesfocus>
     <kv-tooltip position="top-start" truncate="">
       <div class="text-field-container">
         <div class="input-container input-container--size-large" part="input-container">

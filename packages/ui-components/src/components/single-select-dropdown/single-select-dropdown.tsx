@@ -36,6 +36,8 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
+	@Prop() accessibleLabel?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) displayValue?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) displayPrefix?: string;
@@ -187,6 +189,15 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		});
 	};
 
+	/**
+	 * Focuses the dropdown trigger without changing its open state or selection.
+	 * @param canFocus Optional live check passed through to the trigger's focus method.
+	 */
+	@Method()
+	async setFocus(canFocus?: () => boolean): Promise<void> {
+		if (canFocus?.() !== false) await this.dropdownRef?.setFocus(canFocus);
+	}
+
 	/** Focuses the search text field */
 	@Method()
 	async focusSearch() {
@@ -200,6 +211,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	}
 
 	private selectRef?: HTMLKvSelectMultiOptionsElement | null;
+	private dropdownRef?: HTMLKvDropdownElement;
 
 	private onOptionSelected = (event: CustomEvent<string>): void => {
 		event.stopPropagation();
@@ -299,6 +311,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	private getInputConfig = (): Partial<ITextField> => {
 		return merge({}, this.inputConfig, {
 			label: this.label,
+			accessibleLabel: this.accessibleLabel,
 			value: this._selectionDisplayValue,
 			valuePrefix: this.displayPrefix,
 			loading: this.loading,
@@ -382,6 +395,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		return (
 			<Host>
 				<kv-dropdown
+					ref={element => (this.dropdownRef = element)}
 					inputConfig={this.getInputConfig()}
 					isOpen={this.isOpen}
 					onOpenStateChange={this.onOpenStateChange}

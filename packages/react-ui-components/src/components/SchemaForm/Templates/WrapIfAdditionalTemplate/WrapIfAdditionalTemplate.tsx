@@ -3,6 +3,8 @@ import { ADDITIONAL_PROPERTY_FLAG, FormContextType, RJSFSchema, StrictRJSFSchema
 import React from 'react';
 import { KvActionButtonIcon, KvTextField } from '../../../../stencil-generated';
 import styles from './WrapIfAdditionalTemplate.module.scss';
+import { SCHEMA_FORM_STRINGS } from '../../strings';
+import { useSchemaFormFocusRef } from '../../hooks/entryFocus';
 
 const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	children,
@@ -15,8 +17,9 @@ const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F 
 	required,
 	schema
 }: WrapIfAdditionalTemplateProps<T, S, F>): any => {
-	const keyLabel = `${label} Key`;
+	const keyLabel = SCHEMA_FORM_STRINGS.propertyKey(label);
 	const additional = schema.hasOwnProperty(ADDITIONAL_PROPERTY_FLAG);
+	const focusRef = useSchemaFormFocusRef<HTMLKvTextFieldElement>(disabled || readonly);
 
 	if (!additional) {
 		return children;
@@ -28,6 +31,7 @@ const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F 
 		<div key={`${id}-key`} className={styles.NewKeyContainer}>
 			<div className={styles.InputContainer}>
 				<KvTextField
+					ref={focusRef}
 					id={`${id}-key`}
 					label={keyLabel}
 					inputDisabled={disabled || readonly}
@@ -41,9 +45,9 @@ const WrapIfAdditionalTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F 
 			<div className={styles.DeleteButton}>
 				<KvActionButtonIcon
 					icon={EIconName.Delete}
+					accessibleLabel={SCHEMA_FORM_STRINGS.remove(label)}
 					size={EComponentSize.Large}
 					type={EActionButtonType.Danger}
-					tabIndex={-1}
 					disabled={disabled || readonly}
 					onClickButton={onDropPropertyClick(label)}
 				/>

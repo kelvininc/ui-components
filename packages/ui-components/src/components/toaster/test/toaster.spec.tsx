@@ -1,10 +1,22 @@
 import { newSpecPage, SpecPage } from '@stencil/core/testing';
 import { KvToaster } from '../toaster';
 import { EToasterType } from '../toaster.types';
+import { KvActionButtonText } from '../../action-button-text/action-button-text';
+import { KvActionButton } from '../../action-button/action-button';
 
 describe('Toaster (unit tests)', () => {
 	let page: SpecPage;
 	let component: KvToaster;
+
+	it('should name its close button', async () => {
+		page = await newSpecPage({
+			components: [KvToaster, KvActionButtonText, KvActionButton],
+			html: '<kv-toaster type="info" header="Connector saved"></kv-toaster>'
+		});
+		const control = page.root?.shadowRoot?.querySelector('kv-action-button-text')?.shadowRoot?.querySelector('kv-action-button')?.shadowRoot?.querySelector('[part="button"]');
+
+		expect(control?.getAttribute('aria-label')).toBe('Close');
+	});
 
 	describe('when uses default props and error type', () => {
 		beforeEach(async () => {

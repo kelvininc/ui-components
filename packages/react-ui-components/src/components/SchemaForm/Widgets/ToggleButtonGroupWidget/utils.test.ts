@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { buildToggleButtons } from './utils';
+import { buildSelectedToggleButtons, buildToggleButtons, toggleSelectedOptions } from './utils';
 import { ALL_BUTTON_VALUE } from './config';
+import { getOptionKey } from '../utils';
 import { ToggleButtonGroupOption, IToggleButtonGroupConfig } from './types';
 
 const baseConfig: IToggleButtonGroupConfig = {
@@ -9,6 +10,46 @@ const baseConfig: IToggleButtonGroupConfig = {
 	minItems: 0,
 	maxItems: Number.MAX_SAFE_INTEGER
 };
+
+it('preserves numeric option values, including zero, through selection', () => {
+	const options = [
+		{ label: 'No retries', value: 0 },
+		{ label: 'Three retries', value: 3 }
+	];
+	expect(buildToggleButtons(options, [], baseConfig).map(button => button.value)).toEqual(['choice-0', 'choice-1']);
+	expect(buildSelectedToggleButtons([0], options, baseConfig)).toEqual({ 'choice-0': true });
+	expect(toggleSelectedOptions('choice-1', [0], options, { ...baseConfig, multiple: true, maxItems: 2 })).toEqual([0, 3]);
+	expect(toggleSelectedOptions('choice-0', [0], options, baseConfig)).toEqual([]);
+});
+
+describe('choices that share a string form', () => {
+	const options = [
+		{ label: 'Zero', value: 0 },
+		{ label: 'Zero as text', value: '0' }
+	];
+	const multiple = { ...baseConfig, multiple: true, maxItems: 2 };
+
+	it('selects only the choice whose value matches exactly', () => {
+		expect(buildSelectedToggleButtons([0], options, multiple)).toEqual({ 'choice-0': true });
+		expect(buildSelectedToggleButtons(['0'], options, multiple)).toEqual({ 'choice-1': true });
+	});
+
+	it('toggles each choice by its own value', () => {
+		expect(toggleSelectedOptions('choice-1', [0], options, multiple)).toEqual([0, '0']);
+		expect(toggleSelectedOptions('choice-0', [0, '0'], options, multiple)).toEqual(['0']);
+	});
+
+	it("keeps an option whose value is 'all' apart from the All button", () => {
+		const withAll = [{ label: 'All lines', value: ALL_BUTTON_VALUE }, ...options];
+		const config = { ...multiple, allButton: true, maxItems: 3 };
+		expect(toggleSelectedOptions('choice-0', [0], withAll, config)).toEqual([0, ALL_BUTTON_VALUE]);
+		expect(toggleSelectedOptions(ALL_BUTTON_VALUE, [0], withAll, config)).toEqual([ALL_BUTTON_VALUE, 0, '0']);
+	});
+
+	it('ignores a key that names no button', () => {
+		expect(toggleSelectedOptions('choice-9', [0], options, multiple)).toEqual([0]);
+	});
+});
 
 describe('buildToggleButtons', () => {
 	describe('when options is empty', () => {
@@ -34,9 +75,9 @@ describe('buildToggleButtons', () => {
 			const result = buildToggleButtons(options, [], baseConfig);
 
 			expect(result.map(button => ({ label: button.label, value: button.value }))).toEqual([
-				{ label: 'Option A', value: 'a' },
-				{ label: 'Option B', value: 'b' },
-				{ label: 'Option C', value: 'c' }
+				{ label: 'Option A', value: 'choice-0' },
+				{ label: 'Option B', value: 'choice-1' },
+				{ label: 'Option C', value: 'choice-2' }
 			]);
 			expect(result.every(button => !button.disabled)).toBe(true);
 		});
@@ -52,7 +93,7 @@ describe('buildToggleButtons', () => {
 
 			const result = buildToggleButtons(options, ['b'], baseConfig);
 
-			expect(result.map(button => button.value)).toEqual(['a', 'b', 'c']);
+			expect(result.map(button => button.label)).toEqual(['Option A', 'Option B', 'Option C']);
 			expect(result[1].disabled).toBe(true);
 			expect(result[0].disabled).toBeFalsy();
 			expect(result[2].disabled).toBeFalsy();
@@ -82,7 +123,7 @@ describe('buildToggleButtons', () => {
 
 			const result = buildToggleButtons(options, [], { ...baseConfig, multiple: true, allButton: true });
 
-			expect(result.map(button => button.value)).toEqual([ALL_BUTTON_VALUE, 'a', 'b', 'c']);
+			expect(result.map(button => button.value)).toEqual([ALL_BUTTON_VALUE, 'choice-0', 'choice-1', 'choice-2']);
 			expect(result[0]).toEqual({ label: 'All', value: ALL_BUTTON_VALUE });
 		});
 	});
@@ -96,7 +137,7 @@ describe('buildToggleButtons', () => {
 
 			const result = buildToggleButtons(options, [], { ...baseConfig, multiple: false, allButton: true });
 
-			expect(result.map(button => button.value)).toEqual(['a', 'b']);
+			expect(result.map(button => button.value)).toEqual(['choice-0', 'choice-1']);
 		});
 	});
 
@@ -106,7 +147,7 @@ describe('buildToggleButtons', () => {
 
 			const result = buildToggleButtons(options, [], baseConfig);
 
-			expect(result.map(button => button.value)).toEqual(options.map(o => o.value));
+			expect(result.map(button => button.value)).toEqual(options.map((_, index) => getOptionKey(index)));
 		});
 	});
 });

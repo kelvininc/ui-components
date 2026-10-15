@@ -1,11 +1,13 @@
 import React, { useCallback } from 'react';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 import { KvCheckbox } from '../../../../stencil-generated';
-import { useFormState } from '../../contexts';
+import { useFieldDescription, useFormState } from '../../contexts';
 import { getComponentSize } from '../ToggleButtonGroupWidget/utils';
+import { useSchemaFormFocusRef } from '../../hooks/entryFocus';
 
 const CheckboxWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
+	label,
 	value,
 	disabled,
 	readonly,
@@ -13,6 +15,8 @@ const CheckboxWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Fo
 	onChange
 }: WidgetProps<T, S, F>) => {
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
+	const accessibleDescriptionElements = useFieldDescription(id);
+	const focusRef = useSchemaFormFocusRef<HTMLKvCheckboxElement>(disabled || readonly);
 	const { componentSize, checkboxLabel } = options;
 	const checked = value === true;
 
@@ -24,10 +28,13 @@ const CheckboxWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Fo
 
 	return (
 		<KvCheckbox
+			ref={focusRef}
 			size={getComponentSize(componentSize)}
 			checked={checked}
+			accessibleDescriptionElements={accessibleDescriptionElements}
 			disabled={disabled || readonly}
 			label={(checkboxLabel as string) ?? undefined}
+			accessibleLabel={(checkboxLabel as string) || label}
 			onClickCheckbox={handleChange}
 			onFocus={() => markFieldAsTouched(id)}
 			onBlur={() => markFieldAsTouched(id)}
