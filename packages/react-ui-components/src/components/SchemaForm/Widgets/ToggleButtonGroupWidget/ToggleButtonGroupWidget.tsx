@@ -48,8 +48,8 @@ const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F e
 	const disabledButtons = useMemo(() => buildDisabledToggleButtons(buttons), [buttons]);
 
 	const onCheckedChange = useCallback(
-		({ detail: selectedOptionValue }: CustomEvent<string | number>) => {
-			const newValue = toggleSelectedOptions(selectedOptionValue, selectedOptions, allOptions, config);
+		({ detail: buttonKey }: CustomEvent<string | number>) => {
+			const newValue = toggleSelectedOptions(buttonKey, selectedOptions, allOptions, config);
 			const finalValue = isEmpty(newValue) ? undefined : newValue;
 			trackFieldChange(id, finalValue);
 			onChange(finalValue);
