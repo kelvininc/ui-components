@@ -7,6 +7,7 @@ export const WIZARD_ENTER_OWNERS = [
 	{ name: 'summary', html: '<details><summary id="owner">Connection details</summary><p>Broker settings</p></details>' },
 	{ name: 'link', html: '<a id="owner" href="#connection-help">Connection help</a>' },
 	{ name: 'button role', html: '<div id="owner" role="button" tabindex="0">Save connection</div>' },
+	{ name: 'select', html: '<select id="owner"><option>MQTT</option><option>OPC UA</option></select>' },
 	{ name: 'textarea', html: '<textarea id="owner">Connection notes</textarea>' },
 	{ name: 'contenteditable', html: '<div id="owner" contenteditable="true">Connection notes</div>' }
 ] as const;

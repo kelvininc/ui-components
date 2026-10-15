@@ -84,6 +84,7 @@ export class KvWizard implements IWizard, IWizardEvents {
 				const element = node as HTMLElement | null;
 				return (
 					element?.tagName === 'TEXTAREA' ||
+					element?.tagName === 'SELECT' ||
 					element?.tagName === 'BUTTON' ||
 					element?.tagName === 'SUMMARY' ||
 					(element?.tagName === 'INPUT' && ['button', 'submit', 'reset', 'image'].includes((element as HTMLInputElement).type)) ||
