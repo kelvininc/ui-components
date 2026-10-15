@@ -52,18 +52,16 @@ export class KvToggleButtonGroup implements IToggleButtonGroup, IToggleButtonGro
 
 	private getRadioControlType = (button: IToggleButton) => button.radioControlType ?? this.radioControlType ?? ERadioControlType.Radio;
 
-	// The group is a radio group when its buttons show radios that behave as radios. When pressing a
-	// checked button unchecks it, or several can be checked, they're checkboxes, which need no group role
-	private isRadioGroup = () => {
-		const radios = this.buttons.filter(this.hasRadio);
-		return radios.length > 0 && radios.every(button => this.getRadioControlType(button) === ERadioControlType.Radio);
-	};
+	// The group is a radio group when every button shows a radio that behaves as a radio. When pressing a
+	// checked button unchecks it, or several can be checked, they're checkboxes, which need no group role.
+	// A group that mixes radios with plain buttons isn't one either: its plain buttons keep their own Tab stops
+	private isRadioGroup = () => this.buttons.length > 0 && this.buttons.every(button => this.hasRadio(button) && this.getRadioControlType(button) === ERadioControlType.Radio);
 
 	private getGroupOptions = (): RadioGroupOption[] =>
 		this.buttons.map(button => ({
 			value: button.value,
 			checked: !!(this.selectedButtons[button.value] || button.checked),
-			disabled: !this.hasRadio(button) || this.isButtonDisabled(button)
+			disabled: this.isButtonDisabled(button)
 		}));
 
 	private onKeyDown = (event: KeyboardEvent) => {

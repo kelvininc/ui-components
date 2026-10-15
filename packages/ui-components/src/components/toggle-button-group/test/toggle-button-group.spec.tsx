@@ -24,6 +24,27 @@ describe('toggle group Tab policy', () => {
 		expect(page.root.getAttribute('role')).toBe(role);
 		expect(Array.from(page.root.shadowRoot.querySelectorAll('kv-toggle-button')).map(button => button.skipTabStop)).toEqual(stops);
 	});
+
+	it.each([
+		{ name: 'the group', props: { radioButtons: { alarms: true } }, buttons: ['telemetry', 'alarms', 'commands'].map(value => ({ value, label: value })) },
+		{
+			name: 'a button',
+			props: {},
+			buttons: [
+				{ value: 'telemetry', label: 'telemetry' },
+				{ value: 'alarms', label: 'alarms', withRadio: true },
+				{ value: 'commands', label: 'commands' }
+			]
+		}
+	])('is no radio group when $name puts radios on only some buttons', async ({ props, buttons }) => {
+		const page = await newSpecPage({
+			components: [KvToggleButtonGroup, KvToggleButton],
+			template: () => <kv-toggle-button-group buttons={buttons} {...props} selectedButtons={{ alarms: true }} />
+		});
+
+		expect(page.root.hasAttribute('role')).toBe(false);
+		expect(Array.from(page.root.shadowRoot.querySelectorAll('kv-toggle-button')).map(button => button.skipTabStop)).toEqual([false, false, false]);
+	});
 });
 
 describe('Toggle Button Group (unit tests)', () => {
