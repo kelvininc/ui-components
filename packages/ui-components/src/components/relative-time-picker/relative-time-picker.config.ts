@@ -1,13 +1,15 @@
-export const TIME_RANGE_UPDATE_INTERVAL = 10000;
-export const CUSTOMIZE_INTERVAL_LABEL = 'Custom interval';
+import { COMPONENT_STRINGS } from '../../strings';
 
-export const TIMEZONES_PLACEHOLDER = 'Select a timezone';
-export const TIMEZONES_SEARCH_PLACEHOLDER = 'Search for a timezone';
+export const TIME_RANGE_UPDATE_INTERVAL = 10000;
+export const CUSTOMIZE_INTERVAL_LABEL = COMPONENT_STRINGS.customInterval;
+
+export const TIMEZONES_PLACEHOLDER = COMPONENT_STRINGS.selectTimezone;
+export const TIMEZONES_SEARCH_PLACEHOLDER = COMPONENT_STRINGS.searchTimezone;
 export const DEFAULT_TIMEZONE_GROUP_NAME = 'system-timezone';
-export const DEFAULT_TIMEZONE_GROUP_LABEL = 'System timezone - default';
+export const DEFAULT_TIMEZONE_GROUP_LABEL = COMPONENT_STRINGS.systemTimezone;
 
 export const OTHER_TIMEZONES_GROUP_NAME = 'other-timezones';
-export const OTHER_TIMEZONES_GROUP_LABEL = 'Other timezones';
+export const OTHER_TIMEZONES_GROUP_LABEL = COMPONENT_STRINGS.otherTimezones;
 
 export const BOTTOM_OPTIONS_HEIGHT = 41;
 export const SELECT_OPTION_HEIGHT = 32;
