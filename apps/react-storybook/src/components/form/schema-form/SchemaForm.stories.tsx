@@ -10,8 +10,9 @@ import {
 	ISelectSingleOptions
 } from "@kelvininc/react-ui-components/client";
 import { IChangeEvent } from "@rjsf/core";
-import { ComponentProps, useCallback, useEffect, useState } from "react";
+import { ComponentProps, useCallback, useState } from "react";
 import { action } from "storybook/actions";
+import { useArgs } from "storybook/preview-api";
 import { FormValidation } from "@rjsf/utils";
 
 import { getDropdownDisplayValue } from "../../../helpers/dropdown.helper";
@@ -69,16 +70,15 @@ const CoreUiFormTemplate: StoryFn<ComponentProps<typeof KvSchemaForm>> = (
 const SavedFilesTemplate: StoryFn<ComponentProps<typeof KvSchemaForm>> = (
 	args
 ) => {
-	const [formData, setFormData] = useState(args.formData);
-	useEffect(() => setFormData(args.formData), [args.formData]);
+	const [, updateArgs] = useArgs();
 	const onChange = useCallback<NonNullable<typeof args.onChange>>(
 		(event, id) => {
-			setFormData(event.formData);
+			updateArgs({ formData: event.formData });
 			args.onChange?.(event, id);
 		},
-		[args.onChange]
+		[updateArgs, args.onChange]
 	);
-	return <CoreUiForm {...args} formData={formData} onChange={onChange} />;
+	return <CoreUiForm {...args} onChange={onChange} />;
 };
 
 const meta = {
