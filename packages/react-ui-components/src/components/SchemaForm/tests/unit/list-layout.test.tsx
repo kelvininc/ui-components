@@ -4,6 +4,7 @@ import React, { act, ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { fireStencilEvent, propsOf } from '../../../../test-utils';
+import { chooseMenuAction, menuActionIds, menuTrigger, standaloneIconButtons } from '../../test-utils/action-menu';
 import { KvSchemaForm } from '../../SchemaForm';
 import {
 	ARRAY_SHAPES,
@@ -61,13 +62,13 @@ describe.each(L1_HIDDEN_ITEM_WIDGETS)('L1 hidden item widgets: $name', ({ row, u
 			const remove: Element[] = [];
 			for (const [index, item] of items.entries()) {
 				expect(item.querySelector('[data-schema-form-field]')!.hasAttribute('hidden')).toBe(hiddenPositions.includes(index));
-				for (const menu of item.querySelectorAll('kv-action-menu'))
+				for (const menu of item.querySelectorAll('[data-action-menu]'))
 					if (menu.closest('[data-schema-form-list-item]') === item) {
 						menus.push(menu);
-						expect(propsOf(menu).accessibleLabel).toBe(`${section ? 'Actions for' : 'Reorder'} ${itemNames[index]}`);
+						expect(propsOf(menuTrigger(menu)).accessibleLabel).toBe(`${section ? 'Actions for' : 'Reorder'} ${itemNames[index]}`);
 						expect(menu.closest('[hidden]')).toBeNull();
 					}
-				for (const button of item.querySelectorAll('kv-action-button-icon'))
+				for (const button of standaloneIconButtons(item))
 					if (button.closest('[data-schema-form-list-item]') === item) {
 						remove.push(button);
 						expect(propsOf(button).accessibleLabel).toBe(`Remove ${itemNames[index]}`);
@@ -78,9 +79,9 @@ describe.each(L1_HIDDEN_ITEM_WIDGETS)('L1 hidden item widgets: $name', ({ row, u
 			const available = 3 - fixed;
 			expect(menus).toHaveLength(option.options.orderable !== false || (section && option.options.removable !== false) ? available : 0);
 			expect(remove).toHaveLength(!section && option.options.removable !== false ? available : 0);
-			for (const control of [...menus, ...remove]) expect(propsOf(control).disabled).toBe(!flags.focused);
+			for (const control of [...Array.from(menus, menuTrigger), ...remove]) expect(propsOf(control).disabled).toBe(!flags.focused);
 			if (menus.length && option.options.orderable !== false) {
-				act(() => fireStencilEvent(menus[0], 'onItemSelected', 'move-down', { force: true }));
+				chooseMenuAction(menus[0], 'move-down', { force: true });
 				if (flags.focused)
 					expect(onChange.mock.lastCall?.[0].formData).toEqual([
 						...row.formData.slice(0, fixed),
@@ -110,14 +111,14 @@ describe.each(L1_EMPTY_ITEM_SCHEMAS)('L1 empty item schemas: $name', row => {
 			);
 			expect(screen.container.querySelectorAll('[data-schema-form-list-item]')).toHaveLength(3);
 			expect(screen.container.querySelectorAll('[data-schema-form-list-item] kv-text-field,[data-schema-form-list-item] kv-info-label')).toHaveLength(0);
-			const menus = screen.container.querySelectorAll('kv-action-menu');
-			const remove = screen.container.querySelectorAll('kv-action-button-icon');
+			const menus = screen.container.querySelectorAll('[data-action-menu]');
+			const remove = standaloneIconButtons(screen.container);
 			expect(menus).toHaveLength(option.options.orderable === false ? 0 : 3);
 			expect(remove).toHaveLength(option.options.removable === false ? 0 : 3);
-			for (const control of [...menus, ...remove]) expect(propsOf(control).disabled).toBe(!flags.focused);
+			for (const control of [...Array.from(menus, menuTrigger), ...remove]) expect(propsOf(control).disabled).toBe(!flags.focused);
 			if (menus.length) {
-				expect(propsOf<JSX.KvActionMenu>(menus[0]).accessibleLabel).toBe('Reorder Broker 1');
-				act(() => fireStencilEvent(menus[0], 'onItemSelected', 'move-down', { force: true }));
+				expect(propsOf(menuTrigger(menus[0])).accessibleLabel).toBe('Reorder Broker 1');
+				chooseMenuAction(menus[0], 'move-down', { force: true });
 				if (flags.focused) expect(onChange.mock.lastCall?.[0].formData).toEqual([row.formData[1], row.formData[0], row.formData[2]]);
 				else expect(onChange).not.toHaveBeenCalled();
 			}
@@ -131,8 +132,8 @@ describe.each(L1_UNION_LIST_SHAPES)('L1 union ownership: $name', row => {
 		const items = screen.container.querySelectorAll('[data-schema-form-list-item]');
 		expect(items).toHaveLength(2);
 		for (const item of items) {
-			expect(item.querySelectorAll('kv-action-menu')).toHaveLength(1);
-			expect(item.querySelectorAll('kv-action-button-icon')).toHaveLength(row.section ? 0 : 1);
+			expect(item.querySelectorAll('[data-action-menu]')).toHaveLength(1);
+			expect(standaloneIconButtons(item)).toHaveLength(row.section ? 0 : 1);
 		}
 	});
 });
@@ -147,10 +148,10 @@ describe.each(L1_ITEM_FIELD_COMPONENTS)('L1 custom array item field: $name', ({ 
 		expect(input).not.toBeNull();
 		for (let count = 0; count < 10; count++) screen.rerender(form());
 		expect(screen.container.querySelector('[data-array-item-input]')).toBe(input);
-		const menus = screen.container.querySelectorAll('kv-action-menu');
+		const menus = screen.container.querySelectorAll('[data-action-menu]');
 		expect(menus).toHaveLength(3);
-		expect(screen.container.querySelectorAll('kv-action-button-icon')).toHaveLength(3);
-		act(() => fireStencilEvent(menus[0], 'onItemSelected', 'move-down'));
+		expect(standaloneIconButtons(screen.container)).toHaveLength(3);
+		chooseMenuAction(menus[0], 'move-down');
 		expect(onChange.mock.lastCall?.[0].formData).toEqual([row.formData[1], row.formData[0], row.formData[2]]);
 	});
 });
@@ -172,9 +173,9 @@ describe.each(TEMPLATE_COMPONENTS)('L1 custom field template: $name', ({ FieldLa
 		for (let count = 0; count < 10; count++) screen.rerender(form());
 		expect(screen.container.querySelector('kv-text-field[id="root_0"]')).toBe(input);
 		for (const item of screen.container.querySelectorAll('[data-schema-form-list-item]')) {
-			expect(item.querySelectorAll('kv-action-menu')).toHaveLength(1);
-			expect(item.querySelectorAll('kv-action-button-icon')).toHaveLength(1);
-			expect(item.querySelector('[data-field-layout]')!.querySelector('kv-action-menu')).toBeNull();
+			expect(item.querySelectorAll('[data-action-menu]')).toHaveLength(1);
+			expect(standaloneIconButtons(item)).toHaveLength(1);
+			expect(item.querySelector('[data-field-layout]')!.querySelector('[data-action-menu]')).toBeNull();
 		}
 	});
 });
@@ -195,15 +196,15 @@ it.each(L1_ALIGNMENT_SHAPES.filter(row => row.message))('L1 preserves $name when
 
 it.each(L1_ARRAY_TEMPLATE_SHAPES)('L1 preserves metadata for $name', ({ row, uiSchema, ArrayTemplate, menus, labels }) => {
 	const screen = render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={uiSchema} templates={{ ArrayFieldTemplate: ArrayTemplate }} />);
-	expect(screen.container.querySelectorAll('kv-action-menu')).toHaveLength(menus);
+	expect(screen.container.querySelectorAll('[data-action-menu]')).toHaveLength(menus);
 	for (const [index, label] of labels.entries()) {
 		const item = screen.container.querySelector(`[data-schema-form-list-item="${index}"]`)!;
 		expect(propsOf(item.querySelector('kv-info-label')!).labelTitle).toBe(label);
 	}
 	const nested = screen.container.querySelector('[data-custom-array-layout="root_0_tags"]');
 	if (nested) {
-		const controls = Array.from(nested.querySelectorAll('kv-action-menu'));
-		expect(controls.map(control => propsOf(control).accessibleLabel)).toEqual(['Reorder Tag 1', 'Reorder Tag 2', 'Reorder Tag 3']);
+		const controls = Array.from(nested.querySelectorAll('[data-action-menu]'));
+		expect(controls.map(control => propsOf(menuTrigger(control)).accessibleLabel)).toEqual(['Reorder Tag 1', 'Reorder Tag 2', 'Reorder Tag 3']);
 	}
 });
 
@@ -212,7 +213,7 @@ it.each(L1_HIDDEN_ITEM_HEADINGS)('L1 preserves object item $name', ({ uiSchema }
 	const screen = render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={uiSchema} />);
 	for (const item of screen.container.querySelectorAll('[data-schema-form-list-item]')) {
 		expect(item.querySelector('[data-schema-form-item-header]')!.querySelector('h2,h3,h4,h5,h6')).toBeNull();
-		expect(item.querySelector('kv-action-menu')).not.toBeNull();
+		expect(item.querySelector('[data-action-menu]')).not.toBeNull();
 	}
 });
 
@@ -223,7 +224,11 @@ it.each(L1_PREFIXED_ITEM_HEADINGS)('L1 names a prefixed object item: $name', ({ 
 	expect(items).toHaveLength(3);
 	const shown = items.map(item => item.querySelector('[data-schema-form-item-header]')!.querySelector('h2,h3,h4,h5,h6')?.textContent);
 	expect(shown.filter(Boolean)).toEqual(headings);
-	expect(items.map(item => propsOf(item.querySelector('kv-action-menu')!).accessibleLabel)).toEqual(['Actions for Port 1', 'Actions for Port 2', 'Actions for Port 3']);
+	expect(items.map(item => propsOf(menuTrigger(item.querySelector('[data-action-menu]')!)).accessibleLabel)).toEqual([
+		'Actions for Port 1',
+		'Actions for Port 2',
+		'Actions for Port 3'
+	]);
 });
 
 describe.each(ARRAY_SHAPES)('L1 array controls: $name', row => {
@@ -244,30 +249,30 @@ describe.each(ARRAY_SHAPES)('L1 array controls: $name', row => {
 				expect(propsOf(add!).tabIndex).toBe(0);
 				expect(propsOf(add!).menuTabIndex).toBe(0);
 			} else expect(add).toBeNull();
-			const rootMenus = Array.from(list.querySelectorAll('kv-action-menu')).filter(menu => menu.closest('[data-schema-form-list]') === list);
+			const rootMenus = Array.from(list.querySelectorAll('[data-action-menu]')).filter(menu => menu.closest('[data-schema-form-list]') === list);
 			const fixedItems = Array.isArray(row.schema.items) ? row.schema.items.length : 0;
 			const movableItems = Math.max(0, row.formData.length - fixedItems);
 			// RJSF 5 validates minItems after removal; only fixed tuple positions block removal.
 			const removableItems = movableItems;
 			const section = items[0].getAttribute('data-schema-form-item-kind') === 'section';
 			expect(rootMenus).toHaveLength(option.options.orderable !== false ? movableItems : section && option.options.removable !== false ? removableItems : 0);
-			const trash = Array.from(list.querySelectorAll('kv-action-button-icon')).filter(host => host.closest('[data-schema-form-list]') === list);
+			const trash = standaloneIconButtons(list).filter(host => host.closest('[data-schema-form-list]') === list);
 			expect(trash).toHaveLength(!section && option.options.removable !== false ? removableItems : 0);
 			for (const button of trash) expect(propsOf(button).disabled).toBe(readonly || row.name === 'readonly');
 			for (const menu of rootMenus) {
-				const props = propsOf<JSX.KvActionMenu>(menu);
-				expect(props.triggerTabIndex).toBe(0);
+				const props = propsOf<JSX.KvActionButtonIcon>(menuTrigger(menu));
+				expect(props.menuTabIndex).toBe(0);
 				expect(props.accessibleLabel?.trim()).toBeTruthy();
 				expect(props.disabled).toBe(readonly || row.name === 'readonly');
-				if (option.options.orderable === false) expect(props.items?.some(item => item.id.startsWith('move-'))).toBe(false);
-				if (option.options.removable === false) expect(props.items?.some(item => item.id === 'remove')).toBe(false);
+				if (option.options.orderable === false) expect(menuActionIds(menu).some(id => id?.startsWith('move-'))).toBe(false);
+				if (option.options.removable === false) expect(menuActionIds(menu)).not.toContain('remove');
 			}
 			if (readonly || row.name === 'readonly') {
-				for (const menu of rootMenus) act(() => fireStencilEvent(menu, 'onItemSelected', 'move-down', { force: true }));
+				for (const menu of rootMenus) chooseMenuAction(menu, 'move-down', { force: true });
 				expect(onChange).not.toHaveBeenCalled();
 			} else if (!Array.isArray(row.schema.items) && row.formData.length > 1 && option.options.orderable !== false) {
 				expect(rootMenus.length).toBeGreaterThan(0);
-				act(() => fireStencilEvent(rootMenus[0], 'onItemSelected', 'move-down'));
+				chooseMenuAction(rootMenus[0], 'move-down');
 				expect(onChange.mock.lastCall?.[0].formData).toEqual([row.formData[1], row.formData[0], ...row.formData.slice(2)]);
 			}
 		});
@@ -281,8 +286,8 @@ describe.each(L1_SCALAR_LIST_SHAPES)('L1 scalar names: $name', row => {
 			const item = screen.container.querySelector(`[data-schema-form-list-item="${index}"]`)!;
 			expect(item.querySelector('kv-info-label')).toBeNull();
 			expect(propsOf(`root_${index}`).accessibleLabel).toBe(`${row.itemName} ${index + 1}`);
-			expect(item.querySelector('kv-action-menu')).not.toBeNull();
-			expect(propsOf<JSX.KvActionButtonIcon>(item.querySelector('kv-action-button-icon')!).accessibleLabel).toBe(`Remove ${row.itemName} ${index + 1}`);
+			expect(item.querySelector('[data-action-menu]')).not.toBeNull();
+			expect(propsOf<JSX.KvActionButtonIcon>(standaloneIconButtons(item)[0]).accessibleLabel).toBe(`Remove ${row.itemName} ${index + 1}`);
 		}
 	});
 });

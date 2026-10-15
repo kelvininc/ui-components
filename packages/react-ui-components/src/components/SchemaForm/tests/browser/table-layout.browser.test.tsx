@@ -28,6 +28,7 @@ import {
 	R5_ARRAY_ACTIONS
 } from '../../test-utils/matrix';
 import tableStyles from '../../Templates/ArrayFieldTemplate/TableLayout.module.scss';
+import { focusMenu } from '../../test-utils/action-menu.browser';
 
 const rootRows = (container: HTMLElement) => Array.from(container.querySelectorAll<HTMLElement>('[data-schema-form-list="root"] > div > div > [data-schema-form-list-item]'));
 const controls = (row: HTMLElement) =>
@@ -551,8 +552,8 @@ it.each(R5_ARRAY_ACTIONS.slice(0, 6))('L2 focus after $name', async action => {
 	} else if (action.action === 'remove') {
 		await screen.getByRole('button', { name: `Remove row ${index + 1}`, exact: true }).click();
 	} else {
-		const menu = rootRows(screen.container)[index].querySelector('kv-action-menu')!;
-		await menu.setFocus();
+		const menu = rootRows(screen.container)[index].querySelector('[data-action-menu]')!;
+		await focusMenu(menu);
 		await userEvent.keyboard('{Enter}');
 		await expect
 			.poll(() =>
@@ -572,7 +573,7 @@ it.each(R5_ARRAY_ACTIONS.slice(0, 6))('L2 focus after $name', async action => {
 		else await expect.poll(() => screen.container.querySelector('kv-action-button')?.matches(':focus-within')).toBe(true);
 	} else {
 		const target = action.action === 'remove' ? Math.min(index, 1) : index + (action.action === 'move-up' ? -1 : 1);
-		await expect.poll(() => rootRows(screen.container)[target].querySelector('kv-action-menu')?.matches(':focus-within')).toBe(true);
+		await expect.poll(() => rootRows(screen.container)[target].querySelector('[data-action-menu]')?.matches(':focus-within')).toBe(true);
 		if (action.action === 'remove') expect(data).toEqual(row.formData.filter((_, position) => position !== index));
 		else expect(data[target]).toEqual(row.formData[index]);
 	}

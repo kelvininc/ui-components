@@ -20,8 +20,7 @@ export const GUARDED_FOCUS_CONTROLS = Object.freeze([
 	{ tag: 'kv-single-select-dropdown', method: 'setFocus' },
 	{ tag: 'kv-multi-select-dropdown', method: 'setFocus' },
 	{ tag: 'kv-radio-list', method: 'setFocus' },
-	{ tag: 'kv-toggle-button-group', method: 'setFocus' },
-	{ tag: 'kv-action-menu', method: 'setFocus' }
+	{ tag: 'kv-toggle-button-group', method: 'setFocus' }
 ] as const);
 export const ACTIVATION_KEYS = Object.freeze(['Enter', 'Space'] as const);
 

@@ -1,0 +1,89 @@
+@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
+
+.ActionMenu {
+	display: inline-block;
+}
+
+// The panel lives in a body portal while the menu is open, so nothing here may depend on its ancestors
+.Panel {
+	display: flex;
+	flex-direction: column;
+	min-width: 160px;
+	max-width: min(320px, calc(100vw - 32px));
+	padding: var(--spacing-xs);
+	background: var(--slider-background-default);
+	border: var(--slider-border-thickness-default) solid var(--slider-border-color-default);
+	border-radius: var(--slider-radius-default);
+
+	&.Closed {
+		display: none;
+	}
+}
+
+.Item {
+	@include body-m-regular;
+
+	display: flex;
+	align-items: center;
+	gap: var(--button-gap-compact);
+	width: 100%;
+	min-height: var(--button-height-compact);
+	padding: var(--spacing-sm) var(--button-padding-x-compact);
+	appearance: none;
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: var(--text-interactive-slider-list-default);
+	text-align: left;
+	cursor: pointer;
+	overflow-wrap: anywhere;
+
+	kv-icon {
+		--icon-color: var(--icon-interactive-slider-list-default);
+
+		flex-shrink: 0;
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--border-surface-brand-default);
+		outline-offset: -2px;
+	}
+
+	// Disabled, hovered and destructive never style the same action, so their order only serves stylelint
+	&:disabled {
+		color: var(--text-interactive-slider-list-disabled);
+		cursor: default;
+
+		kv-icon {
+			--icon-color: var(--icon-interactive-slider-list-disabled);
+		}
+	}
+
+	&:hover:not(:disabled) {
+		background: var(--background-interactive-slider-list-hover);
+		color: var(--text-interactive-slider-list-hover);
+	}
+
+	&.Destructive:not(:disabled) {
+		color: var(--text-container-status-danger-default);
+
+		kv-icon {
+			--icon-color: var(--icon-surface-status-danger-default);
+		}
+
+		&:hover {
+			background: var(--button-danger-background-default);
+			color: var(--button-danger-label-default);
+
+			kv-icon {
+				--icon-color: var(--button-danger-icon-color-default);
+			}
+		}
+	}
+}
+
+.Separator {
+	height: var(--slider-border-thickness-default);
+	margin: var(--spacing-xs) 0;
+	background: var(--slider-border-color-default);
+}

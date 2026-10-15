@@ -1,8 +1,9 @@
-import { EActionButtonType, EComponentSize, EIconName, IActionMenuItem } from '@kelvininc/ui-components';
+import { EActionButtonType, EComponentSize, EIconName } from '@kelvininc/ui-components';
 import { ArrayFieldTemplateItemType, FieldProps, FormContextType, getTemplate, getUiOptions, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import classNames from 'classnames';
 import React, { useCallback, useContext, useLayoutEffect, useRef } from 'react';
-import { KvActionButtonIcon, KvActionMenu } from '../../../../stencil-generated';
+import { KvActionButtonIcon } from '../../../../stencil-generated';
+import { IActionMenuHandle, IActionMenuItem, KvActionMenu } from '../../../ActionMenu';
 import { ArrayItemControlsContext, ArrayItemLayoutContext, ArrayItemsContext, claimSectionBoundary, SectionLayoutContext, useSectionLayout } from '../../contexts';
 import { EntryFocusProvider, focusFromHolder, focusHost, useEntryFocus } from '../../hooks/entryFocus';
 import { mergeUiSchemas } from '../../rjsf/merge';
@@ -35,7 +36,7 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 	const table = useContext(TableContext);
 	const arrayFocus = useContext(ArrayItemsContext);
 	const entry = useEntryFocus();
-	const menuRef = useRef<HTMLKvActionMenuElement>(null);
+	const menuRef = useRef<IActionMenuHandle>(null);
 	const removeRef = useRef<HTMLKvActionButtonIconElement>(null);
 	const itemRef = useRef<HTMLDivElement>(null);
 	const options = getUiOptions(uiSchema, registry.globalUiOptions);
@@ -49,7 +50,7 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 	const defaultTemplate =
 		Object.keys(schema).length > 0 && options.widget !== 'hidden' && getTemplate('FieldTemplate', registry, options) === FieldTemplate && isBuiltinSchemaField(field.type);
 	const inactive = Boolean(disabled || readonly);
-	const focusAction = useCallback((current: () => boolean) => focusHost(menuRef.current ?? removeRef.current, current), []);
+	const focusAction = useCallback((current: () => boolean) => (menuRef.current ? menuRef.current.setFocus(current) : focusHost(removeRef.current, current)), []);
 	useLayoutEffect(
 		() =>
 			arrayFocus?.registerItem(index, {
@@ -75,19 +76,19 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 			? [{ id: 'remove', label: SCHEMA_FORM_STRINGS.remove(itemName), icon: EIconName.Delete, destructive: true, separatorBefore: moves, disabled: inactive }]
 			: [])
 	];
-	const onItemSelected = (event: CustomEvent<string>) => {
+	const onItemSelected = (id: string) => {
 		if (inactive) return;
-		if (event.detail === 'move-up' && moves && hasMoveUp) {
+		if (id === 'move-up' && moves && hasMoveUp) {
 			arrayFocus?.requestFocus('move-up', index);
-			onReorderClick(index, index - 1)(event);
+			onReorderClick(index, index - 1)();
 		}
-		if (event.detail === 'move-down' && moves && hasMoveDown) {
+		if (id === 'move-down' && moves && hasMoveDown) {
 			arrayFocus?.requestFocus('move-down', index);
-			onReorderClick(index, index + 1)(event);
+			onReorderClick(index, index + 1)();
 		}
-		if (event.detail === 'remove' && section && hasRemove) {
+		if (id === 'remove' && section && hasRemove) {
 			arrayFocus?.requestFocus('remove', index);
-			onDropIndexClick(index)(event);
+			onDropIndexClick(index)();
 		}
 	};
 	const menu = actions.length ? (

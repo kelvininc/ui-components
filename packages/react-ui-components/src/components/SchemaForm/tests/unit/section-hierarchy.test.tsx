@@ -32,7 +32,7 @@ describe.each(SECTION_LAYOUT_SHAPES)('section layout ownership: $name', row => {
 			for (const group of container.querySelectorAll('[aria-labelledby]')) {
 				for (const id of group.getAttribute('aria-labelledby')!.split(' ')) expect(container.querySelectorAll(`[id="${id}"]`)).toHaveLength(1);
 			}
-			if (row.name === 'entries without menus') expect(container.querySelector('kv-action-menu')).toBeNull();
+			if (row.name === 'entries without menus') expect(container.querySelector('[data-action-menu]')).toBeNull();
 		} finally {
 			await act(async () => root.unmount());
 		}

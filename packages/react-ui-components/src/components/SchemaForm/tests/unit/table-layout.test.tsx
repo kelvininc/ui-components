@@ -20,6 +20,7 @@ import {
 	BROKER_FORM_DATA
 } from '../../test-utils/matrix';
 import { fireStencilEvent, propsOf } from '../../../../test-utils';
+import { menuActionIds, menuTrigger } from '../../test-utils/action-menu';
 import tableStyles from '../../Templates/ArrayFieldTemplate/TableLayout.module.scss';
 
 vi.mock('../../../../stencil-generated', async () => (await import('../../../../test-utils')).stencilMocks);
@@ -183,10 +184,9 @@ it('names each cell and action with its row, preserving header order and hidden 
 	expect(propsOf(screen.container.querySelector('#root_1_name')!).accessibleLabel).toBe('Name, Variable 2');
 	expect(propsOf(screen.container.querySelector('#root_1_value')!).accessibleLabel).toBe('Value, Variable 2');
 	expect(screen.container.querySelector('[data-schema-form-list-item="1"] [role="cell"] [id="root_1_id"]')).toBeNull();
-	expect(screen.container.querySelectorAll('kv-action-menu[accessible-label]')).toHaveLength(0);
-	const menu = screen.container.querySelectorAll('kv-action-menu')[1];
-	expect(propsOf(menu)).toMatchObject({ accessibleLabel: 'Reorder Variable 2', triggerTabIndex: 0 });
-	expect(propsOf(menu).items).toHaveLength(2);
+	const menu = screen.container.querySelectorAll('[data-action-menu]')[1];
+	expect(propsOf(menuTrigger(menu))).toMatchObject({ accessibleLabel: 'Reorder Variable 2', menuTabIndex: 0 });
+	expect(menuActionIds(menu)).toHaveLength(2);
 });
 
 it('preserves hidden values after a visible cell changes', () => {

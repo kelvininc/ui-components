@@ -24,9 +24,11 @@ import {
 import { RJSFSchema } from '@rjsf/utils';
 import { vi } from 'vitest';
 import { EApplyDefaults } from '../../types';
+import { menuLabel } from '../../test-utils/action-menu';
+import { focusMenu } from '../../test-utils/action-menu.browser';
 
 const itemsOf = (container: HTMLElement) => Array.from(container.querySelectorAll<HTMLElement>('[data-schema-form-list="root"] > div > div > [data-schema-form-list-item]'));
-const menuOf = (item: HTMLElement) => Array.from(item.querySelectorAll('kv-action-menu')).find(menu => menu.closest('[data-schema-form-list-item]') === item)!;
+const menuOf = (item: HTMLElement) => Array.from(item.querySelectorAll('[data-action-menu]')).find(menu => menu.closest('[data-schema-form-list-item]') === item)!;
 
 const innerListOf = (container: HTMLElement, index = 0) =>
 	container.querySelector<HTMLElement>(`[data-schema-form-list="root_${index}_connection_security_tls_client_identities"]`)!;
@@ -36,7 +38,7 @@ const ownAdd = (list: HTMLElement) => Array.from(list.querySelectorAll('kv-actio
 const selectAction = async (item: HTMLElement, name: string) => {
 	await page
 		.elementLocator(item)
-		.getByRole('button', { name: menuOf(item).accessibleLabel, exact: true })
+		.getByRole('button', { name: menuLabel(menuOf(item)), exact: true })
 		.click();
 	await page.getByRole('menuitem', { name, exact: true }).click();
 };
@@ -139,7 +141,7 @@ it('tabs through inner actions and fields to inner Add and the next outer entry'
 	await whenAllKelvinReady(screen.container);
 	const inner = innerListOf(screen.container);
 	const items = ownItems(inner);
-	await menuOf(items[0]).setFocus();
+	await focusMenu(menuOf(items[0]));
 	for (let index = 0; index < items.length; index++) {
 		await userEvent.tab();
 		await expect.poll(() => items[index].querySelector('kv-text-field')?.matches(':focus-within')).toBe(true);
@@ -161,7 +163,7 @@ it.each(FOCUS_EDITING_FLAGS.filter(flags => !flags.focused))('keeps nested actio
 	const scope = page.elementLocator(inner);
 	await expect.element(scope.getByRole('button', { name: 'Actions for Identity 1', exact: true })).toBeDisabled();
 	await expect.element(scope.getByRole('button', { name: 'Add Identity', exact: true })).toBeDisabled();
-	await menuOf(ownItems(inner)[0]).setFocus();
+	await focusMenu(menuOf(ownItems(inner)[0]));
 	await userEvent.keyboard('{Enter}');
 	expect(onChange).not.toHaveBeenCalled();
 });
@@ -188,8 +190,8 @@ describe.each(R5_FOCUS_ARRAY_SHAPES)('R5 keyboard focus: $name', row => {
 			const item = before[index];
 			const menu = adding ? null : menuOf(item);
 			const remove =
-				!adding && !menu?.accessibleLabel.startsWith('Actions for')
-					? Array.from(item.querySelectorAll('kv-action-button-icon')).find(host => !host.closest('kv-action-menu'))!
+				!adding && !(menu && menuLabel(menu).startsWith('Actions for'))
+					? Array.from(item.querySelectorAll('kv-action-button-icon')).find(host => !host.closest('[data-action-menu]'))!
 					: null;
 			const add = screen.container.querySelector<HTMLKvActionButtonElement>(
 				'[data-schema-form-list="root"] > div > div > kv-action-button, [data-schema-form-list="root"] > div > div > div > kv-action-button'
@@ -197,7 +199,7 @@ describe.each(R5_FOCUS_ARRAY_SHAPES)('R5 keyboard focus: $name', row => {
 			if (inactive) {
 				const target = adding
 					? screen.getByRole('button', { name: add!.accessibleLabel, exact: true })
-					: screen.getByRole('button', { name: action.action === 'remove' && remove ? remove.accessibleLabel : menu!.accessibleLabel, exact: true });
+					: screen.getByRole('button', { name: action.action === 'remove' && remove ? remove.accessibleLabel : menuLabel(menu!), exact: true });
 				await expect.element(target).toBeDisabled();
 				await screen.getByRole('button', { name: 'After form', exact: true }).click();
 				(target.element() as HTMLElement).focus();
@@ -212,7 +214,7 @@ describe.each(R5_FOCUS_ARRAY_SHAPES)('R5 keyboard focus: $name', row => {
 				remove.focus();
 				await userEvent.keyboard('{Enter}');
 			} else {
-				await menu!.setFocus();
+				await focusMenu(menu!);
 				await userEvent.keyboard('{Enter}');
 				await expect.element(page.getByRole('menu')).toBeVisible();
 				await expect
@@ -258,7 +260,7 @@ describe.each(R5_FOCUS_CANCELLATIONS)('R5 cancellation during menu trigger readi
 		const screen = await render(view());
 		await whenAllKelvinReady(screen.container);
 		const menu = menuOf(itemsOf(screen.container)[1]);
-		await menu.setFocus();
+		await focusMenu(menu);
 		await userEvent.keyboard('{Enter}');
 		await expect
 			.poll(() =>
@@ -309,7 +311,7 @@ describe.each([false, true])('R5 nested arrays with custom inner template=%s', c
 		const originalList = itemsOf(screen.container)[1].querySelector('[data-schema-form-list]')!;
 		const originalInput = itemsOf(screen.container)[1].querySelector('kv-text-field[id="root_1_tags_1"]')!;
 		const menu = menuOf(itemsOf(screen.container)[1]);
-		await menu.setFocus();
+		await focusMenu(menu);
 		await userEvent.keyboard('{Enter}');
 		await expect
 			.poll(() =>
@@ -401,7 +403,7 @@ describe.each(L1_HIDDEN_ITEM_WIDGETS.filter(row => row.name.includes('tuple')))(
 		const fixed = (row.schema.items as RJSFSchema[]).length;
 		const screen = await render(<KvSchemaForm schema={row.schema} formData={row.formData.slice(0, fixed + 1)} uiSchema={uiSchema} />);
 		await whenAllKelvinReady(screen.container);
-		const remove = Array.from(itemsOf(screen.container)[fixed].querySelectorAll('kv-action-button-icon')).find(host => !host.closest('kv-action-menu'))!;
+		const remove = Array.from(itemsOf(screen.container)[fixed].querySelectorAll('kv-action-button-icon')).find(host => !host.closest('[data-action-menu]'))!;
 		remove.focus();
 		await userEvent.keyboard('{Enter}');
 		await expect.poll(() => itemsOf(screen.container).length).toBe(fixed);
@@ -484,7 +486,7 @@ describe('R5 array focus in Chromium', () => {
 		const row = ARRAY_SHAPES[2];
 		const screen = await render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={{ 'ui:options': { layout: 'sections' } }} />);
 		await whenAllKelvinReady(screen.container);
-		await menuOf(itemsOf(screen.container)[0]).setFocus();
+		await focusMenu(menuOf(itemsOf(screen.container)[0]));
 		await userEvent.tab();
 		await expect.poll(() => screen.container.querySelector('#root_0_name')?.matches(':focus-within')).toBe(true);
 		await userEvent.tab();
