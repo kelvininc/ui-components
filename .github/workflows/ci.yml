@@ -5,8 +5,6 @@ on:
         branches:
             - dev
             - master
-            - schema-form-v4
-            - schema-form-v4-*
 
 jobs:
     ci:
