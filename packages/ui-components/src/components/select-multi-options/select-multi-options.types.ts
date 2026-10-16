@@ -44,7 +44,7 @@ export interface ISelectMultiOptionsConfig {
 	searchValue?: string;
 	/** (optional) The debounce, in milliseconds, applied to the search value before the options are filtered locally. Set to `0` to filter on every keystroke. Defaults to `300`. */
 	searchDebounce?: number;
-	/** (optional) If `true` dropdown items can be cleared */
+	/** (optional) If `true` dropdown items can be cleared. It clears only the listed items, keeping the selected items a search hides. */
 	selectionClearable?: boolean;
 	/** (optional) The clear selection action text */
 	clearSelectionLabel?: string;
@@ -56,7 +56,7 @@ export interface ISelectMultiOptionsConfig {
 	minWidth?: string;
 	/** (optional) The dropdown's max-width */
 	maxWidth?: string;
-	/** (optional) If `true` the list has an action to select all items */
+	/** (optional) If `true` the list has an action to select all items. It selects only the listed items, keeping the selected items a search hides. */
 	selectionAll?: boolean;
 	/** (optional) The selection all action text */
 	selectAllLabel?: string;
@@ -93,6 +93,8 @@ export interface ISelectMultiOptionsConfig {
 	maxSelectable?: number;
 	/** (optional) If `true` a contiguous range can be selected by shift-clicking or by holding shift while navigating. Default `true` */
 	rangeSelection?: boolean;
+	/** (optional) If `true` clearing also deselects the selected items the list hides, as a single select clears its option whether or not a search lists it. Default `false` */
+	clearHiddenSelection?: boolean;
 }
 
 export interface ISelectMultiOptionsEvents extends ISelectEvents {

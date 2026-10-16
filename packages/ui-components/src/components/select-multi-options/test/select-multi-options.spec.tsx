@@ -683,8 +683,9 @@ describe('KvSelectMultiOptions with canAddItems (unit tests)', () => {
 		});
 
 		it('should enable the select all and clear actions while options are listed', async () => {
-			await renderSelectMultiOptions({ selectionAll: true, selectionClearable: true, selectedOptions: { 'asset-pump': true } });
-			await setSearchValue('pump');
+			await renderSelectMultiOptions({ selectionAll: true, selectionClearable: true, selectedOptions: { 'asset-valve': true } });
+			// Lists the valve, which is selected, and the sensor, which isn't
+			await setSearchValue('o');
 
 			expect(getSelect().selectionAllEnabled).toBe(true);
 			expect(getSelect().selectionClearEnabled).toBe(true);
@@ -1435,6 +1436,191 @@ describe('KvSelectMultiOptions with canAddItems (unit tests)', () => {
 			expect(component.highlightedOption).toBe(ADD_OPTION.value);
 			// So that the dropdown doesn't close on it too
 			expect(event.defaultPrevented).toBe(true);
+		});
+	});
+});
+
+describe('KvSelectMultiOptions select all and clear (unit tests)', () => {
+	const ALL_SELECTED = { 'asset-pump': true, 'asset-valve': true, 'sensor-pressure': true };
+	const GROUPED_OPTIONS: ISelectMultiOptions = {
+		pump: OPTIONS.pump,
+		sensors: {
+			label: 'Sensors',
+			value: 'sensor-group',
+			options: {
+				pressure: { label: 'Pressure Sensor', value: 'sensor-pressure' },
+				temperature: { label: 'Temperature Sensor', value: 'sensor-temperature' }
+			}
+		}
+	};
+
+	let page: SpecPage;
+	let element: HTMLKvSelectMultiOptionsElement;
+	let emittedSelections: Record<string, boolean>[];
+
+	const renderSelectMultiOptions = async (props: JSX.KvSelectMultiOptions = {}): Promise<void> => {
+		emittedSelections = [];
+		page = await newSpecPage({
+			components: [KvSelectMultiOptions, KvSelect, KvSearch, KvTextField, KvSelectCreateOption],
+			template: () => <kv-select-multi-options options={OPTIONS} minSearchOptions={0} searchDebounce={0} selectionAll selectionClearable {...props} />
+		});
+		element = page.root as HTMLKvSelectMultiOptionsElement;
+		element.addEventListener('optionsSelected', ({ detail }: CustomEvent<Record<string, boolean>>) => emittedSelections.push(detail));
+	};
+
+	const getSelect = () => page.root.shadowRoot.querySelector<HTMLKvSelectElement>('kv-select');
+
+	const setSearchValue = async (searchValue: string): Promise<void> => {
+		element.searchValue = searchValue;
+		await page.waitForChanges();
+	};
+
+	const triggerAction = async (eventName: 'selectAll' | 'clearSelection'): Promise<void> => {
+		getSelect().dispatchEvent(new CustomEvent(eventName));
+		await page.waitForChanges();
+	};
+
+	describe('without a search', () => {
+		it('should select every option, dropping values that are no option', async () => {
+			await renderSelectMultiOptions({ selectedOptions: { unknown: true } });
+			await triggerAction('selectAll');
+
+			expect(emittedSelections).toEqual([ALL_SELECTED]);
+		});
+
+		it('should never select the add option', async () => {
+			await renderSelectMultiOptions({ canAddItems: true });
+			await triggerAction('selectAll');
+
+			expect(emittedSelections).toEqual([ALL_SELECTED]);
+		});
+
+		it('should clear the whole selection, values that are no option included', async () => {
+			await renderSelectMultiOptions({ selectedOptions: { ...ALL_SELECTED, unknown: true } });
+			await triggerAction('clearSelection');
+
+			expect(emittedSelections).toEqual([{}]);
+		});
+
+		it('should clear a selected value named like an object property', async () => {
+			await renderSelectMultiOptions({ selectedOptions: { toString: true } });
+
+			expect(getSelect().selectionClearEnabled).toBe(true);
+
+			await triggerAction('clearSelection');
+
+			expect(emittedSelections).toEqual([{}]);
+		});
+	});
+
+	describe('with a search', () => {
+		it('should select only the listed options', async () => {
+			await renderSelectMultiOptions();
+			await setSearchValue('pump');
+			await triggerAction('selectAll');
+
+			expect(emittedSelections).toEqual([{ 'asset-pump': true }]);
+		});
+
+		it('should keep the selected options the search hides when selecting all', async () => {
+			await renderSelectMultiOptions({ selectedOptions: { 'asset-valve': true } });
+			await setSearchValue('pump');
+			await triggerAction('selectAll');
+
+			expect(emittedSelections).toEqual([{ 'asset-valve': true, 'asset-pump': true }]);
+		});
+
+		it('should keep a hidden selected option whose value is an object key', async () => {
+			await renderSelectMultiOptions({ options: { ...OPTIONS, rig: { label: 'Test Rig', value: 'prototype' } }, selectedOptions: { prototype: true } });
+			await setSearchValue('pump');
+			await triggerAction('selectAll');
+
+			expect(emittedSelections).toEqual([{ 'prototype': true, 'asset-pump': true }]);
+		});
+
+		it('should deselect only the listed options', async () => {
+			await renderSelectMultiOptions({ selectedOptions: ALL_SELECTED });
+			await setSearchValue('pump');
+			await triggerAction('clearSelection');
+
+			expect(emittedSelections).toEqual([{ 'asset-valve': true, 'sensor-pressure': true }]);
+		});
+
+		it('should disable select all once every listed option is selected', async () => {
+			await renderSelectMultiOptions({ selectedOptions: { 'asset-pump': true } });
+			await setSearchValue('pump');
+
+			expect(getSelect().selectionAllEnabled).toBe(false);
+			expect(getSelect().selectionClearEnabled).toBe(true);
+		});
+
+		it('should act on the typed search before its debounce has filtered the list', async () => {
+			await renderSelectMultiOptions({ selectedOptions: ALL_SELECTED, searchDebounce: DEFAULT_SEARCH_DEBOUNCE_IN_MS });
+			await setSearchValue('pump');
+			// Still unfiltered, or the debounce fired on its own and nothing here is tested
+			expect(page.rootInstance.selectOptions.currentFlatten).toHaveLength(3);
+			await triggerAction('clearSelection');
+
+			expect(emittedSelections).toEqual([{ 'asset-valve': true, 'sensor-pressure': true }]);
+		});
+
+		it('should disable clear while no listed option is selected', async () => {
+			await renderSelectMultiOptions({ selectedOptions: { 'asset-valve': true } });
+			await setSearchValue('pump');
+
+			expect(getSelect().selectionAllEnabled).toBe(true);
+			expect(getSelect().selectionClearEnabled).toBe(false);
+		});
+
+		it('should act only on the listed children of a group', async () => {
+			await renderSelectMultiOptions({ options: GROUPED_OPTIONS, selectedOptions: { 'asset-pump': true, 'sensor-pressure': true, 'sensor-temperature': true } });
+			await setSearchValue('pressure');
+			await triggerAction('clearSelection');
+			await triggerAction('selectAll');
+
+			expect(emittedSelections).toEqual([
+				{ 'asset-pump': true, 'sensor-temperature': true },
+				{ 'asset-pump': true, 'sensor-temperature': true, 'sensor-pressure': true }
+			]);
+		});
+	});
+
+	describe('with externally filtered options', () => {
+		it('should select only the filtered options', async () => {
+			await renderSelectMultiOptions({ filteredOptions: { valve: OPTIONS.valve }, selectedOptions: { 'asset-pump': true } });
+			await triggerAction('selectAll');
+
+			expect(emittedSelections).toEqual([{ 'asset-pump': true, 'asset-valve': true }]);
+		});
+	});
+
+	describe('without select all', () => {
+		it('should still deselect only the listed options', async () => {
+			await renderSelectMultiOptions({ selectionAll: false, selectedOptions: ALL_SELECTED });
+			await setSearchValue('pump');
+			await triggerAction('clearSelection');
+
+			expect(emittedSelections).toEqual([{ 'asset-valve': true, 'sensor-pressure': true }]);
+		});
+
+		it('should still disable clear while no listed option is selected', async () => {
+			await renderSelectMultiOptions({ selectionAll: false, selectedOptions: { 'asset-valve': true } });
+			await setSearchValue('pump');
+
+			expect(getSelect().selectionClearEnabled).toBe(false);
+		});
+	});
+
+	describe('when clearing the hidden selection too', () => {
+		it('should clear the whole selection during a search', async () => {
+			await renderSelectMultiOptions({ clearHiddenSelection: true, selectedOptions: { 'asset-valve': true } });
+			await setSearchValue('pump');
+
+			expect(getSelect().selectionClearEnabled).toBe(true);
+
+			await triggerAction('clearSelection');
+
+			expect(emittedSelections).toEqual([{}]);
 		});
 	});
 });
