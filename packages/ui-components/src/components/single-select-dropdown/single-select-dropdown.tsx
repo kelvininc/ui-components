@@ -73,7 +73,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	@Prop({ reflect: true }) searchPlaceholder?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) searchDebounce?: number = DEFAULT_SEARCH_DEBOUNCE_IN_MS;
-	/** @inheritdoc */
+	/** (optional) If `true` the selected option can be cleared, whether or not a search lists it */
 	@Prop({ reflect: true }) selectionClearable?: boolean;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) clearSelectionLabel?: string = SINGLE_SELECT_CLEAR_SELECTION_LABEL;
@@ -407,6 +407,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							searchValue={this._searchValue}
 							searchDebounce={this.searchDebounce}
 							selectionClearable={this.selectionClearable}
+							clearHiddenSelection
 							clearSelectionLabel={this.clearSelectionLabel}
 							selectionAll={this.selectionAll}
 							selectAllLabel={this.selectAllLabel}

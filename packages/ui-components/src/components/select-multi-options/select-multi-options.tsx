@@ -20,7 +20,7 @@ import {
 	DEFAULT_NO_RESULTS_FOUND_CONFIG
 } from './select-multi-options.config';
 import { EToggleState } from '../select-option/select-option.types';
-import { debounce, isEmpty, isNil } from 'lodash-es';
+import { debounce, isEmpty, isNil, keyBy } from 'lodash-es';
 import type { DebouncedFunc } from 'lodash-es';
 import {
 	buildAllOptionsSelected,
@@ -116,6 +116,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Prop({ reflect: true }) showShortcuts?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) rangeSelection?: boolean = true;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) clearHiddenSelection?: boolean = false;
 
 	@Element() el: HTMLKvSelectMultiOptionsElement;
 
@@ -437,16 +439,47 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	private onSelectAll = (event: CustomEvent<void>): void => {
 		event.stopPropagation();
 		this.resetRangeSelection();
-		this.optionsSelected.emit(selectHelper.buildAllOptionsSelected(selectHelper.getSelectableOptions(this.options)));
+		this.applyPendingSearch();
+		this.optionsSelected.emit({
+			...this.getKeptSelectedOptions(),
+			...buildAllOptionsSelected(keyBy(this.getListedSelectableOptions(), 'value'))
+		});
 		this.selectAll.emit();
 	};
 
 	private onClearSelection = (event: CustomEvent<void>): void => {
 		event.stopPropagation();
 		this.resetRangeSelection();
-		this.optionsSelected.emit({});
+		this.applyPendingSearch();
+		this.optionsSelected.emit(this.getKeptOnClearOptions());
 		this.clearSelection.emit();
 	};
+
+	/** An action within the search debounce would act on the list before it filters, so the typed term is applied and the list rebuilt now, not on the watcher's microtask */
+	private applyPendingSearch = (): void => {
+		this.debounceSearchValue.flush();
+		this.buildSelectionOptions();
+	};
+
+	private getListedSelectableOptions = (): ISelectOptionWithChildren[] => this.selectOptions.currentSelectable.filter(({ value }) => !isAddOption(value));
+
+	/** The selected options Select All and Clear keep: those the list hides, by a search or `filteredOptions`, as both act only on the listed options */
+	private getKeptSelectedOptions = (): Record<string, boolean> => {
+		const selectedOptions = this.selectedOptions ?? {};
+		const listedValues = new Set(this.selectOptions.currentFlatten.map(({ value }) => value));
+
+		// A value that matches no option is never listed, but no search hides it either, so neither action keeps it.
+		// Own keys only, so that a value like `toString` doesn't match the object's prototype, and no lodash `pickBy`,
+		// which skips the keys `constructor` and `prototype` that an option's value can still be.
+		return Object.keys(selectedOptions)
+			.filter(value => selectedOptions[value] && Object.prototype.hasOwnProperty.call(this.selectOptions.totalFlatten, value) && !listedValues.has(value))
+			.reduce<Record<string, boolean>>((keptOptions, value) => {
+				keptOptions[value] = true;
+				return keptOptions;
+			}, {});
+	};
+
+	private getKeptOnClearOptions = (): Record<string, boolean> => (this.clearHiddenSelection ? {} : this.getKeptSelectedOptions());
 
 	private onRenderedItemSelected = (event: CustomEvent<string>): void => {
 		event.stopPropagation();
@@ -576,8 +609,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		this.rangeSelectionAnchor = isRangeSelectable ? selectedOptionKey : undefined;
 	};
 
-	private getRangeSelectableOptions = (): ISelectOptionWithChildren[] =>
-		this.selectOptions.currentSelectable.filter(({ selectable, value }) => selectable !== false && !isAddOption(value));
+	private getRangeSelectableOptions = (): ISelectOptionWithChildren[] => this.getListedSelectableOptions().filter(({ selectable }) => selectable !== false);
 
 	private getRangeSelectionAnchor = (rangeSelectableOptions: ISelectOptionWithChildren[], selectedOptions: Record<string, boolean>): string | undefined => {
 		if (this.rangeSelectionAnchor !== undefined && rangeSelectableOptions.some(({ value }) => value === this.rangeSelectionAnchor)) {
@@ -770,7 +802,6 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		const hasOptions = optionsLength > 0;
 		const hasCurrentRows = currentRowsLength > 0;
 		const hasCurrentResults = currentResultsLength > 0;
-		const hasSelectedOptions = selectedOptionsLength > 0;
 
 		// Only real results count: the add option is still listed below an empty state
 		const isNoDataAvailable = !this.isCreating && !hasOptions && !hasCurrentResults;
@@ -789,9 +820,10 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		const hasEmptyStateMessage = !isEmpty(emptyStateMessage);
 
 		const isSelectionClearable = hasOptions && this.selectionClearable && !hasEmptyStateMessage;
-		const isSelectionClearEnabled = hasSelectedOptions && hasCurrentResults;
 		const isSelectAllAvailable = hasOptions && this.selectionAll && this.maxSelectable === undefined && !hasEmptyStateMessage;
-		const isSelectAllEnabled = hasCurrentResults && selectedOptionsLength < optionsLength;
+		// Each is enabled while it would change the selection: Clear while it would drop a selected value, Select All while a listed option is unselected
+		const isSelectionClearEnabled = hasCurrentResults && selectedOptionsLength > Object.keys(this.getKeptOnClearOptions()).length;
+		const isSelectAllEnabled = this.getListedSelectableOptions().some(({ value }) => selectedOptions[value] !== true);
 
 		// Nothing below the header: no rows, no illustration, no content of the consumer's and no create form
 		const isListEmpty =
