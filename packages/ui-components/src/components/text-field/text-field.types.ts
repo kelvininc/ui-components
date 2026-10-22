@@ -81,10 +81,6 @@ export interface ITextField {
 	forcedFocus?: boolean;
 	/** (optional) Text field tooltip configuration */
 	tooltipConfig?: Partial<ITooltip>;
-	/** (optional) Use a input mask when the text field type is number (default true) */
-	useInputMask?: boolean;
-	/** (optional) Input mask regex */
-	inputMaskRegex?: string;
 	/** (optional) Enable/disable the resize of input (default: true) */
 	fitContent?: boolean;
 	/** (optional) Additional style to apply for custom CSS. */
@@ -93,8 +89,4 @@ export interface ITextField {
 	isDirty?: boolean;
 	/** (optional) If true, the badge is not displayed */
 	hideBadge?: boolean;
-}
-
-export interface IInputMaskInstanceRef extends Inputmask.Instance {
-	shadowRoot: ShadowRoot;
 }
