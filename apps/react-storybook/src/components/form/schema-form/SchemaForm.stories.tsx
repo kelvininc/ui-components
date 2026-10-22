@@ -141,9 +141,6 @@ export const Default: Story = {
 			}
 		},
 		uiSchema: {
-			"integer-example": {
-				useInputMask: true
-			},
 			"multipleChoicesList-example": {
 				searchable: true,
 				selectionClearable: true

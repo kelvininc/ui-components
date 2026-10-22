@@ -1,12 +1,11 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop, State, Watch } from '@stencil/core';
 import { isEmpty, isNil, merge } from 'lodash-es';
 import { EComponentSize } from '../../utils/types';
-import { EInputFieldType, EValidationState, ITextFieldEvents, ITextField, IInputMaskInstanceRef } from './text-field.types';
+import { EInputFieldType, EValidationState, ITextFieldEvents, ITextField } from './text-field.types';
 import { EIconName } from '../icon/icon.types';
 import { DEFAULT_TEXT_TOOLTIP_CONFIG } from './text-field.config';
 import { ITooltip } from '../tooltip/tooltip.types';
-import { buildInputMask, getValueAsString, isInputMaskCompatibleType } from './text-field.utils';
-import Inputmask from 'inputmask';
+import { getValueAsString } from './text-field.utils';
 import { getUTF8StringLength } from '../../utils/string.helper';
 import { HostAttributes, Method } from '@stencil/core/internal';
 
@@ -21,7 +20,6 @@ import { HostAttributes, Method } from '@stencil/core/internal';
 })
 export class KvTextField implements ITextField, ITextFieldEvents {
 	private nativeInput?: HTMLInputElement;
-	private maskInstance?: IInputMaskInstanceRef;
 
 	@Element() el!: HTMLKvTextFieldElement;
 	/** @inheritdoc */
@@ -75,10 +73,6 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) isDirty?: boolean = false;
 	/** @inheritdoc */
-	@Prop({ reflect: true }) useInputMask?: boolean;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) inputMaskRegex?: string = '';
-	/** @inheritdoc */
 	@Prop({ reflect: true }) fitContent?: boolean = true;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customStyle?: HostAttributes['style'];
@@ -102,8 +96,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 			 * value change, allows `textChange` implementations
 			 * to override the control's value.
 			 *
-			 * Used for patterns such as input trimming (removing whitespace),
-			 * or input masking.
+			 * Used for patterns such as input trimming (removing whitespace).
 			 */
 			this.updateAndEmitValue(newStringValue);
 		}
@@ -131,29 +124,6 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		}
 	}
 
-	@Watch('useInputMask')
-	handleUseInputMask(newValue: boolean = this.type === EInputFieldType.Number) {
-		if (newValue && isInputMaskCompatibleType(this.type) && !this.maskInstance) {
-			this.maskInstance = buildInputMask(
-				this.nativeInput,
-				this.type,
-				{
-					min: this.getMinValue(),
-					max: this.getMaxValue(),
-					regex: this.inputMaskRegex
-				},
-				this.maxLength
-			);
-			this.maskInstance.shadowRoot = this.el.shadowRoot;
-		} else {
-			if (this.nativeInput) {
-				Inputmask.remove(this.nativeInput);
-				this.maskInstance = undefined;
-				this.valueChangeHandler(this.value);
-			}
-		}
-	}
-
 	componentWillLoad() {
 		// Init the states because Watches run only on component updates
 		this._helpTexts = this.buildHelpTextMessages(this.helpText);
@@ -161,7 +131,6 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	}
 
 	componentDidLoad() {
-		this.handleUseInputMask(this.getUseInputMask());
 		this.updateAndEmitValue(this.getValue());
 		if (!this.focused) {
 			this.el.blur();
@@ -170,11 +139,6 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 			this.el.focus();
 			this.nativeInput?.focus();
 		}
-	}
-
-	componentDidRender() {
-		// rendering writes `value` into the input, which the mask can rewrite (e.g. clamping to min/max)
-		this.syncValueWithNativeInput();
 	}
 
 	/** Text field focus state */
@@ -202,12 +166,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		this.rightActionClick.emit(event);
 	};
 
-	private isResettingMask = false;
-
 	private onInputHandler = ({ target }: InputEvent) => {
-		// ignore the synthetic input event triggered by the mask reset below
-		if (this.isResettingMask) return;
-
 		const input = target as HTMLInputElement | null;
 
 		if (this.maxLength && getUTF8StringLength(input.value) > this.maxLength) {
@@ -219,18 +178,6 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 
 		if (!isNil(input)) {
 			this.value = input.value || '';
-
-			// Deleting a selection can leave a phantom radix position behind in the mask state
-			// (inputmask 5.0.10 numeric alias), making the next typed digits land on the decimal
-			// part. Re-masking the empty value resets the internal mask state.
-			if (this.maskInstance && input.value === '') {
-				this.isResettingMask = true;
-				try {
-					Inputmask.setValue(input, '');
-				} finally {
-					this.isResettingMask = false;
-				}
-			}
 		}
 
 		this.textChange.emit(this.getValue());
@@ -249,40 +196,11 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	private onBlurHandler = ({ target }: FocusEvent) => {
 		this.textFieldBlur.emit((target as HTMLInputElement).value);
 
-		// the mask blur handler runs after this one and may rewrite the value
-		// (e.g. clamp it to the min/max limits) without emitting an input event
-		setTimeout(this.syncValueWithNativeInput, 0);
-
 		if (this.forcedFocus) {
 			return;
 		}
 
 		this.focused = false;
-	};
-
-	/**
-	 * The input mask can rewrite the displayed value without emitting an input event
-	 * (e.g. clamping blur values to the min/max limits). Adopting the displayed value and
-	 * emitting `textChange` keeps the `value` prop and the input always in sync.
-	 *
-	 * Only masked inputs are synced — native input types (e.g. number, datetime-local)
-	 * normalize or reject values internally and report an empty `value`, which must not be
-	 * propagated back (it would clear the consumer state and fight default re-application).
-	 * For the same reason, an empty display for a non-empty value (a value the mask cannot
-	 * represent) is never adopted.
-	 */
-	private syncValueWithNativeInput = () => {
-		if (!this.nativeInput || !this.maskInstance) {
-			return;
-		}
-
-		const displayValue = this.nativeInput.value;
-		if (displayValue === this.getValue() || displayValue === '') {
-			return;
-		}
-
-		this.value = displayValue;
-		this.textChange.emit(displayValue);
 	};
 
 	private onFocusHandler = () => {
@@ -294,21 +212,12 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	private updateAndEmitValue(newString: string) {
 		this.value = this.maxLength ? newString.substring(0, this.maxLength) : newString;
 
-		const shouldWriteToNativeInput = !!this.nativeInput?.value;
-		if (this.nativeInput && shouldWriteToNativeInput) {
+		if (this.nativeInput && this.nativeInput.value) {
 			this.nativeInput.value = this.value;
 		}
 
 		if (this.value !== newString) {
 			this.textChange.emit(this.value);
-		}
-
-		// Writing to a masked input can rewrite the value (e.g. formatting normalizations).
-		// Only sync when the native input was actually written — otherwise the display still
-		// holds the previous value and syncing would wrongly adopt it (the pending render is
-		// the one that writes the new value, and `componentDidRender` syncs after it).
-		if (shouldWriteToNativeInput) {
-			this.syncValueWithNativeInput();
 		}
 	}
 
@@ -321,42 +230,13 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		return getValueAsString(this.value);
 	}
 
-	private getType(): string {
-		return this.getUseInputMask() ? EInputFieldType.Text : this.type;
-	}
-
 	private getTooltipConfig = (): Partial<ITooltip> => {
 		return merge({}, DEFAULT_TEXT_TOOLTIP_CONFIG, this.tooltipConfig ?? {});
-	};
-
-	private getMinValue = (): number | string | undefined => {
-		if (this.min !== undefined) {
-			return this.min;
-		}
-
-		if (this.type === EInputFieldType.Number) {
-			return Number.MIN_SAFE_INTEGER;
-		}
-	};
-
-	private getMaxValue = (): number | string | undefined => {
-		if (this.max !== undefined) {
-			return this.max;
-		}
-
-		if (this.type === EInputFieldType.Number) {
-			return Number.MAX_SAFE_INTEGER;
-		}
-	};
-
-	private getUseInputMask = (): boolean => {
-		return this.useInputMask ?? this.type === EInputFieldType.Number;
 	};
 
 	render() {
 		const id = this.el.getAttribute('id');
 		const value = this.getValue();
-		const type = this.getType();
 
 		return (
 			<Host onClick={this.onHostClick} style={{ ...this.customStyle }}>
@@ -408,13 +288,13 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 									<slot name="input">
 										<input
 											ref={input => (this.nativeInput = input as HTMLInputElement)}
-											type={type}
+											type={this.type}
 											list={!isNil(this.examples) ? `examples_${id}` : undefined}
 											name={this.inputName}
 											placeholder={this.placeholder}
 											disabled={this.inputDisabled}
-											max={this.getMaxValue()}
-											min={this.getMinValue()}
+											max={this.max}
+											min={this.min}
 											minLength={this.minLength}
 											step={this.step}
 											value={value}
