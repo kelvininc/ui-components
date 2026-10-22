@@ -310,5 +310,23 @@ describe('Text Field (end-to-end)', () => {
 				expect(await textFieldComponent.getProperty('value')).toBe('-0.25');
 			});
 		});
+
+		describe('when the user types past the max length', () => {
+			const pageErrors: Error[] = [];
+
+			beforeEach(async () => {
+				pageErrors.length = 0;
+				await render('max-length="2"');
+				page.on('pageerror', error => pageErrors.push(error));
+
+				await textFieldElement.type('123');
+				await settle();
+			});
+
+			it('should keep the value within the max length without throwing', async () => {
+				expect(await textFieldElement.getProperty('value')).toBe('12');
+				expect(pageErrors).toEqual([]);
+			});
+		});
 	});
 });

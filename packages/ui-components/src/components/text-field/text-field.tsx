@@ -170,9 +170,12 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		const input = target as HTMLInputElement | null;
 
 		if (this.maxLength && getUTF8StringLength(input.value) > this.maxLength) {
-			const caretPositionIdx = input.selectionStart - 1;
+			// Number inputs have no text selection: `selectionStart` is null and setting a range throws
+			const caretPosition = input.selectionStart;
 			input.value = this.getValue().substring(0, this.maxLength);
-			input.setSelectionRange(caretPositionIdx, caretPositionIdx);
+			if (caretPosition !== null) {
+				input.setSelectionRange(caretPosition - 1, caretPosition - 1);
+			}
 			return;
 		}
 
