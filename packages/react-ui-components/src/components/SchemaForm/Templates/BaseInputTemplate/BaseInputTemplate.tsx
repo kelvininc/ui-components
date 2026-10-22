@@ -78,18 +78,13 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 		return showPassword ? EIconName.EyeClosed : EIconName.Eye;
 	}, [isPasswordField, showPassword]);
 
-	const { componentSize: optionComponentSize, useInputMask, inputMaskRegex, valuePrefix, badge } = uiSchema;
+	const { componentSize: optionComponentSize, valuePrefix, badge } = uiSchema;
 	const { componentSize = EComponentSize.Large } = formContext as F;
 	const { maximum = uiSchema.max, minimum = uiSchema.min, maxLength = uiSchema.maxLength, minLength = uiSchema.minLength } = schema;
 
 	const examples = useMemo(
 		() => (schema.examples ? (schema.examples as string[]).concat(schema.default ? ([schema.default] as string[]) : []) : undefined),
 		[schema.examples, schema.default]
-	);
-
-	const shouldUseInputMask = useMemo(
-		() => (uiSchema.useInputMask === undefined && inputType === EInputFieldType.Number ? false : uiSchema.useInputMask),
-		[uiSchema.useInputMask, inputType]
 	);
 
 	// Show errors if the field has been touched OR if the form is set to display errors globally
@@ -112,8 +107,6 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 				placeholder={placeholder}
 				type={inputType}
 				state={hasErrors ? EValidationState.Invalid : EValidationState.Valid}
-				useInputMask={shouldUseInputMask}
-				inputMaskRegex={inputMaskRegex}
 				value={value || value === 0 ? value : ''}
 				valuePrefix={valuePrefix}
 				badge={badge}
