@@ -51,6 +51,7 @@ export const KvWizardExample: React.FC = () => {
 
 | Property                   | Attribute            | Description                                                                         | Type                                                                                            | Default     |
 | -------------------------- | -------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------- |
+| `cancelDisabled`           | `cancel-disabled`    | (optional) Defines if the cancel button is disabled. Default: false                 | `boolean`                                                                                       | `false`     |
 | `completeBtnLabel`         | `complete-btn-label` | (optional) A label to show on the last step button. Default: 'Submit'               | `string`                                                                                        | `undefined` |
 | `currentStep` _(required)_ | `current-step`       | (required) Defines the current step index                                           | `number`                                                                                        | `undefined` |
 | `currentStepState`         | `current-step-state` | (optional) Defines the current step state. Only the success state allows to proceed | `{ state: EStepState.Error; error?: string; } \| { state: EStepState.Success; error?: never; }` | `undefined` |
