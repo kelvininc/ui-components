@@ -113,6 +113,15 @@ export const ErrorState: Story = {
 	}
 };
 
+export const Disabled: Story = {
+	args: {
+		...DEFAULT_ARGS,
+		currentStep: 0,
+		disabled: true,
+		cancelDisabled: true
+	}
+};
+
 export const WithoutHeader: Story = {
 	args: {
 		...DEFAULT_ARGS,
