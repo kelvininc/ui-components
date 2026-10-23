@@ -16,7 +16,7 @@ export const buildHeaderConfig = (steps?: IWizardStep[], currentStep?: number): 
 	};
 };
 
-export const buildFooterConfig = (steps?: IWizardStep[], currentStep?: number, currentStepState?: StepState, disabled = false): IWizardFooter => {
+export const buildFooterConfig = (steps?: IWizardStep[], currentStep?: number, currentStepState?: StepState, disabled = false, cancelDisabled = false): IWizardFooter => {
 	if (isEmpty(steps) || isNil(currentStep) || currentStep < 0 || currentStep > steps.length - 1) {
 		return null;
 	}
@@ -40,7 +40,7 @@ export const buildFooterConfig = (steps?: IWizardStep[], currentStep?: number, c
 		nextEnabled: !disabled && currentStepState?.state === EStepState.Success,
 		nextTooltip: currentStepState?.error,
 		showCancelBtn: steps[currentStep].cancelable ?? false,
-		cancelEnabled: true,
+		cancelEnabled: !cancelDisabled,
 		showCompleteBtn: currentStep === steps.length - 1,
 		completeEnabled: !disabled && currentStepState?.state === EStepState.Success,
 		completeTooltip: currentStepState?.error,

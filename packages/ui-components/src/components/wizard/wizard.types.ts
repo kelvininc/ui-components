@@ -20,6 +20,8 @@ export interface IWizard {
 	showStepBar?: boolean;
 	/** (optional) Defines if the wizard navigation is disabled. Default: false */
 	disabled?: boolean;
+	/** (optional) Defines if the cancel button is disabled. Default: false */
+	cancelDisabled?: boolean;
 	/** (optional) A label to show on the last step button. Default: 'Submit' */
 	completeBtnLabel?: string;
 }
