@@ -480,4 +480,49 @@ describe('Wizard (unit tests)', () => {
 			expect(page.root).toMatchSnapshot();
 		});
 	});
+
+	describe('when the cancel button is disabled', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvWizard],
+				template: () => <kv-wizard steps={MOCK_STEPS} currentStep={0} currentStepState={{ state: EStepState.Success }} cancelDisabled />
+			});
+			comp = page.rootInstance;
+		});
+
+		it('should disable the cancel button only', () => {
+			expect(comp.currentFooter.cancelEnabled).toBe(false);
+			expect(comp.currentFooter.showCancelBtn).toBe(true);
+			expect(comp.currentFooter.nextEnabled).toBe(true);
+		});
+
+		it('should enable it again when the property is cleared', async () => {
+			(page.root as HTMLKvWizardElement).cancelDisabled = false;
+			await page.waitForChanges();
+
+			expect(comp.currentFooter.cancelEnabled).toBe(true);
+		});
+	});
+
+	describe('when disabled changes after the steps', () => {
+		beforeEach(async () => {
+			page = await newSpecPage({
+				components: [KvWizard],
+				template: () => <kv-wizard steps={MOCK_STEPS} currentStep={0} currentStepState={{ state: EStepState.Success }} />
+			});
+			comp = page.rootInstance;
+		});
+
+		it('should rebuild the footer with the new value', async () => {
+			const wizard = page.root as HTMLKvWizardElement;
+
+			expect(comp.currentFooter.nextEnabled).toBe(true);
+
+			wizard.steps = [...MOCK_STEPS];
+			wizard.disabled = true;
+			await page.waitForChanges();
+
+			expect(comp.currentFooter.nextEnabled).toBe(false);
+		});
+	});
 });

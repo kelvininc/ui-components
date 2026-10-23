@@ -23,6 +23,8 @@ export class KvWizard implements IWizard, IWizardEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled: boolean = false;
 	/** @inheritdoc */
+	@Prop({ reflect: true }) cancelDisabled: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) completeBtnLabel?: string;
 
 	/** @inheritdoc */
@@ -41,23 +43,33 @@ export class KvWizard implements IWizard, IWizardEvents {
 	@Watch('steps')
 	stepsChangeHandler(newValue: IWizardStep[]) {
 		this.currentHeader = buildHeaderConfig(newValue, this.currentStep);
-		this.currentFooter = buildFooterConfig(newValue, this.currentStep, this.currentStepState, this.disabled);
+		this.currentFooter = buildFooterConfig(newValue, this.currentStep, this.currentStepState, this.disabled, this.cancelDisabled);
 	}
 	/** Watch the `currentStep` property and update internal state accordingly */
 	@Watch('currentStep')
 	currentStepChangeHandler(newValue: number) {
 		this.currentHeader = buildHeaderConfig(this.steps, newValue);
-		this.currentFooter = buildFooterConfig(this.steps, newValue, this.currentStepState, this.disabled);
+		this.currentFooter = buildFooterConfig(this.steps, newValue, this.currentStepState, this.disabled, this.cancelDisabled);
 	}
 	/** Watch the `currentStepState` property and update internal state accordingly */
 	@Watch('currentStepState')
 	hasErrorStepChangeHandler(newValue: StepState) {
-		this.currentFooter = buildFooterConfig(this.steps, this.currentStep, newValue, this.disabled);
+		this.currentFooter = buildFooterConfig(this.steps, this.currentStep, newValue, this.disabled, this.cancelDisabled);
+	}
+	/**
+	 * Watch the `disabled` and `cancelDisabled` properties and update the footer. Without it the footer
+	 * kept the previous value until another property changed, because a framework can set `disabled`
+	 * after `steps` in the same update.
+	 */
+	@Watch('disabled')
+	@Watch('cancelDisabled')
+	footerStateChangeHandler() {
+		this.currentFooter = buildFooterConfig(this.steps, this.currentStep, this.currentStepState, this.disabled, this.cancelDisabled);
 	}
 
 	componentWillLoad() {
 		this.currentHeader = buildHeaderConfig(this.steps, this.currentStep);
-		this.currentFooter = buildFooterConfig(this.steps, this.currentStep, this.currentStepState, this.disabled);
+		this.currentFooter = buildFooterConfig(this.steps, this.currentStep, this.currentStepState, this.disabled, this.cancelDisabled);
 	}
 
 	onPrevClick = () => {
