@@ -4,6 +4,7 @@ import { isEmpty } from 'lodash';
 import React from 'react';
 import { KvFormHelpText } from '../../../../stencil-generated';
 import styles from './ErrorListTemplate.module.scss';
+import { SCHEMA_FORM_STRINGS } from '../../strings';
 
 const ErrorListTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({ errors }: ErrorListProps<T, S, F>) => {
 	const errorsHash: { [prop: string]: string[] } = errors.reduce<Record<string, string[]>>((acc, error: RJSFValidationError) => {
@@ -18,7 +19,7 @@ const ErrorListTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 
 	return (
 		<div className={styles.ErrorListContainer}>
-			<KvFormHelpText helpText={['ERRORS LIST:']}></KvFormHelpText>
+			<KvFormHelpText helpText={[SCHEMA_FORM_STRINGS.errors]}></KvFormHelpText>
 			{Object.keys(errorsHash).map((fieldName: string) => {
 				return <KvFormHelpText key={fieldName} helpText={errorsHash[fieldName]} state={EValidationState.Invalid}></KvFormHelpText>;
 			})}

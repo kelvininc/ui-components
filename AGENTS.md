@@ -462,6 +462,7 @@ pnpm lint
 - **Interaction gets tested in a real browser:** Stencil e2e (`*.e2e.ts`) for core, the `browser` Vitest project for React.
 - **One concern per PR, reviewed once against its spec.** Findings outside a PR's scope become tickets. A fix that needs a new mechanism (a prop, a role, a focus strategy, a global listener) goes back to the spec first.
 - **Names that only assistive tech hears use `accessibleLabel`.** `label` renders visible text throughout the library, so when a component needs a name nobody sees, add an `accessibleLabel` prop rather than reusing `label`. A label outside a component's shadow root can't name the control inside it, so pass the name as text.
+- **Built-in text is sentence case.** Default labels, headers, placeholders and accessible names capitalize only the first word and proper nouns (`Clear all`, `No data available`, `Custom interval`). Consumers such as Core UI follow the same rule, so a default never clashes with the labels around it.
 
 ## 📝 Important Configuration Files
 

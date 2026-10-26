@@ -119,6 +119,7 @@ export class KvSelect implements ISelect, ISelectEvents {
 										{this.selectionAll && (
 											<kv-action-button-text
 												type={EActionButtonType.Text}
+												// The prop default only applies on first render: a caller that later removes its label sets it to `undefined`
 												text={this.selectAllLabel ?? SELECT_ALL_LABEL}
 												onClickButton={this.onSelectAll}
 												disabled={!this.selectionAllEnabled}

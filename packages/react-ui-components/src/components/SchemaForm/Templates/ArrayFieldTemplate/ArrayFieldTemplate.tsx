@@ -12,6 +12,7 @@ import { getTableColumns, isSectionField } from '../utils';
 import DefaultArrayFieldItemTemplate from '../ArrayFieldItemTemplate';
 import { tableStyle, TableHeader } from './TableLayout';
 import tableStyles from './TableLayout.module.scss';
+import { SCHEMA_FORM_STRINGS } from '../../strings';
 
 const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	idSchema,
@@ -27,7 +28,7 @@ const ArrayFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 	onAddClick
 }: ArrayFieldTemplateProps<T, S, F>) => {
 	const uiOptions = getUiOptions(uiSchema, registry.globalUiOptions);
-	const listName = uiOptions.title?.trim() || schema.title?.trim() || title?.trim() || 'Items';
+	const listName = uiOptions.title?.trim() || schema.title?.trim() || title?.trim() || SCHEMA_FORM_STRINGS.items;
 	const tableId = useId();
 	const ArrayFieldDescriptionTemplate = getTemplate<'ArrayFieldDescriptionTemplate', T, S, F>('ArrayFieldDescriptionTemplate', registry, uiOptions);
 	const ArrayFieldItemTemplate = getTemplate<'ArrayFieldItemTemplate', T, S, F>('ArrayFieldItemTemplate', registry, uiOptions);

@@ -2,7 +2,7 @@ import { EComponentSize, EIconName, EValidationState } from '../../types';
 import { IDateTimeInput } from '../date-time-input/date-time-input.types';
 
 export const DEFAULT_LEFT_INPUT_CONFIG: Omit<Partial<IDateTimeInput>, 'value'> = {
-	label: 'Change On',
+	label: 'Change on',
 	required: true,
 	state: EValidationState.None,
 	size: EComponentSize.Large,
@@ -10,7 +10,7 @@ export const DEFAULT_LEFT_INPUT_CONFIG: Omit<Partial<IDateTimeInput>, 'value'> =
 };
 
 export const DEFAULT_RIGHT_INPUT_CONFIG: Omit<Partial<IDateTimeInput>, 'value'> = {
-	label: 'Revert On',
+	label: 'Revert on',
 	required: true,
 	state: EValidationState.None,
 	size: EComponentSize.Large

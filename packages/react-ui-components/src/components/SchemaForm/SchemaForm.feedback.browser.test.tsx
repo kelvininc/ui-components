@@ -27,7 +27,7 @@ describe.each([StyleMode.Light, StyleMode.Night])('field feedback in %s', theme 
 						expect(frame.left).toBeCloseTo(textarea.closest('[data-schema-form-field]')!.getBoundingClientRect().left, 0);
 						expect(frame.right).toBeCloseTo(textarea.getBoundingClientRect().right, 0);
 					}
-					for (const message of [invalid ? 'Review this connection setting.' : row.schema.description, `Default value is: ${row.formData}`]) {
+					for (const message of [invalid ? 'Review this connection setting.' : row.schema.description, `Default: ${row.formData}`]) {
 						const help = Array.from(screen.container.querySelectorAll<HTMLKvFormHelpTextElement>('kv-form-help-text')).find(host =>
 							Array.isArray(host.helpText) ? host.helpText.includes(message!) : host.helpText === message
 						)!;
