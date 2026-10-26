@@ -1831,6 +1831,19 @@ export const L1_HIDDEN_ITEM_HEADINGS = [
 	{ name: 'hidden label', uiSchema: { items: { 'ui:label': false } } }
 ];
 
+/** A prefix names an object item even when its title is blank ("Port 1"); `ui:label: false` still hides the heading */
+export const L1_PREFIXED_ITEM_HEADINGS: readonly { name: string; uiSchema: UiSchema; headings: readonly string[] }[] = [
+	{ name: 'blank title with an item prefix', uiSchema: { items: { 'ui:title': '', 'ui:itemPrefix': 'Port' } }, headings: ['Port 1', 'Port 2', 'Port 3'] },
+	{ name: 'blank options title with an array prefix', uiSchema: { 'ui:itemPrefix': 'Port', 'items': { 'ui:options': { title: '' } } }, headings: ['Port 1', 'Port 2', 'Port 3'] },
+	{
+		name: 'whitespace title with an options prefix',
+		uiSchema: { 'ui:options': { itemPrefix: 'Port' }, 'items': { 'ui:title': '   ' } },
+		headings: ['Port 1', 'Port 2', 'Port 3']
+	},
+	{ name: 'hidden label with an item prefix', uiSchema: { items: { 'ui:label': false, 'ui:itemPrefix': 'Port' } }, headings: [] },
+	{ name: 'hidden label with an array prefix', uiSchema: { 'ui:itemPrefix': 'Port', 'items': { 'ui:label': false } }, headings: [] }
+];
+
 const WrappedItem = ({ children }: WrapIfAdditionalTemplateProps) => <div data-custom-item-wrap>{children}</div>;
 const nestedBrokers = {
 	schema: {
@@ -1855,15 +1868,38 @@ export const L1_FIELDSET_SHAPES: {
 	headers: number;
 	overlays: number;
 	menus: number;
+	/** A header holds a heading unless only the item menu sits on the border */
+	heading?: false;
+	/** `legend` frames open below a header on the top border; `even` frames have no header there and pad all sides alike */
+	frame: 'legend' | 'even';
 }[] = [
-	{ name: 'item actions', row: ARRAY_SHAPES[2], uiSchema: { 'ui:options': { layout: 'sections' }, 'items': { 'ui:fieldset': true } }, headers: 3, overlays: 3, menus: 3 },
+	{
+		name: 'item actions',
+		row: ARRAY_SHAPES[2],
+		uiSchema: { 'ui:options': { layout: 'sections' }, 'items': { 'ui:fieldset': true } },
+		headers: 3,
+		overlays: 3,
+		menus: 3,
+		frame: 'legend'
+	},
+	{
+		name: 'blank title with actions',
+		row: ARRAY_SHAPES[2],
+		uiSchema: { 'ui:options': { layout: 'sections' }, 'items': { 'ui:fieldset': true, 'ui:title': '' } },
+		headers: 3,
+		overlays: 3,
+		menus: 3,
+		heading: false,
+		frame: 'legend'
+	},
 	{
 		name: 'no item actions',
 		row: ARRAY_SHAPES[2],
 		uiSchema: { 'ui:options': { layout: 'sections', orderable: false, removable: false }, 'items': { 'ui:fieldset': true } },
 		headers: 3,
 		overlays: 3,
-		menus: 0
+		menus: 0,
+		frame: 'legend'
 	},
 	{
 		name: 'blank title without actions',
@@ -1871,7 +1907,8 @@ export const L1_FIELDSET_SHAPES: {
 		uiSchema: { 'ui:options': { layout: 'sections', orderable: false, removable: false }, 'items': { 'ui:fieldset': true, 'ui:title': '' } },
 		headers: 0,
 		overlays: 0,
-		menus: 0
+		menus: 0,
+		frame: 'even'
 	},
 	{
 		name: 'hidden label without actions',
@@ -1879,7 +1916,8 @@ export const L1_FIELDSET_SHAPES: {
 		uiSchema: { 'ui:options': { layout: 'sections', orderable: false, removable: false }, 'items': { 'ui:fieldset': true, 'ui:label': false } },
 		headers: 0,
 		overlays: 0,
-		menus: 0
+		menus: 0,
+		frame: 'even'
 	},
 	{
 		name: 'custom wrapping template without actions',
@@ -1888,7 +1926,8 @@ export const L1_FIELDSET_SHAPES: {
 		templates: { WrapIfAdditionalTemplate: WrappedItem },
 		headers: 3,
 		overlays: 3,
-		menus: 0
+		menus: 0,
+		frame: 'legend'
 	},
 	{
 		name: 'nested plain items',
@@ -1896,7 +1935,8 @@ export const L1_FIELDSET_SHAPES: {
 		uiSchema: { items: { 'ui:fieldset': true, 'brokers': { 'ui:options': { layout: 'sections' } } } },
 		headers: 9,
 		overlays: 3,
-		menus: 9
+		menus: 9,
+		frame: 'legend'
 	},
 	{
 		name: 'nested fieldset items',
@@ -1904,7 +1944,17 @@ export const L1_FIELDSET_SHAPES: {
 		uiSchema: { items: { 'ui:fieldset': true, 'brokers': { 'ui:options': { layout: 'sections' }, 'items': { 'ui:fieldset': true } } } },
 		headers: 9,
 		overlays: 9,
-		menus: 9
+		menus: 9,
+		frame: 'legend'
+	},
+	{
+		name: 'scalar items',
+		row: { schema: { type: 'array', title: 'Commands', items: { type: 'string' } }, formData: ['cat /tmp/ready'] },
+		uiSchema: { 'ui:options': { orderable: false }, 'items': { 'ui:title': '', 'ui:itemPrefix': 'Command', 'ui:fieldset': true } },
+		headers: 0,
+		overlays: 0,
+		menus: 0,
+		frame: 'even'
 	}
 ];
 
@@ -2212,6 +2262,39 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 			{ name: 'broker-3', token: 'broker-3-token' }
 		],
 		isFlat: false
+	}
+];
+
+/** An empty flat list shows only Add, where an empty sections list puts it; its column headers arrive with the first row */
+export const L2_EMPTY_LIST_SHAPES = [
+	{ name: 'title only', schema: FLAT_OBJECT_SHAPES[0].schema, columns: ['row', 'Name', 'Value', 'Actions'] },
+	{
+		name: 'with a description',
+		schema: { ...FLAT_OBJECT_SHAPES[0].schema, description: 'Environment variables passed to the connector.' },
+		columns: ['row', 'Name', 'Value', 'Actions']
+	}
+];
+
+/** Removing the last entry leaves an empty list: focus moves to Add, or to the named list when nothing can be added */
+export const R5_FINAL_REMOVAL_SHAPES = [
+	{ name: 'scalar list', schema: ARRAY_SHAPES[6].schema, formData: ARRAY_SHAPES[6].formData, remove: 'Remove Topic 1', listName: 'Topics', table: false },
+	{ name: 'table', schema: FLAT_OBJECT_SHAPES[0].schema, formData: FLAT_OBJECT_SHAPES[0].formData.slice(0, 1), remove: 'Remove row 1', listName: 'Variables', table: true }
+];
+
+/** A focus holder restores its container's attributes on blur, except those a re-render changed while it held focus */
+export const FOCUS_HOLDER_RESTORE_CASES: readonly {
+	name: string;
+	before: Record<string, string>;
+	change: Record<string, string | null>;
+	after: Record<string, string | null>;
+}[] = [
+	{ name: 'an empty list', before: {}, change: {}, after: { 'tabindex': null, 'role': null, 'aria-label': null } },
+	{ name: 'a table', before: { 'role': 'table', 'aria-label': 'Variables' }, change: {}, after: { 'tabindex': null, 'role': 'table', 'aria-label': 'Variables' } },
+	{
+		name: 'a table that loses its last row',
+		before: { 'role': 'table', 'aria-label': 'Variables' },
+		change: { 'role': null, 'aria-label': null },
+		after: { 'tabindex': null, 'role': null, 'aria-label': null }
 	}
 ];
 
@@ -3793,6 +3876,69 @@ export const RADIO_FEEDBACK_LAYOUT_SHAPES: readonly {
 	{ name: 'selection without helpers' }
 ];
 
+/**
+ * One form with every kind of heading block. Sections and lists: the description sits 4px under the heading and the body
+ * 16px below either. Security has no fields of its own, only the protocol choice, so its empty field container must not
+ * take a gap slot. A list item's header keeps its own 12px spacing.
+ */
+export const HEADING_SPACING_FORM: {
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	formData: object;
+	headings: readonly { title: string; toDescription: number | null; toBody: number }[];
+} = {
+	schema: {
+		type: 'object',
+		properties: {
+			broker: { type: 'object', title: 'Broker', description: 'Connection to the plant broker.', properties: { host: { type: 'string', title: 'Host' } } },
+			retry: { type: 'object', title: 'Retry', properties: { attempts: { type: 'number', title: 'Attempts' } } },
+			// No fields of its own, only the protocol choice: its empty field container must not take a gap slot
+			security: {
+				type: 'object',
+				title: 'Security',
+				description: 'Protocol for the broker connection.',
+				oneOf: [
+					{ title: 'Plaintext', properties: { protocol: { const: 'plaintext' } } },
+					{ title: 'TLS', properties: { protocol: { const: 'tls' }, caCertificate: { type: 'string', title: 'CA certificate' } } }
+				]
+			},
+			proxy: { type: 'object', title: 'Proxy', description: 'Outbound proxy for the exporter.', properties: { url: { type: 'string', title: 'URL' } } },
+			endpoints: {
+				type: 'array',
+				title: 'Endpoints',
+				description: 'Brokers the exporter connects to.',
+				items: { type: 'object', properties: { host: { type: 'string', title: 'Host' } } }
+			},
+			topics: {
+				type: 'array',
+				title: 'Topics',
+				description: 'Topics the exporter publishes to.',
+				items: {
+					type: 'object',
+					title: 'Topic',
+					description: 'One telemetry topic.',
+					properties: {
+						name: { type: 'string', title: 'Name' },
+						retention: { type: 'object', title: 'Retention', properties: { days: { type: 'number', title: 'Days' } } }
+					}
+				}
+			}
+		}
+	},
+	// A custom title template renders a bare <strong> with no margin: the heading block still keeps its 4px
+	uiSchema: { proxy: { 'ui:TitleFieldTemplate': CustomTitle }, endpoints: { 'ui:TitleFieldTemplate': CustomTitle } },
+	formData: { endpoints: [{ host: 'broker-1.local' }], topics: [{ name: 'telemetry', retention: { days: 7 } }] },
+	headings: [
+		{ title: 'Broker', toDescription: 4, toBody: 16 },
+		{ title: 'Retry', toDescription: null, toBody: 16 },
+		{ title: 'Security', toDescription: 4, toBody: 16 },
+		{ title: 'Proxy', toDescription: 4, toBody: 16 },
+		{ title: 'Endpoints', toDescription: 4, toBody: 16 },
+		{ title: 'Topics', toDescription: 4, toBody: 16 },
+		{ title: 'Topic 1', toDescription: 12, toBody: 12 }
+	]
+};
+
 const describedFiles = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === 'multiple files')!.schema;
 const describedChoices = COLLECTION_DESCRIPTION_FIELDS.find(row => row.name === 'multi-select')!.schema;
 export const ARRAY_WIDGET_DISPATCH_SHAPES: readonly {
@@ -3877,9 +4023,799 @@ export const ARRAY_WIDGET_DISPATCH_SHAPES: readonly {
 	}
 ];
 
+export const SECTION_LAYOUT_CONNECTORS = {
+	schema: {
+		type: 'array',
+		title: 'Broker connectors',
+		description: 'Connection and security settings for the plant broker.',
+		items: {
+			type: 'object',
+			properties: {
+				name: {
+					type: 'string',
+					title: 'Connector name',
+					description: 'Identifies this connector in the workload.'
+				},
+				connection: {
+					type: 'object',
+					title: 'Connection',
+					properties: {
+						broker: {
+							type: 'string',
+							title: 'Broker address',
+							description: 'Hostname and port of the Kafka broker.'
+						},
+						security: {
+							type: 'object',
+							title: 'Security',
+							properties: {
+								protocol: {
+									type: 'string',
+									title: 'Security protocol',
+									enum: ['TLS', 'Plaintext'],
+									default: 'TLS'
+								}
+							},
+							dependencies: {
+								protocol: {
+									oneOf: [
+										{
+											properties: {
+												protocol: {
+													const: 'TLS'
+												},
+												tls: {
+													type: 'object',
+													title: 'TLS settings',
+													properties: {
+														server_name: {
+															type: 'string',
+															title: 'Server name',
+															description: 'Hostname expected in the server certificate.',
+															format: 'hostname',
+															default: 'kafka-line-1.internal'
+														},
+														client_identities: {
+															type: 'array',
+															title: 'Client identities',
+															description: 'Certificate sets available for mutual TLS.',
+															minItems: 1,
+															items: {
+																type: 'object',
+																title: 'Client identity',
+																properties: {
+																	name: {
+																		type: 'string',
+																		title: 'Identity name',
+																		description: 'Identifies this client certificate set.'
+																	},
+																	certificate: {
+																		type: 'string',
+																		format: 'data-url',
+																		title: 'Client certificate'
+																	},
+																	private_key: {
+																		type: 'string',
+																		format: 'data-url',
+																		title: 'Client private key'
+																	}
+																},
+																required: ['name', 'certificate', 'private_key']
+															}
+														}
+													},
+													required: ['server_name', 'client_identities']
+												}
+											},
+											required: ['tls']
+										},
+										{
+											properties: {
+												protocol: {
+													const: 'Plaintext'
+												}
+											}
+										}
+									]
+								}
+							},
+							required: ['protocol']
+						}
+					},
+					required: ['broker', 'security']
+				}
+			},
+			required: ['name', 'connection']
+		}
+	} as RJSFSchema,
+	uiSchema: {
+		'ui:itemPrefix': 'Connector',
+		'ui:submitButtonOptions': {
+			norender: true
+		},
+		'items': {
+			connection: {
+				security: {
+					tls: {
+						client_identities: {
+							'ui:itemPrefix': 'Identity',
+							'ui:options': {
+								layout: 'sections'
+							}
+						}
+					}
+				}
+			}
+		}
+	} as UiSchema,
+	formData: [
+		{
+			name: 'line-1-exporter',
+			connection: {
+				broker: 'kafka-line-1.internal:9093',
+				security: {
+					protocol: 'TLS',
+					tls: {
+						server_name: 'kafka_line_1',
+						client_identities: [
+							{
+								name: 'primary-client',
+								certificate: '<% secrets.primary_cert %>',
+								private_key: '<% secrets.primary_key %>'
+							},
+							{
+								name: 'standby-client',
+								certificate: '<% secrets.standby_cert %>',
+								private_key: '<% secrets.standby_key %>'
+							}
+						]
+					}
+				}
+			}
+		}
+	]
+};
+
+const hierarchySecurity: RJSFSchema = {
+	type: 'object',
+	title: 'Security',
+	description: 'Authentication settings.',
+	properties: { token: { type: 'string', title: 'Token' } }
+};
+const hierarchyTls = (SECTION_LAYOUT_CONNECTORS.schema.items as RJSFSchema).properties!.connection as RJSFSchema;
+const hierarchyTlsSchema = (((hierarchyTls.properties!.security as RJSFSchema).dependencies!.protocol as RJSFSchema).oneOf![0] as RJSFSchema).properties!.tls as RJSFSchema;
+const hierarchyIdentityArray = hierarchyTlsSchema.properties!.client_identities as RJSFSchema;
+const hierarchyIdentity = hierarchyIdentityArray.items as RJSFSchema;
+const hierarchyProfiles: RJSFSchema = {
+	type: 'array',
+	title: 'Rotation profiles',
+	minItems: 1,
+	items: {
+		type: 'object',
+		properties: { name: { type: 'string', title: 'Profile name', default: 'monthly' }, enabled: { type: 'boolean', title: 'Enabled' } }
+	}
+};
+const hierarchyRotation: RJSFSchema = { type: 'object', title: 'Rotation', properties: { profiles: hierarchyProfiles } };
+
+export const SECTION_LAYOUT_DEEP = {
+	schema: {
+		...SECTION_LAYOUT_CONNECTORS.schema,
+		items: {
+			...(SECTION_LAYOUT_CONNECTORS.schema.items as RJSFSchema),
+			properties: {
+				...(SECTION_LAYOUT_CONNECTORS.schema.items as RJSFSchema).properties,
+				connection: {
+					...hierarchyTls,
+					properties: {
+						...hierarchyTls.properties,
+						security: {
+							...(hierarchyTls.properties!.security as RJSFSchema),
+							dependencies: {
+								protocol: {
+									oneOf: [
+										{
+											properties: {
+												protocol: { const: 'TLS' },
+												tls: {
+													...hierarchyTlsSchema,
+													properties: {
+														...hierarchyTlsSchema.properties,
+														client_identities: {
+															...hierarchyIdentityArray,
+															items: { ...hierarchyIdentity, properties: { ...hierarchyIdentity.properties, rotation: hierarchyRotation } }
+														}
+													}
+												}
+											},
+											required: ['tls']
+										},
+										{ properties: { protocol: { const: 'Plaintext' } } }
+									]
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	} as RJSFSchema,
+	uiSchema: {
+		...SECTION_LAYOUT_CONNECTORS.uiSchema,
+		items: {
+			connection: {
+				security: {
+					tls: {
+						client_identities: {
+							'ui:itemPrefix': 'Identity',
+							'ui:options': { layout: 'sections' },
+							// Rotation keeps its title: only a visible heading claims a rail, and the profiles must reach depth 9
+							'items': { rotation: { profiles: { 'ui:itemPrefix': 'Profile', 'ui:options': { layout: 'sections' } } } }
+						}
+					}
+				}
+			}
+		}
+	} as UiSchema,
+	formData: SECTION_LAYOUT_CONNECTORS.formData.map(connector => ({
+		...connector,
+		connection: {
+			...connector.connection,
+			security: {
+				...connector.connection.security,
+				tls: {
+					...connector.connection.security.tls,
+					client_identities: connector.connection.security.tls.client_identities.map((identity: Record<string, unknown>) => ({
+						...identity,
+						rotation: {
+							profiles: [
+								{ name: 'monthly', enabled: true },
+								{ name: 'weekly', enabled: false }
+							]
+						}
+					}))
+				}
+			}
+		}
+	}))
+};
+export const SECTION_LAYOUT_WIDTHS = [320, 390, 479, 480, 640, 1280] as const;
+
+export const NESTED_SECTION_ACTION_SHAPES = [
+	{ name: 'add below maximum', maxItems: 5, count: 3, addStays: true },
+	{ name: 'add at maximum', maxItems: 4, count: 3, addStays: false },
+	{ name: 'last removal below minimum', maxItems: 5, count: 1, addStays: true }
+].map(row => ({
+	...row,
+	schema: {
+		type: 'array',
+		title: 'Connectors',
+		items: {
+			type: 'object',
+			properties: {
+				name: { type: 'string', title: 'Connector name' },
+				connection: {
+					type: 'object',
+					title: 'Connection',
+					properties: {
+						security: {
+							type: 'object',
+							title: 'Security',
+							properties: {
+								tls: {
+									type: 'object',
+									title: 'TLS',
+									properties: {
+										client_identities: {
+											...hierarchyIdentityArray,
+											minItems: 1,
+											maxItems: row.maxItems,
+											items: { type: 'object', properties: { name: { type: 'string', title: 'Identity name' } } }
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	} as RJSFSchema,
+	uiSchema: SECTION_LAYOUT_CONNECTORS.uiSchema,
+	formData: [0, 1].map(connector => ({
+		name: `line-${connector + 1}`,
+		connection: {
+			security: {
+				tls: {
+					client_identities: Array.from({ length: row.count }, (_, identity) => ({ name: `line-${connector + 1}-identity-${identity + 1}` }))
+				}
+			}
+		}
+	}))
+}));
+
+const hierarchyCustomBody = (props: FieldTemplateProps) => (
+	<div data-custom-section-body style={{ paddingInline: 24 }}>
+		{props.children}
+	</div>
+);
+const hierarchyCustomItem = ({ children }: { children: React.ReactNode }) => (
+	<div data-custom-section-item style={{ paddingInline: 24 }}>
+		{children}
+	</div>
+);
+const depthSevenEntries = (itemUi: UiSchema): { schema: RJSFSchema; uiSchema: UiSchema; formData: unknown } => {
+	let schema: RJSFSchema = { type: 'array', title: 'Profiles', items: { type: 'object', properties: { security: hierarchySecurity } } };
+	let uiSchema: UiSchema = { 'ui:itemPrefix': 'Profile', 'ui:options': { layout: 'sections' }, 'items': itemUi };
+	let formData: unknown = [{ security: { token: 'monthly-reference' } }];
+	// Titled wrappers: only a visible heading opens a level, and these must reach depth 7
+	for (const name of ['profiles', 'credentials', 'rotation', 'client', 'tls', 'security', 'connection']) {
+		schema = { type: 'object', title: `${name[0].toUpperCase()}${name.slice(1)} settings`, properties: { [name]: schema } };
+		uiSchema = { [name]: uiSchema };
+		formData = { [name]: formData };
+	}
+	return { schema, uiSchema, formData };
+};
+const hierarchyPageRows: RJSFSchema = {
+	type: 'object',
+	properties: {
+		name: { type: 'string', title: 'Connection name' },
+		connection: { type: 'object', title: 'Connection', properties: { host: { type: 'string', title: 'Host' } } },
+		audit: { type: 'string', title: 'Audit label' }
+	}
+};
+export const SECTION_LAYOUT_COMPATIBILITY_SHAPES = [
+	{
+		name: 'custom root body retains page dividers',
+		schema: hierarchyPageRows,
+		uiSchema: { 'ui:FieldTemplate': hierarchyCustomBody } as UiSchema,
+		formData: { name: 'packaging', connection: { host: 'line-1.internal' }, audit: 'enabled' }
+	},
+	{
+		name: 'tuple object entry retains ordinary row gaps',
+		schema: {
+			type: 'array',
+			title: 'Endpoints',
+			items: [
+				{ ...hierarchyPageRows, title: 'Primary' },
+				{ type: 'string', title: 'Backup' }
+			]
+		} as RJSFSchema,
+		uiSchema: {} as UiSchema,
+		formData: [{ name: 'packaging', connection: { host: 'line-1.internal' }, audit: 'enabled' }, 'backup.internal']
+	},
+	{
+		name: 'nested table keeps its own width query',
+		schema: {
+			type: 'object',
+			properties: {
+				connection: {
+					type: 'object',
+					title: 'Connection',
+					properties: {
+						routes: {
+							type: 'array',
+							title: 'Routes',
+							items: {
+								type: 'object',
+								properties: { host: { type: 'string', title: 'Host' }, port: { type: 'integer', title: 'Port' } }
+							}
+						}
+					}
+				}
+			}
+		} as RJSFSchema,
+		uiSchema: { connection: { 'ui:options': { inputWidth: '496px' } } } as UiSchema,
+		formData: { connection: { routes: [{ host: 'line-1.internal', port: 4840 }] } }
+	},
+	{ name: 'deep fieldset preserves caller padding', ...depthSevenEntries({ 'ui:options': { fieldset: true } }) },
+	{ name: 'deep custom body preserves caller padding', ...depthSevenEntries({ 'ui:FieldTemplate': hierarchyCustomBody }) },
+	{ name: 'custom item preserves caller markup', ...depthSevenEntries({}), templates: { ArrayFieldItemTemplate: hierarchyCustomItem } }
+];
+
+type SectionLayoutShape = {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema?: UiSchema;
+	formData?: unknown;
+	headings: { title: string; kind: 'major' | 'subsection' }[];
+	boundaries: { fieldId: string; kind: 'section' | 'item' | 'option'; depth: number }[];
+};
+
+const hierarchyConnection: RJSFSchema = {
+	type: 'object',
+	title: 'Connection',
+	description: 'Broker settings.',
+	properties: { host: { type: 'string', title: 'Host' }, security: hierarchySecurity, retries: { type: 'integer', title: 'Retries' } }
+};
+const hierarchyPlant: RJSFSchema = {
+	type: 'object',
+	title: 'Plant',
+	properties: { name: { type: 'string', title: 'Plant name' }, connection: hierarchyConnection }
+};
+// Plant > Connection > Transport > Security, so Transport sits at section level 2, where a titled object claims a rail
+const hierarchyWrapped: RJSFSchema = {
+	...hierarchyPlant,
+	properties: {
+		...hierarchyPlant.properties,
+		connection: {
+			...hierarchyConnection,
+			properties: { host: { type: 'string', title: 'Host' }, transport: { type: 'object', title: 'Transport', properties: { security: hierarchySecurity } } }
+		}
+	}
+};
+const hierarchyEntries: RJSFSchema = {
+	type: 'array',
+	title: 'Connectors',
+	items: {
+		type: 'object',
+		properties: {
+			name: { type: 'string', title: 'Connector name' },
+			identities: { type: 'array', title: 'Identities', items: hierarchyConnection }
+		}
+	}
+};
+const hierarchyEntryUi: UiSchema = { 'ui:itemPrefix': 'Connector', 'items': { identities: { 'ui:itemPrefix': 'Identity', 'ui:options': { layout: 'sections' } } } };
+const hierarchyEntryData = [{ name: 'line-1', identities: [{ host: 'primary.internal' }, { host: 'standby.internal' }] }];
+const hierarchyEntryHeadings: SectionLayoutShape['headings'] = [
+	{ title: 'Connectors', kind: 'major' },
+	{ title: 'Connector 1', kind: 'major' },
+	{ title: 'Identities', kind: 'subsection' },
+	{ title: 'Identity 1', kind: 'subsection' },
+	{ title: 'Security', kind: 'subsection' },
+	{ title: 'Identity 2', kind: 'subsection' },
+	{ title: 'Security', kind: 'subsection' }
+];
+const hierarchyEntryBoundaries: SectionLayoutShape['boundaries'] = [
+	{ fieldId: 'root_0', kind: 'item', depth: 1 },
+	{ fieldId: 'root_0_identities', kind: 'section', depth: 2 },
+	{ fieldId: 'root_0_identities_0', kind: 'item', depth: 3 },
+	{ fieldId: 'root_0_identities_0_security', kind: 'section', depth: 4 },
+	{ fieldId: 'root_0_identities_1', kind: 'item', depth: 3 },
+	{ fieldId: 'root_0_identities_1_security', kind: 'section', depth: 4 }
+];
+const hierarchyBranches = (keyword: 'oneOf' | 'anyOf'): RJSFSchema => ({
+	type: 'object',
+	title: 'Plant',
+	properties: {
+		auth: {
+			title: 'Authentication',
+			[keyword]: [
+				{ type: 'object', title: 'Broker credentials', properties: { host: { type: 'string', title: 'Host' }, security: hierarchySecurity } },
+				{ type: 'string', title: 'Secret reference' }
+			]
+		}
+	}
+});
+
+export const SECTION_LAYOUT_NESTED_OPTIONS = (['oneOf', 'anyOf'] as const).flatMap(keyword =>
+	(['scalar', 'object'] as const).map(shape => {
+		let credential: RJSFSchema =
+			shape === 'scalar'
+				? { type: 'string', title: 'Credential reference' }
+				: { type: 'object', title: 'Broker credentials', properties: { reference: { type: 'string', title: 'Credential reference' }, security: hierarchySecurity } };
+		for (let level = 0; level < 8; level++) {
+			credential = { title: `Authentication method ${level + 1}`, [keyword]: [credential, { type: 'number', title: 'Numeric credential', minimum: 1000 }] };
+		}
+		return {
+			name: `${keyword} nested ${shape} branches`,
+			schema: { type: 'object', title: 'Plant', properties: { credential } } as RJSFSchema,
+			formData: { credential: shape === 'scalar' ? '<% secrets.broker_token %>' : { reference: '<% secrets.broker_token %>', security: { token: 'rotation-reference' } } },
+			boundaries: [
+				...Array.from({ length: 8 }, (_, index) => ({ fieldId: 'root_credential', kind: 'option' as const, depth: index + 1 })),
+				...(shape === 'object' ? [{ fieldId: 'root_credential_security', kind: 'section' as const, depth: 9 }] : [])
+			]
+		};
+	})
+);
+
+export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
+	{
+		name: 'root and direct section',
+		schema: hierarchyPlant,
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Connection', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [{ fieldId: 'root_connection_security', kind: 'section', depth: 1 }]
+	},
+	{
+		name: 'untitled root',
+		schema: { ...hierarchyPlant, title: undefined },
+		headings: [
+			{ title: 'Connection', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [{ fieldId: 'root_connection_security', kind: 'section', depth: 1 }]
+	},
+	{
+		name: 'untitled middle',
+		schema: hierarchyPlant,
+		uiSchema: { connection: { 'ui:title': '' } },
+		// The untitled Connection opens no level, so Security sits at Plant's top level: a major heading, no rail
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Security', kind: 'major' }
+		],
+		boundaries: []
+	},
+	{ name: 'hidden section', schema: hierarchyPlant, uiSchema: { connection: { 'ui:widget': 'hidden' } }, headings: [{ title: 'Plant', kind: 'major' }], boundaries: [] },
+	{
+		name: 'untitled wrapper under a section',
+		schema: hierarchyWrapped,
+		uiSchema: { connection: { transport: { 'ui:title': '' } } },
+		// The untitled Transport claims no rail, so Security is Connection's own subsection with a single rail
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Connection', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [{ fieldId: 'root_connection_transport_security', kind: 'section', depth: 1 }]
+	},
+	{
+		name: 'label-hidden wrapper under a section',
+		schema: hierarchyWrapped,
+		uiSchema: { connection: { transport: { 'ui:options': { label: false } } } },
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Connection', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [{ fieldId: 'root_connection_transport_security', kind: 'section', depth: 1 }]
+	},
+	{
+		name: 'label-hidden middle',
+		schema: hierarchyPlant,
+		uiSchema: { connection: { 'ui:options': { label: false } } },
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Security', kind: 'major' }
+		],
+		boundaries: []
+	},
+	// Every heading is hidden, so no object below the root opens a level or claims a rail
+	{ name: 'globally hidden labels', schema: hierarchyWrapped, uiSchema: { 'ui:globalOptions': { label: false } }, headings: [], boundaries: [] },
+	{
+		name: 'two untitled wrappers at the top level',
+		schema: {
+			...hierarchyPlant,
+			properties: {
+				name: { type: 'string', title: 'Plant name' },
+				site: { type: 'object', title: 'Site', properties: { network: { type: 'object', title: 'Network', properties: { connection: hierarchyConnection } } } }
+			}
+		},
+		uiSchema: { site: { 'ui:title': '', 'network': { 'ui:title': '' } } },
+		// Connection lays out as Plant's own section, as if the wrappers weren't there
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Connection', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [{ fieldId: 'root_site_network_connection_security', kind: 'section', depth: 1 }]
+	},
+	{
+		name: 'untitled wrapper in an entry',
+		schema: {
+			type: 'array',
+			title: 'Connectors',
+			items: {
+				type: 'object',
+				properties: {
+					name: { type: 'string', title: 'Connector name' },
+					transport: { type: 'object', title: 'Transport', properties: { security: hierarchySecurity } }
+				}
+			}
+		},
+		uiSchema: { 'ui:itemPrefix': 'Connector', 'items': { transport: { 'ui:title': '' } } },
+		formData: [{ name: 'line-1' }],
+		// The untitled Transport claims no rail inside the entry, so Security takes the depth Transport would have
+		headings: [
+			{ title: 'Connectors', kind: 'major' },
+			{ title: 'Connector 1', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [
+			{ fieldId: 'root_0', kind: 'item', depth: 1 },
+			{ fieldId: 'root_0_transport_security', kind: 'section', depth: 2 }
+		]
+	},
+	{
+		name: 'referenced object',
+		schema: {
+			...hierarchyPlant,
+			definitions: { security: hierarchySecurity },
+			properties: {
+				connection: { ...hierarchyConnection, properties: { security: { $ref: '#/definitions/security' } } }
+			}
+		},
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Connection', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [{ fieldId: 'root_connection_security', kind: 'section', depth: 1 }]
+	},
+	{
+		name: 'dependency host configuration',
+		schema: {
+			type: 'array',
+			title: 'Ports',
+			items: {
+				type: 'object',
+				properties: { type: { type: 'string', title: 'Port type', enum: ['host', 'service'] } },
+				dependencies: {
+					type: {
+						oneOf: [
+							{
+								properties: {
+									type: { const: 'host' },
+									configuration: { type: 'object', title: 'Host configuration', properties: { port: { type: 'integer', title: 'Host port' } } }
+								}
+							},
+							{
+								properties: {
+									type: { const: 'service' },
+									configuration: { type: 'object', title: 'Service configuration', properties: { port: { type: 'integer', title: 'Service port' } } }
+								}
+							}
+						]
+					}
+				}
+			}
+		},
+		uiSchema: { 'ui:itemPrefix': 'Port' },
+		formData: [{ type: 'host', configuration: { port: 4840 } }],
+		headings: [
+			{ title: 'Ports', kind: 'major' },
+			{ title: 'Port 1', kind: 'major' },
+			{ title: 'Host configuration', kind: 'subsection' }
+		],
+		boundaries: [
+			{ fieldId: 'root_0', kind: 'item', depth: 1 },
+			{ fieldId: 'root_0_configuration', kind: 'section', depth: 2 }
+		]
+	},
+	...(['oneOf', 'anyOf'] as const).flatMap(keyword => [
+		{
+			name: `${keyword} object and deeper section`,
+			schema: hierarchyBranches(keyword),
+			formData: { auth: { host: 'broker.internal' } },
+			uiSchema: { auth: { [keyword]: [{ 'ui:options': { label: true } }, {}] } },
+			headings: [
+				{ title: 'Plant', kind: 'major' },
+				{ title: 'Broker credentials', kind: 'major' },
+				{ title: 'Security', kind: 'subsection' }
+			],
+			boundaries: [
+				{ fieldId: 'root_auth', kind: 'option', depth: 1 },
+				{ fieldId: 'root_auth_security', kind: 'section', depth: 2 }
+			]
+		} as SectionLayoutShape,
+		{
+			name: `${keyword} scalar branch`,
+			schema: hierarchyBranches(keyword),
+			formData: { auth: 'secret-reference' },
+			headings: [{ title: 'Plant', kind: 'major' }],
+			boundaries: [{ fieldId: 'root_auth', kind: 'option', depth: 1 }]
+		} as SectionLayoutShape,
+		{
+			name: `${keyword} hidden branch`,
+			schema: hierarchyBranches(keyword),
+			formData: { auth: 'secret-reference' },
+			uiSchema: { auth: { [keyword]: [{}, { 'ui:widget': 'hidden' }] } },
+			headings: [{ title: 'Plant', kind: 'major' }],
+			boundaries: [{ fieldId: 'root_auth', kind: 'option', depth: 1 }]
+		} as SectionLayoutShape,
+		{
+			name: `${keyword} empty branch`,
+			schema: { type: 'object', title: 'Plant', properties: { auth: { [keyword]: [{ type: 'object', properties: {} }] } } },
+			headings: [{ title: 'Plant', kind: 'major' }],
+			boundaries: [{ fieldId: 'root_auth', kind: 'option', depth: 1 }]
+		} as SectionLayoutShape
+	]),
+	{
+		name: 'outer and inner object entries',
+		schema: hierarchyEntries,
+		uiSchema: hierarchyEntryUi,
+		formData: hierarchyEntryData,
+		headings: hierarchyEntryHeadings,
+		boundaries: hierarchyEntryBoundaries
+	},
+	{
+		name: 'entries without menus',
+		schema: hierarchyEntries,
+		uiSchema: {
+			...hierarchyEntryUi,
+			'ui:options': { orderable: false, removable: false },
+			'items': { identities: { ...hierarchyEntryUi.items.identities, 'ui:options': { layout: 'sections', orderable: false, removable: false } } }
+		},
+		formData: hierarchyEntryData,
+		headings: hierarchyEntryHeadings,
+		boundaries: hierarchyEntryBoundaries
+	},
+	{
+		name: 'explicit fieldset',
+		schema: hierarchyEntries,
+		uiSchema: {
+			...hierarchyEntryUi,
+			items: {
+				...hierarchyEntryUi.items,
+				'ui:options': { fieldset: true }
+			}
+		},
+		formData: hierarchyEntryData,
+		headings: hierarchyEntryHeadings,
+		boundaries: hierarchyEntryBoundaries
+	},
+	{
+		name: 'additional property object',
+		schema: {
+			type: 'object',
+			title: 'Plant',
+			properties: {
+				connections: {
+					type: 'object',
+					title: 'Connections',
+					additionalProperties: hierarchyConnection
+				}
+			}
+		},
+		formData: { connections: { primary: { host: 'broker.internal' } } },
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Connections', kind: 'major' },
+			{ title: 'primary', kind: 'subsection' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [
+			{ fieldId: 'root_connections_primary', kind: 'section', depth: 1 },
+			{ fieldId: 'root_connections_primary_security', kind: 'section', depth: 2 }
+		]
+	},
+	{
+		name: 'inline object',
+		schema: hierarchyPlant,
+		uiSchema: { connection: { 'ui:options': { inline: true } } },
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Connection', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [{ fieldId: 'root_connection_security', kind: 'section', depth: 1 }]
+	},
+	{ name: 'custom field', schema: hierarchyPlant, uiSchema: { connection: { 'ui:field': CustomConnection } }, headings: [{ title: 'Plant', kind: 'major' }], boundaries: [] },
+	{
+		name: 'custom title',
+		schema: hierarchyPlant,
+		uiSchema: { connection: { 'ui:TitleFieldTemplate': CustomTitle } },
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Security', kind: 'subsection' }
+		],
+		boundaries: [{ fieldId: 'root_connection_security', kind: 'section', depth: 1 }]
+	},
+	{
+		name: 'custom field body',
+		schema: hierarchyPlant,
+		uiSchema: { connection: { 'ui:FieldTemplate': ({ children }: FieldTemplateProps) => <div data-custom-section-body>{children}</div> } },
+		headings: [
+			{ title: 'Plant', kind: 'major' },
+			{ title: 'Security', kind: 'major' }
+		],
+		boundaries: []
+	}
+];
+
 // Rows share schema objects (TOPICS, ENDPOINTS, NAME), so a test that mutated one would change
 // other rows, and other tests. Frozen, the mutation throws where it happens.
 [
+	SECTION_LAYOUT_CONNECTORS,
+	SECTION_LAYOUT_DEEP,
+	SECTION_LAYOUT_WIDTHS,
+	SECTION_LAYOUT_COMPATIBILITY_SHAPES,
+	SECTION_LAYOUT_NESTED_OPTIONS,
+	NESTED_SECTION_ACTION_SHAPES,
+	SECTION_LAYOUT_SHAPES,
 	VALUE_CASES,
 	CHOICE_SCHEMAS,
 	CHOICE_VALUE_SHAPES,
@@ -4035,5 +4971,10 @@ export const ARRAY_WIDGET_DISPATCH_SHAPES: readonly {
 	R4_OPTION_ERROR_SHAPES,
 	ADDITIONAL_LAYOUT_SHAPES,
 	ARRAY_ID_SHAPES,
-	ADDITIONAL_NAME_SHAPES
+	ADDITIONAL_NAME_SHAPES,
+	L1_PREFIXED_ITEM_HEADINGS,
+	L2_EMPTY_LIST_SHAPES,
+	R5_FINAL_REMOVAL_SHAPES,
+	FOCUS_HOLDER_RESTORE_CASES,
+	HEADING_SPACING_FORM
 ].forEach(deepFreeze);

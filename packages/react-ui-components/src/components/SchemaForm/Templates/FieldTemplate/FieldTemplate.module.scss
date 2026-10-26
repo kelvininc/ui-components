@@ -15,8 +15,9 @@
 		display: none;
 	}
 
+	// The same 16px a section or list section leaves between its heading block and its body
 	> .CollectionMetadata {
-		margin-bottom: var(--spacing-xl);
+		margin-bottom: var(--spacing-2xl);
 	}
 }
 

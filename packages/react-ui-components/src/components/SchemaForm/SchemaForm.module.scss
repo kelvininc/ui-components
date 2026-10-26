@@ -1,6 +1,8 @@
 @use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
 .FormContainer {
+	container: schema-form / inline-size;
+
 	/**
 	* @prop --schema-form-x-padding: horizontal form padding
 	* @prop --schema-form-y-padding: vertical form padding
@@ -95,6 +97,11 @@
 	// ObjectFieldTemplate caps its fields; scalar and array roots use the full content width.
 	&:has(> form > [data-schema-form-field] > div > [data-schema-form-object]) .FooterActions {
 		max-width: var(--schema-form-max-width);
+	}
+
+	// The switch floats over the top right corner, so the root heading and description wrap before reaching it
+	&:has(> .Action) [data-schema-form-root-header] {
+		padding-right: calc(var(--_schema-form-action-width, 0px) + var(--spacing-md));
 	}
 
 	.Action {

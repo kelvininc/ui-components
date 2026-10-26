@@ -51,9 +51,11 @@ export const SchemaFormExample: React.FC = () => {
 
 ## Section layout
 
-Object fields and object lists that don't qualify for tables render open sections. Their titles use native headings,
+Object fields and object lists that don't qualify for tables render sections. Their titles use native headings,
 starting at `h2`; each titled section increases the level, up to `h6`. Blank titles and
-`ui:options.label: false` suppress the heading. Custom fields, tuples and multi-selects use control layout.
+`ui:options.label: false` suppress the heading, except that an item prefix still names a list item
+whose title is blank ("Port 1"); `ui:label: false` hides that heading too. Custom fields, tuples and
+multi-selects use control layout.
 
 Section groups use unique heading ids and link their mounted descriptions and visible errors through
 `aria-describedby`. Custom title templates receive a unique `id`; the group also has a text name so a
@@ -66,7 +68,29 @@ individual input defaults remain beneath their own entry. `ui:descriptionPositio
 `top`, `bottom` or `none`, including through global UI options. Text inputs, textareas and compact
 multi-selects keep descriptions below the control. Custom array templates and widgets keep their layout.
 
-Fields have a 20px vertical gap. Object sections have dividers, and configured field widths fit the
+Root and direct top-level section headings use 14px type with a 20px line height. The outermost
+object-list entry uses the same size. Nested section and inner-entry headings use 12px type with a
+16px line height. Both use weight 700, so they stand apart from the uppercase field labels below,
+and retain their semantic heading levels.
+
+Nested default sections move their title, fields and metadata together behind a 1px guide with 16px
+inline-start padding. Root and direct top-level sections keep their page dividers; nested sections use
+the ordinary field gap. Selected oneOf/anyOf branches own one guide, and a deeper object gets its own.
+Only a visible heading opens a section level, at any depth. An untitled object, or one whose heading is
+hidden with `ui:options.label: false` (or `ui:globalOptions: { label: false }`), gets no guide: its
+sections lay out as its parent's own, with the parent's dividers or guide and heading size. The form root
+and a selected oneOf/anyOf branch, whose selector's label names it, open a level even untitled.
+Guides follow the inline-start edge in RTL.
+
+The form's available width controls indentation. Below 480px, guides use 8px padding. Each owned guide
+or entry frame adds one depth. Beyond six boundaries, default guides add no inline-start padding and
+default frames add no inline padding; their borders and vertical spacing remain. At 480px and above,
+normal padding applies at all depths. Inner lists continue the count, and each SchemaForm starts at zero.
+Explicit fieldsets and custom templates retain their own padding. Nested tables keep their independent width query.
+An explicit item fieldset with no header on its top border, such as a scalar item or an object item
+whose heading is hidden and that has no menu, pads all four sides evenly.
+
+Fields have a 20px vertical gap, and configured field widths fit the
 available space. Additional-property key/value rows wrap in narrow containers, and their enabled remove
 buttons participate in Tab order. The internal `data-schema-form-*` markers identify layout elements
 independently of generated CSS module names.
@@ -80,13 +104,18 @@ forbidden properties use RJSF's unsupported-field presentation. `additionalPrope
 Single-value lists render one input row per item with a trash button on the right. Orderable lists
 have a grip on the left that opens a Move up/Move down menu. The generated per-item labels are hidden;
 `ui:itemPrefix` on the array or its items names the inputs and actions, such as "Broker 2".
-Item titles supply the name when no prefix exists, with "Item" as the fallback.
+Item titles supply the name when no prefix exists, with "Item" as the fallback. A prefix names the item
+even when its title is blank.
 
 Fixed tuple positions keep a visible label from their item prefix or schema title. Additional tuple
 items use their prefix or title with their position number, such as "Backup 2". Fixed positions keep
 RJSF's move and removal restrictions. Reserved action space keeps tuple inputs aligned.
 
-Object items render numbered section headings and a left rail. One menu beside each heading holds
+Object items render numbered section headings inside a 1px outline with 4px corners and 16px padding.
+Inner object lists use the same outline. Explicit fieldsets (`ui:fieldset`) draw their header, the heading
+and menu, on the top border and open the frame below it. Without a header there, as for scalar items or
+untitled items without a menu, the frame pads evenly and its content sits centred.
+One menu beside each heading holds
 the allowed move actions and a destructive Remove action. Boundary moves stay visible and disabled.
 Readonly and disabled lists keep disabled controls. Add renders a plus followed by "Add <prefix>"
 or "Add item". Lists with a reserved grip column center the plus in that column and align the text
@@ -152,6 +181,9 @@ Move, remove and Add use the focus policy described above.
 The reorder and remove buttons match the first visible cell's size. Its `componentSize` overrides
 `formContext.componentSize`; the default is large.
 
+An empty table renders only its Add button, in the same place as an empty sections list. The column
+headers and the table role arrive with the first row and go again when the last row is removed.
+
 Use `layout: 'sections'` on the array to retain sections. For unordered environment variables:
 
 ```tsx
@@ -174,8 +206,9 @@ and template overrides stay on the parent. Set those explicitly in `uiSchema.one
 
 Branches hide their repeated title by default; set `ui:options.label: true` on a branch to show it.
 The selector and branch use the standard field gap, with an indented rail beside the branch,
-including custom branch templates. A selected object branch also gives its parent property row
-and the following visible row section dividers.
+including custom branch templates. In a root object body, a selected object branch also gives its
+parent property row and the following visible row section dividers. Nested object bodies use the
+ordinary field gap.
 Inline objects keep their existing divider-free layout.
 
 Parent `ui:order` passes to branches with `'*'` appended for remaining properties. An explicit branch

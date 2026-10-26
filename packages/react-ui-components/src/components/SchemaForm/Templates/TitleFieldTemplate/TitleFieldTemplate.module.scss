@@ -17,6 +17,14 @@
 	.GroupHeading {
 		@include heading-s-semibold-caps;
 
+		&.SubsectionHeading {
+			@include heading-xs-semibold-caps;
+
+			font-weight: var(--font-weight-bold);
+		}
+
+		// Bold at every level, so a section heading stands apart from the uppercase field labels under it
+		font-weight: var(--font-weight-bold);
 		color: var(--text-container-neutral-default);
 		margin: 0;
 		overflow-wrap: anywhere;
