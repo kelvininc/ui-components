@@ -3,15 +3,17 @@
 .NewKeyContainer {
 	width: 100%;
 	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+	flex-flow: row wrap;
+	align-items: flex-start;
+	gap: var(--space-20);
 
 	.InputContainer {
-		width: 100%;
-		padding-right: var(--spacing-3xl);
+		flex: 1 1 200px;
+		min-width: 0;
 	}
 
 	.DeleteButton {
-		padding-top: var(--spacing-4xl);
+		align-self: flex-end;
+		flex: 0 0 auto;
 	}
 }
