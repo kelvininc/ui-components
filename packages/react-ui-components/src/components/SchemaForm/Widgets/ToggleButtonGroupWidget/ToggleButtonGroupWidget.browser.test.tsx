@@ -4,7 +4,7 @@ import { userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../../../test-utils/browser';
 import { KvSchemaForm } from '../../SchemaForm';
-import { TOGGLE_BUTTON_GROUP_SHAPES } from '../../test-utils/matrix';
+import { TOGGLE_BUTTON_GROUP_SHAPES, TOGGLE_SHARED_TEXT_CHOICES } from '../../test-utils/matrix';
 
 const focusedControl = () => {
 	let active = document.activeElement;
@@ -33,5 +33,18 @@ describe.each(TOGGLE_BUTTON_GROUP_SHAPES)('toggle widget in Chromium: $name', ro
 		}
 		await userEvent.keyboard(' ');
 		await expect.poll(() => onChange.mock.lastCall?.[0].formData).toEqual(row.nextSelection);
+	});
+});
+
+describe('toggle widget in Chromium: choices that read the same as text', () => {
+	it('checks only the choice whose value matches, and selects the other on its own', async () => {
+		const { selected, other, nextSelection, ...form } = TOGGLE_SHARED_TEXT_CHOICES;
+		const onChange = vi.fn();
+		const screen = await render(<KvSchemaForm {...form} formData={[...form.formData]} onChange={onChange} />);
+		await whenAllKelvinReady(screen.container);
+		await expect.element(screen.getByRole('checkbox', { name: selected })).toHaveAttribute('aria-checked', 'true');
+		await expect.element(screen.getByRole('checkbox', { name: other })).toHaveAttribute('aria-checked', 'false');
+		await userEvent.click(screen.getByRole('checkbox', { name: other }));
+		await expect.poll(() => onChange.mock.lastCall?.[0].formData).toEqual(nextSelection);
 	});
 });

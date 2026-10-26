@@ -3,6 +3,7 @@ import { JSONSchema7 } from 'json-schema';
 import { get, isEmpty, isNil, isString, merge } from 'lodash';
 import { EnumOptions, IUIDropdownOptions } from './types';
 import { DEFAULT_DROPDOWN_CONFIG, IDropdownConfig } from './config';
+import { getOptionKey } from '../utils';
 
 const numericTypes = ['number', 'integer'];
 
@@ -44,7 +45,7 @@ export const processValue = (schema: JSONSchema7, value: any) => {
 
 export const getSelectedOptions = (selectedOptionsMap: Record<string, boolean>): string[] => Object.keys(selectedOptionsMap ?? {}).filter(key => selectedOptionsMap[key]);
 
-export const getOptionKey = (index: number): string => `choice-${index}`;
+export { getOptionKey };
 
 /**
  * The dropdown key of a single value: the key `buildDropdownOptions` gives its option.

@@ -404,6 +404,26 @@ export const TOGGLE_BUTTON_GROUP_SHAPES: readonly {
 	}
 ];
 
+/** Choices whose values read the same as text: each keeps its own button and selection */
+export const TOGGLE_SHARED_TEXT_CHOICES = {
+	schema: {
+		type: 'array',
+		title: 'Retry counts',
+		uniqueItems: true,
+		items: {
+			oneOf: [
+				{ const: 0, title: 'Zero retries' },
+				{ const: '0', title: 'Zero as text' }
+			]
+		}
+	} as RJSFSchema,
+	uiSchema: { 'ui:widget': 'toggleButtonGroup', 'ui:options': { withRadio: true } } as UiSchema,
+	formData: [0],
+	selected: 'Zero retries',
+	other: 'Zero as text',
+	nextSelection: [0, '0']
+} as const;
+
 /** Multi-select labels come from normalized schema titles or array UI, including when item UI exists */
 export const MULTI_SELECT_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema: UiSchema; formData: string[]; labels: string[] }[] = [
 	{ name: 'schema titles', schema: ASSET_SELECTION, uiSchema: {}, formData: ['north-line'], labels: ['North line', 'South line'] },
@@ -5161,6 +5181,7 @@ export const SECTION_LAYOUT_SHAPES: readonly SectionLayoutShape[] = [
 	FOCUS_EDITING_FLAGS,
 	TOGGLE_FOCUS_MODES,
 	TOGGLE_BUTTON_GROUP_SHAPES,
+	TOGGLE_SHARED_TEXT_CHOICES,
 	ARRAY_SHAPES,
 	R5_ARRAY_ACTIONS,
 	R5_FOCUS_ARRAY_SHAPES,
