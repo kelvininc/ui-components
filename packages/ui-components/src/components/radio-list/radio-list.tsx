@@ -4,6 +4,8 @@ import { IRadioListItem } from '../radio-list-item/radio-list-item.types';
 import { focusRadioGroup, getRadioGroupTabStop, handleRadioGroupKeyDown, RadioGroupOption } from '../../utils/radio-group.helper';
 /**
  * @part items-container - The container for the list items
+ * @part item - Each radio-list item host
+ * @part item-label - Each item's visible label
  */
 @Component({
 	tag: 'kv-radio-list',
@@ -70,6 +72,8 @@ export class KvRadioList implements IRadioList, IRadioListEvents {
 						return (
 							<kv-radio-list-item
 								{...item}
+								part="item"
+								exportparts="label: item-label"
 								key={item.optionId}
 								checked={this.selectedOption === item.optionId}
 								disabled={this.isOptionDisabled(item)}
