@@ -61,7 +61,6 @@ export const SvgIconExample: React.FC = () => (
  - [kv-action-button-icon](../action-button-icon)
  - [kv-action-button-split](../action-button-split)
  - [kv-action-button-text](../action-button-text)
- - [kv-action-menu](../action-menu)
  - [kv-alert](../alert)
  - [kv-calendar](../calendar)
  - [kv-checkbox](../checkbox)
@@ -94,7 +93,6 @@ graph TD;
   kv-action-button-icon --> kv-icon
   kv-action-button-split --> kv-icon
   kv-action-button-text --> kv-icon
-  kv-action-menu --> kv-icon
   kv-alert --> kv-icon
   kv-calendar --> kv-icon
   kv-checkbox --> kv-icon

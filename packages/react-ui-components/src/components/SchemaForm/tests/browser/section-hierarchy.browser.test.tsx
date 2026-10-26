@@ -233,7 +233,7 @@ describe.each([StyleMode.Light, StyleMode.Night])('entry frames and capped paddi
 				const add = Array.from(list.querySelectorAll('kv-action-button')).find(button => button.closest('[data-schema-form-list]') === list);
 				expect(add).toBeDefined();
 				expect(add!.getBoundingClientRect().left - items[0].getBoundingClientRect().left).toBeCloseTo(0, 0);
-				for (const menu of items.flatMap(item => Array.from(item.querySelectorAll('kv-action-menu')))) {
+				for (const menu of items.flatMap(item => Array.from(item.querySelectorAll('[data-action-menu]')))) {
 					expect(menu.getBoundingClientRect().right).toBeLessThanOrEqual(list.getBoundingClientRect().right + 1);
 				}
 			}
@@ -403,7 +403,7 @@ it('wraps long entry headings beside an inline-end menu in RTL', async () => {
 	await document.fonts.ready;
 	const item = screen.container.querySelector<HTMLElement>('[data-schema-form-boundary="item"]')!;
 	const header = item.querySelector('[data-schema-form-item-header]')!;
-	const menu = header.querySelector('kv-action-menu')!;
+	const menu = header.querySelector('[data-action-menu]')!;
 	const heading = header.querySelector('h2,h3,h4,h5,h6')!;
 	const headingBox = heading.getBoundingClientRect();
 	const menuBox = menu.getBoundingClientRect();

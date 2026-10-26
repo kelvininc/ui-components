@@ -1,5 +1,10 @@
 import { newE2EPage } from '@stencil/core/testing';
-import { MENU_TRIGGER_VARIANTS } from '../../action-menu/test/action-menu.matrix';
+
+const MENU_TRIGGER_VARIANTS = Object.freeze([
+	{ name: 'base', tag: 'kv-action-button', html: '<kv-action-button type="tertiary" accessible-label="Topic 1 actions">Actions</kv-action-button>' },
+	{ name: 'icon', tag: 'kv-action-button-icon', html: '<kv-action-button-icon type="tertiary" icon="kv-more" accessible-label="Topic 1 actions"></kv-action-button-icon>' }
+]);
+MENU_TRIGGER_VARIANTS.forEach(row => Object.freeze(row));
 
 describe.each(MENU_TRIGGER_VARIANTS)('C5 popup state: $name', row => {
 	it.each([undefined, false, true])('exposes %s on the inner control', async expanded => {

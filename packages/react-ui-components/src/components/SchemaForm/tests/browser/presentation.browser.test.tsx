@@ -49,7 +49,7 @@ describe.each([StyleMode.Light, StyleMode.Night])('fieldset overlays in %s', the
 				expect(background).not.toBe('rgba(0, 0, 0, 0)');
 				const fieldsets = screen.container.querySelectorAll(`.${itemStyles.FieldsetStyle}`);
 				expect(fieldsets).toHaveLength(Math.max(list.formData.length, overlays));
-				expect(screen.container.querySelectorAll('kv-action-menu')).toHaveLength(menus);
+				expect(screen.container.querySelectorAll('[data-action-menu]')).toHaveLength(menus);
 				const itemHeaders = screen.container.querySelectorAll('[data-schema-form-item-header]');
 				expect(itemHeaders).toHaveLength(headers);
 				let actualOverlays = 0;
