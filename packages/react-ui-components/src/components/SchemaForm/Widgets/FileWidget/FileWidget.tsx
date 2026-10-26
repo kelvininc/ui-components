@@ -8,7 +8,7 @@ import { get, isEmpty } from 'lodash';
 import classNames from 'classnames';
 import { FileInfoType } from './types';
 import { extractFileInfo, processFiles } from './utils';
-import { useFormState } from '../../contexts';
+import { useFieldErrors, useFormState } from '../../contexts';
 import { SCHEMA_FORM_STRINGS } from '../../strings';
 
 function FileActions({ fileInfo, onDelete, preview = false }: { fileInfo: FileInfoType; onDelete: (filename: string) => void; preview?: boolean }) {
@@ -92,6 +92,7 @@ function FilesInfo({
 function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(props: WidgetProps<T, S, F>) {
 	const { id, disabled, readonly, required, multiple, onChange, value, options, uiSchema, schema, label, name, rawErrors = [] } = props;
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
+	const hasVisibleErrors = useFieldErrors(id, rawErrors);
 
 	const [filesInfo, setFilesInfo] = useState<FileInfoType[]>(extractFileInfo(value));
 
@@ -135,11 +136,18 @@ function FileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends 
 	return (
 		<div className={styles.FileWidgetContainer}>
 			<div className={styles.FilesInfo}>
-				<FilesInfo filesInfo={filesInfo} displayLabel={displayedLabel} preview={options.filePreview} hasError={!isEmpty(rawErrors)} onDelete={removeFile} />
+				<FilesInfo filesInfo={filesInfo} displayLabel={displayedLabel} preview={options.filePreview} hasError={hasVisibleErrors} onDelete={removeFile} />
 			</div>
 			<div className={styles.BrowseFilesButton}>
 				<label htmlFor={`file_${name}`}>
-					<KvActionButtonText type={EActionButtonType.Tertiary} size={EComponentSize.Small} text="Browse File" disabled={disabled}></KvActionButtonText>
+					<KvActionButtonText
+						type={EActionButtonType.Tertiary}
+						size={EComponentSize.Small}
+						text="Browse File"
+						disabled={disabled}
+						onFocusButton={() => markFieldAsTouched(id)}
+						onBlurButton={() => markFieldAsTouched(id)}
+					></KvActionButtonText>
 				</label>
 				<input
 					id={`file_${name}`}

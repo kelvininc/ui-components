@@ -4,7 +4,7 @@ import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjs
 import { KvRadioListItem } from '../../../../stencil-generated';
 import styles from './RadioWidget.module.scss';
 import classNames from 'classnames';
-import { useFormState } from '../../contexts';
+import { useFieldDescription, useFormState } from '../../contexts';
 
 const RadioWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
@@ -16,6 +16,7 @@ const RadioWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormC
 	onChange
 }: WidgetProps<T, S, F>) => {
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
+	const accessibleDescriptionElements = useFieldDescription(id);
 	const { enumOptions, enumDisabled, inline } = options;
 	const inlineMemo = useMemo(() => Boolean(inline), [inline]);
 	const { allowClearInputs } = formContext as F;
@@ -45,6 +46,7 @@ const RadioWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormC
 								label={option.label}
 								disabled={isDisabled}
 								checked={checked}
+								accessibleDescriptionElements={accessibleDescriptionElements}
 								onOptionClick={_ => handleChange(option.value, checked)}
 								onFocus={() => markFieldAsTouched(id)}
 								onBlur={() => markFieldAsTouched(id)}
