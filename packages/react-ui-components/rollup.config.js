@@ -11,7 +11,8 @@ const getPlugins = (lodashImportOpts = {}, otherPlugins = []) => {
 		peerDepsExternal(),
 		resolve(),
 		optimizeLodashImports({ ...lodashImportOpts }),
-		typescript(),
+		// Tests stay in tsconfig.json for editors and type checks, but out of the published types
+		typescript({ tsconfig: './tsconfig.build.json' }),
 		postcss({
 			modules: true
 		}),
