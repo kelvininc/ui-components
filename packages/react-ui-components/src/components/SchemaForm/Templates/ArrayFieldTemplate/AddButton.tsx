@@ -1,7 +1,7 @@
 import { EActionButtonType, EComponentSize, EIconName } from '@kelvininc/ui-components';
-import { ArrayFieldTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
+import { ArrayFieldTemplateProps, FormContextType, getUiOptions, isFixedItems, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import React from 'react';
-import { KvActionButtonIcon, KvActionButtonText } from '../../../../stencil-generated';
+import { KvActionButton, KvIcon } from '../../../../stencil-generated';
 import styles from './AddButton.module.scss';
 import { SCHEMA_FORM_STRINGS } from '../../strings';
 
@@ -10,24 +10,29 @@ const AddButton = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormCon
 	readonly,
 	uiSchema,
 	schema,
-	onAddClick
-}: Partial<ArrayFieldTemplateProps<T, S, F>>) => {
+	registry,
+	onAddClick,
+	buttonRef
+}: Partial<ArrayFieldTemplateProps<T, S, F>> & { buttonRef?: React.Ref<HTMLKvActionButtonElement> }) => {
+	const options = getUiOptions(uiSchema, registry?.globalUiOptions);
+	const itemOptions = getUiOptions(schema && isFixedItems(schema) ? uiSchema?.additionalItems : uiSchema?.items, registry?.globalUiOptions);
+	const validPrefix = (value: unknown) => (typeof value === 'string' && value.trim() ? value : undefined);
+	const prefix = validPrefix(itemOptions.itemPrefix) ?? validPrefix(options.itemPrefix);
 	const btnProps = {
-		icon: EIconName.Add,
-		accessibleLabel: uiSchema?.['ui:itemPrefix'] ? SCHEMA_FORM_STRINGS.add(uiSchema['ui:itemPrefix']) : SCHEMA_FORM_STRINGS.addItem(uiSchema?.['ui:title'] || schema?.title),
+		accessibleLabel: prefix ? SCHEMA_FORM_STRINGS.add(prefix) : SCHEMA_FORM_STRINGS.addItem(options.title || schema?.title),
 		size: EComponentSize.Large,
 		type: EActionButtonType.Tertiary,
-		tabIndex: -1,
+		tabIndex: 0,
+		menuTabIndex: 0,
 		disabled: disabled || readonly,
 		onClickButton: onAddClick
 	};
-	if (uiSchema && uiSchema['ui:itemPrefix']) {
-		return <KvActionButtonText text={`Add ${uiSchema['ui:itemPrefix']}`} {...btnProps} />;
-	}
-
 	return (
 		<div className={styles.AddButtonContainer}>
-			<KvActionButtonIcon {...btnProps} />
+			<KvActionButton ref={buttonRef} {...btnProps}>
+				<KvIcon name={EIconName.Add} />
+				<span className={styles.AddButtonText}>{prefix ? SCHEMA_FORM_STRINGS.add(prefix) : SCHEMA_FORM_STRINGS.addItem()}</span>
+			</KvActionButton>
 		</div>
 	);
 };

@@ -14,6 +14,15 @@ export const TEXT_FIELD_FOCUS = Object.freeze([
 ]);
 
 export const SELECT_CONTROLS = Object.freeze(['kv-single-select-dropdown', 'kv-multi-select-dropdown'] as const);
+export const GUARDED_FOCUS_CONTROLS = Object.freeze([
+	{ tag: 'kv-text-field', method: 'focusInput' },
+	{ tag: 'kv-dropdown', method: 'setFocus' },
+	{ tag: 'kv-single-select-dropdown', method: 'setFocus' },
+	{ tag: 'kv-multi-select-dropdown', method: 'setFocus' },
+	{ tag: 'kv-radio-list', method: 'setFocus' },
+	{ tag: 'kv-toggle-button-group', method: 'setFocus' },
+	{ tag: 'kv-action-menu', method: 'setFocus' }
+] as const);
 export const ACTIVATION_KEYS = Object.freeze(['Enter', 'Space'] as const);
 
 export const TOGGLE_NAMES = Object.freeze([
@@ -88,6 +97,7 @@ export const DROPDOWN_CONSUMERS = Object.freeze([
 	...CONTROL_NAMES,
 	...TEXT_FIELD_FOCUS,
 	...GROUP_FOCUS,
+	...GUARDED_FOCUS_CONTROLS,
 	...TEXT_FIELD_CONSUMERS,
 	...DROPDOWN_CONSUMERS,
 	...DROPDOWN_FOCUS_FLAGS,

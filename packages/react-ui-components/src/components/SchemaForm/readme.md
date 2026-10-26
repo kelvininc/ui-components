@@ -51,7 +51,7 @@ export const SchemaFormExample: React.FC = () => {
 
 ## Section layout
 
-Object fields and homogeneous object lists render open sections. Their titles use native headings,
+Object fields and object lists that don't qualify for tables render open sections. Their titles use native headings,
 starting at `h2`; each titled section increases the level, up to `h6`. Blank titles and
 `ui:options.label: false` suppress the heading. Custom fields, tuples and multi-selects use control layout.
 
@@ -67,6 +67,93 @@ independently of generated CSS module names.
 RJSF 5 requires object schemas during path traversal. SchemaForm converts boolean property schemas to
 validation-equivalent `{}` and `{not:{}}` schemas. Unconstrained properties have no inferred input type;
 forbidden properties use RJSF's unsupported-field presentation. `additionalProperties` flags stay literal.
+
+## List items
+
+Single-value lists render one input row per item with a trash button on the right. Orderable lists
+have a grip on the left that opens a Move up/Move down menu. The generated per-item labels are hidden;
+`ui:itemPrefix` on the array or its items names the inputs and actions, such as "Broker 2".
+Item titles supply the name when no prefix exists, with "Item" as the fallback.
+
+Fixed tuple positions keep a visible label from their item prefix or schema title. Additional tuple
+items use their prefix or title with their position number, such as "Backup 2". Fixed positions keep
+RJSF's move and removal restrictions. Reserved action space keeps tuple inputs aligned.
+
+Object items render numbered section headings and a left rail. One menu beside each heading holds
+the allowed move actions and a destructive Remove action. Boundary moves stay visible and disabled.
+Readonly and disabled lists keep disabled controls. Add always renders a left-aligned text button,
+"Add <prefix>" or "Add item", with a plus icon.
+
+Enabled item actions and Add participate in Tab order. Menus support mouse and keyboard interaction.
+Scalar help tips stay beside the input; descriptions, errors and default helpers stay above
+or below it. Custom item fields and field templates retain controls beside their content. Custom array
+templates receive their own list settings. List item markup, move controls and scalar labels change in v4.
+
+After a move, focus follows the item's menu trigger. Removing an item focuses the next item's trigger,
+then the previous one, then Add. Unordered scalar lists use their Remove button. Add keeps focus while
+more items are allowed; at `maxItems`, focus enters the new item's first editable control. At
+`maxProperties`, Add property focuses the new key. Empty entries fall back to their item action or a
+named group. These groups hold a negative Tab index only while focused.
+
+A tuple's Add button uses the `additionalItems` prefix, then the array prefix. Kelvin's default list
+templates don't render copy actions for `ui:options.copyable`; supply a custom item template to add them.
+Fully replaced array and item templates manage their own action focus.
+
+Custom widgets and fields can register their editable control for focus after an add:
+
+```tsx
+import { useSchemaFormFocusRef } from '@kelvininc/react-ui-components/client';
+import type { WidgetProps } from '@rjsf/utils';
+
+function BrokerHost({ value, onChange, disabled, readonly }: WidgetProps) {
+	const focusRef = useSchemaFormFocusRef<HTMLInputElement>(disabled || readonly);
+	return <input ref={focusRef} aria-label="Broker host" disabled={disabled || readonly} value={value ?? ''} onChange={event => onChange(event.target.value)} />;
+}
+```
+
+Registered hosts that implement asynchronous `focusInput` or `setFocus` receive an optional
+`canFocus: () => boolean` argument. Check it immediately before moving focus after any wait, so a
+pending call respects the user moving elsewhere, a newer action, or the form becoming readonly.
+
+## Flat object tables
+
+Lists with one to four visible text, number or select properties render as tables automatically.
+Nested objects, inner lists, conditional items, expandable objects, custom controls and custom layout
+templates keep sections. Visible fields with suppressed labels or blank UI titles keep sections too.
+Lists with visible item descriptions, item help or default-value helpers also
+keep sections so their guidance stays visible. Hidden properties retain their values and don't count
+toward the column limit.
+Text formats such as `email`, `uri` and Kelvin's regex formats can use tables; file, date, time and color
+controls keep sections. An explicit `ui:widget` qualifies only when it selects a built-in text, updown
+or select widget, including their named aliases. Explicit email and URI widgets keep sections.
+
+Headers follow the items' `ui:order`. Each header shows its title, required marker and one info tip for
+the property's description or help. `descriptionPosition: 'none'` hides descriptions, including a global
+setting; explicit `ui:help` still appears in the tip. Cells show their own errors below the control. Below a 480px
+container, each row stacks its cells and shows small local labels with help tips. The header's help
+triggers hide at this width while its column names remain available to screen readers. Resizing preserves
+the controls and current focus. Table help uses labelled buttons that open and close with Enter or Space.
+Header help participates in Tab order at 480px and above; stacked help sits before its cell input.
+
+The table uses column headers and a hidden row header, such as "Variable 2". Controls receive names such
+as "Name, Variable 2" through `accessibleLabel`. The row name comes from `ui:itemPrefix`, the items' title,
+then "row". Tab visits each row's cell help and inputs before its reorder grip, remove button and next row.
+Move, remove and Add use the focus policy described above.
+The reorder and remove buttons match the first visible cell's size. Its `componentSize` overrides
+`formContext.componentSize`; the default is large.
+
+Use `layout: 'sections'` on the array to retain sections. For unordered environment variables:
+
+```tsx
+const uiSchema = {
+	environment: {
+		'ui:options': { layout: 'sections', itemPrefix: 'Variable', orderable: false }
+	}
+};
+```
+
+Omit `layout` to use the automatic table; `orderable: false` hides the grip while keeping the trash
+button. `removable: false`, `addable: false`, `readonly` and `disabled` keep their existing behavior.
 
 ## oneOf and anyOf
 

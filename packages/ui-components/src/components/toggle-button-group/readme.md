@@ -26,9 +26,15 @@
 
 ## Methods
 
-### `setFocus() => Promise<void>`
+### `setFocus(canFocus?: () => boolean) => Promise<void>`
 
 Focuses the current radio Tab stop, or the first enabled checkbox/plain button.
+
+#### Parameters
+
+| Name       | Type            | Description                                                                 |
+| ---------- | --------------- | --------------------------------------------------------------------------- |
+| `canFocus` | `() => boolean` | Optional live check; returning false cancels focus after queued invocation. |
 
 #### Returns
 

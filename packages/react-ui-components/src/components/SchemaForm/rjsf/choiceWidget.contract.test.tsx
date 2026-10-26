@@ -26,6 +26,7 @@ describe.each([
 			RadioWidget: radio,
 			SelectWidget: probe('select'),
 			TextWidget: probe('text'),
+			UpDownWidget: probe('updown'),
 			EmailWidget: row.formatWidget === 'radio' ? radio : row.formatWidget === 'custom' ? custom : probe('email'),
 			CheckboxWidget: probe('checkbox'),
 			connectionChoice: custom
