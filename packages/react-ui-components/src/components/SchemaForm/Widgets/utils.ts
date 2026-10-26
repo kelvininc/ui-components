@@ -1,6 +1,12 @@
 import { FormContextType, getUiOptions, Registry, RJSFSchema, StrictRJSFSchema, UiSchema } from '@rjsf/utils';
 import { isEqual } from 'lodash';
 
+/**
+ * The key a choice widget gives the option at `index`. Choice values can be numbers, booleans or strings that
+ * read the same (`0` and `'0'`), but option keys are strings, so keys come from positions instead of values.
+ */
+export const getOptionKey = (index: number): string => `choice-${index}`;
+
 const isPrimitive = (value: unknown): boolean => ['string', 'number', 'boolean'].includes(typeof value);
 
 /** Match JSON values first; primitive string fallback preserves existing numeric-string inputs. */
