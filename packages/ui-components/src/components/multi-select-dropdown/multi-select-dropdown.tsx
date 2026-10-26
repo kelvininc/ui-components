@@ -41,6 +41,8 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
+	@Prop() accessibleLabel?: string;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) displayValue?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) displayPrefix?: string;
@@ -141,6 +143,12 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		this.calculateBadgeValue();
 	}
 
+	/** Focuses the dropdown trigger without changing its open state or selection. */
+	@Method()
+	async setFocus(): Promise<void> {
+		await this.dropdownRef?.setFocus();
+	}
+
 	/** Focuses the search text field */
 	@Method()
 	async focusSearch() {
@@ -153,6 +161,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	}
 
 	private selectRef?: HTMLKvSelectMultiOptionsElement | null;
+	private dropdownRef?: HTMLKvDropdownElement;
 
 	private onOptionsSelected = ({ detail: newOptions }: CustomEvent<Record<string, boolean>>): void => {
 		this.optionsSelected.emit(newOptions);
@@ -245,6 +254,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	private getInputConfig(): Partial<ITextField> {
 		return merge({}, this.inputConfig, {
 			label: this.label,
+			accessibleLabel: this.accessibleLabel,
 			value: this._selectionDisplayValue,
 			valuePrefix: this.displayPrefix,
 			loading: this.loading,
@@ -274,6 +284,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		return (
 			<Host>
 				<kv-dropdown
+					ref={element => (this.dropdownRef = element)}
 					inputConfig={this.getInputConfig()}
 					isOpen={this._isOpen}
 					onOpenStateChange={this.onOpenStateChange}

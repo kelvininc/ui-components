@@ -115,15 +115,18 @@ export const IconsState: Story = {
 		options: [
 			{
 				value: "opt1",
-				icon: EIconName.DensityLow
+				icon: EIconName.DensityLow,
+				accessibleLabel: "Low density"
 			},
 			{
 				value: "opt2",
-				icon: EIconName.DensityMedium
+				icon: EIconName.DensityMedium,
+				accessibleLabel: "Medium density"
 			},
 			{
 				value: "opt3",
-				icon: EIconName.DensityHigh
+				icon: EIconName.DensityHigh,
+				accessibleLabel: "High density"
 			}
 		],
 		selectedOption: "opt2",

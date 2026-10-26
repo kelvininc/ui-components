@@ -6,8 +6,9 @@ import { EIconName } from '../icon/icon.types';
 import { DEFAULT_TEXT_TOOLTIP_CONFIG } from './text-field.config';
 import { ITooltip } from '../tooltip/tooltip.types';
 import { getValueAsString } from './text-field.utils';
-import { getUTF8StringLength } from '../../utils/string.helper';
+import { getUTF8StringLength, isValidLabel } from '../../utils/string.helper';
 import { HostAttributes, Method } from '@stencil/core/internal';
+import { setAccessibleDescriptionElements } from '../../utils/accessible-description.helper';
 
 /**
  * @part input-container - container that includes the input, right and left slot
@@ -16,7 +17,7 @@ import { HostAttributes, Method } from '@stencil/core/internal';
 @Component({
 	tag: 'kv-text-field',
 	styleUrl: 'text-field.scss',
-	shadow: true
+	shadow: { delegatesFocus: true }
 })
 export class KvTextField implements ITextField, ITextFieldEvents {
 	private nativeInput?: HTMLInputElement;
@@ -26,6 +27,10 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	@Prop({ reflect: true }) type: EInputFieldType = EInputFieldType.Text;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
+	/** @inheritdoc */
+	@Prop() accessibleLabel?: string;
+	/** @inheritdoc */
+	@Prop() accessibleDescriptionElements?: readonly Element[];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) examples?: string[];
 	/** @inheritdoc */
@@ -82,7 +87,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** Focuses the input */
 	@Method()
 	async focusInput() {
-		this.nativeInput.focus();
+		this.nativeInput?.focus();
 	}
 
 	/** Watch `value` property for changes and update native input element accordingly */
@@ -139,6 +144,10 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 			this.el.focus();
 			this.nativeInput?.focus();
 		}
+	}
+
+	componentDidRender() {
+		setAccessibleDescriptionElements(this.nativeInput, this.accessibleDescriptionElements);
 	}
 
 	/** Text field focus state */
@@ -294,6 +303,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 											type={this.type}
 											list={!isNil(this.examples) ? `examples_${id}` : undefined}
 											name={this.inputName}
+											aria-label={isValidLabel(this.label) ? this.label : this.accessibleLabel}
 											placeholder={this.placeholder}
 											disabled={this.inputDisabled}
 											max={this.max}

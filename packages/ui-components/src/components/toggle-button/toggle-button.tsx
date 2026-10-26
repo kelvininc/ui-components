@@ -3,6 +3,8 @@ import { isEmpty, throttle } from 'lodash-es';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
 import { EComponentSize, EIconName, ERadioControlType } from '../../types';
 import { IToggleButton, IToggleButtonEvents } from './toggle-button.types';
+import { isValidLabel } from '../../utils/string.helper';
+import { setAccessibleDescriptionElements } from '../../utils/accessible-description.helper';
 /**
  * @part toggle-button - The toggle action.
  * @part toggle-icon - The toggle button's icon container.
@@ -19,6 +21,10 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	@Prop({ reflect: true }) value!: string | number;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
+	/** @inheritdoc */
+	@Prop() accessibleLabel?: string;
+	/** @inheritdoc */
+	@Prop() accessibleDescriptionElements?: readonly Element[];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) icon?: EIconName;
 	/** @inheritdoc */
@@ -44,6 +50,7 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	@Event() checkedChange: EventEmitter<string | number>;
 
 	private clickThrottler: (e: MouseEvent) => void;
+	private control?: HTMLButtonElement | HTMLDivElement;
 	private onCheck = () => {
 		if (!this.disabled) {
 			this.checkedChange.emit(this.value);
@@ -52,6 +59,10 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 
 	connectedCallback() {
 		this.clickThrottler = throttle(() => this.onCheck(), DEFAULT_THROTTLE_WAIT);
+	}
+
+	componentDidRender() {
+		if (!this.withRadio) setAccessibleDescriptionElements(this.control, this.accessibleDescriptionElements);
 	}
 
 	// The inner radio is the toggle's focusable part. Its own checkedChange would otherwise bubble
@@ -75,11 +86,17 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	render() {
 		const hasLabel = !isEmpty(this.label);
 		const hasIcon = !isEmpty(this.icon);
+		const Control = this.withRadio ? 'div' : 'button';
+		const accessibleLabel = [this.accessibleLabel, this.label, this.tooltip].find(isValidLabel);
+		const controlAttributes = this.withRadio
+			? this.customAttributes
+			: { ...this.customAttributes, 'type': 'button', 'aria-label': accessibleLabel, 'aria-pressed': String(!!this.checked), 'disabled': this.disabled };
 
 		return (
 			<Host>
 				<kv-tooltip text={this.tooltip}>
-					<div
+					<Control
+						ref={element => (this.control = element)}
 						class={{
 							'toggle-button': true,
 							'toggle-button--checked': !!this.checked,
@@ -90,15 +107,15 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 						}}
 						part="toggle-button"
 						onClick={this.onClick}
-						{...this.customAttributes}
+						{...controlAttributes}
 					>
 						{this.withRadio && (
 							<kv-radio
 								size={EComponentSize.Small}
 								checked={this.checked}
 								disabled={this.disabled}
-								// An icon-only toggle has no text to name its radio, so its tooltip does
-								accessibleLabel={hasLabel ? this.label : this.tooltip}
+								accessibleLabel={accessibleLabel}
+								accessibleDescriptionElements={this.accessibleDescriptionElements}
 								controlType={this.radioControlType}
 								skipTabStop={this.skipTabStop}
 								onCheckedChange={this.onRadioCheckedChange}
@@ -114,7 +131,7 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 								{this.label}
 							</div>
 						)}
-					</div>
+					</Control>
 				</kv-tooltip>
 			</Host>
 		);
