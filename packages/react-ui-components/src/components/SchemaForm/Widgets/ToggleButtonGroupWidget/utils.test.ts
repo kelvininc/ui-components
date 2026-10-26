@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildToggleButtons } from './utils';
+import { buildSelectedToggleButtons, buildToggleButtons, toggleSelectedOptions } from './utils';
 import { ALL_BUTTON_VALUE } from './config';
 import { ToggleButtonGroupOption, IToggleButtonGroupConfig } from './types';
 
@@ -9,6 +9,17 @@ const baseConfig: IToggleButtonGroupConfig = {
 	minItems: 0,
 	maxItems: Number.MAX_SAFE_INTEGER
 };
+
+it('preserves numeric option values, including zero, through selection', () => {
+	const options = [
+		{ label: 'No retries', value: 0 },
+		{ label: 'Three retries', value: 3 }
+	];
+	expect(buildToggleButtons(options, [], baseConfig).map(button => button.value)).toEqual([0, 3]);
+	expect(buildSelectedToggleButtons([0], options, baseConfig)).toEqual({ 0: true });
+	expect(toggleSelectedOptions(3, [0], options, { ...baseConfig, multiple: true, maxItems: 2 })).toEqual([0, 3]);
+	expect(toggleSelectedOptions(0, [0], options, baseConfig)).toEqual([]);
+});
 
 describe('buildToggleButtons', () => {
 	describe('when options is empty', () => {

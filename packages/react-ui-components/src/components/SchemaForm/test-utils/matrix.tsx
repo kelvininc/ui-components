@@ -38,6 +38,65 @@ export const CHOICE_SCHEMAS: readonly { name: string; schema: RJSFSchema; values
 	}
 ];
 
+/** Names must reach the real control inside its shadow root, including visible overrides. */
+export const CONTROL_NAME_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	formData: boolean | string;
+	role: 'checkbox' | 'radio';
+	labels: string[];
+	nextValue: boolean | string;
+}[] = [
+	{ name: 'checkbox field title', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'checkbox' }, formData: false, role: 'checkbox', labels: ['TLS'], nextValue: true },
+	{
+		name: 'checkbox visible label',
+		schema: CHOICE_SCHEMAS[0].schema,
+		uiSchema: { 'ui:widget': 'checkbox', 'ui:options': { checkboxLabel: 'Enable TLS' } },
+		formData: false,
+		role: 'checkbox',
+		labels: ['Enable TLS'],
+		nextValue: true
+	},
+	{
+		name: 'checkbox empty visible label',
+		schema: CHOICE_SCHEMAS[0].schema,
+		uiSchema: { 'ui:widget': 'checkbox', 'ui:options': { checkboxLabel: '' } },
+		formData: false,
+		role: 'checkbox',
+		labels: ['TLS'],
+		nextValue: true
+	},
+	{
+		name: 'checkbox UI field title',
+		schema: CHOICE_SCHEMAS[0].schema,
+		uiSchema: { 'ui:widget': 'checkbox', 'ui:title': 'Connection security' },
+		formData: false,
+		role: 'checkbox',
+		labels: ['Connection security'],
+		nextValue: true
+	},
+	{ name: 'default boolean radios', schema: CHOICE_SCHEMAS[0].schema, uiSchema: {}, formData: false, role: 'radio', labels: ['True', 'False'], nextValue: true },
+	{
+		name: 'custom boolean radio labels',
+		schema: CHOICE_SCHEMAS[0].schema,
+		uiSchema: { 'ui:options': { booleanLabels: { true: 'Enabled', false: 'Disabled' } } },
+		formData: false,
+		role: 'radio',
+		labels: ['Enabled', 'Disabled'],
+		nextValue: true
+	},
+	{
+		name: 'enum radio labels',
+		schema: CHOICE_SCHEMAS[1].schema,
+		uiSchema: { 'ui:widget': 'radio' },
+		formData: 'at-least-once',
+		role: 'radio',
+		labels: ['at-most-once', 'at-least-once'],
+		nextValue: 'at-most-once'
+	}
+];
+
 const ASSET_SELECTION: RJSFSchema = {
 	type: 'array',
 	title: 'Assets',
@@ -50,6 +109,40 @@ const ASSET_SELECTION: RJSFSchema = {
 		]
 	}
 };
+
+/** Toggle groups let users toggle off a selected asset, even when maxItems is one. */
+export const TOGGLE_BUTTON_GROUP_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	formData: string[];
+	nextValue: string;
+	nextSelection?: string[];
+}[] = [
+	{
+		name: 'multiple assets',
+		schema: ASSET_SELECTION,
+		uiSchema: { 'ui:widget': 'toggleButtonGroup', 'ui:options': { withRadio: true } },
+		formData: ['north-line'],
+		nextValue: 'south-line',
+		nextSelection: ['north-line', 'south-line']
+	},
+	{
+		name: 'one asset',
+		schema: { ...ASSET_SELECTION, maxItems: 1 },
+		uiSchema: { 'ui:widget': 'toggleButtonGroup', 'ui:options': { withRadio: true } },
+		formData: ['north-line'],
+		nextValue: 'south-line',
+		nextSelection: ['south-line']
+	},
+	{
+		name: 'one asset with disabled alternatives',
+		schema: { ...ASSET_SELECTION, maxItems: 1 },
+		uiSchema: { 'ui:widget': 'toggleButtonGroup', 'ui:options': { withRadio: true, enumDisabled: ['south-line'] } },
+		formData: ['north-line'],
+		nextValue: 'north-line'
+	}
+];
 
 /** Multi-select labels come from normalized schema titles or array UI, including when item UI exists */
 export const MULTI_SELECT_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema: UiSchema; formData: string[]; labels: string[] }[] = [
@@ -470,7 +563,9 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 [
 	VALUE_CASES,
 	CHOICE_SCHEMAS,
+	CONTROL_NAME_SHAPES,
 	MULTI_SELECT_SHAPES,
+	TOGGLE_BUTTON_GROUP_SHAPES,
 	ARRAY_SHAPES,
 	OBJECT_SHAPES,
 	BROKER_SCHEMA,

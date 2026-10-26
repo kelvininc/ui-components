@@ -16,7 +16,7 @@ exports[`Form Label (unit tests) when is labeled and required should match the s
 <kv-form-label label="Text Field" required="">
   <template shadowrootmode="open">
     <div class="label-container">
-      <span class="required">
+      <span aria-hidden="true" class="required">
         *
       </span>
       <span class="label">

@@ -10,14 +10,15 @@ import {
 	MULTI_SELECT_SHAPES,
 	OBJECT_SHAPES,
 	OPTION_SOURCES,
-	TEMPLATE_COMPONENTS
+	TEMPLATE_COMPONENTS,
+	TOGGLE_BUTTON_GROUP_SHAPES
 } from './matrix';
 
 const validator = getDefaultValidator();
 const errorsFor = (formData: unknown, schema: RJSFSchema) => validator.validateFormData(formData, schema).errors;
 
 // Every fixture must be valid on its own, so a failing test points at the code under test
-describe.each([...ARRAY_SHAPES, ...OBJECT_SHAPES, ...FLAT_OBJECT_SHAPES, ...MULTI_SELECT_SHAPES])('the $name fixture', ({ schema, formData }) => {
+describe.each([...ARRAY_SHAPES, ...OBJECT_SHAPES, ...FLAT_OBJECT_SHAPES, ...MULTI_SELECT_SHAPES, ...TOGGLE_BUTTON_GROUP_SHAPES])('the $name fixture', ({ schema, formData }) => {
 	it('has sample data that passes its schema', () => {
 		expect(errorsFor(formData, schema)).toEqual([]);
 	});

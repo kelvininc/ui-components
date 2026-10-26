@@ -6,7 +6,8 @@ import { EComponentSize } from '../../types';
 @Component({
 	tag: 'kv-radio-list-item',
 	styleUrl: 'radio-list-item.scss',
-	shadow: true
+	// Group options delegate host focus to their radio; a focusable header slot takes precedence.
+	shadow: { delegatesFocus: true }
 })
 export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 	/** @inheritdoc */
@@ -21,6 +22,8 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 	@Prop({ reflect: true }) checked?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
+	/** @inheritdoc */
+	@Prop() skipTabStop?: boolean = false;
 
 	/** @inheritdoc */
 	@Event() optionClick: EventEmitter<string | number>;
@@ -41,6 +44,12 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 		this.optionClick.emit(this.optionId);
 	};
 
+	private onRadioCheckedChange = (event: CustomEvent<Event>) => {
+		event.stopPropagation();
+		// Mouse clicks reach the container; Space activates through the radio's event.
+		if (event.detail.type === 'keydown') this.onOptionClick(event);
+	};
+
 	render() {
 		return (
 			<Host>
@@ -54,9 +63,17 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 				>
 					<slot name="header" />
 					<div class={{ content: true, [`content--size-${this.size}`]: true }}>
-						<kv-radio size={EComponentSize.Small} checked={this.checked} disabled={this.disabled} onCheckedChange={this.onOptionClick} />
+						<kv-radio
+							size={EComponentSize.Small}
+							checked={this.checked}
+							disabled={this.disabled}
+							accessibleLabel={this.label}
+							skipTabStop={this.skipTabStop}
+							onCheckedChange={this.onRadioCheckedChange}
+						/>
 						<div class="info">
-							<div class="label">
+							{/* With a `label`, the radio carries it as its name; this copy is for sight only */}
+							<div class="label" aria-hidden={this.label ? 'true' : undefined}>
 								<slot name="label">{this.label}</slot>
 							</div>
 							{this.description && <div class="description">{this.parsedDescription}</div>}
