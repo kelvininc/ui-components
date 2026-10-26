@@ -53,14 +53,15 @@ export const RadioListItemExample: React.FC = () => (
 
 ## Properties
 
-| Property                | Attribute     | Description                                                                 | Type                                           | Default                |
-| ----------------------- | ------------- | --------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
-| `checked`               | `checked`     | (optional) Defines if this option is checked                                | `boolean`                                      | `false`                |
-| `description`           | `description` | (optional) The description that can contain links in the [text](url) format | `string`                                       | `undefined`            |
-| `disabled`              | `disabled`    | (optional) Defines if this option is disabled                               | `boolean`                                      | `false`                |
-| `label`                 | `label`       | (required) The label to display                                             | `string`                                       | `undefined`            |
-| `optionId` _(required)_ | `option-id`   | (required) The unique id that serves as a key for this item                 | `number \| string`                             | `undefined`            |
-| `size`                  | `size`        | (optional) Button's size                                                    | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
+| Property                | Attribute       | Description                                                                                                                                        | Type                                           | Default                |
+| ----------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
+| `checked`               | `checked`       | (optional) Defines if this option is checked                                                                                                       | `boolean`                                      | `false`                |
+| `description`           | `description`   | (optional) The description that can contain links in the [text](url) format                                                                        | `string`                                       | `undefined`            |
+| `disabled`              | `disabled`      | (optional) Defines if this option is disabled                                                                                                      | `boolean`                                      | `false`                |
+| `label`                 | `label`         | (optional) Visible label and accessible radio name. Set this even when a label is slotted.                                                         | `string`                                       | `undefined`            |
+| `optionId` _(required)_ | `option-id`     | (required) The unique id that serves as a key for this item                                                                                        | `number \| string`                             | `undefined`            |
+| `size`                  | `size`          | (optional) Button's size                                                                                                                           | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Large` |
+| `skipTabStop`           | `skip-tab-stop` | (optional) If `true` Tab skips this option's radio. A radio group keeps one Tab stop and moves between options with the arrow keys. Default: false | `boolean`                                      | `false`                |
 
 
 ## Events

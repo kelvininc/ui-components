@@ -2,6 +2,11 @@ import { SpecPage } from '@stencil/core/internal';
 import { KvFormLabel } from '../form-label';
 import { newSpecPage } from '@stencil/core/testing';
 
+it('keeps the required asterisk out of the accessible label', async () => {
+	const page = await newSpecPage({ components: [KvFormLabel], html: '<kv-form-label label="Topics" required />' });
+	expect(page.root.shadowRoot.querySelector('.required').getAttribute('aria-hidden')).toBe('true');
+});
+
 describe('Form Label (unit tests)', () => {
 	let page: SpecPage;
 

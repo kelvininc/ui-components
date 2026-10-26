@@ -6,6 +6,7 @@ import { getComponentSize } from '../ToggleButtonGroupWidget/utils';
 
 const CheckboxWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
+	label,
 	value,
 	disabled,
 	readonly,
@@ -28,6 +29,7 @@ const CheckboxWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Fo
 			checked={checked}
 			disabled={disabled || readonly}
 			label={(checkboxLabel as string) ?? undefined}
+			accessibleLabel={(checkboxLabel as string) || label}
 			onClickCheckbox={handleChange}
 			onFocus={() => markFieldAsTouched(id)}
 			onBlur={() => markFieldAsTouched(id)}

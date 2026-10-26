@@ -2,8 +2,8 @@
 
 exports[`Radio Button (unit tests) when rendering with default props should match the snapshot 1`] = `
 <kv-checkbox>
-  <template shadowrootmode="open">
-    <kv-radio exportparts="label" size="small">
+  <template shadowrootmode="open" shadowrootdelegatesfocus>
+    <kv-radio controltype="checkbox" exportparts="label" size="small">
       <kv-icon name="kv-uncheck-state" part="icon" slot="action-icon"></kv-icon>
     </kv-radio>
   </template>

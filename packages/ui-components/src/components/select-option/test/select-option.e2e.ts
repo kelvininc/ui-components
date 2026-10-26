@@ -1,5 +1,26 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
 
+describe('select option checkbox keyboard activation', () => {
+	it('names its checkbox and selects once on held Space and once on a click', async () => {
+		const page = await newE2EPage();
+		await page.setContent('<kv-select-option label="North line" value="north-line" togglable></kv-select-option>');
+		const option = await page.find('kv-select-option');
+		const spy = await option.spyOnEvent('itemSelected');
+		const checkbox = await page.$('aria/North line[role="checkbox"]');
+		expect(checkbox).not.toBeNull();
+		await checkbox.focus();
+		await page.keyboard.down('Space');
+		await page.keyboard.down('Space');
+		await page.keyboard.up('Space');
+		await page.waitForChanges();
+		expect(spy.events).toHaveLength(1);
+		expect(spy.lastEvent.detail).toBe('north-line');
+		await checkbox.click();
+		await page.waitForChanges();
+		expect(spy.events).toHaveLength(2);
+	});
+});
+
 describe('Select Item (end-to-end)', () => {
 	let page: E2EPage;
 	let selectOptionEl: E2EElement;

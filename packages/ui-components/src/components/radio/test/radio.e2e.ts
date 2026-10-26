@@ -1,5 +1,21 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from '@stencil/core/testing';
 
+describe('radio control keyboard focus', () => {
+	it('focuses its named control through the host and selects once on held Space', async () => {
+		const page = await newE2EPage();
+		await page.setContent('<kv-radio label="TLS"></kv-radio>');
+		const host = await page.find('kv-radio');
+		const spy = await host.spyOnEvent('checkedChange');
+		expect(await page.$('aria/TLS[role="radio"]')).not.toBeNull();
+		await page.evaluate(() => document.querySelector('kv-radio').focus());
+		await page.keyboard.down('Space');
+		await page.keyboard.down('Space');
+		await page.keyboard.up('Space');
+		await page.waitForChanges();
+		expect(spy.events).toHaveLength(1);
+	});
+});
+
 describe('Radio (end-to-end)', () => {
 	let page: E2EPage;
 

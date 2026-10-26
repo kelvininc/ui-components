@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, EventEmitter, Event } from '@stencil/core';
 import { isEmpty, throttle } from 'lodash-es';
 import { DEFAULT_THROTTLE_WAIT } from '../../config';
-import { EComponentSize, EIconName } from '../../types';
+import { EComponentSize, EIconName, ERadioControlType } from '../../types';
 import { IToggleButton, IToggleButtonEvents } from './toggle-button.types';
 /**
  * @part toggle-button - The toggle action.
@@ -12,7 +12,7 @@ import { IToggleButton, IToggleButtonEvents } from './toggle-button.types';
 @Component({
 	tag: 'kv-toggle-button',
 	styleUrl: 'toggle-button.scss',
-	shadow: true
+	shadow: { delegatesFocus: true }
 })
 export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	/** @inheritdoc */
@@ -32,6 +32,10 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) withRadio?: boolean = false;
 	/** @inheritdoc */
+	@Prop() radioControlType?: ERadioControlType = ERadioControlType.Radio;
+	/** @inheritdoc */
+	@Prop() skipTabStop?: boolean = false;
+	/** @inheritdoc */
 	@Prop({ reflect: true }) tooltip?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) customAttributes?: Record<string, string> = {};
@@ -49,6 +53,16 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 	connectedCallback() {
 		this.clickThrottler = throttle(() => this.onCheck(), DEFAULT_THROTTLE_WAIT);
 	}
+
+	// The inner radio is the toggle's focusable part. Its own checkedChange would otherwise bubble
+	// out under this component's event name with the wrong detail; a click on it already reaches
+	// onClick, so only Space (a keydown) needs to toggle from here.
+	private onRadioCheckedChange = (event: CustomEvent<Event>) => {
+		event.stopPropagation();
+		if (event.detail?.type === 'keydown' && !(event.detail as KeyboardEvent).repeat) {
+			this.onCheck();
+		}
+	};
 
 	onClick = (event: MouseEvent) => {
 		if (this.preventDefault) {
@@ -78,14 +92,25 @@ export class KvToggleButton implements IToggleButton, IToggleButtonEvents {
 						onClick={this.onClick}
 						{...this.customAttributes}
 					>
-						{this.withRadio && <kv-radio size={EComponentSize.Small} checked={this.checked} disabled={this.disabled} />}
+						{this.withRadio && (
+							<kv-radio
+								size={EComponentSize.Small}
+								checked={this.checked}
+								disabled={this.disabled}
+								// An icon-only toggle has no text to name its radio, so its tooltip does
+								accessibleLabel={hasLabel ? this.label : this.tooltip}
+								controlType={this.radioControlType}
+								skipTabStop={this.skipTabStop}
+								onCheckedChange={this.onRadioCheckedChange}
+							/>
+						)}
 						{hasIcon && (
 							<div class="toggle-button-icon" part="toggle-icon">
 								<kv-icon name={this.icon!} />
 							</div>
 						)}
 						{hasLabel && (
-							<div class="toggle-button-label" part="toggle-label">
+							<div class="toggle-button-label" part="toggle-label" aria-hidden={this.withRadio ? 'true' : undefined}>
 								{this.label}
 							</div>
 						)}

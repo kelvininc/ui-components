@@ -1,6 +1,7 @@
 import { EventEmitter } from '@stencil/core';
 import { EComponentSize } from '../../types';
 import { EIconName } from '../icon/icon.types';
+import { ERadioControlType } from '../radio/radio.types';
 
 export interface IToggleButton<T = string | number> {
 	/** (required) The value to be emitted upon click events */
@@ -17,6 +18,10 @@ export interface IToggleButton<T = string | number> {
 	preventDefault?: boolean;
 	/** (optional) Sets if the button is a radio button */
 	withRadio?: boolean;
+	/** (optional) What the radio is to assistive tech. Use `checkbox` when pressing a checked button unchecks it, or several buttons can be checked at once. Default: `radio` */
+	radioControlType?: ERadioControlType;
+	/** (optional) If true, Tab skips the inner radio. Radio groups keep one enabled Tab stop. */
+	skipTabStop?: boolean;
 	/** (optional) Button's size */
 	size?: EComponentSize;
 	/** (optional) Tooltip text */

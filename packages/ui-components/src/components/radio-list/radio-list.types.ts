@@ -4,8 +4,12 @@ import { IRadioListItem } from '../radio-list-item/radio-list-item.types';
 export interface IRadioList {
 	/** (optional) Form field label */
 	label?: string;
+	/** Names the radio group without rendering text. Takes precedence over the visible label. */
+	accessibleLabel?: string;
+	/** When true, reports a validation error on the radio group. */
+	invalid?: boolean;
 	/** (required) The configuration for the buttons to render */
-	options: IRadioListItem[];
+	options: Omit<IRadioListItem, 'skipTabStop'>[];
 	/** (optional) The desired selected option */
 	selectedOption?: string | number;
 	/** (optional) The options to show up as disabled */
