@@ -1,0 +1,158 @@
+@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
+
+.TableContainer {
+	--schema-form-table-action-height: var(--icon-button-height-regular);
+	--schema-form-table-input-height: var(--input-height-regular);
+
+	container-type: inline-size;
+}
+
+.TableContainer .TableList {
+	gap: var(--spacing-md);
+}
+
+.TableActions > div {
+	flex-basis: var(--schema-form-table-action-height);
+	width: var(--schema-form-table-action-height);
+}
+
+.TableContainer .TableList + div {
+	margin-top: var(--spacing-2xl);
+
+	kv-action-button {
+		--button-padding-x-large: 0;
+	}
+}
+
+.TableContainer[data-table-grip] .TableList + div {
+	padding-left: calc(var(--schema-form-table-action-height) + var(--spacing-md));
+}
+
+.TableHeader,
+.TableRow {
+	display: grid;
+	/* stylelint-disable-next-line csstools/value-no-unknown-custom-properties -- column count and action width come from tableStyle */
+	grid-template-columns: repeat(var(--schema-form-table-columns), minmax(0, 1fr)) var(--schema-form-table-actions-width);
+	gap: var(--spacing-md);
+	align-items: start;
+	position: relative;
+	min-width: 0;
+
+	&[data-grip] {
+		padding-left: calc(var(--schema-form-table-action-height) + var(--spacing-md));
+	}
+}
+
+.TableCell {
+	min-width: 0;
+}
+
+.ColumnHeader,
+.CellLabel {
+	@include heading-xs-regular-caps;
+
+	color: var(--input-text-label-default);
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-xs);
+	min-width: 0;
+	min-height: var(--icon-button-height-compact);
+	overflow-wrap: anywhere;
+}
+
+.HeaderHelp kv-action-button-icon,
+.CellLabel kv-action-button-icon {
+	--button-icon-small-size: var(--size-md);
+	--icon-button-tertiary-icon-color-default: var(--input-text-label-default);
+	--icon-button-tertiary-icon-color-subtle: var(--icon-surface-neutral-primary);
+}
+
+.HeaderHelp,
+.CellLabel kv-toggle-tip {
+	margin-inline: calc(-1 * var(--spacing-xs));
+}
+
+.Required {
+	color: var(--input-text-required-default);
+}
+
+.CellLabel {
+	display: none;
+	min-height: var(--icon-button-height-compact);
+	margin-bottom: var(--spacing-xs);
+}
+
+.TableActions {
+	display: flex;
+	grid-column: -2 / -1;
+	grid-row: 1;
+	align-items: center;
+	padding-top: calc((var(--schema-form-table-input-height) - var(--schema-form-table-action-height)) / 2);
+}
+
+.TableGrip {
+	position: absolute;
+	top: calc((var(--schema-form-table-input-height) - var(--schema-form-table-action-height)) / 2);
+	left: 0;
+}
+
+.Hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.RowErrors {
+	grid-column: 1 / -1;
+
+	&:empty {
+		display: none;
+	}
+}
+
+@container (width < 480px) {
+	.HeaderHelp {
+		display: none;
+	}
+
+	.TableHeader {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+	}
+
+	.TableRow {
+		grid-template-columns: minmax(0, 1fr) auto;
+		padding-bottom: var(--spacing-2xl);
+		border-bottom: var(--border-width-default) solid var(--border-container-divider-default);
+
+		& + .TableRow {
+			margin-top: var(--spacing-md);
+		}
+	}
+
+	.TableCell {
+		grid-column: 1;
+	}
+
+	.CellLabel {
+		display: flex;
+	}
+
+	.TableActions {
+		grid-column: 2;
+		grid-row: 1;
+		padding-top: calc(var(--icon-button-height-compact) + var(--spacing-xs) + (var(--schema-form-table-input-height) - var(--schema-form-table-action-height)) / 2);
+	}
+
+	.TableGrip {
+		top: calc(var(--icon-button-height-compact) + var(--spacing-xs) + (var(--schema-form-table-input-height) - var(--schema-form-table-action-height)) / 2);
+	}
+}

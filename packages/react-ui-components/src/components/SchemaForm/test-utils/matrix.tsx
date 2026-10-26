@@ -1,7 +1,22 @@
-import { ArrayFieldTemplateProps, CustomValidator, ErrorSchema, ErrorTransformer, FieldTemplateProps, RJSFSchema, UIOptionsType, UiSchema, WidgetProps } from '@rjsf/utils';
+import {
+	ArrayFieldTemplateProps,
+	CustomValidator,
+	ErrorSchema,
+	ErrorTransformer,
+	FieldProps,
+	FieldTemplateProps,
+	RJSFSchema,
+	TemplatesType,
+	UIOptionsType,
+	UiSchema,
+	WrapIfAdditionalTemplateProps,
+	WidgetProps
+} from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
-import { StyleMode } from '@kelvininc/ui-components';
+import { EComponentSize, StyleMode } from '@kelvininc/ui-components';
 import { EApplyDefaults, SchemaFormContext } from '../types';
+import { useSchemaFormFocusRef } from '../hooks/entryFocus';
+import DefaultFieldTemplate from '../Templates/FieldTemplate';
 
 /** Freezes plain data in place; components (functions, memo and forwardRef objects) stay as they are */
 const deepFreeze = <T,>(value: T): T => {
@@ -127,7 +142,7 @@ export const CHOICE_DISPATCH_SHAPES: readonly {
 	schema: RJSFSchema;
 	uiSchema: UiSchema & { 'ui:globalOptions'?: { widget?: string } };
 	formatWidget?: 'radio' | 'custom';
-	expected: 'radio' | 'select' | 'text' | 'email' | 'checkbox' | 'custom';
+	expected: 'radio' | 'select' | 'text' | 'updown' | 'email' | 'checkbox' | 'custom';
 }[] = [
 	{ name: 'default string enum', schema: CHOICE_SCHEMAS[1].schema, uiSchema: {}, expected: 'select' },
 	{ name: 'default integer enum', schema: CHOICE_SCHEMAS[3].schema, uiSchema: {}, expected: 'select' },
@@ -157,6 +172,10 @@ export const CHOICE_DISPATCH_SHAPES: readonly {
 	},
 	{ name: 'unknown format falls back to select', schema: { ...CHOICE_SCHEMAS[1].schema, format: 'kelvin-connection' }, uiSchema: {}, expected: 'select' },
 	{ name: 'default text field', schema: { type: 'string', title: 'Broker' }, uiSchema: {}, expected: 'text' },
+	{ name: 'default number delegates to text', schema: { type: 'number', title: 'Temperature' }, uiSchema: {}, expected: 'text' },
+	{ name: 'default integer delegates to text', schema: { type: 'integer', title: 'Retries' }, uiSchema: {}, expected: 'text' },
+	{ name: 'number explicitly selects updown', schema: { type: 'number', title: 'Temperature' }, uiSchema: { 'ui:widget': 'updown' }, expected: 'updown' },
+	{ name: 'integer explicitly selects updown', schema: { type: 'integer', title: 'Retries' }, uiSchema: { 'ui:widget': 'updown' }, expected: 'updown' },
 	{ name: 'default boolean ignores global widget', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:globalOptions': { widget: 'select' } }, expected: 'radio' },
 	{ name: 'boolean uses local checkbox', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'checkbox' }, expected: 'checkbox' }
 ];
@@ -525,6 +544,86 @@ export const ARRAY_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema
 	{ name: 'readonly', schema: TOPICS, uiSchema: { 'ui:readonly': true }, formData: ['telemetry', 'alarms', 'commands'] }
 ];
 
+export const R5_ARRAY_ACTIONS = [
+	{ name: 'add below limit', action: 'add', count: 4, canAdd: true, index: 3, target: { kind: 'add' } },
+	{ name: 'add at limit', action: 'add', count: 4, canAdd: false, index: 3, target: { kind: 'item', index: 3, control: true } },
+	{ name: 'remove middle', action: 'remove', count: 2, canAdd: true, index: 1, target: { kind: 'item', index: 1, control: false } },
+	{ name: 'remove last', action: 'remove', count: 2, canAdd: true, index: 2, target: { kind: 'item', index: 1, control: false } },
+	{ name: 'move up', action: 'move-up', count: 3, canAdd: true, index: 2, target: { kind: 'item', index: 1, control: false } },
+	{ name: 'move down', action: 'move-down', count: 3, canAdd: true, index: 0, target: { kind: 'item', index: 1, control: false } },
+	{ name: 'remove final with Add', action: 'remove', count: 0, canAdd: true, index: 0, target: { kind: 'add' } },
+	{ name: 'remove final without Add', action: 'remove', count: 0, canAdd: false, index: 0, target: { kind: 'list' } }
+] as const;
+
+export const R5_FOCUS_ARRAY_SHAPES = ARRAY_SHAPES.map(row => {
+	const fixed = Array.isArray(row.schema.items) ? row.schema.items.length : 0;
+	const formData = [...row.formData];
+	while (formData.length < fixed + 3) formData.push(row.formData[row.formData.length - 1]);
+	return { ...row, formData, fixed };
+});
+
+export const R5_TUPLE_FOCUS_CASES = [
+	{ name: 'last additional with Add', index: 1, count: 1, fixed: 1, canAdd: true, target: { kind: 'add' } },
+	{ name: 'last additional without Add', index: 1, count: 1, fixed: 1, canAdd: false, target: { kind: 'list' } },
+	{ name: 'next additional', index: 2, count: 3, fixed: 1, canAdd: true, target: { kind: 'item', index: 2, control: false } },
+	{ name: 'previous additional', index: 3, count: 3, fixed: 2, canAdd: true, target: { kind: 'item', index: 2, control: false } }
+] as const;
+export const R5_FOCUS_CANCELLATIONS = ['user leaves', 'readonly', 'unmounted'] as const;
+
+export const R5_PROPERTY_SHAPES = [
+	{ name: 'untyped additional property', additionalProperties: true },
+	{ name: 'string additional property', additionalProperties: { type: 'string' } },
+	{ name: 'object additional property', additionalProperties: { type: 'object', properties: { host: { type: 'string' } } } }
+] as const;
+const R5WrappedField = (props: FieldTemplateProps) => (
+	<aside data-r5-field-template>
+		<DefaultFieldTemplate {...props} />
+	</aside>
+);
+export const R5_PROPERTY_TEMPLATES = [
+	{ name: 'default field template', templates: undefined },
+	{ name: 'custom wrapping template', templates: { FieldTemplate: R5WrappedField } }
+];
+export const R5_ADD_LIMITS = [
+	{ name: 'below limit', max: 3, intoEntry: false },
+	{ name: 'at limit', max: 2, intoEntry: true }
+] as const;
+
+const RegisteredBrokerWidget = ({ disabled, readonly, value, onChange }: WidgetProps) => {
+	const ref = useSchemaFormFocusRef<HTMLInputElement>(disabled || readonly);
+	return <input ref={ref} aria-label="Broker host" disabled={disabled || readonly} value={value ?? ''} onChange={event => onChange(event.target.value)} />;
+};
+export const R5_ENTRY_WIDGETS: readonly { name: string; schema: RJSFSchema; uiSchema?: UiSchema; selector: string }[] = [
+	{ name: 'text', schema: { type: 'string' }, selector: 'kv-text-field' },
+	{ name: 'integer', schema: { type: 'integer' }, selector: 'kv-text-field' },
+	{ name: 'password', schema: { type: 'string' }, uiSchema: { 'ui:widget': 'password' }, selector: 'kv-text-field' },
+	{ name: 'textarea', schema: { type: 'string' }, uiSchema: { 'ui:widget': 'textarea' }, selector: 'kv-text-area' },
+	{ name: 'select', schema: { type: 'string', enum: ['telemetry', 'alarms'] }, selector: 'kv-single-select-dropdown' },
+	{ name: 'radio', schema: { type: 'string', enum: ['telemetry', 'alarms'] }, uiSchema: { 'ui:widget': 'radio' }, selector: 'kv-radio-list' },
+	{ name: 'boolean', schema: { type: 'boolean' }, selector: 'kv-radio-list' },
+	{ name: 'checkbox', schema: { type: 'boolean' }, uiSchema: { 'ui:widget': 'checkbox' }, selector: 'kv-checkbox' },
+	{ name: 'multi-select', schema: { type: 'array', uniqueItems: true, items: { type: 'string', enum: ['telemetry', 'alarms'] } }, selector: 'kv-multi-select-dropdown' },
+	{
+		name: 'toggle group',
+		schema: { type: 'array', uniqueItems: true, items: { type: 'string', enum: ['telemetry', 'alarms'] } },
+		uiSchema: { 'ui:widget': 'toggleButtonGroup' },
+		selector: 'kv-toggle-button-group'
+	},
+	{ name: 'file', schema: { type: 'object', properties: { certificate: { type: 'string', format: 'data-url' } } }, selector: 'kv-action-button-text' },
+	{ name: 'registered custom widget', schema: { type: 'string' }, uiSchema: { 'ui:widget': RegisteredBrokerWidget }, selector: 'input' }
+];
+
+export const R5_FALLBACK_SHAPES = [
+	{ name: 'empty schema with actions', schema: { type: 'array', title: 'Topics', items: {} }, uiSchema: {}, itemTarget: true },
+	{ name: 'hidden widget with actions', schema: { type: 'array', title: 'Topics', items: { type: 'string' } }, uiSchema: { items: { 'ui:widget': 'hidden' } }, itemTarget: true },
+	{
+		name: 'empty object without actions',
+		schema: { type: 'array', title: 'Brokers', items: { type: 'object', title: 'Broker', properties: {} } },
+		uiSchema: { 'ui:options': { orderable: false, removable: false } },
+		itemTarget: false
+	}
+] as const;
+
 export const FIELDSET_BACKGROUND_SHAPES: readonly { name: string; background?: string }[] = [
 	{ name: 'inherited surface' },
 	{ name: 'custom form background', background: 'rgb(17, 29, 41)' }
@@ -588,62 +687,29 @@ export const ACTION_NAME_SHAPES: readonly {
 	uiSchema?: UiSchema;
 	formData: unknown;
 	labels: string[];
-	action: { label: string; nextData: unknown };
+	action: { label: string; nextData: unknown; menu?: string; menuAction?: string };
 	download?: string;
 }[] = [
 	{
 		name: 'list moves',
 		schema: TOPICS,
 		formData: ARRAY_SHAPES[0].formData,
-		labels: [
-			'Move Topic 1 down',
-			'Move Topic 1 up',
-			'Remove Topic 1',
-			'Move Topic 2 down',
-			'Move Topic 2 up',
-			'Remove Topic 2',
-			'Move Topic 3 down',
-			'Move Topic 3 up',
-			'Remove Topic 3',
-			'Add item to Topics'
-		],
-		action: { label: 'Move Topic 2 up', nextData: ['alarms', 'telemetry', 'commands'] }
+		labels: ['Reorder Topic 1', 'Remove Topic 1', 'Reorder Topic 2', 'Remove Topic 2', 'Reorder Topic 3', 'Remove Topic 3', 'Add item to Topics'],
+		action: { label: 'Move up', menu: 'Reorder Topic 2', menuAction: 'move-up', nextData: ['alarms', 'telemetry', 'commands'] }
 	},
 	{
 		name: 'list prefix',
 		schema: TOPICS,
 		uiSchema: { 'ui:itemPrefix': 'Channel', 'items': { 'ui:itemPrefix': 'Channel' } },
 		formData: ARRAY_SHAPES[0].formData,
-		labels: [
-			'Move Channel 1 down',
-			'Move Channel 1 up',
-			'Remove Channel 1',
-			'Move Channel 2 down',
-			'Move Channel 2 up',
-			'Remove Channel 2',
-			'Move Channel 3 down',
-			'Move Channel 3 up',
-			'Remove Channel 3',
-			'Add Channel'
-		],
+		labels: ['Reorder Channel 1', 'Remove Channel 1', 'Reorder Channel 2', 'Remove Channel 2', 'Reorder Channel 3', 'Remove Channel 3', 'Add Channel'],
 		action: { label: 'Remove Channel 2', nextData: ['telemetry', 'commands'] }
 	},
 	{
 		name: 'untitled list',
 		schema: { type: 'array', items: { type: 'string', default: 'new-topic' } },
 		formData: ARRAY_SHAPES[0].formData,
-		labels: [
-			'Move Item 1 down',
-			'Move Item 1 up',
-			'Remove Item 1',
-			'Move Item 2 down',
-			'Move Item 2 up',
-			'Remove Item 2',
-			'Move Item 3 down',
-			'Move Item 3 up',
-			'Remove Item 3',
-			'Add item'
-		],
+		labels: ['Reorder Item 1', 'Remove Item 1', 'Reorder Item 2', 'Remove Item 2', 'Reorder Item 3', 'Remove Item 3', 'Add item'],
 		action: { label: 'Add item', nextData: ['telemetry', 'alarms', 'commands', 'new-topic'] }
 	},
 	{
@@ -1418,6 +1484,268 @@ export const LIST_OPTIONS: readonly { name: string; options: { orderable?: boole
 	{ name: 'no buttons', options: { orderable: false, removable: false, addable: false } }
 ];
 
+export const L1_SCALAR_LIST_SHAPES = [
+	{ name: 'strings', schema: TOPICS, formData: ['telemetry', 'alarms', 'commands'], itemName: 'Topic' },
+	{ name: 'numbers', schema: { type: 'array', title: 'Intervals', items: { type: 'number', title: 'Interval' } } as RJSFSchema, formData: [0.5, 1.5, 2.5], itemName: 'Interval' },
+	{ name: 'integers', schema: { type: 'array', title: 'Retries', items: { type: 'integer', title: 'Retry' } } as RJSFSchema, formData: [0, 1, 2], itemName: 'Retry' },
+	{
+		name: 'enums',
+		schema: { type: 'array', title: 'Regions', items: { type: 'string', title: 'Region', enum: ['lisbon', 'berlin', 'austin'] } } as RJSFSchema,
+		formData: ['lisbon', 'berlin', 'austin'],
+		itemName: 'Region'
+	}
+];
+
+export const L1_PREFIX_SHAPES = [
+	{ name: 'item prefix', uiSchema: { items: { 'ui:itemPrefix': 'Broker' } } },
+	{ name: 'array prefix', uiSchema: { 'ui:itemPrefix': 'Broker' } },
+	{ name: 'options prefix', uiSchema: { 'ui:options': { itemPrefix: 'Broker' } } },
+	{ name: 'item options prefix', uiSchema: { items: { 'ui:options': { itemPrefix: 'Broker' } } } }
+];
+
+export const L1_TUPLE_SHAPES = [
+	{ name: 'schema titles', uiSchema: {}, labels: ['Primary', 'Backup 2'] },
+	{
+		name: 'position prefixes',
+		uiSchema: { items: [{ 'ui:itemPrefix': 'Primary broker' }], additionalItems: { 'ui:itemPrefix': 'Backup broker' } },
+		labels: ['Primary broker', 'Backup broker 2']
+	},
+	{
+		name: 'options prefixes',
+		uiSchema: { items: [{ 'ui:options': { itemPrefix: 'Primary broker' } }], additionalItems: { 'ui:options': { itemPrefix: 'Backup broker' } } },
+		labels: ['Primary broker', 'Backup broker 2']
+	},
+	{ name: 'array prefix preserves fixed title', uiSchema: { 'ui:itemPrefix': 'Broker' }, labels: ['Primary', 'Broker 2'] }
+] satisfies { name: string; uiSchema: UiSchema; labels: string[] }[];
+
+export const L1_ALIGNMENT_SHAPES: {
+	name: string;
+	uiSchema: UiSchema<Record<number, unknown>, RJSFSchema, SchemaFormContext>;
+	extraErrors?: ErrorSchema<Record<number, unknown>>;
+	message?: string;
+	defaultHelper?: boolean;
+}[] = [
+	{ name: 'plain', uiSchema: {}, extraErrors: undefined },
+	{ name: 'bottom description', uiSchema: { items: { 'ui:description': 'The plant topic to receive.' } }, message: 'The plant topic to receive.' },
+	{ name: 'top description', uiSchema: { items: { 'ui:description': 'The plant topic to receive.', 'ui:descriptionPosition': 'top' } }, message: 'The plant topic to receive.' },
+	{ name: 'visible errors', uiSchema: {}, extraErrors: { 0: { __errors: ['Topic is unavailable.'] } }, message: 'Topic is unavailable.' },
+	{ name: 'help tip', uiSchema: { items: { 'ui:help': 'Use the plant topic name.' } }, message: 'Use the plant topic name.' },
+	{ name: 'default helper', uiSchema: { items: { 'ui:showDefaultValueHelper': true } }, defaultHelper: true, message: 'Default value is: ' }
+];
+
+export const L1_HIDDEN_ITEM_HEADINGS = [
+	{ name: 'blank title', uiSchema: { items: { 'ui:title': '' } } },
+	{ name: 'blank options title', uiSchema: { items: { 'ui:options': { title: '' } } } },
+	{ name: 'hidden label', uiSchema: { items: { 'ui:label': false } } }
+];
+
+const WrappedItem = ({ children }: WrapIfAdditionalTemplateProps) => <div data-custom-item-wrap>{children}</div>;
+const nestedBrokers = {
+	schema: {
+		type: 'array',
+		title: 'Groups',
+		items: {
+			type: 'object',
+			title: 'Group',
+			properties: {
+				name: NAME,
+				brokers: { type: 'array', title: 'Brokers', items: { type: 'object', title: 'Broker', properties: { host: { type: 'string', title: 'Host' } } } }
+			}
+		}
+	} as RJSFSchema,
+	formData: ['north', 'south', 'east'].map((name, index) => ({ name, brokers: [{ host: `broker-${index * 2 + 1}.local` }, { host: `broker-${index * 2 + 2}.local` }] }))
+};
+export const L1_FIELDSET_SHAPES: {
+	name: string;
+	row: { schema: RJSFSchema; formData: unknown[] };
+	uiSchema: UiSchema;
+	templates?: Partial<TemplatesType>;
+	headers: number;
+	overlays: number;
+	menus: number;
+}[] = [
+	{ name: 'item actions', row: ARRAY_SHAPES[2], uiSchema: { 'ui:options': { layout: 'sections' }, 'items': { 'ui:fieldset': true } }, headers: 3, overlays: 3, menus: 3 },
+	{
+		name: 'no item actions',
+		row: ARRAY_SHAPES[2],
+		uiSchema: { 'ui:options': { layout: 'sections', orderable: false, removable: false }, 'items': { 'ui:fieldset': true } },
+		headers: 3,
+		overlays: 3,
+		menus: 0
+	},
+	{
+		name: 'blank title without actions',
+		row: ARRAY_SHAPES[2],
+		uiSchema: { 'ui:options': { layout: 'sections', orderable: false, removable: false }, 'items': { 'ui:fieldset': true, 'ui:title': '' } },
+		headers: 0,
+		overlays: 0,
+		menus: 0
+	},
+	{
+		name: 'hidden label without actions',
+		row: ARRAY_SHAPES[2],
+		uiSchema: { 'ui:options': { layout: 'sections', orderable: false, removable: false }, 'items': { 'ui:fieldset': true, 'ui:label': false } },
+		headers: 0,
+		overlays: 0,
+		menus: 0
+	},
+	{
+		name: 'custom wrapping template without actions',
+		row: ARRAY_SHAPES[2],
+		uiSchema: { 'ui:options': { layout: 'sections', orderable: false, removable: false }, 'items': { 'ui:fieldset': true } },
+		templates: { WrapIfAdditionalTemplate: WrappedItem },
+		headers: 3,
+		overlays: 3,
+		menus: 0
+	},
+	{
+		name: 'nested plain items',
+		row: nestedBrokers,
+		uiSchema: { items: { 'ui:fieldset': true, 'brokers': { 'ui:options': { layout: 'sections' } } } },
+		headers: 9,
+		overlays: 3,
+		menus: 9
+	},
+	{
+		name: 'nested fieldset items',
+		row: nestedBrokers,
+		uiSchema: { items: { 'ui:fieldset': true, 'brokers': { 'ui:options': { layout: 'sections' }, 'items': { 'ui:fieldset': true } } } },
+		headers: 9,
+		overlays: 9,
+		menus: 9
+	}
+];
+
+// RJSF 5 renders no fields for these schemas; existing items must still be movable and removable.
+export const L1_EMPTY_ITEM_SCHEMAS = [
+	{ name: 'unconstrained items', schema: { type: 'array', title: 'Brokers', items: {} } as RJSFSchema },
+	{ name: 'empty fixed-item tuple', schema: { type: 'array', title: 'Brokers', items: [], additionalItems: { type: 'string', title: 'Backup' } } as RJSFSchema }
+].map(row => ({ ...row, formData: ['broker-1.local', 'broker-2.local', 'broker-3.local'], uiSchema: { 'ui:itemPrefix': 'Broker' } }));
+
+export const L1_HIDDEN_ITEM_WIDGETS: {
+	name: string;
+	row: { schema: RJSFSchema; formData: unknown[] };
+	uiSchema: UiSchema;
+	itemNames: string[];
+	hiddenPositions: number[];
+	section: boolean;
+}[] = [
+	{
+		name: 'hidden strings',
+		row: ARRAY_SHAPES[0],
+		uiSchema: { items: { 'ui:widget': 'hidden' } },
+		itemNames: ['Topic 1', 'Topic 2', 'Topic 3'],
+		hiddenPositions: [0, 1, 2],
+		section: false
+	},
+	{
+		name: 'hidden widget in options',
+		row: ARRAY_SHAPES[0],
+		uiSchema: { items: { 'ui:options': { widget: 'hidden' } } },
+		itemNames: ['Topic 1', 'Topic 2', 'Topic 3'],
+		hiddenPositions: [0, 1, 2],
+		section: false
+	},
+	{
+		name: 'hidden additional tuple positions',
+		row: { schema: ENDPOINTS, formData: ['primary.local', 'backup-1.local', 'backup-2.local'] },
+		uiSchema: { additionalItems: { 'ui:widget': 'hidden' } },
+		itemNames: ['Primary', 'Backup 2', 'Backup 3'],
+		hiddenPositions: [1, 2],
+		section: false
+	},
+	{
+		name: 'hidden fixed and additional tuple positions',
+		row: { schema: ENDPOINTS, formData: ['primary.local', 'backup-1.local', 'backup-2.local'] },
+		uiSchema: { items: [{ 'ui:widget': 'hidden' }], additionalItems: { 'ui:widget': 'hidden' } },
+		itemNames: ['Primary', 'Backup 2', 'Backup 3'],
+		hiddenPositions: [0, 1, 2],
+		section: false
+	},
+	{
+		name: 'hidden objects with nested lists',
+		row: ARRAY_SHAPES[7],
+		uiSchema: { items: { 'ui:widget': 'hidden' } },
+		itemNames: ['Group 1', 'Group 2', 'Group 3'],
+		hiddenPositions: [0, 1, 2],
+		section: true
+	}
+];
+
+const ItemArrayLayout = ({ items, registry, idSchema }: ArrayFieldTemplateProps) => {
+	const Item = registry.templates.ArrayFieldItemTemplate;
+	return (
+		<div data-custom-array-layout={idSchema.$id}>
+			{items.map(({ key, ...item }) => (
+				<Item key={key} {...item} />
+			))}
+		</div>
+	);
+};
+export const L1_ARRAY_TEMPLATE_SHAPES = [
+	{ name: 'custom ordered list', row: ARRAY_SHAPES[0], uiSchema: {}, menus: 3, labels: [] },
+	{ name: 'custom unordered list', row: ARRAY_SHAPES[0], uiSchema: { 'ui:options': { orderable: false } }, menus: 0, labels: [] },
+	{ name: 'custom tuple', row: ARRAY_SHAPES[3], uiSchema: {}, menus: 1, labels: ['Primary', 'Backup 2'] },
+	{
+		name: 'nested custom arrays keep their own ordering and names',
+		row: ARRAY_SHAPES[7],
+		uiSchema: { 'ui:options': { orderable: false, itemPrefix: 'Zone' }, 'items': { tags: { 'ui:options': { orderable: true, itemPrefix: 'Tag' } } } },
+		menus: 12,
+		labels: []
+	}
+].map(row => ({ ...row, ArrayTemplate: ItemArrayLayout }));
+
+export const L1_UNION_LIST_SHAPES = (['oneOf', 'anyOf'] as const).flatMap(keyword => [
+	{
+		name: `${keyword} object items`,
+		schema: {
+			type: 'array',
+			title: 'Connections',
+			items: {
+				type: 'object',
+				title: 'Connection',
+				[keyword]: [
+					{ type: 'object', title: 'Token', required: ['token'], properties: { token: { type: 'string', title: 'Token' } } },
+					{ type: 'object', title: 'Certificate', required: ['certificate'], properties: { certificate: { type: 'string', title: 'Certificate' } } }
+				]
+			}
+		} as RJSFSchema,
+		formData: [{ token: 'plant-token' }, { certificate: 'plant-certificate' }],
+		section: true,
+		itemName: 'Connection'
+	},
+	{
+		name: `${keyword} scalar items`,
+		schema: {
+			type: 'array',
+			title: 'Broker addresses',
+			items: {
+				title: 'Address',
+				[keyword]: [
+					{ type: 'string', title: 'Host' },
+					{ type: 'integer', title: 'Port' }
+				]
+			}
+		} as RJSFSchema,
+		formData: ['broker-1.local', 1883],
+		section: false,
+		itemName: 'Address'
+	}
+]);
+
+const ArrayItemInput = ({ idSchema, title, formData, onChange }: FieldProps) => (
+	<input data-array-item-input id={idSchema.$id} aria-label={title} value={formData ?? ''} onChange={event => onChange(event.target.value)} />
+);
+const ForwardRefArrayItemInput = forwardRef<HTMLInputElement, FieldProps>(({ idSchema, title, formData, onChange }, ref) => (
+	<input ref={ref} data-array-item-input id={idSchema.$id} aria-label={title} value={formData ?? ''} onChange={event => onChange(event.target.value)} />
+));
+ForwardRefArrayItemInput.displayName = 'ForwardRefArrayItemInput';
+export const L1_ITEM_FIELD_COMPONENTS = [
+	{ name: 'function', ItemField: ArrayItemInput },
+	{ name: 'React.memo', ItemField: memo(ArrayItemInput) },
+	{ name: 'forwardRef', ItemField: ForwardRefArrayItemInput }
+];
+
 /** A custom widget: L2 can't tell how wide it renders, so a list using it stays in sections */
 const SecretInput = ({ id, value, onChange }: WidgetProps) => <input id={id} type="password" value={value ?? ''} onChange={event => onChange(event.target.value)} />;
 
@@ -1596,6 +1924,426 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 ];
 
 const CustomConnection = () => <span data-custom-field="connection">Custom connection</span>;
+
+export const L2_ELIGIBILITY_SHAPES = [
+	{
+		name: 'property names with spaces',
+		schema: variables({ type: 'object', properties: { 'broker host': { type: 'string', title: 'Broker host' } } }),
+		formData: [{ 'broker host': 'broker-1.local' }],
+		isFlat: true
+	},
+	{
+		name: 'property choice with fields',
+		schema: variables({
+			type: 'object',
+			properties: {
+				value: {
+					type: 'string',
+					oneOf: [
+						{ title: 'Text', minLength: 1 },
+						{ title: 'Empty', maxLength: 0 }
+					]
+				}
+			}
+		}),
+		formData: [{ value: 'telemetry' }],
+		isFlat: false
+	},
+	{
+		name: 'property constant choices',
+		schema: variables({
+			type: 'object',
+			properties: {
+				level: {
+					type: 'string',
+					title: 'Level',
+					oneOf: [
+						{ const: 'info', title: 'Info' },
+						{ const: 'debug', title: 'Debug' }
+					]
+				}
+			}
+		}),
+		formData: [{ level: 'info' }],
+		isFlat: true
+	},
+	{
+		name: 'conditional property reference',
+		schema: {
+			...variables({ type: 'object', properties: { value: { $ref: '#/definitions/value' } } }),
+			definitions: { value: { type: 'string', if: { const: 'debug' }, then: { minLength: 5 } } }
+		},
+		formData: [{ value: 'debug' }],
+		isFlat: false
+	},
+	...['text', 'TextWidget', 'updown', 'UpDownWidget', 'select', 'SelectWidget'].map(widget => ({
+		name: `explicit ${widget}`,
+		schema: variables({ type: 'object', properties: { port: { type: 'integer', title: 'Port', enum: widget.toLowerCase().includes('select') ? [1883, 8883] : undefined } } }),
+		uiSchema: { items: { port: { 'ui:widget': widget } } } as UiSchema,
+		formData: [{ port: 1883 }, { port: 8883 }],
+		isFlat: true
+	})),
+	...['email', 'uri'].flatMap(format =>
+		[false, true].map(explicit => ({
+			name: `${explicit ? 'explicit widget' : 'implicit format'} ${format}`,
+			schema: variables({ type: 'object', properties: { address: { type: 'string', title: 'Address', format } } }),
+			uiSchema: { items: { address: explicit ? { 'ui:widget': format } : {} } } as UiSchema,
+			formData: [{ address: format === 'email' ? 'operations@kelvininc.com' : 'https://kelvininc.com' }],
+			isFlat: !explicit
+		}))
+	),
+	...['data-url', 'date', 'date-time', 'time', 'color'].map(format => ({
+		name: `special format ${format}`,
+		schema: variables({ type: 'object', properties: { value: { type: 'string', format } } }),
+		formData: [{}],
+		isFlat: false
+	})),
+	{
+		name: 'no visible columns',
+		schema: variables({ type: 'object', properties: { id: NAME } }),
+		uiSchema: { items: { id: { 'ui:widget': 'hidden' } } },
+		formData: [{ id: 'variable-1' }],
+		isFlat: false
+	},
+	{
+		name: 'hidden fifth column',
+		schema: variables({ type: 'object', properties: { name: NAME, value: VALUE, unit: NAME, scale: VALUE, id: NAME } }),
+		uiSchema: { items: { id: { 'ui:widget': 'hidden' } } },
+		formData: [{ name: 'TIMEOUT', value: '30', unit: 's', scale: '1', id: 'timeout' }],
+		isFlat: true
+	},
+	{
+		name: 'item reference',
+		schema: { ...variables({ $ref: '#/definitions/variable' }), definitions: { variable: { type: 'object', properties: { name: NAME, value: VALUE } } } },
+		formData: [{ name: 'TIMEOUT', value: '30' }],
+		isFlat: true
+	},
+	{
+		name: 'property reference',
+		schema: { ...variables({ type: 'object', properties: { name: { $ref: '#/definitions/name' } } }), definitions: { name: NAME } },
+		formData: [{ name: 'TIMEOUT' }],
+		isFlat: true
+	},
+	{
+		name: 'allOf properties',
+		schema: variables({ allOf: [{ type: 'object', properties: { name: NAME } }, { properties: { value: VALUE } }] }),
+		formData: [{ name: 'TIMEOUT', value: '30' }],
+		isFlat: true
+	},
+	{
+		name: 'conditional reference',
+		schema: {
+			...variables({ $ref: '#/definitions/variable' }),
+			definitions: { variable: { type: 'object', properties: { name: NAME }, if: { properties: { name: { const: 'TIMEOUT' } } }, then: { properties: { value: VALUE } } } }
+		},
+		formData: [{ name: 'TIMEOUT', value: '30' }],
+		isFlat: false
+	},
+	{
+		name: 'conditional allOf',
+		schema: variables({ type: 'object', allOf: [{ properties: { name: NAME }, if: { properties: { name: { const: 'TIMEOUT' } } }, then: { properties: { value: VALUE } } }] }),
+		formData: [{ name: 'TIMEOUT', value: '30' }],
+		isFlat: false
+	},
+	{
+		name: 'dependencies',
+		schema: variables({ type: 'object', properties: { name: NAME }, dependencies: { name: { properties: { value: VALUE } } } }),
+		formData: [{ name: 'TIMEOUT', value: '30' }],
+		isFlat: false
+	},
+	{
+		name: 'additional properties',
+		schema: variables({ type: 'object', properties: { name: NAME }, additionalProperties: { type: 'string' } }),
+		formData: [{ name: 'TIMEOUT', value: '30' }],
+		isFlat: false
+	},
+	{
+		name: 'custom property field',
+		schema: FLAT_OBJECT_SHAPES[0].schema,
+		uiSchema: { items: { value: { 'ui:field': CustomConnection } } },
+		formData: FLAT_OBJECT_SHAPES[0].formData,
+		isFlat: false
+	},
+	{
+		name: 'custom item field',
+		schema: FLAT_OBJECT_SHAPES[0].schema,
+		uiSchema: { items: { 'ui:field': CustomConnection } },
+		formData: FLAT_OBJECT_SHAPES[0].formData,
+		isFlat: false
+	},
+	{
+		name: 'custom property layout',
+		schema: FLAT_OBJECT_SHAPES[0].schema,
+		uiSchema: { items: { value: { 'ui:FieldTemplate': FieldLayout } } },
+		formData: FLAT_OBJECT_SHAPES[0].formData,
+		isFlat: false
+	},
+	{
+		name: 'custom item layout',
+		schema: FLAT_OBJECT_SHAPES[0].schema,
+		uiSchema: { items: { 'ui:FieldTemplate': FieldLayout } },
+		formData: FLAT_OBJECT_SHAPES[0].formData,
+		isFlat: false
+	},
+	...['radio', 'textarea', 'file', 'color'].map(widget => ({
+		name: `global ${widget} leaves text widget dispatch local`,
+		schema: FLAT_OBJECT_SHAPES[0].schema,
+		uiSchema: { 'ui:globalOptions': { widget } as UIOptionsType },
+		formData: FLAT_OBJECT_SHAPES[0].formData,
+		isFlat: true
+	})),
+	{
+		name: 'global radio leaves enum widget dispatch local',
+		schema: FLAT_OBJECT_SHAPES[1].schema,
+		uiSchema: { 'ui:globalOptions': { widget: 'radio' } as UIOptionsType },
+		formData: FLAT_OBJECT_SHAPES[1].formData,
+		isFlat: true
+	},
+	{
+		name: 'local radio overrides global text',
+		schema: FLAT_OBJECT_SHAPES[1].schema,
+		uiSchema: { 'ui:globalOptions': { widget: 'text' } as UIOptionsType, 'items': { level: { 'ui:widget': 'radio' } } },
+		formData: FLAT_OBJECT_SHAPES[1].formData,
+		isFlat: false
+	},
+	...['data-url', 'date'].map(format => ({
+		name: `global text preserves the ${format} control`,
+		schema: variables({ type: 'object', properties: { value: { type: 'string', format } } }),
+		uiSchema: { 'ui:globalOptions': { widget: 'text' } as UIOptionsType },
+		formData: [{}],
+		isFlat: false
+	})),
+	{
+		name: 'global hidden keeps fields hidden',
+		schema: FLAT_OBJECT_SHAPES[0].schema,
+		uiSchema: { 'ui:globalOptions': { widget: 'hidden' } as UIOptionsType },
+		formData: FLAT_OBJECT_SHAPES[0].formData,
+		isFlat: false
+	}
+] satisfies readonly { name: string; schema: RJSFSchema; uiSchema?: UiSchema; formData: object[]; isFlat: boolean }[];
+
+export const L2_PRESENTATION_SHAPES = ['description', 'help', 'default helper', 'required'].map(presentation => ({
+	name: presentation,
+	schema: variables({
+		type: 'object',
+		title: 'Variable',
+		required: presentation === 'required' ? ['name'] : [],
+		properties: {
+			name: {
+				...NAME,
+				description: presentation === 'description' ? 'Starts with a letter or underscore.' : undefined,
+				default: presentation === 'default helper' ? 'LOG_LEVEL' : undefined
+			},
+			value: VALUE
+		}
+	}),
+	uiSchema: {
+		items: {
+			'ui:order': ['value', 'name'],
+			'name': presentation === 'help' ? { 'ui:help': 'Starts with a letter or underscore.' } : presentation === 'default helper' ? { 'ui:showDefaultValueHelper': true } : {}
+		}
+	} as UiSchema,
+	formData: FLAT_OBJECT_SHAPES[0].formData
+}));
+
+export const L2_SIZE_SHAPES = [
+	{ name: 'default large controls', formContext: {}, uiSchema: {}, actionSize: EComponentSize.Large },
+	{ name: 'global compact controls', formContext: { componentSize: EComponentSize.Small }, uiSchema: {}, actionSize: EComponentSize.Small },
+	{ name: 'local compact first control', formContext: {}, uiSchema: { items: { name: { componentSize: EComponentSize.Small } } }, actionSize: EComponentSize.Small },
+	{
+		name: 'local large overrides compact context',
+		formContext: { componentSize: EComponentSize.Small },
+		uiSchema: { items: { name: { componentSize: EComponentSize.Large } } },
+		actionSize: EComponentSize.Large
+	},
+	{ name: 'compact second control', formContext: {}, uiSchema: { items: { value: { componentSize: EComponentSize.Small } } }, actionSize: EComponentSize.Large },
+	{
+		name: 'reordered compact select first',
+		formContext: {},
+		uiSchema: { items: { 'ui:order': ['level', 'name'], 'level': { componentSize: EComponentSize.Small } } },
+		actionSize: EComponentSize.Small,
+		select: true
+	}
+].map(({ select = false, ...row }) => ({
+	...row,
+	uiSchema: row.uiSchema as UiSchema,
+	formContext: row.formContext as SchemaFormContext,
+	schema: FLAT_OBJECT_SHAPES[select ? 1 : 0].schema,
+	formData: FLAT_OBJECT_SHAPES[select ? 1 : 0].formData
+}));
+
+export const L2_LABEL_SHAPES = [
+	{ name: 'local label suppressed', uiSchema: { items: { name: { 'ui:label': false } } }, isFlat: false },
+	{ name: 'local options label suppressed', uiSchema: { items: { name: { 'ui:options': { label: false } } } }, isFlat: false },
+	{ name: 'empty UI title', uiSchema: { items: { name: { 'ui:title': '' } } }, isFlat: false },
+	{ name: 'whitespace UI title', uiSchema: { items: { name: { 'ui:title': '  ' } } }, isFlat: false },
+	{ name: 'global label suppressed', uiSchema: { 'ui:globalOptions': { label: false } as UIOptionsType }, isFlat: false },
+	{ name: 'global empty UI title', uiSchema: { 'ui:globalOptions': { title: '' } as UIOptionsType }, isFlat: false },
+	{
+		name: 'local labels override global suppression',
+		uiSchema: { 'ui:globalOptions': { label: false } as UIOptionsType, 'items': { name: { 'ui:label': true }, value: { 'ui:label': true } } },
+		isFlat: true
+	},
+	{
+		name: 'local titles override global suppression',
+		uiSchema: { 'ui:globalOptions': { title: '' } as UIOptionsType, 'items': { name: { 'ui:title': 'Name' }, value: { 'ui:title': 'Value' } } },
+		isFlat: true
+	},
+	{ name: 'hidden property label suppressed', uiSchema: { items: { id: { 'ui:widget': 'hidden', 'ui:label': false } } }, isFlat: true, hidden: true }
+].map(({ hidden = false, ...row }) => ({
+	...row,
+	uiSchema: row.uiSchema as UiSchema,
+	schema: FLAT_OBJECT_SHAPES[hidden ? 3 : 0].schema,
+	formData: FLAT_OBJECT_SHAPES[hidden ? 3 : 0].formData
+}));
+
+export const L2_ITEM_GUIDANCE_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	formData: object[];
+	uiSchema: UiSchema;
+	formContext?: SchemaFormContext;
+	isFlat: boolean;
+	message?: string;
+	helper?: boolean;
+}[] = [
+	{
+		name: 'schema description',
+		item: { description: 'Passed to the connector when it starts.' },
+		uiSchema: {},
+		isFlat: false,
+		message: 'Passed to the connector when it starts.'
+	},
+	{
+		name: 'UI description',
+		item: {},
+		uiSchema: { items: { 'ui:description': 'Configure each connector variable.' } },
+		isFlat: false,
+		message: 'Configure each connector variable.'
+	},
+	{
+		name: 'item help',
+		item: {},
+		uiSchema: { items: { 'ui:help': 'Use the connector environment variable name.' } },
+		isFlat: false,
+		message: 'Use the connector environment variable name.'
+	},
+	{
+		name: 'hidden description',
+		item: { description: 'Passed to the connector when it starts.' },
+		uiSchema: { items: { 'ui:descriptionPosition': 'none' } },
+		isFlat: true
+	},
+	{
+		name: 'item default helper',
+		item: { default: { name: 'LOG_LEVEL', value: 'info' } },
+		uiSchema: { items: { 'ui:showDefaultValueHelper': true } },
+		isFlat: false,
+		helper: true
+	},
+	{
+		name: 'context default helper',
+		item: { default: { name: 'LOG_LEVEL', value: 'info' } },
+		uiSchema: {},
+		formContext: { showDefaultValueHelper: true },
+		isFlat: false,
+		helper: true
+	},
+	{
+		name: 'disabled default helper',
+		item: { default: { name: 'LOG_LEVEL', value: 'info' } },
+		uiSchema: { items: { 'ui:showDefaultValueHelper': false } },
+		formContext: { showDefaultValueHelper: true },
+		isFlat: true
+	},
+	{ name: 'default without helper', item: { default: { name: 'LOG_LEVEL', value: 'info' } }, uiSchema: {}, isFlat: true }
+].map(({ item, ...row }) => ({
+	...row,
+	schema: variables({ type: 'object', title: 'Variable', properties: { name: NAME, value: VALUE }, ...item }),
+	formData: FLAT_OBJECT_SHAPES[0].formData
+}));
+
+const hiddenTableDescriptionOptions: UIOptionsType = { descriptionPosition: 'none' };
+export const L2_DESCRIPTION_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	formData: object[];
+	uiSchema: UiSchema;
+	expectedTip?: string;
+}[] = [
+	{ name: 'hidden schema description', uiSchema: { items: { name: { 'ui:descriptionPosition': 'none' } } }, expectedTip: undefined },
+	{
+		name: 'hidden UI description',
+		uiSchema: { items: { name: { 'ui:options': { descriptionPosition: 'none', description: 'Private connector configuration.' } } } },
+		expectedTip: undefined
+	},
+	{
+		name: 'hidden description with explicit help',
+		uiSchema: { items: { name: { 'ui:descriptionPosition': 'none', 'ui:help': 'Enter an environment variable.' } } },
+		expectedTip: 'Enter an environment variable.'
+	},
+	{ name: 'globally hidden description', uiSchema: { 'ui:globalOptions': hiddenTableDescriptionOptions }, expectedTip: undefined },
+	{
+		name: 'globally hidden description with explicit help',
+		uiSchema: { 'ui:globalOptions': hiddenTableDescriptionOptions, 'items': { name: { 'ui:help': 'Enter an environment variable.' } } },
+		expectedTip: 'Enter an environment variable.'
+	},
+	{
+		name: 'visible field override',
+		uiSchema: { 'ui:globalOptions': hiddenTableDescriptionOptions, 'items': { name: { 'ui:descriptionPosition': 'top' } } },
+		expectedTip: 'Starts with a letter or underscore.'
+	}
+].map(row => ({
+	...row,
+	schema: variables({ type: 'object', properties: { name: { ...NAME, description: 'Starts with a letter or underscore.' }, value: VALUE } }),
+	formData: FLAT_OBJECT_SHAPES[0].formData
+}));
+
+export const L2_REGISTRY_OVERRIDES = [
+	{ name: 'named text widget', widgets: { TextWidget: SecretInput } },
+	{ name: 'text alias', widgets: { text: SecretInput } },
+	{ name: 'string field', fields: { StringField: CustomConnection } },
+	{ name: 'object field', fields: { ObjectField: CustomConnection } },
+	{ name: 'array item field', fields: { ArraySchemaField: CustomConnection } },
+	{ name: 'field layout', templates: { FieldTemplate: FieldLayout } },
+	{ name: 'object layout', templates: { ObjectFieldTemplate: CustomConnection } },
+	{ name: 'item layout', templates: { ArrayFieldItemTemplate: CustomConnection } },
+	{ name: 'base input', templates: { BaseInputTemplate: CustomConnection } },
+	{ name: 'title layout', templates: { TitleFieldTemplate: CustomConnection } },
+	{ name: 'additional wrapper', templates: { WrapIfAdditionalTemplate: CustomConnection } }
+];
+
+export const L2_ROW_ERROR_SHAPES = [
+	{ name: 'item error', extraErrors: { 1: { __errors: ['Variable is unavailable.'] } }, message: 'Variable is unavailable.' },
+	{ name: 'item and cell errors', extraErrors: { 1: { __errors: ['Variable is unavailable.'], name: { __errors: ['Name is reserved.'] } } }, message: 'Variable is unavailable.' }
+];
+
+export const L2_NUMERIC_DISPATCH_SHAPES = (['number', 'integer'] as const).flatMap(type =>
+	[
+		{ name: 'default ignores custom UpDownWidget', widgets: { UpDownWidget: SecretInput }, uiSchema: {}, isFlat: true, custom: false },
+		{ name: 'default uses custom TextWidget', widgets: { TextWidget: SecretInput }, uiSchema: {}, isFlat: false, custom: true },
+		{
+			name: 'explicit updown uses custom UpDownWidget',
+			widgets: { UpDownWidget: SecretInput },
+			uiSchema: { items: { retries: { 'ui:widget': 'updown' } } },
+			isFlat: false,
+			custom: true
+		},
+		{
+			name: 'explicit updown ignores custom TextWidget',
+			widgets: { TextWidget: SecretInput },
+			uiSchema: { items: { retries: { 'ui:widget': 'updown' } } },
+			isFlat: true,
+			custom: false
+		}
+	].map(row => ({
+		...row,
+		name: `${type}: ${row.name}`,
+		uiSchema: row.uiSchema as UiSchema,
+		schema: variables({ type: 'object', properties: { retries: { type, title: 'Retries' } } }) as RJSFSchema,
+		formData: [{ retries: 3 }]
+	}))
+);
 const MemoConnection = memo(CustomConnection);
 export const CUSTOM_FIELD_SHAPES = [
 	{ name: 'default field name', uiSchema: { 'ui:field': 'ObjectField' }, custom: false },
@@ -2248,6 +2996,15 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	TOGGLE_FOCUS_MODES,
 	TOGGLE_BUTTON_GROUP_SHAPES,
 	ARRAY_SHAPES,
+	R5_ARRAY_ACTIONS,
+	R5_FOCUS_ARRAY_SHAPES,
+	R5_TUPLE_FOCUS_CASES,
+	R5_FOCUS_CANCELLATIONS,
+	R5_PROPERTY_SHAPES,
+	R5_PROPERTY_TEMPLATES,
+	R5_ADD_LIMITS,
+	R5_ENTRY_WIDGETS,
+	R5_FALLBACK_SHAPES,
 	FIELDSET_BACKGROUND_SHAPES,
 	OBJECT_SHAPES,
 	ACTION_NAME_SHAPES,
@@ -2280,7 +3037,27 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	TEMPLATE_COMPONENTS,
 	OPTION_SOURCES,
 	LIST_OPTIONS,
+	L1_SCALAR_LIST_SHAPES,
+	L1_PREFIX_SHAPES,
+	L1_TUPLE_SHAPES,
+	L1_ALIGNMENT_SHAPES,
+	L1_HIDDEN_ITEM_HEADINGS,
+	L1_FIELDSET_SHAPES,
+	L1_EMPTY_ITEM_SCHEMAS,
+	L1_HIDDEN_ITEM_WIDGETS,
+	L1_ARRAY_TEMPLATE_SHAPES,
+	L1_UNION_LIST_SHAPES,
+	L1_ITEM_FIELD_COMPONENTS,
 	FLAT_OBJECT_SHAPES,
+	L2_ELIGIBILITY_SHAPES,
+	L2_PRESENTATION_SHAPES,
+	L2_SIZE_SHAPES,
+	L2_LABEL_SHAPES,
+	L2_ITEM_GUIDANCE_SHAPES,
+	L2_DESCRIPTION_SHAPES,
+	L2_REGISTRY_OVERRIDES,
+	L2_ROW_ERROR_SHAPES,
+	L2_NUMERIC_DISPATCH_SHAPES,
 	CUSTOM_FIELD_SHAPES,
 	CUSTOM_FIELDS,
 	FIELD_WIDTH_SHAPES,

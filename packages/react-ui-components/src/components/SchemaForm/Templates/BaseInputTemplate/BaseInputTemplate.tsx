@@ -7,6 +7,8 @@ import { BaseInputTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema }
 import { INPUT_TYPES } from './BaseInputTemplate.config';
 import { JSONSchema7TypeName } from 'json-schema';
 import { useFieldDescription, useFieldErrors, useFormState } from '../../contexts';
+import { useSchemaFormFocusRef } from '../../hooks/entryFocus';
+import { useTableCell } from '../../contexts/TableContext';
 
 const getInputType = (type?: JSONSchema7TypeName | JSONSchema7TypeName[]) => (type && !isArray(type) ? INPUT_TYPES[type] ?? EInputFieldType.Text : EInputFieldType.Text);
 
@@ -29,7 +31,9 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 	type
 }: BaseInputTemplateProps<T, S, F>) => {
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
+	const cell = useTableCell(id);
 	const accessibleDescriptionElements = useFieldDescription(id);
+	const focusRef = useSchemaFormFocusRef<HTMLKvTextFieldElement>(disabled || readonly);
 
 	const baseType = useMemo(() => type ?? getInputType(schema.type), [type, schema.type]);
 
@@ -94,8 +98,9 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 	return (
 		<div className={styles.InputContainer}>
 			<KvTextField
+				ref={focusRef}
 				id={id}
-				accessibleLabel={label}
+				accessibleLabel={cell?.accessibleLabel ?? label}
 				accessibleDescriptionElements={accessibleDescriptionElements}
 				size={optionComponentSize ?? componentSize}
 				examples={examples}

@@ -42,14 +42,49 @@ describe('Kelvin components in the browser project', () => {
 		expect(window.innerWidth).toBe(1280);
 	});
 
-	it('draws icons from the symbols file', async () => {
-		const screen = await render(<KvIcon name={EIconName.Delete} />);
+	it.each([EIconName.Delete, EIconName.InfoOutline])('draws %s from the symbols file', async name => {
+		const screen = await render(<KvIcon name={name} />);
 		const icon = await whenKelvinReady(screen.container.querySelector<HTMLElement>('kv-icon'));
 
 		const symbol = icon.shadowRoot?.querySelector('use');
 		expect(symbol).toBeInstanceOf(SVGUseElement);
 		await expect.poll(() => symbol?.getBBox().width ?? 0).toBeGreaterThan(0);
 		await expect.poll(() => symbol?.getBBox().height ?? 0).toBeGreaterThan(0);
+	});
+
+	it.each([
+		{ color: '#c00000', rgb: [192, 0, 0] },
+		{ color: '#00c000', rgb: [0, 192, 0] }
+	])('paints the outline and glyph with customColor=$color', async ({ color, rgb }) => {
+		const screen = await render(<KvIcon name={EIconName.InfoOutline} customColor={color} />);
+		const icon = await whenKelvinReady(screen.container.querySelector<HTMLElement>('kv-icon'));
+		const svg = icon.shadowRoot!.querySelector('svg')!;
+		const href = svg.querySelector('use')!.getAttribute('href')!;
+		const [url, id] = href.split('#');
+		const response = await fetch(url);
+		expect(response.ok).toBe(true);
+		const sprite = new DOMParser().parseFromString(await response.text(), 'image/svg+xml');
+		const symbol = sprite.getElementById(id)!;
+		const fill = getComputedStyle(svg).fill;
+		const iconColor = getComputedStyle(icon).getPropertyValue('--icon-color');
+		// Rasterize the production symbol with the real KvIcon's computed paint.
+		const image = new Image();
+		image.src = `data:image/svg+xml,${encodeURIComponent(
+			`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="${symbol.getAttribute('viewBox')}" style="fill:${fill};--icon-color:${iconColor}">${
+				symbol.innerHTML
+			}</svg>`
+		)}`;
+		await image.decode();
+		const canvas = document.createElement('canvas');
+		canvas.width = canvas.height = 24;
+		const context = canvas.getContext('2d')!;
+		context.drawImage(image, 0, 0);
+		for (const [x, y] of [
+			[12, 3],
+			[12, 13]
+		])
+			expect(Array.from(context.getImageData(x, y, 1, 1).data)).toEqual([...rgb, 255]);
+		expect(context.getImageData(12, 5, 1, 1).data[3]).toBe(0);
 	});
 
 	it('waits for every Kelvin component in a container', async () => {
@@ -59,7 +94,28 @@ describe('Kelvin components in the browser project', () => {
 
 		const hosts = Array.from(screen.container.querySelectorAll('*')).filter(element => element.localName.startsWith('kv-'));
 		expect(hosts.length).toBeGreaterThan(0);
-		expect(hosts.every(host => host.classList.contains('hydrated'))).toBe(true);
+		expect(hosts.filter(host => !host.classList.contains('hydrated')).map(host => host.outerHTML)).toEqual([]);
+	});
+
+	it('waits for a child added while its parent becomes ready', async () => {
+		const screen = await render(<KvTextField accessibleLabel="Broker host" />);
+		const parent = screen.container.querySelector('kv-text-field')!;
+		const child = document.createElement('kv-text-field');
+		child.accessibleLabel = 'Client identifier';
+		const original = parent.componentOnReady;
+		parent.componentOnReady = async () => {
+			const host = await original.call(parent);
+			parent.append(child);
+			return host;
+		};
+		try {
+			await whenAllKelvinReady(screen.container);
+			expect(parent.classList.contains('hydrated')).toBe(true);
+			expect(child.classList.contains('hydrated')).toBe(true);
+			expect(child.shadowRoot?.querySelector('input')).toBeInstanceOf(HTMLInputElement);
+		} finally {
+			parent.componentOnReady = original;
+		}
 	});
 
 	it('renders a SchemaForm, styles included, with the real components', async () => {

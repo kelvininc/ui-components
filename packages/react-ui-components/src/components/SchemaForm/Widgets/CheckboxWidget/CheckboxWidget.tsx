@@ -3,6 +3,7 @@ import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjs
 import { KvCheckbox } from '../../../../stencil-generated';
 import { useFieldDescription, useFormState } from '../../contexts';
 import { getComponentSize } from '../ToggleButtonGroupWidget/utils';
+import { useSchemaFormFocusRef } from '../../hooks/entryFocus';
 
 const CheckboxWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
@@ -15,6 +16,7 @@ const CheckboxWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Fo
 }: WidgetProps<T, S, F>) => {
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
 	const accessibleDescriptionElements = useFieldDescription(id);
+	const focusRef = useSchemaFormFocusRef<HTMLKvCheckboxElement>(disabled || readonly);
 	const { componentSize, checkboxLabel } = options;
 	const checked = value === true;
 
@@ -26,6 +28,7 @@ const CheckboxWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Fo
 
 	return (
 		<KvCheckbox
+			ref={focusRef}
 			size={getComponentSize(componentSize)}
 			checked={checked}
 			accessibleDescriptionElements={accessibleDescriptionElements}
