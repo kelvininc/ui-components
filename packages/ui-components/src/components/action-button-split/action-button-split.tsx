@@ -30,6 +30,8 @@ export class KvActionButtonSplit implements IActionButtonSplitConfig {
 	/** @inheritdoc */
 	@Prop() accessibleLabel?: string;
 	/** @inheritdoc */
+	@Prop() accessibleDescriptionElements?: readonly Element[];
+	/** @inheritdoc */
 	@Prop() splitAccessibleLabel: string = COMPONENT_STRINGS.moreOptions;
 
 	/** @inheritdoc */
@@ -72,6 +74,7 @@ export class KvActionButtonSplit implements IActionButtonSplitConfig {
 						type={this.type}
 						text={this.text}
 						accessibleLabel={this.accessibleLabel}
+						accessibleDescriptionElements={this.accessibleDescriptionElements}
 						icon={this.icon}
 						disabled={this.disabled}
 						size={this.size}

@@ -31,28 +31,34 @@
 	}
 
 	.text-area {
-		@include kelvin-scrollbar;
-
 		display: flex;
 		flex-direction: column;
 		flex: 1;
-		gap: var(--spacing-md);
+		min-width: 0;
 
 		.text-area-wrapper {
+			display: flex;
+			flex-direction: column;
+			gap: var(--spacing-xs);
 			padding: var(--text-area-padding-y-default) var(--text-area-padding-x-default);
 			border: var(--text-area-border-thickness-default) solid var(--text-area-border-color-default);
 			border-radius: var(--text-area-radius-default);
 			background-color: var(--background-color-default);
 			height: var(--height-default);
-			overflow: auto;
+			overflow: hidden;
 			transition: height 0.25s ease-in-out;
 
 			.input {
 				@include body-m-regular;
+				@include kelvin-scrollbar;
+
 				outline: none;
-				height: inherit;
+				flex: 1;
+				min-height: 0;
+				overflow: auto;
 				color: var(--text-area-text-default);
 				overflow-wrap: anywhere;
+				white-space: pre-wrap;
 
 				&.placeholder::before {
 					content: attr(data-placeholder);
@@ -96,21 +102,24 @@
 		}
 
 		&:has(.input:focus) .character-counter {
-			display: block;
+			visibility: visible;
 		}
 
 		.character-counter {
 			@include body-s-regular;
+
 			color: var(--text-area-helper-text-default);
-			margin-left: var(--spacing-xl);
-			display: none;
+			align-self: flex-end;
+			flex-shrink: 0;
+			white-space: nowrap;
+			visibility: hidden;
 		}
 	}
 
 	&.counter-always-visible {
 		.text-area {
 			.character-counter {
-				display: block;
+				visibility: visible;
 			}
 		}
 	}

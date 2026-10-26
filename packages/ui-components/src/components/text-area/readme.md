@@ -9,6 +9,9 @@
 
 ### React
 
+The character count uses a reserved footer inside the control's bottom-right corner. The editable
+content scrolls above it. `counter={false}` hides the count, and `counterAlwaysVisible` shows it without focus.
+
 ```tsx
 
 import React from 'react';
