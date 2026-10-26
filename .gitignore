@@ -8,4 +8,5 @@ tryouts/*
 
 memory
 
-.claude/
+.claude/*
+!.claude/skills/
