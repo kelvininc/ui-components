@@ -9,6 +9,7 @@ import { useFieldDescription, useFormState } from '../../contexts';
 
 const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
+	label,
 	schema,
 	options,
 	disabled,
@@ -55,18 +56,20 @@ const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F e
 	);
 
 	return (
-		<KvToggleButtonGroup
-			buttons={buttons.map(button => ({ ...button, accessibleDescriptionElements }))}
-			disabled={disabled}
-			size={getComponentSize(componentSize)}
-			withRadio={withRadio === true}
-			radioControlType={ERadioControlType.Checkbox}
-			disabledButtons={disabledButtons}
-			selectedButtons={selectedButtons}
-			onCheckedChange={onCheckedChange}
-			onFocus={() => markFieldAsTouched(id)}
-			onBlur={() => markFieldAsTouched(id)}
-		/>
+		<div role="group" aria-label={label.trim() || id}>
+			<KvToggleButtonGroup
+				buttons={buttons.map(button => ({ ...button, accessibleDescriptionElements }))}
+				disabled={disabled}
+				size={getComponentSize(componentSize)}
+				withRadio={withRadio === true}
+				radioControlType={ERadioControlType.Checkbox}
+				disabledButtons={disabledButtons}
+				selectedButtons={selectedButtons}
+				onCheckedChange={onCheckedChange}
+				onFocus={() => markFieldAsTouched(id)}
+				onBlur={() => markFieldAsTouched(id)}
+			/>
+		</div>
 	);
 };
 

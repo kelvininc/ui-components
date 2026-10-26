@@ -1,5 +1,6 @@
 import { ArrayFieldTemplateProps, CustomValidator, ErrorSchema, ErrorTransformer, FieldTemplateProps, RJSFSchema, UIOptionsType, UiSchema, WidgetProps } from '@rjsf/utils';
 import React, { ComponentType, forwardRef, memo } from 'react';
+import { StyleMode } from '@kelvininc/ui-components';
 import { EApplyDefaults, SchemaFormContext } from '../types';
 
 /** Freezes plain data in place; components (functions, memo and forwardRef objects) stay as they are */
@@ -37,6 +38,182 @@ export const CHOICE_SCHEMAS: readonly { name: string; schema: RJSFSchema; values
 		},
 		values: [0, 3]
 	}
+];
+
+export const choiceForm = (row: { schema: RJSFSchema }, { required = false } = {}): RJSFSchema => ({
+	type: 'object',
+	title: 'Connection',
+	properties: { choice: row.schema },
+	required: required ? ['choice'] : []
+});
+
+/** Enum values keep their JSON types through the dropdown's string keys. */
+export const CHOICE_VALUE_SHAPES: readonly { name: string; schema: RJSFSchema; values: unknown[]; labels: string[]; multiple?: boolean }[] = [
+	{
+		name: 'numeric and string keys',
+		schema: { type: ['string', 'integer'], title: 'QoS', enum: [1, '1'], enumNames: ['Numeric QoS', 'Text QoS'] },
+		values: [1, '1'],
+		labels: ['Numeric QoS', 'Text QoS']
+	},
+	{
+		name: 'null option',
+		schema: { type: ['string', 'null'], title: 'Compression', enum: [null, 'gzip'], enumNames: ['None', 'Gzip'] },
+		values: [null, 'gzip'],
+		labels: ['None', 'Gzip']
+	},
+	{ name: 'boolean options', schema: { type: 'boolean', title: 'TLS', enum: [false, true] }, values: [false, true], labels: ['No', 'Yes'] },
+	{ name: 'zero option', schema: { type: 'integer', title: 'Retries', enum: [0, 3], enumNames: ['None', 'Three'] }, values: [0, 3], labels: ['None', 'Three'] },
+	{ name: 'empty string option', schema: { type: 'string', title: 'Security', enum: ['', 'tls'], enumNames: ['None', 'TLS'] }, values: ['', 'tls'], labels: ['None', 'TLS'] },
+	{
+		name: 'cloned object selections',
+		schema: {
+			type: 'array',
+			title: 'Assets',
+			uniqueItems: true,
+			items: {
+				type: 'object',
+				properties: { asset: { type: 'string' } },
+				enum: [{ asset: 'north' }, { asset: 'south' }],
+				enumNames: ['North line', 'South line']
+			} as RJSFSchema
+		},
+		values: [{ asset: 'north' }, { asset: 'south' }],
+		labels: ['North line', 'South line'],
+		multiple: true
+	},
+	{
+		name: 'cloned array selections',
+		schema: {
+			type: 'array',
+			title: 'Asset groups',
+			uniqueItems: true,
+			items: { type: 'array', enum: [['north'], ['south']], enumNames: ['North group', 'South group'] } as RJSFSchema
+		},
+		values: [['north'], ['south']],
+		labels: ['North group', 'South group'],
+		multiple: true
+	}
+];
+
+export const DEFAULT_FIELD_SHAPES: readonly { name: string; schema: RJSFSchema; field: string }[] = [
+	{ name: 'boolean', schema: { type: 'boolean', title: 'TLS' }, field: 'BooleanField' },
+	{ name: 'string', schema: { type: 'string', title: 'Host' }, field: 'StringField' },
+	{ name: 'number', schema: { type: 'number', title: 'Temperature' }, field: 'NumberField' },
+	{ name: 'integer', schema: { type: 'integer', title: 'Retries' }, field: 'NumberField' },
+	{ name: 'object', schema: { type: 'object', title: 'Connection' }, field: 'ObjectField' },
+	{ name: 'array', schema: { type: 'array', title: 'Topics', items: { type: 'string' } }, field: 'ArrayField' },
+	{ name: 'null', schema: { type: 'null', title: 'Compression' }, field: 'NullField' },
+	{ name: 'nullable string', schema: { type: ['string', 'null'], title: 'Compression' }, field: 'StringField' },
+	{ name: 'nullable boolean', schema: { type: ['null', 'boolean'], title: 'TLS' }, field: 'BooleanField' },
+	{ name: 'inferred object', schema: { title: 'Connection', properties: { host: { type: 'string' } } }, field: 'ObjectField' },
+	{ name: 'inferred enum', schema: { title: 'QoS', enum: ['at-most-once', 'at-least-once'] }, field: 'StringField' }
+];
+
+export const CUSTOM_DROPDOWN_SHAPES = [
+	{ name: 'plain key', key: 'north-line' },
+	{ name: 'key resembling an enum index', key: 'choice-0' }
+] as const;
+
+export const CHOICE_WIDGET_SHAPES: readonly { name: string; widget?: string; kind: 'default' | 'radio' | 'select' | 'checkbox' }[] = [
+	{ name: 'default widget', widget: undefined, kind: 'default' },
+	{ name: 'radio', widget: 'radio', kind: 'radio' },
+	{ name: 'radio list', widget: 'RadioListWidget', kind: 'radio' },
+	{ name: 'select', widget: 'select', kind: 'select' },
+	{ name: 'checkbox', widget: 'checkbox', kind: 'checkbox' }
+];
+
+export const CHOICE_DISPATCH_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema & { 'ui:globalOptions'?: { widget?: string } };
+	formatWidget?: 'radio' | 'custom';
+	expected: 'radio' | 'select' | 'text' | 'email' | 'checkbox' | 'custom';
+}[] = [
+	{ name: 'default string enum', schema: CHOICE_SCHEMAS[1].schema, uiSchema: {}, expected: 'select' },
+	{ name: 'default integer enum', schema: CHOICE_SCHEMAS[3].schema, uiSchema: {}, expected: 'select' },
+	{ name: 'global radio ignored for a string enum', schema: CHOICE_SCHEMAS[1].schema, uiSchema: { 'ui:globalOptions': { widget: 'radio' } }, expected: 'select' },
+	{
+		name: 'global custom widget ignored for an integer enum',
+		schema: CHOICE_SCHEMAS[3].schema,
+		uiSchema: { 'ui:globalOptions': { widget: 'connectionChoice' } },
+		expected: 'select'
+	},
+	{ name: 'supported email format', schema: { ...CHOICE_SCHEMAS[1].schema, format: 'email' }, uiSchema: {}, expected: 'email' },
+	{ name: 'email format registered as a radio', schema: { ...CHOICE_SCHEMAS[1].schema, format: 'email' }, uiSchema: {}, formatWidget: 'radio', expected: 'radio' },
+	{ name: 'email format registered as custom', schema: { ...CHOICE_SCHEMAS[1].schema, format: 'email' }, uiSchema: {}, formatWidget: 'custom', expected: 'custom' },
+	{ name: 'integer radio format', schema: { ...CHOICE_SCHEMAS[3].schema, format: 'radio' }, uiSchema: {}, expected: 'radio' },
+	{
+		name: 'local widget overrides format',
+		schema: { ...CHOICE_SCHEMAS[1].schema, format: 'email' },
+		uiSchema: { 'ui:widget': 'select' },
+		formatWidget: 'radio',
+		expected: 'select'
+	},
+	{
+		name: 'local options widget overrides global',
+		schema: CHOICE_SCHEMAS[1].schema,
+		uiSchema: { 'ui:options': { widget: 'radio' }, 'ui:globalOptions': { widget: 'select' } },
+		expected: 'radio'
+	},
+	{ name: 'unknown format falls back to select', schema: { ...CHOICE_SCHEMAS[1].schema, format: 'kelvin-connection' }, uiSchema: {}, expected: 'select' },
+	{ name: 'default text field', schema: { type: 'string', title: 'Broker' }, uiSchema: {}, expected: 'text' },
+	{ name: 'default boolean ignores global widget', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:globalOptions': { widget: 'select' } }, expected: 'radio' },
+	{ name: 'boolean uses local checkbox', schema: CHOICE_SCHEMAS[0].schema, uiSchema: { 'ui:widget': 'checkbox' }, expected: 'checkbox' }
+];
+
+export const CHOICE_INTERACTION_SHAPES = [
+	{ name: 'editable', disabled: false, readonly: false },
+	{ name: 'disabled', disabled: true, readonly: false },
+	{ name: 'readonly', disabled: false, readonly: true }
+] as const;
+
+export const DEFAULTED_CHOICE_SHAPES: readonly { name: string; schema: RJSFSchema; value: boolean | string }[] = [
+	{ name: 'defaulted boolean', schema: { type: 'boolean', title: 'TLS', default: true }, value: true },
+	{ name: 'defaulted enum', schema: { type: 'string', title: 'QoS', enum: ['at-most-once', 'at-least-once'], default: 'at-least-once' }, value: 'at-least-once' }
+];
+
+export const RADIO_KEYBOARD_SHAPES = [
+	{ name: 'compact radio', widget: 'radio' },
+	{ name: 'described radio list', widget: 'RadioListWidget' }
+] as const;
+
+export const RADIO_STYLE_THEMES = [
+	{ name: 'Light', mode: StyleMode.Light },
+	{ name: 'Night', mode: StyleMode.Night }
+] as const;
+
+export const RADIO_INLINE_STYLE_SHAPES: readonly { name: string; schema: RJSFSchema; descriptions: string[]; value?: string; enumDisabled?: string[] }[] = [
+	{
+		name: 'unequal security labels and descriptions',
+		schema: { type: 'string', title: 'Security', enum: ['tls', 'plaintext'], enumNames: ['TLS', 'Plaintext connection'] },
+		descriptions: ['Encrypt the connection.', 'Send telemetry without encryption. Use this option only on the isolated test network while checking broker connectivity.']
+	},
+	{
+		name: 'selected retry strategy with a disabled option',
+		schema: { type: 'string', title: 'Retry strategy', enum: ['backoff', 'fixed'], enumNames: ['Exponential backoff', 'Fixed interval'] },
+		descriptions: ['Increase the delay after each failed connection.', 'Reconnect every 30 seconds.'],
+		value: 'backoff',
+		enumDisabled: ['fixed']
+	}
+];
+
+export const CHOICE_CLEAR_NAME_SHAPES = [
+	{ name: 'field title', uiSchema: {}, expected: 'Clear selection for TLS' },
+	{ name: 'ui title override', uiSchema: { 'ui:title': 'Transport security' }, expected: 'Clear selection for Transport security' },
+	{ name: 'blank title fallback', uiSchema: { 'ui:title': ' ' }, expected: 'Clear selection for root_choice' }
+] as const;
+
+export const CHOICE_GROUP_NAME_SHAPES: readonly { name: string; uiSchema: UiSchema; expected: string }[] = [
+	{ name: 'UI title override', uiSchema: { 'ui:title': 'Connection choices' }, expected: 'Connection choices' },
+	{ name: 'empty UI title', uiSchema: { 'ui:title': '' }, expected: 'root_choice' },
+	{ name: 'whitespace UI title', uiSchema: { 'ui:title': ' \t ' }, expected: 'root_choice' },
+	{ name: 'padded UI title', uiSchema: { 'ui:title': ' Connection choices ' }, expected: 'Connection choices' }
+];
+
+export const RADIO_FOCUS_SHAPES: readonly { name: string; disabledValues: readonly string[]; expected?: string }[] = [
+	{ name: 'enabled options', disabledValues: [], expected: 'at-most-once' },
+	{ name: 'first option disabled', disabledValues: ['at-most-once'], expected: 'at-least-once' },
+	{ name: 'all options disabled', disabledValues: ['at-most-once', 'at-least-once'], expected: undefined }
 ];
 
 /** Names must reach the real control inside its shadow root, including visible overrides. */
@@ -77,7 +254,7 @@ export const CONTROL_NAME_SHAPES: readonly {
 		labels: ['Connection security'],
 		nextValue: true
 	},
-	{ name: 'default boolean radios', schema: CHOICE_SCHEMAS[0].schema, uiSchema: {}, formData: false, role: 'radio', labels: ['True', 'False'], nextValue: true },
+	{ name: 'default boolean radios', schema: CHOICE_SCHEMAS[0].schema, uiSchema: {}, formData: false, role: 'radio', labels: ['Yes', 'No'], nextValue: true },
 	{
 		name: 'custom boolean radio labels',
 		schema: CHOICE_SCHEMAS[0].schema,
@@ -943,13 +1120,13 @@ export const R2_ERROR_DESCRIPTION_SHAPES: readonly {
 			tag: 'kv-multi-select-dropdown'
 		},
 		{ name: 'checkbox', schema: { type: 'boolean', title: 'TLS' }, uiSchema: { 'ui:widget': 'checkbox' }, formData: false, tag: 'kv-checkbox' },
-		{ name: 'boolean radios', schema: { type: 'boolean', title: 'TLS' }, uiSchema: {}, formData: false, tag: 'kv-radio-list-item' },
+		{ name: 'boolean radios', schema: { type: 'boolean', title: 'TLS' }, uiSchema: {}, formData: false, tag: 'kv-radio-list' },
 		{
 			name: 'enum radios',
 			schema: { type: 'string', title: 'QoS', enum: ['at-most-once', 'at-least-once'] },
 			uiSchema: { 'ui:widget': 'radio' },
 			formData: 'at-most-once',
-			tag: 'kv-radio-list-item'
+			tag: 'kv-radio-list'
 		},
 		{
 			name: 'toggle choices',
@@ -1207,11 +1384,12 @@ export const R2_SELECTOR_OWNER_SHAPES = (['oneOf', 'anyOf'] as const).flatMap(ke
 );
 
 const FieldLayout = ({ children }: FieldTemplateProps) => <div data-field-layout="">{children}</div>;
-const ForwardRefFieldLayout = forwardRef<HTMLDivElement, FieldTemplateProps>(({ children }, ref) => (
+const renderForwardLayout = ({ children }: FieldTemplateProps, ref: React.ForwardedRef<HTMLDivElement>) => (
 	<div ref={ref} data-field-layout="">
 		{children}
 	</div>
-));
+);
+const ForwardRefFieldLayout = forwardRef<HTMLDivElement, FieldTemplateProps>(renderForwardLayout);
 ForwardRefFieldLayout.displayName = 'ForwardRefFieldLayout';
 
 /** memo and forwardRef components are plain objects, which a deep merge would copy into new component types */
@@ -1420,6 +1598,7 @@ export const FLAT_OBJECT_SHAPES: readonly { name: string; schema: RJSFSchema; ui
 const CustomConnection = () => <span data-custom-field="connection">Custom connection</span>;
 const MemoConnection = memo(CustomConnection);
 export const CUSTOM_FIELD_SHAPES = [
+	{ name: 'default field name', uiSchema: { 'ui:field': 'ObjectField' }, custom: false },
 	{ name: 'function', uiSchema: { 'ui:field': CustomConnection }, custom: true },
 	{ name: 'registered name', uiSchema: { 'ui:field': 'Connection' }, custom: true },
 	{ name: 'unknown name', uiSchema: { 'ui:field': 'MissingConnection' }, custom: false },
@@ -1647,6 +1826,244 @@ export const OPTION_BRANCH_SHAPES = ['oneOf', 'anyOf'].map(keyword => ({
 	values: [{ token: 'broker-token' }, { certificate: 'broker-certificate' }]
 }));
 
+export const R4_OPTION_SHAPES = (['oneOf', 'anyOf'] as const).map(keyword => ({
+	name: keyword,
+	keyword,
+	selectorId: `root_auth__${keyword.toLowerCase()}_select`,
+	schema: {
+		type: 'object',
+		title: 'Broker connection',
+		properties: {
+			name: { type: 'string', title: 'Connection name' },
+			auth: {
+				title: 'Authentication',
+				[keyword]: [
+					{ type: 'string', title: 'Token' },
+					{
+						type: 'object',
+						title: 'Broker address',
+						properties: { host: { type: 'string', title: 'Host' }, port: { type: 'integer', title: 'Port' }, region: { type: 'string', title: 'Region' } }
+					}
+				]
+			},
+			hidden: { type: 'string', title: 'Internal label' },
+			audit: { type: 'string', title: 'Audit mode' }
+		}
+	} as RJSFSchema,
+	uiSchema: { hidden: { 'ui:widget': 'hidden' } } satisfies UiSchema,
+	values: ['broker-token', { host: 'broker.local', port: 1883, region: 'lisbon' }]
+}));
+
+export const R4_UI_SETTING_SHAPES = [
+	{ name: 'ui keys', build: (settings: UIOptionsType): UiSchema => Object.fromEntries(Object.entries(settings).map(([key, value]) => [`ui:${key}`, value])) },
+	{ name: 'ui options', build: (settings: UIOptionsType): UiSchema => ({ 'ui:options': settings }) }
+];
+
+export const R4_CLASS_SETTING_SHAPES = [...R4_UI_SETTING_SHAPES, { name: 'legacy classNames', build: ({ classNames }: UIOptionsType): UiSchema => ({ classNames }) }];
+export const R4_SUBMIT_UI_SHAPES = [
+	...R4_UI_SETTING_SHAPES,
+	{ name: 'direct then options', build: (settings: UIOptionsType): UiSchema => ({ ...R4_UI_SETTING_SHAPES[0].build(settings), 'ui:options': {} }) },
+	{ name: 'options then direct', build: (settings: UIOptionsType): UiSchema => ({ 'ui:options': {}, ...R4_UI_SETTING_SHAPES[0].build(settings) }) }
+];
+
+export const R4_HETEROGENEOUS_ORDER_SHAPES = (['oneOf', 'anyOf'] as const).map(keyword => ({
+	name: keyword,
+	keyword,
+	schema: {
+		type: 'object',
+		properties: {
+			auth: {
+				[keyword]: [
+					{ type: 'object', title: 'Broker address', properties: { host: { type: 'string' }, port: { type: 'integer' }, region: { type: 'string' } } },
+					{ type: 'object', title: 'Credentials', properties: { username: { type: 'string' }, password: { type: 'string' } } }
+				]
+			}
+		}
+	} as RJSFSchema,
+	order: ['port', 'username', 'host'],
+	branches: [
+		{ formData: { auth: { host: 'broker.local', port: 1883, region: 'lisbon' } }, expected: ['port', 'host', 'region'] },
+		{ formData: { auth: { username: 'broker-admin', password: 'broker-token' } }, expected: ['username', 'password'] }
+	]
+}));
+
+export const R4_RAIL_VISIBILITY_SHAPES: readonly { name: string; properties: RJSFSchema['properties']; uiSchema: UiSchema; visible: boolean }[] = [
+	{ name: 'bare empty object', properties: {}, uiSchema: {}, visible: false },
+	{ name: 'titled empty object', properties: {}, uiSchema: { 'ui:label': true }, visible: true },
+	{ name: 'hidden object', properties: { host: { type: 'string', title: 'Host' } }, uiSchema: { 'ui:widget': 'hidden' }, visible: false }
+];
+
+export const R4_EMPTY_BRANCH_TEMPLATES = [
+	{
+		name: 'heading beside empty object',
+		FieldLayout: ({ children }: FieldTemplateProps) => (
+			<>
+				<h3>No authentication required</h3>
+				<div>{children}</div>
+			</>
+		),
+		visible: true
+	},
+	{
+		name: 'text beside empty object',
+		FieldLayout: ({ children }: FieldTemplateProps) => <div>No authentication required{children}</div>,
+		visible: true
+	},
+	{
+		name: 'heading beside default template',
+		FieldLayout: (props: FieldTemplateProps) => {
+			const Default = props.registry.templates.FieldTemplate;
+			return (
+				<>
+					<h3>No authentication required</h3>
+					<Default {...props} />
+				</>
+			);
+		},
+		visible: true
+	},
+	{
+		name: 'text beside default template',
+		FieldLayout: (props: FieldTemplateProps) => {
+			const Default = props.registry.templates.FieldTemplate;
+			return (
+				<>
+					No authentication required
+					<Default {...props} />
+				</>
+			);
+		},
+		visible: true
+	},
+	{ name: 'empty custom template', FieldLayout: (): null => null, visible: false }
+];
+
+const R4_EMPTY_CHOICE = { 'ui:title': 'None', 'broker': { 'ui:options': { region: 'lisbon' } } };
+const R4_SAVED_CHOICE = { 'ui:title': 'Plant broker' };
+export const R4_OPTION_PAYLOAD_SHAPE = {
+	schema: { type: 'object', properties: { broker: { title: 'Broker profile', enum: [R4_EMPTY_CHOICE, R4_SAVED_CHOICE] } } } as RJSFSchema,
+	formData: { broker: R4_SAVED_CHOICE },
+	emptyValue: R4_EMPTY_CHOICE,
+	customOptions: { 'ui:placeholder': 'Broker address' }
+};
+
+export const R4_OPTION_OVERRIDE_SHAPES = [
+	{ name: 'empty enum value', option: 'emptyValue', inherited: { ...R4_EMPTY_CHOICE, region: 'lisbon' }, provided: R4_EMPTY_CHOICE, expected: R4_EMPTY_CHOICE },
+	{
+		name: 'custom widget configuration',
+		option: 'customOptions',
+		inherited: { 'ui:placeholder': 'Old broker', 'region': 'lisbon' },
+		provided: R4_OPTION_PAYLOAD_SHAPE.customOptions,
+		expected: { ...R4_OPTION_PAYLOAD_SHAPE.customOptions, region: 'lisbon' }
+	},
+	{
+		name: 'submit button configuration',
+		option: 'submitButtonOptions',
+		inherited: { submitText: 'Save connection', props: { disabled: true } },
+		provided: { submitText: 'Connect broker' },
+		expected: { submitText: 'Connect broker', props: { disabled: true } }
+	}
+];
+export const R4_OPTION_PAYLOAD_UNIONS = (['oneOf', 'anyOf'] as const).map(keyword => ({
+	name: keyword,
+	keyword,
+	schema: {
+		type: 'object',
+		properties: {
+			broker: {
+				title: 'Broker connection',
+				[keyword]: [
+					{ title: 'Broker profile', enum: [R4_EMPTY_CHOICE, R4_SAVED_CHOICE] },
+					{ type: 'boolean', title: 'Skip broker' }
+				]
+			}
+		}
+	} as RJSFSchema
+}));
+
+export const R4_TEMPLATE_PLACEMENTS = ['field', 'branch', 'inherited child'] as const;
+export const R4_SAME_RENDER_TEMPLATES = [
+	{ name: 'memo around the same function', build: () => memo(FieldLayout) },
+	{ name: 'forwardRef around the same function', build: () => forwardRef<HTMLDivElement, FieldTemplateProps>(renderForwardLayout) }
+];
+export const R4_BRANCH_LABEL_SHAPES = [
+	{ name: 'default hidden title', parent: true, branch: undefined, expected: false },
+	{ name: 'explicit shown branch title', parent: false, branch: true, expected: true },
+	{ name: 'explicit hidden branch title', parent: true, branch: false, expected: false }
+];
+export const R4_REPORT_SCOPE_SHAPES = [
+	{ name: 'independent forms', nested: false },
+	{ name: 'nested objects', nested: true }
+] as const;
+
+const R4_REFERENCED_ADDRESS = {
+	type: 'object',
+	title: 'Broker address',
+	properties: { host: { type: 'string', title: 'Host' }, port: { type: 'integer', title: 'Port' } }
+} satisfies RJSFSchema;
+export const R4_COMPOSED_BRANCH_SHAPES = [
+	{
+		name: 'referenced object',
+		definitions: { BrokerAddress: R4_REFERENCED_ADDRESS },
+		branch: { $ref: '#/definitions/BrokerAddress' }
+	},
+	{
+		name: 'allOf object',
+		definitions: { BrokerAddress: R4_REFERENCED_ADDRESS },
+		branch: { allOf: [{ $ref: '#/definitions/BrokerAddress' }, { properties: { region: { type: 'string', title: 'Region' } } }] }
+	}
+];
+
+export const R4_ORDER_SHAPES: readonly { name: string; parent: UiSchema; branch: UiSchema; expected: string[] }[] = [
+	{ name: 'parent order', parent: { 'ui:order': ['port', 'host'] }, branch: {}, expected: ['port', 'host', 'region'] },
+	{ name: 'parent option order', parent: { 'ui:options': { order: ['port', 'host'] } }, branch: {}, expected: ['port', 'host', 'region'] },
+	{ name: 'existing wildcard', parent: { 'ui:order': ['port', '*'] }, branch: {}, expected: ['port', 'host', 'region'] },
+	{ name: 'branch order', parent: { 'ui:order': ['port', 'host'] }, branch: { 'ui:order': ['region'] }, expected: ['region', 'host', 'port'] },
+	{ name: 'branch option order', parent: { 'ui:order': ['port', 'host'] }, branch: { 'ui:options': { order: ['region'] } }, expected: ['region', 'host', 'port'] },
+	{ name: 'empty branch order', parent: { 'ui:order': ['port', 'host'] }, branch: { 'ui:order': [] }, expected: ['host', 'port', 'region'] }
+];
+
+export const R4_BRANCH_PRESENTATIONS: readonly { name: string; uiSchema: UiSchema; section: boolean; inline?: boolean }[] = [
+	{ name: 'standard object', uiSchema: {}, section: true },
+	{ name: 'branch UI title', uiSchema: { 'ui:title': 'Configured broker' }, section: true },
+	{ name: 'hidden branch', uiSchema: { 'ui:widget': 'hidden' }, section: false },
+	{ name: 'branch custom field', uiSchema: { 'ui:field': CustomConnection }, section: false },
+	{ name: 'branch custom field in options', uiSchema: { 'ui:options': { field: CustomConnection } }, section: false },
+	{ name: 'inline parent', uiSchema: {}, section: true, inline: true }
+];
+
+export const R4_OPTION_ERROR_SHAPES = (['oneOf', 'anyOf'] as const).map(keyword => ({
+	name: keyword,
+	schema: {
+		type: 'object',
+		properties: {
+			security: {
+				type: 'object',
+				title: 'Security',
+				[keyword]: [
+					{ title: 'Plaintext', properties: { protocol: { const: 'PLAINTEXT', default: 'PLAINTEXT' } }, required: ['protocol'] },
+					{
+						title: 'SASL',
+						properties: {
+							protocol: { const: 'SASL_PLAINTEXT', default: 'SASL_PLAINTEXT' },
+							sasl: {
+								type: 'object',
+								title: 'SASL Authentication',
+								properties: { username: { type: 'string', title: 'Username' }, password: { type: 'string', title: 'Password' } },
+								required: ['username', 'password']
+							}
+						},
+						required: ['protocol', 'sasl']
+					}
+				]
+			}
+		}
+	} satisfies RJSFSchema,
+	formData: { security: { protocol: 'SASL_PLAINTEXT', sasl: {} } },
+	uiSchema: { security: { protocol: { 'ui:widget': 'hidden' } } } satisfies UiSchema,
+	selectorId: `root_security__${keyword.toLowerCase()}_select`
+}));
+
 const NativeBrokerHost = ({ id, label, value, onChange, required, disabled, readonly }: WidgetProps<unknown>) => (
 	<input id={id} name={id} aria-label={label} value={value ?? ''} required={required} disabled={disabled} readOnly={readonly} onChange={event => onChange(event.target.value)} />
 );
@@ -1810,6 +2227,19 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 [
 	VALUE_CASES,
 	CHOICE_SCHEMAS,
+	CHOICE_VALUE_SHAPES,
+	DEFAULT_FIELD_SHAPES,
+	CUSTOM_DROPDOWN_SHAPES,
+	CHOICE_WIDGET_SHAPES,
+	CHOICE_DISPATCH_SHAPES,
+	CHOICE_INTERACTION_SHAPES,
+	DEFAULTED_CHOICE_SHAPES,
+	RADIO_KEYBOARD_SHAPES,
+	RADIO_STYLE_THEMES,
+	RADIO_INLINE_STYLE_SHAPES,
+	CHOICE_CLEAR_NAME_SHAPES,
+	CHOICE_GROUP_NAME_SHAPES,
+	RADIO_FOCUS_SHAPES,
 	CONTROL_NAME_SHAPES,
 	MULTI_SELECT_SHAPES,
 	INPUT_FOCUS_SHAPES,
@@ -1864,6 +2294,24 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	OBJECT_LAYOUT_SCHEMA,
 	BOOLEAN_PROPERTY_VALUES,
 	OPTION_BRANCH_SHAPES,
+	R4_OPTION_SHAPES,
+	R4_UI_SETTING_SHAPES,
+	R4_CLASS_SETTING_SHAPES,
+	R4_SUBMIT_UI_SHAPES,
+	R4_HETEROGENEOUS_ORDER_SHAPES,
+	R4_RAIL_VISIBILITY_SHAPES,
+	R4_EMPTY_BRANCH_TEMPLATES,
+	R4_OPTION_PAYLOAD_SHAPE,
+	R4_OPTION_OVERRIDE_SHAPES,
+	R4_OPTION_PAYLOAD_UNIONS,
+	R4_TEMPLATE_PLACEMENTS,
+	R4_SAME_RENDER_TEMPLATES,
+	R4_BRANCH_LABEL_SHAPES,
+	R4_REPORT_SCOPE_SHAPES,
+	R4_COMPOSED_BRANCH_SHAPES,
+	R4_ORDER_SHAPES,
+	R4_BRANCH_PRESENTATIONS,
+	R4_OPTION_ERROR_SHAPES,
 	ADDITIONAL_LAYOUT_SHAPES,
 	ARRAY_ID_SHAPES,
 	ADDITIONAL_NAME_SHAPES

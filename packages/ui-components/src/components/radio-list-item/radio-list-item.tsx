@@ -3,6 +3,7 @@ import { buildDescription } from './radio-list-item.helper';
 import { IRadioListItem, IRadioListItemEvents } from './radio-list-item.types';
 import { EComponentSize } from '../../types';
 
+/** @part label - The option's visible label */
 @Component({
 	tag: 'kv-radio-list-item',
 	styleUrl: 'radio-list-item.scss',
@@ -76,7 +77,7 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 						/>
 						<div class="info">
 							{/* With a `label`, the radio carries it as its name; this copy is for sight only */}
-							<div class="label" aria-hidden={this.label ? 'true' : undefined}>
+							<div class="label" part="label" aria-hidden={this.label ? 'true' : undefined}>
 								<slot name="label">{this.label}</slot>
 							</div>
 							{this.description && <div class="description">{this.parsedDescription}</div>}
