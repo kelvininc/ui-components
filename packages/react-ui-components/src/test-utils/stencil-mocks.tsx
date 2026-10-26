@@ -118,6 +118,7 @@ const createStencilMock = (proxyName: StencilProxyName) => {
 const STENCIL_PROXY_NAMES = [
 	'KvActionButton',
 	'KvActionButtonIcon',
+	'KvActionMenu',
 	'KvActionButtonSplit',
 	'KvActionButtonText',
 	'KvCheckbox',
