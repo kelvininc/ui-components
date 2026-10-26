@@ -24,14 +24,17 @@ describe.each([380, 800])('file action layout at %ipx', width => {
 			const files = screen.container.querySelector<HTMLElement>(`.${styles.FilesInfo}`)!;
 			const cards = Array.from(files.querySelectorAll(`.${styles.FileInfo}`));
 			const browse = screen.getByRole('button', { name: row.actionName, exact: true }).element();
-			const text = widget.querySelector('kv-action-button-text')!.shadowRoot!.querySelector('[part="button-text"]')!;
+			const action = widget.querySelector('kv-action-button-text')!;
+			const text = action.shadowRoot!.querySelector('[part="button-text"]')!;
+			const plus = action.shadowRoot!.querySelector('kv-icon');
 			const filesBounds = files.getBoundingClientRect();
 			expect(cards).toHaveLength(Math.max(1, row.values.length));
 			if (row.extraErrors) await expect.element(screen.getByText('Client certificate expired.', { exact: true })).toBeVisible();
-			expect(browse.getBoundingClientRect().top - filesBounds.bottom).toBeCloseTo(16, 0);
+			expect(browse.getBoundingClientRect().top - filesBounds.bottom).toBeCloseTo(12, 0);
 			expect(browse.getBoundingClientRect().left).toBeCloseTo(cards[0].getBoundingClientRect().left, 0);
-			// The button keeps its transparent 1px border; its text aligns within that inset.
-			expect(Math.abs(text.getBoundingClientRect().left - cards[0].getBoundingClientRect().left)).toBeLessThanOrEqual(1);
+			// The action's plus or text starts within its transparent 1px border.
+			expect(Math.abs((plus ?? text).getBoundingClientRect().left - cards[0].getBoundingClientRect().left)).toBeLessThanOrEqual(1);
+			if (plus) expect(text.getBoundingClientRect().left).toBeGreaterThan(plus.getBoundingClientRect().right);
 			for (const card of cards) expect(card.getBoundingClientRect().width).toBeCloseTo(filesBounds.width, 0);
 			expect(widget.scrollWidth).toBeLessThanOrEqual(widget.clientWidth);
 		});

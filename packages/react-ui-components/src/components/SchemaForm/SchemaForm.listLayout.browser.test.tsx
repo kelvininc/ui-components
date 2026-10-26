@@ -252,7 +252,12 @@ describe.each(ARRAY_SHAPES)('L1 list matrix in Chromium: $name', row => {
 			const removableItems = movableItems;
 			const firstItem = rootItems(screen.container)[0];
 			const section = firstItem.getAttribute('data-schema-form-item-kind') === 'section';
-			const addAlignment = firstItem.getAttribute('data-schema-form-item-kind') === 'table' ? firstItem.querySelector('[data-table-cell]')! : list;
+			const addAlignment =
+				firstItem.getAttribute('data-schema-form-item-kind') === 'table'
+					? firstItem.querySelector('[data-table-cell]')!
+					: section
+					? list
+					: firstItem.querySelector('kv-text-field[id],kv-single-select-dropdown[id]') ?? list;
 			expect(menus).toHaveLength(option.options.orderable !== false ? movableItems : section && option.options.removable !== false ? removableItems : 0);
 			const trash = Array.from(list.querySelectorAll<HTMLKvActionButtonIconElement>('kv-action-button-icon')).filter(
 				host => !host.closest('kv-action-menu') && host.closest('[data-schema-form-list]') === list
@@ -277,7 +282,9 @@ describe.each(ARRAY_SHAPES)('L1 list matrix in Chromium: $name', row => {
 				expect(add?.textContent).toBe('Add item');
 				const button = screen.getByRole('button', { name: add!.accessibleLabel, exact: true }).element();
 				expect((button as HTMLButtonElement).tabIndex).toBe(readonly || row.name === 'readonly' ? -1 : 0);
-				expect(add!.getBoundingClientRect().x).toBeCloseTo(addAlignment.getBoundingClientRect().x, 0);
+				const addStart = section || option.options.orderable === false ? add! : add!.querySelector('span')!;
+				expect(add!.querySelector('kv-icon')).not.toBeNull();
+				expect(addStart.getBoundingClientRect().x).toBeCloseTo(addAlignment.getBoundingClientRect().x, 0);
 			} else expect(add).toBeNull();
 		});
 	});

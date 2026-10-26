@@ -2,7 +2,7 @@ import { FieldTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema } fro
 import classNames from 'classnames';
 import React, { useContext, useRef } from 'react';
 import { EDescriptionPosition } from '../../types';
-import { ArrayDescriptionContext, ArrayItemControlsContext, ChoiceControlContext, FieldDescriptionContext } from '../../contexts';
+import { ArrayDescriptionContext, ArrayItemControlsContext, ChoiceControlContext, FieldDescriptionContext, FileFieldErrorsContext } from '../../contexts';
 import { useFieldPresentation } from './useFieldPresentation';
 import styles from './FieldTemplate.module.scss';
 import ChoiceExtras from './ChoiceExtras';
@@ -16,12 +16,39 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 	const cell = useTableCell(props.id);
 	const controls = useContext(ArrayItemControlsContext);
 	const itemControls = controls?.fieldId === props.id ? controls : null;
-	const { WrapIfAdditionalTemplate, arrayDescriptionContext, errorDescription, descriptionPosition, titleElement, descriptionElement, errorsElement, helperElement } =
-		useFieldPresentation(props);
-	const help = errorsElement || descriptionElement;
+	const {
+		WrapIfAdditionalTemplate,
+		arrayDescriptionContext,
+		errorDescription,
+		collection,
+		fileWidget,
+		descriptionPosition,
+		titleElement,
+		descriptionElement,
+		collectionMetadataElement,
+		errorsElement,
+		helperElement
+	} = useFieldPresentation(props);
+	const help = collection ? descriptionElement : errorsElement || descriptionElement;
+	const footerHelp = cell ? !fileWidget && errorsElement : descriptionPosition !== EDescriptionPosition.Top && help;
+	const footerErrors = !cell && collection && !fileWidget && errorsElement;
+	const footerDefault = !cell && !collection && helperElement;
+	const footer =
+		footerHelp || footerErrors || footerDefault ? (
+			<>
+				{footerHelp}
+				{footerErrors}
+				{footerDefault}
+			</>
+		) : null;
 	return (
 		<WrapIfAdditionalTemplate {...props}>
-			<div className={classNames(styles.FieldWrapper, props.classNames)}>
+			<div
+				className={classNames(styles.FieldWrapper, props.classNames, {
+					[styles.ItemWithGrip]: itemControls?.before,
+					[styles.ItemWithAction]: itemControls?.after
+				})}
+			>
 				{cell ? (
 					<div className={tableStyles.CellLabel}>
 						<span aria-hidden="true">{cell.column.title}</span>
@@ -35,28 +62,28 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 				) : (
 					titleElement
 				)}
-				{!cell && descriptionPosition === EDescriptionPosition.Top && help}
+				{!cell && (collection ? collectionMetadataElement : descriptionPosition === EDescriptionPosition.Top && help)}
 				<ChoiceControlContext.Provider value={choiceHost}>
 					<FieldDescriptionContext.Provider value={errorDescription}>
-						<ArrayDescriptionContext.Provider value={arrayDescriptionContext}>
-							{itemControls ? (
-								<div className={styles.ItemControlRow}>
-									{itemControls.before}
-									<div className={styles.ItemControl}>
-										<ArrayItemControlsContext.Provider value={null}>{props.children}</ArrayItemControlsContext.Provider>
+						<FileFieldErrorsContext.Provider value={fileWidget ? { fieldId: props.id, errors: errorsElement } : null}>
+							<ArrayDescriptionContext.Provider value={arrayDescriptionContext}>
+								{itemControls ? (
+									<div className={styles.ItemControlRow}>
+										{itemControls.before}
+										<div className={styles.ItemControl}>
+											<ArrayItemControlsContext.Provider value={null}>{props.children}</ArrayItemControlsContext.Provider>
+										</div>
+										{!titleElement && <FieldHelp help={props.rawHelp} />}
+										{itemControls.after}
 									</div>
-									{!titleElement && <FieldHelp help={props.rawHelp} />}
-									{itemControls.after}
-								</div>
-							) : (
-								props.children
-							)}
-						</ArrayDescriptionContext.Provider>
+								) : (
+									props.children
+								)}
+							</ArrayDescriptionContext.Provider>
+						</FileFieldErrorsContext.Provider>
 					</FieldDescriptionContext.Provider>
-					<ChoiceExtras {...props} />
+					<ChoiceExtras {...props}>{footer}</ChoiceExtras>
 				</ChoiceControlContext.Provider>
-				{cell ? errorsElement : descriptionPosition !== EDescriptionPosition.Top && help}
-				{!cell && helperElement}
 			</div>
 		</WrapIfAdditionalTemplate>
 	);
