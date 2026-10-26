@@ -63,6 +63,18 @@ describe.each(DESCRIPTION_CONSUMERS)('accessible description consumer: $name', r
 });
 
 describe('accessible description control lifetime', () => {
+	it('describes the split primary without describing its secondary action', async () => {
+		const page = await newE2EPage();
+		const row = DESCRIPTION_CONSUMERS.find(consumer => consumer.name === 'split primary');
+		await page.setContent(`<p id="errors">Broker host is required.</p>${row.markup}`);
+		await setDescription(page, row, 'errors');
+		await page.waitForChanges();
+		await expectDescription(page, row, 'errors');
+		const secondary = await page.$('aria/Connection options[role="button"]');
+		expect(secondary).not.toBeNull();
+		expect((await page.accessibility.snapshot({ root: secondary }))?.description).toBeUndefined();
+	});
+
 	it('accepts a description element without an ID', async () => {
 		const page = await newE2EPage();
 		await page.setContent('<p>Broker host is required.</p><kv-text-field accessible-label="Broker"></kv-text-field>');
@@ -75,7 +87,7 @@ describe('accessible description control lifetime', () => {
 
 	it('describes a replacement text input after loading finishes', async () => {
 		const page = await newE2EPage();
-		const row = DESCRIPTION_CONSUMERS[0];
+		const row = DESCRIPTION_CONSUMERS.find(consumer => consumer.name === 'text field');
 		await page.setContent('<p id="errors">Broker host is required.</p><kv-text-field accessible-label="Broker" loading></kv-text-field>');
 		await setDescription(page, row, 'errors');
 		const host = await page.find('kv-text-field');

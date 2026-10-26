@@ -38,6 +38,7 @@ describe('action button consumers', () => {
 		const itemSelected = await host.spyOnEvent('itemSelected');
 		const control = await page.$(`aria/${row.buttonName}[role="button"]`);
 		expect(control).not.toBeNull();
+		expect((await page.accessibility.snapshot({ root: control }))?.description).toBeUndefined();
 		await control.focus();
 		await page.keyboard.press(row.key);
 		await page.waitForChanges();

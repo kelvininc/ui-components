@@ -25,6 +25,8 @@ export class KvActionButtonIcon implements IActionButtonIconConfig {
 	/** @inheritdoc */
 	@Prop() accessibleLabel?: string;
 	/** @inheritdoc */
+	@Prop() accessibleDescriptionElements?: readonly Element[];
+	/** @inheritdoc */
 	@Prop() menuExpanded?: boolean;
 	/** @inheritdoc */
 	@Prop() menuTabIndex?: number;
@@ -52,6 +54,7 @@ export class KvActionButtonIcon implements IActionButtonIconConfig {
 						size={this.size}
 						disabled={this.disabled}
 						accessibleLabel={this.accessibleLabel}
+						accessibleDescriptionElements={this.accessibleDescriptionElements}
 						menuExpanded={this.menuExpanded}
 						menuTabIndex={this.menuTabIndex}
 						exportparts="button"

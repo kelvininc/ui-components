@@ -16,15 +16,17 @@ export interface FormStateContextValue {
 	resetFieldState: (fieldId: string) => void;
 	resetAllFieldStates: () => void;
 	displayErrors: boolean;
+	valueResetKey?: number;
 }
 
 export interface FormStateProviderProps {
 	initialFormData?: any;
 	displayErrors?: boolean;
 	resetKey?: number;
+	valueResetKey?: number;
 }
 
-export const FormStateProvider = ({ children, initialFormData, displayErrors = false, resetKey }: PropsWithChildren<FormStateProviderProps>) => {
+export const FormStateProvider = ({ children, initialFormData, displayErrors = false, resetKey, valueResetKey = resetKey }: PropsWithChildren<FormStateProviderProps>) => {
 	const [fieldStates, setFieldStates] = useState<Record<string, FieldState>>({});
 	const [initialData] = useState(initialFormData ?? {});
 	const [parents, setParents] = useState<Record<string, { parentId?: string; count: number }>>({});
@@ -126,7 +128,8 @@ export const FormStateProvider = ({ children, initialFormData, displayErrors = f
 			isFieldDirty,
 			resetFieldState,
 			resetAllFieldStates,
-			displayErrors
+			displayErrors,
+			valueResetKey
 		}),
 		[
 			fieldStates,
@@ -138,7 +141,8 @@ export const FormStateProvider = ({ children, initialFormData, displayErrors = f
 			isFieldDirty,
 			resetFieldState,
 			resetAllFieldStates,
-			displayErrors
+			displayErrors,
+			valueResetKey
 		]
 	);
 

@@ -8,7 +8,9 @@ import { useSchemaFormFocusRef } from '../../hooks/entryFocus';
 const TextareaWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
 	label,
+	schema,
 	uiSchema = {},
+	options,
 	value,
 	placeholder,
 	disabled,
@@ -19,15 +21,17 @@ const TextareaWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Fo
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
 	const accessibleDescriptionElements = useFieldDescription(id);
 	const focusRef = useSchemaFormFocusRef<HTMLKvTextAreaElement>(disabled || readonly);
-	const { maxCharLength, iconName } = uiSchema;
+	const { maxCharLength = schema.maxLength, iconName } = uiSchema;
 	const hasErrors = useFieldErrors(id, rawErrors);
 
 	const onTextChange = useCallback(
 		({ detail: textValue }: CustomEvent<string>) => {
-			trackFieldChange(id, textValue);
-			onChange(textValue);
+			if (disabled || readonly) return;
+			const nextValue = textValue === '' ? options.emptyValue : textValue;
+			trackFieldChange(id, nextValue);
+			onChange(nextValue);
 		},
-		[onChange, trackFieldChange, id]
+		[onChange, options.emptyValue, trackFieldChange, id, disabled, readonly]
 	);
 
 	return (
@@ -40,7 +44,7 @@ const TextareaWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Fo
 			disabled={disabled || readonly}
 			maxCharLength={maxCharLength}
 			icon={iconName}
-			text={value}
+			text={value ? String(value) : ''}
 			placeholder={placeholder}
 			onTextChange={onTextChange}
 			onBlur={() => markFieldAsTouched(id)}

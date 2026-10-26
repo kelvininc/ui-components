@@ -175,9 +175,77 @@ JSON value, including when supplied as `undefined` or through `ui:options.emptyV
 SchemaForm preserves function, memo and forwardRef component references while merging UI settings,
 and applies template replacements to mounted forms without modifying the caller's uiSchema.
 
+## Textarea values and limits
+
+Descriptions and errors share `kv-form-help-text`'s 8px left inset. Text and date/time inputs
+use the same rule for their built-in feedback. A textarea's
+compact character count sits inside the bottom-right corner in a reserved footer; text scrolls
+above it. `KvTextArea`'s `counter` and `counterAlwaysVisible` retain their existing visibility behavior.
+
+Clearing a textarea commits the field's `ui:emptyValue`, including when supplied through
+`ui:options.emptyValue`. The default is `undefined`. Empty strings, null and other configured values
+retain their types; the form's schema still validates them. Nonempty text stays unchanged.
+External empty values, Discard and Reset to Default clear the displayed control.
+Pinned RJSF's default `liveOmit` handling converts root-level null to `{}`; a named object field
+preserves null. Set `omitExtraData={false}` to keep root-level null.
+
+A textarea uses `schema.maxLength` as its default character limit. The existing top-level
+`uiSchema.maxCharLength` overrides it. Positive limits count Unicode code points; an absent limit
+or explicit zero allows editing without a live cap. Schema validation applies independently,
+including when an override exceeds the schema limit or `schema.maxLength` is zero.
+Pasting formatted clipboard content inserts plain text.
+Typing and paste count the proposed value after replacing the selection, so a full field remains
+editable. A replacement that would still exceed the cap stays blocked.
+Programmatic values preserve line breaks and consecutive spaces in the displayed textarea.
+Native text insertion and committed IME text obey the same cap. Composition drafts stay in the
+browser until they finish; a rejected commit restores the previous value without emitting a change.
+Caller-supplied values above the cap stay visible and can still be shortened by deletion.
+
+## File action labels
+
+SchemaForm labels its file picker action "Choose file" for an empty single field, "Replace file" for
+a populated single field, and "Add files" for a multiple field. Stored paths and secret references
+count as populated. The label follows uploads, removal, external values and form resets.
+
+Set `fileActionLabel` in the field's `ui:options` to supply product wording or translated text:
+
+```tsx
+const uiSchema = {
+	ca: {
+		'ui:options': { fileActionLabel: 'Upload certificate' }
+	}
+};
+```
+
+Set the same key in root `ui:globalOptions` to apply it to file fields throughout the form. A field's
+setting takes precedence. SchemaForm trims string overrides and uses the state-based default for
+blank or non-string values. A valid override stays in effect in every state; update uiSchema when
+your product needs different custom text after selection. This option controls the picker action;
+file rows keep their existing Download and Remove labels.
+
+Set `ui:options.filePreview` to `true` to show Download for decodable data URLs in both single and
+multiple fields. Secret references and stored paths contain no file contents, so their rows only
+offer Remove. Download stays available when the field is readonly or disabled.
+
+File arrays keep empty and invalid entries at their original positions. Empty or non-string entries
+show an Empty row with its own validation errors and Remove action. Uploading or removing another
+row preserves those values until you remove them.
+RJSF's defaulting and extra-data settings still apply to form values.
+
+The accessible name combines the resolved action text and effective field title, such as
+"Upload certificate: CA certificate". Untitled fields use their field id. The colon keeps the
+visible text in the accessible name without adding an English connective to translated text.
+
 ## Properties:
 
 You can use any of the properties available in the react-jsonschema-form [&lt;Form /> props](https://react-jsonschema-form.readthedocs.io/en/latest/api-reference/form-props/).
+
+SchemaForm changes three RJSF defaults:
+
+- `omitExtraData` and `liveOmit` default to `true`, so keys the schema doesn't declare are removed from
+  the data passed to `onChange` and `onSubmit`. Set `omitExtraData={false}` to keep them.
+- `noHtml5Validate` defaults to `true`. RJSF validates the form on submit, so the browser's own
+  constraint check is off. Pass `noHtml5Validate={false}` to turn it back on.
 
 ## Extra properties:
 

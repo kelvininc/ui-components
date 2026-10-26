@@ -1,6 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop } from '@stencil/core';
 import { EActionButtonType, IButton, IButtonEvents, IButtonMenuState } from './action-button.types';
 import { EComponentSize } from '../../utils/types';
+import { setAccessibleDescriptionElements } from '../../utils/accessible-description.helper';
 
 /**
  * @part button - The action button.
@@ -25,6 +26,8 @@ export class KvActionButton implements IButton, IButtonEvents, IButtonMenuState 
 	/** @inheritdoc */
 	@Prop() accessibleLabel?: string;
 	/** @inheritdoc */
+	@Prop() accessibleDescriptionElements?: readonly Element[];
+	/** @inheritdoc */
 	@Prop() menuExpanded?: boolean;
 	/** @inheritdoc */
 	@Prop() menuTabIndex?: number;
@@ -37,6 +40,11 @@ export class KvActionButton implements IButton, IButtonEvents, IButtonMenuState 
 	@Event() focusButton: EventEmitter<FocusEvent>;
 	/** @inheritdoc */
 	@Event() blurButton: EventEmitter<FocusEvent>;
+	private control?: HTMLDivElement;
+
+	componentDidRender() {
+		setAccessibleDescriptionElements(this.control, this.accessibleDescriptionElements);
+	}
 
 	private onClickButton = (event: MouseEvent) => {
 		if (this.disabled) {
@@ -69,6 +77,7 @@ export class KvActionButton implements IButton, IButtonEvents, IButtonMenuState 
 		return (
 			<Host onClick={this.onClickButton}>
 				<div
+					ref={element => (this.control = element)}
 					class={{
 						'action-button': true,
 						'action-button--disabled': this.disabled,

@@ -739,7 +739,7 @@ export const ACTION_NAME_SHAPES: readonly {
 		schema: { type: 'string', title: 'Certificate', format: 'data-url' },
 		uiSchema: { 'ui:options': { filePreview: true } },
 		formData: CERTIFICATE,
-		labels: ['Download ca.pem', 'Remove ca.pem', 'Browse File'],
+		labels: ['Download ca.pem', 'Remove ca.pem', 'Replace file: Certificate'],
 		action: { label: 'Remove ca.pem', nextData: undefined },
 		download: 'Download ca.pem'
 	},
@@ -748,7 +748,7 @@ export const ACTION_NAME_SHAPES: readonly {
 		schema: { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } },
 		uiSchema: { 'ui:options': { filePreview: true } },
 		formData: [CERTIFICATE, CLIENT_CERTIFICATE],
-		labels: ['Download ca.pem', 'Remove ca.pem', 'Download client.pem', 'Remove client.pem', 'Browse File'],
+		labels: ['Download ca.pem', 'Remove ca.pem', 'Download client.pem', 'Remove client.pem', 'Add files: Certificates'],
 		action: { label: 'Remove ca.pem', nextData: [CLIENT_CERTIFICATE] },
 		download: 'Download ca.pem'
 	}
@@ -864,6 +864,145 @@ export const TEXTAREA_VALIDATION_SHAPES: readonly {
 		touchedInvalid: true
 	},
 	{ ...TEXTAREA_VALIDATION_FORM, name: 'display all with no errors', extraErrors: {}, displayErrors: true, initialInvalid: false, touchedInvalid: false }
+];
+
+const R7_TEXTAREA_SCHEMA: RJSFSchema = { type: 'string', title: 'Connection notes' };
+export const R7_TEXTAREA_EMPTY_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema<Record<string, unknown>, RJSFSchema, SchemaFormContext>;
+	expected: unknown;
+	displayText: string;
+}[] = [
+	{
+		name: 'omitted empty value',
+		schema: { type: 'object', properties: { notes: R7_TEXTAREA_SCHEMA } },
+		uiSchema: { notes: { 'ui:widget': 'textarea' } },
+		expected: undefined,
+		displayText: ''
+	},
+	...[...VALUE_CASES, { name: 'string sentinel', value: 'No connection notes' }].flatMap(({ name, value }) =>
+		[false, true].map(inOptions => ({
+			name: `${name} in ${inOptions ? 'ui:options' : 'ui:emptyValue'}`,
+			schema: { type: 'object' as const, properties: { notes: R7_TEXTAREA_SCHEMA } },
+			uiSchema: { notes: { 'ui:widget': 'textarea', ...(inOptions ? { 'ui:options': { emptyValue: value as UIOptionsType['emptyValue'] } } : { 'ui:emptyValue': value }) } },
+			expected: value,
+			displayText: value ? String(value) : ''
+		}))
+	)
+];
+export const R7_TEXTAREA_LIMIT_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	limit?: number;
+	expectedText: string;
+}[] = [
+	{ name: 'unlimited', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea' }, expectedText: 'é🚀ABC' },
+	{ name: 'schema limit', schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 3 }, uiSchema: { 'ui:widget': 'textarea' }, limit: 3, expectedText: 'é🚀A' },
+	{ name: 'UI-only limit', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 3 }, limit: 3, expectedText: 'é🚀A' },
+	{
+		name: 'UI below schema',
+		schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 3 },
+		uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 2 },
+		limit: 2,
+		expectedText: 'é🚀'
+	},
+	{
+		name: 'UI above schema',
+		schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 2 },
+		uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 4 },
+		limit: 4,
+		expectedText: 'é🚀AB'
+	},
+	{
+		name: 'UI zero stays unlimited',
+		schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 2 },
+		uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 0 },
+		limit: 0,
+		expectedText: 'é🚀ABC'
+	},
+	{ name: 'schema zero', schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 0 }, uiSchema: { 'ui:widget': 'textarea' }, limit: 0, expectedText: 'é🚀ABC' },
+	{
+		name: 'undefined UI limit uses schema',
+		schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 3 },
+		uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': undefined },
+		limit: 3,
+		expectedText: 'é🚀A'
+	}
+];
+export const R7_TEXTAREA_REPLACEMENT_SHAPES = [
+	{ name: 'whole field at the limit', initial: 'CAB', selection: 'all', replacement: 'TLS', limit: 3, typed: 'TLS', pasted: 'TLS' },
+	{ name: 'last character at the limit', initial: 'CAB', selection: 'last', replacement: 'X', limit: 3, typed: 'CAX', pasted: 'CAX' },
+	{ name: 'selected Unicode code point', initial: 'Aé🚀', selection: 'last', replacement: 'Z', limit: 3, typed: 'AéZ', pasted: 'AéZ' },
+	{ name: 'partial replacement overflow', initial: 'CAB', selection: 'last', replacement: 'XY', limit: 3, typed: 'CAX', pasted: 'CAB' },
+	{ name: 'whole replacement overflow', initial: 'CAB', selection: 'all', replacement: 'TLSX', limit: 3, typed: 'TLS', pasted: 'CAB' },
+	{ name: 'Unicode replacement at the limit', initial: 'CAB', selection: 'all', replacement: 'é🚀A', limit: 3, typed: 'é🚀A', pasted: 'é🚀A' },
+	{ name: 'selected multiline text', initial: 'CA\nB', selection: 'all', replacement: 'TLS', limit: 4, typed: 'TLS', pasted: 'TLS' }
+].map(row => ({ ...row, schema: { ...R7_TEXTAREA_SCHEMA, maxLength: row.limit }, uiSchema: { 'ui:widget': 'textarea' } }));
+export const R7_TEXTAREA_NATIVE_INPUT_SHAPES = [
+	{ name: 'Unicode insertion overflow', initial: 'AB', selection: 'end', inserted: '🚀X', limit: 3, expected: 'AB' },
+	{ name: 'Unicode insertion at the limit', initial: 'AB', selection: 'end', inserted: '🚀', limit: 3, expected: 'AB🚀' },
+	{ name: 'Unicode whole-field replacement', initial: 'CAB', selection: 'all', inserted: 'é🚀A', limit: 3, expected: 'é🚀A' },
+	{ name: 'partial native replacement overflow', initial: 'CAB', selection: 'last', inserted: '🚀X', limit: 3, expected: 'CAB' },
+	{ name: 'whole native replacement overflow', initial: 'CAB', selection: 'all', inserted: 'é🚀AB', limit: 3, expected: 'CAB' },
+	{ name: 'unlimited native insertion', initial: 'AB', selection: 'end', inserted: '🚀X', limit: undefined, expected: 'AB🚀X' },
+	{ name: 'zero native limit', initial: 'AB', selection: 'end', inserted: '🚀X', limit: 0, expected: 'AB🚀X' }
+].map(row => ({ ...row, schema: { ...R7_TEXTAREA_SCHEMA, maxLength: row.limit }, uiSchema: { 'ui:widget': 'textarea' } }));
+export const R7_TEXTAREA_COMPOSITION_SHAPES = [
+	{ name: 'draft exceeds cap before a valid commit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日', limit: 3, expected: 'AB日' },
+	{ name: 'overflowing IME commit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日本', limit: 3, expected: 'AB' },
+	{ name: 'IME replaces the whole field', initial: 'CAB', selection: 'all', draft: 'にほんご', committed: '日本語', limit: 3, expected: '日本語' },
+	{ name: 'canceled IME draft', initial: 'AB', selection: 'end', draft: 'にほん', committed: '', limit: 3, expected: 'AB' },
+	{ name: 'unlimited IME commit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日本', limit: undefined, expected: 'AB日本' },
+	{ name: 'zero IME limit', initial: 'AB', selection: 'end', draft: 'にほん', committed: '日本', limit: 0, expected: 'AB日本' }
+].map(row => ({ ...row, schema: { ...R7_TEXTAREA_SCHEMA, maxLength: row.limit }, uiSchema: { 'ui:widget': 'textarea' } }));
+export const R7_TEXTAREA_PASTE_SHAPES: readonly {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema: UiSchema;
+	initial: string;
+	pasted: string;
+	allowed: boolean;
+	selection?: string;
+	expectedText?: string;
+}[] = [
+	{ name: 'unlimited plain text', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea' }, initial: 'Ops: ', pasted: 'Use TLS\nKeepalive enabled', allowed: true },
+	{ name: 'blank line stays text', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea' }, initial: '', pasted: '\n', allowed: true },
+	{ name: 'spaces stay text', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea' }, initial: '', pasted: '  ', allowed: true },
+	{ name: 'schema rejects overflow', schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 4 }, uiSchema: { 'ui:widget': 'textarea' }, initial: 'CA', pasted: 'cert', allowed: false },
+	{ name: 'Unicode at schema boundary', schema: { ...R7_TEXTAREA_SCHEMA, maxLength: 4 }, uiSchema: { 'ui:widget': 'textarea' }, initial: 'CA', pasted: '🚀é', allowed: true },
+	{ name: 'UI override rejects overflow', schema: R7_TEXTAREA_SCHEMA, uiSchema: { 'ui:widget': 'textarea', 'maxCharLength': 4 }, initial: 'CA', pasted: 'cert', allowed: false },
+	...R7_TEXTAREA_REPLACEMENT_SHAPES.map(row => ({
+		name: row.name,
+		schema: row.schema,
+		uiSchema: row.uiSchema,
+		initial: row.initial,
+		pasted: row.replacement,
+		selection: row.selection,
+		allowed: row.pasted !== row.initial,
+		expectedText: row.pasted
+	}))
+];
+export const R7_TEXTAREA_RESET_SHAPES: readonly {
+	name: string;
+	action: 'external' | 'discard' | 'defaults';
+	schema: RJSFSchema;
+	uiSchema: UiSchema<Record<string, unknown>, RJSFSchema, SchemaFormContext>;
+	emptyData: Record<string, unknown>;
+}[] = [
+	...[
+		{ name: 'external undefined', action: 'external' as const, value: undefined },
+		{ name: 'external null', action: 'external' as const, value: null },
+		{ name: 'discard to undefined', action: 'discard' as const, value: undefined },
+		{ name: 'reset to empty default', action: 'defaults' as const, value: '' }
+	].map(row => ({
+		name: row.name,
+		action: row.action,
+		schema: { type: 'object' as const, properties: { notes: { ...R7_TEXTAREA_SCHEMA, ...(row.action === 'defaults' ? { default: '' } : {}) } } },
+		uiSchema: { notes: { 'ui:widget': 'textarea' } },
+		emptyData: { notes: row.value }
+	}))
 ];
 
 /** Field errors, the error list, descriptions and helper text share the core help component. */
@@ -1221,6 +1360,17 @@ export const R2_ERROR_DESCRIPTION_SHAPES: readonly {
 		]
 	}
 ];
+
+export const FIELD_FEEDBACK_SHAPES = [
+	...R2_ERROR_DESCRIPTION_SHAPES.filter(row => row.fields.length === 1),
+	{ name: 'date', schema: { type: 'string', title: 'Inspection date', format: 'date' } as RJSFSchema, uiSchema: {}, formData: '2026-10-08' },
+	{ name: 'file', schema: { type: 'string', title: 'CA certificate', format: 'data-url' } as RJSFSchema, uiSchema: {}, formData: 'data:text/plain;name=ca.pem;base64,Y2E=' }
+].map(({ name, schema, uiSchema, formData }) => ({
+	name,
+	schema: { ...schema, description: 'Configure this connection setting.' },
+	uiSchema,
+	formData
+}));
 
 const MIXED_ERROR_SCHEMA: RJSFSchema = {
 	...BROKER_SCHEMA,
@@ -2970,6 +3120,226 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	rowCount: Array.isArray(row.formData) ? row.formData.length : 1
 }));
 
+export const R6_FILE_VALUES = Object.freeze([
+	{ name: 'empty', values: [] as string[], labels: [] as string[] },
+	{ name: 'one file', values: [CERTIFICATE], labels: ['ca.pem'] },
+	{ name: 'duplicate names', values: [CERTIFICATE, 'data:text/plain;name=ca.pem;base64,YmFja3Vw'], labels: ['ca.pem', 'ca.pem'] },
+	{ name: 'nameless legacy file', values: ['data:text/plain;base64,Y2E='], labels: ['unknown'] },
+	{ name: 'stored path', values: ['certificates/plant-ca.pem'], labels: ['certificates/plant-ca.pem'] },
+	{ name: 'secret reference', values: ['<% secrets.ca %>'], labels: ['<% secrets.ca %>'] },
+	{ name: 'malformed data URL', values: ['data:text/plain;name=ca.pem;base64,%%%'], labels: ['data:text/plain;name=ca.pem;base64,%%%'] },
+	{ name: 'encoded filename', values: ['data:text/plain;name=plant%20CA%20%23%201.pem;base64,Y2E='], labels: ['plant CA # 1.pem'] }
+]);
+export const R6_FILE_STATES = Object.freeze([
+	{ name: 'editable', readonly: false, disabled: false },
+	{ name: 'readonly', readonly: true, disabled: false },
+	{ name: 'disabled', readonly: false, disabled: true },
+	{ name: 'readonly and disabled', readonly: true, disabled: true }
+]);
+export const R6_FILE_REFERENCE_SHAPES = [
+	{ name: 'CA reference', value: '<% secrets.ca %>', valid: true },
+	{ name: 'compact reference', value: '<%secrets.ca%>', valid: true },
+	{ name: 'nested reference', value: '<% secrets.plant.ca %>', valid: true },
+	{ name: 'key punctuation', value: '<% secrets.plant_1.ca-certificate %>', valid: true },
+	{ name: 'delimiter whitespace', value: '<%\tsecrets.ca\n%>', valid: true },
+	{ name: 'other namespace', value: '<% environment.ca %>', valid: false },
+	{ name: 'missing key', value: '<% secrets. %>', valid: false },
+	{ name: 'empty key segment', value: '<% secrets.plant..ca %>', valid: false },
+	{ name: 'space in key', value: '<% secrets.plant ca %>', valid: false },
+	{ name: 'trailing key separator', value: '<% secrets.ca. %>', valid: false },
+	{ name: 'expression', value: '<% secrets.ca + secrets.client %>', valid: false },
+	{ name: 'prefixed reference', value: 'certificate: <% secrets.ca %>', valid: false },
+	{ name: 'suffixed reference', value: '<% secrets.ca %>.pem', valid: false },
+	{ name: 'newline outside delimiters', value: '<% secrets.ca %>\n', valid: false },
+	{ name: 'unfinished reference', value: '<% secrets.ca', valid: false }
+];
+export const R6_FILE_REFERENCE_FORMS = [false, true].flatMap(multiple =>
+	[false, true].map(readonly => ({
+		name: `${multiple ? 'multiple' : 'single'} ${readonly ? 'readonly' : 'editable'} references`,
+		multiple,
+		readonly,
+		formData: multiple ? ['<% secrets.ca %>', CERTIFICATE] : '<% secrets.ca %>',
+		schema: (multiple
+			? { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } }
+			: { type: 'string', title: 'Certificate', format: 'data-url' }) as RJSFSchema,
+		uiSchema: { 'ui:options': { filePreview: true } }
+	}))
+);
+export const R6_FILE_SHAPES = [false, true].flatMap(multiple =>
+	R6_FILE_VALUES.flatMap(row =>
+		R6_FILE_STATES.map(state => {
+			const actionLabel = multiple ? 'Add files' : row.values.length ? 'Replace file' : 'Choose file';
+			return {
+				...row,
+				...state,
+				name: `${multiple ? 'multiple' : 'single'} ${row.name}, ${state.name}`,
+				multiple,
+				// Legacy single fields can contain an array. Keep both rows visible until an edit normalizes it.
+				formData: multiple || row.values.length > 1 ? row.values : row.values[0],
+				schema: (multiple
+					? { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } }
+					: { type: 'string', title: 'Certificate', format: 'data-url' }) as RJSFSchema,
+				uiSchema: { 'ui:options': { filePreview: true } },
+				actionLabel,
+				actionName: `${actionLabel}: ${multiple ? 'Certificates' : 'Certificate'}`
+			};
+		})
+	)
+);
+
+export const R6_FILE_ACTION_LABEL_SHAPES = [
+	{ name: 'custom empty single', uiSchema: { 'ui:options': { fileActionLabel: 'Upload certificate' } }, actionLabel: 'Upload certificate' },
+	{ name: 'custom populated single', populated: true, uiSchema: { 'ui:options': { fileActionLabel: 'Upload certificate' } }, actionLabel: 'Upload certificate' },
+	{ name: 'custom multiple', multiple: true, uiSchema: { 'ui:options': { fileActionLabel: 'Attach certificates' } }, actionLabel: 'Attach certificates' },
+	{
+		name: 'translated global label and title',
+		multiple: true,
+		uiSchema: { 'ui:globalOptions': { fileActionLabel: 'Adicionar ficheiros', title: 'Certificados' } },
+		actionLabel: 'Adicionar ficheiros',
+		fieldName: 'Certificados'
+	},
+	{
+		name: 'local label over global label',
+		uiSchema: { 'ui:globalOptions': { fileActionLabel: 'Attach file' }, 'ui:options': { fileActionLabel: 'Upload certificate' } },
+		actionLabel: 'Upload certificate'
+	},
+	{ name: 'trimmed custom text', uiSchema: { 'ui:options': { fileActionLabel: '  Upload certificate  ' } }, actionLabel: 'Upload certificate' },
+	{ name: 'empty text', uiSchema: { 'ui:options': { fileActionLabel: '' } }, actionLabel: 'Choose file' },
+	{ name: 'blank populated single', populated: true, uiSchema: { 'ui:options': { fileActionLabel: '  ' } }, actionLabel: 'Replace file' },
+	{
+		name: 'blank local label overrides global label',
+		uiSchema: { 'ui:globalOptions': { fileActionLabel: 'Attach file' }, 'ui:options': { fileActionLabel: '  ' } },
+		actionLabel: 'Choose file'
+	},
+	{ name: 'numeric text', uiSchema: { 'ui:options': { fileActionLabel: 42 } }, actionLabel: 'Choose file' },
+	{ name: 'object text', multiple: true, uiSchema: { 'ui:options': { fileActionLabel: { add: 'Attach files' } } }, actionLabel: 'Add files' },
+	{ name: 'blank global text', multiple: true, uiSchema: { 'ui:globalOptions': { fileActionLabel: ' ' } }, actionLabel: 'Add files' }
+].map(({ multiple = false, populated = false, fieldName, ...row }) => ({
+	...row,
+	multiple,
+	schema: (multiple
+		? { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } }
+		: { type: 'string', title: 'Certificate', format: 'data-url' }) as RJSFSchema,
+	uiSchema: row.uiSchema as UiSchema,
+	formData: populated ? CERTIFICATE : multiple ? ([] as string[]) : undefined,
+	actionName: `${row.actionLabel}: ${fieldName ?? (multiple ? 'Certificates' : 'Certificate')}`
+}));
+
+export const R6_FILE_ACTION_TRANSITIONS = [
+	{ name: 'single defaults', multiple: false, initialLabel: 'Choose file', selectedLabel: 'Replace file', uiSchema: {} },
+	{ name: 'multiple defaults', multiple: true, initialLabel: 'Add files', selectedLabel: 'Add files', uiSchema: {} },
+	{
+		name: 'custom single label',
+		multiple: false,
+		initialLabel: 'Upload certificate',
+		selectedLabel: 'Upload certificate',
+		uiSchema: { 'ui:options': { fileActionLabel: 'Upload certificate' } }
+	}
+].map(row => ({
+	...row,
+	schema: (row.multiple
+		? { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } }
+		: { type: 'string', title: 'Certificate', format: 'data-url' }) as RJSFSchema,
+	uiSchema: row.uiSchema as UiSchema,
+	formData: row.multiple ? ([] as string[]) : undefined,
+	fieldName: row.multiple ? 'Certificates' : 'Certificate'
+}));
+
+export const R6_FILE_EMPTY_RESET_SHAPE = {
+	schema: {
+		type: 'object',
+		properties: {
+			certificate: R6_FILE_ACTION_TRANSITIONS[0].schema,
+			host: { type: 'string', title: 'Host', default: 'default-broker.local' }
+		}
+	} as RJSFSchema,
+	formData: { host: 'edited-broker.local' }
+};
+export const R6_FILE_READ_CANCELLATIONS = [
+	'unmount',
+	'readonly',
+	'disabled',
+	'readonly then editable',
+	'disabled then editable',
+	'external value',
+	'discard',
+	'reset defaults'
+] as const;
+export const R6_FILE_READ_FAILURES = [
+	{ name: 'earlier read succeeds', earlierFails: false },
+	{ name: 'earlier read fails', earlierFails: true }
+];
+export const R6_FILE_LABEL_SHAPES: readonly { name: string; schema: RJSFSchema; uiSchema?: UiSchema; expected: string }[] = [
+	{ name: 'schema title', schema: { type: 'string', format: 'data-url', title: 'CA certificate' }, expected: 'Replace file: CA certificate' },
+	{
+		name: 'UI title',
+		schema: { type: 'string', format: 'data-url', title: 'Certificate' },
+		uiSchema: { 'ui:title': 'CA certificate' },
+		expected: 'Replace file: CA certificate'
+	},
+	{
+		name: 'UI options title',
+		schema: { type: 'string', format: 'data-url', title: 'Certificate' },
+		uiSchema: { 'ui:options': { title: 'CA certificate' } },
+		expected: 'Replace file: CA certificate'
+	},
+	{
+		name: 'global title',
+		schema: { type: 'string', format: 'data-url', title: 'Certificate' },
+		uiSchema: { 'ui:globalOptions': { title: 'CA certificate' } } as UiSchema,
+		expected: 'Replace file: CA certificate'
+	},
+	{
+		name: 'local title over global title',
+		schema: { type: 'string', format: 'data-url', title: 'Certificate' },
+		uiSchema: { 'ui:globalOptions': { title: 'Client certificate' }, 'ui:title': 'CA certificate' } as UiSchema,
+		expected: 'Replace file: CA certificate'
+	},
+	{ name: 'untitled field', schema: { type: 'string', format: 'data-url' }, expected: 'Replace file: root' },
+	{ name: 'suppressed title', schema: { type: 'string', format: 'data-url', title: 'Certificate' }, uiSchema: { 'ui:title': ' ' }, expected: 'Replace file: root' }
+];
+export const R6_FILE_ERROR_SHAPES = [
+	{
+		name: 'server item errors',
+		formData: [CERTIFICATE, CLIENT_CERTIFICATE],
+		extraErrors: { 0: { __errors: ['CA certificate expired.'] }, 1: { __errors: ['Client certificate expired.'] } },
+		messages: ['CA certificate expired.', 'Client certificate expired.']
+	},
+	{
+		name: 'one invalid stored value',
+		formData: [CERTIFICATE, 'certificates/client.pem'],
+		extraErrors: { 1: { __errors: ['Upload a client certificate.'] } },
+		messages: ['', 'Upload a client certificate.']
+	}
+] as const;
+
+export const R6_FILE_ARRAY_ENTRY_SHAPES: readonly {
+	name: string;
+	formData: readonly unknown[];
+	invalidIndex: number;
+	message: string;
+	omitExtraData?: false;
+}[] = [
+	{ name: 'blank before certificate', formData: ['', CERTIFICATE], invalidIndex: 0, message: 'must match format "data-url"' },
+	{ name: 'blank after certificate', formData: [CERTIFICATE, ''], invalidIndex: 1, message: 'must match format "data-url"' },
+	{ name: 'only blank entry', formData: [''], invalidIndex: 0, message: 'must match format "data-url"' },
+	{ name: 'null before certificate', formData: [null, CERTIFICATE], invalidIndex: 0, message: 'must be string' },
+	{ name: 'undefined before certificate', formData: [undefined, CERTIFICATE], invalidIndex: 0, message: 'must be string' },
+	{ name: 'number after certificate', formData: [CERTIFICATE, 42], invalidIndex: 1, message: 'must be string' },
+	{ name: 'retained object before certificate', formData: [{ path: 'certificates/plant-ca.pem' }, CERTIFICATE], invalidIndex: 0, message: 'must be string', omitExtraData: false }
+];
+
+export const R6_FILE_LAYOUT_SHAPES = [
+	{ name: 'empty single field', source: 'single empty, editable' },
+	{ name: 'single secret reference', source: 'single secret reference, editable' },
+	{ name: 'multiple files', source: 'multiple duplicate names, editable' },
+	{
+		name: 'multiple files with row error',
+		source: 'multiple duplicate names, editable',
+		extraErrors: { 1: { __errors: ['Client certificate expired.'] } }
+	}
+].map(({ source, ...row }) => ({ ...R6_FILE_SHAPES.find(shape => shape.name === source)!, ...row }));
+
 // Rows share schema objects (TOPICS, ENDPOINTS, NAME), so a test that mutated one would change
 // other rows, and other tests. Frozen, the mutation throws where it happens.
 [
@@ -3012,6 +3382,13 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	TEXTAREA_CONSUMER_SHAPES,
 	TEXTAREA_EDITABILITY_SHAPES,
 	TEXTAREA_VALIDATION_SHAPES,
+	R7_TEXTAREA_EMPTY_SHAPES,
+	R7_TEXTAREA_LIMIT_SHAPES,
+	R7_TEXTAREA_PASTE_SHAPES,
+	R7_TEXTAREA_REPLACEMENT_SHAPES,
+	R7_TEXTAREA_NATIVE_INPUT_SHAPES,
+	R7_TEXTAREA_COMPOSITION_SHAPES,
+	R7_TEXTAREA_RESET_SHAPES,
 	HELP_TEXT_CONSUMER_SHAPES,
 	BROKER_SCHEMA,
 	BROKER_FORM_DATA,
@@ -3020,6 +3397,7 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	R2_SUBMIT_CASES,
 	R2_VALIDATION_SHAPES,
 	R2_ERROR_DESCRIPTION_SHAPES,
+	FIELD_FEEDBACK_SHAPES,
 	R2_MIXED_ERROR_SHAPES,
 	R2_SECTION_ERROR_SHAPE,
 	R2_RESET_SHAPES,
@@ -3034,6 +3412,20 @@ export const R2_FILE_ERROR_VISIBILITY_SHAPES: readonly {
 	R2_NATIVE_SUBMIT_SHAPES,
 	R2_SCALAR_DISCARD_SHAPES,
 	R2_FILE_ERROR_VISIBILITY_SHAPES,
+	R6_FILE_VALUES,
+	R6_FILE_STATES,
+	R6_FILE_REFERENCE_SHAPES,
+	R6_FILE_REFERENCE_FORMS,
+	R6_FILE_SHAPES,
+	R6_FILE_ACTION_LABEL_SHAPES,
+	R6_FILE_ACTION_TRANSITIONS,
+	R6_FILE_EMPTY_RESET_SHAPE,
+	R6_FILE_READ_CANCELLATIONS,
+	R6_FILE_READ_FAILURES,
+	R6_FILE_LABEL_SHAPES,
+	R6_FILE_ERROR_SHAPES,
+	R6_FILE_ARRAY_ENTRY_SHAPES,
+	R6_FILE_LAYOUT_SHAPES,
 	TEMPLATE_COMPONENTS,
 	OPTION_SOURCES,
 	LIST_OPTIONS,

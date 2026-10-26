@@ -2,13 +2,18 @@
 
 .FileWidgetContainer {
 	display: flex;
-	justify-content: space-between;
-	gap: var(--spacing-xl);
-	align-items: center;
+	flex-direction: column;
+	gap: var(--spacing-2xl);
+	align-items: stretch;
 
 	.FilesInfo {
-		flex: 1;
 		min-width: 0;
+	}
+
+	.BrowseFilesButton {
+		--button-padding-x-compact: 0;
+
+		align-self: flex-start;
 	}
 
 	.ActionsContainer {
