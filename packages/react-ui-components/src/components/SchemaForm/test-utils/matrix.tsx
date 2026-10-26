@@ -1441,6 +1441,95 @@ export const R2_RESET_SHAPES: readonly {
 	expectedValid
 }));
 
+export type ResetStateShape = {
+	name: string;
+	schema: RJSFSchema;
+	uiSchema?: UiSchema;
+	applyDefaults?: EApplyDefaults;
+	formData: unknown;
+	editedData: unknown;
+	control:
+		| { kind: 'text'; key: string; label: string; value: string | number; editValue: string }
+		| { kind: 'checkbox'; key: string; label: string; value: boolean }
+		| { kind: 'files'; names: readonly string[]; downloads: readonly string[] };
+};
+const diagnosticLog = 'data:text/plain;name=diagnostics.log;base64,Y29ubmVjdGVk';
+const savedFileBundle = { certificate: CERTIFICATE, certificateReference: '<% secrets.ca %>', diagnostics: [diagnosticLog, '<% secrets.logs %>'] };
+export const RESET_STATE_SHAPES: readonly ResetStateShape[] = [
+	{
+		name: 'broker string',
+		schema: { type: 'string', title: 'Broker' },
+		formData: 'broker-1.local',
+		editedData: 'broker-2.local',
+		control: { kind: 'text', key: 'root', label: 'Broker', value: 'broker-1.local', editValue: 'broker-2.local' }
+	},
+	{
+		name: 'saved false',
+		schema: { type: 'object', properties: { tls: { type: 'boolean', title: 'TLS' } } },
+		uiSchema: { tls: { 'ui:widget': 'checkbox' } },
+		formData: { tls: false },
+		editedData: { tls: true },
+		control: { kind: 'checkbox', key: 'TLS', label: 'TLS', value: false }
+	},
+	{
+		name: 'saved zero',
+		schema: { type: 'object', properties: { retries: { type: 'integer', title: 'Retries' } } },
+		formData: { retries: 0 },
+		editedData: { retries: 3 },
+		control: { kind: 'text', key: 'root_retries', label: 'Retries', value: 0, editValue: '3' }
+	},
+	{
+		name: 'uploaded certificate',
+		schema: { type: 'string', title: 'Certificate', format: 'data-url' },
+		uiSchema: { 'ui:options': { filePreview: true } },
+		formData: CERTIFICATE,
+		editedData: undefined,
+		control: { kind: 'files', names: ['ca.pem'], downloads: ['ca.pem'] }
+	},
+	{
+		name: 'certificate reference',
+		schema: { type: 'string', title: 'Certificate', format: 'data-url' },
+		uiSchema: { 'ui:options': { filePreview: true } },
+		formData: '<% secrets.ca %>',
+		editedData: undefined,
+		control: { kind: 'files', names: ['<% secrets.ca %>'], downloads: [] }
+	},
+	{
+		name: 'mixed file array',
+		schema: { type: 'array', title: 'Certificates', items: { type: 'string', format: 'data-url' } },
+		uiSchema: { 'ui:options': { filePreview: true } },
+		formData: [CERTIFICATE, '<% secrets.ca %>'],
+		editedData: [],
+		control: { kind: 'files', names: ['ca.pem', '<% secrets.ca %>'], downloads: ['ca.pem'] }
+	},
+	{
+		name: 'connector file bundle',
+		schema: {
+			type: 'object',
+			title: 'Connector files',
+			properties: {
+				certificate: { type: 'string', title: 'Certificate', format: 'data-url' },
+				certificateReference: { type: 'string', title: 'Certificate reference', format: 'data-url' },
+				diagnostics: { type: 'array', title: 'Diagnostic logs', items: { type: 'string', format: 'data-url' } }
+			}
+		},
+		uiSchema: {
+			certificate: { 'ui:options': { filePreview: true } },
+			certificateReference: { 'ui:options': { filePreview: true } },
+			diagnostics: { 'ui:options': { filePreview: true } }
+		},
+		applyDefaults: EApplyDefaults.Never,
+		formData: savedFileBundle,
+		editedData: { certificate: undefined, certificateReference: undefined, diagnostics: [] },
+		control: { kind: 'files', names: ['ca.pem', '<% secrets.ca %>', 'diagnostics.log', '<% secrets.logs %>'], downloads: ['ca.pem', 'diagnostics.log'] }
+	}
+].map(row => ({ ...row, schema: { ...row.schema, default: row.formData as RJSFSchema['default'] } })) as readonly ResetStateShape[];
+
+export const RESET_STATE_ACTIONS = [
+	{ name: 'discard', label: 'Discard Changes' },
+	{ name: 'defaults', label: 'Reset to Default' }
+] as const;
+
 export const R2_BOUNDARY_TRANSITIONS = [
 	{
 		name: 'default policy changes',
@@ -3803,6 +3892,8 @@ export const ARRAY_WIDGET_DISPATCH_SHAPES: readonly {
 	R2_MIXED_ERROR_SHAPES,
 	R2_SECTION_ERROR_SHAPE,
 	R2_RESET_SHAPES,
+	RESET_STATE_SHAPES,
+	RESET_STATE_ACTIONS,
 	R2_BOUNDARY_TRANSITIONS,
 	R2_WIDGET_ERROR_SHAPES,
 	R2_WIDGET_ERROR_POLICIES,
