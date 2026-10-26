@@ -8,6 +8,7 @@
 	 * @prop --help-text-bottom-spacing: Help text bottom spacing.
 	 * @prop --help-text-right-spacing: Help text right spacing.
 	 * @prop --help-text-left-spacing: Help text left spacing.
+	 * @prop --help-text-error-font-weight: Font weight for invalid help text. Defaults to regular; set it on a parent to style nested help text.
 	 */
 
 	--help-text-default-color: var(--text-surface-neutral-tertiary);
@@ -52,6 +53,8 @@
 		color: var(--help-text-error-color);
 
 		.help-text {
+			// Inherit a parent override through nested controls, falling back to the regular token.
+			font-weight: var(--help-text-error-font-weight, var(--font-weight-regular));
 			color: var(--help-text-error-color);
 		}
 

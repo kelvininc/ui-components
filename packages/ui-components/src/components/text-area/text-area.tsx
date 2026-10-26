@@ -1,12 +1,13 @@
 import { Component, Event, EventEmitter, Host, Listen, Prop, State, h } from '@stencil/core';
 import { ITextArea, ITextAreaEvents } from './types';
 import { EIconName } from '../icon/icon.types';
+import { EValidationState } from '../text-field/text-field.types';
 import { getUTF8StringLength } from '../../utils/string.helper';
 
 @Component({
 	tag: 'kv-text-area',
 	styleUrl: 'text-area.scss',
-	shadow: true
+	shadow: { delegatesFocus: true }
 })
 export class KvTextArea implements ITextArea, ITextAreaEvents {
 	/** @inheritdoc */
@@ -23,6 +24,10 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	@Prop({ reflect: true }) counterAlwaysVisible?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) state: EValidationState = EValidationState.None;
+	/** @inheritdoc */
+	@Prop() accessibleLabel?: string;
 
 	/** @inheritdoc */
 	@Event() textChange: EventEmitter<string>;
@@ -70,9 +75,10 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	private onClipboardPaste = (event: ClipboardEvent) => {
 		const textLength = this.getTextLength();
 		const pasteData = event.clipboardData.getData('text/plain');
-		const shouldPaste = this.maxCharLength && textLength + getUTF8StringLength(pasteData) <= this.maxCharLength;
+		// A missing or zero limit allows the native paste.
+		const exceedsLimit = this.maxCharLength > 0 && textLength + getUTF8StringLength(pasteData) > this.maxCharLength;
 
-		if (!shouldPaste) {
+		if (exceedsLimit) {
 			event.preventDefault();
 			return;
 		}
@@ -100,7 +106,8 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 						<div
 							class={{
 								'text-area-wrapper': true,
-								'has-text': this.inputRef?.innerText.length > 0
+								'has-text': this.inputRef?.innerText.length > 0,
+								'invalid': this.state === EValidationState.Invalid
 							}}
 						>
 							<div
@@ -109,11 +116,17 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 									placeholder: this.showPlaceholder
 								}}
 								data-placeholder={this.placeholder}
+								role="textbox"
+								aria-label={this.accessibleLabel}
+								aria-multiline="true"
+								aria-placeholder={this.placeholder}
+								aria-invalid={this.state === EValidationState.Invalid ? 'true' : undefined}
+								aria-disabled={this.disabled ? 'true' : undefined}
 								ref={this.updateInputRef}
 								onPaste={this.onClipboardPaste}
 								onKeyPress={this.onKeyPress}
 								onInput={this.onInput}
-								contentEditable={!this.disabled}
+								contentEditable={this.disabled ? 'false' : 'plaintext-only'}
 							/>
 						</div>
 						{this.counter && this.maxCharLength && (
