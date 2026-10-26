@@ -1,10 +1,11 @@
-@use '../../assets/styles' as *;
+@use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
-:host {
+.ActionMenu {
 	display: inline-block;
 }
 
-.action-menu-panel {
+// The panel lives in a body portal while the menu is open, so nothing here may depend on its ancestors
+.Panel {
 	display: flex;
 	flex-direction: column;
 	min-width: 160px;
@@ -14,12 +15,12 @@
 	border: var(--slider-border-thickness-default) solid var(--slider-border-color-default);
 	border-radius: var(--slider-radius-default);
 
-	&--closed {
+	&.Closed {
 		display: none;
 	}
 }
 
-.action-menu-item {
+.Item {
 	@include body-m-regular;
 
 	display: flex;
@@ -39,12 +40,8 @@
 
 	kv-icon {
 		--icon-color: var(--icon-interactive-slider-list-default);
-		flex-shrink: 0;
-	}
 
-	&:hover:not(:disabled) {
-		background: var(--background-interactive-slider-list-hover);
-		color: var(--text-interactive-slider-list-hover);
+		flex-shrink: 0;
 	}
 
 	&:focus-visible {
@@ -52,7 +49,22 @@
 		outline-offset: -2px;
 	}
 
-	&--destructive:not(:disabled) {
+	// Disabled, hovered and destructive never style the same action, so their order only serves stylelint
+	&:disabled {
+		color: var(--text-interactive-slider-list-disabled);
+		cursor: default;
+
+		kv-icon {
+			--icon-color: var(--icon-interactive-slider-list-disabled);
+		}
+	}
+
+	&:hover:not(:disabled) {
+		background: var(--background-interactive-slider-list-hover);
+		color: var(--text-interactive-slider-list-hover);
+	}
+
+	&.Destructive:not(:disabled) {
 		color: var(--text-container-status-danger-default);
 
 		kv-icon {
@@ -68,18 +80,9 @@
 			}
 		}
 	}
-
-	&:disabled {
-		color: var(--text-interactive-slider-list-disabled);
-		cursor: default;
-
-		kv-icon {
-			--icon-color: var(--icon-interactive-slider-list-disabled);
-		}
-	}
 }
 
-.action-menu-separator {
+.Separator {
 	height: var(--slider-border-thickness-default);
 	margin: var(--spacing-xs) 0;
 	background: var(--slider-border-color-default);

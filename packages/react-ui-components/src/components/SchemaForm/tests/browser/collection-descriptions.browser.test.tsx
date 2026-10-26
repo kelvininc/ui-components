@@ -15,6 +15,7 @@ import {
 	FILE_FIELD_OVERRIDE_SHAPES
 } from '../../test-utils/matrix';
 import fileStyles from '../../Widgets/FileWidget/FileWidget.module.scss';
+import { menuLabel } from '../../test-utils/action-menu';
 
 afterEach(() => setThemeMode(StyleMode.Night));
 
@@ -34,15 +35,15 @@ describe.each([StyleMode.Light, StyleMode.Night])('collection guidance in %s', t
 			const screen = await render(form(row.from));
 			await whenAllKelvinReady(screen.container);
 			const header = screen.container.querySelector('[data-schema-form-item-header]')!;
-			const menu = header.querySelector('kv-action-menu')!;
+			const menu = header.querySelector('[data-action-menu]')!;
 			expect(menu).not.toBeNull();
-			await screen.getByRole('button', { name: menu.accessibleLabel, exact: true }).click();
+			await screen.getByRole('button', { name: menuLabel(menu), exact: true }).click();
 			const action = page.getByRole('menuitem', { name: 'Move down', exact: true });
 			await expect.element(action).toBeVisible();
 			await expect.element(action).toHaveFocus();
 			await screen.rerender(form(row.to));
 			await whenAllKelvinReady(screen.container);
-			expect(screen.container.querySelector('[data-schema-form-item-header] kv-action-menu')).toBe(menu);
+			expect(screen.container.querySelector('[data-schema-form-item-header] [data-action-menu]')).toBe(menu);
 			await expect.element(action).toBeVisible();
 			await expect.element(action).toHaveFocus();
 		});
@@ -193,7 +194,7 @@ describe.each([StyleMode.Light, StyleMode.Night])('collection guidance in %s', t
 				if (row.uiSchema?.['ui:options']?.orderable) {
 					expect(icon).not.toBeNull();
 					const drawnIcon = icon!.shadowRoot!.querySelector('.icon')!.getBoundingClientRect();
-					const grip = entry.querySelector('kv-action-menu')!.getBoundingClientRect();
+					const grip = entry.querySelector('[data-action-menu]')!.getBoundingClientRect();
 					expect(drawnIcon.left + drawnIcon.width / 2).toBeCloseTo(grip.left + grip.width / 2, 0);
 				} else expect(icon).not.toBeNull();
 				const helper = Array.from(entry.querySelectorAll('kv-form-help-text')).find(host => host.helpText === 'Default: telemetry')!;

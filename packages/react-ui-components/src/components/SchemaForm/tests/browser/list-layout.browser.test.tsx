@@ -21,6 +21,7 @@ import {
 	L1_TUPLE_SHAPES,
 	L1_UNION_LIST_SHAPES
 } from '../../test-utils/matrix';
+import { menuLabel } from '../../test-utils/action-menu';
 
 const center = (element: Element) => {
 	const bounds = element.getBoundingClientRect();
@@ -39,7 +40,7 @@ describe.each(L1_HIDDEN_ITEM_WIDGETS)('L1 hidden item widgets in Chromium: $name
 			const field = item.querySelector<HTMLElement>('[data-schema-form-field]')!;
 			if (hiddenPositions.includes(index)) await expect.element(field).not.toBeVisible();
 			else await expect.element(field).toBeVisible();
-			const menus = Array.from(item.querySelectorAll('kv-action-menu')).filter(menu => menu.closest('[data-schema-form-list-item]') === item);
+			const menus = Array.from(item.querySelectorAll('[data-action-menu]')).filter(menu => menu.closest('[data-schema-form-list-item]') === item);
 			expect(menus).toHaveLength(index < fixed ? 0 : 1);
 			const controls = index < fixed ? [] : [`${section ? 'Actions for' : 'Reorder'} ${itemNames[index]}`, ...(!section ? [`Remove ${itemNames[index]}`] : [])];
 			for (const name of controls) {
@@ -181,15 +182,11 @@ describe.each(L1_SCALAR_LIST_SHAPES)('L1 scalar alignment: $name', row => {
 it.each(L1_ARRAY_TEMPLATE_SHAPES)('L1 custom array metadata in Chromium: $name', async ({ row, uiSchema, ArrayTemplate, menus, labels }) => {
 	const screen = await render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={uiSchema} templates={{ ArrayFieldTemplate: ArrayTemplate }} />);
 	await whenAllKelvinReady(screen.container);
-	expect(screen.container.querySelectorAll('kv-action-menu')).toHaveLength(menus);
+	expect(screen.container.querySelectorAll('[data-action-menu]')).toHaveLength(menus);
 	for (const label of labels) await expect.element(screen.getByRole('textbox', { name: label, exact: true })).toBeVisible();
 	const nested = screen.container.querySelector('[data-custom-array-layout="root_0_tags"]');
 	if (nested) {
-		expect(Array.from(nested.querySelectorAll<HTMLKvActionMenuElement>('kv-action-menu')).map(control => control.accessibleLabel)).toEqual([
-			'Reorder Tag 1',
-			'Reorder Tag 2',
-			'Reorder Tag 3'
-		]);
+		expect(Array.from(nested.querySelectorAll<HTMLElement>('[data-action-menu]')).map(menuLabel)).toEqual(['Reorder Tag 1', 'Reorder Tag 2', 'Reorder Tag 3']);
 	}
 });
 
@@ -204,7 +201,7 @@ it.each(L1_HIDDEN_ITEM_HEADINGS)('L1 hidden object headings in Chromium: $name',
 	for (const item of rootItems(screen.container)) {
 		const header = item.querySelector<HTMLElement>('[data-schema-form-item-header]')!;
 		expect(header.querySelector('h2,h3,h4,h5,h6')).toBeNull();
-		const menu = header.querySelector('kv-action-menu')!;
+		const menu = header.querySelector('[data-action-menu]')!;
 		expect(Math.abs(menu.getBoundingClientRect().right - header.getBoundingClientRect().right)).toBeLessThanOrEqual(1);
 	}
 });
@@ -230,7 +227,7 @@ describe.each(L1_UNION_LIST_SHAPES)('L1 union ownership in Chromium: $name', row
 		await whenAllKelvinReady(screen.container);
 		const items = rootItems(screen.container);
 		expect(items).toHaveLength(2);
-		for (const item of items) expect(item.querySelectorAll('kv-action-menu')).toHaveLength(1);
+		for (const item of items) expect(item.querySelectorAll('[data-action-menu]')).toHaveLength(1);
 		onChange.mockClear();
 		if (row.section) {
 			await screen.getByRole('button', { name: `Actions for ${row.itemName} 2`, exact: true }).click();
@@ -269,7 +266,7 @@ describe.each(ARRAY_SHAPES)('L1 list matrix in Chromium: $name', row => {
 			await whenAllKelvinReady(screen.container);
 			expect(rootItems(screen.container)).toHaveLength(row.formData.length);
 			const list = screen.container.querySelector('[data-schema-form-list="root"]')!;
-			const menus = Array.from(list.querySelectorAll<HTMLKvActionMenuElement>('kv-action-menu')).filter(host => host.closest('[data-schema-form-list]') === list);
+			const menus = Array.from(list.querySelectorAll<HTMLElement>('[data-action-menu]')).filter(host => host.closest('[data-schema-form-list]') === list);
 			const fixedItems = Array.isArray(row.schema.items) ? row.schema.items.length : 0;
 			const movableItems = Math.max(0, row.formData.length - fixedItems);
 			// RJSF 5 validates minItems after removal; only fixed tuple positions block removal.
@@ -284,7 +281,7 @@ describe.each(ARRAY_SHAPES)('L1 list matrix in Chromium: $name', row => {
 					: firstItem.querySelector('kv-text-field[id],kv-single-select-dropdown[id]') ?? list;
 			expect(menus).toHaveLength(option.options.orderable !== false ? movableItems : section && option.options.removable !== false ? removableItems : 0);
 			const trash = Array.from(list.querySelectorAll<HTMLKvActionButtonIconElement>('kv-action-button-icon')).filter(
-				host => !host.closest('kv-action-menu') && host.closest('[data-schema-form-list]') === list
+				host => !host.closest('[data-action-menu]') && host.closest('[data-schema-form-list]') === list
 			);
 			expect(trash).toHaveLength(!section && option.options.removable !== false ? removableItems : 0);
 			for (const host of trash) {
@@ -294,7 +291,7 @@ describe.each(ARRAY_SHAPES)('L1 list matrix in Chromium: $name', row => {
 				else await expect.element(button).toBeEnabled();
 			}
 			for (const host of menus) {
-				const trigger = screen.getByRole('button', { name: host.accessibleLabel, exact: true });
+				const trigger = screen.getByRole('button', { name: menuLabel(host), exact: true });
 				await expect.element(trigger).toBeVisible();
 				expect((trigger.element() as HTMLButtonElement).tabIndex).toBe(readonly || row.name === 'readonly' ? -1 : 0);
 				if (readonly || row.name === 'readonly') await expect.element(trigger).toBeDisabled();
@@ -345,16 +342,16 @@ describe.each([ARRAY_SHAPES[0], ARRAY_SHAPES[1], ARRAY_SHAPES[7]])('L1 real menu
 		const onChange = vi.fn();
 		const screen = await render(<KvSchemaForm schema={row.schema} formData={row.formData} onChange={onChange} />);
 		await whenAllKelvinReady(screen.container);
-		const menus = rootItems(screen.container).map(item => item.querySelector<HTMLKvActionMenuElement>('kv-action-menu')!);
-		await screen.getByRole('button', { name: menus[0].accessibleLabel, exact: true }).click();
+		const menus = rootItems(screen.container).map(item => item.querySelector<HTMLElement>('[data-action-menu]')!);
+		await screen.getByRole('button', { name: menuLabel(menus[0]), exact: true }).click();
 		await expect.element(page.getByRole('menuitem', { name: 'Move up', exact: true })).toBeDisabled();
 		await expect.element(page.getByRole('menuitem', { name: 'Move down', exact: true })).toBeEnabled();
 		await userEvent.keyboard('{Escape}');
-		await screen.getByRole('button', { name: menus[2].accessibleLabel, exact: true }).click();
+		await screen.getByRole('button', { name: menuLabel(menus[2]), exact: true }).click();
 		await expect.element(page.getByRole('menuitem', { name: 'Move down', exact: true })).toBeDisabled();
 		await userEvent.keyboard('{Escape}');
 		onChange.mockClear();
-		await screen.getByRole('button', { name: menus[1].accessibleLabel, exact: true }).click();
+		await screen.getByRole('button', { name: menuLabel(menus[1]), exact: true }).click();
 		await page.getByRole('menuitem', { name: 'Move up', exact: true }).click();
 		await expect.poll(() => onChange.mock.calls.length).toBe(1);
 		expect(onChange.mock.lastCall?.[0].formData).toEqual([row.formData[1], row.formData[0], row.formData[2]]);
@@ -365,16 +362,21 @@ describe.each([ARRAY_SHAPES[0], ARRAY_SHAPES[1], ARRAY_SHAPES[7]])('L1 real menu
 		await whenAllKelvinReady(screen.container);
 		const item = rootItems(screen.container)[1];
 		const object = item.getAttribute('data-schema-form-item-kind') === 'section';
-		const menu = item.querySelector<HTMLKvActionMenuElement>('kv-action-menu')!;
+		const menu = item.querySelector<HTMLElement>('[data-action-menu]')!;
+		// The open menu's actions live in a body portal, in the panel its trigger names
+		const removeAction = () => document.querySelector<HTMLElement>(`[role="menu"][aria-label="${menuLabel(menu)}"] [data-action-id="remove"]`)!;
 		const label = object
-			? menu.items.find(action => action.id === 'remove')!.label
-			: Array.from(item.querySelectorAll<HTMLKvActionButtonIconElement>('kv-action-button-icon')).find(host => !host.closest('kv-action-menu'))!.accessibleLabel;
+			? removeAction().textContent!
+			: Array.from(item.querySelectorAll<HTMLKvActionButtonIconElement>('kv-action-button-icon')).find(host => !host.closest('[data-action-menu]'))!.accessibleLabel;
 		onChange.mockClear();
 		if (object) {
-			await screen.getByRole('button', { name: menu.accessibleLabel, exact: true }).click();
+			await screen.getByRole('button', { name: menuLabel(menu), exact: true }).click();
 			const action = page.getByRole('menuitem', { name: label, exact: true });
 			await expect.element(action).toBeVisible();
-			expect(menu.items.find(action => action.id === 'remove')).toMatchObject({ destructive: true, separatorBefore: true });
+			expect(removeAction().previousElementSibling?.getAttribute('role')).toBe('separator');
+			const danger = document.createElement('span');
+			danger.style.color = getComputedStyle(document.body).getPropertyValue('--text-container-status-danger-default').trim();
+			expect(getComputedStyle(removeAction()).color).toBe(danger.style.color);
 			await action.click();
 		} else await screen.getByRole('button', { name: label, exact: true }).click();
 		await expect.poll(() => onChange.mock.calls.length).toBe(1);
@@ -399,11 +401,11 @@ describe.each([StyleMode.Light, StyleMode.Night])('L1 object headers in %s', the
 				const header = item.querySelector('[data-schema-form-item-header]')!;
 				const heading = header.querySelector('h2,h3,h4,h5,h6')!;
 				expect(heading.textContent).toBe(`Broker ${index + 1}`);
-				const menu = header.querySelector<HTMLKvActionMenuElement>('kv-action-menu')!;
-				const button = screen.getByRole('button', { name: menu.accessibleLabel, exact: true }).element();
+				const menu = header.querySelector<HTMLElement>('[data-action-menu]')!;
+				const button = screen.getByRole('button', { name: menuLabel(menu), exact: true }).element();
 				expect(Math.abs(center(heading) - center(button))).toBeLessThanOrEqual(1);
 				expect(getComputedStyle(item).borderLeftWidth).toBe('1px');
-				expect(item.querySelectorAll(':scope > div > div > [data-schema-form-item-header] kv-action-menu')).toHaveLength(1);
+				expect(item.querySelectorAll(':scope > div > div > [data-schema-form-item-header] [data-action-menu]')).toHaveLength(1);
 			}
 		} finally {
 			setThemeMode(StyleMode.Night);

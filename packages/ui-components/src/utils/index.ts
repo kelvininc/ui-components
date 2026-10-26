@@ -9,6 +9,7 @@ export * from './floating-ui.helper';
 export * from './mouse-event.helper';
 export * from './relative-time';
 export * from './select.helper';
+export * from './keyboard-navigation.helper';
 
 // Also export as namespaced objects for backwards compatibility
 export * as arraysHelper from './arrays.helper';
