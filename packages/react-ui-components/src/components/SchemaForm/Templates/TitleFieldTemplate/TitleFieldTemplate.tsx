@@ -1,11 +1,11 @@
 import { FormContextType, RJSFSchema, StrictRJSFSchema, TitleFieldProps, getUiOptions } from '@rjsf/utils';
 import { get } from 'lodash';
-import React from 'react';
+import React, { useContext } from 'react';
 import { KvInfoLabel, KvTooltip } from '../../../../stencil-generated';
 import { stringHelper } from '@kelvininc/ui-components';
 import styles from './TitleFieldTemplate.module.scss';
 import classNames from 'classnames';
-import { getSectionHeadingLevel, useSectionDepth } from '../../contexts';
+import { getSectionHeadingLevel, SectionHeadingContext, useSectionDepth } from '../../contexts';
 import { isSectionField } from '../utils';
 import FieldHelp from './FieldHelp';
 
@@ -22,12 +22,13 @@ const TitleFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 	const titleCustomClass = get(uiSchema, ['ui:titleCustomClass']);
 	const isGroupTitle = isSectionField(schema, uiSchema, registry);
 	const Heading = `h${getSectionHeadingLevel(useSectionDepth())}` as 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+	const subsection = useContext(SectionHeadingContext) === 'subsection';
 	return (
 		stringHelper.isValidLabel(titleToShow) && (
 			<div className={classNames(styles.TitleContainer, titleCustomClass, { [styles.GroupTitle]: isGroupTitle })}>
 				{required && <span className={styles.Required}>*</span>}
 				{isGroupTitle ? (
-					<Heading id={id} className={styles.GroupHeading}>
+					<Heading id={id} className={classNames(styles.GroupHeading, { [styles.SubsectionHeading]: subsection })}>
 						{titleToShow}
 					</Heading>
 				) : (

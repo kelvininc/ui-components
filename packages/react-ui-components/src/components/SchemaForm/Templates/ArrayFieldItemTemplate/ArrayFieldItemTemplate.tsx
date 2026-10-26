@@ -3,7 +3,7 @@ import { ArrayFieldTemplateItemType, FieldProps, FormContextType, getTemplate, g
 import classNames from 'classnames';
 import React, { useCallback, useContext, useLayoutEffect, useRef } from 'react';
 import { KvActionButtonIcon, KvActionMenu } from '../../../../stencil-generated';
-import { ArrayItemControlsContext, ArrayItemLayoutContext, ArrayItemsContext } from '../../contexts';
+import { ArrayItemControlsContext, ArrayItemLayoutContext, ArrayItemsContext, claimSectionBoundary, SectionLayoutContext, useSectionLayout } from '../../contexts';
 import { EntryFocusProvider, focusFromHolder, focusHost, useEntryFocus } from '../../hooks/entryFocus';
 import { mergeUiSchemas } from '../../rjsf/merge';
 import { isBuiltinSchemaField } from '../../rjsf/SchemaField';
@@ -125,63 +125,82 @@ const ArrayFieldItemTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F ex
 				)}
 			</div>
 		) : undefined;
-	const hiddenTitle = section && typeof options.title === 'string' && !options.title.trim();
+	// A blank title hides the heading. A prefix names the item even when its title is blank ("Port 1"); `ui:label: false` still hides it
+	const hiddenTitle = section && !prefix && typeof options.title === 'string' && !options.title.trim();
 	const itemUiSchema = mergeUiSchemas(uiSchema, {
 		'ui:title': hiddenTitle ? options.title : itemName,
 		...(!section ? { 'ui:label': options.label !== false && (fixedPosition || (layout?.fixedItems ?? 0) > 0) } : {})
 	});
+	// SectionField draws a header on the fieldset's top border when the heading shows or the item has a menu; the frame
+	// then opens below it like a legend. Without one (scalar items, hidden headings without actions), it pads evenly.
+	const headingTitle = layout ? (hiddenTitle ? options.title : itemName) : options.title ?? schema.title;
+	const headingShown = options.label !== false && typeof headingTitle === 'string' && Boolean(headingTitle.trim());
+	const legendFrame = Boolean(options.fieldset) && !table && section && defaultTemplate && (headingShown || Boolean(menu));
 	const body = layout ? React.cloneElement(field, { uiSchema: itemUiSchema, title: itemName }) : field;
 	const controls = { fieldId: field.props.idSchema.$id, fieldset: Boolean(options.fieldset), before, after, header: section ? menu : undefined };
+	const parentLayout = useSectionLayout();
+	const { state: sectionLayout, boundary } = section ? claimSectionBoundary(parentLayout, controls.fieldId, 'item') : { state: parentLayout, boundary: null };
 	const rowHeaderId = table ? `${table.id}-row-${index}` : '';
 
 	return (
 		<div
 			ref={itemRef}
-			className={classNames({ [styles.ObjectItem]: section, [styles.FieldsetStyle]: options.fieldset && !table, [tableStyles.TableRow]: table })}
+			className={classNames({
+				[styles.ObjectItem]: section,
+				[styles.FieldsetStyle]: options.fieldset && !table,
+				[styles.LegendFrame]: legendFrame,
+				[tableStyles.TableRow]: table
+			})}
 			role={table ? 'row' : undefined}
 			aria-describedby={table ? `${rowHeaderId}-errors` : undefined}
 			style={table ? tableStyle(table) : undefined}
 			data-grip={table?.reserveGrip || undefined}
 			data-schema-form-list-item={index}
 			data-schema-form-item-kind={table ? 'table' : section ? 'section' : 'control'}
+			data-schema-form-boundary={boundary?.kind}
+			data-schema-form-boundary-field={boundary ? controls.fieldId : undefined}
+			data-schema-form-boundary-depth={boundary?.depth}
+			data-schema-form-narrow-inset={boundary && boundary.depth > 6 ? 'capped' : undefined}
 		>
 			{table && (
 				<span id={rowHeaderId} role="rowheader" aria-colindex={1} className={tableStyles.Hidden}>
 					{itemName}
 				</span>
 			)}
-			<EntryFocusProvider value={entry.register}>
-				<ArrayItemsContext.Provider value={null}>
-					<ArrayItemLayoutContext.Provider value={null}>
-						<TableContext.Provider value={null}>
-							<TableRowContext.Provider value={table ? { fieldId: field.props.idSchema.$id, itemName, rowHeaderId, table } : null}>
-								{table ? (
-									<>
-										{body}
-										<div
-											role="cell"
-											aria-colindex={table.columns.length + 2}
-											aria-labelledby={`${table.id}-actions ${rowHeaderId}`}
-											className={tableStyles.TableActions}
-										>
-											{menu && <div className={tableStyles.TableGrip}>{menu}</div>}
-											{after}
+			<SectionLayoutContext.Provider value={sectionLayout}>
+				<EntryFocusProvider value={entry.register}>
+					<ArrayItemsContext.Provider value={null}>
+						<ArrayItemLayoutContext.Provider value={null}>
+							<TableContext.Provider value={null}>
+								<TableRowContext.Provider value={table ? { fieldId: field.props.idSchema.$id, itemName, rowHeaderId, table } : null}>
+									{table ? (
+										<>
+											{body}
+											<div
+												role="cell"
+												aria-colindex={table.columns.length + 2}
+												aria-labelledby={`${table.id}-actions ${rowHeaderId}`}
+												className={tableStyles.TableActions}
+											>
+												{menu && <div className={tableStyles.TableGrip}>{menu}</div>}
+												{after}
+											</div>
+										</>
+									) : defaultTemplate ? (
+										<ArrayItemControlsContext.Provider value={controls}>{body}</ArrayItemControlsContext.Provider>
+									) : (
+										<div className={styles.FallbackRow}>
+											{before}
+											<div className={styles.ItemBody}>{body}</div>
+											{section ? menu : after}
 										</div>
-									</>
-								) : defaultTemplate ? (
-									<ArrayItemControlsContext.Provider value={controls}>{body}</ArrayItemControlsContext.Provider>
-								) : (
-									<div className={styles.FallbackRow}>
-										{before}
-										<div className={styles.ItemBody}>{body}</div>
-										{section ? menu : after}
-									</div>
-								)}
-							</TableRowContext.Provider>
-						</TableContext.Provider>
-					</ArrayItemLayoutContext.Provider>
-				</ArrayItemsContext.Provider>
-			</EntryFocusProvider>
+									)}
+								</TableRowContext.Provider>
+							</TableContext.Provider>
+						</ArrayItemLayoutContext.Provider>
+					</ArrayItemsContext.Provider>
+				</EntryFocusProvider>
+			</SectionLayoutContext.Provider>
 		</div>
 	);
 };

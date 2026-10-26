@@ -16,6 +16,7 @@ import {
 	L1_HIDDEN_ITEM_WIDGETS,
 	L1_ITEM_FIELD_COMPONENTS,
 	L1_PREFIX_SHAPES,
+	L1_PREFIXED_ITEM_HEADINGS,
 	L1_SCALAR_LIST_SHAPES,
 	L1_TUPLE_SHAPES,
 	L1_UNION_LIST_SHAPES
@@ -197,6 +198,20 @@ it.each(L1_HIDDEN_ITEM_HEADINGS)('L1 hidden object headings in Chromium: $name',
 		const menu = header.querySelector('kv-action-menu')!;
 		expect(Math.abs(menu.getBoundingClientRect().right - header.getBoundingClientRect().right)).toBeLessThanOrEqual(1);
 	}
+});
+
+it.each(L1_PREFIXED_ITEM_HEADINGS)('L1 prefixed object headings in Chromium: $name', async ({ uiSchema, headings }) => {
+	const row = ARRAY_SHAPES[1];
+	const screen = await render(<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={uiSchema} />);
+	await whenAllKelvinReady(screen.container);
+	const items = rootItems(screen.container);
+	for (const [index, item] of items.entries()) {
+		const heading = page.elementLocator(item).getByRole('heading', { name: `Port ${index + 1}`, exact: true });
+		if (headings.length) await expect.element(heading).toBeVisible();
+		else expect(heading.elements()).toHaveLength(0);
+		await expect.element(page.elementLocator(item).getByRole('button', { name: `Actions for Port ${index + 1}`, exact: true })).toBeVisible();
+	}
+	expect(items).toHaveLength(3);
 });
 
 describe.each(L1_UNION_LIST_SHAPES)('L1 union ownership in Chromium: $name', row => {

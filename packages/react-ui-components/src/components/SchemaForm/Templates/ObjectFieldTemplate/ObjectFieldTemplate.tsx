@@ -3,7 +3,7 @@ import { ADDITIONAL_PROPERTY_FLAG, FormContextType, ObjectFieldTemplateProps, RJ
 import classNames from 'classnames';
 import { get } from 'lodash';
 import React, { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { OptionSectionContext, ReportOptionSection } from '../../contexts';
+import { OptionSectionContext, ReportOptionSection, useSectionLayout } from '../../contexts';
 import { KvActionButtonIcon } from '../../../../stencil-generated';
 import styles from './ObjectFieldTemplate.module.scss';
 import { DEFAULT_INPUT_CONFIG, DEFAULT_INPUT_INLINE_CONFIG } from './config';
@@ -28,6 +28,7 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 	registry
 }: ObjectFieldTemplateProps<T, S, F>) => {
 	const tableRow = useContext(TableRowContext);
+	const layout = useSectionLayout();
 	const [optionSections, setOptionSections] = useState(new Map<string, Map<symbol, boolean>>());
 	const objectRef = useRef<HTMLDivElement>(null);
 	const addRef = useRef<HTMLKvActionButtonIconElement>(null);
@@ -92,7 +93,14 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 	if (tableRow?.fieldId === idSchema.$id) return <TableObjectCells properties={properties} idSchema={idSchema} />;
 	return (
 		<OptionSectionContext.Provider value={reportSection}>
-			<div ref={objectRef} data-schema-form-object data-schema-form-inline={inline || undefined} className={classNames(styles.PropsContainer, { [styles.Inline]: inline })}>
+			<div
+				ref={objectRef}
+				data-schema-form-object
+				data-schema-form-section-level={layout.sectionLevel}
+				data-schema-form-page-dividers={(layout.sectionLevel <= 1 && layout.itemLevel === 0) || undefined}
+				data-schema-form-inline={inline || undefined}
+				className={classNames(styles.PropsContainer, { [styles.Inline]: inline })}
+			>
 				{properties.map((element, index) => {
 					const propertySchema = schema.properties?.[element.name] ?? {};
 					const composed = typeof propertySchema !== 'boolean' && ['$ref', 'allOf', 'dependencies', 'if'].some(key => key in propertySchema);

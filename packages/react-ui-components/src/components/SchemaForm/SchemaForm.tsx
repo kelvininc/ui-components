@@ -18,9 +18,10 @@ import React, { ComponentProps, ComponentType, ForwardedRef, forwardRef, PropsWi
 import { useScroll } from '../../hooks';
 import { KvActionButtonText, KvSwitchButton, KvTooltip } from '../../stencil-generated';
 import { SCROLL_OFFSET } from './config';
-import { FormStateProvider } from './contexts';
+import { FormStateProvider, ROOT_SECTION_LAYOUT, SectionLayoutContext } from './contexts';
 import { useFieldTemplateElement } from './hooks/useFieldTemplateElement';
 import { useScrollbarWidth } from './hooks/useScrollbarWidth';
+import { useElementWidth } from './hooks/useElementWidth';
 import styles from './SchemaForm.module.scss';
 import { generateTheme } from './Theme';
 import { EApplyDefaults, SchemaFormContext, SchemaFormProps } from './types';
@@ -164,6 +165,8 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 	const { submitText, norender, props: submitButtonProps } = getSubmitButtonOptions(uiSchema);
 	const hasFooter = allowDiscardChanges || allowResetToDefaults || !norender;
 	const scrollbarWidth = useScrollbarWidth(hasFooter ? fieldTemplate : undefined);
+	const [errorsSwitch, setErrorsSwitch] = useState<HTMLDivElement | null>(null);
+	const errorsSwitchWidth = useElementWidth(errorsSwitch);
 	const defaults = useMemo<T>(() => {
 		const schemaUtils = createSchemaUtils(formValidator, schema);
 		return schemaUtils.getDefaultFormState(schema) as T;
@@ -318,9 +321,12 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 			resetKey={fieldStatesResetKey}
 			valueResetKey={valueResetKey}
 		>
-			<div className={classNames(styles.FormContainer, customClass)}>
+			<div
+				className={classNames(styles.FormContainer, customClass)}
+				style={showErrorsSwitch ? ({ '--_schema-form-action-width': `${errorsSwitchWidth}px` } as React.CSSProperties) : undefined}
+			>
 				{showErrorsSwitch && (
-					<div className={styles.Action}>
+					<div ref={setErrorsSwitch} className={styles.Action}>
 						<KvSwitchButton
 							accessibleLabel="Show All Errors"
 							checked={isShowingAllErrors}
@@ -330,7 +336,9 @@ export function KvSchemaForm<T, S extends StrictRJSFSchema = RJSFSchema>({
 						<div className={styles.Text}>Show All Errors</div>
 					</div>
 				)}
-				<CustomFormWithRef<T, S, SchemaFormContext> ref={formRef} {...stableThemedProps} />
+				<SectionLayoutContext.Provider value={ROOT_SECTION_LAYOUT}>
+					<CustomFormWithRef<T, S, SchemaFormContext> ref={formRef} {...stableThemedProps} />
+				</SectionLayoutContext.Provider>
 				{hasFooter && (
 					<div
 						className={classNames(styles.FormFooter, { [styles.Scrolling]: isScrolling })}

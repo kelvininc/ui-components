@@ -1,7 +1,12 @@
+@use '../section-layout';
+
 .ObjectItem {
 	box-sizing: border-box;
-	padding-left: var(--spacing-2xl);
-	border-left: var(--border-width-default) solid var(--border-container-divider-default);
+	min-width: 0;
+
+	&:not(.FieldsetStyle) {
+		@include section-layout.object-entry-frame;
+	}
 }
 
 .ActionSlot {
@@ -24,7 +29,12 @@
 }
 
 .FieldsetStyle {
-	padding: 0 var(--spacing-xl) var(--spacing-xl);
-	margin-top: var(--spacing-4xl);
+	padding: var(--spacing-xl);
 	border: var(--border-width-default) solid var(--border-container-divider-default);
+
+	// The item's header sits on the top border like a legend, so the frame opens below it and leaves room above
+	&.LegendFrame {
+		padding: 0 var(--spacing-xl) var(--spacing-xl);
+		margin-top: var(--spacing-4xl);
+	}
 }

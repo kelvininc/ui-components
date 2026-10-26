@@ -93,10 +93,10 @@ describe.each([StyleMode.Light, StyleMode.Night])('section typography in %s', th
 		try {
 			const screen = await render(<KvSchemaForm schema={SECTION_HEADING_SHAPES[0].schema} />);
 			await whenAllKelvinReady(screen.container);
-			await document.fonts.load('600 14px "Proxima Nova"');
+			await document.fonts.load('700 14px "Proxima Nova"');
 			const heading = screen.getByRole('heading', { name: 'Connection' }).element();
 			const style = getComputedStyle(heading);
-			expect([style.fontSize, style.fontWeight, style.lineHeight, style.letterSpacing, style.textTransform]).toEqual(['14px', '600', '20px', '1.5px', 'uppercase']);
+			expect([style.fontSize, style.fontWeight, style.lineHeight, style.letterSpacing, style.textTransform]).toEqual(['14px', '700', '20px', '1.5px', 'uppercase']);
 			expect(getComputedStyle(screen.container.querySelector('[data-schema-form-object]')!).rowGap).toBe('20px');
 		} finally {
 			setThemeMode(StyleMode.Night);

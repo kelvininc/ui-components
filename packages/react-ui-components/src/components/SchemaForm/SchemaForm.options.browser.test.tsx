@@ -7,6 +7,7 @@ import { render } from 'vitest-browser-react';
 import { whenAllKelvinReady } from '../../test-utils/browser';
 import { KvSchemaForm } from './SchemaForm';
 import { EApplyDefaults } from './types';
+import objectStyles from './Templates/ObjectFieldTemplate/ObjectFieldTemplate.module.scss';
 import {
 	R4_BRANCH_PRESENTATIONS,
 	R4_COMPOSED_BRANCH_SHAPES,
@@ -185,7 +186,11 @@ describe.each(R4_OPTION_SHAPES)('$name selected branch layout', row => {
 		);
 		await whenAllKelvinReady(screen.container);
 		const auditRows = Array.from(screen.container.querySelectorAll('[data-schema-form-row="audit"]'));
-		expect(auditRows.map(element => getComputedStyle(element).borderTopWidth)).toEqual(['1px', '0px']);
+		expect(auditRows.map(element => getComputedStyle(element).borderTopWidth)).toEqual(scope.nested ? ['0px', '0px'] : ['1px', '0px']);
+		const branches = Array.from(screen.container.querySelectorAll('[data-schema-form-option-branch]'));
+		expect(branches.map(branch => Boolean(branch.querySelector('[data-schema-form-object]')))).toEqual([true, false]);
+		const authRows = Array.from(screen.container.querySelectorAll('[data-schema-form-row="auth"]'));
+		expect(authRows.map(element => element.classList.contains(objectStyles.SectionRow))).toEqual([true, false]);
 	});
 
 	describe.each(TEMPLATE_COMPONENTS)('$name real input identity', ({ FieldLayout }) => {
