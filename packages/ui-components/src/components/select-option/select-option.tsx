@@ -153,6 +153,7 @@ export class KvSelectOption implements ISelectOption, ISelectOptionEvents {
 											<kv-action-button-icon
 												type={EActionButtonType.Tertiary}
 												icon={this.action.icon}
+												accessibleLabel={this.action.accessibleLabel}
 												onClickButton={this.action.onClick}
 												active={this.action.active}
 												onClick={event => event.stopPropagation()}

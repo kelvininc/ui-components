@@ -1,4 +1,5 @@
 import { Component, Host, Element, h, Event, State, Fragment, Listen, EventEmitter, Method, Prop, Watch } from '@stencil/core';
+import { COMPONENT_STRINGS } from '../../strings';
 import { EActionButtonType } from '../action-button/action-button.types';
 import { EIconName } from '../icon/icon.types';
 import { DEFAULT_MAX_LENGTH, DELAYED_BLUR_MS } from './inline-editable-field.config';
@@ -71,7 +72,7 @@ export class KvInlineEditableField {
 
 	@Listen('keydown', { target: 'document' })
 	handleKeyDown(event: KeyboardEvent) {
-		if (!this.isEditing || this.disabled) return;
+		if (!this.isEditing || this.disabled || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
 
 		switch (event.key) {
 			case 'Escape':
@@ -229,8 +230,19 @@ export class KvInlineEditableField {
 				>
 					{this.isEditing && (
 						<Fragment>
-							<kv-action-button-icon type={EActionButtonType.Tertiary} icon={EIconName.Close} onClickButton={this.discardContent} />
-							<kv-action-button-icon type={EActionButtonType.Tertiary} icon={EIconName.DoneAll} disabled={this.isSaveDisabled} onClickButton={this.saveChanges} />
+							<kv-action-button-icon
+								type={EActionButtonType.Tertiary}
+								icon={EIconName.Close}
+								accessibleLabel={COMPONENT_STRINGS.discardChanges}
+								onClickButton={this.discardContent}
+							/>
+							<kv-action-button-icon
+								type={EActionButtonType.Tertiary}
+								icon={EIconName.DoneAll}
+								accessibleLabel={COMPONENT_STRINGS.saveChanges}
+								disabled={this.isSaveDisabled}
+								onClickButton={this.saveChanges}
+							/>
 						</Fragment>
 					)}
 				</div>

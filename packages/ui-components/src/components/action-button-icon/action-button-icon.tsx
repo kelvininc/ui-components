@@ -7,7 +7,7 @@ import { IActionButtonIconConfig } from './action-button-icon-types';
 @Component({
 	tag: 'kv-action-button-icon',
 	styleUrl: 'action-button-icon.scss',
-	shadow: true
+	shadow: { delegatesFocus: true }
 })
 export class KvActionButtonIcon implements IActionButtonIconConfig {
 	/** @inheritdoc */
@@ -22,6 +22,8 @@ export class KvActionButtonIcon implements IActionButtonIconConfig {
 	@Prop({ reflect: true }) loading: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Small;
+	/** @inheritdoc */
+	@Prop() accessibleLabel?: string;
 
 	/** @inheritdoc */
 	@Event() clickButton: EventEmitter<MouseEvent>;
@@ -39,7 +41,15 @@ export class KvActionButtonIcon implements IActionButtonIconConfig {
 						[`action-button-icon--size-${this.size}`]: true
 					}}
 				>
-					<kv-action-button type={this.type} active={this.active} loading={this.loading} size={this.size} disabled={this.disabled} exportparts="button">
+					<kv-action-button
+						type={this.type}
+						active={this.active}
+						loading={this.loading}
+						size={this.size}
+						disabled={this.disabled}
+						accessibleLabel={this.accessibleLabel}
+						exportparts="button"
+					>
 						<kv-icon name={this.icon} exportparts="icon" />
 					</kv-action-button>
 				</div>
