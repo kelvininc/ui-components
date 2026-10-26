@@ -63,12 +63,12 @@ describe('KvRelativeTimePicker (unit tests)', () => {
 		beforeEach(async () => {
 			page = await newSpecPage({
 				components: [KvRelativeTimePicker],
-				template: () => <kv-relative-time-picker options={MOCK_RELATIVE_TIME_OPTIONS_GROUPS} customIntervalOptionLabel="Custom Date" />
+				template: () => <kv-relative-time-picker options={MOCK_RELATIVE_TIME_OPTIONS_GROUPS} customIntervalOptionLabel="Custom date" />
 			});
 		});
 
 		it('should label the customize interval option with it', () => {
-			expect(getCustomIntervalOption(page).getAttribute('label')).toEqual('Custom Date');
+			expect(getCustomIntervalOption(page).getAttribute('label')).toEqual('Custom date');
 		});
 
 		it('should fall back to the default label when it is cleared', async () => {

@@ -75,7 +75,7 @@ describe.each(OPTION_SOURCES)('real clear policy from $name', source => {
 		await whenAllKelvinReady(screen.container);
 		await screen.getByRole('textbox', { name: 'QoS', exact: true }).click();
 		await menuOptions();
-		expect(page.getByRole('button', { name: 'Clear all', exact: true }).query()).toBeNull();
+		expect(page.getByRole('button', { name: 'Clear selection', exact: true }).query()).toBeNull();
 	});
 });
 

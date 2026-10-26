@@ -56,7 +56,7 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 		if (expandable && addRef.current?.matches(':focus-within')) return;
 		focusFromHolder(
 			objectRef.current,
-			schema.title?.trim() || 'Properties',
+			schema.title?.trim() || SCHEMA_FORM_STRINGS.properties,
 			expandable ? check => focusHost(addRef.current, check) : entries.current.get(added.name)?.focus,
 			current
 		);
