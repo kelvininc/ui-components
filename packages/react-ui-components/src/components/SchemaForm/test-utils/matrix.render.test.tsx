@@ -13,10 +13,12 @@ const EXPECTED_IDS = [...new Set(ERROR_SHAPES.flatMap(({ messages }) => messages
 
 describe('the broker form ERROR_SHAPES apply to', () => {
 	it.each(EXPECTED_IDS)('renders a field with the id %s, so the errors expected there have somewhere to show', async id => {
-		const root = createRoot(document.createElement('div'));
+		const container = document.createElement('div');
+		const root = createRoot(container);
 		await act(async () => root.render(<KvSchemaForm schema={BROKER_SCHEMA} formData={BROKER_FORM_DATA} />));
 
-		expect(propsOf(id).id).toBe(id);
+		if (id === 'root') expect(container.querySelector('[data-schema-form-field="section"]')).not.toBeNull();
+		else expect(propsOf(id).id).toBe(id);
 
 		await act(async () => root.unmount());
 	});

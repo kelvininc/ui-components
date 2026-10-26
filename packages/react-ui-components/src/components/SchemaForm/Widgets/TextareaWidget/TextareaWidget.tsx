@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
 import { EValidationState } from '@kelvininc/ui-components';
 import { KvTextArea } from '../../../../stencil-generated';
-import { useFormState } from '../../contexts';
+import { useFieldDescription, useFieldErrors, useFormState } from '../../contexts';
 
 const TextareaWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
@@ -15,10 +15,10 @@ const TextareaWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Fo
 	onChange,
 	rawErrors = []
 }: WidgetProps<T, S, F>) => {
-	const { trackFieldChange, markFieldAsTouched, isFieldTouched, displayErrors } = useFormState();
+	const { trackFieldChange, markFieldAsTouched } = useFormState();
+	const accessibleDescriptionElements = useFieldDescription(id);
 	const { maxCharLength, iconName } = uiSchema;
-	const shouldShowErrors = isFieldTouched(id) || displayErrors;
-	const hasErrors = shouldShowErrors && rawErrors.length > 0;
+	const hasErrors = useFieldErrors(id, rawErrors);
 
 	const onTextChange = useCallback(
 		({ detail: textValue }: CustomEvent<string>) => {
@@ -32,6 +32,7 @@ const TextareaWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Fo
 		<KvTextArea
 			id={id}
 			accessibleLabel={label}
+			accessibleDescriptionElements={accessibleDescriptionElements}
 			state={hasErrors ? EValidationState.Invalid : EValidationState.None}
 			disabled={disabled || readonly}
 			maxCharLength={maxCharLength}

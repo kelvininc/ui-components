@@ -24,7 +24,7 @@ describe.each(BOOLEAN_PROPERTY_VALUES)('boolean properties: $name', row => {
 		const root = createRoot(container);
 		const onChange = vi.fn();
 		try {
-			await act(async () => root.render(<KvSchemaForm schema={original} formData={row.data} onChange={onChange} liveValidate />));
+			await act(async () => root.render(<KvSchemaForm schema={original} formData={row.data} onChange={onChange} omitExtraData={false} liveValidate />));
 			await act(async () => {
 				fireStencilEvent('root_host', 'onTextChange', 'broker-2.local');
 			});
