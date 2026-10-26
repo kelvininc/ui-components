@@ -7,21 +7,19 @@
 	 * @prop --label-gap: Gap between label elements.
 	 * @prop --label-bottom-spacing: Bottom spacing of the label container.
 	 */
-	 --label-color: var(--text-surface-neutral-tertiary);
-	 --label-required-color: var(--text-surface-danger-default);
-	 --label-gap: var(--spacing-2xs);
-	 --label-bottom-spacing: var(--spacing-2xs);
+	--label-color: var(--text-surface-neutral-tertiary);
+	--label-required-color: var(--text-surface-danger-default);
+	--label-gap: var(--spacing-2xs);
+	--label-bottom-spacing: var(--spacing-2xs);
 
-	 display: inline-flex;
-	 user-select: none;
+	display: inline-flex;
+	user-select: none;
 }
 
 .required {
 	@include heading-xs-semibold-caps;
 
-	+ label {
-		@include heading-xs-semibold-caps;
-	}
+	flex-shrink: 0;
 }
 
 .label {
@@ -30,7 +28,7 @@
 }
 
 .required {
-	color: var( --label-required-color);
+	color: var(--label-required-color);
 }
 
 .label-container {
