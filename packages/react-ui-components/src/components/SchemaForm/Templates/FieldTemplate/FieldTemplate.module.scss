@@ -45,6 +45,55 @@
 	overflow-wrap: anywhere;
 }
 
+.FieldFooter {
+	container: field-footer / inline-size;
+	min-width: 0;
+}
+
+.FieldFooterContent {
+	display: flex;
+	align-items: baseline;
+	gap: var(--spacing-xl);
+}
+
+.FieldFeedback {
+	flex: 1;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.FieldDefault {
+	display: flex;
+	align-items: baseline;
+	justify-content: flex-end;
+	gap: var(--spacing-xs);
+	margin-inline-start: auto;
+	max-width: 45%;
+	min-width: 0;
+	text-align: end;
+	overflow-wrap: anywhere;
+
+	kv-form-help-text {
+		min-width: 0;
+		max-width: 100%;
+	}
+}
+
+@container field-footer (max-width: 460px) {
+	.FieldFooterContent {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0;
+	}
+
+	.FieldDefault {
+		justify-content: flex-start;
+		margin-inline-start: 0;
+		max-width: 100%;
+		text-align: start;
+	}
+}
+
 .ItemControlRow {
 	display: flex;
 	align-items: center;
@@ -57,9 +106,16 @@
 }
 
 .NotSet {
-	@include body-m-regular;
+	@include body-s-regular;
 
+	flex-shrink: 0;
 	color: var(--text-container-neutral-subtle);
+
+	// Takes focus after clearing when no option can: outlined like Clear selection, which it replaces
+	&:focus-visible {
+		outline: 2px solid currentcolor;
+		outline-offset: 2px;
+	}
 }
 
 .ClearSelection {
@@ -79,12 +135,7 @@
 		outline-offset: 2px;
 	}
 
-	&:hover:not([aria-disabled='true']) {
+	&:hover {
 		text-decoration: underline;
-	}
-
-	&[aria-disabled='true'] {
-		color: var(--button-text-label-disabled);
-		cursor: default;
 	}
 }
