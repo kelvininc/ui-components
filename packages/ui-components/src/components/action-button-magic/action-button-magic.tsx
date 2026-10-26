@@ -11,7 +11,7 @@ import { IActionButtonTextConfig } from '../action-button-text/action-button-tex
 @Component({
 	tag: 'kv-action-button-magic',
 	styleUrl: 'action-button-magic.scss',
-	shadow: true
+	shadow: { delegatesFocus: true }
 })
 export class KvActionButtonMagic implements IActionButtonTextConfig {
 	/** @inheritdoc */
@@ -30,6 +30,8 @@ export class KvActionButtonMagic implements IActionButtonTextConfig {
 	@Prop({ reflect: true }) loading: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
+	/** @inheritdoc */
+	@Prop() accessibleLabel?: string;
 
 	/** @inheritdoc */
 	@Event() clickButton: EventEmitter<MouseEvent>;
@@ -48,6 +50,7 @@ export class KvActionButtonMagic implements IActionButtonTextConfig {
 			active: this.active,
 			loading: this.loading,
 			size: this.size,
+			accessibleLabel: this.accessibleLabel,
 			exportparts: 'button, button-text, icon'
 		};
 
