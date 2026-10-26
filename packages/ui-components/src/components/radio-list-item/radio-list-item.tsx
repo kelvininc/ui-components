@@ -15,6 +15,8 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
+	@Prop() accessibleDescriptionElements?: readonly Element[];
+	/** @inheritdoc */
 	@Prop({ reflect: true }) description?: string;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) size: EComponentSize = EComponentSize.Large;
@@ -68,6 +70,7 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 							checked={this.checked}
 							disabled={this.disabled}
 							accessibleLabel={this.label}
+							accessibleDescriptionElements={this.accessibleDescriptionElements}
 							skipTabStop={this.skipTabStop}
 							onCheckedChange={this.onRadioCheckedChange}
 						/>

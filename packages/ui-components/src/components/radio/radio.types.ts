@@ -12,6 +12,8 @@ export interface IRadio {
 	disabled?: boolean;
 	/** (optional) Accessible name, for when the visible label sits outside the radio (e.g. kv-radio-list-item). Defaults to `label` */
 	accessibleLabel?: string;
+	/** Elements describing the control, including help in an ancestor tree. Clear with an empty array. */
+	accessibleDescriptionElements?: readonly Element[];
 	/** @internal What the control is to assistive tech. Default: `radio` */
 	controlType?: ERadioControlType;
 	/** @internal With `controlType` `checkbox`, reports the mixed state. Default: false */

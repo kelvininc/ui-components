@@ -35,14 +35,15 @@ export const RadioExample: React.FC = () => (
 
 ## Properties
 
-| Property          | Attribute          | Description                                                                                                               | Type                                           | Default                |
-| ----------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
-| `accessibleLabel` | `accessible-label` | (optional) Accessible name, for when the checkbox has no visible label (e.g. a table's row selector). Defaults to `label` | `string`                                       | `undefined`            |
-| `checked`         | `checked`          | (optional) If `true` the checkbox is with checked state. Default: false                                                   | `boolean`                                      | `false`                |
-| `disabled`        | `disabled`         | (optional) If `true` the checkbox is with disabled state. Default: false                                                  | `boolean`                                      | `false`                |
-| `indeterminate`   | `indeterminate`    | (optional) If `true` the checkbox is with indeterminate state, reported to assistive tech as mixed. Default: false        | `boolean`                                      | `false`                |
-| `label`           | `label`            | (optional) The label text for the checkbox.                                                                               | `string`                                       | `undefined`            |
-| `size`            | `size`             | (optional) Sets this component item to a different styling configuration                                                  | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Small` |
+| Property                        | Attribute                         | Description                                                                                                               | Type                                           | Default                |
+| ------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------- |
+| `accessibleDescriptionElements` | `accessible-description-elements` | Elements describing the checkbox, including help in an ancestor tree. Clear with an empty array.                          | `readonly Element[]`                           | `undefined`            |
+| `accessibleLabel`               | `accessible-label`                | (optional) Accessible name, for when the checkbox has no visible label (e.g. a table's row selector). Defaults to `label` | `string`                                       | `undefined`            |
+| `checked`                       | `checked`                         | (optional) If `true` the checkbox is with checked state. Default: false                                                   | `boolean`                                      | `false`                |
+| `disabled`                      | `disabled`                        | (optional) If `true` the checkbox is with disabled state. Default: false                                                  | `boolean`                                      | `false`                |
+| `indeterminate`                 | `indeterminate`                   | (optional) If `true` the checkbox is with indeterminate state, reported to assistive tech as mixed. Default: false        | `boolean`                                      | `false`                |
+| `label`                         | `label`                           | (optional) The label text for the checkbox.                                                                               | `string`                                       | `undefined`            |
+| `size`                          | `size`                            | (optional) Sets this component item to a different styling configuration                                                  | `EComponentSize.Large \| EComponentSize.Small` | `EComponentSize.Small` |
 
 
 ## Events

@@ -7,6 +7,9 @@ import {
 const meta = {
 	title: "Inputs/Switch Button",
 	component: KvSwitchButton,
+	args: {
+		accessibleLabel: "Enable telemetry"
+	},
 	argTypes: {
 		size: {
 			control: { type: "radio" },

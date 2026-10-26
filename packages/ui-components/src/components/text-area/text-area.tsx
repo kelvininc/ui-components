@@ -3,6 +3,7 @@ import { ITextArea, ITextAreaEvents } from './types';
 import { EIconName } from '../icon/icon.types';
 import { EValidationState } from '../text-field/text-field.types';
 import { getUTF8StringLength } from '../../utils/string.helper';
+import { setAccessibleDescriptionElements } from '../../utils/accessible-description.helper';
 
 @Component({
 	tag: 'kv-text-area',
@@ -28,6 +29,8 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 	@Prop({ reflect: true }) state: EValidationState = EValidationState.None;
 	/** @inheritdoc */
 	@Prop() accessibleLabel?: string;
+	/** @inheritdoc */
+	@Prop() accessibleDescriptionElements?: readonly Element[];
 
 	/** @inheritdoc */
 	@Event() textChange: EventEmitter<string>;
@@ -96,6 +99,10 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 		this.inputRef = ref;
 		this.syncTextValues(this.text);
 	};
+
+	componentDidRender() {
+		setAccessibleDescriptionElements(this.inputRef, this.accessibleDescriptionElements);
+	}
 
 	render() {
 		return (

@@ -24,6 +24,8 @@ export class KvCheckbox implements ICheckbox, ICheckboxEvents {
 	@Prop({ reflect: true }) indeterminate?: boolean = false;
 	/** @inheritdoc */
 	@Prop() accessibleLabel?: string;
+	/** @inheritdoc */
+	@Prop() accessibleDescriptionElements?: readonly Element[];
 
 	/** @inheritdoc */
 	@Event() clickCheckbox: EventEmitter<Event>;
@@ -54,6 +56,7 @@ export class KvCheckbox implements ICheckbox, ICheckboxEvents {
 					label={this.label}
 					disabled={this.disabled}
 					accessibleLabel={this.accessibleLabel}
+					accessibleDescriptionElements={this.accessibleDescriptionElements}
 					controlType={ERadioControlType.Checkbox}
 					indeterminate={this.indeterminate}
 					onCheckedChange={this.onCheckedChange}

@@ -10,6 +10,11 @@ export const getRadioGroupTabStop = (options: readonly RadioGroupOption[]): numb
 	return selected >= 0 ? selected : options.findIndex(option => !option.disabled);
 };
 
+/** Focuses the enabled Tab stop without changing the group's selection. */
+export const focusRadioGroup = (options: readonly RadioGroupOption[], hosts: readonly HTMLElement[]): void => {
+	hosts[getRadioGroupTabStop(options)]?.focus();
+};
+
 /** Selects and focuses the enabled neighbor of the radio that received the arrow key. */
 export const handleRadioGroupKeyDown = (
 	event: KeyboardEvent,

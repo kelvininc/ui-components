@@ -92,6 +92,7 @@ export const WithIconState: Story = {
 export const OnlyIconState: Story = {
 	args: {
 		icon: EIconName.DensityMedium,
+		accessibleLabel: "Medium density",
 		value: "opt5",
 		size: EComponentSize.Large
 	}
