@@ -165,7 +165,6 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 		return (
 			<Host>
 				<div class={{ 'text-area-container': true, 'disabled': this.disabled, 'counter-always-visible': this.counterAlwaysVisible }}>
-					{this.icon && <kv-icon name={this.icon} />}
 					<div class="text-area" onClick={this.focusTextArea}>
 						<div
 							class={{
@@ -174,24 +173,27 @@ export class KvTextArea implements ITextArea, ITextAreaEvents {
 								'invalid': this.state === EValidationState.Invalid
 							}}
 						>
-							<div
-								class={{
-									input: true,
-									placeholder: this.showPlaceholder
-								}}
-								data-placeholder={this.placeholder}
-								role="textbox"
-								aria-label={this.accessibleLabel}
-								aria-multiline="true"
-								aria-placeholder={this.placeholder}
-								aria-invalid={this.state === EValidationState.Invalid ? 'true' : undefined}
-								aria-disabled={this.disabled ? 'true' : undefined}
-								ref={this.updateInputRef}
-								onPaste={this.onClipboardPaste}
-								onKeyPress={this.onKeyPress}
-								onInput={this.onInput}
-								contentEditable={this.disabled ? 'false' : 'plaintext-only'}
-							/>
+							<div class="text-area-content">
+								{this.icon && <kv-icon name={this.icon} />}
+								<div
+									class={{
+										input: true,
+										placeholder: this.showPlaceholder
+									}}
+									data-placeholder={this.placeholder}
+									role="textbox"
+									aria-label={this.accessibleLabel}
+									aria-multiline="true"
+									aria-placeholder={this.placeholder}
+									aria-invalid={this.state === EValidationState.Invalid ? 'true' : undefined}
+									aria-disabled={this.disabled ? 'true' : undefined}
+									ref={this.updateInputRef}
+									onPaste={this.onClipboardPaste}
+									onKeyPress={this.onKeyPress}
+									onInput={this.onInput}
+									contentEditable={this.disabled ? 'false' : 'plaintext-only'}
+								/>
+							</div>
 							{this.counter && this.maxCharLength ? (
 								<div class="character-counter">
 									{this.curCharLength} / {this.maxCharLength}
