@@ -17,6 +17,8 @@ export class KvSearch implements ISearch, ISearchEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
 	/** @inheritdoc */
+	@Prop() accessibleDescriptionElements?: readonly Element[];
+	/** @inheritdoc */
 	@Prop({ reflect: true }) examples?: string[];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) inputName?: string;
@@ -52,10 +54,6 @@ export class KvSearch implements ISearch, ISearchEvents {
 	@Prop({ reflect: true }) tooltipConfig?: Partial<ITooltip>;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) value!: string | number | null | undefined;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) useInputMask?: boolean = false;
-	/** @inheritdoc */
-	@Prop({ reflect: true }) inputMaskRegex?: string = '';
 
 	/** @inheritdoc */
 	@Event() textChange: EventEmitter<string>;
@@ -100,6 +98,7 @@ export class KvSearch implements ISearch, ISearchEvents {
 					onRightActionClick={this.onResetClick}
 					type={this.type}
 					label={this.label}
+					accessibleDescriptionElements={this.accessibleDescriptionElements}
 					examples={this.examples}
 					icon={EIconName.Search}
 					inputName={this.inputName}
@@ -119,8 +118,6 @@ export class KvSearch implements ISearch, ISearchEvents {
 					forcedFocus={this.forcedFocus}
 					tooltipConfig={this.tooltipConfig}
 					value={this.value}
-					useInputMask={this.useInputMask}
-					inputMaskRegex={this.inputMaskRegex}
 					fitContent={false}
 				/>
 			</Host>

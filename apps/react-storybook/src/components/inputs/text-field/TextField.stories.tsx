@@ -51,35 +51,16 @@ export const Default: Story = {
 	}
 };
 
-export const WithTextInputMask: Story = {
+export const NumberField: Story = {
 	args: {
-		label: "Text Field with text input mask",
+		label: "Number Text Field",
 		inputDisabled: false,
 		inputRequired: false,
 		loading: false,
-		value: "Possible Text Here",
-		inputMaskRegex: "[a-zA-Z s]+",
+		value: 123456789012345.67,
 		placeholder: "",
 		state: EValidationState.None,
 		size: EComponentSize.Large,
-		useInputMask: true,
-		type: EInputFieldType.Text
-	}
-};
-
-export const WithNumericInputMask: Story = {
-	args: {
-		label: "Text Field with numeric input mask",
-		inputDisabled: false,
-		inputRequired: false,
-		loading: false,
-		value: 110,
-		min: 1,
-		max: 100,
-		placeholder: "",
-		state: EValidationState.None,
-		size: EComponentSize.Large,
-		useInputMask: true,
 		type: EInputFieldType.Number
 	}
 };
@@ -216,13 +197,12 @@ export const WithLeftSlot: Story = {
 	}
 };
 
-export const DateTimeInputMask: Story = {
+export const DateTime: Story = {
 	args: {
-		label: "Date time input mask",
+		label: "Date time",
 		inputDisabled: false,
 		inputRequired: false,
 		loading: false,
-		useInputMask: true,
 		type: EInputFieldType.DateTime,
 		state: EValidationState.None,
 		size: EComponentSize.Large

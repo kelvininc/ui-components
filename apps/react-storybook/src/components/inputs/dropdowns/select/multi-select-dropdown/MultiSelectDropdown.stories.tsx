@@ -366,3 +366,61 @@ export const MaxSelectable: Story = {
 		counter: true
 	}
 };
+
+export const SelectAllWithSearch: Story = {
+	args: {
+		options: {
+			"temperature-inlet": {
+				value: "temperature-inlet",
+				label: "Temperature - Inlet"
+			},
+			"temperature-outlet": {
+				value: "temperature-outlet",
+				label: "Temperature - Outlet"
+			},
+			"temperature-motor": {
+				value: "temperature-motor",
+				label: "Temperature - Motor"
+			},
+			"pressure-inlet": {
+				value: "pressure-inlet",
+				label: "Pressure - Inlet"
+			},
+			"pressure-outlet": {
+				value: "pressure-outlet",
+				label: "Pressure - Outlet"
+			},
+			"flow-rate": {
+				value: "flow-rate",
+				label: "Flow Rate"
+			},
+			"motor-speed": {
+				value: "motor-speed",
+				label: "Motor Speed"
+			},
+			"motor-power": {
+				value: "motor-power",
+				label: "Motor Power"
+			},
+			vibration: {
+				value: "vibration",
+				label: "Vibration"
+			},
+			"tank-level": {
+				value: "tank-level",
+				label: "Tank Level"
+			}
+		},
+		// Search "temp": Select All and Clear act only on the matches, so this one stays selected
+		selectedOptions: { "pressure-inlet": true },
+		label: "Data Streams",
+		placeholder: "Select data streams",
+		icon: EIconName.Datastreams,
+		searchPlaceholder: "Search for a data stream",
+		searchable: true,
+		minSearchOptions: 0,
+		selectionClearable: true,
+		selectionAll: true,
+		counter: true
+	}
+};

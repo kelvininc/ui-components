@@ -1,13 +1,16 @@
 import { FormContextType, RJSFSchema, StrictRJSFSchema, WidgetProps } from '@rjsf/utils';
+import { ERadioControlType } from '@kelvininc/ui-components';
 import { KvToggleButtonGroup } from '../../../../stencil-generated';
 import React, { useCallback, useMemo } from 'react';
 import { buildToggleButtons, buildSelectedToggleButtons, toggleSelectedOptions, buildDisabledToggleButtons, getComponentSize } from './utils';
 import { IToggleButtonGroupConfig } from './types';
 import { isEmpty } from 'lodash';
-import { useFormState } from '../../contexts';
+import { useFieldDescription, useFormState } from '../../contexts';
+import { useSchemaFormFocusRef } from '../../hooks/entryFocus';
 
 const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
+	label,
 	schema,
 	options,
 	disabled,
@@ -17,6 +20,8 @@ const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F e
 	onChange
 }: WidgetProps<T, S, F>) => {
 	const { trackFieldChange, markFieldAsTouched } = useFormState();
+	const accessibleDescriptionElements = useFieldDescription(id);
+	const focusRef = useSchemaFormFocusRef<HTMLKvToggleButtonGroupElement>(disabled || readonly);
 	const { enumOptions, enumDisabled, allButton, componentSize, withRadio } = options;
 	const { maxItems, minItems } = schema;
 
@@ -43,8 +48,8 @@ const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F e
 	const disabledButtons = useMemo(() => buildDisabledToggleButtons(buttons), [buttons]);
 
 	const onCheckedChange = useCallback(
-		({ detail: selectedOptionValue }: CustomEvent<string>) => {
-			const newValue = toggleSelectedOptions(selectedOptionValue, selectedOptions, allOptions, config);
+		({ detail: buttonKey }: CustomEvent<string | number>) => {
+			const newValue = toggleSelectedOptions(buttonKey, selectedOptions, allOptions, config);
 			const finalValue = isEmpty(newValue) ? undefined : newValue;
 			trackFieldChange(id, finalValue);
 			onChange(finalValue);
@@ -53,17 +58,21 @@ const ToggleButtonGroupWidget = <T, S extends StrictRJSFSchema = RJSFSchema, F e
 	);
 
 	return (
-		<KvToggleButtonGroup
-			buttons={buttons}
-			disabled={disabled}
-			size={getComponentSize(componentSize)}
-			withRadio={withRadio === true}
-			disabledButtons={disabledButtons}
-			selectedButtons={selectedButtons}
-			onCheckedChange={onCheckedChange}
-			onFocus={() => markFieldAsTouched(id)}
-			onBlur={() => markFieldAsTouched(id)}
-		/>
+		<div role="group" aria-label={label.trim() || id}>
+			<KvToggleButtonGroup
+				ref={focusRef}
+				buttons={buttons.map(button => ({ ...button, accessibleDescriptionElements }))}
+				disabled={disabled}
+				size={getComponentSize(componentSize)}
+				withRadio={withRadio === true}
+				radioControlType={ERadioControlType.Checkbox}
+				disabledButtons={disabledButtons}
+				selectedButtons={selectedButtons}
+				onCheckedChange={onCheckedChange}
+				onFocus={() => markFieldAsTouched(id)}
+				onBlur={() => markFieldAsTouched(id)}
+			/>
+		</div>
 	);
 };
 

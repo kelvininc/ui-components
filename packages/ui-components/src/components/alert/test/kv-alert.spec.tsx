@@ -1,5 +1,7 @@
 import { SpecPage, newSpecPage } from '@stencil/core/testing';
 import { KvAlert } from '../alert';
+import { KvActionButtonText } from '../../action-button-text/action-button-text';
+import { KvActionButton } from '../../action-button/action-button';
 
 describe('Alert (unit tests', () => {
 	let page: SpecPage;
@@ -69,6 +71,18 @@ describe('Alert (unit tests', () => {
 			await page.waitForChanges();
 
 			expect(spy).toHaveBeenCalledTimes(1);
+		});
+
+		it('should name the icon-only close button', async () => {
+			page = await newSpecPage({
+				components: [KvAlert, KvActionButtonText, KvActionButton],
+				html: '<kv-alert type="info" label="Main Message" closable />'
+			});
+			const closeButton = page.root.shadowRoot.querySelector('.close-button');
+			const button = closeButton.shadowRoot.querySelector('kv-action-button').shadowRoot.querySelector('[part="button"]');
+
+			expect(button.getAttribute('role')).toBe('button');
+			expect(button.getAttribute('aria-label')).toBe('Close');
 		});
 	});
 });

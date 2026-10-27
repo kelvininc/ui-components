@@ -1,17 +1,20 @@
 import { EComponentSize, EIconName, EInputFieldType, EValidationState } from '@kelvininc/ui-components';
-import { isArray, isEmpty } from 'lodash';
+import { isArray } from 'lodash';
 import React, { useCallback, useMemo, useState } from 'react';
 import { KvTextField } from '../../../../stencil-generated';
 import styles from './BaseInputTemplate.module.scss';
 import { BaseInputTemplateProps, FormContextType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import { INPUT_TYPES } from './BaseInputTemplate.config';
 import { JSONSchema7TypeName } from 'json-schema';
-import { useFormState } from '../../contexts';
+import { useFieldDescription, useFieldErrors, useFormState } from '../../contexts';
+import { useSchemaFormFocusRef } from '../../hooks/entryFocus';
+import { useTableCell } from '../../contexts/TableContext';
 
 const getInputType = (type?: JSONSchema7TypeName | JSONSchema7TypeName[]) => (type && !isArray(type) ? INPUT_TYPES[type] ?? EInputFieldType.Text : EInputFieldType.Text);
 
 const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
+	label,
 	placeholder,
 	readonly,
 	disabled,
@@ -27,7 +30,10 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 	formContext,
 	type
 }: BaseInputTemplateProps<T, S, F>) => {
-	const { trackFieldChange, markFieldAsTouched, isFieldTouched, displayErrors } = useFormState();
+	const { trackFieldChange, markFieldAsTouched } = useFormState();
+	const cell = useTableCell(id);
+	const accessibleDescriptionElements = useFieldDescription(id);
+	const focusRef = useSchemaFormFocusRef<HTMLKvTextFieldElement>(disabled || readonly);
 
 	const baseType = useMemo(() => type ?? getInputType(schema.type), [type, schema.type]);
 
@@ -78,7 +84,7 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 		return showPassword ? EIconName.EyeClosed : EIconName.Eye;
 	}, [isPasswordField, showPassword]);
 
-	const { componentSize: optionComponentSize, useInputMask, inputMaskRegex, valuePrefix, badge } = uiSchema;
+	const { componentSize: optionComponentSize, valuePrefix, badge } = uiSchema;
 	const { componentSize = EComponentSize.Large } = formContext as F;
 	const { maximum = uiSchema.max, minimum = uiSchema.min, maxLength = uiSchema.maxLength, minLength = uiSchema.minLength } = schema;
 
@@ -87,19 +93,15 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 		[schema.examples, schema.default]
 	);
 
-	const shouldUseInputMask = useMemo(
-		() => (uiSchema.useInputMask === undefined && inputType === EInputFieldType.Number ? false : uiSchema.useInputMask),
-		[uiSchema.useInputMask, inputType]
-	);
-
-	// Show errors if the field has been touched OR if the form is set to display errors globally
-	const shouldShowErrors = isFieldTouched(id) || displayErrors;
-	const hasErrors = shouldShowErrors && !isEmpty(rawErrors);
+	const hasErrors = useFieldErrors(id, rawErrors);
 
 	return (
 		<div className={styles.InputContainer}>
 			<KvTextField
+				ref={focusRef}
 				id={id}
+				accessibleLabel={cell?.accessibleLabel ?? label}
+				accessibleDescriptionElements={accessibleDescriptionElements}
 				size={optionComponentSize ?? componentSize}
 				examples={examples}
 				inputDisabled={disabled || readonly}
@@ -112,8 +114,6 @@ const BaseInputTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends
 				placeholder={placeholder}
 				type={inputType}
 				state={hasErrors ? EValidationState.Invalid : EValidationState.Valid}
-				useInputMask={shouldUseInputMask}
-				inputMaskRegex={inputMaskRegex}
 				value={value || value === 0 ? value : ''}
 				valuePrefix={valuePrefix}
 				badge={badge}

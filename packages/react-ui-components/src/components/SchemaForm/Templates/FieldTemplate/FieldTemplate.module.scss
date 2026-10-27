@@ -1,11 +1,141 @@
 @use 'node_modules/@kelvininc/ui-components/dist/assets/styles' as *;
 
+.CollectionMetadata {
+	display: flex;
+	flex-direction: column;
+}
+
 .FieldWrapper {
 	width: 100%;
+	min-width: 0;
 	display: flex;
 	flex-direction: column;
 
-	.TopDescription {
-		padding-bottom: var(--spacing-2xl);
+	&[hidden] {
+		display: none;
+	}
+
+	// The same 16px a section or list section leaves between its heading block and its body
+	> .CollectionMetadata {
+		margin-bottom: var(--spacing-2xl);
+	}
+}
+
+.ItemWithGrip > :not(.ItemControlRow) {
+	margin-left: calc(var(--icon-button-height-regular) + var(--spacing-md));
+}
+
+.ItemWithAction > :not(.ItemControlRow) {
+	margin-right: calc(var(--icon-button-height-regular) + var(--spacing-md));
+}
+
+.ChoiceExtras {
+	display: flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+	gap: var(--spacing-md);
+	margin-top: var(--spacing-xs);
+}
+
+.ChoiceFeedback {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 12rem;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.FieldFooter {
+	container: field-footer / inline-size;
+	min-width: 0;
+}
+
+.FieldFooterContent {
+	display: flex;
+	align-items: baseline;
+	gap: var(--spacing-xl);
+}
+
+.FieldFeedback {
+	flex: 1;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.FieldDefault {
+	display: flex;
+	align-items: baseline;
+	justify-content: flex-end;
+	gap: var(--spacing-xs);
+	margin-inline-start: auto;
+	max-width: 45%;
+	min-width: 0;
+	text-align: end;
+	overflow-wrap: anywhere;
+
+	kv-form-help-text {
+		min-width: 0;
+		max-width: 100%;
+	}
+}
+
+@container field-footer (max-width: 460px) {
+	.FieldFooterContent {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0;
+	}
+
+	.FieldDefault {
+		justify-content: flex-start;
+		margin-inline-start: 0;
+		max-width: 100%;
+		text-align: start;
+	}
+}
+
+.ItemControlRow {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-md);
+}
+
+.ItemControl {
+	flex: 1;
+	min-width: 0;
+}
+
+.NotSet {
+	@include body-s-regular;
+
+	flex-shrink: 0;
+	color: var(--text-container-neutral-subtle);
+
+	// Takes focus after clearing when no option can: outlined like Clear selection, which it replaces
+	&:focus-visible {
+		outline: 2px solid currentcolor;
+		outline-offset: 2px;
+	}
+}
+
+.ClearSelection {
+	@include body-m-regular;
+
+	margin-left: auto;
+	flex-shrink: 0;
+	max-width: 100%;
+	border: 0;
+	padding: 0;
+	background: transparent;
+	color: var(--button-text-label-default);
+	cursor: pointer;
+
+	&:focus-visible {
+		outline: 2px solid currentcolor;
+		outline-offset: 2px;
+	}
+
+	&:hover {
+		text-decoration: underline;
 	}
 }

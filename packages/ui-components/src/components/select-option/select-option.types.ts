@@ -14,6 +14,8 @@ export interface ISelectOptionAction {
 	onClick: () => void;
 	/** (required) The icon of the action */
 	icon: EIconName;
+	/** (required) Accessible name for the icon-only action button */
+	accessibleLabel: string;
 	/**  (optional) If `true` the action is active */
 	active?: boolean;
 }

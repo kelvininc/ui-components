@@ -1,0 +1,28 @@
+@mixin section-guide {
+	box-sizing: border-box;
+	min-width: 0;
+	padding-inline-start: var(--spacing-2xl);
+	border-inline-start: var(--border-width-default) solid var(--border-container-divider-default);
+
+	@container schema-form (width < 480px) {
+		padding-inline-start: var(--spacing-md);
+
+		&[data-schema-form-narrow-inset='capped'] {
+			padding-inline-start: 0;
+		}
+	}
+}
+
+@mixin object-entry-frame {
+	box-sizing: border-box;
+	min-width: 0;
+	padding: var(--spacing-2xl);
+	border: var(--border-width-default) solid var(--border-container-impact-neutral-default);
+	border-radius: var(--radius-md);
+
+	@container schema-form (width < 480px) {
+		&[data-schema-form-narrow-inset='capped'] {
+			padding-inline: 0;
+		}
+	}
+}

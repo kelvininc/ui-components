@@ -100,115 +100,6 @@ describe('Text Field (end-to-end)', () => {
 		});
 	});
 
-	describe('when the text field has input mask for numeric type', () => {
-		beforeEach(async () => {
-			page = await newE2EPage();
-			await page.setContent('<kv-text-field type="number" min="0" max="1" value="0" required use-input-mask=true></kv-text-field>');
-		});
-
-		describe('when user inputs 1', () => {
-			let spyChangeEvent: EventSpy;
-			let textFieldComponent: E2EElement;
-
-			beforeEach(async () => {
-				textFieldComponent = await page.find('kv-text-field');
-				spyChangeEvent = await textFieldComponent.spyOnEvent('textChange');
-
-				const textFieldElement = await page.find('kv-text-field >>> input');
-				await textFieldElement.type('1');
-
-				await new Promise(r => setTimeout(r, 300));
-			});
-
-			it('should emit change event', () => {
-				expect(spyChangeEvent).toHaveReceivedEventDetail('1');
-			});
-		});
-
-		describe('when user changes text but value is higher than max', () => {
-			let spyChangeEvent: EventSpy;
-			let textFieldComponent: E2EElement;
-
-			beforeEach(async () => {
-				textFieldComponent = await page.find('kv-text-field');
-				spyChangeEvent = await textFieldComponent.spyOnEvent('textChange');
-
-				const textFieldElement = await page.find('kv-text-field >>> input');
-				await textFieldElement.type('9');
-
-				await new Promise(r => setTimeout(r, 300));
-			});
-
-			it('should not emit change event', () => {
-				expect(spyChangeEvent).not.toHaveReceivedEvent();
-			});
-		});
-
-		describe('when user changes text but value is a string', () => {
-			let spyChangeEvent: EventSpy;
-			let textFieldComponent: E2EElement;
-
-			beforeEach(async () => {
-				textFieldComponent = await page.find('kv-text-field');
-				spyChangeEvent = await textFieldComponent.spyOnEvent('textChange');
-
-				const textFieldElement = await page.find('kv-text-field >>> input');
-				await textFieldElement.type('a');
-
-				await new Promise(r => setTimeout(r, 300));
-			});
-
-			it('should not emit change event', () => {
-				expect(spyChangeEvent).not.toHaveReceivedEvent();
-			});
-		});
-	});
-
-	describe('when the text field has input mask for string type with leters only regex', () => {
-		beforeEach(async () => {
-			page = await newE2EPage();
-			await page.setContent('<kv-text-field type="text" use-input-mask=true input-mask-regex="[a-zA-Z]+" required use-input-mask=true></kv-text-field>');
-		});
-
-		describe('when user inputs a', () => {
-			let spyChangeEvent: EventSpy;
-			let textFieldComponent: E2EElement;
-
-			beforeEach(async () => {
-				textFieldComponent = await page.find('kv-text-field');
-				spyChangeEvent = await textFieldComponent.spyOnEvent('textChange');
-
-				const textFieldElement = await page.find('kv-text-field >>> input');
-				await textFieldElement.type('a');
-
-				await new Promise(r => setTimeout(r, 300));
-			});
-
-			it('should emit change event', () => {
-				expect(spyChangeEvent).toHaveReceivedEventDetail('a');
-			});
-		});
-
-		describe('when user inputs a number', () => {
-			let spyChangeEvent: EventSpy;
-			let textFieldComponent: E2EElement;
-
-			beforeEach(async () => {
-				textFieldComponent = await page.find('kv-text-field');
-				spyChangeEvent = await textFieldComponent.spyOnEvent('textChange');
-
-				const textFieldElement = await page.find('kv-text-field >>> input');
-				await textFieldElement.type('1');
-
-				await new Promise(r => setTimeout(r, 300));
-			});
-
-			it('should not emit change event', () => {
-				expect(spyChangeEvent).not.toHaveReceivedEvent();
-			});
-		});
-	});
-
 	describe('when a native input type rejects the provided value', () => {
 		let spyChangeEvent: EventSpy;
 		let textFieldComponent: E2EElement;
@@ -226,27 +117,6 @@ describe('Text Field (end-to-end)', () => {
 
 		it('should keep the value on the component without emitting changes', async () => {
 			expect(await textFieldComponent.getProperty('value')).toBe('2024-01-01T10:00:00.000Z');
-			expect(spyChangeEvent).not.toHaveReceivedEvent();
-		});
-	});
-
-	describe('when a masked field cannot represent the provided value', () => {
-		let spyChangeEvent: EventSpy;
-		let textFieldComponent: E2EElement;
-
-		beforeEach(async () => {
-			page = await newE2EPage();
-			await page.setContent('<kv-text-field type="number" use-input-mask=true value="abc"></kv-text-field>');
-
-			textFieldComponent = await page.find('kv-text-field');
-			spyChangeEvent = await textFieldComponent.spyOnEvent('textChange');
-
-			await page.waitForChanges();
-			await new Promise(r => setTimeout(r, 300));
-		});
-
-		it('should keep the value on the component without emitting changes', async () => {
-			expect(await textFieldComponent.getProperty('value')).toBe('abc');
 			expect(spyChangeEvent).not.toHaveReceivedEvent();
 		});
 	});
@@ -279,166 +149,183 @@ describe('Text Field (end-to-end)', () => {
 		});
 	});
 
-	describe('when the value is set programmatically on an empty masked number field', () => {
+	describe('when the text field is a number field', () => {
 		let spyChangeEvent: EventSpy;
 		let textFieldComponent: E2EElement;
 		let textFieldElement: E2EElement;
 
-		beforeEach(async () => {
+		const render = async (attributes: string) => {
 			page = await newE2EPage();
-			await page.setContent('<kv-text-field type="number" min="1" max="10" use-input-mask=true></kv-text-field>');
+			await page.setContent(`<kv-text-field type="number" ${attributes}></kv-text-field>`);
 
 			textFieldComponent = await page.find('kv-text-field');
 			spyChangeEvent = await textFieldComponent.spyOnEvent('textChange');
 			textFieldElement = await page.find('kv-text-field >>> input');
 
-			textFieldComponent.setProperty('value', '5');
-			await page.waitForChanges();
-			await new Promise(r => setTimeout(r, 300));
-		});
-
-		it('should render the value and keep it on the component', async () => {
-			expect(await textFieldElement.getProperty('value')).toBe('5');
-			expect(await textFieldComponent.getProperty('value')).toBe('5');
-		});
-
-		it('should not emit change events for the programmatic write', () => {
-			expect(spyChangeEvent).not.toHaveReceivedEvent();
-		});
-	});
-
-	describe('when the text field has a numeric input mask with min and max limits', () => {
-		let spyChangeEvent: EventSpy;
-		let textFieldComponent: E2EElement;
-		let textFieldElement: E2EElement;
-
-		const clearInput = async () => {
-			await textFieldElement.click({ clickCount: 3 });
-			await textFieldElement.press('Backspace');
 			await page.waitForChanges();
 			await new Promise(r => setTimeout(r, 300));
 		};
 
-		const blurInput = async () => {
+		const settle = async () => {
+			await page.waitForChanges();
+			await new Promise(r => setTimeout(r, 300));
+		};
+
+		const focusAndBlur = async () => {
+			await textFieldElement.click();
 			await textFieldElement.press('Tab');
-			await page.waitForChanges();
-			await new Promise(r => setTimeout(r, 300));
+			await settle();
 		};
 
-		beforeEach(async () => {
-			page = await newE2EPage();
-			await page.setContent('<kv-text-field type="number" min="1" max="10" value="2.5" use-input-mask=true></kv-text-field>');
+		it('should render a native number input', async () => {
+			await render('');
 
-			textFieldComponent = await page.find('kv-text-field');
-			spyChangeEvent = await textFieldComponent.spyOnEvent('textChange');
-			textFieldElement = await page.find('kv-text-field >>> input');
+			expect(await textFieldElement.getProperty('type')).toBe('number');
 		});
 
-		describe('when the user clears the field', () => {
+		describe.each(['123456789012345.67', '999999999999999.9', '11.023422523129753', '1e-7', '-0.25'])('when created with the value %s', value => {
 			beforeEach(async () => {
-				await clearInput();
+				await render(`value="${value}"`);
+			});
+
+			it('should show the value as written without emitting changes', async () => {
+				expect(await textFieldElement.getProperty('value')).toBe(value);
+				expect(await textFieldComponent.getProperty('value')).toBe(value);
+				expect(spyChangeEvent).not.toHaveReceivedEvent();
+			});
+
+			it('should keep the value when the user focuses and blurs the field', async () => {
+				await focusAndBlur();
+
+				expect(await textFieldElement.getProperty('value')).toBe(value);
+				expect(spyChangeEvent).not.toHaveReceivedEvent();
+			});
+		});
+
+		describe('when a number is set programmatically', () => {
+			beforeEach(async () => {
+				await render('');
+
+				textFieldComponent.setProperty('value', 123456789012345.67);
+				await settle();
+			});
+
+			it('should show the number as written without emitting changes', async () => {
+				expect(await textFieldElement.getProperty('value')).toBe('123456789012345.67');
+				expect(spyChangeEvent).not.toHaveReceivedEvent();
+			});
+		});
+
+		describe('when the field has min and max limits', () => {
+			beforeEach(async () => {
+				await render('min="1" max="10"');
+			});
+
+			it('should pass the limits to the native input', async () => {
+				expect(await textFieldElement.getProperty('min')).toBe('1');
+				expect(await textFieldElement.getProperty('max')).toBe('10');
+			});
+
+			it('should not clamp a value outside the limits when the user focuses and blurs the field', async () => {
+				textFieldComponent.setProperty('value', '15');
+				await settle();
+
+				await focusAndBlur();
+
+				expect(await textFieldElement.getProperty('value')).toBe('15');
+				expect(spyChangeEvent).not.toHaveReceivedEvent();
+			});
+		});
+
+		describe('when the field has no limits', () => {
+			beforeEach(async () => {
+				await render('value="10000000000000000"');
+			});
+
+			it('should not add limits to the native input', async () => {
+				expect(await textFieldElement.getProperty('min')).toBe('');
+				expect(await textFieldElement.getProperty('max')).toBe('');
+			});
+
+			it('should keep a value past the largest safe integer when the user focuses and blurs the field', async () => {
+				await focusAndBlur();
+
+				expect(await textFieldElement.getProperty('value')).toBe('10000000000000000');
+				expect(spyChangeEvent).not.toHaveReceivedEvent();
+			});
+		});
+
+		describe.each(['-0.25', '0.0000001', '1e-7', '123456789012345.67'])('when the user types %s', typed => {
+			beforeEach(async () => {
+				await render('');
+
+				await textFieldElement.type(typed);
+				await settle();
+			});
+
+			it('should keep the typed text and emit it', async () => {
+				expect(await textFieldElement.getProperty('value')).toBe(typed);
+				expect(spyChangeEvent).toHaveReceivedEventDetail(typed);
+			});
+		});
+
+		describe('when the user clears a field that has a minimum', () => {
+			beforeEach(async () => {
+				await render('min="1" value="5"');
+
+				await textFieldElement.click({ clickCount: 3 });
+				await textFieldElement.press('Backspace');
+				await settle();
 			});
 
 			it('should leave the field empty and emit the change', async () => {
 				expect(await textFieldElement.getProperty('value')).toBe('');
 				expect(spyChangeEvent).toHaveReceivedEventDetail('');
 			});
-		});
 
-		describe('when the user clears the field and blurs', () => {
-			beforeEach(async () => {
-				await clearInput();
-				await blurInput();
-			});
+			it('should keep the field empty when the user blurs the field', async () => {
+				await textFieldElement.press('Tab');
+				await settle();
 
-			it('should keep the field empty instead of writing the min value', async () => {
 				expect(await textFieldElement.getProperty('value')).toBe('');
 			});
 		});
 
-		describe('when the user clears the field and types a new value', () => {
+		describe('when a consumer feeds the typed text back as the value', () => {
 			beforeEach(async () => {
-				await clearInput();
-				await textFieldElement.type('5');
-				await new Promise(r => setTimeout(r, 300));
+				await render('');
+
+				await page.$eval('kv-text-field', element => {
+					element.addEventListener('textChange', (event: CustomEvent<string>) => {
+						(element as HTMLKvTextFieldElement).value = event.detail;
+					});
+				});
+
+				await textFieldElement.type('-0.25');
+				await settle();
 			});
 
-			it('should accept the value on the integer part', async () => {
-				expect(await textFieldElement.getProperty('value')).toBe('5');
-				expect(spyChangeEvent).toHaveReceivedEventDetail('5');
+			it('should keep the incomplete steps of the typed number', async () => {
+				expect(await textFieldElement.getProperty('value')).toBe('-0.25');
+				expect(await textFieldComponent.getProperty('value')).toBe('-0.25');
 			});
 		});
 
-		describe('when the user leaves a below-min value and blurs', () => {
+		describe('when the user types past the max length', () => {
+			const pageErrors: Error[] = [];
+
 			beforeEach(async () => {
-				await clearInput();
-				await textFieldElement.type('0');
-				await new Promise(r => setTimeout(r, 300));
-				await blurInput();
+				pageErrors.length = 0;
+				await render('max-length="2"');
+				page.on('pageerror', error => pageErrors.push(error));
+
+				await textFieldElement.type('123');
+				await settle();
 			});
 
-			it('should clamp the value to the min and propagate the change', async () => {
-				const value = await textFieldElement.getProperty('value');
-				expect(value).toBe('1');
-				expect(spyChangeEvent).toHaveReceivedEventDetail(value);
-			});
-		});
-
-		describe('when the value is set programmatically above the max', () => {
-			beforeEach(async () => {
-				textFieldComponent.setProperty('value', '15');
-				await page.waitForChanges();
-				await new Promise(r => setTimeout(r, 300));
-			});
-
-			it('should render the value as-is without clamping', async () => {
-				expect(await textFieldElement.getProperty('value')).toBe('15');
-				expect(spyChangeEvent).not.toHaveReceivedEvent();
-			});
-		});
-
-		describe('when the value is set programmatically below the min', () => {
-			beforeEach(async () => {
-				textFieldComponent.setProperty('value', '0.5');
-				await page.waitForChanges();
-				await new Promise(r => setTimeout(r, 300));
-			});
-
-			it('should render the value as-is without clamping', async () => {
-				expect(await textFieldElement.getProperty('value')).toBe('0.5');
-				expect(spyChangeEvent).not.toHaveReceivedEvent();
-			});
-		});
-
-		describe('when a programmatic out-of-range value is focused and blurred by the user', () => {
-			beforeEach(async () => {
-				textFieldComponent.setProperty('value', '15');
-				await page.waitForChanges();
-				await new Promise(r => setTimeout(r, 300));
-
-				await textFieldElement.click();
-				await blurInput();
-			});
-
-			it('should clamp the value to the max and propagate the change', async () => {
-				const value = await textFieldElement.getProperty('value');
-				expect(value).toBe('10');
-				expect(spyChangeEvent).toHaveReceivedEventDetail(value);
-			});
-		});
-
-		describe('when the user types a value above the max', () => {
-			beforeEach(async () => {
-				await textFieldElement.click();
-				await textFieldElement.press('Home');
-				await textFieldElement.type('9');
-
-				await new Promise(r => setTimeout(r, 300));
-			});
-
-			it('should reject the keystroke and keep the previous value', async () => {
-				expect(await textFieldElement.getProperty('value')).toBe('2.5');
-				expect(spyChangeEvent).not.toHaveReceivedEvent();
+			it('should keep the value within the max length without throwing', async () => {
+				expect(await textFieldElement.getProperty('value')).toBe('12');
+				expect(pageErrors).toEqual([]);
 			});
 		});
 	});

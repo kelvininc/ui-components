@@ -1,6 +1,7 @@
 import { EventEmitter } from '@stencil/core';
 import { EComponentSize } from '../../types';
 import { EIconName } from '../icon/icon.types';
+import { ERadioControlType } from '../radio/radio.types';
 
 export interface IToggleButton<T = string | number> {
 	/** (required) The value to be emitted upon click events */
@@ -9,6 +10,10 @@ export interface IToggleButton<T = string | number> {
 	icon?: EIconName;
 	/** (optional) The button's label. Only valid for toggle button text */
 	label?: string;
+	/** (optional) Nonblank accessible name for the control. Takes precedence over label and tooltip. */
+	accessibleLabel?: string;
+	/** Elements describing the button or radio, including help in an ancestor tree. Clear with an empty array. */
+	accessibleDescriptionElements?: readonly Element[];
 	/** (optional) Sets the button's styling to be disabled and disables click events */
 	disabled?: boolean;
 	/** (optional) Sets the button as checked */
@@ -17,11 +22,15 @@ export interface IToggleButton<T = string | number> {
 	preventDefault?: boolean;
 	/** (optional) Sets if the button is a radio button */
 	withRadio?: boolean;
+	/** (optional) What the radio is to assistive tech. Use `checkbox` when pressing a checked button unchecks it, or several buttons can be checked at once. Default: `radio` */
+	radioControlType?: ERadioControlType;
+	/** (optional) If true, Tab skips the inner radio. Radio groups keep one enabled Tab stop. */
+	skipTabStop?: boolean;
 	/** (optional) Button's size */
 	size?: EComponentSize;
 	/** (optional) Tooltip text */
 	tooltip?: string;
-	/** (optional) Custom attributes to be applied to the toggle button element */
+	/** (optional) Custom attributes on the toggle element. A plain button's type, disabled, aria-label and aria-pressed come from component props. */
 	customAttributes?: Record<string, string>;
 }
 

@@ -1,5 +1,7 @@
 @use '../../assets/styles' as *;
 
+$input-text-offset-y: -1px;
+
 :host {
 	/**
 	 * @prop --input-width: Text Field's width.
@@ -107,7 +109,6 @@ kv-form-help-text {
 	--help-text-top-spacing: var(--spacing-none);
 	--help-text-bottom-spacing: var(--spacing-none);
 	--help-text-right-spacing: var(--spacing-none);
-	--help-text-left-spacing: var(--spacing-none);
 }
 
 kv-tooltip::part(content) {
@@ -148,7 +149,7 @@ kv-tooltip::part(content) {
 
 .resize-input {
 	position: absolute;
-	top: -1px;
+	top: $input-text-offset-y;
 	left: 0;
 	right: 0;
 	bottom: 0;
@@ -266,6 +267,9 @@ input {
 		}
 
 		.value-prefix {
+			// Same offset as `.resize-input`, so the prefix sits on the value's baseline
+			position: relative;
+			top: $input-text-offset-y;
 			white-space: nowrap;
 
 			@include body-m-semibold;

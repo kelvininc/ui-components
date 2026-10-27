@@ -91,6 +91,9 @@ const meta = {
 		selectedOption: {
 			control: { type: "text" }
 		},
+		displayPrefix: {
+			control: { type: "text" }
+		},
 		inputSize: {
 			control: { type: "radio" },
 			options: Object.values(EComponentSize)
@@ -115,6 +118,16 @@ export const Default: Story = {
 		placeholder: "Select an option",
 		icon: EIconName.Layer,
 		shortcuts: true
+	}
+};
+
+export const DisplayPrefix: Story = {
+	args: {
+		options: SMALL_SET_DROPDOWN_OPTIONS_MOCK,
+		selectedOption: "option2",
+		placeholder: "Select an option",
+		displayPrefix: "View:",
+		inputSize: EComponentSize.Small
 	}
 };
 

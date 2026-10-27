@@ -37,6 +37,10 @@ export interface ITextField {
 	type?: EInputFieldType;
 	/** (optional) Text field label */
 	label?: string;
+	/** Accessible name used when there's no visible label. */
+	accessibleLabel?: string;
+	/** Elements describing the input, including help in an ancestor tree. Clear with an empty array. */
+	accessibleDescriptionElements?: readonly Element[];
 	/** (optional) Text field's icon symbol name */
 	icon?: EIconName;
 	/** (optional) Icon that is added on the right of the input. Its clickable. */
@@ -81,10 +85,6 @@ export interface ITextField {
 	forcedFocus?: boolean;
 	/** (optional) Text field tooltip configuration */
 	tooltipConfig?: Partial<ITooltip>;
-	/** (optional) Use a input mask when the text field type is number (default true) */
-	useInputMask?: boolean;
-	/** (optional) Input mask regex */
-	inputMaskRegex?: string;
 	/** (optional) Enable/disable the resize of input (default: true) */
 	fitContent?: boolean;
 	/** (optional) Additional style to apply for custom CSS. */
@@ -93,8 +93,4 @@ export interface ITextField {
 	isDirty?: boolean;
 	/** (optional) If true, the badge is not displayed */
 	hideBadge?: boolean;
-}
-
-export interface IInputMaskInstanceRef extends Inputmask.Instance {
-	shadowRoot: ShadowRoot;
 }

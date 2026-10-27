@@ -18,8 +18,12 @@ export class KvFormLabel {
 			<Host>
 				{isValidLabel(this.label) && (
 					<div class="label-container">
-						{this.required && <span class="required">*</span>}
 						{this.label && <span class="label">{this.label}</span>}
+						{this.required && (
+							<span class="required" aria-hidden="true">
+								*
+							</span>
+						)}
 					</div>
 				)}
 			</Host>

@@ -40,6 +40,7 @@ import { getCustomIntervalTitle } from '../absolute-time-picker/absolute-time-pi
 import { IRelativeTimeInput, IAbsoluteSelectedRangeDates } from '../absolute-time-picker/absolute-time-picker.types';
 import { getAbsoluteTimePickerError } from '../absolute-time-picker-dropdown/absolute-time-picker-dropdown.utils';
 import { CUSTOM_TIME_RANGE_KEY, DEFAULT_RELATIVE_TIME_OPTIONS_GROUPS, buildOptionRange, buildTimestampRange, getRelativeTimeOption } from '../../utils/relative-time';
+import { COMPONENT_STRINGS } from '../../strings';
 
 @Component({
 	tag: 'kv-time-picker',
@@ -652,12 +653,13 @@ export class KvTimePicker implements ITimePicker, ITimePickerEvents {
 									{this.isCalendarToggleVisible() && (
 										<div class="show-calendar-toggle">
 											<kv-switch-button
+												accessibleLabel={COMPONENT_STRINGS.showCalendar}
 												checked={this.showCalendar}
 												size={EComponentSize.Small}
 												onClick={this.onShowCalendarClick}
 												disabled={this.calendarViewLocked}
 											/>
-											<div class="toggle-text">Show Calendar</div>
+											<div class="toggle-text">{COMPONENT_STRINGS.showCalendar}</div>
 										</div>
 									)}
 								</div>

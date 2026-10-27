@@ -6,7 +6,7 @@ import { EComponentSize, ICustomCss } from '../../types';
 import { ComputePositionConfig } from '@floating-ui/dom';
 
 // A multi select dropdown has no asynchronous creation to configure
-export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptionsConfig, 'searchValue' | 'createOptionConfig' | 'createOptionState'> {
+export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptionsConfig, 'searchValue' | 'createOptionConfig' | 'createOptionState' | 'clearHiddenSelection'> {
 	/** (required) The text to display as the dropdown placeholder */
 	placeholder?: string;
 	/** (optional) If `true` the dropdown is opened */
@@ -19,6 +19,8 @@ export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptio
 	required?: boolean;
 	/** (optional) The text to display on the dropdown label */
 	label?: string;
+	/** Accessible name for the default trigger when there's no visible label. */
+	accessibleLabel?: string;
 	/** (optional) The text to display on the dropdown  */
 	displayValue?: string;
 	/** (optional) The text to display as a prefix to `displayValue` */

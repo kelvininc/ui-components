@@ -1,4 +1,5 @@
 import { Component, Element, Event, Method, Prop, Watch, h } from '@stencil/core';
+import { COMPONENT_STRINGS } from '../../strings';
 import { EventEmitter } from '@stencil/core';
 import { EIconName } from '../icon/icon.types';
 import { EActionButtonType } from '../action-button/action-button.types';
@@ -144,6 +145,7 @@ export class KvSelectCreateOption implements ISelectCreateOption, ISelectCreateO
 					<kv-action-button-icon
 						type={EActionButtonType.Secondary}
 						icon={EIconName.Close}
+						accessibleLabel={COMPONENT_STRINGS.cancel}
 						size={this.size}
 						disabled={this.loading}
 						onClickButton={({ detail: event }) => this.onCancel(event)}
@@ -152,6 +154,7 @@ export class KvSelectCreateOption implements ISelectCreateOption, ISelectCreateO
 					<kv-action-button-icon
 						type={EActionButtonType.Secondary}
 						icon={EIconName.DoneAll}
+						accessibleLabel={COMPONENT_STRINGS.createOption}
 						size={this.size}
 						disabled={!this.canSubmit}
 						loading={this.loading}

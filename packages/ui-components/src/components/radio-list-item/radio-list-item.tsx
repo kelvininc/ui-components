@@ -3,16 +3,20 @@ import { buildDescription } from './radio-list-item.helper';
 import { IRadioListItem, IRadioListItemEvents } from './radio-list-item.types';
 import { EComponentSize } from '../../types';
 
+/** @part label - The option's visible label */
 @Component({
 	tag: 'kv-radio-list-item',
 	styleUrl: 'radio-list-item.scss',
-	shadow: true
+	// Group options delegate host focus to their radio; a focusable header slot takes precedence.
+	shadow: { delegatesFocus: true }
 })
 export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) optionId!: string | number;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) label?: string;
+	/** @inheritdoc */
+	@Prop() accessibleDescriptionElements?: readonly Element[];
 	/** @inheritdoc */
 	@Prop({ reflect: true }) description?: string;
 	/** @inheritdoc */
@@ -21,6 +25,8 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 	@Prop({ reflect: true }) checked?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) disabled?: boolean = false;
+	/** @inheritdoc */
+	@Prop() skipTabStop?: boolean = false;
 
 	/** @inheritdoc */
 	@Event() optionClick: EventEmitter<string | number>;
@@ -41,6 +47,12 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 		this.optionClick.emit(this.optionId);
 	};
 
+	private onRadioCheckedChange = (event: CustomEvent<Event>) => {
+		event.stopPropagation();
+		// Mouse clicks reach the container; Space activates through the radio's event.
+		if (event.detail.type === 'keydown') this.onOptionClick(event);
+	};
+
 	render() {
 		return (
 			<Host>
@@ -54,9 +66,18 @@ export class KvRadioListItem implements IRadioListItem, IRadioListItemEvents {
 				>
 					<slot name="header" />
 					<div class={{ content: true, [`content--size-${this.size}`]: true }}>
-						<kv-radio size={EComponentSize.Small} checked={this.checked} disabled={this.disabled} onCheckedChange={this.onOptionClick} />
+						<kv-radio
+							size={EComponentSize.Small}
+							checked={this.checked}
+							disabled={this.disabled}
+							accessibleLabel={this.label}
+							accessibleDescriptionElements={this.accessibleDescriptionElements}
+							skipTabStop={this.skipTabStop}
+							onCheckedChange={this.onRadioCheckedChange}
+						/>
 						<div class="info">
-							<div class="label">
+							{/* With a `label`, the radio carries it as its name; this copy is for sight only */}
+							<div class="label" part="label" aria-hidden={this.label ? 'true' : undefined}>
 								<slot name="label">{this.label}</slot>
 							</div>
 							{this.description && <div class="description">{this.parsedDescription}</div>}

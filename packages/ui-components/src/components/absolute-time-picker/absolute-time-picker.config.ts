@@ -1,5 +1,7 @@
-export const DEFAULT_HEADER_TITLE = 'Custom Interval';
-export const SINGLE_DATE_HEADER_TITLE = 'Custom Date';
+import { COMPONENT_STRINGS } from '../../strings';
+
+export const DEFAULT_HEADER_TITLE = COMPONENT_STRINGS.customInterval;
+export const SINGLE_DATE_HEADER_TITLE = COMPONENT_STRINGS.customDate;
 
 export const DATE_INPUT_PLACEHOLDER = 'dd-mm-yyyy 00:00:00';
 export const DATETIME_INPUT_MASK = 'DD-MM-YYYY HH:mm:ss';

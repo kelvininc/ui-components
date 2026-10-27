@@ -38,6 +38,14 @@ describe('buildSelectedOptions', () => {
 	it('should round-trip through getSelectedOptions', () => {
 		expect(getSelectedOptions(buildSelectedOptions(['a', 'b']))).toEqual(['a', 'b']);
 	});
+
+	it('ignores nil keys while preserving an empty string key', () => {
+		expect(buildSelectedOptions([undefined, null, '', 'north-line'] as unknown as string[])).toEqual({ '': true, 'north-line': true });
+	});
+
+	it('returns only selected entries from a change event map', () => {
+		expect(getSelectedOptions({ 'north-line': true, 'south-line': false })).toEqual(['north-line']);
+	});
 });
 
 describe('processValue', () => {
@@ -144,9 +152,9 @@ describe('toOptionKey', () => {
 	it.each([
 		['boolean', { type: 'boolean' } as JSONSchema7, [true, false]],
 		['number', { type: 'number' } as JSONSchema7, [1, 2.5]]
-	])('should give a %s field the key its option is listed under', (_, schema, values) => {
+	])('should give a %s field the key its legacy-keyed option is listed under', (_, schema, values) => {
 		const options = values.map(value => ({ label: String(value), value }));
-		const dropdownOptions = buildDropdownOptions({ schema, options });
+		const dropdownOptions = buildDropdownOptions({ schema, options, legacyKeys: true });
 
 		for (const value of values) {
 			expect(dropdownOptions).toHaveProperty([toOptionKey(processValue(schema, value)) as string]);
@@ -157,15 +165,21 @@ describe('toOptionKey', () => {
 describe('buildDropdownOptions', () => {
 	const schema: JSONSchema7 = { type: 'string' };
 
-	it('should key each option by its value', () => {
+	it('should give each core option a unique key and matching value', () => {
 		const options = [
 			{ label: 'A', value: 'a' },
 			{ label: 'B', value: 'b' }
 		];
 
 		expect(buildDropdownOptions({ schema, options })).toEqual({
-			a: { value: 'a', label: 'A', description: undefined, disabled: false },
-			b: { value: 'b', label: 'B', description: undefined, disabled: false }
+			'choice-0': { value: 'choice-0', label: 'A', description: undefined, disabled: false },
+			'choice-1': { value: 'choice-1', label: 'B', description: undefined, disabled: false }
+		});
+	});
+
+	it('keeps the raw option view for an existing display callback', () => {
+		expect(buildDropdownOptions({ schema, options: [{ label: 'North line', value: 'north-line' }], legacyKeys: true })).toEqual({
+			'north-line': { value: 'north-line', label: 'North line', description: undefined, disabled: false }
 		});
 	});
 
@@ -177,8 +191,8 @@ describe('buildDropdownOptions', () => {
 
 		const result = buildDropdownOptions({ schema, options, disabledOptions: ['b'] });
 
-		expect(result.a.disabled).toBe(false);
-		expect(result.b.disabled).toBe(true);
+		expect(result['choice-0'].disabled).toBe(false);
+		expect(result['choice-1'].disabled).toBe(true);
 	});
 
 	// normalizeEnums collapses a oneOf into an enum and moves the per-option descriptions to
@@ -192,14 +206,14 @@ describe('buildDropdownOptions', () => {
 
 		const result = buildDropdownOptions({ schema, options, descriptions: ['First', 'Second'] });
 
-		expect(result.a.description).toBe('First');
-		expect(result.b.description).toBe('Second');
+		expect(result['choice-0'].description).toBe('First');
+		expect(result['choice-1'].description).toBe('Second');
 	});
 
 	it('should fall back to the option schema description when none are supplied', () => {
 		const options = [{ label: 'A', value: 'a', schema: { description: 'From the schema' } }];
 
-		expect(buildDropdownOptions({ schema, options }).a.description).toBe('From the schema');
+		expect(buildDropdownOptions({ schema, options })['choice-0'].description).toBe('From the schema');
 	});
 
 	it('should fall back per option when only some descriptions are supplied', () => {
@@ -210,8 +224,8 @@ describe('buildDropdownOptions', () => {
 
 		const result = buildDropdownOptions({ schema, options, descriptions: ['', 'Second'] });
 
-		expect(result.a.description).toBe('From the schema');
-		expect(result.b.description).toBe('Second');
+		expect(result['choice-0'].description).toBe('From the schema');
+		expect(result['choice-1'].description).toBe('Second');
 	});
 
 	it('should prefer multiSubOptions when they are not empty', () => {

@@ -18,7 +18,7 @@ export const ToggleButtonExample: React.FC = () => (
 		<KvToggleButton icon={EIconName.Add} label="Option 1" value="option-1" />
 
 		{/*-- Only Icon --*/}
-		<KvToggleButton icon={EIconName.Add} value="option-1" />
+		<KvToggleButton icon={EIconName.Add} accessibleLabel="Add asset" value="option-1" />
 	</>
 );
 ```
