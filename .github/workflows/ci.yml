@@ -42,6 +42,11 @@ jobs:
             - name: 🏗️ Build all packages
               run: pnpm build:packages
 
+            # Stencil skips its type check on a build that writes src/components.d.ts, which every
+            # fresh checkout does. Must run after the build, which generates that file
+            - name: 🔎 Type-check core components
+              run: pnpm --filter @kelvininc/ui-components typecheck
+
             - name: 🧪 Run React tests
               run: pnpm --filter @kelvininc/react-ui-components test
 
@@ -77,12 +82,13 @@ jobs:
 
                   | Component | Status |
                   |-----------|---------|
-                  | CI (Lint + Test + Build + Storybook) | ${{ needs.ci.result == 'success' && '✅ Success' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
+                  | CI (Lint + Test + Build + Type Check + Storybook) | ${{ needs.ci.result == 'success' && '✅ Success' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
 
                   ## Testing Summary
                   - **Linting**: ${{ needs.ci.result == 'success' && '✅ Passed' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
                   - **Unit Tests**: ${{ needs.ci.result == 'success' && '✅ Passed' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
                   - **Package Build**: ${{ needs.ci.result == 'success' && '✅ Passed' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Type Check**: ${{ needs.ci.result == 'success' && '✅ Passed' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
                   - **Storybook Build**: ${{ needs.ci.result == 'success' && '✅ Passed' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
 
                   ---
