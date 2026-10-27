@@ -253,6 +253,7 @@ storybook:
 - **Deploys take turns.** Without the group, two deploys could overlap and one push fails with `cannot lock ref 'refs/heads/gh-pages'`.
 - **Set on the job, not the workflow.** A release or a `dev` validation run is never held behind a deploy, and is never the pending run that gets replaced. A pending pre-release still waits for the whole master run, deploy included.
 - **Replacing a pending deploy loses nothing.** Each deploy checks out and builds the latest `master` and `dev`, so the newer one covers the older one. The replaced job shows as cancelled, and the summary reports it as replaced.
+- **Branch tips, not the event's commit.** The job checks out `ref: dev`. Without a `ref`, `actions/checkout` pins the branch that triggered the run to the event's commit, so a deploy that ran late, or a re-run of an old run, would publish stale docs for that branch.
 - The `storybook` job is the same in both files; change them together.
 
 ## 🧾 Summary Jobs
