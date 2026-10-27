@@ -77,6 +77,23 @@ export interface ITextField {
 	value?: string | number | null;
 	/** (optional) Defines the prefix that adds context to displayed values */
 	valuePrefix?: string;
+	/**
+	 * (optional) Shows `valuePrefix` while the field is empty too, beside the placeholder, so the field
+	 * stays named. By default the prefix shows only beside a value. Default: false
+	 */
+	prefixWhenEmpty?: boolean;
+	/**
+	 * (optional) When the value is wider than the field, hovering scrolls it to the end so it can be
+	 * read whole, and leaving scrolls it back to the start. Never while the field is focused, and
+	 * never under `prefers-reduced-motion`. Default: false
+	 */
+	scrollOnHover?: boolean;
+	/**
+	 * (optional) Focusing the field puts the caret after the last character, wherever the click
+	 * lands, and scrolls the value to its end. Meant for fields where the next keystroke usually
+	 * continues the value. Default: false
+	 */
+	caretAtEndOnFocus?: boolean;
 	/** (optional) Text to display inside a badge on the right side of the displayed value */
 	badge?: string;
 	/** (optional) Text field is readonly */
