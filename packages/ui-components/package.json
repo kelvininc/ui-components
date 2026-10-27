@@ -90,7 +90,8 @@
 		"eslint:lint": "eslint src --ext .js,.jsx,.ts,.tsx --quiet --cache --fix",
 		"stylelint:check": "stylelint \"./**/*.{css,scss,sass}\"",
 		"stylelint:lint": "stylelint \"./**/*.{css,scss,sass}\" --fix",
-		"validate": "pnpm lint && pnpm test && pnpm build"
+		"typecheck": "tsc --noEmit",
+		"validate": "pnpm lint && pnpm test && pnpm build && pnpm typecheck"
 	},
 	"dependencies": {
 		"@floating-ui/dom": "^1.5.4",

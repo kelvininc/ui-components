@@ -60,7 +60,8 @@ graph TD
     B --> C[lint]
     C --> D[test]
     D --> E[build:packages]
-    E --> F[storybook:build]
+    E --> T[typecheck ui-components]
+    T --> F[storybook:build]
     F --> G[summary]
     G --> H[End]
 ```
@@ -123,12 +124,13 @@ graph TD
 
 ```yaml
 Jobs:
-├── ci         # Lint + Test + Build packages + Build storybook
+├── ci         # Lint + Test + Build packages + Type-check + Build storybook
 └── summary    # Writes Pull Request Summary to $GITHUB_STEP_SUMMARY (if: always())
 ```
 
 **Why this approach?**
 - **Full validation**: Every PR runs the same lint → test → build → storybook pipeline that feeds the publishing workflows, catching regressions early.
+- **Separate type check**: Stencil skips its type check on any build that writes `src/components.d.ts`, and every fresh checkout writes it, so `pnpm build:packages` alone passes with type errors in it. The `typecheck` step (`tsc --noEmit`) runs after the build, which generates that file.
 - **Reuse of `node-setup`**: Consistent pnpm, Node, and Puppeteer Chrome caching across all workflows.
 - **Matrix-ready**: Matrix definition makes it straightforward to expand OS/Node coverage later.
 - **Summary always runs**: `summary` uses `if: always()` so the report is produced even when `ci` fails.
