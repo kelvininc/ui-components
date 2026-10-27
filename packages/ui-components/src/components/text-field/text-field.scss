@@ -11,6 +11,7 @@ $input-text-offset-y: -1px;
 	 * @prop --input-height-small: Text Field's height when size is small.
 	 * @prop --input-gap-x: Horizontal gap between input elements.
 	 * @prop --input-prefix-spacing-x: Horizontal spacing for value prefix.
+	 * @prop --input-prefix-max-width: The most of the field's width the left side (slotted content, icon and value prefix) takes when a prefix shows; a longer prefix is cut with an ellipsis. Needs the field to have a definite width.
 	 * @prop --input-gap-y: Vertical gap between input container sections.
 	 * @prop --input-padding-x-large: Horizontal padding when size is large.
 	 * @prop --input-padding-x-small: Horizontal padding when size is small.
@@ -52,6 +53,7 @@ $input-text-offset-y: -1px;
 	--input-height-small: var(--input-height-compact);
 	--input-gap-x: var(--input-gap-vertical-default);
 	--input-prefix-spacing-x: var(--input-gap-vertical-small);
+	--input-prefix-max-width: 70%;
 	--input-gap-y: var(--input-gap-horizontal-horizontal);
 	--input-padding-x-large: var(--input-padding-x-regular);
 	--input-padding-x-small: var(--input-padding-x-compact);
@@ -159,6 +161,11 @@ input {
 	@include ellipsis;
 	padding: 0;
 
+	// Scrolling a long value into view on hover (`scrollOnHover`): no ellipsis over what it reveals
+	&.hover-scrolling {
+		text-overflow: clip;
+	}
+
 	&::placeholder {
 		color: var(--text-color-input-default);
 	}
@@ -247,6 +254,7 @@ input {
 		margin-right: var(--input-gap-x);
 
 		&.has-value-prefix {
+			max-width: var(--input-prefix-max-width);
 			margin-right: var(--input-prefix-spacing-x);
 		}
 
@@ -266,12 +274,17 @@ input {
 			}
 		}
 
+		.value-prefix-tooltip {
+			min-width: 0;
+			max-width: 100%;
+		}
+
 		.value-prefix {
 			// Same offset as `.resize-input`, so the prefix sits on the value's baseline
 			position: relative;
 			top: $input-text-offset-y;
-			white-space: nowrap;
 
+			@include ellipsis;
 			@include body-m-semibold;
 		}
 	}
