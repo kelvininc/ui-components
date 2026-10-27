@@ -15,7 +15,7 @@ jobs:
                 os: [ubuntu-24.04]
                 node: [24.x]
 
-        name: Publish Storybook (${{ matrix.os }} / Node.js ${{ matrix.node }})
+        name: Lint, Test & Build (${{ matrix.os }} / Node.js ${{ matrix.node }})
         runs-on: ${{ matrix.os }}
         steps:
             - name: Checkout repository
@@ -45,6 +45,34 @@ jobs:
             - name: Test React
               run: pnpm --filter @kelvininc/react-ui-components test
 
+    # Same job as in publish-master.yml
+    storybook:
+        needs: [publish]
+        strategy:
+            matrix:
+                os: [ubuntu-24.04]
+                node: [24.x]
+
+        name: Publish Alpha & Master Storybook (${{ matrix.os }} / Node.js ${{ matrix.node }})
+        runs-on: ${{ matrix.os }}
+        permissions:
+            contents: write # to push gh-pages
+        # publish-dev and publish-master both force-push gh-pages, so their deploys take turns. A newer
+        # deploy may replace a pending one, which loses nothing: each builds the latest master and dev
+        concurrency:
+            group: storybook-pages
+            cancel-in-progress: false
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
+
+            - name: Setup Node.js ${{ matrix.node }}
+              uses: ./.github/actions/node-setup
+              with:
+                  node-version: ${{ matrix.node }}
+
             # Exactly one `--`: lerna hands what follows it to storybook-to-ghpages. Any extra `--`
             # reaches the deployer too, which then ignores every flag after it and deploys each call
             - name: Publish Alpha & Master Storybook to GitHub Pages
@@ -64,7 +92,7 @@ jobs:
     summary:
         name: Publish Dev Summary
         runs-on: ubuntu-24.04
-        needs: [publish]
+        needs: [publish, storybook]
         if: always()
         steps:
             - name: Generate workflow summary
@@ -81,11 +109,12 @@ jobs:
 
                   | Component | Status |
                   |-----------|---------|
-                  | Publish (Lint + Test + Build + Storybook Deploy) | ${{ needs.publish.result == 'success' && '✅ Success' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
+                  | Validate (Lint + Test + Build) | ${{ needs.publish.result == 'success' && '✅ Success' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
+                  | Storybook (Build master + dev + Deploy to GitHub Pages) | ${{ needs.storybook.result == 'success' && '✅ Success' || needs.storybook.result == 'skipped' && '⏭️ Skipped' || needs.storybook.result == 'cancelled' && '⏹️ Replaced by a newer deploy' || '❌ Failed' }} |
 
                   ## Deployment Summary
-                  - **Master Storybook**: ${{ needs.publish.result == 'success' && '💅 Deployed to /' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
-                  - **Alpha (Dev) Storybook**: ${{ needs.publish.result == 'success' && '💅 Deployed to /alpha' || needs.publish.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Master Storybook**: ${{ needs.storybook.result == 'success' && '💅 Deployed to /' || needs.storybook.result == 'skipped' && '⏭️ Skipped' || needs.storybook.result == 'cancelled' && '⏹️ Replaced by a newer deploy' || '❌ Failed' }}
+                  - **Alpha (Dev) Storybook**: ${{ needs.storybook.result == 'success' && '💅 Deployed to /alpha' || needs.storybook.result == 'skipped' && '⏭️ Skipped' || needs.storybook.result == 'cancelled' && '⏹️ Replaced by a newer deploy' || '❌ Failed' }}
 
                   ---
 
