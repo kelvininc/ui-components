@@ -174,7 +174,8 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NEW_VERSION: ${{ steps.version.outputs.new-version }}
 
-    # Same job as in publish-dev.yml. A job of its own, so a docs deploy never fails the release
+    # Same job as in publish-dev.yml. A failed deploy still fails the run, but the publish job stays
+    # green, and "Re-run failed jobs" redeploys the docs without touching the release
     storybook:
         needs: [publish]
         strategy:

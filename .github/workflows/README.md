@@ -197,7 +197,7 @@ After the publish step pushes the production `vX.Y.Z` tag, the workflow:
    > ⚠️ Base versions are compared with `sort -V`, which is **not** semver-aware for pre-release suffixes (it orders `1.3.0-alpha.0` *after* `1.3.0`). The workflow therefore strips the `-alpha.N` / `-beta.N` suffix and compares only the plain `X.Y.Z` base versions, which `sort -V` orders correctly (including `1.10.0 > 1.3.0`).
 
 **Why this approach?**
-- **Atomic release**: Versioning, building, publishing, GitHub release creation, and tag cleanup live in one job; a failure in any step halts the release. The docs deploy runs in its own job afterwards, so a Storybook failure can't mark a release that already shipped as failed.
+- **Atomic release**: Versioning, building, publishing, GitHub release creation, and tag cleanup live in one job; a failure in any step halts the release. The docs deploy runs in its own job afterwards. A failed deploy still fails the run, but the `publish` job and the summary's release rows stay green, and **Re-run failed jobs** redeploys the docs without re-running the release.
 - **Provenance**: Production packages are published with NPM provenance for supply-chain traceability.
 - **Discoverable releases**: Every production version gets a corresponding GitHub Release with generated notes, so the Releases page mirrors what is on NPM.
 - **Clean tag history**: Pre-release (`*-alpha.*` / `*-beta.*`) tags are pruned on each production release, keeping the tag list focused on shipped versions.
