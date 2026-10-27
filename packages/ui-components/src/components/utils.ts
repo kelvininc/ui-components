@@ -20,6 +20,11 @@ export const getCollapsedElement = (elements: ChildNode[]): HTMLElement | undefi
 
 	const [firstElement, ...siblings] = elements as HTMLElement[];
 
+	// A nested tooltip measures its own content
+	if (firstElement.nodeName === 'KV-TOOLTIP') {
+		return getCollapsedElement(siblings);
+	}
+
 	if (isOverflowEllipsis(firstElement as HTMLElement)) {
 		return firstElement;
 	}

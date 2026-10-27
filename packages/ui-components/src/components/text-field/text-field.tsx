@@ -3,7 +3,7 @@ import { isEmpty, isNil, merge } from 'lodash-es';
 import { EComponentSize } from '../../utils/types';
 import { EInputFieldType, EValidationState, ITextFieldEvents, ITextField } from './text-field.types';
 import { EIconName } from '../icon/icon.types';
-import { DEFAULT_TEXT_TOOLTIP_CONFIG } from './text-field.config';
+import { DEFAULT_TEXT_TOOLTIP_CONFIG, SCROLL_ON_HOVER_DELAY_IN_MS, SCROLL_ON_HOVER_SPEED_IN_PX_PER_S } from './text-field.config';
 import { ITooltip } from '../tooltip/tooltip.types';
 import { getValueAsString } from './text-field.utils';
 import { getUTF8StringLength } from '../../utils/string.helper';
@@ -20,6 +20,8 @@ import { HostAttributes, Method } from '@stencil/core/internal';
 })
 export class KvTextField implements ITextField, ITextFieldEvents {
 	private nativeInput?: HTMLInputElement;
+	private hoverScrollDelay?: ReturnType<typeof setTimeout>;
+	private hoverScrollFrame?: number;
 
 	@Element() el!: HTMLKvTextFieldElement;
 	/** @inheritdoc */
@@ -68,6 +70,12 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	@Prop({ reflect: true, mutable: true }) value?: string | number | null = '';
 	/** @inheritdoc */
 	@Prop({ reflect: true }) valuePrefix?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) prefixWhenEmpty: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) scrollOnHover: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) caretAtEndOnFocus: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) badge?: string;
 	/** @inheritdoc */
@@ -144,6 +152,13 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 	/** Text field focus state */
 	@State() focused = false;
 
+	@Watch('focused')
+	focusedChangeHandler(focused: boolean) {
+		if (!focused && this.scrollOnHover) {
+			this.stopHoverScroll(true);
+		}
+	}
+
 	/** @inheritdoc */
 	@Event() textChange: EventEmitter<string>;
 	/** @inheritdoc */
@@ -210,7 +225,86 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		this.textFieldFocus.emit((this.nativeInput as HTMLInputElement).value);
 
 		this.focused = true;
+		this.stopHoverScroll(false);
+
+		if (this.caretAtEndOnFocus) {
+			// After the browser has placed the caret where the pointer landed
+			setTimeout(() => this.moveCaretToEnd());
+		}
 	};
+
+	private moveCaretToEnd() {
+		const input = this.nativeInput;
+
+		if (!input || !this.focused) return;
+
+		const end = input.value.length;
+
+		try {
+			input.setSelectionRange(end, end);
+		} catch {
+			// Number, date and similar inputs have no text selection
+		}
+
+		input.scrollLeft = input.scrollWidth;
+	}
+
+	private onContainerMouseEnter = () => {
+		const input = this.nativeInput;
+
+		if (!this.scrollOnHover || this.focused || !input) return;
+		if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+
+		clearTimeout(this.hoverScrollDelay);
+		this.hoverScrollDelay = setTimeout(() => {
+			const distance = input.scrollWidth - input.clientWidth;
+
+			if (distance <= 0) return;
+
+			// The ellipsis would hide the very text the scroll brings into view
+			input.classList.add('hover-scrolling');
+
+			// Linear, at a reading pace: a longer value takes longer, never faster
+			const duration = (distance / SCROLL_ON_HOVER_SPEED_IN_PX_PER_S) * 1000;
+			const startedAt = performance.now();
+			const step = (now: number) => {
+				const progress = Math.min((now - startedAt) / duration, 1);
+				input.scrollLeft = distance * progress;
+
+				if (progress < 1) {
+					this.hoverScrollFrame = requestAnimationFrame(step);
+				}
+			};
+
+			this.hoverScrollFrame = requestAnimationFrame(step);
+		}, SCROLL_ON_HOVER_DELAY_IN_MS);
+	};
+
+	private onContainerMouseLeave = () => {
+		if (!this.scrollOnHover) return;
+
+		this.stopHoverScroll(!this.focused);
+	};
+
+	/** Stops a hover scroll; `rewind` puts the value back at its start. */
+	private stopHoverScroll(rewind: boolean) {
+		clearTimeout(this.hoverScrollDelay);
+
+		if (this.hoverScrollFrame !== undefined) {
+			cancelAnimationFrame(this.hoverScrollFrame);
+			this.hoverScrollFrame = undefined;
+		}
+
+		if (rewind && this.nativeInput) {
+			this.nativeInput.scrollLeft = 0;
+		}
+
+		this.nativeInput?.classList.remove('hover-scrolling');
+	}
+
+	disconnectedCallback() {
+		this.stopHoverScroll(false);
+	}
 
 	private updateAndEmitValue(newString: string) {
 		this.value = this.maxLength ? newString.substring(0, this.maxLength) : newString;
@@ -237,9 +331,19 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		return merge({}, DEFAULT_TEXT_TOOLTIP_CONFIG, this.tooltipConfig ?? {});
 	};
 
+	private getAccessibleName(): string | undefined {
+		// alpha has no `accessibleLabel`: a labelled field keeps no aria-label, as before
+		if (!isEmpty(this.label)) return undefined;
+
+		return isEmpty(this.valuePrefix) ? undefined : this.valuePrefix;
+	}
+
+	private hasVisiblePrefix = (value: string): boolean => !isEmpty(this.valuePrefix) && (!isEmpty(value) || this.prefixWhenEmpty);
+
 	render() {
 		const id = this.el.getAttribute('id');
 		const value = this.getValue();
+		const showPrefix = this.hasVisiblePrefix(value);
 
 		return (
 			<Host onClick={this.onHostClick} style={{ ...this.customStyle }}>
@@ -249,6 +353,8 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 						{!this.loading ? (
 							<div
 								part="input-container"
+								onMouseEnter={this.onContainerMouseEnter}
+								onMouseLeave={this.onContainerMouseLeave}
 								class={{
 									'input-container': true,
 									[`input-container--size-${this.size}`]: true,
@@ -265,7 +371,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 										'invalid': this.state === EValidationState.Invalid,
 										'disabled': this.inputDisabled,
 										'filled': !isEmpty(value),
-										'has-value-prefix': this.valuePrefix && !isEmpty(value)
+										'has-value-prefix': showPrefix
 									}}
 								>
 									<slot name="left-slot" />
@@ -280,7 +386,12 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 											}}
 										/>
 									)}
-									{value && this.valuePrefix && <div class="value-prefix">{this.valuePrefix}</div>}
+									{showPrefix && (
+										// A prefix cut to its share of the field shows in full on hover, and only then
+										<kv-tooltip class="value-prefix-tooltip" text={this.valuePrefix} position={DEFAULT_TEXT_TOOLTIP_CONFIG.position} truncate>
+											<div class="value-prefix">{this.valuePrefix}</div>
+										</kv-tooltip>
+									)}
 								</div>
 								<div class="resize-container">
 									{this.fitContent && (
@@ -294,6 +405,7 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 											type={this.type}
 											list={!isNil(this.examples) ? `examples_${id}` : undefined}
 											name={this.inputName}
+											aria-label={this.getAccessibleName()}
 											placeholder={this.placeholder}
 											disabled={this.inputDisabled}
 											max={this.max}
