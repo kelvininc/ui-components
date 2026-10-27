@@ -360,8 +360,14 @@ git tag -l --sort=-version:refname | grep -v '\-alpha'  # for beta channel
 #### 5. Storybook Deploy Problems
 ```bash
 # publish-dev and publish-master build two storybooks into ./gp and ./gp/alpha
-# then deploy with --existing-output-dir='./gp'. Make sure both dry-run builds
-# succeed before the final deploy, otherwise gh-pages will be partially updated.
+# with --dry-run, then deploy with --existing-output-dir='./gp'. Only that last
+# call pushes to gh-pages, so a failed build deploys nothing.
+#
+# Pass the flags after exactly one `--`:
+#   pnpm storybook:deploy -- --out='./gp' --dry-run
+# lerna forwards everything after it to storybook-to-ghpages. An extra `--` gets
+# forwarded as well, and the deployer then ignores every flag after it: each call
+# builds into a temporary directory and force-pushes it to gh-pages.
 ```
 
 #### 6. Missing / Empty Step Summary
