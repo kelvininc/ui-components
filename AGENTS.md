@@ -1,6 +1,19 @@
 # AI Agent Guide - Kelvin UI Components
 
+<<<<<<< HEAD
 This guide provides essential information for AI agents to effectively understand and work with the Kelvin UI Components monorepo.
+=======
+This guide holds the commands and the rules for working in the Kelvin UI Components monorepo. Step-by-step procedures are skills, and reference material is in `docs/`:
+
+- **`component-create` skill** — file structure, creating a component, changing an existing one
+- **`design-tokens` skill** — the token pipeline, naming, using tokens in component SCSS, legacy helpers to replace
+- **`react-tests` skill** — the React package's Vitest projects, Stencil mocks, browser-test helpers and where tests live
+- **`primitives-and-schema-form` skill** — rules for changing components others render, focus and accessible names, built-in labels, and SchemaForm
+- [docs/architecture.md](docs/architecture.md) — packages and build outputs, StencilJS concepts, configuration files, key directories, versioning and deployment
+- [docs/troubleshooting.md](docs/troubleshooting.md) — fixes for module-not-found, Storybook, type, test and pnpm problems
+
+The skills live in `.agents/skills/`, linked from `.claude/skills/` and `.codex/skills/`, so Claude Code and Codex both find them.
+>>>>>>> 39f401e (docs(agents): move the React test and primitive rules into skills)
 
 ## 📋 Project Overview
 
@@ -73,6 +86,7 @@ ui-components/
 ### Initial Setup
 
 ```bash
+<<<<<<< HEAD
 # Install dependencies (uses pnpm workspace)
 pnpm install
 
@@ -114,11 +128,21 @@ pnpm clean
 
 # Clean packages only
 pnpm clean:packages
+=======
+cd packages/ui-components && pnpm build         # also: pnpm test, pnpm test:watch, pnpm test -- kv-button, pnpm lint
+cd packages/ui-components && pnpm tokens:build  # after any change under tokens/
+cd packages/react-ui-components && pnpm build  # also: pnpm build:watch, pnpm test, pnpm test:browser (react-tests skill)
+cd apps/react-storybook && pnpm dev             # also: pnpm build
+```
+
+## ⚠️ Rules and gotchas
+>>>>>>> 39f401e (docs(agents): move the React test and primitive rules into skills)
 
 # Clean apps only
 pnpm clean:apps
 ```
 
+<<<<<<< HEAD
 ### Package-Specific Commands
 
 ```bash
@@ -554,6 +578,8 @@ corepack prepare pnpm@10.33.4 --activate
 - Use kebab-case for component names
 - React components drop the prefix in JSX: `<KvButton />` instead of `<kv-button>`
 
+=======
+>>>>>>> 39f401e (docs(agents): move the React test and primitive rules into skills)
 ## 🔄 Git Workflow
 
 ### Commit Messages
