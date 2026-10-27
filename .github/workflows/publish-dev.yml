@@ -63,9 +63,13 @@ jobs:
             group: storybook-pages
             cancel-in-progress: false
         steps:
+            # A branch by name: without `ref`, checkout pins the branch that triggered the run to the
+            # event's commit, so a deploy that runs late or is re-run would publish stale docs.
+            # master comes from the same fetch, also at its tip
             - name: Checkout repository
               uses: actions/checkout@v7
               with:
+                  ref: dev
                   fetch-depth: 0
 
             - name: Setup Node.js ${{ matrix.node }}
