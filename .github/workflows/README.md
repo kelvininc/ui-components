@@ -73,7 +73,8 @@ graph TD
     B --> C[lint]
     C --> D[test]
     D --> E[build:packages]
-    E --> F[Build master storybook → ./gp]
+    E --> S["storybook job (one deploy at a time)"]
+    S --> F[Build master storybook → ./gp]
     F --> G[Build dev storybook → ./gp/alpha]
     G --> H[Deploy combined output to gh-pages]
     H --> I[summary]
@@ -91,7 +92,8 @@ graph TD
     F --> G[tag vX.Y.Z on the pushed commit + lerna publish from-package → NPM]
     G --> H[Create GitHub Release for vX.Y.Z]
     H --> I["Remove pre-release tags &le; vX.Y.Z (*-alpha.* / *-beta.*)"]
-    I --> J[Build master storybook → ./gp]
+    I --> S["storybook job (one deploy at a time)"]
+    S --> J[Build master storybook → ./gp]
     J --> K[Build dev storybook → ./gp/alpha]
     K --> L[Deploy combined output to gh-pages]
     L --> M[summary]
@@ -139,11 +141,12 @@ Jobs:
 
 **Purpose**: Keeps the public storybook on GitHub Pages up to date with the `dev` (alpha) branch, alongside the latest `master` storybook.
 
-**Strategy**: **Single `publish` job** that validates and deploys both storybooks, followed by a `summary` job.
+**Strategy**: A **`publish` job** that validates the branch, a **`storybook` job** that deploys both storybooks, and a `summary` job.
 
 ```yaml
 Jobs:
-├── publish    # Lint + Test + Build + Deploy master/alpha storybooks to gh-pages
+├── publish    # Lint + Test + Build
+├── storybook  # Build master + dev storybooks, deploy them to gh-pages (same job as publish-master)
 └── summary    # Writes Publish Dev Summary to $GITHUB_STEP_SUMMARY (if: always())
 ```
 
@@ -156,19 +159,21 @@ Jobs:
 
 **Purpose**: Creates production releases from `master` and redeploys the storybook site.
 
-**Strategy**: **Sequential `publish` job** covering versioning, publishing, and docs, followed by a `summary` job that surfaces the released version.
+**Strategy**: **Sequential `publish` job** covering versioning and publishing, a **`storybook` job** that redeploys the docs once the release is out, and a `summary` job that surfaces the released version.
 
 ```yaml
 Jobs:
 ├── publish    # Lint + Test + lerna version (from latest tag) + build + tag + lerna publish from-package
-│              # + GitHub Release + pre-release tag cleanup + storybook deploy
+│              # + GitHub Release + pre-release tag cleanup
 │              # Exposes outputs: new-version, release-tag (read from lerna.json after version)
+├── storybook  # Build master + dev storybooks, deploy them to gh-pages (same job as publish-dev)
 └── summary    # Writes Release Summary (including version/tag) to $GITHUB_STEP_SUMMARY (if: always())
 ```
 
 **Permissions**:
 - `contents: write` — required to push the release tag, **create the GitHub Release**, and **delete pre-release tags**.
 - `id-token: write` — required for **NPM provenance** via OIDC (`NPM_CONFIG_PROVENANCE: true`).
+- The `storybook` job overrides both with `contents: write` alone, which is all a `gh-pages` push needs.
 
 **No release commit on `master`**:
 
@@ -192,7 +197,7 @@ After the publish step pushes the production `vX.Y.Z` tag, the workflow:
    > ⚠️ Base versions are compared with `sort -V`, which is **not** semver-aware for pre-release suffixes (it orders `1.3.0-alpha.0` *after* `1.3.0`). The workflow therefore strips the `-alpha.N` / `-beta.N` suffix and compares only the plain `X.Y.Z` base versions, which `sort -V` orders correctly (including `1.10.0 > 1.3.0`).
 
 **Why this approach?**
-- **Atomic release**: Versioning, building, publishing, GitHub release creation, tag cleanup, and docs deployment live in one job; a failure in any step halts the release.
+- **Atomic release**: Versioning, building, publishing, GitHub release creation, and tag cleanup live in one job; a failure in any step halts the release. The docs deploy runs in its own job afterwards, so a Storybook failure can't mark a release that already shipped as failed.
 - **Provenance**: Production packages are published with NPM provenance for supply-chain traceability.
 - **Discoverable releases**: Every production version gets a corresponding GitHub Release with generated notes, so the Releases page mirrors what is on NPM.
 - **Clean tag history**: Pre-release (`*-alpha.*` / `*-beta.*`) tags are pruned on each production release, keeping the tag list focused on shipped versions.
@@ -234,12 +239,28 @@ concurrency:
 
 > ℹ️ **Queue depth**: A concurrency group keeps at most one running and one pending run. If several release runs pile up behind an in-flight one, only the newest pending run is retained; older pending runs are cancelled. In practice releases don't stack this quickly, but be aware a rapid burst of `alpha`/`beta` pushes during a long master release may collapse to the latest one. `publish-dev.yml` (storybook only) is intentionally left out of the group so docs previews are never blocked by a release.
 
+### Storybook deploys
+
+`publish-dev.yml` and `publish-master.yml` both force-push `gh-pages` from their `storybook` job. That job, and only that job, is in a second group:
+
+```yaml
+storybook:
+    concurrency:
+        group: storybook-pages
+        cancel-in-progress: false
+```
+
+- **Deploys take turns.** Without the group, two deploys could overlap and one push fails with `cannot lock ref 'refs/heads/gh-pages'`.
+- **Set on the job, not the workflow.** A release or a `dev` validation run is never held behind a deploy, and is never the pending run that gets replaced. A pending pre-release still waits for the whole master run, deploy included.
+- **Replacing a pending deploy loses nothing.** Each deploy checks out and builds the latest `master` and `dev`, so the newer one covers the older one. The replaced job shows as cancelled, and the summary reports it as replaced.
+- The `storybook` job is the same in both files; change them together.
+
 ## 🧾 Summary Jobs
 
 All four workflows end with a `summary` job that:
 
 - Runs on `ubuntu-24.04`
-- Declares `needs: [<primary job>]` so it runs **after** the main job
+- Declares `needs` on the workflow's other jobs (`[publish, storybook]` in the two Storybook-deploying workflows) so it runs **after** them
 - Uses `if: always()` so the summary is written on success, failure, **and** cancelation
 - Appends a Markdown report to `$GITHUB_STEP_SUMMARY`, which GitHub renders on the workflow run page
 
@@ -372,7 +393,7 @@ git tag -l --sort=-version:refname | grep -v '\-alpha'  # for beta channel
 
 #### 6. Missing / Empty Step Summary
 ```bash
-# The summary job uses `if: always()` and `needs: [<primary job>]`.
+# The summary job uses `if: always()` and `needs` on the workflow's other jobs.
 # If no summary appears, check:
 # - The `needs` reference matches the actual job id (e.g. `ci`, `publish`).
 # - The primary job is not producing an `outputs` name that differs from the summary
