@@ -1,4 +1,5 @@
 import { setThemeMode, StyleMode } from '@kelvininc/ui-components';
+import type { UiSchema } from '@rjsf/utils';
 import React from 'react';
 import { describe, expect, it } from 'vitest';
 import { userEvent } from 'vitest/browser';
@@ -8,6 +9,9 @@ import { KvSchemaForm } from '../../SchemaForm';
 import {
 	ADDITIONAL_LAYOUT_SHAPES,
 	ARRAY_SHAPES,
+	CONTENT_SIZED_INLINE_SCHEMA,
+	CONTENT_SIZED_INLINE_SHAPES,
+	NESTED_INLINE_SCHEMA,
 	FIELDSET_BACKGROUND_SHAPES,
 	FOCUS_EDITING_FLAGS,
 	L1_FIELDSET_SHAPES,
@@ -17,6 +21,7 @@ import {
 } from '../../test-utils/matrix';
 import styles from '../../SchemaForm.module.scss';
 import itemStyles from '../../Templates/ArrayFieldItemTemplate/ArrayFieldItemTemplate.module.scss';
+import type { SchemaFormContext } from '../../types';
 
 const focusedControl = () => {
 	let active = document.activeElement;
@@ -132,6 +137,55 @@ describe.each([320, 800])('configured widths in a %ipx container', width => {
 		await whenAllKelvinReady(screen.container);
 		const object = screen.container.querySelector('[data-schema-form-object]')!;
 		for (const row of object.querySelectorAll(':scope > [data-schema-form-row]')) expect(row.getBoundingClientRect().width).toBe(Math.min(width, 640));
+	});
+});
+
+// Stands in for a toolbar item: a flex item with no width sizes to the form's content
+const renderInContentSizedRow = async (uiSchema: UiSchema, formContext?: SchemaFormContext) => {
+	const screen = await render(
+		<div style={{ display: 'flex', width: 1200 }}>
+			<div>
+				<KvSchemaForm schema={CONTENT_SIZED_INLINE_SCHEMA} uiSchema={{ ...uiSchema, 'ui:submitButtonOptions': { norender: true } }} formContext={formContext} />
+			</div>
+		</div>
+	);
+	await whenAllKelvinReady(screen.container);
+	return screen.container.querySelector<HTMLElement>(`.${styles.FormContainer}`)!;
+};
+
+describe.each(CONTENT_SIZED_INLINE_SHAPES)('inline form in a content-sized row: $name', row => {
+	it('keeps every field on one row inside the form', async () => {
+		const form = await renderInContentSizedRow({ 'ui:inline': true }, row.formContext);
+		const rows = Array.from(form.querySelectorAll(':scope [data-schema-form-inline] > [data-schema-form-row]'));
+		expect(rows).toHaveLength(3);
+		expect(new Set(rows.map(field => field.getBoundingClientRect().top)).size).toBe(1);
+		expect(form.getBoundingClientRect().right).toBeGreaterThanOrEqual(rows[2].getBoundingClientRect().right);
+	});
+});
+
+it('keeps the schema-form container on a stacked form in a content-sized row', async () => {
+	const form = await renderInContentSizedRow({});
+	expect(getComputedStyle(form).containerType).toBe('inline-size');
+});
+
+it('keeps the schema-form container on a stacked form with an inline object', async () => {
+	const screen = await render(<KvSchemaForm schema={NESTED_INLINE_SCHEMA} uiSchema={{ connection: { 'ui:options': { inline: true } } }} />);
+	await whenAllKelvinReady(screen.container);
+	expect(getComputedStyle(screen.container.querySelector(`.${styles.FormContainer}`)!).containerType).toBe('inline-size');
+});
+
+describe.each([200, 600])('inline form in a %ipx container', width => {
+	it('wraps its fields inside the form', async () => {
+		const screen = await render(
+			<div style={{ width }}>
+				<KvSchemaForm schema={CONTENT_SIZED_INLINE_SCHEMA} uiSchema={{ 'ui:inline': true }} />
+			</div>
+		);
+		await whenAllKelvinReady(screen.container);
+		const form = screen.container.querySelector(`.${styles.FormContainer}`)!.getBoundingClientRect();
+		expect(form.width).toBe(width);
+		for (const row of screen.container.querySelectorAll('[data-schema-form-inline] > [data-schema-form-row]'))
+			expect(row.getBoundingClientRect().right).toBeLessThanOrEqual(form.right);
 	});
 });
 
