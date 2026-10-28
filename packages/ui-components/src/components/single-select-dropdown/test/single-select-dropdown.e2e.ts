@@ -808,5 +808,31 @@ describe('Single Select Dropdown (end-to-end)', () => {
 			expect(texts).toEqual([DISPLAY_PREFIX]);
 			expect(tooltipBottom).toBeLessThanOrEqual(fieldTop);
 		});
+
+		it('opens only the prefix tooltip when the pointer moves onto it from a value scrolling into view', async () => {
+			dropdownElement.setProperty('options', {
+				'option-1': { label: 'opc.tcp://plant-01.example.com:4840/objects/line-3/pump-7/discharge-pressure', value: 'option-1' }
+			});
+			dropdownElement.setProperty('inputConfig', { tooltipConfig: { text: 'Full selection' }, scrollOnHover: true });
+			await page.waitForChanges();
+
+			const valueCenter = await page.evaluate((selector: string) => {
+				const input = document.querySelector(selector).shadowRoot.querySelector('input').getBoundingClientRect();
+
+				return { x: input.x + input.width / 2, y: input.y + input.height / 2 };
+			}, TRIGGER_SELECTOR);
+			await page.mouse.move(valueCenter.x, valueCenter.y);
+			// Past the hover scroll's delay, so the value has lost its ellipsis
+			await page.waitForFunction(
+				(selector: string) => document.querySelector(selector).shadowRoot.querySelector('input').classList.contains('hover-scrolling'),
+				{},
+				TRIGGER_SELECTOR
+			);
+
+			await hoverPrefix();
+
+			const texts = await page.evaluate(() => Array.from(document.querySelectorAll('kv-tooltip-text')).map(tooltip => tooltip.getAttribute('text')));
+			expect(texts).toEqual([DISPLAY_PREFIX]);
+		});
 	});
 });
