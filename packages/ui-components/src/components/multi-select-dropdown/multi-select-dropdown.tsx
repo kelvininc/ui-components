@@ -12,7 +12,8 @@ import { DEFAULT_SEARCH_DEBOUNCE_IN_MS } from '../select-multi-options/select-mu
 import { getClassMap } from '../../utils/css-class.helper';
 import { ComputePositionConfig } from '@floating-ui/dom';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
-import { merge } from 'lodash-es';
+import { isOwnOpenStateRequest } from '../dropdown/dropdown.helper';
+import { isEmpty, merge } from 'lodash-es';
 
 @Component({
 	tag: 'kv-multi-select-dropdown',
@@ -22,6 +23,8 @@ import { merge } from 'lodash-es';
 export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelectDropdownEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) placeholder?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true, mutable: true }) isOpen?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) loading?: boolean = false;
 	/** @inheritdoc */
@@ -125,7 +128,6 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@State() _selectionDisplayValue: string | undefined;
 	@State() _searchValue: string;
 	@State() _badgeLabel: string | undefined = this.badge;
-	@State() _isOpen: boolean = false;
 
 	/** The Host's element reference */
 	@Element() el: HTMLKvMultiSelectDropdownElement;
@@ -141,6 +143,15 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	labelValueHandler() {
 		this.calculateLabelValue();
 		this.calculateBadgeValue();
+	}
+
+	@Watch('isOpen')
+	isOpenChangeHandler(isOpen: boolean) {
+		// Closed through the prop, the dropdown drops its search as its own close does. Its own close has
+		// already done so by the time it sets the prop, which makes this a no-op.
+		if (!isOpen) {
+			this.resetOnClose();
+		}
 	}
 
 	/**
@@ -192,8 +203,18 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		this.dismiss.emit();
 	};
 
-	private onOpenStateChange = ({ detail: state }: CustomEvent<boolean>): void => {
-		this.setOpenState(state);
+	private onOpenStateChange = (event: CustomEvent<boolean>): void => {
+		// A dropdown or a toggle tip slotted into the trigger emits an `openStateChange` of its own, which
+		// bubbles through this one: it is neither acted on here nor stopped below.
+		if (!isOwnOpenStateRequest(event, this.dropdownRef)) {
+			return;
+		}
+
+		// This dropdown's own request comes from its `kv-dropdown-base` and bubbles through it too: stopped
+		// here, a host listening on this element is told the open state once, by the emit below, and not twice.
+		event.stopPropagation();
+
+		this.setOpenState(event.detail);
 	};
 
 	private setOpenState = (state: boolean): void => {
@@ -206,7 +227,16 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		}
 
 		this.clearHighlightedOption();
-		this._isOpen = state;
+		this.isOpen = state;
+		this.openStateChange.emit(state);
+	};
+
+	private resetOnClose = (): void => {
+		if (!isEmpty(this._searchValue)) {
+			this.setSearch('');
+		}
+
+		this.clearHighlightedOption();
 	};
 
 	private setSearch = (searchTerm: string): void => {
@@ -289,7 +319,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 				<kv-dropdown
 					ref={element => (this.dropdownRef = element)}
 					inputConfig={this.getInputConfig()}
-					isOpen={this._isOpen}
+					isOpen={this.isOpen}
 					onOpenStateChange={this.onOpenStateChange}
 					disabled={this.disabled}
 					options={this.dropdownOptions}
@@ -320,7 +350,7 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 							maxWidth={this.getMaxWidth()}
 							minWidth={this.getMinWidth()}
 							counter={this.counter}
-							shortcuts={this._isOpen && this.shortcuts}
+							shortcuts={this.isOpen && this.shortcuts}
 							showShortcuts={this.showShortcuts}
 							maxSelectable={this.maxSelectable}
 							rangeSelection={this.rangeSelection}
