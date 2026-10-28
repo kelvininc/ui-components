@@ -47,3 +47,48 @@ export const buildFooterConfig = (steps?: IWizardStep[], currentStep?: number, c
 		progressPercentage: currentStep * (100 / (steps.length - 1))
 	};
 };
+
+/**
+ * `<input>` types Enter does nothing to, so they leave it to the wizard. Every other type takes it, either to
+ * activate the control — a button, a file or a colour chooser — or to confirm the value typed into it.
+ */
+const PASSIVE_INPUT_TYPES = ['checkbox', 'radio', 'range', 'hidden'];
+
+/**
+ * Roles of controls that take Enter for themselves: a field confirming its value, or a dropdown driving its
+ * own list, as much as a button. Every field and dropdown in this library renders a native control
+ * underneath, which the checks on tag names already find in the composed path; a role is what a custom
+ * trigger goes by, as one slotted into a `kv-dropdown`.
+ */
+const ENTER_OWNER_ROLES = ['button', 'textbox', 'searchbox', 'combobox', 'listbox', 'spinbutton'];
+
+// `role` is matched case-insensitively, and holds a fallback list when the first role isn't supported
+const hasEnterOwnerRole = (element: HTMLElement | null): boolean =>
+	(element?.getAttribute?.('role') ?? '')
+		.toLowerCase()
+		.split(/\s+/)
+		.some(role => ENTER_OWNER_ROLES.includes(role));
+
+/**
+ * Whether this node takes an Enter for itself, either to activate it — a button, a link, a summary — or to
+ * confirm the value typed into a field. A wizard leaves such an Enter alone instead of advancing its step,
+ * so an inline editor inside a step doesn't have to stop the key in the capture phase. A control Enter does
+ * nothing to, as a checkbox or a radio, doesn't own it.
+ */
+export const ownsEnterKey = (node: unknown): boolean => {
+	const element = node as HTMLElement | null;
+
+	if (element?.tagName === 'INPUT') {
+		return !PASSIVE_INPUT_TYPES.includes(((element as HTMLInputElement).type || 'text').toLowerCase());
+	}
+
+	return (
+		element?.tagName === 'TEXTAREA' ||
+		element?.tagName === 'SELECT' ||
+		element?.tagName === 'BUTTON' ||
+		element?.tagName === 'SUMMARY' ||
+		(element?.tagName === 'A' && element.hasAttribute?.('href')) ||
+		hasEnterOwnerRole(element) ||
+		element?.isContentEditable === true
+	);
+};
