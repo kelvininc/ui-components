@@ -104,13 +104,15 @@ Guides follow the inline-start edge in RTL.
 The form's available width controls indentation. Below 480px, guides use 8px padding. Each owned guide
 or entry frame adds one depth. Beyond six boundaries, default guides add no inline-start padding and
 default frames add no inline padding; their borders and vertical spacing remain. At 480px and above,
-normal padding applies at all depths. Inner lists continue the count, and each SchemaForm starts at zero.
+normal padding applies at all depths. An inline root form is not a width container, so it always uses the
+480px-and-above padding. Inner lists continue the count, and each SchemaForm starts at zero.
 Explicit fieldsets and custom templates retain their own padding. Nested tables keep their independent width query.
 An explicit item fieldset with no header on its top border, such as a scalar item or an object item
 whose heading is hidden and that has no menu, pads all four sides evenly.
 
-Fields have a 20px vertical gap, and configured field widths fit the
-available space. Additional-property key/value rows wrap in narrow containers, and their enabled remove
+Fields have a 20px vertical gap. Stacked objects cap configured field widths at the available space;
+inline objects apply them uncapped and wrap onto new lines, so an inline root form can sit in a
+toolbar or popover that sizes to its fields. An inline min-width wider than the form overflows it. Additional-property key/value rows wrap in narrow containers, and their enabled remove
 buttons participate in Tab order. The internal `data-schema-form-*` markers identify layout elements
 independently of generated CSS module names.
 
