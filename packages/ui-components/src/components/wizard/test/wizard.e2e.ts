@@ -79,7 +79,7 @@ describe('wizard keyboard ownership', () => {
 		{ step: 0, name: 'Next', event: 'goToStep' },
 		{ step: 2, name: 'Complete', event: 'completeClick' }
 	])('activates $name once for a held Enter without submitting the form', async row => {
-		const page = await renderWizard('<form id="connector-form"><input id="owner" aria-label="Connector name" /></form>', row.step);
+		const page = await renderWizard('<form id="connector-form"><div id="owner" tabindex="0">Connector name</div></form>', row.step);
 		const wizard = await page.find('kv-wizard');
 		const activation = await wizard.spyOnEvent(row.event);
 		const form = await page.find('#connector-form');
@@ -95,8 +95,8 @@ describe('wizard keyboard ownership', () => {
 		expect(submit).not.toHaveReceivedEvent();
 	});
 
-	it.each(ACTIVATION_MODIFIERS)('leaves %s + Enter from an input to a page shortcut', async modifier => {
-		const page = await renderWizard('<input id="owner" aria-label="Connector name" />');
+	it.each(ACTIVATION_MODIFIERS)('leaves %s + Enter from a step to a page shortcut', async modifier => {
+		const page = await renderWizard('<div id="owner" tabindex="0">Connector name</div>');
 		const wizard = await page.find('kv-wizard');
 		const goToStep = await wizard.spyOnEvent('goToStep');
 		await page.evaluate(() =>
@@ -153,7 +153,7 @@ describe('wizard keyboard ownership', () => {
 			{ name: 'pending', props: { currentStepState: undefined } }
 		].flatMap(row => [0, MOCK_STEPS.length - 1].map(step => ({ ...row, step })))
 	)('keeps a $name step $step from advancing or completing', async row => {
-		const page = await renderWizard('<input id="owner" aria-label="Connector name" />', row.step, row.props);
+		const page = await renderWizard('<div id="owner" tabindex="0">Connector name</div>', row.step, row.props);
 		const wizard = await page.find('kv-wizard');
 		const goToStep = await wizard.spyOnEvent('goToStep');
 		const complete = await wizard.spyOnEvent('completeClick');
@@ -169,6 +169,64 @@ describe('wizard keyboard ownership', () => {
 		expect(goToStep).not.toHaveReceivedEvent();
 		expect(complete).not.toHaveReceivedEvent();
 		expect(await page.evaluate(() => document.body.dataset.prevented)).toBe(row.name === 'pending' ? 'true' : 'false');
+	});
+
+	it('leaves Enter in a form field to the form it submits, without advancing the wizard', async () => {
+		const page = await renderWizard('<form id="connector-form"><input id="owner" aria-label="Connector name" /></form>');
+		const wizard = await page.find('kv-wizard');
+		const goToStep = await wizard.spyOnEvent('goToStep');
+		const form = await page.find('#connector-form');
+		const submit = await form.spyOnEvent('submit');
+		await page.evaluate(() => document.querySelector('#connector-form').addEventListener('submit', event => event.preventDefault()));
+		await page.focus('#owner');
+		await page.keyboard.press('Enter');
+		await page.waitForChanges();
+
+		expect(goToStep).not.toHaveReceivedEvent();
+		expect(submit).toHaveReceivedEventTimes(1);
+	});
+
+	it("leaves Enter on a closed dropdown's trigger to the dropdown, without advancing the wizard", async () => {
+		const page = await renderWizard('<kv-multi-select-dropdown id="owner"></kv-multi-select-dropdown>');
+		const wizard = await page.find('kv-wizard');
+		const goToStep = await wizard.spyOnEvent('goToStep');
+		const dropdown = await page.find('kv-multi-select-dropdown');
+		dropdown.setProperty('options', { 'option-1': { label: 'Option 1', value: 'option-1' } });
+		await page.waitForChanges();
+		await page.evaluate(() => document.querySelector<HTMLKvTextFieldElement>('kv-multi-select-dropdown kv-text-field#dropdown-input').focusInput());
+
+		await page.keyboard.press('Enter');
+		await page.waitForChanges();
+
+		// A trigger is a read-only text field that doesn't open its list on Enter, so the key does nothing at
+		// all here. The wizard no longer advancing on it is the point: KFE-3488
+		expect(goToStep).not.toHaveReceivedEvent();
+		expect(await dropdown.getProperty('isOpen')).toBe(false);
+	});
+
+	it("leaves Enter in a multiselect's search field to the dropdown, without advancing the wizard", async () => {
+		const page = await renderWizard('<kv-multi-select-dropdown id="owner" min-search-options="0" search-debounce="0"></kv-multi-select-dropdown>');
+		const wizard = await page.find('kv-wizard');
+		const goToStep = await wizard.spyOnEvent('goToStep');
+		const dropdown = await page.find('kv-multi-select-dropdown');
+		dropdown.setProperty('options', { 'option-1': { label: 'Option 1', value: 'option-1' } });
+		await page.waitForChanges();
+		await (await page.find('kv-multi-select-dropdown kv-text-field#dropdown-input')).click();
+		await page.waitForChanges();
+		// The dropdown focuses its search field on a timer, so the key only lands there once it has
+		await page.waitForFunction(() => {
+			for (let element = document.activeElement; element !== null; element = element.shadowRoot?.activeElement ?? null) {
+				if (element.tagName === 'KV-SEARCH') return true;
+			}
+
+			return false;
+		});
+
+		await page.keyboard.press('Enter');
+		await page.waitForChanges();
+
+		expect(goToStep).not.toHaveReceivedEvent();
+		expect(await dropdown.getProperty('isOpen')).toBe(true);
 	});
 
 	it('leaves Enter uncanceled before a footer can initialize', async () => {
