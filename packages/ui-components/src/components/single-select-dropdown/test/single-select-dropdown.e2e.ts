@@ -524,8 +524,6 @@ describe('Single Select Dropdown (end-to-end)', () => {
 	});
 
 	describe('when escape is pressed with the list open', () => {
-		const getOwnOpenStates = (spy: EventSpy): boolean[] => spy.events.filter(({ target }) => target.tagName === 'KV-SINGLE-SELECT-DROPDOWN').map(({ detail }) => detail);
-
 		beforeEach(async () => {
 			await setUpDropdown();
 		});
@@ -539,7 +537,11 @@ describe('Single Select Dropdown (end-to-end)', () => {
 
 			expect(await isDropdownOpen()).toBe(false);
 			expect(await isVisible(PANEL_SELECTOR)).toBe(false);
-			expect(getOwnOpenStates(openStateChangeSpy)).toEqual([true, false]);
+			// Only the dropdown's own: the request its kv-dropdown-base bubbles through it stops there
+			expect(openStateChangeSpy.events.map(({ target, detail }) => [target.tagName, detail])).toEqual([
+				['KV-SINGLE-SELECT-DROPDOWN', true],
+				['KV-SINGLE-SELECT-DROPDOWN', false]
+			]);
 			expect(dismissSpy).toHaveReceivedEventTimes(0);
 		});
 
