@@ -70,6 +70,14 @@ describe('Wizard helper (unit tests)', () => {
 			expect(ownsEnterKey(createInput(type))).toBe(false);
 		});
 
+		it.each(['button', 'combobox'])('should give Enter to an input of a passive type with role %s', role => {
+			const toggle = createInput('checkbox');
+			toggle.setAttribute('role', role);
+			toggle.setAttribute('aria-pressed', 'false');
+
+			expect(ownsEnterKey(toggle)).toBe(true);
+		});
+
 		it.each([null, undefined, document.createElement('div'), document.createTextNode('step'), window])('should not give Enter to %p', node => {
 			expect(ownsEnterKey(node)).toBe(false);
 		});
