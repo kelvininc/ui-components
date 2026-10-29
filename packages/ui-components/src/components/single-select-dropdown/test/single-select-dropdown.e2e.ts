@@ -5,6 +5,7 @@ import { ECreateOptionStatus } from '../../select-multi-options/select-multi-opt
 import type { ICreateOptionState } from '../../select-multi-options/select-multi-options.types';
 import type { ISelectSingleOptions } from '../single-select-dropdown.types';
 import { DEFAULT_PORTAL_Z_INDEX } from '../../../globals/config';
+import { DEFAULT_DELAY_CONFIG } from '../../tooltip/tooltip.config';
 
 // None of them matches the name typed to create an option, which leaves the add row as the only row
 const OPTIONS: ISelectSingleOptions = {
@@ -758,6 +759,80 @@ describe('Single Select Dropdown (end-to-end)', () => {
 			expect(await isDropdownOpen()).toBe(false);
 			expect(optionCreatedSpy).toHaveReceivedEventTimes(1);
 			expect(optionSelectedSpy).toHaveReceivedEventTimes(1);
+		});
+	});
+
+	describe('with a display prefix cut to its share of the field', () => {
+		const DISPLAY_PREFIX = 'Polling rate in seconds for every data stream:';
+
+		beforeEach(async () => {
+			page = await newE2EPage();
+			await page.setContent(`
+				<link rel="stylesheet" href="/assets/styles/style-dictionary/tokens/index.css" />
+				<div style="width: 240px; padding: 16px; margin-top: 120px">
+					<kv-single-select-dropdown display-prefix="${DISPLAY_PREFIX}" selected-option="option-1"></kv-single-select-dropdown>
+				</div>
+			`);
+			dropdownElement = await page.find('kv-single-select-dropdown');
+			dropdownElement.setProperty('options', OPTIONS);
+			// The field's own tooltip, which opens only when the value is cut
+			dropdownElement.setProperty('inputConfig', { tooltipConfig: { text: 'Full selection' } });
+			await page.waitForChanges();
+		});
+
+		const hoverPrefix = async () => {
+			const center = await page.evaluate((selector: string) => {
+				const prefix = document.querySelector(selector)?.shadowRoot?.querySelector('.value-prefix')?.getBoundingClientRect();
+
+				return prefix ? { x: prefix.x + prefix.width / 2, y: prefix.y + prefix.height / 2 } : null;
+			}, TRIGGER_SELECTOR);
+			expect(center).not.toBeNull();
+			await page.mouse.move(center.x, center.y);
+			// The tooltip is placed once its delay has passed
+			await new Promise(resolve => setTimeout(resolve, DEFAULT_DELAY_CONFIG + 200));
+		};
+
+		it('opens only the prefix tooltip, above the field', async () => {
+			await hoverPrefix();
+
+			const { texts, tooltipBottom, fieldTop } = await page.evaluate((selector: string) => {
+				const tooltips = Array.from(document.querySelectorAll('kv-tooltip-text'));
+
+				return {
+					texts: tooltips.map(tooltip => tooltip.getAttribute('text')),
+					tooltipBottom: tooltips[0]?.getBoundingClientRect().bottom,
+					fieldTop: document.querySelector(selector).shadowRoot.querySelector('.input-container').getBoundingClientRect().top
+				};
+			}, TRIGGER_SELECTOR);
+
+			expect(texts).toEqual([DISPLAY_PREFIX]);
+			expect(tooltipBottom).toBeLessThanOrEqual(fieldTop);
+		});
+
+		it('opens only the prefix tooltip when the pointer moves onto it from a value scrolling into view', async () => {
+			dropdownElement.setProperty('options', {
+				'option-1': { label: 'opc.tcp://plant-01.example.com:4840/objects/line-3/pump-7/discharge-pressure', value: 'option-1' }
+			});
+			dropdownElement.setProperty('inputConfig', { tooltipConfig: { text: 'Full selection' }, scrollOnHover: true });
+			await page.waitForChanges();
+
+			const valueCenter = await page.evaluate((selector: string) => {
+				const input = document.querySelector(selector).shadowRoot.querySelector('input').getBoundingClientRect();
+
+				return { x: input.x + input.width / 2, y: input.y + input.height / 2 };
+			}, TRIGGER_SELECTOR);
+			await page.mouse.move(valueCenter.x, valueCenter.y);
+			// Past the hover scroll's delay, so the value has lost its ellipsis
+			await page.waitForFunction(
+				(selector: string) => document.querySelector(selector).shadowRoot.querySelector('input').classList.contains('hover-scrolling'),
+				{},
+				TRIGGER_SELECTOR
+			);
+
+			await hoverPrefix();
+
+			const texts = await page.evaluate(() => Array.from(document.querySelectorAll('kv-tooltip-text')).map(tooltip => tooltip.getAttribute('text')));
+			expect(texts).toEqual([DISPLAY_PREFIX]);
 		});
 	});
 });

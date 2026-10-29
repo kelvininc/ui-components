@@ -317,7 +317,8 @@ describe('Text Field (end-to-end)', () => {
 			beforeEach(async () => {
 				pageErrors.length = 0;
 				await render('max-length="2"');
-				page.on('pageerror', error => pageErrors.push(error));
+				// Puppeteer types a page error as `unknown`; the page only ever throws `Error`s here
+				page.on('pageerror', error => pageErrors.push(error as Error));
 
 				await textFieldElement.type('123');
 				await settle();
@@ -327,6 +328,179 @@ describe('Text Field (end-to-end)', () => {
 				expect(await textFieldElement.getProperty('value')).toBe('12');
 				expect(pageErrors).toEqual([]);
 			});
+		});
+	});
+
+	describe('value prefix', () => {
+		const measure = async (attributes: string) => {
+			page = await newE2EPage();
+			await page.setContent(
+				`<div style="width: 240px"><kv-text-field value-prefix="Polling rate in seconds for every data stream:" fit-content="false" ${attributes}></kv-text-field></div>`
+			);
+			await page.waitForChanges();
+
+			return page.evaluate(() => {
+				const root = document.querySelector('kv-text-field')?.shadowRoot;
+				const field = root?.querySelector('.input-container')?.getBoundingClientRect().width ?? 0;
+				const prefix = root?.querySelector<HTMLElement>('.value-prefix');
+
+				return {
+					field,
+					prefix: prefix?.getBoundingClientRect().width ?? 0,
+					isCut: prefix ? prefix.scrollWidth > prefix.clientWidth : false
+				};
+			});
+		};
+
+		it('takes at most 70% of the field, cutting a longer prefix', async () => {
+			const { field, prefix, isCut } = await measure('value="30"');
+
+			expect(prefix).toBeGreaterThan(0);
+			expect(prefix).toBeLessThanOrEqual(field * 0.7);
+			expect(isCut).toBe(true);
+		});
+
+		const hoverPrefix = async () => {
+			const center = await page.evaluate(() => {
+				const prefix = document.querySelector('kv-text-field')?.shadowRoot?.querySelector('.value-prefix')?.getBoundingClientRect();
+
+				return prefix ? { x: prefix.x + prefix.width / 2, y: prefix.y + prefix.height / 2 } : null;
+			});
+			expect(center).not.toBeNull();
+			await page.mouse.move(center.x, center.y);
+			// Long enough for the tooltip's portal to mount on <body>
+			await new Promise(r => setTimeout(r, 600));
+
+			return page.evaluate(() => Array.from(document.querySelectorAll('kv-tooltip-text')).map(tooltip => tooltip.getAttribute('text')));
+		};
+
+		it('shows a cut prefix in full in a tooltip on hover', async () => {
+			await measure('value="30"');
+
+			expect(await hoverPrefix()).toEqual(['Polling rate in seconds for every data stream:']);
+		});
+
+		it('shows no tooltip over a prefix that fits', async () => {
+			page = await newE2EPage();
+			await page.setContent('<div style="width: 240px"><kv-text-field value-prefix="Rate:" fit-content="false" value="30"></kv-text-field></div>');
+			await page.waitForChanges();
+
+			expect(await hoverPrefix()).toEqual([]);
+		});
+
+		it('keeps its share while the field is empty with prefix-when-empty', async () => {
+			const { field, prefix } = await measure('prefix-when-empty placeholder="Mixed"');
+
+			expect(prefix).toBeGreaterThan(0);
+			expect(prefix).toBeLessThanOrEqual(field * 0.7);
+		});
+	});
+
+	describe('a value wider than the field', () => {
+		const LONG_VALUE = 'opc.tcp://plant-01.example.com:4840/objects/line-3/pump-7/discharge-pressure';
+
+		const render = async (attributes: string, value = LONG_VALUE) => {
+			page = await newE2EPage();
+			await page.setContent(
+				// The e2e page loads no design tokens, so the field gets its height here or has none to hover or click
+				`<div style="width: 240px"><kv-text-field style="--input-height-large: 40px; --input-height-small: 32px" fit-content="false" value="${value}" ${attributes}></kv-text-field></div>`
+			);
+			await page.waitForChanges();
+		};
+
+		const inputState = () =>
+			page.evaluate(() => {
+				const input = document.querySelector('kv-text-field')?.shadowRoot?.querySelector('input');
+
+				return {
+					scrollLeft: input?.scrollLeft ?? 0,
+					maxScroll: (input?.scrollWidth ?? 0) - (input?.clientWidth ?? 0),
+					caret: input?.selectionStart ?? null,
+					length: input?.value.length ?? 0,
+					textOverflow: input ? getComputedStyle(input).textOverflow : ''
+				};
+			});
+
+		const inputBox = () =>
+			page.evaluate(() => {
+				const box = document.querySelector('kv-text-field')?.shadowRoot?.querySelector('input')?.getBoundingClientRect();
+
+				return box ? { x: box.x, y: box.y + box.height / 2, width: box.width } : { x: 0, y: 0, width: 0 };
+			});
+
+		const wait = (ms: number) => new Promise(r => setTimeout(r, ms));
+
+		describe('with scroll-on-hover', () => {
+			it('scrolls to the end while hovered, and back to the start on leave', async () => {
+				await render('scroll-on-hover');
+				const box = await inputBox();
+
+				await page.mouse.move(box.x + box.width / 2, box.y);
+				// It scrolls at a reading pace, so a longer value takes longer: wait for the end
+				await page.waitForFunction(
+					() => {
+						const input = document.querySelector('kv-text-field')?.shadowRoot?.querySelector('input');
+
+						return !!input && input.scrollLeft > 0 && input.scrollLeft >= input.scrollWidth - input.clientWidth - 1;
+					},
+					{ timeout: 6000 }
+				);
+				const hovered = await inputState();
+
+				expect(hovered.maxScroll).toBeGreaterThan(0);
+				expect(hovered.scrollLeft).toBeGreaterThanOrEqual(hovered.maxScroll - 1);
+				// The ellipsis would hide the very text the scroll brings into view
+				expect(hovered.textOverflow).toBe('clip');
+
+				await page.mouse.move(0, 0);
+				await wait(100);
+				const left = await inputState();
+
+				expect(left.scrollLeft).toBe(0);
+				expect(left.textOverflow).toBe('ellipsis');
+			});
+
+			it('does not move a value that fits', async () => {
+				await render('scroll-on-hover', 'Pump 7');
+				const box = await inputBox();
+
+				await page.mouse.move(box.x + box.width / 2, box.y);
+				await wait(600);
+
+				expect((await inputState()).scrollLeft).toBe(0);
+			});
+		});
+
+		it('does not scroll on hover by default', async () => {
+			await render('');
+			const box = await inputBox();
+
+			await page.mouse.move(box.x + box.width / 2, box.y);
+			await wait(1500);
+
+			expect((await inputState()).scrollLeft).toBe(0);
+		});
+
+		it('puts the caret at the end on focus with caret-at-end-on-focus, wherever the click lands', async () => {
+			await render('caret-at-end-on-focus');
+
+			// A click in the middle of the value would put the caret there
+			await (await page.find('kv-text-field >>> input')).click();
+			await wait(100);
+			const { caret, length, scrollLeft, maxScroll } = await inputState();
+
+			expect(caret).toBe(length);
+			expect(scrollLeft).toBeGreaterThanOrEqual(maxScroll - 1);
+		});
+
+		it('leaves the caret where the click lands by default', async () => {
+			await render('');
+
+			await (await page.find('kv-text-field >>> input')).click();
+			await wait(100);
+			const { caret, length } = await inputState();
+
+			expect(caret).toBeLessThan(length);
 		});
 	});
 });
