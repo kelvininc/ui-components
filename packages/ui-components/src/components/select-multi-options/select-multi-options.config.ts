@@ -33,3 +33,6 @@ export const ASYNC_CREATE_SUBMIT_LOCK_IN_MS = 300;
 
 /** What the create form's focus goes to when it opens: the default form, or a text field in a slotted one. */
 export const CREATE_FORM_FOCUS_TARGET_SELECTOR = 'kv-select-create-option, kv-text-field';
+
+/** The tag of the list's search field, which an Enter that opens the create form comes from. */
+export const SEARCH_TAG_NAME = 'KV-SEARCH';
