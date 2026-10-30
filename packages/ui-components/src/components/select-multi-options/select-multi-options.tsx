@@ -697,10 +697,11 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	 * The term of an Enter pressed in this list's own search when it matches no option, so that the add option is
 	 * all the list offers for it. Read from the field, not `searchValue`: that only follows the typing once its
 	 * consumer re-renders, so an Enter right after the last key would act on the term before it. A highlighted
-	 * row is left to the shortcuts, which select it.
+	 * row the list still shows is left to the shortcuts, which select it; one an earlier search left behind, now
+	 * filtered out, is not.
 	 */
 	private getUnmatchedSearchTerm = (event: KeyboardEvent): string | undefined => {
-		if (event.key !== 'Enter' || !this.canAddItems || this.isCreating || !isEmpty(this.highlightedOption)) {
+		if (event.key !== 'Enter' || !this.canAddItems || this.isCreating || this.isHighlightListed()) {
 			return undefined;
 		}
 
@@ -710,7 +711,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 		const path = event.composedPath();
 		const [origin] = path;
-		const isFromSearch = path.includes(this.el) && path.some(node => (node as Element).tagName === SEARCH_TAG_NAME);
+		// Only the search the list renders itself: one slotted into its header or empty state is a consumer's own field
+		const isFromSearch = path.some(node => (node as Element).tagName === SEARCH_TAG_NAME && (node as Element).getRootNode() === this.selectRef?.shadowRoot);
 		if (!isFromSearch || (origin as Element).tagName !== 'INPUT') {
 			return undefined;
 		}
@@ -722,6 +724,9 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 		return searchTerm;
 	};
+
+	/** Whether the highlighted option is one of the rows the list shows, as a search doesn't clear it */
+	private isHighlightListed = (): boolean => this.selectOptions.currentSelectable.some(({ value }) => value === this.highlightedOption);
 
 	/** Whether the list has any option to show for a search, as it filters them for `debouncedSearchValue` */
 	private hasSearchResults = (searchTerm: string): boolean => buildSelectOptionsArray({ options: this.getCurrentOptions(true, searchTerm), allOptions: this.options }).length > 0;

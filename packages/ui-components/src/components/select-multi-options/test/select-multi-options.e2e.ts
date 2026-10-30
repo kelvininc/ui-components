@@ -950,6 +950,35 @@ describe('Select Multi Options (end-to-end)', () => {
 				expect(optionsSelectedSpy).toHaveReceivedEventTimes(1);
 				expect(await page.find(CREATE_FORM_SELECTOR)).toBeNull();
 			});
+
+			it('should open the create form when the search filtered out the highlighted row', async () => {
+				await enableShortcuts();
+				await (await page.find(SEARCH_INPUT_SELECTOR)).focus();
+				await pressKey('ArrowDown');
+				// The consumer passes the typed text back, so the list hides the highlighted row, which stays highlighted
+				await setSearchValue('zzz');
+
+				await pressKey('Enter');
+
+				expect(await (await page.find(CREATE_INPUT_SELECTOR)).getProperty('value')).toBe('zzz');
+				expect(optionsSelectedSpy).toHaveReceivedEventTimes(0);
+			});
+
+			it("should keep the list when enter is pressed in a consumer's own search slotted into it", async () => {
+				await page.evaluate(() => {
+					const search = document.createElement('kv-search');
+					search.slot = 'no-results-found';
+					document.querySelector('kv-select-multi-options').appendChild(search);
+				});
+				await setSearchValue('zzz');
+				await (await page.find('kv-select-multi-options > kv-search >>> kv-text-field >>> input')).type('qqq');
+				await page.waitForChanges();
+
+				await pressKey('Enter');
+
+				expect(await page.find(CREATE_FORM_SELECTOR)).toBeNull();
+				expect(getCreateFormToggles()).toEqual([]);
+			});
 		});
 	});
 });
