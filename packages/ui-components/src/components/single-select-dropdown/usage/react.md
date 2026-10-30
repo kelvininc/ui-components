@@ -29,7 +29,7 @@ export const KvSingleSelectDropdownExample: React.FC = (props) => (
 
 ### Creating options
 
-With `canAddItems` the list ends with an add option, labelled by `createOptionPlaceholder`, below any empty state. Picking it replaces the list with a create form, and `createFormToggle` reports the form opening (`true`, once it is rendered) and closing (`false`).
+With `canAddItems` the list ends with an add option, labelled by `createOptionPlaceholder`, below any empty state. Picking it replaces the list with a create form, and `createFormToggle` reports the form opening (`true`, once it is rendered) and closing (`false`). Enter in the search does the same when nothing matches what was typed, with or without `shortcuts`: the form starts from the typed text, and a second Enter submits it.
 
 By default submitting the form emits `optionCreated` and then `optionSelected` with the typed value, and the dropdown closes. Add the new option to `options` from `optionCreated`.
 

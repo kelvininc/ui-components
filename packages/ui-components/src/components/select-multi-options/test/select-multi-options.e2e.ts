@@ -851,5 +851,105 @@ describe('Select Multi Options (end-to-end)', () => {
 				})
 			).toBe(true);
 		});
+
+		describe('when enter is pressed in the search', () => {
+			const SEARCH_INPUT_SELECTOR = 'kv-select-multi-options >>> kv-select >>> kv-search >>> kv-text-field >>> input';
+
+			const typeInSearch = async (text: string): Promise<void> => {
+				await (await page.find(SEARCH_INPUT_SELECTOR)).type(text);
+				await page.waitForChanges();
+			};
+
+			it('should open the create form, focused and starting from the typed text, when the search matches no option', async () => {
+				await typeInSearch('zzz');
+
+				await pressKey('Enter');
+
+				expect(await (await page.find(CREATE_FORM_SELECTOR)).isVisible()).toBe(true);
+				expect(await (await page.find(CREATE_INPUT_SELECTOR)).getProperty('value')).toBe('zzz');
+				expect(await getActiveElementPath()).toEqual(CREATE_INPUT_FOCUS_PATH);
+				expect(getCreateFormToggles()).toEqual([true]);
+				// Only the form opens: the option is created on its own submit
+				expect(optionCreatedSpy).toHaveReceivedEventTimes(0);
+				expect(optionSelectedSpy).toHaveReceivedEventTimes(0);
+			});
+
+			it('should create and select the typed text on a second enter, in the create form', async () => {
+				await typeInSearch('zzz');
+				await pressKey('Enter');
+
+				await pressKey('Enter');
+
+				expect(optionCreatedSpy).toHaveReceivedEventTimes(1);
+				expect(optionCreatedSpy.lastEvent.detail).toBe('zzz');
+				expect(optionSelectedSpy).toHaveReceivedEventTimes(1);
+				expect(optionSelectedSpy.lastEvent.detail).toBe('zzz');
+				expect(getCreateFormToggles()).toEqual([true, false]);
+			});
+
+			it('should act on the text in the field, before its consumer passes it back as the search value', async () => {
+				// The consumer still holds the earlier search, matching an option, until its next render
+				await setSearchValue('Option 1');
+				await (await page.find(SEARCH_INPUT_SELECTOR)).focus();
+				await page.keyboard.press('End');
+				await page.keyboard.type(' zzz');
+
+				await pressKey('Enter');
+
+				expect(await (await page.find(CREATE_INPUT_SELECTOR)).getProperty('value')).toBe('Option 1 zzz');
+			});
+
+			it.each<[string, string]>([
+				['the search matches an option', 'Option 1'],
+				['the search holds only spaces', '   ']
+			])('should keep the list, without opening the create form, when %s', async (_, searchText) => {
+				await typeInSearch(searchText);
+
+				await pressKey('Enter');
+
+				expect(await page.find(CREATE_FORM_SELECTOR)).toBeNull();
+				expect(await getActiveElementPath()).toEqual(SEARCH_INPUT_FOCUS_PATH);
+				expect(getCreateFormToggles()).toEqual([]);
+			});
+
+			it('should keep the list when nothing can be added', async () => {
+				selectElement.setProperty('canAddItems', false);
+				await page.waitForChanges();
+				await typeInSearch('zzz');
+
+				await pressKey('Enter');
+
+				expect(await page.find(CREATE_FORM_SELECTOR)).toBeNull();
+				expect(getCreateFormToggles()).toEqual([]);
+			});
+
+			it('should mark the enter handled, for a document listener such as a wizard not to act on it too', async () => {
+				await page.evaluate(() => {
+					const recorderWindow = window as KeyRecorderWindow;
+					recorderWindow.documentKeys = [];
+					// Registered after the list's own listener, as a wizard mounted around it is
+					document.addEventListener('keydown', event => {
+						if (!event.defaultPrevented) recorderWindow.documentKeys.push(event.key);
+					});
+				});
+				await typeInSearch('zzz');
+
+				await pressKey('Enter');
+
+				expect(await page.evaluate(() => (window as KeyRecorderWindow).documentKeys)).toEqual(['z', 'z', 'z']);
+			});
+
+			it('should leave a highlighted row to the shortcuts, which select it', async () => {
+				await enableShortcuts();
+				// The standalone list doesn't adopt the typed text, so it still lists every option
+				await typeInSearch('zzz');
+				await pressKey('ArrowDown');
+
+				await pressKey('Enter');
+
+				expect(optionsSelectedSpy).toHaveReceivedEventTimes(1);
+				expect(await page.find(CREATE_FORM_SELECTOR)).toBeNull();
+			});
+		});
 	});
 });
