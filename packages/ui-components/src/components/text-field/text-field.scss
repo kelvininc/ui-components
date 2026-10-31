@@ -1,7 +1,5 @@
 @use '../../assets/styles' as *;
 
-$input-text-offset-y: -1px;
-
 :host {
 	/**
 	 * @prop --input-width: Text Field's width.
@@ -136,6 +134,7 @@ kv-tooltip::part(content) {
 	flex: 1;
 	appearance: textfield;
 	border: 0;
+	// Not redundant: with a percentage height Chrome drops the input's line-height, and `.value-prefix` relies on that
 	height: 100%;
 	outline: 0;
 	box-sizing: border-box;
@@ -151,7 +150,7 @@ kv-tooltip::part(content) {
 
 .resize-input {
 	position: absolute;
-	top: $input-text-offset-y;
+	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
@@ -280,12 +279,12 @@ input {
 		}
 
 		.value-prefix {
-			// Same offset as `.resize-input`, so the prefix sits on the value's baseline
-			position: relative;
-			top: $input-text-offset-y;
-
 			@include ellipsis;
 			@include body-m-semibold;
+			// Chrome centres `.resize-input`'s text without its line-height, so the prefix drops its own too and both round
+			// onto the same baseline at any DPR or zoom. The even padding keeps accents inside the ellipsis clip.
+			line-height: normal;
+			padding-block: var(--spacing-2xs);
 		}
 	}
 
