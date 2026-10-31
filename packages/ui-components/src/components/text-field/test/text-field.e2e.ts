@@ -312,7 +312,7 @@ describe('Text Field (end-to-end)', () => {
 		});
 
 		describe('when the user types past the max length', () => {
-			const pageErrors: Error[] = [];
+			const pageErrors: unknown[] = [];
 
 			beforeEach(async () => {
 				pageErrors.length = 0;

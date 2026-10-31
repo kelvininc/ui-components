@@ -78,8 +78,10 @@ const hasEnterOwnerRole = (element: HTMLElement | null): boolean =>
 export const ownsEnterKey = (node: unknown): boolean => {
 	const element = node as HTMLElement | null;
 
-	if (element?.tagName === 'INPUT') {
-		return !PASSIVE_INPUT_TYPES.includes(((element as HTMLInputElement).type || 'text').toLowerCase());
+	// A passive input falls through to the roles below rather than returning here, so that one a consumer
+	// gave an explicit `role="button"` — a checkbox used as a toggle button — still owns its Enter
+	if (element?.tagName === 'INPUT' && !PASSIVE_INPUT_TYPES.includes(((element as HTMLInputElement).type || 'text').toLowerCase())) {
+		return true;
 	}
 
 	return (

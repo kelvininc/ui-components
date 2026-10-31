@@ -171,6 +171,13 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 		}
 	}
 
+	@Watch('scrollOnHover')
+	scrollOnHoverChangeHandler(scrollOnHover: boolean) {
+		if (!scrollOnHover) {
+			this.stopHoverScroll(!this.focused);
+		}
+	}
+
 	/** @inheritdoc */
 	@Event() textChange: EventEmitter<string>;
 	/** @inheritdoc */
@@ -399,7 +406,14 @@ export class KvTextField implements ITextField, ITextFieldEvents {
 									)}
 									{showPrefix && (
 										// A prefix cut to its share of the field shows in full on hover, and only then
-										<kv-tooltip class="value-prefix-tooltip" text={this.valuePrefix} position={DEFAULT_TEXT_TOOLTIP_CONFIG.position} truncate>
+										<kv-tooltip
+											class="value-prefix-tooltip"
+											text={this.valuePrefix}
+											position={DEFAULT_TEXT_TOOLTIP_CONFIG.position}
+											truncate
+											// The prefix has its own tooltip: hovering it is no reason for the field's to open
+											onMouseOver={(event: MouseEvent) => event.stopPropagation()}
+										>
 											<div class="value-prefix">{this.valuePrefix}</div>
 										</kv-tooltip>
 									)}

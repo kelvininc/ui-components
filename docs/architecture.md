@@ -130,8 +130,13 @@ ui-components/
 ## Deployment
 
 ### Storybook Deployment
+The `storybook` job in `publish-dev.yml` and `publish-master.yml` deploys both storybooks to GitHub Pages after every push to `dev` or `master`: `master` at the root, `dev` under `/alpha`. See [.github/workflows/README.md](../.github/workflows/README.md#storybook-deploys).
+
 ```bash
-# Build and deploy to GitHub Pages
+# Build without deploying. Flags go after exactly one `--`
+pnpm storybook:deploy -- --out=./gp --dry-run
+
+# Build and deploy: replaces the whole site, /alpha included, with this branch's storybook
 pnpm storybook:deploy
 ```
 
