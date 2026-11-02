@@ -839,6 +839,13 @@
           "prefix": "component_semantics"
         }
       }
+    },
+    "divider": {
+      "default": {
+        "value": "{border.container.info-panel.default}",
+        "type": "color",
+        "prefix": "component_semantics"
+      }
     }
   },
   "tab-primary": {
@@ -1016,19 +1023,19 @@
           "prefix": "component_semantics"
         },
         "hover": {
-          "value": "{background.interactive.counter.hover}",
+          "value": null,
           "type": "color",
           "prefix": "component_semantics"
         },
         "Selected": {
-          "value": "{background.interactive.counter.selected}",
+          "value": null,
           "type": "color",
           "prefix": "component_semantics"
         }
       },
       "number": {
         "hover": {
-          "value": "{text.interactive.counter.hover}",
+          "value": null,
           "type": "color",
           "prefix": "component_semantics"
         },
@@ -1038,7 +1045,7 @@
           "prefix": "component_semantics"
         },
         "selected": {
-          "value": "{text.interactive.counter.selected}",
+          "value": null,
           "type": "color",
           "prefix": "component_semantics"
         },
