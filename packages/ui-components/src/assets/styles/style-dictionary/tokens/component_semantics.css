@@ -134,6 +134,7 @@ body, [data-theme] {
   --info-panel-content-subtle: var(--text-container-elevated-info-panel-subtle);
   --info-panel-gap-default: var(--spacing-md);
   --info-panel-icon-color-default: var(--icon-container-elevated-info-panel-info-panel);
+  --info-panel-divider-default: var(--border-container-info-panel-default);
   --tab-primary-padding-x-default: var(--spacing-4xl);
   --tab-primary-label-default: var(--text-persistent-indicator-off);
   --tab-primary-label-selected: var(--text-persistent-indicator-on);
@@ -161,11 +162,11 @@ body, [data-theme] {
   --tab-secondary-gap-default: var(--radius-xl);
   --tab-secondary-counter-background-default: var(--background-interactive-counter-default);
   --tab-secondary-counter-background-disabled: var(--background-interactive-counter-disabled);
-  --tab-secondary-counter-background-hover: var(--background-interactive-counter-hover);
-  --tab-secondary-counter-background-selected: var(--background-interactive-counter-selected);
-  --tab-secondary-counter-number-hover: var(--text-interactive-counter-hover);
+  --tab-secondary-counter-background-hover: null;
+  --tab-secondary-counter-background-selected: null;
+  --tab-secondary-counter-number-hover: null;
   --tab-secondary-counter-number-default: var(--text-interactive-counter-default);
-  --tab-secondary-counter-number-selected: var(--text-interactive-counter-selected);
+  --tab-secondary-counter-number-selected: null;
   --tab-secondary-counter-number-disabled: var(--text-interactive-counter-disabled);
   --input-text-text-input-default: var(--text-interactive-input-default);
   --input-text-text-input-selected: var(--text-interactive-input-selected);
