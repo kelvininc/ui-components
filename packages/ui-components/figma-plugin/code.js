@@ -9,7 +9,7 @@
  */
 
 // Bump whenever the plugin changes — shown in the UI so we know which build is running
-const PLUGIN_VERSION = '2.0.0';
+const PLUGIN_VERSION = '2.1.0';
 
 // Show the plugin UI
 figma.showUI(__html__, { width: 550, height: 650 });
@@ -194,6 +194,24 @@ function setNestedValue(obj, path, value) {
 	}
 
 	current[keys[keys.length - 1]] = value;
+}
+
+/**
+ * Sorts token tree keys in natural order. Figma enumerates variables in internal
+ * creation order, which drifts as designers edit the table, so without this every
+ * export reorders the JSON files and buries the real changes in diff noise. The
+ * tokens-sync skill assembler applies the same ordering — keep the two in sync.
+ */
+function sortTokensDeep(node) {
+	if (!node || typeof node !== 'object' || Array.isArray(node) || 'value' in node) {
+		return node;
+	}
+	const sorted = {};
+	const keys = Object.keys(node).sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
+	for (const key of keys) {
+		sorted[key] = sortTokensDeep(node[key]);
+	}
+	return sorted;
 }
 
 /**
@@ -586,6 +604,11 @@ async function exportVariables() {
 					tokens
 				});
 			}
+		}
+
+		// Canonical key order so re-exports only diff where values actually changed
+		for (const exp of exports) {
+			exp.tokens = sortTokensDeep(exp.tokens);
 		}
 
 		return {

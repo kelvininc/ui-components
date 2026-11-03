@@ -10,13 +10,13 @@
       "type": "number",
       "prefix": "icon"
     },
-    "xl": {
-      "value": "{size.xl}",
+    "sm": {
+      "value": "{size.sm}",
       "type": "number",
       "prefix": "icon"
     },
-    "sm": {
-      "value": "{size.sm}",
+    "xl": {
+      "value": "{size.xl}",
       "type": "number",
       "prefix": "icon"
     }
