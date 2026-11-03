@@ -10,7 +10,7 @@ Plugin to export Figma variables and styles to DTCG (Design Tokens Community Gro
 - ✅ Exports **effect styles** (shadows and blurs)
 - ✅ Supports multiple modes (light/dark)
 - ✅ Resolves variable references (aliases)
-- ✅ Resolves variable expressions (`COMPOSE_COLOR` — colors with opacity bound to an opacity variable, exported as 8-digit hex)
+- ✅ Resolves colors with opacity bound to an opacity variable (both the `COMPOSE_COLOR` expression and the `{ color, opacity }` shapes), exported as 8-digit hex
 - ✅ Generates separate files per collection and mode
 - ✅ Individual download or ZIP with all files
 
@@ -164,6 +164,31 @@ The plugin also exports native Figma styles:
   }
 }
 ```
+
+## Versioning
+
+The UI shows a version badge (e.g. `v1.1.0`) next to the title, driven by the `PLUGIN_VERSION` constant at the top of `code.js`. Figma auto-generates its own version on every publish but doesn't expose it to plugin code, so this constant is the only way to tell which build is running.
+
+Before publishing, bump it:
+
+```bash
+cd packages/ui-components
+pnpm figma-plugin:bump          # patch: 1.1.0 -> 1.1.1
+pnpm figma-plugin:bump minor    # 1.1.0 -> 1.2.0
+pnpm figma-plugin:bump major    # 1.1.0 -> 2.0.0
+```
+
+If the badge in Figma doesn't match the version you just published, Figma is still running a cached/older build.
+
+## Publishing
+
+Figma has no official publish API for manifest-based plugins, so publishing happens manually in the Figma app. The flow is:
+
+1. `pnpm figma-plugin:bump` (from `packages/ui-components`) — bumps `PLUGIN_VERSION` so the UI badge identifies the new build
+2. Publish the plugin in the Figma app
+3. Commit the bumped `code.js`
+
+Community CLIs that automated this (figcd, parrot-figcd) were archived in January 2026 and are no longer maintained — don't build the workflow on them.
 
 ## Requirements
 
