@@ -1002,52 +1002,6 @@
         "type": "number",
         "prefix": "component_semantics"
       }
-    },
-    "counter": {
-      "background": {
-        "default": {
-          "value": "{background.interactive.counter.default}",
-          "type": "color",
-          "prefix": "component_semantics"
-        },
-        "disabled": {
-          "value": "{background.interactive.counter.disabled}",
-          "type": "color",
-          "prefix": "component_semantics"
-        },
-        "hover": {
-          "value": "{background.interactive.counter.hover}",
-          "type": "color",
-          "prefix": "component_semantics"
-        },
-        "Selected": {
-          "value": "{background.interactive.counter.selected}",
-          "type": "color",
-          "prefix": "component_semantics"
-        }
-      },
-      "number": {
-        "hover": {
-          "value": "{text.interactive.counter.hover}",
-          "type": "color",
-          "prefix": "component_semantics"
-        },
-        "default": {
-          "value": "{text.interactive.counter.default}",
-          "type": "color",
-          "prefix": "component_semantics"
-        },
-        "selected": {
-          "value": "{text.interactive.counter.selected}",
-          "type": "color",
-          "prefix": "component_semantics"
-        },
-        "disabled": {
-          "value": "{text.interactive.counter.disabled}",
-          "type": "color",
-          "prefix": "component_semantics"
-        }
-      }
     }
   },
   "input": {
