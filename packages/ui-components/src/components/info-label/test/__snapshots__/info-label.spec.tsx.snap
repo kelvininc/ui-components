@@ -7,7 +7,7 @@ exports[`Info Label (unit tests) when renders with a component should match the 
       <div class="no-description title" part="title">
         DESCRIPTION
       </div>
-      <div class="description-wrapper" style="height: nullpx;">
+      <div class="description-wrapper">
         <div class="description">
           <slot></slot>
         </div>
@@ -35,7 +35,7 @@ exports[`Info Label (unit tests) when renders with copy values props should matc
       <div class="title" part="title">
         TYPE
       </div>
-      <div class="description-wrapper" style="height: nullpx;">
+      <div class="description-wrapper">
         <div class="description">
           <slot>
             <div class="text">
@@ -59,7 +59,7 @@ exports[`Info Label (unit tests) when renders with description and read more stu
       <div class="title" part="title">
         DESCRIPTION
       </div>
-      <div class="description-wrapper" style="height: nullpx;">
+      <div class="description-wrapper">
         <div class="description">
           <slot>
             <div class="text">
@@ -77,7 +77,7 @@ exports[`Info Label (unit tests) when uses default props should match the snapsh
 <kv-info-label description-collapsed-text="Read more" description-opened-text="Read less" label-text="Default">
   <template shadowrootmode="open">
     <div class="info-label">
-      <div class="description-wrapper" style="height: nullpx;">
+      <div class="description-wrapper">
         <div class="description">
           <slot></slot>
         </div>

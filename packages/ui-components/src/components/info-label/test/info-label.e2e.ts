@@ -58,4 +58,38 @@ describe('Info Label (end-to-end)', () => {
 			expect(externalComponent).toBeTruthy();
 		});
 	});
+
+	describe('when the content grows while expanded', () => {
+		const waitForHeightTransition = () => new Promise(resolve => setTimeout(resolve, 600));
+		const heights = () =>
+			page.$eval('kv-info-label', host => ({
+				wrapper: host.shadowRoot.querySelector('.description-wrapper').clientHeight,
+				content: host.shadowRoot.querySelector('.description').clientHeight
+			}));
+
+		beforeEach(async () => {
+			page = await newE2EPage();
+			await page.setContent(
+				`<div id="parent" style="width: 400px"><kv-info-label description="${'Long payload value that wraps. '.repeat(30)}" description-height="40" /></div>`
+			);
+			await page.waitForChanges();
+		});
+
+		it('should keep the whole description visible, then collapse back to the cap', async () => {
+			await (await page.find('kv-info-label >>> .expand-description-button')).click();
+			await waitForHeightTransition();
+			const expanded = await heights();
+
+			// Narrowing the parent rewraps the text onto more lines
+			await page.$eval('#parent', parent => ((parent as HTMLElement).style.width = '200px'));
+			await waitForHeightTransition();
+			const narrowed = await heights();
+			expect(narrowed.content).toBeGreaterThan(expanded.content);
+			expect(narrowed.wrapper).toBe(narrowed.content);
+
+			await (await page.find('kv-info-label >>> .expand-description-button')).click();
+			await waitForHeightTransition();
+			expect((await heights()).wrapper).toBe(40);
+		});
+	});
 });
