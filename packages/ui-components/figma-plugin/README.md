@@ -57,7 +57,9 @@ Plugin to export Figma variables and styles to DTCG (Design Tokens Community Gro
 
 ### Variables
 
-The plugin exports variable tokens in DTCG format compatible with Style Dictionary:
+The plugin exports variable tokens in DTCG format compatible with Style Dictionary. Keys are written
+in canonical natural order (not Figma's internal enumeration order, which drifts over time), so
+re-exports only diff where values actually changed. The `tokens-sync` skill applies the same ordering.
 
 ```json
 {

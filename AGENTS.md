@@ -4,6 +4,7 @@ This guide holds the commands and the rules for working in the Kelvin UI Compone
 
 - **`component-create` skill** — file structure, creating a component, changing an existing one
 - **`design-tokens` skill** — the token pipeline, naming, using tokens in component SCSS, legacy helpers to replace
+- **`tokens-sync` skill** — regenerate the token JSON files from the Figma variables table via the Figma MCP, no plugin run needed
 - **`react-tests` skill** — the React package's Vitest projects, Stencil mocks, browser-test helpers and where tests live
 - **`primitives-and-schema-form` skill** — rules for changing components others render, focus and accessible names, built-in labels, and SchemaForm
 - [docs/architecture.md](docs/architecture.md) — packages and build outputs, StencilJS concepts, configuration files, key directories, versioning and deployment
