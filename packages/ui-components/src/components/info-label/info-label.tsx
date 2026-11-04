@@ -56,7 +56,8 @@ export class KvInfoLabel {
 			this.enableShowMoreButton = false;
 		}
 		this.isExpanded = this.enableShowMoreButton ? this.isExpanded : false;
-		this.currentDescriptionHeight = this.enableShowMoreButton && !this.isExpanded ? this.descriptionHeight : null;
+		// While expanded, follow the content in px, not auto: CSS can't animate height from auto when collapsing
+		this.currentDescriptionHeight = this.isExpanded ? this.descriptionContainer.clientHeight : this.enableShowMoreButton ? this.descriptionHeight : null;
 	}
 
 	private onShowMoreToggle = () => {
@@ -84,7 +85,7 @@ export class KvInfoLabel {
 	componentDidRender() {
 		this.descriptionContainer = this.el.shadowRoot.querySelector('.description');
 
-		if (this.descriptionHeight >= 0) {
+		if (this.descriptionHeight >= 0 && this.resizeSensor === null) {
 			this.resizeSensor = new ResizeSensor(this.descriptionContainer, () => {
 				this.loadDescriptionHeight();
 			});
@@ -106,7 +107,8 @@ export class KvInfoLabel {
 							{this.labelTitle}
 						</div>
 					)}
-					<div style={{ height: `${this.currentDescriptionHeight}px` }} class="description-wrapper">
+					{/* Stencil clears a nullish style; `${null}px` gives "nullpx", which the browser ignores, keeping the old height */}
+					<div style={{ height: this.currentDescriptionHeight == null ? undefined : `${this.currentDescriptionHeight}px` }} class="description-wrapper">
 						<div class="description">
 							<slot>
 								{this.description && <div class="text">{this.description}</div>}
