@@ -64,10 +64,29 @@ describe.each([StyleMode.Light, StyleMode.Night])('fieldset overlays in %s', the
 					const headerStyle = getComputedStyle(header);
 					if (owner === item) {
 						actualOverlays++;
-						expect(headerStyle.transform).not.toBe('none');
-						expect(headerStyle.backgroundColor).toBe(background);
-						expect(header.getBoundingClientRect().top).toBeLessThan(item.getBoundingClientRect().top);
-						expect(header.getBoundingClientRect().bottom).toBeGreaterThan(item.getBoundingClientRect().top);
+						// Like a fieldset legend, each header child (the heading, the menu) sits on the top border and masks only its own width, so the border line stays visible between them
+						expect(headerStyle.transform).toBe('none');
+						const menu = header.querySelector<HTMLElement>(':scope > [data-action-menu]');
+						const title = header.querySelector<HTMLElement>(':scope > :not([data-action-menu])');
+						expect(header.children.length).toBe(Number(heading !== false) + Number(Boolean(menu)));
+						expect(Boolean(title)).toBe(heading !== false);
+						if (title && menu) {
+							header.scrollIntoView({ block: 'center' });
+							const titleBox = title.getBoundingClientRect();
+							const menuBox = menu.getBoundingClientRect();
+							expect(titleBox.right).toBeLessThan(menuBox.left);
+							// A whole pixel inside the 1px top border; hit testing rounds fractional points
+							const hit = document.elementFromPoint((titleBox.right + menuBox.left) / 2, Math.ceil(item.getBoundingClientRect().top));
+							expect(hit).not.toBeNull();
+							expect(header.contains(hit)).toBe(false);
+						}
+						for (const part of Array.from(header.children)) {
+							const partStyle = getComputedStyle(part);
+							expect(partStyle.transform).not.toBe('none');
+							expect(partStyle.backgroundColor).toBe(background);
+							expect(part.getBoundingClientRect().top).toBeLessThan(item.getBoundingClientRect().top);
+							expect(part.getBoundingClientRect().bottom).toBeGreaterThan(item.getBoundingClientRect().top);
+						}
 					} else {
 						expect(headerStyle.transform).toBe('none');
 						expect(headerStyle.marginBottom).toBe('0px');

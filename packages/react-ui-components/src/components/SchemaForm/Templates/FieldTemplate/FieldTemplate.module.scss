@@ -111,7 +111,7 @@
 	flex-shrink: 0;
 	color: var(--text-container-neutral-subtle);
 
-	// Takes focus after clearing when no option can: outlined like Clear selection, which it replaces
+	// Takes focus after clearing when no option can, in place of Clear selection
 	&:focus-visible {
 		outline: 2px solid currentcolor;
 		outline-offset: 2px;
@@ -119,23 +119,7 @@
 }
 
 .ClearSelection {
-	@include body-m-regular;
-
 	margin-left: auto;
 	flex-shrink: 0;
 	max-width: 100%;
-	border: 0;
-	padding: 0;
-	background: transparent;
-	color: var(--button-text-label-default);
-	cursor: pointer;
-
-	&:focus-visible {
-		outline: 2px solid currentcolor;
-		outline-offset: 2px;
-	}
-
-	&:hover {
-		text-decoration: underline;
-	}
 }

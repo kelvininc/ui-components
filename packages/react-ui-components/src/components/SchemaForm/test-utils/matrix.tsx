@@ -3028,7 +3028,8 @@ export const SECTION_HEADING_SHAPES: readonly {
 	uiSchema?: UiSchema;
 	formData?: unknown;
 	headings: { title: string; level: number }[];
-	helpButtons?: string[];
+	/** Toggle tips beside section headings */
+	helpTips?: number;
 }[] = [
 	{ name: 'titled root', schema: CONNECTION, formData: { host: 'broker-1.local' }, headings: [{ title: 'Connection', level: 2 }] },
 	{ name: 'UI title', schema: CONNECTION, uiSchema: { 'ui:title': 'Broker settings' }, headings: [{ title: 'Broker settings', level: 2 }] },
@@ -3082,7 +3083,7 @@ export const SECTION_HEADING_SHAPES: readonly {
 		uiSchema: { 'ui:help': 'Settings for the MQTT broker connection.' },
 		formData: { host: 'broker-1.local' },
 		headings: [{ title: 'Connection', level: 2 }],
-		helpButtons: ['Help for Connection']
+		helpTips: 1
 	},
 	{
 		name: 'nested heading help',
@@ -3092,7 +3093,7 @@ export const SECTION_HEADING_SHAPES: readonly {
 			{ title: 'Plant', level: 2 },
 			{ title: 'Connection', level: 3 }
 		],
-		helpButtons: ['Help for Connection']
+		helpTips: 1
 	}
 ];
 
