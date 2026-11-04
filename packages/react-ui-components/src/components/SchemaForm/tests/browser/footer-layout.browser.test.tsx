@@ -1,4 +1,4 @@
-import { setThemeMode, StyleMode } from '@kelvininc/ui-components';
+import { EActionButtonType, setThemeMode, StyleMode } from '@kelvininc/ui-components';
 import type { RJSFSchema } from '@rjsf/utils';
 import React from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
@@ -51,8 +51,10 @@ describe.each([StyleMode.Light, StyleMode.Night])('footer actions in %s', theme 
 		const owned = form.querySelector<HTMLElement>('form > [data-schema-form-field]')!;
 		const field = form.querySelector('kv-text-field')!;
 		const content = root === 'array' ? form.querySelector('form > [data-schema-form-field] > div')! : field;
+		// Reset to defaults and Discard changes are the library's tertiary buttons
 		const textActions = [...footer.querySelectorAll<HTMLKvActionButtonTextElement>('kv-action-button-text[type="tertiary"]')];
 		const actionNames = [...(row.reset ? ['Reset to defaults'] : []), ...(row.discard ? ['Discard changes'] : []), 'Save'];
+		expect(textActions.map(host => host.text)).toEqual(actionNames.slice(0, -1));
 		const buttons = actionNames.map(name => screen.getByRole('button', { name, exact: true }).element());
 		const initialColors = textActions.map(host => getComputedStyle(screen.getByRole('button', { name: host.text!, exact: true }).element()).color);
 
@@ -75,10 +77,11 @@ describe.each([StyleMode.Light, StyleMode.Night])('footer actions in %s', theme 
 			for (const host of textActions) {
 				const button = screen.getByRole('button', { name: host.text!, exact: true }).element();
 				const text = host.shadowRoot!.querySelector('[part="button-text"]')!;
-				expect(getComputedStyle(button).backgroundColor).toBe('rgba(0, 0, 0, 0)');
-				expect(getComputedStyle(button).backgroundImage).toBe('none');
-				expect(getComputedStyle(button).borderWidth).toBe('0px');
-				expect(text.getBoundingClientRect().left).toBeCloseTo(button.getBoundingClientRect().left, 0);
+				expect(host.type).toBe(EActionButtonType.Tertiary);
+				// The tertiary button keeps its own padding, so the text starts inside its border and padding
+				const { borderLeftWidth, paddingLeft } = getComputedStyle(button);
+				expect(parseFloat(paddingLeft)).toBeGreaterThan(0);
+				expect(text.getBoundingClientRect().left - button.getBoundingClientRect().left).toBeCloseTo(parseFloat(borderLeftWidth) + parseFloat(paddingLeft), 0);
 			}
 			if (row.reset) expect(boxes[0].left).toBeCloseTo(bounds.left, 0);
 		};

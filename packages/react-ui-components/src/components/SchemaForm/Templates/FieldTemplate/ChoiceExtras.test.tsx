@@ -4,6 +4,7 @@ import { createSchemaUtils, FieldTemplateProps } from '@rjsf/utils';
 import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { expect, it, vi } from 'vitest';
+import { fireStencilEvent } from '../../../../test-utils';
 import { getDefaultValidator } from '../../../../utils';
 import { ChoiceControlContext, FormStateProvider } from '../../contexts';
 import { CHOICE_INTERACTION_SHAPES, CHOICE_SCHEMAS } from '../../test-utils/matrix';
@@ -51,7 +52,7 @@ it.each(CHOICE_INTERACTION_SHAPES.filter(row => row.name !== 'editable'))('cance
 		);
 	try {
 		await renderExtras(false);
-		await act(async () => container.querySelector('button')!.click());
+		await act(async () => fireStencilEvent(container.querySelector('kv-action-button-text'), 'onClickButton'));
 		expect(onChange).toHaveBeenCalledExactlyOnceWith(undefined);
 		// Eligibility can change before a caller commits the requested value.
 		await renderExtras(false, flags.disabled, flags.readonly);

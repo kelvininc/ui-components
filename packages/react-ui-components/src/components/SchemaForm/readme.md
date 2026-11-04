@@ -61,10 +61,10 @@ Section groups use unique heading ids and link their mounted descriptions and vi
 `aria-describedby`. Custom title templates receive a unique `id`; the group also has a text name so a
 template that omits that id still names the section. Field errors keep the existing visibility rules.
 
-`ui:help` renders an info button beside the title of a field, section or table column. Each one is named
-"Help for <title>", such as "Help for Port name", opens and closes its tip with Enter or Space, and sits
-in Tab order before the control it describes. Every help button has the same compact look: a 16px icon in
-the label color on a 24px target, so a title row with help is as tall as one without.
+`ui:help` renders the library's toggle tip beside the title of a field, section or table column: a 16px info
+icon in the label color that opens and closes its tip on click, so a title row with help is as tall as one
+without. Like every `kv-toggle-tip` trigger, the icon has no accessible name and is not in Tab order, so
+keyboard and screen reader users can't open the tip.
 
 List and file descriptions and default-value helpers align with the title,
 before entries and their Add, Choose file or Replace file action. Helper lines have a 4px gap, followed
@@ -133,14 +133,15 @@ items use their prefix or title with their position number, such as "Backup 2". 
 RJSF's move and removal restrictions. Reserved action space keeps tuple inputs aligned.
 
 Object items render numbered section headings inside a 1px outline with 4px corners and 16px padding.
-Inner object lists use the same outline. Explicit fieldsets (`ui:fieldset`) draw their header, the heading
-and menu, on the top border and open the frame below it. Without a header there, as for scalar items or
+Inner object lists use the same outline. Explicit fieldsets (`ui:fieldset`) set their heading and menu on the top border like a legend,
+with the border visible between them, and open the frame below it. Without a header there, as for scalar items or
 untitled items without a menu, the frame pads evenly and its content sits centred.
 One menu beside each heading holds
 the allowed move actions and a destructive Remove action. Boundary moves stay visible and disabled.
 Readonly and disabled lists keep disabled controls. Add renders a plus followed by "Add <prefix>"
-or "Add item". Lists with a reserved grip column center the plus in that column and align the text
-with the input. Other lists start the plus at the entry edge. List, file and radio entries have a 12px vertical gap.
+or "Add item". Lists with a reserved grip column start the plus inside that column, after the button's own border and
+padding, and align the text with the input. Other lists start the button at the entry edge, so the plus sits
+inside the button's padding. List, file and radio entries have a 12px vertical gap.
 Radio Clear selection actions align with the group's right edge beside descriptions or errors.
 The action wraps onto its own right-aligned row when the field is too narrow to fit both columns.
 Radio groups with a schema default omit Clear selection, because clearing would leave them unset rather than at
@@ -154,9 +155,8 @@ number select treats an empty-string placeholder as missing and shows "Select an
 keeps it, so it renders blank and shows "Not set". In a table cell, "Not set" sits under the select.
 
 Enabled item actions and Add participate in Tab order. Menus support mouse and keyboard interaction.
-Scalar help tips stay beside the input, named after the item ("Help for Topic 1") and in Tab order
-between the input and its remove button; descriptions, errors and default helpers stay above or below
-it. Custom item fields and field templates retain controls beside their content. Custom array templates
+Scalar help tips stay beside the input, between the input and its remove button; descriptions, errors and
+default helpers stay above or below it. Custom item fields and field templates retain controls beside their content. Custom array templates
 receive their own list settings. List item markup, move controls and scalar labels change in v4.
 
 After a move, focus follows the item's menu trigger. Removing an item focuses the next item's trigger,

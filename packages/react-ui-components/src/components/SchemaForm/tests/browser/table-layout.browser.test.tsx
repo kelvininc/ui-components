@@ -186,9 +186,15 @@ describe.each(L2_SIZE_SHAPES)('L2 action sizing: $name', row => {
 				const firstCell = rows[0].querySelector('[data-table-cell]')!;
 				const add = screen.container.querySelector('kv-action-button')!;
 				expect(add.querySelector('span')!.getBoundingClientRect().left).toBeCloseTo(firstCell.getBoundingClientRect().left, 0);
+				// The button keeps its own border and padding before the plus, and the plus fits inside the grip column
+				const button = add.shadowRoot!.querySelector<HTMLElement>('[part="button"]')!;
+				const { borderLeftWidth, paddingLeft } = getComputedStyle(button);
+				expect(parseFloat(paddingLeft)).toBeGreaterThan(0);
 				const plus = add.querySelector('kv-icon')!.shadowRoot!.querySelector('.icon')!.getBoundingClientRect();
 				const grip = screen.getByRole('button', { name: 'Reorder row 1', exact: true }).element().getBoundingClientRect();
-				expect(plus.left + plus.width / 2).toBeCloseTo(grip.left + grip.width / 2, 0);
+				expect(plus.left - button.getBoundingClientRect().left).toBeGreaterThanOrEqual(parseFloat(borderLeftWidth) + parseFloat(paddingLeft) - 0.5);
+				expect(plus.left).toBeGreaterThanOrEqual(grip.left - 0.5);
+				expect(plus.right).toBeLessThanOrEqual(grip.right + 0.5);
 				if (width >= 480)
 					expect(screen.container.querySelector('[role="columnheader"][aria-colindex="2"]')!.getBoundingClientRect().left).toBeCloseTo(
 						firstCell.getBoundingClientRect().left,
@@ -261,33 +267,17 @@ it.each(L2_PRESENTATION_SHAPES)('L2 header presentation: $name', async row => {
 });
 
 describe.each(L2_PRESENTATION_SHAPES.filter(row => row.name === 'description' || row.name === 'help'))('L2 responsive keyboard help: $name', row => {
-	it.each([479, 480])('tabs to a named tip and toggles it with Enter and Space at %ipx', async width => {
+	// The help is the library's toggle tip: a bare icon with no name, which Tab passes over
+	it.each([479, 480])('keeps the tip out of Tab order at %ipx', async width => {
 		const screen = await render(
 			<div style={{ width: `${width}px` }}>
 				<KvSchemaForm schema={row.schema} formData={row.formData} uiSchema={row.uiSchema} />
 			</div>
 		);
 		await whenAllKelvinReady(screen.container);
+		expect(screen.getByRole('button', { name: /^Help for/ }).query()).toBeNull();
 		const firstInput = screen.getByRole('textbox', { name: 'Value, Variable 1', exact: true }).element() as HTMLElement;
 		firstInput.focus();
-		await userEvent.keyboard(width < 480 ? '{Tab}' : '{Shift>}{Tab}{/Shift}');
-		const helpButton = screen.getByRole('button', { name: width < 480 ? 'Help for Name, Variable 1' : 'Help for Name', exact: true });
-		expect(helpButton.element().matches(':focus')).toBe(true);
-		const visibleTips = () =>
-			page
-				.getByText('Starts with a letter or underscore.', { exact: true })
-				.elements()
-				.filter(element => element.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })).length;
-		for (const key of ['{Enter}', ' '] as const) {
-			await userEvent.keyboard(key);
-			await expect.poll(visibleTips).toBe(1);
-			await userEvent.keyboard(key);
-			await expect.poll(visibleTips).toBe(0);
-		}
-		if (width >= 480) {
-			await userEvent.keyboard('{Tab}');
-			expect(firstInput.matches(':focus')).toBe(true);
-		}
 		await userEvent.keyboard('{Tab}');
 		expect(screen.getByRole('textbox', { name: 'Name, Variable 1', exact: true }).element().matches(':focus')).toBe(true);
 		for (const name of ['Reorder Variable 1', 'Remove Variable 1']) {

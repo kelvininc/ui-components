@@ -1,5 +1,7 @@
+import { EActionButtonType } from '@kelvininc/ui-components';
 import { FieldTemplateProps, FormContextType, getUiOptions, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import React, { RefObject, useContext, useEffect, useRef, useState } from 'react';
+import { KvActionButtonText } from '../../../../stencil-generated';
 import { ChoiceControlContext, useFormState } from '../../contexts';
 import { SCHEMA_FORM_STRINGS } from '../../strings';
 import { canClearChoice, getChoicePresentation } from './utils';
@@ -53,20 +55,19 @@ const ChoiceExtras = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 		<div className={styles.ChoiceExtras}>
 			{children && <div className={styles.ChoiceFeedback}>{children}</div>}
 			{!unset && (
-				<button
-					type="button"
-					aria-label={SCHEMA_FORM_STRINGS.clearSelectionFor(fieldTitle.trim() || id)}
+				<KvActionButtonText
+					type={EActionButtonType.Text}
+					text={SCHEMA_FORM_STRINGS.clearSelection}
+					accessibleLabel={SCHEMA_FORM_STRINGS.clearSelectionFor(fieldTitle.trim() || id)}
 					className={styles.ClearSelection}
-					onClick={() => {
+					onClickButton={() => {
 						pendingFocus.current = true;
 						trackFieldChange(id, undefined);
 						markFieldAsTouched(id);
 						onChange(undefined);
 						requestFocus(request => request + 1);
 					}}
-				>
-					{SCHEMA_FORM_STRINGS.clearSelection}
-				</button>
+				/>
 			)}
 		</div>
 	);

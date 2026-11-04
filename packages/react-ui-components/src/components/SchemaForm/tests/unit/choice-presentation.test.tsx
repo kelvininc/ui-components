@@ -34,7 +34,7 @@ afterEach(async () => {
 	container.remove();
 });
 const notSet = () => Array.from(container.querySelectorAll('span')).filter(element => element.textContent === 'Not set');
-const clearActions = () => Array.from(container.querySelectorAll<HTMLButtonElement>('button')).filter(button => button.textContent === 'Clear selection');
+const clearActions = () => Array.from(container.querySelectorAll('kv-action-button-text[data-text="Clear selection"]'));
 type RadioProps = {
 	accessibleLabel: string;
 	required: boolean;
@@ -157,7 +157,7 @@ it.each([
 		return Promise.resolve();
 	});
 	Object.assign(container.querySelector('kv-radio-list')!, { setFocus });
-	await act(async () => clear.click());
+	await act(async () => fireStencilEvent(clear, 'onClickButton'));
 	expect(setFocus).toHaveBeenCalledOnce();
 	expect(onChange).toHaveBeenCalledOnce();
 	expect(onChange.mock.lastCall?.[0].formData.choice).toBeUndefined();
@@ -210,7 +210,7 @@ describe.each(RADIO_KEYBOARD_SHAPES)('radio error policy: $name', ({ widget }) =
 
 it.each(CHOICE_CLEAR_NAME_SHAPES)('names the clear action with $name', async ({ uiSchema, expected }) => {
 	await act(async () => root.render(<KvSchemaForm schema={choiceForm(CHOICE_SCHEMAS[0])} uiSchema={{ choice: uiSchema }} formData={{ choice: false }} />));
-	expect(clearActions()[0].getAttribute('aria-label')).toBe(expected);
+	expect(propsOf(clearActions()[0]).accessibleLabel).toBe(expected);
 });
 
 it('leaves an arbitrary custom widget in charge of its unset value', async () => {
