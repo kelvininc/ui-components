@@ -1,4 +1,4 @@
-import type { Meta, StoryFn, StoryObj } from "@storybook/react";
+import type { Meta, StoryFn, StoryObj } from "@storybook/react-webpack5";
 import { KvRange } from "@kelvininc/react-ui-components/client";
 import { useArgs } from "storybook/preview-api";
 import { ComponentProps } from "react";

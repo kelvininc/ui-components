@@ -5,7 +5,7 @@ import {
 	KvSelect,
 	KvSelectOption
 } from "@kelvininc/react-ui-components/client";
-import type { Meta, StoryObj, StoryFn } from "@storybook/react";
+import type { Meta, StoryObj, StoryFn } from "@storybook/react-webpack5";
 import { useArgs } from "storybook/preview-api";
 import { ComponentProps } from "react";
 

@@ -22,7 +22,7 @@ import {
 	KvSingleSelectDropdown,
 	KvSingleSelectDropdownCustomEvent
 } from "@kelvininc/react-ui-components/client";
-import { StoryObj, StoryFn, Meta } from "@storybook/react";
+import { StoryObj, StoryFn, Meta } from "@storybook/react-webpack5";
 import {
 	SMALL_SET_DROPDOWN_OPTIONS_MOCK,
 	TIMEZONES_DROPDOWN_OPTIONS_MOCK,

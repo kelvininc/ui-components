@@ -2,7 +2,7 @@ import {
 	EComponentSize,
 	KvDateTimeInput
 } from "@kelvininc/react-ui-components/client";
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react-webpack5";
 
 const meta = {
 	title: "Inputs/Date Time Input",

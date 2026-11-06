@@ -1,4 +1,4 @@
-import type { Meta, StoryFn, StoryObj } from "@storybook/react";
+import type { Meta, StoryFn, StoryObj } from "@storybook/react-webpack5";
 import { KvInfoLabel, KvTag } from "@kelvininc/react-ui-components/client";
 import { ComponentProps } from "react";
 

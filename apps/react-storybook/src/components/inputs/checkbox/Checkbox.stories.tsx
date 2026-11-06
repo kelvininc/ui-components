@@ -4,7 +4,7 @@ import {
 	ICheckbox,
 	EComponentSize
 } from "@kelvininc/react-ui-components/client";
-import { Meta, StoryFn, StoryObj } from "@storybook/react";
+import { Meta, StoryFn, StoryObj } from "@storybook/react-webpack5";
 
 const CheckboxTemplate: StoryFn<ComponentProps<typeof KvCheckbox>> = ({
 	checked: initialChecked,
