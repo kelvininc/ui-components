@@ -1,4 +1,4 @@
-import type { Meta, StoryFn, StoryObj } from "@storybook/react";
+import type { Meta, StoryFn, StoryObj } from "@storybook/react-webpack5";
 import { ComponentProps, useMemo } from "react";
 import { KvStepIndicator } from "@kelvininc/react-ui-components/client";
 import { action } from "storybook/actions";

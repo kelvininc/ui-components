@@ -13,9 +13,16 @@
 		border: none
 	}
 
+	/* Storybook 10 lays the brand link out as a flex row; stack the label under the logo */
+	.sidebar-header div a {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
 	.sidebar-header div a::after {
 		content: 'UI Components';
 		display: flex;
+		align-self: stretch;
 		justify-content: flex-end;
 		color: grey;
 		font-family: var(--kv-primary-font, 'Proxima Nova', sans-serif, 'Arial');

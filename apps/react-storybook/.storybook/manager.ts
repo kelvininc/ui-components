@@ -3,6 +3,6 @@ import theme from "./themes/kelvin-theme";
 
 addons.setConfig({
 	theme,
-	enableShortcuts: false,
-	panelPosition: "right"
+	ui: { enableShortcuts: false },
+	layout: { panelPosition: "right" }
 });

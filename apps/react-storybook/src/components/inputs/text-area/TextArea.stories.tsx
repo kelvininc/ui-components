@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-webpack5";
 import { EIconName, KvTextArea } from "@kelvininc/react-ui-components/client";
 import { action } from "storybook/actions";
 
