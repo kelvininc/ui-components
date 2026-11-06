@@ -31,7 +31,6 @@ export const SCHEMA_FORM_STRINGS = {
 	row: 'row',
 	actions: 'Actions',
 	required: 'required',
-	helpFor: (name: string) => `Help for ${name}`,
 	moveUp: (name: string) => `Move ${name} up`,
 	moveDown: (name: string) => `Move ${name} down`,
 	moveUpLabel: 'Move up',

@@ -9,7 +9,7 @@ import styles from './ObjectFieldTemplate.module.scss';
 import { DEFAULT_INPUT_CONFIG, DEFAULT_INPUT_INLINE_CONFIG } from './config';
 import { SCHEMA_FORM_STRINGS } from '../../strings';
 import { isSectionField } from '../utils';
-import { fitWidth } from './utils';
+import { fitWidth, toLength } from './utils';
 import { SchemaFormContext } from '../../types';
 import { FocusEntry, FocusEntryHandle, focusFromHolder, focusHost } from '../../hooks/entryFocus';
 import { TableRowContext } from '../../contexts/TableContext';
@@ -79,14 +79,16 @@ const ObjectFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F exten
 	const rowWidth = uiOptions.inputWidth ?? inputConfig.width;
 	const rowMinWidth = uiOptions.inputMinWidth ?? inputConfig.minWidth;
 	const rowMaxWidth = uiOptions.inputMaxWidth ?? inputConfig.maxWidth;
+	// Inline rows skip the 100% cap: a parent that sizes to the form ignores percentage widths when measuring it
+	const rowLength = inline ? toLength : fitWidth;
 
 	const inputWidthProps = useMemo(
 		() => ({
-			width: fitWidth(rowWidth),
-			minWidth: fitWidth(rowMinWidth),
-			maxWidth: fitWidth(rowMaxWidth)
+			width: rowLength(rowWidth),
+			minWidth: rowLength(rowMinWidth),
+			maxWidth: rowLength(rowMaxWidth)
 		}),
-		[rowWidth, rowMinWidth, rowMaxWidth]
+		[rowLength, rowWidth, rowMinWidth, rowMaxWidth]
 	);
 	const firstVisibleIndex = inline ? -1 : properties.findIndex(property => !property.hidden);
 	let previousIsSection = false;

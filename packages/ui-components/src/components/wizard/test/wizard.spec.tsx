@@ -283,17 +283,78 @@ describe('Wizard (unit tests)', () => {
 				expect(event.preventDefault).toHaveBeenCalledTimes(1);
 			});
 
-			it('should listen on the document: Enter from a text input advances, from a button it does not', async () => {
+			it('should listen on the document: Enter from the step advances, from a button it does not', async () => {
 				jest.spyOn(comp.goToStep, 'emit');
-				const input = page.doc.createElement('input');
+				const step = page.doc.createElement('div');
 				const button = page.doc.createElement('button');
-				page.doc.body.append(input, button);
+				page.doc.body.append(step, button);
 
-				input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+				step.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
 				expect(comp.goToStep.emit).toHaveBeenCalledTimes(1);
 
 				button.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
 				expect(comp.goToStep.emit).toHaveBeenCalledTimes(1);
+			});
+
+			it('should ignore an Enter confirming a value typed into a text field, without cancelling it', () => {
+				const textField = page.doc.createElement('input');
+				textField.type = 'text';
+
+				const event = pressEnter({ path: [textField] });
+
+				expect(comp.goToStep.emit).not.toHaveBeenCalled();
+				expect(event.preventDefault).not.toHaveBeenCalled();
+			});
+
+			it('should ignore an Enter confirming a value typed into a number field', () => {
+				const numberField = page.doc.createElement('input');
+				numberField.type = 'number';
+
+				pressEnter({ path: [numberField] });
+
+				expect(comp.goToStep.emit).not.toHaveBeenCalled();
+			});
+
+			it('should ignore an Enter inside a dropdown, which drives its own list', () => {
+				const trigger = page.doc.createElement('div');
+				trigger.setAttribute('role', 'combobox');
+
+				pressEnter({ path: [trigger] });
+
+				expect(comp.goToStep.emit).not.toHaveBeenCalled();
+			});
+
+			it('should ignore an Enter reaching the step from a field inside a shadow root', () => {
+				const searchInput = page.doc.createElement('input');
+				searchInput.type = 'search';
+				const dropdown = page.doc.createElement('kv-multi-select-dropdown');
+
+				// The composed path of a key typed into a dropdown's search field, from the inside out
+				pressEnter({ path: [searchInput, dropdown, page.doc.body] });
+
+				expect(comp.goToStep.emit).not.toHaveBeenCalled();
+			});
+
+			it.each([{ isComposing: true }, { keyCode: 229 }])('should leave an Enter confirming an IME composition (%p) to it', init => {
+				const event = pressEnter(init);
+
+				expect(comp.goToStep.emit).not.toHaveBeenCalled();
+				expect(event.preventDefault).not.toHaveBeenCalled();
+			});
+
+			it('should still advance on an Enter pressed on the step itself', () => {
+				pressEnter({ path: [page.doc.createElement('div'), page.doc.body] });
+
+				expect(comp.goToStep.emit).toHaveBeenCalledWith(2);
+			});
+
+			it.each(['checkbox', 'radio'])('should still advance on an Enter from a focused %s, which Enter does nothing to', type => {
+				const choice = page.doc.createElement('input');
+				choice.type = type;
+
+				pressEnter({ path: [choice] });
+
+				expect(comp.goToStep.emit).toHaveBeenCalledWith(2);
 			});
 
 			it('should leave Enter to a focused button even when the key is dispatched elsewhere', () => {

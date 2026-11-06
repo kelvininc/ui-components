@@ -8,6 +8,9 @@
  * Also exports paint styles, text styles, and effect styles.
  */
 
+// Bump whenever the plugin changes — shown in the UI so we know which build is running
+const PLUGIN_VERSION = '2.1.0';
+
 // Show the plugin UI
 figma.showUI(__html__, { width: 550, height: 650 });
 
@@ -83,23 +86,19 @@ function resolveRawValue(value, allVariables, depth = 0) {
 }
 
 /**
- * Resolves a COMPOSE_COLOR variable expression to a hex color string.
- * Figma emits these when a color variable's opacity is bound to an opacity
- * variable: COMPOSE_COLOR(baseColor, alpha), where each argument can be a
- * literal or a VARIABLE_ALIAS.
+ * Composes a base color with an alpha into a hex color string.
+ * Both arguments can be literals or VARIABLE_ALIAS references.
  */
-function resolveComposeColor(expressionArguments, allVariables) {
-	const args = expressionArguments || [];
-
-	const baseColor = resolveRawValue(args[0], allVariables);
+function composeColorWithAlpha(colorValue, alphaValue, allVariables) {
+	const baseColor = resolveRawValue(colorValue, allVariables);
 	if (!baseColor || typeof baseColor !== 'object' || !('r' in baseColor)) {
-		console.warn('COMPOSE_COLOR: could not resolve base color', args[0]);
+		console.warn('Could not resolve base color', colorValue);
 		return null;
 	}
 
-	let alpha = resolveRawValue(args[1], allVariables);
+	let alpha = resolveRawValue(alphaValue, allVariables);
 	if (typeof alpha !== 'number') {
-		console.warn('COMPOSE_COLOR: could not resolve alpha', args[1]);
+		console.warn('Could not resolve alpha', alphaValue);
 		return null;
 	}
 	// Opacity variables hold 0–100 percentages
@@ -108,6 +107,17 @@ function resolveComposeColor(expressionArguments, allVariables) {
 	}
 
 	return rgbaToHex({ r: baseColor.r, g: baseColor.g, b: baseColor.b, a: alpha });
+}
+
+/**
+ * Resolves a COMPOSE_COLOR variable expression to a hex color string.
+ * Figma emits these when a color variable's opacity is bound to an opacity
+ * variable: COMPOSE_COLOR(baseColor, alpha), where each argument can be a
+ * literal or a VARIABLE_ALIAS.
+ */
+function resolveComposeColor(expressionArguments, allVariables) {
+	const args = expressionArguments || [];
+	return composeColorWithAlpha(args[0], args[1], allVariables);
 }
 
 /**
@@ -121,6 +131,12 @@ function convertValue(value, resolvedType, allVariables) {
 		}
 		console.warn(`Unsupported variable expression function: ${value.expressionFunction}`);
 		return null;
+	}
+
+	// Handle colors whose opacity is bound to an opacity variable: Figma also
+	// emits these as { color: {r,g,b,a}, opacity: <literal | VARIABLE_ALIAS> }
+	if (value && typeof value === 'object' && 'color' in value && 'opacity' in value) {
+		return composeColorWithAlpha(value.color, value.opacity, allVariables);
 	}
 
 	// Handle variable aliases
@@ -152,6 +168,13 @@ function convertValue(value, resolvedType, allVariables) {
 		return value;
 	}
 
+	// Any object left here is an unrecognized shape; returning it would dump
+	// raw Figma data into the token JSON, so flag it as unresolved instead
+	if (value && typeof value === 'object') {
+		console.warn('Unsupported variable value shape:', value);
+		return null;
+	}
+
 	return value;
 }
 
@@ -171,6 +194,24 @@ function setNestedValue(obj, path, value) {
 	}
 
 	current[keys[keys.length - 1]] = value;
+}
+
+/**
+ * Sorts token tree keys in natural order. Figma enumerates variables in internal
+ * creation order, which drifts as designers edit the table, so without this every
+ * export reorders the JSON files and buries the real changes in diff noise. The
+ * tokens-sync skill assembler applies the same ordering — keep the two in sync.
+ */
+function sortTokensDeep(node) {
+	if (!node || typeof node !== 'object' || Array.isArray(node) || 'value' in node) {
+		return node;
+	}
+	const sorted = {};
+	const keys = Object.keys(node).sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
+	for (const key of keys) {
+		sorted[key] = sortTokensDeep(node[key]);
+	}
+	return sorted;
 }
 
 /**
@@ -565,12 +606,18 @@ async function exportVariables() {
 			}
 		}
 
+		// Canonical key order so re-exports only diff where values actually changed
+		for (const exp of exports) {
+			exp.tokens = sortTokensDeep(exp.tokens);
+		}
+
 		return {
 			exports,
 			exportDate: new Date().toISOString(),
 			fileName: figma.root.name,
 			totalCollections: collections.length,
-			totalVariables: allVariables.length
+			totalVariables: allVariables.length,
+			pluginVersion: PLUGIN_VERSION
 		};
 	} catch (error) {
 		console.error('Export error:', error);
@@ -585,7 +632,7 @@ figma.ui.onmessage = async (msg) => {
 			const data = await exportVariables();
 			figma.ui.postMessage({ type: 'export-result', data });
 		} catch (error) {
-			figma.ui.postMessage({ type: 'error', message: error.message });
+			figma.ui.postMessage({ type: 'error', message: error.message, pluginVersion: PLUGIN_VERSION });
 		}
 	}
 
@@ -598,5 +645,5 @@ figma.ui.onmessage = async (msg) => {
 exportVariables().then(data => {
 	figma.ui.postMessage({ type: 'export-result', data });
 }).catch(error => {
-	figma.ui.postMessage({ type: 'error', message: error.message });
+	figma.ui.postMessage({ type: 'error', message: error.message, pluginVersion: PLUGIN_VERSION });
 });

@@ -193,9 +193,15 @@ describe.each([StyleMode.Light, StyleMode.Night])('collection guidance in %s', t
 				const icon = add.querySelector('kv-icon');
 				if (row.uiSchema?.['ui:options']?.orderable) {
 					expect(icon).not.toBeNull();
+					// The button keeps its own border and padding before the plus, and the plus fits inside the grip column
+					const button = add.shadowRoot!.querySelector<HTMLElement>('[part="button"]')!;
+					const { borderLeftWidth, paddingLeft } = getComputedStyle(button);
+					expect(parseFloat(paddingLeft)).toBeGreaterThan(0);
 					const drawnIcon = icon!.shadowRoot!.querySelector('.icon')!.getBoundingClientRect();
 					const grip = entry.querySelector('[data-action-menu]')!.getBoundingClientRect();
-					expect(drawnIcon.left + drawnIcon.width / 2).toBeCloseTo(grip.left + grip.width / 2, 0);
+					expect(drawnIcon.left - button.getBoundingClientRect().left).toBeGreaterThanOrEqual(parseFloat(borderLeftWidth) + parseFloat(paddingLeft) - 0.5);
+					expect(drawnIcon.left).toBeGreaterThanOrEqual(grip.left - 0.5);
+					expect(drawnIcon.right).toBeLessThanOrEqual(grip.right + 0.5);
 				} else expect(icon).not.toBeNull();
 				const helper = Array.from(entry.querySelectorAll('kv-form-help-text')).find(host => host.helpText === 'Default: telemetry')!;
 				expect(helper).toBeDefined();

@@ -61,7 +61,10 @@ describe.each([StyleMode.Light, StyleMode.Night])('widget layout in %s', theme =
 					if (width === 200 && helpers.length) {
 						const lastText = helpers.at(-1)!;
 						expect(clearBox.top).toBeGreaterThanOrEqual(lastText.getBoundingClientRect().bottom);
-					} else expect(Math.abs(textBounds(clear).bottom - textBounds(firstText).bottom)).toBeLessThanOrEqual(2);
+					} else {
+						const clearText = field.querySelector('kv-action-button-text')!.shadowRoot!.querySelector('[part="button-text"]')!;
+						expect(Math.abs(textBounds(clearText).bottom - textBounds(firstText).bottom)).toBeLessThanOrEqual(2);
+					}
 				}
 				for (const helper of helpers) {
 					const text = helper.shadowRoot!.querySelector('.help-text')!;
@@ -80,7 +83,7 @@ describe.each([StyleMode.Light, StyleMode.Night])('widget layout in %s', theme =
 				}
 			});
 
-			// While nothing is picked, "Not set" holds the footer's right side that Clear selection takes once a value is
+			// While nothing is picked, "Not set" holds the footer's right side that Clear selection takes once a value is picked
 			it.each(RADIO_FEEDBACK_LAYOUT_SHAPES.filter(row => row.unset))('puts Not set where Clear selection goes for $name', async row => {
 				setThemeMode(theme);
 				const screen = await render(

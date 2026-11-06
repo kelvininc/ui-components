@@ -71,3 +71,24 @@ describe('toggle group keyboard behavior', () => {
 		expect(await focusName()).toBe('after');
 	});
 });
+
+describe('toggle group in a narrow container', () => {
+	it('keeps a multi-word radio label on one line', async () => {
+		const page = await newE2EPage();
+		await page.setContent('<div style="display: flex; width: 40px"><kv-toggle-button-group with-radio></kv-toggle-button-group></div>');
+		await page.evaluate(() => {
+			document.querySelector('kv-toggle-button-group').buttons = [
+				{ value: 'once', label: 'Change Once' },
+				{ value: 'revert', label: 'Change and Revert' }
+			];
+		});
+		await page.waitForChanges();
+		const lineCount = await page.evaluate(() => {
+			const button = document.querySelector('kv-toggle-button-group').shadowRoot.querySelector('kv-toggle-button[value="revert"]');
+			const range = document.createRange();
+			range.selectNodeContents(button.shadowRoot.querySelector('.toggle-button-label'));
+			return range.getClientRects().length;
+		});
+		expect(lineCount).toBe(1);
+	});
+});

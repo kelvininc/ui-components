@@ -87,7 +87,7 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 								*
 							</span>
 						)}
-						<FieldHelp help={cell.column.description} accessibleLabel={SCHEMA_FORM_STRINGS.helpFor(cell.accessibleLabel)} />
+						<FieldHelp help={cell.column.description} />
 					</div>
 				) : (
 					titleElement
@@ -103,9 +103,7 @@ const ControlField = <T, S extends StrictRJSFSchema = RJSFSchema, F extends Form
 										<div className={styles.ItemControl}>
 											<ArrayItemControlsContext.Provider value={null}>{props.children}</ArrayItemControlsContext.Provider>
 										</div>
-										{!titleElement && (
-											<FieldHelp help={props.rawHelp} accessibleLabel={SCHEMA_FORM_STRINGS.helpFor(props.label.trim() || itemControls.itemName)} />
-										)}
+										{!titleElement && <FieldHelp help={props.rawHelp} />}
 										{itemControls.after}
 									</div>
 								) : (

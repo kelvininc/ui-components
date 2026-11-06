@@ -66,7 +66,14 @@
 	}
 }
 
+// Like a fieldset legend, each header child (the heading, the menu) sits on the top border and masks only its own width, so the border line stays visible between them
 .FieldsetHeader {
-	transform: translateY(-50%);
+	align-items: flex-start;
 	margin-bottom: calc(-1 * var(--spacing-2xl));
+
+	> * {
+		transform: translateY(-50%);
+		padding-inline: var(--spacing-xs);
+		background-color: inherit;
+	}
 }

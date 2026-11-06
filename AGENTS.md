@@ -4,6 +4,7 @@ This guide holds the commands and the rules for working in the Kelvin UI Compone
 
 - **`component-create` skill** — file structure, creating a component, changing an existing one
 - **`design-tokens` skill** — the token pipeline, naming, using tokens in component SCSS, legacy helpers to replace
+- **`tokens-sync` skill** — regenerate the token JSON files from the Figma variables table via the Figma MCP, no plugin run needed
 - **`react-tests` skill** — the React package's Vitest projects, Stencil mocks, browser-test helpers and where tests live
 - **`primitives-and-schema-form` skill** — rules for changing components others render, focus and accessible names, built-in labels, and SchemaForm
 - [docs/architecture.md](docs/architecture.md) — packages and build outputs, StencilJS concepts, configuration files, key directories, versioning and deployment
@@ -46,6 +47,7 @@ Package-specific:
 ```bash
 cd packages/ui-components && pnpm build         # also: pnpm test, pnpm test:watch, pnpm test -- kv-button, pnpm lint
 cd packages/ui-components && pnpm tokens:build  # after any change under tokens/
+cd packages/ui-components && pnpm typecheck     # after a build, which generates src/components.d.ts
 cd packages/react-ui-components && pnpm build  # also: pnpm build:watch, pnpm test, pnpm test:browser (react-tests skill)
 cd apps/react-storybook && pnpm dev             # also: pnpm build
 ```
@@ -53,6 +55,7 @@ cd apps/react-storybook && pnpm dev             # also: pnpm build
 ## ⚠️ Rules and gotchas
 
 - **Build packages before apps.** After any change in `packages/ui-components` (component source, types or enums), run `pnpm build:packages` from the root before `react-ui-components` or Storybook can see it; skipping it leaves them on stale types and missing exports.
+- **A passing Stencil build doesn't mean the types check.** Stencil skips its type check on any build that writes `src/components.d.ts`, which includes every clean build. Run `pnpm typecheck` in `packages/ui-components` after building; CI runs it too.
 - **Enum exports are kept in sync by hand.** When an enum is added to or removed from `packages/ui-components`, update the named export list in `packages/react-ui-components/src/ui-components.ts`. `export type *` alone doesn't carry enums, because they are runtime values. The `component-create` skill shows an example.
 - **Naming.** Component tags carry the `kv-` prefix (`tag: 'kv-badge'`); their directories don't (`components/badge/`), and use kebab-case. React components drop the prefix: `<KvBadge />`, imported from `@kelvininc/react-ui-components/client` for client-side rendering.
 - **Components** use Shadow DOM (`shadow: true`) and are themed only through design tokens: `light` and `night` come from the `mode` attribute on `<body>`, never from per-theme SCSS.

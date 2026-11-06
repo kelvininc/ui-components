@@ -32,8 +32,10 @@ describe.each([380, 800])('file action layout at %ipx', width => {
 			if (row.extraErrors) await expect.element(screen.getByText('Client certificate expired.', { exact: true })).toBeVisible();
 			expect(browse.getBoundingClientRect().top - filesBounds.bottom).toBeCloseTo(12, 0);
 			expect(browse.getBoundingClientRect().left).toBeCloseTo(cards[0].getBoundingClientRect().left, 0);
-			// The action's plus or text starts within its transparent 1px border.
-			expect(Math.abs((plus ?? text).getBoundingClientRect().left - cards[0].getBoundingClientRect().left)).toBeLessThanOrEqual(1);
+			// The action keeps the button's own padding, so its plus or text starts after the border and padding
+			const { borderLeftWidth, paddingLeft } = getComputedStyle(browse);
+			expect(parseFloat(paddingLeft)).toBeGreaterThan(0);
+			expect((plus ?? text).getBoundingClientRect().left - browse.getBoundingClientRect().left).toBeCloseTo(parseFloat(borderLeftWidth) + parseFloat(paddingLeft), 0);
 			if (plus) expect(text.getBoundingClientRect().left).toBeGreaterThan(plus.getBoundingClientRect().right);
 			for (const card of cards) expect(card.getBoundingClientRect().width).toBeCloseTo(filesBounds.width, 0);
 			expect(widget.scrollWidth).toBeLessThanOrEqual(widget.clientWidth);

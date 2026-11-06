@@ -10,7 +10,7 @@ import { Meta, StoryObj, StoryFn } from "@storybook/react";
 const MultiSelectDropdownTemplate: StoryFn<
 	ComponentProps<typeof KvMultiSelectDropdown>
 > = (args) => {
-	const [{ selectedOptions }, updateArgs] = useArgs();
+	const [{ selectedOptions, isOpen }, updateArgs] = useArgs();
 
 	const onOptionsSelected = useCallback(
 		({ detail }: CustomEvent<Record<string, boolean>>) => {
@@ -19,11 +19,22 @@ const MultiSelectDropdownTemplate: StoryFn<
 		[updateArgs]
 	);
 
+	// `isOpen` is written back on every render, so the dropdown's own opening and closing is mirrored into
+	// the arg: without this the control would force the list back to the state it was left in
+	const onOpenStateChange = useCallback(
+		({ detail }: CustomEvent<boolean>) => {
+			updateArgs({ isOpen: detail });
+		},
+		[updateArgs]
+	);
+
 	return (
 		<KvMultiSelectDropdown
 			{...args}
+			isOpen={isOpen ?? false}
 			selectedOptions={selectedOptions}
 			onOptionsSelected={onOptionsSelected}
+			onOpenStateChange={onOpenStateChange}
 		/>
 	);
 };

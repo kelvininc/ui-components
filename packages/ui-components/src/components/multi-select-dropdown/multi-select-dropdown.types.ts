@@ -9,7 +9,10 @@ import { ComputePositionConfig } from '@floating-ui/dom';
 export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptionsConfig, 'searchValue' | 'createOptionConfig' | 'createOptionState' | 'clearHiddenSelection'> {
 	/** (required) The text to display as the dropdown placeholder */
 	placeholder?: string;
-	/** (optional) If `true` the dropdown is opened */
+	/**
+	 * (optional) If `true` the dropdown's list is open. The dropdown keeps it in step with its own opening and
+	 * closing, and reports every change through `openStateChange`, so a host can both follow the list and close it.
+	 */
 	isOpen?: boolean;
 	/** (optional) If `true` the dropdown is loading */
 	loading?: boolean;
