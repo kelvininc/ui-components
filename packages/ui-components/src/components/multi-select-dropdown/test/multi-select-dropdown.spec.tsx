@@ -2,7 +2,7 @@ import { SpecPage, newSpecPage } from '@stencil/core/testing';
 import { h } from '@stencil/core';
 import { KvMultiSelectDropdown } from '../multi-select-dropdown';
 import { KvDropdown } from '../../dropdown/dropdown';
-import { ISelectMultiOptions } from '../../select-multi-options/select-multi-options.types';
+import { ECreateOptionStatus, ISelectMultiOptions } from '../../select-multi-options/select-multi-options.types';
 
 const OPTIONS: ISelectMultiOptions = {
 	'option-1': { label: 'Option 1', value: 'option-1' },
@@ -44,6 +44,7 @@ describe('Multi Select Dropdown (unit tests)', () => {
 		const selectElement = page.root.querySelector('kv-select-multi-options');
 		selectElement.clearHighlightedOption = jest.fn();
 		selectElement.focusSearch = jest.fn();
+		selectElement.closeCreatePopup = jest.fn();
 
 		jest.spyOn(comp.openStateChange, 'emit');
 		jest.spyOn(comp.searchChange, 'emit');
@@ -148,5 +149,97 @@ describe('Multi Select Dropdown (unit tests)', () => {
 		await reportOpenState(false);
 
 		expect(clearHighlightedOption).toHaveBeenCalled();
+	});
+
+	it('should close the create form whenever its list closes', async () => {
+		const { closeCreatePopup } = page.root.querySelector('kv-select-multi-options');
+
+		await reportOpenState(true);
+		await reportOpenState(false);
+
+		expect(closeCreatePopup).toHaveBeenCalled();
+	});
+
+	describe('when an option is created', () => {
+		const getSelect = (): HTMLKvSelectMultiOptionsElement => page.root.querySelector('kv-select-multi-options');
+
+		it('should forward the create configuration to its list', async () => {
+			page.root.canAddItems = true;
+			page.root.createInputPlaceholder = 'Name';
+			page.root.createOptionPlaceholder = 'Add a new output';
+			page.root.createOptionConfig = { disabled: true };
+			page.root.createOptionState = { status: ECreateOptionStatus.Idle };
+			await page.waitForChanges();
+
+			// The list isn't loaded here, so the primitives it is handed land as attributes and the objects as properties
+			const select = getSelect();
+			expect(select.hasAttribute('canadditems')).toBe(true);
+			expect(select.getAttribute('createinputplaceholder')).toBe('Name');
+			expect(select.getAttribute('createoptionplaceholder')).toBe('Add a new output');
+			expect(select.createOptionConfig).toEqual({ disabled: true });
+			expect(select.createOptionState).toEqual({ status: ECreateOptionStatus.Idle });
+		});
+
+		it("should re-emit its list's optionCreated, and stop the list's own", async () => {
+			jest.spyOn(comp.optionCreated, 'emit');
+			const createdOptions: string[] = [];
+			page.root.addEventListener('optionCreated', ({ detail }: CustomEvent<string>) => createdOptions.push(detail));
+
+			getSelect().dispatchEvent(new CustomEvent('optionCreated', { detail: 'new-output', bubbles: true }));
+			await page.waitForChanges();
+
+			expect(comp.optionCreated.emit).toHaveBeenCalledWith('new-output');
+			// The dropdown's own emit, and not the list's event it acted on
+			expect(createdOptions).toEqual(['new-output']);
+		});
+
+		it("should re-emit its list's createFormToggle", async () => {
+			jest.spyOn(comp.createFormToggle, 'emit');
+
+			getSelect().dispatchEvent(new CustomEvent('createFormToggle', { detail: true }));
+			await page.waitForChanges();
+
+			expect(comp.createFormToggle.emit).toHaveBeenCalledWith(true);
+		});
+
+		it('should stay open while a create is being submitted', async () => {
+			await reportOpenState(true);
+			getSelect().dispatchEvent(new CustomEvent('createFormToggle', { detail: true }));
+			page.root.createOptionState = { status: ECreateOptionStatus.Loading };
+			await page.waitForChanges();
+
+			expect(getDropdown().clickOutsideClose).toBe(false);
+
+			await reportOpenState(false);
+
+			expect(comp.isOpen).toBe(true);
+		});
+	});
+});
+
+describe('Multi Select Dropdown slots (unit tests)', () => {
+	it('should project a right-slot and a left-slot into its trigger', async () => {
+		const page = await newSpecPage({
+			components: [KvMultiSelectDropdown],
+			template: () => (
+				<kv-multi-select-dropdown options={OPTIONS} autoFocus={false}>
+					<div slot="right-slot" id="right-tag">
+						New
+					</div>
+					<div slot="left-slot" id="left-tag" />
+				</kv-multi-select-dropdown>
+			)
+		});
+
+		const rightTag = page.root.querySelector('#right-tag');
+		const leftTag = page.root.querySelector('#left-tag');
+
+		// The host has no shadow root, so its slots are resolved in place: the consumer's nodes are moved into
+		// the inner dropdown, as its own children, still naming the slot of its trigger they fill
+		expect(rightTag.parentElement.tagName).toBe('KV-DROPDOWN');
+		expect(rightTag.getAttribute('slot')).toBe('right-slot');
+		expect(rightTag.textContent.trim()).toBe('New');
+		expect(leftTag.parentElement.tagName).toBe('KV-DROPDOWN');
+		expect(leftTag.getAttribute('slot')).toBe('left-slot');
 	});
 });
