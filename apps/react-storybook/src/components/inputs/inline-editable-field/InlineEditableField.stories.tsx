@@ -3,7 +3,7 @@ import {
 	KvInlineEditableField,
 	KvInlineEditableFieldCustomEvent
 } from "@kelvininc/react-ui-components/client";
-import { Meta, StoryFn, StoryObj } from "@storybook/react";
+import { Meta, StoryFn, StoryObj } from "@storybook/react-webpack5";
 
 const KvInlineEditableFieldTemplate: StoryFn<
 	ComponentProps<typeof KvInlineEditableField>

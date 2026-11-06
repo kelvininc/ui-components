@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-webpack5";
 import { KvBreadcrumb } from "@kelvininc/react-ui-components/client";
 
 const meta = {

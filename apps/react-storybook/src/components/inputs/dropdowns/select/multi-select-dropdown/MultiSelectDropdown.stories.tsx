@@ -5,7 +5,7 @@ import {
 	EIconName,
 	KvMultiSelectDropdown
 } from "@kelvininc/react-ui-components/client";
-import { Meta, StoryObj, StoryFn } from "@storybook/react";
+import { Meta, StoryObj, StoryFn } from "@storybook/react-webpack5";
 
 const MultiSelectDropdownTemplate: StoryFn<
 	ComponentProps<typeof KvMultiSelectDropdown>

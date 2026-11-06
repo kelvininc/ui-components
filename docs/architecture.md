@@ -21,7 +21,7 @@ ui-components/
 - **Design Tokens**: Style Dictionary v5 + Tokens Studio transforms
 - **Build**: Rollup (for React), Stencil CLI (for core)
 - **Monorepo**: Lerna v9 + pnpm workspaces
-- **Documentation**: Storybook v9 (webpack5 builder)
+- **Documentation**: Storybook v10 (webpack5 builder)
 - **Commit Conventions**: Conventional Commits (with commitlint)
 
 ## Packages

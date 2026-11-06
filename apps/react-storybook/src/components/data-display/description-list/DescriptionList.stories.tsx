@@ -1,4 +1,4 @@
-import type { StoryFn, StoryObj } from "@storybook/react";
+import type { StoryFn, StoryObj } from "@storybook/react-webpack5";
 
 import {
 	EIconName,

@@ -1,6 +1,12 @@
+import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 import type { StorybookConfig } from "@storybook/react-webpack5";
 import path, { join, dirname } from "path";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const require = createRequire(import.meta.url);
 
 const devMode = process.env.NODE_ENV !== "production";
 
