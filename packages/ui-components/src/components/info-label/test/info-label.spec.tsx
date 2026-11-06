@@ -100,6 +100,27 @@ describe('Info Label (unit tests)', () => {
 			expect(wrapperHeight()).toBe('560px');
 		});
 
+		it('should recalculate the cap when descriptionHeight changes', async () => {
+			await render(40);
+			const button = () => page.root.shadowRoot.querySelector('.expand-description-button');
+			expect(button()).not.toBeNull();
+
+			page.root.descriptionHeight = 500;
+			await page.waitForChanges();
+			expect(wrapperHeight()).toBe('');
+			expect(button()).toBeNull();
+
+			page.root.descriptionHeight = 100;
+			await page.waitForChanges();
+			expect(wrapperHeight()).toBe('100px');
+			expect(button()).not.toBeNull();
+
+			page.root.descriptionHeight = undefined;
+			await page.waitForChanges();
+			expect(wrapperHeight()).toBe('');
+			expect(button()).toBeNull();
+		});
+
 		it('should attach a single resize sensor across renders', async () => {
 			await render(40);
 			toggle();

@@ -1,4 +1,4 @@
-import { Component, Prop, h, Host, Element, State } from '@stencil/core';
+import { Component, Prop, h, Host, Element, State, Watch } from '@stencil/core';
 import { ResizeSensor } from 'css-element-queries';
 import { isEmpty } from 'lodash-es';
 import { copyTextToClipboard } from '../../utils/clipboard.helper';
@@ -44,12 +44,21 @@ export class KvInfoLabel {
 	/** The Host's element reference */
 	@Element() el: HTMLKvInfoLabelElement;
 
+	@Watch('descriptionHeight')
+	descriptionHeightWatcher() {
+		// The sensor only fires when the content resizes, so a new cap is applied here
+		if (this.descriptionContainer != null) {
+			this.loadDescriptionHeight();
+		}
+	}
+
 	get showMoreButtonLabel() {
 		return this.isExpanded ? this.descriptionOpenedText : this.descriptionCollapsedText;
 	}
 
 	private loadDescriptionHeight() {
-		if (this.descriptionHeight !== undefined) {
+		// Removing the reflected attribute sets the cap to null, not undefined
+		if (this.descriptionHeight != null) {
 			const descriptionHeight = this.descriptionContainer.clientHeight;
 			this.enableShowMoreButton = descriptionHeight !== undefined && descriptionHeight > this.descriptionHeight;
 		} else {
