@@ -60,6 +60,7 @@ cd apps/react-storybook && pnpm dev             # also: pnpm build
 - **Naming.** Component tags carry the `kv-` prefix (`tag: 'kv-badge'`); their directories don't (`components/badge/`), and use kebab-case. React components drop the prefix: `<KvBadge />`, imported from `@kelvininc/react-ui-components/client` for client-side rendering.
 - **Components** use Shadow DOM (`shadow: true`) and are themed only through design tokens: `light` and `night` come from the `mode` attribute on `<body>`, never from per-theme SCSS.
 - **Styling** uses design tokens, preferring component semantic tokens, then semantic tokens, then core primitives. The legacy `kv-color()`, `@include kv-font-*` and `$spacing-*` helpers still compile but are being phased out. Follow the `design-tokens` skill.
+- **Storybook MCP.** `pnpm storybook` also serves an MCP server at `http://localhost:6006/mcp`, which `.mcp.json` (Claude Code) and `.codex/config.toml` (Codex) register as `storybook`. Start Storybook before a task that needs it; while it is stopped, the server shows as failed. Its props come from the built packages' types, so run `pnpm build:packages` first.
 - **Patches**: `patches/` holds the pnpm patch for `@pxtrn/storybook-addon-docs-stencil@8.0.0`. Don't delete it: install needs it.
 - **Post-install**: React components copy icon assets in a post-install script; Storybook runs it with `CUSTOM_INST=true`.
 - **Versions** are exact between packages (no semver ranges) and use `workspace:*` internally.

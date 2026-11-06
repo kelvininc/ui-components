@@ -1,0 +1,3 @@
+# Storybook MCP, served by `pnpm storybook` (apps/react-storybook) while it runs
+[mcp_servers.storybook]
+url = "http://localhost:6006/mcp"
