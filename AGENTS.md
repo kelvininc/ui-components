@@ -7,10 +7,12 @@ This guide holds the commands and the rules for working in the Kelvin UI Compone
 - **`tokens-sync` skill** — regenerate the token JSON files from the Figma variables table via the Figma MCP, no plugin run needed
 - **`react-tests` skill** — the React package's Vitest projects, Stencil mocks, browser-test helpers and where tests live
 - **`primitives-and-schema-form` skill** — rules for changing components others render, focus and accessible names, built-in labels, and SchemaForm
+- **`vercel-react-best-practices` skill** (Vercel) — React performance rules: re-renders, rendering, bundle size, async work
+- **`vercel-composition-patterns` skill** (Vercel) — compound components, explicit variants instead of boolean props, lifting state. Skip its React 19 section: `react-ui-components` still supports React 18
 - [docs/architecture.md](docs/architecture.md) — packages and build outputs, StencilJS concepts, configuration files, key directories, versioning and deployment
 - [docs/troubleshooting.md](docs/troubleshooting.md) — fixes for module-not-found, Storybook, type, test and pnpm problems
 
-The skills live in `.agents/skills/`, linked from `.claude/skills/` and `.codex/skills/`, so Claude Code and Codex both find them.
+The skills live in `.agents/skills/`, linked from `.claude/skills/` and `.codex/skills/`, so Claude Code and Codex both find them. The two Vercel skills come from [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) and are pinned in `skills-lock.json`. Don't edit them by hand; refresh them with `npx skills@1.7.0 update -p`.
 
 ## 📋 Project Overview
 
