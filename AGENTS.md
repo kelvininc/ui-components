@@ -12,7 +12,7 @@ This guide holds the commands and the rules for working in the Kelvin UI Compone
 
 The skills live in `.agents/skills/`, linked from `.claude/skills/` and `.codex/skills/`, so Claude Code and Codex both find them.
 
-The `frontend-plugins` plugin from the [Kelvin marketplace](https://github.com/kelvininc/agents) adds two React skills from Vercel: `vercel-react-best-practices` for performance work in `react-ui-components`, and `vercel-composition-patterns` for component APIs. Skip the composition skill's React 19 section (`react19-no-forwardref`) while `react-ui-components` still supports React 18. `.claude/settings.json` turns the plugin on for Claude Code; in Codex, run `codex plugin add frontend-plugins@kelvin-plugins-official`.
+The `frontend-plugins` plugin from the [Kelvin marketplace](https://github.com/kelvininc/agents) adds two React skills from Vercel: `vercel-react-best-practices` for performance work in `react-ui-components`, and `vercel-composition-patterns` for component APIs. Skip the composition skill's React 19 section (`react19-no-forwardref`) while `react-ui-components` still supports React 18. `.claude/settings.json` turns the plugin on for Claude Code; in Codex, run `codex plugin marketplace add kelvininc/agents`, then `codex plugin add frontend-plugins@kelvin-plugins-official`.
 
 ## 📋 Project Overview
 
