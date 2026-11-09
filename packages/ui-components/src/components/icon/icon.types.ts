@@ -162,6 +162,8 @@ export enum EIconName {
 	Tasks = 'kv-tasks',
 	TaskCheckmark = 'kv-task-checkmark',
 	Telemetry = 'kv-telemetry',
+	ThumbDown = 'kv-thumb-down',
+	ThumbUp = 'kv-thumb-up',
 	Time = 'kv-time',
 	TrafficLights = 'kv-traffic-lights',
 	TrendingDown = 'kv-trending-down',
