@@ -20,8 +20,8 @@
 		background: var(--color-gray-800);
 		border-radius: var(--radius-md);
 
-		kv-icon::part(icon) {
-			fill: var(--color-brand-600);
+		kv-icon {
+			--icon-color: var(--color-brand-600);
 		}
 	}
 
