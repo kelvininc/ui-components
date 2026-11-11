@@ -97,6 +97,7 @@ export enum EIconName {
 	LogoKelvin = 'kv-logo-kelvin',
 	Magictip = 'kv-magictip',
 	Message = 'kv-message',
+	Mic = 'kv-mic',
 	Minus = 'kv-minus',
 	Monitoring = 'kv-monitoring',
 	More = 'kv-more',
