@@ -308,7 +308,7 @@ describe.each(SECTION_LAYOUT_COMPATIBILITY_SHAPES)('section compatibility: $name
 			const style = getComputedStyle(item!);
 			expect([style.paddingInlineStart, style.paddingInlineEnd, style.paddingBottom]).toEqual(['12px', '12px', '12px']);
 			const header = item!.querySelector('[data-schema-form-item-header]')!;
-			expect(getComputedStyle(header).transform).not.toBe('none');
+			expect(getComputedStyle(header.firstElementChild!).transform).not.toBe('none');
 			expect(getComputedStyle(header).marginBottom).toBe('-16px');
 		} else {
 			expect(getComputedStyle(screen.container.querySelector('[data-custom-section-body]')!).paddingInlineStart).toBe('24px');

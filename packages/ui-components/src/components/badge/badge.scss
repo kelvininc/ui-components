@@ -26,13 +26,12 @@
 	--badge-max-width: fit-content;
 	--badge-height: var(--size-md);
 	--badge-width: unset;
-	
+
 	--badge-background-color-primary: var(--background-container-accent-purple-default);
 	--badge-text-color-primary: var(--text-container-accent-purple-default);
-	
-	--badge-background-color-secondary: var(--background-interactive-counter-default);
-	--badge-text-color-secondary: var(--text-interactive-counter-default);
-	
+
+	--badge-background-color-secondary: var(--background-container-counter-default);
+	--badge-text-color-secondary: var(--text-container-counter-default);
 }
 
 .badge {
@@ -53,13 +52,13 @@
 	&--type-primary {
 		@include badge-type-theme(primary);
 	}
-	
+
 	&--type-secondary {
 		@include badge-type-theme(secondary);
 	}
 
 	&.disabled {
-		color: var(--text-interactive-counter-disabled);
-		background-color: var(--background-interactive-counter-disabled);
+		color: var(--text-container-counter-disabled);
+		background-color: var(--background-container-counter-disabled);
 	}
 }

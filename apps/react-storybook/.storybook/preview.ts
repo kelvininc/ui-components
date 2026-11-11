@@ -1,4 +1,4 @@
-import type { Preview, Decorator } from "@storybook/react";
+import type { Preview, Decorator } from "@storybook/react-webpack5";
 import { createElement, useEffect } from "react";
 import {
 	extractArgTypes,
@@ -125,8 +125,7 @@ const preview: Preview = {
 			hideNoControlsWarning: true
 		},
 		backgrounds: {
-			disable: true,
-			default: "dark"
+			disable: true
 		},
 		options: {
 			storySort: {

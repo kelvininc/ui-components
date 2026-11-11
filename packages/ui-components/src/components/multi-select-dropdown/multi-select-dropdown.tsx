@@ -5,14 +5,15 @@ import { IMultiSelectDropdown, IMultiSelectDropdownEvents } from './multi-select
 
 import { MINIMUM_SEARCHABLE_OPTIONS } from './multi-select-dropdown.config';
 import { getBadgeLabelValue, getDropdownDisplayValue } from './multi-select-dropdown.helper';
-import { CustomCssClass, EComponentSize, IIllustrationMessage } from '../../types';
+import { CustomCssClass, ECreateOptionStatus, EComponentSize, ICreateOptionState, IIllustrationMessage, ISelectCreateOption } from '../../types';
 import { getCssStyle } from '../utils';
 import { ISelectMultiOptions } from '../select-multi-options/select-multi-options.types';
 import { DEFAULT_SEARCH_DEBOUNCE_IN_MS } from '../select-multi-options/select-multi-options.config';
 import { getClassMap } from '../../utils/css-class.helper';
 import { ComputePositionConfig } from '@floating-ui/dom';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
-import { merge } from 'lodash-es';
+import { isOwnOpenStateRequest } from '../dropdown/dropdown.helper';
+import { isEmpty, merge } from 'lodash-es';
 
 @Component({
 	tag: 'kv-multi-select-dropdown',
@@ -22,6 +23,8 @@ import { merge } from 'lodash-es';
 export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelectDropdownEvents {
 	/** @inheritdoc */
 	@Prop({ reflect: true }) placeholder?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true, mutable: true }) isOpen?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) loading?: boolean = false;
 	/** @inheritdoc */
@@ -106,6 +109,16 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Prop({ reflect: true }) hideBadge?: boolean = false;
 	/** @inheritdoc */
 	@Prop({ reflect: true }) maxSelectable?: number;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) canAddItems?: boolean = false;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) createInputPlaceholder?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: true }) createOptionPlaceholder?: string;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) createOptionConfig?: Partial<Omit<ISelectCreateOption, 'value' | 'loading'>>;
+	/** @inheritdoc */
+	@Prop({ reflect: false }) createOptionState?: ICreateOptionState;
 
 	/** @inheritdoc */
 	@Event() optionsSelected: EventEmitter<Record<string, boolean>>;
@@ -121,11 +134,15 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	@Event() clickOutside: EventEmitter<MouseEvent>;
 	/** @inheritdoc */
 	@Event({ bubbles: false }) openStateChange: EventEmitter<boolean>;
+	/** @inheritdoc */
+	@Event() optionCreated: EventEmitter<string>;
+	/** @inheritdoc */
+	@Event({ bubbles: false }) createFormToggle: EventEmitter<boolean>;
 
 	@State() _selectionDisplayValue: string | undefined;
 	@State() _searchValue: string;
 	@State() _badgeLabel: string | undefined = this.badge;
-	@State() _isOpen: boolean = false;
+	@State() isCreateFormOpen: boolean = false;
 
 	/** The Host's element reference */
 	@Element() el: HTMLKvMultiSelectDropdownElement;
@@ -141,6 +158,15 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 	labelValueHandler() {
 		this.calculateLabelValue();
 		this.calculateBadgeValue();
+	}
+
+	@Watch('isOpen')
+	isOpenChangeHandler(isOpen: boolean) {
+		// Closed through the prop, the dropdown drops its search as its own close does. Its own close has
+		// already done so by the time it sets the prop, which makes this a no-op.
+		if (!isOpen) {
+			this.resetOnClose();
+		}
 	}
 
 	/**
@@ -192,8 +218,33 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 		this.dismiss.emit();
 	};
 
-	private onOpenStateChange = ({ detail: state }: CustomEvent<boolean>): void => {
-		this.setOpenState(state);
+	private onOpenStateChange = (event: CustomEvent<boolean>): void => {
+		// A dropdown or a toggle tip slotted into the trigger emits an `openStateChange` of its own, which
+		// bubbles through this one: it is neither acted on here nor stopped below.
+		if (!isOwnOpenStateRequest(event, this.dropdownRef)) {
+			return;
+		}
+
+		// This dropdown's own request comes from its `kv-dropdown-base` and bubbles through it too: stopped
+		// here, a host listening on this element is told the open state once, by the emit below, and not twice.
+		event.stopPropagation();
+
+		// A create being submitted holds the dropdown open: neither the trigger nor a click outside closes it.
+		if (!event.detail && this.isCreateBusy) {
+			return;
+		}
+
+		this.setOpenState(event.detail);
+	};
+
+	private onOptionCreated = (event: CustomEvent<string>): void => {
+		event.stopPropagation();
+		this.optionCreated.emit(event.detail);
+	};
+
+	private onCreateFormToggle = ({ detail: isOpen }: CustomEvent<boolean>): void => {
+		this.isCreateFormOpen = isOpen;
+		this.createFormToggle.emit(isOpen);
 	};
 
 	private setOpenState = (state: boolean): void => {
@@ -203,11 +254,30 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 			}
 		} else {
 			this.setSearch('');
+			this.closeCreatePopup();
 		}
 
 		this.clearHighlightedOption();
-		this._isOpen = state;
+		this.isOpen = state;
+		this.openStateChange.emit(state);
 	};
+
+	private resetOnClose = (): void => {
+		if (!isEmpty(this._searchValue)) {
+			this.setSearch('');
+		}
+
+		this.closeCreatePopup();
+		this.clearHighlightedOption();
+	};
+
+	private closeCreatePopup = (): void => {
+		this.selectRef?.closeCreatePopup();
+	};
+
+	private get isCreateBusy(): boolean {
+		return this.isCreateFormOpen && this.createOptionState?.status === ECreateOptionStatus.Loading;
+	}
 
 	private setSearch = (searchTerm: string): void => {
 		this._searchValue = searchTerm;
@@ -289,14 +359,16 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 				<kv-dropdown
 					ref={element => (this.dropdownRef = element)}
 					inputConfig={this.getInputConfig()}
-					isOpen={this._isOpen}
+					isOpen={this.isOpen}
 					onOpenStateChange={this.onOpenStateChange}
 					disabled={this.disabled}
 					options={this.dropdownOptions}
-					clickOutsideClose={this.clickOutsideClose}
+					clickOutsideClose={this.clickOutsideClose && !this.isCreateBusy}
 					actionElement={this.actionElement}
 					zIndex={this.zIndex}
 				>
+					<slot name="right-slot" slot="right-slot" />
+					<slot name="left-slot" slot="left-slot" />
 					<slot name="dropdown-action" slot="dropdown-action" />
 					<div class={getClassMap(this.customClass)}>
 						<kv-select-multi-options
@@ -315,12 +387,17 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 							selectionAll={this.selectionAll}
 							selectAllLabel={this.selectAllLabel}
 							searchPlaceholder={this.searchPlaceholder}
+							canAddItems={this.canAddItems}
+							createInputPlaceholder={this.createInputPlaceholder}
+							createOptionPlaceholder={this.createOptionPlaceholder}
+							createOptionConfig={this.createOptionConfig}
+							createOptionState={this.createOptionState}
 							maxHeight={this.getMaxHeight()}
 							minHeight={this.getMinHeight()}
 							maxWidth={this.getMaxWidth()}
 							minWidth={this.getMinWidth()}
 							counter={this.counter}
-							shortcuts={this._isOpen && this.shortcuts}
+							shortcuts={this.isOpen && this.shortcuts}
 							showShortcuts={this.showShortcuts}
 							maxSelectable={this.maxSelectable}
 							rangeSelection={this.rangeSelection}
@@ -328,9 +405,12 @@ export class KvMultiSelectDropdown implements IMultiSelectDropdown, IMultiSelect
 							onClearSelection={this.onClearSelection}
 							onOptionsSelected={this.onOptionsSelected}
 							onSelectAll={this.onSelectAll}
+							onOptionCreated={this.onOptionCreated}
+							onCreateFormToggle={this.onCreateFormToggle}
 							onDismiss={this.onDismiss}
 							exportparts="select"
 						>
+							<slot name="create-new-option" slot="create-new-option" />
 							<slot name="select-header-actions" slot="select-header-actions" />
 							<slot name="select-header-label" slot="select-header-label" />
 							<slot name="no-data-available" slot="no-data-available" />

@@ -1,0 +1,13 @@
+{
+	"extraKnownMarketplaces": {
+		"kelvin-plugins-official": {
+			"source": {
+				"source": "github",
+				"repo": "kelvininc/agents"
+			}
+		}
+	},
+	"enabledPlugins": {
+		"frontend-plugins@kelvin-plugins-official": true
+	}
+}

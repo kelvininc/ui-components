@@ -12,6 +12,7 @@ import { buildSingleSelectOptions, getDropdownCustomCss, getDropdownDisplayIcon 
 import { getFlattenSelectOptions } from '../../utils/select.helper';
 import { DEFAULT_SEARCH_DEBOUNCE_IN_MS } from '../select-multi-options/select-multi-options.config';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
+import { isOwnOpenStateRequest } from '../dropdown/dropdown.helper';
 import { isEmpty, merge } from 'lodash-es';
 
 /**
@@ -232,10 +233,20 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 	private onOpenStateChange = (event: CustomEvent<boolean>) => {
 		const { detail: state } = event;
 
-		// A create being submitted holds the dropdown open: neither the trigger nor a click outside closes
-		// it. The request is stopped here too, so that a consumer controlling `isOpen` doesn't act on it.
+		// A dropdown or a toggle tip slotted into the trigger emits an `openStateChange` of its own, which
+		// bubbles through this one: it is neither acted on here nor stopped below.
+		if (!isOwnOpenStateRequest(event, this.dropdownRef)) {
+			return;
+		}
+
+		// This dropdown's own request comes from its `kv-dropdown-base` and bubbles through it too: stopped
+		// here, a host listening on this element is told the open state once, by the emit in `setOpenState`,
+		// and not twice. It also keeps a request this dropdown refuses below from reaching a consumer
+		// controlling `isOpen`.
+		event.stopPropagation();
+
+		// A create being submitted holds the dropdown open: neither the trigger nor a click outside closes it.
 		if (!state && this.isCreateBusy) {
-			event.stopPropagation();
 			return;
 		}
 

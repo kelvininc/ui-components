@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { setThemeMode, StyleMode } from '@kelvininc/ui-components';
+import { EActionButtonType, setThemeMode, StyleMode } from '@kelvininc/ui-components';
 import { describe, expect, it, vi } from 'vitest';
 import { userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
@@ -31,8 +31,8 @@ const focusedControl = () => {
 	while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
 	return active;
 };
-const clearButton = (host: Element): HTMLButtonElement =>
-	Array.from(host.closest('[data-schema-form-field]')!.querySelectorAll('button')).find(button => button.textContent === 'Clear selection')!;
+const clearButton = (host: Element): HTMLKvActionButtonTextElement =>
+	Array.from(host.closest('[data-schema-form-field]')!.querySelectorAll('kv-action-button-text')).find(button => button.text === 'Clear selection')!;
 const unsetAnnotations = (container: Element) => Array.from(container.querySelectorAll('span')).filter(element => element.textContent === 'Not set');
 
 describe.each(RADIO_STYLE_THEMES)('radio presentation in $name', ({ mode }) => {
@@ -245,6 +245,22 @@ describe.each(RADIO_KEYBOARD_SHAPES)('real grouped keyboard: $name', ({ widget }
 		for (const label of ['at-most-once', 'at-least-once']) await expect.element(screen.getByRole('radio', { name: label, exact: true })).not.toBeChecked();
 	});
 
+	it('renders Clear selection as the library text button, which Enter activates', async () => {
+		const onChange = vi.fn();
+		const screen = await render(
+			<KvSchemaForm schema={choiceForm(CHOICE_SCHEMAS[1])} uiSchema={{ choice: { 'ui:widget': widget } }} formData={{ choice: 'at-least-once' }} onChange={onChange} />
+		);
+		await whenAllKelvinReady(screen.container);
+		const host = await whenKelvinReady(screen.container.querySelector<HTMLKvRadioListElement>('kv-radio-list'));
+		expect(clearButton(host).type).toBe(EActionButtonType.Text);
+		const clear = screen.getByRole('button', { name: 'Clear selection for QoS', exact: true });
+		(clear.element() as HTMLElement).focus();
+		await expect.poll(focusedControl).toBe(clear.element());
+		await userEvent.keyboard('{Enter}');
+		await expect.poll(() => onChange.mock.lastCall?.[0].formData.choice).toBeUndefined();
+		await expect.poll(focusedControl).toBe(screen.getByRole('radio', { name: 'at-most-once', exact: true }).element());
+	});
+
 	it.each(OPTION_SOURCES)('respects the $name clear opt-out', async source => {
 		const props = source.build('choice', { allowClearInputs: false });
 		const screen = await render(
@@ -321,8 +337,8 @@ it('focuses the cleared field without moving another field or another form', asy
 	);
 	await whenAllKelvinReady(screen.container);
 	const cleared = screen.container.querySelector('kv-radio-list#north_audit')!;
-	expect(clearButton(screen.container.querySelector('kv-radio-list#north_tls')!).getAttribute('aria-label')).toBe('Clear selection for TLS');
-	expect(clearButton(cleared).getAttribute('aria-label')).toBe('Clear selection for Audit');
+	expect(clearButton(screen.container.querySelector('kv-radio-list#north_tls')!).accessibleLabel).toBe('Clear selection for TLS');
+	expect(clearButton(cleared).accessibleLabel).toBe('Clear selection for Audit');
 	await userEvent.click(clearButton(cleared));
 	await expect.poll(() => onChange.mock.lastCall?.[0].formData).toEqual({ tls: false, audit: undefined });
 	const group = (cleared as HTMLKvRadioListElement).shadowRoot!.querySelector('[role="radiogroup"]')!;
@@ -399,8 +415,7 @@ it.each(CHOICE_DISPATCH_SHAPES)('renders extras for the actual $name widget', as
 	await whenAllKelvinReady(screen.container);
 	expect(unsetAnnotations(screen.container)).toHaveLength(row.expected === 'radio' ? 1 : 0);
 	expect(screen.container.querySelectorAll('kv-radio-list')).toHaveLength(row.expected === 'radio' ? 1 : 0);
-	const clears = Array.from(screen.container.querySelectorAll('button')).filter(button => button.textContent === 'Clear selection');
-	expect(clears).toHaveLength(0);
+	expect(screen.container.querySelectorAll('kv-action-button-text[text="Clear selection"]')).toHaveLength(0);
 });
 
 describe.each(TOGGLE_FOCUS_MODES)('real named toggle group: $name', ({ withRadio }) => {

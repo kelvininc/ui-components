@@ -4,12 +4,15 @@ This guide holds the commands and the rules for working in the Kelvin UI Compone
 
 - **`component-create` skill** — file structure, creating a component, changing an existing one
 - **`design-tokens` skill** — the token pipeline, naming, using tokens in component SCSS, legacy helpers to replace
+- **`tokens-sync` skill** — regenerate the token JSON files from the Figma variables table via the Figma MCP, no plugin run needed
 - **`react-tests` skill** — the React package's Vitest projects, Stencil mocks, browser-test helpers and where tests live
 - **`primitives-and-schema-form` skill** — rules for changing components others render, focus and accessible names, built-in labels, and SchemaForm
 - [docs/architecture.md](docs/architecture.md) — packages and build outputs, StencilJS concepts, configuration files, key directories, versioning and deployment
 - [docs/troubleshooting.md](docs/troubleshooting.md) — fixes for module-not-found, Storybook, type, test and pnpm problems
 
 The skills live in `.agents/skills/`, linked from `.claude/skills/` and `.codex/skills/`, so Claude Code and Codex both find them.
+
+The `frontend-plugins` plugin from the [Kelvin marketplace](https://github.com/kelvininc/agents) adds two React skills from Vercel: `vercel-react-best-practices` for performance work in `react-ui-components`, and `vercel-composition-patterns` for component APIs. Skip the composition skill's React 19 section (`react19-no-forwardref`) while `react-ui-components` still supports React 18. `.claude/settings.json` turns the plugin on for Claude Code; in Codex, run `codex plugin marketplace add kelvininc/agents`, then `codex plugin add frontend-plugins@kelvin-plugins-official`.
 
 ## 📋 Project Overview
 
@@ -46,6 +49,7 @@ Package-specific:
 ```bash
 cd packages/ui-components && pnpm build         # also: pnpm test, pnpm test:watch, pnpm test -- kv-button, pnpm lint
 cd packages/ui-components && pnpm tokens:build  # after any change under tokens/
+cd packages/ui-components && pnpm typecheck     # after a build, which generates src/components.d.ts
 cd packages/react-ui-components && pnpm build  # also: pnpm build:watch, pnpm test, pnpm test:browser (react-tests skill)
 cd apps/react-storybook && pnpm dev             # also: pnpm build
 ```
@@ -53,10 +57,12 @@ cd apps/react-storybook && pnpm dev             # also: pnpm build
 ## ⚠️ Rules and gotchas
 
 - **Build packages before apps.** After any change in `packages/ui-components` (component source, types or enums), run `pnpm build:packages` from the root before `react-ui-components` or Storybook can see it; skipping it leaves them on stale types and missing exports.
+- **A passing Stencil build doesn't mean the types check.** Stencil skips its type check on any build that writes `src/components.d.ts`, which includes every clean build. Run `pnpm typecheck` in `packages/ui-components` after building; CI runs it too.
 - **Enum exports are kept in sync by hand.** When an enum is added to or removed from `packages/ui-components`, update the named export list in `packages/react-ui-components/src/ui-components.ts`. `export type *` alone doesn't carry enums, because they are runtime values. The `component-create` skill shows an example.
 - **Naming.** Component tags carry the `kv-` prefix (`tag: 'kv-badge'`); their directories don't (`components/badge/`), and use kebab-case. React components drop the prefix: `<KvBadge />`, imported from `@kelvininc/react-ui-components/client` for client-side rendering.
 - **Components** use Shadow DOM (`shadow: true`) and are themed only through design tokens: `light` and `night` come from the `mode` attribute on `<body>`, never from per-theme SCSS.
 - **Styling** uses design tokens, preferring component semantic tokens, then semantic tokens, then core primitives. The legacy `kv-color()`, `@include kv-font-*` and `$spacing-*` helpers still compile but are being phased out. Follow the `design-tokens` skill.
+- **Storybook MCP.** `pnpm storybook` also serves an MCP server at `http://localhost:6006/mcp`, which `.mcp.json` (Claude Code) and `.codex/config.toml` (Codex) register as `storybook`. Start Storybook before a task that needs it; while it is stopped, the server shows as failed. Its props come from the built packages' types, so run `pnpm build:packages` first.
 - **Patches**: `patches/` holds the pnpm patch for `@pxtrn/storybook-addon-docs-stencil@8.0.0`. Don't delete it: install needs it.
 - **Post-install**: React components copy icon assets in a post-install script; Storybook runs it with `CUSTOM_INST=true`.
 - **Versions** are exact between packages (no semver ranges) and use `workspace:*` internally.

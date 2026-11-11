@@ -38,7 +38,7 @@ export const TableHeader = ({ table }: { table: TableLayout }) => (
 						*
 					</span>
 				)}
-				<FieldHelp className={styles.HeaderHelp} help={column.description} accessibleLabel={SCHEMA_FORM_STRINGS.helpFor(column.title)} />
+				<FieldHelp className={styles.HeaderHelp} help={column.description} />
 			</div>
 		))}
 		<span id={`${table.id}-actions`} role="columnheader" aria-colindex={table.columns.length + 2} className={styles.Hidden}>

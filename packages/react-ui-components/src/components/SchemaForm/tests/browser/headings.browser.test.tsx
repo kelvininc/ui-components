@@ -22,9 +22,10 @@ describe.each(SECTION_HEADING_SHAPES)('section accessibility: $name', row => {
 			await expect.element(screen.getByRole('group', { name: heading.title, exact: true })).toBeVisible();
 		}
 		expect(screen.container.querySelectorAll('h2,h3,h4,h5,h6')).toHaveLength(row.headings.length);
-		// Section help is a named button beside its heading
-		for (const name of row.helpButtons ?? []) await expect.element(screen.getByRole('button', { name, exact: true })).toBeVisible();
-		expect(screen.container.querySelectorAll('kv-toggle-tip')).toHaveLength(row.helpButtons?.length ?? 0);
+		// Section help is the library's toggle tip, an info icon beside its heading
+		const tips = Array.from(screen.container.querySelectorAll('kv-toggle-tip'));
+		expect(tips).toHaveLength(row.helpTips ?? 0);
+		for (const tip of tips) await expect.element(tip.querySelector<HTMLElement>('kv-icon[slot="open-element-slot"]')!).toBeVisible();
 		if (row.name.startsWith('hidden')) await expect.element(screen.container.querySelector<HTMLElement>('[hidden]')!).not.toBeVisible();
 	});
 });

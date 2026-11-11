@@ -3,7 +3,7 @@ import {
 	KvCodeDiffEditor,
 	ECodeEditorTheme
 } from "@kelvininc/react-ui-components/client";
-import { Meta, StoryFn, StoryObj } from "@storybook/react";
+import { Meta, StoryFn, StoryObj } from "@storybook/react-webpack5";
 import { ComponentProps } from "react";
 
 const onChangeAction = action("Data Changed");

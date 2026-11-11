@@ -1,4 +1,4 @@
-import type { Meta, StoryFn, StoryObj } from "@storybook/react";
+import type { Meta, StoryFn, StoryObj } from "@storybook/react-webpack5";
 import { useArgs } from "storybook/preview-api";
 import {
 	EIconName,

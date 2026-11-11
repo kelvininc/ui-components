@@ -81,6 +81,7 @@
 		"test:watch": "TZ=UTC stencil test --spec --e2e --no-cache --runInBand --watchAll --max-workers=0",
 		"test:spec": "TZ=UTC stencil test --spec --no-cache",
 		"test:e2e": "TZ=UTC stencil test --e2e --no-cache --runInBand",
+		"figma-plugin:bump": "node figma-plugin/bump-version.js",
 		"generate": "stencil generate",
 		"generate:illustrations": "node scripts/generate-illustrations",
 		"lint": "pnpm lint:check",
@@ -90,7 +91,8 @@
 		"eslint:lint": "eslint src --ext .js,.jsx,.ts,.tsx --quiet --cache --fix",
 		"stylelint:check": "stylelint \"./**/*.{css,scss,sass}\"",
 		"stylelint:lint": "stylelint \"./**/*.{css,scss,sass}\" --fix",
-		"validate": "pnpm lint && pnpm test && pnpm build"
+		"typecheck": "tsc --noEmit",
+		"validate": "pnpm lint && pnpm test && pnpm build && pnpm typecheck"
 	},
 	"dependencies": {
 		"@floating-ui/dom": "^1.5.4",

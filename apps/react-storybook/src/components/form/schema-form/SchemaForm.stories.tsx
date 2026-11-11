@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Meta, StoryObj, StoryFn } from "@storybook/react";
+import type { Meta, StoryObj, StoryFn } from "@storybook/react-webpack5";
 import {
 	EApplyDefaults,
 	KvSchemaForm,

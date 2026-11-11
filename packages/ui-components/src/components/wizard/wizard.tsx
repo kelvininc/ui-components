@@ -1,8 +1,9 @@
 import { Component, Event, EventEmitter, Prop, h, State, Watch, Listen } from '@stencil/core';
 import { IWizardFooter } from '../wizard-footer/wizard-footer.types';
 import { IWizardHeader } from '../wizard-header/wizard-header.types';
-import { buildFooterConfig, buildHeaderConfig } from './wizard.helper';
+import { buildFooterConfig, buildHeaderConfig, ownsEnterKey } from './wizard.helper';
 import { IWizard, IWizardEvents, IWizardStep, StepState, EStepState } from './wizard.types';
+import { isImeComposition } from '../../utils/keyboard-event.helper';
 
 @Component({
 	tag: 'kv-wizard',
@@ -86,73 +87,65 @@ export class KvWizard implements IWizard, IWizardEvents {
 
 	@Listen('keydown', { target: 'document' })
 	handleKeyDown(event: KeyboardEvent) {
-		if (event.key === 'Enter') {
-			if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) {
-				return;
-			}
-
-			// Check the composed path for controls inside shadow roots that own Enter.
-			const ownsEnter = (node: unknown) => {
-				const element = node as HTMLElement | null;
-				return (
-					element?.tagName === 'TEXTAREA' ||
-					element?.tagName === 'SELECT' ||
-					element?.tagName === 'BUTTON' ||
-					element?.tagName === 'SUMMARY' ||
-					(element?.tagName === 'INPUT' && ['button', 'submit', 'reset', 'image'].includes((element as HTMLInputElement).type)) ||
-					(element?.tagName === 'A' && element.hasAttribute?.('href')) ||
-					element?.getAttribute?.('role') === 'button' ||
-					element?.isContentEditable === true
-				);
-			};
-			if ([document.activeElement, ...event.composedPath()].some(ownsEnter)) {
-				return;
-			}
-
-			// Don't handle if wizard is disabled
-			if (this.disabled) {
-				return;
-			}
-
-			// Don't handle if current step has errors
-			if (this.currentStepState?.state === EStepState.Error) {
-				return;
-			}
-
-			// Don't handle if the component hasn't fully initialized
-			if (!this.currentFooter) {
-				return;
-			}
-
-			event.preventDefault();
-			if (event.repeat) {
-				return;
-			}
-
-			const { completeEnabled, showCompleteBtn, nextEnabled } = this.currentFooter;
-
-			if (showCompleteBtn) {
-				// Don't handle if complete button is disabled
-				if (!completeEnabled) {
-					return;
-				}
-
-				// Create a synthetic mouse event for consistency with existing API
-				const syntheticEvent = new MouseEvent('click', {
-					bubbles: true,
-					cancelable: true
-				});
-
-				return this.completeClick.emit(syntheticEvent);
-			}
-
-			if (!nextEnabled) {
-				return;
-			}
-
-			// Move to next step
-			return this.goToStep.emit(this.currentStep + 1);
+		if (event.key !== 'Enter') {
+			return;
 		}
+
+		// An Enter a control already handled, one confirming an IME composition, and a page shortcut's
+		if (event.defaultPrevented || isImeComposition(event) || event.altKey || event.ctrlKey || event.metaKey) {
+			return;
+		}
+
+		// Don't handle if wizard is disabled
+		if (this.disabled) {
+			return;
+		}
+
+		// Don't handle if current step has errors
+		if (this.currentStepState?.state === EStepState.Error) {
+			return;
+		}
+
+		// Don't handle if the component hasn't fully initialized
+		if (!this.currentFooter) {
+			return;
+		}
+
+		// Check the composed path for controls inside shadow roots that own Enter: a field confirming the
+		// value typed into it, or a dropdown driving its own list, as much as a button or a link. Checked
+		// after the guards above, which return without walking the path.
+		if ([document.activeElement, ...event.composedPath()].some(ownsEnterKey)) {
+			return;
+		}
+
+		event.preventDefault();
+		if (event.repeat) {
+			return;
+		}
+
+		const { completeEnabled, showCompleteBtn, nextEnabled } = this.currentFooter;
+
+		if (showCompleteBtn) {
+			// Don't handle if complete button is disabled
+			if (!completeEnabled) {
+				return;
+			}
+
+			// Create a synthetic mouse event for consistency with existing API
+			const syntheticEvent = new MouseEvent('click', {
+				bubbles: true,
+				cancelable: true
+			});
+
+			return this.completeClick.emit(syntheticEvent);
+		}
+
+		if (!nextEnabled) {
+			return;
+		}
+
+		// Move to next step
+		return this.goToStep.emit(this.currentStep + 1);
 	}
 
 	render() {

@@ -1,6 +1,12 @@
+import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 import type { StorybookConfig } from "@storybook/react-webpack5";
 import path, { join, dirname } from "path";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const require = createRequire(import.meta.url);
 
 const devMode = process.env.NODE_ENV !== "production";
 
@@ -68,7 +74,8 @@ const config: StorybookConfig = {
 			}
 		},
 		getAbsolutePath("@storybook/addon-webpack5-compiler-swc"),
-		getAbsolutePath("@pxtrn/storybook-addon-docs-stencil")
+		getAbsolutePath("@pxtrn/storybook-addon-docs-stencil"),
+		getAbsolutePath("@storybook/addon-mcp")
 	],
 	framework: {
 		name: getAbsolutePath("@storybook/react-webpack5"),
@@ -94,6 +101,14 @@ const config: StorybookConfig = {
 	],
 	typescript: {
 		reactDocgen: "react-docgen-typescript"
+	},
+	// The components manifest feeds the docs tools of @storybook/addon-mcp.
+	// react-docgen-typescript finds no props in the built React wrappers, so
+	// the manifest reads them from the packages' .d.ts files with
+	// react-component-meta instead. Both need `pnpm build:packages` first.
+	features: {
+		componentsManifest: true,
+		experimentalReactComponentMeta: true
 	},
 	// Storybook 9 consolidated a number of runtime packages into the main
 	// `storybook` package. `@pxtrn/storybook-addon-docs-stencil@8` (patched to

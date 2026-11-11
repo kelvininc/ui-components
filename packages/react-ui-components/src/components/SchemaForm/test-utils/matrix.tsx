@@ -2910,18 +2910,37 @@ export const CUSTOM_FIELD_SHAPES = [
 ] as const;
 export const CUSTOM_FIELDS = { Connection: CustomConnection };
 
-export const FIELD_WIDTH_SHAPES: readonly { name: string; value: unknown; fitted: string | undefined }[] = [
-	{ name: 'absent', value: undefined, fitted: undefined },
-	{ name: 'number', value: 640, fitted: 'min(640px, 100%)' },
-	{ name: 'numeric string', value: ' 640 ', fitted: 'min(640px, 100%)' },
-	{ name: 'pixels', value: '640px', fitted: 'min(640px, 100%)' },
-	{ name: 'percentage', value: '80%', fitted: 'min(80%, 100%)' },
-	{ name: 'expression', value: 'calc(100% - 20px)', fitted: 'min(calc(100% - 20px), 100%)' },
-	{ name: 'keyword', value: 'unset', fitted: 'unset' },
-	{ name: 'empty', value: '', fitted: '' },
-	{ name: 'invalid object', value: { width: 640 }, fitted: undefined },
-	{ name: 'boolean', value: true, fitted: undefined }
+export const FIELD_WIDTH_SHAPES: readonly { name: string; value: unknown; length: string | undefined; fitted: string | undefined }[] = [
+	{ name: 'absent', value: undefined, length: undefined, fitted: undefined },
+	{ name: 'number', value: 640, length: '640px', fitted: 'min(640px, 100%)' },
+	{ name: 'numeric string', value: ' 640 ', length: '640px', fitted: 'min(640px, 100%)' },
+	{ name: 'pixels', value: '640px', length: '640px', fitted: 'min(640px, 100%)' },
+	{ name: 'percentage', value: '80%', length: '80%', fitted: 'min(80%, 100%)' },
+	{ name: 'expression', value: 'calc(100% - 20px)', length: 'calc(100% - 20px)', fitted: 'min(calc(100% - 20px), 100%)' },
+	{ name: 'keyword', value: 'unset', length: 'unset', fitted: 'unset' },
+	{ name: 'empty', value: '', length: '', fitted: '' },
+	{ name: 'invalid object', value: { width: 640 }, length: undefined, fitted: undefined },
+	{ name: 'boolean', value: true, length: undefined, fitted: undefined }
 ] as const;
+export const CONTENT_SIZED_INLINE_SCHEMA: RJSFSchema = {
+	type: 'object',
+	properties: {
+		status: { type: 'string', enum: ['Running', 'Stopped'] },
+		version: { type: 'string', enum: ['1.0.0', '2.0.0'] },
+		cluster: { type: 'string', enum: ['north', 'south'] }
+	}
+};
+export const NESTED_INLINE_SCHEMA: RJSFSchema = {
+	type: 'object',
+	properties: {
+		host: { type: 'string', title: 'Host' },
+		connection: { type: 'object', title: 'Connection', properties: { port: { type: 'integer', title: 'Port' }, timeout: { type: 'integer', title: 'Timeout' } } }
+	}
+};
+export const CONTENT_SIZED_INLINE_SHAPES: readonly { name: string; formContext?: SchemaFormContext }[] = [
+	{ name: 'default widths' },
+	{ name: 'content widths', formContext: { inputConfig: { width: 'fit-content', minWidth: '132px', maxWidth: '252px' } } }
+];
 
 const CONNECTION: RJSFSchema = { type: 'object', title: 'Connection', description: 'Configure the broker connection.', properties: { host: { type: 'string', title: 'Host' } } };
 const CustomTitle = ({ title }: { title: string }) => <strong>{title}</strong>;
@@ -3009,7 +3028,8 @@ export const SECTION_HEADING_SHAPES: readonly {
 	uiSchema?: UiSchema;
 	formData?: unknown;
 	headings: { title: string; level: number }[];
-	helpButtons?: string[];
+	/** Toggle tips beside section headings */
+	helpTips?: number;
 }[] = [
 	{ name: 'titled root', schema: CONNECTION, formData: { host: 'broker-1.local' }, headings: [{ title: 'Connection', level: 2 }] },
 	{ name: 'UI title', schema: CONNECTION, uiSchema: { 'ui:title': 'Broker settings' }, headings: [{ title: 'Broker settings', level: 2 }] },
@@ -3063,7 +3083,7 @@ export const SECTION_HEADING_SHAPES: readonly {
 		uiSchema: { 'ui:help': 'Settings for the MQTT broker connection.' },
 		formData: { host: 'broker-1.local' },
 		headings: [{ title: 'Connection', level: 2 }],
-		helpButtons: ['Help for Connection']
+		helpTips: 1
 	},
 	{
 		name: 'nested heading help',
@@ -3073,7 +3093,7 @@ export const SECTION_HEADING_SHAPES: readonly {
 			{ title: 'Plant', level: 2 },
 			{ title: 'Connection', level: 3 }
 		],
-		helpButtons: ['Help for Connection']
+		helpTips: 1
 	}
 ];
 

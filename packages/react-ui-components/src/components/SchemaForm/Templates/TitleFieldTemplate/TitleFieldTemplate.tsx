@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import { getSectionHeadingLevel, SectionHeadingContext, useSectionDepth } from '../../contexts';
 import { isSectionField } from '../utils';
 import FieldHelp from './FieldHelp';
-import { SCHEMA_FORM_STRINGS } from '../../strings';
 
 const TitleFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>({
 	id,
@@ -38,7 +37,7 @@ const TitleFieldTemplate = <T, S extends StrictRJSFSchema = RJSFSchema, F extend
 				)}
 				{/* Some controls rely on this marker to communicate required state. */}
 				{required && <span className={styles.Required}>*</span>}
-				<FieldHelp help={uiOptions.help} accessibleLabel={SCHEMA_FORM_STRINGS.helpFor(titleToShow)} />
+				<FieldHelp help={uiOptions.help} />
 			</div>
 		)
 	);

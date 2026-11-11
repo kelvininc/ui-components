@@ -2,6 +2,8 @@ import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { optimize } from 'svgo';
 
+import { EIconName } from '../icon.types';
+
 // kv-icon renders <use href="…svg-symbols.svg#name"> against this external sprite.
 // Firefox parses external <use> documents as strict XML, so a single malformed
 // symbol blanks every icon (KFE-3090). The sprite is hand-maintained, so this
@@ -17,5 +19,9 @@ describe('svg-symbols.svg sprite', () => {
 
 	it('contains icon symbols', () => {
 		expect(sprite.match(/<symbol\b/g)?.length ?? 0).toBeGreaterThan(0);
+	});
+
+	it.each(Object.values(EIconName))('should provide an SVG definition when the public icon is %s', name => {
+		expect(new RegExp(`<(?:symbol|svg)\\b[^>]*\\bid="${name}"`).test(sprite)).toBe(true);
 	});
 });

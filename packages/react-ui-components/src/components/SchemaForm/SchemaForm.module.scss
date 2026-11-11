@@ -83,15 +83,11 @@
 			margin-left: auto;
 			justify-content: flex-end;
 		}
+	}
 
-		kv-action-button-text[type='tertiary'] {
-			--button-padding-x-regular: 0;
-
-			&::part(button) {
-				background: var(--transparent);
-				border-width: 0;
-			}
-		}
+	// Inline-size containment hides an inline root's fields from a parent that sizes to its content, such as a toolbar, collapsing the form to 0px
+	&:has(> form > [data-schema-form-field] > div > [data-schema-form-inline]) {
+		container-type: normal;
 	}
 
 	// ObjectFieldTemplate caps its fields; scalar and array roots use the full content width.

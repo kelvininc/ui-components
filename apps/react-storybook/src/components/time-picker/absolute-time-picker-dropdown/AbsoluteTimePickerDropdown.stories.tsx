@@ -1,4 +1,4 @@
-import type { Meta, StoryObj, StoryFn } from "@storybook/react";
+import type { Meta, StoryObj, StoryFn } from "@storybook/react-webpack5";
 import { ComponentProps, useState } from "react";
 import {
 	EAbsoluteTimePickerMode,

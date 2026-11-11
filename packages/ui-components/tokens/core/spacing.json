@@ -1,25 +1,69 @@
 {
-  "size": {
-    "sm": {
+  "border-width": {
+    "default": {
+      "value": "{space.1}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "none": {
+      "value": "{space.0}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "strong": {
+      "value": "{space.2}",
+      "type": "number",
+      "prefix": "spacing"
+    }
+  },
+  "radius": {
+    "2xl": {
       "value": "{space.12}",
       "type": "number",
       "prefix": "spacing"
     },
-    "md": {
+    "3xl": {
       "value": "{space.16}",
       "type": "number",
       "prefix": "spacing"
     },
-    "lg": {
-      "value": "{space.20}",
-      "type": "number",
-      "prefix": "spacing"
-    },
-    "xl": {
+    "4xl": {
       "value": "{space.24}",
       "type": "number",
       "prefix": "spacing"
     },
+    "full": {
+      "value": "{space.999}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "lg": {
+      "value": "{space.6}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "md": {
+      "value": "{space.4}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "none": {
+      "value": "{space.0}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "sm": {
+      "value": "{space.2}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "xl": {
+      "value": "{space.8}",
+      "type": "number",
+      "prefix": "spacing"
+    }
+  },
+  "size": {
     "2xl": {
       "value": "{space.32}",
       "type": "number",
@@ -49,46 +93,36 @@
       "value": "{space.64}",
       "type": "number",
       "prefix": "spacing"
+    },
+    "lg": {
+      "value": "{space.20}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "md": {
+      "value": "{space.16}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "sm": {
+      "value": "{space.12}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "xl": {
+      "value": "{space.24}",
+      "type": "number",
+      "prefix": "spacing"
     }
   },
   "spacing": {
-    "none": {
-      "value": "{space.0}",
+    "2xl": {
+      "value": "{space.16}",
       "type": "number",
       "prefix": "spacing"
     },
     "2xs": {
       "value": "{space.2}",
-      "type": "number",
-      "prefix": "spacing"
-    },
-    "xs": {
-      "value": "{space.4}",
-      "type": "number",
-      "prefix": "spacing"
-    },
-    "sm": {
-      "value": "{space.6}",
-      "type": "number",
-      "prefix": "spacing"
-    },
-    "md": {
-      "value": "{space.8}",
-      "type": "number",
-      "prefix": "spacing"
-    },
-    "lg": {
-      "value": "{space.10}",
-      "type": "number",
-      "prefix": "spacing"
-    },
-    "xl": {
-      "value": "{space.12}",
-      "type": "number",
-      "prefix": "spacing"
-    },
-    "2xl": {
-      "value": "{space.16}",
       "type": "number",
       "prefix": "spacing"
     },
@@ -126,68 +160,34 @@
       "value": "{space.64}",
       "type": "number",
       "prefix": "spacing"
-    }
-  },
-  "radius": {
+    },
+    "lg": {
+      "value": "{space.10}",
+      "type": "number",
+      "prefix": "spacing"
+    },
+    "md": {
+      "value": "{space.8}",
+      "type": "number",
+      "prefix": "spacing"
+    },
     "none": {
       "value": "{space.0}",
       "type": "number",
       "prefix": "spacing"
     },
     "sm": {
-      "value": "{space.2}",
-      "type": "number",
-      "prefix": "spacing"
-    },
-    "md": {
-      "value": "{space.4}",
-      "type": "number",
-      "prefix": "spacing"
-    },
-    "lg": {
       "value": "{space.6}",
       "type": "number",
       "prefix": "spacing"
     },
     "xl": {
-      "value": "{space.8}",
-      "type": "number",
-      "prefix": "spacing"
-    },
-    "2xl": {
       "value": "{space.12}",
       "type": "number",
       "prefix": "spacing"
     },
-    "3xl": {
-      "value": "{space.16}",
-      "type": "number",
-      "prefix": "spacing"
-    },
-    "4xl": {
-      "value": "{space.24}",
-      "type": "number",
-      "prefix": "spacing"
-    },
-    "full": {
-      "value": "{space.999}",
-      "type": "number",
-      "prefix": "spacing"
-    }
-  },
-  "border-width": {
-    "none": {
-      "value": "{space.0}",
-      "type": "number",
-      "prefix": "spacing"
-    },
-    "default": {
-      "value": "{space.1}",
-      "type": "number",
-      "prefix": "spacing"
-    },
-    "strong": {
-      "value": "{space.2}",
+    "xs": {
+      "value": "{space.4}",
       "type": "number",
       "prefix": "spacing"
     }
