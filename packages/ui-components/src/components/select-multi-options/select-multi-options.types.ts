@@ -66,7 +66,7 @@ export interface ISelectMultiOptionsConfig {
 	minSearchOptions?: number;
 	/** (optional) If `true` the keyboard shortcuts can be used to navigate between the dropdown results. Default `false` */
 	shortcuts?: boolean;
-	/** (optional) If `true` an add option will appear at the bottom of options list. Default: `false` */
+	/** (optional) If `true` an add option will appear at the bottom of options list, and Enter in a search that matches no option does what it does. Default: `false` */
 	canAddItems?: boolean;
 	/** (optional) The create new option placeholder. Default: `Add a new option`*/
 	createOptionPlaceholder?: string;
