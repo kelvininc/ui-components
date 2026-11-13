@@ -1,8 +1,8 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Element, Fragment, Method } from '@stencil/core';
+import { Component, Host, h, Prop, Event, EventEmitter, Element, Fragment, Method, State, Listen } from '@stencil/core';
 import { isNil, omitBy } from 'lodash-es';
 import { CLEAR_SELECTION_LABEL, SELECT_ALL_LABEL } from './select.config';
 import { ISelect, ISelectEvents } from './select.types';
-import { hasAnyVisibleElement, isElementVisible } from './select.helper';
+import { hasAnyVisibleElement, hasSlottedContent } from './select.helper';
 import { EActionButtonType, EComponentSize } from '../../types';
 
 /**
@@ -87,8 +87,16 @@ export class KvSelect implements ISelect, ISelectEvents {
 		);
 	}
 
+	/** Redraws when what the slots hold changes: the header actions row shows only while its slot holds something */
+	@State() slotRevision = 0;
+
+	@Listen('slotchange')
+	onSlotChange() {
+		this.slotRevision++;
+	}
+
 	private get hasActionsSlot() {
-		return isElementVisible(this.el, '[slot="select-header-actions"]');
+		return hasSlottedContent(this.el, 'select-header-actions');
 	}
 
 	private get hasLabelSlot() {
