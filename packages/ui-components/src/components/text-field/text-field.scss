@@ -176,6 +176,8 @@ input {
 
 	&:read-only:not(:disabled) {
 		cursor: pointer;
+		// Chromium and WebKit still paint a caret in a focused readonly input
+		caret-color: transparent;
 	}
 
 	&:disabled {
