@@ -25,7 +25,18 @@ export interface IBuildSelectOptionsParams {
 	selectedCount?: number;
 }
 
-export interface ISelectMultiOptionsConfig {
+export interface ISelectNavigationConfig {
+	/** The option value highlighted by keyboard navigation. This is independent of selection. Changes made by the list emit `highlightedOptionChange`. */
+	highlightedOption?: string;
+	/** Highlight the first enabled, selectable option when the list opens or its current highlight is no longer in the results. Default `false`. */
+	autoHighlightFirst?: boolean;
+	/** With `shortcuts`, capture plain Enter, ArrowUp, ArrowDown and Escape from this element before its own handlers run. Other elements, modified keys and IME composition are left alone. Without a target, shortcuts use the existing document listener. */
+	keyboardTarget?: HTMLElement;
+	/** Prevent pointer selection of an option from moving focus or the text caret. Option actions keep their normal focus behavior. Pair with `autoFocus={false}` on a dropdown. Default `false`. */
+	preserveFocus?: boolean;
+}
+
+export interface ISelectMultiOptionsConfig extends ISelectNavigationConfig {
 	/** (optional) The object with the dropdown options */
 	options?: ISelectMultiOptions;
 	/** (optional) Externally filtered dropdown options. When defined, these override the default local search results. */
@@ -98,6 +109,8 @@ export interface ISelectMultiOptionsConfig {
 }
 
 export interface ISelectMultiOptionsEvents extends ISelectEvents {
+	/** Emitted when navigation or result changes move the highlight, or clear it (`null`). Consumers can use the value to announce the active result while focus stays in an editor. */
+	highlightedOptionChange: EventEmitter<string | null>;
 	/** Emitted when the selected options change */
 	optionsSelected: EventEmitter<Record<string, boolean>>;
 	/** Emitted when an option is selected */

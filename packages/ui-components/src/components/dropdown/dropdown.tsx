@@ -94,13 +94,18 @@ export class KvDropdown implements IDropdown, IDropdownEvents {
 
 	render() {
 		const inputConfig = this.getInputConfig();
+		const defaultPositionOptions = getDefaultDropdownPositionConfig(inputConfig);
 
 		return (
 			<Host>
 				<div class="dropdown-container">
 					<kv-dropdown-base
 						isOpen={this.isOpen}
-						options={this.options ?? getDefaultDropdownPositionConfig(inputConfig)}
+						options={{
+							...defaultPositionOptions,
+							...this.options,
+							middleware: this.options?.middleware ?? defaultPositionOptions.middleware
+						}}
 						actionElement={this._actionElement}
 						listElement={this.listElement}
 						clickOutsideClose={this.clickOutsideClose}

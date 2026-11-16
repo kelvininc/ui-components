@@ -43,6 +43,75 @@ describe('KvSelectMultiOptions (unit tests)', () => {
 		element = page.root as HTMLKvSelectMultiOptionsElement;
 	});
 
+	it('should highlight the first enabled result and keep a visible highlight when results change', async () => {
+		const changes = jest.fn();
+		element.addEventListener('highlightedOptionChange', changes);
+		element.options = { disabled: { label: 'Unavailable', value: 'disabled', disabled: true }, heading: { label: 'Results', value: 'heading', selectable: false }, ...OPTIONS };
+		element.autoHighlightFirst = true;
+		await page.waitForChanges();
+		expect(element.highlightedOption).toBe('asset-pump');
+		expect(changes.mock.calls.map(([event]) => event.detail)).toEqual(['asset-pump']);
+
+		element.highlightedOption = 'asset-valve';
+		element.filteredOptions = { valve: OPTIONS.valve, sensor: OPTIONS.sensor };
+		await page.waitForChanges();
+		expect(element.highlightedOption).toBe('asset-valve');
+
+		element.filteredOptions = { sensor: OPTIONS.sensor };
+		await page.waitForChanges();
+		expect(element.highlightedOption).toBe('sensor-pressure');
+		element.filteredOptions = {};
+		await page.waitForChanges();
+		expect(element.highlightedOption).toBeUndefined();
+	});
+
+	it('should leave the highlight empty by default', () => {
+		expect(element.highlightedOption).toBeUndefined();
+	});
+
+	it.each([{ isComposing: true }, { keyCode: 229 }])('should ignore navigation during IME composition (%j)', async composition => {
+		element.shortcuts = true;
+		element.autoHighlightFirst = true;
+		await page.waitForChanges();
+		const selection = jest.fn();
+		element.addEventListener('optionSelected', selection);
+		for (const key of ['ArrowDown', 'Enter', 'Escape']) {
+			const event = new KeyboardEvent('keydown', { key, cancelable: true, ...composition });
+			component.handleKeyDown(event);
+			expect(event.defaultPrevented).toBe(false);
+		}
+		expect(selection).not.toHaveBeenCalled();
+		expect(element.highlightedOption).toBe('asset-pump');
+	});
+
+	it('should leave modified and already handled editor keys alone', async () => {
+		element.shortcuts = true;
+		element.autoHighlightFirst = true;
+		await page.waitForChanges();
+		const selection = jest.fn();
+		element.addEventListener('optionSelected', selection);
+		for (const modifier of ['shiftKey', 'ctrlKey', 'altKey', 'metaKey']) {
+			const event = new KeyboardEvent('keydown', { key: 'Enter', cancelable: true, [modifier]: true });
+			component.handleKeyDown(event, true);
+			expect(event.defaultPrevented).toBe(false);
+		}
+		const handled = new KeyboardEvent('keydown', { key: 'Enter', cancelable: true });
+		handled.preventDefault();
+		component.handleKeyDown(handled, true);
+		expect(selection).not.toHaveBeenCalled();
+	});
+
+	it('should not consume Enter or arrows from the editor when there are no results', async () => {
+		element.shortcuts = true;
+		element.filteredOptions = {};
+		await page.waitForChanges();
+		for (const key of ['Enter', 'ArrowDown', 'ArrowUp']) {
+			const event = new KeyboardEvent('keydown', { key, cancelable: true });
+			component.handleKeyDown(event, true);
+			expect(event.defaultPrevented).toBe(false);
+		}
+	});
+
 	it('should filter options locally when the search value changes', async () => {
 		element.searchValue = 'pump';
 		await page.waitForChanges();

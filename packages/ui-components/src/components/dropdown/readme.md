@@ -1,5 +1,9 @@
 # _<kv-dropdown>_
 
+## Positioning
+
+`options` overrides the default positioning configuration. Changing only `placement` keeps the popup sized to its anchor and retains the default offset and collision handling. Supplying `middleware` replaces the default middleware list, including its sizing behavior.
+
 <!-- Auto Generated Below -->
 
 
