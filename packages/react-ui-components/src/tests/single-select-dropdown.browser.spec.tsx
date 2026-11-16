@@ -139,6 +139,24 @@ describe('Single select dropdown with an external editor', () => {
 		expect(editorKeys).not.toHaveBeenCalled();
 	});
 
+	it.each(['Escape', 'Cancel'])('should return focus to the editor after cancelling item creation with %s', async action => {
+		const { editor, dropdown } = await setUp({ canAddItems: true });
+		await page.getByText('Add a new option', { exact: true }).click();
+		await expect.element(page.getByRole('button', { name: 'Cancel', exact: true })).toBeVisible();
+		if (action === 'Escape') {
+			await page.getByRole('textbox', { name: '', exact: true }).click();
+			await userEvent.keyboard('{Escape}');
+		} else {
+			await page.getByRole('button', { name: 'Cancel', exact: true }).click();
+		}
+		await expect.poll(() => document.activeElement).toBe(editor.element());
+		expect(dropdown.isOpen).toBe(true);
+		await userEvent.keyboard('{ArrowUp}');
+		await expect.poll(() => dropdown.highlightedOption).toBe('tasks');
+		await userEvent.keyboard('{Escape}');
+		await expect.poll(() => dropdown.isOpen).toBe(false);
+	});
+
 	it.each([true, false])('should respect the topmost dropdown on Escape (escapeClose: %s)', async escapeClose => {
 		const { editor, dropdown } = await setUp();
 		const closed = vi.fn();
