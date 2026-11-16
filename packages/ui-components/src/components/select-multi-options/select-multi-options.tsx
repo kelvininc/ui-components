@@ -451,8 +451,14 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 		// After the event, so the focus also finds a form that a listener mounted in response
 		this.applyPendingFocus();
+		if (this.isCreating) return;
+
 		const highlightedIndex = this.selectOptions.currentFlatten.findIndex(option => option.value === this.highlightedOption);
-		if (highlightedIndex >= 0) this.listRef?.scrollToIndex?.(highlightedIndex);
+		const shouldReveal = this.highlightedOption !== this.revealedOption || highlightedIndex !== this.revealedIndex || this.listRef !== this.revealedList;
+		this.revealedOption = this.highlightedOption;
+		this.revealedIndex = highlightedIndex;
+		this.revealedList = this.listRef;
+		if (shouldReveal && highlightedIndex >= 0) this.listRef?.scrollToIndex?.(highlightedIndex);
 	}
 
 	disconnectedCallback() {
@@ -462,6 +468,9 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 	private selectRef?: HTMLKvSelectElement | null;
 	private listRef?: HTMLKvVirtualizedListElement;
+	private revealedOption?: string;
+	private revealedIndex?: number;
+	private revealedList?: HTMLKvVirtualizedListElement;
 
 	private setHighlightedOption = (value?: string): void => {
 		if (this.highlightedOption === value) return;
