@@ -3,7 +3,7 @@ import type { ComponentProps } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
-import { KvSingleSelectDropdown } from '../stencil-generated';
+import { KvDropdownBase, KvSingleSelectDropdown } from '../stencil-generated';
 import { EIconName } from '@kelvininc/ui-components';
 import { whenKelvinReady } from '../test-utils/browser';
 
@@ -137,6 +137,34 @@ describe('Single select dropdown with an external editor', () => {
 		await expect.poll(() => dropdown.isOpen).toBe(false);
 		expect(dismiss).toHaveBeenCalledTimes(1);
 		expect(editorKeys).not.toHaveBeenCalled();
+	});
+
+	it.each([true, false])('should respect the topmost dropdown on Escape (escapeClose: %s)', async escapeClose => {
+		const { editor, dropdown } = await setUp();
+		const closed = vi.fn();
+		const overlay = await render(
+			<KvDropdownBase isOpen actionElement={editor.element() as HTMLElement} escapeClose={escapeClose} onOpenStateChange={closed}>
+				<div slot="list">Another popup</div>
+			</KvDropdownBase>
+		);
+		await whenKelvinReady(overlay.container.querySelector('kv-dropdown-base')!);
+		await userEvent.keyboard('{Escape}');
+		expect(dropdown.isOpen).toBe(true);
+		expect(dropdown.highlightedOption).toBe('assets');
+		if (escapeClose) {
+			expect(closed).toHaveBeenCalledTimes(1);
+			expect(closed.mock.calls[0][0].detail).toBe(false);
+		} else {
+			expect(closed).not.toHaveBeenCalled();
+		}
+	});
+
+	it.each([false, true])('should close on Escape when editor shortcuts are off (initial shortcuts: %s)', async initiallyEnabled => {
+		const { dropdown } = await setUp({ shortcuts: initiallyEnabled });
+		dropdown.shortcuts = false;
+		await expect.poll(() => document.querySelector('kv-select-multi-options')?.shortcuts).toBe(false);
+		await userEvent.keyboard('{Escape}');
+		await expect.poll(() => dropdown.isOpen).toBe(false);
 	});
 
 	it('should pass IME, modified, and ordinary typing keys through to the editor', async () => {
