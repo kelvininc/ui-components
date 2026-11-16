@@ -145,7 +145,16 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		filtered: Record<string, ISelectOption>;
 		flatten: Record<string, ISelectOption>;
 	};
-	@State() highlightedOption?: string;
+	/** @inheritdoc */
+	@Prop({ mutable: true }) highlightedOption?: string;
+	/** @inheritdoc */
+	@Prop() autoHighlightFirst = false;
+	/** @inheritdoc */
+	@Prop() keyboardTarget?: HTMLElement;
+	/** @inheritdoc */
+	@Prop() preserveFocus = false;
+	/** @inheritdoc */
+	@Event() highlightedOptionChange: EventEmitter<string | null>;
 	@State() isCreateFormOpen: boolean = false;
 
 	@Watch('options')
@@ -218,7 +227,6 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		event.stopPropagation();
 		const { detail: selectedOptionKey } = event;
 		this.selectOption(selectedOptionKey);
-		this.highlightedOption = selectedOptionKey;
 	};
 
 	private onDismiss = (): void => {
@@ -259,6 +267,15 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		this.calculateLabelValue();
 	};
 
+	private onHighlightedOptionChange = (event: CustomEvent<string | null>): void => {
+		event.stopPropagation();
+		// A click can update the list's highlight after its selection has closed this dropdown.
+		const value = event.detail ?? undefined;
+		if ((!this.isOpen && value !== undefined) || this.highlightedOption === value) return;
+		this.highlightedOption = value;
+		this.highlightedOptionChange.emit(event.detail);
+	};
+
 	private onOptionCreated = (event: CustomEvent<string>): void => {
 		event.stopPropagation();
 		this.optionCreated.emit(event.detail);
@@ -288,10 +305,9 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 			this.closeCreatePopup();
 		}
 
-		this.highlightedOption = undefined;
 		this.isOpen = state;
 		this.openStateChange.emit(state);
-		this.clearHighlightedOption();
+		if (!state) this.clearHighlightedOption();
 	};
 
 	private setSearch = (searchTerm: string): void => {
@@ -353,7 +369,10 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 		}
 
 		this.closeCreatePopup();
-		this.highlightedOption = undefined;
+		if (this.highlightedOption !== undefined) {
+			this.highlightedOption = undefined;
+			this.highlightedOptionChange.emit(null);
+		}
 		this.clearHighlightedOption();
 	};
 
@@ -413,6 +432,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 					disabled={this.disabled}
 					options={this.dropdownOptions}
 					clickOutsideClose={this.clickOutsideClose && !this.isCreateBusy}
+					escapeClose={!this.keyboardTarget}
 					actionElement={this.actionElement}
 					zIndex={this.zIndex}
 				>
@@ -446,7 +466,12 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 							maxWidth={this.getMaxWidth()}
 							minWidth={this.getMinWidth()}
 							counter={this.counter}
-							shortcuts={this.isOpen && this.shortcuts}
+							shortcuts={this.isOpen && this.shortcuts && !this.disabled}
+							keyboardTarget={this.keyboardTarget}
+							highlightedOption={this.highlightedOption}
+							autoHighlightFirst={this.isOpen && this.autoHighlightFirst}
+							preserveFocus={this.preserveFocus}
+							onHighlightedOptionChange={this.onHighlightedOptionChange}
 							showShortcuts={this.showShortcuts}
 							rangeSelection={false}
 							onSearchChange={this.onSearchChange}

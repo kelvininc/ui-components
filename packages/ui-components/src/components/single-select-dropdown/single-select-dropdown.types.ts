@@ -1,5 +1,5 @@
 import { EventEmitter } from '@stencil/core';
-import { ICreateOptionState, ISelectCreateOption, ISelectOption, ISelectMultiOptionsEvents, IMultiSelectDropdown } from '../../types';
+import { ISelectNavigationConfig, ICreateOptionState, ISelectCreateOption, ISelectOption, ISelectMultiOptionsEvents, IMultiSelectDropdown } from '../../types';
 
 export interface ISelectSingleOption
 	extends Pick<
@@ -11,7 +11,7 @@ export interface ISelectSingleOption
 
 export type ISelectSingleOptions = Record<string, ISelectSingleOption>;
 
-export interface ISingleSelectDropdown extends Omit<IMultiSelectDropdown, 'selectedOptions' | 'options' | 'filteredOptions' | 'rangeSelection'> {
+export interface ISingleSelectDropdown extends Omit<IMultiSelectDropdown, 'selectedOptions' | 'options' | 'filteredOptions' | 'rangeSelection'>, ISelectNavigationConfig {
 	/** (optional) The value of the selected option */
 	selectedOption?: string;
 	/** (optional) The object with the dropdown options */

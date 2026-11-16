@@ -24,7 +24,7 @@ export const buildSingleSelectOptions = (options: ISelectSingleOptions = {}): Re
 	Object.values(options).reduce<Record<string, ISelectMultiOption>>((accumulator, option) => {
 		accumulator[option.value] = {
 			...option,
-			selectable: isEmpty(option.options),
+			selectable: option.selectable !== false && isEmpty(option.options),
 			options: buildSingleSelectOptions(option.options),
 			togglable: false
 		};

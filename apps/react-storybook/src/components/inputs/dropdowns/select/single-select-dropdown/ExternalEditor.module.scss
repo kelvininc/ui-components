@@ -1,0 +1,15 @@
+.external-editor {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-md);
+	padding-block-start: calc(4 * var(--size-7xl));
+
+	textarea {
+		padding: var(--spacing-md);
+		border: 1px solid var(--border-surface-neutral-default);
+		border-radius: var(--radius-md);
+		background: var(--background-container-neutral-default);
+		color: var(--text-surface-neutral-primary);
+		font: inherit;
+	}
+}

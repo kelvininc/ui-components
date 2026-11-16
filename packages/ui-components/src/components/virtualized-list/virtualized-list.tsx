@@ -1,6 +1,6 @@
-import { Component, Host, Prop, State, h } from '@stencil/core';
+import { Component, Host, Method, Prop, State, h } from '@stencil/core';
 import { VNode, Watch } from '@stencil/core/internal';
-import { debounce, throttle } from 'lodash-es';
+import { clamp, debounce, throttle } from 'lodash-es';
 import { buildElement } from './virtualized-list.helper';
 import { IVirtualizedList, RenderItemFunc } from './virtualized-list.types';
 
@@ -22,6 +22,25 @@ export class KvVirtualizedList implements IVirtualizedList {
 	@Prop({ reflect: true }) overscanCount: number = 5;
 
 	private containerElement: HTMLDivElement;
+
+	/** Scroll an item into view without moving focus. The index is clamped to the list bounds. */
+	@Method()
+	async scrollToIndex(index: number): Promise<void> {
+		if (!this.containerElement || this.itemCount <= 0 || !Number.isFinite(index)) return;
+
+		const top = clamp(Math.trunc(index), 0, this.itemCount - 1) * this.itemHeight;
+		const bottom = top + this.itemHeight;
+		const viewportTop = this.containerElement.scrollTop;
+		const viewportHeight = this.containerElement.clientHeight;
+		if (top < viewportTop) {
+			this.containerElement.scrollTop = top;
+		} else if (bottom > viewportTop + viewportHeight) {
+			this.containerElement.scrollTop = bottom - viewportHeight;
+		}
+
+		this.updateScrollTop();
+		this.updateVisibleElements();
+	}
 
 	// create an Observer instance
 	private resizeObserver = new ResizeObserver(() => this.debounceResize());

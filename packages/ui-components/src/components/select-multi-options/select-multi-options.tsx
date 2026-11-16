@@ -44,6 +44,7 @@ import {
 	isAddOption
 } from './select-multi-options.helper';
 import { selectHelper } from '../../utils';
+import { isImeComposition } from '../../utils/keyboard-event.helper';
 import pluralize from 'pluralize';
 import type { IIllustrationMessage } from '../illustration-message/illustration-message.types';
 import type { ISelectCreateOption } from '../select-create-option/select-create-option.types';
@@ -185,7 +186,16 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		currentSelectable: ISelectOptionWithChildren[];
 		searchAvailable: boolean;
 	};
-	@State() highlightedOption: string;
+	/** @inheritdoc */
+	@Prop({ mutable: true }) highlightedOption?: string;
+	/** @inheritdoc */
+	@Prop() autoHighlightFirst = false;
+	/** @inheritdoc */
+	@Prop() keyboardTarget?: HTMLElement;
+	/** @inheritdoc */
+	@Prop() preserveFocus = false;
+	/** @inheritdoc */
+	@Event() highlightedOptionChange: EventEmitter<string | null>;
 	@State() debouncedSearchValue?: string;
 	@State() isCreating: boolean = false;
 	@State() createdOptionValue: string = '';
@@ -261,6 +271,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	@Watch('debouncedSearchValue')
 	@Watch('selectedOptions')
 	@Watch('highlightedOption')
+	@Watch('autoHighlightFirst')
+	@Watch('keyboardTarget')
 	@Watch('maxSelectable')
 	@Watch('canAddItems')
 	@Watch('createOptionPlaceholder')
@@ -324,7 +336,16 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 			createInputPlaceholder: this.createOptionPlaceholder
 		});
 		const selectCurrentFlattenOptions = flattenSelectOptionsArray(selectCurrentOptionsArray);
-		const selectCurrentSelectableOptions = getSelectableOptionsFromArray(selectCurrentFlattenOptions);
+		const selectableOptions = getSelectableOptionsFromArray(selectCurrentFlattenOptions);
+		const selectCurrentSelectableOptions =
+			!isNil(this.keyboardTarget) || this.autoHighlightFirst ? selectableOptions.filter(option => option.selectable !== false) : selectableOptions;
+
+		const hasHighlight = this.highlightedOption ? selectCurrentSelectableOptions.some(option => option.value === this.highlightedOption) : undefined;
+		const nextHighlight = hasHighlight ? this.highlightedOption : this.autoHighlightFirst ? selectCurrentSelectableOptions[0]?.value : undefined;
+		this.setHighlightedOption(nextHighlight);
+		for (const option of selectCurrentFlattenOptions) {
+			option.highlighted = option.value === nextHighlight;
+		}
 
 		this.selectOptions = {
 			totalFlatten: selectFlattenOptions,
@@ -335,8 +356,22 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		};
 	}
 
+	@Listen('keydown', { target: 'document', capture: true })
+	handleTargetKeyDown(event: KeyboardEvent) {
+		if (this.keyboardTarget && event.composedPath().includes(this.keyboardTarget)) {
+			this.handleKeyDown(event, true);
+		}
+	}
+
 	@Listen('keydown', { target: 'document' })
-	handleKeyDown(event: KeyboardEvent) {
+	handleDocumentKeyDown(event: KeyboardEvent) {
+		if (isNil(this.keyboardTarget) || (event.key === 'Escape' && event.composedPath().includes(this.el))) this.handleKeyDown(event);
+	}
+
+	handleKeyDown(event: KeyboardEvent, fromTarget = false) {
+		if (event.defaultPrevented || isImeComposition(event)) return;
+		if (fromTarget && (event.shiftKey || event.ctrlKey || event.metaKey || event.altKey)) return;
+
 		const isCreateFormEvent = this.isCreateFormEvent(event);
 
 		// The form closed itself on this Escape, so it handled it: the dropdown must not close on it too. An
@@ -350,6 +385,15 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		// checked by its path too: a custom form may have closed itself on it before this runs.
 		if (!this.shortcuts || this.isCreating || isCreateFormEvent) {
 			return;
+		}
+
+		if (fromTarget) {
+			const hasOptions = this.selectOptions.currentSelectable.length > 0;
+			const hasHighlight = this.selectOptions.currentSelectable.some(option => option.value === this.highlightedOption);
+			const handled = event.key === 'Escape' || (hasOptions && (event.key === 'ArrowUp' || event.key === 'ArrowDown')) || (hasHighlight && event.key === 'Enter');
+			if (!handled) return;
+			event.preventDefault();
+			event.stopPropagation();
 		}
 
 		switch (event.key) {
@@ -373,7 +417,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	/** Clears the highlighted option state */
 	@Method()
 	async clearHighlightedOption(): Promise<void> {
-		this.highlightedOption = undefined;
+		this.setHighlightedOption(undefined);
 		this.resetRangeSelection();
 	}
 
@@ -405,6 +449,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 		// After the event, so the focus also finds a form that a listener mounted in response
 		this.applyPendingFocus();
+		const highlightedIndex = this.selectOptions.currentFlatten.findIndex(option => option.value === this.highlightedOption);
+		if (highlightedIndex >= 0) this.listRef?.scrollToIndex?.(highlightedIndex);
 	}
 
 	disconnectedCallback() {
@@ -413,6 +459,19 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	}
 
 	private selectRef?: HTMLKvSelectElement | null;
+	private listRef?: HTMLKvVirtualizedListElement;
+
+	private setHighlightedOption = (value?: string): void => {
+		if (this.highlightedOption === value) return;
+		this.highlightedOption = value;
+		this.highlightedOptionChange.emit(value ?? null);
+	};
+
+	private onOptionPointerDown = (event: MouseEvent | PointerEvent): void => {
+		if (!this.preserveFocus || event.button !== 0) return;
+		const isAction = event.composedPath().some(element => element instanceof HTMLElement && element.localName === 'kv-action-button-icon');
+		if (!isAction) event.preventDefault();
+	};
 
 	private onEnter = (isShiftKey: boolean): void => {
 		if (isEmpty(this.highlightedOption)) {
@@ -423,15 +482,15 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	};
 
 	private onNavigateDown = (): void => {
-		this.highlightedOption = getNextHightlightableOption(this.selectOptions.currentSelectable, this.highlightedOption);
+		this.setHighlightedOption(getNextHightlightableOption(this.selectOptions.currentSelectable, this.highlightedOption));
 	};
 
 	private onNavigateUp = (): void => {
-		this.highlightedOption = getPreviousHightlightableOption(this.selectOptions.currentSelectable, this.highlightedOption);
+		this.setHighlightedOption(getPreviousHightlightableOption(this.selectOptions.currentSelectable, this.highlightedOption));
 	};
 
 	private onDismiss = (): void => {
-		this.highlightedOption = undefined;
+		this.setHighlightedOption(undefined);
 		this.resetRangeSelection();
 		this.dismiss.emit();
 	};
@@ -491,7 +550,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		}
 
 		if (this.shortcuts) {
-			this.highlightedOption = selectedOptionKey;
+			this.setHighlightedOption(selectedOptionKey);
 		}
 	};
 
@@ -743,6 +802,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 		return (
 			<kv-virtualized-list
+				ref={element => (this.listRef = element)}
 				key="options-list"
 				itemCount={items.length}
 				itemHeight={SELECT_OPTION_HEIGHT_IN_PX}
@@ -752,6 +812,8 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 						key={items[index].value}
 						{...items[index]}
 						onClick={event => this.onOptionClick(event, items[index].value)}
+						onPointerDown={this.onOptionPointerDown}
+						onMouseDown={this.onOptionPointerDown}
 						onItemSelected={this.onRenderedItemSelected}
 						style={{
 							'--select-option-height': `${SELECT_OPTION_HEIGHT_IN_PX}px`
