@@ -249,6 +249,30 @@ describe('Single select dropdown with an external editor', () => {
 		await expect.element(page.getByText('Result 25', { exact: true })).toBeVisible();
 	});
 
+	it.each(['counter update', 'creation cancellation'])('should preserve manual scrolling after %s when the highlight is unchanged', async update => {
+		const options = Object.fromEntries(Array.from({ length: 60 }, (_, index) => [String(index), { value: String(index), label: `Result ${index}` }]));
+		const { dropdown } = await setUp({ options, shortcuts: false, canAddItems: true });
+		await expect.poll(() => dropdown.highlightedOption).toBe('0');
+		const panel = document.querySelector('kv-select-multi-options')!;
+		const list = await whenKelvinReady(panel.shadowRoot!.querySelector('kv-virtualized-list')!);
+		const viewport = list.shadowRoot!.querySelector<HTMLElement>('.container')!;
+		await expect.poll(() => viewport.scrollHeight).toBeGreaterThan(viewport.clientHeight);
+		viewport.scrollTop = update === 'counter update' ? 600 : viewport.scrollHeight;
+		await expect.poll(() => viewport.scrollTop).toBeGreaterThan(0);
+		const manualScroll = viewport.scrollTop;
+
+		if (update === 'counter update') {
+			dropdown.counter = true;
+			await expect.poll(() => panel.hasAttribute('counter')).toBe(true);
+		} else {
+			await page.getByText('Add a new option', { exact: true }).click();
+			await page.getByRole('button', { name: 'Cancel', exact: true }).click();
+			await expect.element(page.getByText('Add a new option', { exact: true })).toBeVisible();
+		}
+		expect(dropdown.highlightedOption).toBe('0');
+		expect(viewport.scrollTop).toBe(manualScroll);
+	});
+
 	it('should route keys only to the dropdown for the focused editor', async () => {
 		const firstSelected = vi.fn();
 		const secondSelected = vi.fn();
