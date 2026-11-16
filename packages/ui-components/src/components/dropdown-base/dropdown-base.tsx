@@ -3,7 +3,7 @@ import { Component, Host, h, Prop, Event, EventEmitter, Listen, Element, State, 
 
 import { DEFAULT_POSITION_CONFIG } from './dropdown-base.config';
 import { IDropdownBase, IDropdownBaseEvents } from './dropdown-base.types';
-import { addOpenDropdown, isInPortalAnchoredWithin, isTopmostOpenDropdown, removeOpenDropdown, trackOpenDropdown } from './dropdown-base.helper';
+import { addOpenDropdown, isInPortalAnchoredWithin, isTopmostOpenDropdown, registerDropdownPortal, removeOpenDropdown, trackOpenDropdown } from './dropdown-base.helper';
 import { didClickOnElement } from '../../utils/mouse-event.helper';
 import { isImeComposition } from '../../utils/keyboard-event.helper';
 import { DEFAULT_DROPDOWN_Z_INDEX } from '../../globals/config';
@@ -137,7 +137,17 @@ export class KvDropdownBase implements IDropdownBase, IDropdownBaseEvents {
 					<slot name="action"></slot>
 				</div>
 
-				<kv-portal animated ref={el => (this.portal = el)} show={this.isOpen} reference={this.getActionElement()} options={this.options} zIndex={this.zIndex}>
+				<kv-portal
+					animated
+					ref={el => {
+						this.portal = el;
+						if (el) registerDropdownPortal(el, this.element);
+					}}
+					show={this.isOpen}
+					reference={this.getActionElement()}
+					options={this.options}
+					zIndex={this.zIndex}
+				>
 					<div class="dropdown-base-list">
 						{/* Shadow Root should be false to slot work here */}
 						<slot name="list"></slot>

@@ -432,7 +432,7 @@ export class KvSingleSelectDropdown implements ISingleSelectDropdown, ISingleSel
 					disabled={this.disabled}
 					options={this.dropdownOptions}
 					clickOutsideClose={this.clickOutsideClose && !this.isCreateBusy}
-					escapeClose={!this.keyboardTarget}
+					escapeClose={!this.keyboardTarget || !this.shortcuts || this.disabled}
 					actionElement={this.actionElement}
 					zIndex={this.zIndex}
 				>
