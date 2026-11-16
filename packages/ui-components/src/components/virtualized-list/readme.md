@@ -14,6 +14,25 @@
 | `renderItem`    | `render-item`    | (required) Defines the item render function                                         | `(index: number) => ChildType \| Promise<ChildType> \| ChildType[] \| Promise<ChildType[]> \| Promise<ChildType>[]` | `undefined` |
 
 
+## Methods
+
+### `scrollToIndex(index: number) => Promise<void>`
+
+Scroll an item into view without moving focus. The index is clamped to the list bounds.
+
+#### Parameters
+
+| Name    | Type     | Description |
+| ------- | -------- | ----------- |
+| `index` | `number` |             |
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+
 ## CSS Custom Properties
 
 | Name                            | Description                      |

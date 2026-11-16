@@ -4,7 +4,8 @@ import {
 	useCallback,
 	useEffect,
 	useMemo,
-	useRef
+	useRef,
+	useState
 } from "react";
 import { selectHelper } from "@kelvininc/react-ui-components/client";
 import { useArgs } from "storybook/preview-api";
@@ -37,6 +38,7 @@ import {
 } from "./config";
 import { buildTagOption, getCreateTagLabel, requestTagCreation } from "./utils";
 import * as styles from "./SingleSelectDropdown.module.scss";
+import * as editorStyles from "./ExternalEditor.module.scss";
 
 type SingleSelectDropdownArgs = ComponentProps<typeof KvSingleSelectDropdown>;
 
@@ -591,5 +593,83 @@ export const AddOptionColorPicker: StoryObj<AddOptionColorPickerArgs> = {
 	},
 	parameters: {
 		controls: { exclude: CREATE_STORY_DERIVED_ARGS }
+	}
+};
+
+const ExternalEditorExample = (): React.JSX.Element => {
+	const [editor, setEditor] = useState<HTMLTextAreaElement | null>(null);
+	const [value, setValue] = useState("");
+	const [open, setOpen] = useState(false);
+	const [highlight, setHighlight] = useState<string>();
+	const options: NonNullable<SingleSelectDropdownArgs["options"]> =
+		SMALL_SET_DROPDOWN_OPTIONS_MOCK;
+	const filtered = useMemo(
+		() => selectHelper.searchDropdownOptions(value, options),
+		[value, options]
+	);
+	const isOpen = open && Object.keys(filtered).length > 0;
+
+	return (
+		<div className={editorStyles["external-editor"]}>
+			<label htmlFor="dropdown-editor">
+				Search options from an editor
+			</label>
+			<p id="dropdown-editor-help">
+				Type to filter. Use Up and Down to highlight, Enter to select,
+				or Escape to close.
+			</p>
+			<textarea
+				id="dropdown-editor"
+				ref={setEditor}
+				value={value}
+				aria-describedby="dropdown-editor-help"
+				onFocus={() => setOpen(true)}
+				onChange={(event) => {
+					setValue(event.currentTarget.value);
+					setOpen(true);
+				}}
+			/>
+			{editor && (
+				<KvSingleSelectDropdown
+					actionElement={editor}
+					keyboardTarget={editor}
+					dropdownOptions={{ placement: "top-start" }}
+					options={options}
+					filteredOptions={filtered}
+					isOpen={isOpen}
+					onOpenStateChange={(event) => setOpen(event.detail)}
+					shortcuts
+					autoHighlightFirst
+					preserveFocus
+					autoFocus={false}
+					searchable={false}
+					selectionClearable={false}
+					onHighlightedOptionChange={(event) =>
+						setHighlight(event.detail ?? undefined)
+					}
+					onOptionSelected={(event) =>
+						setValue(options[event.detail]?.label ?? "")
+					}
+				>
+					<span slot="dropdown-action" />
+				</KvSingleSelectDropdown>
+			)}
+			<output role="status" aria-live="polite" aria-atomic="true">
+				{isOpen && highlight
+					? `Highlighted: ${options[highlight]?.label ?? highlight}`
+					: ""}
+			</output>
+		</div>
+	);
+};
+
+export const ExternalEditor: Story = {
+	render: () => <ExternalEditorExample />,
+	parameters: {
+		docs: {
+			description: {
+				story: "The editor keeps focus while the shared dropdown handles navigation and selection. The highlight event supplies the live announcement. Filtering and inserting the selected value belong to the consumer."
+			}
+		}
 	}
 };

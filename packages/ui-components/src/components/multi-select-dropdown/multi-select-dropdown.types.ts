@@ -1,11 +1,13 @@
 import { EventEmitter } from '@stencil/core';
 import { EIconName } from '../icon/icon.types';
 import { EValidationState, ITextField } from '../text-field/text-field.types';
-import { ICreateOptionState, ISelectMultiOptionsConfig, ISelectMultiOptionsEvents } from '../select-multi-options/select-multi-options.types';
+import { ICreateOptionState, ISelectMultiOptionsConfig, ISelectMultiOptionsEvents, ISelectNavigationConfig } from '../select-multi-options/select-multi-options.types';
 import { EComponentSize, ICustomCss } from '../../types';
 import { ComputePositionConfig } from '@floating-ui/dom';
 
-export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptionsConfig, 'searchValue' | 'createOptionState' | 'clearHiddenSelection'> {
+export interface IMultiSelectDropdown
+	extends ICustomCss,
+		Omit<ISelectMultiOptionsConfig, 'searchValue' | 'createOptionState' | 'clearHiddenSelection' | keyof ISelectNavigationConfig> {
 	/** (required) The text to display as the dropdown placeholder */
 	placeholder?: string;
 	/**
@@ -69,7 +71,7 @@ export interface IMultiSelectDropdown extends ICustomCss, Omit<ISelectMultiOptio
 	createOptionState?: ICreateOptionState;
 }
 
-export interface IMultiSelectDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'optionSelected'> {
+export interface IMultiSelectDropdownEvents extends Omit<ISelectMultiOptionsEvents, 'optionSelected' | 'highlightedOptionChange'> {
 	/** Emitted when the dropdown open state changes */
 	openStateChange: EventEmitter<boolean>;
 	/** Emitted when there's a click outside the dropdown's bondaries */
