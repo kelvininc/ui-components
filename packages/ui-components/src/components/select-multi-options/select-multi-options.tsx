@@ -751,7 +751,11 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		if (pendingFocus === 'create-form') {
 			this.focusCreateForm();
 		} else if (pendingFocus === 'search') {
-			this.selectRef?.focusSearch();
+			if (this.keyboardTarget?.isConnected) {
+				this.keyboardTarget.focus({ preventScroll: true });
+			} else {
+				this.selectRef?.focusSearch();
+			}
 		}
 	};
 
