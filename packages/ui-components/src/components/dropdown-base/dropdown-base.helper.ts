@@ -50,6 +50,7 @@ export const isInPortalAnchoredWithin = (path: EventTarget[], ownPortal: HTMLEle
 
 // The open dropdowns' host elements, the most recently opened last
 const openDropdowns: HTMLElement[] = [];
+const portalOwners = new WeakMap<Node, HTMLElement>();
 
 export const removeOpenDropdown = (element: HTMLElement): void => {
 	const index = openDropdowns.indexOf(element);
@@ -84,4 +85,20 @@ export const isTopmostOpenDropdown = (element: HTMLElement): boolean => {
 	}
 
 	return false;
+};
+
+/** Associates portaled content with its dropdown even after it moves to the document body. */
+export const registerDropdownPortal = (portal: HTMLElement, dropdown: HTMLElement): void => {
+	portalOwners.set(portal, dropdown);
+};
+
+/** Standalone lists can handle Escape; dropdown content defers to the most recently opened dropdown. */
+export const canHandleDropdownEscape = (element: HTMLElement): boolean => {
+	let node: Node | null = element;
+	while (node !== null) {
+		const owner = portalOwners.get(node);
+		if (owner) return isTopmostOpenDropdown(owner);
+		node = getComposedParent(node);
+	}
+	return true;
 };

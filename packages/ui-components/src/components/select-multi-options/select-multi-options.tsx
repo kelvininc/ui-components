@@ -45,6 +45,7 @@ import {
 } from './select-multi-options.helper';
 import { selectHelper } from '../../utils';
 import { isImeComposition } from '../../utils/keyboard-event.helper';
+import { canHandleDropdownEscape } from '../dropdown-base/dropdown-base.helper';
 import pluralize from 'pluralize';
 import type { IIllustrationMessage } from '../illustration-message/illustration-message.types';
 import type { ISelectCreateOption } from '../select-create-option/select-create-option.types';
@@ -370,6 +371,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 
 	handleKeyDown(event: KeyboardEvent, fromTarget = false) {
 		if (event.defaultPrevented || isImeComposition(event)) return;
+		if (event.key === 'Escape' && !canHandleDropdownEscape(this.el)) return;
 		if (fromTarget && (event.shiftKey || event.ctrlKey || event.metaKey || event.altKey)) return;
 
 		const isCreateFormEvent = this.isCreateFormEvent(event);

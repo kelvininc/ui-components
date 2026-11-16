@@ -28,7 +28,8 @@ export class KvVirtualizedList implements IVirtualizedList {
 	async scrollToIndex(index: number): Promise<void> {
 		if (!this.containerElement || this.itemCount <= 0 || !Number.isFinite(index)) return;
 
-		const top = clamp(Math.trunc(index), 0, this.itemCount - 1) * this.itemHeight;
+		const paddingTop = parseFloat(getComputedStyle(this.containerElement).paddingTop) || 0;
+		const top = paddingTop + clamp(Math.trunc(index), 0, this.itemCount - 1) * this.itemHeight;
 		const bottom = top + this.itemHeight;
 		const viewportTop = this.containerElement.scrollTop;
 		const viewportHeight = this.containerElement.clientHeight;
