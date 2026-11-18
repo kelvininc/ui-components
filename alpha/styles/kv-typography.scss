@@ -1,0 +1,343 @@
+// Default General
+// --------------------------------------------------
+///@deprecated Use the design token CSS variables from style-dictionary instead
+$primary-font: var(--kv-primary-font, 'Proxima Nova', sans-serif, 'Arial');
+///@deprecated Use the design token CSS variables from style-dictionary instead
+$console-font: var(--kv-console-font, 'Inconsolata', 'mono');
+
+/** HEADINGS **/
+/// @deprecated Use `heading-xxl-semibold` from the new design token typography mixins
+@mixin kv-font-h1-semibold() {
+	@warn "kv-font-h1-semibold is deprecated. Use @include heading-xxl-semibold instead.";
+	font-family: $primary-font;
+	font-size: 32px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 48px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `heading-xl-regular` from the new design token typography mixins
+@mixin kv-font-h2-regular() {
+	@warn "kv-font-h2-regular is deprecated. Use @include heading-xl-regular instead.";
+	font-family: $primary-font;
+	font-size: 24px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 36px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `heading-xl-semibold` from the new design token typography mixins
+@mixin kv-font-h2-semibold() {
+	@warn "kv-font-h2-semibold is deprecated. Use @include heading-xl-semibold instead.";
+	font-family: $primary-font;
+	font-size: 24px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 36px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `heading-l-semibold` from the new design token typography mixins
+@mixin kv-font-h3-semibold() {
+	@warn "kv-font-h3-semibold is deprecated. Use @include heading-l-semibold instead.";
+	font-family: $primary-font;
+	font-size: 20px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 30px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `heading-m-semibold` from the new design token typography mixins
+@mixin kv-font-h4-semibold() {
+	@warn "kv-font-h4-semibold is deprecated. Use @include heading-m-semibold instead.";
+	font-family: $primary-font;
+	font-size: 16px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 24px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `heading-s-semibold-caps` from the new design token typography mixins
+@mixin kv-font-h4-uppercase-semibold() {
+	@warn "kv-font-h4-uppercase-semibold is deprecated. No direct replacement available in new design tokens.";
+	font-family: $primary-font;
+	font-size: 16px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 24px;
+	letter-spacing: normal;
+	text-transform: uppercase;
+}
+/// @deprecated Use `body-m-semibold` from the new design token typography mixins
+@mixin kv-font-h5-semibold() {
+	@warn "kv-font-h5-semibold is deprecated. Use @include body-m-semibold instead.";
+	font-family: $primary-font;
+	font-size: 14px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 21px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+
+/** LABELS **/
+/// @deprecated Use `heading-l-regular` from the new design token typography mixins
+@mixin kv-font-label-large-regular() {
+	@warn "kv-font-label-large-regular is deprecated. Use @include heading-l-regular instead.";
+	font-family: $primary-font;
+	font-size: 20px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 30px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `heading-m-regular` from the new design token typography mixins
+@mixin kv-font-label-medium-regular() {
+	@warn "kv-font-label-medium-regular is deprecated. Use @include heading-m-regular instead.";
+	font-family: $primary-font;
+	font-size: 16px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 24px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `body-s-regular` from the new design token typography mixins
+@mixin kv-font-label-small-regular() {
+	@warn "kv-font-label-small-regular is deprecated. Use @include body-s-regular instead.";
+	font-family: $primary-font;
+	font-size: 12px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 18px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `body-s-semibold` from the new design token typography mixins
+@mixin kv-font-label-small-semibold() {
+	@warn "kv-font-label-small-semibold is deprecated. Use @include body-s-semibold instead.";
+	font-family: $primary-font;
+	font-size: 12px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 18px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `body-s-bold` from the new design token typography mixins
+@mixin kv-font-label-small-bold() {
+	@warn "kv-font-label-small-bold is deprecated. Use @include body-s-bold instead.";
+	font-family: $primary-font;
+	font-size: 12px;
+	font-weight: 700;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 18px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `heading-xs-regular-caps` from the new design token typography mixins
+@mixin kv-font-label-small-uppercase-regular() {
+	@warn "kv-font-label-small-uppercase-regular is deprecated. Use @include heading-xs-regular-caps instead.";
+	font-family: $primary-font;
+	font-size: 12px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 18px;
+	letter-spacing: normal;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+}
+/// @deprecated Use `heading-xs-semibold-caps` from the new design token typography mixins
+@mixin kv-font-label-small-uppercase-semibold() {
+	@warn "kv-font-label-small-uppercase-semibold is deprecated. Use @include heading-xs-semibold-caps instead.";
+	font-family: $primary-font;
+	font-size: 12px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 18px;
+	letter-spacing: normal;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+}
+/// @deprecated Use `heading-xs-semibold-caps` from the new design token typography mixins
+@mixin kv-font-label-small-uppercase-bold() {
+	@warn "kv-font-label-small-uppercase-bold is deprecated. Use @include heading-xs-semibold-caps instead.";
+	font-family: $primary-font;
+	font-size: 12px;
+	font-weight: 700;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 18px;
+	letter-spacing: normal;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+}
+/// @deprecated Use `body-xs-light` from the new design token typography mixins
+@mixin kv-font-label-xsmall-light() {
+	@warn "kv-font-label-xsmall-light is deprecated. Use @include body-xs-light instead.";
+	font-family: $primary-font;
+	font-size: 10px;
+	font-weight: 300;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 15px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `body-xs-regular` from the new design token typography mixins
+@mixin kv-font-label-xsmall-regular() {
+	@warn "kv-font-label-xsmall-regular is deprecated. Use @include body-xs-regular instead.";
+	font-family: $primary-font;
+	font-size: 10px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 15px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `body-xs-semibold` from the new design token typography mixins
+@mixin kv-font-label-xsmall-semibold() {
+	@warn "kv-font-label-xsmall-semibold is deprecated. Use @include body-xs-semibold instead.";
+	font-family: $primary-font;
+	font-size: 10px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 15px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `body-xs-bold` from the new design token typography mixins
+@mixin kv-font-label-xsmall-bold() {
+	@warn "kv-font-label-xsmall-bold is deprecated. Use @include body-xs-bold instead.";
+	font-family: $primary-font;
+	font-size: 10px;
+	font-weight: 700;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 15px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `heading-xs-regular-caps` from the new design token typography mixins
+@mixin kv-font-label-xsmall-uppercase-regular() {
+	@warn "kv-font-label-xsmall-uppercase-regular is deprecated. Use @include heading-xs-regular-caps instead.";
+	font-family: $primary-font;
+	font-size: 10px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 15px;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+}
+/// @deprecated Use `heading-xs-semibold-caps` from the new design token typography mixins
+@mixin kv-font-label-xsmall-uppercase-semibold() {
+	@warn "kv-font-label-xsmall-uppercase-semibold is deprecated. Use @include heading-xs-semibold-caps instead.";
+	font-family: $primary-font;
+	font-size: 10px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 15px;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+}
+
+/** SPANS **/
+/// @deprecated Use `body-m-regular` from the new design token typography mixins
+@mixin kv-font-span-regular() {
+	@warn "kv-font-span-regular is deprecated. Use @include body-m-regular instead.";
+	font-family: $primary-font;
+	font-size: 14px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 21px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `body-m-semibold` from the new design token typography mixins
+@mixin kv-font-span-semibold() {
+	@warn "kv-font-span-semibold is deprecated. Use @include body-m-semibold instead.";
+	font-family: $primary-font;
+	font-size: 14px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 21px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `heading-s-semibold-caps` from the new design token typography mixins
+@mixin kv-font-span-uppercase-semibold() {
+	@warn "kv-font-span-uppercase-semibold is deprecated. Use @include heading-s-semibold-caps instead.";
+	font-family: $primary-font;
+	font-size: 14px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 21px;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+}
+
+/** PARAGRAPHS **/
+/// @deprecated Use `body-m-regular` from the new design token typography mixins
+@mixin kv-font-paragraph-regular() {
+	@warn "kv-font-paragraph-regular is deprecated. Use @include body-m-regular instead.";
+	font-family: $primary-font;
+	font-size: 14px;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 21px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+/// @deprecated Use `body-m-regular` from the new design token typography mixins
+@mixin kv-font-paragraph-light() {
+	@warn "kv-font-paragraph-light is deprecated. Use @include body-m-regular instead.";
+	font-family: $primary-font;
+	font-size: 14px;
+	font-weight: 300;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 21px;
+	letter-spacing: normal;
+	text-transform: none;
+}
+
+/** TODO: CODE/CONSOLE **/
+@mixin kv-font-code() {
+	font-family: $console-font, monospace, Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono';
+	font-size: 12px;
+	font-weight: 400;
+	text-align: left;
+	white-space: pre;
+	word-spacing: 0.42px;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 21px;
+	text-transform: none;
+}
