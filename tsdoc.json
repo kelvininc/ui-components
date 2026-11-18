@@ -1,0 +1,53 @@
+{
+	"$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+	"tagDefinitions": [
+		{
+			"tagName": "@default",
+			"syntaxKind": "block"
+		},
+		{
+			"tagName": "@Prop",
+			"syntaxKind": "block"
+		},
+		{
+			"tagName": "@Event",
+			"syntaxKind": "block"
+		},
+		{
+			"tagName": "@Method",
+			"syntaxKind": "block"
+		},
+		{
+			"tagName": "@State",
+			"syntaxKind": "block"
+		},
+		{
+			"tagName": "@Element",
+			"syntaxKind": "block"
+		},
+		{
+			"tagName": "@Watch",
+			"syntaxKind": "block"
+		},
+		{
+			"tagName": "@Listen",
+			"syntaxKind": "block"
+		},
+		{
+			"tagName": "@Component",
+			"syntaxKind": "block"
+		},
+		{
+			"tagName": "@cssprop",
+			"syntaxKind": "block"
+		},
+		{
+			"tagName": "@slot",
+			"syntaxKind": "block"
+		},
+		{
+			"tagName": "@part",
+			"syntaxKind": "block"
+		}
+	]
+}

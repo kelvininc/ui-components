@@ -57,13 +57,16 @@
 			"import": "./docs/docs.json"
 		},
 		"./docs/*.md?raw": "./docs/components/*/readme.md",
-		"./assets/*": "./dist/assets/*"
+		"./assets/*": "./dist/assets/*",
+		"./manifest.json": "./manifest.json"
 	},
 	"files": [
 		"components/",
 		"dist/",
 		"docs/",
-		"loader/"
+		"loader/",
+		"API.md",
+		"manifest.json"
 	],
 	"scripts": {
 		"tokens:build": "node scripts/style-dictionary.config.mjs && stylelint 'src/assets/styles/style-dictionary/**/*.{css,scss}' --fix",

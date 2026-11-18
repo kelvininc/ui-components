@@ -51,7 +51,9 @@
 	"type": "module",
 	"files": [
 		"dist/",
-		".scripts/"
+		".scripts/",
+		"API.md",
+		"manifest.json"
 	],
 	"exports": {
 		".": {
@@ -79,7 +81,8 @@
 			"require": "./dist/server.js",
 			"default": "./dist/server.esm.js"
 		},
-		"./assets/*": "./dist/assets/*"
+		"./assets/*": "./dist/assets/*",
+		"./manifest.json": "./manifest.json"
 	},
 	"dependencies": {
 		"@kelvininc/ui-components": "workspace:*",
@@ -92,7 +95,8 @@
 		"ajv-formats": "^2.1.1",
 		"classnames": "^2.5.1",
 		"fs-extra": "10.0.0",
-		"monaco-editor": "^0.34.1"
+		"monaco-editor": "^0.34.1",
+		"tslib": "^2.7.0"
 	},
 	"devDependencies": {
 		"@optimize-lodash/rollup-plugin": "^4.0.4",
@@ -124,7 +128,6 @@
 		"stylelint-config-prettier-scss": "^1.0.0",
 		"stylelint-config-standard-scss": "^11.1.0",
 		"stylelint-value-no-unknown-custom-properties": "5.0.0",
-		"tslib": "^2.7.0",
 		"typescript": "^5.6.2"
 	},
 	"peerDependencies": {

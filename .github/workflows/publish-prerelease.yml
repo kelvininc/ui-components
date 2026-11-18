@@ -126,6 +126,16 @@ jobs:
             - name: Build packages
               run: pnpm build:packages
 
+            - name: Verify generated documentation before publication
+              run: |
+                  pnpm test:docs
+                  pnpm docs:generate
+                  pnpm docs:check
+                  pnpm docs:tracked
+
+            - name: Verify supported React consumers
+              run: pnpm react:check
+
             - name: Setting NPM
               run: |
                   pnpm set registry=https://nexus.kelvininc.com/repository/npm-internal

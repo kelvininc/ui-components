@@ -54,16 +54,18 @@ Our CI/CD pipeline is designed around a **monorepo strategy** with multiple pack
 Each workflow terminates in a dedicated `summary` job that runs with `if: always()` and writes a Markdown report to `$GITHUB_STEP_SUMMARY`, regardless of whether the upstream job succeeded, failed, or was skipped.
 
 #### CI Workflow
+
 ```mermaid
 graph TD
-    A[PR to dev/master] --> B[ci job]
-    B --> C[lint]
-    C --> D[test]
-    D --> E[build:packages]
-    E --> T[typecheck ui-components]
-    T --> F[storybook:build]
-    F --> G[summary]
-    G --> H[End]
+    PR[PR to dev/master] --> L[Lint]
+    PR --> B[Build and core typecheck]
+    B --> D[Documentation]
+    B --> T[Unit tests]
+    B --> C[React compatibility, browser tests and Storybook]
+    L --> S[Summary]
+    D --> S
+    T --> S
+    C --> S
 ```
 
 #### Publish Dev Workflow
@@ -122,20 +124,9 @@ graph TD
 
 **Purpose**: Validates pull requests targeting `dev` or `master` with linting, tests, and full builds.
 
-**Strategy**: **Single sequential `ci` job** on an OS/Node matrix (`ubuntu-24.04` / Node `24.x`), followed by a `summary` job.
+Lint and Build run independently on Ubuntu 24.04 with Node 24. Documentation, Unit tests and React consumers download the package outputs and Stencil metadata from Build. The separate core typecheck runs after Stencil generates `components.d.ts`. Summary runs even after a failure and requires every job to succeed.
 
-```yaml
-Jobs:
-├── ci         # Lint + Test + Build packages + Type-check + Build storybook
-└── summary    # Writes Pull Request Summary to $GITHUB_STEP_SUMMARY (if: always())
-```
-
-**Why this approach?**
-- **Full validation**: Every PR runs the same lint → test → build → storybook pipeline that feeds the publishing workflows, catching regressions early.
-- **Separate type check**: Stencil skips its type check on any build that writes `src/components.d.ts`, and every fresh checkout writes it, so `pnpm build:packages` alone passes with type errors in it. The `typecheck` step (`tsc --noEmit`) runs after the build, which generates that file.
-- **Reuse of `node-setup`**: Consistent pnpm, Node, and Puppeteer Chrome caching across all workflows.
-- **Matrix-ready**: Matrix definition makes it straightforward to expand OS/Node coverage later.
-- **Summary always runs**: `summary` uses `if: always()` so the report is produced even when `ci` fails.
+The Documentation job tests generators, explicitly generates catalogs, checks freshness and verifies committed outputs. The consumer job tests isolated React 18 and React 19 installs before browser tests and Storybook. Command semantics and build prerequisites are in [code quality](../../docs/code-quality.md).
 
 ### 2. Publish Dev Workflow (`publish-dev.yml`)
 
