@@ -115,6 +115,7 @@ export enum EIconName {
 	Person = 'kv-person',
 	Plan = 'kv-plan',
 	Play = 'kv-play',
+	ProcessManagement = 'kv-process-management',
 	Properties = 'kv-properties',
 	Protip = 'kv-protip',
 	PushPin = 'kv-push-pin',
