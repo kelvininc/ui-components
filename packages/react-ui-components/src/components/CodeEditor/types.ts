@@ -16,18 +16,28 @@ export enum ECodeEditorTheme {
 	Custom = 'custom'
 }
 
+/** Configure the editor value, appearance and instance callbacks. */
 export interface ICodeEditorProps {
 	/** Use this property to pass a starting value to the editor. */
 	code?: string;
-	/** Use this property to define the language mode of the editor. */
+	/**
+	 * Use this property to define the language mode of the editor.
+	 * @default DEFAULT_CODE_EDITOR_LANGUAGE
+	 */
 	language?: string;
-	/** Use this property to define the theme of the editor. */
+	/**
+	 * Use this property to define the theme of the editor.
+	 * @default ECodeEditorTheme.Dark
+	 */
 	theme?: ECodeEditorTheme;
 	/** Use this property to define and set a custom theme on the editor */
 	customTheme?: CodeEditorTheme;
 	/** Use this property to define options on the editor */
 	customOptions?: CodeEditorOptions;
-	/** Use this property to define a placeholder component to display when the editor is loading. */
+	/**
+	 * Use this property to define a placeholder component to display when the editor is loading.
+	 * @default CodeEditorLoader
+	 */
 	LoadingComponent?: FunctionComponent;
 	/** Use this property to pass a ref to the editor. */
 	forwardedRef?: ForwardedRef<CodeEditor>;

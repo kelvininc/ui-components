@@ -85,6 +85,16 @@ jobs:
             - name: Build
               run: pnpm build:packages
 
+            - name: Verify generated documentation before publication
+              run: |
+                  pnpm test:docs
+                  pnpm docs:generate
+                  pnpm docs:check
+                  pnpm docs:tracked
+
+            - name: Verify supported React consumers
+              run: pnpm react:check
+
             - name: Test React
               run: pnpm --filter @kelvininc/react-ui-components test
 

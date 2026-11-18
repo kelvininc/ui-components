@@ -1,0 +1,12 @@
+{
+	"name": "@kelvininc/ui-codegen",
+	"private": true,
+	"type": "module",
+	"description": "Internal component catalog generation and validation.",
+	"scripts": {
+		"docs:api": "pnpm docs:generate",
+		"docs:check": "node scripts/generate-api.mjs --check",
+		"test:docs": "node --test scripts/*.spec.mjs",
+		"docs:generate": "node scripts/generate-api.mjs"
+	}
+}

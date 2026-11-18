@@ -1,97 +1,211 @@
-name: ci
+name: CI
 
 on:
     pull_request:
-        branches:
-            - dev
-            - master
+        branches: [dev, master]
 
 jobs:
-    ci:
-        strategy:
-            matrix:
-                os: [ubuntu-24.04]
-                node: [24.x]
-
-        name: Continuous Integration (${{ matrix.os }} / Node.js ${{ matrix.node }})
-        runs-on: ${{ matrix.os }}
-
+    lint:
+        name: Lint
+        runs-on: ubuntu-24.04
         steps:
-            - name: ☁️ Checkout repository
+            - name: Checkout repository
               uses: actions/checkout@v7
               with:
                   fetch-depth: 0
 
-            - name: 🟩 Setup Node.js ${{ matrix.node }}
+            - name: Setup Node.js
               uses: ./.github/actions/node-setup
               with:
-                  node-version: ${{ matrix.node }}
+                  node-version: 24.x
 
-            - name: 🔍 Run linter
-              run: pnpm lint
+            - name: Check source conventions and documentation
+              env:
+                  BASE_BRANCH: ${{ github.base_ref }}
+              run: |
+                  pnpm lint:docs --base "origin/$BASE_BRANCH"
+                  pnpm lint
 
-            - name: 🧪 Run core tests
-              run: pnpm --filter @kelvininc/ui-components test
+    build:
+        name: Build
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
 
-            - name: 🧪 Check time picker across host DST
+            - name: Setup Node.js
+              uses: ./.github/actions/node-setup
+              with:
+                  node-version: 24.x
+
+            - name: Build packages
+              run: pnpm build:packages
+
+            - name: Type-check core components
+              run: pnpm --filter @kelvininc/ui-components typecheck
+
+            - name: Upload package outputs and Stencil metadata
+              uses: actions/upload-artifact@v7
+              with:
+                  name: package-outputs
+                  path: |
+                      packages/ui-components/dist
+                      packages/ui-components/components
+                      packages/ui-components/loader
+                      packages/ui-components/docs
+                      packages/ui-components/src/components.d.ts
+                      packages/ui-components/src/components/illustrations
+                      packages/react-ui-components/dist
+                      packages/react-ui-components/src/stencil-generated
+
+    documentation:
+        name: Documentation
+        needs: build
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
+
+            - name: Setup Node.js
+              uses: ./.github/actions/node-setup
+              with:
+                  node-version: 24.x
+
+            - name: Download package outputs
+              uses: actions/download-artifact@v8
+              with:
+                  name: package-outputs
+                  path: packages
+
+            - name: Test source documentation quality
+              run: pnpm test:docs:quality
+
+            - name: Test documentation generators
+              run: pnpm test:docs
+
+            - name: Generate discovery documentation
+              run: pnpm docs:generate
+
+            - name: Check documentation freshness
+              run: pnpm docs:check
+
+            - name: Check committed documentation
+              run: pnpm docs:tracked
+
+    test:
+        name: Unit tests
+        needs: build
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
+
+            - name: Setup Node.js
+              uses: ./.github/actions/node-setup
+              with:
+                  node-version: 24.x
+
+            - name: Download package outputs
+              uses: actions/download-artifact@v8
+              with:
+                  name: package-outputs
+                  path: packages
+
+            - name: Run unit tests
+              run: pnpm test:unit
+
+            - name: Check time picker across host DST
               working-directory: packages/ui-components
               env:
                   TZ: Europe/Lisbon
               run: pnpm exec stencil test --spec --no-cache --runInBand --max-workers=0 --coverage=false src/components/time-picker/test/time-picker-timezone.spec.tsx
 
-            - name: 🏗️ Build all packages
-              run: pnpm build:packages
+    consumers:
+        name: React compatibility and browser tests
+        needs: build
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
 
-            # Stencil skips its type check on a build that writes src/components.d.ts, which every
-            # fresh checkout does. Must run after the build, which generates that file
-            - name: 🔎 Type-check core components
-              run: pnpm --filter @kelvininc/ui-components typecheck
+            - name: Setup Node.js
+              uses: ./.github/actions/node-setup
+              with:
+                  node-version: 24.x
 
-            - name: 🧪 Run React tests
-              run: pnpm --filter @kelvininc/react-ui-components test
+            - name: Download package outputs
+              uses: actions/download-artifact@v8
+              with:
+                  name: package-outputs
+                  path: packages
 
-            # Headless tests only need Chromium's headless shell. It downloads in seconds, so there's
-            # no cache: this workflow only runs on pull requests, whose cache entries other PRs can't reuse
-            - name: 🎭 Install Chromium and its system dependencies
+            - name: Check supported React consumers
+              run: pnpm react:check
+
+            - name: Install Chromium
               run: pnpm exec playwright install --with-deps --only-shell chromium
 
-            - name: 🧪 Run React browser tests
+            - name: Run core browser tests
+              run: pnpm test:e2e
+
+            - name: Run React browser tests
               run: pnpm --filter @kelvininc/react-ui-components test:browser
 
-            - name: 💅 Build storybook
+            - name: Build Storybook
               run: pnpm storybook:build
 
     summary:
         name: CI Summary
         runs-on: ubuntu-24.04
-        needs: [ci]
+        needs: [lint, build, documentation, test, consumers]
         if: always()
         steps:
             - name: Generate workflow summary
+              env:
+                  HEAD_REF: ${{ github.head_ref }}
+                  BASE_REF: ${{ github.base_ref }}
               run: |
                   cat >> $GITHUB_STEP_SUMMARY << 'EOF'
                   # Kelvin UI Components - Pull Request Summary
 
                   ## Build Information
                   - **Commit**: `${{ github.sha }}`
-                  - **Branch**: `${{ github.head_ref }}`
-                  - **Target**: `${{ github.base_ref }}`
+                  EOF
+                  printf -- '- **Branch**: `%s`\n' "$HEAD_REF" >> "$GITHUB_STEP_SUMMARY"
+                  printf -- '- **Target**: `%s`\n' "$BASE_REF" >> "$GITHUB_STEP_SUMMARY"
+                  cat >> $GITHUB_STEP_SUMMARY << 'EOF'
                   - **Environment**: Pull Request
 
                   ## Component Status
 
                   | Component | Status |
                   |-----------|---------|
-                  | CI (Lint + Test + Build + Type Check + Storybook) | ${{ needs.ci.result == 'success' && '✅ Success' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
+                  | Lint | ${{ needs.lint.result == 'success' && '✅ Success' || needs.lint.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
+                  | Documentation | ${{ needs.documentation.result == 'success' && '✅ Success' || needs.documentation.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
+                  | Build + Type Check | ${{ needs.build.result == 'success' && '✅ Success' || needs.build.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
+                  | Unit Tests | ${{ needs.test.result == 'success' && '✅ Success' || needs.test.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
+                  | React Compatibility + Browser Tests + Storybook | ${{ needs.consumers.result == 'success' && '✅ Success' || needs.consumers.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
 
                   ## Testing Summary
-                  - **Linting**: ${{ needs.ci.result == 'success' && '✅ Passed' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
-                  - **Unit Tests**: ${{ needs.ci.result == 'success' && '✅ Passed' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
-                  - **Package Build**: ${{ needs.ci.result == 'success' && '✅ Passed' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
-                  - **Type Check**: ${{ needs.ci.result == 'success' && '✅ Passed' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
-                  - **Storybook Build**: ${{ needs.ci.result == 'success' && '✅ Passed' || needs.ci.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Linting**: ${{ needs.lint.result == 'success' && '✅ Passed' || needs.lint.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Unit Tests**: ${{ needs.test.result == 'success' && '✅ Passed' || needs.test.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Package Build**: ${{ needs.build.result == 'success' && '✅ Passed' || needs.build.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Type Check**: ${{ needs.build.result == 'success' && '✅ Passed' || needs.build.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
+                  - **Storybook Build**: ${{ needs.consumers.result == 'success' && '✅ Passed' || needs.consumers.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }}
 
                   ---
 
                   > **Next Steps**: Once this PR is approved and merged, it will trigger the appropriate deployment workflow based on the target branch.
                   EOF
+
+            - name: Require every job to succeed
+              if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped') }}
+              run: exit 1

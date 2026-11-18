@@ -11,17 +11,33 @@
 		"build": "lerna run build",
 		"build:apps": "lerna run build --scope @kelvininc/react-storybook",
 		"build:packages": "lerna run build --scope '{@kelvininc/ui-components,@kelvininc/react-ui-components}'",
-		"lint": "lerna run lint",
+		"lint": "pnpm lint:docs && lerna run lint && pnpm lint:tools",
 		"lint:fix": "lerna run lint:fix",
-		"test": "pnpm --filter @kelvininc/ui-components test && pnpm build:packages && pnpm --filter @kelvininc/react-ui-components test",
+		"test": "pnpm build:packages && pnpm test:unit && pnpm test:e2e",
 		"storybook": "lerna run dev --scope @kelvininc/react-storybook",
 		"storybook:build": "lerna run build --scope @kelvininc/react-storybook",
-		"storybook:deploy": "lerna run deploy --scope @kelvininc/react-storybook"
+		"storybook:deploy": "lerna run deploy --scope @kelvininc/react-storybook",
+		"docs:api": "pnpm docs:generate",
+		"docs:check": "pnpm --filter @kelvininc/ui-codegen docs:check",
+		"test:docs": "pnpm --filter @kelvininc/ui-codegen test:docs",
+		"docs:tracked": "node tools/codegen/scripts/check-tracked.mjs",
+		"docs:generate": "pnpm --filter @kelvininc/ui-codegen docs:generate",
+		"test:unit": "pnpm --filter @kelvininc/ui-components test:spec && pnpm --filter @kelvininc/react-ui-components test",
+		"lint:docs": "node scripts/code-quality/documentation.mjs",
+		"docs:inventory": "node scripts/code-quality/documentation.mjs --inventory",
+		"test:docs:quality": "node --test scripts/code-quality/documentation.spec.mjs",
+		"lint:tools": "ESLINT_USE_FLAT_CONFIG=true node packages/ui-components/node_modules/eslint/bin/eslint.js --config scripts/code-quality/tools.config.mjs 'tools/codegen/scripts/*.mjs' 'scripts/code-quality/*.mjs' 'scripts/code-quality/*.cjs' 'scripts/react-compat/*.mjs'",
+		"react:lint": "node scripts/code-quality/react-version.mjs",
+		"test:react": "node --test scripts/code-quality/react18.spec.mjs",
+		"react:check": "pnpm test:react && pnpm react:lint && node scripts/react-compat/check.mjs",
+		"test:e2e": "pnpm --filter @kelvininc/ui-components test:e2e"
 	},
 	"devDependencies": {
 		"@commitlint/config-conventional": "^19.5.0",
 		"@types/node": "^24.0.0",
 		"@vitest/browser-playwright": "4.1.10",
+		"eslint-plugin-jsdoc": "61.5.0",
+		"eslint-plugin-tsdoc": "0.5.4",
 		"jsdom": "^23.2.0",
 		"lerna": "^9.0.3",
 		"playwright": "^1.63.0",
@@ -49,7 +65,9 @@
 		},
 		"overrides": {
 			"@types/react": "^19.2.0",
-			"@types/react-dom": "^19.2.0"
+			"@types/react-dom": "^19.2.0",
+			"ajv@8.18.0>fast-uri": "3.1.9",
+			"@typescript-eslint/typescript-estree@8.56.1>minimatch": "11.0.1"
 		}
 	}
 }
