@@ -252,6 +252,40 @@ describe('Single Select Dropdown (end-to-end)', () => {
 			expect(await getRenderedRowValues()).toEqual([...Object.keys(OPTIONS), ADD_OPTION.value]);
 			expect(getCreateFormToggles()).toEqual([true, false]);
 		});
+
+		it('should open the create form from the search, and create, select and close on a second enter, when the search matches no option', async () => {
+			await openDropdown();
+			await (await page.find(SEARCH_INPUT_SELECTOR)).type(NEW_OPTION_NAME);
+
+			await page.keyboard.press('Enter');
+			await page.waitForChanges();
+
+			expect(getCreateFormToggles()).toEqual([true]);
+			expect(await getActiveElementPath()).toEqual(CREATE_INPUT_FOCUS_PATH);
+			expect(await (await page.find(CREATE_INPUT_SELECTOR)).getProperty('value')).toBe(NEW_OPTION_NAME);
+			await recordDropdownEvents(['optionCreated', 'optionSelected', 'openStateChange']);
+
+			await pressKey('Enter');
+
+			expect(await getDropdownEvents()).toEqual([
+				{ type: 'optionCreated', detail: NEW_OPTION_NAME },
+				{ type: 'optionSelected', detail: NEW_OPTION_NAME },
+				{ type: 'openStateChange', detail: false }
+			]);
+			expect(await isDropdownOpen()).toBe(false);
+		});
+
+		it('should keep the list open on enter when the search matches an option', async () => {
+			await openDropdown();
+			await (await page.find(SEARCH_INPUT_SELECTOR)).type('Option');
+			await page.waitForChanges();
+
+			await pressKey('Enter');
+
+			expect(getCreateFormToggles()).toEqual([]);
+			expect(await isDropdownOpen()).toBe(true);
+			expect(await getRenderedRowValues()).toEqual([...Object.keys(OPTIONS), ADD_OPTION.value]);
+		});
 	});
 
 	describe('with content of its own for no results', () => {
@@ -335,6 +369,19 @@ describe('Single Select Dropdown (end-to-end)', () => {
 			expect(await isVisible(LIST_SELECTOR)).toBe(true);
 			expect(await getRenderedRowValues()).toEqual([...Object.keys(OPTIONS), ADD_OPTION.value]);
 			expect(await getActiveElementPath()).toEqual(SEARCH_INPUT_FOCUS_PATH);
+		});
+
+		it('should open and focus the slotted create form when enter is pressed in a search that matches no option, with nothing highlighted', async () => {
+			await openDropdown();
+			await (await page.find(SEARCH_INPUT_SELECTOR)).type(NEW_OPTION_NAME);
+			await page.waitForChanges();
+
+			await pressKey('Enter');
+
+			expect(getCreateFormToggles()).toEqual([true]);
+			expect(await getActiveElementPath()).toEqual(SLOTTED_INPUT_FOCUS_PATH);
+			expect(await isFocusWithin(SLOT_WRAPPER_SELECTOR)).toBe(true);
+			expect(await isDropdownOpen()).toBe(true);
 		});
 	});
 
