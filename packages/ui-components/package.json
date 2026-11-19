@@ -83,7 +83,7 @@
 		"test": "pnpm test:spec && pnpm test:e2e",
 		"test:watch": "TZ=UTC stencil test --spec --e2e --no-cache --runInBand --watchAll --max-workers=0",
 		"test:spec": "TZ=UTC stencil test --spec --no-cache",
-		"test:e2e": "TZ=UTC stencil test --e2e --no-cache --runInBand",
+		"test:e2e": "pnpm generate:illustrations && TZ=UTC stencil test --e2e --no-cache --runInBand",
 		"figma-plugin:bump": "node figma-plugin/bump-version.js",
 		"generate": "stencil generate",
 		"generate:illustrations": "node scripts/generate-illustrations",
