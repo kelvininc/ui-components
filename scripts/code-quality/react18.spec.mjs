@@ -120,3 +120,84 @@ test('should reject React 19 form reset through named and namespace imports', ()
 		);
 	}
 });
+
+/** Count React 18 findings, so parser diagnostics never pass for a rejected API. */
+const findings = (source) =>
+	check(source).filter((item) => item.ruleId === 'react18').length;
+
+test('should reject unsupported APIs through every static binding of the module object', () => {
+	for (const [module, api] of [
+		['react', 'useOptimistic'],
+		['react-dom', 'requestFormReset']
+	]) {
+		for (const binding of [
+			`import { default as R } from '${module}';`,
+			`import { 'default' as R } from '${module}';`,
+			`import Root from '${module}'; const R = Root;`,
+			`import * as NS from '${module}'; const R = NS.default;`,
+			`import * as NS from '${module}'; const { default: R } = NS;`,
+			`const R = require('${module}');`,
+			`const R = await import('${module}');`
+		]) {
+			for (const use of [
+				`R.${api}();`,
+				`const { ${api}: alias } = R;`,
+				`let alias; ({ ${api}: alias } = R);`
+			]) {
+				assert.equal(findings(`${binding} ${use}`), 1, `${binding} ${use}`);
+			}
+		}
+	}
+});
+
+test('should reject unsupported APIs reached through the namespace default member', () => {
+	for (const source of [
+		"import * as NS from 'react'; NS.default.useOptimistic(0);",
+		"import * as NS from 'react'; const { default: { useOptimistic: optimistic } } = NS;",
+		"import { default as R } from 'react'; const view = <R.Activity />;"
+	]) {
+		assert.equal(findings(source), 1, source);
+	}
+});
+
+test('should allow supported APIs and values that are not the React module object', () => {
+	for (const source of [
+		"import { default as R } from 'react'; R.startTransition(() => {});",
+		"import { default as R } from 'react'; function local(R) { R.useOptimistic(0); }",
+		"import React from 'react'; let R = React; R = { useOptimistic() {} }; R.useOptimistic(0);",
+		"import { default as R } from './local'; R.useOptimistic(0);",
+		"const R = load('react'); R.useOptimistic(0);",
+		'const first = second; const second = first; first.use(1);',
+		'let R; R.use(1);'
+	]) {
+		assert.equal(findings(source), 0, source);
+	}
+});
+
+test('should resolve the module object through TypeScript syntax and optional chains', () => {
+	const linter = new Linter({ configType: 'eslintrc' });
+
+	linter.defineParser('typescript', require('@typescript-eslint/parser'));
+	linter.defineRule('react18', rule);
+
+	for (const source of [
+		"import React from 'react'; (React as typeof React).useOptimistic(0);",
+		"import React from 'react'; React!.useOptimistic(0);",
+		"import React from 'react'; (React satisfies object).useOptimistic(0);",
+		"import React from 'react'; interface React { extra: true } React.useOptimistic(0);",
+		"async function load() { const R = await (import('react') as Promise<typeof import('react')>); R.useOptimistic(0); }",
+		"async function load() { const NS = await import('react'); const R = NS?.default; R.useOptimistic(0); }"
+	]) {
+		assert.equal(
+			linter
+				.verify(source, {
+					parser: 'typescript',
+					parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+					rules: { react18: 'error' }
+				})
+				.filter((item) => item.ruleId === 'react18').length,
+			1,
+			source
+		);
+	}
+});
