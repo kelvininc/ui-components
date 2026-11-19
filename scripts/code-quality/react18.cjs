@@ -34,8 +34,16 @@ module.exports = {
 				'{{name}} from {{module}} is unavailable in the supported React 18 runtime. Check the React 18 documentation through Context7.'
 		}
 	},
-	/** Resolve imported bindings so aliases are checked without flagging a shadowed local object. */
+	/**
+	 * Resolve every static binding of the react or react-dom module object, so aliases are checked
+	 * without flagging a shadowed local object. A binding resolves through default, namespace and
+	 * `{ default as R }` imports, `require()` and awaited `import()` initializers, `.default`
+	 * members, type assertions, optional chains and never-reassigned aliases. Parameters, other call
+	 * results and reassigned variables stay unresolved.
+	 */
 	create(context) {
+		const source = context.sourceCode ?? context.getSourceCode();
+
 		/** Report only statically resolved APIs absent from the supported runtime. */
 		const report = (node, module, name) => {
 			if (unsupported[module]?.has(name)) {
@@ -47,48 +55,150 @@ module.exports = {
 			}
 		};
 
-		/** Resolve an imported namespace without mistaking a shadowed local binding for React. */
-		const checkImport = (node, object, name) => {
-			if (
-				!['Identifier', 'JSXIdentifier'].includes(object?.type) ||
-				typeof name !== 'string'
-			) {
-				return;
-			}
+		/** Read a static key or import name; computed keys count only as string literals. */
+		const staticName = (key, computed = false) => {
+			const name = computed ? key.value : key.name ?? key.value;
 
-			const source = context.sourceCode ?? context.getSourceCode();
+			return typeof name === 'string' ? name : undefined;
+		};
+
+		/** Find the variable an identifier refers to, from the innermost scope outward. */
+		const findVariable = (identifier) => {
 			let scope = source.getScope
-				? source.getScope(node)
+				? source.getScope(identifier)
 				: context.getScope();
 
 			while (scope) {
-				const binding = scope.set.get(object.name);
+				const variable = scope.set.get(identifier.name);
 
-				if (binding) {
-					const imported = binding.defs.find(
-						(def) => def.type === 'ImportBinding'
-					);
-
-					if (
-						imported &&
-						[
-							'ImportNamespaceSpecifier',
-							'ImportDefaultSpecifier'
-						].includes(imported.node.type)
-					) {
-						report(node, imported.parent.source.value, name);
-					}
-
-					return;
+				if (variable) {
+					return variable;
 				}
 
 				scope = scope.upper;
 			}
+
+			return undefined;
 		};
 
-		/** Check static destructured keys while leaving dynamic keys and rest bindings unresolved. */
-		const checkPattern = (pattern, value) => {
-			if (pattern?.type !== 'ObjectPattern') {
+		/** Whether a declared name receives the whole initializer, directly or through `default` keys. */
+		const bindsWhole = (pattern, target) => {
+			if (pattern === target) {
+				return true;
+			}
+
+			if (pattern?.type === 'AssignmentPattern') {
+				return bindsWhole(pattern.left, target);
+			}
+
+			return (
+				pattern?.type === 'ObjectPattern' &&
+				pattern.properties.some(
+					(property) =>
+						property.type === 'Property' &&
+						staticName(property.key, property.computed) === 'default' &&
+						bindsWhole(property.value, target)
+				)
+			);
+		};
+
+		/** Name the module a string literal specifier refers to. */
+		const specifier = (node) =>
+			node?.type === 'Literal' && typeof node.value === 'string'
+				? node.value
+				: undefined;
+
+		/** Look through TypeScript assertions and optional chains, which leave the runtime value unchanged. */
+		const unwrap = (node) =>
+			[
+				'ChainExpression',
+				'TSAsExpression',
+				'TSNonNullExpression',
+				'TSSatisfiesExpression',
+				'TSTypeAssertion'
+			].includes(node?.type)
+				? unwrap(node.expression)
+				: node;
+
+		/**
+		 * Name the module whose object an expression statically denotes; `seen` stops alias cycles.
+		 * @returns {string | undefined} The module specifier, or undefined when it is not statically known.
+		 */
+		const moduleOf = (expression, seen = new Set()) => {
+			const node = unwrap(expression);
+
+			if (!node || seen.has(node)) {
+				return undefined;
+			}
+
+			seen.add(node);
+
+			switch (node.type) {
+				case 'Identifier':
+				case 'JSXIdentifier':
+					return bindingModule(node, seen);
+				case 'MemberExpression':
+				case 'JSXMemberExpression':
+					return staticName(node.property, node.computed) === 'default'
+						? moduleOf(node.object, seen)
+						: undefined;
+				case 'AwaitExpression': {
+					const argument = unwrap(node.argument);
+
+					return argument?.type === 'ImportExpression'
+						? specifier(argument.source)
+						: undefined;
+				}
+				case 'CallExpression':
+					return node.callee.type === 'Identifier' &&
+						node.callee.name === 'require' &&
+						!findVariable(node.callee)?.defs.length
+						? specifier(node.arguments[0])
+						: undefined;
+				default:
+					return undefined;
+			}
+		};
+
+		/** Resolve an import or a never-reassigned alias without mistaking a shadowed local binding for React. */
+		const bindingModule = (identifier, seen) => {
+			const variable = findVariable(identifier);
+			// A type-only declaration merged with the binding leaves its runtime value unchanged.
+			const values =
+				variable?.defs.filter((definition) => definition.type !== 'Type') ??
+				[];
+
+			if (values.length !== 1) {
+				return undefined;
+			}
+
+			const [definition] = values;
+			const { node } = definition;
+
+			if (definition.type === 'ImportBinding') {
+				const whole =
+					node.type === 'ImportNamespaceSpecifier' ||
+					node.type === 'ImportDefaultSpecifier' ||
+					(node.type === 'ImportSpecifier' &&
+						staticName(node.imported) === 'default');
+
+				return whole ? definition.parent.source.value : undefined;
+			}
+
+			const reassigned = variable.references.some(
+				(reference) => reference.isWrite() && !reference.init
+			);
+
+			return definition.type === 'Variable' &&
+				!reassigned &&
+				bindsWhole(node.id, definition.name)
+				? moduleOf(node.init, seen)
+				: undefined;
+		};
+
+		/** Check static destructured keys, following `default` keys and leaving dynamic keys and rest bindings unresolved. */
+		const checkPattern = (pattern, module) => {
+			if (!module || pattern?.type !== 'ObjectPattern') {
 				return;
 			}
 
@@ -97,11 +207,18 @@ module.exports = {
 					continue;
 				}
 
-				const name = property.computed
-					? property.key.value
-					: property.key.name ?? property.key.value;
+				const name = staticName(property.key, property.computed);
 
-				checkImport(property, value, name);
+				if (name === 'default') {
+					checkPattern(
+						property.value.type === 'AssignmentPattern'
+							? property.value.left
+							: property.value,
+						module
+					);
+				} else {
+					report(property, module, name);
+				}
 			}
 		};
 
@@ -132,21 +249,21 @@ module.exports = {
 					);
 				}
 			},
-			/** Resolve namespace bindings before checking static JavaScript or JSX member access. */
+			/** Check static JavaScript or JSX member access on a resolved module object. */
 			'MemberExpression, JSXMemberExpression'(node) {
-				checkImport(
-					node,
-					node.object,
-					node.computed ? node.property.value : node.property.name
-				);
+				const module = moduleOf(node.object);
+
+				if (module) {
+					report(node, module, staticName(node.property, node.computed));
+				}
 			},
-			/** Check aliases extracted from a namespace in a declaration. */
+			/** Check names extracted from a module object in a declaration. */
 			VariableDeclarator(node) {
-				checkPattern(node.id, node.init);
+				checkPattern(node.id, moduleOf(node.init));
 			},
-			/** Check aliases extracted from a namespace by a later assignment. */
+			/** Check names extracted from a module object by a later assignment. */
 			AssignmentExpression(node) {
-				checkPattern(node.left, node.right);
+				checkPattern(node.left, moduleOf(node.right));
 			}
 		};
 	}
