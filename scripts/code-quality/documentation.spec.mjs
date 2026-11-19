@@ -350,6 +350,60 @@ test('should check changed public enum members without selecting legacy siblings
 	);
 });
 
+test('should check an edited overload set without selecting unrelated declarations', () => {
+	const source = [
+		'export const before = 1;',
+		'',
+		'export function pick(value: string): string;',
+		'export function pick(value: number): number;',
+		'export function pick(value: string | number) {',
+		' return value;',
+		'}',
+		'',
+		'export function after() {',
+		' return 2;',
+		'}'
+	].join('\n');
+	/** Return the missing-documentation lines for a changed range. */
+	const missing = (text, ranges) =>
+		checkDocumentation('src/value.ts', text, ranges)
+			.filter((item) => item.ruleId === 'jsdoc/require-jsdoc')
+			.map((item) => item.line);
+
+	// The signatures and implementation share one contract, so a signature edit selects the set.
+	assert.deepEqual(missing(source, [{ from: 4, to: 4 }]), [3, 4, 5]);
+	const documented = `/** Return the value unchanged. */\n${source.replace('export const before = 1;\n\n', '')}`;
+
+	// One docblock above the overload set documents every signature and the implementation.
+	assert.deepEqual(missing(documented, [{ from: 3, to: 3 }]), []);
+	// A later signature edit still validates that shared docblock's utility contract.
+	assert.deepEqual(
+		checkDocumentation('src/utils.ts', documented, [{ from: 3, to: 3 }]).map(
+			(item) => `${item.ruleId}:${item.line}`
+		),
+		[
+			'jsdoc/require-param:1',
+			'jsdoc/require-returns:1',
+			'jsdoc/require-example:1'
+		]
+	);
+});
+
+test('should require documentation for abstract class members', () => {
+	const source = [
+		'/** Run a scheduled job. */',
+		'export abstract class Job {',
+		' abstract run(): void;',
+		' protected abstract name: string;',
+		'}'
+	].join('\n');
+	const lines = checkDocumentation('src/job.ts', source, [
+		{ from: 3, to: 4 }
+	]).map((item) => item.line);
+
+	assert.deepEqual(lines, [3, 4]);
+});
+
 test('should require complete contracts in environment-qualified utility modules', () => {
 	const source =
 		'/** Read a value. */\nexport const read = (value: number): number => value;';

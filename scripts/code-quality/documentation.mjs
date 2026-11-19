@@ -55,12 +55,16 @@ const publicContexts = [
 ];
 const contexts = [
 	'FunctionDeclaration',
+	// Overload signatures are the public contract; one docblock above the set covers them all.
+	'TSDeclareFunction',
 	'ArrowFunctionExpression[parent.type="VariableDeclarator"]',
 	'FunctionExpression[parent.type="VariableDeclarator"]',
 	'ClassDeclaration',
 	'MethodDefinition',
+	'TSAbstractMethodDefinition',
 	'Property[method=true]',
 	'PropertyDefinition[accessibility!="private"][key.type!="PrivateIdentifier"]',
+	'TSAbstractPropertyDefinition[accessibility!="private"]',
 	...publicContexts,
 	'ExportNamedDeclaration[declaration.type="VariableDeclaration"]'
 ];
@@ -101,6 +105,39 @@ const hasExportedBinding = (node, names, source) =>
 	source.scopeManager
 		.getDeclaredVariables(node)
 		.some((binding) => names.has(binding.name));
+
+/** Name a top-level function signature or implementation, including exported ones. */
+const getFunctionName = (statement) => {
+	const declaration = statement?.declaration ?? statement;
+
+	return ['TSDeclareFunction', 'FunctionDeclaration'].includes(
+		declaration?.type
+	)
+		? declaration.id?.name
+		: undefined;
+};
+
+/** Find the first signature of a top-level overload set; its docblock documents the set. */
+const getOverloadSetStart = (statement) => {
+	if (statement.parent?.type !== 'Program') {
+		return statement;
+	}
+	const { body } = statement.parent;
+	const name = getFunctionName(statement);
+	let index = body.indexOf(statement);
+
+	while (
+		name &&
+		index > 0 &&
+		getFunctionName(body[index - 1]) === name &&
+		(body[index - 1].declaration ?? body[index - 1]).type ===
+			'TSDeclareFunction'
+	) {
+		index -= 1;
+	}
+
+	return body[index];
+};
 
 /** Keep JSDoc's reporting while selecting public contracts through this module's exports. */
 const requireDocumentation = {
@@ -267,11 +304,14 @@ export const checkDocumentation = (filename, text, ranges) => {
 		if (
 			[
 				'FunctionDeclaration',
+				'TSDeclareFunction',
 				'FunctionExpression',
 				'ArrowFunctionExpression',
 				'ClassDeclaration',
 				'Property',
 				'PropertyDefinition',
+				'TSAbstractPropertyDefinition',
+				'TSAbstractMethodDefinition',
 				'TSPropertySignature',
 				'TSMethodSignature',
 				'TSEnumMember',
@@ -295,8 +335,10 @@ export const checkDocumentation = (filename, text, ranges) => {
 			) {
 				owner = owner.parent;
 			}
-			const comment = source.getCommentsBefore(owner).at(-1);
-			const start = comment?.loc.start.line ?? owner.loc.start.line;
+			// Any member of an overload set selects the set's shared docblock.
+			const first = getOverloadSetStart(owner);
+			const comment = source.getCommentsBefore(first).at(-1);
+			const start = comment?.loc.start.line ?? first.loc.start.line;
 
 			// Editing an export header changes the whole public contract; member edits stay scoped.
 			if (
