@@ -214,12 +214,12 @@
       {
         "name": "EIconName",
         "kind": "value",
-        "description": ""
+        "description": "Symbol ids in `svg-symbols.svg` that `kv-icon` can render."
       },
       {
         "name": "EIconName1",
         "kind": "type",
-        "description": ""
+        "description": "Symbol ids in `svg-symbols.svg` that `kv-icon` can render."
       },
       {
         "name": "EIllustrationName",
@@ -2251,12 +2251,12 @@
       {
         "name": "EIconName",
         "kind": "value",
-        "description": ""
+        "description": "Symbol ids in `svg-symbols.svg` that `kv-icon` can render."
       },
       {
         "name": "EIconName1",
         "kind": "type",
-        "description": ""
+        "description": "Symbol ids in `svg-symbols.svg` that `kv-icon` can render."
       },
       {
         "name": "EIllustrationName",
@@ -4693,12 +4693,12 @@
       {
         "name": "EIconName",
         "kind": "value",
-        "description": ""
+        "description": "Symbol ids in `svg-symbols.svg` that `kv-icon` can render."
       },
       {
         "name": "EIconName1",
         "kind": "type",
-        "description": ""
+        "description": "Symbol ids in `svg-symbols.svg` that `kv-icon` can render."
       },
       {
         "name": "EIllustrationName",
@@ -6730,12 +6730,12 @@
       {
         "name": "EIconName",
         "kind": "value",
-        "description": ""
+        "description": "Symbol ids in `svg-symbols.svg` that `kv-icon` can render."
       },
       {
         "name": "EIconName1",
         "kind": "type",
-        "description": ""
+        "description": "Symbol ids in `svg-symbols.svg` that `kv-icon` can render."
       },
       {
         "name": "EIllustrationName",
