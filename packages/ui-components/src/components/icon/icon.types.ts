@@ -1,3 +1,4 @@
+/** Symbol ids in `svg-symbols.svg` that `kv-icon` can render. */
 export enum EIconName {
 	Academy = 'kv-academy',
 	Action = 'kv-action',
@@ -65,6 +66,8 @@ export enum EIconName {
 	DoubleArrowRight = 'kv-double-arrow-right',
 	Download = 'kv-download',
 	DragDrop = 'kv-drag-drop',
+	/** A copy with a plus sign, for duplicating an item. Drawn on a 24 px grid. */
+	Duplicate = 'kv-duplicate',
 	Edit = 'kv-edit',
 	Error = 'kv-error',
 	Exit = 'kv-exit',
@@ -77,6 +80,8 @@ export enum EIconName {
 	FilePicker = 'kv-file-picker',
 	Filter = 'kv-filter',
 	FitContent = 'kv-fit-content',
+	/** Two vertical bars with dots between them, for fitting content to the width. Drawn on a 20 px grid. */
+	FitWidth = 'kv-fit-width',
 	Fixed = 'kv-fixed',
 	Flowchart = 'kv-flowchart',
 	Fullscreen = 'kv-fullscreen',
@@ -90,6 +95,8 @@ export enum EIconName {
 	InfoOutline = 'kv-info-outline',
 	Layer = 'kv-layer',
 	Link = 'kv-link',
+	/** A struck-through connector with end dots, for a removed link. Drawn on a 20 px grid and not centred. */
+	LinkOff = 'kv-link-off',
 	List = 'kv-list',
 	Log = 'kv-log',
 	Lock = 'kv-lock',
@@ -116,12 +123,16 @@ export enum EIconName {
 	PersonOff = 'kv-person-off',
 	Plan = 'kv-plan',
 	Play = 'kv-play',
+	/** The `ProcessManagement` flowchart without its gear, for a process. Drawn on a 24 px grid. */
+	Process = 'kv-process',
 	ProcessManagement = 'kv-process-management',
 	Properties = 'kv-properties',
 	Protip = 'kv-protip',
 	PushPin = 'kv-push-pin',
 	RadioBtn = 'kv-radio-btn',
 	RadioBtnSelected = 'kv-radio-btn-selected',
+	/** Two branches with arrows, for rebasing. Drawn on a 20 px grid at nearly full height. */
+	Rebase = 'kv-rebase',
 	Refresh = 'kv-refresh',
 	Reply = 'kv-reply',
 	Reset = 'kv-reset',
@@ -139,6 +150,8 @@ export enum EIconName {
 	Settings = 'kv-settings',
 	SettingsSuggest = 'kv-settings-suggest',
 	ShieldLock = 'kv-shield-lock',
+	/** A slim arrow pointing left, the mirror of `SlimRight`. Drawn on a 16 px grid. */
+	SlimLeft = 'kv-slim-left',
 	SlimRight = 'kv-slim-right',
 	SmartApp = 'kv-smart-app',
 	SmileHappy = 'kv-smile-happy',

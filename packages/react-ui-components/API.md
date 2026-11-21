@@ -48,8 +48,8 @@ Read the adjacent package.json for its version and installed declarations for si
 | ECreateOptionStatus | value |  |
 | EDateTimeInputTypeStyle | value |  |
 | EDescriptionPosition | value |  |
-| EIconName | value |  |
-| EIconName1 | type |  |
+| EIconName | value | Symbol ids in \`svg-symbols.svg\` that \`kv-icon\` can render. |
+| EIconName1 | type | Symbol ids in \`svg-symbols.svg\` that \`kv-icon\` can render. |
 | EIllustrationName | value |  |
 | EIllustrationName1 | type |  |
 | EInputFieldType | value |  |
@@ -460,8 +460,8 @@ Read the adjacent package.json for its version and installed declarations for si
 | ECreateOptionStatus | value |  |
 | EDateTimeInputTypeStyle | value |  |
 | EDescriptionPosition | value |  |
-| EIconName | value |  |
-| EIconName1 | type |  |
+| EIconName | value | Symbol ids in \`svg-symbols.svg\` that \`kv-icon\` can render. |
+| EIconName1 | type | Symbol ids in \`svg-symbols.svg\` that \`kv-icon\` can render. |
 | EIllustrationName | value |  |
 | EIllustrationName1 | type |  |
 | EInputFieldType | value |  |
@@ -953,8 +953,8 @@ Read the adjacent package.json for its version and installed declarations for si
 | ECreateOptionStatus | value |  |
 | EDateTimeInputTypeStyle | value |  |
 | EDescriptionPosition | value |  |
-| EIconName | value |  |
-| EIconName1 | type |  |
+| EIconName | value | Symbol ids in \`svg-symbols.svg\` that \`kv-icon\` can render. |
+| EIconName1 | type | Symbol ids in \`svg-symbols.svg\` that \`kv-icon\` can render. |
 | EIllustrationName | value |  |
 | EIllustrationName1 | type |  |
 | EInputFieldType | value |  |
@@ -1365,8 +1365,8 @@ Read the adjacent package.json for its version and installed declarations for si
 | ECreateOptionStatus | value |  |
 | EDateTimeInputTypeStyle | value |  |
 | EDescriptionPosition | value |  |
-| EIconName | value |  |
-| EIconName1 | type |  |
+| EIconName | value | Symbol ids in \`svg-symbols.svg\` that \`kv-icon\` can render. |
+| EIconName1 | type | Symbol ids in \`svg-symbols.svg\` that \`kv-icon\` can render. |
 | EIllustrationName | value |  |
 | EIllustrationName1 | type |  |
 | EInputFieldType | value |  |
