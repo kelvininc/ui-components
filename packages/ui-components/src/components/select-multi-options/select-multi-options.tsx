@@ -17,7 +17,8 @@ import {
 	DEFAULT_SEARCH_DEBOUNCE_IN_MS,
 	DEFAULT_NO_DATA_AVAILABLE_ILLUSTRATION_CONFIG,
 	SELECT_OPTION_HEIGHT_IN_PX,
-	DEFAULT_NO_RESULTS_FOUND_CONFIG
+	DEFAULT_NO_RESULTS_FOUND_CONFIG,
+	SEARCH_TAG_NAME
 } from './select-multi-options.config';
 import { EToggleState } from '../select-option/select-option.types';
 import { debounce, isEmpty, isNil, keyBy } from 'lodash-es';
@@ -369,6 +370,7 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		if (isNil(this.keyboardTarget) || (event.key === 'Escape' && event.composedPath().includes(this.el))) this.handleKeyDown(event);
 	}
 
+	/** Handles the list's keys: Escape, Enter in a search that matches no option, and the navigation shortcuts. `fromTarget` marks a key captured from `keyboardTarget`. */
 	handleKeyDown(event: KeyboardEvent, fromTarget = false) {
 		if (event.defaultPrevented || isImeComposition(event)) return;
 		if (event.key === 'Escape' && !canHandleDropdownEscape(this.el)) return;
@@ -380,6 +382,14 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		// Escape the form stays open on is left alone, for what is open inside it, e.g. a colour picker.
 		if (event.key === 'Escape' && isCreateFormEvent && !this.isCreating) {
 			event.preventDefault();
+			return;
+		}
+
+		// Enter in a search that matches no option does what the add option does, shortcuts or not
+		const unmatchedSearchTerm = this.getUnmatchedSearchTerm(event);
+		if (unmatchedSearchTerm !== undefined) {
+			event.preventDefault();
+			this.openCreateForm(unmatchedSearchTerm);
 			return;
 		}
 
@@ -694,14 +704,14 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		this.rangeSelectionAnchor = undefined;
 	};
 
-	private openCreateForm = (): void => {
+	private openCreateForm = (initialValue: string = this.searchValue): void => {
 		if (this.isCreating) {
 			return;
 		}
 
 		this.resetRangeSelection();
 		this.isCreating = true;
-		this.createdOptionValue = this.searchValue;
+		this.createdOptionValue = initialValue;
 		this.submittedOptionValue = undefined;
 		this.isCreateValueEdited = false;
 		this.isAwaitingCreateState = false;
@@ -752,6 +762,44 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 	private onEmptyStateSlotChange = (): void => forceUpdate(this);
 
 	private isCreateFormEvent = (event: Event): boolean => this.createFormRef !== undefined && event.composedPath().includes(this.createFormRef);
+
+	/**
+	 * The term of an Enter pressed in this list's own search when it matches no option, so that the add option is
+	 * all the list offers for it. Read from the field, not `searchValue`: that only follows the typing once its
+	 * consumer re-renders, so an Enter right after the last key would act on the term before it. A highlighted
+	 * option the list still shows is left to the shortcuts, which select it; one an earlier search left behind, now
+	 * filtered out, is not, and neither is the add option, which `autoHighlightFirst` highlights in an empty list.
+	 */
+	private getUnmatchedSearchTerm = (event: KeyboardEvent): string | undefined => {
+		if (event.key !== 'Enter' || !this.canAddItems || this.isCreating || this.isHighlightListed()) {
+			return undefined;
+		}
+
+		if (event.repeat || isImeComposition(event) || event.altKey || event.ctrlKey || event.metaKey) {
+			return undefined;
+		}
+
+		const path = event.composedPath();
+		const [origin] = path;
+		// Only the search the list renders itself: one slotted into its header or empty state is a consumer's own field
+		const isFromSearch = path.some(node => (node as Element).tagName === SEARCH_TAG_NAME && (node as Element).getRootNode() === this.selectRef?.shadowRoot);
+		if (!isFromSearch || (origin as Element).tagName !== 'INPUT') {
+			return undefined;
+		}
+
+		const searchTerm = (origin as HTMLInputElement).value;
+		if (isEmpty(searchTerm.trim()) || this.hasSearchResults(searchTerm)) {
+			return undefined;
+		}
+
+		return searchTerm;
+	};
+
+	/** Whether the highlighted option is one of the options the list shows, as a search doesn't clear it */
+	private isHighlightListed = (): boolean => this.selectOptions.currentSelectable.some(({ value }) => value === this.highlightedOption && !isAddOption(value));
+
+	/** Whether the list has any option to show for a search, as it filters them for `debouncedSearchValue` */
+	private hasSearchResults = (searchTerm: string): boolean => buildSelectOptionsArray({ options: this.getCurrentOptions(true, searchTerm), allOptions: this.options }).length > 0;
 
 	private applyPendingFocus = (): void => {
 		const pendingFocus = this.pendingFocus;
@@ -858,14 +906,15 @@ export class KvSelectMultiOptions implements ISelectMultiOptionsConfig, ISelectM
 		return this.selectOptions.searchAvailable;
 	}
 
-	private getCurrentOptions(searchAvailable: boolean): ISelectMultiOptions | undefined {
+	/** The options the list shows: the consumer's filtered options when given, else the options matching the search term when the list is searchable. */
+	private getCurrentOptions(searchAvailable: boolean, searchTerm: string | undefined = this.debouncedSearchValue): ISelectMultiOptions | undefined {
 		if (this.filteredOptions !== undefined) {
 			return this.filteredOptions;
 		}
 
 		// Only filter locally while the search input is actually reachable, otherwise a term left over
 		// from before it was hidden would narrow the list with no way for the user to clear it.
-		return searchAvailable ? selectHelper.searchDropdownOptions(this.debouncedSearchValue, this.options) : this.options;
+		return searchAvailable ? selectHelper.searchDropdownOptions(searchTerm, this.options) : this.options;
 	}
 
 	render() {

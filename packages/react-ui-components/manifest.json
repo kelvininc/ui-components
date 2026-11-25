@@ -3,7 +3,7 @@
   "package": "@kelvininc/react-ui-components",
   "versionSource": "package.json",
   "componentMetadata": "@kelvininc/ui-components/manifest.json",
-  "componentContentHash": "fcecfcbf0dde44c9426f50727a3432f693d6122dbcb81eb8e4527666b96a2924",
+  "componentContentHash": "9aa5dc4e8d789b56004a0d0a216a1bca0e53be405508db7ac91ed6b932d0de78",
   "entries": {
     ".": [
       {
@@ -779,7 +779,7 @@
       {
         "name": "ISelectMultiOptionsConfig",
         "kind": "type",
-        "description": ""
+        "description": "The configuration of `kv-select-multi-options`, shared with the dropdowns that render it."
       },
       {
         "name": "ISelectMultiOptionsEvents",
@@ -2816,7 +2816,7 @@
       {
         "name": "ISelectMultiOptionsConfig",
         "kind": "type",
-        "description": ""
+        "description": "The configuration of `kv-select-multi-options`, shared with the dropdowns that render it."
       },
       {
         "name": "ISelectMultiOptionsEvents",
@@ -5258,7 +5258,7 @@
       {
         "name": "ISelectMultiOptionsConfig",
         "kind": "type",
-        "description": ""
+        "description": "The configuration of `kv-select-multi-options`, shared with the dropdowns that render it."
       },
       {
         "name": "ISelectMultiOptionsEvents",
@@ -7295,7 +7295,7 @@
       {
         "name": "ISelectMultiOptionsConfig",
         "kind": "type",
-        "description": ""
+        "description": "The configuration of `kv-select-multi-options`, shared with the dropdowns that render it."
       },
       {
         "name": "ISelectMultiOptionsEvents",
