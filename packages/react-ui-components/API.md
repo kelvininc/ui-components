@@ -161,7 +161,7 @@ Read the adjacent package.json for its version and installed declarations for si
 | ISelectEvents | type |  |
 | ISelectMultiOption | type |  |
 | ISelectMultiOptions | type |  |
-| ISelectMultiOptionsConfig | type |  |
+| ISelectMultiOptionsConfig | type | The configuration of \`kv-select-multi-options\`, shared with the dropdowns that render it. |
 | ISelectMultiOptionsEvents | type |  |
 | ISelectNavigationConfig | type |  |
 | ISelectOption | type |  |
@@ -573,7 +573,7 @@ Read the adjacent package.json for its version and installed declarations for si
 | ISelectEvents | type |  |
 | ISelectMultiOption | type |  |
 | ISelectMultiOptions | type |  |
-| ISelectMultiOptionsConfig | type |  |
+| ISelectMultiOptionsConfig | type | The configuration of \`kv-select-multi-options\`, shared with the dropdowns that render it. |
 | ISelectMultiOptionsEvents | type |  |
 | ISelectNavigationConfig | type |  |
 | ISelectOption | type |  |
@@ -1066,7 +1066,7 @@ Read the adjacent package.json for its version and installed declarations for si
 | ISelectEvents | type |  |
 | ISelectMultiOption | type |  |
 | ISelectMultiOptions | type |  |
-| ISelectMultiOptionsConfig | type |  |
+| ISelectMultiOptionsConfig | type | The configuration of \`kv-select-multi-options\`, shared with the dropdowns that render it. |
 | ISelectMultiOptionsEvents | type |  |
 | ISelectNavigationConfig | type |  |
 | ISelectOption | type |  |
@@ -1478,7 +1478,7 @@ Read the adjacent package.json for its version and installed declarations for si
 | ISelectEvents | type |  |
 | ISelectMultiOption | type |  |
 | ISelectMultiOptions | type |  |
-| ISelectMultiOptionsConfig | type |  |
+| ISelectMultiOptionsConfig | type | The configuration of \`kv-select-multi-options\`, shared with the dropdowns that render it. |
 | ISelectMultiOptionsEvents | type |  |
 | ISelectNavigationConfig | type |  |
 | ISelectOption | type |  |

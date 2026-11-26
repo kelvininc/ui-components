@@ -8889,7 +8889,7 @@
           "mutable": false,
           "attr": "can-add-items",
           "reflectToAttr": true,
-          "docs": "(optional) If `true` an add option will appear at the bottom of options list. Default: `false`",
+          "docs": "(optional) If `true` an add option will appear at the bottom of options list, and Enter in a search that matches no option does what it does. Default: `false`",
           "docsTags": [
             {
               "name": "inheritdoc"
@@ -14083,7 +14083,7 @@
           "mutable": false,
           "attr": "can-add-items",
           "reflectToAttr": true,
-          "docs": "(optional) If `true` an add option will appear at the bottom of options list. Default: `false`",
+          "docs": "(optional) If `true` an add option will appear at the bottom of options list, and Enter in a search that matches no option does what it does. Default: `false`",
           "docsTags": [
             {
               "name": "inheritdoc"
@@ -16119,7 +16119,7 @@
           "mutable": false,
           "attr": "can-add-items",
           "reflectToAttr": true,
-          "docs": "(optional) If `true` an add option will appear at the bottom of options list. Default: `false`",
+          "docs": "(optional) If `true` an add option will appear at the bottom of options list, and Enter in a search that matches no option does what it does. Default: `false`",
           "docsTags": [
             {
               "name": "inheritdoc"
@@ -24682,5 +24682,5 @@
       "parts": []
     }
   },
-  "contentHash": "fcecfcbf0dde44c9426f50727a3432f693d6122dbcb81eb8e4527666b96a2924"
+  "contentHash": "9aa5dc4e8d789b56004a0d0a216a1bca0e53be405508db7ac91ed6b932d0de78"
 }
